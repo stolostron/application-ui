@@ -26,7 +26,8 @@ import {
   getPulseStatusForSubscription,
   addIngressNodeInfo,
   setPlacementRuleDeployStatus,
-  addNodeInfoPerCluster
+  addNodeInfoPerCluster,
+  getClusterName
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -2882,5 +2883,11 @@ describe("processResourceActionLink dummy link", () => {
   const result = "";
   it("processResourceActionLink opens search view", () => {
     expect(processResourceActionLink(genericLink)).toEqual(result);
+  });
+});
+
+describe("getClusterName node id undefined", () => {
+  it("should return empty string", () => {
+    expect(getClusterName(undefined)).toEqual("");
   });
 });

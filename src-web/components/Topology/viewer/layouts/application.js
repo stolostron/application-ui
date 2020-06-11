@@ -53,9 +53,8 @@ export const getConnectedApplicationLayoutOptions = (
   }
 }
 
-const positionApplicationRows = (row, typeToShapeMap) => {
+export const positionApplicationRows = (row, typeToShapeMap) => {
   const placeLast = []
-  const deployableList = []
   const positionMap = {}
   const placedSet = new Set()
 
@@ -66,49 +65,9 @@ const positionApplicationRows = (row, typeToShapeMap) => {
     row,
     placedSet,
     positionMap,
-    deployableList,
     typeToShapeMap,
     placeLast
   )
-
-  // center deployable parents above them
-  const parentMap = {}
-  if (
-    !deployableList.some(deployable => {
-      const incomers = deployable.incomers().nodes()
-      if (incomers.length === 1) {
-        parentMap[incomers[0].id()] = incomers[0]
-        return false
-      }
-      return true
-    })
-  ) {
-    Object.values(parentMap).forEach(n => {
-      // get center of deployables excluding rules
-      const outgoers = n
-        .outgoers()
-        .nodes()
-        .filter(o => {
-          const { node: { type } } = o.data()
-          if (type === 'rules') {
-            return false
-          }
-          return true
-        })
-      const bb = outgoers.boundingBox()
-      const x = bb.x1 + bb.w / 2
-
-      // center cluster and subscription
-      n.point({ x })
-      const { node: { type } } = n.data()
-      if (type === 'clusters') {
-        const subscriptions = n.incomers().nodes()
-        if (subscriptions.length === 1) {
-          subscriptions[0].point({ x })
-        }
-      }
-    })
-  }
 
   // place these nodes based on other nodes
   placeLast.forEach(n => {
@@ -131,27 +90,17 @@ const positionApplicationRows = (row, typeToShapeMap) => {
   })
 }
 
-const positionRowsDown = (
+export const positionRowsDown = (
   idx,
   y,
   row,
   placedSet,
   positionMap,
-  deployableList,
   typeToShapeMap,
   placeLast,
   offsetRow = 0
 ) => {
   if (row.length) {
-    // remember deployables to center its parent later
-    row.forEach(n => {
-      const { node } = n.data()
-      const { type } = node
-      if (type === 'deployable') {
-        deployableList.push(n)
-      }
-    })
-
     // place each node in this row
     const width = row.length * NODE_SIZE * 3
 
@@ -181,7 +130,7 @@ const positionRowsDown = (
         }
         hadRule = specs.hasRules
         break
-      case 'clusters':
+      case 'cluster':
         pos.y += NODE_SIZE / 2
         break
       case 'deployment':
@@ -196,9 +145,7 @@ const positionRowsDown = (
         key = `pod/${name}`
         break
       default:
-        if (!typeToShapeMap[type]) {
-          pos.y += 30
-        }
+        // do nothing
         break
       }
       positionMap[key] = pos
@@ -208,7 +155,6 @@ const positionRowsDown = (
 
     // find and sort next row down
     let nextRow = []
-    const kindOrder = ['chart', 'service', 'deployment', 'other']
     row.forEach(n => {
       const outgoers = n
         .outgoers()
@@ -226,20 +172,6 @@ const positionRowsDown = (
               return 1
             }
             return a.name.localeCompare(b.name)
-          } else if (a.type === 'deployable' && b.type === 'deployable') {
-            let kinda = kindOrder.indexOf(
-              _.get(a, 'specs.raw.spec.template.kind', 'other').toLowerCase()
-            )
-            let kindb = kindOrder.indexOf(
-              _.get(b, 'specs.raw.spec.template.kind', 'other').toLowerCase()
-            )
-            if (kinda < 0) {
-              kinda = 10
-            }
-            if (kindb < 0) {
-              kindb = 10
-            }
-            return kinda - kindb
           }
           return 0
         })
@@ -258,7 +190,7 @@ const positionRowsDown = (
       if (type === 'rules') {
         placeLast.push(n)
         return false
-      } else if (type === 'clusters') {
+      } else if (type === 'cluster') {
         clusterList.push(n)
         return false
       }
@@ -278,7 +210,6 @@ const positionRowsDown = (
       nextRow,
       placedSet,
       positionMap,
-      deployableList,
       typeToShapeMap,
       placeLast,
       hybridRow ? width / 2 : 0
@@ -291,7 +222,6 @@ const positionRowsDown = (
         clusterList,
         placedSet,
         positionMap,
-        deployableList,
         typeToShapeMap,
         placeLast
       )

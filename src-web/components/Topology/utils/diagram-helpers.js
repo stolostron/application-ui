@@ -66,6 +66,9 @@ export const addDetails = (details, dets) => {
 }
 
 export const getClusterName = nodeId => {
+  if (nodeId === undefined) {
+    return ''
+  }
   const startPos = nodeId.indexOf('--clusters--') + 12
   const endPos = nodeId.indexOf('--', startPos)
 

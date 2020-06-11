@@ -21,7 +21,8 @@ const TypeFilters = {
       region: 'region',
       k8type: 'k8type'
     },
-    searchTypes: new Set()
+    searchTypes: new Set(),
+    ignored: new Set()
   },
   weave: {
     filterTypes: {
@@ -35,13 +36,13 @@ const TypeFilters = {
   },
   application: {
     filterTypes: {
-      hostIPs: 'hostIPs',
-      namespaces: 'namespaces',
-      labels: 'labels',
       resourceStatuses: 'resourceStatuses',
-      clusterNames: 'clusterNames'
+      clusterNames: 'clusterNames',
+      namespaces: 'namespaces',
+      hostIPs: 'hostIPs'
     },
-    searchTypes: new Set(['podStatuses', 'labels'])
+    searchTypes: new Set(['podStatuses', 'labels']),
+    ignored: new Set()
   },
   policy: {
     filterTypes: {
@@ -50,7 +51,8 @@ const TypeFilters = {
       region: 'region',
       k8type: 'k8type'
     },
-    searchTypes: new Set()
+    searchTypes: new Set(),
+    ignored: new Set()
   }
 }
 
@@ -355,9 +357,6 @@ export const addAvailableRelationshipFilters = (
     case 'namespaces':
       name = msgs.get('topology.filter.category.namespaces', locale)
       break
-    case 'labels':
-      name = msgs.get('topology.filter.category.labels', locale)
-      break
     case 'resourceStatuses':
       name = msgs.get('topology.filter.category.resourceStatuses', locale)
       availableSet = new Map([
@@ -389,9 +388,8 @@ export const addAvailableRelationshipFilters = (
   })
 
   let hasPods = false
-  const { namespaces = new Set() } = activeFilters
   nodes.forEach(node => {
-    const { type, labels = [], name: nodeName } = node
+    const { type, name: nodeName } = node
     let { namespace } = node
     if (
       !ignoreNodeTypes.has(type) &&
@@ -416,17 +414,6 @@ export const addAvailableRelationshipFilters = (
 
           case 'namespaces':
             filter.availableSet.add(namespace)
-            break
-
-          case 'labels':
-            if (
-              labels &&
-                (namespaces.size === 0 || namespaces.has(namespace))
-            ) {
-              labels.forEach(({ name, value }) => {
-                filter.availableSet.add(`${name}: ${value}`)
-              })
-            }
             break
 
           case 'clusterNames':
@@ -588,7 +575,32 @@ const filterClusterNodes = (nodes, activeFilters) => {
   })
 }
 
-const filterRelationshipNodes = (
+export const processResourceStatus = (resourceStatuses, resourceStatus) => {
+  return (
+    (resourceStatuses.has('green') && resourceStatus === 'green') ||
+    (resourceStatuses.has('yellow') && resourceStatus === 'yellow') ||
+    (resourceStatuses.has('orange') && resourceStatus === 'orange') ||
+    (resourceStatuses.has('red') && resourceStatus === 'red')
+  )
+}
+
+export const notDesignNode = nodeType => {
+  return (
+    nodeType !== 'application' &&
+    nodeType !== 'subscription' &&
+    nodeType !== 'rules'
+  )
+}
+
+export const isDesignOrCluster = (isDesign, nodeType) => {
+  return isDesign === true || nodeType === 'cluster'
+}
+
+export const nodeParentExists = (nodeParent, includedNodes) => {
+  return nodeParent !== undefined && !includedNodes.has(nodeParent.parentId)
+}
+
+export const filterRelationshipNodes = (
   nodes,
   activeFilters,
   availableFilters,
@@ -598,18 +610,21 @@ const filterRelationshipNodes = (
     type,
     hostIPs = new Set(),
     namespaces = new Set(),
-    labels = new Set(),
     resourceStatuses = new Set(),
     clusterNames = new Set()
   } = activeFilters
   const activeTypeSet = new Set(type)
   const availableTypeSet = new Set(availableFilters.type)
   const includeOther = activeTypeSet.has('other')
-  const ignoreNodeTypes = TypeFilters[mode].ignored || new Set()
-  const alabels = [...labels]
-  return nodes.filter(node => {
-    const { type: nodeType, namespace, id, name } = node
-    let nlabels = node.labels || []
+  const ignoreNodeTypes = TypeFilters[mode].ignored
+  const parentList = new Set()
+  const includedNodes = new Set()
+  const filteredNodes = nodes.filter(node => {
+    const { type: nodeType, namespace, id } = node
+
+    if (isDesignOrCluster(node.specs.isDesign, nodeType)) {
+      return true
+    }
 
     // include type if a direct match
     // or if 'other' type is selected and this isn't an ignored type
@@ -627,13 +642,11 @@ const filterRelationshipNodes = (
     let hasResourceStatus = true
     if (resourceStatuses.size !== 0) {
       const resourceStatus = _.get(node, 'specs.pulse')
-      hasResourceStatus = nodeType !== 'cluster'
-      if (resourceStatus && hasResourceStatus) {
-        hasResourceStatus =
-          (resourceStatuses.has('green') && resourceStatus === 'green') ||
-          (resourceStatuses.has('yellow') && resourceStatus === 'yellow') ||
-          (resourceStatuses.has('orange') && resourceStatus === 'orange') ||
-          (resourceStatuses.has('red') && resourceStatus === 'red')
+      if (resourceStatus) {
+        hasResourceStatus = processResourceStatus(
+          resourceStatuses,
+          resourceStatus
+        )
       }
     }
 
@@ -656,34 +669,41 @@ const filterRelationshipNodes = (
     const hasNamespace =
       namespaces.size === 0 || namespaces.has(namespace || '<none>')
 
-    // filter labels
-    let hasLabel = labels.size === 0
-    if (!hasLabel) {
-      nlabels = nlabels.map(({ labelName, value }) => `${labelName}: ${value}`)
-      hasLabel = _.difference(alabels, nlabels).length < alabels.length
-    }
-
     // filter by cluster name
     let hasClustername = true
-    if (
-      nodeType !== 'application' &&
-      nodeType !== 'subscription' &&
-      nodeType !== 'rules' &&
-      clusterNames.size !== 0
-    ) {
-      const clusterName = nodeType === 'cluster' ? name : getClusterName(id)
+    if (notDesignNode(nodeType) && clusterNames.size !== 0) {
+      const clusterName = getClusterName(id)
       hasClustername = clusterNames.has(clusterName)
     }
 
-    return (
+    const result =
       hasType &&
       hasNamespace &&
       hasHostIps &&
-      hasLabel &&
       hasResourceStatus &&
       hasClustername
-    )
+
+    const nodeParent = _.get(node, 'specs.parent')
+
+    if (result) {
+      includedNodes.add(id)
+      if (nodeParentExists(nodeParent, includedNodes)) {
+        parentList.add(nodeParent.parentId)
+      }
+    }
+
+    return result
   })
+
+  if (parentList.size > 0) {
+    nodes.forEach(node => {
+      const { id } = node
+      if (parentList.has(id)) {
+        filteredNodes.push(node)
+      }
+    })
+  }
+  return filteredNodes
 }
 
 const filterPolicyNodes = (nodes, activeFilters) => {

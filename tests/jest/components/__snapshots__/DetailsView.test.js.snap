@@ -36,6 +36,38 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
           mortgage-app-deploy
         </span>
       </div>
+      <div
+        className="openSearchLink"
+      >
+        <div
+          className="sectionContent"
+        >
+          <span
+            className="link"
+            id="linkForNodeAction"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            Launch resource in Search
+            <svg
+              height="8px"
+              style={
+                Object {
+                  "marginLeft": "9px",
+                }
+              }
+              width="11px"
+            >
+              <use
+                className="label-icon"
+                href="#diagramIcons_arrowRight"
+              />
+            </svg>
+          </span>
+        </div>
+      </div>
     </div>
     <svg
       alt="Close topology details view"
@@ -105,7 +137,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         <span
           className="label"
         >
-          Pod Details
+          Pod details for {0}
            
         </span>
         <span
@@ -356,6 +388,38 @@ exports[`DetailsView no components renders as expected 1`] = `
         <span
           className="titleNameText"
         />
+      </div>
+      <div
+        className="openSearchLink"
+      >
+        <div
+          className="sectionContent"
+        >
+          <span
+            className="link"
+            id="linkForNodeAction"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            Launch resource in Search
+            <svg
+              height="8px"
+              style={
+                Object {
+                  "marginLeft": "9px",
+                }
+              }
+              width="11px"
+            >
+              <use
+                className="label-icon"
+                href="#diagramIcons_arrowRight"
+              />
+            </svg>
+          </span>
+        </div>
       </div>
     </div>
     <svg

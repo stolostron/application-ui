@@ -5,6 +5,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
   id="DeploymentPipeline"
 >
   <div
+    className="refresh-time-container"
+  >
+    <div>
+      Last update: {0}
+    </div>
+  </div>
+  <div
     className="pipelineHeader"
   >
     Resource pipeline
@@ -873,6 +880,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
 <div
   id="DeploymentPipeline"
 >
+  <div
+    className="refresh-time-container"
+  >
+    <div>
+      Last update: {0}
+    </div>
+  </div>
   <div
     className="pipelineHeader"
   >
@@ -2253,6 +2267,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
   id="DeploymentPipeline"
 >
   <div
+    className="refresh-time-container"
+  >
+    <div>
+      Last update: {0}
+    </div>
+  </div>
+  <div
     className="pipelineHeader"
   >
     Resource pipeline
@@ -3632,6 +3653,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
   id="DeploymentPipeline"
 >
   <div
+    className="refresh-time-container"
+  >
+    <div>
+      Last update: {0}
+    </div>
+  </div>
+  <div
     className="app-info-and-dashboard-links"
   >
     <span>
@@ -3739,6 +3767,9 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       </svg>
       Edit app
     </a>
+    <span
+      className="app-info-and-dashboard-links-separator"
+    />
   </div>
   <div
     className="pipelineHeader"
@@ -4617,6 +4648,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
 <div
   id="DeploymentPipeline"
 >
+  <div
+    className="refresh-time-container"
+  >
+    <div>
+      Last update: {0}
+    </div>
+  </div>
   <div
     className="pipelineHeader"
   >
@@ -5997,6 +6035,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
   id="DeploymentPipeline"
 >
   <div
+    className="refresh-time-container"
+  >
+    <div>
+      Last update: {0}
+    </div>
+  </div>
+  <div
     className="pipelineHeader"
   >
     Resource pipeline
@@ -7375,6 +7420,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
 <div
   id="DeploymentPipeline"
 >
+  <div
+    className="refresh-time-container"
+  >
+    <div>
+      Last update: {0}
+    </div>
+  </div>
   <div
     className="pipelineHeader"
   >
@@ -8755,6 +8807,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
   id="DeploymentPipeline"
 >
   <div
+    className="refresh-time-container"
+  >
+    <div>
+      Last update: {0}
+    </div>
+  </div>
+  <div
     className="pipelineHeader"
   >
     Resource pipeline
@@ -10134,6 +10193,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
   id="DeploymentPipeline"
 >
   <div
+    className="refresh-time-container"
+  >
+    <div>
+      Last update: {0}
+    </div>
+  </div>
+  <div
     className="app-info-and-dashboard-links"
   >
     <span>
@@ -10241,6 +10307,9 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       </svg>
       Edit app
     </a>
+    <span
+      className="app-info-and-dashboard-links-separator"
+    />
   </div>
   <div
     className="pipelineHeader"

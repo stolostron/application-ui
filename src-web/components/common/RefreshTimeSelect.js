@@ -23,6 +23,7 @@ import { ACM_REFRESH_INTERVAL_COOKIE } from '../../../lib/shared/constants'
 
 export default class RefreshTimeSelect extends React.Component {
   static propTypes = {
+    hasBreadcrumbs: PropTypes.bool,
     isReloading: PropTypes.bool,
     locale: PropTypes.string,
     refetchIntervalUpdate: PropTypes.func,
@@ -113,7 +114,7 @@ export default class RefreshTimeSelect extends React.Component {
   }
 
   render() {
-    const { locale } = this.props
+    const { locale, hasBreadcrumbs } = this.props
     const { pollInterval } = this.state
     if (
       pollInterval !== undefined &&
@@ -129,8 +130,14 @@ export default class RefreshTimeSelect extends React.Component {
           return pollInterval === pi
         })
       )
+
       return (
-        <div className="refresh-time-selection">
+        // conditional style to adjust position if there is a breadcrumb header
+        <div
+          className={`refresh-time-selection ${
+            hasBreadcrumbs ? 'hasBreadcrumbs' : ''
+          }`}
+        >
           {isReloading ? (
             <div className="reloading-container">
               <Loading withOverlay={false} small />

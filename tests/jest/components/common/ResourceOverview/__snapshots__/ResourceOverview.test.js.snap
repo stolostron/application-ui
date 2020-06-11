@@ -74,6 +74,9 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
       </svg>
       Edit app
     </a>
+    <span
+      className="app-info-and-dashboard-links-separator"
+    />
   </div>
   <div
     className="overview-content-bottom overview-content-with-padding"

@@ -3739,6 +3739,9 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       </svg>
       Edit app
     </a>
+    <span
+      className="app-info-and-dashboard-links-separator"
+    />
   </div>
   <div
     className="pipelineHeader"
@@ -10241,6 +10244,9 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       </svg>
       Edit app
     </a>
+    <span
+      className="app-info-and-dashboard-links-separator"
+    />
   </div>
   <div
     className="pipelineHeader"

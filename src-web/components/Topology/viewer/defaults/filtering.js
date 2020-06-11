@@ -21,7 +21,8 @@ const TypeFilters = {
       region: 'region',
       k8type: 'k8type'
     },
-    searchTypes: new Set()
+    searchTypes: new Set(),
+    ignored: new Set()
   },
   weave: {
     filterTypes: {
@@ -40,7 +41,8 @@ const TypeFilters = {
       namespaces: 'namespaces',
       hostIPs: 'hostIPs'
     },
-    searchTypes: new Set(['podStatuses', 'labels'])
+    searchTypes: new Set(['podStatuses', 'labels']),
+    ignored: new Set()
   },
   policy: {
     filterTypes: {
@@ -49,7 +51,8 @@ const TypeFilters = {
       region: 'region',
       k8type: 'k8type'
     },
-    searchTypes: new Set()
+    searchTypes: new Set(),
+    ignored: new Set()
   }
 }
 
@@ -605,11 +608,11 @@ export const filterRelationshipNodes = (
   const activeTypeSet = new Set(type)
   const availableTypeSet = new Set(availableFilters.type)
   const includeOther = activeTypeSet.has('other')
-  const ignoreNodeTypes = TypeFilters[mode].ignored || new Set()
+  const ignoreNodeTypes = TypeFilters[mode].ignored
   const parentList = new Set()
   const includedNodes = new Set()
   const filteredNodes = nodes.filter(node => {
-    const { type: nodeType, namespace, id, name } = node
+    const { type: nodeType, namespace, id } = node
 
     if (node.specs.isDesign === true || nodeType === 'cluster') {
       return true
@@ -630,8 +633,7 @@ export const filterRelationshipNodes = (
     let hasResourceStatus = true
     if (resourceStatuses.size !== 0) {
       const resourceStatus = _.get(node, 'specs.pulse')
-      hasResourceStatus = nodeType !== 'cluster'
-      if (resourceStatus && hasResourceStatus) {
+      if (resourceStatus) {
         hasResourceStatus = processResourceStatus(
           resourceStatuses,
           resourceStatus
@@ -661,7 +663,7 @@ export const filterRelationshipNodes = (
     // filter by cluster name
     let hasClustername = true
     if (notDesignNode(nodeType) && clusterNames.size !== 0) {
-      const clusterName = nodeType === 'cluster' ? name : getClusterName(id)
+      const clusterName = getClusterName(id)
       hasClustername = clusterNames.has(clusterName)
     }
 

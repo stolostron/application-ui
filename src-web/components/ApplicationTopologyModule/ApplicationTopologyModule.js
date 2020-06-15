@@ -31,7 +31,7 @@ import {
   DIAGRAM_QUERY_COOKIE,
   RESOURCE_TYPES
 } from '../../../lib/shared/constants'
-import { InlineNotification } from 'carbon-components-react'
+import { InlineNotification, Tooltip } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
 import {
   TOPOLOGY_SET_ACTIVE_FILTERS,
@@ -119,7 +119,8 @@ class ApplicationTopologyModule extends React.Component {
       topologyLoaded: false,
       selectedNode: undefined,
       hasUndo: false,
-      hasRedo: false
+      hasRedo: false,
+      showLegendView: false
     }
     this.parseDebounced = _.debounce(() => {
       this.handleParse()
@@ -331,7 +332,8 @@ class ApplicationTopologyModule extends React.Component {
       this.state.hasUndo !== nextState.hasUndo ||
       this.state.hasRedo !== nextState.hasRedo ||
       this.props.refetch.interval !== nextState.refetch.interval ||
-      this.props.refetch.doRefetch !== nextState.refetch.doRefetch
+      this.props.refetch.doRefetch !== nextState.refetch.doRefetch ||
+      this.state.showLegendView !== nextState.showLegendView
     )
   }
 
@@ -401,7 +403,8 @@ class ApplicationTopologyModule extends React.Component {
       links,
       selectedNode,
       topologyLoadError,
-      activeChannel
+      activeChannel,
+      showLegendView
     } = this.state
     const { topologyLoaded, showSpinner, changingChannel } = this.state
     const {
@@ -457,6 +460,8 @@ class ApplicationTopologyModule extends React.Component {
               : ''
           }
           locale={locale}
+          showLegendView={showLegendView}
+          handleLegendClose={this.handleLegendClose.bind(this)}
         />
       )
     }
@@ -482,7 +487,31 @@ class ApplicationTopologyModule extends React.Component {
             </React.Fragment>
           )}
           <div className="resourceDiagramControlsContainer">
-            <div className="diagram-title">{diagramTitle}</div>
+            <div className="diagram-title">
+              {diagramTitle}
+              <svg className="diagram-title-divider">
+                <rect />
+              </svg>
+              <span
+                className="how-to-read-text"
+                tabIndex="0"
+                onClick={() => {
+                  this.setState({ showLegendView: true })
+                }}
+                onKeyPress={() => {
+                  // noop function
+                }}
+                role="button"
+              >
+                {msgs.get(
+                  'application.diagram.how.to.read',
+                  this.context.locale
+                )}
+              </span>
+              <Tooltip triggerText="" iconName="info">
+                <span className="howToReadThisTooltip">{}</span>
+              </Tooltip>
+            </div>
             {topologyLoadError && (
               <InlineNotification
                 kind={'error'}
@@ -602,6 +631,10 @@ class ApplicationTopologyModule extends React.Component {
     } else {
       processResourceActionLink(resource)
     }
+  };
+
+  handleLegendClose = () => {
+    this.setState({ showLegendView: false })
   };
 
   closeTextView = () => {

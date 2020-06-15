@@ -38,6 +38,7 @@ class Topology extends React.Component {
       isFailed: PropTypes.bool,
       refetch: PropTypes.func
     }),
+    handleLegendClose: PropTypes.func,
     links: PropTypes.array.isRequired,
     locale: PropTypes.string,
     nodes: PropTypes.array.isRequired,
@@ -49,6 +50,7 @@ class Topology extends React.Component {
       selectedNode: PropTypes.object,
       handleNodeSelected: PropTypes.func
     }),
+    showLegendView: PropTypes.bool,
     styles: PropTypes.shape({
       shapes: PropTypes.object
     }),
@@ -158,6 +160,8 @@ class Topology extends React.Component {
       links,
       options,
       styles,
+      showLegendView,
+      handleLegendClose,
       fetchControl = {},
       selectionControl = {},
       channelControl = {},
@@ -193,6 +197,8 @@ class Topology extends React.Component {
           availableFilters={availableFilters}
           staticResourceData={this.staticResourceData}
           channelControl={channelControl}
+          showLegendView={showLegendView}
+          handleLegendClose={handleLegendClose}
         />
       </div>
     )

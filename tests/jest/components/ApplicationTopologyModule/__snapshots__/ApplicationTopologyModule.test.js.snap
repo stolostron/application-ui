@@ -584,24 +584,6 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
         className="diagram-type-filter-bar"
         id="type-filter-bar-portal-id"
       />
-      <div
-        aria-label="View topology"
-        className="diagram-expand-button"
-        onClick={[Function]}
-        onKeyPress={[Function]}
-        role="button"
-        tabIndex="0"
-        title="View topology"
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            href="#diagramIcons_launch"
-          />
-        </svg>
-        View topology
-      </div>
     </div>
   </div>
 </div>

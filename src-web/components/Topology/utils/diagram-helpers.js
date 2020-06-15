@@ -171,7 +171,11 @@ export const getTooltip = tooltips => {
         }) => {
           return (
             <div key={Math.random()}>
-              <span className="label">{name}: </span>
+              {name && name.length > 0 ? (
+                <span className="label">{name}: </span>
+              ) : (
+                <span>&nbsp;</span>
+              )}
               {href ? (
                 <a className="link" href={href} target={target} rel={rel}>
                   {value}
@@ -495,18 +499,121 @@ export const createDeployableYamlLink = (node, details) => {
   return details
 }
 
+export const inflateKubeValue = value => {
+  if (value) {
+    const match = value.match(/\D/g)
+    if (match) {
+      // if value has suffix
+      const unit = match.join('')
+      const val = value.match(/\d+/g).map(Number)[0]
+      const BINARY_PREFIXES = ['Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei']
+      const SI_PREFIXES = ['m', 'k', 'M', 'G', 'T', 'P', 'E']
+      const num =
+        unit && unit.length === 2
+          ? factorize(BINARY_PREFIXES, unit, 'binary')
+          : factorize(SI_PREFIXES, unit, 'si')
+      return val * num
+    }
+    return parseFloat(value)
+  }
+  return ''
+}
+
+function factorize(prefixes, unit, type) {
+  let factorizeNb = 1
+  for (let index = 0; index < prefixes.length; index++) {
+    if (unit === prefixes[index]) {
+      const base = type === 'binary' ? 1024 : 1000
+      const unitM = unit === 'm' ? -1 : index
+      const exponent = type === 'binary' ? index + 1 : unitM
+      factorizeNb = Math.pow(base, exponent)
+    }
+  }
+  return factorizeNb
+}
+
+export const getPercentage = (value, total) => {
+  return Math.floor(100 * value / total) || 0
+}
+
+export const setClusterStatus = (node, details) => {
+  const specs = _.get(node, 'specs', {})
+  const { cluster, clusters = [] } = specs
+  const clusterArr = cluster ? [cluster] : clusters
+  clusterArr.forEach(c => {
+    const { metadata = {}, capacity = {}, usage = {}, clusterip, status } = c
+    const { name, namespace, creationTimestamp } = metadata
+    //void ({ labels } = metadata)
+    const { nodes, cpu: cc, memory: cm, storage: cs } = capacity
+    const { pods, cpu: uc, memory: um, storage: us } = usage
+    details.push({ labelKey: 'resource.name', value: name })
+    details.push({ labelKey: 'resource.namespace', value: namespace })
+    if (c.consoleURL) {
+      const href = c.consoleURL
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get('details.cluster.console'),
+          id: `${href}-location`,
+          data: {
+            action: 'open_link',
+            targetLink: href
+          }
+        },
+        indent: true
+      })
+    }
+
+    // general details
+    addDetails(details, [
+      { labelKey: 'resource.clusterip', value: clusterip },
+      { labelKey: 'resource.pods', value: pods },
+      { labelKey: 'resource.nodes', value: nodes },
+      { labelKey: 'resource.status', value: status },
+      {
+        labelKey: 'resource.cpu',
+        value: `${getPercentage(inflateKubeValue(uc), inflateKubeValue(cc))}%`
+      },
+      {
+        labelKey: 'resource.memory',
+        value: `${getPercentage(inflateKubeValue(um), inflateKubeValue(cm))}%`
+      },
+      {
+        labelKey: 'resource.storage',
+        value: `${getPercentage(inflateKubeValue(us), inflateKubeValue(cs))}%`
+      },
+      { labelKey: 'resource.created', value: getAge(creationTimestamp) }
+    ])
+    details.push({
+      type: 'spacer'
+    })
+  })
+
+  return details
+}
+
 export const createResourceSearchLink = node => {
   let result = {
     type: 'link',
     value: null
   }
 
-  if (_.get(node, 'type', '') === 'cluster') {
-    return result
-  }
-
   //returns search link for resource
-  if (node && R.pathOr('', ['specs', 'pulse'])(node) !== 'orange') {
+  if (_.get(node, 'type', '') === 'cluster') {
+    result = {
+      type: 'link',
+      value: {
+        label: msgs.get('props.show.search.view'),
+        id: node.id,
+        data: {
+          action: 'show_search',
+          name: (node.name && R.replace(/ /g, '')(node.name)) || 'undefined', // take out spaces
+          kind: 'cluster'
+        },
+        indent: true
+      }
+    }
+  } else if (node && R.pathOr('', ['specs', 'pulse'])(node) !== 'orange') {
     //pulse orange means not deployed on any cluster so don't show link to search page
     result = {
       type: 'link',
@@ -1148,6 +1255,7 @@ export const processResourceActionLink = resource => {
   let targetLink = ''
   const linkPath = R.pathOr('', ['action'])(resource)
   const { name, namespace, cluster, selfLink, kind } = resource
+  const nsData = namespace ? ` namespace:${namespace}` : ''
   switch (linkPath) {
   case 'show_pod_log':
     targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
@@ -1156,7 +1264,7 @@ export const processResourceActionLink = resource => {
     targetLink = `/multicloud/details/${cluster}${selfLink}`
     break
   case 'show_search':
-    targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind} name:${name} namespace:${namespace}"}`
+    targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind} name:${name}${nsData}"}`
     break
   default:
     targetLink = R.pathOr('', ['targetLink'])(resource)
@@ -1165,4 +1273,11 @@ export const processResourceActionLink = resource => {
     window.open(targetLink, '_blank')
   }
   return targetLink
+}
+
+export const getType = (type, locale) => {
+  const nlsType = msgs.get(`resource.${type}`, locale)
+  return !nlsType.startsWith('!resource.')
+    ? nlsType
+    : _.capitalize(_.startCase(type))
 }

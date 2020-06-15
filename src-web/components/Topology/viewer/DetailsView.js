@@ -217,7 +217,7 @@ class DetailsView extends React.Component {
     ) //if not show yaml
 
     let iconName = 'arrowRight'
-    if (_.get(value, 'label', '').startsWith('http')) {
+    if (_.get(value, 'data.targetLink', '').startsWith('http')) {
       iconName = 'carbonLaunch'
     }
     const mainSectionClasses = classNames({

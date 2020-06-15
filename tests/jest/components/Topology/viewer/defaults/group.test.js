@@ -358,16 +358,11 @@ describe("getNodeGroups other", () => {
         cluster: null,
         clusterName: null,
         id: "applicationpacmangit",
-        labels: {
-          cloud: "Azure",
-          env: "prod",
-          name: "azure",
-          vendor: "RHOCP"
-        },
+        labels: { cloud: "Azure", env: "prod", name: "azure", vendor: "RHOCP" },
         layout: {
-          compactLabel: "applicationpacmangit",
+          compactLabel: "Deployment",
           hasPods: false,
-          label: "applicationpacmangit",
+          label: "Deployment",
           pods: [],
           qname: "pacmangitchannel/applicationpacmangit",
           type: "deployment",
@@ -375,12 +370,7 @@ describe("getNodeGroups other", () => {
         },
         name: "applicationpacmangit",
         namespace: "pacmangitchannel",
-        specs: {
-          isDesign: true,
-          isDivider: true,
-          raw: {},
-          row: 45
-        },
+        specs: { isDesign: true, isDivider: true, raw: {}, row: 45 },
         topology: null,
         type: "deployment",
         uid: "applicationpacmangit"
@@ -390,27 +380,17 @@ describe("getNodeGroups other", () => {
         cluster: null,
         clusterName: null,
         id: "deploymentpacmangit",
-        labels: {
-          cloud: "Azure",
-          env: "prod",
-          name: "azure",
-          vendor: "RHOCP"
-        },
+        labels: { cloud: "Azure", env: "prod", name: "azure", vendor: "RHOCP" },
         layout: {
-          compactLabel: "deploymentpacmangit",
-          label: "deploymentpacmangit",
+          compactLabel: "Pod",
+          label: "Pod",
           qname: "pacmangitchannel/deploymentpacmangit",
           type: "pod",
           uid: "deploymentpacmangit"
         },
         name: "deploymentpacmangit",
         namespace: "pacmangitchannel",
-        specs: {
-          isDesign: true,
-          isDivider: true,
-          raw: {},
-          row: 95
-        },
+        specs: { isDesign: true, isDivider: true, raw: {}, row: 95 },
         topology: null,
         type: "pod",
         uid: "deploymentpacmangit"
@@ -431,9 +411,9 @@ describe("getNodeGroups other", () => {
               vendor: "RHOCP"
             },
             layout: {
-              compactLabel: "applicationpacmangit",
+              compactLabel: "Deployment",
               hasPods: false,
-              label: "applicationpacmangit",
+              label: "Deployment",
               pods: [],
               qname: "pacmangitchannel/applicationpacmangit",
               type: "deployment",
@@ -441,12 +421,7 @@ describe("getNodeGroups other", () => {
             },
             name: "applicationpacmangit",
             namespace: "pacmangitchannel",
-            specs: {
-              isDesign: true,
-              isDivider: true,
-              raw: {},
-              row: 45
-            },
+            specs: { isDesign: true, isDivider: true, raw: {}, row: 45 },
             topology: null,
             type: "deployment",
             uid: "applicationpacmangit"
@@ -467,20 +442,15 @@ describe("getNodeGroups other", () => {
               vendor: "RHOCP"
             },
             layout: {
-              compactLabel: "deploymentpacmangit",
-              label: "deploymentpacmangit",
+              compactLabel: "Pod",
+              label: "Pod",
               qname: "pacmangitchannel/deploymentpacmangit",
               type: "pod",
               uid: "deploymentpacmangit"
             },
             name: "deploymentpacmangit",
             namespace: "pacmangitchannel",
-            specs: {
-              isDesign: true,
-              isDivider: true,
-              raw: {},
-              row: 95
-            },
+            specs: { isDesign: true, isDivider: true, raw: {}, row: 95 },
             topology: null,
             type: "pod",
             uid: "deploymentpacmangit"

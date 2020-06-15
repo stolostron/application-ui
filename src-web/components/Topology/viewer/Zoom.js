@@ -31,6 +31,7 @@ export default class Zoom extends React.PureComponent {
     const zoomIn = msgs.get('topology.zoom.in', locale)
     const zoomOut = msgs.get('topology.zoom.out', locale)
     const zoomFit = msgs.get('topology.zoom.fit', locale)
+
     return (
       <div className="diagram-controls">
         {/* zoom in */}

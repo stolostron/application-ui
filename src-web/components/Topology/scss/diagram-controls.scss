@@ -7,58 +7,59 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import 'variables';
-
-.diagram-controls {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-
-  .rectangle-zoom {
-    position: relative;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 3px;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
-    width: 30px;
-    height: 22px;
-    margin-right: 5px;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-  }
-
-  .zoom-in-button {
-    position: relative;
-  }
-
-  .zoom-out-button {
-    position: relative;
-    text-align: center;
-  }
-
-  .zoom-target-button {
-    position: relative;
-  }
-
-  .icon {
-    cursor: pointer;
-    width: 18px;
-    height: 18px;
-    display: block;
-    margin-left: 3px;
-    margin-top: 2px;
-  }
-
-  .icon_target {
-    cursor: pointer;
-    width: 18px;
-    height: 18px;
-    display: block;
-    margin-left: 5px;
-    margin-top: 4px;
-  }
-}
+ @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+ @import 'variables';
+ 
+ .diagram-controls {
+   position: absolute;
+   left: 0px;
+   top: 0px;
+   display: flex;
+   justify-content: center;
+   text-align: center;
+ 
+   .rectangle-zoom {
+     position: relative;
+     background-color: rgba(255, 255, 255, 0.9);
+     border-radius: 3px;
+     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+     width: 30px;
+     height: 22px;
+     margin-right: 5px;
+     display: flex;
+     text-align: center;
+     justify-content: center;
+   }
+ 
+   .zoom-in-button {
+     position: relative;
+   }
+ 
+   .zoom-out-button {
+     position: relative;
+     text-align: center;
+   }
+ 
+   .zoom-target-button {
+     position: relative;
+   }
+ 
+   .icon {
+     cursor: pointer;
+     width: 18px;
+     height: 18px;
+     display: block;
+     margin-left: 3px;
+     margin-top: 2px;
+   }
+ 
+   .icon_target {
+     cursor: pointer;
+     width: 18px;
+     height: 18px;
+     display: block;
+     margin-left: 5px;
+     margin-top: 4px;
+   }
+ }
+ 

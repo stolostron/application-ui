@@ -15,6 +15,7 @@ import * as d3 from 'd3'
 import { Loading } from 'carbon-components-react'
 import DetailsView from './DetailsView'
 import Zoom from './Zoom'
+import ChannelControl from './ChannelControl'
 import LayoutHelper from './helpers/layoutHelper'
 import ZoomHelper from './helpers/zoomHelper'
 import TitleHelper from './helpers/titleHelper'
@@ -38,6 +39,7 @@ class DiagramViewer extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
     availableFilters: PropTypes.object,
+    channelControl: PropTypes.object,
     handleNodeSelected: PropTypes.func,
     isReloading: PropTypes.bool,
     links: PropTypes.array,
@@ -230,8 +232,12 @@ class DiagramViewer extends React.Component {
       secondaryLoad,
       processActionLink,
       title,
-      locale
+      locale,
+      channelControl
     } = this.props
+    const showChannelsControl =
+      channelControl && _.get(channelControl, 'allChannels', []).length > 1
+
     const { selectedNodeId, showDetailsView } = this.state
     return (
       <div className="diagramViewerDiagram" ref={this.setContainerRef}>
@@ -262,10 +268,15 @@ class DiagramViewer extends React.Component {
             <Loading withOverlay={false} />
           </div>
         </div>
-        <Zoom
-          getZoomHelper={this.getZoomHelper}
-          getViewContainer={this.getViewContainer}
-        />
+        <span className="diagramControls">
+          {showChannelsControl && (
+            <ChannelControl channelControl={channelControl} locale={locale} />
+          )}
+          <Zoom
+            getZoomHelper={this.getZoomHelper}
+            getViewContainer={this.getViewContainer}
+          />
+        </span>
         {showDetailsView && (
           <DetailsView
             locale={locale}

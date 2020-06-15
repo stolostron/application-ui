@@ -55,7 +55,7 @@ function getClusterNodeGroups(nodes) {
   return { nodeGroups: groupMap, allNodeMap }
 }
 
-function getTypeNodeGroups(nodes, activeFilters, diagramOptions) {
+export function getTypeNodeGroups(nodes, activeFilters, diagramOptions) {
   // separate into types
   const groupMap = {}
   const allNodeMap = {}

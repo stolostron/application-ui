@@ -568,6 +568,7 @@
   "combo.subscription.all": "All Subscriptions",
   "subscription.page.label": "Resource nodes",
   "subscription.page.nb": "of {0}",
+  "subscription.page.label.info": "Use the navigation below to page through the resources deployed by the selected subscription.",
   "resource.topology": "Topology",
   "resource.application": "Application",
   "resource.application.error": "Error",

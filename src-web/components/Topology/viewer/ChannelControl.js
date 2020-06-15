@@ -199,6 +199,7 @@ class ChannelControl extends React.Component {
               <div className="channelsCombo">
                 <DropdownV2
                   items={displayChannels}
+                  id="comboChannel"
                   label={comboLabel}
                   ariaLabel={comboLabel}
                   inline={true}

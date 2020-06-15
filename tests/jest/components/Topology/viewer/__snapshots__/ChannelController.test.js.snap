@@ -46,6 +46,7 @@ ShallowWrapper {
             <DropdownV2
               ariaLabel="All subscriptions"
               disabled={false}
+              id="comboChannel"
               inline={true}
               itemToElement={null}
               itemToString={[Function]}
@@ -135,6 +136,7 @@ ShallowWrapper {
               <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
+                id="comboChannel"
                 inline={true}
                 itemToElement={null}
                 itemToString={[Function]}
@@ -225,6 +227,7 @@ ShallowWrapper {
               "children": <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
+                id="comboChannel"
                 inline={true}
                 itemToElement={null}
                 itemToString={[Function]}
@@ -299,6 +302,7 @@ ShallowWrapper {
               "props": Object {
                 "ariaLabel": "All subscriptions",
                 "disabled": false,
+                "id": "comboChannel",
                 "inline": true,
                 "itemToElement": null,
                 "itemToString": [Function],
@@ -393,6 +397,7 @@ ShallowWrapper {
               <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
+                id="comboChannel"
                 inline={true}
                 itemToElement={null}
                 itemToString={[Function]}
@@ -482,6 +487,7 @@ ShallowWrapper {
                 <DropdownV2
                   ariaLabel="All subscriptions"
                   disabled={false}
+                  id="comboChannel"
                   inline={true}
                   itemToElement={null}
                   itemToString={[Function]}
@@ -572,6 +578,7 @@ ShallowWrapper {
                 "children": <DropdownV2
                   ariaLabel="All subscriptions"
                   disabled={false}
+                  id="comboChannel"
                   inline={true}
                   itemToElement={null}
                   itemToString={[Function]}
@@ -646,6 +653,7 @@ ShallowWrapper {
                 "props": Object {
                   "ariaLabel": "All subscriptions",
                   "disabled": false,
+                  "id": "comboChannel",
                   "inline": true,
                   "itemToElement": null,
                   "itemToString": [Function],
@@ -746,11 +754,11 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <ChannelControl
     channelControl={
       Object {
-        "activeChannel": "__ALL__/__ALL__//__ALL__/__ALL__",
+        "activeChannel": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
         "allChannels": Array [
-          "__ALL__/__ALL__//__ALL__/__ALL__",
-          "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
           "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+          "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+          "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
         ],
         "changeTheChannel": [Function],
         "isChangingChannel": undefined,
@@ -786,26 +794,14 @@ ShallowWrapper {
             <DropdownV2
               ariaLabel="All subscriptions"
               disabled={false}
+              id="comboChannel"
               inline={true}
               itemToElement={null}
               itemToString={[Function]}
               items={
                 Array [
                   Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
-                    "subchannels": Array [],
-                  },
-                  Object {
-                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                     "hasSubchannels": true,
                     "label": "guestbook-app",
                     "splitChn": Array [
@@ -817,14 +813,19 @@ ShallowWrapper {
                     ],
                     "subchannels": Array [
                       Object {
-                        "beg": "cassandra-cassandra-service",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                        "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
-                      },
-                      Object {
                         "beg": "mysql-wordpress-pd-wordpress-mysql-service",
                         "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                         "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                      },
+                      Object {
+                        "beg": "elasticsearch-es-replicationcontroller",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                      },
+                      Object {
+                        "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                        "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                       },
                     ],
                   },
@@ -835,24 +836,109 @@ ShallowWrapper {
               onChange={[Function]}
               selectedItem={
                 Object {
-                  "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                  "hasSubchannels": false,
-                  "label": "All Subscriptions",
+                  "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                  "hasSubchannels": true,
+                  "label": "guestbook-app",
                   "splitChn": Array [
-                    "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "__ALL__",
-                    "__ALL__",
-                    "__ALL__",
-                    "__ALL__",
+                    "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                    "default",
+                    "guestbook-app",
+                    "gbapp-ch",
+                    "guestbook-app-latest",
                   ],
-                  "subchannels": Array [],
+                  "subchannels": Array [
+                    Object {
+                      "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                      "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                    },
+                    Object {
+                      "beg": "elasticsearch-es-replicationcontroller",
+                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                      "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                    },
+                    Object {
+                      "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                      "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
+                    },
+                  ],
                 }
               }
               type="default"
             />
           </div>
         </div>,
-        false,
+        <div
+          className="pagination"
+        >
+          <div
+            className="resourcePaging label"
+          >
+            Resource nodes
+          </div>
+          <div
+            className="mainPagination"
+          >
+            <span
+              className="label pageLabel labelLink"
+              id="p1"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+            >
+              &lt;&lt;
+            </span>
+            <span
+              className="label pageLabel labelLink"
+              id="p2"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+            >
+              &lt;
+            </span>
+            <input
+              aria-label="Current page"
+              className="label pageInput"
+              id="valuePage"
+              max="{channelsLength}"
+              min="1"
+              onChange={[Function]}
+              onKeyPress={[Function]}
+              tabIndex="0"
+              type="number"
+              value={2}
+            />
+            <span
+              className="label pageLabel"
+            >
+              of {0}
+            </span>
+            <span
+              className="label pageLabel labelLink"
+              id="p3"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+            >
+              &gt;
+            </span>
+            <span
+              className="label pageLabel labelLink"
+              id="p4"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+            >
+              &gt;&gt;
+            </span>
+          </div>
+        </div>,
       ],
       "className": "channel-controls-container",
     },
@@ -875,26 +961,14 @@ ShallowWrapper {
               <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
+                id="comboChannel"
                 inline={true}
                 itemToElement={null}
                 itemToString={[Function]}
                 items={
                   Array [
                     Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
-                    },
-                    Object {
-                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                       "hasSubchannels": true,
                       "label": "guestbook-app",
                       "splitChn": Array [
@@ -906,14 +980,19 @@ ShallowWrapper {
                       ],
                       "subchannels": Array [
                         Object {
-                          "beg": "cassandra-cassandra-service",
-                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
-                        },
-                        Object {
                           "beg": "mysql-wordpress-pd-wordpress-mysql-service",
                           "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                        Object {
+                          "beg": "elasticsearch-es-replicationcontroller",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                          "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        },
+                        Object {
+                          "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                          "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                         },
                       ],
                     },
@@ -924,17 +1003,33 @@ ShallowWrapper {
                 onChange={[Function]}
                 selectedItem={
                   Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
+                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                    "hasSubchannels": true,
+                    "label": "guestbook-app",
                     "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
+                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                      "default",
+                      "guestbook-app",
+                      "gbapp-ch",
+                      "guestbook-app-latest",
                     ],
-                    "subchannels": Array [],
+                    "subchannels": Array [
+                      Object {
+                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                      },
+                      Object {
+                        "beg": "elasticsearch-es-replicationcontroller",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                      },
+                      Object {
+                        "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                        "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
+                      },
+                    ],
                   }
                 }
                 type="default"
@@ -965,26 +1060,14 @@ ShallowWrapper {
               "children": <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
+                id="comboChannel"
                 inline={true}
                 itemToElement={null}
                 itemToString={[Function]}
                 items={
                   Array [
                     Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
-                    },
-                    Object {
-                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                       "hasSubchannels": true,
                       "label": "guestbook-app",
                       "splitChn": Array [
@@ -996,14 +1079,19 @@ ShallowWrapper {
                       ],
                       "subchannels": Array [
                         Object {
-                          "beg": "cassandra-cassandra-service",
-                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
-                        },
-                        Object {
                           "beg": "mysql-wordpress-pd-wordpress-mysql-service",
                           "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                        Object {
+                          "beg": "elasticsearch-es-replicationcontroller",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                          "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        },
+                        Object {
+                          "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                          "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                         },
                       ],
                     },
@@ -1014,17 +1102,33 @@ ShallowWrapper {
                 onChange={[Function]}
                 selectedItem={
                   Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
+                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                    "hasSubchannels": true,
+                    "label": "guestbook-app",
                     "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
+                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                      "default",
+                      "guestbook-app",
+                      "gbapp-ch",
+                      "guestbook-app-latest",
                     ],
-                    "subchannels": Array [],
+                    "subchannels": Array [
+                      Object {
+                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                      },
+                      Object {
+                        "beg": "elasticsearch-es-replicationcontroller",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                      },
+                      Object {
+                        "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                        "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
+                      },
+                    ],
                   }
                 }
                 type="default"
@@ -1039,25 +1143,13 @@ ShallowWrapper {
               "props": Object {
                 "ariaLabel": "All subscriptions",
                 "disabled": false,
+                "id": "comboChannel",
                 "inline": true,
                 "itemToElement": null,
                 "itemToString": [Function],
                 "items": Array [
                   Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
-                    "subchannels": Array [],
-                  },
-                  Object {
-                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                     "hasSubchannels": true,
                     "label": "guestbook-app",
                     "splitChn": Array [
@@ -1069,14 +1161,19 @@ ShallowWrapper {
                     ],
                     "subchannels": Array [
                       Object {
-                        "beg": "cassandra-cassandra-service",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                        "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
-                      },
-                      Object {
                         "beg": "mysql-wordpress-pd-wordpress-mysql-service",
                         "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                         "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                      },
+                      Object {
+                        "beg": "elasticsearch-es-replicationcontroller",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                      },
+                      Object {
+                        "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                        "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                       },
                     ],
                   },
@@ -1085,17 +1182,33 @@ ShallowWrapper {
                 "light": false,
                 "onChange": [Function],
                 "selectedItem": Object {
-                  "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                  "hasSubchannels": false,
-                  "label": "All Subscriptions",
+                  "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                  "hasSubchannels": true,
+                  "label": "guestbook-app",
                   "splitChn": Array [
-                    "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "__ALL__",
-                    "__ALL__",
-                    "__ALL__",
-                    "__ALL__",
+                    "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                    "default",
+                    "guestbook-app",
+                    "gbapp-ch",
+                    "guestbook-app-latest",
                   ],
-                  "subchannels": Array [],
+                  "subchannels": Array [
+                    Object {
+                      "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                      "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                    },
+                    Object {
+                      "beg": "elasticsearch-es-replicationcontroller",
+                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                      "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                    },
+                    Object {
+                      "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                      "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
+                    },
+                  ],
                 },
                 "type": "default",
               },
@@ -1108,7 +1221,269 @@ ShallowWrapper {
         ],
         "type": "div",
       },
-      false,
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="resourcePaging label"
+            >
+              Resource nodes
+            </div>,
+            <div
+              className="mainPagination"
+            >
+              <span
+                className="label pageLabel labelLink"
+                id="p1"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                &lt;&lt;
+              </span>
+              <span
+                className="label pageLabel labelLink"
+                id="p2"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                &lt;
+              </span>
+              <input
+                aria-label="Current page"
+                className="label pageInput"
+                id="valuePage"
+                max="{channelsLength}"
+                min="1"
+                onChange={[Function]}
+                onKeyPress={[Function]}
+                tabIndex="0"
+                type="number"
+                value={2}
+              />
+              <span
+                className="label pageLabel"
+              >
+                of {0}
+              </span>
+              <span
+                className="label pageLabel labelLink"
+                id="p3"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                &gt;
+              </span>
+              <span
+                className="label pageLabel labelLink"
+                id="p4"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                &gt;&gt;
+              </span>
+            </div>,
+          ],
+          "className": "pagination",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Resource nodes",
+              "className": "resourcePaging label",
+            },
+            "ref": null,
+            "rendered": "Resource nodes",
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <span
+                  className="label pageLabel labelLink"
+                  id="p1"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  &lt;&lt;
+                </span>,
+                <span
+                  className="label pageLabel labelLink"
+                  id="p2"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  &lt;
+                </span>,
+                <input
+                  aria-label="Current page"
+                  className="label pageInput"
+                  id="valuePage"
+                  max="{channelsLength}"
+                  min="1"
+                  onChange={[Function]}
+                  onKeyPress={[Function]}
+                  tabIndex="0"
+                  type="number"
+                  value={2}
+                />,
+                <span
+                  className="label pageLabel"
+                >
+                  of {0}
+                </span>,
+                <span
+                  className="label pageLabel labelLink"
+                  id="p3"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  &gt;
+                </span>,
+                <span
+                  className="label pageLabel labelLink"
+                  id="p4"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  &gt;&gt;
+                </span>,
+              ],
+              "className": "mainPagination",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "<<",
+                  "className": "label pageLabel labelLink",
+                  "id": "p1",
+                  "onClick": [Function],
+                  "onKeyPress": [Function],
+                  "role": "button",
+                  "tabIndex": "0",
+                },
+                "ref": null,
+                "rendered": "<<",
+                "type": "span",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "<",
+                  "className": "label pageLabel labelLink",
+                  "id": "p2",
+                  "onClick": [Function],
+                  "onKeyPress": [Function],
+                  "role": "button",
+                  "tabIndex": "0",
+                },
+                "ref": null,
+                "rendered": "<",
+                "type": "span",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "aria-label": "Current page",
+                  "className": "label pageInput",
+                  "id": "valuePage",
+                  "max": "{channelsLength}",
+                  "min": "1",
+                  "onChange": [Function],
+                  "onKeyPress": [Function],
+                  "tabIndex": "0",
+                  "type": "number",
+                  "value": 2,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "input",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "of {0}",
+                  "className": "label pageLabel",
+                },
+                "ref": null,
+                "rendered": "of {0}",
+                "type": "span",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": ">",
+                  "className": "label pageLabel labelLink",
+                  "id": "p3",
+                  "onClick": [Function],
+                  "onKeyPress": [Function],
+                  "role": "button",
+                  "tabIndex": "0",
+                },
+                "ref": null,
+                "rendered": ">",
+                "type": "span",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": ">>",
+                  "className": "label pageLabel labelLink",
+                  "id": "p4",
+                  "onClick": [Function],
+                  "onKeyPress": [Function],
+                  "role": "button",
+                  "tabIndex": "0",
+                },
+                "ref": null,
+                "rendered": ">>",
+                "type": "span",
+              },
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
     ],
     "type": "div",
   },
@@ -1133,26 +1508,14 @@ ShallowWrapper {
               <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
+                id="comboChannel"
                 inline={true}
                 itemToElement={null}
                 itemToString={[Function]}
                 items={
                   Array [
                     Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
-                    },
-                    Object {
-                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                       "hasSubchannels": true,
                       "label": "guestbook-app",
                       "splitChn": Array [
@@ -1164,14 +1527,19 @@ ShallowWrapper {
                       ],
                       "subchannels": Array [
                         Object {
-                          "beg": "cassandra-cassandra-service",
-                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
-                        },
-                        Object {
                           "beg": "mysql-wordpress-pd-wordpress-mysql-service",
                           "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                        Object {
+                          "beg": "elasticsearch-es-replicationcontroller",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                          "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        },
+                        Object {
+                          "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                          "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                         },
                       ],
                     },
@@ -1182,24 +1550,109 @@ ShallowWrapper {
                 onChange={[Function]}
                 selectedItem={
                   Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
+                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                    "hasSubchannels": true,
+                    "label": "guestbook-app",
                     "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
+                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                      "default",
+                      "guestbook-app",
+                      "gbapp-ch",
+                      "guestbook-app-latest",
                     ],
-                    "subchannels": Array [],
+                    "subchannels": Array [
+                      Object {
+                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                      },
+                      Object {
+                        "beg": "elasticsearch-es-replicationcontroller",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                      },
+                      Object {
+                        "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                        "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
+                      },
+                    ],
                   }
                 }
                 type="default"
               />
             </div>
           </div>,
-          false,
+          <div
+            className="pagination"
+          >
+            <div
+              className="resourcePaging label"
+            >
+              Resource nodes
+            </div>
+            <div
+              className="mainPagination"
+            >
+              <span
+                className="label pageLabel labelLink"
+                id="p1"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                &lt;&lt;
+              </span>
+              <span
+                className="label pageLabel labelLink"
+                id="p2"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                &lt;
+              </span>
+              <input
+                aria-label="Current page"
+                className="label pageInput"
+                id="valuePage"
+                max="{channelsLength}"
+                min="1"
+                onChange={[Function]}
+                onKeyPress={[Function]}
+                tabIndex="0"
+                type="number"
+                value={2}
+              />
+              <span
+                className="label pageLabel"
+              >
+                of {0}
+              </span>
+              <span
+                className="label pageLabel labelLink"
+                id="p3"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                &gt;
+              </span>
+              <span
+                className="label pageLabel labelLink"
+                id="p4"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                &gt;&gt;
+              </span>
+            </div>
+          </div>,
         ],
         "className": "channel-controls-container",
       },
@@ -1222,26 +1675,14 @@ ShallowWrapper {
                 <DropdownV2
                   ariaLabel="All subscriptions"
                   disabled={false}
+                  id="comboChannel"
                   inline={true}
                   itemToElement={null}
                   itemToString={[Function]}
                   items={
                     Array [
                       Object {
-                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "hasSubchannels": false,
-                        "label": "All Subscriptions",
-                        "splitChn": Array [
-                          "__ALL__/__ALL__//__ALL__/__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                        ],
-                        "subchannels": Array [],
-                      },
-                      Object {
-                        "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                        "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                         "hasSubchannels": true,
                         "label": "guestbook-app",
                         "splitChn": Array [
@@ -1253,14 +1694,19 @@ ShallowWrapper {
                         ],
                         "subchannels": Array [
                           Object {
-                            "beg": "cassandra-cassandra-service",
-                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                            "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
-                          },
-                          Object {
                             "beg": "mysql-wordpress-pd-wordpress-mysql-service",
                             "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                             "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                          },
+                          Object {
+                            "beg": "elasticsearch-es-replicationcontroller",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                            "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                          },
+                          Object {
+                            "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                            "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                           },
                         ],
                       },
@@ -1271,17 +1717,33 @@ ShallowWrapper {
                   onChange={[Function]}
                   selectedItem={
                     Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                      "hasSubchannels": true,
+                      "label": "guestbook-app",
                       "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
+                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                        "default",
+                        "guestbook-app",
+                        "gbapp-ch",
+                        "guestbook-app-latest",
                       ],
-                      "subchannels": Array [],
+                      "subchannels": Array [
+                        Object {
+                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                        Object {
+                          "beg": "elasticsearch-es-replicationcontroller",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                          "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        },
+                        Object {
+                          "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                          "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
+                        },
+                      ],
                     }
                   }
                   type="default"
@@ -1312,26 +1774,14 @@ ShallowWrapper {
                 "children": <DropdownV2
                   ariaLabel="All subscriptions"
                   disabled={false}
+                  id="comboChannel"
                   inline={true}
                   itemToElement={null}
                   itemToString={[Function]}
                   items={
                     Array [
                       Object {
-                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "hasSubchannels": false,
-                        "label": "All Subscriptions",
-                        "splitChn": Array [
-                          "__ALL__/__ALL__//__ALL__/__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                        ],
-                        "subchannels": Array [],
-                      },
-                      Object {
-                        "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                        "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                         "hasSubchannels": true,
                         "label": "guestbook-app",
                         "splitChn": Array [
@@ -1343,14 +1793,19 @@ ShallowWrapper {
                         ],
                         "subchannels": Array [
                           Object {
-                            "beg": "cassandra-cassandra-service",
-                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                            "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
-                          },
-                          Object {
                             "beg": "mysql-wordpress-pd-wordpress-mysql-service",
                             "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                             "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                          },
+                          Object {
+                            "beg": "elasticsearch-es-replicationcontroller",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                            "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                          },
+                          Object {
+                            "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                            "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                           },
                         ],
                       },
@@ -1361,17 +1816,33 @@ ShallowWrapper {
                   onChange={[Function]}
                   selectedItem={
                     Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                      "hasSubchannels": true,
+                      "label": "guestbook-app",
                       "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
+                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                        "default",
+                        "guestbook-app",
+                        "gbapp-ch",
+                        "guestbook-app-latest",
                       ],
-                      "subchannels": Array [],
+                      "subchannels": Array [
+                        Object {
+                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                        Object {
+                          "beg": "elasticsearch-es-replicationcontroller",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                          "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        },
+                        Object {
+                          "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                          "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
+                        },
+                      ],
                     }
                   }
                   type="default"
@@ -1386,25 +1857,13 @@ ShallowWrapper {
                 "props": Object {
                   "ariaLabel": "All subscriptions",
                   "disabled": false,
+                  "id": "comboChannel",
                   "inline": true,
                   "itemToElement": null,
                   "itemToString": [Function],
                   "items": Array [
                     Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
-                    },
-                    Object {
-                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                       "hasSubchannels": true,
                       "label": "guestbook-app",
                       "splitChn": Array [
@@ -1416,14 +1875,19 @@ ShallowWrapper {
                       ],
                       "subchannels": Array [
                         Object {
-                          "beg": "cassandra-cassandra-service",
-                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
-                        },
-                        Object {
                           "beg": "mysql-wordpress-pd-wordpress-mysql-service",
                           "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                        Object {
+                          "beg": "elasticsearch-es-replicationcontroller",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                          "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        },
+                        Object {
+                          "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                          "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                         },
                       ],
                     },
@@ -1432,17 +1896,33 @@ ShallowWrapper {
                   "light": false,
                   "onChange": [Function],
                   "selectedItem": Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
+                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                    "hasSubchannels": true,
+                    "label": "guestbook-app",
                     "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
+                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                      "default",
+                      "guestbook-app",
+                      "gbapp-ch",
+                      "guestbook-app-latest",
                     ],
-                    "subchannels": Array [],
+                    "subchannels": Array [
+                      Object {
+                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                      },
+                      Object {
+                        "beg": "elasticsearch-es-replicationcontroller",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                        "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+                      },
+                      Object {
+                        "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
+                        "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
+                      },
+                    ],
                   },
                   "type": "default",
                 },
@@ -1455,7 +1935,269 @@ ShallowWrapper {
           ],
           "type": "div",
         },
-        false,
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="resourcePaging label"
+              >
+                Resource nodes
+              </div>,
+              <div
+                className="mainPagination"
+              >
+                <span
+                  className="label pageLabel labelLink"
+                  id="p1"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  &lt;&lt;
+                </span>
+                <span
+                  className="label pageLabel labelLink"
+                  id="p2"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  &lt;
+                </span>
+                <input
+                  aria-label="Current page"
+                  className="label pageInput"
+                  id="valuePage"
+                  max="{channelsLength}"
+                  min="1"
+                  onChange={[Function]}
+                  onKeyPress={[Function]}
+                  tabIndex="0"
+                  type="number"
+                  value={2}
+                />
+                <span
+                  className="label pageLabel"
+                >
+                  of {0}
+                </span>
+                <span
+                  className="label pageLabel labelLink"
+                  id="p3"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  &gt;
+                </span>
+                <span
+                  className="label pageLabel labelLink"
+                  id="p4"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  &gt;&gt;
+                </span>
+              </div>,
+            ],
+            "className": "pagination",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Resource nodes",
+                "className": "resourcePaging label",
+              },
+              "ref": null,
+              "rendered": "Resource nodes",
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <span
+                    className="label pageLabel labelLink"
+                    id="p1"
+                    onClick={[Function]}
+                    onKeyPress={[Function]}
+                    role="button"
+                    tabIndex="0"
+                  >
+                    &lt;&lt;
+                  </span>,
+                  <span
+                    className="label pageLabel labelLink"
+                    id="p2"
+                    onClick={[Function]}
+                    onKeyPress={[Function]}
+                    role="button"
+                    tabIndex="0"
+                  >
+                    &lt;
+                  </span>,
+                  <input
+                    aria-label="Current page"
+                    className="label pageInput"
+                    id="valuePage"
+                    max="{channelsLength}"
+                    min="1"
+                    onChange={[Function]}
+                    onKeyPress={[Function]}
+                    tabIndex="0"
+                    type="number"
+                    value={2}
+                  />,
+                  <span
+                    className="label pageLabel"
+                  >
+                    of {0}
+                  </span>,
+                  <span
+                    className="label pageLabel labelLink"
+                    id="p3"
+                    onClick={[Function]}
+                    onKeyPress={[Function]}
+                    role="button"
+                    tabIndex="0"
+                  >
+                    &gt;
+                  </span>,
+                  <span
+                    className="label pageLabel labelLink"
+                    id="p4"
+                    onClick={[Function]}
+                    onKeyPress={[Function]}
+                    role="button"
+                    tabIndex="0"
+                  >
+                    &gt;&gt;
+                  </span>,
+                ],
+                "className": "mainPagination",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "<<",
+                    "className": "label pageLabel labelLink",
+                    "id": "p1",
+                    "onClick": [Function],
+                    "onKeyPress": [Function],
+                    "role": "button",
+                    "tabIndex": "0",
+                  },
+                  "ref": null,
+                  "rendered": "<<",
+                  "type": "span",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "<",
+                    "className": "label pageLabel labelLink",
+                    "id": "p2",
+                    "onClick": [Function],
+                    "onKeyPress": [Function],
+                    "role": "button",
+                    "tabIndex": "0",
+                  },
+                  "ref": null,
+                  "rendered": "<",
+                  "type": "span",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "aria-label": "Current page",
+                    "className": "label pageInput",
+                    "id": "valuePage",
+                    "max": "{channelsLength}",
+                    "min": "1",
+                    "onChange": [Function],
+                    "onKeyPress": [Function],
+                    "tabIndex": "0",
+                    "type": "number",
+                    "value": 2,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "input",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "of {0}",
+                    "className": "label pageLabel",
+                  },
+                  "ref": null,
+                  "rendered": "of {0}",
+                  "type": "span",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": ">",
+                    "className": "label pageLabel labelLink",
+                    "id": "p3",
+                    "onClick": [Function],
+                    "onKeyPress": [Function],
+                    "role": "button",
+                    "tabIndex": "0",
+                  },
+                  "ref": null,
+                  "rendered": ">",
+                  "type": "span",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": ">>",
+                    "className": "label pageLabel labelLink",
+                    "id": "p4",
+                    "onClick": [Function],
+                    "onKeyPress": [Function],
+                    "role": "button",
+                    "tabIndex": "0",
+                  },
+                  "ref": null,
+                  "rendered": ">>",
+                  "type": "span",
+                },
+              ],
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
       ],
       "type": "div",
     },

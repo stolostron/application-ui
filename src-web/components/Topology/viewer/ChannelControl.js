@@ -83,6 +83,19 @@ class ChannelControl extends React.Component {
     this.selectChannelByNumber(selectedValue)
   };
 
+  getSelectedIndex = (activeChannel, allChannels) => {
+    let selectedChannelIndex = 1
+    if (
+      activeChannel &&
+      allChannels &&
+      allChannels.indexOf(activeChannel) > 0
+    ) {
+      selectedChannelIndex = allChannels.indexOf(activeChannel) + 1
+    }
+
+    return selectedChannelIndex
+  };
+
   handlePageClick = e => {
     const allChannels = R.pathOr([], ['channelControl', 'allChannels'])(
       this.props
@@ -90,10 +103,11 @@ class ChannelControl extends React.Component {
     const activeChannel = R.pathOr(null, ['channelControl', 'activeChannel'])(
       this.props
     )
-    const selectedChannelIndex =
-      activeChannel && allChannels && allChannels.indexOf(activeChannel) > 0
-        ? allChannels.indexOf(activeChannel) + 1
-        : 1
+    const selectedChannelIndex = this.getSelectedIndex(
+      activeChannel,
+      allChannels
+    )
+
     switch (e.target.id) {
     case 'p1': {
       //move to the first channel
@@ -181,10 +195,10 @@ class ChannelControl extends React.Component {
         ? displayChannels[selectedIdx].subchannels.length
         : 0
 
-      const selectedChannelIndex =
-        activeChannel && allChannels.indexOf(activeChannel) > 0
-          ? allChannels.indexOf(activeChannel) + 1
-          : 1
+      const selectedChannelIndex = this.getSelectedIndex(
+        activeChannel,
+        allChannels
+      )
       const back1 = '<<'
       const back2 = '<'
       const fwd1 = '>'

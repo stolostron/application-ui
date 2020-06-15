@@ -31,9 +31,9 @@ const channelController2 = {
   isChangingChannel: undefined,
   changeTheChannel: jest.fn,
   allChannels: [
-    "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-    "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-    "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount"
+    "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+    "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+    "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller"
   ]
 };
 describe("ChannelController components 1", () => {
@@ -48,7 +48,7 @@ describe("ChannelController components 1", () => {
 describe("ChannelController components 2", () => {
   it("ChannelController components 2", () => {
     const component = shallow(
-      <ChannelController channelControl={channelController2} locale={"en-US"} />
+      <ChannelController channelControl={channelController} locale={"en-US"} />
     );
     expect(component).toMatchSnapshot();
   });
@@ -57,16 +57,46 @@ describe("ChannelController components 2", () => {
 describe("ChannelController components 3", () => {
   it("ChannelController components 3", () => {
     const wrapper = mount(
-      <ChannelController channelControl={channelController} locale={"en-US"} />
+      <ChannelController channelControl={channelController2} locale={"en-US"} />
     );
 
     wrapper
-      .find(".channel-control-subchannel")
+      .find("#p1")
       .at(0)
       .simulate("click");
 
     wrapper
-      .find(".channel-control-subchannel")
+      .find("#p1")
+      .at(0)
+      .simulate("keypress");
+
+    wrapper
+      .find("#p2")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find("#p2")
+      .at(0)
+      .simulate("keypress");
+
+    wrapper
+      .find("#p3")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find("#p3")
+      .at(0)
+      .simulate("keypress");
+
+    wrapper
+      .find("#p4")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find("#p4")
       .at(0)
       .simulate("keypress");
   });

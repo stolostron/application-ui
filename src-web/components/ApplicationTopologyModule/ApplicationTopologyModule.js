@@ -492,27 +492,7 @@ class ApplicationTopologyModule extends React.Component {
                 onCloseButtonClick={this.handleTopologyErrorClosed}
               />
             )}
-            {showExpandedTopology ? (
-              <React.Fragment>
-                <div className="diagram-controls-container">
-                  <div
-                    className="diagram-type-filter-bar"
-                    id="type-filter-bar-portal-id"
-                  />
-                </div>
-                <div className="topology-container">{renderTopology()}</div>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {renderTopology()}
-                <div className="diagram-controls-container">
-                  <div
-                    className="diagram-type-filter-bar"
-                    id="type-filter-bar-portal-id"
-                  />
-                </div>
-              </React.Fragment>
-            )}
+            <React.Fragment>{renderTopology()}</React.Fragment>
           </div>
         </React.Fragment>
       )

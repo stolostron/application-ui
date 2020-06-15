@@ -29,108 +29,437 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "class",
+    "nodeType": "host",
     "props": Object {
-      "autoHeight": false,
-      "autoHeightMax": 200,
-      "autoHeightMin": 0,
-      "autoHide": false,
-      "autoHideDuration": 200,
-      "autoHideTimeout": 1000,
-      "children": <div
-        className="channel-controls-container"
-      >
-        <div />
-        <div />
+      "children": Array [
         <div
-          aria-label="2"
-          className="channel-control channel-control-subchannel"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
+          className="channels"
         >
-          <React.Fragment>
-            <div
-              className="channel-control-start"
-            >
-              2
-            </div>
-          </React.Fragment>
-        </div>
-        <div
-          aria-label="3"
-          className="channel-control channel-control-subchannel"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <React.Fragment>
-            <div
-              className="channel-control-start"
-            >
-              3
-            </div>
-          </React.Fragment>
-        </div>
-      </div>,
+          <div
+            className="subscription label"
+          >
+            Subscription
+          </div>
+          <div
+            className="channelsCombo"
+          >
+            <DropdownV2
+              ariaLabel="All subscriptions"
+              disabled={false}
+              inline={true}
+              itemToElement={null}
+              itemToString={[Function]}
+              items={
+                Array [
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  },
+                  Object {
+                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                    "hasSubchannels": true,
+                    "label": "guestbook-app",
+                    "splitChn": Array [
+                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                      "default",
+                      "guestbook-app",
+                      "gbapp-ch",
+                      "guestbook-app-latest",
+                    ],
+                    "subchannels": Array [
+                      Object {
+                        "beg": "cassandra-cassandra-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                        "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                      },
+                      Object {
+                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                      },
+                    ],
+                  },
+                ]
+              }
+              label="All subscriptions"
+              light={false}
+              onChange={[Function]}
+              selectedItem={
+                Object {
+                  "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                  "hasSubchannels": false,
+                  "label": "All Subscriptions",
+                  "splitChn": Array [
+                    "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                  ],
+                  "subchannels": Array [],
+                }
+              }
+              type="default"
+            />
+          </div>
+        </div>,
+        false,
+      ],
       "className": "channel-controls-container",
-      "hideTracksWhenNotNeeded": false,
-      "renderThumbHorizontal": [Function],
-      "renderThumbVertical": [Function],
-      "renderTrackHorizontal": [Function],
-      "renderTrackVertical": [Function],
-      "renderView": [Function],
-      "style": Object {
-        "height": 0,
-        "width": 60,
-      },
-      "tagName": "div",
-      "thumbMinSize": 30,
-      "universal": false,
     },
     "ref": null,
-    "rendered": Object {
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="subscription label"
+            >
+              Subscription
+            </div>,
+            <div
+              className="channelsCombo"
+            >
+              <DropdownV2
+                ariaLabel="All subscriptions"
+                disabled={false}
+                inline={true}
+                itemToElement={null}
+                itemToString={[Function]}
+                items={
+                  Array [
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
+                    Object {
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "hasSubchannels": true,
+                      "label": "guestbook-app",
+                      "splitChn": Array [
+                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                        "default",
+                        "guestbook-app",
+                        "gbapp-ch",
+                        "guestbook-app-latest",
+                      ],
+                      "subchannels": Array [
+                        Object {
+                          "beg": "cassandra-cassandra-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                        },
+                        Object {
+                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                label="All subscriptions"
+                light={false}
+                onChange={[Function]}
+                selectedItem={
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  }
+                }
+                type="default"
+              />
+            </div>,
+          ],
+          "className": "channels",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Subscription",
+              "className": "subscription label",
+            },
+            "ref": null,
+            "rendered": "Subscription",
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <DropdownV2
+                ariaLabel="All subscriptions"
+                disabled={false}
+                inline={true}
+                itemToElement={null}
+                itemToString={[Function]}
+                items={
+                  Array [
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
+                    Object {
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "hasSubchannels": true,
+                      "label": "guestbook-app",
+                      "splitChn": Array [
+                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                        "default",
+                        "guestbook-app",
+                        "gbapp-ch",
+                        "guestbook-app-latest",
+                      ],
+                      "subchannels": Array [
+                        Object {
+                          "beg": "cassandra-cassandra-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                        },
+                        Object {
+                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                label="All subscriptions"
+                light={false}
+                onChange={[Function]}
+                selectedItem={
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  }
+                }
+                type="default"
+              />,
+              "className": "channelsCombo",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "ariaLabel": "All subscriptions",
+                "disabled": false,
+                "inline": true,
+                "itemToElement": null,
+                "itemToString": [Function],
+                "items": Array [
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  },
+                  Object {
+                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                    "hasSubchannels": true,
+                    "label": "guestbook-app",
+                    "splitChn": Array [
+                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                      "default",
+                      "guestbook-app",
+                      "gbapp-ch",
+                      "guestbook-app-latest",
+                    ],
+                    "subchannels": Array [
+                      Object {
+                        "beg": "cassandra-cassandra-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                        "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                      },
+                      Object {
+                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                      },
+                    ],
+                  },
+                ],
+                "label": "All subscriptions",
+                "light": false,
+                "onChange": [Function],
+                "selectedItem": Object {
+                  "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                  "hasSubchannels": false,
+                  "label": "All Subscriptions",
+                  "splitChn": Array [
+                    "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                  ],
+                  "subchannels": Array [],
+                },
+                "type": "default",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      false,
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
       "instance": null,
       "key": undefined,
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          <div />,
-          <div />,
           <div
-            aria-label="2"
-            className="channel-control channel-control-subchannel"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
+            className="channels"
           >
-            <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                2
-              </div>
-            </React.Fragment>
+            <div
+              className="subscription label"
+            >
+              Subscription
+            </div>
+            <div
+              className="channelsCombo"
+            >
+              <DropdownV2
+                ariaLabel="All subscriptions"
+                disabled={false}
+                inline={true}
+                itemToElement={null}
+                itemToString={[Function]}
+                items={
+                  Array [
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
+                    Object {
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "hasSubchannels": true,
+                      "label": "guestbook-app",
+                      "splitChn": Array [
+                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                        "default",
+                        "guestbook-app",
+                        "gbapp-ch",
+                        "guestbook-app-latest",
+                      ],
+                      "subchannels": Array [
+                        Object {
+                          "beg": "cassandra-cassandra-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                        },
+                        Object {
+                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                label="All subscriptions"
+                light={false}
+                onChange={[Function]}
+                selectedItem={
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  }
+                }
+                type="default"
+              />
+            </div>
           </div>,
-          <div
-            aria-label="3"
-            className="channel-control channel-control-subchannel"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                3
-              </div>
-            </React.Fragment>
-          </div>,
+          false,
         ],
         "className": "channel-controls-container",
       },
@@ -138,352 +467,257 @@ ShallowWrapper {
       "rendered": Array [
         Object {
           "instance": null,
-          "key": "noInfo",
-          "nodeType": "host",
-          "props": Object {},
-          "ref": null,
-          "rendered": null,
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": "noInfo",
-          "nodeType": "host",
-          "props": Object {},
-          "ref": null,
-          "rendered": null,
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "aria-label": "2",
-            "children": <React.Fragment>
+            "children": Array [
               <div
-                className="channel-control-start"
+                className="subscription label"
               >
-                2
-              </div>
-            </React.Fragment>,
-            "className": "channel-control channel-control-subchannel",
-            "onClick": [Function],
-            "onKeyPress": [Function],
-            "role": "button",
-            "tabIndex": "0",
-          },
-          "ref": [Function],
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "children": <div
-                className="channel-control-start"
-              >
-                2
+                Subscription
               </div>,
-            },
-            "ref": null,
-            "rendered": Object {
+              <div
+                className="channelsCombo"
+              >
+                <DropdownV2
+                  ariaLabel="All subscriptions"
+                  disabled={false}
+                  inline={true}
+                  itemToElement={null}
+                  itemToString={[Function]}
+                  items={
+                    Array [
+                      Object {
+                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "hasSubchannels": false,
+                        "label": "All Subscriptions",
+                        "splitChn": Array [
+                          "__ALL__/__ALL__//__ALL__/__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                        ],
+                        "subchannels": Array [],
+                      },
+                      Object {
+                        "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                        "hasSubchannels": true,
+                        "label": "guestbook-app",
+                        "splitChn": Array [
+                          "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                          "default",
+                          "guestbook-app",
+                          "gbapp-ch",
+                          "guestbook-app-latest",
+                        ],
+                        "subchannels": Array [
+                          Object {
+                            "beg": "cassandra-cassandra-service",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                            "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                          },
+                          Object {
+                            "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                            "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                  label="All subscriptions"
+                  light={false}
+                  onChange={[Function]}
+                  selectedItem={
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    }
+                  }
+                  type="default"
+                />
+              </div>,
+            ],
+            "className": "channels",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
               "instance": null,
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": 2,
-                "className": "channel-control-start",
+                "children": "Subscription",
+                "className": "subscription label",
               },
               "ref": null,
-              "rendered": 2,
+              "rendered": "Subscription",
               "type": "div",
             },
-            "type": Symbol(react.fragment),
-          },
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-          "nodeType": "host",
-          "props": Object {
-            "aria-label": "3",
-            "children": <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                3
-              </div>
-            </React.Fragment>,
-            "className": "channel-control channel-control-subchannel",
-            "onClick": [Function],
-            "onKeyPress": [Function],
-            "role": "button",
-            "tabIndex": "0",
-          },
-          "ref": [Function],
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "children": <div
-                className="channel-control-start"
-              >
-                3
-              </div>,
-            },
-            "ref": null,
-            "rendered": Object {
+            Object {
               "instance": null,
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": 3,
-                "className": "channel-control-start",
+                "children": <DropdownV2
+                  ariaLabel="All subscriptions"
+                  disabled={false}
+                  inline={true}
+                  itemToElement={null}
+                  itemToString={[Function]}
+                  items={
+                    Array [
+                      Object {
+                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "hasSubchannels": false,
+                        "label": "All Subscriptions",
+                        "splitChn": Array [
+                          "__ALL__/__ALL__//__ALL__/__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                        ],
+                        "subchannels": Array [],
+                      },
+                      Object {
+                        "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                        "hasSubchannels": true,
+                        "label": "guestbook-app",
+                        "splitChn": Array [
+                          "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                          "default",
+                          "guestbook-app",
+                          "gbapp-ch",
+                          "guestbook-app-latest",
+                        ],
+                        "subchannels": Array [
+                          Object {
+                            "beg": "cassandra-cassandra-service",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                            "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                          },
+                          Object {
+                            "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                            "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                  label="All subscriptions"
+                  light={false}
+                  onChange={[Function]}
+                  selectedItem={
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    }
+                  }
+                  type="default"
+                />,
+                "className": "channelsCombo",
               },
               "ref": null,
-              "rendered": 3,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "ariaLabel": "All subscriptions",
+                  "disabled": false,
+                  "inline": true,
+                  "itemToElement": null,
+                  "itemToString": [Function],
+                  "items": Array [
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
+                    Object {
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "hasSubchannels": true,
+                      "label": "guestbook-app",
+                      "splitChn": Array [
+                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                        "default",
+                        "guestbook-app",
+                        "gbapp-ch",
+                        "guestbook-app-latest",
+                      ],
+                      "subchannels": Array [
+                        Object {
+                          "beg": "cassandra-cassandra-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                        },
+                        Object {
+                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                      ],
+                    },
+                  ],
+                  "label": "All subscriptions",
+                  "light": false,
+                  "onChange": [Function],
+                  "selectedItem": Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  },
+                  "type": "default",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
               "type": "div",
             },
-            "type": Symbol(react.fragment),
-          },
+          ],
           "type": "div",
         },
+        false,
       ],
       "type": "div",
-    },
-    "type": [Function],
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "class",
-      "props": Object {
-        "autoHeight": false,
-        "autoHeightMax": 200,
-        "autoHeightMin": 0,
-        "autoHide": false,
-        "autoHideDuration": 200,
-        "autoHideTimeout": 1000,
-        "children": <div
-          className="channel-controls-container"
-        >
-          <div />
-          <div />
-          <div
-            aria-label="2"
-            className="channel-control channel-control-subchannel"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                2
-              </div>
-            </React.Fragment>
-          </div>
-          <div
-            aria-label="3"
-            className="channel-control channel-control-subchannel"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                3
-              </div>
-            </React.Fragment>
-          </div>
-        </div>,
-        "className": "channel-controls-container",
-        "hideTracksWhenNotNeeded": false,
-        "renderThumbHorizontal": [Function],
-        "renderThumbVertical": [Function],
-        "renderTrackHorizontal": [Function],
-        "renderTrackVertical": [Function],
-        "renderView": [Function],
-        "style": Object {
-          "height": 0,
-          "width": 60,
-        },
-        "tagName": "div",
-        "thumbMinSize": 30,
-        "universal": false,
-      },
-      "ref": null,
-      "rendered": Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
-            <div />,
-            <div />,
-            <div
-              aria-label="2"
-              className="channel-control channel-control-subchannel"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              <React.Fragment>
-                <div
-                  className="channel-control-start"
-                >
-                  2
-                </div>
-              </React.Fragment>
-            </div>,
-            <div
-              aria-label="3"
-              className="channel-control channel-control-subchannel"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              <React.Fragment>
-                <div
-                  className="channel-control-start"
-                >
-                  3
-                </div>
-              </React.Fragment>
-            </div>,
-          ],
-          "className": "channel-controls-container",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": "noInfo",
-            "nodeType": "host",
-            "props": Object {},
-            "ref": null,
-            "rendered": null,
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": "noInfo",
-            "nodeType": "host",
-            "props": Object {},
-            "ref": null,
-            "rendered": null,
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-            "nodeType": "host",
-            "props": Object {
-              "aria-label": "2",
-              "children": <React.Fragment>
-                <div
-                  className="channel-control-start"
-                >
-                  2
-                </div>
-              </React.Fragment>,
-              "className": "channel-control channel-control-subchannel",
-              "onClick": [Function],
-              "onKeyPress": [Function],
-              "role": "button",
-              "tabIndex": "0",
-            },
-            "ref": [Function],
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "children": <div
-                  className="channel-control-start"
-                >
-                  2
-                </div>,
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": 2,
-                  "className": "channel-control-start",
-                },
-                "ref": null,
-                "rendered": 2,
-                "type": "div",
-              },
-              "type": Symbol(react.fragment),
-            },
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-            "nodeType": "host",
-            "props": Object {
-              "aria-label": "3",
-              "children": <React.Fragment>
-                <div
-                  className="channel-control-start"
-                >
-                  3
-                </div>
-              </React.Fragment>,
-              "className": "channel-control channel-control-subchannel",
-              "onClick": [Function],
-              "onKeyPress": [Function],
-              "role": "button",
-              "tabIndex": "0",
-            },
-            "ref": [Function],
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "children": <div
-                  className="channel-control-start"
-                >
-                  3
-                </div>,
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": 3,
-                  "className": "channel-control-start",
-                },
-                "ref": null,
-                "rendered": 3,
-                "type": "div",
-              },
-              "type": Symbol(react.fragment),
-            },
-            "type": "div",
-          },
-        ],
-        "type": "div",
-      },
-      "type": [Function],
     },
   ],
   Symbol(enzyme.__options__): Object {
@@ -512,9 +746,9 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <ChannelControl
     channelControl={
       Object {
-        "activeChannel": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+        "activeChannel": "__ALL__/__ALL__//__ALL__/__ALL__",
         "allChannels": Array [
-          "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+          "__ALL__/__ALL__//__ALL__/__ALL__",
           "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
           "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
         ],
@@ -535,138 +769,437 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "class",
+    "nodeType": "host",
     "props": Object {
-      "autoHeight": false,
-      "autoHeightMax": 200,
-      "autoHeightMin": 0,
-      "autoHide": false,
-      "autoHideDuration": 200,
-      "autoHideTimeout": 1000,
-      "children": <div
-        className="channel-controls-container"
-      >
-        <div />
+      "children": Array [
         <div
-          aria-label="1"
-          className="channel-control channel-control-subchannel selected"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
+          className="channels"
         >
-          <React.Fragment>
-            <div
-              className="channel-control-start"
-            >
-              1
-            </div>
-          </React.Fragment>
-        </div>
-        <div
-          aria-label="2"
-          className="channel-control channel-control-subchannel"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <React.Fragment>
-            <div
-              className="channel-control-start"
-            >
-              2
-            </div>
-          </React.Fragment>
-        </div>
-        <div
-          aria-label="3"
-          className="channel-control channel-control-subchannel"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <React.Fragment>
-            <div
-              className="channel-control-start"
-            >
-              3
-            </div>
-          </React.Fragment>
-        </div>
-      </div>,
+          <div
+            className="subscription label"
+          >
+            Subscription
+          </div>
+          <div
+            className="channelsCombo"
+          >
+            <DropdownV2
+              ariaLabel="All subscriptions"
+              disabled={false}
+              inline={true}
+              itemToElement={null}
+              itemToString={[Function]}
+              items={
+                Array [
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  },
+                  Object {
+                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                    "hasSubchannels": true,
+                    "label": "guestbook-app",
+                    "splitChn": Array [
+                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                      "default",
+                      "guestbook-app",
+                      "gbapp-ch",
+                      "guestbook-app-latest",
+                    ],
+                    "subchannels": Array [
+                      Object {
+                        "beg": "cassandra-cassandra-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                        "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                      },
+                      Object {
+                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                      },
+                    ],
+                  },
+                ]
+              }
+              label="All subscriptions"
+              light={false}
+              onChange={[Function]}
+              selectedItem={
+                Object {
+                  "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                  "hasSubchannels": false,
+                  "label": "All Subscriptions",
+                  "splitChn": Array [
+                    "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                  ],
+                  "subchannels": Array [],
+                }
+              }
+              type="default"
+            />
+          </div>
+        </div>,
+        false,
+      ],
       "className": "channel-controls-container",
-      "hideTracksWhenNotNeeded": false,
-      "renderThumbHorizontal": [Function],
-      "renderThumbVertical": [Function],
-      "renderTrackHorizontal": [Function],
-      "renderTrackVertical": [Function],
-      "renderView": [Function],
-      "style": Object {
-        "height": 0,
-        "width": 60,
-      },
-      "tagName": "div",
-      "thumbMinSize": 30,
-      "universal": false,
     },
     "ref": null,
-    "rendered": Object {
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="subscription label"
+            >
+              Subscription
+            </div>,
+            <div
+              className="channelsCombo"
+            >
+              <DropdownV2
+                ariaLabel="All subscriptions"
+                disabled={false}
+                inline={true}
+                itemToElement={null}
+                itemToString={[Function]}
+                items={
+                  Array [
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
+                    Object {
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "hasSubchannels": true,
+                      "label": "guestbook-app",
+                      "splitChn": Array [
+                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                        "default",
+                        "guestbook-app",
+                        "gbapp-ch",
+                        "guestbook-app-latest",
+                      ],
+                      "subchannels": Array [
+                        Object {
+                          "beg": "cassandra-cassandra-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                        },
+                        Object {
+                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                label="All subscriptions"
+                light={false}
+                onChange={[Function]}
+                selectedItem={
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  }
+                }
+                type="default"
+              />
+            </div>,
+          ],
+          "className": "channels",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Subscription",
+              "className": "subscription label",
+            },
+            "ref": null,
+            "rendered": "Subscription",
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <DropdownV2
+                ariaLabel="All subscriptions"
+                disabled={false}
+                inline={true}
+                itemToElement={null}
+                itemToString={[Function]}
+                items={
+                  Array [
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
+                    Object {
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "hasSubchannels": true,
+                      "label": "guestbook-app",
+                      "splitChn": Array [
+                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                        "default",
+                        "guestbook-app",
+                        "gbapp-ch",
+                        "guestbook-app-latest",
+                      ],
+                      "subchannels": Array [
+                        Object {
+                          "beg": "cassandra-cassandra-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                        },
+                        Object {
+                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                label="All subscriptions"
+                light={false}
+                onChange={[Function]}
+                selectedItem={
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  }
+                }
+                type="default"
+              />,
+              "className": "channelsCombo",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "ariaLabel": "All subscriptions",
+                "disabled": false,
+                "inline": true,
+                "itemToElement": null,
+                "itemToString": [Function],
+                "items": Array [
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  },
+                  Object {
+                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                    "hasSubchannels": true,
+                    "label": "guestbook-app",
+                    "splitChn": Array [
+                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                      "default",
+                      "guestbook-app",
+                      "gbapp-ch",
+                      "guestbook-app-latest",
+                    ],
+                    "subchannels": Array [
+                      Object {
+                        "beg": "cassandra-cassandra-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                        "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                      },
+                      Object {
+                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                      },
+                    ],
+                  },
+                ],
+                "label": "All subscriptions",
+                "light": false,
+                "onChange": [Function],
+                "selectedItem": Object {
+                  "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                  "hasSubchannels": false,
+                  "label": "All Subscriptions",
+                  "splitChn": Array [
+                    "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                    "__ALL__",
+                  ],
+                  "subchannels": Array [],
+                },
+                "type": "default",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      false,
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
       "instance": null,
       "key": undefined,
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          <div />,
           <div
-            aria-label="1"
-            className="channel-control channel-control-subchannel selected"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
+            className="channels"
           >
-            <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                1
-              </div>
-            </React.Fragment>
+            <div
+              className="subscription label"
+            >
+              Subscription
+            </div>
+            <div
+              className="channelsCombo"
+            >
+              <DropdownV2
+                ariaLabel="All subscriptions"
+                disabled={false}
+                inline={true}
+                itemToElement={null}
+                itemToString={[Function]}
+                items={
+                  Array [
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
+                    Object {
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "hasSubchannels": true,
+                      "label": "guestbook-app",
+                      "splitChn": Array [
+                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                        "default",
+                        "guestbook-app",
+                        "gbapp-ch",
+                        "guestbook-app-latest",
+                      ],
+                      "subchannels": Array [
+                        Object {
+                          "beg": "cassandra-cassandra-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                        },
+                        Object {
+                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                label="All subscriptions"
+                light={false}
+                onChange={[Function]}
+                selectedItem={
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  }
+                }
+                type="default"
+              />
+            </div>
           </div>,
-          <div
-            aria-label="2"
-            className="channel-control channel-control-subchannel"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                2
-              </div>
-            </React.Fragment>
-          </div>,
-          <div
-            aria-label="3"
-            className="channel-control channel-control-subchannel"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                3
-              </div>
-            </React.Fragment>
-          </div>,
+          false,
         ],
         "className": "channel-controls-container",
       },
@@ -674,460 +1207,257 @@ ShallowWrapper {
       "rendered": Array [
         Object {
           "instance": null,
-          "key": "noInfo",
+          "key": undefined,
           "nodeType": "host",
-          "props": Object {},
+          "props": Object {
+            "children": Array [
+              <div
+                className="subscription label"
+              >
+                Subscription
+              </div>,
+              <div
+                className="channelsCombo"
+              >
+                <DropdownV2
+                  ariaLabel="All subscriptions"
+                  disabled={false}
+                  inline={true}
+                  itemToElement={null}
+                  itemToString={[Function]}
+                  items={
+                    Array [
+                      Object {
+                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "hasSubchannels": false,
+                        "label": "All Subscriptions",
+                        "splitChn": Array [
+                          "__ALL__/__ALL__//__ALL__/__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                        ],
+                        "subchannels": Array [],
+                      },
+                      Object {
+                        "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                        "hasSubchannels": true,
+                        "label": "guestbook-app",
+                        "splitChn": Array [
+                          "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                          "default",
+                          "guestbook-app",
+                          "gbapp-ch",
+                          "guestbook-app-latest",
+                        ],
+                        "subchannels": Array [
+                          Object {
+                            "beg": "cassandra-cassandra-service",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                            "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                          },
+                          Object {
+                            "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                            "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                  label="All subscriptions"
+                  light={false}
+                  onChange={[Function]}
+                  selectedItem={
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    }
+                  }
+                  type="default"
+                />
+              </div>,
+            ],
+            "className": "channels",
+          },
           "ref": null,
-          "rendered": null,
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-          "nodeType": "host",
-          "props": Object {
-            "aria-label": "1",
-            "children": <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                1
-              </div>
-            </React.Fragment>,
-            "className": "channel-control channel-control-subchannel selected",
-            "onClick": [Function],
-            "onKeyPress": [Function],
-            "role": "button",
-            "tabIndex": "0",
-          },
-          "ref": [Function],
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "children": <div
-                className="channel-control-start"
-              >
-                1
-              </div>,
-            },
-            "ref": null,
-            "rendered": Object {
+          "rendered": Array [
+            Object {
               "instance": null,
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": 1,
-                "className": "channel-control-start",
+                "children": "Subscription",
+                "className": "subscription label",
               },
               "ref": null,
-              "rendered": 1,
+              "rendered": "Subscription",
               "type": "div",
             },
-            "type": Symbol(react.fragment),
-          },
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-          "nodeType": "host",
-          "props": Object {
-            "aria-label": "2",
-            "children": <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                2
-              </div>
-            </React.Fragment>,
-            "className": "channel-control channel-control-subchannel",
-            "onClick": [Function],
-            "onKeyPress": [Function],
-            "role": "button",
-            "tabIndex": "0",
-          },
-          "ref": [Function],
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "children": <div
-                className="channel-control-start"
-              >
-                2
-              </div>,
-            },
-            "ref": null,
-            "rendered": Object {
+            Object {
               "instance": null,
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": 2,
-                "className": "channel-control-start",
+                "children": <DropdownV2
+                  ariaLabel="All subscriptions"
+                  disabled={false}
+                  inline={true}
+                  itemToElement={null}
+                  itemToString={[Function]}
+                  items={
+                    Array [
+                      Object {
+                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "hasSubchannels": false,
+                        "label": "All Subscriptions",
+                        "splitChn": Array [
+                          "__ALL__/__ALL__//__ALL__/__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                        ],
+                        "subchannels": Array [],
+                      },
+                      Object {
+                        "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                        "hasSubchannels": true,
+                        "label": "guestbook-app",
+                        "splitChn": Array [
+                          "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                          "default",
+                          "guestbook-app",
+                          "gbapp-ch",
+                          "guestbook-app-latest",
+                        ],
+                        "subchannels": Array [
+                          Object {
+                            "beg": "cassandra-cassandra-service",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                            "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                          },
+                          Object {
+                            "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                            "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                            "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                  label="All subscriptions"
+                  light={false}
+                  onChange={[Function]}
+                  selectedItem={
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    }
+                  }
+                  type="default"
+                />,
+                "className": "channelsCombo",
               },
               "ref": null,
-              "rendered": 2,
-              "type": "div",
-            },
-            "type": Symbol(react.fragment),
-          },
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-          "nodeType": "host",
-          "props": Object {
-            "aria-label": "3",
-            "children": <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                3
-              </div>
-            </React.Fragment>,
-            "className": "channel-control channel-control-subchannel",
-            "onClick": [Function],
-            "onKeyPress": [Function],
-            "role": "button",
-            "tabIndex": "0",
-          },
-          "ref": [Function],
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "children": <div
-                className="channel-control-start"
-              >
-                3
-              </div>,
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": 3,
-                "className": "channel-control-start",
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "ariaLabel": "All subscriptions",
+                  "disabled": false,
+                  "inline": true,
+                  "itemToElement": null,
+                  "itemToString": [Function],
+                  "items": Array [
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
+                    Object {
+                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                      "hasSubchannels": true,
+                      "label": "guestbook-app",
+                      "splitChn": Array [
+                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
+                        "default",
+                        "guestbook-app",
+                        "gbapp-ch",
+                        "guestbook-app-latest",
+                      ],
+                      "subchannels": Array [
+                        Object {
+                          "beg": "cassandra-cassandra-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+                          "end": "mysql-wordpress-pd-wordpress-mysql-deployment",
+                        },
+                        Object {
+                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
+                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
+                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
+                        },
+                      ],
+                    },
+                  ],
+                  "label": "All subscriptions",
+                  "light": false,
+                  "onChange": [Function],
+                  "selectedItem": Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  },
+                  "type": "default",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
               },
-              "ref": null,
-              "rendered": 3,
               "type": "div",
             },
-            "type": Symbol(react.fragment),
-          },
+          ],
           "type": "div",
         },
+        false,
       ],
       "type": "div",
-    },
-    "type": [Function],
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "class",
-      "props": Object {
-        "autoHeight": false,
-        "autoHeightMax": 200,
-        "autoHeightMin": 0,
-        "autoHide": false,
-        "autoHideDuration": 200,
-        "autoHideTimeout": 1000,
-        "children": <div
-          className="channel-controls-container"
-        >
-          <div />
-          <div
-            aria-label="1"
-            className="channel-control channel-control-subchannel selected"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                1
-              </div>
-            </React.Fragment>
-          </div>
-          <div
-            aria-label="2"
-            className="channel-control channel-control-subchannel"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                2
-              </div>
-            </React.Fragment>
-          </div>
-          <div
-            aria-label="3"
-            className="channel-control channel-control-subchannel"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            <React.Fragment>
-              <div
-                className="channel-control-start"
-              >
-                3
-              </div>
-            </React.Fragment>
-          </div>
-        </div>,
-        "className": "channel-controls-container",
-        "hideTracksWhenNotNeeded": false,
-        "renderThumbHorizontal": [Function],
-        "renderThumbVertical": [Function],
-        "renderTrackHorizontal": [Function],
-        "renderTrackVertical": [Function],
-        "renderView": [Function],
-        "style": Object {
-          "height": 0,
-          "width": 60,
-        },
-        "tagName": "div",
-        "thumbMinSize": 30,
-        "universal": false,
-      },
-      "ref": null,
-      "rendered": Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
-            <div />,
-            <div
-              aria-label="1"
-              className="channel-control channel-control-subchannel selected"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              <React.Fragment>
-                <div
-                  className="channel-control-start"
-                >
-                  1
-                </div>
-              </React.Fragment>
-            </div>,
-            <div
-              aria-label="2"
-              className="channel-control channel-control-subchannel"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              <React.Fragment>
-                <div
-                  className="channel-control-start"
-                >
-                  2
-                </div>
-              </React.Fragment>
-            </div>,
-            <div
-              aria-label="3"
-              className="channel-control channel-control-subchannel"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              <React.Fragment>
-                <div
-                  className="channel-control-start"
-                >
-                  3
-                </div>
-              </React.Fragment>
-            </div>,
-          ],
-          "className": "channel-controls-container",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": "noInfo",
-            "nodeType": "host",
-            "props": Object {},
-            "ref": null,
-            "rendered": null,
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-            "nodeType": "host",
-            "props": Object {
-              "aria-label": "1",
-              "children": <React.Fragment>
-                <div
-                  className="channel-control-start"
-                >
-                  1
-                </div>
-              </React.Fragment>,
-              "className": "channel-control channel-control-subchannel selected",
-              "onClick": [Function],
-              "onKeyPress": [Function],
-              "role": "button",
-              "tabIndex": "0",
-            },
-            "ref": [Function],
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "children": <div
-                  className="channel-control-start"
-                >
-                  1
-                </div>,
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": 1,
-                  "className": "channel-control-start",
-                },
-                "ref": null,
-                "rendered": 1,
-                "type": "div",
-              },
-              "type": Symbol(react.fragment),
-            },
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-            "nodeType": "host",
-            "props": Object {
-              "aria-label": "2",
-              "children": <React.Fragment>
-                <div
-                  className="channel-control-start"
-                >
-                  2
-                </div>
-              </React.Fragment>,
-              "className": "channel-control channel-control-subchannel",
-              "onClick": [Function],
-              "onKeyPress": [Function],
-              "role": "button",
-              "tabIndex": "0",
-            },
-            "ref": [Function],
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "children": <div
-                  className="channel-control-start"
-                >
-                  2
-                </div>,
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": 2,
-                  "className": "channel-control-start",
-                },
-                "ref": null,
-                "rendered": 2,
-                "type": "div",
-              },
-              "type": Symbol(react.fragment),
-            },
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-            "nodeType": "host",
-            "props": Object {
-              "aria-label": "3",
-              "children": <React.Fragment>
-                <div
-                  className="channel-control-start"
-                >
-                  3
-                </div>
-              </React.Fragment>,
-              "className": "channel-control channel-control-subchannel",
-              "onClick": [Function],
-              "onKeyPress": [Function],
-              "role": "button",
-              "tabIndex": "0",
-            },
-            "ref": [Function],
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "children": <div
-                  className="channel-control-start"
-                >
-                  3
-                </div>,
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": 3,
-                  "className": "channel-control-start",
-                },
-                "ref": null,
-                "rendered": 3,
-                "type": "div",
-              },
-              "type": Symbol(react.fragment),
-            },
-            "type": "div",
-          },
-        ],
-        "type": "div",
-      },
-      "type": [Function],
     },
   ],
   Symbol(enzyme.__options__): Object {

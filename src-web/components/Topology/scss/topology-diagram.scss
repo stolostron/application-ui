@@ -46,12 +46,85 @@
     }
   }
 
+   .diagramControls {
+    position: absolute;
+    left: 20px;
+    top: 10px;  
+    width: 400px;   
+   }
+
   .channel-controls-container {
-    width: 60px;
-    border-right: 1px solid #dfe3e6;
     display: flex;
-    flex-direction: column;
-    padding-top: 2px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 3px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+    width: 282px;
+    height: 170px;
+
+
+    .channels {
+      left: 10px;
+      top: 10px;
+      bottom:10px;
+      position:relative;  
+      height : 60px;
+      width: 90%;    
+    }
+
+    .channelsCombo {
+      height: 40px;
+      top: 40px;
+      position:relative;
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    .label {
+        color: #152935;
+        font-family: RedHatText;
+        font-size: 0.8rem;
+        font-weight: bold;
+        line-height: 18px;
+        text-align: left;
+    }
+
+    .subscription {
+      left: 10px;
+      top: 10px;
+      position:absolute;
+    }
+
+    .pagination {
+      left: 10px;
+      top: 105px;
+      position:absolute;
+    }
+    .resourcePaging {
+      margin-top : 5px;
+      margin-bottom: 5px;
+    }
+
+    .mainPagination {
+      margin-left: 10px;
+      top:5px;
+    }
+    .pageInput {
+      align-items: center;
+      width: 30px;
+      height: 25px;
+      left : 5px;
+      right : 5px;
+      top:20px;
+    }
+
+    .pageLabel {
+      margin-left: 5px;
+      margin-right: 10px;
+    }
+    
+    .labelLink {
+      cursor: pointer;
+    }
 
     .channel-control {
       padding: 2px 0 2px 3px;
@@ -60,7 +133,7 @@
       line-height: 10px;
 
       &-subscripion {
-        font-size: 8px;
+        font-size: 1rem;
         font-weight: bold;
       }
 
@@ -87,7 +160,9 @@
         border-left: 4px solid #3d70b2;
         background-color: #f3f7fb;
       }
+      
     }
+    
   }
 
   .diagramViewerDiagram {

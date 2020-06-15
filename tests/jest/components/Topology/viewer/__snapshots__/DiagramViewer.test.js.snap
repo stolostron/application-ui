@@ -45,61 +45,65 @@ exports[`DiagramViewer 3 components renders as expected 1`] = `
       </div>
     </div>
   </div>
-  <div
-    className="diagram-controls"
+  <span
+    className="diagramControls"
   >
     <div
-      aria-label="Zoom in"
-      className="zoom-in-button rectangle-zoom"
-      onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      tabIndex="0"
-      title="Zoom in"
+      className="zoom-controls withNoChannels"
     >
-      <svg
-        className="icon"
+      <div
+        aria-label="Zoom in"
+        className="zoom-in-button rectangle-zoom"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+        title="Zoom in"
       >
-        <use
-          href="#diagramIcons_zoomIn"
-        />
-      </svg>
-    </div>
-    <div
-      aria-label="Zoom out"
-      className="zoom-out-button rectangle-zoom"
-      onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      tabIndex="0"
-      title="Zoom out"
-    >
-      <svg
-        className="icon"
+        <svg
+          className="icon"
+        >
+          <use
+            href="#diagramIcons_zoomIn"
+          />
+        </svg>
+      </div>
+      <div
+        aria-label="Zoom out"
+        className="zoom-out-button rectangle-zoom"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+        title="Zoom out"
       >
-        <use
-          href="#diagramIcons_zoomOut"
-        />
-      </svg>
-    </div>
-    <div
-      aria-label="Zoom to fit"
-      className="zoom-target-button rectangle-zoom"
-      onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      tabIndex="0"
-      title="Zoom to fit"
-    >
-      <svg
-        className="icon_target"
+        <svg
+          className="icon"
+        >
+          <use
+            href="#diagramIcons_zoomOut"
+          />
+        </svg>
+      </div>
+      <div
+        aria-label="Zoom to fit"
+        className="zoom-target-button rectangle-zoom"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+        title="Zoom to fit"
       >
-        <use
-          href="#diagramIcons_zoomTarget"
-        />
-      </svg>
+        <svg
+          className="icon_target"
+        >
+          <use
+            href="#diagramIcons_zoomTarget"
+          />
+        </svg>
+      </div>
     </div>
-  </div>
+  </span>
 </div>
 `;
 
@@ -147,60 +151,64 @@ exports[`DiagramViewer no components renders as expected 1`] = `
       </div>
     </div>
   </div>
-  <div
-    className="diagram-controls"
+  <span
+    className="diagramControls"
   >
     <div
-      aria-label="Zoom in"
-      className="zoom-in-button rectangle-zoom"
-      onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      tabIndex="0"
-      title="Zoom in"
+      className="zoom-controls withNoChannels"
     >
-      <svg
-        className="icon"
+      <div
+        aria-label="Zoom in"
+        className="zoom-in-button rectangle-zoom"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+        title="Zoom in"
       >
-        <use
-          href="#diagramIcons_zoomIn"
-        />
-      </svg>
-    </div>
-    <div
-      aria-label="Zoom out"
-      className="zoom-out-button rectangle-zoom"
-      onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      tabIndex="0"
-      title="Zoom out"
-    >
-      <svg
-        className="icon"
+        <svg
+          className="icon"
+        >
+          <use
+            href="#diagramIcons_zoomIn"
+          />
+        </svg>
+      </div>
+      <div
+        aria-label="Zoom out"
+        className="zoom-out-button rectangle-zoom"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+        title="Zoom out"
       >
-        <use
-          href="#diagramIcons_zoomOut"
-        />
-      </svg>
-    </div>
-    <div
-      aria-label="Zoom to fit"
-      className="zoom-target-button rectangle-zoom"
-      onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      tabIndex="0"
-      title="Zoom to fit"
-    >
-      <svg
-        className="icon_target"
+        <svg
+          className="icon"
+        >
+          <use
+            href="#diagramIcons_zoomOut"
+          />
+        </svg>
+      </div>
+      <div
+        aria-label="Zoom to fit"
+        className="zoom-target-button rectangle-zoom"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+        title="Zoom to fit"
       >
-        <use
-          href="#diagramIcons_zoomTarget"
-        />
-      </svg>
+        <svg
+          className="icon_target"
+        >
+          <use
+            href="#diagramIcons_zoomTarget"
+          />
+        </svg>
+      </div>
     </div>
-  </div>
+  </span>
 </div>
 `;

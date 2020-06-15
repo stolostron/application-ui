@@ -14,7 +14,6 @@ import PropTypes from 'prop-types'
 import '../../../../graphics/diagramIcons.svg'
 import '../scss/diagram-controls.scss'
 import msgs from '../../../../nls/platform.properties'
-import classNames from 'classnames'
 
 const MAX_ZOOM = 2
 const MIN_ZOOM = 0.1
@@ -28,18 +27,13 @@ export default class Zoom extends React.PureComponent {
   };
 
   render() {
-    const { locale, showChannels } = this.props
+    const { locale } = this.props
     const zoomIn = msgs.get('topology.zoom.in', locale)
     const zoomOut = msgs.get('topology.zoom.out', locale)
     const zoomFit = msgs.get('topology.zoom.fit', locale)
-    const zoomClass = classNames({
-      'zoom-controls': true,
-      withChannels: showChannels,
-      withNoChannels: !showChannels
-    })
 
     return (
-      <div className={zoomClass}>
+      <div className='diagram-controls'>
         {/* zoom in */}
         <div
           className="zoom-in-button rectangle-zoom"

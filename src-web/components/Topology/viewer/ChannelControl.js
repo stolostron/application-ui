@@ -64,7 +64,8 @@ class ChannelControl extends React.Component {
   }
 
   handleSubscriptionChange = e => {
-    this.changeTheChannel(e.selectedItem.chn)
+    const channel = e.selectedItem.chn
+    this.changeSubscriptionChannels(channel)
   };
 
   selectChannelByNumber(channelNb) {
@@ -73,8 +74,8 @@ class ChannelControl extends React.Component {
     )
 
     const changeToChannel =
-      allChannels > channelNb ? allChannels[channelNb - 1] : null
-    this.changeTheChannel(changeToChannel)
+      allChannels.length >= channelNb ? allChannels[channelNb - 1] : null
+    this.changeSubscriptionChannels(changeToChannel)
   }
 
   handlePageChanged = e => {
@@ -83,25 +84,37 @@ class ChannelControl extends React.Component {
   };
 
   handlePageClick = e => {
+    const allChannels = R.pathOr([], ['channelControl', 'allChannels'])(
+      this.props
+    )
+    const activeChannel = R.pathOr(null, ['channelControl', 'activeChannel'])(
+      this.props
+    )
+    const selectedChannelIndex =
+      activeChannel && allChannels ? allChannels.indexOf(activeChannel) + 1 : 1
     switch (e.target.id) {
     case 'p1': {
       //move to the first channel
-      this.selectChannelByNumber(0)
+      this.selectChannelByNumber(1)
       break
     }
     case 'p2': {
-      //move one channel up
+      //move one channel down
+      if (selectedChannelIndex > 0) {
+        this.selectChannelByNumber(selectedChannelIndex - 1)
+      }
       break
     }
     case 'p3': {
-      //move one channel down
+      //move one channel up
+      if (selectedChannelIndex < allChannels.length) {
+        this.selectChannelByNumber(selectedChannelIndex + 1)
+      }
+
       break
     }
     case 'p4': {
-      //at to the last channel
-      const allChannels = R.pathOr([], ['channelControl', 'allChannels'])(
-        this.props
-      )
+      //up to the last channel
       this.selectChannelByNumber(allChannels.length)
       break
     }
@@ -154,18 +167,21 @@ class ChannelControl extends React.Component {
         })
       })
       let selectedIdx =
-        displayChannels.length == 1
+        displayChannels.length === 1
           ? 0
           : displayChannels.findIndex(({ chn }) => chn === activeChannel)
       if (selectedIdx < 0) {
         selectedIdx = displayChannels.findIndex(({ chn }) => !!chn)
       }
 
-      const hasSubchannels = displayChannels[selectedIdx].hasSubchannels
-      const channelsLength = hasSubchannels
+      const hasSubchannelsList = displayChannels[selectedIdx].hasSubchannels
+      const channelsLength = hasSubchannelsList
         ? displayChannels[selectedIdx].subchannels.length
         : 0
 
+      const selectedChannelIndex = activeChannel
+        ? allChannels.indexOf(activeChannel) + 1
+        : 1
       const back1 = '<<'
       const back2 = '<'
       const fwd1 = '>'
@@ -192,7 +208,7 @@ class ChannelControl extends React.Component {
               </div>
             </div>
           )}
-          {hasSubchannels && (
+          {hasSubchannelsList && (
             <div className="pagination">
               <div className="resourcePaging label">
                 {msgs.get('subscription.page.label')}
@@ -227,7 +243,7 @@ class ChannelControl extends React.Component {
                   type="number"
                   min="1"
                   max="{channelsLength}"
-                  value="1"
+                  value={selectedChannelIndex}
                   tabIndex="0"
                 />
                 <span className="label pageLabel">
@@ -287,7 +303,7 @@ class ChannelControl extends React.Component {
     )
   }
 
-  changeTheChannel(fetchChannel) {
+  changeSubscriptionChannels(fetchChannel) {
     const { channelControl = {} } = this.props
     const { changeTheChannel } = channelControl
 

@@ -38,7 +38,6 @@
     top: -500px;
     padding: 1rem 1% 3.375rem;
 
-
     .bx--loading--small {
       width: 1rem;
       height: 1rem;
@@ -46,12 +45,12 @@
     }
   }
 
-   .diagramControls {
+  .diagramControls {
     position: absolute;
     left: 20px;
-    top: 10px;  
-    width: 400px;   
-   }
+    top: 10px;
+    width: 400px;
+  }
 
   .channel-controls-container {
     display: flex;
@@ -62,67 +61,86 @@
     height: 160px;
     margin-top: 30px;
 
-
     .channels {
       left: 10px;
       top: 10px;
-      bottom:10px;
-      position:relative;  
-      height : 40px;
-      width: 90%;    
+      bottom: 10px;
+      position: relative;
+      height: 40px;
+      width: 90%;
     }
 
     .channelsCombo {
       height: 40px;
       top: 35px;
-      position:relative;
+      position: relative;
       font-weight: 400;
       font-size: 14px;
     }
 
     .label {
-        color: #152935;
-        font-family: RedHatText;
-        font-size: 0.8rem;
-        font-weight: bold;
-        line-height: 18px;
-        text-align: left;
+      color: #152935;
+      font-family: RedHatText;
+      font-size: 0.8rem;
+      font-weight: bold;
+      line-height: 18px;
+      text-align: left;
     }
 
     .subscription {
       left: 10px;
       top: 5px;
-      position:absolute;
+      position: absolute;
     }
 
     .pagination {
       left: 10px;
       top: 105px;
-      position:absolute;
+      position: absolute;
     }
+
     .resourcePaging {
-      margin-top : 25px;
+      display: flex;
+      margin-top: 25px;
       margin-bottom: 5px;
     }
 
     .mainPagination {
       margin-left: 10px;
-      top:5px;
+      top: 5px;
     }
+
+    .show-subscription-pages-icon {
+      align-items: center;
+    }
+
+    .bx--tooltip__trigger {
+      font-size: 0.75rem;
+    }
+
+    .bx--tooltip__trigger svg {
+      height: 14px;
+    }
+
+    .showPagesTooltip {
+      line-height: 21px;
+      font-size: 14px;
+    }
+
     .pageInput {
       align-items: center;
       width: 30px;
       height: 25px;
-      left : 5px;
-      right : 5px;
-      top:20px;
+      left: 5px;
+      right: 5px;
+      top: 20px;
     }
 
     .pageLabel {
       margin-left: 5px;
       margin-right: 10px;
     }
-    
+
     .labelLink {
       cursor: pointer;
     }
@@ -161,9 +179,7 @@
         border-left: 4px solid #3d70b2;
         background-color: #f3f7fb;
       }
-      
     }
-    
   }
 
   .diagramViewerDiagram {
@@ -382,4 +398,4 @@ svg.topologyDiagram {
   height: 100%;
   width: 100%;
 }
- 
+

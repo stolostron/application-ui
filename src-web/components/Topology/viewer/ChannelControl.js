@@ -12,7 +12,7 @@
 import React from 'react'
 import R from 'ramda'
 import PropTypes from 'prop-types'
-import { DropdownV2 } from 'carbon-components-react'
+import { DropdownV2, Tooltip } from 'carbon-components-react'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -91,7 +91,9 @@ class ChannelControl extends React.Component {
       this.props
     )
     const selectedChannelIndex =
-      activeChannel && allChannels ? allChannels.indexOf(activeChannel) + 1 : 1
+      activeChannel && allChannels && allChannels.indexOf(activeChannel) > 0
+        ? allChannels.indexOf(activeChannel) + 1
+        : 1
     switch (e.target.id) {
     case 'p1': {
       //move to the first channel
@@ -179,9 +181,10 @@ class ChannelControl extends React.Component {
         ? displayChannels[selectedIdx].subchannels.length
         : 0
 
-      const selectedChannelIndex = activeChannel
-        ? allChannels.indexOf(activeChannel) + 1
-        : 1
+      const selectedChannelIndex =
+        activeChannel && allChannels.indexOf(activeChannel) > 0
+          ? allChannels.indexOf(activeChannel) + 1
+          : 1
       const back1 = '<<'
       const back2 = '<'
       const fwd1 = '>'
@@ -213,6 +216,13 @@ class ChannelControl extends React.Component {
             <div className="pagination">
               <div className="resourcePaging label">
                 {msgs.get('subscription.page.label')}
+                <div className="show-subscription-pages-icon">
+                  <Tooltip triggerText="" iconName="info">
+                    <span className="showPagesTooltip">
+                      {msgs.get('subscription.page.label.info', locale)}
+                    </span>
+                  </Tooltip>
+                </div>
               </div>
               <div className="mainPagination">
                 <span

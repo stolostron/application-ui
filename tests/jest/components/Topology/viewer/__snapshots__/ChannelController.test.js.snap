@@ -876,6 +876,26 @@ ShallowWrapper {
             className="resourcePaging label"
           >
             Resource nodes
+            <div
+              className="show-subscription-pages-icon"
+            >
+              <Tooltip
+                direction="bottom"
+                iconDescription="tooltip"
+                iconName="info"
+                iconTitle=""
+                menuOffset={[Function]}
+                open={false}
+                showIcon={true}
+                triggerText=""
+              >
+                <span
+                  className="showPagesTooltip"
+                >
+                  Use the navigation below to page through the resources deployed by the selected subscription.
+                </span>
+              </Tooltip>
+            </div>
           </div>
           <div
             className="mainPagination"
@@ -1231,6 +1251,26 @@ ShallowWrapper {
               className="resourcePaging label"
             >
               Resource nodes
+              <div
+                className="show-subscription-pages-icon"
+              >
+                <Tooltip
+                  direction="bottom"
+                  iconDescription="tooltip"
+                  iconName="info"
+                  iconTitle=""
+                  menuOffset={[Function]}
+                  open={false}
+                  showIcon={true}
+                  triggerText=""
+                >
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Use the navigation below to page through the resources deployed by the selected subscription.
+                  </span>
+                </Tooltip>
+              </div>
             </div>,
             <div
               className="mainPagination"
@@ -1303,11 +1343,95 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Resource nodes",
+              "children": Array [
+                "Resource nodes",
+                <div
+                  className="show-subscription-pages-icon"
+                >
+                  <Tooltip
+                    direction="bottom"
+                    iconDescription="tooltip"
+                    iconName="info"
+                    iconTitle=""
+                    menuOffset={[Function]}
+                    open={false}
+                    showIcon={true}
+                    triggerText=""
+                  >
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Use the navigation below to page through the resources deployed by the selected subscription.
+                    </span>
+                  </Tooltip>
+                </div>,
+              ],
               "className": "resourcePaging label",
             },
             "ref": null,
-            "rendered": "Resource nodes",
+            "rendered": Array [
+              "Resource nodes",
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <Tooltip
+                    direction="bottom"
+                    iconDescription="tooltip"
+                    iconName="info"
+                    iconTitle=""
+                    menuOffset={[Function]}
+                    open={false}
+                    showIcon={true}
+                    triggerText=""
+                  >
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Use the navigation below to page through the resources deployed by the selected subscription.
+                    </span>
+                  </Tooltip>,
+                  "className": "show-subscription-pages-icon",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": <span
+                      className="showPagesTooltip"
+                    >
+                      Use the navigation below to page through the resources deployed by the selected subscription.
+                    </span>,
+                    "direction": "bottom",
+                    "iconDescription": "tooltip",
+                    "iconName": "info",
+                    "iconTitle": "",
+                    "menuOffset": [Function],
+                    "open": false,
+                    "showIcon": true,
+                    "triggerText": "",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Use the navigation below to page through the resources deployed by the selected subscription.",
+                      "className": "showPagesTooltip",
+                    },
+                    "ref": null,
+                    "rendered": "Use the navigation below to page through the resources deployed by the selected subscription.",
+                    "type": "span",
+                  },
+                  "type": [Function],
+                },
+                "type": "div",
+              },
+            ],
             "type": "div",
           },
           Object {
@@ -1590,6 +1714,26 @@ ShallowWrapper {
               className="resourcePaging label"
             >
               Resource nodes
+              <div
+                className="show-subscription-pages-icon"
+              >
+                <Tooltip
+                  direction="bottom"
+                  iconDescription="tooltip"
+                  iconName="info"
+                  iconTitle=""
+                  menuOffset={[Function]}
+                  open={false}
+                  showIcon={true}
+                  triggerText=""
+                >
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Use the navigation below to page through the resources deployed by the selected subscription.
+                  </span>
+                </Tooltip>
+              </div>
             </div>
             <div
               className="mainPagination"
@@ -1945,6 +2089,26 @@ ShallowWrapper {
                 className="resourcePaging label"
               >
                 Resource nodes
+                <div
+                  className="show-subscription-pages-icon"
+                >
+                  <Tooltip
+                    direction="bottom"
+                    iconDescription="tooltip"
+                    iconName="info"
+                    iconTitle=""
+                    menuOffset={[Function]}
+                    open={false}
+                    showIcon={true}
+                    triggerText=""
+                  >
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Use the navigation below to page through the resources deployed by the selected subscription.
+                    </span>
+                  </Tooltip>
+                </div>
               </div>,
               <div
                 className="mainPagination"
@@ -2017,11 +2181,95 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Resource nodes",
+                "children": Array [
+                  "Resource nodes",
+                  <div
+                    className="show-subscription-pages-icon"
+                  >
+                    <Tooltip
+                      direction="bottom"
+                      iconDescription="tooltip"
+                      iconName="info"
+                      iconTitle=""
+                      menuOffset={[Function]}
+                      open={false}
+                      showIcon={true}
+                      triggerText=""
+                    >
+                      <span
+                        className="showPagesTooltip"
+                      >
+                        Use the navigation below to page through the resources deployed by the selected subscription.
+                      </span>
+                    </Tooltip>
+                  </div>,
+                ],
                 "className": "resourcePaging label",
               },
               "ref": null,
-              "rendered": "Resource nodes",
+              "rendered": Array [
+                "Resource nodes",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <Tooltip
+                      direction="bottom"
+                      iconDescription="tooltip"
+                      iconName="info"
+                      iconTitle=""
+                      menuOffset={[Function]}
+                      open={false}
+                      showIcon={true}
+                      triggerText=""
+                    >
+                      <span
+                        className="showPagesTooltip"
+                      >
+                        Use the navigation below to page through the resources deployed by the selected subscription.
+                      </span>
+                    </Tooltip>,
+                    "className": "show-subscription-pages-icon",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "children": <span
+                        className="showPagesTooltip"
+                      >
+                        Use the navigation below to page through the resources deployed by the selected subscription.
+                      </span>,
+                      "direction": "bottom",
+                      "iconDescription": "tooltip",
+                      "iconName": "info",
+                      "iconTitle": "",
+                      "menuOffset": [Function],
+                      "open": false,
+                      "showIcon": true,
+                      "triggerText": "",
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Use the navigation below to page through the resources deployed by the selected subscription.",
+                        "className": "showPagesTooltip",
+                      },
+                      "ref": null,
+                      "rendered": "Use the navigation below to page through the resources deployed by the selected subscription.",
+                      "type": "span",
+                    },
+                    "type": [Function],
+                  },
+                  "type": "div",
+                },
+              ],
               "type": "div",
             },
             Object {

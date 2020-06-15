@@ -88,7 +88,7 @@ class ChannelControl extends React.Component {
     if (
       activeChannel &&
       allChannels &&
-      allChannels.indexOf(activeChannel) > 0
+      R.contains(activeChannel, allChannels)
     ) {
       selectedChannelIndex = allChannels.indexOf(activeChannel) + 1
     }

@@ -49,7 +49,7 @@ exports[`DiagramViewer 3 components renders as expected 1`] = `
     className="diagramControls"
   >
     <div
-      className="zoom-controls withNoChannels"
+      className="diagram-controls"
     >
       <div
         aria-label="Zoom in"
@@ -155,7 +155,7 @@ exports[`DiagramViewer no components renders as expected 1`] = `
     className="diagramControls"
   >
     <div
-      className="zoom-controls withNoChannels"
+      className="diagram-controls"
     >
       <div
         aria-label="Zoom in"

@@ -112,7 +112,7 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
               className="diagramControls"
             >
               <div
-                className="zoom-controls withNoChannels"
+                className="diagram-controls"
               >
                 <div
                   aria-label="Zoom in"
@@ -516,7 +516,7 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
           className="diagramControls"
         >
           <div
-            className="zoom-controls withNoChannels"
+            className="diagram-controls"
           >
             <div
               aria-label="Zoom in"

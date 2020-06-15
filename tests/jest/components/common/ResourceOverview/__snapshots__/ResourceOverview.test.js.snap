@@ -315,7 +315,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
               className="diagramControls"
             >
               <div
-                className="zoom-controls withNoChannels"
+                className="diagram-controls"
               >
                 <div
                   aria-label="Zoom in"

@@ -13,7 +13,6 @@ describe("processPos", () => {
     expect(
       processPos(
         {},
-        {},
         { x: 1, y: 2 },
         "subscription",
         "mysub",
@@ -34,10 +33,33 @@ describe("processPos", () => {
     ).toEqual(undefined);
   });
 
-  it("processPos cluster", () => {
+  it("processPos subscription hasRule false", () => {
     expect(
       processPos(
         {},
+        { x: 1, y: 2 },
+        "subscription",
+        "mysub",
+        {
+          hasRules: false,
+          parent: {
+            parentName: "myapp",
+            parentType: "application"
+          }
+        },
+        "mysub",
+        hadRule,
+        {
+          value: "subscription"
+        },
+        1
+      )
+    ).toEqual(undefined);
+  });
+
+  it("processPos cluster", () => {
+    expect(
+      processPos(
         {},
         { x: 1, y: 2 },
         "cluster",
@@ -63,7 +85,6 @@ describe("processPos", () => {
     expect(
       processPos(
         {},
-        {},
         { x: 1, y: 2 },
         "route",
         "myroute",
@@ -87,7 +108,6 @@ describe("processPos", () => {
   it("processPos daemonset", () => {
     expect(
       processPos(
-        {},
         {},
         { x: 1, y: 2 },
         "daemonset",
@@ -113,7 +133,6 @@ describe("processPos", () => {
     expect(
       processPos(
         {},
-        {},
         { x: 1, y: 2 },
         "statefulset",
         "mystatefulset",
@@ -137,7 +156,6 @@ describe("processPos", () => {
   it("processPos deploymentconfig", () => {
     expect(
       processPos(
-        {},
         {},
         { x: 1, y: 2 },
         "deploymentconfig",
@@ -163,7 +181,6 @@ describe("processPos", () => {
     expect(
       processPos(
         {},
-        {},
         { x: 1, y: 2 },
         "deployment",
         "mydeployment",
@@ -188,7 +205,6 @@ describe("processPos", () => {
     expect(
       processPos(
         { "deployment/myreplicationcontroller-braveman": { x: 4, y: 5 } },
-        {},
         { x: 1, y: 2 },
         "replicationcontroller",
         "myreplicationcontroller",
@@ -213,7 +229,6 @@ describe("processPos", () => {
     expect(
       processPos(
         { "deployment/myroute-braveman": { x: 4, y: 5 } },
-        {},
         { x: 1, y: 2 },
         "service",
         "myservice",
@@ -238,7 +253,6 @@ describe("processPos", () => {
     expect(
       processPos(
         { "deployment/myreplicaset-braveman": { x: 4, y: 5 } },
-        {},
         { x: 1, y: 2 },
         "replicaset",
         "myreplicaset",
@@ -253,6 +267,46 @@ describe("processPos", () => {
         hadRule,
         {
           value: "replicaset"
+        },
+        1
+      )
+    ).toEqual(undefined);
+  });
+
+  it("processPos replicaset no parent", () => {
+    expect(
+      processPos(
+        { "deployment/myreplicaset-braveman": { x: 4, y: 5 } },
+        { x: 1, y: 2 },
+        "replicaset",
+        "myreplicaset",
+        {
+          hasRules: true
+        },
+        "myreplicaset--cluster--braveman--",
+        hadRule,
+        {
+          value: "replicaset"
+        },
+        1
+      )
+    ).toEqual(undefined);
+  });
+
+  it("processPos other type", () => {
+    expect(
+      processPos(
+        {},
+        { x: 1, y: 2 },
+        "application",
+        "myapp",
+        {
+          hasRules: true
+        },
+        "myapp--cluster--braveman--",
+        hadRule,
+        {
+          value: "application"
         },
         1
       )

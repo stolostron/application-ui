@@ -92,7 +92,6 @@ export const positionApplicationRows = (row, typeToShapeMap) => {
 
 export const processPos = (
   positionMap,
-  deploymentPos,
   pos,
   type,
   name,
@@ -102,7 +101,7 @@ export const processPos = (
   key,
   x
 ) => {
-  let posName
+  let posName, deploymentPos
   switch (type) {
   case 'subscription':
     key.value = `subscription/${name}`
@@ -178,20 +177,8 @@ export const positionRowsDown = (
       const key = {
         value: type
       }
-      let deploymentPos
 
-      processPos(
-        positionMap,
-        deploymentPos,
-        pos,
-        type,
-        name,
-        specs,
-        id,
-        hadRule,
-        key,
-        x
-      )
+      processPos(positionMap, pos, type, name, specs, id, hadRule, key, x)
       positionMap[key.value] = pos
       n.position(pos)
       x += NODE_SIZE * 3

@@ -275,7 +275,6 @@ class DiagramViewer extends React.Component {
           <Zoom
             getZoomHelper={this.getZoomHelper}
             getViewContainer={this.getViewContainer}
-            showChannels={showChannelsControl}
           />
         </span>
         {showDetailsView && (

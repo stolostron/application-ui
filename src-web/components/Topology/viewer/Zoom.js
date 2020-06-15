@@ -33,7 +33,7 @@ export default class Zoom extends React.PureComponent {
     const zoomFit = msgs.get('topology.zoom.fit', locale)
 
     return (
-      <div className='diagram-controls'>
+      <div className="diagram-controls">
         {/* zoom in */}
         <div
           className="zoom-in-button rectangle-zoom"
@@ -113,6 +113,5 @@ export default class Zoom extends React.PureComponent {
 Zoom.propTypes = {
   getViewContainer: PropTypes.func,
   getZoomHelper: PropTypes.func,
-  locale: PropTypes.string,
-  showChannels: PropTypes.bool
+  locale: PropTypes.string
 }

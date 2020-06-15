@@ -16,7 +16,6 @@ import { Notification } from 'carbon-components-react'
 import SearchName from './viewer/SearchName'
 import TypeFilterBar, { setActiveTypeFilters } from './viewer/TypeFilterBar'
 import ResourceFilterModule from './viewer/ResourceFilterModule'
-import ChannelControl from './viewer/ChannelControl'
 import DiagramViewer from './viewer/DiagramViewer'
 import { getResourceDefinitions } from './viewer/defaults'
 import './scss/topology-details.scss'
@@ -177,7 +176,6 @@ class Topology extends React.Component {
         {this.renderResourceFilterModule()}
         {this.renderSearchName()}
         {this.renderTypeFilterBar()}
-        {this.renderChannelControls()}
         <DiagramViewer
           title={title}
           nodes={nodes}
@@ -194,6 +192,7 @@ class Topology extends React.Component {
           activeFilters={activeFilters}
           availableFilters={availableFilters}
           staticResourceData={this.staticResourceData}
+          channelControl={channelControl}
         />
       </div>
     )
@@ -296,16 +295,6 @@ class Topology extends React.Component {
 
   onNameSearch(searchName) {
     this.setState({ searchName })
-  }
-
-  renderChannelControls() {
-    const { channelControl = {}, locale } = this.props
-    const { allChannels } = channelControl
-    if (allChannels && _.get(channelControl, 'allChannels', []).length > 1) {
-      // show slices only if more then one slice
-      return <ChannelControl channelControl={channelControl} locale={locale} />
-    }
-    return null
   }
 }
 

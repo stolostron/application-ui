@@ -10,9 +10,9 @@
 'use strict'
 
 import React from 'react'
+import R from 'ramda'
 import PropTypes from 'prop-types'
-import { Scrollbars } from 'react-custom-scrollbars'
-import classNames from 'classnames'
+import { DropdownV2 } from 'carbon-components-react'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -63,9 +63,68 @@ class ChannelControl extends React.Component {
     )
   }
 
+  handleSubscriptionChange = e => {
+    const channel = e.selectedItem.chn
+    this.changeSubscriptionChannels(channel)
+  };
+
+  selectChannelByNumber(channelNb) {
+    const allChannels = R.pathOr([], ['channelControl', 'allChannels'])(
+      this.props
+    )
+
+    const changeToChannel =
+      allChannels.length >= channelNb ? allChannels[channelNb - 1] : null
+    this.changeSubscriptionChannels(changeToChannel)
+  }
+
+  handlePageChanged = e => {
+    const selectedValue = e.target.value
+    this.selectChannelByNumber(selectedValue)
+  };
+
+  handlePageClick = e => {
+    const allChannels = R.pathOr([], ['channelControl', 'allChannels'])(
+      this.props
+    )
+    const activeChannel = R.pathOr(null, ['channelControl', 'activeChannel'])(
+      this.props
+    )
+    const selectedChannelIndex =
+      activeChannel && allChannels ? allChannels.indexOf(activeChannel) + 1 : 1
+    switch (e.target.id) {
+    case 'p1': {
+      //move to the first channel
+      this.selectChannelByNumber(1)
+      break
+    }
+    case 'p2': {
+      //move one channel down
+      if (selectedChannelIndex > 0) {
+        this.selectChannelByNumber(selectedChannelIndex - 1)
+      }
+      break
+    }
+    case 'p3': {
+      //move one channel up
+      if (selectedChannelIndex < allChannels.length) {
+        this.selectChannelByNumber(selectedChannelIndex + 1)
+      }
+
+      break
+    }
+    case 'p4': {
+      //up to the last channel
+      this.selectChannelByNumber(allChannels.length)
+      break
+    }
+    default:
+      break
+    }
+  };
+
   render() {
     const { channelControl = {}, locale } = this.props
-    const { diagramHeight = 0 } = this.state
     const { allChannels } = channelControl
 
     if (allChannels) {
@@ -88,122 +147,133 @@ class ChannelControl extends React.Component {
           }
         }
       })
-
       // determine displayed channels
       const displayChannels = []
-      const showMainChannel = Object.keys(channelMap).length > 2
+      const showMainChannel = Object.keys(channelMap).length > 0
+      const comboLabel = msgs.get('combo.subscription.choose', locale)
 
       Object.values(channelMap).forEach(({ chnl, splitChn, subchannels }) => {
         const hasSubchannels = subchannels.length > 0
+        let channelLabel = splitChn && splitChn[2] ? splitChn[2] : 'unknown'
+        if (channelLabel === '__ALL__') {
+          channelLabel = msgs.get('combo.subscription.all')
+        }
         displayChannels.push({
-          chn: hasSubchannels ? '' : chnl,
+          label: channelLabel,
+          chn: chnl,
           splitChn,
-          hasSubchannels
-        })
-        subchannels.forEach(({ chnl, beg, end }) => {
-          displayChannels.push({
-            chn: chnl,
-            splitChn,
-            beg,
-            end,
-            isSubchannel: true
-          })
+          hasSubchannels,
+          subchannels
         })
       })
-      let selectedIdx = displayChannels.findIndex(
-        ({ chn }) => chn === activeChannel
-      )
+      let selectedIdx =
+        displayChannels.length === 1
+          ? 0
+          : displayChannels.findIndex(({ chn }) => chn === activeChannel)
       if (selectedIdx < 0) {
         selectedIdx = displayChannels.findIndex(({ chn }) => !!chn)
       }
+
+      const hasSubchannelsList = displayChannels[selectedIdx].hasSubchannels
+      const channelsLength = hasSubchannelsList
+        ? displayChannels[selectedIdx].subchannels.length
+        : 0
+
+      const selectedChannelIndex = activeChannel
+        ? allChannels.indexOf(activeChannel) + 1
+        : 1
+      const back1 = '<<'
+      const back2 = '<'
+      const fwd1 = '>'
+      const fwd2 = '>>'
+
       return (
-        <Scrollbars
-          style={{ width: 60, height: diagramHeight }}
-          renderView={this.renderView}
-          renderThumbVertical={this.renderThumbVertical}
-          renderThumbHorizontal={this.renderThumbHorizontal}
-          ref={this.setContainerRef}
-          className="channel-controls-container"
-        >
-          <div className="channel-controls-container" ref={this.setControlRef}>
-            {displayChannels.map(
-              ({ chn, splitChn, hasSubchannels, isSubchannel }, idx) => {
-                const [, , , , chnName] = splitChn
-                let [, subNamespace, subName, chnNamespace] = splitChn
-                if (subName === '__ALL__' && chnName === '__ALL__') {
-                  subNamespace = chnNamespace = ''
-                  subName = msgs.get(
-                    'application.diagram.all.subscriptions',
-                    locale
-                  )
-                }
+        // show subscription names only when more than one
+        <div className="channel-controls-container">
+          {showMainChannel && (
+            <div className="channels">
+              <div className="subscription label">
+                {msgs.get('combo.subscription')}
+              </div>
 
-                if (isSubchannel || showMainChannel) {
-                  // show subscription name only when more than one
-
-                  const isSelected = idx === selectedIdx
-                  const classes = classNames({
-                    'channel-control': true,
-                    'channel-control-title': hasSubchannels,
-                    'channel-control-subchannel': isSubchannel,
-                    selected: isSelected
-                  })
-                  const handleClick = () => {
-                    this.changeTheChannel(chn)
-                  }
-                  const handleKeyPress = e => {
-                    if (e.key === 'Enter') {
-                      this.changeTheChannel(chn)
-                    }
-                  }
-                  const tooltip = isSubchannel
-                    ? `${idx}`
-                    : msgs.get(
-                      'application.diagram.channel.tooltip',
-                      [
-                        `${subNamespace}/${subName}`,
-                        `${chnNamespace}/${chnName}`
-                      ],
-                      locale
-                    )
-
-                  const scrollIntoViewChn = ref => {
-                    if (ref && isSelected) {
-                      this.scrollIntoViewChn = ref
-                    }
-                  }
-
-                  return (
-                    <div
-                      className={classes}
-                      key={chn ? chn : splitChn.join()}
-                      tabIndex="0"
-                      role={'button'}
-                      aria-label={tooltip}
-                      onClick={handleClick}
-                      ref={scrollIntoViewChn}
-                      onKeyPress={handleKeyPress}
-                    >
-                      {isSubchannel ? (
-                        <React.Fragment>
-                          <div className="channel-control-start">{idx}</div>
-                        </React.Fragment>
-                      ) : (
-                        <React.Fragment>
-                          <div className="channel-control-subscripion">
-                            {subName}
-                          </div>
-                        </React.Fragment>
-                      )}
-                    </div>
-                  )
-                } else {
-                  return <div key="noInfo" />
-                }
-              }
-            )}
-          </div>
-        </Scrollbars>
+              <div className="channelsCombo">
+                <DropdownV2
+                  items={displayChannels}
+                  id="comboChannel"
+                  label={comboLabel}
+                  ariaLabel={comboLabel}
+                  inline={true}
+                  onChange={this.handleSubscriptionChange}
+                  selectedItem={displayChannels[selectedIdx]}
+                />
+              </div>
+            </div>
+          )}
+          {hasSubchannelsList && (
+            <div className="pagination">
+              <div className="resourcePaging label">
+                {msgs.get('subscription.page.label')}
+              </div>
+              <div className="mainPagination">
+                <span
+                  id="p1"
+                  role="button"
+                  className="label pageLabel labelLink"
+                  onClick={this.handlePageClick}
+                  onKeyPress={this.handlePageClick}
+                  tabIndex="0"
+                >
+                  {back1}
+                </span>
+                <span
+                  id="p2"
+                  role="button"
+                  className="label pageLabel labelLink"
+                  onClick={this.handlePageClick}
+                  onKeyPress={this.handlePageClick}
+                  tabIndex="0"
+                >
+                  {back2}
+                </span>
+                <input
+                  className="label pageInput"
+                  id="valuePage"
+                  onChange={this.handlePageChanged}
+                  onKeyPress={this.handlePageClick}
+                  aria-label="Current page"
+                  type="number"
+                  min="1"
+                  max="{channelsLength}"
+                  value={selectedChannelIndex}
+                  tabIndex="0"
+                />
+                <span className="label pageLabel">
+                  {msgs.get('subscription.page.nb', [channelsLength])}
+                </span>
+                <span
+                  id="p3"
+                  role="button"
+                  className="label pageLabel labelLink"
+                  onClick={this.handlePageClick}
+                  onKeyPress={this.handlePageClick}
+                  tabIndex="0"
+                >
+                  {fwd1}
+                </span>
+                <span
+                  id="p4"
+                  role="button"
+                  className="label pageLabel labelLink"
+                  onClick={this.handlePageClick}
+                  onKeyPress={this.handlePageClick}
+                  tabIndex="0"
+                >
+                  {fwd2}
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
       )
     }
     return null
@@ -234,9 +304,10 @@ class ChannelControl extends React.Component {
     )
   }
 
-  changeTheChannel(fetchChannel) {
+  changeSubscriptionChannels(fetchChannel) {
     const { channelControl = {} } = this.props
     const { changeTheChannel } = channelControl
+
     if (changeTheChannel) {
       this.setState({ fetchChannel })
       changeTheChannel(fetchChannel)

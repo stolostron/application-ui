@@ -302,7 +302,6 @@ class DiagramViewer extends React.Component {
           <LegendView
             locale={locale}
             onClose={handleLegendClose}
-            //staticResourceData={staticResourceData}
             getLayoutNodes={this.getLayoutNodes}
             getViewContainer={this.getViewContainer}
           />

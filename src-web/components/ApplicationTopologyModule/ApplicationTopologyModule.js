@@ -509,7 +509,7 @@ class ApplicationTopologyModule extends React.Component {
                 )}
               </span>
               <Tooltip triggerText="" iconName="info">
-                <span className="howToReadThisTooltip">{}</span>
+                <span className="how-to-read-tooltip">{}</span>
               </Tooltip>
             </div>
             {topologyLoadError && (

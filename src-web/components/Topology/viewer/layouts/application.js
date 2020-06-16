@@ -90,6 +90,58 @@ export const positionApplicationRows = (row, typeToShapeMap) => {
   })
 }
 
+export const processPos = (
+  positionMap,
+  pos,
+  type,
+  name,
+  specs,
+  id,
+  hadRule,
+  key,
+  x
+) => {
+  let posName, deploymentPos
+  switch (type) {
+  case 'subscription':
+    key.value = `subscription/${name}`
+    if (hadRule.value) {
+      x += NODE_SIZE * 3
+      pos.x = x
+    }
+    hadRule.value = specs.hasRules
+    break
+  case 'cluster':
+    pos.y += NODE_SIZE / 2
+    break
+  case 'route':
+  case 'daemonset':
+  case 'statefulset':
+  case 'deploymentconfig':
+  case 'deployment':
+    key.value = `${type}/${name}-${getClusterName(id)}`
+    break
+  case 'replicationcontroller':
+  case 'service':
+  case 'replicaset':
+    if (specs.parent) {
+      posName = type === 'service' ? specs.parent.parentName : name
+      deploymentPos =
+          positionMap[
+            `${specs.parent.parentType}/${posName}-${getClusterName(id)}`
+          ]
+    }
+    if (deploymentPos !== undefined) {
+      pos.x = deploymentPos.x
+    }
+    key.value = `${type}/${name}`
+    break
+  default:
+    // do nothing
+    break
+  }
+}
+
 export const positionRowsDown = (
   idx,
   y,
@@ -114,41 +166,20 @@ export const positionRowsDown = (
       }
     }
 
-    let hadRule = false
+    const hadRule = {
+      value: false
+    }
+
     row.forEach(n => {
       placedSet.add(n.id())
       const pos = { x, y }
       const { node: { type, name, specs, id } } = n.data()
-      let key = type
-      let deploymentPos
-      switch (type) {
-      case 'subscription':
-        key = `subscription/${name}`
-        if (hadRule) {
-          x += NODE_SIZE * 3
-          pos.x = x
-        }
-        hadRule = specs.hasRules
-        break
-      case 'cluster':
-        pos.y += NODE_SIZE / 2
-        break
-      case 'deployment':
-        key = `deployment/${name}-${getClusterName(id)}`
-        break
-      case 'pod':
-        deploymentPos =
-            positionMap[`deployment/${name}-${getClusterName(id)}`]
-        if (deploymentPos !== undefined) {
-          pos.x = deploymentPos.x
-        }
-        key = `pod/${name}`
-        break
-      default:
-        // do nothing
-        break
+      const key = {
+        value: type
       }
-      positionMap[key] = pos
+
+      processPos(positionMap, pos, type, name, specs, id, hadRule, key, x)
+      positionMap[key.value] = pos
       n.position(pos)
       x += NODE_SIZE * 3
     })

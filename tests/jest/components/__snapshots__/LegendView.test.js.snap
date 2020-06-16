@@ -528,7 +528,7 @@ exports[`LegendView with nodes render as expected 1`] = `
               className="bodyIconsTextDiv"
             >
               <div>
-                Deployment Config
+                Deployment config
               </div>
               <div>
                 <svg
@@ -545,7 +545,7 @@ exports[`LegendView with nodes render as expected 1`] = `
               className="bodyIconsTextDiv"
             >
               <div>
-                Replication Controller
+                Replication controller
               </div>
               <div>
                 <svg

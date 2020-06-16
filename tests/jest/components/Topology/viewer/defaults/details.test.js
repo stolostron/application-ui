@@ -929,7 +929,7 @@ describe("getNodeDetails helm node", () => {
       status: undefined,
       type: "label",
       value:
-        "There is not enough information in the subscription to retrive deployed objects data."
+        "There is not enough information in the subscription to retrieve deployed objects data."
     }
   ];
 

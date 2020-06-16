@@ -934,7 +934,7 @@
   "topology.filter.category.status.error": "Error",
   "topology.filter.category.clustername": "Cluster name",
   "topology.legend.close": "Close topology legend view",
-  "topology.legend.header.title": "How to read this",
+  "topology.legend.header.title": "How to read topology",
   "topology.legend.header.text": "The topology provides a visual representation of all the applications and resources within a project, their build status, and the components and services associated with them.",
   "topology.legend.body.status.title": "Status icon legend",
   "topology.legend.body.text.success": "Successfully deployed cluster with a message explaining this status can go here.",

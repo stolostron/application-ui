@@ -1,0 +1,653 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LegendView no nodes renders as expected 1`] = `
+<section
+  className="topologyDetails"
+>
+  <div
+    className="legendHeader"
+  >
+    <div>
+      <div
+        className="titleText"
+      >
+        How to read topology
+      </div>
+      <div
+        className="bodyText"
+      >
+        The topology provides a visual representation of all the applications and resources within a project, their build status, and the components and services associated with them.
+      </div>
+      <div
+        style={
+          Object {
+            "textAlign": "center",
+          }
+        }
+      >
+        <svg>
+          <use
+            className="label-icon"
+            href="#diagramShapes_legend"
+          />
+        </svg>
+      </div>
+    </div>
+    <svg
+      alt="Close topology legend view"
+      aria-label="Close topology legend view"
+      className="closeIcon"
+      fillRule="evenodd"
+      height="10"
+      name="icon--close"
+      onClick={[MockFunction]}
+      role="img"
+      viewBox="0 0 10 10"
+      width="10"
+    >
+      <title>
+        Close topology legend view
+      </title>
+      <path
+        d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+      />
+    </svg>
+  </div>
+  <hr />
+  <div
+    className="details-view-container"
+    style={
+      Object {
+        "height": NaN,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "WebkitOverflowScrolling": "touch",
+          "bottom": 0,
+          "left": 0,
+          "marginBottom": 0,
+          "marginRight": 0,
+          "overflow": "scroll",
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    >
+      <div
+        className="legendBody"
+      >
+        <div>
+          <div
+            className="titleText"
+          >
+            Status icon legend
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#3E8635"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_success"
+                />
+              </svg>
+            </div>
+            <div>
+              Successfully deployed cluster with a message explaining this status can go here.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#F0AB00"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_warning"
+                />
+              </svg>
+            </div>
+            <div>
+              Warning message about not being deployed. There can also be a second type of warning that should be explained.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#C9190B"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_failure"
+                />
+              </svg>
+            </div>
+            <div>
+              Failed message about it not deploying.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#878D96"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_pending"
+                />
+              </svg>
+            </div>
+            <div>
+              Pending message about it still pending.
+            </div>
+          </div>
+        </div>
+        <div
+          className="bodyResourcesDiv"
+        >
+          <div
+            className="titleResourcesText"
+          >
+            Resource icon legend
+          </div>
+          <div
+            className="bodyIconsDiv"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "height": 6,
+          "left": 2,
+          "position": "absolute",
+          "right": 2,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "height": "100%",
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+          "width": 6,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
+</section>
+`;
+
+exports[`LegendView with nodes render as expected 1`] = `
+<section
+  className="topologyDetails"
+>
+  <div
+    className="legendHeader"
+  >
+    <div>
+      <div
+        className="titleText"
+      >
+        How to read topology
+      </div>
+      <div
+        className="bodyText"
+      >
+        The topology provides a visual representation of all the applications and resources within a project, their build status, and the components and services associated with them.
+      </div>
+      <div
+        style={
+          Object {
+            "textAlign": "center",
+          }
+        }
+      >
+        <svg>
+          <use
+            className="label-icon"
+            href="#diagramShapes_legend"
+          />
+        </svg>
+      </div>
+    </div>
+    <svg
+      alt="Close topology legend view"
+      aria-label="Close topology legend view"
+      className="closeIcon"
+      fillRule="evenodd"
+      height="10"
+      name="icon--close"
+      onClick={[MockFunction]}
+      role="img"
+      viewBox="0 0 10 10"
+      width="10"
+    >
+      <title>
+        Close topology legend view
+      </title>
+      <path
+        d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+      />
+    </svg>
+  </div>
+  <hr />
+  <div
+    className="details-view-container"
+    style={
+      Object {
+        "height": 266.8,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "WebkitOverflowScrolling": "touch",
+          "bottom": 0,
+          "left": 0,
+          "marginBottom": 0,
+          "marginRight": 0,
+          "overflow": "scroll",
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    >
+      <div
+        className="legendBody"
+      >
+        <div>
+          <div
+            className="titleText"
+          >
+            Status icon legend
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#3E8635"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_success"
+                />
+              </svg>
+            </div>
+            <div>
+              Successfully deployed cluster with a message explaining this status can go here.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#F0AB00"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_warning"
+                />
+              </svg>
+            </div>
+            <div>
+              Warning message about not being deployed. There can also be a second type of warning that should be explained.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#C9190B"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_failure"
+                />
+              </svg>
+            </div>
+            <div>
+              Failed message about it not deploying.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#878D96"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_pending"
+                />
+              </svg>
+            </div>
+            <div>
+              Pending message about it still pending.
+            </div>
+          </div>
+        </div>
+        <div
+          className="bodyResourcesDiv"
+        >
+          <div
+            className="titleResourcesText"
+          >
+            Resource icon legend
+          </div>
+          <div
+            className="bodyIconsDiv"
+          >
+            <div
+              className="bodyIconsTextDiv"
+            >
+              <div>
+                Application
+              </div>
+              <div>
+                <svg
+                  className="iconSvg"
+                >
+                  <use
+                    className="label-icon"
+                    href="#diagramShapes_application"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="bodyIconsTextDiv"
+            >
+              <div>
+                Subscription
+              </div>
+              <div>
+                <svg
+                  className="iconSvg"
+                >
+                  <use
+                    className="label-icon"
+                    href="#diagramShapes_subscription"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="bodyIconsTextDiv"
+            >
+              <div>
+                Rules
+              </div>
+              <div>
+                <svg
+                  className="iconSvg"
+                >
+                  <use
+                    className="label-icon"
+                    href="#diagramShapes_rules"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="bodyIconsTextDiv"
+            >
+              <div>
+                Cluster
+              </div>
+              <div>
+                <svg
+                  className="iconSvg"
+                >
+                  <use
+                    className="label-icon"
+                    href="#diagramShapes_cluster"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="bodyIconsTextDiv"
+            >
+              <div>
+                Deployable
+              </div>
+              <div>
+                <svg
+                  className="iconSvg"
+                >
+                  <use
+                    className="label-icon"
+                    href="#diagramShapes_deployable"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="bodyIconsTextDiv"
+            >
+              <div>
+                Deployment
+              </div>
+              <div>
+                <svg
+                  className="iconSvg"
+                >
+                  <use
+                    className="label-icon"
+                    href="#diagramShapes_deployment"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="bodyIconsTextDiv"
+            >
+              <div>
+                Service
+              </div>
+              <div>
+                <svg
+                  className="iconSvg"
+                >
+                  <use
+                    className="label-icon"
+                    href="#diagramShapes_service"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="bodyIconsTextDiv"
+            >
+              <div>
+                Deployment Config
+              </div>
+              <div>
+                <svg
+                  className="iconSvg"
+                >
+                  <use
+                    className="label-icon"
+                    href="#diagramShapes_deploymentconfig"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="bodyIconsTextDiv"
+            >
+              <div>
+                Replication Controller
+              </div>
+              <div>
+                <svg
+                  className="iconSvg"
+                >
+                  <use
+                    className="label-icon"
+                    href="#diagramShapes_replicationcontroller"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="bodyIconsTextDiv"
+            >
+              <div>
+                Security Context Constraints
+              </div>
+              <div>
+                <svg
+                  className="iconSvg"
+                >
+                  <use
+                    className="label-icon"
+                    href="#diagramShapes_other"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="bodyIconsTextDiv"
+            >
+              <div>
+                Persistent Volume Claim
+              </div>
+              <div>
+                <svg
+                  className="iconSvg"
+                >
+                  <use
+                    className="label-icon"
+                    href="#diagramShapes_other"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "height": 6,
+          "left": 2,
+          "position": "absolute",
+          "right": 2,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "height": "100%",
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+          "width": 6,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
+</section>
+`;

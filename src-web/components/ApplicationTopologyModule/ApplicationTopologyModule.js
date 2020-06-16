@@ -508,8 +508,13 @@ class ApplicationTopologyModule extends React.Component {
                   this.context.locale
                 )}
               </span>
-              <Tooltip triggerText="" iconName="info">
-                <span className="how-to-read-tooltip">{}</span>
+              <Tooltip triggerId="LegendTooltip" triggerText="" iconName="info">
+                <span className="how-to-read-tooltip">
+                  {msgs.get(
+                    'application.diagram.how.to.read.tooltip',
+                    this.context.locale
+                  )}
+                </span>
               </Tooltip>
             </div>
             {topologyLoadError && (

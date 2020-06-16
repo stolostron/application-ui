@@ -257,7 +257,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
             role="button"
             tabIndex="0"
           >
-            How to read this
+            How to read topology
           </span>
           <div
             className="bx--tooltip__trigger"
@@ -266,7 +266,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
             <div
               aria-expanded={false}
               aria-haspopup="true"
-              id="__carbon-tooltip-trigger_je0ix60b79"
+              id="LegendTooltip"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}

@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -12,7 +13,7 @@ import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
 
 export const getNodeTitle = (node, locale) => {
-  const {type} = node
+  const { type } = node
   switch (type) {
   case 'policy':
     return msgs.get('topology.title.policy', locale)
@@ -24,7 +25,7 @@ export const getNodeTitle = (node, locale) => {
 
 export const getSectionTitles = (clusters, types, environs, locale) => {
   const set = new Set()
-  types.forEach(type=>{
+  types.forEach(type => {
     switch (type) {
     case 'cluster':
       set.add(environs)
@@ -61,5 +62,7 @@ export const getSectionTitles = (clusters, types, environs, locale) => {
       break
     }
   })
-  return Array.from(set).sort().join(', ')
+  return Array.from(set)
+    .sort()
+    .join(', ')
 }

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DetailsView no components renders as expected 1`] = `
+exports[`LegendView no nodes renders as expected 1`] = `
 <section
   className="topologyDetails"
 >
@@ -232,7 +232,7 @@ exports[`DetailsView no components renders as expected 1`] = `
 </section>
 `;
 
-exports[`LegendView render as expected 1`] = `
+exports[`LegendView with nodes render as expected 1`] = `
 <section
   className="topologyDetails"
 >

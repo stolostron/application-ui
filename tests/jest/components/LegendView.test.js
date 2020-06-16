@@ -14,7 +14,7 @@ class MockViewContainer {
   }
 }
 
-describe("DetailsView no components", () => {
+describe("LegendView no nodes", () => {
   const returnEmptyArr = jest.fn();
   returnEmptyArr.mockReturnValue([]);
   const viewContainer = jest.fn();
@@ -160,7 +160,7 @@ class MockViewContainer2 {
 const viewContainer2 = jest.fn();
 viewContainer2.mockReturnValue(new MockViewContainer2());
 
-describe("LegendView", () => {
+describe("LegendView with nodes", () => {
   it("render as expected", () => {
     const component = renderer.create(
       <LegendView

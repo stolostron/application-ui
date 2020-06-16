@@ -14,6 +14,7 @@ import PropTypes from 'prop-types'
 import * as d3 from 'd3'
 import { Loading } from 'carbon-components-react'
 import DetailsView from './DetailsView'
+import LegendView from './LegendView'
 import Zoom from './Zoom'
 import ChannelControl from './ChannelControl'
 import LayoutHelper from './helpers/layoutHelper'
@@ -40,6 +41,7 @@ class DiagramViewer extends React.Component {
     activeFilters: PropTypes.object,
     availableFilters: PropTypes.object,
     channelControl: PropTypes.object,
+    handleLegendClose: PropTypes.func,
     handleNodeSelected: PropTypes.func,
     isReloading: PropTypes.bool,
     links: PropTypes.array,
@@ -50,6 +52,7 @@ class DiagramViewer extends React.Component {
     secondaryLoad: PropTypes.bool,
     selectedNode: PropTypes.object,
     setViewer: PropTypes.func,
+    showLegendView: PropTypes.bool,
     staticResourceData: PropTypes.object,
     title: PropTypes.string
   };
@@ -92,7 +95,7 @@ class DiagramViewer extends React.Component {
   }
 
   componentDidUpdate() {
-    if (!this.detailsViewUpdate) {
+    if (!this.detailsViewUpdate && !this.props.showLegendView) {
       this.generateDiagram()
     }
     this.detailsViewUpdate = false
@@ -106,6 +109,7 @@ class DiagramViewer extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
       this.state.selectedNodeId !== nextState.selectedNodeId ||
+      this.props.showLegendView !== nextProps.showLegendView ||
       !_.isEqual(this.state.nodes, nextState.nodes) ||
       !_.isEqual(
         this.state.links.map(l => l.uid),
@@ -173,6 +177,10 @@ class DiagramViewer extends React.Component {
         selectedNodeId = ''
         showDetailsView = false
       }
+      if (props.showLegendView) {
+        selectedNodeId = ''
+        showDetailsView = false
+      }
       return {
         links,
         nodes,
@@ -233,7 +241,9 @@ class DiagramViewer extends React.Component {
       processActionLink,
       title,
       locale,
-      channelControl
+      channelControl,
+      showLegendView,
+      handleLegendClose
     } = this.props
     const showChannelsControl =
       channelControl && _.get(channelControl, 'allChannels', []).length > 1
@@ -288,6 +298,14 @@ class DiagramViewer extends React.Component {
             processActionLink={processActionLink}
           />
         )}
+        {showLegendView && (
+          <LegendView
+            locale={locale}
+            onClose={handleLegendClose}
+            getLayoutNodes={this.getLayoutNodes}
+            getViewContainer={this.getViewContainer}
+          />
+        )}
       </div>
     )
   }
@@ -319,6 +337,7 @@ class DiagramViewer extends React.Component {
       selectedNodeId: node ? node.uid : '',
       showDetailsView
     })
+    this.props.handleLegendClose()
   };
 
   handleNodeDrag = isDragging => {

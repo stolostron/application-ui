@@ -66,3 +66,25 @@ export const getSectionTitles = (clusters, types, environs, locale) => {
     .sort()
     .join(', ')
 }
+
+export const getLegendTitle = (type, locale) => {
+  switch (type) {
+  case 'deploymentconfig':
+  case 'replicationcontroller':
+  case 'daemonset':
+  case 'replicaset':
+  case 'configmap':
+  case 'customresource':
+  case 'statefulset':
+  case 'storageclass':
+  case 'serviceaccount':
+  case 'securitycontextconstraints':
+  case 'inmemorychannel':
+  case 'integrationplatform':
+  case 'persistentvolumeclaim':
+    return msgs.get(`topology.legend.title.${type}`, locale)
+
+  default:
+    return type.charAt(0).toUpperCase() + type.slice(1)
+  }
+}

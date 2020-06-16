@@ -42,6 +42,59 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
           className="diagram-title"
         >
           Resource topology
+          <svg
+            className="diagram-title-divider"
+          >
+            <rect />
+          </svg>
+          <span
+            className="how-to-read-text"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            How to read this
+          </span>
+          <div
+            className="bx--tooltip__trigger"
+          >
+            
+            <div
+              aria-expanded={false}
+              aria-haspopup="true"
+              id="__carbon-tooltip-trigger_nvfowigibz"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              <svg
+                alt="tooltip"
+                aria-label="tooltip"
+                fillRule="evenodd"
+                height="24"
+                name="info"
+                role="img"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <title>
+                  
+                </title>
+                <path
+                  d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"
+                />
+                <path
+                  d="M14 10H9v2h2v4H9v2h7v-2h-2zM11 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                />
+              </svg>
+            </div>
+          </div>
         </div>
         <div
           className="topologyDiagramContainer"
@@ -446,6 +499,59 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
       className="diagram-title"
     >
       Resource topology
+      <svg
+        className="diagram-title-divider"
+      >
+        <rect />
+      </svg>
+      <span
+        className="how-to-read-text"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        How to read this
+      </span>
+      <div
+        className="bx--tooltip__trigger"
+      >
+        
+        <div
+          aria-expanded={false}
+          aria-haspopup="true"
+          id="__carbon-tooltip-trigger_z809x48mcn"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          <svg
+            alt="tooltip"
+            aria-label="tooltip"
+            fillRule="evenodd"
+            height="24"
+            name="info"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <title>
+              
+            </title>
+            <path
+              d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"
+            />
+            <path
+              d="M14 10H9v2h2v4H9v2h7v-2h-2zM11 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+            />
+          </svg>
+        </div>
+      </div>
     </div>
     <div
       className="topologyDiagramContainer"

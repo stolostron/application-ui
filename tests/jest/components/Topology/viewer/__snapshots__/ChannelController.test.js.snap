@@ -892,7 +892,7 @@ ShallowWrapper {
                 <span
                   className="showPagesTooltip"
                 >
-                  Use the navigation below to page through the resources deployed by the selected subscription.
+                  Use the navigation to view the resources that are deployed by the selected subscription.
                 </span>
               </Tooltip>
             </div>
@@ -1267,7 +1267,7 @@ ShallowWrapper {
                   <span
                     className="showPagesTooltip"
                   >
-                    Use the navigation below to page through the resources deployed by the selected subscription.
+                    Use the navigation to view the resources that are deployed by the selected subscription.
                   </span>
                 </Tooltip>
               </div>
@@ -1361,7 +1361,7 @@ ShallowWrapper {
                     <span
                       className="showPagesTooltip"
                     >
-                      Use the navigation below to page through the resources deployed by the selected subscription.
+                      Use the navigation to view the resources that are deployed by the selected subscription.
                     </span>
                   </Tooltip>
                 </div>,
@@ -1389,7 +1389,7 @@ ShallowWrapper {
                     <span
                       className="showPagesTooltip"
                     >
-                      Use the navigation below to page through the resources deployed by the selected subscription.
+                      Use the navigation to view the resources that are deployed by the selected subscription.
                     </span>
                   </Tooltip>,
                   "className": "show-subscription-pages-icon",
@@ -1403,7 +1403,7 @@ ShallowWrapper {
                     "children": <span
                       className="showPagesTooltip"
                     >
-                      Use the navigation below to page through the resources deployed by the selected subscription.
+                      Use the navigation to view the resources that are deployed by the selected subscription.
                     </span>,
                     "direction": "bottom",
                     "iconDescription": "tooltip",
@@ -1420,11 +1420,11 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": "Use the navigation below to page through the resources deployed by the selected subscription.",
+                      "children": "Use the navigation to view the resources that are deployed by the selected subscription.",
                       "className": "showPagesTooltip",
                     },
                     "ref": null,
-                    "rendered": "Use the navigation below to page through the resources deployed by the selected subscription.",
+                    "rendered": "Use the navigation to view the resources that are deployed by the selected subscription.",
                     "type": "span",
                   },
                   "type": [Function],
@@ -1730,7 +1730,7 @@ ShallowWrapper {
                   <span
                     className="showPagesTooltip"
                   >
-                    Use the navigation below to page through the resources deployed by the selected subscription.
+                    Use the navigation to view the resources that are deployed by the selected subscription.
                   </span>
                 </Tooltip>
               </div>
@@ -2105,7 +2105,7 @@ ShallowWrapper {
                     <span
                       className="showPagesTooltip"
                     >
-                      Use the navigation below to page through the resources deployed by the selected subscription.
+                      Use the navigation to view the resources that are deployed by the selected subscription.
                     </span>
                   </Tooltip>
                 </div>
@@ -2199,7 +2199,7 @@ ShallowWrapper {
                       <span
                         className="showPagesTooltip"
                       >
-                        Use the navigation below to page through the resources deployed by the selected subscription.
+                        Use the navigation to view the resources that are deployed by the selected subscription.
                       </span>
                     </Tooltip>
                   </div>,
@@ -2227,7 +2227,7 @@ ShallowWrapper {
                       <span
                         className="showPagesTooltip"
                       >
-                        Use the navigation below to page through the resources deployed by the selected subscription.
+                        Use the navigation to view the resources that are deployed by the selected subscription.
                       </span>
                     </Tooltip>,
                     "className": "show-subscription-pages-icon",
@@ -2241,7 +2241,7 @@ ShallowWrapper {
                       "children": <span
                         className="showPagesTooltip"
                       >
-                        Use the navigation below to page through the resources deployed by the selected subscription.
+                        Use the navigation to view the resources that are deployed by the selected subscription.
                       </span>,
                       "direction": "bottom",
                       "iconDescription": "tooltip",
@@ -2258,11 +2258,11 @@ ShallowWrapper {
                       "key": undefined,
                       "nodeType": "host",
                       "props": Object {
-                        "children": "Use the navigation below to page through the resources deployed by the selected subscription.",
+                        "children": "Use the navigation to view the resources that are deployed by the selected subscription.",
                         "className": "showPagesTooltip",
                       },
                       "ref": null,
-                      "rendered": "Use the navigation below to page through the resources deployed by the selected subscription.",
+                      "rendered": "Use the navigation to view the resources that are deployed by the selected subscription.",
                       "type": "span",
                     },
                     "type": [Function],

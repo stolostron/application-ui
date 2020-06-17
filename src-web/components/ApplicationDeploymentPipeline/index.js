@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import resources from '../../../lib/shared/resources'
-import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import { RESOURCE_TYPES, DOC_LINKS } from '../../../lib/shared/constants'
 import {
   fetchResources,
   fetchGlobalAppsData,
@@ -369,7 +369,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_CHANNELS,
         AppDeployments.currentChannelInfo || {},
-        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-channels'
+        DOC_LINKS.CHANNELS
       )
     } else if (AppDeployments.openEditApplicationModal) {
       showEditModalByType(
@@ -377,7 +377,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_APPLICATIONS,
         AppDeployments.currentApplicationInfo || {},
-        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#managing-application-resources'
+        DOC_LINKS.APPLICATIONS
       )
     } else if (AppDeployments.openEditSubscriptionModal) {
       showEditModalByType(
@@ -385,7 +385,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
         AppDeployments.currentSubscriptionInfo || {},
-        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-subscriptions'
+        DOC_LINKS.SUBSCRIPTIONS
       )
     } else if (AppDeployments.openEditPlacementRuleModal) {
       showEditModalByType(
@@ -393,7 +393,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_PLACEMENT_RULES,
         AppDeployments.currentPlacementRuleInfo || {},
-        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-placement-rules'
+        DOC_LINKS.PLACEMENT_RULES
       )
     }
     return (

@@ -10,7 +10,7 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
-import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
+import { RESOURCE_TYPES, DOC_LINKS } from '../../../../../lib/shared/constants'
 import ProgressBar from '../ProgressBar/index'
 import {
   onSubscriptionClick,
@@ -805,7 +805,7 @@ const PipelineGrid = withLocale(
               </div>
               <div className="deployment-highlights-terminology-docs">
                 <a
-                  href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-channels"
+                  href={DOC_LINKS.CHANNELS}
                   rel="noopener noreferrer"
                   target="_blank"
                 >

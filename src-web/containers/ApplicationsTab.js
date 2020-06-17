@@ -10,7 +10,7 @@
 import React from 'react'
 import ResourceTableModule from '../components/common/ResourceTableModuleFromProps'
 import { withRouter } from 'react-router-dom'
-import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import { RESOURCE_TYPES, DOC_LINKS } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
 import { createResources } from '../actions/common'
 import CreateResourceModal from '../components/modals/CreateResourceModal'
@@ -36,7 +36,7 @@ const registerApplicationModal = (
     resourceTypeName="description.application"
     onCreateResource={handleCreateResource}
     resourceDescriptionKey="modal.createresource.application"
-    helpLink="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#managing-application-resources"
+    helpLink={DOC_LINKS.APPLICATIONS}
     sampleContent={[getApplicationSample(locale)]}
   />
 )

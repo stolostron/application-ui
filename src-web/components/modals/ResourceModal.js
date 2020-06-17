@@ -20,6 +20,7 @@ import {
   InlineNotification,
   Icon
 } from 'carbon-components-react'
+import { DOC_LINKS } from '../../../lib/shared/constants'
 import resources from '../../../lib/shared/resources'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
@@ -180,8 +181,7 @@ class ResourceModal extends React.PureComponent {
       resourceType.name &&
       resourceType.name === 'HCMApplication'
     ) {
-      helpLink =
-        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#managing-application-resources'
+      helpLink = DOC_LINKS.APPLICATIONS
     }
 
     return (

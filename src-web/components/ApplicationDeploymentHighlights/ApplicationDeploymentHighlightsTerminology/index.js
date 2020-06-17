@@ -9,6 +9,7 @@
 
 import React from 'react'
 import { Accordion, AccordionItem, Tile, Icon } from 'carbon-components-react'
+import { DOC_LINKS } from '../../../../lib/shared/constants'
 import msgs from '../../../../nls/platform.properties'
 import resources from '../../../../lib/shared/resources'
 import PropTypes from 'prop-types'
@@ -81,7 +82,7 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
               </div>
               <div className="deployment-highlights-terminology-docs">
                 <a
-                  href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                  href={DOC_LINKS.TERMINOLOGY}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

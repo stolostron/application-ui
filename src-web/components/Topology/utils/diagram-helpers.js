@@ -100,14 +100,18 @@ export const getWrappedNodeLabel = (label, width, rows = 3) => {
 const splitLabel = (label, width, rows) => {
   let line = ''
   const lines = []
-  const parts = label.split(/([^A-Za-z0-9])+/)
+  let parts = label.split(/([^A-Za-z0-9])+/)
+  if (parts.length === 1 && label.length > width) {
+    //split if length > width and no split separator in label
+    parts = R.splitAt(width, label)
+  }
   let remaining = label.length
   do {
     // add label part
     line += parts.shift()
 
-    // add splitter
-    if (parts.length) {
+    // add splitter, check if next item is a splitter, 1 char
+    if (parts.length && parts[0].length === 1) {
       line += parts.shift()
     }
 
@@ -117,7 +121,7 @@ const splitLabel = (label, width, rows) => {
         remaining -= line.length
         if (remaining > width) {
           if (rows === 2) {
-            // if pentulitmate row do a hard break
+            // if penultimate row do a hard break
             const split = parts[0]
             const idx = width - line.length
             line += split.substr(0, idx)

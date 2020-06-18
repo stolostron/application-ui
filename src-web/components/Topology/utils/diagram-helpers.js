@@ -778,7 +778,7 @@ export const setResourceDeployStatus = (node, details) => {
     clusterName = R.trim(clusterName)
     const res = resourceMap[`${resourceName}-${clusterName}`]
     const deployedKey = res ? deployedStr : notDeployedStr
-    const statusStr = deployedKey === deployedStr ? 'checkmark' : 'failure'
+    const statusStr = deployedKey === deployedStr ? 'checkmark' : 'pending'
 
     details.push({
       labelValue: clusterName,
@@ -836,9 +836,12 @@ export const setPodDeployStatus = (node, details) => {
     clusterName = R.trim(clusterName)
     const res = podStatusModel[clusterName]
     const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
-    const isErrorMsg = valueStr === notDeployedStr || res.ready < res.desired
+    const isErrorMsg = res.ready < res.desired
+    const isPending = valueStr === notDeployedStr
 
-    const statusStr = isErrorMsg ? 'failure' : 'checkmark'
+    const statusStr = isErrorMsg
+      ? 'failure'
+      : isPending ? 'pending' : 'checkmark'
 
     details.push({
       labelValue: clusterName,

@@ -339,7 +339,7 @@ const getPulseStatusForGenericNode = node => {
 }
 
 //count pod state
-const getPodState = (podItem, clusterName, types) => {
+export const getPodState = (podItem, clusterName, types) => {
   const podStatus = R.toLower(R.pathOr('unknown', ['status'])(podItem))
 
   let result = 0

@@ -27,7 +27,8 @@ import {
   addIngressNodeInfo,
   setPlacementRuleDeployStatus,
   addNodeInfoPerCluster,
-  getClusterName
+  getClusterName,
+  getPodState
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -199,6 +200,17 @@ describe("getPulseForNodeWithPodStatus ", () => {
     clusterName: null,
     type: "deployment",
     specs: {
+      podModel: {
+        "mortgage-app-deploy-55c65b9c8f-6v9bn": {
+          cluster: "feng",
+          hostIP: "1.1.1.1",
+          status: "Running",
+          startedAt: "2020-04-20T22:03:52Z",
+          restarts: 0,
+          podIP: "1.1.1.1",
+          startedAt: "Monday"
+        }
+      },
       deploymentModel: {
         "mortgage-app-deploy-feng": {
           ready: 2,
@@ -2948,5 +2960,100 @@ describe("processResourceActionLink dummy link", () => {
 describe("getClusterName node id undefined", () => {
   it("should return empty string", () => {
     expect(getClusterName(undefined)).toEqual("");
+  });
+});
+
+describe("getPodState pod", () => {
+  const podItem = {
+    apiversion: "v1",
+    cluster: "relievedox",
+    container: "mortgagecm-mortgage",
+    created: "2020-06-01T19:09:00Z",
+    hostIP: "10.0.135.243",
+    image: "fxiang/mortgage:0.4.0",
+    kind: "pod",
+    label: "app=mortgagecm-mortgage; pod-template-hash=b8d75b48f",
+    name: "mortgagecm-deploy-b8d75b48f-mjsfg",
+    namespace: "default",
+    podIP: "10.129.2.224",
+    restarts: 3,
+    selfLink:
+      "/api/v1/namespaces/default/pods/mortgagecm-deploy-b8d75b48f-mjsfg",
+    startedAt: "2020-06-01T19:09:00Z",
+    status: "Running",
+    _clusterNamespace: "relievedox-ns",
+    _rbac: "relievedox-ns_null_pods",
+    _uid: "relievedox/20239a36-560a-4240-85ae-1663f48fec55"
+  };
+  const clusterName = "relievedox";
+  const types = ["err", "off", "invalid", "kill"];
+
+  const result = 0;
+
+  it("should return getPodState pod", () => {
+    expect(getPodState(podItem, clusterName, types)).toEqual(result);
+  });
+});
+
+describe("getPodState pod 1", () => {
+  const podItem = {
+    apiversion: "v1",
+    cluster: "relievedox",
+    container: "mortgagecm-mortgage",
+    created: "2020-06-01T19:09:00Z",
+    hostIP: "10.0.135.243",
+    image: "fxiang/mortgage:0.4.0",
+    kind: "pod",
+    label: "app=mortgagecm-mortgage; pod-template-hash=b8d75b48f",
+    name: "mortgagecm-deploy-b8d75b48f-mjsfg",
+    namespace: "default",
+    podIP: "10.129.2.224",
+    restarts: 3,
+    selfLink:
+      "/api/v1/namespaces/default/pods/mortgagecm-deploy-b8d75b48f-mjsfg",
+    startedAt: "2020-06-01T19:09:00Z",
+    status: "Running",
+    _clusterNamespace: "relievedox-ns",
+    _rbac: "relievedox-ns_null_pods",
+    _uid: "relievedox/20239a36-560a-4240-85ae-1663f48fec55"
+  };
+  const types = ["err", "off", "invalid", "kill"];
+
+  const result = 0;
+
+  it("should return getPodState pod 1", () => {
+    expect(getPodState(podItem, undefined, types)).toEqual(result);
+  });
+});
+
+describe("getPodState pod 2", () => {
+  const podItem = {
+    apiversion: "v1",
+    cluster: "relievedox",
+    container: "mortgagecm-mortgage",
+    created: "2020-06-01T19:09:00Z",
+    hostIP: "10.0.135.243",
+    image: "fxiang/mortgage:0.4.0",
+    kind: "pod",
+    label: "app=mortgagecm-mortgage; pod-template-hash=b8d75b48f",
+    name: "mortgagecm-deploy-b8d75b48f-mjsfg",
+    namespace: "default",
+    podIP: "10.129.2.224",
+    restarts: 3,
+    selfLink:
+      "/api/v1/namespaces/default/pods/mortgagecm-deploy-b8d75b48f-mjsfg",
+    startedAt: "2020-06-01T19:09:00Z",
+    status: "OOMKill",
+    _clusterNamespace: "relievedox-ns",
+    _rbac: "relievedox-ns_null_pods",
+    _uid: "relievedox/20239a36-560a-4240-85ae-1663f48fec55"
+  };
+  const types = ["err", "off", "invalid", "kill"];
+  const clusterName = "relievedox";
+
+  const result = 1;
+
+  it("should return getPodState pod 2", () => {
+    expect(getPodState(podItem, clusterName, types)).toEqual(result);
   });
 });

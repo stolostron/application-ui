@@ -840,7 +840,7 @@ export const setPodDeployStatus = (node, details) => {
     clusterName = R.trim(clusterName)
     const res = podStatusModel[clusterName]
     const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
-    const isErrorMsg = res.ready < res.desired
+    const isErrorMsg = res && res.ready < res.desired
     const isPending = valueStr === notDeployedStr
 
     const statusStr = isErrorMsg

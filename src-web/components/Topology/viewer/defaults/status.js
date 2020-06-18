@@ -188,10 +188,10 @@ export const updateNodeIcons = nodes => {
         nodeIcons['status'] = Object.assign({}, StatusIcon.error)
         break
       case 'yellow':
-        nodeIcons['status'] = Object.assign({}, StatusIcon.pending)
+        nodeIcons['status'] = Object.assign({}, StatusIcon.warning)
         break
       case 'orange':
-        nodeIcons['status'] = Object.assign({}, StatusIcon.warning)
+        nodeIcons['status'] = Object.assign({}, StatusIcon.pending)
         break
       case 'green':
         nodeIcons['status'] = Object.assign({}, StatusIcon.success)

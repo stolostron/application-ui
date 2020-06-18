@@ -122,7 +122,8 @@ export const getDiagramElements = (
   } = topology
   const topologyReloading = reloading
   const topologyLoadError = status === REQUEST_STATUS.ERROR
-  if (loaded && !topologyLoadError) {
+  const appLoaded = applicationDetails && applicationDetails.status === 'DONE'
+  if (loaded && !topologyLoadError && appLoaded) {
     // topology from api will have raw k8 objects, pods status
     const { links, nodes } = getTopologyElements(topology)
     // create yaml and what row links to what node

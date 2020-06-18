@@ -18,23 +18,21 @@ import msgs from '../../../../nls/platform.properties'
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
 const notDeployedStr = msgs.get('spec.deploy.not.deployed')
+const notDeployedNSStr = msgs.get('spec.deploy.not.deployed.ns')
 const deployedStr = msgs.get('spec.deploy.deployed')
+const deployedNSStr = msgs.get('spec.deploy.deployed.ns')
 const specPulse = 'specs.pulse'
 const specsPropsYaml = 'props.show.yaml'
 const showLocalYaml = 'props.show.local.yaml'
 const showResourceYaml = 'show_resource_yaml'
 const specLocation = 'raw.spec.host.location'
 
-const podErrorStates = [
-  'CrashLoopBackOff',
-  'ImageLoopBackOff',
-  'ErrImagePull',
-  'Error',
-  'InvalidImageName',
-  'OOMKilled'
-]
+//pod state contains any of these strings
+const podErrorStates = ['err', 'off', 'invalid', 'kill']
 
-const podWarningStates = ['Pending']
+const podWarningStates = ['pending']
+
+const podSuccessStates = ['run']
 
 /*
 * UI helpers to help with data transformations
@@ -342,14 +340,20 @@ const getPulseStatusForGenericNode = node => {
 
 //count pod state
 const getPodState = (podItem, clusterName, types) => {
-  if (
-    clusterName.indexOf(podItem.cluster) > -1 &&
-    R.contains(podItem.status, types)
-  ) {
-    return 1
-  }
+  const podStatus = R.toLower(R.pathOr('unknown', ['status'])(podItem))
 
-  return 0
+  let result = 0
+  if (
+    !clusterName ||
+    R.contains(clusterName, R.pathOr('unkown', ['cluster'])(podItem))
+  ) {
+    types.forEach(type => {
+      if (R.contains(type, podStatus)) {
+        result = 1
+      }
+    })
+  }
+  return result
 }
 
 export const getPulseForData = (
@@ -409,7 +413,8 @@ export const getPulseForNodeWithPodStatus = node => {
     Object.values(podList).forEach(podItem => {
       podsUnavailable =
         podsUnavailable + getPodState(podItem, clusterName, podErrorStates) //podsUnavailable + 1
-      podsReady = podsReady + getPodState(podItem, clusterName, 'Running')
+      podsReady =
+        podsReady + getPodState(podItem, clusterName, podSuccessStates)
     })
 
     podStatusMap[clusterName] = {
@@ -781,8 +786,13 @@ export const setResourceDeployStatus = (node, details) => {
     })
     clusterName = R.trim(clusterName)
     const res = resourceMap[`${resourceName}-${clusterName}`]
-    const deployedKey = res ? deployedStr : notDeployedStr
-    const statusStr = deployedKey === deployedStr ? 'checkmark' : 'pending'
+    const deployedKey = res
+      ? node.type === 'namespace' ? deployedNSStr : deployedStr
+      : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr
+    const statusStr =
+      deployedKey === deployedStr || deployedKey === deployedNSStr
+        ? 'checkmark'
+        : 'pending'
 
     details.push({
       labelValue: clusterName,
@@ -862,9 +872,9 @@ export const setPodDeployStatus = (node, details) => {
 
   Object.values(podModel).forEach(pod => {
     const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
-    const podError = R.contains(pod.status, podErrorStates)
-    const podWarning = R.contains(pod.status, podWarningStates)
 
+    const podError = getPodState(pod, undefined, podErrorStates)
+    const podWarning = getPodState(pod, undefined, podWarningStates)
     const clusterDetails = podDataPerCluster[cluster]
     if (clusterDetails) {
       const statusStr = podError

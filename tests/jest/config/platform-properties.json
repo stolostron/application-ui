@@ -56,7 +56,6 @@
   "application.diagram.start.channel": "from: {0}",
   "application.diagram.end.channel": "to: {0}",
   "application.diagram.how.to.read": "How to read topology",
-  "application.diagram.how.to.read.tooltip": "How to read topology",
   "description.Modal.SubscriptionInfo": "Subscription",
   "description.Modal.Namespace": "Namespace",
   "description.Modal.SubscriptionCluster": "Host cluster",

@@ -122,11 +122,6 @@
       height: 14px;
     }
 
-    .showPagesTooltip {
-      line-height: 21px;
-      font-size: 14px;
-    }
-
     .pageInput {
       align-items: center;
       width: 30px;
@@ -397,5 +392,10 @@
 svg.topologyDiagram {
   height: 100%;
   width: 100%;
+}
+
+.showPagesTooltip {
+  line-height: 21px;
+  font-size: 14px;
 }
 

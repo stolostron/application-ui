@@ -2128,6 +2128,37 @@ describe("setPodDeployStatus  with pod less then desired", () => {
   });
 });
 
+describe("setPodDeployStatus  with pod but no pod model and no podStatusMap", () => {
+  const node = {
+    type: "pod",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    specs: {
+      raw: {
+        spec: {
+          replicas: 1,
+          template: {
+            spec: {
+              containers: [{ c1: "aa" }]
+            }
+          }
+        }
+      }
+    }
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.pods.statuses", type: "label" },
+    { labelValue: "possiblereptile", status: "pending", value: "Not Deployed" },
+    { type: "spacer" }
+  ];
+  it("setPodDeployStatus with pod but no pod podStatusMap ", () => {
+    expect(setPodDeployStatus(node, [])).toEqual(result);
+  });
+});
+
 describe("setPodDeployStatus  with pod as desired", () => {
   const node = {
     type: "pod",

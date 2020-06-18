@@ -83,7 +83,7 @@ class DetailsView extends React.Component {
     const details = getNodeDetails(currentNode, locale)
     const name = currentNode.type === 'cluster' ? '' : currentNode.name
     const height = getViewContainer().getBoundingClientRect().height
-    const scrollHeight = height * 0.75
+    const scrollHeight = height * 0.86
     const searchLink = createResourceSearchLink(currentNode)
     return (
       <section className="topologyDetails">

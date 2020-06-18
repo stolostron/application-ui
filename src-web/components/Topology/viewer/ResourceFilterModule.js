@@ -225,7 +225,7 @@ class ResourceFilterView extends React.Component {
           />
         </h3>
         <Scrollbars
-          style={{ width: containerWidth, height: scrollHeight - 80 }}
+          style={{ width: containerWidth, height: scrollHeight - 60 }}
           renderView={this.renderView}
           renderThumbVertical={this.renderThumbVertical}
           ref={this.setContainerRef}

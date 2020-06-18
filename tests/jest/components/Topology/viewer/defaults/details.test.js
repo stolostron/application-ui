@@ -806,7 +806,7 @@ describe("getNodeDetails deployment node", () => {
       }
     },
     { type: "spacer" },
-    { labelValue: "cluster2", status: "failure", value: "Not Deployed" },
+    { labelValue: "cluster2", status: "pending", value: "Not Deployed" },
     { type: "spacer" },
     { labelKey: "resource.status", type: "label", value: "Subscribed" },
     { labelKey: "resource.status.last.updated", type: "label", value: "-" },

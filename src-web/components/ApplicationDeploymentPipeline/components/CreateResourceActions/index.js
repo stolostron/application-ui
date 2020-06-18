@@ -9,7 +9,7 @@ import React from '../../../../../node_modules/react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import { showCreate } from '../../../../../lib/client/access-helper'
-import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
+import { RESOURCE_TYPES, DOC_LINKS } from '../../../../../lib/shared/constants'
 import {
   getChannelSample,
   getSubscriptionSample,
@@ -37,7 +37,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
       onCreateResource={handleCreateSubscriptionResource}
       onSubmitFunction={fetchSubscriptions}
       resourceDescriptionKey="modal.createresource.subscription"
-      helpLink="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-subscriptions"
+      helpLink={DOC_LINKS.SUBSCRIPTIONS}
       iconDescription={msgs.get(
         'actions.add.subscription.iconDescription',
         locale
@@ -57,7 +57,7 @@ const CreatePlacementRuleModal = (fetchPlacementRuleResource, locale) => {
       onCreateResource={handleCreatePlacementRuleResource}
       onSubmitFunction={fetchPlacementRuleResource}
       resourceDescriptionKey="modal.createresource.placementrule"
-      helpLink="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-placement-rules"
+      helpLink={DOC_LINKS.PLACEMENT_RULES}
       iconDescription={msgs.get(
         'actions.add.subscription.iconDescription',
         locale
@@ -84,7 +84,7 @@ const CreateChannelModal = (fetchChannels, locale) => {
       onCreateResource={handleCreateChannelResource}
       onSubmitFunction={fetchChannels}
       resourceDescriptionKey="modal.createresource.channel"
-      helpLink="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-channels"
+      helpLink={DOC_LINKS.CHANNELS}
       iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
       sampleTabs={channelTabs}
       sampleContent={[

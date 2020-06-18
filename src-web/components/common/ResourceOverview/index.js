@@ -36,7 +36,7 @@ import {
 } from '../../../reducers/reducerAppDeployments'
 import apolloClient from '../../../../lib/client/apollo-client'
 import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
-import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
+import { RESOURCE_TYPES, DOC_LINKS } from '../../../../lib/shared/constants'
 import { updateModal } from '../../../actions/common'
 import HeaderActions from '../../common/HeaderActions'
 
@@ -80,8 +80,7 @@ const ResourceOverview = withLocale(
         name: name,
         namespace: namespace,
         data: data,
-        helpLink:
-          'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#managing-application-resources'
+        helpLink: DOC_LINKS.APPLICATIONS
       })
     }
 

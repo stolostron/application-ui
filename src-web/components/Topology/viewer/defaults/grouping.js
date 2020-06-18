@@ -71,8 +71,8 @@ export function getTypeNodeGroups(nodes, activeFilters, diagramOptions) {
     node.layout = Object.assign(node.layout || {}, {
       uid: node.uid,
       type: node.type,
-      label: getWrappedNodeLabel(label, 14, 3),
-      compactLabel: getWrappedNodeLabel(label, 12, 2)
+      label: getWrappedNodeLabel(label, 12, 3),
+      compactLabel: getWrappedNodeLabel(label, 10, 2)
     })
 
     delete node.layout.source

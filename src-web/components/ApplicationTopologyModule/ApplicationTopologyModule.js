@@ -507,6 +507,9 @@ class ApplicationTopologyModule extends React.Component {
                   'application.diagram.how.to.read',
                   this.context.locale
                 )}
+                <svg className="how-to-read-icon">
+                  <use href={'#diagramIcons_sidecar'} />
+                </svg>
               </span>
             </div>
             {topologyLoadError && (

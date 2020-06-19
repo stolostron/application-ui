@@ -55,6 +55,13 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
             tabIndex="0"
           >
             How to read topology
+            <svg
+              className="how-to-read-icon"
+            >
+              <use
+                href="#diagramIcons_sidecar"
+              />
+            </svg>
           </span>
         </div>
         <div
@@ -473,6 +480,13 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
         tabIndex="0"
       >
         How to read topology
+        <svg
+          className="how-to-read-icon"
+        >
+          <use
+            href="#diagramIcons_sidecar"
+          />
+        </svg>
       </span>
     </div>
     <div

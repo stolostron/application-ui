@@ -258,6 +258,13 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
             tabIndex="0"
           >
             How to read topology
+            <svg
+              className="how-to-read-icon"
+            >
+              <use
+                href="#diagramIcons_sidecar"
+              />
+            </svg>
           </span>
         </div>
         <div

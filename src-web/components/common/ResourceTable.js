@@ -89,6 +89,7 @@ class ResourceTable extends React.Component {
         key="data-table"
         rows={this.getRows()}
         headers={this.getHeaders()}
+        zebra={false}
         translateWithId={translateWithId.bind(null, locale)}
         render={({ rows, headers, getRowProps }) => (
           <TableContainer
@@ -121,7 +122,7 @@ class ResourceTable extends React.Component {
               />
               <TableToolbarContent>{actions}</TableToolbarContent>
             </TableToolbar>
-            <Table className="resource-table">
+            <Table className="resource-table" zebra={false}>
               <TableHead>
                 <TableRow>
                   {expandableTable && <TableExpandHeader />}

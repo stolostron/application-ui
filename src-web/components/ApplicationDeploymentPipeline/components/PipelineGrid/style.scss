@@ -257,7 +257,7 @@
     position: absolute;
     overflow: scroll;
     width: calc(90% - 329px);
-    background-color: #f4f7fb;
+    background-color: $acm_background_color;
   }
 
   .channelGridContainerSingleApp {
@@ -265,7 +265,7 @@
     position: absolute;
     overflow: scroll;
     width: 90vw;
-    background-color: #f4f7fb;
+    background-color: $acm_background_color;
     margin-bottom: 50px;
   }
 

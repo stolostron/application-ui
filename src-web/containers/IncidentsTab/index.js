@@ -108,10 +108,11 @@ class IncidentsTab extends React.Component {
               <DataTable
                 rows={rowsList}
                 headers={this.headers}
+                zebra={false}
                 render={({ rows, headers, getHeaderProps, getRowProps }) => {
                   return (
                     <TableContainer title="">
-                      <Table>
+                      <Table zebra={false}>
                         <TableHead>
                           <TableRow>
                             {headers.map(header => (

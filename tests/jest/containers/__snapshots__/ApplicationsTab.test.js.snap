@@ -265,7 +265,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
           </div>
         </section>
         <table
-          className="bx--data-table-v2 resource-table bx--data-table-v2--zebra"
+          className="bx--data-table-v2 resource-table"
         >
           <thead>
             <tr>
@@ -885,7 +885,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
           </div>
         </section>
         <table
-          className="bx--data-table-v2 resource-table bx--data-table-v2--zebra"
+          className="bx--data-table-v2 resource-table"
         >
           <thead>
             <tr>

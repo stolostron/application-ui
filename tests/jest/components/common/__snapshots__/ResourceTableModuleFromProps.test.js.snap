@@ -90,7 +90,7 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
           />
         </section>
         <table
-          className="bx--data-table-v2 resource-table bx--data-table-v2--zebra"
+          className="bx--data-table-v2 resource-table"
         >
           <thead>
             <tr>

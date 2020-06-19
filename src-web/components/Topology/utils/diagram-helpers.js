@@ -645,6 +645,24 @@ export const createResourceSearchLink = node => {
   return result
 }
 
+//for charts remove release name
+export const getNameWithoutChartRelease = (relatedKind, name) => {
+  //for charts remove release name
+  const labelAttr = _.get(relatedKind, 'label', '')
+  const labels = _.split(labelAttr, ';')
+  labels.forEach(label => {
+    const splitLabel = _.split(label, '=')
+    if (splitLabel.length === 2 && _.trim(splitLabel[0]) === 'release') {
+      //get for release name
+      const releaseName = _.trim(splitLabel[1])
+      name = _.replace(name, `${releaseName}-`, '')
+      name = _.replace(name, releaseName, '')
+    }
+  })
+
+  return name
+}
+
 export const computeResourceName = (
   relatedKind,
   deployableName,
@@ -733,16 +751,23 @@ export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
           relatedKind
         )
 
+        const nameWithoutChartRelease = getNameWithoutChartRelease(
+          relatedKind,
+          nameNoHash
+        )
+
         const name = computeResourceName(
           relatedKind,
           deployableName,
-          nameNoHash,
+          nameWithoutChartRelease,
           isClusterGrouped
         )
 
         if (resourceMap[name]) {
           const kindModel = _.get(resourceMap[name], `specs.${kind}Model`, {})
-          kindModel[`${relatedKind.name}-${relatedKind.cluster}`] = relatedKind
+          kindModel[
+            `${nameWithoutChartRelease}-${relatedKind.cluster}`
+          ] = relatedKind
           _.set(resourceMap[name], `specs.${kind}Model`, kindModel)
         }
       })

@@ -28,7 +28,8 @@ import {
   setPlacementRuleDeployStatus,
   addNodeInfoPerCluster,
   getClusterName,
-  getPodState
+  getPodState,
+  getNameWithoutChartRelease
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -544,6 +545,31 @@ describe("computeResourceName node with pods with _hostingDeployable", () => {
     expect(
       computeResourceName(node, null, "redis-slave", { value: "true" })
     ).toEqual("pod-redis-slave");
+  });
+});
+
+describe("getNameWithoutChartRelease node with pods no _hostingDeployable", () => {
+  const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label:
+      "app=nginx-ingress; chart=nginx-ingress-1.36.3; component=default-backend; heritage=Helm; release=nginx-ingress-edafb",
+    name: "nginx-ingress-edafb-default-backend",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+
+  it("nodeMustHavePods POD no _hostingDeployable", () => {
+    expect(
+      getNameWithoutChartRelease(node, "nginx-ingress-edafb-default-backend")
+    ).toEqual("default-backend");
   });
 });
 

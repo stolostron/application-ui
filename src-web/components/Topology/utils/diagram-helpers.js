@@ -651,10 +651,13 @@ export const getNameWithoutChartRelease = (relatedKind, name) => {
   const labelAttr = _.get(relatedKind, 'label', '')
   const labels = _.split(labelAttr, ';')
   labels.forEach(label => {
-    const splitLabel = _.split(label, '=')
-    if (splitLabel.length === 2 && _.trim(splitLabel[0]) === 'release') {
+    const splitLabelContent = _.split(label, '=')
+    if (
+      splitLabelContent.length === 2 &&
+      _.trim(splitLabelContent[0]) === 'release'
+    ) {
       //get for release name
-      const releaseName = _.trim(splitLabel[1])
+      const releaseName = _.trim(splitLabelContent[1])
       name = _.replace(name, `${releaseName}-`, '')
       name = _.replace(name, releaseName, '')
     }

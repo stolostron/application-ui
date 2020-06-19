@@ -268,11 +268,6 @@ describe("Application Resources", () => {
         });
       });
     });
-    // cy.task("getFileList", "yaml").then(list => {
-    //   list.forEach(file => {
-    //     cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
-    //   });
-    // });
   });
 });
 

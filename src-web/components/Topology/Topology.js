@@ -45,6 +45,7 @@ class Topology extends React.Component {
     options: PropTypes.object,
     portals: PropTypes.object,
     processActionLink: PropTypes.func,
+    refetchIntervalUpdateDispatch: PropTypes.func,
     searchUrl: PropTypes.string,
     selectionControl: PropTypes.shape({
       selectedNode: PropTypes.object,
@@ -166,6 +167,7 @@ class Topology extends React.Component {
       selectionControl = {},
       channelControl = {},
       processActionLink,
+      refetchIntervalUpdateDispatch,
       locale
     } = this.props
     const { isLoaded = true, isReloading = false } = fetchControl
@@ -176,7 +178,13 @@ class Topology extends React.Component {
 
     return (
       <div className="topologyDiagramContainer">
-        {renderRefreshTime(isLoaded, isReloading, timestamp, locale)}
+        {renderRefreshTime(
+          refetchIntervalUpdateDispatch,
+          isLoaded,
+          isReloading,
+          timestamp,
+          locale
+        )}
         {this.renderResourceFilterModule()}
         {this.renderSearchName()}
         {this.renderTypeFilterBar()}

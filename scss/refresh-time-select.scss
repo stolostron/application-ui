@@ -9,13 +9,21 @@
 @import '../node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
+.refresh-time-div {
+  position: fixed;
+  display:flex;
+  right: 01.5625rem;
+  top: 6.0rem;
+  padding: 1rem 6% 3.375rem;
+  width: 160px;
+  z-index: 1002;
+
 .refresh-time-selection {
   display: flex;
   align-items: center;
-  position: absolute;
-  top: -50px;
-  right: 0;
-  width: 160px;
+  position: fixed;
+  top: 5.0rem;
+  
 
   > div {
     outline: none;
@@ -79,21 +87,16 @@
     }
   }
 }
-// special logic for the case with a secondary header 
-.hasBreadcrumbs {
-  position: absolute;
-  top: -112px;
-}
 
 .refresh-time-container {
   display: flex;
   align-items: center;
+  top:7rem;
   font-size: 12px;
   height: 20px;
-  position: absolute;
-  right: 0px;
-  top: 120px;
-  padding: 1rem 6% 3.375rem;
+  position: fixed;
+
 }
 
+}
  

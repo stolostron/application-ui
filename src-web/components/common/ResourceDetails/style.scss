@@ -11,9 +11,9 @@
 
 #ResourceDetails {
   .app-info-and-dashboard-links {
-    position: absolute;
-    top: calc(#{$secondary-header-top} + 32px);
-    right: calc(5% + 160px);
+    position: fixed;
+    top: 5.7rem;
+    right: calc(3% + 160px);
     z-index: 1001;
     background-color: $color__white;
     display: inline-block;
@@ -30,7 +30,7 @@
 
   .app-info-and-dashboard-links-separator {
     border-left: 2px solid $color__gray-1;
-    margin: 0 15px 0 15px;
+    margin: 0 15px 0 35px;
   }
 
   .app-info-icon {

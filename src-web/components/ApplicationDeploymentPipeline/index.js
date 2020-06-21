@@ -22,6 +22,7 @@ import {
   mutateResourceSuccessFinished,
   delResourceSuccessFinished
 } from '../../actions/common'
+import { refetchIntervalUpdate } from '../../actions/refetch'
 import {
   fetchChannelResource,
   fetchSubscriptionResource,
@@ -123,7 +124,8 @@ const mapDispatchToProps = dispatch => {
     mutateSuccessFinished: resourceType =>
       dispatch(mutateResourceSuccessFinished(resourceType)),
     deleteSuccessFinished: resourceType =>
-      dispatch(delResourceSuccessFinished(resourceType))
+      dispatch(delResourceSuccessFinished(resourceType)),
+    refetchIntervalUpdateDispatch: data => dispatch(refetchIntervalUpdate(data))
   }
 }
 
@@ -316,7 +318,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       closeModal,
       mutateStatus,
       deleteStatus,
-      deleteMsg
+      deleteMsg,
+      refetchIntervalUpdateDispatch
     } = this.props
     const { locale } = this.context
 
@@ -398,7 +401,13 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
     return (
       <div id="DeploymentPipeline">
-        {renderRefreshTime(isLoaded, isReloading, timestamp, locale)}
+        {renderRefreshTime(
+          refetchIntervalUpdateDispatch,
+          isLoaded,
+          isReloading,
+          timestamp,
+          locale
+        )}
         {loading && <Loading withOverlay={true} />}
         {deleteStatus === Actions.REQUEST_STATUS.DONE && (
           <Notification

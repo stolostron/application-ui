@@ -13,6 +13,7 @@
     stroke-width: 3px;
     stroke-opacity: 1;
     fill: $color__gray-3;
+    cursor: pointer;
 
     &.disabled {
      stroke: $color__navy-gray-7;
@@ -41,7 +42,8 @@
     stroke-opacity: 0;
     stroke: #0062FF;
     fill: none;
-    pointer-events: none;
+    cursor: pointer;
+
   }
 
   &:hover .shadow {

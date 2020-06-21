@@ -146,8 +146,8 @@
   }
 
   .app-info-and-dashboard-links {
-    position: absolute;
-    top: calc(#{$secondary-header-top} + 32px);
+    position: fixed;
+    top: 5.7rem;
     right: calc(5% + 160px);
     z-index: 1001;
     background-color: $color__white;
@@ -165,7 +165,7 @@
 
   .app-info-and-dashboard-links-separator {
     border-left: 2px solid $color__gray-1;
-    margin: 0 15px 0 15px;
+    margin: 0 35px 0 25px;
   }
 
   .app-info-icon {
@@ -228,8 +228,8 @@
   align-items: center;
   font-size: 12px;
   height: 20px;
-  position: absolute;
-  right: 0px;
-  top: 120px;
+  position: fixed;
+  right: 1.5625rem;
+  top: 6.5rem;
   padding: 1rem 6% 3.375rem;
 }

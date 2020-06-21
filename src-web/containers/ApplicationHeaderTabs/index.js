@@ -24,10 +24,7 @@ import {
   delResourceSuccessFinished,
   mutateResourceSuccessFinished
 } from '../../actions/common'
-import { refetchIntervalUpdate } from '../../actions/refetch'
-import { RESOURCE_TYPES, REFRESH_TIMES } from '../../../lib/shared/constants'
-
-import RefreshTimeSelect from '../../components/common/RefreshTimeSelect'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 resources(() => {
   require('./style.scss')
@@ -57,9 +54,7 @@ const ApplicationHeaderTabs = withLocale(
     locale,
     serverProps,
     mutateSuccessFinished,
-    deleteSuccessFinished,
-    refetchIntervalUpdateDispatch,
-    hasBreadcrumbs
+    deleteSuccessFinished
   }) => {
     if (!showExtraTabs && selectedAppTab > 1) {
       actions.setSelectedAppTab(0)
@@ -153,12 +148,6 @@ const ApplicationHeaderTabs = withLocale(
                   {renderTab(2)}
                 </Tab>
             )}
-
-            <RefreshTimeSelect
-              refreshValues={REFRESH_TIMES}
-              refetchIntervalUpdate={refetchIntervalUpdateDispatch}
-              hasBreadcrumbs={hasBreadcrumbs}
-            />
           </Tabs>
         </div>
       </div>
@@ -172,18 +161,14 @@ const mapDispatchToProps = dispatch => {
     mutateSuccessFinished: resourceType =>
       dispatch(mutateResourceSuccessFinished(resourceType)),
     deleteSuccessFinished: resourceType =>
-      dispatch(delResourceSuccessFinished(resourceType)),
-    refetchIntervalUpdateDispatch: data => dispatch(refetchIntervalUpdate(data))
+      dispatch(delResourceSuccessFinished(resourceType))
   }
 }
 const mapStateToProps = state => {
-  const { role, AppOverview, secondaryHeader } = state
+  const { role, AppOverview } = state
   return {
     userRole: role && role.role,
-    selectedAppTab: AppOverview.selectedAppTab,
-    hasBreadcrumbs:
-      secondaryHeader.breadcrumbItems &&
-      secondaryHeader.breadcrumbItems.length > 0
+    selectedAppTab: AppOverview.selectedAppTab
   }
 }
 

@@ -53,17 +53,7 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
       href
     })
   }
-  /*
-  tooltips.push({
-    name: '',
-    value: ''
-  })
 
-  const href = 'aaa'
-  tooltips.push({
-    name: msgs.get('tooltip.open.props', locale)
-  })
-*/
   return tooltips
 }
 

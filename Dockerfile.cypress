@@ -1,0 +1,28 @@
+FROM golang:1.14 as builder
+# get yq
+RUN go get github.com/mikefarah/yq
+
+FROM cypress/included:4.5.0 as production
+
+USER root
+
+COPY --from=builder /go/bin/yq /usr/bin/yq
+
+WORKDIR /usr/src/app
+
+#COPY package.json .
+#COPY package-lock.json .
+#COPY cypress.json .
+#COPY start-tests.sh .
+#COPY download-clis.sh .
+#COPY tests ./tests
+#COPY node_modules ./node_modules
+
+COPY cypress ./tests/cypress
+COPY start-cypress-tests.sh ./tests
+
+#RUN sh download-clis.sh
+
+RUN ["chmod", "+x", "./tests/start-cypress-tests.sh"]
+
+ENTRYPOINT ["./tests/start-cypress-tests.sh"]

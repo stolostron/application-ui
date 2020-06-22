@@ -180,7 +180,7 @@ class Topology extends React.Component {
       <div className="topologyDiagramContainer">
         {renderRefreshTime(
           refetchIntervalUpdateDispatch,
-          isLoaded,
+          true,
           isReloading,
           timestamp,
           locale

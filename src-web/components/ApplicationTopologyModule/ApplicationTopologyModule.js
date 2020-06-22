@@ -31,7 +31,7 @@ import {
   DIAGRAM_QUERY_COOKIE,
   RESOURCE_TYPES
 } from '../../../lib/shared/constants'
-import { InlineNotification, Tooltip } from 'carbon-components-react'
+import { InlineNotification } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
 import {
   TOPOLOGY_SET_ACTIVE_FILTERS,
@@ -514,15 +514,10 @@ class ApplicationTopologyModule extends React.Component {
                   'application.diagram.how.to.read',
                   this.context.locale
                 )}
+                <svg className="how-to-read-icon">
+                  <use href={'#diagramIcons_sidecar'} />
+                </svg>
               </span>
-              <Tooltip triggerId="LegendTooltip" triggerText="" iconName="info">
-                <span className="how-to-read-tooltip">
-                  {msgs.get(
-                    'application.diagram.how.to.read.tooltip',
-                    this.context.locale
-                  )}
-                </span>
-              </Tooltip>
             </div>
             {topologyLoadError && (
               <InlineNotification

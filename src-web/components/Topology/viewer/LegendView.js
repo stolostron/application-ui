@@ -15,50 +15,45 @@ import msgs from '../../../../nls/platform.properties'
 
 class LegendView extends React.Component {
   render() {
-    const { locale, onClose, getViewContainer } = this.props
-    const height = getViewContainer().getBoundingClientRect().height
-    const scrollHeight = height * 0.4
+    const { locale, onClose } = this.props
 
     return (
       <section className="topologyDetails">
-        <div className="legendHeader">
-          <div>
-            <div className="titleText">
-              {msgs.get('topology.legend.header.title', locale)}
-            </div>
-            <div className="bodyText">
-              {msgs.get('topology.legend.header.text', locale)}
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <svg>
-                <use href={'#diagramShapes_legend'} className="label-icon" />
-              </svg>
-            </div>
-          </div>
+        <div>
           <Icon
             className="closeIcon"
             description={msgs.get('topology.legend.close', locale)}
             name="icon--close"
             onClick={onClose}
           />
+          <hr style={{ visibility: 'hidden' }} />
         </div>
-        <hr />
         <Scrollbars
-          style={{ height: scrollHeight }}
+          renderView={this.renderView}
           className="details-view-container"
         >
+          <div className="legendHeader">
+            <div>
+              <div className="titleText">
+                {msgs.get('topology.legend.header.title', locale)}
+              </div>
+              <div className="bodyText">
+                {msgs.get('topology.legend.header.text', locale)}
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <svg>
+                  <use href={'#diagramShapes_legend'} className="label-icon" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <hr />
           <div className="legendBody">
             <div>
               <div className="titleText">
                 {msgs.get('topology.legend.body.status.title', locale)}
               </div>
               {this.renderStatusDescriptions()}
-            </div>
-            <div className="bodyResourcesDiv">
-              <div className="titleResourcesText">
-                {msgs.get('topology.legend.body.resource.title', locale)}
-              </div>
-              <div className="bodyIconsDiv">{this.renderResourceIcons()}</div>
             </div>
           </div>
         </Scrollbars>
@@ -121,11 +116,15 @@ class LegendView extends React.Component {
       )
     })
   };
+
+  renderView({ style, ...props }) {
+    style.height = 'calc(100vh - 300px)'
+    return <div {...props} style={{ ...style }} />
+  }
 }
 
 LegendView.propTypes = {
   getLayoutNodes: PropTypes.func,
-  getViewContainer: PropTypes.func,
   locale: PropTypes.string,
   onClose: PropTypes.func
 }

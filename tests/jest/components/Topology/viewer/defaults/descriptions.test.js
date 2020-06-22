@@ -36,6 +36,21 @@ describe("getNodeDescription cluster node", () => {
   });
 });
 
+describe("getNodeDescription clusters node", () => {
+  const clusterNode = {
+    type: "cluster",
+    name: "default",
+    layout: {},
+    specs: {
+      clusterNames: ["a", "b"]
+    }
+  };
+
+  it("should process the clusters node", () => {
+    expect(getNodeDescription(clusterNode, locale)).toEqual("");
+  });
+});
+
 describe("getNodeDescription application node", () => {
   const applicationNode = {
     type: "application",

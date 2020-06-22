@@ -281,7 +281,7 @@
   "description.title.deploymentHighlightsTerminology": "Learn more about the terminology",
   "description.title.deploymentHighlightsTerminology.accordionDescription": "Expand and collapse",
   "description.title.deploymentHighlightsTerminology.channels": "Channels",
-  "description.title.deploymentHighlightsTerminology.channelsSummary": "Channels point to repositories where Kubernetes resources are stored, such as a GitHubrepositories, Helm chart repositories, object store, or hub namespace. Channels support multiple subscriptions from multiple targets.",
+  "description.title.deploymentHighlightsTerminology.channelsSummary": "Channels point to repositories where Kubernetes resources are stored, such as a Git repositories, Helm chart repositories, object store, or hub namespace. Channels support multiple subscriptions from multiple targets.",
   "description.title.deploymentHighlightsTerminology.channelGateConditions": "Channel gate and conditions",
   "description.title.deploymentHighlightsTerminology.channelGateConditionsSummary": "Each channel has certain gate conditions that a resource channel has to meet in order to get deployed to such channel. If the resource is missing all the required conditions, it will initially shown as \"pending\" until more resource conditions are added.",
   "description.title.deploymentHighlightsTerminology.deployables": "Deployables",

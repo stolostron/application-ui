@@ -102,9 +102,6 @@ export default class LayoutHelper {
         if (this.getNodeDescription) {
           node.layout.description = this.getNodeDescription(node)
         }
-        if (this.getNodeTooltips) {
-          node.layout.tooltips = this.getNodeTooltips(node, this.locale)
-        }
       }
     })
 

@@ -424,6 +424,12 @@ describe("getNodeDetails clusters node", () => {
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
     { type: "spacer" },
+    {
+      labelKey: "resource.clusters",
+      status: undefined,
+      value: "[braveman,possiblereptile]"
+    },
+    { type: "spacer" },
     { labelKey: "resource.name", value: undefined },
     { labelKey: "resource.namespace", value: undefined },
     {
@@ -528,7 +534,7 @@ describe("getNodeDetails clusters node", () => {
     { type: "spacer" }
   ];
 
-  it("should process the node", () => {
+  it("should process the clusters node", () => {
     expect(getNodeDetails(clusterNode, locale)).toEqual(expectedResult);
   });
 });

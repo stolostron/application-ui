@@ -4,35 +4,7 @@ exports[`LegendView no nodes renders as expected 1`] = `
 <section
   className="topologyDetails"
 >
-  <div
-    className="legendHeader"
-  >
-    <div>
-      <div
-        className="titleText"
-      >
-        How to read topology
-      </div>
-      <div
-        className="bodyText"
-      >
-        The topology provides a visual representation of all the applications and resources within a project, their build status, and the components and services associated with them.
-      </div>
-      <div
-        style={
-          Object {
-            "textAlign": "center",
-          }
-        }
-      >
-        <svg>
-          <use
-            className="label-icon"
-            href="#diagramShapes_legend"
-          />
-        </svg>
-      </div>
-    </div>
+  <div>
     <svg
       alt="Close topology legend view"
       aria-label="Close topology legend view"
@@ -52,13 +24,19 @@ exports[`LegendView no nodes renders as expected 1`] = `
         d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
       />
     </svg>
+    <hr
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    />
   </div>
-  <hr />
   <div
     className="details-view-container"
     style={
       Object {
-        "height": NaN,
+        "height": "100%",
         "overflow": "hidden",
         "position": "relative",
         "width": "100%",
@@ -70,6 +48,7 @@ exports[`LegendView no nodes renders as expected 1`] = `
         Object {
           "WebkitOverflowScrolling": "touch",
           "bottom": 0,
+          "height": "calc(100vh - 300px)",
           "left": 0,
           "marginBottom": 0,
           "marginRight": 0,
@@ -80,6 +59,37 @@ exports[`LegendView no nodes renders as expected 1`] = `
         }
       }
     >
+      <div
+        className="legendHeader"
+      >
+        <div>
+          <div
+            className="titleText"
+          >
+            How to read topology
+          </div>
+          <div
+            className="bodyText"
+          >
+            The topology provides a visual representation of all the applications and resources within a project, their build status, and the components and services associated with them.
+          </div>
+          <div
+            style={
+              Object {
+                "textAlign": "center",
+              }
+            }
+          >
+            <svg>
+              <use
+                className="label-icon"
+                href="#diagramShapes_legend"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <hr />
       <div
         className="legendBody"
       >
@@ -161,18 +171,6 @@ exports[`LegendView no nodes renders as expected 1`] = `
               None of the resources in this group deployed.
             </div>
           </div>
-        </div>
-        <div
-          className="bodyResourcesDiv"
-        >
-          <div
-            className="titleResourcesText"
-          >
-            Resource icon legend
-          </div>
-          <div
-            className="bodyIconsDiv"
-          />
         </div>
       </div>
     </div>
@@ -236,35 +234,7 @@ exports[`LegendView with nodes render as expected 1`] = `
 <section
   className="topologyDetails"
 >
-  <div
-    className="legendHeader"
-  >
-    <div>
-      <div
-        className="titleText"
-      >
-        How to read topology
-      </div>
-      <div
-        className="bodyText"
-      >
-        The topology provides a visual representation of all the applications and resources within a project, their build status, and the components and services associated with them.
-      </div>
-      <div
-        style={
-          Object {
-            "textAlign": "center",
-          }
-        }
-      >
-        <svg>
-          <use
-            className="label-icon"
-            href="#diagramShapes_legend"
-          />
-        </svg>
-      </div>
-    </div>
+  <div>
     <svg
       alt="Close topology legend view"
       aria-label="Close topology legend view"
@@ -284,13 +254,19 @@ exports[`LegendView with nodes render as expected 1`] = `
         d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
       />
     </svg>
+    <hr
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    />
   </div>
-  <hr />
   <div
     className="details-view-container"
     style={
       Object {
-        "height": 266.8,
+        "height": "100%",
         "overflow": "hidden",
         "position": "relative",
         "width": "100%",
@@ -302,6 +278,7 @@ exports[`LegendView with nodes render as expected 1`] = `
         Object {
           "WebkitOverflowScrolling": "touch",
           "bottom": 0,
+          "height": "calc(100vh - 300px)",
           "left": 0,
           "marginBottom": 0,
           "marginRight": 0,
@@ -312,6 +289,37 @@ exports[`LegendView with nodes render as expected 1`] = `
         }
       }
     >
+      <div
+        className="legendHeader"
+      >
+        <div>
+          <div
+            className="titleText"
+          >
+            How to read topology
+          </div>
+          <div
+            className="bodyText"
+          >
+            The topology provides a visual representation of all the applications and resources within a project, their build status, and the components and services associated with them.
+          </div>
+          <div
+            style={
+              Object {
+                "textAlign": "center",
+              }
+            }
+          >
+            <svg>
+              <use
+                className="label-icon"
+                href="#diagramShapes_legend"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <hr />
       <div
         className="legendBody"
       >
@@ -391,206 +399,6 @@ exports[`LegendView with nodes render as expected 1`] = `
             </div>
             <div>
               None of the resources in this group deployed.
-            </div>
-          </div>
-        </div>
-        <div
-          className="bodyResourcesDiv"
-        >
-          <div
-            className="titleResourcesText"
-          >
-            Resource icon legend
-          </div>
-          <div
-            className="bodyIconsDiv"
-          >
-            <div
-              className="bodyIconsTextDiv"
-            >
-              <div>
-                Application
-              </div>
-              <div>
-                <svg
-                  className="iconSvg"
-                >
-                  <use
-                    className="label-icon"
-                    href="#diagramShapes_application"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              className="bodyIconsTextDiv"
-            >
-              <div>
-                Subscription
-              </div>
-              <div>
-                <svg
-                  className="iconSvg"
-                >
-                  <use
-                    className="label-icon"
-                    href="#diagramShapes_subscription"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              className="bodyIconsTextDiv"
-            >
-              <div>
-                Rules
-              </div>
-              <div>
-                <svg
-                  className="iconSvg"
-                >
-                  <use
-                    className="label-icon"
-                    href="#diagramShapes_rules"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              className="bodyIconsTextDiv"
-            >
-              <div>
-                Cluster
-              </div>
-              <div>
-                <svg
-                  className="iconSvg"
-                >
-                  <use
-                    className="label-icon"
-                    href="#diagramShapes_cluster"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              className="bodyIconsTextDiv"
-            >
-              <div>
-                Deployable
-              </div>
-              <div>
-                <svg
-                  className="iconSvg"
-                >
-                  <use
-                    className="label-icon"
-                    href="#diagramShapes_deployable"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              className="bodyIconsTextDiv"
-            >
-              <div>
-                Deployment
-              </div>
-              <div>
-                <svg
-                  className="iconSvg"
-                >
-                  <use
-                    className="label-icon"
-                    href="#diagramShapes_deployment"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              className="bodyIconsTextDiv"
-            >
-              <div>
-                Service
-              </div>
-              <div>
-                <svg
-                  className="iconSvg"
-                >
-                  <use
-                    className="label-icon"
-                    href="#diagramShapes_service"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              className="bodyIconsTextDiv"
-            >
-              <div>
-                Deployment config
-              </div>
-              <div>
-                <svg
-                  className="iconSvg"
-                >
-                  <use
-                    className="label-icon"
-                    href="#diagramShapes_deploymentconfig"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              className="bodyIconsTextDiv"
-            >
-              <div>
-                Replication controller
-              </div>
-              <div>
-                <svg
-                  className="iconSvg"
-                >
-                  <use
-                    className="label-icon"
-                    href="#diagramShapes_replicationcontroller"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              className="bodyIconsTextDiv"
-            >
-              <div>
-                Security Context Constraints
-              </div>
-              <div>
-                <svg
-                  className="iconSvg"
-                >
-                  <use
-                    className="label-icon"
-                    href="#diagramShapes_other"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              className="bodyIconsTextDiv"
-            >
-              <div>
-                Persistent Volume Claim
-              </div>
-              <div>
-                <svg
-                  className="iconSvg"
-                >
-                  <use
-                    className="label-icon"
-                    href="#diagramShapes_other"
-                  />
-                </svg>
-              </div>
             </div>
           </div>
         </div>

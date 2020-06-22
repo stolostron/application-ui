@@ -299,12 +299,7 @@ class DiagramViewer extends React.Component {
           />
         )}
         {showLegendView && (
-          <LegendView
-            locale={locale}
-            onClose={handleLegendClose}
-            getLayoutNodes={this.getLayoutNodes}
-            getViewContainer={this.getViewContainer}
-          />
+          <LegendView locale={locale} onClose={handleLegendClose} />
         )}
       </div>
     )

@@ -64,15 +64,6 @@
       fill: $color__white;
     }
 
-    .closeIcon {
-      position: absolute;
-      top: .5rem;
-      right: .5rem;
-      fill: $color__navy-gray-6;
-      stroke: $color__navy-gray-6;
-      cursor: pointer;
-    }
-
     .titleText {
       margin-top: 8px;
       font-size: 20px;
@@ -87,7 +78,7 @@
   }
 
   .legendBody {
-    margin: 12px 42px 0 24px;
+    margin: 12px 42px 42px 24px;
     align-items: center;
 
     .bodyIcon {
@@ -150,6 +141,15 @@
       align-content: flex-end;
       display: grid;
     }
+  }
+
+  .closeIcon {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    fill: $color__navy-gray-6;
+    stroke: $color__navy-gray-6;
+    cursor: pointer;
   }
 
   hr {

@@ -54,7 +54,7 @@
   }
 
   .legendHeader {
-    margin: 24px 42px 0 24px;
+    margin: 4px 42px 0 24px;
     display: flex;
     align-items: center;
 
@@ -62,15 +62,6 @@
       border-top: 0;
       stroke-width: 3px;
       fill: $color__white;
-    }
-
-    .closeIcon {
-      position: absolute;
-      top: .5rem;
-      right: .5rem;
-      fill: $color__navy-gray-6;
-      stroke: $color__navy-gray-6;
-      cursor: pointer;
     }
 
     .titleText {
@@ -87,7 +78,7 @@
   }
 
   .legendBody {
-    margin: 12px 42px 0 24px;
+    margin: 12px 42px 42px 24px;
     align-items: center;
 
     .bodyIcon {
@@ -144,7 +135,7 @@
       width: 120px;
       height: 100px;
       text-align: center;
-      color: #3D70B2;
+      color: #3d70b2;
       font-size: 12px;
       line-height: 16px;
       align-content: flex-end;
@@ -152,10 +143,19 @@
     }
   }
 
+  .closeIcon {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    fill: $color__navy-gray-6;
+    stroke: $color__navy-gray-6;
+    cursor: pointer;
+  }
+
   hr {
     border: 1px solid $color__navy-gray-8;
     width: 98%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .sectionContent {

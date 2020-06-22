@@ -31,7 +31,7 @@ import {
   DIAGRAM_QUERY_COOKIE,
   RESOURCE_TYPES
 } from '../../../lib/shared/constants'
-import { InlineNotification, Tooltip } from 'carbon-components-react'
+import { InlineNotification } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
 import {
   TOPOLOGY_SET_ACTIVE_FILTERS,
@@ -50,6 +50,7 @@ import {
   refetchIntervalChanged,
   manualRefetchTriggered
 } from '../../shared/utils/refetch'
+import { refetchIntervalUpdate } from '../../actions/refetch'
 
 resources(() => {
   require('./style.scss')
@@ -92,6 +93,7 @@ class ApplicationTopologyModule extends React.Component {
     pods: PropTypes.array,
     putResource: PropTypes.func,
     refetch: PropTypes.object,
+    refetchIntervalUpdateDispatch: PropTypes.func,
     resetFilters: PropTypes.func,
     restoreSavedDiagramFilters: PropTypes.func,
     showExpandedTopology: PropTypes.bool,
@@ -397,7 +399,12 @@ class ApplicationTopologyModule extends React.Component {
   handleUpdateMessageClosed = () => this.setState({ updateMessage: '' });
 
   render() {
-    const { showExpandedTopology, channels, locale } = this.props
+    const {
+      showExpandedTopology,
+      channels,
+      refetchIntervalUpdateDispatch,
+      locale
+    } = this.props
     const {
       nodes,
       links,
@@ -423,7 +430,6 @@ class ApplicationTopologyModule extends React.Component {
       showExpandedTopology,
       split: showExpandedTopology
     })
-
     const renderTopology = () => {
       const fetchControl = {
         isLoaded: topologyLoaded,
@@ -462,6 +468,7 @@ class ApplicationTopologyModule extends React.Component {
           locale={locale}
           showLegendView={showLegendView}
           handleLegendClose={this.handleLegendClose.bind(this)}
+          refetchIntervalUpdateDispatch={refetchIntervalUpdateDispatch}
         />
       )
     }
@@ -507,15 +514,10 @@ class ApplicationTopologyModule extends React.Component {
                   'application.diagram.how.to.read',
                   this.context.locale
                 )}
+                <svg className="how-to-read-icon">
+                  <use href={'#diagramIcons_sidecar'} />
+                </svg>
               </span>
-              <Tooltip triggerId="LegendTooltip" triggerText="" iconName="info">
-                <span className="how-to-read-tooltip">
-                  {msgs.get(
-                    'application.diagram.how.to.read.tooltip',
-                    this.context.locale
-                  )}
-                </span>
-              </Tooltip>
             </div>
             {topologyLoadError && (
               <InlineNotification
@@ -896,6 +898,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { params: { namespace, name } } = ownProps
   return {
+    refetchIntervalUpdateDispatch: data =>
+      dispatch(refetchIntervalUpdate(data)),
     resetFilters: () => {
       dispatch({
         type: TOPOLOGY_SET_ACTIVE_FILTERS,

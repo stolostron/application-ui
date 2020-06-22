@@ -14,7 +14,7 @@ describe("getNodeDescription internet node", () => {
     layout: {}
   };
 
-  it("should process the node", () => {
+  it("should process the internet node", () => {
     expect(getNodeDescription(internetNode, locale)).toEqual("default");
   });
 });
@@ -31,8 +31,23 @@ describe("getNodeDescription cluster node", () => {
     }
   };
 
-  it("should process the node", () => {
+  it("should process the cluster node", () => {
     expect(getNodeDescription(clusterNode, locale)).toEqual("default");
+  });
+});
+
+describe("getNodeDescription clusters node", () => {
+  const clusterNode = {
+    type: "cluster",
+    name: "default",
+    layout: {},
+    specs: {
+      clusterNames: ["a", "b"]
+    }
+  };
+
+  it("should process the clusters node", () => {
+    expect(getNodeDescription(clusterNode, locale)).toEqual("");
   });
 });
 
@@ -43,7 +58,7 @@ describe("getNodeDescription application node", () => {
     layout: {}
   };
 
-  it("should process the node", () => {
+  it("should process the application node", () => {
     expect(getNodeDescription(applicationNode, locale)).toEqual("default");
   });
 });
@@ -65,7 +80,7 @@ describe("getNodeDescription deployment node", () => {
     }
   };
 
-  it("should process the node", () => {
+  it("should process the deployment node", () => {
     expect(getNodeDescription(deploymentNode, locale)).toEqual("default");
   });
 });

@@ -6,6 +6,8 @@ import R from 'ramda'
 import msgs from '../../../nls/platform.properties'
 import React from 'react'
 import { Loading } from 'carbon-components-react'
+import RefreshTimeSelect from '../../components/common/RefreshTimeSelect'
+import { REFRESH_TIMES } from '../../../lib/shared/constants'
 
 export const refetchIntervalChanged = (prevProps, nextProps) => {
   return (
@@ -21,7 +23,13 @@ export const manualRefetchTriggered = (prevProps, nextProps) => {
   )
 }
 
-export const renderRefreshTime = (isLoaded, isReloading, timestamp, locale) => {
+export const renderRefreshTime = (
+  refetchIntervalUpdateDispatch,
+  isLoaded,
+  isReloading,
+  timestamp,
+  locale
+) => {
   if (isLoaded) {
     const time = msgs.get(
       'overview.menu.last.update',
@@ -29,13 +37,19 @@ export const renderRefreshTime = (isLoaded, isReloading, timestamp, locale) => {
       locale
     )
     return (
-      <div className="refresh-time-container">
-        {isReloading && (
-          <div className="reloading-container">
-            <Loading withOverlay={false} small />
-          </div>
-        )}
-        <div>{time}</div>
+      <div className="refresh-time-div">
+        <div className="refresh-time-container">
+          {isReloading && (
+            <div className="reloading-container">
+              <Loading withOverlay={false} small />
+            </div>
+          )}
+          <RefreshTimeSelect
+            refreshValues={REFRESH_TIMES}
+            refetchIntervalUpdate={refetchIntervalUpdateDispatch}
+          />
+          <div>{time}</div>
+        </div>
       </div>
     )
   }

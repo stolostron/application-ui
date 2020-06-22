@@ -32,10 +32,11 @@
     display: flex;
     align-items: center;
     font-size: 12px;
-    height: 20px;
-    position: absolute;
-    right: 0px;
-    top: -500px;
+    position: fixed;
+    right: 1.5625rem;
+    top: 6.5rem;
+    height: 1.25rem;
+    margin-right: 0.625rem;
     padding: 1rem 1% 3.375rem;
 
     .bx--loading--small {
@@ -120,11 +121,6 @@
 
     .bx--tooltip__trigger svg {
       height: 14px;
-    }
-
-    .showPagesTooltip {
-      line-height: 21px;
-      font-size: 14px;
     }
 
     .pageInput {
@@ -397,5 +393,10 @@
 svg.topologyDiagram {
   height: 100%;
   width: 100%;
+}
+
+.showPagesTooltip {
+  line-height: 21px;
+  font-size: 14px;
 }
 

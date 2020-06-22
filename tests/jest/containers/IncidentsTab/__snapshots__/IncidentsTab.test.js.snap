@@ -20,7 +20,7 @@ exports[`IncidentsTab IncidentsTab renders correctly when data. 1`] = `
     >
       
       <table
-        className="bx--data-table-v2 bx--data-table-v2--zebra"
+        className="bx--data-table-v2"
       >
         <thead>
           <tr>

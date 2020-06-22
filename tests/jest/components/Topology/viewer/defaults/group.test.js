@@ -37,7 +37,7 @@ describe("getNodeGroups cluster", () => {
             }
           }
         },
-        clusterNames: ["cluster1"],
+        clusterNames: ["cluster1", "cluster2"],
         clusterStatus: {
           isOffline: false,
           hasViolations: false,
@@ -177,7 +177,7 @@ describe("getNodeGroups cluster", () => {
               uid: "98a0e1b0-519c-11ea-9c87-965ebc50d5a3"
             }
           },
-          clusterNames: ["cluster1"],
+          clusterNames: ["cluster1", "cluster2"],
           clusterStatus: {
             hasFailure: false,
             hasViolations: false,
@@ -228,7 +228,7 @@ describe("getNodeGroups cluster", () => {
                   uid: "98a0e1b0-519c-11ea-9c87-965ebc50d5a3"
                 }
               },
-              clusterNames: ["cluster1"],
+              clusterNames: ["cluster1", "cluster2"],
               clusterStatus: {
                 hasFailure: false,
                 hasViolations: false,
@@ -303,6 +303,54 @@ describe("getNodeGroups cluster", () => {
 
 describe("getNodeGroups other", () => {
   const subscriptionNodes = [
+    {
+      id: "applicationpacmangit",
+      uid: "applicationpacmangit",
+      name: "applicationpacmangit",
+      cluster: null,
+      clusterName: null,
+      type: "cluster",
+      specs: {
+        clusterNames: ["a", "b"],
+        isDesign: true,
+        raw: {},
+        isDivider: true,
+        row: 45
+      },
+      namespace: "pacmangitchannel",
+      topology: null,
+      labels: {
+        cloud: "Azure",
+        env: "prod",
+        name: "azure",
+        vendor: "RHOCP"
+      },
+      __typename: "Resource"
+    },
+    {
+      id: "applicationpacmangit",
+      uid: "applicationpacmangit",
+      name: "applicationpacmangit",
+      cluster: null,
+      clusterName: null,
+      type: "cluster",
+      specs: {
+        clusterNames: ["a"],
+        isDesign: true,
+        raw: {},
+        isDivider: true,
+        row: 45
+      },
+      namespace: "pacmangitchannel",
+      topology: null,
+      labels: {
+        cloud: "Azure",
+        env: "prod",
+        name: "azure",
+        vendor: "RHOCP"
+      },
+      __typename: "Resource"
+    },
     {
       id: "applicationpacmangit",
       uid: "applicationpacmangit",
@@ -397,6 +445,70 @@ describe("getNodeGroups other", () => {
       }
     },
     nodeGroups: {
+      cluster: {
+        nodes: [
+          {
+            __typename: "Resource",
+            cluster: null,
+            clusterName: null,
+            id: "applicationpacmangit",
+            labels: {
+              cloud: "Azure",
+              env: "prod",
+              name: "azure",
+              vendor: "RHOCP"
+            },
+            layout: {
+              compactLabel: "2 Clusters",
+              label: "2 Clusters",
+              type: "cluster",
+              uid: "applicationpacmangit"
+            },
+            name: "applicationpacmangit",
+            namespace: "pacmangitchannel",
+            specs: {
+              clusterNames: ["a", "b"],
+              isDesign: true,
+              isDivider: true,
+              raw: {},
+              row: 45
+            },
+            topology: null,
+            type: "cluster",
+            uid: "applicationpacmangit"
+          },
+          {
+            __typename: "Resource",
+            cluster: null,
+            clusterName: null,
+            id: "applicationpacmangit",
+            labels: {
+              cloud: "Azure",
+              env: "prod",
+              name: "azure",
+              vendor: "RHOCP"
+            },
+            layout: {
+              compactLabel: "Cluster",
+              label: "Cluster",
+              type: "cluster",
+              uid: "applicationpacmangit"
+            },
+            name: "applicationpacmangit",
+            namespace: "pacmangitchannel",
+            specs: {
+              clusterNames: ["a"],
+              isDesign: true,
+              isDivider: true,
+              raw: {},
+              row: 45
+            },
+            topology: null,
+            type: "cluster",
+            uid: "applicationpacmangit"
+          }
+        ]
+      },
       deployment: {
         nodes: [
           {

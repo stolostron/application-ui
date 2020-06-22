@@ -39,6 +39,7 @@ import {
   manualRefetchTriggered,
   renderRefreshTime
 } from '../../shared/utils/refetch'
+import { refetchIntervalUpdate } from '../../actions/refetch'
 
 resources(() => {
   require('../../../scss/resource-list.scss')
@@ -161,7 +162,8 @@ class ResourceList extends React.Component {
       clientSideFilters,
       tableTitle,
       tableName,
-      fetchTableResources
+      fetchTableResources,
+      refetchIntervalUpdateDispatch
     } = this.props
 
     const { isLoaded = true, isReloading = false } = fetchTableResources
@@ -246,7 +248,13 @@ class ResourceList extends React.Component {
                 />
               </div>
           )}
-          {renderRefreshTime(isLoaded, isReloading, timestamp, locale)}
+          {renderRefreshTime(
+            refetchIntervalUpdateDispatch,
+            isLoaded,
+            isReloading,
+            timestamp,
+            locale
+          )}
           <ResourceTable
             actions={actions}
             staticResourceData={staticResourceData}
@@ -375,7 +383,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     mutateSuccessFinished: () =>
       dispatch(mutateResourceSuccessFinished(ownProps.resourceType)),
     deleteSuccessFinished: () =>
-      dispatch(delResourceSuccessFinished(ownProps.resourceType))
+      dispatch(delResourceSuccessFinished(ownProps.resourceType)),
+    refetchIntervalUpdateDispatch: data => dispatch(refetchIntervalUpdate(data))
   }
 }
 

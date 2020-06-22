@@ -18,23 +18,21 @@ import msgs from '../../../../nls/platform.properties'
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
 const notDeployedStr = msgs.get('spec.deploy.not.deployed')
+const notDeployedNSStr = msgs.get('spec.deploy.not.deployed.ns')
 const deployedStr = msgs.get('spec.deploy.deployed')
+const deployedNSStr = msgs.get('spec.deploy.deployed.ns')
 const specPulse = 'specs.pulse'
 const specsPropsYaml = 'props.show.yaml'
 const showLocalYaml = 'props.show.local.yaml'
 const showResourceYaml = 'show_resource_yaml'
 const specLocation = 'raw.spec.host.location'
 
-const podErrorStates = [
-  'CrashLoopBackOff',
-  'ImageLoopBackOff',
-  'ErrImagePull',
-  'Error',
-  'InvalidImageName',
-  'OOMKilled'
-]
+//pod state contains any of these strings
+const podErrorStates = ['err', 'off', 'invalid', 'kill']
 
-const podWarningStates = ['Pending']
+const podWarningStates = ['pending']
+
+const podSuccessStates = ['run']
 
 /*
 * UI helpers to help with data transformations
@@ -100,14 +98,18 @@ export const getWrappedNodeLabel = (label, width, rows = 3) => {
 const splitLabel = (label, width, rows) => {
   let line = ''
   const lines = []
-  const parts = label.split(/([^A-Za-z0-9])+/)
+  let parts = label.split(/([^A-Za-z0-9])+/)
+  if (parts.length === 1 && label.length > width) {
+    //split if length > width and no split separator in label
+    parts = R.splitAt(width, label)
+  }
   let remaining = label.length
   do {
     // add label part
     line += parts.shift()
 
-    // add splitter
-    if (parts.length) {
+    // add splitter, check if next item is a splitter, 1 char
+    if (parts.length && parts[0].length === 1) {
       line += parts.shift()
     }
 
@@ -117,7 +119,7 @@ const splitLabel = (label, width, rows) => {
         remaining -= line.length
         if (remaining > width) {
           if (rows === 2) {
-            // if pentulitmate row do a hard break
+            // if penultimate row do a hard break
             const split = parts[0]
             const idx = width - line.length
             line += split.substr(0, idx)
@@ -337,15 +339,21 @@ const getPulseStatusForGenericNode = node => {
 }
 
 //count pod state
-const getPodState = (podItem, clusterName, types) => {
-  if (
-    clusterName.indexOf(podItem.cluster) > -1 &&
-    R.contains(podItem.status, types)
-  ) {
-    return 1
-  }
+export const getPodState = (podItem, clusterName, types) => {
+  const podStatus = R.toLower(R.pathOr('unknown', ['status'])(podItem))
 
-  return 0
+  let result = 0
+  if (
+    !clusterName ||
+    R.contains(clusterName, R.pathOr('unkown', ['cluster'])(podItem))
+  ) {
+    types.forEach(type => {
+      if (R.contains(type, podStatus)) {
+        result = 1
+      }
+    })
+  }
+  return result
 }
 
 export const getPulseForData = (
@@ -405,7 +413,8 @@ export const getPulseForNodeWithPodStatus = node => {
     Object.values(podList).forEach(podItem => {
       podsUnavailable =
         podsUnavailable + getPodState(podItem, clusterName, podErrorStates) //podsUnavailable + 1
-      podsReady = podsReady + getPodState(podItem, clusterName, 'Running')
+      podsReady =
+        podsReady + getPodState(podItem, clusterName, podSuccessStates)
     })
 
     podStatusMap[clusterName] = {
@@ -540,6 +549,18 @@ export const setClusterStatus = (node, details) => {
   const specs = _.get(node, 'specs', {})
   const { cluster, clusters = [] } = specs
   const clusterArr = cluster ? [cluster] : clusters
+
+  if (clusterArr.length > 1) {
+    addPropertyToList(
+      details,
+      getNodePropery(node, ['specs', 'clusterNames'], 'resource.clusters')
+    )
+
+    details.push({
+      type: 'spacer'
+    })
+  }
+
   clusterArr.forEach(c => {
     const { metadata = {}, capacity = {}, usage = {}, clusterip, status } = c
     const { name, namespace, creationTimestamp } = metadata
@@ -636,6 +657,27 @@ export const createResourceSearchLink = node => {
   return result
 }
 
+//for charts remove release name
+export const getNameWithoutChartRelease = (relatedKind, name) => {
+  //for charts remove release name
+  const labelAttr = _.get(relatedKind, 'label', '')
+  const labels = _.split(labelAttr, ';')
+  labels.forEach(label => {
+    const splitLabelContent = _.split(label, '=')
+    if (
+      splitLabelContent.length === 2 &&
+      _.trim(splitLabelContent[0]) === 'release'
+    ) {
+      //get for release name
+      const releaseName = _.trim(splitLabelContent[1])
+      name = _.replace(name, `${releaseName}-`, '')
+      name = _.replace(name, releaseName, '')
+    }
+  })
+
+  return name
+}
+
 export const computeResourceName = (
   relatedKind,
   deployableName,
@@ -724,16 +766,23 @@ export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
           relatedKind
         )
 
+        const nameWithoutChartRelease = getNameWithoutChartRelease(
+          relatedKind,
+          nameNoHash
+        )
+
         const name = computeResourceName(
           relatedKind,
           deployableName,
-          nameNoHash,
+          nameWithoutChartRelease,
           isClusterGrouped
         )
 
         if (resourceMap[name]) {
           const kindModel = _.get(resourceMap[name], `specs.${kind}Model`, {})
-          kindModel[`${relatedKind.name}-${relatedKind.cluster}`] = relatedKind
+          kindModel[
+            `${nameWithoutChartRelease}-${relatedKind.cluster}`
+          ] = relatedKind
           _.set(resourceMap[name], `specs.${kind}Model`, kindModel)
         }
       })
@@ -777,8 +826,13 @@ export const setResourceDeployStatus = (node, details) => {
     })
     clusterName = R.trim(clusterName)
     const res = resourceMap[`${resourceName}-${clusterName}`]
-    const deployedKey = res ? deployedStr : notDeployedStr
-    const statusStr = deployedKey === deployedStr ? 'checkmark' : 'pending'
+    const deployedKey = res
+      ? node.type === 'namespace' ? deployedNSStr : deployedStr
+      : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr
+    const statusStr =
+      deployedKey === deployedStr || deployedKey === deployedNSStr
+        ? 'checkmark'
+        : 'pending'
 
     details.push({
       labelValue: clusterName,
@@ -836,7 +890,7 @@ export const setPodDeployStatus = (node, details) => {
     clusterName = R.trim(clusterName)
     const res = podStatusModel[clusterName]
     const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
-    const isErrorMsg = res.ready < res.desired
+    const isErrorMsg = res && res.ready < res.desired
     const isPending = valueStr === notDeployedStr
 
     const statusStr = isErrorMsg
@@ -858,9 +912,9 @@ export const setPodDeployStatus = (node, details) => {
 
   Object.values(podModel).forEach(pod => {
     const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
-    const podError = R.contains(pod.status, podErrorStates)
-    const podWarning = R.contains(pod.status, podWarningStates)
 
+    const podError = getPodState(pod, undefined, podErrorStates)
+    const podWarning = getPodState(pod, undefined, podWarningStates)
     const clusterDetails = podDataPerCluster[cluster]
     if (clusterDetails) {
       const statusStr = podError

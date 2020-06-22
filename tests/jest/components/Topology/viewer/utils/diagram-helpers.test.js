@@ -27,7 +27,9 @@ import {
   addIngressNodeInfo,
   setPlacementRuleDeployStatus,
   addNodeInfoPerCluster,
-  getClusterName
+  getClusterName,
+  getPodState,
+  getNameWithoutChartRelease
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -199,6 +201,17 @@ describe("getPulseForNodeWithPodStatus ", () => {
     clusterName: null,
     type: "deployment",
     specs: {
+      podModel: {
+        "mortgage-app-deploy-55c65b9c8f-6v9bn": {
+          cluster: "feng",
+          hostIP: "1.1.1.1",
+          status: "Running",
+          startedAt: "2020-04-20T22:03:52Z",
+          restarts: 0,
+          podIP: "1.1.1.1",
+          startedAt: "Monday"
+        }
+      },
       deploymentModel: {
         "mortgage-app-deploy-feng": {
           ready: 2,
@@ -532,6 +545,31 @@ describe("computeResourceName node with pods with _hostingDeployable", () => {
     expect(
       computeResourceName(node, null, "redis-slave", { value: "true" })
     ).toEqual("pod-redis-slave");
+  });
+});
+
+describe("getNameWithoutChartRelease node with pods no _hostingDeployable", () => {
+  const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label:
+      "app=nginx-ingress; chart=nginx-ingress-1.36.3; component=default-backend; heritage=Helm; release=nginx-ingress-edafb",
+    name: "nginx-ingress-edafb-default-backend",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+
+  it("nodeMustHavePods POD no _hostingDeployable", () => {
+    expect(
+      getNameWithoutChartRelease(node, "nginx-ingress-edafb-default-backend")
+    ).toEqual("default-backend");
   });
 });
 
@@ -2128,6 +2166,37 @@ describe("setPodDeployStatus  with pod less then desired", () => {
   });
 });
 
+describe("setPodDeployStatus  with pod but no pod model and no podStatusMap", () => {
+  const node = {
+    type: "pod",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    specs: {
+      raw: {
+        spec: {
+          replicas: 1,
+          template: {
+            spec: {
+              containers: [{ c1: "aa" }]
+            }
+          }
+        }
+      }
+    }
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.pods.statuses", type: "label" },
+    { labelValue: "possiblereptile", status: "pending", value: "Not Deployed" },
+    { type: "spacer" }
+  ];
+  it("setPodDeployStatus with pod but no pod podStatusMap ", () => {
+    expect(setPodDeployStatus(node, [])).toEqual(result);
+  });
+});
+
 describe("setPodDeployStatus  with pod as desired", () => {
   const node = {
     type: "pod",
@@ -2917,5 +2986,100 @@ describe("processResourceActionLink dummy link", () => {
 describe("getClusterName node id undefined", () => {
   it("should return empty string", () => {
     expect(getClusterName(undefined)).toEqual("");
+  });
+});
+
+describe("getPodState pod", () => {
+  const podItem = {
+    apiversion: "v1",
+    cluster: "relievedox",
+    container: "mortgagecm-mortgage",
+    created: "2020-06-01T19:09:00Z",
+    hostIP: "10.0.135.243",
+    image: "fxiang/mortgage:0.4.0",
+    kind: "pod",
+    label: "app=mortgagecm-mortgage; pod-template-hash=b8d75b48f",
+    name: "mortgagecm-deploy-b8d75b48f-mjsfg",
+    namespace: "default",
+    podIP: "10.129.2.224",
+    restarts: 3,
+    selfLink:
+      "/api/v1/namespaces/default/pods/mortgagecm-deploy-b8d75b48f-mjsfg",
+    startedAt: "2020-06-01T19:09:00Z",
+    status: "Running",
+    _clusterNamespace: "relievedox-ns",
+    _rbac: "relievedox-ns_null_pods",
+    _uid: "relievedox/20239a36-560a-4240-85ae-1663f48fec55"
+  };
+  const clusterName = "relievedox";
+  const types = ["err", "off", "invalid", "kill"];
+
+  const result = 0;
+
+  it("should return getPodState pod", () => {
+    expect(getPodState(podItem, clusterName, types)).toEqual(result);
+  });
+});
+
+describe("getPodState pod 1", () => {
+  const podItem = {
+    apiversion: "v1",
+    cluster: "relievedox",
+    container: "mortgagecm-mortgage",
+    created: "2020-06-01T19:09:00Z",
+    hostIP: "10.0.135.243",
+    image: "fxiang/mortgage:0.4.0",
+    kind: "pod",
+    label: "app=mortgagecm-mortgage; pod-template-hash=b8d75b48f",
+    name: "mortgagecm-deploy-b8d75b48f-mjsfg",
+    namespace: "default",
+    podIP: "10.129.2.224",
+    restarts: 3,
+    selfLink:
+      "/api/v1/namespaces/default/pods/mortgagecm-deploy-b8d75b48f-mjsfg",
+    startedAt: "2020-06-01T19:09:00Z",
+    status: "Running",
+    _clusterNamespace: "relievedox-ns",
+    _rbac: "relievedox-ns_null_pods",
+    _uid: "relievedox/20239a36-560a-4240-85ae-1663f48fec55"
+  };
+  const types = ["err", "off", "invalid", "kill"];
+
+  const result = 0;
+
+  it("should return getPodState pod 1", () => {
+    expect(getPodState(podItem, undefined, types)).toEqual(result);
+  });
+});
+
+describe("getPodState pod 2", () => {
+  const podItem = {
+    apiversion: "v1",
+    cluster: "relievedox",
+    container: "mortgagecm-mortgage",
+    created: "2020-06-01T19:09:00Z",
+    hostIP: "10.0.135.243",
+    image: "fxiang/mortgage:0.4.0",
+    kind: "pod",
+    label: "app=mortgagecm-mortgage; pod-template-hash=b8d75b48f",
+    name: "mortgagecm-deploy-b8d75b48f-mjsfg",
+    namespace: "default",
+    podIP: "10.129.2.224",
+    restarts: 3,
+    selfLink:
+      "/api/v1/namespaces/default/pods/mortgagecm-deploy-b8d75b48f-mjsfg",
+    startedAt: "2020-06-01T19:09:00Z",
+    status: "OOMKill",
+    _clusterNamespace: "relievedox-ns",
+    _rbac: "relievedox-ns_null_pods",
+    _uid: "relievedox/20239a36-560a-4240-85ae-1663f48fec55"
+  };
+  const types = ["err", "off", "invalid", "kill"];
+  const clusterName = "relievedox";
+
+  const result = 1;
+
+  it("should return getPodState pod 2", () => {
+    expect(getPodState(podItem, clusterName, types)).toEqual(result);
   });
 });

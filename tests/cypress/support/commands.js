@@ -83,8 +83,10 @@ Cypress.Commands.add("acquireToken", () => {
 });
 
 Cypress.Commands.add("createAppResource", (kind, resourceType) => {
+  let prefix = "";
   switch (kind.toLowerCase()) {
     case "channel":
+      prefix = "03_";
       cy.get("#Channel").click();
       switch (resourceType.toLowerCase()) {
         case "github":
@@ -114,16 +116,19 @@ Cypress.Commands.add("createAppResource", (kind, resourceType) => {
       }
       break;
     case "subscription":
+      prefix = "02_";
       cy.get("#Subscription").click();
       break;
     case "placementrule":
+      prefix = "01_";
       cy.get('button[id="Placement Rule"]').click();
       break;
     case "application":
+      prefix = "00_";
       cy.get('button[id="New application"]').click();
       break;
   }
-  cy.editYaml(kind + "-" + resourceType + ".yaml");
+  cy.editYaml(prefix + kind + "-" + resourceType + ".yaml");
   cy
     .get("button")
     .contains("Save")
@@ -160,6 +165,7 @@ Cypress.Commands.add("getAppResourceAPI", (token, kind, namespace, name) => {
 
 Cypress.Commands.add("deleteAppResourcesInFileAPI", (token, file) => {
   cy.task("getResourceMetadataInFile", file).then(meta => {
+    cy.log(meta);
     if (meta.kind.toLowerCase() !== "channel") {
       cy.deleteAppResourceAPI(token, meta.kind, meta.namespace, meta.name);
     }

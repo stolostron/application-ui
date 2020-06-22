@@ -37,6 +37,7 @@ module.exports = (on, config) => {
 
   // require('@cypress/code-coverage/task')(on, config)
   // config.env.TEST_CONFIG = testConfig
+  require("cypress-log-to-output").install(on);
 
   on("task", {
     yaml2json(filename) {
@@ -73,7 +74,9 @@ module.exports = (on, config) => {
       var data = fs.readFileSync(dir + filename, "utf8");
       const meta = {};
       let file = yaml.safeLoadAll(data, "utf8");
+      console.log(data);
       file.forEach(el => {
+        console.log(el);
         if (kinds.indexOf(el.kind.toLowerCase()) > -1) {
           //In the array!
           meta.kind = el.kind;
@@ -84,6 +87,5 @@ module.exports = (on, config) => {
       return meta;
     }
   });
-
   return config;
 };

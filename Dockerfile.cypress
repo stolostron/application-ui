@@ -10,7 +10,10 @@ COPY --from=builder /go/bin/yq /usr/bin/yq
 
 WORKDIR /usr/src/app
 
-#COPY package.json .
+
+
+
+COPY package.json .
 #COPY package-lock.json .
 #COPY cypress.json .
 #COPY start-tests.sh .
@@ -20,6 +23,8 @@ WORKDIR /usr/src/app
 
 COPY cypress ./tests/cypress
 COPY start-cypress-tests.sh ./tests
+
+RUN npm install 
 
 #RUN sh download-clis.sh
 

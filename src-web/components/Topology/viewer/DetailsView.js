@@ -69,7 +69,6 @@ class DetailsView extends React.Component {
       locale,
       onClose,
       getLayoutNodes,
-      getViewContainer,
       staticResourceData,
       selectedNodeId
     } = this.props
@@ -82,8 +81,7 @@ class DetailsView extends React.Component {
       typeToShapeMap[resourceType] || {}
     const details = getNodeDetails(currentNode, locale)
     const name = currentNode.type === 'cluster' ? '' : currentNode.name
-    const height = getViewContainer().getBoundingClientRect().height
-    const scrollHeight = height * 0.86
+
     const searchLink = createResourceSearchLink(currentNode)
     return (
       <section className="topologyDetails">
@@ -107,7 +105,6 @@ class DetailsView extends React.Component {
         </div>
         <hr />
         <Scrollbars
-          style={{ height: scrollHeight }}
           renderView={this.renderView}
           renderThumbVertical={this.renderThumbVertical}
           className="details-view-container"
@@ -323,7 +320,7 @@ class DetailsView extends React.Component {
   }
 
   renderView({ style, ...props }) {
-    style.marginBottom = -17
+    style.height = 'calc(100vh - 340px)'
     return <div {...props} style={{ ...style }} />
   }
 

@@ -94,7 +94,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
     className="details-view-container"
     style={
       Object {
-        "height": 573.62,
+        "height": "100%",
         "overflow": "hidden",
         "position": "relative",
         "width": "100%",
@@ -106,8 +106,9 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         Object {
           "WebkitOverflowScrolling": "touch",
           "bottom": 0,
+          "height": "calc(100vh - 340px)",
           "left": 0,
-          "marginBottom": -17,
+          "marginBottom": 0,
           "marginRight": 0,
           "overflow": "scroll",
           "position": "absolute",
@@ -447,7 +448,7 @@ exports[`DetailsView no components renders as expected 1`] = `
     className="details-view-container"
     style={
       Object {
-        "height": NaN,
+        "height": "100%",
         "overflow": "hidden",
         "position": "relative",
         "width": "100%",
@@ -459,8 +460,9 @@ exports[`DetailsView no components renders as expected 1`] = `
         Object {
           "WebkitOverflowScrolling": "touch",
           "bottom": 0,
+          "height": "calc(100vh - 340px)",
           "left": 0,
-          "marginBottom": -17,
+          "marginBottom": 0,
           "marginRight": 0,
           "overflow": "scroll",
           "position": "absolute",

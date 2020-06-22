@@ -67,7 +67,13 @@ export function getTypeNodeGroups(nodes, activeFilters, diagramOptions) {
     if (!group) {
       group = groupMap[type] = { nodes: [] }
     }
-    const label = getType(node.type) || ''
+    let label = getType(node.type) || ''
+    if (label === 'Cluster') {
+      const nbOfClusters = _.get(node, 'specs.clusterNames', []).length
+      if (nbOfClusters > 1) {
+        label = `${nbOfClusters} Clusters`
+      }
+    }
     node.layout = Object.assign(node.layout || {}, {
       uid: node.uid,
       type: node.type,

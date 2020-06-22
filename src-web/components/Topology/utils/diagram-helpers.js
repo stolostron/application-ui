@@ -549,6 +549,18 @@ export const setClusterStatus = (node, details) => {
   const specs = _.get(node, 'specs', {})
   const { cluster, clusters = [] } = specs
   const clusterArr = cluster ? [cluster] : clusters
+
+  if (clusterArr.length > 1) {
+    addPropertyToList(
+      details,
+      getNodePropery(node, ['specs', 'clusterNames'], 'resource.clusters')
+    )
+
+    details.push({
+      type: 'spacer'
+    })
+  }
+
   clusterArr.forEach(c => {
     const { metadata = {}, capacity = {}, usage = {}, clusterip, status } = c
     const { name, namespace, creationTimestamp } = metadata

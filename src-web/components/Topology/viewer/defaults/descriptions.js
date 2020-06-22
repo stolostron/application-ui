@@ -8,13 +8,20 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
+import _ from 'lodash'
 
 import { getWrappedNodeLabel } from '../../utils/diagram-helpers'
 
 export const getNodeDescription = node => {
   const { layout = {} } = node
 
-  const description = getWrappedNodeLabel((node && node.name) || '', 12, 2)
+  let description = getWrappedNodeLabel((node && node.name) || '', 12, 2)
+  if (
+    _.get(node, 'type', '') === 'cluster' &&
+    _.get(node, 'specs.clusterNames', []).length > 1
+  ) {
+    description = '' //don't show cluster names if more than 1
+  }
 
   // hubs are drawn bigger
   if (layout.isMajorHub) {

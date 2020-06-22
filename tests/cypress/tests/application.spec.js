@@ -4,8 +4,6 @@
 
 import { pageLoader, resourceTable, modal, noResource } from "../views/common";
 
-var status = 0;
-
 describe("Application Resources", () => {
   beforeEach(() => {
     cy.visit("/multicloud/applications");
@@ -15,6 +13,7 @@ describe("Application Resources", () => {
   //github channel
   it("Given user logs in as sysadmin, user should be able to add github channel", () => {
     let channelCount_b4 = 0;
+    let filename = "03_channel-github.yaml";
     cy.get(".tableGridContainer").then($element => {
       if ($element.find(".channelGridContainer").length > 0) {
         channelCount_b4 = $element.find(".channelNameTitle").length;
@@ -22,9 +21,7 @@ describe("Application Resources", () => {
       cy.createAppResource("channel", "github");
       pageLoader.shouldNotExist();
       modal.shouldNotBeVisible();
-      cy
-        .wrap(queryAppResourceInFile("Channel", "channel-github.yaml"))
-        .should("eq", 200);
+      cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
       cy
         .get(".channelNameTitle", { timeout: 600000 })
         .should("have.length", channelCount_b4 + 1);
@@ -32,27 +29,26 @@ describe("Application Resources", () => {
   });
 
   it("Given user logs in as sysadmin, user should be able to add github subscription", () => {
+    let filename = "02_subscription-github.yaml";
     cy.createAppResource("subscription", "github");
     pageLoader.shouldNotExist();
     modal.shouldNotBeVisible();
-    cy
-      .wrap(queryAppResourceInFile("Subscription", "subscription-github.yaml"))
-      .should("eq", 200);
+    cy.wrap(queryAppResourceInFile("Subscription", filename)).should("eq", 200);
   });
 
   it("Given user logs in as sysadmin, user should be able to add github placement rule", () => {
+    let filename = "01_placementrule-github.yaml";
     cy.createAppResource("placementrule", "github");
     pageLoader.shouldNotExist();
     modal.shouldNotBeVisible();
     cy
-      .wrap(
-        queryAppResourceInFile("PlacementRule", "placementrule-github.yaml")
-      )
+      .wrap(queryAppResourceInFile("PlacementRule", filename))
       .should("eq", 200);
   });
 
   it("Given user logs in as sysadmin, user should be able to add github application", () => {
     let appCount_b4 = 0;
+    let filename = "00_application-github.yaml";
     cy.contains("Overview").click();
     cy.get(".page-content-container").then($element => {
       if ($element.find(".no-resource").length < 1) {
@@ -65,8 +61,11 @@ describe("Application Resources", () => {
       pageLoader.shouldNotExist();
       modal.shouldNotBeVisible();
       cy
-        .wrap(queryAppResourceInFile("Application", "application-github.yaml"))
+        .wrap(queryAppResourceInFile("Application", filename))
         .should("eq", 200);
+      cy.task("getResourceMetadataInFile", filename).then(meta => {
+        resourceTable.rowShouldExist(meta.name);
+      });
       resourceTable.rowCount().then(rowCount => {
         expect(rowCount).to.equal(appCount_b4 + 1);
       });
@@ -76,6 +75,7 @@ describe("Application Resources", () => {
   //namespace channel
   it("Given user logs in as sysadmin, user should be able to add namespace channel", () => {
     let channelCount_b4 = 0;
+    let filename = "03_channel-namespace.yaml";
     cy.get(".tableGridContainer").then($element => {
       if ($element.find(".channelGridContainer").length > 0) {
         channelCount_b4 = $element.find(".channelNameTitle").length;
@@ -83,51 +83,61 @@ describe("Application Resources", () => {
       cy.createAppResource("channel", "namespace");
       pageLoader.shouldNotExist();
       modal.shouldNotBeVisible();
-      cy
-        .wrap(queryAppResourceInFile("Channel", "channel-namespace.yaml"))
-        .should("eq", 200);
+      cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
       cy
         .get(".channelNameTitle", { timeout: 600000 })
         .should("have.length", channelCount_b4 + 1);
     });
   });
 
-  // it('add namespace subscription', () => {
-  //     cy.createAppResource('subscription','namespace')
-  //     pageLoader.shouldNotExist()
-  //     modal.shouldNotBeVisible()
-  //     cy.wrap(queryAppResourceInFile('Subscription', 'subscription-namespace.yaml')).should('eq',200)
-  // })
+  it("Given user logs in as sysadmin, user should be able to add namespace subscription", () => {
+    let filename = "02_subscription-namespace.yaml";
+    cy.createAppResource("subscription", "namespace");
+    pageLoader.shouldNotExist();
+    modal.shouldNotBeVisible();
+    cy.wrap(queryAppResourceInFile("Subscription", filename)).should("eq", 200);
+  });
 
-  // it('add github placement rule', () => {
-  //     cy.createAppResource('placementrule','github')
-  //     pageLoader.shouldNotExist()
-  //     modal.shouldNotBeVisible()
-  //     cy.wrap(queryAppResourceInFile('PlacementRule', 'placementrule-github.yaml')).should('eq',200)
-  // })
+  it("Given user logs in as sysadmin, user should be able to add namespace placement rule", () => {
+    let filename = "01_placementrule-namespace.yaml";
+    cy.createAppResource("placementrule", "namespace");
+    pageLoader.shouldNotExist();
+    modal.shouldNotBeVisible();
+    cy
+      .wrap(queryAppResourceInFile("PlacementRule", filename))
+      .should("eq", 200);
+  });
 
-  // it('add github application', () => {
-  //     let appCount_b4 = 0
-  //     cy.contains('Overview').click()
-  //     cy.get('.page-content-container').then($element => {
-  //         if ($element.find('.no-resource').length < 1) {
-  //             cy.log($element.find('.no-resource').length)
-  //             resourceTable.rowCount().then(rowCount => {
-  //                 appCount_b4 = rowCount
-  //             })
-  //         }
-  //         cy.createAppResource('application','github')
-  //         pageLoader.shouldNotExist()
-  //         modal.shouldNotBeVisible()
-  //         cy.wrap(queryAppResourceInFile('Application', 'application-github.yaml')).should('eq',200)
-  //         resourceTable.rowCount().then(rowCount => {expect(rowCount).to.equal(appCount_b4 + 1)})
-  //     })
-
-  // })
+  it("Given user logs in as sysadmin, user should be able to add namespace application", () => {
+    let appCount_b4 = 0;
+    let filename = "00_application-namespace.yaml";
+    cy.contains("Overview").click();
+    cy.get(".page-content-container").then($element => {
+      if ($element.find(".no-resource").length < 1) {
+        cy.log($element.find(".no-resource").length);
+        resourceTable.rowCount().then(rowCount => {
+          appCount_b4 = rowCount;
+        });
+      }
+      cy.createAppResource("application", "namespace");
+      pageLoader.shouldNotExist();
+      modal.shouldNotBeVisible();
+      cy
+        .wrap(queryAppResourceInFile("Application", filename))
+        .should("eq", 200);
+      cy.task("getResourceMetadataInFile", filename).then(meta => {
+        resourceTable.rowShouldExist(meta.name);
+      });
+      resourceTable.rowCount().then(rowCount => {
+        expect(rowCount).to.equal(appCount_b4 + 1);
+      });
+    });
+  });
 
   //helmrepo channel
   it("Given user logs in as sysadmin, user should be able to add heml repo channel", () => {
     let channelCount_b4 = 0;
+    let filename = "03_channel-helmrepo.yaml";
     cy.get(".tableGridContainer").then($element => {
       if ($element.find(".channelGridContainer").length > 0) {
         channelCount_b4 = $element.find(".channelNameTitle").length;
@@ -135,18 +145,61 @@ describe("Application Resources", () => {
       cy.createAppResource("channel", "helmrepo");
       pageLoader.shouldNotExist();
       modal.shouldNotBeVisible();
-      cy
-        .wrap(queryAppResourceInFile("Channel", "channel-helmrepo.yaml"))
-        .should("eq", 200);
+      cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
       cy
         .get(".channelNameTitle", { timeout: 600000 })
         .should("have.length", channelCount_b4 + 1);
     });
   });
 
+  it("Given user logs in as sysadmin, user should be able to add helmrepo subscription", () => {
+    let filename = "02_subscription-helmrepo.yaml";
+    cy.createAppResource("subscription", "helmrepo");
+    pageLoader.shouldNotExist();
+    modal.shouldNotBeVisible();
+    cy.wrap(queryAppResourceInFile("Subscription", filename)).should("eq", 200);
+  });
+
+  it("Given user logs in as sysadmin, user should be able to add helmrepo placement rule", () => {
+    let filename = "01_placementrule-helmrepo.yaml";
+    cy.createAppResource("placementrule", "helmrepo");
+    pageLoader.shouldNotExist();
+    modal.shouldNotBeVisible();
+    cy
+      .wrap(queryAppResourceInFile("PlacementRule", filename))
+      .should("eq", 200);
+  });
+
+  it("Given user logs in as sysadmin, user should be able to add helmrepo application", () => {
+    let appCount_b4 = 0;
+    let filename = "00_application-helmrepo.yaml";
+    cy.contains("Overview").click();
+    cy.get(".page-content-container").then($element => {
+      if ($element.find(".no-resource").length < 1) {
+        cy.log($element.find(".no-resource").length);
+        resourceTable.rowCount().then(rowCount => {
+          appCount_b4 = rowCount;
+        });
+      }
+      cy.createAppResource("application", "helmrepo");
+      pageLoader.shouldNotExist();
+      modal.shouldNotBeVisible();
+      cy
+        .wrap(queryAppResourceInFile("Application", filename))
+        .should("eq", 200);
+      cy.task("getResourceMetadataInFile", filename).then(meta => {
+        resourceTable.rowShouldExist(meta.name);
+      });
+      resourceTable.rowCount().then(rowCount => {
+        expect(rowCount).to.equal(appCount_b4 + 1);
+      });
+    });
+  });
+
   //objectbucket channel
   it("Given user logs in as sysadmin, user should be able to add object bucket channel", () => {
     let channelCount_b4 = 0;
+    let filename = "03_channel-objectbucket.yaml";
     cy.get(".tableGridContainer").then($element => {
       if ($element.find(".channelGridContainer").length > 0) {
         channelCount_b4 = $element.find(".channelNameTitle").length;
@@ -154,20 +207,65 @@ describe("Application Resources", () => {
       cy.createAppResource("channel", "objectbucket");
       pageLoader.shouldNotExist();
       modal.shouldNotBeVisible();
-      cy
-        .wrap(queryAppResourceInFile("Channel", "channel-objectbucket.yaml"))
-        .should("eq", 200);
+      cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
       cy
         .get(".channelNameTitle", { timeout: 600000 })
         .should("have.length", channelCount_b4 + 1);
     });
   });
 
+  it("Given user logs in as sysadmin, user should be able to add objectbucket subscription", () => {
+    let filename = "02_subscription-objectbucket.yaml";
+    cy.createAppResource("subscription", "objectbucket");
+    pageLoader.shouldNotExist();
+    modal.shouldNotBeVisible();
+    cy.wrap(queryAppResourceInFile("Subscription", filename)).should("eq", 200);
+  });
+
+  it("Given user logs in as sysadmin, user should be able to add objectbucket placement rule", () => {
+    let filename = "01_placementrule-objectbucket.yaml";
+    cy.createAppResource("placementrule", "objectbucket");
+    pageLoader.shouldNotExist();
+    modal.shouldNotBeVisible();
+    cy
+      .wrap(queryAppResourceInFile("PlacementRule", filename))
+      .should("eq", 200);
+  });
+
+  it("Given user logs in as sysadmin, user should be able to add objectbucket application", () => {
+    let appCount_b4 = 0;
+    let filename = "00_application-objectbucket.yaml";
+    cy.contains("Overview").click();
+    cy.get(".page-content-container").then($element => {
+      if ($element.find(".no-resource").length < 1) {
+        cy.log($element.find(".no-resource").length);
+        resourceTable.rowCount().then(rowCount => {
+          appCount_b4 = rowCount;
+        });
+      }
+      cy.createAppResource("application", "objectbucket");
+      pageLoader.shouldNotExist();
+      modal.shouldNotBeVisible();
+      cy
+        .wrap(queryAppResourceInFile("Application", filename))
+        .should("eq", 200);
+      cy.task("getResourceMetadataInFile", filename).then(meta => {
+        resourceTable.rowShouldExist(meta.name);
+      });
+      resourceTable.rowCount().then(rowCount => {
+        expect(rowCount).to.equal(appCount_b4 + 1);
+      });
+    });
+  });
+
   after(() => {
     cy.logout();
-    cy.task("getFileList", ".yaml").then(list => {
-      list.forEach(file => {
-        cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
+    const type = ["github", "namespace", "helmrepo", "objectbucket"];
+    type.forEach(el => {
+      cy.task("getFileList", el).then(list => {
+        list.forEach(file => {
+          cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
+        });
       });
     });
   });

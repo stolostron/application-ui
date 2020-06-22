@@ -18,14 +18,14 @@ export const resourceTable = {
   shouldNotExist: () =>
     cy.get(".resource-table", { timeout: 20000 }).should("not.exist"),
   rowCount: () =>
-    cy.get(".resource-table", { timeout: 300000 }).then($table => {
+    cy.get(".resource-table", { timeout: 500000 }).then($table => {
       return $table.find("tbody").find("tr").length;
     }),
   rowShouldExist: name =>
-    cy.get(`tr[data-row-name="${name}"]`, { timeout: 50000 }).should("exist"),
+    cy.get(`tr[data-row-name="${name}"]`, { timeout: 500000 }).should("exist"),
   rowShouldNotExist: name =>
     cy
-      .get(`tr[data-row-name="${name}"]`, { timeout: 50000 })
+      .get(`tr[data-row-name="${name}"]`, { timeout: 500000 })
       .should("not.exist"),
   openRowMenu: name =>
     cy.get(`tr[data-row-name="${name}"] .bx--overflow-menu`).click(),

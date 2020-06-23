@@ -84,7 +84,7 @@ const getOverviewCardsData = (
     applicationNamespace
   )
 
-  const result = [
+  return [
     {
       msgKey:
         subscriptionDataOnHub.total === 1
@@ -157,8 +157,6 @@ const getOverviewCardsData = (
       )
     }
   ]
-
-  return result
 }
 
 class OverviewCards extends React.Component {
@@ -283,7 +281,7 @@ const InfoCards = ({ overviewCardsData, actions }) => {
       {Object.keys(overviewCardsData).map(key => {
         const card = overviewCardsData[key]
         const id = `${key}_overviewCardsData`
-        var cardMarginClass = 'card-margin'
+        const cardMarginClass = 'card-margin'
         const handleClick = (e, resource) => {
           if (resource.targetTab != null) {
             actions.setSelectedAppTab(resource.targetTab)

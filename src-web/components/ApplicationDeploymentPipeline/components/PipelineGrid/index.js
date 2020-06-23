@@ -88,6 +88,7 @@ const LeftColumnForApplicationNames = (
   )
 
   let standaloneTile
+  let row = 0
 
   // special logic for the standalone subscription case
   if (standaloneSubCount > 0) {
@@ -110,6 +111,8 @@ const LeftColumnForApplicationNames = (
     const applicationTileClass = !expandRow
       ? 'applicationTile'
       : 'applicationTile noBottomBorder'
+
+    let countUniqueSubscriptions = 1
 
     // compute standalone Tile for Left Column
     standaloneTile = (
@@ -181,7 +184,13 @@ const LeftColumnForApplicationNames = (
           style={expandRow ? { display: 'block' } : { display: 'none' }}
         >
           {longestStandaloneSubscriptionArray.map(() => {
-            return <Tile key="standaloneSubsTile" className="deployableTile" />
+            countUniqueSubscriptions = countUniqueSubscriptions + 1
+            return (
+              <Tile
+                key={`standaloneSubsTile_${countUniqueSubscriptions}`}
+                className="deployableTile"
+              />
+            )
           })}
         </div>
       </div>
@@ -215,6 +224,7 @@ const LeftColumnForApplicationNames = (
 
       {applications.map(application => {
         const appName = application.name
+        row = row + 1
         // Get the subscriptions given the application object
 
         const subscriptionsFetched = application.hubSubscriptions
@@ -279,9 +289,10 @@ const LeftColumnForApplicationNames = (
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
               {longestSubscriptionArray.map(() => {
+                row = row + 1
                 return (
                   <Tile
-                    key={`${application._uid}_l`}
+                    key={`${application._uid}${row}_l`}
                     className="deployableTile"
                   />
                 )
@@ -660,7 +671,7 @@ const ChannelColumnGrid = ({
 
                 return (
                   <div
-                    key={`${application._uid}_Subs`}
+                    key={`${application._uid}${row}_Subs`}
                     className="deployableRow"
                   >
                     {subRow.map(subCol => {

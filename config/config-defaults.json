@@ -12,7 +12,7 @@
         "filters": false,
         "fullDashboard": false,
         "liveUpdates": 2,
-        "liveUpdatesPollInterval": 15000,
+        "liveUpdatesPollInterval": 60000,
         "search": true,
         "enableAppcues": false,
         "appcuesScript": "38105.js"

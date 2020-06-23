@@ -72,7 +72,6 @@ class App extends React.Component {
     const { actions } = this.props
     const serverProps = this.getServerProps()
 
-    actions.setEnableICAMAction(serverProps && serverProps.isICAMRunning)
     actions.setEnableGrafanaAction(serverProps && serverProps.isGrafanaRunning)
     actions.setEnableCEMAction(serverProps && serverProps.isCEMRunning)
   }

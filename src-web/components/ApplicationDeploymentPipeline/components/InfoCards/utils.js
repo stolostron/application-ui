@@ -8,16 +8,6 @@
  *******************************************************************************/
 import R from 'ramda'
 
-export const getNumIncidents = list => {
-  if (!list || !list.items) {
-    // -1 is used to identify when skeleton text load bar should appear
-    return -1
-  } else if (list && list.items && Array.isArray(list.items)) {
-    return list.items.length
-  }
-  return 0
-}
-
 export const getSingleApplicationObject = list => {
   if (list && list.items instanceof Array && list.items.length > 0) {
     return list.items[0]
@@ -356,28 +346,6 @@ export const getPodData = (
   // data is undefined... -1 is used to identify when skeleton text load bar should appear
   return {
     total: -1
-  }
-}
-
-export const getIncidentsData = CEMIncidentList => {
-  var priority1 = 0
-  var priority2 = 0
-
-  // Get incidents data for the current application opened
-  if (CEMIncidentList && CEMIncidentList.items) {
-    Object.keys(CEMIncidentList.items).forEach(listIndex => {
-      const item = CEMIncidentList.items[listIndex]
-      if (item.priority === 1) {
-        priority1++
-      } else if (item.priority === 2) {
-        priority2++
-      }
-    })
-  }
-
-  return {
-    priority1: priority1,
-    priority2: priority2
   }
 }
 

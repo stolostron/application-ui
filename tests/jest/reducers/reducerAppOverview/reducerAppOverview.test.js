@@ -13,7 +13,6 @@ const initialStateOverview = {
   selectedAppTab: 0,
   showAppDetails: false,
   showExpandedTopology: false,
-  showICAMAction: false,
   showGrafanaAction: false,
   showCEMAction: false
 };
@@ -56,18 +55,6 @@ describe("AppOverview reducer", () => {
       ...initialStateOverview,
       selectedNodeId: "node1",
       showExpandedTopology: true
-    });
-  });
-
-  it("handles SET_ENABLE_ICAM_ACTION", () => {
-    expect(
-      AppOverview(initialStateOverview, {
-        type: "SET_ENABLE_ICAM_ACTION",
-        payload: true
-      })
-    ).toEqual({
-      ...initialStateOverview,
-      showICAMAction: true
     });
   });
 

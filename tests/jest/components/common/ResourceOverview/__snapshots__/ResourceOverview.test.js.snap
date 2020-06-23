@@ -8,44 +8,6 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
   <div
     className="app-info-and-dashboard-links"
   >
-    <span>
-      <a
-        className="bx--link"
-        href=""
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <svg
-          alt="Provide a description that will be used as the title"
-          aria-label="Provide a description that will be used as the title"
-          className="app-dashboard-icon"
-          fill="#3D70B2"
-          fillRule="evenodd"
-          height="16"
-          name="icon--launch"
-          role="img"
-          viewBox="0 0 16 16"
-          width="16"
-        >
-          <title>
-            Provide a description that will be used as the title
-          </title>
-          <path
-            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-          />
-          <path
-            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-          />
-          <path
-            d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
-          />
-        </svg>
-        App monitoring
-      </a>
-      <span
-        className="app-info-and-dashboard-links-separator"
-      />
-    </span>
     <a
       aria-disabled={false}
       className="bx--link"
@@ -93,7 +55,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
         className="overview-cards-info single-app"
       >
         <div
-          className="single-card clickable card-cem-disabled"
+          className="single-card clickable card-margin"
           id="0_overviewCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
@@ -129,7 +91,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
           className="column-divider"
         />
         <div
-          className="single-card clickable card-cem-disabled"
+          className="single-card clickable card-margin"
           id="1_overviewCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
@@ -165,7 +127,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
           className="column-divider"
         />
         <div
-          className="single-card clickable card-cem-disabled"
+          className="single-card clickable card-margin"
           id="2_overviewCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}

@@ -46,12 +46,12 @@ unit-test:
 	fi
 	npm test
 
-# .PHONY: e2e-test
-# e2e-test:
-# 	if [ ! -d "test-output" ]; then \
-# 		mkdir test-output; \
-# 	fi
-# 	npm run test:$(BROWSER)
+.PHONY: e2e-test
+e2e-test:
+	if [ ! -d "test-output" ]; then \
+		mkdir test-output; \
+	fi
+	npm run test:$(BROWSER)
 
 .PHONY: build-test-image
 build-test-image:

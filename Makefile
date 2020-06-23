@@ -65,8 +65,7 @@ run-test-image:
 	docker run \
 	-e BROWSER=$(BROWSER) \
 	--volume $(shell pwd)/options.yaml:/resources/options.yaml \
-#	quay.io/open-cluster-management/application-ui-tests:$(TEST_IMAGE_TAG)
-	repo/application-ui-tests:123
+	quay.io/open-cluster-management/application-ui-tests:$(TEST_IMAGE_TAG)
 
 
 

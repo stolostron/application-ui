@@ -53,11 +53,13 @@ Cypress.Commands.add("editYaml", file => {
   cy.task("readFile", file).then(str => {
     str = str.replace(/(?:\\[rn]|[\r\n]+)+/g, "\n{home}");
     cy
-      .get(".ace_text-input")
-      .first()
+      .get(".inputarea")
+      // .first()
       .focus()
-      .clear()
-      .type(str);
+      // .clear()
+      .type("{ctrl}a")
+      // .type('{selectall}{del}')
+      .type(str, { delay: 0 });
   });
 });
 
@@ -178,6 +180,7 @@ Cypress.Commands.add("deleteNamespaceAPI", (token, namespace) => {
     .request({
       method: "DELETE",
       url: apiUrl + "/api/v1/namespaces/" + namespace,
+      failOnStatusCode: false,
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json",
@@ -197,6 +200,7 @@ Cypress.Commands.add("deleteAppResourceAPI", (token, kind, namespace, name) => {
   cy
     .request({
       method: "DELETE",
+      failOnStatusCode: false,
       url:
         apiUrl +
         path +

@@ -34,6 +34,7 @@ import {
   mutateResourceSuccessFinished
 } from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import { withLocale } from '../../providers/LocaleProvider'
 
 resources(() => {
   require('../../../scss/modal.scss')
@@ -65,6 +66,7 @@ class CreateResourceModal extends React.PureComponent {
     headingTextKey: PropTypes.string,
     helpLink: PropTypes.string,
     iconDescription: PropTypes.string,
+    locale: PropTypes.string,
     mutateSuccessFinished: PropTypes.func,
     onCreateResource: PropTypes.func,
     onSubmitFunction: PropTypes.func,
@@ -190,7 +192,7 @@ class CreateResourceModal extends React.PureComponent {
   }
 
   render() {
-    const { resourceType } = this.props
+    const { resourceType, locale } = this.props
     const { validator } = getResourceDefinitions(resourceType)
     const tabs = this.props.sampleTabs
     const tabsSampleContent = this.props.sampleContent
@@ -202,12 +204,12 @@ class CreateResourceModal extends React.PureComponent {
         <Button
           icon="add--glyph"
           small
-          id={msgs.get(this.props.resourceTypeName, this.context.locale)}
+          id={msgs.get(this.props.resourceTypeName, locale)}
           iconDescription={this.props.iconDescription}
           key="create-resource"
           onClick={this.handleModalOpen}
         >
-          {msgs.get(this.props.resourceTypeName, this.context.locale)}
+          {msgs.get(this.props.resourceTypeName, locale)}
         </Button>
         {this.state.modalOpen && (
           <ComposedModal
@@ -217,16 +219,13 @@ class CreateResourceModal extends React.PureComponent {
             onClose={() => false}
           >
             <ModalHeader
-              title={msgs.get(this.props.headingTextKey, this.context.locale)}
+              title={msgs.get(this.props.headingTextKey, locale)}
               buttonOnClick={this.handleModalCancel}
             />
             <ModalBody>
               <div className="bx--modal-content-desc">
                 <div className="yaml-instructions">
-                  {msgs.get(
-                    this.props.resourceDescriptionKey,
-                    this.context.locale
-                  )}
+                  {msgs.get(this.props.resourceDescriptionKey, locale)}
                 </div>
 
                 {this.props.helpLink && (
@@ -234,15 +233,15 @@ class CreateResourceModal extends React.PureComponent {
                     <a
                       href={this.props.helpLink}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                     >
-                      {msgs.get('link.help.writing', this.context.locale)}
+                      {msgs.get('link.help.writing', locale)}
                     </a>
 
                     <a
                       href={this.props.helpLink}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                     >
                       <Icon
                         name="icon--launch"
@@ -258,12 +257,9 @@ class CreateResourceModal extends React.PureComponent {
                 this.state.yamlParsingError && (
                   <InlineNotification
                     kind="error"
-                    title={msgs.get('error.parse', this.context.locale)}
+                    title={msgs.get('error.parse', locale)}
                     iconDescription=""
-                    subtitle={msgs.get(
-                      'error.parse.reason',
-                      this.context.locale
-                    )}
+                    subtitle={msgs.get('error.parse.reason', locale)}
                     onCloseButtonClick={this.handleNotificationClosed}
                   />
               )}
@@ -274,12 +270,12 @@ class CreateResourceModal extends React.PureComponent {
                       <InlineNotification
                         key={Math.random()}
                         kind="error"
-                        title={msgs.get('error.create', this.context.locale)}
+                        title={msgs.get('error.create', locale)}
                         iconDescription=""
                         // show default msg if errorMsg is not set
                         subtitle={
                           error.message ||
-                          msgs.get('error.create.reason', this.context.locale)
+                          msgs.get('error.create.reason', locale)
                         }
                         onCloseButtonClick={this.handleNotificationClosed}
                       />
@@ -291,10 +287,7 @@ class CreateResourceModal extends React.PureComponent {
                         <InlineNotification
                           key={Math.random()}
                           kind="success"
-                          title={msgs.get(
-                            'success.update.resource',
-                            this.context.locale
-                          )}
+                          title={msgs.get('success.update.resource', locale)}
                           iconDescription=""
                           subtitle={
                             success.kind &&
@@ -303,12 +296,9 @@ class CreateResourceModal extends React.PureComponent {
                               ? msgs.get(
                                 'success.create.details',
                                 [success.kind, success.metadata.name],
-                                this.context.locale
+                                locale
                               )
-                              : msgs.get(
-                                'success.create.description',
-                                this.context.locale
-                              )
+                              : msgs.get('success.create.description', locale)
                           }
                           onCloseButtonClick={this.handleNotificationClosed}
                         />
@@ -384,14 +374,14 @@ class CreateResourceModal extends React.PureComponent {
                   type="button"
                   onClick={this.handleModalCancel}
                 >
-                  {msgs.get('actions.cancel', this.context.locale)}
+                  {msgs.get('actions.cancel', locale)}
                 </Button>
                 <Button
                   type="button"
                   disabled={this.isSubmitDisabled()}
                   onClick={this.handleModalSubmit}
                 >
-                  {msgs.get('modal.button.save', this.context.locale)}
+                  {msgs.get('modal.button.save', locale)}
                 </Button>
               </div>
             </ModalFooter>
@@ -401,12 +391,6 @@ class CreateResourceModal extends React.PureComponent {
     )
   }
 }
-
-CreateResourceModal.contextType = {
-  locale: PropTypes.locale
-}
-
-const mapStateToProps = () => ({})
 
 const mapDispatchToProps = (dispatch, { onCreateResource }) => {
   return {
@@ -418,6 +402,6 @@ const mapDispatchToProps = (dispatch, { onCreateResource }) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  CreateResourceModal
+export default connect(() => ({}), mapDispatchToProps)(
+  withLocale(CreateResourceModal)
 )

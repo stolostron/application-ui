@@ -88,7 +88,7 @@ const csrfMiddleware = csurf({
   }
 })
 
-var proxy = require('http-proxy-middleware')
+var { createProxyMiddleware } = require('http-proxy-middleware')
 app.use(
   `${appConfig.get('contextPath')}/graphql`,
   cookieParser(),
@@ -102,7 +102,7 @@ app.use(
     else req.headers.Authorization = `Bearer ${accessToken}`
     next()
   },
-  proxy({
+  createProxyMiddleware({
     target: appConfig.get('hcmUiApiUrl') || 'https://localhost:4000/hcmuiapi',
     changeOrigin: true,
     pathRewrite: {
@@ -125,7 +125,7 @@ app.use(
     else req.headers.Authorization = `Bearer ${accessToken}`
     next()
   },
-  proxy({
+  createProxyMiddleware({
     target: appConfig.get('searchApiUrl') || 'https://localhost:4010/searchapi',
     changeOrigin: true,
     pathRewrite: {
@@ -138,7 +138,7 @@ app.use(
 app.use(
   appConfig.get('headerContextPath'),
   cookieParser(),
-  proxy({
+  createProxyMiddleware({
     target: appConfig.get('headerUrl'),
     changeOrigin: true,
     secure: false,
@@ -160,7 +160,7 @@ if (process.env.NODE_ENV === 'development') {
       else req.headers.Authorization = `Bearer ${accessToken}`
       next()
     },
-    proxy({
+    createProxyMiddleware({
       target: appConfig.get('headerUrl'),
       changeOrigin: true,
       secure: false,
@@ -182,7 +182,7 @@ if (process.env.NODE_ENV === 'development') {
       else req.headers.Authorization = `Bearer ${accessToken}`
       next()
     },
-    proxy({
+    createProxyMiddleware({
       target: appConfig.get('headerUrl'),
       changeOrigin: true,
       pathRewrite: {

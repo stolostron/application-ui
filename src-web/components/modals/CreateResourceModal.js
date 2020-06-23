@@ -231,11 +231,19 @@ class CreateResourceModal extends React.PureComponent {
 
                 {this.props.helpLink && (
                   <div className="help-link">
-                    <a href={this.props.helpLink} target="_blank">
+                    <a
+                      href={this.props.helpLink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       {msgs.get('link.help.writing', this.context.locale)}
                     </a>
 
-                    <a href={this.props.helpLink} target="_blank">
+                    <a
+                      href={this.props.helpLink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <Icon
                         name="icon--launch"
                         fill="#6089bf"
@@ -398,6 +406,8 @@ CreateResourceModal.contextType = {
   locale: PropTypes.locale
 }
 
+const mapStateToProps = () => ({})
+
 const mapDispatchToProps = (dispatch, { onCreateResource }) => {
   return {
     onCreateResource: yaml => onCreateResource(dispatch, yaml),
@@ -408,4 +418,6 @@ const mapDispatchToProps = (dispatch, { onCreateResource }) => {
   }
 }
 
-export default connect(() => ({}), mapDispatchToProps)(CreateResourceModal)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  CreateResourceModal
+)

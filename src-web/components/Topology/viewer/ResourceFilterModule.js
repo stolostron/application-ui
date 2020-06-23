@@ -112,7 +112,7 @@ FilterSection.propTypes = {
   showThreshold: PropTypes.number
 }
 
-class ResourceFilterView extends React.Component {
+export class ResourceFilterView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {

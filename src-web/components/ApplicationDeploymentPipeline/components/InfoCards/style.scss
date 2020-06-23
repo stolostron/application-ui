@@ -14,14 +14,9 @@
   justify-content: space-between;
   align-items: center;
 
-  .card-cem-disabled {
+  .card-margin {
     margin: 0 7%;
   }
-
-  .card-cem-enabled {
-    margin: 0 3%;
-  }
-
   .clickable {
     &:hover {
       cursor: pointer;

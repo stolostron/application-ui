@@ -297,8 +297,6 @@ export const fetchResourcesInBulk = (resourceType, bulkquery) => {
           result = mapBulkChannels(dataClone)
         } else if (resourceType.name === 'HCMSubscription') {
           result = mapBulkSubscriptions(dataClone)
-        } else if (resourceType.name === 'CEMIncidentList') {
-          result = dataClone
         } else {
           result = dataClone
         }
@@ -310,43 +308,6 @@ export const fetchResourcesInBulk = (resourceType, bulkquery) => {
         dispatch(receiveResourceError(err, resourceType))
       })
   }
-}
-
-export const clearIncidents = resourceType => {
-  return dispatch => {
-    // Clear everything before fetching
-    dispatch(receiveResourceSuccess({ items: [] }, resourceType))
-  }
-}
-
-const getGenericResource = (resourceType, variables) => {
-  return dispatch => {
-    dispatch(requestResource(resourceType))
-    return apolloClient
-      .getResource(resourceType, variables)
-      .then(response => {
-        if (response.errors) {
-          return dispatch(
-            receiveResourceError(response.errors[0], resourceType)
-          )
-        }
-        return dispatch(
-          receiveResourceSuccess(
-            { items: lodash.cloneDeep(response.data.items) },
-            resourceType
-          )
-        )
-      })
-      .catch(err => dispatch(receiveResourceError(err, resourceType)))
-  }
-}
-
-export const fetchIncidents = (resourceType, namespace, name) => {
-  return getGenericResource(resourceType, { namespace, name })
-}
-
-export const fetchNamespace = (resourceType, namespace) => {
-  return getGenericResource(resourceType, { namespace })
 }
 
 export const editResource = (

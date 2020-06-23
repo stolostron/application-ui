@@ -62,7 +62,6 @@ import { MockedProvider } from "react-apollo/test-utils";
 
 import {
   reduxStoreAppPipelineWithCEM,
-  CEMIncidentList,
   serverProps
 } from "../../../../TestingData";
 
@@ -89,7 +88,6 @@ describe("OverviewCards", () => {
           <OverviewCards
             selectedAppName="mortgage-app"
             selectedAppNS="default"
-            CEMIncidentList={CEMIncidentList}
             serverProps={serverProps}
           />
         </Provider>
@@ -103,17 +101,12 @@ describe("OverviewCards", () => {
         <OverviewCards
           selectedAppName="mortgage-app"
           selectedAppNS="default"
-          CEMIncidentList={CEMIncidentList}
           serverProps={serverProps}
         />
       </Provider>
     );
 
     wrapper.find({ id: "0_overviewCardsData" }).simulate("click");
-    wrapper.find({ id: "3_overviewCardsData" }).simulate(
-      //CEM
-      "click"
-    );
     wrapper
       .find({ id: "0_overviewCardsData" })
       .simulate("keypress", { key: "Enter" });
@@ -136,7 +129,6 @@ describe("OverviewCards", () => {
         <OverviewCards
           selectedAppName="mortgage-app"
           selectedAppNS="default"
-          CEMIncidentList={CEMIncidentList}
           serverProps={serverProps}
         />
       </Provider>

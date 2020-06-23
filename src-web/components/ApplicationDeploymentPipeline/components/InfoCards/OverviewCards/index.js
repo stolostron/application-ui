@@ -19,11 +19,9 @@ import { bindActionCreators } from 'redux'
 import * as Actions from '../../../../../actions'
 import msgs from '../../../../../../nls/platform.properties'
 import {
-  getNumIncidents,
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClustersSingle,
   getPodData,
-  getIncidentsData,
   concatDataForTextKey,
   concatDataForSubTextKey
 } from '../utils'
@@ -48,30 +46,19 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  const {
-    QueryApplicationList,
-    CEMIncidentList,
-    secondaryHeader,
-    AppOverview,
-    refetch
-  } = state
+  const { QueryApplicationList, secondaryHeader, refetch } = state
   const isSingleApplicationView =
     R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length === 2
-  const enableCEM = AppOverview.showCEMAction
   return {
     QueryApplicationList,
-    CEMIncidentList,
     isSingleApplicationView,
-    enableCEM,
     refetch
   }
 }
 
 const getOverviewCardsData = (
   QueryApplicationList,
-  CEMIncidentList,
   isSingleApplicationView,
-  enableCEM,
   applicationName,
   applicationNamespace,
   targetLinkForSubscriptions,
@@ -96,10 +83,8 @@ const getOverviewCardsData = (
     applicationName,
     applicationNamespace
   )
-  const incidents = getNumIncidents(CEMIncidentList)
-  const incidentsData = getIncidentsData(CEMIncidentList)
 
-  const result = [
+  return [
     {
       msgKey:
         subscriptionDataOnHub.total === 1
@@ -172,31 +157,6 @@ const getOverviewCardsData = (
       )
     }
   ]
-
-  if (enableCEM) {
-    result.push({
-      msgKey:
-        incidents === 1
-          ? msgs.get('dashboard.card.deployment.incident', locale)
-          : msgs.get('dashboard.card.deployment.incidents', locale),
-      count: incidents,
-      alert: incidents > 0 ? true : false,
-      targetTab: incidents === 0 ? null : 2,
-      subtextKeyFirst: concatDataForSubTextKey(
-        incidents,
-        incidents,
-        incidentsData.priority1,
-        msgs.get('dashboard.card.deployment.incidents.priority1', locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        incidents,
-        incidents,
-        incidentsData.priority2,
-        msgs.get('dashboard.card.deployment.incidents.priority2', locale)
-      )
-    })
-  }
-  return result
 }
 
 class OverviewCards extends React.Component {
@@ -262,9 +222,7 @@ class OverviewCards extends React.Component {
   render() {
     const {
       QueryApplicationList,
-      CEMIncidentList,
       isSingleApplicationView,
-      enableCEM,
       actions,
       selectedAppName,
       selectedAppNS
@@ -292,9 +250,7 @@ class OverviewCards extends React.Component {
 
     const overviewCardsData = getOverviewCardsData(
       QueryApplicationList,
-      CEMIncidentList,
       isSingleApplicationView,
-      enableCEM,
       applicationName,
       applicationNamespace,
       targetLinkForSubscriptions,
@@ -325,10 +281,7 @@ const InfoCards = ({ overviewCardsData, actions }) => {
       {Object.keys(overviewCardsData).map(key => {
         const card = overviewCardsData[key]
         const id = `${key}_overviewCardsData`
-        var cemStatus = 'card-cem-disabled'
-        if (overviewCardsData.length === 4) {
-          cemStatus = 'card-cem-enabled'
-        }
+        const cardMarginClass = 'card-margin'
         const handleClick = (e, resource) => {
           if (resource.targetTab != null) {
             actions.setSelectedAppTab(resource.targetTab)
@@ -349,8 +302,8 @@ const InfoCards = ({ overviewCardsData, actions }) => {
               key={card}
               className={
                 card.targetLink || card.targetTab
-                  ? `single-card clickable ${cemStatus}`
-                  : `single-card ${cemStatus}`
+                  ? `single-card clickable ${cardMarginClass}`
+                  : `single-card ${cardMarginClass}`
               }
               role="button"
               tabIndex="0"

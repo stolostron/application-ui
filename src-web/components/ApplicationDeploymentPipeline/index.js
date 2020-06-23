@@ -47,7 +47,6 @@ import {
 import apolloClient from '../../../lib/client/apollo-client'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
-import { getNamespaceAccountId } from '../common/ResourceDetails/utils'
 import {
   handleEditResource,
   handleDeleteResource,
@@ -133,7 +132,6 @@ const mapStateToProps = state => {
   const {
     HCMChannelList,
     HCMSubscriptionList,
-    HCMNamespaceList,
     AppDeployments,
     secondaryHeader,
     QueryApplicationList,
@@ -151,7 +149,6 @@ const mapStateToProps = state => {
     AppDeployments,
     QueryApplicationList,
     GlobalApplicationDataList,
-    HCMNamespaceList,
     loading: AppDeployments.loading,
     breadcrumbItems: secondaryHeader.breadcrumbItems || [],
     mutateStatus:
@@ -272,7 +269,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       HCMSubscriptionList,
       HCMChannelList,
-      HCMNamespaceList,
       QueryApplicationList,
       GlobalApplicationDataList
     } = this.props
@@ -432,10 +428,6 @@ class ApplicationDeploymentPipeline extends React.Component {
             serverProps={serverProps}
             getApplicationResource={getApplicationResource}
             app={app}
-            namespaceAccountId={getNamespaceAccountId(
-              HCMNamespaceList,
-              selectedAppNS
-            )}
           />
         )}
         <div className="pipelineHeader">

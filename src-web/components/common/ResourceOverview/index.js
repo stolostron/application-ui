@@ -19,16 +19,9 @@ import {
   getSingleResourceItem,
   resourceItemByName
 } from '../../../reducers/common'
-import {
-  getNumDeployables,
-  getNumDeployments,
-  getSearchLinkForOneApplication,
-  handleEditResource
-} from './utils'
-import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import { handleEditResource } from './utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
-import { isAdminRole } from '../../../../lib/client/access-helper'
 import msgs from '../../../../nls/platform.properties'
 import {
   fetchApplicationResource,
@@ -51,13 +44,9 @@ const ResourceOverview = withLocale(
     actions,
     selectedNodeId,
     showExpandedTopology,
-    incidentCount,
-    userRole,
     locale,
     getApplicationResource,
     loading,
-    showICAMAction,
-    namespaceAccountId,
     showGrafanaAction,
     openEditApplicationModal,
     currentApplicationInfo,
@@ -67,9 +56,6 @@ const ResourceOverview = withLocale(
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
     }
-
-    const deploymentLabel = 'dashboard.card.deployment'
-    const deploymentsLabel = 'dashboard.card.deployments'
 
     if (openEditApplicationModal) {
       const data = R.pathOr([], ['data', 'items'], currentApplicationInfo)[0]
@@ -84,64 +70,7 @@ const ResourceOverview = withLocale(
       })
     }
 
-    const deployables = getNumDeployables(item)
-    const deployments = getNumDeployments(item)
-    const status = getResourcesStatusPerChannel(item, false)
-    const completedDeployments = status[0] + status[4]
-    const inProgressDeployments = status[2] + status[3]
-    const failedDeployments = status[1]
-    const countsCardData = [
-      {
-        msgKey:
-          deployables > 1
-            ? 'dashboard.card.deployables'
-            : 'dashboard.card.deployable',
-        textKey: 'dashboard.card.perInstance',
-        count: deployables,
-        targetLink: getSearchLinkForOneApplication(params),
-        border: 'right'
-      },
-      {
-        msgKey: deployments > 1 ? deploymentsLabel : deploymentLabel,
-        textKey: 'dashboard.card.total',
-        count: deployments,
-        targetTab: 1
-      },
-      {
-        msgKey: 'dashboard.card.deployment.completed',
-        textKey: completedDeployments > 1 ? deploymentsLabel : deploymentLabel,
-        count: completedDeployments,
-        targetTab: 1
-      },
-      {
-        msgKey: 'dashboard.card.deployment.inProgress',
-        textKey: inProgressDeployments > 1 ? deploymentsLabel : deploymentLabel,
-        count: inProgressDeployments,
-        targetTab: 1
-      },
-      {
-        msgKey: 'dashboard.card.deployment.failed',
-        textKey: failedDeployments > 1 ? deploymentsLabel : deploymentLabel,
-        count: failedDeployments,
-        alert: failedDeployments > 0 ? true : false,
-        targetTab: 1
-      }
-    ]
-    if (isAdminRole(userRole)) {
-      countsCardData.push({
-        msgKey:
-          incidentCount > 1
-            ? 'dashboard.card.incidents'
-            : 'dashboard.card.incident',
-        textKey: 'dashboard.card.total',
-        count: incidentCount,
-        alert: incidentCount > 0 ? true : false,
-        targetTab: 2,
-        border: 'left'
-      })
-    }
     const serverProps = {
-      isICAMRunning: showICAMAction,
       isGrafanaRunning: showGrafanaAction
     }
 
@@ -151,7 +80,6 @@ const ResourceOverview = withLocale(
           serverProps={serverProps}
           getApplicationResource={getApplicationResource}
           app={item}
-          namespaceAccountId={namespaceAccountId}
         />
         {(!item || loading) && <Loading withOverlay={true} />}
         {!showExpandedTopology ? (

@@ -95,30 +95,6 @@ const mocks = {
       }
     }
   },
-  editAppICAMMock: {
-    request: { query: GET_ACTION_MODAL_STATE },
-    result: {
-      data: {
-        actionModal: {
-          open: true,
-          type: "table.actions.applications.icam",
-          __typename: "actionModal",
-          resourceType: {
-            name: "HCMApplication",
-            list: "HCMApplicationList"
-          },
-          data: {
-            _uid: "icp-mongodb-0",
-            name: "icp-mongodb-0",
-            namespace: "kube-system",
-            clusterName: "local-cluster",
-            selfLink: "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
-            kind: "applications"
-          }
-        }
-      }
-    }
-  },
   editAppGrafanaMock: {
     request: { query: GET_ACTION_MODAL_STATE },
     result: {
@@ -190,31 +166,6 @@ const mocks = {
         }
       }
     }
-  },
-
-  icamMock: {
-    request: { query: GET_ACTION_MODAL_STATE },
-    result: {
-      data: {
-        actionModal: {
-          open: true,
-          type: "table.actions.applications.icam",
-          __typename: "actionModal",
-          resourceType: {
-            name: "HCMPod",
-            list: "HCMPodList"
-          },
-          data: {
-            _uid: "icp-mongodb-0",
-            name: "icp-mongodb-0",
-            namespace: "kube-system",
-            clusterName: "local-cluster",
-            selfLink: "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
-            kind: "pods"
-          }
-        }
-      }
-    }
   }
 };
 
@@ -245,18 +196,6 @@ describe("ActionModalApollo Testing", () => {
   it("Changes Apollo Client Cache For Edit App Modal", async () => {
     const component = renderer.create(
       <MockedProvider mocks={[mocks.editAppMock]} addTypename={false}>
-        <ActionModalApollo locale={"en-US"} />
-      </MockedProvider>
-    );
-    await delay(0);
-    expect(
-      component.getInstance().state.client.cache.data.data
-    ).toMatchSnapshot();
-  });
-
-  it("Changes Apollo Client Cache For Edit App ICAM Modal", async () => {
-    const component = renderer.create(
-      <MockedProvider mocks={[mocks.editAppICAMMock]} addTypename={false}>
         <ActionModalApollo locale={"en-US"} />
       </MockedProvider>
     );

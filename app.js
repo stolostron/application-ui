@@ -63,10 +63,9 @@ if (process.env.NODE_ENV === 'production') {
   app.use(
     helmet({
       // in production these headers are set by ingress.open-cluster-management.io
-      frameguard: false,
-      noSniff: false,
-      xssFilter: false,
-      noCache: true
+      frameguard: true,
+      noSniff: true,
+      xssFilter: true
     })
   )
 
@@ -77,7 +76,7 @@ if (process.env.NODE_ENV === 'production') {
     })
   )
 } else {
-  app.use(helmet({ noCache: true }))
+  app.use(helmet())
   app.use('*', morgan('dev'))
 }
 

@@ -9,6 +9,22 @@ import { Loading } from 'carbon-components-react'
 import RefreshTimeSelect from '../../components/common/RefreshTimeSelect'
 import { REFRESH_TIMES } from '../../../lib/shared/constants'
 
+export const startPolling = (component, setInterval) => {
+  if (R.pathOr(-1, ['refetch', 'interval'], component.props) > 0) {
+    const intervalId = setInterval(
+      component.reload.bind(component),
+      component.props.refetch.interval
+    )
+    component.setState({ intervalId: intervalId })
+  }
+}
+
+export const stopPolling = (state, clearInterval) => {
+  if (state && state.intervalId) {
+    clearInterval(state.intervalId)
+  }
+}
+
 export const refetchIntervalChanged = (prevProps, nextProps) => {
   return (
     R.path(['refetch', 'interval'], prevProps) !==
@@ -21,6 +37,35 @@ export const manualRefetchTriggered = (prevProps, nextProps) => {
     R.path(['refetch', 'doRefetch'], prevProps) === false &&
     R.path(['refetch', 'doRefetch'], nextProps) === true
   )
+}
+
+export const handleRefreshPropertiesChanged = (
+  prevProps,
+  component,
+  clearInterval,
+  setInterval
+) => {
+  // manual refetch
+  if (manualRefetchTriggered(prevProps, component.props)) {
+    component.reload()
+  } else if (refetchIntervalChanged(prevProps, component.props)) {
+    // if old and new interval are different, restart polling
+    stopPolling(component.state, clearInterval)
+    startPolling(component, setInterval)
+  }
+}
+
+export const handleVisibilityChanged = (
+  component,
+  clearInterval,
+  setInterval
+) => {
+  if (document.visibilityState === 'visible') {
+    startPolling(component, setInterval)
+  } else {
+    component.mutateFinished()
+    stopPolling(component.state, clearInterval)
+  }
 }
 
 export const renderRefreshTime = (

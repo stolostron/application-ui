@@ -30,7 +30,7 @@ const specLocation = 'raw.spec.host.location'
 //pod state contains any of these strings
 const podErrorStates = ['err', 'off', 'invalid', 'kill']
 
-const podWarningStates = ['pending']
+const podWarningStates = ['pending', 'creating']
 
 const podSuccessStates = ['run']
 

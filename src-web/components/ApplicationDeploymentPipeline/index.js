@@ -7,7 +7,6 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import R from 'ramda'
 import React from 'react'
 import msgs from '../../../nls/platform.properties'
 import { connect } from 'react-redux'
@@ -55,10 +54,13 @@ import {
 import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
 import {
-  refetchIntervalChanged,
-  manualRefetchTriggered,
-  renderRefreshTime
+  renderRefreshTime,
+  stopPolling,
+  handleRefreshPropertiesChanged,
+  handleVisibilityChanged,
+  startPolling
 } from '../../shared/utils/refetch'
+
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -188,59 +190,30 @@ class ApplicationDeploymentPipeline extends React.Component {
     fetchSubscriptions()
     fetchApplicationsGlobalData()
 
-    this.startPolling()
     document.addEventListener('visibilitychange', this.onVisibilityChange)
+    startPolling(this, setInterval)
   }
 
   componentWillUnmount() {
-    this.stopPolling()
+    stopPolling(this.state, clearInterval)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  startPolling() {
-    if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
-      var intervalId = setInterval(
-        this.reload.bind(this),
-        this.props.refetch.interval
-      )
-      this.setState({ intervalId: intervalId })
-    }
-  }
-
-  stopPolling() {
-    if (this.state && this.state.intervalId) {
-      clearInterval(this.state.intervalId)
-    }
+  mutateFinished() {
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
   }
 
   onVisibilityChange = () => {
-    if (document.visibilityState === 'visible') {
-      this.startPolling()
-    } else {
-      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
-      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
-      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
-      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
-      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
-      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
-      this.stopPolling()
-    }
+    handleVisibilityChanged(this, clearInterval, setInterval)
   };
 
   componentDidUpdate(prevProps) {
-    // if old and new interval are different, restart polling
-    if (refetchIntervalChanged(prevProps, this.props)) {
-      this.stopPolling()
-      this.startPolling()
-    }
-
-    // manual refetch
-    if (manualRefetchTriggered(prevProps, this.props)) {
-      this.reload()
-      // reset polling after manual refetch
-      this.stopPolling()
-      this.startPolling()
-    }
+    handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
   }
 
   reload() {

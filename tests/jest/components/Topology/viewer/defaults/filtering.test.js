@@ -280,8 +280,8 @@ describe("getAllFilters", () => {
       resourceStatuses: {
         availableSet: new Map([
           ["green", "Success"],
-          ["yellow", "Pending"],
-          ["orange", "Warning"],
+          ["orange", "Pending"],
+          ["yellow", "Warning"],
           ["red", "Error"]
         ]),
         name: "Resource status"
@@ -408,8 +408,8 @@ describe("getAvailableFilters application", () => {
     resourceStatuses: {
       availableSet: new Map([
         ["green", "Success"],
-        ["yellow", "Pending"],
-        ["orange", "Warning"],
+        ["orange", "Pending"],
+        ["yellow", "Warning"],
         ["red", "Error"]
       ]),
       name: "Resource status"

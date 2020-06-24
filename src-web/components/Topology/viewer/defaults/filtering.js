@@ -365,11 +365,11 @@ export const addAvailableRelationshipFilters = (
           msgs.get('topology.filter.category.status.success', locale)
         ],
         [
-          'yellow',
+          'orange',
           msgs.get('topology.filter.category.status.pending', locale)
         ],
         [
-          'orange',
+          'yellow',
           msgs.get('topology.filter.category.status.warning', locale)
         ],
         ['red', msgs.get('topology.filter.category.status.error', locale)]

@@ -65,12 +65,14 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
             >
               Standalone subscriptions
               <div
-                className="bx--tooltip__trigger"
+                className="bx--tooltip__label"
               >
                 
                 <div
                   aria-expanded={false}
                   aria-haspopup="true"
+                  aria-label="tooltip"
+                  className="bx--tooltip__trigger"
                   id="__carbon-tooltip-trigger_i"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -80,6 +82,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                   onMouseOver={[Function]}
                   role="button"
                   tabIndex={0}
+                  title=""
                 >
                   <svg
                     alt="tooltip"
@@ -387,10 +390,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
+                  onBlur={[Function]}
+                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="button"
+                  role="menu"
                   tabIndex={0}
                 >
                   <svg
@@ -445,10 +450,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
+                  onBlur={[Function]}
+                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="button"
+                  role="menu"
                   tabIndex={0}
                 >
                   <svg
@@ -503,10 +510,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
+                  onBlur={[Function]}
+                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="button"
+                  role="menu"
                   tabIndex={0}
                 >
                   <svg
@@ -629,10 +638,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
+                  onBlur={[Function]}
+                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="button"
+                  role="menu"
                   tabIndex={0}
                 >
                   <svg
@@ -897,10 +908,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
+                  onBlur={[Function]}
+                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="button"
+                  role="menu"
                   tabIndex={0}
                 >
                   <svg
@@ -1234,10 +1247,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
+                  onBlur={[Function]}
+                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="button"
+                  role="menu"
                   tabIndex={0}
                 >
                   <svg
@@ -1557,10 +1572,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
+                  onBlur={[Function]}
+                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="button"
+                  role="menu"
                   tabIndex={0}
                 >
                   <svg

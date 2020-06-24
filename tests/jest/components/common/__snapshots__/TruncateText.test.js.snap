@@ -5,11 +5,13 @@ exports[`TruncateText renders as expected for non truncated text 1`] = `"NonTrun
 exports[`TruncateText renders as expected for truncated text 1`] = `
 Object {
   "children": "TruncateText",
+  "clickToOpen": false,
   "direction": "bottom",
   "iconDescription": "tooltip",
   "iconTitle": "",
   "menuOffset": [Function],
   "open": false,
+  "renderIcon": undefined,
   "showIcon": false,
   "text": "TruncateText",
   "triggerClassName": "textWithTruncation",

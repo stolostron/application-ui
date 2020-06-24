@@ -37,12 +37,14 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
           onClick={[Function]}
           onKeyDown={[Function]}
           role="listbox"
-          tabIndex="0"
+          tabIndex={null}
         >
           <div
+            aria-controls={null}
             aria-expanded={false}
             aria-haspopup={true}
-            aria-label="open menu"
+            aria-label="Choose refresh"
+            aria-owns={null}
             className="bx--list-box__field"
             data-toggle={true}
             disabled={false}
@@ -66,6 +68,7 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                 alt="Open menu"
                 aria-label="Open menu"
                 fillRule="evenodd"
+                focusable="false"
                 height="5"
                 role="img"
                 viewBox="0 0 10 5"
@@ -110,7 +113,7 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
         <li
           className="bx--accordion__item"
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           open={false}
           role="presentation"
         >
@@ -118,6 +121,7 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
             aria-expanded={false}
             className="bx--accordion__heading"
             onClick={[Function]}
+            title="Expand and collapse"
             type="button"
           >
             <svg
@@ -389,6 +393,7 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
             Subscription
             <svg
               alt="Open subscription editor"
+              aria-hidden={true}
               aria-label="Open subscription editor"
               className="bx--btn__icon"
               fillRule="evenodd"
@@ -423,6 +428,7 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
             Placement Rule
             <svg
               alt="Open subscription editor"
+              aria-hidden={true}
               aria-label="Open subscription editor"
               className="bx--btn__icon"
               fillRule="evenodd"
@@ -457,6 +463,7 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
             Channel
             <svg
               alt="Open channel editor"
+              aria-hidden={true}
               aria-label="Open channel editor"
               className="bx--btn__icon"
               fillRule="evenodd"
@@ -608,12 +615,14 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
               >
                 Standalone subscriptions
                 <div
-                  className="bx--tooltip__trigger"
+                  className="bx--tooltip__label"
                 >
                   
                   <div
                     aria-expanded={false}
                     aria-haspopup="true"
+                    aria-label="tooltip"
+                    className="bx--tooltip__trigger"
                     id="__carbon-tooltip-trigger_i"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -623,6 +632,7 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                     onMouseOver={[Function]}
                     role="button"
                     tabIndex={0}
+                    title=""
                   >
                     <svg
                       alt="tooltip"
@@ -693,10 +703,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                     aria-haspopup={true}
                     aria-label="Overflow-menu"
                     className="bx--overflow-menu"
+                    onBlur={[Function]}
+                    onClick={[Function]}
                     onClose={[Function]}
                     onKeyDown={[Function]}
                     open={false}
-                    role="button"
+                    role="menu"
                     tabIndex={0}
                   >
                     <svg
@@ -751,10 +763,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                     aria-haspopup={true}
                     aria-label="Overflow-menu"
                     className="bx--overflow-menu"
+                    onBlur={[Function]}
+                    onClick={[Function]}
                     onClose={[Function]}
                     onKeyDown={[Function]}
                     open={false}
-                    role="button"
+                    role="menu"
                     tabIndex={0}
                   >
                     <svg
@@ -809,10 +823,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                     aria-haspopup={true}
                     aria-label="Overflow-menu"
                     className="bx--overflow-menu"
+                    onBlur={[Function]}
+                    onClick={[Function]}
                     onClose={[Function]}
                     onKeyDown={[Function]}
                     open={false}
-                    role="button"
+                    role="menu"
                     tabIndex={0}
                   >
                     <svg
@@ -935,10 +951,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                     aria-haspopup={true}
                     aria-label="Overflow-menu"
                     className="bx--overflow-menu"
+                    onBlur={[Function]}
+                    onClick={[Function]}
                     onClose={[Function]}
                     onKeyDown={[Function]}
                     open={false}
-                    role="button"
+                    role="menu"
                     tabIndex={0}
                   >
                     <svg
@@ -1134,6 +1152,7 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
       tabIndex={-1}
     >
       <div
+        aria-modal="true"
         className="bx--modal-container"
         role="dialog"
       >
@@ -1141,14 +1160,15 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
           className="bx--modal-header"
         >
           
-          <h2
+          <p
             className="bx--modal-header__heading"
           >
             
-          </h2>
+          </p>
           <button
             className="bx--modal-close"
             onClick={[Function]}
+            title="close the modal"
             type="button"
           >
             <svg
@@ -1430,31 +1450,22 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
         <div
           className="bx--modal-footer"
         >
-          <div
-            className="bx--modal__buttons-container"
+          <button
+            className="bx--btn bx--btn--secondary"
+            disabled={false}
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          />
+          <button
+            className="bx--btn bx--btn--primary"
+            disabled={false}
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
           >
-            <button
-              className="bx--btn bx--btn--secondary"
-              disabled={false}
-              onClick={[Function]}
-              tabIndex={0}
-              type="button"
-            />
-            <button
-              className="bx--btn bx--btn--primary"
-              disabled={false}
-              inputref={
-                Object {
-                  "current": null,
-                }
-              }
-              onClick={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              Close
-            </button>
-          </div>
+            Close
+          </button>
         </div>
       </div>
     </div>

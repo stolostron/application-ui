@@ -359,7 +359,11 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
                 className="bx--loading__svg"
                 viewBox="-75 -75 150 150"
               >
+                <title>
+                  Active loading indicator
+                </title>
                 <circle
+                  className={null}
                   cx="0"
                   cy="0"
                   r="37.5"
@@ -394,12 +398,14 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
               onClick={[Function]}
               onKeyDown={[Function]}
               role="listbox"
-              tabIndex="0"
+              tabIndex={null}
             >
               <div
+                aria-controls={null}
                 aria-expanded={false}
                 aria-haspopup={true}
-                aria-label="open menu"
+                aria-label="Choose refresh"
+                aria-owns={null}
                 className="bx--list-box__field"
                 data-toggle={true}
                 disabled={false}
@@ -423,6 +429,7 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
                     alt="Open menu"
                     aria-label="Open menu"
                     fillRule="evenodd"
+                    focusable="false"
                     height="5"
                     role="img"
                     viewBox="0 0 10 5"
@@ -478,7 +485,11 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
                 className="bx--loading__svg"
                 viewBox="-75 -75 150 150"
               >
+                <title>
+                  Active loading indicator
+                </title>
                 <circle
+                  className={null}
                   cx="0"
                   cy="0"
                   r="37.5"
@@ -497,7 +508,11 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
                 className="bx--loading__svg"
                 viewBox="-75 -75 150 150"
               >
+                <title>
+                  Active loading indicator
+                </title>
                 <circle
+                  className={null}
                   cx="0"
                   cy="0"
                   r="37.5"

@@ -12,7 +12,11 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
       className="bx--loading__svg"
       viewBox="-75 -75 150 150"
     >
+      <title>
+        Active loading indicator
+      </title>
       <circle
+        className={null}
         cx="0"
         cy="0"
         r="37.5"

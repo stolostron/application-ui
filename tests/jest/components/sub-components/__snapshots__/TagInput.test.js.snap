@@ -48,6 +48,7 @@ ShallowWrapper {
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -119,10 +120,12 @@ ShallowWrapper {
           className="tagInput-comboBox tagInput-comboBox__hasTags"
         >
           <ReactTags
+            addOnBlur={false}
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
             autoresize={true}
+            clearInputOnDelete={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -132,8 +135,10 @@ ShallowWrapper {
             }
             handleAddition={[Function]}
             handleDelete={[Function]}
+            inputAttributes={Object {}}
             maxSuggestionsLength={6}
             minQueryLength={1}
+            noSuggestionsText={null}
             placeholder="Add filter tags..."
             suggestions={
               Array [
@@ -159,6 +164,7 @@ ShallowWrapper {
                 },
               ]
             }
+            suggestionsFilter={null}
             tagComponent={[Function]}
             tags={
               Array [
@@ -308,10 +314,12 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <ReactTags
+            addOnBlur={false}
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
             autoresize={true}
+            clearInputOnDelete={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -321,8 +329,10 @@ ShallowWrapper {
             }
             handleAddition={[Function]}
             handleDelete={[Function]}
+            inputAttributes={Object {}}
             maxSuggestionsLength={6}
             minQueryLength={1}
+            noSuggestionsText={null}
             placeholder="Add filter tags..."
             suggestions={
               Array [
@@ -348,6 +358,7 @@ ShallowWrapper {
                 },
               ]
             }
+            suggestionsFilter={null}
             tagComponent={[Function]}
             tags={
               Array [
@@ -369,10 +380,12 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "class",
           "props": Object {
+            "addOnBlur": false,
             "allowBackspace": true,
             "allowNew": true,
             "autofocus": true,
             "autoresize": true,
+            "clearInputOnDelete": true,
             "delimiterChars": Array [],
             "delimiters": Array [
               9,
@@ -380,8 +393,10 @@ ShallowWrapper {
             ],
             "handleAddition": [Function],
             "handleDelete": [Function],
+            "inputAttributes": Object {},
             "maxSuggestionsLength": 6,
             "minQueryLength": 1,
+            "noSuggestionsText": null,
             "placeholder": "Add filter tags...",
             "suggestions": Array [
               Object {
@@ -405,6 +420,7 @@ ShallowWrapper {
                 "value": "crucial-owl",
               },
             ],
+            "suggestionsFilter": null,
             "tagComponent": [Function],
             "tags": Array [
               Object {
@@ -637,10 +653,12 @@ ShallowWrapper {
             className="tagInput-comboBox tagInput-comboBox__hasTags"
           >
             <ReactTags
+              addOnBlur={false}
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
               autoresize={true}
+              clearInputOnDelete={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -650,8 +668,10 @@ ShallowWrapper {
               }
               handleAddition={[Function]}
               handleDelete={[Function]}
+              inputAttributes={Object {}}
               maxSuggestionsLength={6}
               minQueryLength={1}
+              noSuggestionsText={null}
               placeholder="Add filter tags..."
               suggestions={
                 Array [
@@ -677,6 +697,7 @@ ShallowWrapper {
                   },
                 ]
               }
+              suggestionsFilter={null}
               tagComponent={[Function]}
               tags={
                 Array [
@@ -826,10 +847,12 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <ReactTags
+              addOnBlur={false}
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
               autoresize={true}
+              clearInputOnDelete={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -839,8 +862,10 @@ ShallowWrapper {
               }
               handleAddition={[Function]}
               handleDelete={[Function]}
+              inputAttributes={Object {}}
               maxSuggestionsLength={6}
               minQueryLength={1}
+              noSuggestionsText={null}
               placeholder="Add filter tags..."
               suggestions={
                 Array [
@@ -866,6 +891,7 @@ ShallowWrapper {
                   },
                 ]
               }
+              suggestionsFilter={null}
               tagComponent={[Function]}
               tags={
                 Array [
@@ -887,10 +913,12 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
+              "addOnBlur": false,
               "allowBackspace": true,
               "allowNew": true,
               "autofocus": true,
               "autoresize": true,
+              "clearInputOnDelete": true,
               "delimiterChars": Array [],
               "delimiters": Array [
                 9,
@@ -898,8 +926,10 @@ ShallowWrapper {
               ],
               "handleAddition": [Function],
               "handleDelete": [Function],
+              "inputAttributes": Object {},
               "maxSuggestionsLength": 6,
               "minQueryLength": 1,
+              "noSuggestionsText": null,
               "placeholder": "Add filter tags...",
               "suggestions": Array [
                 Object {
@@ -923,6 +953,7 @@ ShallowWrapper {
                   "value": "crucial-owl",
                 },
               ],
+              "suggestionsFilter": null,
               "tagComponent": [Function],
               "tags": Array [
                 Object {
@@ -1094,11 +1125,18 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
           },
-          "getDerivedStateFromProps": true,
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
             "skipsComponentDidUpdateOnNullish": true,
@@ -1106,7 +1144,10 @@ ShallowWrapper {
         },
       },
     },
+    Symbol(enzyme.__providerValues__): undefined,
   },
+  Symbol(enzyme.__providerValues__): Map {},
+  Symbol(enzyme.__childContext__): null,
 }
 `;
 
@@ -1158,6 +1199,7 @@ ShallowWrapper {
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -1229,10 +1271,12 @@ ShallowWrapper {
           className="tagInput-comboBox tagInput-comboBox__hasTags"
         >
           <ReactTags
+            addOnBlur={false}
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
             autoresize={true}
+            clearInputOnDelete={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -1242,8 +1286,10 @@ ShallowWrapper {
             }
             handleAddition={[Function]}
             handleDelete={[Function]}
+            inputAttributes={Object {}}
             maxSuggestionsLength={6}
             minQueryLength={1}
+            noSuggestionsText={null}
             placeholder="Add filter tags..."
             suggestions={
               Array [
@@ -1269,6 +1315,7 @@ ShallowWrapper {
                 },
               ]
             }
+            suggestionsFilter={null}
             tagComponent={[Function]}
             tags={
               Array [
@@ -1418,10 +1465,12 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <ReactTags
+            addOnBlur={false}
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
             autoresize={true}
+            clearInputOnDelete={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -1431,8 +1480,10 @@ ShallowWrapper {
             }
             handleAddition={[Function]}
             handleDelete={[Function]}
+            inputAttributes={Object {}}
             maxSuggestionsLength={6}
             minQueryLength={1}
+            noSuggestionsText={null}
             placeholder="Add filter tags..."
             suggestions={
               Array [
@@ -1458,6 +1509,7 @@ ShallowWrapper {
                 },
               ]
             }
+            suggestionsFilter={null}
             tagComponent={[Function]}
             tags={
               Array [
@@ -1479,10 +1531,12 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "class",
           "props": Object {
+            "addOnBlur": false,
             "allowBackspace": true,
             "allowNew": true,
             "autofocus": true,
             "autoresize": true,
+            "clearInputOnDelete": true,
             "delimiterChars": Array [],
             "delimiters": Array [
               9,
@@ -1490,8 +1544,10 @@ ShallowWrapper {
             ],
             "handleAddition": [Function],
             "handleDelete": [Function],
+            "inputAttributes": Object {},
             "maxSuggestionsLength": 6,
             "minQueryLength": 1,
+            "noSuggestionsText": null,
             "placeholder": "Add filter tags...",
             "suggestions": Array [
               Object {
@@ -1515,6 +1571,7 @@ ShallowWrapper {
                 "value": "crucial-owl",
               },
             ],
+            "suggestionsFilter": null,
             "tagComponent": [Function],
             "tags": Array [
               Object {
@@ -1747,10 +1804,12 @@ ShallowWrapper {
             className="tagInput-comboBox tagInput-comboBox__hasTags"
           >
             <ReactTags
+              addOnBlur={false}
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
               autoresize={true}
+              clearInputOnDelete={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -1760,8 +1819,10 @@ ShallowWrapper {
               }
               handleAddition={[Function]}
               handleDelete={[Function]}
+              inputAttributes={Object {}}
               maxSuggestionsLength={6}
               minQueryLength={1}
+              noSuggestionsText={null}
               placeholder="Add filter tags..."
               suggestions={
                 Array [
@@ -1787,6 +1848,7 @@ ShallowWrapper {
                   },
                 ]
               }
+              suggestionsFilter={null}
               tagComponent={[Function]}
               tags={
                 Array [
@@ -1936,10 +1998,12 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <ReactTags
+              addOnBlur={false}
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
               autoresize={true}
+              clearInputOnDelete={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -1949,8 +2013,10 @@ ShallowWrapper {
               }
               handleAddition={[Function]}
               handleDelete={[Function]}
+              inputAttributes={Object {}}
               maxSuggestionsLength={6}
               minQueryLength={1}
+              noSuggestionsText={null}
               placeholder="Add filter tags..."
               suggestions={
                 Array [
@@ -1976,6 +2042,7 @@ ShallowWrapper {
                   },
                 ]
               }
+              suggestionsFilter={null}
               tagComponent={[Function]}
               tags={
                 Array [
@@ -1997,10 +2064,12 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
+              "addOnBlur": false,
               "allowBackspace": true,
               "allowNew": true,
               "autofocus": true,
               "autoresize": true,
+              "clearInputOnDelete": true,
               "delimiterChars": Array [],
               "delimiters": Array [
                 9,
@@ -2008,8 +2077,10 @@ ShallowWrapper {
               ],
               "handleAddition": [Function],
               "handleDelete": [Function],
+              "inputAttributes": Object {},
               "maxSuggestionsLength": 6,
               "minQueryLength": 1,
+              "noSuggestionsText": null,
               "placeholder": "Add filter tags...",
               "suggestions": Array [
                 Object {
@@ -2033,6 +2104,7 @@ ShallowWrapper {
                   "value": "crucial-owl",
                 },
               ],
+              "suggestionsFilter": null,
               "tagComponent": [Function],
               "tags": Array [
                 Object {
@@ -2204,11 +2276,18 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
           },
-          "getDerivedStateFromProps": true,
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
             "skipsComponentDidUpdateOnNullish": true,
@@ -2216,7 +2295,10 @@ ShallowWrapper {
         },
       },
     },
+    Symbol(enzyme.__providerValues__): undefined,
   },
+  Symbol(enzyme.__providerValues__): Map {},
+  Symbol(enzyme.__childContext__): null,
 }
 `;
 
@@ -2268,6 +2350,7 @@ ShallowWrapper {
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -2339,10 +2422,12 @@ ShallowWrapper {
           className="tagInput-comboBox tagInput-comboBox__hasTags"
         >
           <ReactTags
+            addOnBlur={false}
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
             autoresize={true}
+            clearInputOnDelete={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -2352,8 +2437,10 @@ ShallowWrapper {
             }
             handleAddition={[Function]}
             handleDelete={[Function]}
+            inputAttributes={Object {}}
             maxSuggestionsLength={6}
             minQueryLength={1}
+            noSuggestionsText={null}
             placeholder="Add filter tags..."
             suggestions={
               Array [
@@ -2379,6 +2466,7 @@ ShallowWrapper {
                 },
               ]
             }
+            suggestionsFilter={null}
             tagComponent={[Function]}
             tags={
               Array [
@@ -2528,10 +2616,12 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <ReactTags
+            addOnBlur={false}
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
             autoresize={true}
+            clearInputOnDelete={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -2541,8 +2631,10 @@ ShallowWrapper {
             }
             handleAddition={[Function]}
             handleDelete={[Function]}
+            inputAttributes={Object {}}
             maxSuggestionsLength={6}
             minQueryLength={1}
+            noSuggestionsText={null}
             placeholder="Add filter tags..."
             suggestions={
               Array [
@@ -2568,6 +2660,7 @@ ShallowWrapper {
                 },
               ]
             }
+            suggestionsFilter={null}
             tagComponent={[Function]}
             tags={
               Array [
@@ -2589,10 +2682,12 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "class",
           "props": Object {
+            "addOnBlur": false,
             "allowBackspace": true,
             "allowNew": true,
             "autofocus": true,
             "autoresize": true,
+            "clearInputOnDelete": true,
             "delimiterChars": Array [],
             "delimiters": Array [
               9,
@@ -2600,8 +2695,10 @@ ShallowWrapper {
             ],
             "handleAddition": [Function],
             "handleDelete": [Function],
+            "inputAttributes": Object {},
             "maxSuggestionsLength": 6,
             "minQueryLength": 1,
+            "noSuggestionsText": null,
             "placeholder": "Add filter tags...",
             "suggestions": Array [
               Object {
@@ -2625,6 +2722,7 @@ ShallowWrapper {
                 "value": "crucial-owl",
               },
             ],
+            "suggestionsFilter": null,
             "tagComponent": [Function],
             "tags": Array [
               Object {
@@ -2857,10 +2955,12 @@ ShallowWrapper {
             className="tagInput-comboBox tagInput-comboBox__hasTags"
           >
             <ReactTags
+              addOnBlur={false}
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
               autoresize={true}
+              clearInputOnDelete={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -2870,8 +2970,10 @@ ShallowWrapper {
               }
               handleAddition={[Function]}
               handleDelete={[Function]}
+              inputAttributes={Object {}}
               maxSuggestionsLength={6}
               minQueryLength={1}
+              noSuggestionsText={null}
               placeholder="Add filter tags..."
               suggestions={
                 Array [
@@ -2897,6 +2999,7 @@ ShallowWrapper {
                   },
                 ]
               }
+              suggestionsFilter={null}
               tagComponent={[Function]}
               tags={
                 Array [
@@ -3046,10 +3149,12 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <ReactTags
+              addOnBlur={false}
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
               autoresize={true}
+              clearInputOnDelete={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -3059,8 +3164,10 @@ ShallowWrapper {
               }
               handleAddition={[Function]}
               handleDelete={[Function]}
+              inputAttributes={Object {}}
               maxSuggestionsLength={6}
               minQueryLength={1}
+              noSuggestionsText={null}
               placeholder="Add filter tags..."
               suggestions={
                 Array [
@@ -3086,6 +3193,7 @@ ShallowWrapper {
                   },
                 ]
               }
+              suggestionsFilter={null}
               tagComponent={[Function]}
               tags={
                 Array [
@@ -3107,10 +3215,12 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
+              "addOnBlur": false,
               "allowBackspace": true,
               "allowNew": true,
               "autofocus": true,
               "autoresize": true,
+              "clearInputOnDelete": true,
               "delimiterChars": Array [],
               "delimiters": Array [
                 9,
@@ -3118,8 +3228,10 @@ ShallowWrapper {
               ],
               "handleAddition": [Function],
               "handleDelete": [Function],
+              "inputAttributes": Object {},
               "maxSuggestionsLength": 6,
               "minQueryLength": 1,
+              "noSuggestionsText": null,
               "placeholder": "Add filter tags...",
               "suggestions": Array [
                 Object {
@@ -3143,6 +3255,7 @@ ShallowWrapper {
                   "value": "crucial-owl",
                 },
               ],
+              "suggestionsFilter": null,
               "tagComponent": [Function],
               "tags": Array [
                 Object {
@@ -3314,11 +3427,18 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
           },
-          "getDerivedStateFromProps": true,
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
             "skipsComponentDidUpdateOnNullish": true,
@@ -3326,7 +3446,10 @@ ShallowWrapper {
         },
       },
     },
+    Symbol(enzyme.__providerValues__): undefined,
   },
+  Symbol(enzyme.__providerValues__): Map {},
+  Symbol(enzyme.__childContext__): null,
 }
 `;
 
@@ -3378,6 +3501,7 @@ ShallowWrapper {
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -3449,10 +3573,12 @@ ShallowWrapper {
           className="tagInput-comboBox tagInput-comboBox__hasTags"
         >
           <ReactTags
+            addOnBlur={false}
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
             autoresize={true}
+            clearInputOnDelete={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -3462,8 +3588,10 @@ ShallowWrapper {
             }
             handleAddition={[Function]}
             handleDelete={[Function]}
+            inputAttributes={Object {}}
             maxSuggestionsLength={6}
             minQueryLength={1}
+            noSuggestionsText={null}
             placeholder="Add filter tags..."
             suggestions={
               Array [
@@ -3489,6 +3617,7 @@ ShallowWrapper {
                 },
               ]
             }
+            suggestionsFilter={null}
             tagComponent={[Function]}
             tags={
               Array [
@@ -3638,10 +3767,12 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <ReactTags
+            addOnBlur={false}
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
             autoresize={true}
+            clearInputOnDelete={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -3651,8 +3782,10 @@ ShallowWrapper {
             }
             handleAddition={[Function]}
             handleDelete={[Function]}
+            inputAttributes={Object {}}
             maxSuggestionsLength={6}
             minQueryLength={1}
+            noSuggestionsText={null}
             placeholder="Add filter tags..."
             suggestions={
               Array [
@@ -3678,6 +3811,7 @@ ShallowWrapper {
                 },
               ]
             }
+            suggestionsFilter={null}
             tagComponent={[Function]}
             tags={
               Array [
@@ -3699,10 +3833,12 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "class",
           "props": Object {
+            "addOnBlur": false,
             "allowBackspace": true,
             "allowNew": true,
             "autofocus": true,
             "autoresize": true,
+            "clearInputOnDelete": true,
             "delimiterChars": Array [],
             "delimiters": Array [
               9,
@@ -3710,8 +3846,10 @@ ShallowWrapper {
             ],
             "handleAddition": [Function],
             "handleDelete": [Function],
+            "inputAttributes": Object {},
             "maxSuggestionsLength": 6,
             "minQueryLength": 1,
+            "noSuggestionsText": null,
             "placeholder": "Add filter tags...",
             "suggestions": Array [
               Object {
@@ -3735,6 +3873,7 @@ ShallowWrapper {
                 "value": "crucial-owl",
               },
             ],
+            "suggestionsFilter": null,
             "tagComponent": [Function],
             "tags": Array [
               Object {
@@ -3967,10 +4106,12 @@ ShallowWrapper {
             className="tagInput-comboBox tagInput-comboBox__hasTags"
           >
             <ReactTags
+              addOnBlur={false}
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
               autoresize={true}
+              clearInputOnDelete={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -3980,8 +4121,10 @@ ShallowWrapper {
               }
               handleAddition={[Function]}
               handleDelete={[Function]}
+              inputAttributes={Object {}}
               maxSuggestionsLength={6}
               minQueryLength={1}
+              noSuggestionsText={null}
               placeholder="Add filter tags..."
               suggestions={
                 Array [
@@ -4007,6 +4150,7 @@ ShallowWrapper {
                   },
                 ]
               }
+              suggestionsFilter={null}
               tagComponent={[Function]}
               tags={
                 Array [
@@ -4156,10 +4300,12 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <ReactTags
+              addOnBlur={false}
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
               autoresize={true}
+              clearInputOnDelete={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -4169,8 +4315,10 @@ ShallowWrapper {
               }
               handleAddition={[Function]}
               handleDelete={[Function]}
+              inputAttributes={Object {}}
               maxSuggestionsLength={6}
               minQueryLength={1}
+              noSuggestionsText={null}
               placeholder="Add filter tags..."
               suggestions={
                 Array [
@@ -4196,6 +4344,7 @@ ShallowWrapper {
                   },
                 ]
               }
+              suggestionsFilter={null}
               tagComponent={[Function]}
               tags={
                 Array [
@@ -4217,10 +4366,12 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
+              "addOnBlur": false,
               "allowBackspace": true,
               "allowNew": true,
               "autofocus": true,
               "autoresize": true,
+              "clearInputOnDelete": true,
               "delimiterChars": Array [],
               "delimiters": Array [
                 9,
@@ -4228,8 +4379,10 @@ ShallowWrapper {
               ],
               "handleAddition": [Function],
               "handleDelete": [Function],
+              "inputAttributes": Object {},
               "maxSuggestionsLength": 6,
               "minQueryLength": 1,
+              "noSuggestionsText": null,
               "placeholder": "Add filter tags...",
               "suggestions": Array [
                 Object {
@@ -4253,6 +4406,7 @@ ShallowWrapper {
                   "value": "crucial-owl",
                 },
               ],
+              "suggestionsFilter": null,
               "tagComponent": [Function],
               "tags": Array [
                 Object {
@@ -4424,11 +4578,18 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
           },
-          "getDerivedStateFromProps": true,
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
             "skipsComponentDidUpdateOnNullish": true,
@@ -4436,6 +4597,9 @@ ShallowWrapper {
         },
       },
     },
+    Symbol(enzyme.__providerValues__): undefined,
   },
+  Symbol(enzyme.__providerValues__): Map {},
+  Symbol(enzyme.__childContext__): null,
 }
 `;

@@ -52,6 +52,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
         <button
           className="bx--inline-notification__close-button"
           onClick={[Function]}
+          title="close icon"
           type="button"
         >
           <svg
@@ -116,6 +117,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
         <button
           className="bx--inline-notification__close-button"
           onClick={[Function]}
+          title="close icon"
           type="button"
         >
           <svg
@@ -170,12 +172,14 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
               onClick={[Function]}
               onKeyDown={[Function]}
               role="listbox"
-              tabIndex="0"
+              tabIndex={null}
             >
               <div
+                aria-controls={null}
                 aria-expanded={false}
                 aria-haspopup={true}
-                aria-label="open menu"
+                aria-label="Choose refresh"
+                aria-owns={null}
                 className="bx--list-box__field"
                 data-toggle={true}
                 disabled={false}
@@ -199,6 +203,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                     alt="Open menu"
                     aria-label="Open menu"
                     fillRule="evenodd"
+                    focusable="false"
                     height="5"
                     role="img"
                     viewBox="0 0 10 5"
@@ -320,6 +325,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 New application
                 <svg
                   alt="Provide icon description if icon is used"
+                  aria-hidden={true}
                   aria-label="Provide icon description if icon is used"
                   className="bx--btn__icon"
                   fillRule="evenodd"
@@ -636,20 +642,15 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
         <div
           className="bx--pagination__right bx--pagination--inline"
         >
-          <span
-            className="bx--pagination__text"
-          >
-            {0} of {1} pages
-          </span>
           <button
-            aria-label="Backward"
+            aria-label="Previous page"
             className="bx--pagination__button bx--pagination__button--backward bx--pagination__button--no-index"
             disabled={true}
             onClick={[Function]}
           >
             <svg
-              alt="Backward"
-              aria-label="Backward"
+              alt="Previous page"
+              aria-label="Previous page"
               className="bx--pagination__button-icon"
               fillRule="evenodd"
               height="12"
@@ -658,7 +659,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
               width="7"
             >
               <title>
-                Backward
+                Previous page
               </title>
               <path
                 d="M1.45 6.002L7 11.27l-.685.726L0 6.003 6.315 0 7 .726z"
@@ -666,14 +667,14 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
             </svg>
           </button>
           <button
-            aria-label="Forward"
+            aria-label="Next page"
             className="bx--pagination__button bx--pagination__button--forward"
             disabled={true}
             onClick={[Function]}
           >
             <svg
-              alt="Forward"
-              aria-label="Forward"
+              alt="Next page"
+              aria-label="Next page"
               className="bx--pagination__button-icon"
               fillRule="evenodd"
               height="12"
@@ -682,7 +683,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
               width="7"
             >
               <title>
-                Forward
+                Next page
               </title>
               <path
                 d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
@@ -748,6 +749,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
         <button
           className="bx--inline-notification__close-button"
           onClick={[Function]}
+          title="close icon"
           type="button"
         >
           <svg
@@ -812,6 +814,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
         <button
           className="bx--inline-notification__close-button"
           onClick={[Function]}
+          title="close icon"
           type="button"
         >
           <svg
@@ -866,12 +869,14 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
               onClick={[Function]}
               onKeyDown={[Function]}
               role="listbox"
-              tabIndex="0"
+              tabIndex={null}
             >
               <div
+                aria-controls={null}
                 aria-expanded={false}
                 aria-haspopup={true}
-                aria-label="open menu"
+                aria-label="Choose refresh"
+                aria-owns={null}
                 className="bx--list-box__field"
                 data-toggle={true}
                 disabled={false}
@@ -895,6 +900,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                     alt="Open menu"
                     aria-label="Open menu"
                     fillRule="evenodd"
+                    focusable="false"
                     height="5"
                     role="img"
                     viewBox="0 0 10 5"
@@ -1016,6 +1022,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 New application
                 <svg
                   alt="Provide icon description if icon is used"
+                  aria-hidden={true}
                   aria-label="Provide icon description if icon is used"
                   className="bx--btn__icon"
                   fillRule="evenodd"
@@ -1332,20 +1339,15 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
         <div
           className="bx--pagination__right bx--pagination--inline"
         >
-          <span
-            className="bx--pagination__text"
-          >
-            {0} of {1} pages
-          </span>
           <button
-            aria-label="Backward"
+            aria-label="Previous page"
             className="bx--pagination__button bx--pagination__button--backward bx--pagination__button--no-index"
             disabled={true}
             onClick={[Function]}
           >
             <svg
-              alt="Backward"
-              aria-label="Backward"
+              alt="Previous page"
+              aria-label="Previous page"
               className="bx--pagination__button-icon"
               fillRule="evenodd"
               height="12"
@@ -1354,7 +1356,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
               width="7"
             >
               <title>
-                Backward
+                Previous page
               </title>
               <path
                 d="M1.45 6.002L7 11.27l-.685.726L0 6.003 6.315 0 7 .726z"
@@ -1362,14 +1364,14 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
             </svg>
           </button>
           <button
-            aria-label="Forward"
+            aria-label="Next page"
             className="bx--pagination__button bx--pagination__button--forward"
             disabled={true}
             onClick={[Function]}
           >
             <svg
-              alt="Forward"
-              aria-label="Forward"
+              alt="Next page"
+              aria-label="Next page"
               className="bx--pagination__button-icon"
               fillRule="evenodd"
               height="12"
@@ -1378,7 +1380,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
               width="7"
             >
               <title>
-                Forward
+                Next page
               </title>
               <path
                 d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"

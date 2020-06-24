@@ -375,9 +375,9 @@ export const addAvailableRelationshipFilters = (
         ['red', msgs.get('topology.filter.category.status.error', locale)]
       ])
       break
-    case 'clusterNames':
-      name = msgs.get('topology.filter.category.clustername', locale)
-      break
+      // case 'clusterNames':
+      //   name = msgs.get('topology.filter.category.clustername', locale)
+      //   break
     }
     if (name) {
       availableFilters[type] = {

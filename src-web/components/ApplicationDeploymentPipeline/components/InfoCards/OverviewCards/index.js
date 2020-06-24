@@ -27,8 +27,10 @@ import {
 } from '../utils'
 import { getSearchLinkForOneApplication } from '../../../../common/ResourceOverview/utils'
 import {
-  refetchIntervalChanged,
-  manualRefetchTriggered
+  startPolling,
+  stopPolling,
+  handleRefreshPropertiesChanged,
+  handleVisibilityChanged
 } from '../../../../../shared/utils/refetch'
 
 /* eslint-disable react/prop-types */
@@ -36,6 +38,8 @@ import {
 resources(() => {
   require('../style.scss')
 })
+
+const failedLowercase = 'dashboard.card.deployment.failed.lowercase'
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -73,7 +77,7 @@ const getOverviewCardsData = (
     applicationName,
     applicationNamespace
   )
-  var subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersSingle(
+  const subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersSingle(
     QueryApplicationList,
     applicationName,
     applicationNamespace
@@ -98,7 +102,7 @@ const getOverviewCardsData = (
         subscriptionDataOnHub.total,
         subscriptionDataOnHub.total,
         subscriptionDataOnHub.failed,
-        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+        msgs.get(failedLowercase, locale)
       ),
       subtextKeySecond: concatDataForSubTextKey(
         subscriptionDataOnHub.total,
@@ -127,7 +131,7 @@ const getOverviewCardsData = (
         subscriptionDataOnManagedClusters.clusters,
         subscriptionDataOnManagedClusters.clusters,
         subscriptionDataOnManagedClusters.failed,
-        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+        msgs.get(failedLowercase, locale)
       ),
       subtextKeySecond: concatDataForSubTextKey(
         subscriptionDataOnManagedClusters.clusters,
@@ -153,7 +157,7 @@ const getOverviewCardsData = (
         podData.total,
         podData.total,
         podData.failed,
-        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+        msgs.get(failedLowercase, locale)
       )
     }
   ]
@@ -165,53 +169,21 @@ class OverviewCards extends React.Component {
 
     fetchApplications()
 
-    this.startPolling()
     document.addEventListener('visibilitychange', this.onVisibilityChange)
+    startPolling(this, setInterval)
   }
 
   componentWillUnmount() {
-    this.stopPolling()
+    stopPolling(this.state, clearInterval)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  startPolling() {
-    if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
-      var intervalId = setInterval(
-        this.reload.bind(this),
-        this.props.refetch.interval
-      )
-      this.setState({ intervalId: intervalId })
-    }
-  }
-
-  stopPolling() {
-    if (this.state && this.state.intervalId) {
-      clearInterval(this.state.intervalId)
-    }
-  }
-
   onVisibilityChange = () => {
-    if (document.visibilityState === 'visible') {
-      this.startPolling()
-    } else {
-      this.stopPolling()
-    }
+    handleVisibilityChanged(this, clearInterval, setInterval)
   };
 
   componentDidUpdate(prevProps) {
-    // if old and new interval are different, restart polling
-    if (refetchIntervalChanged(prevProps, this.props)) {
-      this.stopPolling()
-      this.startPolling()
-    }
-
-    // manual refetch
-    if (manualRefetchTriggered(prevProps, this.props)) {
-      this.reload()
-      // reset polling after manual refetch
-      this.stopPolling()
-      this.startPolling()
-    }
+    handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
   }
 
   reload() {

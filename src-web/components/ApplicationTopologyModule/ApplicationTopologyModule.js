@@ -8,7 +8,6 @@
  *******************************************************************************/
 'use strict'
 
-import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -39,8 +38,10 @@ import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 import {
-  refetchIntervalChanged,
-  manualRefetchTriggered
+  startPolling,
+  stopPolling,
+  handleRefreshPropertiesChanged,
+  handleVisibilityChanged
 } from '../../shared/utils/refetch'
 import { refetchIntervalUpdate } from '../../actions/refetch'
 
@@ -106,9 +107,7 @@ class ApplicationTopologyModule extends React.Component {
       selectedNode: undefined,
       showLegendView: false
     }
-    this.startPolling = this.startPolling.bind(this)
-    this.stopPolling = this.stopPolling.bind(this)
-    this.refetchData = this.refetchData.bind(this)
+    this.reload = this.reload.bind(this)
   }
 
   componentWillMount() {
@@ -122,64 +121,28 @@ class ApplicationTopologyModule extends React.Component {
     this.props.fetchAppTopology(activeChannel)
     this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
-    this.startPolling()
   }
 
   componentDidMount() {
     document.addEventListener('visibilitychange', this.onVisibilityChange)
+    startPolling(this, setInterval)
   }
 
   componentWillUnmount() {
-    if (this.state) {
-      this.stopPolling()
-    }
-
+    stopPolling(this.state, clearInterval)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  startPolling() {
-    if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
-      const intervalId = setInterval(
-        this.refetchData,
-        this.props.refetch.interval
-      )
-      this.setState({ intervalId: intervalId })
-    }
-  }
-
-  stopPolling() {
-    if (this.state && this.state.intervalId) {
-      clearInterval(this.state.intervalId)
-    }
-    this.setState({ intervalId: undefined })
-  }
-
   onVisibilityChange = () => {
-    if (document.visibilityState === 'visible') {
-      this.startPolling()
-    } else {
-      this.stopPolling()
-    }
+    handleVisibilityChanged(this, clearInterval, setInterval)
   };
 
   componentDidUpdate(prevProps) {
-    // if old and new interval are different, restart polling
-    if (refetchIntervalChanged(prevProps, this.props)) {
-      this.stopPolling()
-      this.startPolling()
-    }
-
-    // manual refetch
-    if (manualRefetchTriggered(prevProps, this.props)) {
-      this.refetchData()
-      // reset polling after manual refetch
-      this.stopPolling()
-      this.startPolling()
-    }
+    handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
   }
 
   // call to actually refetch the new data
-  refetchData() {
+  reload() {
     const {
       fetchAppTopology,
       fetchHCMApplicationResource,

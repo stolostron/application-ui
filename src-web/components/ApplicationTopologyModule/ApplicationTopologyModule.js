@@ -133,8 +133,6 @@ class ApplicationTopologyModule extends React.Component {
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  mutateFinished() {}
-
   onVisibilityChange = () => {
     handleVisibilityChanged(this, clearInterval, setInterval)
   };

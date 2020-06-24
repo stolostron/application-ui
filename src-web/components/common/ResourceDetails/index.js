@@ -92,8 +92,6 @@ const withResource = Component => {
         )
       }
 
-      mutateFinished() {}
-
       onVisibilityChange = () => {
         handleVisibilityChanged(this, clearInterval, setInterval)
       };

@@ -63,7 +63,9 @@ export const handleVisibilityChanged = (
   if (document.visibilityState === 'visible') {
     startPolling(component, setInterval)
   } else {
-    component.mutateFinished()
+    if (component.mutateFinished) {
+      component.mutateFinished()
+    }
     stopPolling(component.state, clearInterval)
   }
 }

@@ -269,10 +269,10 @@ describe("getAllFilters", () => {
       type: ["application", "deployment", "rules", "subscription"]
     },
     availableFilters: {
-      clusterNames: {
-        availableSet: new Set(),
-        name: "Cluster name"
-      },
+      // clusterNames: {
+      //   availableSet: new Set(),
+      //   name: "Cluster name"
+      // },
       namespaces: {
         availableSet: new Set(["<none>", "ns-sub-1", "default"]),
         name: "Namespaces"
@@ -395,12 +395,12 @@ describe("getAvailableFilters application", () => {
   const set1 = new Set();
 
   const expectedResult = {
-    clusterNames: {
-      availableSet: new Set([
-        "possiblereptile, braveman, relievedox, sharingpenguin"
-      ]),
-      name: "Cluster name"
-    },
+    // clusterNames: {
+    //   availableSet: new Set([
+    //     "possiblereptile, braveman, relievedox, sharingpenguin"
+    //   ]),
+    //   name: "Cluster name"
+    // },
     namespaces: {
       availableSet: new Set(["<none>"]),
       name: "Namespaces"

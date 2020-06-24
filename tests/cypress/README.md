@@ -1,3 +1,4 @@
+
 # Application-UI Cypress Tests
 
 The Cypress tests for [Application-UI](https://github.com/open-cluster-management/application-ui)
@@ -27,14 +28,16 @@ The Cypress tests for [Application-UI](https://github.com/open-cluster-managemen
 
 #### Running Cypress Tests in a Docker Container
 
-1. Place an options.yaml file in /application-ui/, this is a configuration file that is used by the Docker container, the follow is an example: 
-		options:
-		  hub:
-			name: multicloud-console
-			baseDomain: definite-oarfish.dev06.red-chesterfield.com
-			user: kubeadmin
-			password: xxxxxxx
-			idp: ocp
+1. Create an options.yaml file in /application-ui/, this is a configuration file that is used by the Docker container, the following is an example: 
+
+       options:
+       hub:
+	       name: multicloud-console
+	       baseDomain: definite-oarfish.dev06.red-chesterfield.com
+	       user: kubeadmin
+	       password: xxxxxxx
+	       idp: ocp
+
 2. From the /application-ui/ directory, run `make build-test-image` this will build the Docker container with the Cypress tests inside /application-ui/tests/
 3. Export the following environment variables:
 	- BROWSER (web browser to be used, optional, it will default to Chrome)

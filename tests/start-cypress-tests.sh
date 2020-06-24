@@ -3,7 +3,6 @@
 # Copyright (c) 2020 Red Hat, Inc.
 
 echo "Initiating tests..."
-pwd 
 
 if [ -z "$CYPRESS_TEST_MODE" ]; then
   echo "CYPRESS_TEST_MODE not exported; setting to 'e2e' mode"
@@ -20,7 +19,6 @@ if [ -f $OPTIONS_FILE ]; then
   echo "Processing options file..."
   BASE_DOMAIN=`yq r $OPTIONS_FILE 'options.hub.baseDomain'`
   export CYPRESS_BASE_URL="https://multicloud-console.apps.$BASE_DOMAIN"
-#  export CYPRESS_OC_CLUSTER_URL=`yq r /opt/.kube/config 'clusters[0].cluster.server'`
   export CYPRESS_OC_CLUSTER_USER=`yq r $OPTIONS_FILE 'options.hub.user'`
   export CYPRESS_OC_CLUSTER_PASS=`yq r $OPTIONS_FILE 'options.hub.password'`
   export CYPRESS_OC_IDP=`yq r $OPTIONS_FILE 'options.hub.idp'`
@@ -38,8 +36,14 @@ fi
 
 echo "Running tests on $CYPRESS_BASE_URL in $CYPRESS_TEST_MODE mode..."
 testCode=0
-npx cypress run --config-file "./tests/cypress/cypress.json" --browser $BROWSER 
+npx cypress run --config-file "./tests/cypress/cypress.json" --browser $BROWSER --reporter junit \
+  --reporter-options "mochaFile=/results/cypress-e2e-[hash].xml"
 testCode=$?
+
+echo "Copying outputed screenshots and videos..."
+cp -r ./cypress/screenshots /results/screenshots
+cp -r ./cypress/videos /results/videos
+
 
 # merge xml reports
 # echo "Merging xml reports..."

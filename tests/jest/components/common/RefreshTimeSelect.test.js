@@ -80,7 +80,7 @@ describe("RefreshTimeSelect component", () => {
     refreshTimeSelect.find("#refreshButton").simulate("click");
     refreshTimeSelect.update();
 
-    expect(setTimeout).toHaveBeenCalledTimes(4);
+    expect(setTimeout).toHaveBeenCalledTimes(3);
   });
 
   it("renders as expected - empty refresh values", () => {

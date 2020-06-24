@@ -757,9 +757,9 @@ ShallowWrapper {
           "getChildContext": Object {
             "calledByRenderer": false,
           },
-          "getDerivedStateFromError": true,
+          "getDerivedStateFromError": false,
           "getDerivedStateFromProps": Object {
-            "hasShouldComponentUpdateBug": false,
+            "hasShouldComponentUpdateBug": true,
           },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
@@ -2518,9 +2518,9 @@ ShallowWrapper {
           "getChildContext": Object {
             "calledByRenderer": false,
           },
-          "getDerivedStateFromError": true,
+          "getDerivedStateFromError": false,
           "getDerivedStateFromProps": Object {
-            "hasShouldComponentUpdateBug": false,
+            "hasShouldComponentUpdateBug": true,
           },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {

@@ -79,7 +79,7 @@ describe("validator testing for hcm-placementrule", () => {
     );
   });
 
-  it("yaml sample should be validated successfully", () => {
+  it("yaml sample should be validated successfully pr", () => {
     const { exceptions } = parse(placementRuleSample, validator, "en-un");
     expect(exceptions).toEqual([]);
   });

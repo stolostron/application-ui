@@ -79,7 +79,7 @@ describe("validator testing for hcm-application", () => {
     );
   });
 
-  it("yaml sample should be validated successfully", () => {
+  it("yaml sample should be validated successfully app", () => {
     const { exceptions } = parse(validSample, validator, "en-un");
     expect(exceptions).toEqual([]);
   });

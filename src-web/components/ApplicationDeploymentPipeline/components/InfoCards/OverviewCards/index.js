@@ -22,10 +22,12 @@ import {
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClustersSingle,
   getPodData,
-  concatDataForTextKey,
   concatDataForSubTextKey
 } from '../utils'
-import { getSearchLinkForOneApplication } from '../../../../common/ResourceOverview/utils'
+import {
+  getSearchLinkForOneApplication,
+  getCardsCommonDetails
+} from '../../../../common/ResourceOverview/utils'
 import {
   startPolling,
   stopPolling,
@@ -38,8 +40,6 @@ import {
 resources(() => {
   require('../style.scss')
 })
-
-const failedLowercase = 'dashboard.card.deployment.failed.lowercase'
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -65,8 +65,6 @@ const getOverviewCardsData = (
   isSingleApplicationView,
   applicationName,
   applicationNamespace,
-  targetLinkForSubscriptions,
-  targetLinkForClusters,
   targetLinkForPods,
   locale
 ) => {
@@ -88,79 +86,36 @@ const getOverviewCardsData = (
     applicationNamespace
   )
 
-  return [
-    {
-      msgKey:
-        subscriptionDataOnHub.total === 1
-          ? msgs.get('dashboard.card.deployment.subscription', locale)
-          : msgs.get('dashboard.card.deployment.subscriptions', locale),
-      count: subscriptionDataOnHub.total,
-      targetLink:
-        subscriptionDataOnHub.total === 0 ? '' : targetLinkForSubscriptions,
-      textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
-      subtextKeyFirst: concatDataForSubTextKey(
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.failed,
-        msgs.get(failedLowercase, locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.noStatus,
-        subscriptionDataOnHub.noStatus,
-        msgs.get('dashboard.card.deployment.noStatus', locale)
-      )
-    },
-    {
-      msgKey:
-        subscriptionDataOnManagedClusters.clusters === 1
-          ? msgs.get('dashboard.card.deployment.managedCluster', locale)
-          : msgs.get('dashboard.card.deployment.managedClusters', locale),
-      count: subscriptionDataOnManagedClusters.clusters,
-      targetLink:
-        subscriptionDataOnManagedClusters.clusters === 0
-          ? ''
-          : targetLinkForClusters,
-      textKey: concatDataForTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.total,
-        msgs.get('dashboard.card.deployment.totalSubscription', locale),
-        msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
-      ),
-      subtextKeyFirst: concatDataForSubTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.failed,
-        msgs.get(failedLowercase, locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.noStatus,
-        subscriptionDataOnManagedClusters.noStatus,
-        msgs.get('dashboard.card.deployment.noStatus', locale)
-      )
-    },
-    {
-      msgKey:
-        podData.total === 1
-          ? msgs.get('dashboard.card.deployment.pod', locale)
-          : msgs.get('dashboard.card.deployment.pods', locale),
-      count: podData.total,
-      targetLink: podData.total === 0 ? '' : targetLinkForPods,
-      subtextKeyFirst: concatDataForSubTextKey(
-        podData.total,
-        podData.total,
-        podData.running,
-        msgs.get('dashboard.card.deployment.running', locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        podData.total,
-        podData.total,
-        podData.failed,
-        msgs.get(failedLowercase, locale)
-      )
-    }
-  ]
+  const result = getCardsCommonDetails(
+    subscriptionDataOnHub,
+    subscriptionDataOnManagedClusters,
+    isSingleApplicationView,
+    applicationName,
+    applicationNamespace,
+    locale
+  )
+  result.push({
+    msgKey:
+      podData.total === 1
+        ? msgs.get('dashboard.card.deployment.pod', locale)
+        : msgs.get('dashboard.card.deployment.pods', locale),
+    count: podData.total,
+    targetLink: podData.total === 0 ? '' : targetLinkForPods,
+    subtextKeyFirst: concatDataForSubTextKey(
+      podData.total,
+      podData.total,
+      podData.running,
+      msgs.get('dashboard.card.deployment.running', locale)
+    ),
+    subtextKeySecond: concatDataForSubTextKey(
+      podData.total,
+      podData.total,
+      podData.failed,
+      msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+    )
+  })
+
+  return result
 }
 
 class OverviewCards extends React.Component {
@@ -204,16 +159,6 @@ class OverviewCards extends React.Component {
     const applicationName = selectedAppName
     const applicationNamespace = selectedAppNS
 
-    const targetLinkForSubscriptions = getSearchLinkForOneApplication({
-      name: encodeURIComponent(applicationName),
-      namespace: encodeURIComponent(applicationNamespace),
-      showRelated: 'subscription'
-    })
-    const targetLinkForClusters = getSearchLinkForOneApplication({
-      name: encodeURIComponent(applicationName),
-      namespace: encodeURIComponent(applicationNamespace),
-      showRelated: 'cluster'
-    })
     const targetLinkForPods = getSearchLinkForOneApplication({
       name: encodeURIComponent(applicationName),
       namespace: encodeURIComponent(applicationNamespace),
@@ -225,8 +170,6 @@ class OverviewCards extends React.Component {
       isSingleApplicationView,
       applicationName,
       applicationNamespace,
-      targetLinkForSubscriptions,
-      targetLinkForClusters,
       targetLinkForPods,
       locale
     )

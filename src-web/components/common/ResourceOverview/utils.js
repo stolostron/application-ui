@@ -13,7 +13,13 @@ import {
   kindsToExcludeForDeployments,
   getResourcesStatusPerChannel
 } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import {
+  concatDataForSubTextKey,
+  concatDataForTextKey
+} from '../../ApplicationDeploymentPipeline/components/InfoCards/utils'
+
 import { UPDATE_ACTION_MODAL } from '../../../apollo-client/queries/StateQueries'
+import msgs from '../../../../nls/platform.properties'
 
 export const showEditModalByType = (
   closeModal,
@@ -200,4 +206,85 @@ export const getSearchLinkForAllChannels = () => {
 
 export const getSearchLinkForAllPlacementRules = () => {
   return '/multicloud/search?filters={"textsearch":"kind%3Aplacementrule"}'
+}
+
+export const getCardsCommonDetails = (
+  subscriptionDataOnHub,
+  subscriptionDataOnManagedClusters,
+  isSingleApplicationView,
+  appName,
+  appNS,
+  locale
+) => {
+  const targetLinkForClusters = isSingleApplicationView
+    ? getSearchLinkForOneApplication({
+      name: encodeURIComponent(appName),
+      namespace: encodeURIComponent(appNS),
+      showRelated: 'cluster'
+    })
+    : getSearchLinkForAllClusters()
+
+  const targetLinkForSubscriptions = isSingleApplicationView
+    ? getSearchLinkForOneApplication({
+      name: encodeURIComponent(appName),
+      namespace: encodeURIComponent(appNS),
+      showRelated: 'subscription'
+    })
+    : getSearchLinkForAllSubscriptions()
+
+  const failedLowercase = 'dashboard.card.deployment.failed.lowercase'
+
+  return [
+    {
+      msgKey:
+        subscriptionDataOnHub.total === 1
+          ? msgs.get('dashboard.card.deployment.subscription', locale)
+          : msgs.get('dashboard.card.deployment.subscriptions', locale),
+      count: subscriptionDataOnHub.total,
+      targetLink:
+        subscriptionDataOnHub.total === 0 ? '' : targetLinkForSubscriptions,
+      textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
+      subtextKeyFirst: concatDataForSubTextKey(
+        subscriptionDataOnHub.total,
+        subscriptionDataOnHub.total,
+        subscriptionDataOnHub.failed,
+        msgs.get(failedLowercase, locale)
+      ),
+      subtextKeySecond: concatDataForSubTextKey(
+        subscriptionDataOnHub.total,
+        subscriptionDataOnHub.noStatus,
+        subscriptionDataOnHub.noStatus,
+        msgs.get('dashboard.card.deployment.noStatus', locale)
+      )
+    },
+    {
+      msgKey:
+        subscriptionDataOnManagedClusters.clusters === 1
+          ? msgs.get('dashboard.card.deployment.managedCluster', locale)
+          : msgs.get('dashboard.card.deployment.managedClusters', locale),
+      count: subscriptionDataOnManagedClusters.clusters,
+      targetLink:
+        subscriptionDataOnManagedClusters.clusters === 0
+          ? ''
+          : targetLinkForClusters,
+      textKey: concatDataForTextKey(
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.total,
+        msgs.get('dashboard.card.deployment.totalSubscription', locale),
+        msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
+      ),
+      subtextKeyFirst: concatDataForSubTextKey(
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.failed,
+        msgs.get(failedLowercase, locale)
+      ),
+      subtextKeySecond: concatDataForSubTextKey(
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.noStatus,
+        subscriptionDataOnManagedClusters.noStatus,
+        msgs.get('dashboard.card.deployment.noStatus', locale)
+      )
+    }
+  ]
 }

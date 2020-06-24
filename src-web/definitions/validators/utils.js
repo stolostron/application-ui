@@ -33,26 +33,24 @@ export const checkParsedKeys = (
   const resources = parsed[key]
   // if it is NOT in either requiredValues nor optionalValues, it's an unknown key
   if (!requiredValues[key] && !optionalValues[key]) {
-    if (!optionalValues[key]) {
-      resources.forEach(parse => {
-        let row = _.get(parse, '$synced.kind.$r')
-        let text = msgs.get('validation.extra.kind', [key], locale)
-        if (row === undefined) {
-          row = parse.$synced.$r
-          text = msgs.get(
-            'validation.missing.any.kind',
-            [required.join(', ')],
-            locale
-          )
-        }
-        exceptions.push({
-          row,
-          text,
-          column: 0,
-          type: 'error'
-        })
+    resources.forEach(parse => {
+      let row = _.get(parse, '$synced.kind.$r')
+      let text = msgs.get('validation.extra.kind', [key], locale)
+      if (row === undefined) {
+        row = parse.$synced.$r
+        text = msgs.get(
+          'validation.missing.any.kind',
+          [required.join(', ')],
+          locale
+        )
+      }
+      exceptions.push({
+        row,
+        text,
+        column: 0,
+        type: 'error'
       })
-    }
+    })
   }
 
   return exceptions

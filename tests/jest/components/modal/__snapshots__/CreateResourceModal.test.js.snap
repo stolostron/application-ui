@@ -206,7 +206,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
           }
         >
           <div>
-            <ForwardRef
+            <Button
               disabled={false}
               icon="add--glyph"
               iconDescription="Provide icon description if icon is used"
@@ -225,7 +225,6 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
                 type="button"
               >
                 <Icon
-                  aria-hidden={true}
                   className="bx--btn__icon"
                   description="Provide icon description if icon is used"
                   fillRule="evenodd"
@@ -234,7 +233,6 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
                 >
                   <svg
                     alt="Provide icon description if icon is used"
-                    aria-hidden={true}
                     aria-label="Provide icon description if icon is used"
                     className="bx--btn__icon"
                     fillRule="evenodd"
@@ -254,7 +252,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
                   </svg>
                 </Icon>
               </button>
-            </ForwardRef>
+            </Button>
           </div>
         </CreateResourceModal>
       </getContext(CreateResourceModal)>
@@ -467,7 +465,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
           }
         >
           <div>
-            <ForwardRef
+            <Button
               disabled={false}
               icon="add--glyph"
               iconDescription="Provide icon description if icon is used"
@@ -486,7 +484,6 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
                 type="button"
               >
                 <Icon
-                  aria-hidden={true}
                   className="bx--btn__icon"
                   description="Provide icon description if icon is used"
                   fillRule="evenodd"
@@ -495,7 +492,6 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
                 >
                   <svg
                     alt="Provide icon description if icon is used"
-                    aria-hidden={true}
                     aria-label="Provide icon description if icon is used"
                     className="bx--btn__icon"
                     fillRule="evenodd"
@@ -515,7 +511,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
                   </svg>
                 </Icon>
               </button>
-            </ForwardRef>
+            </Button>
           </div>
         </CreateResourceModal>
       </getContext(CreateResourceModal)>
@@ -730,7 +726,7 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
           }
         >
           <div>
-            <ForwardRef
+            <Button
               disabled={false}
               icon="add--glyph"
               iconDescription="Provide icon description if icon is used"
@@ -749,7 +745,6 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
                 type="button"
               >
                 <Icon
-                  aria-hidden={true}
                   className="bx--btn__icon"
                   description="Provide icon description if icon is used"
                   fillRule="evenodd"
@@ -758,7 +753,6 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
                 >
                   <svg
                     alt="Provide icon description if icon is used"
-                    aria-hidden={true}
                     aria-label="Provide icon description if icon is used"
                     className="bx--btn__icon"
                     fillRule="evenodd"
@@ -778,7 +772,7 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
                   </svg>
                 </Icon>
               </button>
-            </ForwardRef>
+            </Button>
           </div>
         </CreateResourceModal>
       </getContext(CreateResourceModal)>
@@ -991,7 +985,7 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
           }
         >
           <div>
-            <ForwardRef
+            <Button
               disabled={false}
               icon="add--glyph"
               iconDescription="Provide icon description if icon is used"
@@ -1010,7 +1004,6 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
                 type="button"
               >
                 <Icon
-                  aria-hidden={true}
                   className="bx--btn__icon"
                   description="Provide icon description if icon is used"
                   fillRule="evenodd"
@@ -1019,7 +1012,6 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
                 >
                   <svg
                     alt="Provide icon description if icon is used"
-                    aria-hidden={true}
                     aria-label="Provide icon description if icon is used"
                     className="bx--btn__icon"
                     fillRule="evenodd"
@@ -1039,7 +1031,7 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
                   </svg>
                 </Icon>
               </button>
-            </ForwardRef>
+            </Button>
           </div>
         </CreateResourceModal>
       </getContext(CreateResourceModal)>

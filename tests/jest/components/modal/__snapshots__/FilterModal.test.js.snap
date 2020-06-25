@@ -149,7 +149,6 @@ ShallowWrapper {
     "props": Object {
       "children": <Modal
         className="modal-with-editor"
-        focusTrap={true}
         iconDescription="close the modal"
         modalHeading="Resource Filter"
         modalLabel=""
@@ -183,7 +182,6 @@ ShallowWrapper {
           selectionChanged={[Function]}
         />,
         "className": "modal-with-editor",
-        "focusTrap": true,
         "iconDescription": "close the modal",
         "modalHeading": "Resource Filter",
         "modalLabel": "",
@@ -224,7 +222,6 @@ ShallowWrapper {
       "props": Object {
         "children": <Modal
           className="modal-with-editor"
-          focusTrap={true}
           iconDescription="close the modal"
           modalHeading="Resource Filter"
           modalLabel=""
@@ -258,7 +255,6 @@ ShallowWrapper {
             selectionChanged={[Function]}
           />,
           "className": "modal-with-editor",
-          "focusTrap": true,
           "iconDescription": "close the modal",
           "modalHeading": "Resource Filter",
           "modalLabel": "",

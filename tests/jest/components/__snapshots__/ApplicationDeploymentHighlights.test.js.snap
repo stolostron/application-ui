@@ -13,7 +13,7 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
       <li
         className="bx--accordion__item"
         onClick={[Function]}
-        onKeyDown={[Function]}
+        onKeyPress={[Function]}
         open={false}
         role="presentation"
       >
@@ -21,7 +21,6 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
           aria-expanded={false}
           className="bx--accordion__heading"
           onClick={[Function]}
-          title="Expand and collapse"
           type="button"
         >
           <svg
@@ -156,7 +155,7 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
       <li
         className="bx--accordion__item--active bx--accordion__item"
         onClick={[Function]}
-        onKeyDown={[Function]}
+        onKeyPress={[Function]}
         open={true}
         role="presentation"
       >
@@ -164,7 +163,6 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
           aria-expanded={true}
           className="bx--accordion__heading"
           onClick={[Function]}
-          title="Expand and collapse"
           type="button"
         >
           <svg
@@ -299,7 +297,7 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
       <li
         className="bx--accordion__item"
         onClick={[Function]}
-        onKeyDown={[Function]}
+        onKeyPress={[Function]}
         open={false}
         role="presentation"
       >
@@ -307,7 +305,6 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
           aria-expanded={false}
           className="bx--accordion__heading"
           onClick={[Function]}
-          title="Expand and collapse"
           type="button"
         >
           <svg

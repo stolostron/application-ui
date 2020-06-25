@@ -47,7 +47,6 @@ ShallowWrapper {
             <DropdownV2
               ariaLabel="All subscriptions"
               disabled={false}
-              helperText=""
               id="comboChannel"
               inline={true}
               itemToElement={null}
@@ -111,7 +110,6 @@ ShallowWrapper {
                   "subchannels": Array [],
                 }
               }
-              titleText=""
               type="default"
             />
           </div>
@@ -139,7 +137,6 @@ ShallowWrapper {
               <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
-                helperText=""
                 id="comboChannel"
                 inline={true}
                 itemToElement={null}
@@ -203,7 +200,6 @@ ShallowWrapper {
                     "subchannels": Array [],
                   }
                 }
-                titleText=""
                 type="default"
               />
             </div>,
@@ -232,7 +228,6 @@ ShallowWrapper {
               "children": <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
-                helperText=""
                 id="comboChannel"
                 inline={true}
                 itemToElement={null}
@@ -296,7 +291,6 @@ ShallowWrapper {
                     "subchannels": Array [],
                   }
                 }
-                titleText=""
                 type="default"
               />,
               "className": "channelsCombo",
@@ -309,7 +303,6 @@ ShallowWrapper {
               "props": Object {
                 "ariaLabel": "All subscriptions",
                 "disabled": false,
-                "helperText": "",
                 "id": "comboChannel",
                 "inline": true,
                 "itemToElement": null,
@@ -369,7 +362,6 @@ ShallowWrapper {
                   ],
                   "subchannels": Array [],
                 },
-                "titleText": "",
                 "type": "default",
               },
               "ref": null,
@@ -406,7 +398,6 @@ ShallowWrapper {
               <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
-                helperText=""
                 id="comboChannel"
                 inline={true}
                 itemToElement={null}
@@ -470,7 +461,6 @@ ShallowWrapper {
                     "subchannels": Array [],
                   }
                 }
-                titleText=""
                 type="default"
               />
             </div>
@@ -498,7 +488,6 @@ ShallowWrapper {
                 <DropdownV2
                   ariaLabel="All subscriptions"
                   disabled={false}
-                  helperText=""
                   id="comboChannel"
                   inline={true}
                   itemToElement={null}
@@ -562,7 +551,6 @@ ShallowWrapper {
                       "subchannels": Array [],
                     }
                   }
-                  titleText=""
                   type="default"
                 />
               </div>,
@@ -591,7 +579,6 @@ ShallowWrapper {
                 "children": <DropdownV2
                   ariaLabel="All subscriptions"
                   disabled={false}
-                  helperText=""
                   id="comboChannel"
                   inline={true}
                   itemToElement={null}
@@ -655,7 +642,6 @@ ShallowWrapper {
                       "subchannels": Array [],
                     }
                   }
-                  titleText=""
                   type="default"
                 />,
                 "className": "channelsCombo",
@@ -668,7 +654,6 @@ ShallowWrapper {
                 "props": Object {
                   "ariaLabel": "All subscriptions",
                   "disabled": false,
-                  "helperText": "",
                   "id": "comboChannel",
                   "inline": true,
                   "itemToElement": null,
@@ -728,7 +713,6 @@ ShallowWrapper {
                     ],
                     "subchannels": Array [],
                   },
-                  "titleText": "",
                   "type": "default",
                 },
                 "ref": null,
@@ -822,7 +806,6 @@ ShallowWrapper {
             <DropdownV2
               ariaLabel="All subscriptions"
               disabled={false}
-              helperText=""
               id="comboChannel"
               inline={true}
               itemToElement={null}
@@ -894,7 +877,6 @@ ShallowWrapper {
                   ],
                 }
               }
-              titleText=""
               type="default"
             />
           </div>
@@ -910,7 +892,6 @@ ShallowWrapper {
               className="show-subscription-pages-icon"
             >
               <Tooltip
-                clickToOpen={false}
                 direction="bottom"
                 iconDescription="tooltip"
                 iconName="info"
@@ -1012,7 +993,6 @@ ShallowWrapper {
               <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
-                helperText=""
                 id="comboChannel"
                 inline={true}
                 itemToElement={null}
@@ -1084,7 +1064,6 @@ ShallowWrapper {
                     ],
                   }
                 }
-                titleText=""
                 type="default"
               />
             </div>,
@@ -1113,7 +1092,6 @@ ShallowWrapper {
               "children": <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
-                helperText=""
                 id="comboChannel"
                 inline={true}
                 itemToElement={null}
@@ -1185,7 +1163,6 @@ ShallowWrapper {
                     ],
                   }
                 }
-                titleText=""
                 type="default"
               />,
               "className": "channelsCombo",
@@ -1198,7 +1175,6 @@ ShallowWrapper {
               "props": Object {
                 "ariaLabel": "All subscriptions",
                 "disabled": false,
-                "helperText": "",
                 "id": "comboChannel",
                 "inline": true,
                 "itemToElement": null,
@@ -1266,7 +1242,6 @@ ShallowWrapper {
                     },
                   ],
                 },
-                "titleText": "",
                 "type": "default",
               },
               "ref": null,
@@ -1292,7 +1267,6 @@ ShallowWrapper {
                 className="show-subscription-pages-icon"
               >
                 <Tooltip
-                  clickToOpen={false}
                   direction="bottom"
                   iconDescription="tooltip"
                   iconName="info"
@@ -1387,7 +1361,6 @@ ShallowWrapper {
                   className="show-subscription-pages-icon"
                 >
                   <Tooltip
-                    clickToOpen={false}
                     direction="bottom"
                     iconDescription="tooltip"
                     iconName="info"
@@ -1416,7 +1389,6 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": <Tooltip
-                    clickToOpen={false}
                     direction="bottom"
                     iconDescription="tooltip"
                     iconName="info"
@@ -1445,14 +1417,12 @@ ShallowWrapper {
                     >
                       Use the navigation to view the resources that are deployed by the selected subscription.
                     </span>,
-                    "clickToOpen": false,
                     "direction": "bottom",
                     "iconDescription": "tooltip",
                     "iconName": "info",
                     "iconTitle": "",
                     "menuOffset": [Function],
                     "open": false,
-                    "renderIcon": undefined,
                     "showIcon": true,
                     "triggerText": "",
                   },
@@ -1674,7 +1644,6 @@ ShallowWrapper {
               <DropdownV2
                 ariaLabel="All subscriptions"
                 disabled={false}
-                helperText=""
                 id="comboChannel"
                 inline={true}
                 itemToElement={null}
@@ -1746,7 +1715,6 @@ ShallowWrapper {
                     ],
                   }
                 }
-                titleText=""
                 type="default"
               />
             </div>
@@ -1762,7 +1730,6 @@ ShallowWrapper {
                 className="show-subscription-pages-icon"
               >
                 <Tooltip
-                  clickToOpen={false}
                   direction="bottom"
                   iconDescription="tooltip"
                   iconName="info"
@@ -1864,7 +1831,6 @@ ShallowWrapper {
                 <DropdownV2
                   ariaLabel="All subscriptions"
                   disabled={false}
-                  helperText=""
                   id="comboChannel"
                   inline={true}
                   itemToElement={null}
@@ -1936,7 +1902,6 @@ ShallowWrapper {
                       ],
                     }
                   }
-                  titleText=""
                   type="default"
                 />
               </div>,
@@ -1965,7 +1930,6 @@ ShallowWrapper {
                 "children": <DropdownV2
                   ariaLabel="All subscriptions"
                   disabled={false}
-                  helperText=""
                   id="comboChannel"
                   inline={true}
                   itemToElement={null}
@@ -2037,7 +2001,6 @@ ShallowWrapper {
                       ],
                     }
                   }
-                  titleText=""
                   type="default"
                 />,
                 "className": "channelsCombo",
@@ -2050,7 +2013,6 @@ ShallowWrapper {
                 "props": Object {
                   "ariaLabel": "All subscriptions",
                   "disabled": false,
-                  "helperText": "",
                   "id": "comboChannel",
                   "inline": true,
                   "itemToElement": null,
@@ -2118,7 +2080,6 @@ ShallowWrapper {
                       },
                     ],
                   },
-                  "titleText": "",
                   "type": "default",
                 },
                 "ref": null,
@@ -2144,7 +2105,6 @@ ShallowWrapper {
                   className="show-subscription-pages-icon"
                 >
                   <Tooltip
-                    clickToOpen={false}
                     direction="bottom"
                     iconDescription="tooltip"
                     iconName="info"
@@ -2239,7 +2199,6 @@ ShallowWrapper {
                     className="show-subscription-pages-icon"
                   >
                     <Tooltip
-                      clickToOpen={false}
                       direction="bottom"
                       iconDescription="tooltip"
                       iconName="info"
@@ -2268,7 +2227,6 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": <Tooltip
-                      clickToOpen={false}
                       direction="bottom"
                       iconDescription="tooltip"
                       iconName="info"
@@ -2297,14 +2255,12 @@ ShallowWrapper {
                       >
                         Use the navigation to view the resources that are deployed by the selected subscription.
                       </span>,
-                      "clickToOpen": false,
                       "direction": "bottom",
                       "iconDescription": "tooltip",
                       "iconName": "info",
                       "iconTitle": "",
                       "menuOffset": [Function],
                       "open": false,
-                      "renderIcon": undefined,
                       "showIcon": true,
                       "triggerText": "",
                     },

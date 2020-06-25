@@ -73,7 +73,6 @@ exports[`ResourceModal test renders as expected 1 2`] = `
          
         <Loading
           active={true}
-          description="Active loading indicator"
           small={false}
           withOverlay={true}
         >
@@ -88,11 +87,7 @@ exports[`ResourceModal test renders as expected 1 2`] = `
                 className="bx--loading__svg"
                 viewBox="-75 -75 150 150"
               >
-                <title>
-                  Active loading indicator
-                </title>
                 <circle
-                  className={null}
                   cx="0"
                   cy="0"
                   r="37.5"
@@ -126,7 +121,6 @@ exports[`ResourceModal test renders as expected 1 2`] = `
           >
             <div
               className="bx--modal-container"
-              role="region"
             >
               <ModalHeader
                 buttonOnClick={[Function]}
@@ -146,7 +140,6 @@ exports[`ResourceModal test renders as expected 1 2`] = `
                   <button
                     className="bx--modal-close"
                     onClick={[Function]}
-                    title="Close the modal"
                     type="button"
                   >
                     <Icon
@@ -344,6 +337,7 @@ exports[`ResourceModal test renders as expected 1 2`] = `
                   Object {
                     "current": <button
                       class="bx--btn bx--btn--primary"
+                      inputref="[object Object]"
                       tabindex="0"
                       type="button"
                     >
@@ -363,6 +357,7 @@ exports[`ResourceModal test renders as expected 1 2`] = `
                     Object {
                       "current": <button
                         class="bx--btn bx--btn--primary"
+                        inputref="[object Object]"
                         tabindex="0"
                         type="button"
                       >
@@ -371,7 +366,7 @@ exports[`ResourceModal test renders as expected 1 2`] = `
                     }
                   }
                 >
-                  <ForwardRef
+                  <Button
                     className=""
                     disabled={false}
                     iconDescription="Provide icon description if icon is used"
@@ -390,11 +385,23 @@ exports[`ResourceModal test renders as expected 1 2`] = `
                     >
                       Cancel
                     </button>
-                  </ForwardRef>
-                  <ForwardRef
+                  </Button>
+                  <Button
                     className=""
                     disabled={false}
                     iconDescription="Provide icon description if icon is used"
+                    inputref={
+                      Object {
+                        "current": <button
+                          class="bx--btn bx--btn--primary"
+                          inputref="[object Object]"
+                          tabindex="0"
+                          type="button"
+                        >
+                          Save
+                        </button>,
+                      }
+                    }
                     kind="primary"
                     onClick={[Function]}
                     small={false}
@@ -404,13 +411,25 @@ exports[`ResourceModal test renders as expected 1 2`] = `
                     <button
                       className="bx--btn bx--btn--primary"
                       disabled={false}
+                      inputref={
+                        Object {
+                          "current": <button
+                            class="bx--btn bx--btn--primary"
+                            inputref="[object Object]"
+                            tabindex="0"
+                            type="button"
+                          >
+                            Save
+                          </button>,
+                        }
+                      }
                       onClick={[Function]}
                       tabIndex={0}
                       type="button"
                     >
                       Save
                     </button>
-                  </ForwardRef>
+                  </Button>
                 </div>
               </ModalFooter>
             </div>
@@ -493,7 +512,6 @@ exports[`ResourceModal test renders as expected 1 3`] = `
          
         <Loading
           active={true}
-          description="Active loading indicator"
           small={false}
           withOverlay={true}
         >
@@ -508,11 +526,7 @@ exports[`ResourceModal test renders as expected 1 3`] = `
                 className="bx--loading__svg"
                 viewBox="-75 -75 150 150"
               >
-                <title>
-                  Active loading indicator
-                </title>
                 <circle
-                  className={null}
                   cx="0"
                   cy="0"
                   r="37.5"
@@ -546,7 +560,6 @@ exports[`ResourceModal test renders as expected 1 3`] = `
           >
             <div
               className="bx--modal-container"
-              role="region"
             >
               <ModalHeader
                 buttonOnClick={[Function]}
@@ -566,7 +579,6 @@ exports[`ResourceModal test renders as expected 1 3`] = `
                   <button
                     className="bx--modal-close"
                     onClick={[Function]}
-                    title="Close the modal"
                     type="button"
                   >
                     <Icon
@@ -764,6 +776,7 @@ exports[`ResourceModal test renders as expected 1 3`] = `
                   Object {
                     "current": <button
                       class="bx--btn bx--btn--primary"
+                      inputref="[object Object]"
                       tabindex="0"
                       type="button"
                     >
@@ -783,6 +796,7 @@ exports[`ResourceModal test renders as expected 1 3`] = `
                     Object {
                       "current": <button
                         class="bx--btn bx--btn--primary"
+                        inputref="[object Object]"
                         tabindex="0"
                         type="button"
                       >
@@ -791,7 +805,7 @@ exports[`ResourceModal test renders as expected 1 3`] = `
                     }
                   }
                 >
-                  <ForwardRef
+                  <Button
                     className=""
                     disabled={false}
                     iconDescription="Provide icon description if icon is used"
@@ -810,11 +824,23 @@ exports[`ResourceModal test renders as expected 1 3`] = `
                     >
                       Cancel
                     </button>
-                  </ForwardRef>
-                  <ForwardRef
+                  </Button>
+                  <Button
                     className=""
                     disabled={false}
                     iconDescription="Provide icon description if icon is used"
+                    inputref={
+                      Object {
+                        "current": <button
+                          class="bx--btn bx--btn--primary"
+                          inputref="[object Object]"
+                          tabindex="0"
+                          type="button"
+                        >
+                          Save
+                        </button>,
+                      }
+                    }
                     kind="primary"
                     onClick={[Function]}
                     small={false}
@@ -824,13 +850,25 @@ exports[`ResourceModal test renders as expected 1 3`] = `
                     <button
                       className="bx--btn bx--btn--primary"
                       disabled={false}
+                      inputref={
+                        Object {
+                          "current": <button
+                            class="bx--btn bx--btn--primary"
+                            inputref="[object Object]"
+                            tabindex="0"
+                            type="button"
+                          >
+                            Save
+                          </button>,
+                        }
+                      }
                       onClick={[Function]}
                       tabIndex={0}
                       type="button"
                     >
                       Save
                     </button>
-                  </ForwardRef>
+                  </Button>
                 </div>
               </ModalFooter>
             </div>

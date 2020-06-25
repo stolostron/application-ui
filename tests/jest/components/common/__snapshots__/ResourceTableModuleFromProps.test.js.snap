@@ -299,12 +299,10 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
-                  onBlur={[Function]}
-                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="menu"
+                  role="button"
                   tabIndex={0}
                 >
                   <svg
@@ -354,12 +352,10 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
-                  onBlur={[Function]}
-                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="menu"
+                  role="button"
                   tabIndex={0}
                 >
                   <svg
@@ -409,12 +405,10 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
-                  onBlur={[Function]}
-                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="menu"
+                  role="button"
                   tabIndex={0}
                 >
                   <svg
@@ -464,12 +458,10 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
-                  onBlur={[Function]}
-                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="menu"
+                  role="button"
                   tabIndex={0}
                 >
                   <svg
@@ -519,12 +511,10 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                   aria-haspopup={true}
                   aria-label="Overflow-menu"
                   className="bx--overflow-menu"
-                  onBlur={[Function]}
-                  onClick={[Function]}
                   onClose={[Function]}
                   onKeyDown={[Function]}
                   open={false}
-                  role="menu"
+                  role="button"
                   tabIndex={0}
                 >
                   <svg
@@ -667,14 +657,14 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
             {0} of {1} pages
           </span>
           <button
-            aria-label="Previous page"
-            className="bx--pagination__button bx--pagination__button--backward bx--pagination__button--no-index"
+            aria-label="Backward"
+            className="bx--pagination__button bx--pagination__button--backward"
             disabled={true}
             onClick={[Function]}
           >
             <svg
-              alt="Previous page"
-              aria-label="Previous page"
+              alt="Backward"
+              aria-label="Backward"
               className="bx--pagination__button-icon"
               fillRule="evenodd"
               height="12"
@@ -683,7 +673,7 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
               width="7"
             >
               <title>
-                Previous page
+                Backward
               </title>
               <path
                 d="M1.45 6.002L7 11.27l-.685.726L0 6.003 6.315 0 7 .726z"
@@ -737,14 +727,14 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
             </div>
           </div>
           <button
-            aria-label="Next page"
+            aria-label="Forward"
             className="bx--pagination__button bx--pagination__button--forward"
             disabled={true}
             onClick={[Function]}
           >
             <svg
-              alt="Next page"
-              aria-label="Next page"
+              alt="Forward"
+              aria-label="Forward"
               className="bx--pagination__button-icon"
               fillRule="evenodd"
               height="12"
@@ -753,7 +743,7 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
               width="7"
             >
               <title>
-                Next page
+                Forward
               </title>
               <path
                 d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"

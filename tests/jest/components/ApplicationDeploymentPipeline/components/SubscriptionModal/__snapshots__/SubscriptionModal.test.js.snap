@@ -13,27 +13,25 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
     tabIndex={-1}
   >
     <div
-      aria-modal="true"
       className="bx--modal-container"
       role="dialog"
     >
       <div
         className="bx--modal-header"
       >
-        <p
+        <h4
           className="bx--modal-header__label"
         >
           rbac-test-app-gbapp
-        </p>
-        <p
+        </h4>
+        <h2
           className="bx--modal-header__heading"
         >
           
-        </p>
+        </h2>
         <button
           className="bx--modal-close"
           onClick={[Function]}
-          title="close the modal"
           type="button"
         >
           <svg
@@ -321,22 +319,31 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
       <div
         className="bx--modal-footer"
       >
-        <button
-          className="bx--btn bx--btn--secondary"
-          disabled={false}
-          onClick={[Function]}
-          tabIndex={0}
-          type="button"
-        />
-        <button
-          className="bx--btn bx--btn--primary"
-          disabled={false}
-          onClick={[Function]}
-          tabIndex={0}
-          type="button"
+        <div
+          className="bx--modal__buttons-container"
         >
-          Close
-        </button>
+          <button
+            className="bx--btn bx--btn--secondary"
+            disabled={false}
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          />
+          <button
+            className="bx--btn bx--btn--primary"
+            disabled={false}
+            inputref={
+              Object {
+                "current": null,
+              }
+            }
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -356,27 +363,25 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
     tabIndex={-1}
   >
     <div
-      aria-modal="true"
       className="bx--modal-container"
       role="dialog"
     >
       <div
         className="bx--modal-header"
       >
-        <p
+        <h4
           className="bx--modal-header__label"
         >
           rbac-test-app-gbapp
-        </p>
-        <p
+        </h4>
+        <h2
           className="bx--modal-header__heading"
         >
           
-        </p>
+        </h2>
         <button
           className="bx--modal-close"
           onClick={[Function]}
-          title="close the modal"
           type="button"
         >
           <svg
@@ -664,22 +669,31 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
       <div
         className="bx--modal-footer"
       >
-        <button
-          className="bx--btn bx--btn--secondary"
-          disabled={false}
-          onClick={[Function]}
-          tabIndex={0}
-          type="button"
-        />
-        <button
-          className="bx--btn bx--btn--primary"
-          disabled={false}
-          onClick={[Function]}
-          tabIndex={0}
-          type="button"
+        <div
+          className="bx--modal__buttons-container"
         >
-          Close
-        </button>
+          <button
+            className="bx--btn bx--btn--secondary"
+            disabled={false}
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          />
+          <button
+            className="bx--btn bx--btn--primary"
+            disabled={false}
+            inputref={
+              Object {
+                "current": null,
+              }
+            }
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -699,27 +713,25 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
     tabIndex={-1}
   >
     <div
-      aria-modal="true"
       className="bx--modal-container"
       role="dialog"
     >
       <div
         className="bx--modal-header"
       >
-        <p
+        <h4
           className="bx--modal-header__label"
         >
           rbac-test-app-gbapp
-        </p>
-        <p
+        </h4>
+        <h2
           className="bx--modal-header__heading"
         >
           
-        </p>
+        </h2>
         <button
           className="bx--modal-close"
           onClick={[Function]}
-          title="close the modal"
           type="button"
         >
           <svg
@@ -1059,22 +1071,31 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
       <div
         className="bx--modal-footer"
       >
-        <button
-          className="bx--btn bx--btn--secondary"
-          disabled={false}
-          onClick={[Function]}
-          tabIndex={0}
-          type="button"
-        />
-        <button
-          className="bx--btn bx--btn--primary"
-          disabled={false}
-          onClick={[Function]}
-          tabIndex={0}
-          type="button"
+        <div
+          className="bx--modal__buttons-container"
         >
-          Close
-        </button>
+          <button
+            className="bx--btn bx--btn--secondary"
+            disabled={false}
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          />
+          <button
+            className="bx--btn bx--btn--primary"
+            disabled={false}
+            inputref={
+              Object {
+                "current": null,
+              }
+            }
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1094,27 +1115,25 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
     tabIndex={-1}
   >
     <div
-      aria-modal="true"
       className="bx--modal-container"
       role="dialog"
     >
       <div
         className="bx--modal-header"
       >
-        <p
+        <h4
           className="bx--modal-header__label"
         >
           rbac-test-app-gbapp
-        </p>
-        <p
+        </h4>
+        <h2
           className="bx--modal-header__heading"
         >
           
-        </p>
+        </h2>
         <button
           className="bx--modal-close"
           onClick={[Function]}
-          title="close the modal"
           type="button"
         >
           <svg
@@ -1430,22 +1449,31 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
       <div
         className="bx--modal-footer"
       >
-        <button
-          className="bx--btn bx--btn--secondary"
-          disabled={false}
-          onClick={[Function]}
-          tabIndex={0}
-          type="button"
-        />
-        <button
-          className="bx--btn bx--btn--primary"
-          disabled={false}
-          onClick={[Function]}
-          tabIndex={0}
-          type="button"
+        <div
+          className="bx--modal__buttons-container"
         >
-          Close
-        </button>
+          <button
+            className="bx--btn bx--btn--secondary"
+            disabled={false}
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          />
+          <button
+            className="bx--btn bx--btn--primary"
+            disabled={false}
+            inputref={
+              Object {
+                "current": null,
+              }
+            }
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1465,7 +1493,6 @@ exports[`subscriptionModal subscriptionModal with empty subscription list render
     tabIndex={-1}
   >
     <div
-      aria-modal="true"
       className="bx--modal-container"
       role="dialog"
     >
@@ -1473,15 +1500,14 @@ exports[`subscriptionModal subscriptionModal with empty subscription list render
         className="bx--modal-header"
       >
         
-        <p
+        <h2
           className="bx--modal-header__heading"
         >
           
-        </p>
+        </h2>
         <button
           className="bx--modal-close"
           onClick={[Function]}
-          title="close the modal"
           type="button"
         >
           <svg
@@ -1763,22 +1789,31 @@ exports[`subscriptionModal subscriptionModal with empty subscription list render
       <div
         className="bx--modal-footer"
       >
-        <button
-          className="bx--btn bx--btn--secondary"
-          disabled={false}
-          onClick={[Function]}
-          tabIndex={0}
-          type="button"
-        />
-        <button
-          className="bx--btn bx--btn--primary"
-          disabled={false}
-          onClick={[Function]}
-          tabIndex={0}
-          type="button"
+        <div
+          className="bx--modal__buttons-container"
         >
-          Close
-        </button>
+          <button
+            className="bx--btn bx--btn--secondary"
+            disabled={false}
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          />
+          <button
+            className="bx--btn bx--btn--primary"
+            disabled={false}
+            inputref={
+              Object {
+                "current": null,
+              }
+            }
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>

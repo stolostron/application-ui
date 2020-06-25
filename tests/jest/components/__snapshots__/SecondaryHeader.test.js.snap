@@ -160,6 +160,7 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
               </nav>
               <div
                 aria-hidden={false}
+                className="tab-content"
                 hidden={false}
                 selected={true}
               />
@@ -304,7 +305,7 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
                       className="bx--tabs__nav-link"
                       href="/multicloud/dashboard"
                       role="tab"
-                      tabIndex={-1}
+                      tabIndex={0}
                     >
                       Application
                     </a>
@@ -332,11 +333,13 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
               </nav>
               <div
                 aria-hidden={true}
+                className="tab-content"
                 hidden={true}
                 selected={false}
               />
               <div
                 aria-hidden={false}
+                className="tab-content"
                 hidden={false}
                 selected={true}
               />

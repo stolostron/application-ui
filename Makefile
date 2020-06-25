@@ -93,10 +93,10 @@ run-test-image-pr:
 push-test-image:
 	make component/push COMPONENT_NAME=$(COMPONENT_NAME)-tests
 
-# .PHONY: pull-test-image
-# pull-test-image:
-# 	make component/pull COMPONENT_NAME=$(COMPONENT_NAME)-tests
+.PHONY: pull-test-image
+pull-test-image:
+ 	make component/pull COMPONENT_NAME=$(COMPONENT_NAME)-tests
 
-# .PHONY: publish-test-image
-# publish-test-image:
-# 	make pipeline-manifest/update COMPONENT_NAME=$(COMPONENT_NAME)-tests PIPELINE_MANIFEST_COMPONENT_SHA256=${TRAVIS_COMMIT} PIPELINE_MANIFEST_COMPONENT_REPO=${TRAVIS_REPO_SLUG} PIPELINE_MANIFEST_BRANCH=${TRAVIS_BRANCH}
+.PHONY: publish-test-image
+publish-test-image:
+ 	make pipeline-manifest/update COMPONENT_NAME=$(COMPONENT_NAME)-tests PIPELINE_MANIFEST_COMPONENT_SHA256=${TRAVIS_COMMIT} PIPELINE_MANIFEST_COMPONENT_REPO=${TRAVIS_REPO_SLUG} PIPELINE_MANIFEST_BRANCH=${TRAVIS_BRANCH}

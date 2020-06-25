@@ -314,8 +314,10 @@ const getPulseStatusForGenericNode = node => {
   if (pulse === 'red') {
     return pulse //no need to check anything else, return red
   }
+  const name = _.get(node, metadataName, '')
+  const channel = _.get(node, 'specs.raw.spec.channel', '')
+  const resourceName = channel.length > 0 ? `${channel}-${name}` : name
 
-  const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   if (!resourceMap) {
     pulse = 'orange' //resource not available
@@ -733,6 +735,11 @@ export const getNameWithoutPodHash = relatedKind => {
   let podHash = null
   let deployableName = null
 
+  if (_.get(relatedKind, 'kind', '') === 'helmrelease') {
+    //for helm releases use hosting deployable to match parent
+    nameNoHash = _.get(relatedKind, '_hostingDeployable', nameNoHash)
+  }
+
   const labelsList = relatedKind.label ? R.split(';')(relatedKind.label) : []
   labelsList.forEach(resLabel => {
     const values = R.split('=')(resLabel)
@@ -824,7 +831,10 @@ export const setResourceDeployStatus = (node, details) => {
     //ignore packages
     return
   }
-  const resourceName = _.get(node, metadataName, '')
+  const name = _.get(node, metadataName, '')
+  const channel = _.get(node, 'specs.raw.spec.channel', '')
+  const resourceName = channel.length > 0 ? `${channel}-${name}` : name
+
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 

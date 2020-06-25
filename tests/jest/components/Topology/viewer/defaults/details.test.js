@@ -839,7 +839,8 @@ describe("getNodeDetails helm node", () => {
         kind: "HelmRelease",
         metadata: {
           labels: { app: "mortgage-app-mortgage" },
-          name: "mortgage-app-deploy"
+          name: "mortgage-app-deploy",
+          channel: "demo-ns-helm-git-ch/git-helm-ch"
         },
         spec: {
           chartName: "mortgage-chart",
@@ -859,28 +860,26 @@ describe("getNodeDetails helm node", () => {
     { type: "spacer" },
     {
       indent: undefined,
-      labelKey: "resource.name",
+      labelKey: "resource.type",
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "mortgage-chart"
+      value: "helmrelease"
     },
     {
       indent: undefined,
-      labelKey: "resource.url",
+      labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "https://mortgage-chart"
+      value: "app=mortgage-app-mortgage"
     },
-    {
-      indent: undefined,
-      labelKey: "resource.version",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "1.0.0"
-    }
+    { type: "spacer" },
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "", status: "pending", value: "Not Deployed" },
+    { type: "spacer" }
   ];
 
   it("should process the node, helm node", () => {

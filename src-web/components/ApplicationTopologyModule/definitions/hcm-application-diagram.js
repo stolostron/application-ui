@@ -77,18 +77,21 @@ export const processNodeData = (
     return //ignore these types
   }
 
+  const channel = _.get(node, 'specs.raw.spec.channel', '')
+  const keyName = channel.length > 0 ? `${channel}-${name}` : name
+
   let podsKeyForThisNode = null
   const clusterName = getClusterName(node.id)
   if (type === 'subscription') {
     //don't use cluster name when grouping subscriptions
     topoResourceMap[name] = node
   } else if (clusterName.indexOf(', ') > -1) {
-    topoResourceMap[`${type}-${name}`] = node
-    podsKeyForThisNode = `pod-${name}`
+    topoResourceMap[`${type}-${keyName}`] = node
+    podsKeyForThisNode = `pod-${keyName}`
     isClusterGrouped.value = true
   } else {
-    topoResourceMap[`${type}-${name}-${clusterName}`] = node
-    podsKeyForThisNode = `pod-${name}-${clusterName}`
+    topoResourceMap[`${type}-${keyName}-${clusterName}`] = node
+    podsKeyForThisNode = `pod-${keyName}-${clusterName}`
   }
   if (type === 'route') {
     //keep clusters info to create route host

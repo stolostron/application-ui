@@ -640,7 +640,7 @@ describe("createResourceSearchLink for undefined details", () => {
     }
   };
   const result = { type: "link", value: null };
-  it("createResourceSearchLink", () => {
+  it("createResourceSearchLink for undefined details", () => {
     expect(createResourceSearchLink(node, undefined)).toEqual(result);
   });
 });
@@ -684,6 +684,51 @@ describe("createResourceSearchLink for cluster node w name", () => {
   });
 });
 
+describe("createResourceSearchLink for cluster", () => {
+  const node = {
+    type: "cluster",
+    name: "cls1, cls2, cls3",
+    namespace: "ns"
+  };
+  const result = {
+    type: "link",
+    value: {
+      data: { action: "show_search", kind: "cluster", name: "cls1,cls2,cls3" },
+      id: undefined,
+      indent: true,
+      label: "Launch resource in Search"
+    }
+  };
+  it("createResourceSearchLink for cluster", () => {
+    expect(createResourceSearchLink(node, [])).toEqual(result);
+  });
+});
+
+describe("createResourceSearchLink for PR", () => {
+  const node = {
+    type: "rules",
+    name: "rule1",
+    namespace: "ns"
+  };
+  const result = {
+    type: "link",
+    value: {
+      data: {
+        action: "show_search",
+        kind: "placementrule",
+        name: "rule1",
+        namespace: "ns"
+      },
+      id: undefined,
+      indent: true,
+      label: "Launch resource in Search"
+    }
+  };
+  it("createResourceSearchLink for PR", () => {
+    expect(createResourceSearchLink(node, [])).toEqual(result);
+  });
+});
+
 describe("createResourceSearchLink for details", () => {
   const node = {
     type: "deployment",
@@ -704,7 +749,81 @@ describe("createResourceSearchLink for details", () => {
       label: "Launch resource in Search"
     }
   };
-  it("createResourceSearchLink", () => {
+  it("createResourceSearchLink for details", () => {
+    expect(createResourceSearchLink(node, [])).toEqual(result);
+  });
+});
+
+describe("createResourceSearchLink for details with model info, unique names", () => {
+  const node = {
+    type: "deployment",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      deploymentModel: {
+        obj1_cls1: {
+          name: "obj1",
+          namespace: "ns1"
+        },
+        obj2_cls1: {
+          name: "obj2",
+          namespace: "ns2"
+        }
+      }
+    }
+  };
+  const result = {
+    type: "link",
+    value: {
+      data: {
+        action: "show_search",
+        kind: "deployment",
+        name: "obj1,obj2",
+        namespace: "ns1,ns2"
+      },
+      id: undefined,
+      indent: true,
+      label: "Launch resource in Search"
+    }
+  };
+  it("createResourceSearchLink for details with model info, unique names", () => {
+    expect(createResourceSearchLink(node, [])).toEqual(result);
+  });
+});
+
+describe("createResourceSearchLink for details with model info, same names", () => {
+  const node = {
+    type: "deployment",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      deploymentModel: {
+        obj1_cls1: {
+          name: "name",
+          namespace: "ns1"
+        },
+        obj2_cls1: {
+          name: "name",
+          namespace: "ns"
+        }
+      }
+    }
+  };
+  const result = {
+    type: "link",
+    value: {
+      data: {
+        action: "show_search",
+        kind: "deployment",
+        name: "name",
+        namespace: "ns1,ns"
+      },
+      id: undefined,
+      indent: true,
+      label: "Launch resource in Search"
+    }
+  };
+  it("createResourceSearchLink for details with model info, same names", () => {
     expect(createResourceSearchLink(node, [])).toEqual(result);
   });
 });
@@ -2920,7 +3039,7 @@ describe("addNodeServiceLocationForCluster 1", () => {
   });
 });
 
-describe("processResourceActionLink search view", () => {
+describe("processResourceActionLink search view2", () => {
   const openSearchView = {
     action: "show_search",
     kind: "service",
@@ -2928,8 +3047,9 @@ describe("processResourceActionLink search view", () => {
     namespace: "open-cluster-management"
   };
   const result =
-    '/multicloud/search?filters={"textsearch":"kind:service name:frontend namespace:open-cluster-management"}';
-  it("processResourceActionLink opens search view", () => {
+    '/multicloud/search?filters={"textsearch":"kind:service namespace:open-cluster-management name:frontend"}';
+
+  it("processResourceActionLink opens search view2", () => {
     expect(processResourceActionLink(openSearchView)).toEqual(result);
   });
 });
@@ -2961,13 +3081,13 @@ describe("processResourceActionLink openPodLog", () => {
   });
 });
 
-describe("processResourceActionLink search view", () => {
+describe("processResourceActionLink search view3", () => {
   const genericLink = {
     action: "open_link",
     targetLink: "http://www.example.com"
   };
   const result = "http://www.example.com";
-  it("processResourceActionLink opens search view", () => {
+  it("processResourceActionLink opens search view3", () => {
     expect(processResourceActionLink(genericLink)).toEqual(result);
   });
 });
@@ -2978,7 +3098,7 @@ describe("processResourceActionLink dummy link", () => {
     targetLink1: "http://www.example.com"
   };
   const result = "";
-  it("processResourceActionLink opens search view", () => {
+  it("processResourceActionLink dummy link", () => {
     expect(processResourceActionLink(genericLink)).toEqual(result);
   });
 });

@@ -619,8 +619,9 @@ export const createResourceSearchLink = node => {
     value: null
   }
 
+  const nodeType = _.get(node, 'type', '')
   //returns search link for resource
-  if (_.get(node, 'type', '') === 'cluster') {
+  if (nodeType === 'cluster') {
     result = {
       type: 'link',
       value: {
@@ -635,6 +636,24 @@ export const createResourceSearchLink = node => {
       }
     }
   } else if (node && R.pathOr('', ['specs', 'pulse'])(node) !== 'orange') {
+    const kindModel = _.get(node, `specs.${nodeType}Model`, {})
+    let computedNameList = []
+    let computedNSList = []
+    Object.values(kindModel).forEach(item => {
+      computedNameList = R.union(computedNameList, [item.name])
+      computedNSList = R.union(computedNSList, [item.namespace])
+    })
+    let computedName = ''
+    computedNameList.forEach(item => {
+      computedName =
+        computedName.length === 0 ? item : `${computedName},${item}`
+    })
+    let computedNS = ''
+    computedNSList.forEach(item => {
+      computedNS = computedNS.length === 0 ? item : `${computedNS},${item}`
+    })
+
+    //get the list of all names from the related list; for helm charts, they are different than the deployable name
     //pulse orange means not deployed on any cluster so don't show link to search page
     result = {
       type: 'link',
@@ -643,12 +662,9 @@ export const createResourceSearchLink = node => {
         id: node.id,
         data: {
           action: 'show_search',
-          name: node.name,
-          namespace: node.namespace,
-          kind:
-            _.get(node, 'type', '') === 'rules'
-              ? 'placementrule'
-              : _.get(node, 'type', '')
+          name: computedName.length === 0 ? node.name : computedName,
+          namespace: computedNS.length === 0 ? node.namespace : computedNS,
+          kind: nodeType === 'rules' ? 'placementrule' : _.get(node, 'type', '')
         },
         indent: true
       }
@@ -1321,7 +1337,7 @@ export const processResourceActionLink = resource => {
     targetLink = `/multicloud/details/${cluster}${selfLink}`
     break
   case 'show_search':
-    targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind} name:${name}${nsData}"}`
+    targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`
     break
   default:
     targetLink = R.pathOr('', ['targetLink'])(resource)

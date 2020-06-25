@@ -764,7 +764,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               className="bx--tile channelColumnDeployable"
             >
               <img
-                alt="You don't have any subscriptions for this channel."
+                alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
                 src="undefined/graphics/nothing-moon-copy.svg"
               />
@@ -774,12 +774,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubTitle"
                 >
-                  No subscriptions
+                  No subscriptions found
                 </div>
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel.
+                  You don't have any subscriptions for this channel, yet.
                 </div>
               </div>
             </div>
@@ -791,7 +791,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               className="bx--tile channelColumnDeployable"
             >
               <img
-                alt="You don't have any subscriptions for this channel."
+                alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
                 src="undefined/graphics/nothing-moon-copy.svg"
               />
@@ -801,12 +801,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubTitle"
                 >
-                  No subscriptions
+                  No subscriptions found
                 </div>
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel.
+                  You don't have any subscriptions for this channel, yet.
                 </div>
               </div>
             </div>
@@ -1047,7 +1047,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               className="bx--tile channelColumnDeployable"
             >
               <img
-                alt="You don't have any subscriptions for this channel."
+                alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
                 src="undefined/graphics/nothing-moon-copy.svg"
               />
@@ -1057,12 +1057,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubTitle"
                 >
-                  No subscriptions
+                  No subscriptions found
                 </div>
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel.
+                  You don't have any subscriptions for this channel, yet.
                 </div>
               </div>
             </div>
@@ -1074,7 +1074,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               className="bx--tile channelColumnDeployable"
             >
               <img
-                alt="You don't have any subscriptions for this channel."
+                alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
                 src="undefined/graphics/nothing-moon-copy.svg"
               />
@@ -1084,12 +1084,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubTitle"
                 >
-                  No subscriptions
+                  No subscriptions found
                 </div>
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel.
+                  You don't have any subscriptions for this channel, yet.
                 </div>
               </div>
             </div>
@@ -1173,7 +1173,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               className="bx--tile channelColumnDeployable"
             >
               <img
-                alt="You don't have any subscriptions for this channel."
+                alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
                 src="undefined/graphics/nothing-moon-copy.svg"
               />
@@ -1183,12 +1183,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubTitle"
                 >
-                  No subscriptions
+                  No subscriptions found
                 </div>
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel.
+                  You don't have any subscriptions for this channel, yet.
                 </div>
               </div>
             </div>
@@ -1200,7 +1200,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               className="bx--tile channelColumnDeployable"
             >
               <img
-                alt="You don't have any subscriptions for this channel."
+                alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
                 src="undefined/graphics/nothing-moon-copy.svg"
               />
@@ -1210,12 +1210,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubTitle"
                 >
-                  No subscriptions
+                  No subscriptions found
                 </div>
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel.
+                  You don't have any subscriptions for this channel, yet.
                 </div>
               </div>
             </div>
@@ -1523,7 +1523,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               className="bx--tile channelColumnDeployable"
             >
               <img
-                alt="You don't have any subscriptions for this channel."
+                alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
                 src="undefined/graphics/nothing-moon-copy.svg"
               />
@@ -1533,12 +1533,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubTitle"
                 >
-                  No subscriptions
+                  No subscriptions found
                 </div>
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel.
+                  You don't have any subscriptions for this channel, yet.
                 </div>
               </div>
             </div>
@@ -1707,7 +1707,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               className="bx--tile channelColumnDeployable"
             >
               <img
-                alt="You don't have any subscriptions for this channel."
+                alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
                 src="undefined/graphics/nothing-moon-copy.svg"
               />
@@ -1717,12 +1717,12 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubTitle"
                 >
-                  No subscriptions
+                  No subscriptions found
                 </div>
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel.
+                  You don't have any subscriptions for this channel, yet.
                 </div>
               </div>
             </div>

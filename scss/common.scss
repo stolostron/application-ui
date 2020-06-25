@@ -10,7 +10,7 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'node_modules/carbon-components/scss/globals/scss/_helper-mixins';
 @import 'header-carbon-v9-migration';
-@import 'variables';
+@import './variables.scss';
 @import '_red-hat-font';
 @include redhat-font-face;
 
@@ -185,13 +185,12 @@ body {
   align-items: center;
   justify-content: center;
   width: 32.375rem;
-  height: 25.6875rem;
+  height: 26.6875rem;
   color: $color__blue-90;
-  padding: 1.25rem 2.5rem;
   background-color: transparent;
   box-shadow: none;
   border: none;
-  margin: 3rem auto 1rem auto;
+  margin: 1rem auto;
 
   .button-group {
     display: flex;
@@ -212,31 +211,53 @@ body {
   }
 
   .no-resource-icon {
-    width: 22.5rem;
-    height: 12.5rem;
+    width: 236px;
+    height: 185px;
+    opacity: 0.75;
+    display: block;
+    margin: 0 0 25px;
   }
 
   .no-resource-title {
-    font-weight: 500;
-    margin-bottom: 0.5625rem;
-    font-size: 1.8125rem;
+    margin: 0;
+    font-family: 'RedHatText-Medium';
+    font-size: 24px;
+    font-weight: normal;
+    color: $color__blue-90;
     text-align: center;
-    color: $grc_color_blue;
+    line-height: 31px;
   }
 
   .no-resource-detail {
-    font-weight: 300;
-    font-size: 1rem;
-    margin-bottom: 1.3125rem;
+    margin: 12px;
+    font-family: 'RedHatText-Regular';
+    font-size: 16px;
+    color: $color__blue-90;
     text-align: center;
-    line-height: 1.2;
-    color: $color__navy-gray-6;
+    line-height: 24px;
+    max-width: 350px;
 
     > a {
       font-weight: 700;
       margin-right: 0.3125rem;
       font-size: .875rem;
     }
+  }
+
+  .bx--btn {
+    height: 40px;
+    margin: 19px auto;
+    padding: 0 15px;
+    font-family: 'RedHatText-Medium';
+    font-size: 14px;
+    font-weight: normal;
+    background-color: $acm-background-color;
+    color: $color__blue-51;
+    border: 2px solid $color__blue-51;
+  }
+
+  .bx--btn__icon {
+    fill: $color__blue-51;
   }
 }
 

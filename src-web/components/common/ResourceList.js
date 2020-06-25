@@ -247,14 +247,11 @@ class ResourceList extends React.Component {
       )
     }
 
-    const resourceName = msgs.get(
-      'no-resource.' + resourceType.name.toLowerCase(),
-      locale
-    )
     return (
       <NoResource
-        title={msgs.get('no-resource.title', [resourceName], locale)}
-        detail={msgs.get('no-resource.detail', [resourceName], locale)}
+        title={msgs.get('no-resource.title', locale)}
+        detail={msgs.get('no-resource.description.line1', locale)}
+        detail2={msgs.get('no-resource.description.line2', locale)}
       >
         {actions}
       </NoResource>

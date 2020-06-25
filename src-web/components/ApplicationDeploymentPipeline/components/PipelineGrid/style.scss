@@ -1,11 +1,11 @@
 /*******************************************************************************
- * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
- *
- * US Government Users Restricted Rights - Use, duplication or disclosure
- * restricted by GSA ADP Schedule Contract with IBM Corp.
- *******************************************************************************/
+* Licensed Materials - Property of IBM
+* (c) Copyright IBM Corporation 2019. All Rights Reserved.
+* Copyright (c) 2020 Red Hat, Inc.
+*
+* US Government Users Restricted Rights - Use, duplication or disclosure
+* restricted by GSA ADP Schedule Contract with IBM Corp.
+*******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'scss/variables';
 
@@ -79,7 +79,7 @@
   }
 
   .no-res-icon {
-    margin-top: 50px;
+    margin-top: 75px;
     margin-right: 15px;
     margin-left: 30%;
     height: 90px;
@@ -120,7 +120,6 @@
   }
 
   .grid-item {
-    margin-bottom: $overview-card-margin-bottom;
     background-color: $color__white;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
     position: relative;
@@ -140,7 +139,7 @@
   }
 
   .noResDescriptionText {
-    padding-right: 15px;
+    padding-left: 15px;
     padding-top: 70px;
     display: inline-block;
     font-size: 12px;
@@ -149,15 +148,15 @@
   }
 
   .noResTitle {
-    font-size: 14px;
-    font-weight: 700;
-    color: black;
+    font-family: 'RedHatText-Medium';
+    font-size: 16px;
+    line-height: 31px;
   }
 
   .noResDescription {
+    font-family: 'RedHatText-Regular';
     font-size: 12px;
-    padding-top: 10px;
-    font-style: italic;
+    line-height: 20px;
   }
 
   .subDescriptionText {

@@ -561,50 +561,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         <div
           className="noResTitle"
         >
-          No channels
+          No channels found
         </div>
         <div
           className="noResDescription"
         >
-          You don't have any channels, yet. You can view the product documentation for instructions, or you can create a channel now by using the "Channel" button.
-        </div>
-        <div
-          className="deployment-highlights-terminology-docs"
-        >
-          <a
-            href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#creating-and-managing-channels"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <span
-              className="deployment-highlights-terminology-docs-text"
-            >
-              View documentation
-            </span>
-            <svg
-              alt=""
-              aria-label=""
-              className="deployment-highlights-terminology-docs-icon"
-              fill="#6089bf"
-              fillRule="evenodd"
-              height="16"
-              name="icon--launch"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title />
-              <path
-                d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-              />
-              <path
-                d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-              />
-              <path
-                d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
-              />
-            </svg>
-          </a>
+          You don't have any channels, yet. 
+          <br />
+          Click the "Channel" button to create the resource and view the documentation.
         </div>
       </div>
     </div>
@@ -2022,7 +1986,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -2032,12 +1996,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -2049,7 +2013,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -2059,12 +2023,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -3484,7 +3448,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -3494,12 +3458,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -3511,7 +3475,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -3521,12 +3485,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -4519,50 +4483,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         <div
           className="noResTitle"
         >
-          No channels
+          No channels found
         </div>
         <div
           className="noResDescription"
         >
-          You don't have any channels, yet. You can view the product documentation for instructions, or you can create a channel now by using the "Channel" button.
-        </div>
-        <div
-          className="deployment-highlights-terminology-docs"
-        >
-          <a
-            href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#creating-and-managing-channels"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <span
-              className="deployment-highlights-terminology-docs-text"
-            >
-              View documentation
-            </span>
-            <svg
-              alt=""
-              aria-label=""
-              className="deployment-highlights-terminology-docs-icon"
-              fill="#6089bf"
-              fillRule="evenodd"
-              height="16"
-              name="icon--launch"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title />
-              <path
-                d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-              />
-              <path
-                d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-              />
-              <path
-                d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
-              />
-            </svg>
-          </a>
+          You don't have any channels, yet. 
+          <br />
+          Click the "Channel" button to create the resource and view the documentation.
         </div>
       </div>
     </div>
@@ -5980,7 +5908,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -5990,12 +5918,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -6007,7 +5935,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -6017,12 +5945,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -7442,7 +7370,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -7452,12 +7380,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -7469,7 +7397,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -7479,12 +7407,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -8904,7 +8832,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -8914,12 +8842,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -8931,7 +8859,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -8941,12 +8869,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -10366,7 +10294,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -10376,12 +10304,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -10393,7 +10321,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -10403,12 +10331,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>

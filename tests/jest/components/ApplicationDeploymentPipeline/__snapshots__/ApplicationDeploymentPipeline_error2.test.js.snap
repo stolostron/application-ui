@@ -1070,7 +1070,7 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -1080,12 +1080,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>
@@ -1097,7 +1097,7 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
                   src="undefined/graphics/nothing-moon-copy.svg"
                 />
@@ -1107,12 +1107,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet.
                   </div>
                 </div>
               </div>

@@ -21,6 +21,8 @@ else
 -include vbh/.build-harness-bootstrap
 endif
 
+TEST_IMAGE_TAG ?= $(COMPONENT_VERSION)$(COMPONENT_TAG_EXTENSION)
+
 default::
 	@echo "Build Harness Bootstrapped"
 

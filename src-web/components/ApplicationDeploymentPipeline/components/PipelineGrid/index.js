@@ -10,7 +10,7 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
-import { RESOURCE_TYPES, DOC_LINKS } from '../../../../../lib/shared/constants'
+import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
 import ProgressBar from '../ProgressBar/index'
 import {
   onSubscriptionClick,
@@ -415,14 +415,14 @@ const EmptySubscriptionTile = locale => {
       <img
         className="no-sub-icon"
         src={`${config.contextPath}/graphics/nothing-moon-copy.svg`}
-        alt={msgs.get('description.tryAddingSub', locale)}
+        alt={msgs.get('description.noSubs.descr', locale)}
       />
       <div className="subDescriptionText">
         <div className="noSubTitle">
-          {msgs.get('description.noSubs', locale)}
+          {msgs.get('description.noSubs.title', locale)}
         </div>
         <div className="noSubDescription">
-          {msgs.get('description.tryAddingSub', locale)}
+          {msgs.get('description.noSubs.descr', locale)}
         </div>
       </div>
     </Tile>
@@ -809,39 +809,12 @@ const PipelineGrid = withLocale(
             />
             <div className="noResDescriptionText">
               <div className="noResTitle">
-                {msgs.get('description.noChannels', locale)}
+                {msgs.get('description.noChannels.title', locale)}
               </div>
               <div className="noResDescription">
-                {msgs.get('description.noChannelsDescr', locale)}
-              </div>
-              <div className="deployment-highlights-terminology-docs">
-                <a
-                  href={DOC_LINKS.CHANNELS}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <span className="deployment-highlights-terminology-docs-text">
-                    View documentation
-                  </span>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="deployment-highlights-terminology-docs-icon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--launch"
-                    role="img"
-                    style={undefined}
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title />
-                    <path d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z" />
-                    <path d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z" />
-                    <path d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z" />
-                  </svg>
-                </a>
+                {msgs.get('description.noChannels.descr.line1', locale)}
+                <br />
+                {msgs.get('description.noChannels.descr.line2', locale)}
               </div>
             </div>
           </div>

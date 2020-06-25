@@ -7,7 +7,7 @@ exports[`NoResource component renders as expected 1`] = `
   <img
     alt="Resource icon"
     className="no-resource-icon"
-    src="undefined/graphics/planets.png"
+    src="undefined/graphics/no-applications.svg"
   />
   <div
     className="no-resource-title"

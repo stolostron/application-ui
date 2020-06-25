@@ -51,15 +51,13 @@
 
   .bx--btn {
     background-color: white;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #4a79b7;
-    color: #4a79b7;
+    border: 2px solid $color__blue-51;
+    color: $color__blue-51;
     height: 40px;
   }
 
   .bx--btn__icon {
-    fill: #4a79b7;
+    fill: $color__blue-51;
   }
 
   // overrides for the pipeline buttons
@@ -79,7 +77,7 @@
   }
 
   .bx--modal__buttons-container .bx--btn--primary {
-    background-color: #4a79b7;
+    background-color: $color__blue-51;
     color: #f4f7fb;
   }
 
@@ -188,7 +186,7 @@
   .perfmonAction {
     border-width: 2px;
     border-style: solid;
-    border-color: #4a79b7;
+    border-color: $color__blue-51;
     color: #3d70b2;
     width: 161px;
     height: 32px;

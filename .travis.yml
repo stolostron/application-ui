@@ -56,7 +56,14 @@ jobs:
         - make
         - make component/build || travis_terminate 1
         - make component/push
-        - make security/scans          
+        - make security/scans 
+    - stage: build
+      name: "Build the test image and push it"
+      script:
+        - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
+        - make 
+        - make build-test-image
+        - make push-test-image        
     - stage: unit-test
       name: "Build and run unit tests"
       script:

@@ -87,9 +87,9 @@ run-test-image-pr:
 	-e CYPRESS_OC_CLUSTER_PASS=$(OC_CLUSTER_PASS) \
 	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
 
-# .PHONY: push-test-image
-# push-test-image:
-# 	make component/push COMPONENT_NAME=$(COMPONENT_NAME)-tests
+.PHONY: push-test-image
+push-test-image:
+	make component/push COMPONENT_NAME=$(COMPONENT_NAME)-tests
 
 # .PHONY: pull-test-image
 # pull-test-image:

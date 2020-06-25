@@ -1,227 +1,466 @@
 /*******************************************************************************
- * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
- * US Government Users Restricted Rights - Use, duplication or disclosure
- * restricted by GSA ADP Schedule Contract with IBM Corp.
- *******************************************************************************/
+* Licensed Materials - Property of IBM
+* (c) Copyright IBM Corporation 2019. All Rights Reserved.
+* Copyright (c) 2020 Red Hat, Inc.
+*
+* US Government Users Restricted Rights - Use, duplication or disclosure
+* restricted by GSA ADP Schedule Contract with IBM Corp.
+*******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import '../../../scss/variables';
+@import 'scss/variables';
 
-#DeploymentPipeline {
-  padding-bottom: 20px;
-
-  .bx--tooltip__trigger {
-    font-size: 0.75rem;
+#PipelineGrid {
+  .firstTotalTile {
+    background: #3c3c3c;
+    color: white;
+    height: 171px;
+    position: relative;
   }
 
-  .deploymentPipelineSearch {
-    margin-top: 20px;
+  .channelColumnHeader {
+    background: #3c3c3c;
+    color: white;
+    height: 171px;
+    position: relative;
+  }
+
+  .channelColumnHeaderApplication {
+    background: white;
+    color: black;
+    height: 80px;
+    position: relative;
+  }
+
+  .channelColumnDeployable {
+    background: white;
+    background-color: white;
+    color: black;
+    height: 223px;
+    position: relative;
+  }
+
+  .addHover:hover {
+    background: white;
+    background-color: white;
+    color: black;
+    height: 223px;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #4a79b7;
+  }
+
+  .channelColumnDeployableBlank {
+    background: #f4f7fa;
+    background-color: #f4f7fa;
+    height: 223px;
+    position: relative;
+    border: none;
+    box-shadow: none;
+  }
+
+  .emptyChannelState {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 1rem;
+    width: 100%;
+    height: 250px;
+    background: #ffffff;
+    background-color: #ffffff;
+  }
+
+  .emptyChannelStateDiv {
+    width: 20%;
+    height: 232px;
+    background: #ffffff;
+    background-color: #ffffff;
+    vertical-align: middle;
+    margin-right: -50%;
+  }
+
+  .no-res-icon {
+    margin-top: 75px;
+    margin-right: 15px;
+    margin-left: 30%;
+    height: 90px;
+    width: 90px;
     display: inline-block;
   }
 
-  .searchAndButtonContainer {
-    display: flex;
+  .applicationTile {
+    background: #ffffff;
+    color: black;
+    height: 80px;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #d5d9db;
   }
 
-  .card-container-title {
+  .noBottomBorder {
+    border-bottom: none;
+  }
+
+  .appName {
+    font-size: 14px;
     font-weight: 700;
   }
 
-  .pipelineHeader {
-    font-size: 18px;
+  .no-sub-icon {
+    margin-top: 50px;
+    margin-right: 15px;
+    margin-left: 20px;
+    height: 90px;
+    width: 90px;
+    display: inline-block;
+  }
+
+  .grid-item-deployable {
+    margin-right: 20px;
+  }
+
+  .grid-item {
+    background-color: $color__white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin-left: 0px;
+    margin-top: 10px;
+    min-width: 450px;
+    width: 100%;
+    min-height: 250px;
+
+    &.replaced {
+      animation: appear 400ms ease-in-out;
+    }
+
+    .masonry-class.dragging &:hover .grid-menu {
+      visibility: hidden;
+    }
+  }
+
+  .noResDescriptionText {
+    padding-left: 15px;
+    padding-top: 70px;
+    display: inline-block;
+    font-size: 12px;
+    position: absolute;
+    width: 30%;
+  }
+
+  .noResTitle {
+    font-family: 'RedHatText-Medium';
+    font-size: 16px;
+    line-height: 31px;
+  }
+
+  .noResDescription {
+    font-family: 'RedHatText-Regular';
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  .subDescriptionText {
+    padding-right: 15px;
+    padding-top: 70px;
+    display: inline-block;
+    font-size: 12px;
+    position: absolute;
+  }
+
+  .noSubTitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: black;
+  }
+
+  .noSubDescription {
+    font-size: 12px;
     padding-top: 10px;
+    font-style: italic;
   }
 
-  .resource-list-header {
-    font-size: 18px;
+  .deployment-highlights-terminology-docs {
+    padding-right: 1em;
+    width: 100%;
   }
 
-  // .AddResourceButton {
-  //   padding: 20px;
-  //   display: inline-block;
-  //   margin: 20px;
+  .deployment-highlights-terminology-docs-text {
+    cursor: pointer;
+    display: inline-block;
+    padding: 20px 10px 10px 0px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #3d70b2;
+  }
 
-  // }
+  .deployment-highlights-terminology-docs-icon {
+    cursor: pointer;
+  }
 
-  .addChannelIcon {
-    fill: white;
+  .totalApplications {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 40px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .totalDeployables {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 15px;
+  }
+
+  .tileContainer {
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(309px, 1fr));
+    grid-template-rows: auto;
+    grid-gap: 20px;
+    padding-top: 10px;
+    padding-right: 20px;
+  }
+
+  .tileContainerApp {
+    padding-top: 10px;
+    padding-right: 20px;
+  }
+
+  .applicationEntryName {
+    font-size: 17px;
+    margin-bottom: 25px;
+  }
+
+  .closeRowChevron {
+    display: inline-block;
+    position: absolute;
+  }
+
+  .openRowChevron {
+    display: inline-block;
+    position: absolute;
+    transform: rotate(90deg);
+  }
+
+  .ApplicationContents {
+    display: inline-block;
     margin-left: 20px;
   }
 
-  .bx--btn {
-    background-color: white;
-    border: 2px solid $color__blue-51;
-    color: $color__blue-51;
-    height: 40px;
-  }
-
-  .bx--btn__icon {
-    fill: $color__blue-51;
-  }
-
-  // overrides for the pipeline buttons
-  .AddResourceButton {
+  .tableGridContainer {
     display: inline-block;
-    margin: 5px;
-    width: 95%;
   }
 
-  .AddResourceButton > * > .bx--btn {
-    text-align: left;
-    width: 100%;
+  .channelGridContainer {
+    display: inline-block;
+    position: absolute;
+    overflow: scroll;
+    width: calc(90% - 329px);
+    background-color: $acm_background_color;
   }
 
-  .AddResourceButton > * > .bx--btn .bx--btn__icon {
-    float: right;
+  .channelGridContainerSingleApp {
+    display: inline-block;
+    position: absolute;
+    overflow: scroll;
+    width: 90vw;
+    background-color: $acm_background_color;
+    margin-bottom: 50px;
   }
 
-  .bx--modal__buttons-container .bx--btn--primary {
-    background-color: $color__blue-51;
-    color: #f4f7fb;
+  .horizontalScrollRow {
+    width: max-content;
   }
 
-  .resource-cards-container {
-    width: 100%;
-    height: 180px;
-    margin-bottom: 20px;
+  .spaceOutBelow {
+    display: block;
+    padding-bottom: 1px;
   }
 
-  .resource-cards-info-container {
-    width: 73%;
-    height: 100%;
-    float: left;
+  .subColHeader {
+    font-weight: 700;
+    font-size: 12px;
+    display: inline-block;
+    color: #5a6872;
+  }
+
+  .subColName {
+    padding-top: 5px;
+    font-size: 14px;
+    color: black;
+    font-weight: 700;
+  }
+
+  .placementRuleDesc {
+    font-size: 12px;
+    color: #5a6872;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #dfe3e6;
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
+
+  .placementRuleDescEdit:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #3d70b2;
+  }
+
+  .namespaceDesc {
+    font-size: 12px;
+    color: #5a6872;
+    padding-top: 10px;
+  }
+
+  .progressBarContainer {
+    padding-top: 20px;
+  }
+
+  .applicationColumnContainer {
+    display: inline-block;
+  }
+
+  .channelColumn {
+    display: inline-grid;
+    width: 418px;
+    padding-right: 20px;
+    padding-top: 10px;
+  }
+
+  .channelColumnDep {
+    display: inline-block;
+    width: 418px;
+    padding-right: 20px;
+    height: 223px;
+  }
+
+  .statusTag {
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    background-color: #c0e6ff;
+    color: #325c80;
+    display: inline-block;
+  }
+
+  .deployableTile {
     background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-    padding: 15px 25px;
+    height: 223px;
+    padding: 0px;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color: #d5d9db;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: #d5d9db;
+    border-bottom: none;
+    border-top: none;
   }
 
-  .resource-cards-create-container {
-    width: 25%;
-    height: 100%;
-    float: right;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-    padding: 15px 25px;
+  .subTotal {
+    padding-bottom: 5px;
+    font-weight: 700;
   }
 
-  .resource-list-container {
-    width: 100%;
-    margin-top: 1em;
-    margin-bottom: 2em;
+  .subTotalDescription {
+    padding-top: 5px;
+    font-weight: 700;
+    color: #6f6f6f;
+    font-size: 12px;
   }
 
-  .resource-list-table {
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  .DeployableContents {
+    padding-left: 35px;
+  }
 
-    .bx--accordion__title {
-      color: #3d70b2;
-      font-size: 14px;
-      font-weight: bold;
+  .appDeployables {
+    padding-top: 10px;
+    font-size: 12px;
+    color: #5a6872;
+  }
+
+  .deployableName {
+    color: #2190ff;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+    padding-left: 5px;
+    padding-bottom: 11%;
+    padding-top: 11%;
+    border-left-style: solid;
+    border-left-width: 4px;
+    border-left-color: #e8f4ff;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  .deployablesDisplay {
+    display: block;
+  }
+
+  .deployableRow {
+    display: flex;
+    height: 223px;
+  }
+
+  .channelTitle {
+    font-size: 12px;
+    color: white;
+    font-weight: 700;
+  }
+
+  .channelNameHeader {
+    font-size: 22px;
+    padding-top: 5px;
+    padding-left: 10px;
+  }
+
+  .channelMenueContainer {
+    position: absolute;
+    margin-left: 330px;
+
+    .bx--overflow-menu__icon {
+      fill: #ffffff;
     }
 
-    .bx--accordion__item {
-      border: none;
-    }
-
-    .bx--accordion__content {
-      padding: 0;
-    }
-
-    .overview-content,
-    .bx--module {
-      padding: 0 1.5rem;
-    }
-
-    .bx--accordion__item--active > .bx--accordion__content {
-      padding: 1rem 0rem 1.5rem;
-    }
-
-    .bx--accordion__arrow {
+    .bx--overflow-menu__icon:hover {
       fill: #3d70b2;
     }
   }
 
-  .app-info-and-dashboard-links {
-    position: fixed;
-    top: 5.7rem;
-    right: calc(5% + 160px);
-    z-index: 1001;
-    background-color: $color__white;
-    display: inline-block;
-  }
-
-  .app-info-and-dashboard-links .bx--link {
-    text-decoration: none;
-    color: #3d70b2;
-    font-family: "RedHatText";
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 20px;
-  }
-
-  .app-info-and-dashboard-links-separator {
-    border-left: 2px solid $color__gray-1;
-    margin: 0 35px 0 25px;
-  }
-
-  .app-info-icon {
-    margin: 0 10px 0 0;
-    vertical-align: sub;
-  }
-
-  .app-dashboard-icon {
-    margin: 0 10px 0 0;
-    vertical-align: sub;
-  }
-
-  .resource-diagram-title {
-    font-size: 1.2rem;
-    line-height: 1.25;
-    font-weight: 300;
-    padding: 20px 0 20px 0;
-  }
-
-  .perfmonAction {
-    border-width: 2px;
-    border-style: solid;
-    border-color: $color__blue-51;
-    color: #3d70b2;
-    width: 161px;
-    height: 32px;
-    text-align: center;
-    padding: 3px 10px;
+  .subscriptionMenueContainer {
     position: absolute;
-    top: calc(2.082rem);
-    right: 0%;
+    margin-left: 340px;
   }
 
-  .show-channels-container {
-    display: flex;
+  .yamlTitle {
+    font-size: 12px;
+    position: absolute;
+    padding-top: 2px;
+    display: inline;
   }
 
-  .show-channels-icon {
-    margin: 7px 0 0 0;
+  .yamlTitleSub {
+    font-size: 12px;
+    position: absolute;
+    padding-top: 5px;
+    display: inline;
   }
 
-  .bx--tooltip__trigger svg {
+  .channelNameTitle {
+    padding-top: 10px;
+    font-weight: 600;
+  }
+
+  .tileContainerApp .bx--tooltip__trigger svg {
     height: 14px;
   }
 }
 
-.showAllChannelsTooltip {
+.standaloneTooltip {
+  display: block;
   line-height: 21px;
   font-size: 14px;
-}
-
-.refresh-time-container {
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  height: 20px;
-  position: fixed;
-  right: 1.5625rem;
-  top: 6.5rem;
-  padding: 1rem 6% 3.375rem;
 }

@@ -252,7 +252,14 @@ export const nodeMustHavePods = node => {
     return false
   }
 
-  if (R.pathOr('', ['type'])(node) === 'pod') {
+  if (
+    R.contains(R.pathOr('', ['type'])(node), [
+      'pod',
+      'replicaset',
+      'daemonset',
+      'replicationcontroller'
+    ])
+  ) {
     //pod deployables must have pods
     return true
   }
@@ -268,6 +275,10 @@ export const nodeMustHavePods = node => {
     node
   ) //deployables from subscription package have this set only, not containers
   if ((hasContainers || hasDesired) && !hasReplicas) {
+    return true
+  }
+
+  if (hasReplicas) {
     return true
   }
 
@@ -664,8 +675,10 @@ export const createResourceSearchLink = node => {
         id: node.id,
         data: {
           action: 'show_search',
-          name: computedName.length === 0 ? node.name : computedName,
-          namespace: computedNS.length === 0 ? node.namespace : computedNS,
+          name:
+            computedName && computedName.length > 0 ? computedName : node.name,
+          namespace:
+            computedNS && computedNS.length > 0 ? computedNS : node.namespace,
           kind: nodeType === 'rules' ? 'placementrule' : _.get(node, 'type', '')
         },
         indent: true

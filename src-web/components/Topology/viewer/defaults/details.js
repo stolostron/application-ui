@@ -83,22 +83,6 @@ export const getNodeDetails = node => {
       ])
       break
 
-    case 'helmrelease':
-      {
-        const spec = _.get(node, 'specs.raw.spec')
-        if (spec) {
-          const { chartName, urls, version } = spec
-          addDetails(details, [
-            { labelKey: resName, value: chartName },
-            { labelKey: 'resource.url', value: urls },
-            { labelKey: 'resource.version', value: version }
-          ])
-        } else {
-          addK8Details(node, details)
-        }
-      }
-      break
-
     default:
       addK8Details(node, details)
       break
@@ -155,176 +139,150 @@ export const getNodeDetails = node => {
   return details
 }
 
-function addK8Details(node, details, podOnly, index) {
-  const { clusterName, name, namespace, type, layout = {} } = node
+function addK8Details(node, details) {
+  const { clusterName, namespace, type, layout = {} } = node
   const { type: ltype } = layout
   // the main stuff
-  if (!podOnly) {
-    const mainDetails = [
-      {
-        labelKey: 'resource.type',
-        value: ltype || type
-      },
-      {
-        labelKey: 'resource.cluster',
-        value: clusterName ? clusterName : undefined
-      },
-      {
-        labelKey: 'resource.namespace',
-        value: namespace
-          ? namespace
-          : R.pathOr(undefined, ['specs', 'raw', 'metadata', 'namespace'])(node)
-      }
-    ]
+  const mainDetails = [
+    {
+      labelKey: 'resource.type',
+      value: ltype || type
+    },
+    {
+      labelKey: 'resource.cluster',
+      value: clusterName ? clusterName : undefined
+    },
+    {
+      labelKey: 'resource.namespace',
+      value: namespace
+        ? namespace
+        : R.pathOr(undefined, ['specs', 'raw', 'metadata', 'namespace'])(node)
+    }
+  ]
 
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(
-        node,
-        ['specs', 'raw', 'metadata', 'labels'],
-        'raw.spec.metadata.label',
-        'No labels'
-      )
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'metadata', 'labels'],
+      'raw.spec.metadata.label',
+      'No labels'
     )
+  )
 
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(
-        node,
-        ['specs', 'raw', 'spec', 'replicas'],
-        'raw.spec.replicas'
-      )
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'replicas'],
+      'raw.spec.replicas'
     )
+  )
 
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'selector', 'matchLabels'],
+      'raw.spec.selector'
+    )
+  )
+
+  if (!R.pathOr(['specs', 'raw', 'spec', 'selector', 'matchLabels'])) {
     addPropertyToList(
       mainDetails,
       getNodePropery(
         node,
-        ['specs', 'raw', 'spec', 'selector', 'matchLabels'],
+        ['specs', 'raw', 'spec', 'selector'],
         'raw.spec.selector'
       )
     )
-
-    if (!R.pathOr(['specs', 'raw', 'spec', 'selector', 'matchLabels'])) {
-      addPropertyToList(
-        mainDetails,
-        getNodePropery(
-          node,
-          ['specs', 'raw', 'spec', 'selector'],
-          'raw.spec.selector'
-        )
-      )
-    }
-
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(node, ['specs', 'raw', 'spec', 'ports'], 'raw.spec.ports')
-    )
-
-    //subscription specific
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(
-        node,
-        ['specs', 'raw', 'spec', 'channel'],
-        'raw.spec.channel'
-      )
-    )
-
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(
-        node,
-        ['specs', 'raw', 'spec', 'packageFilter', 'filterRef'],
-        'raw.spec.packageFilter'
-      )
-    )
-
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(
-        node,
-        ['specs', 'raw', 'spec', 'placement', 'placementRef'],
-        'raw.spec.placementRef'
-      )
-    )
-
-    //PR specific
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(
-        node,
-        ['specs', 'raw', 'spec', 'clusterSelector', 'matchLabels'],
-        'raw.spec.clusterSelector'
-      )
-    )
-
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(
-        node,
-        ['specs', 'raw', 'spec', 'clusterReplicas'],
-        'raw.spec.clusterReplicas'
-      )
-    )
-
-    if (type === 'rules') {
-      const specNbOfClustersTarget = R.pathOr(
-        [],
-        ['specs', 'raw', 'status', 'decisions']
-      )(node)
-      mainDetails.push({
-        labelKey: 'raw.status.decisionCls',
-        value: specNbOfClustersTarget.length
-      })
-    }
-
-    //routes
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(node, ['specs', 'raw', 'spec', 'to'], 'raw.spec.to')
-    )
-
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(node, ['specs', 'raw', 'spec', 'host'], 'raw.spec.host')
-    )
-
-    //persistent volume claim
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(
-        node,
-        ['specs', 'raw', 'spec', 'accessModes'],
-        'raw.spec.accessmode'
-      )
-    )
-    addDetails(details, mainDetails)
-  } else {
-    if (index) {
-      if (index > 1) {
-        details.push({
-          type: 'spacer'
-        })
-      }
-      const podName = [
-        {
-          labelKey: 'resource.index.name',
-          labelValue: index,
-          value: name
-        }
-      ]
-      addDetails(details, podName)
-    } else {
-      const podName = [
-        {
-          labelKey: resName,
-          value: name
-        }
-      ]
-      addDetails(details, podName)
-    }
   }
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(node, ['specs', 'raw', 'spec', 'ports'], 'raw.spec.ports')
+  )
+
+  //subscription specific
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'channel'],
+      'raw.spec.channel'
+    )
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'packageFilter', 'filterRef'],
+      'raw.spec.packageFilter'
+    )
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'placement', 'placementRef'],
+      'raw.spec.placementRef'
+    )
+  )
+
+  //PR specific
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'clusterSelector', 'matchLabels'],
+      'raw.spec.clusterSelector'
+    )
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'clusterReplicas'],
+      'raw.spec.clusterReplicas'
+    )
+  )
+
+  if (type === 'rules') {
+    const specNbOfClustersTarget = R.pathOr(
+      [],
+      ['specs', 'raw', 'status', 'decisions']
+    )(node)
+    mainDetails.push({
+      labelKey: 'raw.status.decisionCls',
+      value: specNbOfClustersTarget.length
+    })
+  }
+
+  //routes
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(node, ['specs', 'raw', 'spec', 'to'], 'raw.spec.to')
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(node, ['specs', 'raw', 'spec', 'host'], 'raw.spec.host')
+  )
+
+  //persistent volume claim
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'accessModes'],
+      'raw.spec.accessmode'
+    )
+  )
+  addDetails(details, mainDetails)
 
   details.push({
     type: 'spacer'

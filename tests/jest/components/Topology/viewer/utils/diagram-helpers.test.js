@@ -205,7 +205,7 @@ describe("getPulseForNodeWithPodStatus ", () => {
         "mortgage-app-deploy-55c65b9c8f-6v9bn": {
           cluster: "feng",
           hostIP: "1.1.1.1",
-          status: "Running",
+          status: "Error",
           startedAt: "2020-04-20T22:03:52Z",
           restarts: 0,
           podIP: "1.1.1.1",
@@ -215,7 +215,8 @@ describe("getPulseForNodeWithPodStatus ", () => {
       deploymentModel: {
         "mortgage-app-deploy-feng": {
           ready: 2,
-          desired: 3
+          desired: 3,
+          unavailable: 1
         },
         "mortgage-app-deploy-cluster1": {}
       },
@@ -377,7 +378,7 @@ describe("getPulseForData ", () => {
   it("getPulseForData pulse red pod desired less then available", () => {
     expect(
       getPulseForData(previousPulse, available, desired, podsUnavailable)
-    ).toEqual("red");
+    ).toEqual("yellow");
   });
 });
 
@@ -2230,7 +2231,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
   const result = [
     { type: "spacer" },
     { labelKey: "resource.deploy.pods.statuses", type: "label" },
-    { labelValue: "possiblereptile", status: "failure", value: "1/3" },
+    { labelValue: "possiblereptile", status: "warning", value: "1/3" },
     { type: "spacer" },
     { type: "spacer" },
     { labelValue: "Pod details for {0}", type: "label" },

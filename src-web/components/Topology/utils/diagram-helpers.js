@@ -257,7 +257,9 @@ export const nodeMustHavePods = node => {
       'pod',
       'replicaset',
       'daemonset',
-      'replicationcontroller'
+      'statefulset',
+      'replicationcontroller',
+      'deployment'
     ])
   ) {
     //pod deployables must have pods
@@ -384,7 +386,7 @@ export const getPulseForData = (
   }
 
   if (available < desired) {
-    return 'red'
+    return 'yellow'
   }
 
   if (desired <= 0) {
@@ -928,13 +930,27 @@ export const setPodDeployStatus = (node, details) => {
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
     const res = podStatusModel[clusterName]
+    let pulse = 'orange'
+    if (res) {
+      pulse = getPulseForData('', res.ready, res.desired, res.unavailable)
+    }
     const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
-    const isErrorMsg = res && res.ready < res.desired
-    const isPending = valueStr === notDeployedStr
 
-    const statusStr = isErrorMsg
-      ? 'failure'
-      : isPending ? 'pending' : 'checkmark'
+    let statusStr = 'checkmark'
+    switch (pulse) {
+    case 'red':
+      statusStr = 'failure'
+      break
+    case 'yellow':
+      statusStr = 'warning'
+      break
+    case 'orange':
+      statusStr = 'pending'
+      break
+    default:
+      statusStr = 'checkmark'
+      break
+    }
 
     details.push({
       labelValue: clusterName,

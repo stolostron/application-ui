@@ -21,6 +21,10 @@ function fold_end() {
 
 fold_start test-setup "Test Setup"
 
+export OC_CLUSTER_URL=$OCP_CLUSTER_URL
+export OC_CLUSTER_USER=$OCP_CLUSTER_USER
+export OC_CLUSTER_PASS=$OCP_CLUSTER_PASS
+
 make oc/install
 make oc/login
 

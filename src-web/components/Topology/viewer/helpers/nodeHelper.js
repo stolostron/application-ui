@@ -580,8 +580,8 @@ export default class NodeHelper {
     moveLabels(this.svg)
   };
 
-  dragNode = (d, index, nodeNS) => {
-    const { layout } = d
+  dragNode = (dp, index, nodeNS) => {
+    const { layout } = dp
     const node = d3.select(nodeNS[index].parentNode)
     tooltip.style('display', 'none')
 
@@ -646,7 +646,7 @@ export default class NodeHelper {
       if (this.showsShapeTitles) {
         // drag node title if any
         const nodeTitles = node.selectAll(gNodeTitle)
-        nodeTitles.each((i, ns) => {
+        nodeTitles.each((d, i, ns) => {
           d3
             .select(ns[i])
             .selectAll('text')
@@ -667,7 +667,7 @@ export default class NodeHelper {
 
       // drag node label
       const nodeLabels = node.selectAll(gNodeLabel)
-      nodeLabels.each((i, ns) => {
+      nodeLabels.each((d, i, ns) => {
         d3
           .select(ns[i])
           .selectAll('text')
@@ -695,7 +695,7 @@ export default class NodeHelper {
       })
 
       // drag any connecting links
-      dragLinks(this.svg, d, this.typeToShapeMap)
+      dragLinks(this.svg, dp, this.typeToShapeMap)
     }
   };
 }

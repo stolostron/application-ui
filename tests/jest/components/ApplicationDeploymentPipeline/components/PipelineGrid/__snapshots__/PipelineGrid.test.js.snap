@@ -766,7 +766,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               <img
                 alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
-                src="undefined/graphics/nothing-moon-copy.svg"
+                src="undefined/graphics/no-resources-card.png"
               />
               <div
                 className="subDescriptionText"
@@ -779,7 +779,14 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel, yet.
+                  You don't have any subscriptions for this channel, yet. 
+                  Click the 
+                  <span
+                    id="text-highlight"
+                  >
+                    Create subscription 
+                  </span>
+                  button to create the resource. 
                 </div>
               </div>
             </div>
@@ -793,7 +800,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               <img
                 alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
-                src="undefined/graphics/nothing-moon-copy.svg"
+                src="undefined/graphics/no-resources-card.png"
               />
               <div
                 className="subDescriptionText"
@@ -806,7 +813,14 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel, yet.
+                  You don't have any subscriptions for this channel, yet. 
+                  Click the 
+                  <span
+                    id="text-highlight"
+                  >
+                    Create subscription 
+                  </span>
+                  button to create the resource. 
                 </div>
               </div>
             </div>
@@ -1049,7 +1063,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               <img
                 alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
-                src="undefined/graphics/nothing-moon-copy.svg"
+                src="undefined/graphics/no-resources-card.png"
               />
               <div
                 className="subDescriptionText"
@@ -1062,7 +1076,14 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel, yet.
+                  You don't have any subscriptions for this channel, yet. 
+                  Click the 
+                  <span
+                    id="text-highlight"
+                  >
+                    Create subscription 
+                  </span>
+                  button to create the resource. 
                 </div>
               </div>
             </div>
@@ -1076,7 +1097,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               <img
                 alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
-                src="undefined/graphics/nothing-moon-copy.svg"
+                src="undefined/graphics/no-resources-card.png"
               />
               <div
                 className="subDescriptionText"
@@ -1089,7 +1110,14 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel, yet.
+                  You don't have any subscriptions for this channel, yet. 
+                  Click the 
+                  <span
+                    id="text-highlight"
+                  >
+                    Create subscription 
+                  </span>
+                  button to create the resource. 
                 </div>
               </div>
             </div>
@@ -1175,7 +1203,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               <img
                 alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
-                src="undefined/graphics/nothing-moon-copy.svg"
+                src="undefined/graphics/no-resources-card.png"
               />
               <div
                 className="subDescriptionText"
@@ -1188,7 +1216,14 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel, yet.
+                  You don't have any subscriptions for this channel, yet. 
+                  Click the 
+                  <span
+                    id="text-highlight"
+                  >
+                    Create subscription 
+                  </span>
+                  button to create the resource. 
                 </div>
               </div>
             </div>
@@ -1202,7 +1237,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               <img
                 alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
-                src="undefined/graphics/nothing-moon-copy.svg"
+                src="undefined/graphics/no-resources-card.png"
               />
               <div
                 className="subDescriptionText"
@@ -1215,7 +1250,14 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel, yet.
+                  You don't have any subscriptions for this channel, yet. 
+                  Click the 
+                  <span
+                    id="text-highlight"
+                  >
+                    Create subscription 
+                  </span>
+                  button to create the resource. 
                 </div>
               </div>
             </div>
@@ -1525,7 +1567,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               <img
                 alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
-                src="undefined/graphics/nothing-moon-copy.svg"
+                src="undefined/graphics/no-resources-card.png"
               />
               <div
                 className="subDescriptionText"
@@ -1538,7 +1580,14 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel, yet.
+                  You don't have any subscriptions for this channel, yet. 
+                  Click the 
+                  <span
+                    id="text-highlight"
+                  >
+                    Create subscription 
+                  </span>
+                  button to create the resource. 
                 </div>
               </div>
             </div>
@@ -1709,7 +1758,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               <img
                 alt="You don't have any subscriptions for this channel, yet."
                 className="no-sub-icon"
-                src="undefined/graphics/nothing-moon-copy.svg"
+                src="undefined/graphics/no-resources-card.png"
               />
               <div
                 className="subDescriptionText"
@@ -1722,7 +1771,14 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 <div
                   className="noSubDescription"
                 >
-                  You don't have any subscriptions for this channel, yet.
+                  You don't have any subscriptions for this channel, yet. 
+                  Click the 
+                  <span
+                    id="text-highlight"
+                  >
+                    Create subscription 
+                  </span>
+                  button to create the resource. 
                 </div>
               </div>
             </div>

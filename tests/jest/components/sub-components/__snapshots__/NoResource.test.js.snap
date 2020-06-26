@@ -71,8 +71,7 @@ exports[`NoResource component renders as expected with extra lines 1`] = `
      
     <br />
      
-    d
-     
+    d 
     <span
       id="text-highlight"
     >

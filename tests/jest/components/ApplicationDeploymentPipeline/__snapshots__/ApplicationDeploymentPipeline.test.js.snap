@@ -571,15 +571,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           className="noResDescription"
         >
           You don't have any channels, yet.  
-          Click the
-           
+          Click the 
           <span
             id="text-highlight"
           >
-            Create channel
+            Create channel 
           </span>
-           
-          button to create the resource. You can also view the documentation for instructions.
+          button to create the resource.  
+          You can also view the documentation for instructions.
         </div>
         <div
           className="deployment-highlights-terminology-docs"
@@ -2037,7 +2036,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -2050,7 +2049,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -2064,7 +2070,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -2077,7 +2083,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -3499,7 +3512,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -3512,7 +3525,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -3526,7 +3546,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -3539,7 +3559,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -4542,15 +4569,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           className="noResDescription"
         >
           You don't have any channels, yet.  
-          Click the
-           
+          Click the 
           <span
             id="text-highlight"
           >
-            Create channel
+            Create channel 
           </span>
-           
-          button to create the resource. You can also view the documentation for instructions.
+          button to create the resource.  
+          You can also view the documentation for instructions.
         </div>
         <div
           className="deployment-highlights-terminology-docs"
@@ -6008,7 +6034,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -6021,7 +6047,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -6035,7 +6068,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -6048,7 +6081,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -7470,7 +7510,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -7483,7 +7523,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -7497,7 +7544,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -7510,7 +7557,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -8932,7 +8986,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -8945,7 +8999,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -8959,7 +9020,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -8972,7 +9033,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -10394,7 +10462,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -10407,7 +10475,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -10421,7 +10496,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -10434,7 +10509,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>

@@ -110,11 +110,9 @@
   }
 
   .no-sub-icon {
-    margin-top: 50px;
-    margin-right: 15px;
-    margin-left: 20px;
-    height: 90px;
-    width: 90px;
+    margin: 62px 15px;
+    width: 95px;
+    height: 71px;
     display: inline-block;
   }
 
@@ -163,31 +161,32 @@
     font-size: 16px;
     line-height: 24px;
     color: $mcm__color__gray_text;
-
-    #text-highlight {
-      font-family: 'RedHatText-Medium';
-      color: $color__blue-51;
-    }
   }
 
   .subDescriptionText {
     padding-right: 15px;
-    padding-top: 70px;
+    padding-top: 60px;
     display: inline-block;
     font-size: 12px;
     position: absolute;
   }
 
   .noSubTitle {
+    font-family: 'RedHatText-Medium';
     font-size: 14px;
-    font-weight: 700;
-    color: black;
+    color: $mcm__color__gray_text;
   }
 
   .noSubDescription {
     font-size: 12px;
-    padding-top: 10px;
-    font-style: italic;
+    padding-top: 8px;
+    color: $mcm__color__gray_text;
+    line-height: 18px;
+  }
+
+  #text-highlight {
+    font-family: 'RedHatText-Medium';
+    color: $color__blue-51;
   }
 
   .deployment-highlights-terminology-docs {

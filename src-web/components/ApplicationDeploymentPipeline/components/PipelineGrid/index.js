@@ -414,7 +414,7 @@ const EmptySubscriptionTile = locale => {
     <Tile className="channelColumnDeployable">
       <img
         className="no-sub-icon"
-        src={`${config.contextPath}/graphics/nothing-moon-copy.svg`}
+        src={`${config.contextPath}/graphics/no-resources-card.png`}
         alt={msgs.get('description.noSubs.descr', locale)}
       />
       <div className="subDescriptionText">
@@ -422,7 +422,12 @@ const EmptySubscriptionTile = locale => {
           {msgs.get('description.noSubs.title', locale)}
         </div>
         <div className="noSubDescription">
-          {msgs.get('description.noSubs.descr', locale)}
+          {msgs.get('description.noSubs.descr', locale) + ' '}
+          {msgs.get('description.noResource.descr.line2.1', locale) + ' '}
+          <span id="text-highlight">
+            {msgs.get('button.create.subscription', locale) + ' '}
+          </span>
+          {msgs.get('description.noResource.descr.line2.2', locale)}
         </div>
       </div>
     </Tile>
@@ -799,11 +804,15 @@ const PipelineGrid = withLocale(
     // do the logic to calculate the "standalone" subscriptions
 
     const descriptionLine2Start = msgs.get(
-      'description.noChannels.descr.line2.1',
+      'description.noResource.descr.line2.1',
+      locale
+    )
+    const descriptionLine2Mid = msgs.get(
+      'description.noResource.descr.line2.2',
       locale
     )
     const descriptionLine2End = msgs.get(
-      'description.noChannels.descr.line2.2',
+      'description.noResource.descr.line2.3',
       locale
     )
 
@@ -828,6 +837,7 @@ const PipelineGrid = withLocale(
                 <span id="text-highlight">
                   {msgs.get('button.create.channel', locale) + ' '}
                 </span>
+                {descriptionLine2Mid + ' '}
                 {descriptionLine2End}
               </div>
               <div className="deployment-highlights-terminology-docs">

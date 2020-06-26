@@ -646,7 +646,7 @@ export default class NodeHelper {
       if (this.showsShapeTitles) {
         // drag node title if any
         const nodeTitles = node.selectAll(gNodeTitle)
-        nodeTitles.each((d, i, ns) => {
+        nodeTitles.each((i, ns) => {
           d3
             .select(ns[i])
             .selectAll('text')
@@ -667,7 +667,7 @@ export default class NodeHelper {
 
       // drag node label
       const nodeLabels = node.selectAll(gNodeLabel)
-      nodeLabels.each((d, i, ns) => {
+      nodeLabels.each((i, ns) => {
         d3
           .select(ns[i])
           .selectAll('text')

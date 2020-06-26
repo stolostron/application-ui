@@ -473,7 +473,7 @@ describe("nodeMustHavePods node with no pods data", () => {
 
 describe("nodeMustHavePods node with replicas", () => {
   const node = {
-    type: "daemonset",
+    type: "daemonset3",
     specs: {
       raw: {
         spec: {
@@ -2239,7 +2239,8 @@ describe("setPodDeployStatus  with pod less then desired", () => {
     podStatusMap: {
       possiblereptile: {
         ready: 1,
-        desired: 3
+        desired: 3,
+        unavailable: 2
       }
     },
     specs: {
@@ -2264,7 +2265,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
   const result = [
     { type: "spacer" },
     { labelKey: "resource.deploy.pods.statuses", type: "label" },
-    { labelValue: "possiblereptile", status: "warning", value: "1/3" },
+    { labelValue: "possiblereptile", status: "failure", value: "1/3" },
     { type: "spacer" },
     { type: "spacer" },
     { labelValue: "Pod details for {0}", type: "label" },
@@ -2352,7 +2353,7 @@ describe("setPodDeployStatus  with pod but no pod model and no podStatusMap", ()
 
 describe("setPodDeployStatus  with pod as desired", () => {
   const node = {
-    type: "pod",
+    type: "pod1",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
@@ -2366,7 +2367,6 @@ describe("setPodDeployStatus  with pod as desired", () => {
     specs: {
       raw: {
         spec: {
-          replicas: 1,
           template: {
             spec: {
               containers: [{ c1: "aa" }]
@@ -2499,7 +2499,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
 
 describe("setPodDeployStatus  with pod as desired", () => {
   const node = {
-    type: "pod",
+    type: "pod1",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
@@ -2513,7 +2513,6 @@ describe("setPodDeployStatus  with pod as desired", () => {
     specs: {
       raw: {
         spec: {
-          replicas: 1,
           template: {
             spec: {
               containers: [{ c1: "aa" }]

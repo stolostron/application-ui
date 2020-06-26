@@ -381,12 +381,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Subscription"
+            id="Create subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Subscription
+            Create subscription
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -415,12 +415,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Placement Rule"
+            id="Create placement rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Placement Rule
+            Create placement rule
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -449,12 +449,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Channel"
+            id="Create channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Channel
+            Create channel
             <svg
               alt="Open channel editor"
               aria-label="Open channel editor"
@@ -550,11 +550,15 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     <div
       className="grid-item grid-item-deployable"
     >
-      <img
-        alt="You don't have any scheduled resources."
-        className="no-res-icon"
-        src="undefined/graphics/nothing-moon-copy.svg"
-      />
+      <div
+        className="no-res-icon-container"
+      >
+        <img
+          alt="You don't have any scheduled resources."
+          className="no-res-icon"
+          src="undefined/graphics/no-resources-card.png"
+        />
+      </div>
       <div
         className="noResDescriptionText"
       >
@@ -566,9 +570,53 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         <div
           className="noResDescription"
         >
-          You don't have any channels, yet. 
-          <br />
-          Click the "Channel" button to create the resource and view the documentation.
+          You don't have any channels, yet.  
+          Click the 
+          <span
+            id="text-highlight"
+          >
+            Create channel 
+          </span>
+          button to create the resource.  
+          You can also view the documentation for instructions.
+        </div>
+        <div
+          className="deployment-highlights-terminology-docs"
+        >
+          <a
+            href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#creating-and-managing-channels"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span
+              className="deployment-highlights-terminology-docs-text"
+            >
+              View documentation
+            </span>
+            <svg
+              alt=""
+              aria-label=""
+              className="deployment-highlights-terminology-docs-icon"
+              fill="#6089bf"
+              fillRule="evenodd"
+              height="16"
+              name="icon--launch"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title />
+              <path
+                d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+              />
+              <path
+                d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+              />
+              <path
+                d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+              />
+            </svg>
+          </a>
         </div>
       </div>
     </div>
@@ -1297,12 +1345,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Subscription"
+            id="Create subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Subscription
+            Create subscription
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -1331,12 +1379,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Placement Rule"
+            id="Create placement rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Placement Rule
+            Create placement rule
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -1365,12 +1413,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Channel"
+            id="Create channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Channel
+            Create channel
             <svg
               alt="Open channel editor"
               aria-label="Open channel editor"
@@ -1988,7 +2036,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -2001,7 +2049,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -2015,7 +2070,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -2028,7 +2083,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -2759,12 +2821,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Subscription"
+            id="Create subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Subscription
+            Create subscription
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -2793,12 +2855,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Placement Rule"
+            id="Create placement rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Placement Rule
+            Create placement rule
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -2827,12 +2889,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Channel"
+            id="Create channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Channel
+            Create channel
             <svg
               alt="Open channel editor"
               aria-label="Open channel editor"
@@ -3450,7 +3512,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -3463,7 +3525,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -3477,7 +3546,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -3490,7 +3559,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -4299,12 +4375,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Subscription"
+            id="Create subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Subscription
+            Create subscription
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -4333,12 +4409,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Placement Rule"
+            id="Create placement rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Placement Rule
+            Create placement rule
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -4367,12 +4443,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Channel"
+            id="Create channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Channel
+            Create channel
             <svg
               alt="Open channel editor"
               aria-label="Open channel editor"
@@ -4472,11 +4548,15 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     <div
       className="grid-item grid-item-deployable"
     >
-      <img
-        alt="You don't have any scheduled resources."
-        className="no-res-icon"
-        src="undefined/graphics/nothing-moon-copy.svg"
-      />
+      <div
+        className="no-res-icon-container"
+      >
+        <img
+          alt="You don't have any scheduled resources."
+          className="no-res-icon"
+          src="undefined/graphics/no-resources-card.png"
+        />
+      </div>
       <div
         className="noResDescriptionText"
       >
@@ -4488,9 +4568,53 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         <div
           className="noResDescription"
         >
-          You don't have any channels, yet. 
-          <br />
-          Click the "Channel" button to create the resource and view the documentation.
+          You don't have any channels, yet.  
+          Click the 
+          <span
+            id="text-highlight"
+          >
+            Create channel 
+          </span>
+          button to create the resource.  
+          You can also view the documentation for instructions.
+        </div>
+        <div
+          className="deployment-highlights-terminology-docs"
+        >
+          <a
+            href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#creating-and-managing-channels"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span
+              className="deployment-highlights-terminology-docs-text"
+            >
+              View documentation
+            </span>
+            <svg
+              alt=""
+              aria-label=""
+              className="deployment-highlights-terminology-docs-icon"
+              fill="#6089bf"
+              fillRule="evenodd"
+              height="16"
+              name="icon--launch"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title />
+              <path
+                d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+              />
+              <path
+                d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+              />
+              <path
+                d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+              />
+            </svg>
+          </a>
         </div>
       </div>
     </div>
@@ -5219,12 +5343,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Subscription"
+            id="Create subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Subscription
+            Create subscription
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -5253,12 +5377,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Placement Rule"
+            id="Create placement rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Placement Rule
+            Create placement rule
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -5287,12 +5411,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Channel"
+            id="Create channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Channel
+            Create channel
             <svg
               alt="Open channel editor"
               aria-label="Open channel editor"
@@ -5910,7 +6034,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -5923,7 +6047,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -5937,7 +6068,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -5950,7 +6081,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -6681,12 +6819,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Subscription"
+            id="Create subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Subscription
+            Create subscription
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -6715,12 +6853,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Placement Rule"
+            id="Create placement rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Placement Rule
+            Create placement rule
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -6749,12 +6887,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Channel"
+            id="Create channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Channel
+            Create channel
             <svg
               alt="Open channel editor"
               aria-label="Open channel editor"
@@ -7372,7 +7510,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -7385,7 +7523,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -7399,7 +7544,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -7412,7 +7557,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -8143,12 +8295,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Subscription"
+            id="Create subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Subscription
+            Create subscription
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -8177,12 +8329,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Placement Rule"
+            id="Create placement rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Placement Rule
+            Create placement rule
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -8211,12 +8363,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Channel"
+            id="Create channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Channel
+            Create channel
             <svg
               alt="Open channel editor"
               aria-label="Open channel editor"
@@ -8834,7 +8986,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -8847,7 +8999,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -8861,7 +9020,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -8874,7 +9033,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -9605,12 +9771,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Subscription"
+            id="Create subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Subscription
+            Create subscription
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -9639,12 +9805,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Placement Rule"
+            id="Create placement rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Placement Rule
+            Create placement rule
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -9673,12 +9839,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Channel"
+            id="Create channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Channel
+            Create channel
             <svg
               alt="Open channel editor"
               aria-label="Open channel editor"
@@ -10296,7 +10462,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -10309,7 +10475,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -10323,7 +10496,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <img
                   alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -10336,7 +10509,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel, yet.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -11145,12 +11325,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Subscription"
+            id="Create subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Subscription
+            Create subscription
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -11179,12 +11359,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Placement Rule"
+            id="Create placement rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Placement Rule
+            Create placement rule
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -11213,12 +11393,12 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Channel"
+            id="Create channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Channel
+            Create channel
             <svg
               alt="Open channel editor"
               aria-label="Open channel editor"

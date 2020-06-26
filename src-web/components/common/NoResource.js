@@ -16,13 +16,14 @@ const NoResource = ({ title, detail, detail2, children }, context) => (
   <div className="no-resource">
     <img
       className="no-resource-icon"
-      src={`${config.contextPath}/graphics/no-applications.svg`}
+      src={`${config.contextPath}/graphics/no-resources-full-page.png`}
       alt={msgs.get('svg.description.resource', context.locale)}
     />
     <div className="no-resource-title">{title}</div>
     {detail && detail2 ? (
       <div className="no-resource-detail">
-        {detail} <br /> {detail2}
+        {detail} <br /> {detail2[0] + ' '}
+        <span id="text-highlight">{detail2[1]}</span> {detail2[2]}
       </div>
     ) : detail ? (
       <div className="no-resource-detail">{detail}</div>
@@ -40,7 +41,7 @@ NoResource.contextTypes = {
 NoResource.propTypes = {
   children: PropTypes.node,
   detail: PropTypes.string,
-  detail2: PropTypes.string,
+  detail2: PropTypes.array,
   title: PropTypes.string
 }
 

@@ -257,12 +257,7 @@ export const getDiagramElements = (
   }
 
   // if no topology yet, create diagram with search item
-  //const links = []
   const nodes2 = []
-  //const clusters = []
-  //const channels = []
-  //const yaml = ''
-
   // create application node
   const appId = `application--${iname}`
   nodes2.push({

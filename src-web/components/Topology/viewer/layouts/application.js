@@ -115,6 +115,7 @@ export const processPos = (
     pos.y += NODE_SIZE / 2
     break
   case 'route':
+  case 'ingress':
   case 'daemonset':
   case 'statefulset':
   case 'deploymentconfig':

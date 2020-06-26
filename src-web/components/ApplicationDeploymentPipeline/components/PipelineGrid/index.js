@@ -824,10 +824,10 @@ const PipelineGrid = withLocale(
               </div>
               <div className="noResDescription">
                 {msgs.get('description.noChannels.descr.line1', locale) + ' '}
-                {descriptionLine2Start}{' '}
+                {descriptionLine2Start + ' '}
                 <span id="text-highlight">
-                  {msgs.get('button.create.channel', locale)}
-                </span>{' '}
+                  {msgs.get('button.create.channel', locale) + ' '}
+                </span>
                 {descriptionLine2End}
               </div>
               <div className="deployment-highlights-terminology-docs">

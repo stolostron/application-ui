@@ -22,7 +22,7 @@ const NoResource = ({ title, detail, detail2, children }, context) => (
     <div className="no-resource-title">{title}</div>
     {detail && detail2 ? (
       <div className="no-resource-detail">
-        {detail} <br /> {detail2[0]}{' '}
+        {detail} <br /> {detail2[0] + ' '}
         <span id="text-highlight">{detail2[1]}</span> {detail2[2]}
       </div>
     ) : detail ? (

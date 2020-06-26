@@ -459,6 +459,7 @@ describe("nodeMustHavePods undefined data", () => {
 
 describe("nodeMustHavePods node with no pods data", () => {
   const node = {
+    type: "daemonset1",
     specs: {
       raw: {
         spec: {}
@@ -467,6 +468,38 @@ describe("nodeMustHavePods node with no pods data", () => {
   };
   it("nodeMustHavePods", () => {
     expect(nodeMustHavePods(node)).toEqual(false);
+  });
+});
+
+describe("nodeMustHavePods node with replicas", () => {
+  const node = {
+    type: "daemonset",
+    specs: {
+      raw: {
+        spec: {
+          replicas: 3
+        }
+      }
+    }
+  };
+  it("nodeMustHavePods with replicas", () => {
+    expect(nodeMustHavePods(node)).toEqual(true);
+  });
+});
+
+describe("nodeMustHavePods node has desired", () => {
+  const node = {
+    type: "daemonset",
+    specs: {
+      raw: {
+        spec: {
+          desired: 3
+        }
+      }
+    }
+  };
+  it("nodeMustHavePods has desired", () => {
+    expect(nodeMustHavePods(node)).toEqual(true);
   });
 });
 
@@ -2223,7 +2256,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
       podModel: {
         "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile": {
           cluster: "possiblereptile",
-          status: "Running"
+          status: "err"
         }
       }
     }
@@ -2239,9 +2272,9 @@ describe("setPodDeployStatus  with pod less then desired", () => {
       indent: undefined,
       labelKey: "resource.status",
       labelValue: undefined,
-      status: "checkmark",
+      status: "failure",
       type: "label",
-      value: "Running"
+      value: "err"
     },
     {
       indent: true,

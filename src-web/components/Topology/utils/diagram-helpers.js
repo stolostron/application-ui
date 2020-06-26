@@ -265,7 +265,6 @@ export const nodeMustHavePods = node => {
     //pod deployables must have pods
     return true
   }
-
   const hasContainers =
     R.pathOr([], ['specs', 'raw', 'spec', 'template', 'spec', 'containers'])(
       node
@@ -936,7 +935,7 @@ export const setPodDeployStatus = (node, details) => {
     }
     const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
 
-    let statusStr = 'checkmark'
+    let statusStr
     switch (pulse) {
     case 'red':
       statusStr = 'failure'

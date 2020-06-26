@@ -25,6 +25,10 @@ export OC_CLUSTER_URL=$OCP_CLUSTER_URL
 export OC_CLUSTER_USER=$OCP_CLUSTER_USER
 export OC_CLUSTER_PASS=$OCP_CLUSTER_PASS
 
+echo $OCP_CLUSTER_URL
+echo $OCP_CLUSTER_USER
+echo $OCP_CLUSTER_PASS
+
 echo "Running oc/install..."
 make oc/install
 echo "Running oc/login..."

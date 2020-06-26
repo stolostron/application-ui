@@ -29,10 +29,10 @@ echo $OCP_CLUSTER_URL
 echo $OCP_CLUSTER_USER
 echo $OCP_CLUSTER_PASS
 
-#echo "Running oc/install..."
-#make oc/install
-#echo "Running oc/login..."
-#make oc/login
+echo "Running oc/install..."
+make oc/install
+echo "Running oc/login..."
+make oc/login
 
 echo "Running docker network create..."
 docker network create --subnet 10.10.0.0/16 test-network

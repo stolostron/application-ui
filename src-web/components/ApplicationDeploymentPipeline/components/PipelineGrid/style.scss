@@ -78,13 +78,16 @@
     margin-right: -50%;
   }
 
-  .no-res-icon {
-    margin-top: 75px;
-    margin-right: 15px;
-    margin-left: 30%;
-    height: 90px;
-    width: 90px;
+  .no-res-icon-container {
+    width: 37%;
     display: inline-block;
+  }
+
+  .no-res-icon {
+    margin: 93px auto;
+    width: 221px;
+    height: 164px;
+    float: right;
   }
 
   .applicationTile {
@@ -127,7 +130,7 @@
     margin-top: 10px;
     min-width: 450px;
     width: 100%;
-    min-height: 250px;
+    min-height: 350px;
 
     &.replaced {
       animation: appear 400ms ease-in-out;
@@ -139,24 +142,32 @@
   }
 
   .noResDescriptionText {
-    padding-left: 15px;
-    padding-top: 70px;
+    padding-left: 48px;
+    padding-top: 110px;
     display: inline-block;
     font-size: 12px;
     position: absolute;
-    width: 30%;
+    width: 45%;
   }
 
   .noResTitle {
     font-family: 'RedHatText-Medium';
-    font-size: 16px;
+    font-size: 24px;
     line-height: 31px;
+    color: $mcm__color__gray_text;
   }
 
   .noResDescription {
+    margin-top: 12px;
     font-family: 'RedHatText-Regular';
-    font-size: 12px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 24px;
+    color: $mcm__color__gray_text;
+
+    #text-highlight {
+      font-family: 'RedHatText-Medium';
+      color: $color__blue-51;
+    }
   }
 
   .subDescriptionText {

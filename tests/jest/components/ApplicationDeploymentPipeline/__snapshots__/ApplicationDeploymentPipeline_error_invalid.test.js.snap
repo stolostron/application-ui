@@ -381,12 +381,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Subscription"
+            id="Create subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Subscription
+            Create subscription
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -415,12 +415,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Placement Rule"
+            id="Create placement rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Placement Rule
+            Create placement rule
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -449,12 +449,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Channel"
+            id="Create channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Channel
+            Create channel
             <svg
               alt="Open channel editor"
               aria-label="Open channel editor"

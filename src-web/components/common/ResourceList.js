@@ -251,7 +251,11 @@ class ResourceList extends React.Component {
       <NoResource
         title={msgs.get('no-resource.title', locale)}
         detail={msgs.get('no-resource.description.line1', locale)}
-        detail2={msgs.get('no-resource.description.line2', locale)}
+        detail2={[
+          msgs.get('no-resource.description.line2.1', locale),
+          msgs.get('description.application', locale),
+          msgs.get('no-resource.description.line2.2', locale)
+        ]}
       >
         {actions}
       </NoResource>

@@ -580,9 +580,9 @@ export default class NodeHelper {
     moveLabels(this.svg)
   };
 
-  dragNode = (d, i, ns) => {
+  dragNode = (d, index, nodeNS) => {
     const { layout } = d
-    const node = d3.select(ns[i].parentNode)
+    const node = d3.select(nodeNS[index].parentNode)
     tooltip.style('display', 'none')
 
     // don't consider it dragged until more then 5 pixels away from original
@@ -645,8 +645,8 @@ export default class NodeHelper {
 
       if (this.showsShapeTitles) {
         // drag node title if any
-        const nodeLabels = node.selectAll(gNodeTitle)
-        nodeLabels.each((d, i, ns) => {
+        const nodeTitles = node.selectAll(gNodeTitle)
+        nodeTitles.each((d, i, ns) => {
           d3
             .select(ns[i])
             .selectAll('text')

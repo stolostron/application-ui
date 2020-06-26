@@ -128,19 +128,19 @@ export const getDiagramElements = (
   const appLoaded = applicationDetails && applicationDetails.status === 'DONE'
   if (loaded && !topologyLoadError && appLoaded) {
     // topology from api will have raw k8 objects, pods status
-    const { links, nodes } = getTopologyElements(topology)
+    const { topo_links, topo_nodes } = getTopologyElements(topology)
     // create yaml and what row links to what node
     let row = 0
     const yamls = []
-    const clusters = []
+    const clustersList = []
     let activeChannel
-    let channels = []
+    let channelsList = []
     const originalMap = {}
     const allResourcesMap = {}
     const isClusterGrouped = {
       value: false
     }
-    nodes.forEach(node => {
+    topo_nodes.forEach(node => {
       const { type } = node
 
       if (type === 'application') {
@@ -149,7 +149,7 @@ export const getDiagramElements = (
           'specs.activeChannel',
           '__ALL__/__ALL__//__ALL__/__ALL__'
         )
-        channels = _.get(node, 'specs.channels', [])
+        channelsList = _.get(node, 'specs.channels', [])
       }
 
       processNodeData(node, allResourcesMap, isClusterGrouped, topology)
@@ -160,23 +160,23 @@ export const getDiagramElements = (
         originalMap[raw.kind] = raw
         const dumpRaw = _.cloneDeep(raw)
         removeMeta(dumpRaw)
-        const yaml = jsYaml.safeDump(dumpRaw, { sortKeys })
-        yamls.push(yaml)
-        row += yaml.split('\n').length
+        const yamlData = jsYaml.safeDump(dumpRaw, { sortKeys })
+        yamls.push(yamlData)
+        row += yamlData.split('\n').length
       }
     })
-    const yaml = yamls.join('---\n')
+    const yamlStr = yamls.join('---\n')
 
     // save results
     saveStoredObject(localStoreKey, {
       activeChannel,
-      channels
+      channelsList
     })
     saveStoredObject(`${localStoreKey}-${activeChannel}`, {
-      clusters,
-      links,
-      nodes,
-      yaml
+      clusters: clustersList,
+      links: topo_links,
+      nodes: topo_nodes,
+      yaml: yamlStr
     })
 
     // details are requested separately for faster load
@@ -190,18 +190,18 @@ export const getDiagramElements = (
       applicationDetails
     )
 
-    nodes.forEach(node => {
+    topo_nodes.forEach(node => {
       computeNodeStatus(node)
     })
 
     return {
-      clusters,
+      clusters: clustersList,
       activeChannel,
-      channels,
-      links,
-      nodes,
+      channels: channelsList,
+      links: topo_links,
+      nodes: topo_nodes,
       pods: topology.pods,
-      yaml,
+      yaml: yamlStr,
       originalMap,
       topologyLoaded: true,
       storedVersion: false,
@@ -216,12 +216,12 @@ export const getDiagramElements = (
   // if not loaded yet, see if there's a stored version
   // with the same diagram filters
   if (!topologyReloading) {
-    let channels = []
+    let channelsList2 = []
     let activeChannel
     const storedActiveChannel = getStoredObject(localStoreKey)
     if (storedActiveChannel) {
       activeChannel = storedActiveChannel.activeChannel
-      channels = storedActiveChannel.channels || []
+      channelsList2 = storedActiveChannel.channels || []
     }
     activeChannel = _.get(
       topology,
@@ -234,18 +234,19 @@ export const getDiagramElements = (
       )
       if (storedElements) {
         const {
-          clusters = [],
-          empty_links = [],
-          empty_nodes = [],
-          yaml = ''
+          clustersStored = [],
+          empty_linksStored = [],
+          empty_nodesStored = [],
+          yaml_stored = ''
         } = storedElements
+
         return {
-          clusters,
+          clusters: clustersStored,
           activeChannel,
-          channels,
-          empty_links,
-          empty_nodes,
-          yaml,
+          channels: channelsList2,
+          empty_links: empty_linksStored,
+          empty_nodes: empty_nodesStored,
+          yaml: yaml_stored,
           topologyLoaded: true,
           storedVersion: true,
           topologyLoadError,
@@ -256,28 +257,24 @@ export const getDiagramElements = (
   }
 
   // if no topology yet, create diagram with search item
-  const links = []
-  const nodes = []
-  const clusters = []
-  const channels = []
-  const yaml = ''
-
+  const nodes2 = []
   // create application node
   const appId = `application--${iname}`
-  nodes.push({
+  nodes2.push({
     name: iname,
     namespace: inamespace,
     type: 'application',
     uid: appId,
     specs: { isDesign: true }
   })
+
   return {
-    clusters,
-    channels,
+    clusters: [],
+    channels: [],
     activeChannel: undefined,
-    links,
-    nodes,
-    yaml,
+    links: [],
+    nodes: nodes2,
+    yaml: '',
     topologyLoaded: false,
     topologyLoadError,
     topologyReloading

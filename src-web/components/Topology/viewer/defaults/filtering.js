@@ -12,6 +12,8 @@ import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
 import { getClusterName } from '../../utils/diagram-helpers'
 
+const clusterLabels = 'cluster.metadata.labels'
+
 const TypeFilters = {
   cluster: {
     filterTypes: {
@@ -315,7 +317,7 @@ const addAvailableClusterFilters = (availableFilters, nodes, locale) => {
 
   // loop thru policies adding available filters
   nodes.forEach(({ specs }) => {
-    const labels = _.get(specs, 'cluster.metadata.labels', {})
+    const labels = _.get(specs, clusterLabels, {})
     Object.keys(filterTypes).forEach(filterType => {
       const filter = availableFilters[filterType]
       switch (filterType) {
@@ -468,7 +470,7 @@ const addAvailablePolicyFilters = (
   const activeTypes = new Set(activeFilters.type || [])
   nodes.forEach(({ type, specs }) => {
     if (type === 'cluster' && activeTypes.has(type)) {
-      const labels = _.get(specs, 'cluster.metadata.labels', {})
+      const labels = _.get(specs, clusterLabels, {})
       Object.keys(filterTypes).forEach(filterType => {
         const filter = availableFilters[filterType]
         switch (filterType) {
@@ -558,7 +560,7 @@ const filterClusterNodes = (nodes, activeFilters) => {
         }
       }
 
-      const labels = _.get(specs, 'cluster.metadata.labels', {})
+      const labels = _.get(specs, clusterLabels, {})
       hasProviders = providers.size === 0 || providers.has(labels.cloud)
       hasPurpose = purpose.size === 0 || purpose.has(labels.environment)
       hasRegion = region.size === 0 || region.has(labels.region)

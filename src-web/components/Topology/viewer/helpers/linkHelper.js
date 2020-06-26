@@ -16,6 +16,8 @@ import { counterZoom } from '../../utils/diagram-helpers'
 import { FilterResults, NODE_RADIUS } from '../constants.js'
 import _ from 'lodash'
 
+const layoutUID = 'layout.uid'
+
 const lineFunction = d3
   .line()
   .x(d => d.x)
@@ -31,7 +33,7 @@ export default class LinkHelper {
   constructor(svg, links, selfLinks, nodes, typeToShapeMap, diagramOptions) {
     this.links = links.concat(Object.values(selfLinks))
     this.svg = svg
-    this.nodeMap = _.keyBy(nodes, 'layout.uid')
+    this.nodeMap = _.keyBy(nodes, layoutUID)
     this.typeToShapeMap = typeToShapeMap
     this.diagramOptions = diagramOptions
   }
@@ -354,7 +356,7 @@ export const layoutEdges = (
   let nodeMap = null
   if (cyEdges.length > 0) {
     let preparedColaRouting = false
-    nodeMap = _.keyBy(nodes, 'layout.uid')
+    nodeMap = _.keyBy(nodes, layoutUID)
     cyEdges.forEach(edge => {
       const { edge: { layout, uid } } = edge.data()
 
@@ -427,7 +429,7 @@ export const layoutEdges = (
 
   // add self-links
   if (nodes.length) {
-    nodeMap = nodeMap || _.keyBy(nodes, 'layout.uid')
+    nodeMap = nodeMap || _.keyBy(nodes, layoutUID)
     nodes.forEach(({ layout: { selfLink } }) => {
       if (selfLink) {
         const { nodeLayout, link: { uid } } = selfLink

@@ -11,8 +11,8 @@ describe("hcmtopology-tests", () => {
       links: []
     };
 
-    expect(getTopologyElements(resourceItem).links).toMatchObject([]);
-    expect(getTopologyElements(resourceItem).clusters).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).topo_links).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).topo_clusters).toMatchObject([]);
   });
 
   it("getTopologyElements-withLinks", () => {
@@ -21,10 +21,10 @@ describe("hcmtopology-tests", () => {
       links: [{ from: { uid: 123 }, to: { uid: 456 }, type: "testing" }]
     };
 
-    expect(getTopologyElements(resourceItem).links).toMatchObject([
+    expect(getTopologyElements(resourceItem).topo_links).toMatchObject([
       { label: "testing", source: 123, target: 456, type: "testing", uid: 579 }
     ]);
-    expect(getTopologyElements(resourceItem).clusters).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).topo_clusters).toMatchObject([]);
   });
 
   it("getTopologyElements-oneNode", () => {
@@ -33,8 +33,8 @@ describe("hcmtopology-tests", () => {
       links: []
     };
 
-    expect(getTopologyElements(resourceItem).links).toMatchObject([]);
-    expect(getTopologyElements(resourceItem).clusters).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).topo_links).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).topo_clusters).toMatchObject([]);
   });
 
   it("getTopologyElements-withNodes", () => {
@@ -48,7 +48,7 @@ describe("hcmtopology-tests", () => {
       links: []
     };
 
-    expect(getTopologyElements(resourceItem).links).toMatchObject([]);
-    expect(getTopologyElements(resourceItem).clusters).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).topo_links).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).topo_clusters).toMatchObject([]);
   });
 });

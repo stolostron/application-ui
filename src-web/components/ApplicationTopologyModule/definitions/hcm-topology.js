@@ -52,8 +52,8 @@ export const getTopologyElements = resourceItem => {
   }, [])
 
   return {
-    clusters,
-    links: modifiedLinks,
-    nodes: nodes
+    topo_clusters: clusters,
+    topo_links: modifiedLinks,
+    topo_nodes: nodes
   }
 }

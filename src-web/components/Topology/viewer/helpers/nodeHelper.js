@@ -24,6 +24,9 @@ import {
 } from '../constants.js'
 
 const TITLE_RADIUS = NODE_RADIUS + 28
+const textNodeStatus = 'text.nodeStatus'
+const gNodeTitle = 'g.nodeTitle'
+const gNodeLabel = 'g.nodeLabel'
 
 // fix d3-selection-multi not added to d3
 import 'd3-selection-multi'
@@ -413,7 +416,7 @@ export default class NodeHelper {
 
     // node status message
     const nodeStatus = nodes
-      .selectAll('text.nodeStatus')
+      .selectAll(textNodeStatus)
       .data(
         ({ layout: { y, scale, search, nodeStatus = '', textBBox, uid } }) => {
           return nodeStatus
@@ -632,7 +635,7 @@ export default class NodeHelper {
       })
 
       // drag status message
-      node.selectAll('text.nodeStatus').attrs(({ textBBox: { dy } }, i, ns) => {
+      node.selectAll(textNodeStatus).attrs(({ textBBox: { dy } }, i, ns) => {
         const { layout: { x, y } } = d3.select(ns[i].parentNode).datum()
         return {
           x: x,
@@ -642,7 +645,7 @@ export default class NodeHelper {
 
       if (this.showsShapeTitles) {
         // drag node title if any
-        const nodeLabels = node.selectAll('g.nodeTitle')
+        const nodeLabels = node.selectAll(gNodeTitle)
         nodeLabels.each((d, i, ns) => {
           d3
             .select(ns[i])
@@ -663,7 +666,7 @@ export default class NodeHelper {
       }
 
       // drag node label
-      const nodeLabels = node.selectAll('g.nodeLabel')
+      const nodeLabels = node.selectAll(gNodeLabel)
       nodeLabels.each((d, i, ns) => {
         d3
           .select(ns[i])
@@ -748,7 +751,7 @@ export const counterZoomLabels = (svg, currentZoom) => {
 
     // set label visibility based on search or zoom
     const labelBBox = {}
-    nodeLayer.selectAll('g.nodeLabel').each(({ layout }, i, ns) => {
+    nodeLayer.selectAll(gNodeLabel).each(({ layout }, i, ns) => {
       const { uid, search = FilterResults.nosearch } = layout
       const nodeLabel = d3.select(ns[i])
 
@@ -811,7 +814,7 @@ export const counterZoomLabels = (svg, currentZoom) => {
 
     ///////// TITLES //////////////////
     nodeLayer
-      .selectAll('g.nodeTitle')
+      .selectAll(gNodeTitle)
       .each(({ layout: { search = FilterResults.nosearch } }, i, ns) => {
         const nodeTitle = d3.select(ns[i])
         nodeTitle.style('visibility', () => {
@@ -834,7 +837,7 @@ export const counterZoomLabels = (svg, currentZoom) => {
 
     ///////// STATUS //////////////////
     nodeLayer
-      .selectAll('text.nodeStatus')
+      .selectAll(textNodeStatus)
       .each(({ y, search, uid, textBBox }, i, ns) => {
         const labelBB = labelBBox[uid]
         const nodeStatus = d3.select(ns[i])
@@ -859,7 +862,7 @@ export const showMatches = (svg, searchNames) => {
         : undefined
     svg
       .select('g.nodes')
-      .selectAll('g.nodeLabel')
+      .selectAll(gNodeLabel)
       .each((d, i, ns) => {
         const { name, layout } = d
         const { x, y, scale = 1, search = FilterResults.nosearch } = layout
@@ -932,7 +935,7 @@ export const showMatches = (svg, searchNames) => {
 export const moveLabels = svg => {
   const nodeLayer = svg.select('g.nodes')
   nodeLayer
-    .selectAll('g.nodeLabel')
+    .selectAll(gNodeLabel)
     .filter(({ layout: { x, y } }) => {
       return x !== undefined && y !== undefined
     })
@@ -968,7 +971,7 @@ export const moveLabels = svg => {
       })
     })
 
-  nodeLayer.selectAll('text.nodeStatus').attrs((l, i, ns) => {
+  nodeLayer.selectAll(textNodeStatus).attrs((l, i, ns) => {
     const { layout: { x, y, textBBox, scale = 1 } } = d3
       .select(ns[i].parentNode)
       .datum()
@@ -991,7 +994,7 @@ export const moveLabels = svg => {
 export const moveTitles = svg => {
   svg
     .select('g.nodes')
-    .selectAll('g.nodeTitle')
+    .selectAll(gNodeTitle)
     .filter(({ layout: { x, y } }) => {
       return x !== undefined && y !== undefined
     })

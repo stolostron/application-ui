@@ -918,6 +918,7 @@
   "topology.legend.header.title": "How to read topology",
   "topology.legend.header.text": "The topology provides a visual representation of all the applications and resources within a project, their build status, and the components and services associated with them.",
   "topology.legend.body.status.title": "Status icon legend",
+  "topology.legend.body.status.logs": "For more details and logs, click on the nodes to open the properties view.",
   "topology.legend.body.text.success": "All resources in this group deployed successfully.",
   "topology.legend.body.text.warning": "Some resources in this group did not deploy. Other resources deployed successfully.",
   "topology.legend.body.text.failure": "Some resources in this group are in error state.",

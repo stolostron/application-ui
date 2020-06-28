@@ -133,7 +133,7 @@ ActionModalApollo.contextTypes = {
 }
 
 ActionModalApollo.propTypes = {
-  activeAccountId: PropTypes.string
+  locale: PropTypes.string
 }
 
 export default ActionModalApollo

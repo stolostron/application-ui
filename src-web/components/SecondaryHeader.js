@@ -184,7 +184,7 @@ SecondaryHeader.propTypes = {
   breadcrumbItems: PropTypes.array,
   history: PropTypes.object,
   location: PropTypes.object,
-  tabs: PropTypes.object,
+  tabs: PropTypes.array,
   title: PropTypes.string
 }
 

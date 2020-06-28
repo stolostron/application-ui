@@ -10,6 +10,7 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import ResourceTable from './ResourceTable'
 import { REQUEST_STATUS } from '../../actions/index'
 import NoResource from './NoResource'
@@ -20,7 +21,6 @@ import {
   sortTable,
   fetchResources,
   updateSecondaryHeader,
-  forcedResourceReloadFinished,
   delResourceSuccessFinished,
   mutateResourceSuccessFinished
 } from '../../actions/common'
@@ -47,9 +47,6 @@ resources(() => {
 })
 
 class ResourceList extends React.Component {
-  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-  /* eslint-disable react/prop-types, react/jsx-no-bind */
-
   constructor(props) {
     super(props)
     this.state = {
@@ -58,8 +55,8 @@ class ResourceList extends React.Component {
   }
 
   componentDidMount() {
-    const { updateSecondaryHeader, tabs, title } = this.props
-    updateSecondaryHeader(msgs.get(title, this.context.locale), tabs)
+    const { updateSecondaryHeaderFn, tabs, title } = this.props
+    updateSecondaryHeaderFn(msgs.get(title, this.context.locale), tabs)
 
     const { fetchTableResources, selectedFilters = [] } = this.props
     fetchTableResources(selectedFilters)
@@ -261,18 +258,6 @@ class ResourceList extends React.Component {
       </NoResource>
     )
   }
-
-  handleResourceAddedEvent(event) {
-    this.props.addResource(event)
-  }
-
-  handleResourceModifiedEvent(event) {
-    this.props.modifyResource(event)
-  }
-
-  handleResourceDeletedEvent(event) {
-    this.props.deleteResource(event)
-  }
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -334,20 +319,55 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     sortTable: (sortDirection, sortColumn) =>
       dispatch(sortTable(sortDirection, sortColumn, resourceType)),
-    updateSecondaryHeader: (title, tabs) =>
+    updateSecondaryHeaderFn: (title, tabs) =>
       dispatch(updateSecondaryHeader(title, tabs)),
     onSelectedFilterChange: selectedFilters => {
       updateBrowserURL && updateBrowserURL(selectedFilters)
       dispatch(updateResourceFilters(resourceType, selectedFilters))
     },
-    forcedReloadFinished: () =>
-      dispatch(forcedResourceReloadFinished(ownProps.resourceType)),
     mutateSuccessFinished: () =>
       dispatch(mutateResourceSuccessFinished(ownProps.resourceType)),
     deleteSuccessFinished: () =>
       dispatch(delResourceSuccessFinished(ownProps.resourceType)),
     refetchIntervalUpdateDispatch: data => dispatch(refetchIntervalUpdate(data))
   }
+}
+
+ResourceList.propTypes = {
+  changeTablePage: PropTypes.func,
+  children: PropTypes.object,
+  clientSideFilters: PropTypes.array,
+  deleteMsg: PropTypes.string,
+  deleteStatus: PropTypes.string,
+  deleteSuccessFinished: PropTypes.func,
+  err: PropTypes.string,
+  fetchTableResources: PropTypes.func,
+  itemIds: PropTypes.array,
+  items: PropTypes.array,
+  mutateStatus: PropTypes.string,
+  mutateSuccessFinished: PropTypes.func,
+  onSelectedFilterChange: PropTypes.func,
+  page: PropTypes.func,
+  pageSize: PropTypes.string,
+  refetchIntervalUpdateDispatch: PropTypes.func,
+  resourceFilters: PropTypes.array,
+  resourceType: PropTypes.string,
+  searchTable: PropTypes.func,
+  searchValue: PropTypes.string,
+  selectedFilters: PropTypes.object,
+  sortColumn: PropTypes.string,
+  sortDirection: PropTypes.string,
+  sortTable: PropTypes.func,
+  staticResourceData: PropTypes.object,
+  status: PropTypes.string,
+  tableName: PropTypes.string,
+  tableTitle: PropTypes.string,
+  tabs: PropTypes.array,
+  title: PropTypes.string,
+  totalFilteredItems: PropTypes.string,
+  updateBrowserURL: PropTypes.func,
+  updateSecondaryHeaderFn: PropTypes.func,
+  userRole: PropTypes.string
 }
 
 export default withRouter(

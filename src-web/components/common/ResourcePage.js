@@ -9,6 +9,7 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import ResourceDetails from './ResourceDetails'
 import ResourceList from './ResourceList'
 import { Route, Switch } from 'react-router-dom'
@@ -16,8 +17,6 @@ import getResourceDefinitions from '../../definitions'
 import { makeGetVisibleTableItemsSelector } from '../../reducers/common'
 import Page from './Page'
 
-/* FIXME: Please fix disabled eslint rules when making changes to this file. */
-/* eslint-disable react/prop-types, react/jsx-no-bind */
 const WrappedResourceList = props => (
   <div>
     <ResourceList
@@ -93,6 +92,25 @@ const typedResourcePageWithListAndDetails = (
       )
     }
   }
+}
+
+WrappedResourceList.propTypes = {
+  buttons: PropTypes.object,
+  secondaryHeaderProps: PropTypes.object,
+  staticResourceData: PropTypes.object
+}
+
+WrappedResourceDetails.propTypes = {
+  detailsTabs: PropTypes.object,
+  getVisibleResources: PropTypes.object,
+  modules: PropTypes.object,
+  resourceType: PropTypes.object,
+  routes: PropTypes.object,
+  staticResourceData: PropTypes.object
+}
+
+ResourcePageWithListAndDetails.propTypes = {
+  match: PropTypes.object
 }
 
 export { typedResourcePageWithListAndDetails }

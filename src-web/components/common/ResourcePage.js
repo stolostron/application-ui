@@ -95,17 +95,17 @@ const typedResourcePageWithListAndDetails = (
 }
 
 WrappedResourceList.propTypes = {
-  buttons: PropTypes.object,
+  buttons: PropTypes.array,
   secondaryHeaderProps: PropTypes.object,
   staticResourceData: PropTypes.object
 }
 
 WrappedResourceDetails.propTypes = {
-  detailsTabs: PropTypes.object,
-  getVisibleResources: PropTypes.object,
-  modules: PropTypes.object,
+  detailsTabs: PropTypes.array,
+  getVisibleResources: PropTypes.func,
+  modules: PropTypes.array,
   resourceType: PropTypes.object,
-  routes: PropTypes.object,
+  routes: PropTypes.array,
   staticResourceData: PropTypes.object
 }
 

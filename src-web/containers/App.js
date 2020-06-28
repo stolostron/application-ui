@@ -67,7 +67,6 @@ class App extends React.Component {
     const serverProps = this.getServerProps()
 
     actions.setEnableGrafanaAction(serverProps && serverProps.isGrafanaRunning)
-    actions.setEnableCEMAction(serverProps && serverProps.isCEMRunning)
   }
 
   render() {
@@ -113,7 +112,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  actions: PropTypes.func,
+  actions: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
   serverProps: PropTypes.object,

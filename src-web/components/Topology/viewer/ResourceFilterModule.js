@@ -252,8 +252,8 @@ export class ResourceFilterView extends React.Component {
 
   renderView({ style, ...props }) {
     style.marginBottom = 0
-    style['overflow-y'] = 'scroll'
-    style['overflow-x'] = 'hidden'
+    style['overflowY'] = 'scroll'
+    style['overflowX'] = 'hidden'
     return <div {...props} style={{ ...style }} />
   }
 

@@ -317,12 +317,13 @@ describe("resourceReducerFunction", () => {
   it("should return a state for delete receive success action", () => {
     const state = {
       test: "test",
-      items: [{ name: "test" }]
+      items: [{ name: "test", namespace: "testns" }]
     };
     const action = {
       type: "DEL_RECEIVE_SUCCESS",
       item: {
-        name: "test"
+        name: "test",
+        namespace: "testns"
       }
     };
     const expectedValue = {
@@ -331,6 +332,24 @@ describe("resourceReducerFunction", () => {
       items: [],
       test: "test"
     };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+
+    state.items = [
+      { name: "test1", namespace: "testns1" },
+      { name: "test", namespace: "testns" },
+      { name: "test2", namespace: "testns2" }
+    ];
+    expectedValue.items = [
+      { name: "test1", namespace: "testns1" },
+      { name: "test2", namespace: "testns2" }
+    ];
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+
+    state.items = [
+      { name: "test1", namespace: "testns1" },
+      { name: "test2", namespace: "testns2" },
+      { name: "test", namespace: "testns" }
+    ];
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });
   it("should return a state for non-existing action", () => {

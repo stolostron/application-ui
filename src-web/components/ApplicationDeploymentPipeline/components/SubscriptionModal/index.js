@@ -85,9 +85,9 @@ const SubscriptionInfo = withLocale(
         R.pathOr('N/A', ['label'], subscriptionModalSubscriptionInfo)
       )
 
-      const labels_data = getLabelsListClass(labels)
-      labels = labels_data.data
-      label_hover = labels_data.hover
+      const labelsData = getLabelsListClass(labels)
+      labels = labelsData.data
+      label_hover = labelsData.hover
 
       subName = subscriptionModalSubscriptionInfo.name
       subNamespace = subscriptionModalSubscriptionInfo.namespace

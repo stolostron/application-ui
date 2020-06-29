@@ -221,8 +221,8 @@ export default class LayoutHelper {
           const details = { clusterMap: {}, typeMap: {} }
 
           // fill edges
-          var edgeMap = {}
-          for (var uid in nodeMap) {
+          const edgeMap = {}
+          for (const uid in nodeMap) {
             if (nodeMap.hasOwnProperty(uid)) {
               directions.forEach(({ map, next, other }) => {
                 if (map.hasOwnProperty(uid)) {
@@ -396,7 +396,7 @@ export default class LayoutHelper {
           ({ nodeMap, details: { edges } }) => {
             // if single node cannot be in connected group unless it ONLY connects to clones
             if (Object.keys(nodeMap).length === 1) {
-              for (var i = 0; i < edges.length; i++) {
+              for (let i = 0; i < edges.length; i++) {
                 const edge = edges[i]
                 directions.forEach(({ next, other }) => {
                   this.consolidateNodesHelper(
@@ -638,7 +638,7 @@ export default class LayoutHelper {
         })
 
         // for each cluster
-        for (var clusterName in detailMap) {
+        for (const clusterName in detailMap) {
           if (detailMap.hasOwnProperty(clusterName)) {
             const { typeMap, nodes, environment } = detailMap[clusterName]
             const clusters = [clusterName]

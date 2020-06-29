@@ -446,7 +446,7 @@ class ResourceFilterModule extends React.Component {
     const { portals = {}, locale } = this.props
     const { assortedFilterCloseBtns } = portals
     if (assortedFilterCloseBtns) {
-      var portal = document.getElementById(assortedFilterCloseBtns)
+      const portal = document.getElementById(assortedFilterCloseBtns)
       if (portal) {
         const boundFilters = this.getBoundFilters(locale)
         return ReactDOM.createPortal(

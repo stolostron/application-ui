@@ -38,7 +38,7 @@ export const getNumPlacementRules = (
   applicationNamespace
 ) => {
   if (subscriptions && subscriptions.items) {
-    var allPlacementRules = []
+    let allPlacementRules = []
 
     // Single application view
     if (isSingleApplicationView) {
@@ -106,10 +106,10 @@ export const getSubscriptionDataOnHub = (
   applicationNamespace
 ) => {
   if (applications && applications.items) {
-    var allSubscriptions = []
-    var failedSubsCount = 0
-    var noStatusSubsCount = 0
-    var allChannels = []
+    let allSubscriptions = []
+    let failedSubsCount = 0
+    let noStatusSubsCount = 0
+    let allChannels = []
 
     // Single application view
     if (isSingleApplicationView) {
@@ -211,10 +211,10 @@ export const getSubscriptionDataOnManagedClustersSingle = (
   applicationNamespace
 ) => {
   if (applications && applications.items) {
-    var managedClusterCount = 0
-    var allSubscriptions = 0
-    var failedSubsCount = 0
-    var noStatusSubsCount = 0
+    let managedClusterCount = 0
+    let allSubscriptions = 0
+    let failedSubsCount = 0
+    let noStatusSubsCount = 0
 
     Object.keys(applications.items).forEach(appIndex => {
       // Get subscription data for the current application opened
@@ -255,10 +255,10 @@ export const getSubscriptionDataOnManagedClustersSingle = (
 
 export const getSubscriptionDataOnManagedClustersRoot = applications => {
   if (applications && applications.items) {
-    var managedClusterCount = 0
-    var allSubscriptions = 0
-    var failedSubsCount = 0
-    var noStatusSubsCount = 0
+    let managedClusterCount = 0
+    let allSubscriptions = 0
+    let failedSubsCount = 0
+    let noStatusSubsCount = 0
 
     if (applications.items.clusterCount !== undefined) {
       managedClusterCount = applications.items.clusterCount
@@ -295,10 +295,10 @@ export const getPodData = (
   applicationNamespace
 ) => {
   if (applications && applications.items) {
-    var allPods = 0
-    var runningPods = 0
-    var failedPods = 0
-    var inProgressPods = 0
+    let allPods = 0
+    let runningPods = 0
+    let failedPods = 0
+    let inProgressPods = 0
 
     Object.keys(applications.items).forEach(appIndex => {
       // Get pod data for the current application opened

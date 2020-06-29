@@ -310,7 +310,7 @@ export const resourceItemByNameAndNamespace = (items, props) => {
 }
 
 export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
-  var items, index
+  let items, index
   switch (action.type) {
   case Actions.RESOURCE_REQUEST:
     return Object.assign({}, state, {

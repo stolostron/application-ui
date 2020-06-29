@@ -166,11 +166,9 @@ export class SecondaryHeader extends React.Component {
         tab.index = index
         return tab
       })
-      .filter((tab, index) => {
-        if (index !== 0) {
-          return location.pathname.startsWith(tab.url)
-        }
-      })
+      .filter(
+        (tab, index) => index !== 0 && location.pathname.startsWith(tab.url)
+      )
     return selectedTab[0] && selectedTab[0].index
   }
 

@@ -11,104 +11,18 @@ exports[`App App renders correctly with data on single app. 1`] = `
       id="ApplicationSecondaryHeader"
     >
       <div
-        className="secondary-header-wrapper"
+        aria-label="undefined secondary"
+        className="secondary-header-wrapper-min"
         role="region"
       >
         <div
           className="secondary-header simple-header"
         >
-          <header
-            aria-label="Heading: undefined"
+          <h1
+            className="bx--detail-page-header-title"
           >
-            <div
-              className="bx--detail-page-header-content"
-            >
-              <header
-                aria-label="undefined secondary"
-                className="bx--detail-page-header bx--detail-page-header--no-tabs"
-                data-header-active={false}
-                role="banner"
-              >
-                <div
-                  className="bx--detail-page-header-content"
-                >
-                  <div
-                    className="bx--breadcrumb"
-                  >
-                    <div
-                      className="bx--breadcrumb-item"
-                      title="undefined"
-                    >
-                      <a
-                        className="bx--link"
-                        href="/multicloud/applications"
-                        onClick={[Function]}
-                      >
-                        undefined
-                      </a>
-                    </div>
-                    <div
-                      className="bx--breadcrumb-item"
-                      title="undefined"
-                    >
-                      <a
-                        className="bx--link"
-                        href="/multicloud/applications/default/mortgage-app"
-                        onClick={[Function]}
-                      >
-                        undefined
-                      </a>
-                    </div>
-                  </div>
-                  <div
-                    className="bx--detail-page-header-title-container"
-                  >
-                    <div
-                      className="bx--detail-page-header-icon-container"
-                    >
-                      <svg
-                        height="24"
-                        viewBox="0 0 24 24"
-                        width="24"
-                      >
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="#D8D8D8"
-                          fillRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <h1
-                      className="bx--detail-page-header-title"
-                    >
-                      undefined
-                    </h1>
-                    <div
-                      className="bx--detail-page-header-status-container"
-                    >
-                      <div
-                        className="bx--detail-page-header-status-icon"
-                        style={
-                          Object {
-                            "backgroundColor": undefined,
-                          }
-                        }
-                      />
-                       
-                      <span
-                        className="bx--detail-page-header-status-text"
-                      >
-                        Running
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="bx--detail-page-header-menu"
-                />
-              </header>
-            </div>
-          </header>
+            undefined
+          </h1>
         </div>
       </div>
     </div>

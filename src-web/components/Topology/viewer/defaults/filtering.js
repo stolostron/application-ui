@@ -505,26 +505,16 @@ const addAvailablePolicyFilters = (
 
 ////////////////////////   FILTER NODES     ///////////////////////////////////
 
-export const filterNodes = (mode, nodes, activeFilters, availableFilters) => {
+export const filterNodes = (mode, nodes, activeFilters) => {
   switch (mode) {
   case 'cluster':
     return filterClusterNodes(nodes, activeFilters)
 
   case 'weave':
-    return filterRelationshipNodes(
-      nodes,
-      activeFilters,
-      availableFilters,
-      mode
-    )
+    return filterRelationshipNodes(nodes, activeFilters)
 
   case 'application':
-    return filterRelationshipNodes(
-      nodes,
-      activeFilters,
-      availableFilters,
-      mode
-    )
+    return filterRelationshipNodes(nodes, activeFilters)
 
   case 'policy':
     return filterPolicyNodes(nodes, activeFilters)

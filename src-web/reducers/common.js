@@ -467,21 +467,28 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
       })
     }
     return state
-  case Actions.DEL_RECEIVE_SUCCESS:
+  case Actions.DEL_RECEIVE_SUCCESS: {
     items = [...state.items]
-    index = lodash.findIndex(
-      items,
-      o => lodash.get(o, 'Name') === lodash.get(action, 'resourceName')
-    )
 
-    if (index > -1) {
-      items.splice(index, 1)
+    const { item } = action
+    if (item && item.name && item.namespace) {
+      index = lodash.findIndex(
+        items,
+        o =>
+          lodash.get(o, 'name') === lodash.get(item, 'name') &&
+            lodash.get(o, 'namespace') === lodash.get(item, 'namespace')
+      )
+      if (index > -1) {
+        items.splice(index, 1)
+      }
     }
+
     return Object.assign({}, state, {
       items: items,
       deleteStatus: Actions.REQUEST_STATUS.DONE,
       deleteMsg: action.item.name
     })
+  }
   case Actions.RESOURCE_FORCE_RELOAD_FINISHED:
     return Object.assign({}, state, {
       forceReload: false

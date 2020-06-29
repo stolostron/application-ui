@@ -4076,6 +4076,10 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     <span
       className="app-info-and-dashboard-links-separator"
     />
+     
+    <span
+      className="app-info-and-dashboard-links-separator-f"
+    />
   </div>
   <div
     className="pipelineHeader"
@@ -11025,6 +11029,10 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </a>
     <span
       className="app-info-and-dashboard-links-separator"
+    />
+     
+    <span
+      className="app-info-and-dashboard-links-separator-f"
     />
   </div>
   <div

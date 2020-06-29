@@ -146,7 +146,7 @@
   .app-info-and-dashboard-links {
     position: fixed;
     top: 5.7rem;
-    right: calc(5% + 160px);
+    right: calc(5% + 140px);
     z-index: 1001;
     background-color: $color__white;
     display: inline-block;
@@ -163,7 +163,8 @@
 
   .app-info-and-dashboard-links-separator {
     border-left: 2px solid $color__gray-1;
-    margin: 0 35px 0 25px;
+    //margin: 0 35px 0 25px;
+    margin: 0 3.5rem 0 1rem;
   }
 
   .app-info-icon {
@@ -214,7 +215,6 @@
   line-height: 21px;
   font-size: 14px;
 }
- 
 
 .refresh-time-container {
   display: flex;

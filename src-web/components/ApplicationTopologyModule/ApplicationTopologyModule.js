@@ -223,7 +223,8 @@ class ApplicationTopologyModule extends React.Component {
     ) {
       return false
     }
-    return (
+
+    const isDiagramChanged =
       !_.isEqual(
         this.state.nodes.map(n => n.uid),
         nextState.nodes.map(n => n.uid)
@@ -232,21 +233,36 @@ class ApplicationTopologyModule extends React.Component {
         this.state.links.map(n => n.uid),
         nextState.links.map(n => n.uid)
       ) ||
-      !_.isEqual(this.state.diagramFilters, nextState.diagramFilters) ||
-      !_.isEqual(this.state.exceptions, nextState.exceptions) ||
-      this.state.activeChannel !== nextState.activeChannel ||
-      this.props.storedVersion !== nextProps.storedVersion ||
-      !_.isEqual(this.props.channels, nextProps.channels) ||
-      this.state.updateMessage !== nextState.updateMessage ||
-      this.state.showSpinner !== nextState.showSpinner ||
-      this.state.lastTimeUpdate !== nextState.lastTimeUpdate ||
+      !_.isEqual(this.state.diagramFilters, nextState.diagramFilters)
+
+    const loadedInfoChanged =
       this.props.topologyLoaded !== nextProps.topologyLoaded ||
       this.props.detailsLoaded !== nextProps.detailsLoaded ||
       this.props.detailsReloading !== nextProps.detailsReloading ||
-      this.state.topologyLoadError !== nextState.topologyLoadError ||
+      this.state.topologyLoadError !== nextState.topologyLoadError
+
+    const channelInfoChanged =
+      this.state.activeChannel !== nextState.activeChannel ||
+      this.props.storedVersion !== nextProps.storedVersion ||
+      !_.isEqual(this.props.channels, nextProps.channels)
+
+    const updateIntervalChanged =
+      this.state.lastTimeUpdate !== nextState.lastTimeUpdate ||
       this.props.refetch.interval !== nextState.refetch.interval ||
-      this.props.refetch.doRefetch !== nextState.refetch.doRefetch ||
+      this.props.refetch.doRefetch !== nextState.refetch.doRefetch
+
+    const genericChange =
+      !_.isEqual(this.state.exceptions, nextState.exceptions) ||
+      this.state.updateMessage !== nextState.updateMessage ||
+      this.state.showSpinner !== nextState.showSpinner ||
       this.state.showLegendView !== nextState.showLegendView
+
+    return (
+      isDiagramChanged ||
+      loadedInfoChanged ||
+      channelInfoChanged ||
+      updateIntervalChanged ||
+      genericChange
     )
   }
 

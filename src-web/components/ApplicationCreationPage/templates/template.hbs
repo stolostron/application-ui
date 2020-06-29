@@ -1,0 +1,55 @@
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  labels:
+{{#if_ne cloud 'auto-detect'}}
+    cloud: '{{../cloud}}' ##cloud
+{{/if_ne}}
+{{#if_eq cloud 'auto-detect'}}
+    cloud: auto-detect ##cloud
+{{/if_eq}}
+    vendor: auto-detect
+    name: {{{name}}}
+    environment: '{{{purpose}}}'  ##purpose
+    {{#each additional}}
+    {{{key}}}: '{{{value}}}'
+    {{/each}}
+  name: {{{name}}}
+spec:
+  hubAcceptsClient: true
+---
+apiVersion: agent.open-cluster-management.io/v1
+kind: KlusterletAddonConfig
+metadata:
+  name: {{{name}}}
+  namespace: {{{name}}}
+spec:
+  clusterName: {{{name}}} ##name
+  clusterNamespace: {{{name}}} ##name
+  clusterLabels:
+{{#if_ne cloud 'auto-detect'}}
+    cloud: '{{../cloud}}' ##cloud
+{{/if_ne}}
+{{#if_eq cloud 'auto-detect'}}
+    cloud: auto-detect ##cloud
+{{/if_eq}}
+    vendor: auto-detect
+  # Configure application management feature
+  applicationManager:
+    enabled: {{applicationManager}}
+  # Configure multicluster GRC policy feature
+  policyController:
+    enabled: {{policyController}}
+  # Configure indexing for multicluster search feature
+  searchCollector:
+    enabled: {{searchCollector}}
+  # Configure the CisPolicy controller feature
+  cisPolicyController:
+    enabled: {{cisPolicyController}}
+  # Configure the CertificatePolicy controller feature
+  certPolicyController:
+    enabled: {{certPolicyController}}
+  # Configure the IamPolicy controller feature
+  iamPolicyController:
+    enabled: {{iamPolicyController}}
+  version: 2.0.0

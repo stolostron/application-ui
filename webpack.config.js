@@ -108,7 +108,15 @@ module.exports = {
       },
       {
         test: [/\.handlebars$/, /\.hbs$/],
-        loader: "handlebars-loader"
+        loader: 'handlebars-loader',
+        query: {
+          helperDirs: [
+            path.resolve(__dirname, './templates/helpers')
+          ],
+          precompileOptions: {
+            knownHelpersOnly: false
+          }
+        }
       },
       {
         test: /\.yaml$/,

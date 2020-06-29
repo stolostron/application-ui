@@ -30,6 +30,9 @@ export const ActionModalApollo = loadable(() =>
 export const ApplicationHeaderTabs = loadable(() =>
   import(/* webpackChunkName: "applicationHeaderTabs" */ './ApplicationHeaderTabs')
 )
+export const ApplicationCreationPage = loadable(() =>
+  import(/* webpackChunkName: "applicationCreationPage" */ '../components/ApplicationCreationPage/ApplicationCreationPage')
+)
 
 resources(() => {
   require('../../scss/common.scss')
@@ -93,6 +96,7 @@ class App extends React.Component {
       <div className="expand-vertically">
         {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
+          <Route path={`${match.url}/create`} render={() => <ApplicationCreationPage secondaryHeaderProps={{title: 'application.create.title'}} />} />
           <Route
             path={`${match.url}`}
             render={params => (

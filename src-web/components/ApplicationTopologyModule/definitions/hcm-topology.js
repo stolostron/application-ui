@@ -29,6 +29,7 @@ export const getTopologyElements = resourceItem => {
       return true
     } else {
       nodeMap[l.source].selfLink = l
+      return false
     }
   })
 

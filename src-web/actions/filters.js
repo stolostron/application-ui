@@ -58,6 +58,8 @@ export const fetchFilters = inputType => {
           )
         })
         .catch(err => dispatch(receiveResourceError(err, resourceType)))
+    } else {
+      dispatch(receiveResourceError('no input', resourceType))
     }
   }
 }

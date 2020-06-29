@@ -13,7 +13,7 @@ mv ./oc-unpacked/oc /usr/local/bin/oc
 mv ./oc-unpacked/kubectl /usr/local/bin/kubectl
 rm -rf ./oc-unpacked ./oc.tar.gz
 
-# oc login --server=${OCP_SERVER} -u ${OCP_CONSOLE_USR} -p ${OCP_CONSOLE_PWD} --insecure-skip-tls-verify=true
+oc login --server=${OCP_SERVER} -u ${OCP_CONSOLE_USR} -p ${OCP_CONSOLE_PWD} --insecure-skip-tls-verify=true
 
 # Install helm CLI.
 # curl -kLo helm-linux-amd64.tar.gz https://${CLUSTER_IP}:${CLUSTER_PORT}/api/cli/helm-linux-amd64.tar.gz

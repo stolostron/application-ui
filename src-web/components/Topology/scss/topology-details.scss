@@ -25,6 +25,10 @@
     display: flex;
     align-items: center;
 
+    .detailsIconContainer {
+      margin: 20px 16px 20px 20px;
+    }
+
     .detailsIcon {
       border-top: 0;
       stroke-width: 3px;
@@ -48,7 +52,7 @@
     }
 
     .titleNameText {
-      font-size: 2ex;
+      font-size: 18px;
       color: #5a6872;
     }
   }
@@ -153,13 +157,13 @@
 
   hr {
     border: 1px solid $color__navy-gray-8;
-    width: 98%;
     margin-bottom: 0.5rem;
   }
 
   .sectionContent {
     margin-left: 1rem;
     margin-right: 1rem;
+    line-height: 20px;
 
     &.snippet {
       font-family: monospace;
@@ -200,16 +204,12 @@
     font-size: .75rem;
     font-weight: bold;
     color: $color__blue-90;
-    letter-spacing: 1.27px;
     line-height: 1.3rem;
-  }
-
-  .sectionLabel {
-    margin-left: 1rem;
   }
 
   .borderLeft {
     border-left: 5px solid #dfe6eb;
+    padding-left: 1rem;
   }
 
   .indent {
@@ -236,6 +236,8 @@
   }
 
   .link {
+    font-family: 'RedHatText-Medium';
+    font-weight: 600;
     font-size: .75rem;
     color: $color__blue-51;
     cursor: pointer;

@@ -7,16 +7,20 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
   <div
     className="detailsHeader"
   >
-    <svg
-      height="48px"
-      viewBox="0 0 48 48"
-      width="48px"
+    <div
+      className="detailsIconContainer"
     >
-      <use
-        className="container detailsIcon"
-        href="#diagramShapes_cluster"
-      />
-    </svg>
+      <svg
+        height="58px"
+        viewBox="0 0 58 58"
+        width="58px"
+      >
+        <use
+          className="container detailsIcon"
+          href="#diagramShapes_cluster"
+        />
+      </svg>
+    </div>
     <div>
       <div
         className="sectionContent"
@@ -106,7 +110,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         Object {
           "WebkitOverflowScrolling": "touch",
           "bottom": 0,
-          "height": "calc(100vh - 340px)",
+          "height": "calc(100vh - 370px)",
           "left": 0,
           "marginBottom": 0,
           "marginRight": 0,
@@ -363,16 +367,20 @@ exports[`DetailsView no components renders as expected 1`] = `
   <div
     className="detailsHeader"
   >
-    <svg
-      height="48px"
-      viewBox="0 0 48 48"
-      width="48px"
+    <div
+      className="detailsIconContainer"
     >
-      <use
-        className="default detailsIcon"
-        href="#diagramShapes_other"
-      />
-    </svg>
+      <svg
+        height="58px"
+        viewBox="0 0 58 58"
+        width="58px"
+      >
+        <use
+          className="default detailsIcon"
+          href="#diagramShapes_other"
+        />
+      </svg>
+    </div>
     <div>
       <div
         className="sectionContent"
@@ -460,7 +468,7 @@ exports[`DetailsView no components renders as expected 1`] = `
         Object {
           "WebkitOverflowScrolling": "touch",
           "bottom": 0,
-          "height": "calc(100vh - 340px)",
+          "height": "calc(100vh - 370px)",
           "left": 0,
           "marginBottom": 0,
           "marginRight": 0,

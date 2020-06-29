@@ -15,6 +15,10 @@ $filter_sidebar_animation_duration: 100ms;
 /* *********************  popup filter checkboxes modal ************************ */
 .resource-filter-button {
   display: flex;
+  position: fixed;
+  top:6.0rem;
+  right: 13.5rem;
+  z-index: 1004;
 }
 
 .resource-filter-view {
@@ -28,6 +32,7 @@ $filter_sidebar_animation_duration: 100ms;
   padding: 30px;
   border-top: 5px solid $color__blue-50;
   font-size: 14px;
+  top: 4.08rem;
 
   &.transition-enter {
     right: -$filter_sidebar_width;

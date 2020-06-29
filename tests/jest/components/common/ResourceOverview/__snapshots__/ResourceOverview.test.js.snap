@@ -39,6 +39,10 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
     <span
       className="app-info-and-dashboard-links-separator"
     />
+     
+    <span
+      className="app-info-and-dashboard-links-separator-f"
+    />
   </div>
   <div
     className="overview-content-bottom overview-content-with-padding"

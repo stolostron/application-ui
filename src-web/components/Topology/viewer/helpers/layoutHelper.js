@@ -801,7 +801,7 @@ export default class LayoutHelper {
       {
         resetLayout: () => {
           this.cachedLayouts = {}
-          this.rowPositionCache = undefined
+          this.rowPositionCache = null
         }
       }
     )
@@ -826,7 +826,7 @@ export default class LayoutHelper {
         // between searches, keep resetting cache
         resetLayout: () => {
           this.cachedLayouts = {}
-          this.rowPositionCache = undefined
+          this.rowPositionCache = null
         },
         // when search is done, restore originals
         restoreLayout: () => {
@@ -944,13 +944,13 @@ export default class LayoutHelper {
     })
     // add title for any new collection
     let titleMap = _.keyBy(this.titles, 'hashCode')
-    for (var hashCode in collectionMap) {
-      if (!titleMap[hashCode]) {
-        const { details: { title } } = collectionMap[hashCode]
+    for (const hashCodeM in collectionMap) {
+      if (!titleMap[hashCodeM]) {
+        const { details: { title } } = collectionMap[hashCodeM]
         if (title) {
           this.titles.push({
             title,
-            hashCode,
+            hashCodeM,
             position: {}
           })
         }
@@ -989,9 +989,9 @@ export default class LayoutHelper {
     const breakWidth = this.getBreakWidth(clayouts)
     clayouts.forEach(({ bbox, name, nodes }, idx) => {
       const { w, h } = bbox
-      const row = rowDimensions.length
+      const rowLength = rowDimensions.length
       collectionDimensions.push(bbox)
-      collectionIndexToRowMap[idx] = row
+      collectionIndexToRowMap[idx] = rowLength
       cols++
 
       // keep track of the dimensions
@@ -1006,7 +1006,7 @@ export default class LayoutHelper {
         nodeMapToPositionMap,
         _.keyBy(
           nodes.map(({ layout: { uid } }) => {
-            return { uid, row, idx }
+            return { uid, rowLength, idx }
           }),
           'uid'
         )
@@ -1017,7 +1017,7 @@ export default class LayoutHelper {
         this.shouldCreateNewRow(
           currentX,
           breakWidth,
-          row,
+          rowLength,
           cols,
           name,
           clayouts,
@@ -1038,35 +1038,35 @@ export default class LayoutHelper {
     this.lastCollectionSize = clayouts.length
 
     // layout collection columns
-    let row = 0
+    let row1 = 0
     let currentY = 0
     const layoutMap = {}
     const layoutBBox = { x1: 0 }
-    clayouts.forEach(({ nodes, edges, name, hashCode }, idx) => {
+    clayouts.forEach(({ nodes, edges, name, hashCodeC }, idx) => {
       // this collection's bounding box
       const { x1, y1, w, h } = collectionDimensions[idx]
 
       // figure out our row
-      if (collectionIndexToRowMap[idx] > row) {
-        const { rowHeight } = rowDimensions[row]
-        row = collectionIndexToRowMap[idx]
-        currentY += rowHeight + ySpaceBetweenRows
+      if (collectionIndexToRowMap[idx] > row1) {
+        const { rowHeight1 } = rowDimensions[row1]
+        row1 = collectionIndexToRowMap[idx]
+        currentY += rowHeight1 + ySpaceBetweenRows
         currentX = 0
       }
-      const { rowHeight } = rowDimensions[row]
+      const { rowHeight2 } = rowDimensions[row1]
 
       // dyCell centers row vertically
-      const isGrid = name === 'grid' ? ySpaceBetweenRows : (rowHeight - h) / 2
-      const dyCell = row === 0 ? 0 : isGrid
+      const isGrid = name === 'grid' ? ySpaceBetweenRows : (rowHeight2 - h) / 2
+      const dyCell = row1 === 0 ? 0 : isGrid
 
       // needed to saved dragged position of node based relative to its cell
-      const section = { name, hashCode, x: currentX, y: currentY + dyCell }
+      const section = { name, hashCodeC, x: currentX, y: currentY + dyCell }
       const transform = { x: section.x - x1, y: section.y - y1 }
 
       // set title position
       // keep track of bounding box
-      if (titleMap[hashCode]) {
-        const title = titleMap[hashCode]
+      if (titleMap[hashCodeC]) {
+        const title = titleMap[hashCodeC]
         title.x = section.x + w / 2
         title.y = currentY + dyCell - NODE_SIZE * 2
         layoutBBox.y1 = Math.min(layoutBBox.y1 || title.y, title.y)
@@ -1089,7 +1089,7 @@ export default class LayoutHelper {
         // restore position of any node dragged by user
         if (layout.dragged) {
           // if node is a member of a new section cancel the drag
-          if (layout.section.hashCode === hashCode) {
+          if (layout.section.hashCode === hashCodeC) {
             // else reconstitute drag using the current section x/y
             layout.x = section.x + layout.dragged.x
             layout.y = section.y + layout.dragged.y

@@ -29,12 +29,12 @@
   .creation-view-split-container {
 
     &.showEditor {
-      height: calc(100vh - 200px);
+      height: calc(100vh - 220px);
 
       .creation-view-controls-container {
         height: calc(100vh - 245px);
         position: relative;
-        padding-top: 40px;
+        padding-top: 1.0rem;
         
         &-blurr {
           position: absolute;

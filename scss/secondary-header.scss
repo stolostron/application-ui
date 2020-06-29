@@ -89,6 +89,7 @@
  
      .bx--detail-page-header-title-container {
        display: flex;
+       align-items: baseline;
  
        &:last-child {
          margin-bottom: 1.5rem; //TODO: decide what to do when there's no tab. Hack to display the title at same location

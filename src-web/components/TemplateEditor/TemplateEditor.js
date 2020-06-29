@@ -189,6 +189,7 @@ export default class TemplateEditor extends React.Component {
       const width = page.getBoundingClientRect().width
       if (!cookie) {
         size = width / 2
+        localStorage.setItem(this.splitterSizeCookie, size)
       } else if (size > (width*7/10)) {
         size = width * 7 / 10
       }
@@ -539,7 +540,7 @@ export default class TemplateEditor extends React.Component {
       const controlsSize = this.handleSplitterDefault()
       const rect = this.containerRef.getBoundingClientRect()
       const width = rect.width - controlsSize - 16
-      const height = rect.height - (hasTabs?80:80)
+      const height = rect.height - (hasTabs?80:40)
       this.editors.forEach(editor=>{
         editor.layout({width, height})
       })

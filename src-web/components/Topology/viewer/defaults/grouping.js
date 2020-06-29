@@ -70,9 +70,11 @@ export function getTypeNodeGroups(nodes) {
   nodes.forEach(node => {
     allNodeMap[node.uid] = node
     const type = node.type
-    const group = groupMap[type]
-      ? groupMap[type]
-      : (groupMap[type] = { nodes: [] })
+
+    let group = groupMap[type]
+    if (!group) {
+      group = groupMap[type] = { nodes: [] }
+    }
 
     const label = getNodeLabel(node)
     node.layout = Object.assign(node.layout || {}, {

@@ -269,11 +269,11 @@ const addAssortedAvailableFilters = (
 
 const filterAvailable = (
   specs,
-  clusterLabels,
+  clusterLabelsInfo,
   filterTypes,
   availableFilters
 ) => {
-  const labels = _.get(specs, clusterLabels, {})
+  const labels = _.get(specs, clusterLabelsInfo, {})
   Object.keys(filterTypes).forEach(filterType => {
     const filter = availableFilters[filterType]
     switch (filterType) {

@@ -83,7 +83,7 @@ class DiagramViewer extends React.Component {
     this.handleNodeClick = this.handleNodeClick.bind(this)
     this.showsShapeTitles =
       typeof this.props.staticResourceData.getNodeTitle === 'function'
-    this.lastLayoutBBox = undefined
+    this.lastLayoutBBox = null
     this.isDragging = false
     this.lastRefreshing = true
     this.detailsViewUpdate = false

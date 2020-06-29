@@ -73,10 +73,8 @@ const FilterSection = ({
   // show more/or less
   const count = filters.length - showThreshold
   const showMoreOrLess = count > 0
-  if (showMoreOrLess) {
-    if (!isExpanded) {
-      filters = filters.slice(0, showThreshold)
-    }
+  if (showMoreOrLess && !isExpanded) {
+    filters = filters.slice(0, showThreshold)
   }
 
   return (

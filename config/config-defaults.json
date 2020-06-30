@@ -1,6 +1,6 @@
 {
     "contextPath": "/multicloud/applications",
-    "httpPort": 3001,
+    "httpsPort": 3001,
     "hcmUiApiUrl": "",
     "searchApiUrl": "",
     "headerUrl": "https://management-ingress",

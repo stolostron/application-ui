@@ -262,8 +262,6 @@ if (process.env.NODE_ENV === 'development') {
   server = https.createServer(credentials, app)
 } else {
   // NOTE: In production, SSL is provided by the ICP ingress.
-  // var http = require('http')
-  // server = http.createServer(app)
   privateKey = fs.readFileSync('/certs/applicationui.key', 'utf8')
   certificate = fs.readFileSync('/certs/applicationui.crt', 'utf8')
   credentials = { key: privateKey, cert: certificate }

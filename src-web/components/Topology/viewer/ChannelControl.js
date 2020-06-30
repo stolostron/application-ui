@@ -68,6 +68,7 @@ class ChannelControl extends React.Component {
   handleSubscriptionChange = e => {
     const channel = e.selectedItem.chn
     this.changeSubscriptionChannels(channel)
+    // Set the current channel to the selected channel
     this.setState({ currentChannel: e.selectedItem })
   };
 
@@ -148,8 +149,9 @@ class ChannelControl extends React.Component {
     const { allChannels } = channelControl
 
     if (allChannels) {
+      // Initialize channel control variables for topology refresh state
       let showMainChannel = true
-      let hasSubchannelsList = ''
+      let hasSubchannelsList = false
       let channelsLength = 0
       let selectedChannelIndex = 0
       let displayChannels = []
@@ -162,6 +164,7 @@ class ChannelControl extends React.Component {
       const fwd2 = '>>'
 
       if (allChannels.length > 1) {
+        // Update channel control variables for when refresh state is done
         let { activeChannel } = channelControl
         const { fetchChannel } = this.state
         activeChannel = fetchChannel || activeChannel
@@ -218,6 +221,7 @@ class ChannelControl extends React.Component {
         )
 
         isRefreshing = false
+        // Set current channel on page load
         this.setState({ currentChannel: displayChannels[selectedIdx] })
       }
 

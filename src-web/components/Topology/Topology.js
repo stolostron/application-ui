@@ -90,6 +90,7 @@ class Topology extends React.Component {
       const { nodes, fetchControl = {}, channelControl } = nextProps
       const { isLoaded = true, isReloading = false } = fetchControl
 
+      // Keep channel control visible if multiple channels exist
       if (_.get(channelControl, 'allChannels', []).length > 1) {
         this.setState({ showChannelsControl: true })
       }

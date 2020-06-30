@@ -51,9 +51,9 @@ const allValues = {
 }
 
 export function validator(parsed, exceptions, locale) {
-  const required = Object.keys(requiredValues)
+  const requiredKeys = Object.keys(requiredValues)
 
-  checkKeyExists(required, parsed, exceptions, locale)
+  checkKeyExists(requiredKeys, parsed, exceptions, locale)
 
   let namespace = ''
   let applicationNamespace = ''

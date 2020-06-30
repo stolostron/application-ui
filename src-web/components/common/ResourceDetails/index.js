@@ -180,9 +180,9 @@ class ResourceDetails extends React.Component {
   }
 
   componentWillMount() {
-    const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
+    const { updateSecondaryHeaderFn, tabs, launch_links, match } = this.props,
           params = match && match.params
-    updateSecondaryHeader(
+    updateSecondaryHeaderFn(
       params.name,
       getTabs(
         tabs,
@@ -195,10 +195,10 @@ class ResourceDetails extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
-      const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
+      const { updateSecondaryHeaderFn, tabs, launch_links, match } = this.props,
             params = match && match.params
 
-      updateSecondaryHeader(
+      updateSecondaryHeaderFn(
         params.name,
         getTabs(
           tabs,
@@ -325,13 +325,13 @@ ResourceDetails.propTypes = {
   showGrafanaAction: PropTypes.bool,
   staticResourceData: PropTypes.object,
   tabs: PropTypes.array,
-  updateSecondaryHeader: PropTypes.func
+  updateSecondaryHeaderFn: PropTypes.func
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
-    updateSecondaryHeader: (title, tabs, breadcrumbItems, links) =>
+    updateSecondaryHeaderFn: (title, tabs, breadcrumbItems, links) =>
       dispatch(updateSecondaryHeader(title, tabs, breadcrumbItems, links))
   }
 }

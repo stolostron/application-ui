@@ -104,10 +104,10 @@ class ResourceList extends React.Component {
       sortDirection,
       totalFilteredItems,
       status,
-      sortTable,
+      sortTableFn,
       sortColumn,
-      changeTablePage,
-      searchTable,
+      changeTablePageFn,
+      searchTableFn,
       staticResourceData,
       searchValue,
       resourceType,
@@ -173,7 +173,7 @@ class ResourceList extends React.Component {
         clientSideFilters &&
         !this.state.xhrPoll
       ) {
-        searchTable(clientSideFilters, false)
+        searchTableFn(clientSideFilters, false)
       }
       return (
         <div id="resource-list">
@@ -225,14 +225,17 @@ class ResourceList extends React.Component {
             items={items}
             totalFilteredItems={totalFilteredItems}
             resourceType={resourceType}
-            changeTablePage={changeTablePage}
+            changeTablePage={changeTablePageFn}
             handleSort={TableHelper.handleSort.bind(
               this,
               sortDirection,
               sortColumn,
-              sortTable
+              sortTableFn
             )}
-            handleSearch={TableHelper.handleInputValue.bind(this, searchTable)}
+            handleSearch={TableHelper.handleInputValue.bind(
+              this,
+              searchTableFn
+            )}
             searchValue={searchValue}
             defaultSearchValue={clientSideFilters}
             tableActions={staticResourceData.tableActions}
@@ -310,14 +313,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     fetchTableResources: selectedFilters => {
       dispatch(fetchResources(resourceType, combineFilters(selectedFilters)))
     },
-    changeTablePage: page => dispatch(changeTablePage(page, resourceType)),
-    searchTable: (search, updateURL) => {
+    changeTablePageFn: page => dispatch(changeTablePage(page, resourceType)),
+    searchTableFn: (search, updateURL) => {
       if (updateURL !== false) {
         updateBrowserURL && updateBrowserURL(search)
       }
       dispatch(searchTable(search, resourceType))
     },
-    sortTable: (sortDirection, sortColumn) =>
+    sortTableFn: (sortDirection, sortColumn) =>
       dispatch(sortTable(sortDirection, sortColumn, resourceType)),
     updateSecondaryHeaderFn: (title, tabs) =>
       dispatch(updateSecondaryHeader(title, tabs)),
@@ -334,7 +337,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 ResourceList.propTypes = {
-  changeTablePage: PropTypes.func,
+  changeTablePageFn: PropTypes.func,
   children: PropTypes.array,
   clientSideFilters: PropTypes.array,
   deleteMsg: PropTypes.string,
@@ -352,12 +355,12 @@ ResourceList.propTypes = {
   refetchIntervalUpdateDispatch: PropTypes.func,
   resourceFilters: PropTypes.array,
   resourceType: PropTypes.object,
-  searchTable: PropTypes.func,
+  searchTableFn: PropTypes.func,
   searchValue: PropTypes.string,
   selectedFilters: PropTypes.object,
   sortColumn: PropTypes.string,
   sortDirection: PropTypes.string,
-  sortTable: PropTypes.func,
+  sortTableFn: PropTypes.func,
   staticResourceData: PropTypes.object,
   status: PropTypes.string,
   tableName: PropTypes.string,

@@ -84,16 +84,16 @@ class Topology extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // Keep channel control visible if multiple channels exist
+    if (_.get(nextProps.channelControl, 'allChannels', []).length > 1) {
+      this.setState({ showChannelsControl: true })
+    }
+
     this.setState(prevState => {
       let { timestamp } = prevState
       const { userIsFiltering } = prevState
-      const { nodes, fetchControl = {}, channelControl } = nextProps
+      const { nodes, fetchControl = {} } = nextProps
       const { isLoaded = true, isReloading = false } = fetchControl
-
-      // Keep channel control visible if multiple channels exist
-      if (_.get(channelControl, 'allChannels', []).length > 1) {
-        this.setState({ showChannelsControl: true })
-      }
 
       if (!_.isEqual(nodes, this.props.nodes) && !isReloading) {
         timestamp = new Date().toString()

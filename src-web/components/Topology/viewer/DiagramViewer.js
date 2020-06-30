@@ -52,6 +52,7 @@ class DiagramViewer extends React.Component {
     secondaryLoad: PropTypes.bool,
     selectedNode: PropTypes.object,
     setViewer: PropTypes.func,
+    showChannelsControl: PropTypes.bool,
     showLegendView: PropTypes.bool,
     staticResourceData: PropTypes.object,
     title: PropTypes.string
@@ -242,11 +243,10 @@ class DiagramViewer extends React.Component {
       title,
       locale,
       channelControl,
+      showChannelsControl,
       showLegendView,
       handleLegendClose
     } = this.props
-    const showChannelsControl =
-      channelControl && _.get(channelControl, 'allChannels', []).length > 1
 
     const { selectedNodeId, showDetailsView } = this.state
     return (

@@ -10,7 +10,7 @@ var config = require("./config");
 
 module.exports = (settings => {
   if (process.env.TEST_LOCAL) {
-    var defaultUrl = `https://localhost:${config.get("httpPort")}`;
+    var defaultUrl = `https://localhost:${config.get("httpsPort")}`;
   } else {
     var defaultUrl = process.env.RHACM4K8;
   }

@@ -373,6 +373,8 @@ const routeEdge = (
     layout.lineData.unshift({ x: x1, y: y1 })
     layout.lineData.push({ x: x2, y: y2 })
   }
+
+  return preparedColaRouting
 }
 // do parallel, avoidance, self link layouts
 export const layoutEdges = (
@@ -387,7 +389,7 @@ export const layoutEdges = (
   const laidoutEdges = []
   let nodeMap = null
   if (cyEdges.length > 0) {
-    const preparedColaRouting = false
+    let preparedColaRouting = false
     nodeMap = _.keyBy(nodes, layoutUID)
     cyEdges.forEach(edge => {
       const { edge: { layout, uid } } = edge.data()
@@ -411,7 +413,7 @@ export const layoutEdges = (
             ]
           }
 
-          routeEdge(
+          preparedColaRouting = routeEdge(
             nodeMap,
             sid,
             tid,

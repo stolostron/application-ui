@@ -39,6 +39,7 @@ const TypeFilters = {
   application: {
     filterTypes: {
       resourceStatuses: 'resourceStatuses',
+      resourceTypes: 'resourceTypes',
       clusterNames: 'clusterNames',
       namespaces: 'namespaces',
       hostIPs: 'hostIPs'
@@ -356,6 +357,9 @@ export const addAvailableRelationshipFilters = (
     let name = null
     let availableSet = new Set()
     switch (type) {
+    case 'resourceTypes':
+      name = msgs.get('topology.filter.category.resourceTypes', locale)
+      break
     case 'hostIPs':
       name = msgs.get('topology.filter.category.hostIPs', locale)
       break
@@ -404,6 +408,7 @@ export const addAvailableRelationshipFilters = (
 
       // filter filters
       const podStatus = _.get(node, 'specs.podModel')
+      const design = _.get(node, 'specs.isDesign')
       hasPods |= !!podStatus
       Object.keys(filterTypes).forEach(filterType => {
         const filter = availableFilters[filterType]
@@ -424,6 +429,12 @@ export const addAvailableRelationshipFilters = (
           case 'clusterNames':
             if (type === 'cluster') {
               filter.availableSet.add(nodeName)
+            }
+            break
+          case 'resourceTypes':
+            // Only filter none design and none cluster types
+            if (!isDesignOrCluster(design, type)) {
+              filter.availableSet.add(type)
             }
             break
           }
@@ -480,26 +491,16 @@ const addAvailablePolicyFilters = (
 
 ////////////////////////   FILTER NODES     ///////////////////////////////////
 
-export const filterNodes = (mode, nodes, activeFilters, availableFilters) => {
+export const filterNodes = (mode, nodes, activeFilters) => {
   switch (mode) {
   case 'cluster':
     return filterClusterNodes(nodes, activeFilters)
 
   case 'weave':
-    return filterRelationshipNodes(
-      nodes,
-      activeFilters,
-      availableFilters,
-      mode
-    )
+    return filterRelationshipNodes(nodes, activeFilters)
 
   case 'application':
-    return filterRelationshipNodes(
-      nodes,
-      activeFilters,
-      availableFilters,
-      mode
-    )
+    return filterRelationshipNodes(nodes, activeFilters)
 
   case 'policy':
     return filterPolicyNodes(nodes, activeFilters)
@@ -592,22 +593,14 @@ export const nodeParentExists = (nodeParent, includedNodes) => {
   )
 }
 
-export const filterRelationshipNodes = (
-  nodes,
-  activeFilters,
-  availableFilters,
-  mode
-) => {
+export const filterRelationshipNodes = (nodes, activeFilters) => {
   const {
     hostIPs = new Set(),
     namespaces = new Set(),
     resourceStatuses = new Set(),
-    clusterNames = new Set()
+    clusterNames = new Set(),
+    resourceTypes = new Set()
   } = activeFilters
-  const activeTypeSet = new Set(activeFilters.type)
-  const availableTypeSet = new Set(availableFilters.type)
-  const includeOther = activeTypeSet.has('other')
-  const ignoreNodeTypes = TypeFilters[mode].ignored
   const parentList = new Set()
   const includedNodes = new Set()
   const filteredNodes = nodes.filter(node => {
@@ -618,16 +611,8 @@ export const filterRelationshipNodes = (
     }
 
     // include type if a direct match
-    // or if 'other' type is selected and this isn't an ignored type
-    let hasType = activeTypeSet.has(nodeType)
-    if (
-      !hasType &&
-      includeOther &&
-      !ignoreNodeTypes.has(nodeType) &&
-      !availableTypeSet.has(nodeType)
-    ) {
-      hasType = true
-    }
+    const hasType =
+      resourceTypes.size === 0 ? true : resourceTypes.has(nodeType)
 
     // filter for resource statuses
     let hasResourceStatus = true

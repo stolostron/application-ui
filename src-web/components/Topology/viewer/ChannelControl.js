@@ -108,6 +108,7 @@ class ChannelControl extends React.Component {
 
   getSubChannels = allChannels => {
     const channelMap = {}
+
     allChannels.forEach(chnl => {
       const [chn, beg, end] = chnl.split('///')
       const splitChn = /(.*)\/(.*)\/\/(.*)\/(.*)/.exec(chn)
@@ -125,14 +126,7 @@ class ChannelControl extends React.Component {
     return channelMap
   };
 
-  fetchInitialData = (activeChannel, allChannels) => {
-    // Update channel control variables for when refresh state is done
-    const { fetchChannel } = this.state
-    activeChannel = fetchChannel || activeChannel
-
-    const channelMap = this.getSubChannels(allChannels)
-
-    // determine displayed channels
+  getDisplayedChannels = (channelMap, activeChannel) => {
     const displayChannels = []
 
     Object.values(channelMap).forEach(({ chnl, splitChn, subchannels }) => {
@@ -156,6 +150,21 @@ class ChannelControl extends React.Component {
     if (selectedIdx < 0) {
       selectedIdx = displayChannels.findIndex(({ chn }) => !!chn)
     }
+
+    return [displayChannels, selectedIdx]
+  };
+
+  fetchInitialData = (activeChannel, allChannels) => {
+    // Update channel control variables for when refresh state is done
+    const { fetchChannel } = this.state
+    activeChannel = fetchChannel || activeChannel
+
+    const channelMap = this.getSubChannels(allChannels)
+
+    // determine displayed channels
+    const channelsData = this.getDisplayedChannels(channelMap, activeChannel)
+    const displayChannels = channelsData[0]
+    const selectedIdx = channelsData[1]
 
     // Set current channel on page load
     this.setState({ currentChannel: displayChannels[selectedIdx] })
@@ -231,32 +240,15 @@ class ChannelControl extends React.Component {
         activeChannel = fetchChannel || activeChannel
 
         const channelMap = this.getSubChannels(allChannels)
-
-        // determine displayed channels
-        displayChannels = []
         showMainChannel = Object.keys(channelMap).length > 0
 
-        Object.values(channelMap).forEach(({ chnl, splitChn, subchannels }) => {
-          const hasSubchannels = subchannels.length > 0
-          let channelLabel = splitChn && splitChn[2] ? splitChn[2] : 'unknown'
-          if (channelLabel === '__ALL__') {
-            channelLabel = msgs.get('combo.subscription.all')
-          }
-          displayChannels.push({
-            label: channelLabel,
-            chn: chnl,
-            splitChn,
-            hasSubchannels,
-            subchannels
-          })
-        })
-        let selectedIdx =
-          displayChannels.length === 1
-            ? 0
-            : displayChannels.findIndex(({ chn }) => chn === activeChannel)
-        if (selectedIdx < 0) {
-          selectedIdx = displayChannels.findIndex(({ chn }) => !!chn)
-        }
+        // determine displayed channels
+        const channelsData = this.getDisplayedChannels(
+          channelMap,
+          activeChannel
+        )
+        displayChannels = channelsData[0]
+        const selectedIdx = channelsData[1]
 
         hasSubchannelsList = displayChannels[selectedIdx].hasSubchannels
         channelsLength = hasSubchannelsList

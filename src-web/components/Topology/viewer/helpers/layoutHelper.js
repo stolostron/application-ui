@@ -170,12 +170,15 @@ export default class LayoutHelper {
       { map: sourceMap, next: 'source', other: 'target' },
       { map: targetMap, next: 'target', other: 'source' }
     ]
+
     this.shapeTypeOrder.forEach(type => {
       if (nodeGroups[type]) {
         const group = nodeGroups[type]
         // sort nodes/links into collections
-        const connected = (nodeGroups[type].connected = [])
-        const unconnected = (nodeGroups[type].unconnected = [])
+        nodeGroups[type].connected = []
+        nodeGroups[type].unconnected = []
+        const connected = nodeGroups[type].connected
+        const unconnected = nodeGroups[type].unconnected
 
         // find the connected nodes
         group.nodes.forEach(node => {
@@ -465,7 +468,7 @@ export default class LayoutHelper {
     }
     this.shapeTypeOrder.forEach(type => {
       if (nodeGroups[type] && nodeGroups[type].connected) {
-        let consolidatedGroup = undefined
+        let consolidatedGroup = null
         nodeGroups[type].connected = nodeGroups[type].connected.filter(
           connected => {
             const { nodeMap, details: { edges } } = connected
@@ -530,25 +533,25 @@ export default class LayoutHelper {
               edges.forEach(edge => {
                 directions.forEach(direction => {
                   const next = edge[direction]
-                  if (this.nodesToBeCloned[next]) {
-                    const cuid = next + '_' + type + '_' + hashCode
-                    if (!nodeMap[cuid]) {
-                      let clone = this.nodeClones[cuid]
-                      if (!clone) {
-                        clone = this.nodeClones[cuid] = _.cloneDeep(
-                          this.nodesToBeCloned[next]
-                        )
-                        clone.layout = {
-                          uid: cuid,
-                          type: clone.type,
-                          label: clone.name,
-                          compactLabel: getWrappedNodeLabel(clone.name, 12, 2),
-                          cloned: true
-                        }
+                  const cuid = `${next}_${type}_${hashCode}`
+                  if (this.nodesToBeCloned[next] && !nodeMap[cuid]) {
+                    let clone = this.nodeClones[cuid]
+                    if (!clone) {
+                      clone = this.nodeClones[cuid] = _.cloneDeep(
+                        this.nodesToBeCloned[next]
+                      )
+                      clone.layout = {
+                        uid: cuid,
+                        type: clone.type,
+                        label: clone.name,
+                        compactLabel: getWrappedNodeLabel(clone.name, 12, 2),
+                        cloned: true
                       }
-                      nodeMap[cuid] = clone
-                      nodes.push(nodeMap[cuid])
                     }
+                    nodeMap[cuid] = clone
+                    nodes.push(nodeMap[cuid])
+                  }
+                  if (this.nodesToBeCloned[next]) {
                     edge.layout[direction] = nodeMap[cuid].layout
                   }
                 })
@@ -560,14 +563,57 @@ export default class LayoutHelper {
     }
   };
 
+  // break large unconnected groups into smaller groups
+  breakUnconnected = (cy, nodes, type, collections, details) => {
+    let unconnectArr = [nodes]
+    if (nodes.length > 48) {
+      nodes.sort(
+        (
+          { layout: { label: a = '', uid: au } },
+          { layout: { label: b = '', uid: bu } }
+        ) => {
+          const r = a.localeCompare(b)
+          if (r !== 0) {
+            return r
+          } else {
+            return au.localeCompare(bu)
+          }
+        }
+      )
+      unconnectArr = _.chunk(nodes, 32)
+    }
+    unconnectArr.forEach(arr => {
+      const uidArr = []
+      const elements = { nodes: [] }
+      arr.forEach(node => {
+        elements.nodes.push({
+          data: {
+            id: node.uid,
+            node
+          }
+        })
+        uidArr.push(node.uid)
+      })
+      if (elements.nodes.length > 0) {
+        collections.unconnected.push({
+          type,
+          title: type,
+          elements: cy.add(elements),
+          hashCode: getHashCode(uidArr.sort().join()),
+          details
+        })
+      }
+    })
+  };
+
   createCollections = (cy, groups) => {
     const { nodeGroups } = groups
     const collections = { connected: [], unconnected: [] }
 
-    this.shapeTypeOrder.forEach(type => {
-      if (nodeGroups[type]) {
-        const { connected } = nodeGroups[type]
-        let { unconnected } = nodeGroups[type]
+    this.shapeTypeOrder.forEach(typeObj => {
+      if (nodeGroups[typeObj]) {
+        const { connected } = nodeGroups[typeObj]
+        let { unconnected } = nodeGroups[typeObj]
         connected.forEach(({ nodeMap, details }) => {
           const uidArr = []
           const { edges, title } = details
@@ -605,7 +651,7 @@ export default class LayoutHelper {
           })
 
           collections.connected.push({
-            type,
+            typeObj,
             title,
             elements: cy.add(elements),
             hashCode: getHashCode(uidArr.sort().join()),
@@ -645,47 +691,8 @@ export default class LayoutHelper {
               title: this.getSectionTitle(clusters, types, environment),
               clusters: clusters.join('/')
             }
-
             // break large unconnected groups into smaller groups
-            let unconnectArr = [nodes]
-            if (nodes.length > 48) {
-              nodes.sort(
-                (
-                  { layout: { label: a = '', uid: au } },
-                  { layout: { label: b = '', uid: bu } }
-                ) => {
-                  const r = a.localeCompare(b)
-                  if (r !== 0) {
-                    return r
-                  } else {
-                    return au.localeCompare(bu)
-                  }
-                }
-              )
-              unconnectArr = _.chunk(nodes, 32)
-            }
-            unconnectArr.forEach(arr => {
-              const uidArr = []
-              const elements = { nodes: [] }
-              arr.forEach(node => {
-                elements.nodes.push({
-                  data: {
-                    id: node.uid,
-                    node
-                  }
-                })
-                uidArr.push(node.uid)
-              })
-              if (elements.nodes.length > 0) {
-                collections.unconnected.push({
-                  type,
-                  title: type,
-                  elements: cy.add(elements),
-                  hashCode: getHashCode(uidArr.sort().join()),
-                  details
-                })
-              }
-            })
+            this.breakUnconnected(cy, nodes, typeObj, collections, details)
           }
         }
       }
@@ -762,9 +769,11 @@ export default class LayoutHelper {
 
   runCollectionLayoutsHelper = (totalLayouts, newLayouts, cb) => {
     newLayouts.forEach(collection => {
-      const { elements, options, hashCode } = collection
-      options.hashCode = hashCode
-      const layout = (collection.layout = elements.layout(options))
+      const { elements, hashCode } = collection
+      collection.options.hashCode = hashCode
+      collection.layout = elements.layout(collection.options)
+
+      const layout = collection.layout
       if (layout) {
         layout.pon('layoutstop').then(({ layout: { adaptor, options } }) => {
           // save webcola adapter to layout edges later in linkHelper.layoutEdges

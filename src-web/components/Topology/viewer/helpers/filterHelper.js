@@ -163,6 +163,53 @@ export default class FilterHelper {
     return { searchNames, directedPath }
   };
 
+  manageRelatedMaps = (matchingMap, relatedMap, elementMap) => {
+    // are there any paths between?
+    if (Object.keys(matchingMap).length > 0) {
+      // mark srcs and tgts that have a path between them as matches
+      for (const id in matchingMap) {
+        if (matchingMap.hasOwnProperty(id)) {
+          const { node: { layout } } = matchingMap[id].data()
+          layout.search = FilterResults.match
+          delete relatedMap[id]
+          delete elementMap[id]
+        }
+      }
+
+      // mark elements between matched srcs and tgts as related
+      for (const id in relatedMap) {
+        if (relatedMap.hasOwnProperty(id)) {
+          const element = relatedMap[id]
+          const data = element.data()
+          let layout
+          if (data) {
+            if (element.isNode()) {
+              ({ layout } = data.node)
+            } else {
+              ({ layout } = data.edge)
+            }
+            layout.search = FilterResults.match // FilterResults.related
+            delete elementMap[id]
+          }
+        }
+      }
+    }
+  };
+
+  hideElementMap = elementMap => {
+    // whatever is left in elementMap we hide
+    Object.values(elementMap).forEach(element => {
+      const data = element.data()
+      let layout
+      if (element.isNode()) {
+        ({ layout } = data.node)
+      } else {
+        ({ layout } = data.edge)
+      }
+      layout.search = FilterResults.hidden
+    })
+  };
+
   findConnectedPath = (connected, searchNames) => {
     return connected.filter(collection => {
       const { elements } = collection
@@ -222,51 +269,13 @@ export default class FilterHelper {
               }
             })
           })
-
           // are there any paths between?
-          if (Object.keys(matchingMap).length > 0) {
-            // mark srcs and tgts that have a path between them as matches
-            for (const id in matchingMap) {
-              if (matchingMap.hasOwnProperty(id)) {
-                const { node: { layout } } = matchingMap[id].data()
-                layout.search = FilterResults.match
-                delete relatedMap[id]
-                delete elementMap[id]
-              }
-            }
-
-            // mark elements between matched srcs and tgts as related
-            for (const id in relatedMap) {
-              if (relatedMap.hasOwnProperty(id)) {
-                const element = relatedMap[id]
-                const data = element.data()
-                let layout
-                if (data) {
-                  if (element.isNode()) {
-                    ({ layout } = data.node)
-                  } else {
-                    ({ layout } = data.edge)
-                  }
-                  layout.search = FilterResults.match // FilterResults.related
-                  delete elementMap[id]
-                }
-              }
-            }
-          }
+          this.manageRelatedMaps(matchingMap, relatedMap, elementMap)
         }
       }
 
       // whatever is left in elementMap we hide
-      Object.values(elementMap).forEach(element => {
-        const data = element.data()
-        let layout
-        if (element.isNode()) {
-          ({ layout } = data.node)
-        } else {
-          ({ layout } = data.edge)
-        }
-        layout.search = FilterResults.hidden
-      })
+      this.hideElementMap(elementMap)
 
       collection.elements = this.cy.add(
         Object.values(matchingMap).concat(Object.values(relatedMap))
@@ -325,8 +334,8 @@ export default class FilterHelper {
       const related = []
       matching.forEach(match => {
         // use cytoscape to find related nodes and their edges
-        [match.incomers(), match.outgoers()].forEach(collection => {
-          collection.forEach(element => {
+        [match.incomers(), match.outgoers()].forEach(collectionObj => {
+          collectionObj.forEach(element => {
             const data = element.data()
             const { id } = data
             if (!processed.has(id)) {
@@ -345,17 +354,7 @@ export default class FilterHelper {
         })
       })
 
-      // whatever is left in elementMap we hide
-      Object.values(elementMap).forEach(element => {
-        const data = element.data()
-        let layout
-        if (element.isNode()) {
-          ({ layout } = data.node)
-        } else {
-          ({ layout } = data.edge)
-        }
-        layout.search = FilterResults.hidden
-      })
+      this.hideElementMap(elementMap)
 
       collection.elements = this.cy.add(matching.concat(related))
       return collection.elements.length > 0
@@ -430,14 +429,14 @@ export default class FilterHelper {
       }
 
       // searching by labels
-      if (labels && labels.size > 0) {
-        if (
-          (node.labels || []).findIndex(({ name, value }) => {
-            return labels.has(`${name}: ${value}`)
-          }) === -1
-        ) {
-          return false
-        }
+      if (
+        labels &&
+        labels.size > 0 &&
+        (node.labels || []).findIndex(({ name, value }) => {
+          return labels.has(`${name}: ${value}`)
+        }) === -1
+      ) {
+        return false
       }
     }
 

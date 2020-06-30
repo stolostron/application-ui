@@ -62,7 +62,7 @@ export default class LayoutHelper {
 
     // for each cluster, group into collections
     const groups = this.getNodeGroups
-      ? this.getNodeGroups(nodes, this.activeFilters, this.diagramOptions)
+      ? this.getNodeGroups(nodes)
       : getNodeGroups('', nodes)
 
     // make sure shape type order can work from this
@@ -221,8 +221,8 @@ export default class LayoutHelper {
           const details = { clusterMap: {}, typeMap: {} }
 
           // fill edges
-          var edgeMap = {}
-          for (var uid in nodeMap) {
+          const edgeMap = {}
+          for (const uid in nodeMap) {
             if (nodeMap.hasOwnProperty(uid)) {
               directions.forEach(({ map, next, other }) => {
                 if (map.hasOwnProperty(uid)) {
@@ -284,17 +284,15 @@ export default class LayoutHelper {
           map[uid].forEach(entry => {
             const { link } = entry
             const end = entry[next]
-            if (!connectedSet.has(end)) {
+            if (!connectedSet.has(end) && !this.nodesToBeCloned[end]) {
               // reiterate until nothing else connected
-              if (!this.nodesToBeCloned[end]) {
-                this.gatherNodesByConnections(
-                  link[next],
-                  grp,
-                  directions,
-                  connectedSet,
-                  allNodeMap
-                )
-              }
+              this.gatherNodesByConnections(
+                link[next],
+                grp,
+                directions,
+                connectedSet,
+                allNodeMap
+              )
             }
           })
         }
@@ -396,7 +394,7 @@ export default class LayoutHelper {
           ({ nodeMap, details: { edges } }) => {
             // if single node cannot be in connected group unless it ONLY connects to clones
             if (Object.keys(nodeMap).length === 1) {
-              for (var i = 0; i < edges.length; i++) {
+              for (let i = 0; i < edges.length; i++) {
                 const edge = edges[i]
                 directions.forEach(({ next, other }) => {
                   this.consolidateNodesHelper(
@@ -638,7 +636,7 @@ export default class LayoutHelper {
         })
 
         // for each cluster
-        for (var clusterName in detailMap) {
+        for (const clusterName in detailMap) {
           if (detailMap.hasOwnProperty(clusterName)) {
             const { typeMap, nodes, environment } = detailMap[clusterName]
             const clusters = [clusterName]
@@ -961,7 +959,7 @@ export default class LayoutHelper {
     // for diagram stability when live:
     //  on first layout--or if lots of new sections, find best order for collections
     //  from then on try to remember a collection's order
-    let hashCodeToPositionMap = undefined
+    let hashCodeToPositionMap = null
     if (
       !this.rowPositionCache ||
       clayouts.length > (this.lastCollectionSize || 0) + 6
@@ -1145,11 +1143,10 @@ export default class LayoutHelper {
     if (
       hashCodeToPositionMap &&
       idx !== clayouts.length - 1 &&
-      hashCodeToPositionMap[clayouts[idx + 1].hashCode]
+      hashCodeToPositionMap[clayouts[idx + 1].hashCode] &&
+      hashCodeToPositionMap[clayouts[idx + 1].hashCode].row > row
     ) {
-      if (hashCodeToPositionMap[clayouts[idx + 1].hashCode].row > row) {
-        return true
-      }
+      return true
     }
 
     // if last collection laid out--finish this row
@@ -1170,10 +1167,7 @@ export default class LayoutHelper {
   };
 
   getBreakWidth = () => {
-    const breakWidth = 3000
-    // TODO -- find a width at which the resulting height
-    //         will maximize the scale at which we can draw diagram
-    return breakWidth
+    return 3000
   };
 
   initialSortCollection = clayouts => {

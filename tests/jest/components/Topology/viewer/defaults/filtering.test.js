@@ -232,8 +232,6 @@ const locale = "en-US";
 
 describe("getAllFilters", () => {
   const mockData = {
-    isLoaded: true,
-    knownTypes: [],
     userIsFiltering: null
   };
 

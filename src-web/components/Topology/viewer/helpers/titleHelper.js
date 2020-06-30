@@ -60,7 +60,7 @@ export default class TitleHelper {
       .attr('class', 'titleLabel')
       .html(d => {
         const { title } = d
-        var text = draw.text(add => {
+        const text = draw.text(add => {
           title.split('\n').forEach((line, idx) => {
             if (line) {
               add

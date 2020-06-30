@@ -216,7 +216,7 @@ class Topology extends React.Component {
     const { portals = {} } = this.props
     const { assortedFilterOpenBtn } = portals
     if (assortedFilterOpenBtn) {
-      var portal = document.getElementById(assortedFilterOpenBtn)
+      const portal = document.getElementById(assortedFilterOpenBtn)
       if (portal) {
         const { availableFilters, activeFilters } = this.state
         return ReactDOM.createPortal(
@@ -238,7 +238,7 @@ class Topology extends React.Component {
     const { portals = {}, locale } = this.props
     const { typeFilterBar } = portals
     if (typeFilterBar) {
-      var portal = document.getElementById(typeFilterBar)
+      const portal = document.getElementById(typeFilterBar)
       if (portal) {
         const {
           availableFilters,
@@ -291,7 +291,7 @@ class Topology extends React.Component {
     const { portals = {}, locale } = this.props
     const { searchTextbox } = portals
     if (searchTextbox) {
-      var portal = document.getElementById(searchTextbox)
+      const portal = document.getElementById(searchTextbox)
       if (portal) {
         const { searchName } = this.state
         return ReactDOM.createPortal(

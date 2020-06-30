@@ -95,21 +95,7 @@ ShallowWrapper {
               label="All subscriptions"
               light={false}
               onChange={[Function]}
-              selectedItem={
-                Object {
-                  "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                  "hasSubchannels": false,
-                  "label": "All Subscriptions",
-                  "splitChn": Array [
-                    "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "__ALL__",
-                    "__ALL__",
-                    "__ALL__",
-                    "__ALL__",
-                  ],
-                  "subchannels": Array [],
-                }
-              }
+              selectedItem={Object {}}
               type="default"
             />
           </div>
@@ -185,21 +171,7 @@ ShallowWrapper {
                 label="All subscriptions"
                 light={false}
                 onChange={[Function]}
-                selectedItem={
-                  Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
-                    "subchannels": Array [],
-                  }
-                }
+                selectedItem={Object {}}
                 type="default"
               />
             </div>,
@@ -276,21 +248,7 @@ ShallowWrapper {
                 label="All subscriptions"
                 light={false}
                 onChange={[Function]}
-                selectedItem={
-                  Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
-                    "subchannels": Array [],
-                  }
-                }
+                selectedItem={Object {}}
                 type="default"
               />,
               "className": "channelsCombo",
@@ -349,19 +307,7 @@ ShallowWrapper {
                 "label": "All subscriptions",
                 "light": false,
                 "onChange": [Function],
-                "selectedItem": Object {
-                  "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                  "hasSubchannels": false,
-                  "label": "All Subscriptions",
-                  "splitChn": Array [
-                    "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "__ALL__",
-                    "__ALL__",
-                    "__ALL__",
-                    "__ALL__",
-                  ],
-                  "subchannels": Array [],
-                },
+                "selectedItem": Object {},
                 "type": "default",
               },
               "ref": null,
@@ -446,21 +392,7 @@ ShallowWrapper {
                 label="All subscriptions"
                 light={false}
                 onChange={[Function]}
-                selectedItem={
-                  Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
-                    "subchannels": Array [],
-                  }
-                }
+                selectedItem={Object {}}
                 type="default"
               />
             </div>
@@ -536,21 +468,7 @@ ShallowWrapper {
                   label="All subscriptions"
                   light={false}
                   onChange={[Function]}
-                  selectedItem={
-                    Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
-                    }
-                  }
+                  selectedItem={Object {}}
                   type="default"
                 />
               </div>,
@@ -627,21 +545,7 @@ ShallowWrapper {
                   label="All subscriptions"
                   light={false}
                   onChange={[Function]}
-                  selectedItem={
-                    Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
-                    }
-                  }
+                  selectedItem={Object {}}
                   type="default"
                 />,
                 "className": "channelsCombo",
@@ -700,19 +604,7 @@ ShallowWrapper {
                   "label": "All subscriptions",
                   "light": false,
                   "onChange": [Function],
-                  "selectedItem": Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
-                    "subchannels": Array [],
-                  },
+                  "selectedItem": Object {},
                   "type": "default",
                 },
                 "ref": null,
@@ -846,37 +738,7 @@ ShallowWrapper {
               label="All subscriptions"
               light={false}
               onChange={[Function]}
-              selectedItem={
-                Object {
-                  "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                  "hasSubchannels": true,
-                  "label": "guestbook-app",
-                  "splitChn": Array [
-                    "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                    "default",
-                    "guestbook-app",
-                    "gbapp-ch",
-                    "guestbook-app-latest",
-                  ],
-                  "subchannels": Array [
-                    Object {
-                      "beg": "mysql-wordpress-pd-wordpress-mysql-service",
-                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                      "end": "staging-elasticsearch-elasticsearch-serviceaccount",
-                    },
-                    Object {
-                      "beg": "elasticsearch-es-replicationcontroller",
-                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                      "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                    },
-                    Object {
-                      "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
-                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
-                      "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
-                    },
-                  ],
-                }
-              }
+              selectedItem={Object {}}
               type="default"
             />
           </div>
@@ -1033,37 +895,7 @@ ShallowWrapper {
                 label="All subscriptions"
                 light={false}
                 onChange={[Function]}
-                selectedItem={
-                  Object {
-                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                    "hasSubchannels": true,
-                    "label": "guestbook-app",
-                    "splitChn": Array [
-                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                      "default",
-                      "guestbook-app",
-                      "gbapp-ch",
-                      "guestbook-app-latest",
-                    ],
-                    "subchannels": Array [
-                      Object {
-                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
-                      },
-                      Object {
-                        "beg": "elasticsearch-es-replicationcontroller",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                        "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                      },
-                      Object {
-                        "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
-                        "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
-                      },
-                    ],
-                  }
-                }
+                selectedItem={Object {}}
                 type="default"
               />
             </div>,
@@ -1132,37 +964,7 @@ ShallowWrapper {
                 label="All subscriptions"
                 light={false}
                 onChange={[Function]}
-                selectedItem={
-                  Object {
-                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                    "hasSubchannels": true,
-                    "label": "guestbook-app",
-                    "splitChn": Array [
-                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                      "default",
-                      "guestbook-app",
-                      "gbapp-ch",
-                      "guestbook-app-latest",
-                    ],
-                    "subchannels": Array [
-                      Object {
-                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
-                      },
-                      Object {
-                        "beg": "elasticsearch-es-replicationcontroller",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                        "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                      },
-                      Object {
-                        "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
-                        "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
-                      },
-                    ],
-                  }
-                }
+                selectedItem={Object {}}
                 type="default"
               />,
               "className": "channelsCombo",
@@ -1213,35 +1015,7 @@ ShallowWrapper {
                 "label": "All subscriptions",
                 "light": false,
                 "onChange": [Function],
-                "selectedItem": Object {
-                  "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                  "hasSubchannels": true,
-                  "label": "guestbook-app",
-                  "splitChn": Array [
-                    "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                    "default",
-                    "guestbook-app",
-                    "gbapp-ch",
-                    "guestbook-app-latest",
-                  ],
-                  "subchannels": Array [
-                    Object {
-                      "beg": "mysql-wordpress-pd-wordpress-mysql-service",
-                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                      "end": "staging-elasticsearch-elasticsearch-serviceaccount",
-                    },
-                    Object {
-                      "beg": "elasticsearch-es-replicationcontroller",
-                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                      "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                    },
-                    Object {
-                      "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
-                      "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
-                      "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
-                    },
-                  ],
-                },
+                "selectedItem": Object {},
                 "type": "default",
               },
               "ref": null,
@@ -1684,37 +1458,7 @@ ShallowWrapper {
                 label="All subscriptions"
                 light={false}
                 onChange={[Function]}
-                selectedItem={
-                  Object {
-                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                    "hasSubchannels": true,
-                    "label": "guestbook-app",
-                    "splitChn": Array [
-                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                      "default",
-                      "guestbook-app",
-                      "gbapp-ch",
-                      "guestbook-app-latest",
-                    ],
-                    "subchannels": Array [
-                      Object {
-                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
-                      },
-                      Object {
-                        "beg": "elasticsearch-es-replicationcontroller",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                        "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                      },
-                      Object {
-                        "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
-                        "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
-                      },
-                    ],
-                  }
-                }
+                selectedItem={Object {}}
                 type="default"
               />
             </div>
@@ -1871,37 +1615,7 @@ ShallowWrapper {
                   label="All subscriptions"
                   light={false}
                   onChange={[Function]}
-                  selectedItem={
-                    Object {
-                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                      "hasSubchannels": true,
-                      "label": "guestbook-app",
-                      "splitChn": Array [
-                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                        "default",
-                        "guestbook-app",
-                        "gbapp-ch",
-                        "guestbook-app-latest",
-                      ],
-                      "subchannels": Array [
-                        Object {
-                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
-                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
-                        },
-                        Object {
-                          "beg": "elasticsearch-es-replicationcontroller",
-                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                          "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                        },
-                        Object {
-                          "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
-                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
-                          "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
-                        },
-                      ],
-                    }
-                  }
+                  selectedItem={Object {}}
                   type="default"
                 />
               </div>,
@@ -1970,37 +1684,7 @@ ShallowWrapper {
                   label="All subscriptions"
                   light={false}
                   onChange={[Function]}
-                  selectedItem={
-                    Object {
-                      "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                      "hasSubchannels": true,
-                      "label": "guestbook-app",
-                      "splitChn": Array [
-                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                        "default",
-                        "guestbook-app",
-                        "gbapp-ch",
-                        "guestbook-app-latest",
-                      ],
-                      "subchannels": Array [
-                        Object {
-                          "beg": "mysql-wordpress-pd-wordpress-mysql-service",
-                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                          "end": "staging-elasticsearch-elasticsearch-serviceaccount",
-                        },
-                        Object {
-                          "beg": "elasticsearch-es-replicationcontroller",
-                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                          "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                        },
-                        Object {
-                          "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
-                          "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
-                          "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
-                        },
-                      ],
-                    }
-                  }
+                  selectedItem={Object {}}
                   type="default"
                 />,
                 "className": "channelsCombo",
@@ -2051,35 +1735,7 @@ ShallowWrapper {
                   "label": "All subscriptions",
                   "light": false,
                   "onChange": [Function],
-                  "selectedItem": Object {
-                    "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                    "hasSubchannels": true,
-                    "label": "guestbook-app",
-                    "splitChn": Array [
-                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                      "default",
-                      "guestbook-app",
-                      "gbapp-ch",
-                      "guestbook-app-latest",
-                    ],
-                    "subchannels": Array [
-                      Object {
-                        "beg": "mysql-wordpress-pd-wordpress-mysql-service",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                        "end": "staging-elasticsearch-elasticsearch-serviceaccount",
-                      },
-                      Object {
-                        "beg": "elasticsearch-es-replicationcontroller",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                        "end": "persistent-volume-provisioning-glusterfs-heketi-secret-secret",
-                      },
-                      Object {
-                        "beg": "persistent-volume-provisioning-glusterfs-slow-storageclass",
-                        "chnl": "default/guestbook-app//gbapp-ch/guestbook-app-latest///persistent-volume-provisioning-glusterfs-slow-storageclass///spark-spark-gluster-spark-master-controller-replicationcontroller",
-                        "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
-                      },
-                    ],
-                  },
+                  "selectedItem": Object {},
                   "type": "default",
                 },
                 "ref": null,

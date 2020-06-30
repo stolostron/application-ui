@@ -1221,8 +1221,6 @@ export default class LayoutHelper {
         }
 
         // sort larger collections by size
-        const az = ae.length
-        const bz = be.length
         if (az >= 5 && bz < 5) {
           return -1
         } else if (az < 5 && bz >= 5) {

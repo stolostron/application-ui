@@ -342,8 +342,8 @@ export default class NodeHelper {
       .call(this.layoutBackgroundRect)
   };
 
-  layoutBackgroundRect = selection => {
-    selection.each(({ layout }, i, ns) => {
+  layoutBackgroundRect = selectionB => {
+    selectionB.each(({ layout }, i, ns) => {
       layout.textBBox = ns[i].getBBox()
       d3
         .select(ns[i])
@@ -415,7 +415,7 @@ export default class NodeHelper {
       })
 
     // node status message
-    const nodeStatus = nodes
+    const nodeStatusT = nodes
       .selectAll(textNodeStatus)
       .data(
         ({ layout: { y, scale, search, nodeStatus = '', textBBox, uid } }) => {
@@ -424,8 +424,8 @@ export default class NodeHelper {
             : []
         }
       )
-    nodeStatus.exit().remove()
-    nodeStatus
+    nodeStatusT.exit().remove()
+    nodeStatusT
       .enter()
       .append('text')
       .text(({ nodeStatus }) => {
@@ -717,8 +717,8 @@ export const interruptNodes = svg => {
     .select('g.nodes')
     .selectAll('g.node')
     .interrupt()
-    .call(selection => {
-      selection.each(({ layout }, i, ns) => {
+    .call(selectionN => {
+      selectionN.each(({ layout }, i, ns) => {
         if (layout) {
           const { search = FilterResults.nosearch } = layout
           d3
@@ -852,6 +852,34 @@ export const counterZoomLabels = (svg, currentZoom) => {
   }
 }
 
+const getSplitName = (
+  search,
+  line,
+  acrossLines,
+  idx,
+  name,
+  searchNames,
+  regex
+) => {
+  if (search === FilterResults.match) {
+    // if match falls across label lines, put result in middle line
+    if (acrossLines) {
+      if (idx === 1) {
+        return name
+          .split(regex)
+          .filter(str => searchNames.indexOf(str) !== -1)
+          .concat(line.substr(searchNames[0].length))
+      } else {
+        return [line]
+      }
+    } else {
+      return line.split(regex).filter(s => !!s)
+    }
+  } else {
+    return [line]
+  }
+}
+
 // during search mode, show match in label in boldface
 export const showMatches = (svg, searchNames) => {
   if (svg) {
@@ -874,27 +902,19 @@ export const showMatches = (svg, searchNames) => {
           d3
             .select(ns[i])
             .selectAll('text.regularLabel')
-            .each((d, j, ln) => {
+            .each((d1, j, ln) => {
               ln[j].outerHTML = draw
                 .text(add => {
                   const lines = label.split('\n').map((line, idx) => {
-                    if (search === FilterResults.match) {
-                      // if match falls across label lines, put result in middle line
-                      if (acrossLines) {
-                        if (idx === 1) {
-                          return name
-                            .split(regex)
-                            .filter(str => searchNames.indexOf(str) !== -1)
-                            .concat(line.substr(searchNames[0].length))
-                        } else {
-                          return [line]
-                        }
-                      } else {
-                        return line.split(regex).filter(s => !!s)
-                      }
-                    } else {
-                      return [line]
-                    }
+                    return getSplitName(
+                      search,
+                      line,
+                      acrossLines,
+                      idx,
+                      name,
+                      searchNames,
+                      regex
+                    )
                   })
                   lines.forEach(strs => {
                     strs.forEach((str, idx) => {

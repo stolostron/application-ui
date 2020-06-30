@@ -9,5 +9,5 @@ metadata:
   name:                             # Required. The name of the channel namespace resource to create.
   namespace:                        # Required. The namespace resource to use for the channel.
 spec:
-  type: GitHub
-  pathname:                         # Required. The HTTPS URL path for the GitHub repository.
+  type: Git
+  pathname:                         # Required. The HTTPS URL path for the Git repository.

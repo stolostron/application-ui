@@ -112,7 +112,7 @@ export function validator(parsed, exceptions, locale) {
     } else {
       resources.forEach(({ $raw: raw, $synced: synced }) => {
         // pull out the namespace values for comparing
-        const kind = _.get(raw, kind, '')
+        const kind = _.get(raw, 'kind', '')
         const ns = _.get(raw, 'metadata.namespace')
         const name = _.get(raw, 'metadata.name')
 

@@ -50,7 +50,7 @@ class ChannelControl extends React.Component {
 
   // sync scrollbar height with diagram height
   syncHeight() {
-    var div = document.getElementById('diagram-viewer-container-container')
+    const div = document.getElementById('diagram-viewer-container-container')
     if (div) {
       this.setState({ diagramHeight: div.getBoundingClientRect().height })
     }

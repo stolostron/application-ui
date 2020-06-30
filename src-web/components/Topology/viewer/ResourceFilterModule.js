@@ -73,10 +73,8 @@ const FilterSection = ({
   // show more/or less
   const count = filters.length - showThreshold
   const showMoreOrLess = count > 0
-  if (showMoreOrLess) {
-    if (!isExpanded) {
-      filters = filters.slice(0, showThreshold)
-    }
+  if (showMoreOrLess && !isExpanded) {
+    filters = filters.slice(0, showThreshold)
   }
 
   return (
@@ -446,7 +444,7 @@ class ResourceFilterModule extends React.Component {
     const { portals = {}, locale } = this.props
     const { assortedFilterCloseBtns } = portals
     if (assortedFilterCloseBtns) {
-      var portal = document.getElementById(assortedFilterCloseBtns)
+      const portal = document.getElementById(assortedFilterCloseBtns)
       if (portal) {
         const boundFilters = this.getBoundFilters(locale)
         return ReactDOM.createPortal(

@@ -34,4 +34,12 @@ export const getStatusPercentages = status => {
       }
     }
   }
+
+  return {
+    pass: 0,
+    completed: 0,
+    inprogress: 0,
+    fail: 0,
+    total: 0
+  }
 }

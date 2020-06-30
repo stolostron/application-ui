@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -23,9 +24,6 @@ resources(() => {
 })
 
 export class SecondaryHeader extends React.Component {
-  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-  /* eslint-disable react/prop-types, react/jsx-no-bind */
-
   constructor(props) {
     super(props)
     this.renderBreadCrumb = this.renderBreadCrumb.bind(this)
@@ -168,11 +166,9 @@ export class SecondaryHeader extends React.Component {
         tab.index = index
         return tab
       })
-      .filter((tab, index) => {
-        if (index !== 0) {
-          return location.pathname.startsWith(tab.url)
-        }
-      })
+      .filter(
+        (tab, index) => index !== 0 && location.pathname.startsWith(tab.url)
+      )
     return selectedTab[0] && selectedTab[0].index
   }
 
@@ -181,8 +177,13 @@ export class SecondaryHeader extends React.Component {
   }
 }
 
-SecondaryHeader.contextTypes = {
-  locale: PropTypes.string
+SecondaryHeader.propTypes = {
+  actions: PropTypes.object,
+  breadcrumbItems: PropTypes.array,
+  history: PropTypes.object,
+  location: PropTypes.object,
+  tabs: PropTypes.array,
+  title: PropTypes.string
 }
 
 const mapDispatchToProps = dispatch => {

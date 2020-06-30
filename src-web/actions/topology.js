@@ -138,7 +138,7 @@ export const fetchTopologyFilters = () => {
         if (response.errors) {
           return dispatch(receiveFiltersError(response.errors[0]))
         }
-        dispatch({
+        return dispatch({
           type: Actions.TOPOLOGY_FILTERS_RECEIVE_SUCCESS,
           clusters: lodash.cloneDeep(response.data.clusters),
           labels: lodash.cloneDeep(response.data.labels),

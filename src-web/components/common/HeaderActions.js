@@ -54,8 +54,8 @@ const HeaderActions = withLocale(
           />
           {msgs.get('application.edit.app', locale)}
         </Link>
-
-        <span className="app-info-and-dashboard-links-separator" />
+        <span className="app-info-and-dashboard-links-separator" />&nbsp;
+        <span className="app-info-and-dashboard-links-separator-f" />
       </div>
     )
   }

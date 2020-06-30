@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -8,9 +9,8 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
 
-/* FIXME: Please fix disabled eslint rules when making changes to this file. */
-/* eslint-disable react/prop-types */
 /**
  * Functional React component that serves as a base
  * for all pages and renders the header
@@ -20,5 +20,9 @@ const Page = ({ children }) => (
     {children}
   </div>
 )
+
+Page.propTypes = {
+  children: PropTypes.object
+}
 
 export default Page

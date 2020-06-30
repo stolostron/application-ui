@@ -838,7 +838,6 @@ export const AppOverview = {
   showAppDetails: false,
   showExpandedTopology: false,
   showGrafanaAction: true,
-  showCEMAction: false,
   selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
 };
 
@@ -847,7 +846,6 @@ export const AppOverviewWithCEM = {
   showAppDetails: false,
   showExpandedTopology: false,
   showGrafanaAction: true,
-  showCEMAction: true,
   selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
 };
 

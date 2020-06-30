@@ -7,10 +7,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-// seems to be an issue with this rule and redux
-/* eslint-disable import/no-named-as-default, react/display-name */
-import R from 'ramda'
-
+import { compose, setDisplayName } from 'recompose'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -36,9 +33,6 @@ resources(() => {
 })
 
 class App extends React.Component {
-  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-  /* eslint-disable react/prop-types, react/jsx-no-bind */
-
   constructor(props) {
     super(props)
     if (client) {
@@ -73,12 +67,11 @@ class App extends React.Component {
     const serverProps = this.getServerProps()
 
     actions.setEnableGrafanaAction(serverProps && serverProps.isGrafanaRunning)
-    actions.setEnableCEMAction(serverProps && serverProps.isCEMRunning)
   }
 
   render() {
     const serverProps = this.getServerProps()
-    const { match, location, activeAccountId } = this.props
+    const { match, location } = this.props
     const showSecondaryHeader =
       location.pathname &&
       !location.pathname.startsWith('/multicloud/welcome') &&
@@ -106,10 +99,7 @@ class App extends React.Component {
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />
-        <ActionModalApollo
-          locale={serverProps.context.locale}
-          activeAccountId={activeAccountId}
-        />
+        <ActionModalApollo locale={serverProps.context.locale} />
         <input
           type="hidden"
           id="app-access"
@@ -119,6 +109,14 @@ class App extends React.Component {
       </div>
     )
   }
+}
+
+App.propTypes = {
+  actions: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
+  serverProps: PropTypes.object,
+  staticContext: PropTypes.object
 }
 
 App.childContextTypes = {
@@ -132,16 +130,8 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  const userInfoList = state.userInfoList
-
-  const activeAccountId = R.pathOr(
-    '',
-    ['items', 'activeAccountId'],
-    userInfoList
-  )
   return {
-    user: state.user,
-    activeAccountId: activeAccountId
+    user: state.user
   }
 }
 
@@ -149,7 +139,7 @@ const Container = Component =>
   withRouter(connect(mapStateToProps, mapDispatchToProps)(Component))
 const AppContainer = Container(App)
 
-export default props => (
+export default compose(setDisplayName('AppComponent'))(props => (
   <div className="expand-vertically">
     <Route
       path={config.contextPath}
@@ -157,4 +147,4 @@ export default props => (
       render={() => <AppContainer {...props} />}
     />
   </div>
-)
+))

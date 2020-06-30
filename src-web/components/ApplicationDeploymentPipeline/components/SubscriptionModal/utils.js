@@ -73,7 +73,7 @@ export const getSearchUrlCluster = subName => {
 }
 
 export const getClusterCountForSub = (uid, applications) => {
-  var numClusters = 0
+  let numClusters = 0
 
   if (applications && applications.items) {
     Object.keys(applications.items).forEach(appIndex => {

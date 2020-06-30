@@ -117,14 +117,12 @@ const splitLabel = (label, width, rows) => {
     if (parts.length) {
       if (line.length + parts[0].length > width) {
         remaining -= line.length
-        if (remaining > width) {
-          if (rows === 2) {
-            // if penultimate row do a hard break
-            const split = parts[0]
-            const idx = width - line.length
-            line += split.substr(0, idx)
-            parts[0] = split.substr(idx)
-          }
+        if (remaining > width && rows === 2) {
+          // if penultimate row do a hard break
+          const split = parts[0]
+          const idx = width - line.length
+          line += split.substr(0, idx)
+          parts[0] = split.substr(idx)
         }
         lines.push(line)
         line = ''

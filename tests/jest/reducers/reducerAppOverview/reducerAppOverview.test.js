@@ -13,8 +13,7 @@ const initialStateOverview = {
   selectedAppTab: 0,
   showAppDetails: false,
   showExpandedTopology: false,
-  showGrafanaAction: false,
-  showCEMAction: false
+  showGrafanaAction: false
 };
 
 describe("AppOverview reducer", () => {
@@ -67,18 +66,6 @@ describe("AppOverview reducer", () => {
     ).toEqual({
       ...initialStateOverview,
       showGrafanaAction: true
-    });
-  });
-
-  it("handles SET_ENABLE_CEM_ACTION", () => {
-    expect(
-      AppOverview(initialStateOverview, {
-        type: "SET_ENABLE_CEM_ACTION",
-        payload: true
-      })
-    ).toEqual({
-      ...initialStateOverview,
-      showCEMAction: true
     });
   });
 });

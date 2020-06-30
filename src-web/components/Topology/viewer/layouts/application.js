@@ -79,7 +79,8 @@ export const positionApplicationRows = (row, typeToShapeMap) => {
         const pos = subscription.point()
         // place rules next to first subscription that uses it
         if (idx === 0) {
-          void ({ x, y } = pos)
+          x = pos.x
+          y = pos.y
         } else if (pos.x < x) {
           x = pos.x
         }
@@ -191,8 +192,8 @@ export const positionRowsDown = (
       const outgoers = n
         .outgoers()
         .nodes()
-        .filter(n => {
-          return !placedSet.has(n.id())
+        .filter(n1 => {
+          return !placedSet.has(n1.id())
         })
         .sort((a, b) => {
           a = a.data().node

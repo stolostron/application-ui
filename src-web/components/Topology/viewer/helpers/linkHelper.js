@@ -232,24 +232,24 @@ export const dragLinks = (svg, d, typeToShapeMap) => {
   svg
     .select('g.links')
     .selectAll('g.link')
-    .each((l, i, ns) => {
+    .each((l, i1, ns1) => {
       if (
         l.layout.source.uid === d.layout.uid ||
         l.layout.target.uid === d.layout.uid
       ) {
-        const link = d3.select(ns[i])
+        const link = d3.select(ns1[i1])
         const path = link.selectAll('path')
-        const layout = l.layout
+        const layout1 = l.layout
 
-        if (!layout.undragged) {
-          layout.undragged = {
-            linePath: layout.linePath
+        if (!layout1.undragged) {
+          layout1.undragged = {
+            linePath: layout1.linePath
           }
         }
 
         // set node position
-        const { isLoop } = layout
-        const { source, target } = layout
+        const { isLoop } = layout1
+        const { source, target } = layout1
         if (isLoop) {
           source.x = target.x = d.layout.x
           source.y = target.y = d.layout.y
@@ -263,17 +263,17 @@ export const dragLinks = (svg, d, typeToShapeMap) => {
 
         // flip line so that line label isn't upside down :(
         // which way does the arrow/label go
-        layout.isSwapped = !isLoop && source.x > target.x
+        layout1.isSwapped = !isLoop && source.x > target.x
         path.attrs(() => {
           return {
-            ...getLinkMarkers(layout)
+            ...getLinkMarkers(layout1)
           }
         })
 
         // update path
-        setDraggedLineData(layout)
+        setDraggedLineData(layout1)
         path.attr('d', () => {
-          return lineFunction(layout.lineData)
+          return lineFunction(layout1.lineData)
         })
         path.attr('d', ({ layout }, i, ns) => {
           return getBackedOffPath(ns[i], layout, typeToShapeMap)
@@ -342,6 +342,40 @@ export const getBackedOffPath = (svgPath, layout, typeToShapeMap) => {
   return linePath
 }
 
+const routeEdge = (
+  nodeMap,
+  sid,
+  tid,
+  layout,
+  adapter,
+  preparedColaRouting,
+  colaEdge
+) => {
+  if (nodeMap[sid] && nodeMap[tid]) {
+    const { position: { x: x1, y: y1 } } = nodeMap[sid]
+    const { position: { x: x2, y: y2 } } = nodeMap[tid]
+
+    // if cola layout and a line is long, route the line around the nodes
+    if (adapter && Math.hypot(x2 - x1, y2 - y1) > NODE_RADIUS * 6) {
+      if (!preparedColaRouting) {
+        adapter.prepareEdgeRouting(20)
+        // nodes need inner bounds
+        adapter.nodes().forEach(node => {
+          node.innerBounds = node.bounds.inflate(-20)
+        })
+        preparedColaRouting = true
+      }
+      layout.lineData = adapter.routeEdge(colaEdge, 0)
+    } else {
+      // else do nothing--just a straight line
+    }
+    // add endpoints
+    layout.lineData.unshift({ x: x1, y: y1 })
+    layout.lineData.push({ x: x2, y: y2 })
+  }
+
+  return preparedColaRouting
+}
 // do parallel, avoidance, self link layouts
 export const layoutEdges = (
   newLayout,
@@ -369,43 +403,25 @@ export const layoutEdges = (
         delete layout.backedOff
         let { source: { uid: sid }, target: { uid: tid } } = layout
         const colaEdge = edge.scratch().cola
-        if (nodeMap[sid] && nodeMap[tid]) {
+        if (nodeMap[sid] && nodeMap[tid] && showLineLabels) {
           // flip line so that line label isn't upside down :(
-          if (showLineLabels) {
-            layout.isSwapped =
-              nodeMap[sid].position.x > nodeMap[tid].position.x
-            if (layout.isSwapped) {
-              [tid, sid] = [sid, tid]
-              if (colaEdge) {
-                [colaEdge.target, colaEdge.source] = [
-                  colaEdge.source,
-                  colaEdge.target
-                ]
-              }
-            }
+          layout.isSwapped = nodeMap[sid].position.x > nodeMap[tid].position.x
+          if (layout.isSwapped && colaEdge) {
+            [tid, sid] = [sid, tid][(colaEdge.target, colaEdge.source)] = [
+              colaEdge.source,
+              colaEdge.target
+            ]
           }
 
-          const { position: { x: x1, y: y1 } } = nodeMap[sid]
-          const { position: { x: x2, y: y2 } } = nodeMap[tid]
-
-          // if cola layout and a line is long, route the line around the nodes
-          if (adapter && Math.hypot(x2 - x1, y2 - y1) > NODE_RADIUS * 6) {
-            if (!preparedColaRouting) {
-              adapter.prepareEdgeRouting(20)
-              // nodes need inner bounds
-              adapter.nodes().forEach(node => {
-                node.innerBounds = node.bounds.inflate(-20)
-              })
-              preparedColaRouting = true
-            }
-            layout.lineData = adapter.routeEdge(colaEdge, 0)
-          } else {
-            // else do nothing--just a straight line
-          }
-
-          // add endpoints
-          layout.lineData.unshift({ x: x1, y: y1 })
-          layout.lineData.push({ x: x2, y: y2 })
+          preparedColaRouting = routeEdge(
+            nodeMap,
+            sid,
+            tid,
+            layout,
+            adapter,
+            preparedColaRouting,
+            colaEdge
+          )
         }
       }
 
@@ -576,15 +592,15 @@ export const defineLinkMarkers = svg => {
       .attr('class', className)
   }
 
-  const defs = svg.append('defs')
-  defineArrowheadMarker(defs, 'arrowhead', 'arrowDecorator')
-  defineArrowheadMarker(defs, 'arrowheadfaded', 'arrowDecorator faded')
-  defineArrowheadMarker(defs, 'reversedarrowhead', 'arrowDecorator', true)
+  const defs2 = svg.append('defs')
+  defineArrowheadMarker(defs2, 'arrowhead', 'arrowDecorator')
+  defineArrowheadMarker(defs2, 'arrowheadfaded', 'arrowDecorator faded')
+  defineArrowheadMarker(defs2, 'reversedarrowhead', 'arrowDecorator', true)
   defineArrowheadMarker(
-    defs,
+    defs2,
     'reversedarrowheadfaded',
     'arrowDecorator faded',
     true
   )
-  defineSquareheadMarker(defs, 'squarehead', 'squareDecorator')
+  defineSquareheadMarker(defs2, 'squarehead', 'squareDecorator')
 }

@@ -7,6 +7,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
+import _ from 'lodash'
 import msgs from '../../../nls/platform.properties'
 import { validatorHelper, checkKeyExists, checkParsedKeys } from './utils'
 
@@ -120,31 +121,18 @@ export function validator(parsed, exceptions, locale) {
 
       resources.forEach(({ $raw: raw, $synced: synced }) => {
         // pull out the namespace values after looping through
-        if (
-          raw &&
-          raw.kind === 'Namespace' &&
-          raw.metadata &&
-          raw.metadata.name
-        ) {
-          namespace = raw.metadata.name
+        const kind = _.get(raw, kind, '')
+        const ns = _.get(raw, 'metadata.namespace')
+
+        if (kind === 'Namespace') {
+          namespace = _.get(raw, 'metadata.name', '')
         }
-        if (
-          raw &&
-          raw.kind === 'Channel' &&
-          raw.metadata &&
-          raw.metadata.namespace
-        ) {
-          channelNamespace = raw.metadata.namespace
+        if (kind === 'Channel' && ns) {
+          channelNamespace = ns
           channelNamespaceRow = synced.metadata.$v.namespace.$r
         }
-
-        if (
-          raw &&
-          raw.kind === 'ConfigMap' &&
-          raw.metadata &&
-          raw.metadata.namespace
-        ) {
-          configMapNamespace = raw.metadata.namespace
+        if (kind === 'ConfigMap' && ns) {
+          configMapNamespace = ns
           configMapNamespaceRow = synced.metadata.$v.namespace.$r
         }
 

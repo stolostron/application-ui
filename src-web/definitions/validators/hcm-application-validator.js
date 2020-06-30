@@ -7,6 +7,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
+import _ from 'lodash'
 import msgs from '../../../nls/platform.properties'
 import { checkKeyExists, checkParsedKeys, validatorHelper } from './utils'
 
@@ -74,21 +75,13 @@ export function validator(parsed, exceptions, locale) {
     } else {
       resources.forEach(({ $raw: raw, $synced: synced }) => {
         //pull out the namespace values after looping through
-        if (
-          raw &&
-          raw.kind === 'Namespace' &&
-          raw.metadata &&
-          raw.metadata.name
-        ) {
-          namespace = raw.metadata.name
-        }
-        if (
-          raw &&
-          raw.kind === 'Application' &&
-          raw.metadata &&
-          raw.metadata.namespace
-        ) {
-          applicationNamespace = raw.metadata.namespace
+        const kind = _.get(raw, kind, '')
+        const ns = _.get(raw, 'metadata.namespace')
+
+        if (kind === 'Namespace') {
+          namespace = _.get(raw, 'metadata.name', '')
+        } else if (kind === 'Application' && ns) {
+          applicationNamespace = ns
           applicationNamespaceRow = synced.metadata.$v.namespace.$r
         }
 

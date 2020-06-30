@@ -165,32 +165,30 @@ export default class FilterHelper {
 
   manageRelatedMaps = (matchingMap, relatedMap, elementMap) => {
     // are there any paths between?
-    if (Object.keys(matchingMap).length > 0) {
-      // mark srcs and tgts that have a path between them as matches
-      for (const id in matchingMap) {
-        if (matchingMap.hasOwnProperty(id)) {
-          const { node: { layout } } = matchingMap[id].data()
-          layout.search = FilterResults.match
-          delete relatedMap[id]
-          delete elementMap[id]
-        }
+    // mark srcs and tgts that have a path between them as matches
+    for (const id in matchingMap) {
+      if (matchingMap.hasOwnProperty(id)) {
+        const { node: { layout } } = matchingMap[id].data()
+        layout.search = FilterResults.match
+        delete relatedMap[id]
+        delete elementMap[id]
       }
+    }
 
-      // mark elements between matched srcs and tgts as related
-      for (const id in relatedMap) {
-        if (relatedMap.hasOwnProperty(id)) {
-          const element = relatedMap[id]
-          const data = element.data()
-          let layout
-          if (data) {
-            if (element.isNode()) {
-              ({ layout } = data.node)
-            } else {
-              ({ layout } = data.edge)
-            }
-            layout.search = FilterResults.match // FilterResults.related
-            delete elementMap[id]
+    // mark elements between matched srcs and tgts as related
+    for (const id in relatedMap) {
+      if (relatedMap.hasOwnProperty(id)) {
+        const element = relatedMap[id]
+        const data = element.data()
+        let layout
+        if (data) {
+          if (element.isNode()) {
+            ({ layout } = data.node)
+          } else {
+            ({ layout } = data.edge)
           }
+          layout.search = FilterResults.match // FilterResults.related
+          delete elementMap[id]
         }
       }
     }
@@ -270,7 +268,9 @@ export default class FilterHelper {
             })
           })
           // are there any paths between?
-          this.manageRelatedMaps(matchingMap, relatedMap, elementMap)
+          if (Object.keys(matchingMap).length > 0) {
+            this.manageRelatedMaps(matchingMap, relatedMap, elementMap)
+          }
         }
       }
 

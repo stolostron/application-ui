@@ -57,9 +57,9 @@ cp -r ./cypress/videos /results/videos
 #   npm run test:slack
 # fi
 
-if [ $CYPRESS_TEST_MODE == "functional" ]; then
-  echo "Cleaning up functional test resources..."
-  sh ./tests/cypress/scripts/resource-cleanup.sh
-fi
+#if [ $CYPRESS_TEST_MODE == "functional" ]; then
+#  echo "Cleaning up functional test resources..."
+#  sh ./tests/cypress/scripts/resource-cleanup.sh
+#fi
 
 exit $testCode

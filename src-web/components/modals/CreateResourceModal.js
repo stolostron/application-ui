@@ -95,18 +95,18 @@ class CreateResourceModal extends React.PureComponent {
     this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
     this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
     this.props.deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
-    let resources
+    let resourcesTemp
     try {
       // the next line code will split the yaml content into multi-parts
       // if '---' found in the content
-      resources = jsYaml.safeLoadAll(this.state.yaml)
+      resourcesTemp = jsYaml.safeLoadAll(this.state.yaml)
     } catch (e) {
       this.setState({ yamlParsingError: e })
       return
     }
     this.setState({ yamlParsingError: null, processing: true })
 
-    this.props.onCreateResource(resources).then(result => {
+    this.props.onCreateResource(resourcesTemp).then(result => {
       const results = R.pathOr(
         [],
         ['data', 'createResources', 'result'],

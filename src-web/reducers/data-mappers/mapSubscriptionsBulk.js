@@ -19,6 +19,23 @@ const isDataShown = channel => {
   return true
 }
 
+const emptyData = {
+  name: '',
+  namespace: '',
+  selfLink: '',
+  _uid: '',
+  created: '',
+  pathname: '',
+  apigroup: '',
+  cluster: '',
+  kind: '',
+  label: '',
+  type: '',
+  _hubClusterResource: '',
+  _rbac: '',
+  related: []
+}
+
 // @flow
 export const mapBulkSubscriptions = subscriptions => {
   if (subscriptions) {
@@ -60,30 +77,14 @@ export const mapBulkSubscriptions = subscriptions => {
           }
         }
       }
+      return null
     })
-    const removeUndefined = x => x !== undefined
+    const removeUndefined = x => x !== undefined && x !== null
     const removedUndefinedSubscriptions = R.filter(
       removeUndefined,
       mappedSubscriptions
     )
     return removedUndefinedSubscriptions
   }
-  return [
-    {
-      name: '',
-      namespace: '',
-      selfLink: '',
-      _uid: '',
-      created: '',
-      pathname: '',
-      apigroup: '',
-      cluster: '',
-      kind: '',
-      label: '',
-      type: '',
-      _hubClusterResource: '',
-      _rbac: '',
-      related: []
-    }
-  ]
+  return [emptyData]
 }

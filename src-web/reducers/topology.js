@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -57,7 +58,7 @@ export const topology = (state = initialState, action) => {
         fetchFilters: action.fetchFilters,
         reloading: action.reloading,
         loaded: action.reloading,
-        detailsReloading: false,
+        detailsReloading: false
       }
     }
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
@@ -81,7 +82,7 @@ export const topology = (state = initialState, action) => {
         fetchFilters: action.fetchFilters,
         detailsReloading: action.reloading,
         detailsLoaded: action.reloading,
-        willLoadDetails: false,
+        willLoadDetails: false
       }
     }
     case Actions.RESOURCE_DETAILS_RECEIVE_SUCCESS: {
@@ -162,7 +163,7 @@ export const topology = (state = initialState, action) => {
     const clusterFilters = []
     action.clusters.forEach(({ metadata: c }) => {
       clusterFilters.push({
-        label: `name: ${c.name}`, //FIXME: NLS. Labels received from the API aren't translated either.
+        label: `name: ${c.name}`,
         filterValues: [c.name]
       })
       Object.keys(c.labels).forEach(labelKey => {

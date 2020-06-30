@@ -87,8 +87,8 @@ const allValues = {
 }
 
 export function validator(parsed, exceptions, locale) {
-  const required = Object.keys(requiredValues)
-  checkKeyExists(required, parsed, exceptions, locale)
+  const requiredKeys = Object.keys(requiredValues)
+  checkKeyExists(requiredKeys, parsed, exceptions, locale)
 
   let subscriptionNamespace = ''
   let subscriptionPlacementRuleName = ''

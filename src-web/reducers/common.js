@@ -114,13 +114,18 @@ function searchTableCellHelper(search, tableKeys, item, context) {
   const searchField = search.substring(search.indexOf('=') + 1)
 
   if (searchKey === 'textsearch') {
-    return tableKeys.find(tableKey =>
-      searchTableCell(item, tableKey, context, searchField.replace(/[{}]/g, ''))
+    return tableKeys.find(tableKeyTmp =>
+      searchTableCell(
+        item,
+        tableKeyTmp,
+        context,
+        searchField.replace(/[{}]/g, '')
+      )
     )
   }
   const tableKey = tableKeys.find(
-    tableKey =>
-      msgs.get(tableKey.msgKey, context.locale).toLowerCase() ===
+    tableKeyTmp =>
+      msgs.get(tableKeyTmp.msgKey, context.locale).toLowerCase() ===
       searchKey.toLowerCase()
   )
   if (!lodash.isEmpty(searchField)) {
@@ -132,8 +137,8 @@ function searchTableCellHelper(search, tableKeys, item, context) {
       let found = false
       const searchKeys = searchField.replace(/[{}]/g, '').split(',')
       if (searchKeys && tableKey) {
-        searchKeys.forEach(searchKey => {
-          if (searchTableCell(item, tableKey, context, searchKey)) {
+        searchKeys.forEach(searchKeyTmp => {
+          if (searchTableCell(item, tableKey, context, searchKeyTmp)) {
             found = true
           }
         })
@@ -147,8 +152,8 @@ function searchTableCellHelper(search, tableKeys, item, context) {
   }
 
   // by default, search all fields
-  return tableKeys.find(tableKey =>
-    searchTableCell(item, tableKey, context, search)
+  return tableKeys.find(tableKeyTmp =>
+    searchTableCell(item, tableKeyTmp, context, search)
   )
 }
 

@@ -73,5 +73,6 @@ export const resourceActions = (action, dispatch, resourceType, data) => {
   }
 
   default:
+    return null
   }
 }

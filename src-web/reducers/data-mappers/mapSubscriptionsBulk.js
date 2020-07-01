@@ -54,7 +54,7 @@ export const mapBulkSubscriptions = subscriptions => {
         ) {
           const items = hubSubscriptions[0]
           if (items.channel && isDataShown(items.channel)) {
-            const data = {
+            return {
               name: items.name || '',
               namespace: items.namespace || '',
               selfLink: items.selfLink || '',
@@ -72,19 +72,13 @@ export const mapBulkSubscriptions = subscriptions => {
               _rbac: items._rbac || '',
               related: subscription.related || []
             }
-
-            return data
           }
         }
       }
       return null
     })
     const removeUndefined = x => x !== undefined && x !== null
-    const removedUndefinedSubscriptions = R.filter(
-      removeUndefined,
-      mappedSubscriptions
-    )
-    return removedUndefinedSubscriptions
+    return R.filter(removeUndefined, mappedSubscriptions)
   }
   return [emptyData]
 }

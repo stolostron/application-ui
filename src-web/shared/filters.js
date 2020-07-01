@@ -32,8 +32,7 @@ export const createFilter = (matchKey, matchValues) => {
       // the object could have many keys, but we only care about the one we specified.
       const dataValueArr = wrapWithArr(eachObj[matchKey]) // properties on the object
       // compare arrays and see if there is match.
-      const isMatch = !!findCommonElements(dataValueArr, matchValueArr).length
-      return isMatch
+      return !!findCommonElements(dataValueArr, matchValueArr).length
     })
   }
 }
@@ -48,10 +47,9 @@ export const createFilter = (matchKey, matchValues) => {
  *  e.g.  [createFilter(ages, [14, 16]), createFilter(isAuthorized, true)]
  */
 const createSimpleMatchFilters = (filterMapObj = {}) => {
-  const filters = Object.keys(filterMapObj).map(eachFilterKey => {
+  return Object.keys(filterMapObj).map(eachFilterKey => {
     return createFilter(eachFilterKey, filterMapObj[eachFilterKey])
   })
-  return filters
 }
 
 export const searchObjArr = (term, arr) => {
@@ -64,11 +62,10 @@ export const searchObjArr = (term, arr) => {
 }
 
 export const multiFilter = (data = [], filterObj, searchStr) => {
-  const filteredArr = pipe([
+  return pipe([
     ...createSimpleMatchFilters(filterObj),
     (...args) => searchObjArr(searchStr, ...args)
   ])(data)
-  return filteredArr
 }
 
 // resources mapper for the data that comes with /charts/ call.

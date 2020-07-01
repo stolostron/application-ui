@@ -133,7 +133,7 @@ export const getDiagramElements = (
     let row = 0
     const yamls = []
     const clustersList = []
-    let activeChannel
+    let activeChannelInfo
     let channelsList = []
     const originalMap = {}
     const allResourcesMap = {}
@@ -144,7 +144,7 @@ export const getDiagramElements = (
       const { type } = node
 
       if (type === 'application') {
-        activeChannel = _.get(
+        activeChannelInfo = _.get(
           node,
           'specs.activeChannel',
           '__ALL__/__ALL__//__ALL__/__ALL__'
@@ -169,10 +169,10 @@ export const getDiagramElements = (
 
     // save results
     saveStoredObject(localStoreKey, {
-      activeChannel,
+      activeChannelInfo,
       channelsList
     })
-    saveStoredObject(`${localStoreKey}-${activeChannel}`, {
+    saveStoredObject(`${localStoreKey}-${activeChannelInfo}`, {
       clusters: clustersList,
       links: topo_links,
       nodes: topo_nodes,
@@ -184,7 +184,7 @@ export const getDiagramElements = (
     addDiagramDetails(
       topology,
       allResourcesMap,
-      activeChannel,
+      activeChannelInfo,
       localStoreKey,
       isClusterGrouped,
       applicationDetails
@@ -196,7 +196,7 @@ export const getDiagramElements = (
 
     return {
       clusters: clustersList,
-      activeChannel,
+      activeChannel: activeChannelInfo,
       channels: channelsList,
       links: topo_links,
       nodes: topo_nodes,
@@ -215,47 +215,37 @@ export const getDiagramElements = (
 
   // if not loaded yet, see if there's a stored version
   // with the same diagram filters
-  if (!topologyReloading) {
-    let channelsList2 = []
-    let activeChannel
-    const storedActiveChannel = getStoredObject(localStoreKey)
-    if (storedActiveChannel) {
-      activeChannel = storedActiveChannel.activeChannel
-      channelsList2 = storedActiveChannel.channels || []
-    }
-    activeChannel = _.get(
-      topology,
-      'fetchFilters.application.channel',
-      activeChannel
+  let channelsList2 = []
+  let activeChannelInfo2
+  const storedActiveChannel = getStoredObject(localStoreKey)
+  if (storedActiveChannel) {
+    activeChannelInfo2 = storedActiveChannel.activeChannel
+    channelsList2 = storedActiveChannel.channelsList || []
+  }
+  activeChannelInfo2 = _.get(
+    topology,
+    'fetchFilters.application.channel',
+    activeChannelInfo2
+  )
+  if (activeChannelInfo2) {
+    const storedElements = getStoredObject(
+      `${localStoreKey}-${activeChannelInfo2}`
     )
-    if (activeChannel) {
-      const storedElements = getStoredObject(
-        `${localStoreKey}-${activeChannel}`
-      )
-      if (storedElements) {
-        const {
-          clustersStored = [],
-          empty_linksStored = [],
-          empty_nodesStored = [],
-          yaml_stored = ''
-        } = storedElements
-
-        return {
-          clusters: clustersStored,
-          activeChannel,
-          channels: channelsList2,
-          empty_links: empty_linksStored,
-          empty_nodes: empty_nodesStored,
-          yaml: yaml_stored,
-          topologyLoaded: true,
-          storedVersion: true,
-          topologyLoadError,
-          topologyReloading
-        }
+    if (storedElements) {
+      return {
+        clusters: storedElements.clusters,
+        activeChannel: activeChannelInfo2,
+        channels: channelsList2,
+        links: storedElements.links,
+        nodes: storedElements.nodes,
+        yaml: storedElements.yaml,
+        topologyLoaded: true,
+        storedVersion: true,
+        topologyLoadError,
+        topologyReloading
       }
     }
   }
-
   // if no topology yet, create diagram with search item
   const nodes2 = []
   // create application node

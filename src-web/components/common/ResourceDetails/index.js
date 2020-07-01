@@ -117,8 +117,8 @@ const withResource = Component => {
             }
           }
         } else {
-          retry = undefined
-          showError = undefined
+          retry = null
+          showError = null
         }
         this.setState({ xhrPoll: true, retry, showError })
         if (status !== Actions.REQUEST_STATUS.DONE) {
@@ -350,7 +350,7 @@ const mapStateToProps = (state, ownProps) => {
   } else {
     params = (ownProps.match && ownProps.match.params) || {}
   }
-  const item_key =
+  const itemKey =
     (params &&
       params.name &&
       params.namespace &&
@@ -358,7 +358,7 @@ const mapStateToProps = (state, ownProps) => {
         '-' +
         decodeURIComponent(params.namespace)) ||
     undefined
-  const item = (items && item_key && items[item_key]) || undefined
+  const item = (items && itemKey && items[itemKey]) || undefined
   const _uid = (item && item['_uid']) || ''
   const clusterName = (item && item['cluster']) || ''
   return {

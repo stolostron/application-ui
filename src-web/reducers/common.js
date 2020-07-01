@@ -210,7 +210,7 @@ const makeGetTransformedItemsSelector = resourceType => {
   })
 }
 
-//TODO could we do better? - we have one selector thus one cache for sorting.
+//Could we do better? - we have one selector thus one cache for sorting.
 //Thus if the sort direction change is toggled back we re-calculate.
 const makeGetSortedItemsSelector = resourceType => {
   return createSelector(

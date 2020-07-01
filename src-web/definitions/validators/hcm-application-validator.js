@@ -111,15 +111,13 @@ export function validator(parsed, exceptions, locale) {
   })
 
   //namespace values must match what is defined(if passed)
-  if (namespace) {
-    if (applicationNamespace && applicationNamespace !== namespace) {
-      // error
-      exceptions.push({
-        row: applicationNamespaceRow,
-        text: msgs.get('validation.namespace.mismatch', [namespace], locale),
-        column: 0,
-        type: 'error'
-      })
-    }
+  if (namespace && applicationNamespace && applicationNamespace !== namespace) {
+    // error
+    exceptions.push({
+      row: applicationNamespaceRow,
+      text: msgs.get('validation.namespace.mismatch', [namespace], locale),
+      column: 0,
+      type: 'error'
+    })
   }
 }

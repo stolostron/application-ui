@@ -18,13 +18,9 @@ import {
   getActiveChannel,
   getDiagramElements
 } from './definitions/hcm-application-diagram'
-import { fetchResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { processResourceActionLink } from '../Topology/utils/diagram-helpers'
-import {
-  DIAGRAM_QUERY_COOKIE,
-  RESOURCE_TYPES
-} from '../../../lib/shared/constants'
+import { DIAGRAM_QUERY_COOKIE } from '../../../lib/shared/constants'
 import { InlineNotification } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
 import {
@@ -76,7 +72,6 @@ class ApplicationTopologyModule extends React.Component {
     diagramFilters: PropTypes.array,
     fetchAppTopology: PropTypes.func,
     fetchError: PropTypes.object,
-    fetchHCMApplicationResource: PropTypes.func,
     links: PropTypes.array,
     locale: PropTypes.string,
     nodes: PropTypes.array,
@@ -119,7 +114,6 @@ class ApplicationTopologyModule extends React.Component {
     const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
     const activeChannel = getActiveChannel(localStoreKey)
     this.props.fetchAppTopology(activeChannel)
-    this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
   }
 
@@ -143,17 +137,8 @@ class ApplicationTopologyModule extends React.Component {
 
   // call to actually refetch the new data
   reload() {
-    const {
-      fetchAppTopology,
-      fetchHCMApplicationResource,
-      activeChannel,
-      params
-    } = this.props
+    const { fetchAppTopology, activeChannel } = this.props
     fetchAppTopology(activeChannel, true)
-
-    if (params && params.name && params.namespace) {
-      fetchHCMApplicationResource(params.namespace, params.name)
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -216,6 +201,9 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (_.get(nextProps, 'HCMApplicationList.status', '') === 'DONE') {
+      return true //always update when search is done
+    }
     if (
       nextProps.activeChannel !== undefined &&
       nextState.activeChannel !== undefined &&
@@ -467,9 +455,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         type: TOPOLOGY_SET_ACTIVE_FILTERS,
         activeFilters: {}
       })
-    },
-    fetchHCMApplicationResource: () => {
-      dispatch(fetchResource(RESOURCE_TYPES.HCM_APPLICATIONS, namespace, name))
     },
     fetchAppTopology: (fetchChannel, reloading) => {
       const fetchFilters = {

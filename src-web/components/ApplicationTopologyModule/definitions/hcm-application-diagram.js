@@ -221,7 +221,7 @@ export const getDiagramElements = (
     const storedActiveChannel = getStoredObject(localStoreKey)
     if (storedActiveChannel) {
       activeChannel = storedActiveChannel.activeChannel
-      channelsList2 = storedActiveChannel.channels || []
+      channelsList2 = storedActiveChannel.channelsList || []
     }
     activeChannel = _.get(
       topology,
@@ -233,20 +233,13 @@ export const getDiagramElements = (
         `${localStoreKey}-${activeChannel}`
       )
       if (storedElements) {
-        const {
-          clustersStored = [],
-          empty_linksStored = [],
-          empty_nodesStored = [],
-          yaml_stored = ''
-        } = storedElements
-
         return {
-          clusters: clustersStored,
+          clusters: storedElements.clusters,
           activeChannel,
           channels: channelsList2,
-          empty_links: empty_linksStored,
-          empty_nodes: empty_nodesStored,
-          yaml: yaml_stored,
+          links: storedElements.links,
+          nodes: storedElements.nodes,
+          yaml: storedElements.yaml,
           topologyLoaded: true,
           storedVersion: true,
           topologyLoadError,

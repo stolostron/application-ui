@@ -12,6 +12,7 @@ import lodash from 'lodash'
 import * as Actions from './index'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import apolloClient from '../../lib/client/apollo-client'
+import { fetchResource } from './common'
 
 export const requestResource = (resourceType, fetchFilters, reloading) => ({
   type: Actions.RESOURCE_REQUEST,
@@ -74,6 +75,9 @@ export const receiveTopologyDetailsSuccess = (
 })
 
 export const fetchTopology = (vars, fetchFilters, reloading) => {
+  const appName = lodash.get(fetchFilters, 'application.name', '')
+  const appNS = lodash.get(fetchFilters, 'application.namespace', '')
+
   const resourceType = RESOURCE_TYPES.HCM_TOPOLOGY
   return dispatch => {
     dispatch(requestResource(resourceType, fetchFilters, reloading))
@@ -83,6 +87,9 @@ export const fetchTopology = (vars, fetchFilters, reloading) => {
         if (response.errors) {
           dispatch(receiveResourceError(response.errors[0], resourceType))
         } else {
+          dispatch(
+            fetchResource(RESOURCE_TYPES.HCM_APPLICATIONS, appNS, appName)
+          )
           // return topology
           const topology = {
             clusters: lodash.cloneDeep(response.data.clusters),

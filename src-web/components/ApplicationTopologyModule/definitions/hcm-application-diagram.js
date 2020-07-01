@@ -215,40 +215,35 @@ export const getDiagramElements = (
 
   // if not loaded yet, see if there's a stored version
   // with the same diagram filters
-  if (!topologyReloading) {
-    let channelsList2 = []
-    let activeChannel
-    const storedActiveChannel = getStoredObject(localStoreKey)
-    if (storedActiveChannel) {
-      activeChannel = storedActiveChannel.activeChannel
-      channelsList2 = storedActiveChannel.channelsList || []
-    }
-    activeChannel = _.get(
-      topology,
-      'fetchFilters.application.channel',
-      activeChannel
-    )
-    if (activeChannel) {
-      const storedElements = getStoredObject(
-        `${localStoreKey}-${activeChannel}`
-      )
-      if (storedElements) {
-        return {
-          clusters: storedElements.clusters,
-          activeChannel,
-          channels: channelsList2,
-          links: storedElements.links,
-          nodes: storedElements.nodes,
-          yaml: storedElements.yaml,
-          topologyLoaded: true,
-          storedVersion: true,
-          topologyLoadError,
-          topologyReloading
-        }
+  let channelsList2 = []
+  let activeChannel
+  const storedActiveChannel = getStoredObject(localStoreKey)
+  if (storedActiveChannel) {
+    activeChannel = storedActiveChannel.activeChannel
+    channelsList2 = storedActiveChannel.channelsList || []
+  }
+  activeChannel = _.get(
+    topology,
+    'fetchFilters.application.channel',
+    activeChannel
+  )
+  if (activeChannel) {
+    const storedElements = getStoredObject(`${localStoreKey}-${activeChannel}`)
+    if (storedElements) {
+      return {
+        clusters: storedElements.clusters,
+        activeChannel,
+        channels: channelsList2,
+        links: storedElements.links,
+        nodes: storedElements.nodes,
+        yaml: storedElements.yaml,
+        topologyLoaded: true,
+        storedVersion: true,
+        topologyLoadError,
+        topologyReloading
       }
     }
   }
-
   // if no topology yet, create diagram with search item
   const nodes2 = []
   // create application node

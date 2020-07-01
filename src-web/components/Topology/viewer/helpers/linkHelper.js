@@ -376,6 +376,7 @@ const routeEdge = (
 
   return preparedColaRouting
 }
+
 // do parallel, avoidance, self link layouts
 export const layoutEdges = (
   newLayout,
@@ -406,23 +407,26 @@ export const layoutEdges = (
         if (nodeMap[sid] && nodeMap[tid] && showLineLabels) {
           // flip line so that line label isn't upside down :(
           layout.isSwapped = nodeMap[sid].position.x > nodeMap[tid].position.x
-          if (layout.isSwapped && colaEdge) {
-            [tid, sid] = [sid, tid][(colaEdge.target, colaEdge.source)] = [
-              colaEdge.source,
-              colaEdge.target
-            ]
+          if (layout.isSwapped) {
+            [tid, sid] = [sid, tid]
+            if (colaEdge) {
+              [colaEdge.target, colaEdge.source] = [
+                colaEdge.source,
+                colaEdge.target
+              ]
+            }
           }
-
-          preparedColaRouting = routeEdge(
-            nodeMap,
-            sid,
-            tid,
-            layout,
-            adapter,
-            preparedColaRouting,
-            colaEdge
-          )
         }
+
+        preparedColaRouting = routeEdge(
+          nodeMap,
+          sid,
+          tid,
+          layout,
+          adapter,
+          preparedColaRouting,
+          colaEdge
+        )
       }
 
       laidoutEdges.push({

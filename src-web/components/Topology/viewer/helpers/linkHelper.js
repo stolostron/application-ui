@@ -404,17 +404,21 @@ export const layoutEdges = (
         delete layout.backedOff
         let { source: { uid: sid }, target: { uid: tid } } = layout
         const colaEdge = edge.scratch().cola
-        if (nodeMap[sid] && nodeMap[tid] && showLineLabels) {
+        if (
+          nodeMap[sid] &&
+          nodeMap[tid] &&
+          showLineLabels &&
+          nodeMap[sid].position.x > nodeMap[tid].position.x
+        ) {
           // flip line so that line label isn't upside down :(
+          [tid, sid] = [sid, tid]
           layout.isSwapped = nodeMap[sid].position.x > nodeMap[tid].position.x
-          if (layout.isSwapped) {
-            [tid, sid] = [sid, tid]
-            if (colaEdge) {
-              [colaEdge.target, colaEdge.source] = [
-                colaEdge.source,
-                colaEdge.target
-              ]
-            }
+
+          if (colaEdge) {
+            [colaEdge.target, colaEdge.source] = [
+              colaEdge.source,
+              colaEdge.target
+            ]
           }
         }
 

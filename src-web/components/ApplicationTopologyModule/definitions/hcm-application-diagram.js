@@ -133,7 +133,7 @@ export const getDiagramElements = (
     let row = 0
     const yamls = []
     const clustersList = []
-    let activeChannel
+    let activeChannelInfo
     let channelsList = []
     const originalMap = {}
     const allResourcesMap = {}
@@ -144,7 +144,7 @@ export const getDiagramElements = (
       const { type } = node
 
       if (type === 'application') {
-        activeChannel = _.get(
+        activeChannelInfo = _.get(
           node,
           'specs.activeChannel',
           '__ALL__/__ALL__//__ALL__/__ALL__'
@@ -169,10 +169,10 @@ export const getDiagramElements = (
 
     // save results
     saveStoredObject(localStoreKey, {
-      activeChannel,
+      activeChannelInfo,
       channelsList
     })
-    saveStoredObject(`${localStoreKey}-${activeChannel}`, {
+    saveStoredObject(`${localStoreKey}-${activeChannelInfo}`, {
       clusters: clustersList,
       links: topo_links,
       nodes: topo_nodes,
@@ -184,7 +184,7 @@ export const getDiagramElements = (
     addDiagramDetails(
       topology,
       allResourcesMap,
-      activeChannel,
+      activeChannelInfo,
       localStoreKey,
       isClusterGrouped,
       applicationDetails
@@ -196,7 +196,7 @@ export const getDiagramElements = (
 
     return {
       clusters: clustersList,
-      activeChannel,
+      activeChannel: activeChannelInfo,
       channels: channelsList,
       links: topo_links,
       nodes: topo_nodes,
@@ -216,23 +216,25 @@ export const getDiagramElements = (
   // if not loaded yet, see if there's a stored version
   // with the same diagram filters
   let channelsList2 = []
-  let activeChannel
+  let activeChannelInfo2
   const storedActiveChannel = getStoredObject(localStoreKey)
   if (storedActiveChannel) {
-    activeChannel = storedActiveChannel.activeChannel
+    activeChannelInfo2 = storedActiveChannel.activeChannel
     channelsList2 = storedActiveChannel.channelsList || []
   }
-  activeChannel = _.get(
+  activeChannelInfo2 = _.get(
     topology,
     'fetchFilters.application.channel',
-    activeChannel
+    activeChannelInfo2
   )
-  if (activeChannel) {
-    const storedElements = getStoredObject(`${localStoreKey}-${activeChannel}`)
+  if (activeChannelInfo2) {
+    const storedElements = getStoredObject(
+      `${localStoreKey}-${activeChannelInfo2}`
+    )
     if (storedElements) {
       return {
         clusters: storedElements.clusters,
-        activeChannel,
+        activeChannel: activeChannelInfo2,
         channels: channelsList2,
         links: storedElements.links,
         nodes: storedElements.nodes,

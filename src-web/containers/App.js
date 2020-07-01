@@ -41,7 +41,7 @@ class App extends React.Component {
           document.getElementById('propshcm').textContent
         )
       } catch (e) {
-        this.serverProps = undefined
+        this.serverProps = null
       }
     }
   }

@@ -162,40 +162,39 @@ export function validator(parsed, exceptions, locale) {
   })
 
   // namespace values must match what is defined (if passed)
-  if (subscriptionNamespace) {
-    if (
-      placementRuleNamespace &&
-      placementRuleNamespace !== subscriptionNamespace
-    ) {
-      // error
-      exceptions.push({
-        row: placementRuleNamespaceRow,
-        text: msgs.get(
-          'validation.namespace.mismatch',
-          [subscriptionNamespace],
-          locale
-        ),
-        column: 0,
-        type: 'error'
-      })
-    }
+  if (
+    subscriptionNamespace &&
+    placementRuleNamespace &&
+    placementRuleNamespace !== subscriptionNamespace
+  ) {
+    // error
+    exceptions.push({
+      row: placementRuleNamespaceRow,
+      text: msgs.get(
+        'validation.namespace.mismatch',
+        [subscriptionNamespace],
+        locale
+      ),
+      column: 0,
+      type: 'error'
+    })
   }
-  if (subscriptionPlacementRuleName) {
-    if (
-      placementRuleName &&
-      placementRuleName !== subscriptionPlacementRuleName
-    ) {
-      // error
-      exceptions.push({
-        row: placementRuleNameRow,
-        text: msgs.get(
-          'validation.placementrule.mismatch',
-          [subscriptionPlacementRuleName],
-          locale
-        ),
-        column: 0,
-        type: 'error'
-      })
-    }
+
+  if (
+    subscriptionPlacementRuleName &&
+    placementRuleName &&
+    placementRuleName !== subscriptionPlacementRuleName
+  ) {
+    // error
+    exceptions.push({
+      row: placementRuleNameRow,
+      text: msgs.get(
+        'validation.placementrule.mismatch',
+        [subscriptionPlacementRuleName],
+        locale
+      ),
+      column: 0,
+      type: 'error'
+    })
   }
 }

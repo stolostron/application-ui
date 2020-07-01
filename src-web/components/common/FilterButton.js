@@ -14,7 +14,6 @@ resources(() => {
   require('../../../scss/dashboard.scss')
 })
 
-// TODO: add filter dialog later
 class FilterButton extends React.Component {
   constructor(props) {
     super(props)

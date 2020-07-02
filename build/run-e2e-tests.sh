@@ -62,3 +62,5 @@ fold_end test-setup
 fold_start cypress "Functional Tests"
 make run-test-image-pr
 fold_end cypress
+
+

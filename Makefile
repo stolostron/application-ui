@@ -73,7 +73,6 @@ run-test-image:
 .PHONY: run-test-image-pr
 run-test-image-pr:
 	docker run \
-	-v $(shell pwd)/options.yaml:/resources/options.yaml \
 	-v $(shell pwd)/results/:/results/ \
 	--network host \
 	-e BROWSER=$(BROWSER) \
@@ -85,7 +84,7 @@ run-test-image-pr:
 	-e TRAVIS_PULL_REQUEST=$(TRAVIS_PULL_REQUEST) \
 	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_RESOURCEID=$(shell date +"%s") \
-	-e CYPRESS_BASE_URL=https://localhost:3000 \
+	-e CYPRESS_BASE_URL=$(CYPRESS_BASE_URL) \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \
 	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \
 	-e CYPRESS_OC_CLUSTER_PASS=$(OC_CLUSTER_PASS) \

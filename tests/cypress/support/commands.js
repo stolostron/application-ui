@@ -89,7 +89,7 @@ Cypress.Commands.add("createAppResource", (kind, resourceType) => {
   switch (kind.toLowerCase()) {
     case "channel":
       prefix = "03_";
-      cy.get("#Channel").click();
+      cy.get('button[id="Create channel"]').click();
       switch (resourceType.toLowerCase()) {
         case "github":
           cy
@@ -119,15 +119,15 @@ Cypress.Commands.add("createAppResource", (kind, resourceType) => {
       break;
     case "subscription":
       prefix = "02_";
-      cy.get("#Subscription").click();
+      cy.get('button[id="Create subscription"]').click();
       break;
     case "placementrule":
       prefix = "01_";
-      cy.get('button[id="Placement Rule"]').click();
+      cy.get('button[id="Create placement rule"]').click();
       break;
     case "application":
       prefix = "00_";
-      cy.get('button[id="New application"]').click();
+      cy.get('button[id="Create application"]').click();
       break;
   }
   cy.editYaml(prefix + kind + "-" + resourceType + ".yaml");

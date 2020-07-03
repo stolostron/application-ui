@@ -26,7 +26,8 @@ import {
 } from '../../actions/common'
 import { updateResourceFilters, combineFilters } from '../../actions/filters'
 import TableHelper from '../../util/table-helper'
-import { Loading, Notification } from 'carbon-components-react'
+import { Notification, SkeletonText } from 'carbon-components-react'
+import { Module } from 'carbon-addons-cloud-react'
 import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
@@ -82,6 +83,20 @@ class ResourceList extends React.Component {
   componentDidUpdate(prevProps) {
     handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
   }
+
+  loadingComponent = () => {
+    return (
+      <Module
+        className={'bx--tile search-query-card-loading-apps '}
+        size="single"
+      >
+        <div className="search-query-card-loading-apps ">
+          <SkeletonText />
+          <SkeletonText />
+        </div>
+      </Module>
+    )
+  };
 
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {
@@ -158,7 +173,7 @@ class ResourceList extends React.Component {
     }
 
     if (status !== REQUEST_STATUS.DONE && !this.state.xhrPoll) {
-      return <Loading withOverlay={false} className="content-spinner" />
+      return this.loadingComponent()
     }
 
     const actions = React.Children.map(children, action => {

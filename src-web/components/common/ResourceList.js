@@ -358,7 +358,7 @@ ResourceList.propTypes = {
   deleteMsg: PropTypes.string,
   deleteStatus: PropTypes.string,
   deleteSuccessFinished: PropTypes.func,
-  err: PropTypes.string,
+  err: PropTypes.object,
   fetchTableResources: PropTypes.func,
   itemIds: PropTypes.array,
   items: PropTypes.object,

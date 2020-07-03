@@ -2,18 +2,31 @@
 
 exports[`ResourceList renders correctly 1`] = `
 <div
-  aria-live="assertive"
-  className="bx--loading content-spinner"
+  className="bx--module bx--module--single bx--tile search-query-card-loading-apps "
 >
-  <svg
-    className="bx--loading__svg"
-    viewBox="-75 -75 150 150"
+  <div
+    className="bx--module__inner"
   >
-    <circle
-      cx="0"
-      cy="0"
-      r="37.5"
-    />
-  </svg>
+    <div
+      className="search-query-card-loading-apps "
+    >
+      <p
+        className="bx--skeleton__text"
+        style={
+          Object {
+            "width": "100%",
+          }
+        }
+      />
+      <p
+        className="bx--skeleton__text"
+        style={
+          Object {
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
 </div>
 `;

@@ -381,7 +381,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create subscription"
+            id="create-subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -415,7 +415,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create placement rule"
+            id="create-placement-rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -449,7 +449,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create channel"
+            id="create-channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -1345,7 +1345,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create subscription"
+            id="create-subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -1379,7 +1379,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create placement rule"
+            id="create-placement-rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -1413,7 +1413,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create channel"
+            id="create-channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -2821,7 +2821,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create subscription"
+            id="create-subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -2855,7 +2855,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create placement rule"
+            id="create-placement-rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -2889,7 +2889,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create channel"
+            id="create-channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -4379,7 +4379,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create subscription"
+            id="create-subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -4413,7 +4413,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create placement rule"
+            id="create-placement-rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -4447,7 +4447,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create channel"
+            id="create-channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -5347,7 +5347,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create subscription"
+            id="create-subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -5381,7 +5381,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create placement rule"
+            id="create-placement-rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -5415,7 +5415,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create channel"
+            id="create-channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -6823,7 +6823,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create subscription"
+            id="create-subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -6857,7 +6857,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create placement rule"
+            id="create-placement-rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -6891,7 +6891,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create channel"
+            id="create-channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -8299,7 +8299,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create subscription"
+            id="create-subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -8333,7 +8333,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create placement rule"
+            id="create-placement-rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -8367,7 +8367,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create channel"
+            id="create-channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -9775,7 +9775,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create subscription"
+            id="create-subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -9809,7 +9809,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create placement rule"
+            id="create-placement-rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -9843,7 +9843,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create channel"
+            id="create-channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -11333,7 +11333,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create subscription"
+            id="create-subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -11367,7 +11367,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create placement rule"
+            id="create-placement-rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
@@ -11401,7 +11401,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Create channel"
+            id="create-channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"

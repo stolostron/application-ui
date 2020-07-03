@@ -409,16 +409,26 @@ class ApplicationTopologyModule extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { params } = ownProps
-  const { HCMApplicationList } = state
+  const { HCMApplicationList, refetch } = state
   const name = decodeURIComponent(params.name)
   const namespace = decodeURIComponent(params.namespace)
-  const { topology, refetch } = state
+  let { topology } = state
+
+  if (!topology) {
+    topology = {
+      activeFilters: {},
+      fetchFilters: null,
+      fetchError: null,
+      diagramFilters: []
+    }
+  }
   const {
     activeFilters,
     fetchFilters,
     fetchError,
     diagramFilters = []
   } = topology
+
   let localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
   const fetchApplication = _.get(topology, 'fetchFilters.application')
   if (fetchApplication) {

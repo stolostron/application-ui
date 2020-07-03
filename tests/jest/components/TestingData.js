@@ -9,8 +9,6 @@
  ****************************************************************************** */
 
 export const serverProps = {
-  isKibanaRunning: true,
-  isICAMRunning: true,
   isCEMRunning: true,
   isGrafanaRunning: true,
   context: {
@@ -718,70 +716,6 @@ export const GlobalApplicationDataList = {
   }
 };
 
-export const HCMNamespaceList = {
-  status: "DONE",
-  items: [
-    {
-      metadata: {
-        annotations: {
-          "kubectl.kubernetes.io/last-applied-configuration":
-            '{"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"name":"ns-sub-1"}}\n',
-          "openshift.io/sa.scc.mcs": "s0:c24,c19",
-          "openshift.io/sa.scc.supplemental-groups": "1000590000/10000",
-          "openshift.io/sa.scc.uid-range": "1000590000/10000",
-          accountID: "111111"
-        },
-        name: "default",
-        __typename: "Metadata"
-      },
-      __typename: "ApplicationNamespace"
-    },
-    {
-      metadata: {
-        annotations: {
-          "kubectl.kubernetes.io/last-applied-configuration":
-            '{"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"name":"ns-sub-1"}}\n',
-          "openshift.io/sa.scc.mcs": "s0:c24,c19",
-          "openshift.io/sa.scc.supplemental-groups": "1000590000/10000",
-          "openshift.io/sa.scc.uid-range": "1000590000/10000",
-          accountID: "111111"
-        },
-        name: "rbac-test",
-        __typename: "Metadata"
-      },
-      __typename: "ApplicationNamespace"
-    },
-    {
-      metadata: {
-        annotations: {
-          "kubectl.kubernetes.io/last-applied-configuration":
-            '{"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"name":"ns-sub-1"}}\n',
-          "openshift.io/sa.scc.mcs": "s0:c24,c19",
-          "openshift.io/sa.scc.supplemental-groups": "1000590000/10000",
-          "openshift.io/sa.scc.uid-range": "1000590000/10000"
-        },
-        name: "ns-sub-1",
-        __typename: "Metadata"
-      },
-      __typename: "ApplicationNamespace"
-    }
-  ]
-};
-
-export const CEMIncidentList = {
-  status: "DONE",
-  items: [
-    {
-      name: "P1",
-      priority: "1"
-    },
-    {
-      name: "P2",
-      priority: "1"
-    }
-  ]
-};
-
 export const channelObjectForEdit = {
   data: {
     items: [
@@ -903,9 +837,7 @@ export const AppOverview = {
   selectedAppTab: 0,
   showAppDetails: false,
   showExpandedTopology: false,
-  showICAMAction: true,
   showGrafanaAction: true,
-  showCEMAction: false,
   selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
 };
 
@@ -913,13 +845,9 @@ export const AppOverviewWithCEM = {
   selectedAppTab: 0,
   showAppDetails: false,
   showExpandedTopology: false,
-  showICAMAction: true,
   showGrafanaAction: true,
-  showCEMAction: true,
   selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
 };
-
-export const namespaceAccountId = "id-mycluster-account";
 
 export const secondaryHeader = {
   breadcrumbItems: [
@@ -945,14 +873,12 @@ export const reduxStoreAppPipeline = {
     selectedFilters: {}
   },
   secondaryHeader: secondaryHeader,
-  namespaceAccountId: namespaceAccountId,
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
   GlobalApplicationDataList: GlobalApplicationDataList,
-  AppOverview: AppOverview,
-  HCMNamespaceList: HCMNamespaceList
+  AppOverview: AppOverview
 };
 
 export const reduxStoreAppPipelineWithCEM = {
@@ -964,15 +890,12 @@ export const reduxStoreAppPipelineWithCEM = {
     selectedFilters: {}
   },
   secondaryHeader: secondaryHeader,
-  namespaceAccountId: namespaceAccountId,
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
   GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
-  HCMNamespaceList: HCMNamespaceList,
-  CEMIncidentList: CEMIncidentList,
   role: {
     role: "ClusterAdministrator"
   }
@@ -987,15 +910,12 @@ export const reduxStoreAppPipelineWithCEM_Inception = {
     selectedFilters: {}
   },
   secondaryHeader: secondaryHeader,
-  namespaceAccountId: namespaceAccountId,
   QueryApplicationList: QueryApplicationList_INCEPTION,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
   GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
-  HCMNamespaceList: HCMNamespaceList,
-  CEMIncidentList: CEMIncidentList,
   role: {
     role: "ClusterAdministrator"
   }
@@ -1010,7 +930,6 @@ export const reduxStoreAllAppsPipeline = {
     selectedFilters: {}
   },
   secondaryHeader: secondaryHeaderAllApps,
-  namespaceAccountId: namespaceAccountId,
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
@@ -1024,7 +943,6 @@ export const reduxStoreAllAppsPipelineNoChannels = {
     displaySubscriptionModal: false
   },
   secondaryHeader: secondaryHeaderAllApps,
-  namespaceAccountId: namespaceAccountId,
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelListEmpty,
   HCMSubscriptionList: HCMSubscriptionList,
@@ -1037,7 +955,6 @@ export const reduxStoreAppPipelineNoChannels = {
     displaySubscriptionModal: false
   },
   secondaryHeader: secondaryHeader,
-  namespaceAccountId: namespaceAccountId,
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelListEmpty,
   HCMSubscriptionList: HCMSubscriptionList,

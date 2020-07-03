@@ -65,7 +65,8 @@ class Topology extends React.Component {
       searchName: '',
       availableFilters: {},
       activeFilters: {},
-      otherTypeFilters: []
+      otherTypeFilters: [],
+      showChannelsControl: false
     }
 
     // merge styles and options with defaults
@@ -83,11 +84,17 @@ class Topology extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // Keep channel control visible if multiple channels exist
+    if (_.get(nextProps.channelControl, 'allChannels', []).length > 1) {
+      this.setState({ showChannelsControl: true })
+    }
+
     this.setState(prevState => {
       let { timestamp } = prevState
       const { userIsFiltering } = prevState
       const { nodes, fetchControl = {} } = nextProps
       const { isLoaded = true, isReloading = false } = fetchControl
+
       if (!_.isEqual(nodes, this.props.nodes) && !isReloading) {
         timestamp = new Date().toString()
       }
@@ -173,7 +180,12 @@ class Topology extends React.Component {
     const { isLoaded = true, isReloading = false } = fetchControl
     const { isChangingChannel = false } = channelControl
     const { selectedNode, handleNodeSelected } = selectionControl
-    const { searchName = '', activeFilters, availableFilters } = this.state
+    const {
+      searchName = '',
+      activeFilters,
+      availableFilters,
+      showChannelsControl
+    } = this.state
     const { timestamp = new Date().toString() } = this.state
 
     return (
@@ -205,6 +217,7 @@ class Topology extends React.Component {
           availableFilters={availableFilters}
           staticResourceData={this.staticResourceData}
           channelControl={channelControl}
+          showChannelsControl={showChannelsControl}
           showLegendView={showLegendView}
           handleLegendClose={handleLegendClose}
         />
@@ -216,7 +229,7 @@ class Topology extends React.Component {
     const { portals = {} } = this.props
     const { assortedFilterOpenBtn } = portals
     if (assortedFilterOpenBtn) {
-      var portal = document.getElementById(assortedFilterOpenBtn)
+      const portal = document.getElementById(assortedFilterOpenBtn)
       if (portal) {
         const { availableFilters, activeFilters } = this.state
         return ReactDOM.createPortal(
@@ -238,7 +251,7 @@ class Topology extends React.Component {
     const { portals = {}, locale } = this.props
     const { typeFilterBar } = portals
     if (typeFilterBar) {
-      var portal = document.getElementById(typeFilterBar)
+      const portal = document.getElementById(typeFilterBar)
       if (portal) {
         const {
           availableFilters,
@@ -291,7 +304,7 @@ class Topology extends React.Component {
     const { portals = {}, locale } = this.props
     const { searchTextbox } = portals
     if (searchTextbox) {
-      var portal = document.getElementById(searchTextbox)
+      const portal = document.getElementById(searchTextbox)
       if (portal) {
         const { searchName } = this.state
         return ReactDOM.createPortal(

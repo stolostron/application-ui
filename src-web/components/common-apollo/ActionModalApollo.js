@@ -14,7 +14,6 @@ import PropTypes from 'prop-types'
 import loadable from 'loadable-components'
 import { GET_ACTION_MODAL_STATE } from '../../apollo-client/queries/StateQueries'
 import { Query } from 'react-apollo'
-import { getICAMLinkForApp } from '../common/ResourceDetails/utils'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 let RemoveResourceModal
@@ -64,17 +63,6 @@ class ActionModalApollo extends React.PureComponent {
             data: data
           })
       )
-    }
-    case 'table.actions.applications.icam': {
-      //the account id is stored under the kind attribute
-      const link = getICAMLinkForApp(
-        data._uid,
-        data.name,
-        data.clusterName,
-        data.kind
-      )
-      window.open(link, '_blank')
-      return null
     }
     case 'table.actions.applications.grafana': {
       window.open(data.dashboard, '_blank')
@@ -145,7 +133,7 @@ ActionModalApollo.contextTypes = {
 }
 
 ActionModalApollo.propTypes = {
-  activeAccountId: PropTypes.string
+  locale: PropTypes.string
 }
 
 export default ActionModalApollo

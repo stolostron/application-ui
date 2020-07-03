@@ -88,23 +88,14 @@ router.get('*', (req, res) => {
       })
     }
 
-    const isICAMRunning = serviceDiscovery.serviceEnabled('amui')
-    const isKibanaRunning = serviceDiscovery.serviceEnabled('kibana')
-    const isCEMRunning = serviceDiscovery.serviceEnabled('cem')
     const isGrafanaRunning = serviceDiscovery.serviceEnabled(
       'monitoring-prometheus'
     )
 
-    logger.info(`is Kibana Running: ${isKibanaRunning}`)
-    logger.info(`is ICAM Running: ${isICAMRunning}`)
-    logger.info(`is CEM Running: ${isCEMRunning}`)
     logger.info(`is Grafana Running: ${isGrafanaRunning}`)
 
     const serverProps = {
       ...context,
-      isKibanaRunning: isKibanaRunning,
-      isICAMRunning: isICAMRunning,
-      isCEMRunning: isCEMRunning,
       isGrafanaRunning: isGrafanaRunning
     }
 

@@ -39,7 +39,7 @@ or npm run build:production
 
 2. Run mcm-ui-api locally following the instructions in the readme.md file from https://github.com/open-cluster-management/mcm-ui-api to get grahql calls working
 
-3. The folloing environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
+3. The following environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
 <pre>
 export OAUTH2_CLIENT_ID=
 export OAUTH2_CLIENT_SECRET=
@@ -50,7 +50,7 @@ export API_SERVER_URL=
 export SERVICEACCT_TOKEN=
 export NODE_ENV=development
 
-#serach and mcm-ui-api
+#search and mcm-ui-api
 export searchApiUrl=`<searchAPIRouteEndpoint>/searchapi/graphql`
 export hcmUiApiUrl=`<searchAPIRouteEndpoint>/hcmuiapi`
 </pre>

@@ -381,12 +381,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Subscription"
+            id="Create subscription"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Subscription
+            Create subscription
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -415,12 +415,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Placement Rule"
+            id="Create placement rule"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Placement Rule
+            Create placement rule
             <svg
               alt="Open subscription editor"
               aria-label="Open subscription editor"
@@ -449,12 +449,12 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
           <button
             className="bx--btn bx--btn--sm bx--btn--primary"
             disabled={false}
-            id="Channel"
+            id="Create channel"
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Channel
+            Create channel
             <svg
               alt="Open channel editor"
               aria-label="Open channel editor"
@@ -1070,9 +1070,9 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -1080,12 +1080,19 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>
@@ -1097,9 +1104,9 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                 className="bx--tile channelColumnDeployable"
               >
                 <img
-                  alt="You don't have any subscriptions for this channel."
+                  alt="You don't have any subscriptions for this channel, yet."
                   className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
+                  src="undefined/graphics/no-resources-card.png"
                 />
                 <div
                   className="subDescriptionText"
@@ -1107,12 +1114,19 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                   <div
                     className="noSubTitle"
                   >
-                    No subscriptions
+                    No subscriptions found
                   </div>
                   <div
                     className="noSubDescription"
                   >
-                    You don't have any subscriptions for this channel.
+                    You don't have any subscriptions for this channel, yet. 
+                    Click the 
+                    <span
+                      id="text-highlight"
+                    >
+                      Create subscription 
+                    </span>
+                    button to create the resource. 
                   </div>
                 </div>
               </div>

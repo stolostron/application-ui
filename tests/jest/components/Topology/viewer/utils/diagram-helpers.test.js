@@ -205,7 +205,7 @@ describe("getPulseForNodeWithPodStatus ", () => {
         "mortgage-app-deploy-55c65b9c8f-6v9bn": {
           cluster: "feng",
           hostIP: "1.1.1.1",
-          status: "Running",
+          status: "Error",
           startedAt: "2020-04-20T22:03:52Z",
           restarts: 0,
           podIP: "1.1.1.1",
@@ -215,7 +215,8 @@ describe("getPulseForNodeWithPodStatus ", () => {
       deploymentModel: {
         "mortgage-app-deploy-feng": {
           ready: 2,
-          desired: 3
+          desired: 3,
+          unavailable: 1
         },
         "mortgage-app-deploy-cluster1": {}
       },
@@ -377,7 +378,7 @@ describe("getPulseForData ", () => {
   it("getPulseForData pulse red pod desired less then available", () => {
     expect(
       getPulseForData(previousPulse, available, desired, podsUnavailable)
-    ).toEqual("red");
+    ).toEqual("yellow");
   });
 });
 
@@ -458,6 +459,7 @@ describe("nodeMustHavePods undefined data", () => {
 
 describe("nodeMustHavePods node with no pods data", () => {
   const node = {
+    type: "daemonset1",
     specs: {
       raw: {
         spec: {}
@@ -466,6 +468,38 @@ describe("nodeMustHavePods node with no pods data", () => {
   };
   it("nodeMustHavePods", () => {
     expect(nodeMustHavePods(node)).toEqual(false);
+  });
+});
+
+describe("nodeMustHavePods node with replicas", () => {
+  const node = {
+    type: "daemonset3",
+    specs: {
+      raw: {
+        spec: {
+          replicas: 3
+        }
+      }
+    }
+  };
+  it("nodeMustHavePods with replicas", () => {
+    expect(nodeMustHavePods(node)).toEqual(true);
+  });
+});
+
+describe("nodeMustHavePods node has desired", () => {
+  const node = {
+    type: "daemonset",
+    specs: {
+      raw: {
+        spec: {
+          desired: 3
+        }
+      }
+    }
+  };
+  it("nodeMustHavePods has desired", () => {
+    expect(nodeMustHavePods(node)).toEqual(true);
   });
 });
 
@@ -640,7 +674,7 @@ describe("createResourceSearchLink for undefined details", () => {
     }
   };
   const result = { type: "link", value: null };
-  it("createResourceSearchLink", () => {
+  it("createResourceSearchLink for undefined details", () => {
     expect(createResourceSearchLink(node, undefined)).toEqual(result);
   });
 });
@@ -684,6 +718,51 @@ describe("createResourceSearchLink for cluster node w name", () => {
   });
 });
 
+describe("createResourceSearchLink for cluster", () => {
+  const node = {
+    type: "cluster",
+    name: "cls1, cls2, cls3",
+    namespace: "ns"
+  };
+  const result = {
+    type: "link",
+    value: {
+      data: { action: "show_search", kind: "cluster", name: "cls1,cls2,cls3" },
+      id: undefined,
+      indent: true,
+      label: "Launch resource in Search"
+    }
+  };
+  it("createResourceSearchLink for cluster", () => {
+    expect(createResourceSearchLink(node, [])).toEqual(result);
+  });
+});
+
+describe("createResourceSearchLink for PR", () => {
+  const node = {
+    type: "rules",
+    name: "rule1",
+    namespace: "ns"
+  };
+  const result = {
+    type: "link",
+    value: {
+      data: {
+        action: "show_search",
+        kind: "placementrule",
+        name: "rule1",
+        namespace: "ns"
+      },
+      id: undefined,
+      indent: true,
+      label: "Launch resource in Search"
+    }
+  };
+  it("createResourceSearchLink for PR", () => {
+    expect(createResourceSearchLink(node, [])).toEqual(result);
+  });
+});
+
 describe("createResourceSearchLink for details", () => {
   const node = {
     type: "deployment",
@@ -704,7 +783,81 @@ describe("createResourceSearchLink for details", () => {
       label: "Launch resource in Search"
     }
   };
-  it("createResourceSearchLink", () => {
+  it("createResourceSearchLink for details", () => {
+    expect(createResourceSearchLink(node, [])).toEqual(result);
+  });
+});
+
+describe("createResourceSearchLink for details with model info, unique names", () => {
+  const node = {
+    type: "deployment",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      deploymentModel: {
+        obj1_cls1: {
+          name: "obj1",
+          namespace: "ns1"
+        },
+        obj2_cls1: {
+          name: "obj2",
+          namespace: "ns2"
+        }
+      }
+    }
+  };
+  const result = {
+    type: "link",
+    value: {
+      data: {
+        action: "show_search",
+        kind: "deployment",
+        name: "obj1,obj2",
+        namespace: "ns1,ns2"
+      },
+      id: undefined,
+      indent: true,
+      label: "Launch resource in Search"
+    }
+  };
+  it("createResourceSearchLink for details with model info, unique names", () => {
+    expect(createResourceSearchLink(node, [])).toEqual(result);
+  });
+});
+
+describe("createResourceSearchLink for details with model info, same names", () => {
+  const node = {
+    type: "deployment",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      deploymentModel: {
+        obj1_cls1: {
+          name: "name",
+          namespace: "ns1"
+        },
+        obj2_cls1: {
+          name: "name",
+          namespace: "ns"
+        }
+      }
+    }
+  };
+  const result = {
+    type: "link",
+    value: {
+      data: {
+        action: "show_search",
+        kind: "deployment",
+        name: "name",
+        namespace: "ns1,ns"
+      },
+      id: undefined,
+      indent: true,
+      label: "Launch resource in Search"
+    }
+  };
+  it("createResourceSearchLink for details with model info, same names", () => {
     expect(createResourceSearchLink(node, [])).toEqual(result);
   });
 });
@@ -2086,7 +2239,8 @@ describe("setPodDeployStatus  with pod less then desired", () => {
     podStatusMap: {
       possiblereptile: {
         ready: 1,
-        desired: 3
+        desired: 3,
+        unavailable: 2
       }
     },
     specs: {
@@ -2103,7 +2257,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
       podModel: {
         "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile": {
           cluster: "possiblereptile",
-          status: "Running"
+          status: "err"
         }
       }
     }
@@ -2119,9 +2273,9 @@ describe("setPodDeployStatus  with pod less then desired", () => {
       indent: undefined,
       labelKey: "resource.status",
       labelValue: undefined,
-      status: "checkmark",
+      status: "failure",
       type: "label",
-      value: "Running"
+      value: "err"
     },
     {
       indent: true,
@@ -2199,7 +2353,7 @@ describe("setPodDeployStatus  with pod but no pod model and no podStatusMap", ()
 
 describe("setPodDeployStatus  with pod as desired", () => {
   const node = {
-    type: "pod",
+    type: "pod1",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
@@ -2213,7 +2367,6 @@ describe("setPodDeployStatus  with pod as desired", () => {
     specs: {
       raw: {
         spec: {
-          replicas: 1,
           template: {
             spec: {
               containers: [{ c1: "aa" }]
@@ -2346,7 +2499,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
 
 describe("setPodDeployStatus  with pod as desired", () => {
   const node = {
-    type: "pod",
+    type: "pod1",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
@@ -2360,7 +2513,6 @@ describe("setPodDeployStatus  with pod as desired", () => {
     specs: {
       raw: {
         spec: {
-          replicas: 1,
           template: {
             spec: {
               containers: [{ c1: "aa" }]
@@ -2920,7 +3072,7 @@ describe("addNodeServiceLocationForCluster 1", () => {
   });
 });
 
-describe("processResourceActionLink search view", () => {
+describe("processResourceActionLink search view2", () => {
   const openSearchView = {
     action: "show_search",
     kind: "service",
@@ -2928,8 +3080,9 @@ describe("processResourceActionLink search view", () => {
     namespace: "open-cluster-management"
   };
   const result =
-    '/multicloud/search?filters={"textsearch":"kind:service name:frontend namespace:open-cluster-management"}';
-  it("processResourceActionLink opens search view", () => {
+    '/multicloud/search?filters={"textsearch":"kind:service namespace:open-cluster-management name:frontend"}';
+
+  it("processResourceActionLink opens search view2", () => {
     expect(processResourceActionLink(openSearchView)).toEqual(result);
   });
 });
@@ -2961,13 +3114,13 @@ describe("processResourceActionLink openPodLog", () => {
   });
 });
 
-describe("processResourceActionLink search view", () => {
+describe("processResourceActionLink search view3", () => {
   const genericLink = {
     action: "open_link",
     targetLink: "http://www.example.com"
   };
   const result = "http://www.example.com";
-  it("processResourceActionLink opens search view", () => {
+  it("processResourceActionLink opens search view3", () => {
     expect(processResourceActionLink(genericLink)).toEqual(result);
   });
 });
@@ -2978,7 +3131,7 @@ describe("processResourceActionLink dummy link", () => {
     targetLink1: "http://www.example.com"
   };
   const result = "";
-  it("processResourceActionLink opens search view", () => {
+  it("processResourceActionLink dummy link", () => {
     expect(processResourceActionLink(genericLink)).toEqual(result);
   });
 });

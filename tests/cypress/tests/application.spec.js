@@ -8,6 +8,8 @@ describe("Application Resources", () => {
   beforeEach(() => {
     cy.visit("/multicloud/applications");
     cy.contains("Resources").click();
+    cy.get(".refresh-time-selection", { timeout: 300000 }).click();
+    cy.get("#refreshDropdown-item-0").click(); //refresh every 15s
   });
 
   //github channel
@@ -260,14 +262,6 @@ describe("Application Resources", () => {
 
   after(() => {
     cy.logout();
-    const type = ["github", "namespace", "helmrepo", "objectbucket"];
-    type.forEach(el => {
-      cy.task("getFileList", el).then(list => {
-        list.forEach(file => {
-          cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
-        });
-      });
-    });
   });
 });
 

@@ -164,7 +164,7 @@ describe("validator testing for hcm-subscription", () => {
     );
   });
 
-  it("yaml sample should be validated successfully", () => {
+  it("yaml sample should be validated successfully subs", () => {
     const { exceptions } = parse(subscriptionSample, validator, "en-un");
     expect(exceptions).toEqual([]);
   });

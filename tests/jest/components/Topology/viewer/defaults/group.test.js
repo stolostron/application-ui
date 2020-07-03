@@ -295,7 +295,7 @@ describe("getNodeGroups cluster", () => {
   };
 
   it("should group cluster nodes", () => {
-    expect(getNodeGroups("cluster", clusterNodes, activeFilters, {})).toEqual(
+    expect(getNodeGroups("cluster", clusterNodes, activeFilters)).toEqual(
       expectedResult
     );
   });
@@ -409,10 +409,7 @@ describe("getNodeGroups other", () => {
         labels: { cloud: "Azure", env: "prod", name: "azure", vendor: "RHOCP" },
         layout: {
           compactLabel: "Deployment",
-          hasPods: false,
           label: "Deployment",
-          pods: [],
-          qname: "pacmangitchannel/applicationpacmangit",
           type: "deployment",
           uid: "applicationpacmangit"
         },
@@ -432,7 +429,6 @@ describe("getNodeGroups other", () => {
         layout: {
           compactLabel: "Pod",
           label: "Pod",
-          qname: "pacmangitchannel/deploymentpacmangit",
           type: "pod",
           uid: "deploymentpacmangit"
         },
@@ -524,10 +520,7 @@ describe("getNodeGroups other", () => {
             },
             layout: {
               compactLabel: "Deployment",
-              hasPods: false,
               label: "Deployment",
-              pods: [],
-              qname: "pacmangitchannel/applicationpacmangit",
               type: "deployment",
               uid: "applicationpacmangit"
             },
@@ -556,7 +549,6 @@ describe("getNodeGroups other", () => {
             layout: {
               compactLabel: "Pod",
               label: "Pod",
-              qname: "pacmangitchannel/deploymentpacmangit",
               type: "pod",
               uid: "deploymentpacmangit"
             },
@@ -574,8 +566,8 @@ describe("getNodeGroups other", () => {
 
   it("should group other nodes", () => {
     expect(
-      getNodeGroups("subscription", subscriptionNodes, activeFilters, {
-        embedPodsInDeployments: true
+      getNodeGroups("subscription", subscriptionNodes, {
+        embedPodsInDeployments: false
       })
     ).toEqual(expectedResult);
   });

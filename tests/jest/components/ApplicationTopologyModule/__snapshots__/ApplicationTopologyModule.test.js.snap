@@ -2,507 +2,274 @@
 
 exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModule renders correctly when topology is expanded---bbb 1`] = `
 <div
-  className="resourceDiagramSourceContainer showExpandedTopology split"
+  className="resourceDiagramSourceContainer"
 >
   <div
-    className="SplitPane  vertical "
-    style={
-      Object {
-        "MozUserSelect": "text",
-        "WebkitUserSelect": "text",
-        "display": "flex",
-        "flex": 1,
-        "flexDirection": "row",
-        "height": "100%",
-        "left": 0,
-        "msUserSelect": "text",
-        "outline": "none",
-        "overflow": "hidden",
-        "position": "absolute",
-        "right": 0,
-        "userSelect": "text",
-      }
-    }
+    className="topology-controls"
   >
     <div
-      className="Pane vertical Pane1  "
-      style={
-        Object {
-          "flex": "none",
-          "outline": "none",
-          "position": "relative",
-          "width": 1000,
-        }
-      }
+      className="topology-control-container"
     >
       <div
-        className="resourceDiagramControlsContainer"
+        id="search-textbox-portal-id"
+      />
+    </div>
+  </div>
+  <div
+    className="resource-toolbar"
+    id="resource-toolbar"
+  >
+    <div
+      className="resource-toolbar-container"
+    >
+      <div
+        className="resource-toolbar-buttons"
       >
         <div
-          className="diagram-title"
+          id="assorted-filter-open-portal-id"
+        />
+      </div>
+      <div
+        id="assorted-filter-close-portal-id"
+      />
+    </div>
+  </div>
+  <div
+    className="resourceDiagramControlsContainer"
+  >
+    <div
+      className="diagram-title"
+    >
+      Resource topology
+      <svg
+        className="diagram-title-divider"
+      >
+        <rect />
+      </svg>
+      <span
+        className="how-to-read-text"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        How to read topology
+        <svg
+          className="how-to-read-icon"
         >
-          Resource topology
-          <svg
-            className="diagram-title-divider"
-          >
-            <rect />
-          </svg>
-          <span
-            className="how-to-read-text"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            How to read topology
-            <svg
-              className="how-to-read-icon"
-            >
-              <use
-                href="#diagramIcons_sidecar"
-              />
-            </svg>
-          </span>
-        </div>
+          <use
+            href="#diagramIcons_sidecar"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      className="topologyDiagramContainer"
+    >
+      <div
+        className="refresh-time-div"
+      >
         <div
-          className="topologyDiagramContainer"
+          className="refresh-time-container"
         >
           <div
-            className="refresh-time-div"
+            className="refresh-time-selection"
           >
             <div
-              className="refresh-time-container"
+              aria-label="Refresh"
+              className="button"
+              id="refreshButton"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+              title="Refresh"
+            >
+              <svg
+                className="button-icon"
+              >
+                <use
+                  href="#diagramIcons_autoRefresh"
+                />
+              </svg>
+            </div>
+            <div
+              aria-label="Choose refresh"
+              className="bx--dropdown selection bx--list-box"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="listbox"
+              tabIndex="0"
             >
               <div
-                className="refresh-time-selection"
+                aria-expanded={false}
+                aria-haspopup={true}
+                aria-label="open menu"
+                className="bx--list-box__field"
+                data-toggle={true}
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="button"
+                tabIndex="0"
+                type="button"
               >
+                <span
+                  className="bx--list-box__label"
+                  htmlFor="refreshDropdown-input"
+                >
+                  Disable refresh
+                </span>
                 <div
-                  aria-label="Refresh"
-                  className="button"
-                  id="refreshButton"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                  title="Refresh"
+                  className="bx--list-box__menu-icon"
                 >
                   <svg
-                    className="button-icon"
+                    alt="Open menu"
+                    aria-label="Open menu"
+                    fillRule="evenodd"
+                    height="5"
+                    role="img"
+                    viewBox="0 0 10 5"
+                    width="10"
                   >
-                    <use
-                      href="#diagramIcons_autoRefresh"
+                    <title>
+                      Open menu
+                    </title>
+                    <path
+                      d="M0 0l5 4.998L10 0z"
                     />
                   </svg>
                 </div>
-                <div
-                  aria-label="Choose refresh"
-                  className="bx--dropdown selection bx--list-box"
-                  onClick={[Function]}
-                  onKeyDown={[Function]}
-                  role="listbox"
-                  tabIndex="0"
-                >
-                  <div
-                    aria-expanded={false}
-                    aria-haspopup={true}
-                    aria-label="open menu"
-                    className="bx--list-box__field"
-                    data-toggle={true}
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onKeyDown={[Function]}
-                    role="button"
-                    tabIndex="0"
-                    type="button"
-                  >
-                    <span
-                      className="bx--list-box__label"
-                      htmlFor="refreshDropdown-input"
-                    >
-                      Disable refresh
-                    </span>
-                    <div
-                      className="bx--list-box__menu-icon"
-                    >
-                      <svg
-                        alt="Open menu"
-                        aria-label="Open menu"
-                        fillRule="evenodd"
-                        height="5"
-                        role="img"
-                        viewBox="0 0 10 5"
-                        width="10"
-                      >
-                        <title>
-                          Open menu
-                        </title>
-                        <path
-                          d="M0 0l5 4.998L10 0z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                Last update: {0}
               </div>
             </div>
           </div>
-          <div
-            className="diagramViewerDiagram"
-          >
-            <div
-              className="diagramViewerContainerContainer"
-              id="diagram-viewer-container-container"
-            >
-              <div
-                aria-label="zoom"
-                className="diagramViewerContainer"
-                role="region"
-                style={
-                  Object {
-                    "height": "100%",
-                    "width": "100%",
-                  }
-                }
-              >
-                <svg
-                  className="topologyDiagram"
-                  id="topologySvgId"
-                />
-              </div>
-              <div
-                className="secondaryLoad"
-              >
-                <div
-                  aria-live="assertive"
-                  className="bx--loading"
-                >
-                  <svg
-                    className="bx--loading__svg"
-                    viewBox="-75 -75 150 150"
-                  >
-                    <circle
-                      cx="0"
-                      cy="0"
-                      r="37.5"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <div
-                className="layoutLoadingContainer"
-              >
-                <div
-                  aria-live="assertive"
-                  className="bx--loading"
-                >
-                  <svg
-                    className="bx--loading__svg"
-                    viewBox="-75 -75 150 150"
-                  >
-                    <circle
-                      cx="0"
-                      cy="0"
-                      r="37.5"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <span
-              className="diagramControls"
-            >
-              <div
-                className="diagram-controls"
-              >
-                <div
-                  aria-label="Zoom in"
-                  className="zoom-in-button rectangle-zoom"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                  title="Zoom in"
-                >
-                  <svg
-                    className="icon"
-                  >
-                    <use
-                      href="#diagramIcons_zoomIn"
-                    />
-                  </svg>
-                </div>
-                <div
-                  aria-label="Zoom out"
-                  className="zoom-out-button rectangle-zoom"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                  title="Zoom out"
-                >
-                  <svg
-                    className="icon"
-                  >
-                    <use
-                      href="#diagramIcons_zoomOut"
-                    />
-                  </svg>
-                </div>
-                <div
-                  aria-label="Zoom to fit"
-                  className="zoom-target-button rectangle-zoom"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                  title="Zoom to fit"
-                >
-                  <svg
-                    className="icon_target"
-                  >
-                    <use
-                      href="#diagramIcons_zoomTarget"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </span>
+          <div>
+            Last update: {0}
           </div>
         </div>
       </div>
-    </div>
-    <span
-      className="Resizer vertical "
-      onClick={[Function]}
-      onDoubleClick={[Function]}
-      onMouseDown={[Function]}
-      onTouchEnd={[Function]}
-      onTouchStart={[Function]}
-      style={Object {}}
-    />
-    <div
-      className="Pane vertical Pane2  "
-      style={
-        Object {
-          "flex": 1,
-          "outline": "none",
-          "position": "relative",
-        }
-      }
-    >
       <div
-        className="resourceEditorContainer"
+        className="diagramViewerDiagram"
       >
         <div
-          className="creation-view-yaml-header"
+          className="diagramViewerContainerContainer"
+          id="diagram-viewer-container-container"
         >
           <div
-            className="creation-view-yaml-header-toolbar"
+            aria-label="zoom"
+            className="diagramViewerContainer"
             role="region"
-          >
-            <div
-              className="editor-bar"
-            >
-              <div
-                className="editor-bar-title"
-              >
-                YAML
-              </div>
-              <div
-                className="editor-bar-toolbar"
-              >
-                <div
-                  className="editor-bar-section"
-                >
-                  <div
-                    aria-label="Reset"
-                    className="editor-bar-button  disabled"
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
-                    role="button"
-                    tabIndex={0}
-                    title="Reset"
-                  >
-                    <div>
-                      Reset
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="editor-bar-section"
-                >
-                  <div
-                    aria-label="Undo"
-                    className="editor-bar-button  disabled"
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
-                    role="button"
-                    tabIndex={0}
-                    title="Undo"
-                  >
-                    <svg>
-                      <use
-                        href="#diagramIcons_undo"
-                      />
-                    </svg>
-                  </div>
-                  <div
-                    aria-label="Redo"
-                    className="editor-bar-button  disabled"
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
-                    role="button"
-                    tabIndex={0}
-                    title="Redo"
-                  >
-                    <svg>
-                      <use
-                        href="#diagramIcons_redo"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  className="editor-bar-section"
-                >
-                  <div
-                    aria-label="Find"
-                    className="editor-bar-search"
-                    id="Find"
-                    role="region"
-                  >
-                    <div
-                      aria-labelledby="template-editor-search-undefined-label"
-                      className="bx--search bx--search--sm"
-                      role="search"
-                    >
-                      <svg
-                        alt=""
-                        aria-label=""
-                        className="bx--search-magnifier"
-                        fillRule="evenodd"
-                        height="16"
-                        role="img"
-                        viewBox="0 0 16 16"
-                        width="16"
-                      >
-                        <title>
-                          
-                        </title>
-                        <path
-                          d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm4.936-1.27l4.563 4.557-.707.708-4.563-4.558a6.5 6.5 0 1 1 .707-.707z"
-                        />
-                      </svg>
-                      <label
-                        className="bx--label"
-                        htmlFor="template-editor-search-undefined"
-                        id="template-editor-search-undefined-label"
-                      >
-                        
-                      </label>
-                      <input
-                        aria-label="Find"
-                        className="bx--search-input"
-                        id="template-editor-search-undefined"
-                        onChange={[Function]}
-                        placeholder="Find"
-                        spellCheck={false}
-                        type="text"
-                      />
-                      <button
-                        className="bx--search-close bx--search-close--hidden"
-                        onClick={[Function]}
-                        type="button"
-                      >
-                        <svg
-                          alt="Provide a description that will be used as the title"
-                          aria-label="Provide a description that will be used as the title"
-                          fillRule="evenodd"
-                          height="16"
-                          role="img"
-                          viewBox="0 0 16 16"
-                          width="16"
-                        >
-                          <title>
-                            Provide a description that will be used as the title
-                          </title>
-                          <path
-                            d="M8 6.586L5.879 4.464 4.464 5.88 6.586 8l-2.122 2.121 1.415 1.415L8 9.414l2.121 2.122 1.415-1.415L9.414 8l2.122-2.121-1.415-1.415L8 6.586zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                    <div
-                      aria-label="Previous"
-                      className="editor-bar-button  disabled"
-                      onClick={[Function]}
-                      onKeyPress={[Function]}
-                      role="button"
-                      tabIndex={0}
-                      title="Previous"
-                    >
-                      <svg>
-                        <use
-                          href="#diagramIcons_previous"
-                        />
-                      </svg>
-                    </div>
-                    <div
-                      aria-label="Next"
-                      className="editor-bar-button  disabled"
-                      onClick={[Function]}
-                      onKeyPress={[Function]}
-                      role="button"
-                      tabIndex={0}
-                      title="Next"
-                    >
-                      <svg>
-                        <use
-                          href="#diagramIcons_next"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="editor-bar-section diagram-close-button"
-                >
-                  <div
-                    className="editor-bar-button "
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
-                    role="button"
-                    tabIndex={0}
-                  >
-                    <svg>
-                      <use
-                        href="#diagramIcons_close"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div
-          className="yamlEditorContainer"
-        >
-          <div
-            className="react-monaco-editor-container"
             style={
               Object {
                 "height": "100%",
                 "width": "100%",
               }
             }
-          />
+          >
+            <svg
+              className="topologyDiagram"
+              id="topologySvgId"
+            />
+          </div>
+          <div
+            className="secondaryLoad"
+          >
+            <div
+              aria-live="assertive"
+              className="bx--loading"
+            >
+              <svg
+                className="bx--loading__svg"
+                viewBox="-75 -75 150 150"
+              >
+                <circle
+                  cx="0"
+                  cy="0"
+                  r="37.5"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            className="layoutLoadingContainer"
+          >
+            <div
+              aria-live="assertive"
+              className="bx--loading"
+            >
+              <svg
+                className="bx--loading__svg"
+                viewBox="-75 -75 150 150"
+              >
+                <circle
+                  cx="0"
+                  cy="0"
+                  r="37.5"
+                />
+              </svg>
+            </div>
+          </div>
         </div>
+        <span
+          className="diagramControls"
+        >
+          <div
+            className="diagram-controls"
+          >
+            <div
+              aria-label="Zoom in"
+              className="zoom-in-button rectangle-zoom"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+              title="Zoom in"
+            >
+              <svg
+                className="icon"
+              >
+                <use
+                  href="#diagramIcons_zoomIn"
+                />
+              </svg>
+            </div>
+            <div
+              aria-label="Zoom out"
+              className="zoom-out-button rectangle-zoom"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+              title="Zoom out"
+            >
+              <svg
+                className="icon"
+              >
+                <use
+                  href="#diagramIcons_zoomOut"
+                />
+              </svg>
+            </div>
+            <div
+              aria-label="Zoom to fit"
+              className="zoom-target-button rectangle-zoom"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+              title="Zoom to fit"
+            >
+              <svg
+                className="icon_target"
+              >
+                <use
+                  href="#diagramIcons_zoomTarget"
+                />
+              </svg>
+            </div>
+          </div>
+        </span>
       </div>
     </div>
   </div>

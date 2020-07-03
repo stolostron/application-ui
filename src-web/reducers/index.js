@@ -78,14 +78,6 @@ export const HCMPlacementRuleList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.HCM_PLACEMENT_RULES)
 )
-export const CEMIncidentList = createResourceReducer(
-  resourceReducerFunction,
-  predicate.bind(null, RESOURCE_TYPES.CEM_INCIDENTS)
-)
-export const HCMNamespaceList = createResourceReducer(
-  resourceReducerFunction,
-  predicate.bind(null, RESOURCE_TYPES.HCM_NAMESPACES)
-)
 export const userInfoList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.USER_INFO)

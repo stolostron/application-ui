@@ -33,7 +33,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
     <CreateResourceModal
       key="createSubscription"
       headingTextKey="actions.add.subscription"
-      resourceTypeName="description.subscription"
+      resourceTypeName="button.create.subscription"
       onCreateResource={handleCreateSubscriptionResource}
       onSubmitFunction={fetchSubscriptions}
       resourceDescriptionKey="modal.createresource.subscription"
@@ -53,7 +53,7 @@ const CreatePlacementRuleModal = (fetchPlacementRuleResource, locale) => {
     <CreateResourceModal
       key="createPlacementRule"
       headingTextKey="actions.add.placementRule"
-      resourceTypeName="description.placementRule"
+      resourceTypeName="button.create.placementRule"
       onCreateResource={handleCreatePlacementRuleResource}
       onSubmitFunction={fetchPlacementRuleResource}
       resourceDescriptionKey="modal.createresource.placementrule"
@@ -80,7 +80,7 @@ const CreateChannelModal = (fetchChannels, locale) => {
     <CreateResourceModal
       key="createChannel"
       headingTextKey="actions.add.channel"
-      resourceTypeName="description.channel"
+      resourceTypeName="button.create.channel"
       onCreateResource={handleCreateChannelResource}
       onSubmitFunction={fetchChannels}
       resourceDescriptionKey="modal.createresource.channel"

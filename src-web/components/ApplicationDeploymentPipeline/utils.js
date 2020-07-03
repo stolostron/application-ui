@@ -164,7 +164,7 @@ export const filterSingleApp = (applications, searchName, searchNamespace) => {
   ) {
     const doesContainName = x => x.name.includes(searchName)
     const doesContainNamespace = y => y.namespace.includes(searchNamespace)
-    var filteredApps = R.filter(doesContainName, applications.items)
+    let filteredApps = R.filter(doesContainName, applications.items)
     filteredApps = R.filter(doesContainNamespace, filteredApps)
     // The format is expecting it in an objects of items so keeping the format
     return { items: filteredApps }

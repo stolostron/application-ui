@@ -57,7 +57,7 @@ const SubscriptionInfo = withLocale(
     let deployableNames = ['N/A']
     let subName = ''
     let subNamespace = ''
-    let label_hover = ''
+    let labelHover = ''
     let owningClusterName = ''
     let channel = ''
     const status = (subscriptionModalSubscriptionInfo &&
@@ -85,9 +85,9 @@ const SubscriptionInfo = withLocale(
         R.pathOr('N/A', ['label'], subscriptionModalSubscriptionInfo)
       )
 
-      const labels_data = getLabelsListClass(labels)
-      labels = labels_data.data
-      label_hover = labels_data.hover
+      const labelsData = getLabelsListClass(labels)
+      labels = labelsData.data
+      labelHover = labelsData.hover
 
       subName = subscriptionModalSubscriptionInfo.name
       subNamespace = subscriptionModalSubscriptionInfo.namespace
@@ -165,18 +165,6 @@ const SubscriptionInfo = withLocale(
                 </a>
               </div>
             </div>
-            {
-              // currently there is no version information to display
-              /* <div className="subHeader">
-              <div className="subscriptionInfoHeader">
-                {msgs.get(
-                  'description.title.deployableSubscription.version',
-                  locale
-                )}
-              </div>
-              <div className="value">{version}</div>
-            </div> */
-            }
           </div>
         </div>
         <div className="innerContent">
@@ -196,7 +184,7 @@ const SubscriptionInfo = withLocale(
                     <LabelWithOptionalTooltip
                       key={label}
                       labelText={label}
-                      description={label_hover}
+                      description={labelHover}
                     />
                   )
                 })}

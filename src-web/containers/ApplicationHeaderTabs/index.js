@@ -19,7 +19,6 @@ import { Tabs, Tab } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
 import resources from '../../../lib/shared/resources'
-import { isAdminRole } from '../../../lib/client/access-helper'
 import {
   delResourceSuccessFinished,
   mutateResourceSuccessFinished
@@ -38,18 +37,12 @@ export const ApplicationDeploymentPipeline = loadable(() =>
   import(/* webpackChunkName: "applicationdeploymentpipeline" */ '../../components/ApplicationDeploymentPipeline')
 )
 
-export const IncidentsTab = loadable(() =>
-  import(/* webpackChunkName: "incidents" */ '../IncidentsTab')
-)
-
 // This will render the two tabs
 // Overview, Resources
 const ApplicationHeaderTabs = withLocale(
   ({
     selectedAppTab,
     showExtraTabs,
-    userRole,
-    params,
     actions,
     locale,
     serverProps,
@@ -63,8 +56,6 @@ const ApplicationHeaderTabs = withLocale(
     const noop = () => {
       // no op function for optional properties
     }
-
-    const showIncidentsTab = serverProps && serverProps.isCEMRunning
 
     const renderTab = thisTab => {
       if (selectedAppTab === thisTab) {
@@ -81,12 +72,6 @@ const ApplicationHeaderTabs = withLocale(
           return (
             <div className="page-content-container">
               <ApplicationDeploymentPipeline serverProps={serverProps} />
-            </div>
-          )
-        case 2:
-          return (
-            <div className="some-content">
-              <IncidentsTab params={params} />
             </div>
           )
         }
@@ -136,18 +121,6 @@ const ApplicationHeaderTabs = withLocale(
             >
               {renderTab(1)}
             </Tab>
-            {showExtraTabs &&
-              showIncidentsTab &&
-              isAdminRole(userRole) && (
-                <Tab
-                  disabled={false}
-                  onClick={noop}
-                  onKeyDown={noop}
-                  label={msgs.get('description.title.incidents', locale)}
-                >
-                  {renderTab(2)}
-                </Tab>
-            )}
           </Tabs>
         </div>
       </div>

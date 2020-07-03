@@ -73,10 +73,8 @@ const FilterSection = ({
   // show more/or less
   const count = filters.length - showThreshold
   const showMoreOrLess = count > 0
-  if (showMoreOrLess) {
-    if (!isExpanded) {
-      filters = filters.slice(0, showThreshold)
-    }
+  if (showMoreOrLess && !isExpanded) {
+    filters = filters.slice(0, showThreshold)
   }
 
   return (
@@ -112,7 +110,7 @@ FilterSection.propTypes = {
   showThreshold: PropTypes.number
 }
 
-class ResourceFilterView extends React.Component {
+export class ResourceFilterView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -251,7 +249,9 @@ class ResourceFilterView extends React.Component {
   }
 
   renderView({ style, ...props }) {
-    style.marginBottom = -17
+    style.marginBottom = 0
+    style['overflowY'] = 'scroll'
+    style['overflowX'] = 'hidden'
     return <div {...props} style={{ ...style }} />
   }
 
@@ -444,7 +444,7 @@ class ResourceFilterModule extends React.Component {
     const { portals = {}, locale } = this.props
     const { assortedFilterCloseBtns } = portals
     if (assortedFilterCloseBtns) {
-      var portal = document.getElementById(assortedFilterCloseBtns)
+      const portal = document.getElementById(assortedFilterCloseBtns)
       if (portal) {
         const boundFilters = this.getBoundFilters(locale)
         return ReactDOM.createPortal(
@@ -479,8 +479,8 @@ class ResourceFilterModule extends React.Component {
   getBoundFilters(locale) {
     const resourceStatusMap = new Map([
       ['green', msgs.get('topology.filter.category.status.success', locale)],
-      ['yellow', msgs.get('topology.filter.category.status.pending', locale)],
-      ['orange', msgs.get('topology.filter.category.status.warning', locale)],
+      ['orange', msgs.get('topology.filter.category.status.pending', locale)],
+      ['yellow', msgs.get('topology.filter.category.status.warning', locale)],
       ['red', msgs.get('topology.filter.category.status.error', locale)]
     ])
     const boundFilters = []

@@ -26,7 +26,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
       }
     }
   >
-    <Connect(CreateResourceModal)
+    <Connect(getContext(CreateResourceModal))
       data={
         Object {
           "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
@@ -70,7 +70,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
         }
       }
     >
-      <CreateResourceModal
+      <getContext(CreateResourceModal)
         data={
           Object {
             "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
@@ -138,57 +138,125 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
           }
         }
       >
-        <div>
-          <Button
-            disabled={false}
-            icon="add--glyph"
-            iconDescription="Provide icon description if icon is used"
-            key="create-resource"
-            kind="primary"
-            onClick={[Function]}
-            small={true}
-            tabIndex={0}
-            type="button"
-          >
-            <button
-              className="bx--btn bx--btn--sm bx--btn--primary"
+        <CreateResourceModal
+          data={
+            Object {
+              "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
+              "clusterName": "",
+              "kind": "",
+              "name": "guestbook-app",
+              "namespace": "default",
+              "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
+            }
+          }
+          deleteSuccessFinished={[Function]}
+          handleClose={[MockFunction]}
+          handleSubmit={[MockFunction]}
+          label={
+            Object {
+              "heading": "modal.remove-hcmapplication.heading",
+              "label": "modal.remove-hcmapplication.label",
+              "primaryBtn": "modal.remove-hcmapplication.heading",
+            }
+          }
+          mutateSuccessFinished={[Function]}
+          onCreateResource={[Function]}
+          open={true}
+          resourceType={
+            Object {
+              "list": "HCMApplicationList",
+              "name": "HCMApplication",
+            }
+          }
+          sampleContent={
+            Array [
+              "aaaaa",
+            ]
+          }
+          store={
+            Object {
+              "dirty": true,
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            }
+          }
+          storeSubscription={
+            Subscription {
+              "listeners": Object {
+                "clear": [Function],
+                "get": [Function],
+                "notify": [Function],
+                "subscribe": [Function],
+              },
+              "onStateChange": [Function],
+              "parentSub": undefined,
+              "store": Object {
+                "dirty": true,
+                "dispatch": [Function],
+                "getState": [Function],
+                "replaceReducer": [Function],
+                "subscribe": [Function],
+                Symbol(observable): [Function],
+              },
+              "unsubscribe": [Function],
+            }
+          }
+        >
+          <div>
+            <Button
               disabled={false}
+              icon="add--glyph"
+              iconDescription="Provide icon description if icon is used"
+              key="create-resource"
+              kind="primary"
               onClick={[Function]}
+              small={true}
               tabIndex={0}
               type="button"
             >
-              <Icon
-                className="bx--btn__icon"
-                description="Provide icon description if icon is used"
-                fillRule="evenodd"
-                name="add--glyph"
-                role="img"
+              <button
+                className="bx--btn bx--btn--sm bx--btn--primary"
+                disabled={false}
+                onClick={[Function]}
+                tabIndex={0}
+                type="button"
               >
-                <svg
-                  alt="Provide icon description if icon is used"
-                  aria-label="Provide icon description if icon is used"
+                <Icon
                   className="bx--btn__icon"
+                  description="Provide icon description if icon is used"
                   fillRule="evenodd"
-                  height="16"
                   name="add--glyph"
                   role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
                 >
-                  <title>
-                    Provide icon description if icon is used
-                  </title>
-                  <path
-                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-                    key="key0"
-                  />
-                </svg>
-              </Icon>
-            </button>
-          </Button>
-        </div>
-      </CreateResourceModal>
-    </Connect(CreateResourceModal)>
+                  <svg
+                    alt="Provide icon description if icon is used"
+                    aria-label="Provide icon description if icon is used"
+                    className="bx--btn__icon"
+                    fillRule="evenodd"
+                    height="16"
+                    name="add--glyph"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      Provide icon description if icon is used
+                    </title>
+                    <path
+                      d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+                      key="key0"
+                    />
+                  </svg>
+                </Icon>
+              </button>
+            </Button>
+          </div>
+        </CreateResourceModal>
+      </getContext(CreateResourceModal)>
+    </Connect(getContext(CreateResourceModal))>
   </Router>
 </BrowserRouter>
 `;
@@ -217,7 +285,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
       }
     }
   >
-    <Connect(CreateResourceModal)
+    <Connect(getContext(CreateResourceModal))
       data={
         Object {
           "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
@@ -261,7 +329,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
         }
       }
     >
-      <CreateResourceModal
+      <getContext(CreateResourceModal)
         data={
           Object {
             "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
@@ -329,57 +397,125 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
           }
         }
       >
-        <div>
-          <Button
-            disabled={false}
-            icon="add--glyph"
-            iconDescription="Provide icon description if icon is used"
-            key="create-resource"
-            kind="primary"
-            onClick={[Function]}
-            small={true}
-            tabIndex={0}
-            type="button"
-          >
-            <button
-              className="bx--btn bx--btn--sm bx--btn--primary"
+        <CreateResourceModal
+          data={
+            Object {
+              "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
+              "clusterName": "",
+              "kind": "",
+              "name": "guestbook-app",
+              "namespace": "default",
+              "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
+            }
+          }
+          deleteSuccessFinished={[Function]}
+          handleClose={[MockFunction]}
+          handleSubmit={[MockFunction]}
+          label={
+            Object {
+              "heading": "modal.remove-hcmapplication.heading",
+              "label": "modal.remove-hcmapplication.label",
+              "primaryBtn": "modal.remove-hcmapplication.heading",
+            }
+          }
+          mutateSuccessFinished={[Function]}
+          onCreateResource={[Function]}
+          open={true}
+          resourceType={
+            Object {
+              "list": "HCMApplicationList",
+              "name": "HCMApplication",
+            }
+          }
+          sampleContent={
+            Array [
+              "aaaaa",
+            ]
+          }
+          store={
+            Object {
+              "dirty": true,
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            }
+          }
+          storeSubscription={
+            Subscription {
+              "listeners": Object {
+                "clear": [Function],
+                "get": [Function],
+                "notify": [Function],
+                "subscribe": [Function],
+              },
+              "onStateChange": [Function],
+              "parentSub": undefined,
+              "store": Object {
+                "dirty": true,
+                "dispatch": [Function],
+                "getState": [Function],
+                "replaceReducer": [Function],
+                "subscribe": [Function],
+                Symbol(observable): [Function],
+              },
+              "unsubscribe": [Function],
+            }
+          }
+        >
+          <div>
+            <Button
               disabled={false}
+              icon="add--glyph"
+              iconDescription="Provide icon description if icon is used"
+              key="create-resource"
+              kind="primary"
               onClick={[Function]}
+              small={true}
               tabIndex={0}
               type="button"
             >
-              <Icon
-                className="bx--btn__icon"
-                description="Provide icon description if icon is used"
-                fillRule="evenodd"
-                name="add--glyph"
-                role="img"
+              <button
+                className="bx--btn bx--btn--sm bx--btn--primary"
+                disabled={false}
+                onClick={[Function]}
+                tabIndex={0}
+                type="button"
               >
-                <svg
-                  alt="Provide icon description if icon is used"
-                  aria-label="Provide icon description if icon is used"
+                <Icon
                   className="bx--btn__icon"
+                  description="Provide icon description if icon is used"
                   fillRule="evenodd"
-                  height="16"
                   name="add--glyph"
                   role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
                 >
-                  <title>
-                    Provide icon description if icon is used
-                  </title>
-                  <path
-                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-                    key="key0"
-                  />
-                </svg>
-              </Icon>
-            </button>
-          </Button>
-        </div>
-      </CreateResourceModal>
-    </Connect(CreateResourceModal)>
+                  <svg
+                    alt="Provide icon description if icon is used"
+                    aria-label="Provide icon description if icon is used"
+                    className="bx--btn__icon"
+                    fillRule="evenodd"
+                    height="16"
+                    name="add--glyph"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      Provide icon description if icon is used
+                    </title>
+                    <path
+                      d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+                      key="key0"
+                    />
+                  </svg>
+                </Icon>
+              </button>
+            </Button>
+          </div>
+        </CreateResourceModal>
+      </getContext(CreateResourceModal)>
+    </Connect(getContext(CreateResourceModal))>
   </Router>
 </BrowserRouter>
 `;
@@ -410,7 +546,7 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
       }
     }
   >
-    <Connect(CreateResourceModal)
+    <Connect(getContext(CreateResourceModal))
       data={
         Object {
           "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
@@ -454,7 +590,7 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
         }
       }
     >
-      <CreateResourceModal
+      <getContext(CreateResourceModal)
         data={
           Object {
             "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
@@ -522,57 +658,125 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
           }
         }
       >
-        <div>
-          <Button
-            disabled={false}
-            icon="add--glyph"
-            iconDescription="Provide icon description if icon is used"
-            key="create-resource"
-            kind="primary"
-            onClick={[Function]}
-            small={true}
-            tabIndex={0}
-            type="button"
-          >
-            <button
-              className="bx--btn bx--btn--sm bx--btn--primary"
+        <CreateResourceModal
+          data={
+            Object {
+              "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
+              "clusterName": "",
+              "kind": "",
+              "name": "guestbook-app",
+              "namespace": "default",
+              "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
+            }
+          }
+          deleteSuccessFinished={[Function]}
+          handleClose={[MockFunction]}
+          handleSubmit={[MockFunction]}
+          label={
+            Object {
+              "heading": "modal.remove-hcmapplication.heading",
+              "label": "modal.remove-hcmapplication.label",
+              "primaryBtn": "modal.remove-hcmapplication.heading",
+            }
+          }
+          mutateSuccessFinished={[Function]}
+          onCreateResource={[Function]}
+          open={true}
+          resourceType={
+            Object {
+              "list": "HCMApplicationList",
+              "name": "HCMApplication",
+            }
+          }
+          sampleContent={
+            Array [
+              "aaaaa",
+            ]
+          }
+          store={
+            Object {
+              "dirty": true,
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            }
+          }
+          storeSubscription={
+            Subscription {
+              "listeners": Object {
+                "clear": [Function],
+                "get": [Function],
+                "notify": [Function],
+                "subscribe": [Function],
+              },
+              "onStateChange": [Function],
+              "parentSub": undefined,
+              "store": Object {
+                "dirty": true,
+                "dispatch": [Function],
+                "getState": [Function],
+                "replaceReducer": [Function],
+                "subscribe": [Function],
+                Symbol(observable): [Function],
+              },
+              "unsubscribe": [Function],
+            }
+          }
+        >
+          <div>
+            <Button
               disabled={false}
+              icon="add--glyph"
+              iconDescription="Provide icon description if icon is used"
+              key="create-resource"
+              kind="primary"
               onClick={[Function]}
+              small={true}
               tabIndex={0}
               type="button"
             >
-              <Icon
-                className="bx--btn__icon"
-                description="Provide icon description if icon is used"
-                fillRule="evenodd"
-                name="add--glyph"
-                role="img"
+              <button
+                className="bx--btn bx--btn--sm bx--btn--primary"
+                disabled={false}
+                onClick={[Function]}
+                tabIndex={0}
+                type="button"
               >
-                <svg
-                  alt="Provide icon description if icon is used"
-                  aria-label="Provide icon description if icon is used"
+                <Icon
                   className="bx--btn__icon"
+                  description="Provide icon description if icon is used"
                   fillRule="evenodd"
-                  height="16"
                   name="add--glyph"
                   role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
                 >
-                  <title>
-                    Provide icon description if icon is used
-                  </title>
-                  <path
-                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-                    key="key0"
-                  />
-                </svg>
-              </Icon>
-            </button>
-          </Button>
-        </div>
-      </CreateResourceModal>
-    </Connect(CreateResourceModal)>
+                  <svg
+                    alt="Provide icon description if icon is used"
+                    aria-label="Provide icon description if icon is used"
+                    className="bx--btn__icon"
+                    fillRule="evenodd"
+                    height="16"
+                    name="add--glyph"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      Provide icon description if icon is used
+                    </title>
+                    <path
+                      d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+                      key="key0"
+                    />
+                  </svg>
+                </Icon>
+              </button>
+            </Button>
+          </div>
+        </CreateResourceModal>
+      </getContext(CreateResourceModal)>
+    </Connect(getContext(CreateResourceModal))>
   </Router>
 </BrowserRouter>
 `;
@@ -601,7 +805,7 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
       }
     }
   >
-    <Connect(CreateResourceModal)
+    <Connect(getContext(CreateResourceModal))
       data={
         Object {
           "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
@@ -645,7 +849,7 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
         }
       }
     >
-      <CreateResourceModal
+      <getContext(CreateResourceModal)
         data={
           Object {
             "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
@@ -713,57 +917,125 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
           }
         }
       >
-        <div>
-          <Button
-            disabled={false}
-            icon="add--glyph"
-            iconDescription="Provide icon description if icon is used"
-            key="create-resource"
-            kind="primary"
-            onClick={[Function]}
-            small={true}
-            tabIndex={0}
-            type="button"
-          >
-            <button
-              className="bx--btn bx--btn--sm bx--btn--primary"
+        <CreateResourceModal
+          data={
+            Object {
+              "_uid": "0221dae9-b6b9-40cb-8cba-473011a750e0",
+              "clusterName": "",
+              "kind": "",
+              "name": "guestbook-app",
+              "namespace": "default",
+              "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
+            }
+          }
+          deleteSuccessFinished={[Function]}
+          handleClose={[MockFunction]}
+          handleSubmit={[MockFunction]}
+          label={
+            Object {
+              "heading": "modal.remove-hcmapplication.heading",
+              "label": "modal.remove-hcmapplication.label",
+              "primaryBtn": "modal.remove-hcmapplication.heading",
+            }
+          }
+          mutateSuccessFinished={[Function]}
+          onCreateResource={[Function]}
+          open={true}
+          resourceType={
+            Object {
+              "list": "HCMApplicationList",
+              "name": "HCMApplication",
+            }
+          }
+          sampleContent={
+            Array [
+              "aaaaa",
+            ]
+          }
+          store={
+            Object {
+              "dirty": true,
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            }
+          }
+          storeSubscription={
+            Subscription {
+              "listeners": Object {
+                "clear": [Function],
+                "get": [Function],
+                "notify": [Function],
+                "subscribe": [Function],
+              },
+              "onStateChange": [Function],
+              "parentSub": undefined,
+              "store": Object {
+                "dirty": true,
+                "dispatch": [Function],
+                "getState": [Function],
+                "replaceReducer": [Function],
+                "subscribe": [Function],
+                Symbol(observable): [Function],
+              },
+              "unsubscribe": [Function],
+            }
+          }
+        >
+          <div>
+            <Button
               disabled={false}
+              icon="add--glyph"
+              iconDescription="Provide icon description if icon is used"
+              key="create-resource"
+              kind="primary"
               onClick={[Function]}
+              small={true}
               tabIndex={0}
               type="button"
             >
-              <Icon
-                className="bx--btn__icon"
-                description="Provide icon description if icon is used"
-                fillRule="evenodd"
-                name="add--glyph"
-                role="img"
+              <button
+                className="bx--btn bx--btn--sm bx--btn--primary"
+                disabled={false}
+                onClick={[Function]}
+                tabIndex={0}
+                type="button"
               >
-                <svg
-                  alt="Provide icon description if icon is used"
-                  aria-label="Provide icon description if icon is used"
+                <Icon
                   className="bx--btn__icon"
+                  description="Provide icon description if icon is used"
                   fillRule="evenodd"
-                  height="16"
                   name="add--glyph"
                   role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
                 >
-                  <title>
-                    Provide icon description if icon is used
-                  </title>
-                  <path
-                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-                    key="key0"
-                  />
-                </svg>
-              </Icon>
-            </button>
-          </Button>
-        </div>
-      </CreateResourceModal>
-    </Connect(CreateResourceModal)>
+                  <svg
+                    alt="Provide icon description if icon is used"
+                    aria-label="Provide icon description if icon is used"
+                    className="bx--btn__icon"
+                    fillRule="evenodd"
+                    height="16"
+                    name="add--glyph"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      Provide icon description if icon is used
+                    </title>
+                    <path
+                      d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+                      key="key0"
+                    />
+                  </svg>
+                </Icon>
+              </button>
+            </Button>
+          </div>
+        </CreateResourceModal>
+      </getContext(CreateResourceModal)>
+    </Connect(getContext(CreateResourceModal))>
   </Router>
 </BrowserRouter>
 `;

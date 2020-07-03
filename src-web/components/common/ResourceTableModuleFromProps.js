@@ -161,7 +161,7 @@ class ResourceTableModule extends React.Component {
     if (!searchValue) {
       return this.setState({ searchValue: '' }, this.formatResourceData)
     }
-    this.setState(prevState => {
+    return this.setState(prevState => {
       let resItems = prevState.resourceItems
       let resIds = prevState.resourceIds
       resIds = resIds.filter(repo => repo.includes(searchValue))

@@ -1,6 +1,6 @@
 {
     "contextPath": "/multicloud/applications",
-    "httpPort": 3001,
+    "httpsPort": 3001,
     "hcmUiApiUrl": "",
     "searchApiUrl": "",
     "headerUrl": "https://management-ingress",
@@ -12,7 +12,7 @@
         "filters": false,
         "fullDashboard": false,
         "liveUpdates": 2,
-        "liveUpdatesPollInterval": 15000,
+        "liveUpdatesPollInterval": 60000,
         "search": true,
         "enableAppcues": false,
         "appcuesScript": "38105.js"

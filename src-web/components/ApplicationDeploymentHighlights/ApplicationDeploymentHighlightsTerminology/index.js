@@ -18,6 +18,15 @@ resources(() => {
   require('./style.scss')
 })
 
+const terminologyItem = (headerMsg, contentMsg) => {
+  return (
+    <div className="terminology-item">
+      <p className="deployment-highlights-terminology-header">{headerMsg}</p>
+      <p className="deployment-highlights-terminology-content">{contentMsg}</p>
+    </div>
+  )
+}
+
 export default class ApplicationDeploymentHighlightsTerminology extends React.Component {
   render() {
     const { open } = this.props
@@ -38,48 +47,30 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
             )}
           >
             <Tile>
-              <div className="terminology-item">
-                <p className="deployment-highlights-terminology-header">
-                  {msgs.get(
-                    'description.title.deploymentHighlightsTerminology.subscriptions',
-                    locale
-                  )}
-                </p>
-                <p className="deployment-highlights-terminology-content">
-                  {msgs.get(
-                    'description.title.deploymentHighlightsTerminology.subscriptionsSummary',
-                    locale
-                  )}
-                </p>
-              </div>
-              <div className="terminology-item">
-                <p className="deployment-highlights-terminology-header">
-                  {msgs.get(
-                    'description.title.deploymentHighlightsTerminology.placementRules',
-                    locale
-                  )}
-                </p>
-                <p className="deployment-highlights-terminology-content">
-                  {msgs.get(
-                    'description.title.deploymentHighlightsTerminology.placementRulesSummary',
-                    locale
-                  )}
-                </p>
-              </div>
-              <div className="terminology-item">
-                <p className="deployment-highlights-terminology-header">
-                  {msgs.get(
-                    'description.title.deploymentHighlightsTerminology.channels',
-                    locale
-                  )}
-                </p>
-                <p className="deployment-highlights-terminology-content">
-                  {msgs.get(
-                    'description.title.deploymentHighlightsTerminology.channelsSummary',
-                    locale
-                  )}
-                </p>
-              </div>
+              {terminologyItem(
+                msgs.get(
+                  'description.title.deploymentHighlightsTerminology.subscriptions'
+                ),
+                msgs.get(
+                  'description.title.deploymentHighlightsTerminology.subscriptionsSummary'
+                )
+              )}
+              {terminologyItem(
+                msgs.get(
+                  'description.title.deploymentHighlightsTerminology.placementRules'
+                ),
+                msgs.get(
+                  'description.title.deploymentHighlightsTerminology.placementRulesSummary'
+                )
+              )}
+              {terminologyItem(
+                msgs.get(
+                  'description.title.deploymentHighlightsTerminology.channels'
+                ),
+                msgs.get(
+                  'description.title.deploymentHighlightsTerminology.channelsSummary'
+                )
+              )}
               <div className="deployment-highlights-terminology-docs">
                 <a
                   href={DOC_LINKS.TERMINOLOGY}

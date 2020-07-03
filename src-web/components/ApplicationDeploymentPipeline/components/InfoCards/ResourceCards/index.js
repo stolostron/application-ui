@@ -16,16 +16,13 @@ import {
   getNumPlacementRules,
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClustersSingle,
-  getSubscriptionDataOnManagedClustersRoot,
-  concatDataForTextKey,
-  concatDataForSubTextKey
+  getSubscriptionDataOnManagedClustersRoot
 } from '../utils'
 import {
   getSearchLinkForOneApplication,
-  getSearchLinkForAllSubscriptions,
-  getSearchLinkForAllClusters,
   getSearchLinkForAllChannels,
-  getSearchLinkForAllPlacementRules
+  getSearchLinkForAllPlacementRules,
+  getCardsCommonDetails
 } from '../../../../common/ResourceOverview/utils'
 
 /* eslint-disable react/prop-types */
@@ -49,8 +46,6 @@ const getResourceCardsData = (
   isSingleApplicationView,
   applicationName,
   applicationNamespace,
-  targetLinkForSubscriptions,
-  targetLinkForClusters,
   targetLinkForChannels,
   targetLinkForPlacementRules,
   locale
@@ -81,82 +76,37 @@ const getResourceCardsData = (
     applicationNamespace
   )
 
-  const result = [
-    {
-      msgKey:
-        subscriptionDataOnHub.total === 1
-          ? msgs.get('dashboard.card.deployment.subscription', locale)
-          : msgs.get('dashboard.card.deployment.subscriptions', locale),
-      count: subscriptionDataOnHub.total,
-      targetLink:
-        subscriptionDataOnHub.total === 0 ? '' : targetLinkForSubscriptions,
-      textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
-      subtextKeyFirst: concatDataForSubTextKey(
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.failed,
-        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.noStatus,
-        subscriptionDataOnHub.noStatus,
-        msgs.get('dashboard.card.deployment.noStatus', locale)
-      )
-    },
-    {
-      msgKey:
-        subscriptionDataOnManagedClusters.clusters === 1
-          ? msgs.get('dashboard.card.deployment.managedCluster', locale)
-          : msgs.get('dashboard.card.deployment.managedClusters', locale),
-      count: subscriptionDataOnManagedClusters.clusters,
-      targetLink:
-        subscriptionDataOnManagedClusters.clusters === 0
-          ? ''
-          : targetLinkForClusters,
-      textKey: concatDataForTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.total,
-        msgs.get('dashboard.card.deployment.totalSubscription', locale),
-        msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
-      ),
-      subtextKeyFirst: concatDataForSubTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.failed,
-        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.noStatus,
-        subscriptionDataOnManagedClusters.noStatus,
-        msgs.get('dashboard.card.deployment.noStatus', locale)
-      )
-    },
-    {
-      msgKey:
-        subscriptionDataOnHub.channels === 1
-          ? msgs.get('dashboard.card.deployment.channel', locale)
-          : msgs.get('dashboard.card.deployment.channels', locale),
-      count: subscriptionDataOnHub.channels,
-      targetLink:
-        subscriptionDataOnHub.channels === 0 ? '' : targetLinkForChannels,
-      textKey: isSingleApplicationView
-        ? msgs.get('dashboard.card.deployment.used', locale)
-        : msgs.get('dashboard.card.deployment.total', locale)
-    },
-    {
-      msgKey:
-        placementRules === 1
-          ? msgs.get('dashboard.card.deployment.placementRule', locale)
-          : msgs.get('dashboard.card.deployment.placementRules', locale),
-      count: placementRules,
-      targetLink: placementRules === 0 ? '' : targetLinkForPlacementRules,
-      textKey: isSingleApplicationView
-        ? msgs.get('dashboard.card.deployment.used', locale)
-        : msgs.get('dashboard.card.deployment.total', locale)
-    }
-  ]
+  const result = getCardsCommonDetails(
+    subscriptionDataOnHub,
+    subscriptionDataOnManagedClusters,
+    isSingleApplicationView,
+    applicationName,
+    applicationNamespace,
+    locale
+  )
+  result.push({
+    msgKey:
+      subscriptionDataOnHub.channels === 1
+        ? msgs.get('dashboard.card.deployment.channel', locale)
+        : msgs.get('dashboard.card.deployment.channels', locale),
+    count: subscriptionDataOnHub.channels,
+    targetLink:
+      subscriptionDataOnHub.channels === 0 ? '' : targetLinkForChannels,
+    textKey: isSingleApplicationView
+      ? msgs.get('dashboard.card.deployment.used', locale)
+      : msgs.get('dashboard.card.deployment.total', locale)
+  })
+  result.push({
+    msgKey:
+      placementRules === 1
+        ? msgs.get('dashboard.card.deployment.placementRule', locale)
+        : msgs.get('dashboard.card.deployment.placementRules', locale),
+    count: placementRules,
+    targetLink: placementRules === 0 ? '' : targetLinkForPlacementRules,
+    textKey: isSingleApplicationView
+      ? msgs.get('dashboard.card.deployment.used', locale)
+      : msgs.get('dashboard.card.deployment.total', locale)
+  })
 
   return result
 }
@@ -184,20 +134,6 @@ class ResourceCards extends React.Component {
     const applicationName = selectedAppName
     const applicationNamespace = selectedAppNS
 
-    const targetLinkForSubscriptions = isSingleApplicationView
-      ? getSearchLinkForOneApplication({
-        name: encodeURIComponent(applicationName),
-        namespace: encodeURIComponent(applicationNamespace),
-        showRelated: 'subscription'
-      })
-      : getSearchLinkForAllSubscriptions()
-    const targetLinkForClusters = isSingleApplicationView
-      ? getSearchLinkForOneApplication({
-        name: encodeURIComponent(applicationName),
-        namespace: encodeURIComponent(applicationNamespace),
-        showRelated: 'cluster'
-      })
-      : getSearchLinkForAllClusters()
     const targetLinkForChannels = isSingleApplicationView
       ? getSearchLinkForOneApplication({
         name: encodeURIComponent(applicationName),
@@ -220,8 +156,6 @@ class ResourceCards extends React.Component {
       isSingleApplicationView,
       applicationName,
       applicationNamespace,
-      targetLinkForSubscriptions,
-      targetLinkForClusters,
       targetLinkForChannels,
       targetLinkForPlacementRules,
       locale

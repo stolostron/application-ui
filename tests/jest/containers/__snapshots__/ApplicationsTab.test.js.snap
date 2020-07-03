@@ -45,7 +45,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
             <div
               className="bx--inline-notification__subtitle"
             >
-              Delete resource {0} was submitted successfully. The result will display on this page when ready.
+              Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
             </div>
           </div>
         </div>
@@ -109,7 +109,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
             <div
               className="bx--inline-notification__subtitle"
             >
-              Create resource was submitted successfully. The result will display on this page when ready.
+              Create resource was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
             </div>
           </div>
         </div>
@@ -312,12 +312,12 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
               <button
                 className="bx--btn bx--btn--sm bx--btn--primary"
                 disabled={false}
-                id="New application"
+                id="Create application"
                 onClick={[Function]}
                 tabIndex={0}
                 type="button"
               >
-                New application
+                Create application
                 <svg
                   alt="Provide icon description if icon is used"
                   aria-label="Provide icon description if icon is used"
@@ -741,7 +741,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
             <div
               className="bx--inline-notification__subtitle"
             >
-              Delete resource {0} was submitted successfully. The result will display on this page when ready.
+              Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
             </div>
           </div>
         </div>
@@ -805,7 +805,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
             <div
               className="bx--inline-notification__subtitle"
             >
-              Create resource was submitted successfully. The result will display on this page when ready.
+              Create resource was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
             </div>
           </div>
         </div>
@@ -1008,12 +1008,12 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
               <button
                 className="bx--btn bx--btn--sm bx--btn--primary"
                 disabled={false}
-                id="New application"
+                id="Create application"
                 onClick={[Function]}
                 tabIndex={0}
                 type="button"
               >
-                New application
+                Create application
                 <svg
                   alt="Provide icon description if icon is used"
                   aria-label="Provide icon description if icon is used"

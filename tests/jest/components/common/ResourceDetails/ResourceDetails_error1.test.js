@@ -93,7 +93,6 @@ describe("ResourceDetails", () => {
         <BrowserRouter>
           <Provider store={storeApp}>
             <ResourceDetails
-              clearIncidents={jest.fn()}
               item={HCMApplication}
               match={matchData2}
               loading={false}

@@ -216,7 +216,7 @@ describe("ApplicationTopologyModule with selected node ID", () => {
     setShowExpandedTopology: jest.fn()
   };
   it("ApplicationTopologyModule renders correctly when topology is expanded click---ccc", () => {
-    const wrapper = mount(
+    mount(
       <BrowserRouter>
         <Provider store={store}>
           <ApplicationTopologyModule
@@ -229,25 +229,6 @@ describe("ApplicationTopologyModule with selected node ID", () => {
         </Provider>
       </BrowserRouter>
     );
-
-    wrapper
-      .find(".bx--search-input")
-      .at(0)
-      .simulate("change");
-    wrapper
-      .find(".bx--search-close")
-      .at(0)
-      .simulate("click");
-
-    wrapper
-      .find(".diagram-close-button")
-      .at(0)
-      .simulate("click");
-
-    wrapper
-      .find(".diagram-close-button")
-      .at(0)
-      .simulate("keypress");
   });
 });
 

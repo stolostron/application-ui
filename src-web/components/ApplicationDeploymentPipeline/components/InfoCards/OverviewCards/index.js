@@ -19,18 +19,20 @@ import { bindActionCreators } from 'redux'
 import * as Actions from '../../../../../actions'
 import msgs from '../../../../../../nls/platform.properties'
 import {
-  getNumIncidents,
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClustersSingle,
   getPodData,
-  getIncidentsData,
-  concatDataForTextKey,
   concatDataForSubTextKey
 } from '../utils'
-import { getSearchLinkForOneApplication } from '../../../../common/ResourceOverview/utils'
 import {
-  refetchIntervalChanged,
-  manualRefetchTriggered
+  getSearchLinkForOneApplication,
+  getCardsCommonDetails
+} from '../../../../common/ResourceOverview/utils'
+import {
+  startPolling,
+  stopPolling,
+  handleRefreshPropertiesChanged,
+  handleVisibilityChanged
 } from '../../../../../shared/utils/refetch'
 
 /* eslint-disable react/prop-types */
@@ -48,34 +50,21 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  const {
-    QueryApplicationList,
-    CEMIncidentList,
-    secondaryHeader,
-    AppOverview,
-    refetch
-  } = state
+  const { QueryApplicationList, secondaryHeader, refetch } = state
   const isSingleApplicationView =
     R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length === 2
-  const enableCEM = AppOverview.showCEMAction
   return {
     QueryApplicationList,
-    CEMIncidentList,
     isSingleApplicationView,
-    enableCEM,
     refetch
   }
 }
 
 const getOverviewCardsData = (
   QueryApplicationList,
-  CEMIncidentList,
   isSingleApplicationView,
-  enableCEM,
   applicationName,
   applicationNamespace,
-  targetLinkForSubscriptions,
-  targetLinkForClusters,
   targetLinkForPods,
   locale
 ) => {
@@ -86,7 +75,7 @@ const getOverviewCardsData = (
     applicationName,
     applicationNamespace
   )
-  var subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersSingle(
+  const subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersSingle(
     QueryApplicationList,
     applicationName,
     applicationNamespace
@@ -96,106 +85,36 @@ const getOverviewCardsData = (
     applicationName,
     applicationNamespace
   )
-  const incidents = getNumIncidents(CEMIncidentList)
-  const incidentsData = getIncidentsData(CEMIncidentList)
 
-  const result = [
-    {
-      msgKey:
-        subscriptionDataOnHub.total === 1
-          ? msgs.get('dashboard.card.deployment.subscription', locale)
-          : msgs.get('dashboard.card.deployment.subscriptions', locale),
-      count: subscriptionDataOnHub.total,
-      targetLink:
-        subscriptionDataOnHub.total === 0 ? '' : targetLinkForSubscriptions,
-      textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
-      subtextKeyFirst: concatDataForSubTextKey(
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.failed,
-        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.noStatus,
-        subscriptionDataOnHub.noStatus,
-        msgs.get('dashboard.card.deployment.noStatus', locale)
-      )
-    },
-    {
-      msgKey:
-        subscriptionDataOnManagedClusters.clusters === 1
-          ? msgs.get('dashboard.card.deployment.managedCluster', locale)
-          : msgs.get('dashboard.card.deployment.managedClusters', locale),
-      count: subscriptionDataOnManagedClusters.clusters,
-      targetLink:
-        subscriptionDataOnManagedClusters.clusters === 0
-          ? ''
-          : targetLinkForClusters,
-      textKey: concatDataForTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.total,
-        msgs.get('dashboard.card.deployment.totalSubscription', locale),
-        msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
-      ),
-      subtextKeyFirst: concatDataForSubTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.failed,
-        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.noStatus,
-        subscriptionDataOnManagedClusters.noStatus,
-        msgs.get('dashboard.card.deployment.noStatus', locale)
-      )
-    },
-    {
-      msgKey:
-        podData.total === 1
-          ? msgs.get('dashboard.card.deployment.pod', locale)
-          : msgs.get('dashboard.card.deployment.pods', locale),
-      count: podData.total,
-      targetLink: podData.total === 0 ? '' : targetLinkForPods,
-      subtextKeyFirst: concatDataForSubTextKey(
-        podData.total,
-        podData.total,
-        podData.running,
-        msgs.get('dashboard.card.deployment.running', locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        podData.total,
-        podData.total,
-        podData.failed,
-        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-      )
-    }
-  ]
+  const result = getCardsCommonDetails(
+    subscriptionDataOnHub,
+    subscriptionDataOnManagedClusters,
+    isSingleApplicationView,
+    applicationName,
+    applicationNamespace,
+    locale
+  )
+  result.push({
+    msgKey:
+      podData.total === 1
+        ? msgs.get('dashboard.card.deployment.pod', locale)
+        : msgs.get('dashboard.card.deployment.pods', locale),
+    count: podData.total,
+    targetLink: podData.total === 0 ? '' : targetLinkForPods,
+    subtextKeyFirst: concatDataForSubTextKey(
+      podData.total,
+      podData.total,
+      podData.running,
+      msgs.get('dashboard.card.deployment.running', locale)
+    ),
+    subtextKeySecond: concatDataForSubTextKey(
+      podData.total,
+      podData.total,
+      podData.failed,
+      msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+    )
+  })
 
-  if (enableCEM) {
-    result.push({
-      msgKey:
-        incidents === 1
-          ? msgs.get('dashboard.card.deployment.incident', locale)
-          : msgs.get('dashboard.card.deployment.incidents', locale),
-      count: incidents,
-      alert: incidents > 0 ? true : false,
-      targetTab: incidents === 0 ? null : 2,
-      subtextKeyFirst: concatDataForSubTextKey(
-        incidents,
-        incidents,
-        incidentsData.priority1,
-        msgs.get('dashboard.card.deployment.incidents.priority1', locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        incidents,
-        incidents,
-        incidentsData.priority2,
-        msgs.get('dashboard.card.deployment.incidents.priority2', locale)
-      )
-    })
-  }
   return result
 }
 
@@ -205,53 +124,21 @@ class OverviewCards extends React.Component {
 
     fetchApplications()
 
-    this.startPolling()
     document.addEventListener('visibilitychange', this.onVisibilityChange)
+    startPolling(this, setInterval)
   }
 
   componentWillUnmount() {
-    this.stopPolling()
+    stopPolling(this.state, clearInterval)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  startPolling() {
-    if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
-      var intervalId = setInterval(
-        this.reload.bind(this),
-        this.props.refetch.interval
-      )
-      this.setState({ intervalId: intervalId })
-    }
-  }
-
-  stopPolling() {
-    if (this.state && this.state.intervalId) {
-      clearInterval(this.state.intervalId)
-    }
-  }
-
   onVisibilityChange = () => {
-    if (document.visibilityState === 'visible') {
-      this.startPolling()
-    } else {
-      this.stopPolling()
-    }
+    handleVisibilityChanged(this, clearInterval, setInterval)
   };
 
   componentDidUpdate(prevProps) {
-    // if old and new interval are different, restart polling
-    if (refetchIntervalChanged(prevProps, this.props)) {
-      this.stopPolling()
-      this.startPolling()
-    }
-
-    // manual refetch
-    if (manualRefetchTriggered(prevProps, this.props)) {
-      this.reload()
-      // reset polling after manual refetch
-      this.stopPolling()
-      this.startPolling()
-    }
+    handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
   }
 
   reload() {
@@ -262,9 +149,7 @@ class OverviewCards extends React.Component {
   render() {
     const {
       QueryApplicationList,
-      CEMIncidentList,
       isSingleApplicationView,
-      enableCEM,
       actions,
       selectedAppName,
       selectedAppNS
@@ -274,16 +159,6 @@ class OverviewCards extends React.Component {
     const applicationName = selectedAppName
     const applicationNamespace = selectedAppNS
 
-    const targetLinkForSubscriptions = getSearchLinkForOneApplication({
-      name: encodeURIComponent(applicationName),
-      namespace: encodeURIComponent(applicationNamespace),
-      showRelated: 'subscription'
-    })
-    const targetLinkForClusters = getSearchLinkForOneApplication({
-      name: encodeURIComponent(applicationName),
-      namespace: encodeURIComponent(applicationNamespace),
-      showRelated: 'cluster'
-    })
     const targetLinkForPods = getSearchLinkForOneApplication({
       name: encodeURIComponent(applicationName),
       namespace: encodeURIComponent(applicationNamespace),
@@ -292,13 +167,9 @@ class OverviewCards extends React.Component {
 
     const overviewCardsData = getOverviewCardsData(
       QueryApplicationList,
-      CEMIncidentList,
       isSingleApplicationView,
-      enableCEM,
       applicationName,
       applicationNamespace,
-      targetLinkForSubscriptions,
-      targetLinkForClusters,
       targetLinkForPods,
       locale
     )
@@ -325,10 +196,7 @@ const InfoCards = ({ overviewCardsData, actions }) => {
       {Object.keys(overviewCardsData).map(key => {
         const card = overviewCardsData[key]
         const id = `${key}_overviewCardsData`
-        var cemStatus = 'card-cem-disabled'
-        if (overviewCardsData.length === 4) {
-          cemStatus = 'card-cem-enabled'
-        }
+        const cardMarginClass = 'card-margin'
         const handleClick = (e, resource) => {
           if (resource.targetTab != null) {
             actions.setSelectedAppTab(resource.targetTab)
@@ -349,8 +217,8 @@ const InfoCards = ({ overviewCardsData, actions }) => {
               key={card}
               className={
                 card.targetLink || card.targetTab
-                  ? `single-card clickable ${cemStatus}`
-                  : `single-card ${cemStatus}`
+                  ? `single-card clickable ${cardMarginClass}`
+                  : `single-card ${cardMarginClass}`
               }
               role="button"
               tabIndex="0"

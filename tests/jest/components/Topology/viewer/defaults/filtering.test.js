@@ -232,8 +232,6 @@ const locale = "en-US";
 
 describe("getAllFilters", () => {
   const mockData = {
-    isLoaded: true,
-    knownTypes: [],
     userIsFiltering: null
   };
 
@@ -269,10 +267,10 @@ describe("getAllFilters", () => {
       type: ["application", "deployment", "rules", "subscription"]
     },
     availableFilters: {
-      clusterNames: {
-        availableSet: new Set(),
-        name: "Cluster name"
-      },
+      // clusterNames: {
+      //   availableSet: new Set(),
+      //   name: "Cluster name"
+      // },
       namespaces: {
         availableSet: new Set(["<none>", "ns-sub-1", "default"]),
         name: "Namespaces"
@@ -280,11 +278,15 @@ describe("getAllFilters", () => {
       resourceStatuses: {
         availableSet: new Map([
           ["green", "Success"],
-          ["yellow", "Pending"],
-          ["orange", "Warning"],
+          ["orange", "Pending"],
+          ["yellow", "Warning"],
           ["red", "Error"]
         ]),
         name: "Resource status"
+      },
+      resourceTypes: {
+        availableSet: new Set(["deployment"]),
+        name: "Types"
       },
       type: ["application", "deployment", "rules", "subscription"]
     },
@@ -395,12 +397,12 @@ describe("getAvailableFilters application", () => {
   const set1 = new Set();
 
   const expectedResult = {
-    clusterNames: {
-      availableSet: new Set([
-        "possiblereptile, braveman, relievedox, sharingpenguin"
-      ]),
-      name: "Cluster name"
-    },
+    // clusterNames: {
+    //   availableSet: new Set([
+    //     "possiblereptile, braveman, relievedox, sharingpenguin"
+    //   ]),
+    //   name: "Cluster name"
+    // },
     namespaces: {
       availableSet: new Set(["<none>"]),
       name: "Namespaces"
@@ -408,11 +410,15 @@ describe("getAvailableFilters application", () => {
     resourceStatuses: {
       availableSet: new Map([
         ["green", "Success"],
-        ["yellow", "Pending"],
-        ["orange", "Warning"],
+        ["orange", "Pending"],
+        ["yellow", "Warning"],
         ["red", "Error"]
       ]),
       name: "Resource status"
+    },
+    resourceTypes: {
+      availableSet: new Set(["pod"]),
+      name: "Types"
     }
   };
 
@@ -635,6 +641,175 @@ const expectedFilterNodeResult = [
   }
 ];
 
+const expectedFilterAppWeaveNodeResult = [
+  {
+    cluster: null,
+    clusterName: null,
+    id: "application--nginx-app-3",
+    name: "nginx-app-3",
+    specs: {
+      __typename: "Resource",
+      isDesign: true,
+      labels: null,
+      namespace: "ns-sub-1",
+      raw: {
+        activeChannel: "__ALL__/__ALL__//__ALL__/__ALL__",
+        apiVersion: "app.k8s.io/v1beta1",
+        channels: ["ns-sub-1/nginx//ns-ch/predev-ch"],
+        kind: "Application",
+        metadata: {
+          annotations: {
+            "apps.open-cluster-management.io/deployables":
+              "ns-sub-1/example-configmap",
+            "apps.open-cluster-management.io/subscriptions": "ns-sub-1/nginx"
+          },
+          labels: {
+            app: "nginx-app-details"
+          },
+          name: "nginx-app-3",
+          namespace: "ns-sub-1",
+          resourceVersion: "1487968",
+          selfLink:
+            "/apis/app.k8s.io/v1beta1/namespaces/ns-sub-1/applications/nginx-app-3",
+          uid: "00bb7699-f371-43a6-8edf-5ef10f42f4ff"
+        },
+        row: 0,
+        spec: {
+          componentKinds: [
+            {
+              group: "apps.open-cluster-management.io",
+              kind: "Subscription"
+            }
+          ],
+          descriptor: {},
+          selector: {
+            matchLabels: {
+              app: "nginx-app-details"
+            }
+          }
+        },
+        status: {}
+      },
+      topology: null
+    },
+    type: "application",
+    uid: "application--nginx-app-3"
+  },
+  {
+    __typename: "Resource",
+    cluster: null,
+    clusterName: null,
+    id: "member--subscription--ns-sub-1--nginx",
+    labels: null,
+    name: "nginx",
+    namespace: "ns-sub-1",
+    specs: {
+      hasRules: true,
+      isDesign: true,
+      isPlaced: false,
+      raw: {
+        apiVersion: "apps.open-cluster-management.io/v1",
+        kind: "Subscription",
+        metadata: {
+          labels: {
+            app: "nginx-app-details"
+          },
+          name: "nginx",
+          namespace: "ns-sub-1",
+          resourceVersion: "1488006",
+          selfLink:
+            "/apis/apps.open-cluster-management.io/v1/namespaces/ns-sub-1/subscriptions/nginx",
+          uid: "54c0d0fe-9711-462b-85ad-3d7e73e9ab89"
+        },
+        spec: {
+          channel: "ns-ch/predev-ch",
+          name: "nginx-ingress",
+          packageFilter: {
+            version: "1.20.x"
+          },
+          placement: {
+            placementRef: {
+              kind: "PlacementRule",
+              name: "towhichcluster"
+            }
+          }
+        },
+        status: {
+          lastUpdateTime: "2020-03-18T20:06:47Z",
+          message: "Active",
+          phase: "Propagated"
+        }
+      },
+      row: 17
+    },
+    topology: null,
+    type: "subscription",
+    uid: "member--subscription--ns-sub-1--nginx"
+  },
+  {
+    __typename: "Resource",
+    cluster: null,
+    clusterName: null,
+    id: "member--rules--ns-sub-1--towhichcluster--0",
+    labels: null,
+    name: "towhichcluster",
+    namespace: "ns-sub-1",
+    specs: {
+      isDesign: true,
+      raw: {
+        apiVersion: "apps.open-cluster-management.io/v1",
+        kind: "PlacementRule",
+        metadata: {
+          name: "towhichcluster",
+          namespace: "ns-sub-1",
+          resourceVersion: "1487942",
+          selfLink:
+            "/apis/apps.open-cluster-management.io/v1/namespaces/ns-sub-1/placementrules/towhichcluster",
+          uid: "49788e0c-c540-49be-9e65-a1c46e4ac485"
+        },
+        spec: {
+          clusterSelector: {}
+        }
+      },
+      row: 35
+    },
+    topology: null,
+    type: "rules",
+    uid: "member--rules--ns-sub-1--towhichcluster--0"
+  },
+  {
+    __typename: "Resource",
+    cluster: null,
+    clusterName: null,
+    id: "deployment1",
+    labels: null,
+    name: "deployment1",
+    namespace: "default",
+    specs: {
+      isDesign: false,
+      raw: {
+        apiVersion: "apps.open-cluster-management.io/v1",
+        kind: "deployment",
+        metadata: {
+          name: "deployment",
+          namespace: "default",
+          resourceVersion: "1487942",
+          selfLink:
+            "/apis/apps.open-cluster-management.io/v1/namespaces/ns-sub-1/placementrules/towhichcluster",
+          uid: "49788e0c-c540-49be-9e65-a1c46e4ac485"
+        },
+        spec: {
+          clusterSelector: {}
+        }
+      },
+      row: 35
+    },
+    topology: null,
+    type: "deployment",
+    uid: "deployment1"
+  }
+];
+
 describe("filterNodes cluster", () => {
   it("should filter cluster nodes", () => {
     expect(filterNodes("cluster", nodes, activeFilters, {})).toEqual(
@@ -646,7 +821,7 @@ describe("filterNodes cluster", () => {
 describe("filterNodes weave", () => {
   it("should filter weave nodes", () => {
     expect(filterNodes("weave", nodes, activeFilters, {})).toEqual(
-      expectedFilterNodeResult
+      expectedFilterAppWeaveNodeResult
     );
   });
 });
@@ -654,7 +829,7 @@ describe("filterNodes weave", () => {
 describe("filterNodes application", () => {
   it("should filter application nodes", () => {
     expect(filterNodes("application", nodes, activeFilters, {})).toEqual(
-      expectedFilterNodeResult
+      expectedFilterAppWeaveNodeResult
     );
   });
 });

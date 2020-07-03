@@ -62,7 +62,7 @@ export default class LayoutHelper {
 
     // for each cluster, group into collections
     const groups = this.getNodeGroups
-      ? this.getNodeGroups(nodes, this.activeFilters, this.diagramOptions)
+      ? this.getNodeGroups(nodes)
       : getNodeGroups('', nodes)
 
     // make sure shape type order can work from this
@@ -170,12 +170,15 @@ export default class LayoutHelper {
       { map: sourceMap, next: 'source', other: 'target' },
       { map: targetMap, next: 'target', other: 'source' }
     ]
+
     this.shapeTypeOrder.forEach(type => {
       if (nodeGroups[type]) {
         const group = nodeGroups[type]
         // sort nodes/links into collections
-        const connected = (nodeGroups[type].connected = [])
-        const unconnected = (nodeGroups[type].unconnected = [])
+        nodeGroups[type].connected = []
+        nodeGroups[type].unconnected = []
+        const connected = nodeGroups[type].connected
+        const unconnected = nodeGroups[type].unconnected
 
         // find the connected nodes
         group.nodes.forEach(node => {
@@ -221,8 +224,8 @@ export default class LayoutHelper {
           const details = { clusterMap: {}, typeMap: {} }
 
           // fill edges
-          var edgeMap = {}
-          for (var uid in nodeMap) {
+          const edgeMap = {}
+          for (const uid in nodeMap) {
             if (nodeMap.hasOwnProperty(uid)) {
               directions.forEach(({ map, next, other }) => {
                 if (map.hasOwnProperty(uid)) {
@@ -284,17 +287,15 @@ export default class LayoutHelper {
           map[uid].forEach(entry => {
             const { link } = entry
             const end = entry[next]
-            if (!connectedSet.has(end)) {
+            if (!connectedSet.has(end) && !this.nodesToBeCloned[end]) {
               // reiterate until nothing else connected
-              if (!this.nodesToBeCloned[end]) {
-                this.gatherNodesByConnections(
-                  link[next],
-                  grp,
-                  directions,
-                  connectedSet,
-                  allNodeMap
-                )
-              }
+              this.gatherNodesByConnections(
+                link[next],
+                grp,
+                directions,
+                connectedSet,
+                allNodeMap
+              )
             }
           })
         }
@@ -396,7 +397,7 @@ export default class LayoutHelper {
           ({ nodeMap, details: { edges } }) => {
             // if single node cannot be in connected group unless it ONLY connects to clones
             if (Object.keys(nodeMap).length === 1) {
-              for (var i = 0; i < edges.length; i++) {
+              for (let i = 0; i < edges.length; i++) {
                 const edge = edges[i]
                 directions.forEach(({ next, other }) => {
                   this.consolidateNodesHelper(
@@ -467,7 +468,7 @@ export default class LayoutHelper {
     }
     this.shapeTypeOrder.forEach(type => {
       if (nodeGroups[type] && nodeGroups[type].connected) {
-        let consolidatedGroup = undefined
+        let consolidatedGroup = null
         nodeGroups[type].connected = nodeGroups[type].connected.filter(
           connected => {
             const { nodeMap, details: { edges } } = connected
@@ -532,25 +533,25 @@ export default class LayoutHelper {
               edges.forEach(edge => {
                 directions.forEach(direction => {
                   const next = edge[direction]
-                  if (this.nodesToBeCloned[next]) {
-                    const cuid = next + '_' + type + '_' + hashCode
-                    if (!nodeMap[cuid]) {
-                      let clone = this.nodeClones[cuid]
-                      if (!clone) {
-                        clone = this.nodeClones[cuid] = _.cloneDeep(
-                          this.nodesToBeCloned[next]
-                        )
-                        clone.layout = {
-                          uid: cuid,
-                          type: clone.type,
-                          label: clone.name,
-                          compactLabel: getWrappedNodeLabel(clone.name, 12, 2),
-                          cloned: true
-                        }
+                  const cuid = `${next}_${type}_${hashCode}`
+                  if (this.nodesToBeCloned[next] && !nodeMap[cuid]) {
+                    let clone = this.nodeClones[cuid]
+                    if (!clone) {
+                      clone = this.nodeClones[cuid] = _.cloneDeep(
+                        this.nodesToBeCloned[next]
+                      )
+                      clone.layout = {
+                        uid: cuid,
+                        type: clone.type,
+                        label: clone.name,
+                        compactLabel: getWrappedNodeLabel(clone.name, 12, 2),
+                        cloned: true
                       }
-                      nodeMap[cuid] = clone
-                      nodes.push(nodeMap[cuid])
                     }
+                    nodeMap[cuid] = clone
+                    nodes.push(nodeMap[cuid])
+                  }
+                  if (this.nodesToBeCloned[next]) {
                     edge.layout[direction] = nodeMap[cuid].layout
                   }
                 })
@@ -562,14 +563,57 @@ export default class LayoutHelper {
     }
   };
 
+  // break large unconnected groups into smaller groups
+  breakUnconnected = (cy, nodes, type, collections, details) => {
+    let unconnectArr = [nodes]
+    if (nodes.length > 48) {
+      nodes.sort(
+        (
+          { layout: { label: a = '', uid: au } },
+          { layout: { label: b = '', uid: bu } }
+        ) => {
+          const r = a.localeCompare(b)
+          if (r !== 0) {
+            return r
+          } else {
+            return au.localeCompare(bu)
+          }
+        }
+      )
+      unconnectArr = _.chunk(nodes, 32)
+    }
+    unconnectArr.forEach(arr => {
+      const uidArr = []
+      const elements = { nodes: [] }
+      arr.forEach(node => {
+        elements.nodes.push({
+          data: {
+            id: node.uid,
+            node
+          }
+        })
+        uidArr.push(node.uid)
+      })
+      if (elements.nodes.length > 0) {
+        collections.unconnected.push({
+          type,
+          title: type,
+          elements: cy.add(elements),
+          hashCode: getHashCode(uidArr.sort().join()),
+          details
+        })
+      }
+    })
+  };
+
   createCollections = (cy, groups) => {
     const { nodeGroups } = groups
     const collections = { connected: [], unconnected: [] }
 
-    this.shapeTypeOrder.forEach(type => {
-      if (nodeGroups[type]) {
-        const { connected } = nodeGroups[type]
-        let { unconnected } = nodeGroups[type]
+    this.shapeTypeOrder.forEach(typeObj => {
+      if (nodeGroups[typeObj]) {
+        const { connected } = nodeGroups[typeObj]
+        let { unconnected } = nodeGroups[typeObj]
         connected.forEach(({ nodeMap, details }) => {
           const uidArr = []
           const { edges, title } = details
@@ -607,7 +651,7 @@ export default class LayoutHelper {
           })
 
           collections.connected.push({
-            type,
+            typeObj,
             title,
             elements: cy.add(elements),
             hashCode: getHashCode(uidArr.sort().join()),
@@ -638,7 +682,7 @@ export default class LayoutHelper {
         })
 
         // for each cluster
-        for (var clusterName in detailMap) {
+        for (const clusterName in detailMap) {
           if (detailMap.hasOwnProperty(clusterName)) {
             const { typeMap, nodes, environment } = detailMap[clusterName]
             const clusters = [clusterName]
@@ -647,47 +691,8 @@ export default class LayoutHelper {
               title: this.getSectionTitle(clusters, types, environment),
               clusters: clusters.join('/')
             }
-
             // break large unconnected groups into smaller groups
-            let unconnectArr = [nodes]
-            if (nodes.length > 48) {
-              nodes.sort(
-                (
-                  { layout: { label: a = '', uid: au } },
-                  { layout: { label: b = '', uid: bu } }
-                ) => {
-                  const r = a.localeCompare(b)
-                  if (r !== 0) {
-                    return r
-                  } else {
-                    return au.localeCompare(bu)
-                  }
-                }
-              )
-              unconnectArr = _.chunk(nodes, 32)
-            }
-            unconnectArr.forEach(arr => {
-              const uidArr = []
-              const elements = { nodes: [] }
-              arr.forEach(node => {
-                elements.nodes.push({
-                  data: {
-                    id: node.uid,
-                    node
-                  }
-                })
-                uidArr.push(node.uid)
-              })
-              if (elements.nodes.length > 0) {
-                collections.unconnected.push({
-                  type,
-                  title: type,
-                  elements: cy.add(elements),
-                  hashCode: getHashCode(uidArr.sort().join()),
-                  details
-                })
-              }
-            })
+            this.breakUnconnected(cy, nodes, typeObj, collections, details)
           }
         }
       }
@@ -764,9 +769,11 @@ export default class LayoutHelper {
 
   runCollectionLayoutsHelper = (totalLayouts, newLayouts, cb) => {
     newLayouts.forEach(collection => {
-      const { elements, options, hashCode } = collection
-      options.hashCode = hashCode
-      const layout = (collection.layout = elements.layout(options))
+      const { elements, hashCode } = collection
+      collection.options.hashCode = hashCode
+      collection.layout = elements.layout(collection.options)
+
+      const layout = collection.layout
       if (layout) {
         layout.pon('layoutstop').then(({ layout: { adaptor, options } }) => {
           // save webcola adapter to layout edges later in linkHelper.layoutEdges
@@ -801,7 +808,7 @@ export default class LayoutHelper {
       {
         resetLayout: () => {
           this.cachedLayouts = {}
-          this.rowPositionCache = undefined
+          this.rowPositionCache = null
         }
       }
     )
@@ -826,7 +833,7 @@ export default class LayoutHelper {
         // between searches, keep resetting cache
         resetLayout: () => {
           this.cachedLayouts = {}
-          this.rowPositionCache = undefined
+          this.rowPositionCache = null
         },
         // when search is done, restore originals
         restoreLayout: () => {
@@ -944,13 +951,13 @@ export default class LayoutHelper {
     })
     // add title for any new collection
     let titleMap = _.keyBy(this.titles, 'hashCode')
-    for (var hashCode in collectionMap) {
-      if (!titleMap[hashCode]) {
-        const { details: { title } } = collectionMap[hashCode]
+    for (const hashCodeM in collectionMap) {
+      if (!titleMap[hashCodeM]) {
+        const { details: { title } } = collectionMap[hashCodeM]
         if (title) {
           this.titles.push({
             title,
-            hashCode,
+            hashCodeM,
             position: {}
           })
         }
@@ -961,7 +968,7 @@ export default class LayoutHelper {
     // for diagram stability when live:
     //  on first layout--or if lots of new sections, find best order for collections
     //  from then on try to remember a collection's order
-    let hashCodeToPositionMap = undefined
+    let hashCodeToPositionMap = null
     if (
       !this.rowPositionCache ||
       clayouts.length > (this.lastCollectionSize || 0) + 6
@@ -989,9 +996,9 @@ export default class LayoutHelper {
     const breakWidth = this.getBreakWidth(clayouts)
     clayouts.forEach(({ bbox, name, nodes }, idx) => {
       const { w, h } = bbox
-      const row = rowDimensions.length
+      const rowLength = rowDimensions.length
       collectionDimensions.push(bbox)
-      collectionIndexToRowMap[idx] = row
+      collectionIndexToRowMap[idx] = rowLength
       cols++
 
       // keep track of the dimensions
@@ -1006,7 +1013,7 @@ export default class LayoutHelper {
         nodeMapToPositionMap,
         _.keyBy(
           nodes.map(({ layout: { uid } }) => {
-            return { uid, row, idx }
+            return { uid, rowLength, idx }
           }),
           'uid'
         )
@@ -1017,7 +1024,7 @@ export default class LayoutHelper {
         this.shouldCreateNewRow(
           currentX,
           breakWidth,
-          row,
+          rowLength,
           cols,
           name,
           clayouts,
@@ -1038,35 +1045,35 @@ export default class LayoutHelper {
     this.lastCollectionSize = clayouts.length
 
     // layout collection columns
-    let row = 0
+    let row1 = 0
     let currentY = 0
     const layoutMap = {}
     const layoutBBox = { x1: 0 }
-    clayouts.forEach(({ nodes, edges, name, hashCode }, idx) => {
+    clayouts.forEach(({ nodes, edges, name, hashCodeC }, idx) => {
       // this collection's bounding box
       const { x1, y1, w, h } = collectionDimensions[idx]
 
       // figure out our row
-      if (collectionIndexToRowMap[idx] > row) {
-        const { rowHeight } = rowDimensions[row]
-        row = collectionIndexToRowMap[idx]
-        currentY += rowHeight + ySpaceBetweenRows
+      if (collectionIndexToRowMap[idx] > row1) {
+        const { rowHeight1 } = rowDimensions[row1]
+        row1 = collectionIndexToRowMap[idx]
+        currentY += rowHeight1 + ySpaceBetweenRows
         currentX = 0
       }
-      const { rowHeight } = rowDimensions[row]
+      const { rowHeight2 } = rowDimensions[row1]
 
       // dyCell centers row vertically
-      const isGrid = name === 'grid' ? ySpaceBetweenRows : (rowHeight - h) / 2
-      const dyCell = row === 0 ? 0 : isGrid
+      const isGrid = name === 'grid' ? ySpaceBetweenRows : (rowHeight2 - h) / 2
+      const dyCell = row1 === 0 ? 0 : isGrid
 
       // needed to saved dragged position of node based relative to its cell
-      const section = { name, hashCode, x: currentX, y: currentY + dyCell }
+      const section = { name, hashCodeC, x: currentX, y: currentY + dyCell }
       const transform = { x: section.x - x1, y: section.y - y1 }
 
       // set title position
       // keep track of bounding box
-      if (titleMap[hashCode]) {
-        const title = titleMap[hashCode]
+      if (titleMap[hashCodeC]) {
+        const title = titleMap[hashCodeC]
         title.x = section.x + w / 2
         title.y = currentY + dyCell - NODE_SIZE * 2
         layoutBBox.y1 = Math.min(layoutBBox.y1 || title.y, title.y)
@@ -1089,7 +1096,7 @@ export default class LayoutHelper {
         // restore position of any node dragged by user
         if (layout.dragged) {
           // if node is a member of a new section cancel the drag
-          if (layout.section.hashCode === hashCode) {
+          if (layout.section.hashCode === hashCodeC) {
             // else reconstitute drag using the current section x/y
             layout.x = section.x + layout.dragged.x
             layout.y = section.y + layout.dragged.y
@@ -1145,11 +1152,10 @@ export default class LayoutHelper {
     if (
       hashCodeToPositionMap &&
       idx !== clayouts.length - 1 &&
-      hashCodeToPositionMap[clayouts[idx + 1].hashCode]
+      hashCodeToPositionMap[clayouts[idx + 1].hashCode] &&
+      hashCodeToPositionMap[clayouts[idx + 1].hashCode].row > row
     ) {
-      if (hashCodeToPositionMap[clayouts[idx + 1].hashCode].row > row) {
-        return true
-      }
+      return true
     }
 
     // if last collection laid out--finish this row
@@ -1170,10 +1176,7 @@ export default class LayoutHelper {
   };
 
   getBreakWidth = () => {
-    const breakWidth = 3000
-    // TODO -- find a width at which the resulting height
-    //         will maximize the scale at which we can draw diagram
-    return breakWidth
+    return 3000
   };
 
   initialSortCollection = clayouts => {
@@ -1218,8 +1221,6 @@ export default class LayoutHelper {
         }
 
         // sort larger collections by size
-        const az = ae.length
-        const bz = be.length
         if (az >= 5 && bz < 5) {
           return -1
         } else if (az < 5 && bz >= 5) {

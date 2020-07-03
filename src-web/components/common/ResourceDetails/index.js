@@ -8,31 +8,24 @@
  *******************************************************************************/
 'use strict'
 
-import R from 'ramda'
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading } from 'carbon-components-react'
 import { getTabs } from '../../../../lib/client/resource-helper'
-import { getIncidentCount, getNamespaceAccountId } from './utils'
-import {
-  updateSecondaryHeader,
-  fetchResource,
-  fetchIncidents,
-  fetchNamespace,
-  clearIncidents
-} from '../../../actions/common'
+import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
 import lodash from 'lodash'
 import resources from '../../../../lib/shared/resources'
-import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import msgs from '../../../../nls/platform.properties'
 import ResourceOverview from '../ResourceOverview'
 import {
-  refetchIntervalChanged,
-  manualRefetchTriggered
+  startPolling,
+  stopPolling,
+  handleRefreshPropertiesChanged,
+  handleVisibilityChanged
 } from '../../../shared/utils/refetch'
 
 resources(() => {
@@ -45,29 +38,17 @@ const withResource = Component => {
     return {
       actions: bindActionCreators(Actions, dispatch),
       fetchResource: () =>
-        dispatch(fetchResource(resourceType, params.namespace, params.name)),
-      fetchIncidents: () =>
-        dispatch(
-          fetchIncidents(
-            RESOURCE_TYPES.CEM_INCIDENTS,
-            params.namespace,
-            params.name
-          )
-        ),
-      clearIncidents: () =>
-        dispatch(clearIncidents(RESOURCE_TYPES.CEM_INCIDENTS))
+        dispatch(fetchResource(resourceType, params.namespace, params.name))
     }
   }
 
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
-    const { AppOverview, CEMIncidentList, refetch } = state
+    const { refetch } = state
     return {
       status: state[typeListName].status,
       statusCode: error && error.response && error.response.status,
-      incidentCount: getIncidentCount(CEMIncidentList),
-      showCEMAction: AppOverview.showCEMAction,
       refetch
     }
   }
@@ -77,16 +58,9 @@ const withResource = Component => {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
         actions: PropTypes.object,
-        clearIncidents: PropTypes.func,
-        fetchIncidents: PropTypes.func,
         fetchResource: PropTypes.func,
-        incidentCount: PropTypes.oneOfType([
-          PropTypes.number,
-          PropTypes.string
-        ]),
         params: PropTypes.object,
         refetch: PropTypes.object,
-        showCEMAction: PropTypes.bool,
         status: PropTypes.string,
         statusCode: PropTypes.object
       };
@@ -99,10 +73,6 @@ const withResource = Component => {
       }
 
       componentDidMount() {
-        if (this.props.showCEMAction) {
-          this.props.clearIncidents()
-        }
-
         // Clear the list of dropDowns
         const { params, actions } = this.props
         actions.clearAppDropDownList()
@@ -110,56 +80,29 @@ const withResource = Component => {
         actions.updateAppDropDownList(params.name)
         this.reload()
 
-        this.startPolling()
         document.addEventListener('visibilitychange', this.onVisibilityChange)
+        startPolling(this, setInterval)
       }
 
       componentWillUnmount() {
-        this.stopPolling()
+        stopPolling(this.state, clearInterval)
         document.removeEventListener(
           'visibilitychange',
           this.onVisibilityChange
         )
       }
 
-      startPolling() {
-        if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
-          var intervalId = setInterval(
-            this.reload.bind(this),
-            this.props.refetch.interval
-          )
-          this.setState({ intervalId: intervalId })
-        }
-      }
-
-      stopPolling() {
-        if (this.state && this.state.intervalId) {
-          clearInterval(this.state.intervalId)
-        }
-      }
-
       onVisibilityChange = () => {
-        if (document.visibilityState === 'visible') {
-          this.startPolling()
-        } else {
-          this.stopPolling()
-        }
+        handleVisibilityChanged(this, clearInterval, setInterval)
       };
 
       componentDidUpdate(prevProps) {
-        // if old and new interval are different, restart polling
-        if (refetchIntervalChanged(prevProps, this.props)) {
-          this.stopPolling()
-          this.startPolling()
-        }
-
-        // manual refetch
-        if (manualRefetchTriggered(prevProps, this.props)) {
-          this.reload()
-          // reset polling after manual refetch
-          this.stopPolling()
-          this.startPolling()
-        }
+        handleRefreshPropertiesChanged(
+          prevProps,
+          this,
+          clearInterval,
+          setInterval
+        )
       }
 
       reload() {
@@ -174,16 +117,12 @@ const withResource = Component => {
             }
           }
         } else {
-          retry = undefined
-          showError = undefined
+          retry = null
+          showError = null
         }
         this.setState({ xhrPoll: true, retry, showError })
         if (status !== Actions.REQUEST_STATUS.DONE) {
           this.props.fetchResource()
-        }
-        const { showCEMAction } = this.props
-        if (showCEMAction) {
-          this.props.fetchIncidents()
         }
       }
 
@@ -241,9 +180,9 @@ class ResourceDetails extends React.Component {
   }
 
   componentWillMount() {
-    const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
+    const { updateSecondaryHeaderFn, tabs, launch_links, match } = this.props,
           params = match && match.params
-    updateSecondaryHeader(
+    updateSecondaryHeaderFn(
       params.name,
       getTabs(
         tabs,
@@ -254,21 +193,12 @@ class ResourceDetails extends React.Component {
     )
   }
 
-  componentDidMount() {
-    const { params } = this.props
-    if (params && params.namespace) {
-      if (this.props.showICAMAction && this.props.showICAMAction === true) {
-        this.props.fetchNamespace(params.namespace)
-      }
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
-      const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
+      const { updateSecondaryHeaderFn, tabs, launch_links, match } = this.props,
             params = match && match.params
 
-      updateSecondaryHeader(
+      updateSecondaryHeaderFn(
         params.name,
         getTabs(
           tabs,
@@ -307,8 +237,6 @@ class ResourceDetails extends React.Component {
       showExpandedTopology,
       actions,
       children,
-      showICAMAction,
-      namespaceAccountId,
       showGrafanaAction
     } = this.props
     return (
@@ -321,8 +249,6 @@ class ResourceDetails extends React.Component {
           modules={children}
           selectedNodeId={selectedNodeId}
           showExpandedTopology={showExpandedTopology}
-          showICAMAction={showICAMAction}
-          namespaceAccountId={namespaceAccountId}
           showGrafanaAction={showGrafanaAction}
         />
       </div>
@@ -389,35 +315,29 @@ ResourceDetails.contextTypes = {
 ResourceDetails.propTypes = {
   actions: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  fetchNamespace: PropTypes.func,
   launch_links: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
-  namespaceAccountId: PropTypes.string,
-  params: PropTypes.object,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
   selectedNodeId: PropTypes.string,
   showExpandedTopology: PropTypes.bool,
   showGrafanaAction: PropTypes.bool,
-  showICAMAction: PropTypes.bool,
   staticResourceData: PropTypes.object,
   tabs: PropTypes.array,
-  updateSecondaryHeader: PropTypes.func
+  updateSecondaryHeaderFn: PropTypes.func
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
-    fetchNamespace: namespace =>
-      dispatch(fetchNamespace(RESOURCE_TYPES.HCM_NAMESPACES, namespace)),
-    updateSecondaryHeader: (title, tabs, breadcrumbItems, links) =>
+    updateSecondaryHeaderFn: (title, tabs, breadcrumbItems, links) =>
       dispatch(updateSecondaryHeader(title, tabs, breadcrumbItems, links))
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { AppOverview, HCMNamespaceList } = state
+  const { AppOverview } = state
   const { list: typeListName } = ownProps.resourceType,
         visibleResources = ownProps.getVisibleResources(state, {
           storeRoot: typeListName
@@ -430,7 +350,7 @@ const mapStateToProps = (state, ownProps) => {
   } else {
     params = (ownProps.match && ownProps.match.params) || {}
   }
-  const item_key =
+  const itemKey =
     (params &&
       params.name &&
       params.namespace &&
@@ -438,16 +358,14 @@ const mapStateToProps = (state, ownProps) => {
         '-' +
         decodeURIComponent(params.namespace)) ||
     undefined
-  const item = (items && item_key && items[item_key]) || undefined
+  const item = (items && itemKey && items[itemKey]) || undefined
   const _uid = (item && item['_uid']) || ''
   const clusterName = (item && item['cluster']) || ''
   return {
     _uid,
     clusterName,
-    namespaceAccountId: getNamespaceAccountId(HCMNamespaceList),
     selectedNodeId: AppOverview.selectedNodeId,
     showExpandedTopology: AppOverview.showExpandedTopology,
-    showICAMAction: AppOverview.showICAMAction,
     showGrafanaAction: AppOverview.showGrafanaAction,
     params: params
   }

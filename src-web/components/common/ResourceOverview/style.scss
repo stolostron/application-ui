@@ -6,6 +6,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import '../../../../scss/variables';
 
 .overview-content {
   display: flex;
@@ -122,7 +123,7 @@
 
     .yamlEditorContainer {
       height: calc(100% - 3rem);
-      
+
       & * {
         font-family: unset;
       }

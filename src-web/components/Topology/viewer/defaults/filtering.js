@@ -12,6 +12,8 @@ import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
 import { getClusterName } from '../../utils/diagram-helpers'
 
+const clusterLabels = 'cluster.metadata.labels'
+
 const TypeFilters = {
   cluster: {
     filterTypes: {
@@ -37,6 +39,7 @@ const TypeFilters = {
   application: {
     filterTypes: {
       resourceStatuses: 'resourceStatuses',
+      resourceTypes: 'resourceTypes',
       clusterNames: 'clusterNames',
       namespaces: 'namespaces',
       hostIPs: 'hostIPs'
@@ -61,7 +64,7 @@ export const getAllFilters = (
   typeToShapeMap,
   isLoaded,
   nodes,
-  options = {},
+  options,
   activeFilters,
   knownTypes,
   userIsFiltering,
@@ -98,7 +101,8 @@ export const getAllFilters = (
   })
 
   // determine what should go in main type filter bar and what should go in 'other' button
-  let { availableTypes } = options
+  const optionsTemp = options || {}
+  let { availableTypes } = optionsTemp
   const unknownTypes = []
   if (availableTypes) {
     // other is any type not in available types
@@ -233,43 +237,62 @@ const addAssortedAvailableFilters = (
   mode,
   availableFilters,
   activeFilters,
-  nodes = [],
+  nodes,
   locale
 ) => {
-  if (nodes.length > 0) {
+  if (nodes && nodes.length > 0) {
     switch (mode) {
     case 'cluster':
-      return addAvailableClusterFilters(availableFilters, nodes, locale)
-
-    case 'weave':
-      return addAvailableRelationshipFilters(
-        mode,
-        availableFilters,
-        activeFilters,
-        nodes,
-        locale
-      )
-
-    case 'application':
-      return addAvailableRelationshipFilters(
-        mode,
-        availableFilters,
-        activeFilters,
-        nodes,
-        locale
-      )
+      addAvailableClusterFilters(availableFilters, nodes, locale)
+      break
 
     case 'policy':
-      return addAvailablePolicyFilters(
+      addAvailablePolicyFilters(
         availableFilters,
         activeFilters,
         nodes,
         locale
       )
+      break
+
+    default:
+      addAvailableRelationshipFilters(
+        mode,
+        availableFilters,
+        activeFilters,
+        nodes,
+        locale
+      )
+      break
     }
   }
 }
 
+const filterAvailable = (
+  specs,
+  clusterLabelsInfo,
+  filterTypes,
+  availableFilters
+) => {
+  const labels = _.get(specs, clusterLabelsInfo, {})
+  Object.keys(filterTypes).forEach(filterType => {
+    const filter = availableFilters[filterType]
+    switch (filterType) {
+    case 'providers':
+      filter.availableSet.add(labels.cloud)
+      break
+    case 'purpose':
+      filter.availableSet.add(labels.environment)
+      break
+    case 'region':
+      filter.availableSet.add(labels.region)
+      break
+    case 'k8type':
+      filter.availableSet.add(labels.vendor)
+      break
+    }
+  })
+}
 const addAvailableClusterFilters = (availableFilters, nodes, locale) => {
   // initialize filter
   const filterTypes = TypeFilters['cluster'].filterTypes
@@ -315,24 +338,7 @@ const addAvailableClusterFilters = (availableFilters, nodes, locale) => {
 
   // loop thru policies adding available filters
   nodes.forEach(({ specs }) => {
-    const labels = _.get(specs, 'cluster.metadata.labels', {})
-    Object.keys(filterTypes).forEach(filterType => {
-      const filter = availableFilters[filterType]
-      switch (filterType) {
-      case 'providers':
-        filter.availableSet.add(labels.cloud)
-        break
-      case 'purpose':
-        filter.availableSet.add(labels.environment)
-        break
-      case 'region':
-        filter.availableSet.add(labels.region)
-        break
-      case 'k8type':
-        filter.availableSet.add(labels.vendor)
-        break
-      }
-    })
+    filterAvailable(specs, clusterLabels, filterTypes, availableFilters)
   })
 }
 
@@ -351,6 +357,9 @@ export const addAvailableRelationshipFilters = (
     let name = null
     let availableSet = new Set()
     switch (type) {
+    case 'resourceTypes':
+      name = msgs.get('topology.filter.category.resourceTypes', locale)
+      break
     case 'hostIPs':
       name = msgs.get('topology.filter.category.hostIPs', locale)
       break
@@ -365,19 +374,19 @@ export const addAvailableRelationshipFilters = (
           msgs.get('topology.filter.category.status.success', locale)
         ],
         [
-          'yellow',
+          'orange',
           msgs.get('topology.filter.category.status.pending', locale)
         ],
         [
-          'orange',
+          'yellow',
           msgs.get('topology.filter.category.status.warning', locale)
         ],
         ['red', msgs.get('topology.filter.category.status.error', locale)]
       ])
       break
-    case 'clusterNames':
-      name = msgs.get('topology.filter.category.clustername', locale)
-      break
+      // case 'clusterNames':
+      //   name = msgs.get('topology.filter.category.clustername', locale)
+      //   break
     }
     if (name) {
       availableFilters[type] = {
@@ -399,6 +408,7 @@ export const addAvailableRelationshipFilters = (
 
       // filter filters
       const podStatus = _.get(node, 'specs.podModel')
+      const design = _.get(node, 'specs.isDesign')
       hasPods |= !!podStatus
       Object.keys(filterTypes).forEach(filterType => {
         const filter = availableFilters[filterType]
@@ -419,6 +429,12 @@ export const addAvailableRelationshipFilters = (
           case 'clusterNames':
             if (type === 'cluster') {
               filter.availableSet.add(nodeName)
+            }
+            break
+          case 'resourceTypes':
+            // Only filter none design and none cluster types
+            if (!isDesignOrCluster(design, type)) {
+              filter.availableSet.add(type)
             }
             break
           }
@@ -468,50 +484,23 @@ const addAvailablePolicyFilters = (
   const activeTypes = new Set(activeFilters.type || [])
   nodes.forEach(({ type, specs }) => {
     if (type === 'cluster' && activeTypes.has(type)) {
-      const labels = _.get(specs, 'cluster.metadata.labels', {})
-      Object.keys(filterTypes).forEach(filterType => {
-        const filter = availableFilters[filterType]
-        switch (filterType) {
-        case 'providers':
-          filter.availableSet.add(labels.cloud)
-          break
-        case 'purpose':
-          filter.availableSet.add(labels.environment)
-          break
-        case 'region':
-          filter.availableSet.add(labels.region)
-          break
-        case 'k8type':
-          filter.availableSet.add(labels.vendor)
-          break
-        }
-      })
+      filterAvailable(specs, clusterLabels, filterTypes, availableFilters)
     }
   })
 }
 
 ////////////////////////   FILTER NODES     ///////////////////////////////////
 
-export const filterNodes = (mode, nodes, activeFilters, availableFilters) => {
+export const filterNodes = (mode, nodes, activeFilters) => {
   switch (mode) {
   case 'cluster':
     return filterClusterNodes(nodes, activeFilters)
 
   case 'weave':
-    return filterRelationshipNodes(
-      nodes,
-      activeFilters,
-      availableFilters,
-      mode
-    )
+    return filterRelationshipNodes(nodes, activeFilters)
 
   case 'application':
-    return filterRelationshipNodes(
-      nodes,
-      activeFilters,
-      availableFilters,
-      mode
-    )
+    return filterRelationshipNodes(nodes, activeFilters)
 
   case 'policy':
     return filterPolicyNodes(nodes, activeFilters)
@@ -532,14 +521,14 @@ const filterClusterNodes = (nodes, activeFilters) => {
   } = activeFilters
   const typeSet = new Set(type)
   return nodes.filter(node => {
-    const { type, specs } = node
-    const hasType = typeSet.has(type)
+    const { specs } = node
+    const hasType = typeSet.has(node.type)
     let hasClusterStatus = true
     let hasProviders = true
     let hasPurpose = true
     let hasRegion = true
     let hasK8type = true
-    if (hasType && type === 'cluster') {
+    if (hasType && node.type === 'cluster') {
       // filter by cluster status
       if (clusterStatuses && clusterStatuses.size > 0) {
         const { isOffline, hasViolations, isRecent } = _.get(
@@ -558,7 +547,7 @@ const filterClusterNodes = (nodes, activeFilters) => {
         }
       }
 
-      const labels = _.get(specs, 'cluster.metadata.labels', {})
+      const labels = _.get(specs, clusterLabels, {})
       hasProviders = providers.size === 0 || providers.has(labels.cloud)
       hasPurpose = purpose.size === 0 || purpose.has(labels.environment)
       hasRegion = region.size === 0 || region.has(labels.region)
@@ -604,23 +593,14 @@ export const nodeParentExists = (nodeParent, includedNodes) => {
   )
 }
 
-export const filterRelationshipNodes = (
-  nodes,
-  activeFilters,
-  availableFilters,
-  mode
-) => {
+export const filterRelationshipNodes = (nodes, activeFilters) => {
   const {
-    type,
     hostIPs = new Set(),
     namespaces = new Set(),
     resourceStatuses = new Set(),
-    clusterNames = new Set()
+    clusterNames = new Set(),
+    resourceTypes = new Set()
   } = activeFilters
-  const activeTypeSet = new Set(type)
-  const availableTypeSet = new Set(availableFilters.type)
-  const includeOther = activeTypeSet.has('other')
-  const ignoreNodeTypes = TypeFilters[mode].ignored
   const parentList = new Set()
   const includedNodes = new Set()
   const filteredNodes = nodes.filter(node => {
@@ -631,16 +611,8 @@ export const filterRelationshipNodes = (
     }
 
     // include type if a direct match
-    // or if 'other' type is selected and this isn't an ignored type
-    let hasType = activeTypeSet.has(nodeType)
-    if (
-      !hasType &&
-      includeOther &&
-      !ignoreNodeTypes.has(nodeType) &&
-      !availableTypeSet.has(nodeType)
-    ) {
-      hasType = true
-    }
+    const hasType =
+      resourceTypes.size === 0 ? true : resourceTypes.has(nodeType)
 
     // filter for resource statuses
     let hasResourceStatus = true
@@ -720,13 +692,13 @@ const filterPolicyNodes = (nodes, activeFilters) => {
   } = activeFilters
   const typeSet = new Set(type)
   return nodes.filter(node => {
-    const { type, specs } = node
-    const hasType = typeSet.has(type)
+    const { specs } = node
+    const hasType = typeSet.has(node.type)
     let hasProviders = true
     let hasPurpose = true
     let hasRegion = true
     let hasK8type = true
-    if (hasType && type === 'cluster') {
+    if (hasType && node.type === 'cluster') {
       const labels = _.get(specs, 'cluster.labels', {})
       hasProviders = providers.size === 0 || providers.has(labels.cloud)
       hasPurpose = purpose.size === 0 || purpose.has(labels.environment)

@@ -8,16 +8,6 @@
  *******************************************************************************/
 import R from 'ramda'
 
-export const getNumIncidents = list => {
-  if (!list || !list.items) {
-    // -1 is used to identify when skeleton text load bar should appear
-    return -1
-  } else if (list && list.items && Array.isArray(list.items)) {
-    return list.items.length
-  }
-  return 0
-}
-
 export const getSingleApplicationObject = list => {
   if (list && list.items instanceof Array && list.items.length > 0) {
     return list.items[0]
@@ -48,7 +38,7 @@ export const getNumPlacementRules = (
   applicationNamespace
 ) => {
   if (subscriptions && subscriptions.items) {
-    var allPlacementRules = []
+    let allPlacementRules = []
 
     // Single application view
     if (isSingleApplicationView) {
@@ -116,10 +106,10 @@ export const getSubscriptionDataOnHub = (
   applicationNamespace
 ) => {
   if (applications && applications.items) {
-    var allSubscriptions = []
-    var failedSubsCount = 0
-    var noStatusSubsCount = 0
-    var allChannels = []
+    let allSubscriptions = []
+    let failedSubsCount = 0
+    let noStatusSubsCount = 0
+    let allChannels = []
 
     // Single application view
     if (isSingleApplicationView) {
@@ -221,10 +211,10 @@ export const getSubscriptionDataOnManagedClustersSingle = (
   applicationNamespace
 ) => {
   if (applications && applications.items) {
-    var managedClusterCount = 0
-    var allSubscriptions = 0
-    var failedSubsCount = 0
-    var noStatusSubsCount = 0
+    let managedClusterCount = 0
+    let allSubscriptions = 0
+    let failedSubsCount = 0
+    let noStatusSubsCount = 0
 
     Object.keys(applications.items).forEach(appIndex => {
       // Get subscription data for the current application opened
@@ -265,10 +255,10 @@ export const getSubscriptionDataOnManagedClustersSingle = (
 
 export const getSubscriptionDataOnManagedClustersRoot = applications => {
   if (applications && applications.items) {
-    var managedClusterCount = 0
-    var allSubscriptions = 0
-    var failedSubsCount = 0
-    var noStatusSubsCount = 0
+    let managedClusterCount = 0
+    let allSubscriptions = 0
+    let failedSubsCount = 0
+    let noStatusSubsCount = 0
 
     if (applications.items.clusterCount !== undefined) {
       managedClusterCount = applications.items.clusterCount
@@ -305,10 +295,10 @@ export const getPodData = (
   applicationNamespace
 ) => {
   if (applications && applications.items) {
-    var allPods = 0
-    var runningPods = 0
-    var failedPods = 0
-    var inProgressPods = 0
+    let allPods = 0
+    let runningPods = 0
+    let failedPods = 0
+    let inProgressPods = 0
 
     Object.keys(applications.items).forEach(appIndex => {
       // Get pod data for the current application opened
@@ -356,28 +346,6 @@ export const getPodData = (
   // data is undefined... -1 is used to identify when skeleton text load bar should appear
   return {
     total: -1
-  }
-}
-
-export const getIncidentsData = CEMIncidentList => {
-  var priority1 = 0
-  var priority2 = 0
-
-  // Get incidents data for the current application opened
-  if (CEMIncidentList && CEMIncidentList.items) {
-    Object.keys(CEMIncidentList.items).forEach(listIndex => {
-      const item = CEMIncidentList.items[listIndex]
-      if (item.priority === 1) {
-        priority1++
-      } else if (item.priority === 2) {
-        priority2++
-      }
-    })
-  }
-
-  return {
-    priority1: priority1,
-    priority2: priority2
   }
 }
 

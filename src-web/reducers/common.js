@@ -114,13 +114,18 @@ function searchTableCellHelper(search, tableKeys, item, context) {
   const searchField = search.substring(search.indexOf('=') + 1)
 
   if (searchKey === 'textsearch') {
-    return tableKeys.find(tableKey =>
-      searchTableCell(item, tableKey, context, searchField.replace(/[{}]/g, ''))
+    return tableKeys.find(tableKeyTmp =>
+      searchTableCell(
+        item,
+        tableKeyTmp,
+        context,
+        searchField.replace(/[{}]/g, '')
+      )
     )
   }
   const tableKey = tableKeys.find(
-    tableKey =>
-      msgs.get(tableKey.msgKey, context.locale).toLowerCase() ===
+    tableKeyTmp =>
+      msgs.get(tableKeyTmp.msgKey, context.locale).toLowerCase() ===
       searchKey.toLowerCase()
   )
   if (!lodash.isEmpty(searchField)) {
@@ -132,8 +137,8 @@ function searchTableCellHelper(search, tableKeys, item, context) {
       let found = false
       const searchKeys = searchField.replace(/[{}]/g, '').split(',')
       if (searchKeys && tableKey) {
-        searchKeys.forEach(searchKey => {
-          if (searchTableCell(item, tableKey, context, searchKey)) {
+        searchKeys.forEach(searchKeyTmp => {
+          if (searchTableCell(item, tableKey, context, searchKeyTmp)) {
             found = true
           }
         })
@@ -147,8 +152,8 @@ function searchTableCellHelper(search, tableKeys, item, context) {
   }
 
   // by default, search all fields
-  return tableKeys.find(tableKey =>
-    searchTableCell(item, tableKey, context, search)
+  return tableKeys.find(tableKeyTmp =>
+    searchTableCell(item, tableKeyTmp, context, search)
   )
 }
 
@@ -205,7 +210,7 @@ const makeGetTransformedItemsSelector = resourceType => {
   })
 }
 
-//TODO could we do better? - we have one selector thus one cache for sorting.
+//Could we do better? - we have one selector thus one cache for sorting.
 //Thus if the sort direction change is toggled back we re-calculate.
 const makeGetSortedItemsSelector = resourceType => {
   return createSelector(
@@ -310,7 +315,7 @@ export const resourceItemByNameAndNamespace = (items, props) => {
 }
 
 export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
-  var items, index
+  let items, index
   switch (action.type) {
   case Actions.RESOURCE_REQUEST:
     return Object.assign({}, state, {
@@ -467,21 +472,28 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
       })
     }
     return state
-  case Actions.DEL_RECEIVE_SUCCESS:
+  case Actions.DEL_RECEIVE_SUCCESS: {
     items = [...state.items]
-    index = lodash.findIndex(
-      items,
-      o => lodash.get(o, 'Name') === lodash.get(action, 'resourceName')
-    )
 
-    if (index > -1) {
-      items.splice(index, 1)
+    const { item } = action
+    if (item && item.name && item.namespace) {
+      index = lodash.findIndex(
+        items,
+        o =>
+          lodash.get(o, 'name') === lodash.get(item, 'name') &&
+            lodash.get(o, 'namespace') === lodash.get(item, 'namespace')
+      )
+      if (index > -1) {
+        items.splice(index, 1)
+      }
     }
+
     return Object.assign({}, state, {
       items: items,
       deleteStatus: Actions.REQUEST_STATUS.DONE,
       deleteMsg: action.item.name
     })
+  }
   case Actions.RESOURCE_FORCE_RELOAD_FINISHED:
     return Object.assign({}, state, {
       forceReload: false

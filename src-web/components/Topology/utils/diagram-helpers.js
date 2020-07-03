@@ -30,7 +30,7 @@ const specLocation = 'raw.spec.host.location'
 //pod state contains any of these strings
 const podErrorStates = ['err', 'off', 'invalid', 'kill']
 
-const podWarningStates = ['pending']
+const podWarningStates = ['pending', 'creating']
 
 const podSuccessStates = ['run']
 
@@ -117,14 +117,12 @@ const splitLabel = (label, width, rows) => {
     if (parts.length) {
       if (line.length + parts[0].length > width) {
         remaining -= line.length
-        if (remaining > width) {
-          if (rows === 2) {
-            // if penultimate row do a hard break
-            const split = parts[0]
-            const idx = width - line.length
-            line += split.substr(0, idx)
-            parts[0] = split.substr(idx)
-          }
+        if (remaining > width && rows === 2) {
+          // if penultimate row do a hard break
+          const split = parts[0]
+          const idx = width - line.length
+          line += split.substr(0, idx)
+          parts[0] = split.substr(idx)
         }
         lines.push(line)
         line = ''
@@ -252,11 +250,19 @@ export const nodeMustHavePods = node => {
     return false
   }
 
-  if (R.pathOr('', ['type'])(node) === 'pod') {
+  if (
+    R.contains(R.pathOr('', ['type'])(node), [
+      'pod',
+      'replicaset',
+      'daemonset',
+      'statefulset',
+      'replicationcontroller',
+      'deployment'
+    ])
+  ) {
     //pod deployables must have pods
     return true
   }
-
   const hasContainers =
     R.pathOr([], ['specs', 'raw', 'spec', 'template', 'spec', 'containers'])(
       node
@@ -268,6 +274,10 @@ export const nodeMustHavePods = node => {
     node
   ) //deployables from subscription package have this set only, not containers
   if ((hasContainers || hasDesired) && !hasReplicas) {
+    return true
+  }
+
+  if (hasReplicas) {
     return true
   }
 
@@ -314,8 +324,10 @@ const getPulseStatusForGenericNode = node => {
   if (pulse === 'red') {
     return pulse //no need to check anything else, return red
   }
+  const name = _.get(node, metadataName, '')
+  const channel = _.get(node, 'specs.raw.spec.channel', '')
+  const resourceName = channel.length > 0 ? `${channel}-${name}` : name
 
-  const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   if (!resourceMap) {
     pulse = 'orange' //resource not available
@@ -371,7 +383,7 @@ export const getPulseForData = (
   }
 
   if (available < desired) {
-    return 'red'
+    return 'yellow'
   }
 
   if (desired <= 0) {
@@ -619,8 +631,9 @@ export const createResourceSearchLink = node => {
     value: null
   }
 
+  const nodeType = _.get(node, 'type', '')
   //returns search link for resource
-  if (_.get(node, 'type', '') === 'cluster') {
+  if (nodeType === 'cluster') {
     result = {
       type: 'link',
       value: {
@@ -635,6 +648,24 @@ export const createResourceSearchLink = node => {
       }
     }
   } else if (node && R.pathOr('', ['specs', 'pulse'])(node) !== 'orange') {
+    const kindModel = _.get(node, `specs.${nodeType}Model`, {})
+    let computedNameList = []
+    let computedNSList = []
+    Object.values(kindModel).forEach(item => {
+      computedNameList = R.union(computedNameList, [item.name])
+      computedNSList = R.union(computedNSList, [item.namespace])
+    })
+    let computedName = ''
+    computedNameList.forEach(item => {
+      computedName =
+        computedName.length === 0 ? item : `${computedName},${item}`
+    })
+    let computedNS = ''
+    computedNSList.forEach(item => {
+      computedNS = computedNS.length === 0 ? item : `${computedNS},${item}`
+    })
+
+    //get the list of all names from the related list; for helm charts, they are different than the deployable name
     //pulse orange means not deployed on any cluster so don't show link to search page
     result = {
       type: 'link',
@@ -643,12 +674,11 @@ export const createResourceSearchLink = node => {
         id: node.id,
         data: {
           action: 'show_search',
-          name: node.name,
-          namespace: node.namespace,
-          kind:
-            _.get(node, 'type', '') === 'rules'
-              ? 'placementrule'
-              : _.get(node, 'type', '')
+          name:
+            computedName && computedName.length > 0 ? computedName : node.name,
+          namespace:
+            computedNS && computedNS.length > 0 ? computedNS : node.namespace,
+          kind: nodeType === 'rules' ? 'placementrule' : _.get(node, 'type', '')
         },
         indent: true
       }
@@ -716,6 +746,11 @@ export const getNameWithoutPodHash = relatedKind => {
   let nameNoHash = relatedKind.name
   let podHash = null
   let deployableName = null
+
+  if (_.get(relatedKind, 'kind', '') === 'helmrelease') {
+    //for helm releases use hosting deployable to match parent
+    nameNoHash = _.get(relatedKind, '_hostingDeployable', nameNoHash)
+  }
 
   const labelsList = relatedKind.label ? R.split(';')(relatedKind.label) : []
   labelsList.forEach(resLabel => {
@@ -808,7 +843,10 @@ export const setResourceDeployStatus = (node, details) => {
     //ignore packages
     return
   }
-  const resourceName = _.get(node, metadataName, '')
+  const name = _.get(node, metadataName, '')
+  const channel = _.get(node, 'specs.raw.spec.channel', '')
+  const resourceName = channel.length > 0 ? `${channel}-${name}` : name
+
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 
@@ -889,13 +927,27 @@ export const setPodDeployStatus = (node, details) => {
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
     const res = podStatusModel[clusterName]
+    let pulse = 'orange'
+    if (res) {
+      pulse = getPulseForData('', res.ready, res.desired, res.unavailable)
+    }
     const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
-    const isErrorMsg = res && res.ready < res.desired
-    const isPending = valueStr === notDeployedStr
 
-    const statusStr = isErrorMsg
-      ? 'failure'
-      : isPending ? 'pending' : 'checkmark'
+    let statusStr
+    switch (pulse) {
+    case 'red':
+      statusStr = 'failure'
+      break
+    case 'yellow':
+      statusStr = 'warning'
+      break
+    case 'orange':
+      statusStr = 'pending'
+      break
+    default:
+      statusStr = 'checkmark'
+      break
+    }
 
     details.push({
       labelValue: clusterName,
@@ -1321,7 +1373,7 @@ export const processResourceActionLink = resource => {
     targetLink = `/multicloud/details/${cluster}${selfLink}`
     break
   case 'show_search':
-    targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind} name:${name}${nsData}"}`
+    targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`
     break
   default:
     targetLink = R.pathOr('', ['targetLink'])(resource)

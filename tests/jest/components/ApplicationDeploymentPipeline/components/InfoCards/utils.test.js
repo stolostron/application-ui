@@ -7,34 +7,13 @@
  *******************************************************************************/
 
 import {
-  getNumIncidents,
   getSingleApplicationObject,
   getNumPlacementRules,
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClustersSingle,
   getSubscriptionDataOnManagedClustersRoot,
-  getPodData,
-  getIncidentsData
+  getPodData
 } from "../../../../../../src-web/components/ApplicationDeploymentPipeline/components/InfoCards/utils";
-
-describe("getNumIncidents", () => {
-  it("has application object", () => {
-    const num = getNumIncidents(placementRuleSampleData);
-    expect(num).toEqual(2);
-  });
-  it("empty items list", () => {
-    const num = getNumIncidents(emptyItemsData);
-    expect(num).toEqual(0); // empty string returned
-  });
-  it("empty items obj", () => {
-    const num = getNumIncidents(emptyItemsDataNoList);
-    expect(num).toEqual(0);
-  });
-  it("empty list", () => {
-    const num = getNumIncidents(emptyData);
-    expect(num).toEqual(-1); // -1 to identify when skeleton text load bar should appear
-  });
-});
 
 // getSingleApplicationObject
 describe("getSingleApplicationObject", () => {
@@ -269,30 +248,6 @@ describe("getPodData", () => {
   });
 });
 
-// getIncidentsData
-describe("getIncidentsData", () => {
-  it("get incidents from list", () => {
-    const incidentData = getIncidentsData(incidentsData);
-
-    expect(incidentData.priority1).toEqual(3);
-    expect(incidentData.priority2).toEqual(2);
-  });
-
-  it("empty incident list", () => {
-    const incidentData = getIncidentsData(emptyItemsData);
-
-    expect(incidentData.priority1).toEqual(0);
-    expect(incidentData.priority2).toEqual(0);
-  });
-
-  it("empty incident list", () => {
-    const incidentData = getIncidentsData(emptyData);
-
-    expect(incidentData.priority1).toEqual(0);
-    expect(incidentData.priority2).toEqual(0);
-  });
-});
-
 const emptyData = {};
 const emptyItemsData = {
   items: []
@@ -426,15 +381,5 @@ const podSampleData = {
         Ready: 2
       }
     }
-  ]
-};
-
-const incidentsData = {
-  items: [
-    { priority: 1 },
-    { priority: 2 },
-    { priority: 2 },
-    { priority: 1 },
-    { priority: 1 }
   ]
 };

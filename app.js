@@ -63,10 +63,9 @@ if (process.env.NODE_ENV === 'production') {
   app.use(
     helmet({
       // in production these headers are set by ingress.open-cluster-management.io
-      frameguard: false,
-      noSniff: false,
-      xssFilter: false,
-      noCache: true
+      frameguard: true,
+      noSniff: true,
+      xssFilter: true
     })
   )
 
@@ -77,7 +76,7 @@ if (process.env.NODE_ENV === 'production') {
     })
   )
 } else {
-  app.use(helmet({ noCache: true }))
+  app.use(helmet())
   app.use('*', morgan('dev'))
 }
 
@@ -88,7 +87,7 @@ const csrfMiddleware = csurf({
   }
 })
 
-var proxy = require('http-proxy-middleware')
+var { createProxyMiddleware } = require('http-proxy-middleware')
 app.use(
   `${appConfig.get('contextPath')}/graphql`,
   cookieParser(),
@@ -102,7 +101,7 @@ app.use(
     else req.headers.Authorization = `Bearer ${accessToken}`
     next()
   },
-  proxy({
+  createProxyMiddleware({
     target: appConfig.get('hcmUiApiUrl') || 'https://localhost:4000/hcmuiapi',
     changeOrigin: true,
     pathRewrite: {
@@ -125,7 +124,7 @@ app.use(
     else req.headers.Authorization = `Bearer ${accessToken}`
     next()
   },
-  proxy({
+  createProxyMiddleware({
     target: appConfig.get('searchApiUrl') || 'https://localhost:4010/searchapi',
     changeOrigin: true,
     pathRewrite: {
@@ -138,7 +137,7 @@ app.use(
 app.use(
   appConfig.get('headerContextPath'),
   cookieParser(),
-  proxy({
+  createProxyMiddleware({
     target: appConfig.get('headerUrl'),
     changeOrigin: true,
     secure: false,
@@ -160,7 +159,7 @@ if (process.env.NODE_ENV === 'development') {
       else req.headers.Authorization = `Bearer ${accessToken}`
       next()
     },
-    proxy({
+    createProxyMiddleware({
       target: appConfig.get('headerUrl'),
       changeOrigin: true,
       secure: false,
@@ -182,7 +181,7 @@ if (process.env.NODE_ENV === 'development') {
       else req.headers.Authorization = `Bearer ${accessToken}`
       next()
     },
-    proxy({
+    createProxyMiddleware({
       target: appConfig.get('headerUrl'),
       changeOrigin: true,
       pathRewrite: {
@@ -252,28 +251,30 @@ app.get('/favicon.ico', (req, res) => res.sendStatus(204))
 app.locals.config = require('./lib/shared/config')
 app.locals.manifest = require('./public/webpack-assets.json')
 
-var server
+let server, privateKey, certificate, credentials
+const https = require('https')
+
 if (process.env.NODE_ENV === 'development') {
-  var https = require('https')
-  var privateKey = fs.readFileSync('./sslcert/server.key', 'utf8')
-  var certificate = fs.readFileSync('./sslcert/server.crt', 'utf8')
-  var credentials = { key: privateKey, cert: certificate }
+  // use self-signed cert for local development
+  privateKey = fs.readFileSync('./sslcert/server.key', 'utf8')
+  certificate = fs.readFileSync('./sslcert/server.crt', 'utf8')
+  credentials = { key: privateKey, cert: certificate }
   server = https.createServer(credentials, app)
 } else {
   // NOTE: In production, SSL is provided by the ICP ingress.
-  var http = require('http')
-  server = http.createServer(app)
+  privateKey = fs.readFileSync('/certs/applicationui.key', 'utf8')
+  certificate = fs.readFileSync('/certs/applicationui.crt', 'utf8')
+  credentials = { key: privateKey, cert: certificate }
+  server = https.createServer(credentials, app)
 }
 
-var port = process.env.PORT || appConfig.get('httpPort')
+var port = process.env.PORT || appConfig.get('httpsPort')
 
 // start server
 logger.info('Starting express server.')
 server.listen(port, () => {
   logger.info(
-    `Application Lifecycle is now running on ${
-      process.env.NODE_ENV === 'development' ? 'https' : 'http'
-    }://localhost:${port}${CONTEXT_PATH}`
+    `Application Lifecycle is now running on https://localhost:${port}${CONTEXT_PATH}`
   )
 })
 

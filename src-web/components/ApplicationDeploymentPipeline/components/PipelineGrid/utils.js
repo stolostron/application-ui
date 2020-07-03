@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -201,7 +202,7 @@ export const createSubscriptionPerChannel = (channelList, subscriptions) => {
   // variable below to be [[], ['A'], [], [], []] with the second index being
   // the second channel column
   const columnsUnderAChannel = Array(channelList.length).fill([])
-  for (var i = 0; i < channelList.length; i++) {
+  for (let i = 0; i < channelList.length; i++) {
     const columnChannelName = `${channelList[i].namespace}/${
       channelList[i].name
     }`
@@ -223,7 +224,7 @@ export const createStandaloneSubscriptionPerChannel = (
   subscriptions
 ) => {
   const columnsUnderAChannel = Array(channelList.length).fill([])
-  for (var i = 0; i < channelList.length; i++) {
+  for (let i = 0; i < channelList.length; i++) {
     subscriptions.forEach(sub => {
       if (channelList[i].data && channelList[i].data.related) {
         channelList[i].data.related.forEach(channelSub => {
@@ -296,13 +297,13 @@ export const subscriptionsUnderColumnsGrid = subscriptionsUnderChannel => {
   const longestList = determineLongestArray(subscriptionsUnderChannel)
   let subscriptionGrid = []
   // Go through the channel columns
-  for (var i = 0; i < subscriptionsUnderChannel.length; i++) {
+  for (let i = 0; i < subscriptionsUnderChannel.length; i++) {
     // Get the current subscription list for that channel
     const channelSubscriptionList = subscriptionsUnderChannel[i]
     let subscriptionList = []
     // We want to go the length of the longest list because we want to add
     // blank entires if they dont contain any to create a complete grid
-    for (var x = 0; x < longestList; x++) {
+    for (let x = 0; x < longestList; x++) {
       // if there is a subscription at this index we want to add it
       if (channelSubscriptionList[x]) {
         const currentSubscription = channelSubscriptionList[x]

@@ -45,20 +45,23 @@ Cypress.Commands.add("login", () => {
 });
 
 Cypress.Commands.add("logout", () => {
-  cy.contains(Cypress.env("OC_CLUSTER_USER")).click();
+  const username =
+    Cypress.env("OC_CLUSTER_USER") == "kubeadmin"
+      ? "kube:admin"
+      : Cypress.env("OC_CLUSTER_USER");
+  cy.contains(username).click();
   cy.contains("Log out").click();
 });
 
 Cypress.Commands.add("editYaml", file => {
+  const selectAllKey = Cypress.platform == "darwin" ? "{cmd}a" : "{ctrl}a";
   cy.task("readFile", file).then(str => {
     str = str.replace(/(?:\\[rn]|[\r\n]+)+/g, "\n{home}");
     cy
       .get(".inputarea")
-      // .first()
-      .focus()
-      // .clear()
-      .type("{ctrl}a")
-      // .type('{selectall}{del}')
+      .click()
+      .focused()
+      .type(selectAllKey)
       .type(str, { delay: 0 });
   });
 });
@@ -94,7 +97,7 @@ Cypress.Commands.add("createAppResource", (kind, resourceType) => {
         case "github":
           cy
             .get("a")
-            .contains("GitHub")
+            .contains("Git")
             .click({ force: true });
           break;
         case "namespace":
@@ -119,7 +122,7 @@ Cypress.Commands.add("createAppResource", (kind, resourceType) => {
       break;
     case "subscription":
       prefix = "02_";
-      cy.get('button[id="Create subscription"]').click();
+      cy.get('button[id="Create subscription"').click();
       break;
     case "placementrule":
       prefix = "01_";
@@ -127,7 +130,7 @@ Cypress.Commands.add("createAppResource", (kind, resourceType) => {
       break;
     case "application":
       prefix = "00_";
-      cy.get('button[id="Create application"]').click();
+      cy.get('button[id="Create application"').click();
       break;
   }
   cy.editYaml(prefix + kind + "-" + resourceType + ".yaml");

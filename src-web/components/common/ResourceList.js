@@ -9,8 +9,8 @@
 
 'use strict'
 
-import R from 'ramda'
 import React from 'react'
+import PropTypes from 'prop-types'
 import ResourceTable from './ResourceTable'
 import { REQUEST_STATUS } from '../../actions/index'
 import NoResource from './NoResource'
@@ -21,7 +21,6 @@ import {
   sortTable,
   fetchResources,
   updateSecondaryHeader,
-  forcedResourceReloadFinished,
   delResourceSuccessFinished,
   mutateResourceSuccessFinished
 } from '../../actions/common'
@@ -35,9 +34,11 @@ import TagInput from './TagInput'
 import { showCreate } from '../../../lib/client/access-helper'
 import resources from '../../../lib/shared/resources'
 import {
-  refetchIntervalChanged,
-  manualRefetchTriggered,
-  renderRefreshTime
+  renderRefreshTime,
+  startPolling,
+  stopPolling,
+  handleRefreshPropertiesChanged,
+  handleVisibilityChanged
 } from '../../shared/utils/refetch'
 import { refetchIntervalUpdate } from '../../actions/refetch'
 
@@ -46,9 +47,6 @@ resources(() => {
 })
 
 class ResourceList extends React.Component {
-  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-  /* eslint-disable react/prop-types, react/jsx-no-bind */
-
   constructor(props) {
     super(props)
     this.state = {
@@ -57,72 +55,32 @@ class ResourceList extends React.Component {
   }
 
   componentDidMount() {
-    const { updateSecondaryHeader, tabs, title } = this.props
-    updateSecondaryHeader(msgs.get(title, this.context.locale), tabs)
+    const { updateSecondaryHeaderFn, tabs, title } = this.props
+    updateSecondaryHeaderFn(msgs.get(title, this.context.locale), tabs)
 
     const { fetchTableResources, selectedFilters = [] } = this.props
     fetchTableResources(selectedFilters)
 
-    this.startPolling()
     document.addEventListener('visibilitychange', this.onVisibilityChange)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedFilters !== this.props.selectedFilters) {
-      this.setState({ xhrPoll: false })
-      this.props.fetchTableResources(nextProps.selectedFilters)
-    }
-    if (nextProps.forceReload) {
-      this.reload()
-      this.props.forcedReloadFinished()
-    }
+    startPolling(this, setInterval)
   }
 
   componentWillUnmount() {
-    this.stopPolling()
+    stopPolling(this.state, clearInterval)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  startPolling() {
-    if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
-      var intervalId = setInterval(
-        this.reload.bind(this),
-        this.props.refetch.interval
-      )
-      this.setState({ intervalId: intervalId })
-    }
-  }
-
-  stopPolling() {
-    if (this.state && this.state.intervalId) {
-      clearInterval(this.state.intervalId)
-    }
+  mutateFinished() {
+    this.props.mutateSuccessFinished()
+    this.props.deleteSuccessFinished()
   }
 
   onVisibilityChange = () => {
-    if (document.visibilityState === 'visible') {
-      this.startPolling()
-    } else {
-      this.props.mutateSuccessFinished()
-      this.props.deleteSuccessFinished()
-      this.stopPolling()
-    }
+    handleVisibilityChanged(this, clearInterval, setInterval)
   };
 
   componentDidUpdate(prevProps) {
-    // if old and new interval are different, restart polling
-    if (refetchIntervalChanged(prevProps, this.props)) {
-      this.stopPolling()
-      this.startPolling()
-    }
-
-    // manual refetch
-    if (manualRefetchTriggered(prevProps, this.props)) {
-      this.reload()
-      // reset polling after manual refetch
-      this.stopPolling()
-      this.startPolling()
-    }
+    handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
   }
 
   reload() {
@@ -146,10 +104,10 @@ class ResourceList extends React.Component {
       sortDirection,
       totalFilteredItems,
       status,
-      sortTable,
+      sortTableFn,
       sortColumn,
-      changeTablePage,
-      searchTable,
+      changeTablePageFn,
+      searchTableFn,
       staticResourceData,
       searchValue,
       resourceType,
@@ -215,7 +173,7 @@ class ResourceList extends React.Component {
         clientSideFilters &&
         !this.state.xhrPoll
       ) {
-        searchTable(clientSideFilters, false)
+        searchTableFn(clientSideFilters, false)
       }
       return (
         <div id="resource-list">
@@ -267,14 +225,17 @@ class ResourceList extends React.Component {
             items={items}
             totalFilteredItems={totalFilteredItems}
             resourceType={resourceType}
-            changeTablePage={changeTablePage}
+            changeTablePage={changeTablePageFn}
             handleSort={TableHelper.handleSort.bind(
               this,
               sortDirection,
               sortColumn,
-              sortTable
+              sortTableFn
             )}
-            handleSearch={TableHelper.handleInputValue.bind(this, searchTable)}
+            handleSearch={TableHelper.handleInputValue.bind(
+              this,
+              searchTableFn
+            )}
             searchValue={searchValue}
             defaultSearchValue={clientSideFilters}
             tableActions={staticResourceData.tableActions}
@@ -286,30 +247,19 @@ class ResourceList extends React.Component {
       )
     }
 
-    const resourceName = msgs.get(
-      'no-resource.' + resourceType.name.toLowerCase(),
-      locale
-    )
     return (
       <NoResource
-        title={msgs.get('no-resource.title', [resourceName], locale)}
-        detail={msgs.get('no-resource.detail', [resourceName], locale)}
+        title={msgs.get('no-resource.title', locale)}
+        detail={msgs.get('no-resource.description.line1', locale)}
+        detail2={[
+          msgs.get('no-resource.description.line2.1', locale),
+          msgs.get('description.application', locale),
+          msgs.get('no-resource.description.line2.2', locale)
+        ]}
       >
         {actions}
       </NoResource>
     )
-  }
-
-  handleResourceAddedEvent(event) {
-    this.props.addResource(event)
-  }
-
-  handleResourceModifiedEvent(event) {
-    this.props.modifyResource(event)
-  }
-
-  handleResourceDeletedEvent(event) {
-    this.props.deleteResource(event)
   }
 }
 
@@ -363,29 +313,64 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     fetchTableResources: selectedFilters => {
       dispatch(fetchResources(resourceType, combineFilters(selectedFilters)))
     },
-    changeTablePage: page => dispatch(changeTablePage(page, resourceType)),
-    searchTable: (search, updateURL) => {
+    changeTablePageFn: page => dispatch(changeTablePage(page, resourceType)),
+    searchTableFn: (search, updateURL) => {
       if (updateURL !== false) {
         updateBrowserURL && updateBrowserURL(search)
       }
       dispatch(searchTable(search, resourceType))
     },
-    sortTable: (sortDirection, sortColumn) =>
+    sortTableFn: (sortDirection, sortColumn) =>
       dispatch(sortTable(sortDirection, sortColumn, resourceType)),
-    updateSecondaryHeader: (title, tabs) =>
+    updateSecondaryHeaderFn: (title, tabs) =>
       dispatch(updateSecondaryHeader(title, tabs)),
     onSelectedFilterChange: selectedFilters => {
       updateBrowserURL && updateBrowserURL(selectedFilters)
       dispatch(updateResourceFilters(resourceType, selectedFilters))
     },
-    forcedReloadFinished: () =>
-      dispatch(forcedResourceReloadFinished(ownProps.resourceType)),
     mutateSuccessFinished: () =>
       dispatch(mutateResourceSuccessFinished(ownProps.resourceType)),
     deleteSuccessFinished: () =>
       dispatch(delResourceSuccessFinished(ownProps.resourceType)),
     refetchIntervalUpdateDispatch: data => dispatch(refetchIntervalUpdate(data))
   }
+}
+
+ResourceList.propTypes = {
+  changeTablePageFn: PropTypes.func,
+  children: PropTypes.array,
+  clientSideFilters: PropTypes.array,
+  deleteMsg: PropTypes.string,
+  deleteStatus: PropTypes.string,
+  deleteSuccessFinished: PropTypes.func,
+  err: PropTypes.string,
+  fetchTableResources: PropTypes.func,
+  itemIds: PropTypes.array,
+  items: PropTypes.object,
+  mutateStatus: PropTypes.string,
+  mutateSuccessFinished: PropTypes.func,
+  onSelectedFilterChange: PropTypes.func,
+  page: PropTypes.number,
+  pageSize: PropTypes.number,
+  refetchIntervalUpdateDispatch: PropTypes.func,
+  resourceFilters: PropTypes.array,
+  resourceType: PropTypes.object,
+  searchTableFn: PropTypes.func,
+  searchValue: PropTypes.string,
+  selectedFilters: PropTypes.object,
+  sortColumn: PropTypes.string,
+  sortDirection: PropTypes.string,
+  sortTableFn: PropTypes.func,
+  staticResourceData: PropTypes.object,
+  status: PropTypes.string,
+  tableName: PropTypes.string,
+  tableTitle: PropTypes.string,
+  tabs: PropTypes.array,
+  title: PropTypes.string,
+  totalFilteredItems: PropTypes.number,
+  updateBrowserURL: PropTypes.func,
+  updateSecondaryHeaderFn: PropTypes.func,
+  userRole: PropTypes.string
 }
 
 export default withRouter(

@@ -51,7 +51,6 @@ describe("ResourceOverview", () => {
               userRole={role}
               staticResourceData={staticResourceDataApp}
               showExpandedTopology={false}
-              showICAMAction={true}
               match={match}
               locale={"en-US"}
             />

@@ -51,15 +51,13 @@
 
   .bx--btn {
     background-color: white;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #4a79b7;
-    color: #4a79b7;
+    border: 2px solid $color__blue-51;
+    color: $color__blue-51;
     height: 40px;
   }
 
   .bx--btn__icon {
-    fill: #4a79b7;
+    fill: $color__blue-51;
   }
 
   // overrides for the pipeline buttons
@@ -79,7 +77,7 @@
   }
 
   .bx--modal__buttons-container .bx--btn--primary {
-    background-color: #4a79b7;
+    background-color: $color__blue-51;
     color: #f4f7fb;
   }
 
@@ -148,7 +146,7 @@
   .app-info-and-dashboard-links {
     position: fixed;
     top: 5.7rem;
-    right: calc(5% + 160px);
+    right: calc(5% + 140px);
     z-index: 1001;
     background-color: $color__white;
     display: inline-block;
@@ -165,7 +163,8 @@
 
   .app-info-and-dashboard-links-separator {
     border-left: 2px solid $color__gray-1;
-    margin: 0 35px 0 25px;
+    //margin: 0 35px 0 25px;
+    margin: 0 3.5rem 0 1rem;
   }
 
   .app-info-icon {
@@ -188,7 +187,7 @@
   .perfmonAction {
     border-width: 2px;
     border-style: solid;
-    border-color: #4a79b7;
+    border-color: $color__blue-51;
     color: #3d70b2;
     width: 161px;
     height: 32px;
@@ -197,11 +196,6 @@
     position: absolute;
     top: calc(2.082rem);
     right: 0%;
-  }
-
-  .app-dashboard-icon-icam {
-    margin: 0px 0px 0 10px;
-    vertical-align: sub;
   }
 
   .show-channels-container {
@@ -221,7 +215,6 @@
   line-height: 21px;
   font-size: 14px;
 }
- 
 
 .refresh-time-container {
   display: flex;

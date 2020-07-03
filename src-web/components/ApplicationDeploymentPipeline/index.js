@@ -7,7 +7,6 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import R from 'ramda'
 import React from 'react'
 import msgs from '../../../nls/platform.properties'
 import { connect } from 'react-redux'
@@ -47,7 +46,6 @@ import {
 import apolloClient from '../../../lib/client/apollo-client'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
-import { getNamespaceAccountId } from '../common/ResourceDetails/utils'
 import {
   handleEditResource,
   handleDeleteResource,
@@ -56,10 +54,13 @@ import {
 import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
 import {
-  refetchIntervalChanged,
-  manualRefetchTriggered,
-  renderRefreshTime
+  renderRefreshTime,
+  stopPolling,
+  handleRefreshPropertiesChanged,
+  handleVisibilityChanged,
+  startPolling
 } from '../../shared/utils/refetch'
+
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -133,7 +134,6 @@ const mapStateToProps = state => {
   const {
     HCMChannelList,
     HCMSubscriptionList,
-    HCMNamespaceList,
     AppDeployments,
     secondaryHeader,
     QueryApplicationList,
@@ -151,7 +151,6 @@ const mapStateToProps = state => {
     AppDeployments,
     QueryApplicationList,
     GlobalApplicationDataList,
-    HCMNamespaceList,
     loading: AppDeployments.loading,
     breadcrumbItems: secondaryHeader.breadcrumbItems || [],
     mutateStatus:
@@ -191,59 +190,30 @@ class ApplicationDeploymentPipeline extends React.Component {
     fetchSubscriptions()
     fetchApplicationsGlobalData()
 
-    this.startPolling()
     document.addEventListener('visibilitychange', this.onVisibilityChange)
+    startPolling(this, setInterval)
   }
 
   componentWillUnmount() {
-    this.stopPolling()
+    stopPolling(this.state, clearInterval)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  startPolling() {
-    if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
-      var intervalId = setInterval(
-        this.reload.bind(this),
-        this.props.refetch.interval
-      )
-      this.setState({ intervalId: intervalId })
-    }
-  }
-
-  stopPolling() {
-    if (this.state && this.state.intervalId) {
-      clearInterval(this.state.intervalId)
-    }
+  mutateFinished() {
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
   }
 
   onVisibilityChange = () => {
-    if (document.visibilityState === 'visible') {
-      this.startPolling()
-    } else {
-      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
-      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
-      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
-      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
-      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
-      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
-      this.stopPolling()
-    }
+    handleVisibilityChanged(this, clearInterval, setInterval)
   };
 
   componentDidUpdate(prevProps) {
-    // if old and new interval are different, restart polling
-    if (refetchIntervalChanged(prevProps, this.props)) {
-      this.stopPolling()
-      this.startPolling()
-    }
-
-    // manual refetch
-    if (manualRefetchTriggered(prevProps, this.props)) {
-      this.reload()
-      // reset polling after manual refetch
-      this.stopPolling()
-      this.startPolling()
-    }
+    handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
   }
 
   reload() {
@@ -272,7 +242,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       HCMSubscriptionList,
       HCMChannelList,
-      HCMNamespaceList,
       QueryApplicationList,
       GlobalApplicationDataList
     } = this.props
@@ -432,10 +401,6 @@ class ApplicationDeploymentPipeline extends React.Component {
             serverProps={serverProps}
             getApplicationResource={getApplicationResource}
             app={app}
-            namespaceAccountId={getNamespaceAccountId(
-              HCMNamespaceList,
-              selectedAppNS
-            )}
           />
         )}
         <div className="pipelineHeader">

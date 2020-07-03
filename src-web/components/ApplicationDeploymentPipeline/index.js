@@ -33,11 +33,12 @@ import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
 import {
   Search,
-  Loading,
   Notification,
   Checkbox,
-  Tooltip
+  Tooltip,
+  SkeletonText
 } from 'carbon-components-react'
+import { Module } from 'carbon-addons-cloud-react'
 import {
   getChannelsList,
   getApplicationsForSelection,
@@ -237,6 +238,17 @@ class ApplicationDeploymentPipeline extends React.Component {
     fetchChannels()
   }
 
+  loadingComponent = () => {
+    return (
+      <Module className={'bx--tile search-query-card-loading'} size="single">
+        <div className="search-query-card-loading">
+          <SkeletonText />
+          <SkeletonText />
+        </div>
+      </Module>
+    )
+  };
+
   render() {
     // wait for it
     const {
@@ -264,7 +276,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) &&
       !this.state.xhrPoll
     ) {
-      return <Loading withOverlay={false} className="content-spinner" />
+      return this.loadingComponent()
     }
 
     const {
@@ -377,7 +389,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           timestamp,
           locale
         )}
-        {loading && <Loading withOverlay={true} />}
+        {loading && this.loadingComponent()}
         {deleteStatus === Actions.REQUEST_STATUS.DONE && (
           <Notification
             title={msgs.get('success.update.resource', locale)}

@@ -86,11 +86,8 @@ class ResourceList extends React.Component {
 
   loadingComponent = () => {
     return (
-      <Module
-        className={'bx--tile search-query-card-loading-apps '}
-        size="single"
-      >
-        <div className="search-query-card-loading-apps ">
+      <Module className={'bx--tile search-query-card-loading'} size="single">
+        <div className="search-query-card-loading">
           <SkeletonText />
           <SkeletonText />
         </div>

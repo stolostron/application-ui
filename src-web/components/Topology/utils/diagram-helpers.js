@@ -1052,12 +1052,20 @@ export const setSubscriptionDeployStatus = (node, details) => {
     labelKey: 'resource.deploy.statuses'
   })
 
+  let localSubscriptionFailed = false
   const resourceMap = _.get(node, 'specs.subscriptionModel', {})
   Object.values(resourceMap).forEach(subscription => {
     details.push({
       type: 'spacer'
     })
-    if (!subscription._hubClusterResource) {
+
+    const isLocalFailedSubscription =
+      subscription._hubClusterResource &&
+      R.contains('Fail', R.pathOr('', ['status'])(subscription))
+    if (isLocalFailedSubscription) {
+      localSubscriptionFailed = true
+    }
+    if (!subscription._hubClusterResource || isLocalFailedSubscription) {
       details.push({
         labelValue: subscription.cluster,
         value: subscription.status,
@@ -1080,7 +1088,8 @@ export const setSubscriptionDeployStatus = (node, details) => {
     }
   })
 
-  if (Object.keys(resourceMap).length === 1) {
+  //show placement error only if local subscription is successful
+  if (Object.keys(resourceMap).length === 1 && !localSubscriptionFailed) {
     //no remote subscriptions
     details.push({
       labelValue: msgs.get('resource.subscription.remote'),

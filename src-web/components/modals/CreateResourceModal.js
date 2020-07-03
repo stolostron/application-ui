@@ -199,17 +199,19 @@ class CreateResourceModal extends React.PureComponent {
     const tabsHandleEditorChange = this.handleEditorChange
     const tabsHandleParsingError = this.handleParsingError
     const tabsYaml = this.state.yaml
+    const buttonName = msgs.get(this.props.resourceTypeName, locale)
+    const buttonID = buttonName.replace(/ /g, '-').toLowerCase()
     return (
       <div>
         <Button
           icon="add--glyph"
           small
-          id={msgs.get(this.props.resourceTypeName, locale)}
+          id={buttonID}
           iconDescription={this.props.iconDescription}
           key="create-resource"
           onClick={this.handleModalOpen}
         >
-          {msgs.get(this.props.resourceTypeName, locale)}
+          {buttonName}
         </Button>
         {this.state.modalOpen && (
           <ComposedModal

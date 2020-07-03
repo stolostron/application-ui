@@ -30,7 +30,7 @@ class LegendView extends React.Component {
         </div>
         <Scrollbars
           renderView={this.renderView}
-          className="details-view-container"
+          className="legend-view-container"
         >
           <div className="legendHeader">
             <div>

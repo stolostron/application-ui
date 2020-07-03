@@ -10,7 +10,6 @@ import R from 'ramda'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
@@ -19,7 +18,7 @@ import {
   getSingleResourceItem,
   resourceItemByName
 } from '../../../reducers/common'
-import { handleEditResource } from './utils'
+import { handleEditResource, loadingComponent } from './utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
@@ -42,7 +41,6 @@ const ResourceOverview = withLocale(
     item,
     params,
     actions,
-    selectedNodeId,
     showExpandedTopology,
     locale,
     getApplicationResource,
@@ -53,10 +51,6 @@ const ResourceOverview = withLocale(
     closeModal,
     editResource
   }) => {
-    if (!item) {
-      return <Loading withOverlay={false} className="content-spinner" />
-    }
-
     if (openEditApplicationModal) {
       const data = R.pathOr([], ['data', 'items'], currentApplicationInfo)[0]
       const name = R.pathOr('', ['metadata', 'name'], data)
@@ -73,7 +67,6 @@ const ResourceOverview = withLocale(
     const serverProps = {
       isGrafanaRunning: showGrafanaAction
     }
-
     return (
       <div id="resource-overview" className="overview-content">
         <HeaderActions
@@ -81,13 +74,14 @@ const ResourceOverview = withLocale(
           getApplicationResource={getApplicationResource}
           app={item}
         />
-        {(!item || loading) && <Loading withOverlay={true} />}
-        {!showExpandedTopology ? (
-          <React.Fragment>
-            <div className="overview-content-bottom overview-content-with-padding">
-              <div className="overview-content-header">
-                {msgs.get('dashboard.card.deployment.summary.title', locale)}
-              </div>
+        <React.Fragment>
+          <div className="overview-content-bottom overview-content-with-padding">
+            <div className="overview-content-header">
+              {msgs.get('dashboard.card.deployment.summary.title', locale)}
+            </div>
+            {!item || loading ? (
+              loadingComponent()
+            ) : (
               <div className="overview-cards-info-container">
                 <OverviewCards
                   selectedAppName={params.name}
@@ -95,28 +89,17 @@ const ResourceOverview = withLocale(
                   serverProps={serverProps}
                 />
               </div>
-            </div>
-            <div className="overview-content-bottom overview-content-with-padding">
-              <ApplicationTopologyModule
-                showExpandedTopology={showExpandedTopology}
-                params={params}
-                actions={actions}
-              />
-            </div>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <div className="overview-content-bottom overview-content-with-padding">
-              <ApplicationTopologyModule
-                selectedNodeId={selectedNodeId}
-                showExpandedTopology={showExpandedTopology}
-                params={params}
-                actions={actions}
-              />
-            </div>
-            <div className="overview-content-space-filler" />
-          </React.Fragment>
-        )}
+            )}
+          </div>
+
+          <div className="overview-content-bottom overview-content-with-padding">
+            <ApplicationTopologyModule
+              showExpandedTopology={showExpandedTopology}
+              params={params}
+              actions={actions}
+            />
+          </div>
+        </React.Fragment>
       </div>
     )
   }

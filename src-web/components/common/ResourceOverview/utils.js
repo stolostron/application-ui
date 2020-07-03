@@ -9,6 +9,10 @@
 import R from 'ramda'
 import _ from 'lodash'
 
+import React from 'react'
+import { SkeletonText } from 'carbon-components-react'
+import { Module } from 'carbon-addons-cloud-react'
+
 import {
   kindsToExcludeForDeployments,
   getResourcesStatusPerChannel
@@ -20,6 +24,17 @@ import {
 
 import { UPDATE_ACTION_MODAL } from '../../../apollo-client/queries/StateQueries'
 import msgs from '../../../../nls/platform.properties'
+
+export const loadingComponent = () => {
+  return (
+    <Module className={'bx--tile search-query-card-loading'} size="single">
+      <div className="search-query-card-loading">
+        <SkeletonText />
+        <SkeletonText />
+      </div>
+    </Module>
+  )
+}
 
 export const showEditModalByType = (
   closeModal,

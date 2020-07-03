@@ -33,7 +33,6 @@ import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
 import {
   Search,
-  Loading,
   Notification,
   Checkbox,
   Tooltip
@@ -43,14 +42,15 @@ import {
   getApplicationsForSelection,
   getSubscribedChannels
 } from './utils'
-import apolloClient from '../../../lib/client/apollo-client'
-import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
-import ResourceCards from './components/InfoCards/ResourceCards'
-import {
+import { loadingComponent ,
   handleEditResource,
   handleDeleteResource,
   showEditModalByType
-} from '../common/ResourceOverview/utils'
+} from '../../components/common/ResourceOverview/utils'
+import apolloClient from '../../../lib/client/apollo-client'
+import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
+import ResourceCards from './components/InfoCards/ResourceCards'
+
 import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
 import {
@@ -264,7 +264,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) &&
       !this.state.xhrPoll
     ) {
-      return <Loading withOverlay={false} className="content-spinner" />
+      return loadingComponent()
     }
 
     const {
@@ -377,7 +377,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           timestamp,
           locale
         )}
-        {loading && <Loading withOverlay={true} />}
+        {loading && loadingComponent()}
         {deleteStatus === Actions.REQUEST_STATUS.DONE && (
           <Notification
             title={msgs.get('success.update.resource', locale)}

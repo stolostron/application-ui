@@ -10,7 +10,7 @@
 
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
-import { Notification, Loading } from 'carbon-components-react'
+import { Notification } from 'carbon-components-react'
 import { getTabs } from '../../../../lib/client/resource-helper'
 import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
 import PropTypes from 'prop-types'
@@ -27,6 +27,7 @@ import {
   handleRefreshPropertiesChanged,
   handleVisibilityChanged
 } from '../../../shared/utils/refetch'
+import { loadingComponent } from '../ResourceOverview/utils'
 
 resources(() => {
   require('./style.scss')
@@ -128,14 +129,13 @@ const withResource = Component => {
 
       render() {
         const { status, statusCode } = this.props
-
         const { showError = false, retry = 0 } = this.state
         if (
           status !== Actions.REQUEST_STATUS.DONE &&
           !this.state.xhrPoll &&
           retry === 0
         ) {
-          return <Loading withOverlay={false} className="content-spinner" />
+          return loadingComponent()
         }
         return (
           <React.Fragment>

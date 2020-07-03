@@ -26,8 +26,7 @@ import {
 } from '../../actions/common'
 import { updateResourceFilters, combineFilters } from '../../actions/filters'
 import TableHelper from '../../util/table-helper'
-import { Notification, SkeletonText } from 'carbon-components-react'
-import { Module } from 'carbon-addons-cloud-react'
+import { Notification } from 'carbon-components-react'
 import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
@@ -42,6 +41,7 @@ import {
   handleVisibilityChanged
 } from '../../shared/utils/refetch'
 import { refetchIntervalUpdate } from '../../actions/refetch'
+import { loadingComponent } from '../common/ResourceOverview/utils'
 
 resources(() => {
   require('../../../scss/resource-list.scss')
@@ -83,17 +83,6 @@ class ResourceList extends React.Component {
   componentDidUpdate(prevProps) {
     handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
   }
-
-  loadingComponent = () => {
-    return (
-      <Module className={'bx--tile search-query-card-loading'} size="single">
-        <div className="search-query-card-loading">
-          <SkeletonText />
-          <SkeletonText />
-        </div>
-      </Module>
-    )
-  };
 
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {
@@ -170,7 +159,7 @@ class ResourceList extends React.Component {
     }
 
     if (status !== REQUEST_STATUS.DONE && !this.state.xhrPoll) {
-      return this.loadingComponent()
+      return loadingComponent()
     }
 
     const actions = React.Children.map(children, action => {

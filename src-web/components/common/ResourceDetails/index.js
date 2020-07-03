@@ -10,7 +10,7 @@
 
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
-import { Notification, SkeletonText } from 'carbon-components-react'
+import { Notification } from 'carbon-components-react'
 import { getTabs } from '../../../../lib/client/resource-helper'
 import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
 import PropTypes from 'prop-types'
@@ -27,6 +27,7 @@ import {
   handleRefreshPropertiesChanged,
   handleVisibilityChanged
 } from '../../../shared/utils/refetch'
+import { loadingComponent } from '../ResourceOverview/utils'
 
 resources(() => {
   require('./style.scss')
@@ -105,15 +106,6 @@ const withResource = Component => {
         )
       }
 
-      loadingComponent = () => {
-        return (
-          <div className="search-query-card-loading">
-            <SkeletonText />
-            <SkeletonText />
-          </div>
-        )
-      };
-
       reload() {
         const { status } = this.props
         let { retry = 0, showError = false } = this.state
@@ -143,7 +135,7 @@ const withResource = Component => {
           !this.state.xhrPoll &&
           retry === 0
         ) {
-          return this.loadingComponent()
+          return loadingComponent()
         }
         return (
           <React.Fragment>

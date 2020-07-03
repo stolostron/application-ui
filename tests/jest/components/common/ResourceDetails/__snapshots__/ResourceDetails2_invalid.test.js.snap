@@ -95,27 +95,31 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
         Resource highlights
       </div>
       <div
-        className="overview-cards-info-container"
+        className="bx--module bx--module--single bx--tile search-query-card-loading"
       >
         <div
-          className="search-query-card-loading"
+          className="bx--module__inner"
         >
-          <p
-            className="bx--skeleton__text"
-            style={
-              Object {
-                "width": "100%",
+          <div
+            className="search-query-card-loading"
+          >
+            <p
+              className="bx--skeleton__text"
+              style={
+                Object {
+                  "width": "100%",
+                }
               }
-            }
-          />
-          <p
-            className="bx--skeleton__text"
-            style={
-              Object {
-                "width": "100%",
+            />
+            <p
+              className="bx--skeleton__text"
+              style={
+                Object {
+                  "width": "100%",
+                }
               }
-            }
-          />
+            />
+          </div>
         </div>
       </div>
     </div>

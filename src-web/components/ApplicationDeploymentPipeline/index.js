@@ -35,23 +35,22 @@ import {
   Search,
   Notification,
   Checkbox,
-  Tooltip,
-  SkeletonText
+  Tooltip
 } from 'carbon-components-react'
-import { Module } from 'carbon-addons-cloud-react'
 import {
   getChannelsList,
   getApplicationsForSelection,
   getSubscribedChannels
 } from './utils'
-import apolloClient from '../../../lib/client/apollo-client'
-import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
-import ResourceCards from './components/InfoCards/ResourceCards'
-import {
+import { loadingComponent ,
   handleEditResource,
   handleDeleteResource,
   showEditModalByType
-} from '../common/ResourceOverview/utils'
+} from '../../components/common/ResourceOverview/utils'
+import apolloClient from '../../../lib/client/apollo-client'
+import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
+import ResourceCards from './components/InfoCards/ResourceCards'
+
 import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
 import {
@@ -238,17 +237,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     fetchChannels()
   }
 
-  loadingComponent = () => {
-    return (
-      <Module className={'bx--tile search-query-card-loading'} size="single">
-        <div className="search-query-card-loading">
-          <SkeletonText />
-          <SkeletonText />
-        </div>
-      </Module>
-    )
-  };
-
   render() {
     // wait for it
     const {
@@ -276,7 +264,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) &&
       !this.state.xhrPoll
     ) {
-      return this.loadingComponent()
+      return loadingComponent()
     }
 
     const {
@@ -389,7 +377,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           timestamp,
           locale
         )}
-        {loading && this.loadingComponent()}
+        {loading && loadingComponent()}
         {deleteStatus === Actions.REQUEST_STATUS.DONE && (
           <Notification
             title={msgs.get('success.update.resource', locale)}

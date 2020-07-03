@@ -10,7 +10,6 @@ import R from 'ramda'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { SkeletonText } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
@@ -19,7 +18,7 @@ import {
   getSingleResourceItem,
   resourceItemByName
 } from '../../../reducers/common'
-import { handleEditResource } from './utils'
+import { handleEditResource, loadingComponent } from './utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
@@ -52,15 +51,6 @@ const ResourceOverview = withLocale(
     closeModal,
     editResource
   }) => {
-    const loadingComponent = () => {
-      return (
-        <div className="search-query-card-loading">
-          <SkeletonText />
-          <SkeletonText />
-        </div>
-      )
-    }
-
     if (openEditApplicationModal) {
       const data = R.pathOr([], ['data', 'items'], currentApplicationInfo)[0]
       const name = R.pathOr('', ['metadata', 'name'], data)
@@ -89,17 +79,17 @@ const ResourceOverview = withLocale(
             <div className="overview-content-header">
               {msgs.get('dashboard.card.deployment.summary.title', locale)}
             </div>
-            <div className="overview-cards-info-container">
-              {!item || loading ? (
-                loadingComponent()
-              ) : (
+            {!item || loading ? (
+              loadingComponent()
+            ) : (
+              <div className="overview-cards-info-container">
                 <OverviewCards
                   selectedAppName={params.name}
                   selectedAppNS={params.namespace}
                   serverProps={serverProps}
                 />
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
           <div className="overview-content-bottom overview-content-with-padding">

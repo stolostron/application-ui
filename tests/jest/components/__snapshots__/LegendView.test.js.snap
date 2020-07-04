@@ -34,7 +34,7 @@ exports[`LegendView no nodes renders as expected 1`] = `
     />
   </div>
   <div
-    className="details-view-container"
+    className="legend-view-container"
     style={
       Object {
         "height": "100%",
@@ -270,7 +270,7 @@ exports[`LegendView with nodes render as expected 1`] = `
     />
   </div>
   <div
-    className="details-view-container"
+    className="legend-view-container"
     style={
       Object {
         "height": "100%",

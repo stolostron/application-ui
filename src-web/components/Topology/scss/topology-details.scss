@@ -265,6 +265,17 @@
   }
 
   .details-view-container {
+    height: calc(100vh - 370px) !important;
+
+    .details-view-scrollbar {
+      width: 100%;
+      visibility: hidden;
+    }
+  }
+
+  .legend-view-container {
+    height: calc(100vh - 300px) !important;
+
     .details-view-scrollbar {
       width: 100%;
       visibility: hidden;

@@ -122,7 +122,7 @@ Cypress.Commands.add("createAppResource", (kind, resourceType) => {
       break;
     case "subscription":
       prefix = "02_";
-      cy.get('button[id="create-subscription"').click();
+      cy.get('button[id="create-subscription"]').click();
       break;
     case "placementrule":
       prefix = "01_";
@@ -130,7 +130,7 @@ Cypress.Commands.add("createAppResource", (kind, resourceType) => {
       break;
     case "application":
       prefix = "00_";
-      cy.get('button[id="create-application"').click();
+      cy.get('button[id="create-application"]').click();
       break;
   }
   cy.editYaml(prefix + kind + "-" + resourceType + ".yaml");

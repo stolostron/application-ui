@@ -312,7 +312,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
               <button
                 className="bx--btn bx--btn--sm bx--btn--primary"
                 disabled={false}
-                id="Create application"
+                id="create-application"
                 onClick={[Function]}
                 tabIndex={0}
                 type="button"
@@ -1008,7 +1008,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
               <button
                 className="bx--btn bx--btn--sm bx--btn--primary"
                 disabled={false}
-                id="Create application"
+                id="create-application"
                 onClick={[Function]}
                 tabIndex={0}
                 type="button"

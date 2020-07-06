@@ -862,6 +862,90 @@ describe("createResourceSearchLink for details with model info, same names", () 
   });
 });
 
+describe("setSubscriptionDeployStatus with hub error", () => {
+  const node = {
+    type: "subscription",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          status: "Failed",
+          _hubClusterResource: "true"
+        }
+      }
+    }
+  };
+  const response = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "local", status: "failure", value: "Failed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus with hub error", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+  });
+});
+
+describe("setSubscriptionDeployStatus with no sub error", () => {
+  const node = {
+    type: "subscription",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          namespace: "ns",
+          status: "Propagated",
+          _hubClusterResource: "true"
+        }
+      }
+    }
+  };
+  const response = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    {
+      labelValue: "Remote subscriptions",
+      status: "failure",
+      value:
+        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace."
+    },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink:
+            '/multicloud/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3Ans%20cluster%3Alocal-cluster"}'
+        },
+        id: "undefined-subscrSearch",
+        label: "View all rules in {0} namespace"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus with no hub error", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+  });
+});
+
 describe("setSubscriptionDeployStatus with error", () => {
   const node = {
     type: "subscription",

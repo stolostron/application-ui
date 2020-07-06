@@ -54,6 +54,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
           "name": "HCMApplication",
         }
       }
+      resourceTypeName="description.application"
       sampleContent={
         Array [
           "aaaaa",
@@ -101,6 +102,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
             "name": "HCMApplication",
           }
         }
+        resourceTypeName="description.application"
         sampleContent={
           Array [
             "aaaaa",
@@ -168,6 +170,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
               "name": "HCMApplication",
             }
           }
+          resourceTypeName="description.application"
           sampleContent={
             Array [
               "aaaaa",
@@ -210,6 +213,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
               disabled={false}
               icon="add--glyph"
               iconDescription="Provide icon description if icon is used"
+              id="create-application"
               key="create-resource"
               kind="primary"
               onClick={[Function]}
@@ -220,10 +224,12 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
               <button
                 className="bx--btn bx--btn--sm bx--btn--primary"
                 disabled={false}
+                id="create-application"
                 onClick={[Function]}
                 tabIndex={0}
                 type="button"
               >
+                Create application
                 <Icon
                   className="bx--btn__icon"
                   description="Provide icon description if icon is used"
@@ -313,6 +319,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
           "name": "HCMApplication",
         }
       }
+      resourceTypeName="description.application"
       sampleContent={
         Array [
           "aaaaa",
@@ -360,6 +367,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
             "name": "HCMApplication",
           }
         }
+        resourceTypeName="description.application"
         sampleContent={
           Array [
             "aaaaa",
@@ -427,6 +435,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
               "name": "HCMApplication",
             }
           }
+          resourceTypeName="description.application"
           sampleContent={
             Array [
               "aaaaa",
@@ -469,6 +478,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
               disabled={false}
               icon="add--glyph"
               iconDescription="Provide icon description if icon is used"
+              id="create-application"
               key="create-resource"
               kind="primary"
               onClick={[Function]}
@@ -479,10 +489,12 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
               <button
                 className="bx--btn bx--btn--sm bx--btn--primary"
                 disabled={false}
+                id="create-application"
                 onClick={[Function]}
                 tabIndex={0}
                 type="button"
               >
+                Create application
                 <Icon
                   className="bx--btn__icon"
                   description="Provide icon description if icon is used"
@@ -574,6 +586,7 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
           "name": "HCMApplication",
         }
       }
+      resourceTypeName="description.application"
       sampleContent={
         Array [
           "aaaaa",
@@ -621,6 +634,7 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
             "name": "HCMApplication",
           }
         }
+        resourceTypeName="description.application"
         sampleContent={
           Array [
             "aaaaa",
@@ -688,6 +702,7 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
               "name": "HCMApplication",
             }
           }
+          resourceTypeName="description.application"
           sampleContent={
             Array [
               "aaaaa",
@@ -730,6 +745,7 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
               disabled={false}
               icon="add--glyph"
               iconDescription="Provide icon description if icon is used"
+              id="create-application"
               key="create-resource"
               kind="primary"
               onClick={[Function]}
@@ -740,10 +756,12 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
               <button
                 className="bx--btn bx--btn--sm bx--btn--primary"
                 disabled={false}
+                id="create-application"
                 onClick={[Function]}
                 tabIndex={0}
                 type="button"
               >
+                Create application
                 <Icon
                   className="bx--btn__icon"
                   description="Provide icon description if icon is used"
@@ -833,6 +851,7 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
           "name": "HCMApplication",
         }
       }
+      resourceTypeName="description.application"
       sampleContent={
         Array [
           "aaaaa",
@@ -880,6 +899,7 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
             "name": "HCMApplication",
           }
         }
+        resourceTypeName="description.application"
         sampleContent={
           Array [
             "aaaaa",
@@ -947,6 +967,7 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
               "name": "HCMApplication",
             }
           }
+          resourceTypeName="description.application"
           sampleContent={
             Array [
               "aaaaa",
@@ -989,6 +1010,7 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
               disabled={false}
               icon="add--glyph"
               iconDescription="Provide icon description if icon is used"
+              id="create-application"
               key="create-resource"
               kind="primary"
               onClick={[Function]}
@@ -999,10 +1021,12 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
               <button
                 className="bx--btn bx--btn--sm bx--btn--primary"
                 disabled={false}
+                id="create-application"
                 onClick={[Function]}
                 tabIndex={0}
                 type="button"
               >
+                Create application
                 <Icon
                   className="bx--btn__icon"
                   description="Provide icon description if icon is used"

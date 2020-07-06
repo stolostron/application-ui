@@ -595,7 +595,6 @@ describe("getNodeDetails deployment node", () => {
         "mortgagedc-deploy-1-q9b5r-feng": {
           cluster: "feng",
           container: "mortgagedc-mortgage",
-          created: "2020-04-20T22:03:52Z",
           hostIP: "1.1.1.1",
           image: "fxiang/mortgage:0.4.0",
           kind: "pod",
@@ -606,13 +605,11 @@ describe("getNodeDetails deployment node", () => {
           podIP: "10.128.2.80",
           restarts: 0,
           selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
-          startedAt: "2020-04-20T22:03:52Z",
           status: "Running"
         },
         "mortgagedc-deploy-1-q9b5rr-feng": {
           cluster: "feng",
           container: "mortgagedc-mortgage",
-          created: "2020-04-20T22:03:52Z",
           hostIP: "1.1.1.1",
           image: "fxiang/mortgage:0.4.0",
           kind: "pod",
@@ -623,7 +620,6 @@ describe("getNodeDetails deployment node", () => {
           podIP: "10.128.2.80",
           restarts: 0,
           selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
-          startedAt: "2020-04-20",
           status: "Running"
         }
       },
@@ -732,10 +728,8 @@ describe("getNodeDetails deployment node", () => {
                 cluster: "cluster1",
                 hostIP: "1.1.1.1",
                 status: "Running",
-                startedAt: "2020-04-20T22:03:52Z",
                 restarts: 0,
-                podIP: "1.1.1.1",
-                startedAt: "Monday"
+                podIP: "1.1.1.1"
               }
             }
           }
@@ -839,7 +833,7 @@ describe("getNodeDetails deployment node", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "2 months ago"
+      value: "-"
     },
     { type: "spacer" },
     {
@@ -892,7 +886,7 @@ describe("getNodeDetails deployment node", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "2 months ago"
+      value: "-"
     },
     { type: "spacer" },
     { labelKey: "resource.status", type: "label", value: "Subscribed" },

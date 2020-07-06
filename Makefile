@@ -21,6 +21,8 @@ else
 -include vbh/.build-harness-bootstrap
 endif
 
+TEST_IMAGE_TAG ?= $(COMPONENT_VERSION)$(COMPONENT_TAG_EXTENSION)
+
 default::
 	@echo "Build Harness Bootstrapped"
 
@@ -71,6 +73,7 @@ run-test-image:
 .PHONY: run-test-image-pr
 run-test-image-pr:
 	docker run \
+	-v $(shell pwd)/results/:/results/ \
 	--network host \
 	-e BROWSER=$(BROWSER) \
 	-e USER=$(shell git log -1 --format='%ae') \
@@ -81,20 +84,20 @@ run-test-image-pr:
 	-e TRAVIS_PULL_REQUEST=$(TRAVIS_PULL_REQUEST) \
 	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_RESOURCEID=$(shell date +"%s") \
-	-e CYPRESS_BASE_URL=https://localhost:3000 \
+	-e CYPRESS_BASE_URL=$(CYPRESS_BASE_URL) \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \
 	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \
 	-e CYPRESS_OC_CLUSTER_PASS=$(OC_CLUSTER_PASS) \
 	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
 
-# .PHONY: push-test-image
-# push-test-image:
-# 	make component/push COMPONENT_NAME=$(COMPONENT_NAME)-tests
+.PHONY: push-test-image
+push-test-image:
+	make component/push COMPONENT_NAME=$(COMPONENT_NAME)-tests
 
-# .PHONY: pull-test-image
-# pull-test-image:
-# 	make component/pull COMPONENT_NAME=$(COMPONENT_NAME)-tests
+.PHONY: pull-test-image
+pull-test-image:
+	make component/pull COMPONENT_NAME=$(COMPONENT_NAME)-tests
 
-# .PHONY: publish-test-image
-# publish-test-image:
-# 	make pipeline-manifest/update COMPONENT_NAME=$(COMPONENT_NAME)-tests PIPELINE_MANIFEST_COMPONENT_SHA256=${TRAVIS_COMMIT} PIPELINE_MANIFEST_COMPONENT_REPO=${TRAVIS_REPO_SLUG} PIPELINE_MANIFEST_BRANCH=${TRAVIS_BRANCH}
+.PHONY: publish-test-image
+publish-test-image:
+	make pipeline-manifest/update COMPONENT_NAME=$(COMPONENT_NAME)-tests PIPELINE_MANIFEST_COMPONENT_SHA256=${TRAVIS_COMMIT} PIPELINE_MANIFEST_COMPONENT_REPO=${TRAVIS_REPO_SLUG} PIPELINE_MANIFEST_BRANCH=${TRAVIS_BRANCH}

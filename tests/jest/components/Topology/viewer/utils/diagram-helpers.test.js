@@ -600,10 +600,63 @@ describe("getNameWithoutChartRelease node with pods no _hostingDeployable", () =
     status: "Running"
   };
 
-  it("nodeMustHavePods POD no _hostingDeployable", () => {
+  it("getNameWithoutChartRelease for pod with no deployable", () => {
     expect(
       getNameWithoutChartRelease(node, "nginx-ingress-edafb-default-backend")
     ).toEqual("default-backend");
+  });
+});
+
+describe("getNameWithoutChartRelease node for helmrelease no label", () => {
+  const node = {
+    apigroup: "apps.open-cluster-management.io",
+    apiversion: "v1",
+    branch: "master",
+    chartPath: "test/github/helmcharts/chart1",
+    cluster: "sharingpenguin",
+    created: "2020-07-07T00:11:41Z",
+    kind: "helmrelease",
+    name: "chart1-5a9ac",
+    namespace: "git-sub-ns-helm",
+    selfLink:
+      "/apis/apps.open-cluster-management.io/v1/namespaces/git-sub-ns-helm/helmreleases/chart1-5a9ac",
+    sourceType: "git",
+    url:
+      "https://github.com/open-cluster-management/multicloud-operators-subscription",
+    _clusterNamespace: "sharingpenguin",
+    _hostingDeployable: "ch-git-helm/git-helm-chart1-1.1.1",
+    _hostingSubscription: "git-sub-ns-helm/git-helm-sub",
+    _rbac: "sharingpenguin_apps.open-cluster-management.io_helmreleases",
+    _uid: "sharingpenguin/c1e81dd9-6c12-443c-9300-b8da955370dc"
+  };
+
+  it("getNameWithoutChartRelease helm release  no no label", () => {
+    expect(
+      getNameWithoutChartRelease(node, "ch-git-helm/git-helm-chart1-1.1.1")
+    ).toEqual("chart1-1.1.1");
+  });
+});
+
+describe("getNameWithoutChartRelease node for subscription, with label", () => {
+  const node = {
+    apigroup: "apps.open-cluster-management.io",
+    apiversion: "v1",
+    channel: "ch-git-helm/git-helm",
+    cluster: "local-cluster",
+    kind: "subscription",
+    label: "app=gbapp; release=app01",
+    name: "git-helm-sub",
+    namespace: "git-sub-ns-helm",
+    selfLink:
+      "/apis/apps.open-cluster-management.io/v1/namespaces/git-sub-ns-helm/subscriptions/git-helm-sub",
+    status: "Propagated",
+    _hubClusterResource: "true"
+  };
+
+  it("getNameWithoutChartRelease helm release  no no label", () => {
+    expect(getNameWithoutChartRelease(node, "git-helm-sub")).toEqual(
+      "git-helm-sub"
+    );
   });
 });
 

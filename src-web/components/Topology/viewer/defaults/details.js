@@ -160,6 +160,34 @@ function addK8Details(node, details) {
     }
   ]
 
+  //for charts
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'chartName'],
+      'raw.spec.chart.name'
+    )
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'releaseName'],
+      'raw.spec.release.name'
+    )
+  )
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'version'],
+      'raw.spec.version'
+    )
+  )
+  //
+
   addPropertyToList(
     mainDetails,
     getNodePropery(

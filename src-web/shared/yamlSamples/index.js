@@ -17,7 +17,7 @@ export const channelHelmRepoSample =
 export const channelObjectBucketSample =
   'apiVersion: v1______________________createChannel-namespace-apiVersion\nkind: Namespace\nmetadata:\n  name: ____________________________createChannel-namespace-metadata-name\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: _____________________________createChannel-metadata-name\n namespace: ________________________createChannel-metadata-namespace\nspec:\n type: ObjectBucket\n pathname: _________________________createChannel-specObjectBucket-pathname\n secretRef:\n   name: ___________________________createChannel-specObjectBucket-secretRef-name\n gates:\n   annotations: ____________________createChannel-specObjectBucket-gate-annotations'
 export const channelGitRepoSample =
-  'apiVersion: v1______________________createChannel-namespace-apiVersion\nkind: Namespace\nmetadata:\n  name: ____________________________createChannel-metadata-name\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  name: ____________________________createChannel-metadata-name\n  namespace: _______________________createChannel-metadata-namespace\nspec:\n  type: GitHub\n  pathname: ________________________createChannel-specGitRepo-pathname'
+  'apiVersion: v1______________________createChannel-namespace-apiVersion\nkind: Namespace\nmetadata:\n  name: ____________________________createChannel-metadata-name\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  name: ____________________________createChannel-metadata-name\n  namespace: _______________________createChannel-metadata-namespace\nspec:\n  type: Git\n  pathname: ________________________createChannel-specGitRepo-pathname'
 export const subscriptionSample =
   'apiVersion: v1______________________createSubscription-namespace-resource\nkind: Namespace\nmetadata:\n  name: ____________________________createSubscription-name-resource\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Subscription\nmetadata:\n  name: ____________________________createSubscription-metadata-name\n  namespace: _______________________createSubscription-metadata-namespace\nspec:\n  channel: _________________________createSubscription-spec-channel\n  placement: \n    placementRef: \n      kind: PlacementRule\n      name: ________________________createSubscription-spec-placement-placementRef-name\ntimeWindow: \n  type: \'"active"\'\n  location: \'"America/Toronto"\'\n  weekdays: ________________________createSubscription-timeWindow-weekdays\n  hours: ___________________________createSubscription-timeWindow-hours'
 export const placementRuleSample =
@@ -105,14 +105,12 @@ export const getChannelSample = (channelSampleType, locale) => {
     _: ' '
   }
 
-  var sample = channelSample.replace(
+  return channelSample.replace(
     /createChannel-namespace-apiVersion|createChannel-namespace-metadata-name|createChannel-metadata-namespace|createChannel-metadata-name|createChannel-specNamespace-gates-annotations|createChannel-specNamespace-pathname|createChannel-specNamespace-sourceNamespaces|createChannel-specHelmRepo-pathname|createChannel-specHelmRepo-configRef-name|createChannel-specHelmRepo-type|createChannel-configMap-apiVersion|createChannel-configMap-metadata-namespace|createChannel-configMap-metadata-name|createChannel-specObjectBucket-pathname|createChannel-specObjectBucket-secretRef-name|createChannel-specObjectBucket-gate-annotations|createChannel-specGitRepo-pathname|null|_/gi,
     matched => {
       return mapObj[matched]
     }
   )
-
-  return sample
 }
 
 export const getSubscriptionSample = locale => {
@@ -156,14 +154,12 @@ export const getSubscriptionSample = locale => {
     '\'': ''
   }
 
-  var sample = subscriptionSample.replace(
+  return subscriptionSample.replace(
     /createSubscription-namespace-resource|createSubscription-name-resource|createSubscription-apiVersion|createSubscription-kind|createSubscription-metadata-namespace|createSubscription-metadata-name|createSubscription-spec-channel|createSubscription-spec-placement-placementRef-name|createSubscription-spec-placement-placementRef-kind|createSubscription-timeWindow-weekdays|createSubscription-timeWindow-hours|null|_|'/gi,
     matched => {
       return mapObj[matched]
     }
   )
-
-  return sample
 }
 
 export const getApplicationSample = locale => {
@@ -195,14 +191,12 @@ export const getApplicationSample = locale => {
     _: ' '
   }
 
-  var sample = applicationSample.replace(
+  return applicationSample.replace(
     /createApplication-namespace-apiVersion|createApplication-namespace-metadata-name|createApplication-metadata-namespace|createApplication-metadata-name|createApplication-spec-selector-matchExpressions-key-values|createApplication-spec-selector-matchExpressions-key|null|_/gi,
     matched => {
       return mapObj[matched]
     }
   )
-
-  return sample
 }
 
 export const getPlacementRuleSample = locale => {
@@ -228,12 +222,10 @@ export const getPlacementRuleSample = locale => {
     null: '',
     _: ' '
   }
-  var sample = placementRuleSample.replace(
+  return placementRuleSample.replace(
     /createPlacementRule-apiVersion|createPlacementRule-kind|createPlacementRule-metadata-namespace|createPlacementRule-metadata-name|createPlacementRule-spec-clusterSelector-matchLabels|createPlacementRule-spec-clusterReplicas|null|_/gi,
     matched => {
       return mapObj[matched]
     }
   )
-
-  return sample
 }

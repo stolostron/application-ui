@@ -165,7 +165,7 @@
     "chromedriver": "^80.0.0",
     "compression-webpack-plugin": "^1.1.11",
     "cross-fetch": "^3.0.4",
-    "css-loader": "^0.28.11",
+    "css-loader": "^1.0.0",
     "cypress": "^4.8.0",
     "cypress-log-to-output": "^1.0.8",
     "del-cli": "^1.1.0",

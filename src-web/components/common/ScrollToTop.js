@@ -1,12 +1,14 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 import React from 'react'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 /**
  * Component that will scroll the window up on every navigation
@@ -14,8 +16,6 @@ import { withRouter } from 'react-router-dom'
  * See: https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
  * **/
 
-/* FIXME: Please fix disabled eslint rules when making changes to this file. */
-/* eslint-disable react/prop-types */
 class ScrollToTop extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
@@ -26,6 +26,11 @@ class ScrollToTop extends React.Component {
   render() {
     return this.props.children
   }
+}
+
+ScrollToTop.propTypes = {
+  children: PropTypes.object,
+  location: PropTypes.object
 }
 
 export default withRouter(ScrollToTop)

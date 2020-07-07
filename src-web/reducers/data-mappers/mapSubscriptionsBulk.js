@@ -19,6 +19,23 @@ const isDataShown = channel => {
   return true
 }
 
+const emptyData = {
+  name: '',
+  namespace: '',
+  selfLink: '',
+  _uid: '',
+  created: '',
+  pathname: '',
+  apigroup: '',
+  cluster: '',
+  kind: '',
+  label: '',
+  type: '',
+  _hubClusterResource: '',
+  _rbac: '',
+  related: []
+}
+
 // @flow
 export const mapBulkSubscriptions = subscriptions => {
   if (subscriptions) {
@@ -37,7 +54,7 @@ export const mapBulkSubscriptions = subscriptions => {
         ) {
           const items = hubSubscriptions[0]
           if (items.channel && isDataShown(items.channel)) {
-            const data = {
+            return {
               name: items.name || '',
               namespace: items.namespace || '',
               selfLink: items.selfLink || '',
@@ -55,35 +72,13 @@ export const mapBulkSubscriptions = subscriptions => {
               _rbac: items._rbac || '',
               related: subscription.related || []
             }
-
-            return data
           }
         }
       }
+      return null
     })
-    const removeUndefined = x => x !== undefined
-    const removedUndefinedSubscriptions = R.filter(
-      removeUndefined,
-      mappedSubscriptions
-    )
-    return removedUndefinedSubscriptions
+    const removeUndefined = x => x !== undefined && x !== null
+    return R.filter(removeUndefined, mappedSubscriptions)
   }
-  return [
-    {
-      name: '',
-      namespace: '',
-      selfLink: '',
-      _uid: '',
-      created: '',
-      pathname: '',
-      apigroup: '',
-      cluster: '',
-      kind: '',
-      label: '',
-      type: '',
-      _hubClusterResource: '',
-      _rbac: '',
-      related: []
-    }
-  ]
+  return [emptyData]
 }

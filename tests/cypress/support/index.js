@@ -40,7 +40,6 @@ before(() => {
       cy.setCookie("acm-access-token-cookie", res.stdout);
     });
   } else {
-    // cy.visit('/multicloud/clusters')
     cy.visit("/");
     cy.get("body").then(body => {
       // Check if logged in
@@ -57,6 +56,13 @@ before(() => {
     });
     cy.acquireToken().then(token => {
       Cypress.env("token", token);
+    });
+    //delete app resource
+    cy.task("getFileList", "yaml").then(list => {
+      cy.log(list);
+      list.forEach(file => {
+        cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
+      });
     });
   }
 });

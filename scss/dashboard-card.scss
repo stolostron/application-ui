@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure 
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -8,7 +9,6 @@
 
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
-
 $critical: $mcm__color__critical;
 $healthy: $color__green-40;
 $warning: $color__yellow-30;
@@ -18,9 +18,8 @@ $util-healthy: $color__teal-20;
 $gray: $color__gray-1;
 $gray-for-text: $mcm__color__gray;
 
-
 .bx--module.bx--module--single {
-  max-width: 28rem;
+  //max-width: 28rem;
   min-width: 24rem;
 }
 
@@ -34,19 +33,23 @@ $gray-for-text: $mcm__color__gray;
     td {
       padding-left: 1.5rem;
       color: #000;
+
       p {
         display: inline;
         float: left;
         padding-left: 0.5rem;
       }
     }
+
     .bx--module__inner {
       background-color: transparent;
       box-shadow: none;
       color: $color__white;
     }
 
-    .bx--module__title, .bx--module__body, .bx--module__header {
+    .bx--module__title,
+    .bx--module__body,
+    .bx--module__header {
       color: $color__white;
     }
 
@@ -63,7 +66,7 @@ $gray-for-text: $mcm__color__gray;
       padding: 0;
     }
 
-    .bx--module__content p{
+    .bx--module__content p {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
@@ -72,19 +75,19 @@ $gray-for-text: $mcm__color__gray;
       text-transform: capitalize;
     }
   }
-
   background-color: $color__white;
   color: #000;
-  .bx--module__title, .bx--module__body, .bx--module__header {
-    color: #000!important;
+
+  .bx--module__title,
+  .bx--module__body,
+  .bx--module__header {
+    color: #000 !important;
   }
 
   .bx--responsive-table {
     border: none;
   }
-
 }
-
 
 .dashboard-card-header {
   &__critical {
@@ -116,6 +119,7 @@ $gray-for-text: $mcm__color__gray;
       display: inline;
       margin-left: .5rem;
     }
+
     &__warning {
       fill: $warning;
       display: inline;
@@ -147,7 +151,6 @@ $gray-for-text: $mcm__color__gray;
   width: $size;
   border-radius: 100%;
 }
-
 $orbSize: 5rem;
 $innerOrbSize: $orbSize - 0.4rem;
 
@@ -160,9 +163,9 @@ $innerOrbSize: $orbSize - 0.4rem;
   @include circle($orbSize);
   padding: 0;
 
-
   &__inner {
     @include circle($innerOrbSize);
+
     &:hover {
       box-shadow: 0 0 5px 4px $gray;
     }
@@ -184,11 +187,11 @@ $innerOrbSize: $orbSize - 0.4rem;
     &-critical {
       border: 3px solid $util-critical;
     }
-  
+
     &-warning {
       border: 3px solid $util-warning;
     }
-  
+
     &-healthy {
       border: 3px solid $util-healthy;
     }
@@ -197,6 +200,7 @@ $innerOrbSize: $orbSize - 0.4rem;
   &__gray {
     border: 3px solid $gray;
     color: $gray-for-text;
+
     &:hover {
       box-shadow: none;
     }
@@ -206,6 +210,7 @@ $innerOrbSize: $orbSize - 0.4rem;
 .dashboard-table {
   margin-top: 1rem;
   min-width: 0;
+
   .bx--table-body {
     .bx--table-row:hover {
       border-left: 1px solid $color__blue-40;
@@ -218,6 +223,7 @@ $innerOrbSize: $orbSize - 0.4rem;
     border: none;
     font-weight: bold;
     font-size: 0.75rem;
+
     &__secondary {
       font-weight: 400;
     }
@@ -230,29 +236,35 @@ $innerOrbSize: $orbSize - 0.4rem;
   align-items: center;
   height: 2rem;
   width: 8rem;
+
   .table-status-icon {
     margin-right: 1rem;
     height: 1rem;
+
     &__healthy {
       fill: $healthy;
       display: inline;
       float: left;
     }
+
     &__critical {
       fill: $critical;
       display: inline;
       float: left;
     }
+
     &__warning {
       fill: $warning;
       display: inline;
       float: left;
     }
   }
+
   div {
     display: inline-block;
     float: left;
   }
+
   a {
     display: inline-block;
     float: left;
@@ -311,6 +323,7 @@ $innerOrbSize: $orbSize - 0.4rem;
 .dashboard-card-separator-link {
   position: relative;
   bottom: 0;
+
   a {
     float: right;
     padding: 0rem 1rem 1rem;

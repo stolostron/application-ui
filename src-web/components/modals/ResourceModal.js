@@ -61,11 +61,11 @@ class ResourceModal extends React.PureComponent {
   handleSubmit = () => {
     this.setState({ loading: true }, () => {
       const resourceType = this.props.resourceType
-      let namespace, name, resources
+      let namespace, name, resourcesTemp
       let selfLink = this.props.data.selfLink
       try {
-        resources = lodash.compact(saveLoad(this.state.data))
-        resources.forEach(resource => {
+        resourcesTemp = lodash.compact(saveLoad(this.state.data))
+        resourcesTemp.forEach(resource => {
           if (resource.metadata && resource.metadata.namespace) {
             namespace = resource.metadata.namespace
           }

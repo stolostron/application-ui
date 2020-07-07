@@ -109,10 +109,12 @@ class TagInput extends React.Component {
         // user can only add a tag which exists in suggestions
         input = suggestions.find(element => element.name === input.name)
       }
-      if (!tags.find(n => n.name === input.name)) {
-        if (input && !tags.find(n => n.name === input.name)) {
-          this.updateSelectedTags([...tags, input], input)
-        }
+      if (
+        !tags.find(n => n.name === input.name) &&
+        input &&
+        !tags.find(n => n.name === input.name)
+      ) {
+        this.updateSelectedTags([...tags, input], input)
       }
     }
   }

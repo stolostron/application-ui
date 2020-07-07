@@ -70,7 +70,7 @@ export function getURIKey(resourceType) {
 }
 
 export function getDefaultSearchField(resourceType) {
-  var def = getResourceData(resourceType)
+  const def = getResourceData(resourceType)
   let sf = def && def.defaultSearchField
   if (!def || !def.tableKeys || (def && def.tableKeys.length < 1)) {
     //eslint-disable-next-line no-console
@@ -84,7 +84,7 @@ export function getDefaultSearchField(resourceType) {
 }
 
 export function getDefaultSortField(resourceType) {
-  var def = getResourceData(resourceType)
+  const def = getResourceData(resourceType)
   let sf = def && def.defaultSortField
   if (!def || !def.tableKeys || (def && def.tableKeys.length < 1)) {
     //eslint-disable-next-line no-console
@@ -104,7 +104,7 @@ export function getDefaultSortField(resourceType) {
 }
 
 export function getTableKeys(resourceType) {
-  var def = getResourceData(resourceType)
+  const def = getResourceData(resourceType)
   return def.tableKeys
 }
 

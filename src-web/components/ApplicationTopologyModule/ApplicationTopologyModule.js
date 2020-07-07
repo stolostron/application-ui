@@ -18,13 +18,9 @@ import {
   getActiveChannel,
   getDiagramElements
 } from './definitions/hcm-application-diagram'
-import { fetchResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { processResourceActionLink } from '../Topology/utils/diagram-helpers'
-import {
-  DIAGRAM_QUERY_COOKIE,
-  RESOURCE_TYPES
-} from '../../../lib/shared/constants'
+import { DIAGRAM_QUERY_COOKIE } from '../../../lib/shared/constants'
 import { InlineNotification } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
 import {
@@ -76,7 +72,6 @@ class ApplicationTopologyModule extends React.Component {
     diagramFilters: PropTypes.array,
     fetchAppTopology: PropTypes.func,
     fetchError: PropTypes.object,
-    fetchHCMApplicationResource: PropTypes.func,
     links: PropTypes.array,
     locale: PropTypes.string,
     nodes: PropTypes.array,
@@ -119,7 +114,6 @@ class ApplicationTopologyModule extends React.Component {
     const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
     const activeChannel = getActiveChannel(localStoreKey)
     this.props.fetchAppTopology(activeChannel)
-    this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
   }
 
@@ -143,17 +137,8 @@ class ApplicationTopologyModule extends React.Component {
 
   // call to actually refetch the new data
   reload() {
-    const {
-      fetchAppTopology,
-      fetchHCMApplicationResource,
-      activeChannel,
-      params
-    } = this.props
+    const { fetchAppTopology, activeChannel } = this.props
     fetchAppTopology(activeChannel, true)
-
-    if (params && params.name && params.namespace) {
-      fetchHCMApplicationResource(params.namespace, params.name)
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -216,6 +201,9 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (_.get(nextProps, 'HCMApplicationList.status', '') === 'DONE') {
+      return true //always update when search is done
+    }
     if (
       nextProps.activeChannel !== undefined &&
       nextState.activeChannel !== undefined &&
@@ -223,7 +211,8 @@ class ApplicationTopologyModule extends React.Component {
     ) {
       return false
     }
-    return (
+
+    const isDiagramChanged =
       !_.isEqual(
         this.state.nodes.map(n => n.uid),
         nextState.nodes.map(n => n.uid)
@@ -232,21 +221,36 @@ class ApplicationTopologyModule extends React.Component {
         this.state.links.map(n => n.uid),
         nextState.links.map(n => n.uid)
       ) ||
-      !_.isEqual(this.state.diagramFilters, nextState.diagramFilters) ||
-      !_.isEqual(this.state.exceptions, nextState.exceptions) ||
-      this.state.activeChannel !== nextState.activeChannel ||
-      this.props.storedVersion !== nextProps.storedVersion ||
-      !_.isEqual(this.props.channels, nextProps.channels) ||
-      this.state.updateMessage !== nextState.updateMessage ||
-      this.state.showSpinner !== nextState.showSpinner ||
-      this.state.lastTimeUpdate !== nextState.lastTimeUpdate ||
+      !_.isEqual(this.state.diagramFilters, nextState.diagramFilters)
+
+    const loadedInfoChanged =
       this.props.topologyLoaded !== nextProps.topologyLoaded ||
       this.props.detailsLoaded !== nextProps.detailsLoaded ||
       this.props.detailsReloading !== nextProps.detailsReloading ||
-      this.state.topologyLoadError !== nextState.topologyLoadError ||
+      this.state.topologyLoadError !== nextState.topologyLoadError
+
+    const channelInfoChanged =
+      this.state.activeChannel !== nextState.activeChannel ||
+      this.props.storedVersion !== nextProps.storedVersion ||
+      !_.isEqual(this.props.channels, nextProps.channels)
+
+    const updateIntervalChanged =
+      this.state.lastTimeUpdate !== nextState.lastTimeUpdate ||
       this.props.refetch.interval !== nextState.refetch.interval ||
-      this.props.refetch.doRefetch !== nextState.refetch.doRefetch ||
+      this.props.refetch.doRefetch !== nextState.refetch.doRefetch
+
+    const genericChange =
+      !_.isEqual(this.state.exceptions, nextState.exceptions) ||
+      this.state.updateMessage !== nextState.updateMessage ||
+      this.state.showSpinner !== nextState.showSpinner ||
       this.state.showLegendView !== nextState.showLegendView
+
+    return (
+      isDiagramChanged ||
+      loadedInfoChanged ||
+      channelInfoChanged ||
+      updateIntervalChanged ||
+      genericChange
     )
   }
 
@@ -405,16 +409,26 @@ class ApplicationTopologyModule extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { params } = ownProps
-  const { HCMApplicationList } = state
+  const { HCMApplicationList, refetch } = state
   const name = decodeURIComponent(params.name)
   const namespace = decodeURIComponent(params.namespace)
-  const { topology, refetch } = state
+  let { topology } = state
+
+  if (!topology) {
+    topology = {
+      activeFilters: {},
+      fetchFilters: null,
+      fetchError: null,
+      diagramFilters: []
+    }
+  }
   const {
     activeFilters,
     fetchFilters,
     fetchError,
     diagramFilters = []
   } = topology
+
   let localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
   const fetchApplication = _.get(topology, 'fetchFilters.application')
   if (fetchApplication) {
@@ -451,9 +465,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         type: TOPOLOGY_SET_ACTIVE_FILTERS,
         activeFilters: {}
       })
-    },
-    fetchHCMApplicationResource: () => {
-      dispatch(fetchResource(RESOURCE_TYPES.HCM_APPLICATIONS, namespace, name))
     },
     fetchAppTopology: (fetchChannel, reloading) => {
       const fetchFilters = {

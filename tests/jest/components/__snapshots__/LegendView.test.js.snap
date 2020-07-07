@@ -27,13 +27,14 @@ exports[`LegendView no nodes renders as expected 1`] = `
     <hr
       style={
         Object {
+          "marginBottom": "16px",
           "visibility": "hidden",
         }
       }
     />
   </div>
   <div
-    className="details-view-container"
+    className="legend-view-container"
     style={
       Object {
         "height": "100%",
@@ -170,6 +171,11 @@ exports[`LegendView no nodes renders as expected 1`] = `
             <div>
               None of the resources in this group deployed.
             </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            For more details and logs, click on the nodes to open the properties view.
           </div>
         </div>
       </div>
@@ -257,13 +263,14 @@ exports[`LegendView with nodes render as expected 1`] = `
     <hr
       style={
         Object {
+          "marginBottom": "16px",
           "visibility": "hidden",
         }
       }
     />
   </div>
   <div
-    className="details-view-container"
+    className="legend-view-container"
     style={
       Object {
         "height": "100%",
@@ -400,6 +407,11 @@ exports[`LegendView with nodes render as expected 1`] = `
             <div>
               None of the resources in this group deployed.
             </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            For more details and logs, click on the nodes to open the properties view.
           </div>
         </div>
       </div>

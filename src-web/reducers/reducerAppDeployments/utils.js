@@ -31,7 +31,7 @@ const extractAllOfKind = (list, kind = '') => {
 
 // This method flattens out the list of lists of deployables
 const flattenList = list => {
-  var flattenedList = []
+  let flattenedList = []
   list.map(resource => {
     flattenedList = flattenedList.concat(resource)
   })

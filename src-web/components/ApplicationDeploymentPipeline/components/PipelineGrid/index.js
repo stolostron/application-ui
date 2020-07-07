@@ -414,15 +414,20 @@ const EmptySubscriptionTile = locale => {
     <Tile className="channelColumnDeployable">
       <img
         className="no-sub-icon"
-        src={`${config.contextPath}/graphics/nothing-moon-copy.svg`}
-        alt={msgs.get('description.tryAddingSub', locale)}
+        src={`${config.contextPath}/graphics/no-resources-card.png`}
+        alt={msgs.get('description.noSubs.descr', locale)}
       />
       <div className="subDescriptionText">
         <div className="noSubTitle">
-          {msgs.get('description.noSubs', locale)}
+          {msgs.get('description.noSubs.title', locale)}
         </div>
         <div className="noSubDescription">
-          {msgs.get('description.tryAddingSub', locale)}
+          {msgs.get('description.noSubs.descr', locale) + ' '}
+          {msgs.get('description.noResource.descr.line2.1', locale) + ' '}
+          <span id="text-highlight">
+            {msgs.get('button.create.subscription', locale) + ' '}
+          </span>
+          {msgs.get('description.noResource.descr.line2.2', locale)}
         </div>
       </div>
     </Tile>
@@ -798,21 +803,42 @@ const PipelineGrid = withLocale(
 
     // do the logic to calculate the "standalone" subscriptions
 
+    const descriptionLine2Start = msgs.get(
+      'description.noResource.descr.line2.1',
+      locale
+    )
+    const descriptionLine2Mid = msgs.get(
+      'description.noResource.descr.line2.2',
+      locale
+    )
+    const descriptionLine2End = msgs.get(
+      'description.noResource.descr.line2.3',
+      locale
+    )
+
     return (
       <div id="PipelineGrid">
         {sortedChannels.length === 0 && (
           <div className="grid-item grid-item-deployable">
-            <img
-              className="no-res-icon"
-              src={`${config.contextPath}/graphics/nothing-moon-copy.svg`}
-              alt={msgs.get('description.noDeplResDescr', locale)}
-            />
+            <div className="no-res-icon-container">
+              <img
+                className="no-res-icon"
+                src={`${config.contextPath}/graphics/no-resources-card.png`}
+                alt={msgs.get('description.noDeplResDescr', locale)}
+              />
+            </div>
             <div className="noResDescriptionText">
               <div className="noResTitle">
-                {msgs.get('description.noChannels', locale)}
+                {msgs.get('description.noChannels.title', locale)}
               </div>
               <div className="noResDescription">
-                {msgs.get('description.noChannelsDescr', locale)}
+                {msgs.get('description.noChannels.descr.line1', locale) + ' '}
+                {descriptionLine2Start + ' '}
+                <span id="text-highlight">
+                  {msgs.get('button.create.channel', locale) + ' '}
+                </span>
+                {descriptionLine2Mid + ' '}
+                {descriptionLine2End}
               </div>
               <div className="deployment-highlights-terminology-docs">
                 <a

@@ -7,7 +7,7 @@ exports[`NoResource component renders as expected 1`] = `
   <img
     alt="Resource icon"
     className="no-resource-icon"
-    src="undefined/graphics/planets.png"
+    src="undefined/graphics/no-resources-full-page.png"
   />
   <div
     className="no-resource-title"
@@ -18,6 +18,67 @@ exports[`NoResource component renders as expected 1`] = `
     className="no-resource-detail"
   >
     detailed description
+  </div>
+  <div
+    className="child"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`NoResource component renders as expected no detailed description 1`] = `
+<div
+  className="no-resource"
+>
+  <img
+    alt="Resource icon"
+    className="no-resource-icon"
+    src="undefined/graphics/no-resources-full-page.png"
+  />
+  <div
+    className="no-resource-title"
+  >
+    title
+  </div>
+  
+  <div
+    className="child"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`NoResource component renders as expected with extra lines 1`] = `
+<div
+  className="no-resource"
+>
+  <img
+    alt="Resource icon"
+    className="no-resource-icon"
+    src="undefined/graphics/no-resources-full-page.png"
+  />
+  <div
+    className="no-resource-title"
+  >
+    title
+  </div>
+  <div
+    className="no-resource-detail"
+  >
+    detailed description
+     
+    <br />
+     
+    d 
+    <span
+      id="text-highlight"
+    >
+      e
+    </span>
+     
+    t
   </div>
   <div
     className="child"

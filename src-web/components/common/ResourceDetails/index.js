@@ -10,7 +10,7 @@
 
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
-import { Notification, Loading } from 'carbon-components-react'
+import { Notification } from 'carbon-components-react'
 import { getTabs } from '../../../../lib/client/resource-helper'
 import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
 import PropTypes from 'prop-types'
@@ -27,6 +27,7 @@ import {
   handleRefreshPropertiesChanged,
   handleVisibilityChanged
 } from '../../../shared/utils/refetch'
+import { loadingComponent } from '../ResourceOverview/utils'
 
 resources(() => {
   require('./style.scss')
@@ -117,8 +118,8 @@ const withResource = Component => {
             }
           }
         } else {
-          retry = undefined
-          showError = undefined
+          retry = null
+          showError = null
         }
         this.setState({ xhrPoll: true, retry, showError })
         if (status !== Actions.REQUEST_STATUS.DONE) {
@@ -128,14 +129,13 @@ const withResource = Component => {
 
       render() {
         const { status, statusCode } = this.props
-
         const { showError = false, retry = 0 } = this.state
         if (
           status !== Actions.REQUEST_STATUS.DONE &&
           !this.state.xhrPoll &&
           retry === 0
         ) {
-          return <Loading withOverlay={false} className="content-spinner" />
+          return loadingComponent()
         }
         return (
           <React.Fragment>
@@ -180,9 +180,9 @@ class ResourceDetails extends React.Component {
   }
 
   componentWillMount() {
-    const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
+    const { updateSecondaryHeaderFn, tabs, launch_links, match } = this.props,
           params = match && match.params
-    updateSecondaryHeader(
+    updateSecondaryHeaderFn(
       params.name,
       getTabs(
         tabs,
@@ -195,10 +195,10 @@ class ResourceDetails extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
-      const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
+      const { updateSecondaryHeaderFn, tabs, launch_links, match } = this.props,
             params = match && match.params
 
-      updateSecondaryHeader(
+      updateSecondaryHeaderFn(
         params.name,
         getTabs(
           tabs,
@@ -325,13 +325,13 @@ ResourceDetails.propTypes = {
   showGrafanaAction: PropTypes.bool,
   staticResourceData: PropTypes.object,
   tabs: PropTypes.array,
-  updateSecondaryHeader: PropTypes.func
+  updateSecondaryHeaderFn: PropTypes.func
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
-    updateSecondaryHeader: (title, tabs, breadcrumbItems, links) =>
+    updateSecondaryHeaderFn: (title, tabs, breadcrumbItems, links) =>
       dispatch(updateSecondaryHeader(title, tabs, breadcrumbItems, links))
   }
 }
@@ -350,7 +350,7 @@ const mapStateToProps = (state, ownProps) => {
   } else {
     params = (ownProps.match && ownProps.match.params) || {}
   }
-  const item_key =
+  const itemKey =
     (params &&
       params.name &&
       params.namespace &&
@@ -358,7 +358,7 @@ const mapStateToProps = (state, ownProps) => {
         '-' +
         decodeURIComponent(params.namespace)) ||
     undefined
-  const item = (items && item_key && items[item_key]) || undefined
+  const item = (items && itemKey && items[itemKey]) || undefined
   const _uid = (item && item['_uid']) || ''
   const clusterName = (item && item['cluster']) || ''
   return {

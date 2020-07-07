@@ -26,11 +26,11 @@ class LegendView extends React.Component {
             name="icon--close"
             onClick={onClose}
           />
-          <hr style={{ visibility: 'hidden' }} />
+          <hr style={{ visibility: 'hidden', marginBottom: '16px' }} />
         </div>
         <Scrollbars
           renderView={this.renderView}
-          className="details-view-container"
+          className="legend-view-container"
         >
           <div className="legendHeader">
             <div>
@@ -54,6 +54,9 @@ class LegendView extends React.Component {
                 {msgs.get('topology.legend.body.status.title', locale)}
               </div>
               {this.renderStatusDescriptions()}
+              <div className="bodyText">
+                {msgs.get('topology.legend.body.status.logs', locale)}
+              </div>
             </div>
           </div>
         </Scrollbars>

@@ -81,6 +81,30 @@ describe("processPos", () => {
     ).toEqual(undefined);
   });
 
+  it("processPos ingress", () => {
+    expect(
+      processPos(
+        {},
+        { x: 1, y: 2 },
+        "ingress",
+        "myingress",
+        {
+          hasRules: true,
+          parent: {
+            parentName: "mycluster",
+            parentType: "cluster"
+          }
+        },
+        "myingress",
+        hadRule,
+        {
+          value: "ingress"
+        },
+        1
+      )
+    ).toEqual(undefined);
+  });
+
   it("processPos route", () => {
     expect(
       processPos(

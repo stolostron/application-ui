@@ -29,7 +29,9 @@ class ChannelControl extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      currentChannel: {}
+    }
   }
 
   componentDidMount() {
@@ -42,6 +44,12 @@ class ChannelControl extends React.Component {
         this.scrollIntoViewChn.scrollIntoView(false)
       }, 100)
     }
+
+    // Initialize channel control variables for topology refresh state
+    const { activeChannel, allChannels } = this.props.channelControl
+    if (allChannels.length > 1) {
+      this.fetchInitialData(activeChannel, allChannels)
+    }
   }
 
   componentWillUnmount() {
@@ -50,7 +58,7 @@ class ChannelControl extends React.Component {
 
   // sync scrollbar height with diagram height
   syncHeight() {
-    var div = document.getElementById('diagram-viewer-container-container')
+    const div = document.getElementById('diagram-viewer-container-container')
     if (div) {
       this.setState({ diagramHeight: div.getBoundingClientRect().height })
     }
@@ -66,6 +74,8 @@ class ChannelControl extends React.Component {
   handleSubscriptionChange = e => {
     const channel = e.selectedItem.chn
     this.changeSubscriptionChannels(channel)
+    // Set the current channel to the selected channel
+    this.setState({ currentChannel: e.selectedItem })
   };
 
   selectChannelByNumber(channelNb) {
@@ -94,6 +104,70 @@ class ChannelControl extends React.Component {
     }
 
     return selectedChannelIndex
+  };
+
+  getSubChannels = allChannels => {
+    const channelMap = {}
+
+    allChannels.forEach(chnl => {
+      const [chn, beg, end] = chnl.split('///')
+      const splitChn = /(.*)\/(.*)\/\/(.*)\/(.*)/.exec(chn)
+      if (splitChn && splitChn.length === 5) {
+        let data = channelMap[chn]
+        if (!data) {
+          data = channelMap[chn] = { chnl, splitChn, subchannels: [] }
+        }
+        if (beg && end) {
+          data.subchannels.push({ chnl, beg, end })
+        }
+      }
+    })
+
+    return channelMap
+  };
+
+  getDisplayedChannels = (channelMap, activeChannel) => {
+    const displayChannels = []
+
+    Object.values(channelMap).forEach(({ chnl, splitChn, subchannels }) => {
+      const hasSubchannels = subchannels.length > 0
+      let channelLabel = splitChn && splitChn[2] ? splitChn[2] : 'unknown'
+      if (channelLabel === '__ALL__') {
+        channelLabel = msgs.get('combo.subscription.all')
+      }
+      displayChannels.push({
+        label: channelLabel,
+        chn: chnl,
+        splitChn,
+        hasSubchannels,
+        subchannels
+      })
+    })
+    let selectedIdx =
+      displayChannels.length === 1
+        ? 0
+        : displayChannels.findIndex(({ chn }) => chn === activeChannel)
+    if (selectedIdx < 0) {
+      selectedIdx = displayChannels.findIndex(({ chn }) => !!chn)
+    }
+
+    return [displayChannels, selectedIdx]
+  };
+
+  fetchInitialData = (activeChannel, allChannels) => {
+    // Update channel control variables for when refresh state is done
+    const { fetchChannel } = this.state
+    activeChannel = fetchChannel || activeChannel
+
+    const channelMap = this.getSubChannels(allChannels)
+
+    // determine displayed channels
+    const channelsData = this.getDisplayedChannels(channelMap, activeChannel)
+    const displayChannels = channelsData[0]
+    const selectedIdx = channelsData[1]
+
+    // Set current channel on page load
+    this.setState({ currentChannel: displayChannels[selectedIdx] })
   };
 
   handlePageClick = e => {
@@ -141,68 +215,53 @@ class ChannelControl extends React.Component {
 
   render() {
     const { channelControl = {}, locale } = this.props
+    const { currentChannel } = this.state
     const { allChannels } = channelControl
 
     if (allChannels) {
-      let { activeChannel } = channelControl
-      const { fetchChannel } = this.state
-      activeChannel = fetchChannel || activeChannel
+      // Initialize channel control variables for topology refresh state
+      let showMainChannel = true
+      let hasSubchannelsList = false
+      let channelsLength = 0
+      let selectedChannelIndex = 0
+      let displayChannels = []
+      let isRefreshing = true
 
-      // determine if there are subchannels
-      const channelMap = {}
-      allChannels.forEach(chnl => {
-        const [chn, beg, end] = chnl.split('///')
-        const splitChn = /(.*)\/(.*)\/\/(.*)\/(.*)/.exec(chn)
-        if (splitChn && splitChn.length === 5) {
-          let data = channelMap[chn]
-          if (!data) {
-            data = channelMap[chn] = { chnl, splitChn, subchannels: [] }
-          }
-          if (beg && end) {
-            data.subchannels.push({ chnl, beg, end })
-          }
-        }
-      })
-      // determine displayed channels
-      const displayChannels = []
-      const showMainChannel = Object.keys(channelMap).length > 0
       const comboLabel = msgs.get('combo.subscription.choose', locale)
-
-      Object.values(channelMap).forEach(({ chnl, splitChn, subchannels }) => {
-        const hasSubchannels = subchannels.length > 0
-        let channelLabel = splitChn && splitChn[2] ? splitChn[2] : 'unknown'
-        if (channelLabel === '__ALL__') {
-          channelLabel = msgs.get('combo.subscription.all')
-        }
-        displayChannels.push({
-          label: channelLabel,
-          chn: chnl,
-          splitChn,
-          hasSubchannels,
-          subchannels
-        })
-      })
-      let selectedIdx =
-        displayChannels.length === 1
-          ? 0
-          : displayChannels.findIndex(({ chn }) => chn === activeChannel)
-      if (selectedIdx < 0) {
-        selectedIdx = displayChannels.findIndex(({ chn }) => !!chn)
-      }
-
-      const hasSubchannelsList = displayChannels[selectedIdx].hasSubchannels
-      const channelsLength = hasSubchannelsList
-        ? displayChannels[selectedIdx].subchannels.length
-        : 0
-
-      const selectedChannelIndex = this.getSelectedIndex(
-        activeChannel,
-        allChannels
-      )
       const back1 = '<<'
       const back2 = '<'
       const fwd1 = '>'
       const fwd2 = '>>'
+
+      if (allChannels.length > 1) {
+        // Update channel control variables for when refresh state is done
+        let { activeChannel } = channelControl
+        const { fetchChannel } = this.state
+        activeChannel = fetchChannel || activeChannel
+
+        const channelMap = this.getSubChannels(allChannels)
+        showMainChannel = Object.keys(channelMap).length > 0
+
+        // determine displayed channels
+        const channelsData = this.getDisplayedChannels(
+          channelMap,
+          activeChannel
+        )
+        displayChannels = channelsData[0]
+        const selectedIdx = channelsData[1]
+
+        hasSubchannelsList = displayChannels[selectedIdx].hasSubchannels
+        channelsLength = hasSubchannelsList
+          ? displayChannels[selectedIdx].subchannels.length
+          : 0
+
+        selectedChannelIndex = this.getSelectedIndex(
+          activeChannel,
+          allChannels
+        )
+
+        isRefreshing = false
+      }
 
       return (
         // show subscription names only when more than one
@@ -221,7 +280,8 @@ class ChannelControl extends React.Component {
                   ariaLabel={comboLabel}
                   inline={true}
                   onChange={this.handleSubscriptionChange}
-                  selectedItem={displayChannels[selectedIdx]}
+                  selectedItem={currentChannel}
+                  disabled={isRefreshing}
                 />
               </div>
             </div>

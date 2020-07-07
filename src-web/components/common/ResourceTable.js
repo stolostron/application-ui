@@ -419,9 +419,9 @@ class ResourceTable extends React.Component {
     } = this.props
 
     const { normalizedKey } = staticResourceData
-    const resources = this.getResources()
-    if (resources && resources.length > 0) {
-      return resources.map((item, index) => {
+    const resourcesList = this.getResources()
+    if (resourcesList && resourcesList.length > 0) {
+      return resourcesList.map((item, index) => {
         const row = {}
 
         if (normalizedKey) {
@@ -513,7 +513,6 @@ class ResourceTable extends React.Component {
         )
         if (selectedSubItems.length < items[selectedItem].subItems.length) {
           indeterminateStatus = true
-          return indeterminateStatus
         }
       }
     })

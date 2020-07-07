@@ -226,17 +226,17 @@ describe("ApplicationDeploymentPipeline", () => {
     );
     wrapper
       .find(".bx--btn--primary")
-      .find({ id: "Channel" })
+      .find({ id: "create-channel" })
       .simulate("click");
 
     wrapper
       .find(".bx--btn--primary")
-      .find({ id: "Subscription" })
+      .find({ id: "create-subscription" })
       .simulate("click");
 
     wrapper
       .find(".bx--btn--primary")
-      .find({ id: "Placement Rule" })
+      .find({ id: "create-placement-rule" })
       .simulate("click");
 
     wrapper.find(".bx--search-input").simulate("change");

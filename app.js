@@ -251,28 +251,30 @@ app.get('/favicon.ico', (req, res) => res.sendStatus(204))
 app.locals.config = require('./lib/shared/config')
 app.locals.manifest = require('./public/webpack-assets.json')
 
-var server
+let server, privateKey, certificate, credentials
+const https = require('https')
+
 if (process.env.NODE_ENV === 'development') {
-  var https = require('https')
-  var privateKey = fs.readFileSync('./sslcert/server.key', 'utf8')
-  var certificate = fs.readFileSync('./sslcert/server.crt', 'utf8')
-  var credentials = { key: privateKey, cert: certificate }
+  // use self-signed cert for local development
+  privateKey = fs.readFileSync('./sslcert/server.key', 'utf8')
+  certificate = fs.readFileSync('./sslcert/server.crt', 'utf8')
+  credentials = { key: privateKey, cert: certificate }
   server = https.createServer(credentials, app)
 } else {
   // NOTE: In production, SSL is provided by the ICP ingress.
-  var http = require('http')
-  server = http.createServer(app)
+  privateKey = fs.readFileSync('/certs/applicationui.key', 'utf8')
+  certificate = fs.readFileSync('/certs/applicationui.crt', 'utf8')
+  credentials = { key: privateKey, cert: certificate }
+  server = https.createServer(credentials, app)
 }
 
-var port = process.env.PORT || appConfig.get('httpPort')
+var port = process.env.PORT || appConfig.get('httpsPort')
 
 // start server
 logger.info('Starting express server.')
 server.listen(port, () => {
   logger.info(
-    `Application Lifecycle is now running on ${
-      process.env.NODE_ENV === 'development' ? 'https' : 'http'
-    }://localhost:${port}${CONTEXT_PATH}`
+    `Application Lifecycle is now running on https://localhost:${port}${CONTEXT_PATH}`
   )
 })
 

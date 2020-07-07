@@ -13,7 +13,7 @@ describe("getStatusPercentages", () => {
   it("an object with invalid values", () => {
     const result = { pass: 0, completed: 0, inprogress: 0, fail: 0, total: 0 };
 
-    expect(getStatusPercentages(undefined)).toEqual(undefined);
+    expect(getStatusPercentages(undefined)).toEqual(result);
   });
 
   const input = [0, 0, 0, 0, 0];

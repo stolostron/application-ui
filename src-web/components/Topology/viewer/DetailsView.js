@@ -29,12 +29,14 @@ import { createResourceSearchLink } from '../utils/diagram-helpers'
 
 const DetailsViewDecorator = ({ shape, className }) => {
   return (
-    <svg width="48px" height="48px" viewBox="0 0 48 48">
-      <use
-        href={`#diagramShapes_${shape}`}
-        className={`${className} detailsIcon`}
-      />
-    </svg>
+    <div className="detailsIconContainer">
+      <svg width="58px" height="58px" viewBox="0 0 58 58">
+        <use
+          href={`#diagramShapes_${shape}`}
+          className={`${className} detailsIcon`}
+        />
+      </svg>
+    </div>
   )
 }
 
@@ -320,7 +322,7 @@ class DetailsView extends React.Component {
   }
 
   renderView({ style, ...props }) {
-    style.height = 'calc(100vh - 340px)'
+    style.height = 'calc(100vh - 370px)'
     return <div {...props} style={{ ...style }} />
   }
 

@@ -205,7 +205,7 @@ describe("getPulseForNodeWithPodStatus ", () => {
         "mortgage-app-deploy-55c65b9c8f-6v9bn": {
           cluster: "feng",
           hostIP: "1.1.1.1",
-          status: "Running",
+          status: "Error",
           startedAt: "2020-04-20T22:03:52Z",
           restarts: 0,
           podIP: "1.1.1.1",
@@ -215,7 +215,8 @@ describe("getPulseForNodeWithPodStatus ", () => {
       deploymentModel: {
         "mortgage-app-deploy-feng": {
           ready: 2,
-          desired: 3
+          desired: 3,
+          unavailable: 1
         },
         "mortgage-app-deploy-cluster1": {}
       },
@@ -377,7 +378,7 @@ describe("getPulseForData ", () => {
   it("getPulseForData pulse red pod desired less then available", () => {
     expect(
       getPulseForData(previousPulse, available, desired, podsUnavailable)
-    ).toEqual("red");
+    ).toEqual("yellow");
   });
 });
 
@@ -458,6 +459,7 @@ describe("nodeMustHavePods undefined data", () => {
 
 describe("nodeMustHavePods node with no pods data", () => {
   const node = {
+    type: "daemonset1",
     specs: {
       raw: {
         spec: {}
@@ -466,6 +468,38 @@ describe("nodeMustHavePods node with no pods data", () => {
   };
   it("nodeMustHavePods", () => {
     expect(nodeMustHavePods(node)).toEqual(false);
+  });
+});
+
+describe("nodeMustHavePods node with replicas", () => {
+  const node = {
+    type: "daemonset3",
+    specs: {
+      raw: {
+        spec: {
+          replicas: 3
+        }
+      }
+    }
+  };
+  it("nodeMustHavePods with replicas", () => {
+    expect(nodeMustHavePods(node)).toEqual(true);
+  });
+});
+
+describe("nodeMustHavePods node has desired", () => {
+  const node = {
+    type: "daemonset",
+    specs: {
+      raw: {
+        spec: {
+          desired: 3
+        }
+      }
+    }
+  };
+  it("nodeMustHavePods has desired", () => {
+    expect(nodeMustHavePods(node)).toEqual(true);
   });
 });
 
@@ -828,6 +862,90 @@ describe("createResourceSearchLink for details with model info, same names", () 
   });
 });
 
+describe("setSubscriptionDeployStatus with hub error", () => {
+  const node = {
+    type: "subscription",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          status: "Failed",
+          _hubClusterResource: "true"
+        }
+      }
+    }
+  };
+  const response = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "local", status: "failure", value: "Failed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus with hub error", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+  });
+});
+
+describe("setSubscriptionDeployStatus with no sub error", () => {
+  const node = {
+    type: "subscription",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          namespace: "ns",
+          status: "Propagated",
+          _hubClusterResource: "true"
+        }
+      }
+    }
+  };
+  const response = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    {
+      labelValue: "Remote subscriptions",
+      status: "failure",
+      value:
+        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that the hub subscription has been propagated."
+    },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink:
+            '/multicloud/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3Ans%20cluster%3Alocal-cluster"}'
+        },
+        id: "undefined-subscrSearch",
+        label: "View all rules in {0} namespace"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus with no hub error", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+  });
+});
+
 describe("setSubscriptionDeployStatus with error", () => {
   const node = {
     type: "subscription",
@@ -907,7 +1025,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
       labelValue: "Remote subscriptions",
       status: "failure",
       value:
-        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace."
+        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that the hub subscription has been propagated."
     },
     {
       type: "link",
@@ -2205,7 +2323,8 @@ describe("setPodDeployStatus  with pod less then desired", () => {
     podStatusMap: {
       possiblereptile: {
         ready: 1,
-        desired: 3
+        desired: 3,
+        unavailable: 2
       }
     },
     specs: {
@@ -2222,7 +2341,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
       podModel: {
         "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile": {
           cluster: "possiblereptile",
-          status: "Running"
+          status: "err"
         }
       }
     }
@@ -2238,9 +2357,9 @@ describe("setPodDeployStatus  with pod less then desired", () => {
       indent: undefined,
       labelKey: "resource.status",
       labelValue: undefined,
-      status: "checkmark",
+      status: "failure",
       type: "label",
-      value: "Running"
+      value: "err"
     },
     {
       indent: true,
@@ -2318,7 +2437,7 @@ describe("setPodDeployStatus  with pod but no pod model and no podStatusMap", ()
 
 describe("setPodDeployStatus  with pod as desired", () => {
   const node = {
-    type: "pod",
+    type: "pod1",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
@@ -2332,7 +2451,6 @@ describe("setPodDeployStatus  with pod as desired", () => {
     specs: {
       raw: {
         spec: {
-          replicas: 1,
           template: {
             spec: {
               containers: [{ c1: "aa" }]
@@ -2465,7 +2583,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
 
 describe("setPodDeployStatus  with pod as desired", () => {
   const node = {
-    type: "pod",
+    type: "pod1",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
@@ -2479,7 +2597,6 @@ describe("setPodDeployStatus  with pod as desired", () => {
     specs: {
       raw: {
         spec: {
-          replicas: 1,
           template: {
             spec: {
               containers: [{ c1: "aa" }]

@@ -117,14 +117,12 @@ const splitLabel = (label, width, rows) => {
     if (parts.length) {
       if (line.length + parts[0].length > width) {
         remaining -= line.length
-        if (remaining > width) {
-          if (rows === 2) {
-            // if penultimate row do a hard break
-            const split = parts[0]
-            const idx = width - line.length
-            line += split.substr(0, idx)
-            parts[0] = split.substr(idx)
-          }
+        if (remaining > width && rows === 2) {
+          // if penultimate row do a hard break
+          const split = parts[0]
+          const idx = width - line.length
+          line += split.substr(0, idx)
+          parts[0] = split.substr(idx)
         }
         lines.push(line)
         line = ''
@@ -252,11 +250,19 @@ export const nodeMustHavePods = node => {
     return false
   }
 
-  if (R.pathOr('', ['type'])(node) === 'pod') {
+  if (
+    R.contains(R.pathOr('', ['type'])(node), [
+      'pod',
+      'replicaset',
+      'daemonset',
+      'statefulset',
+      'replicationcontroller',
+      'deployment'
+    ])
+  ) {
     //pod deployables must have pods
     return true
   }
-
   const hasContainers =
     R.pathOr([], ['specs', 'raw', 'spec', 'template', 'spec', 'containers'])(
       node
@@ -268,6 +274,10 @@ export const nodeMustHavePods = node => {
     node
   ) //deployables from subscription package have this set only, not containers
   if ((hasContainers || hasDesired) && !hasReplicas) {
+    return true
+  }
+
+  if (hasReplicas) {
     return true
   }
 
@@ -314,8 +324,10 @@ const getPulseStatusForGenericNode = node => {
   if (pulse === 'red') {
     return pulse //no need to check anything else, return red
   }
+  const name = _.get(node, metadataName, '')
+  const channel = _.get(node, 'specs.raw.spec.channel', '')
+  const resourceName = channel.length > 0 ? `${channel}-${name}` : name
 
-  const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   if (!resourceMap) {
     pulse = 'orange' //resource not available
@@ -371,7 +383,7 @@ export const getPulseForData = (
   }
 
   if (available < desired) {
-    return 'red'
+    return 'yellow'
   }
 
   if (desired <= 0) {
@@ -662,8 +674,10 @@ export const createResourceSearchLink = node => {
         id: node.id,
         data: {
           action: 'show_search',
-          name: computedName.length === 0 ? node.name : computedName,
-          namespace: computedNS.length === 0 ? node.namespace : computedNS,
+          name:
+            computedName && computedName.length > 0 ? computedName : node.name,
+          namespace:
+            computedNS && computedNS.length > 0 ? computedNS : node.namespace,
           kind: nodeType === 'rules' ? 'placementrule' : _.get(node, 'type', '')
         },
         indent: true
@@ -732,6 +746,11 @@ export const getNameWithoutPodHash = relatedKind => {
   let nameNoHash = relatedKind.name
   let podHash = null
   let deployableName = null
+
+  if (_.get(relatedKind, 'kind', '') === 'helmrelease') {
+    //for helm releases use hosting deployable to match parent
+    nameNoHash = _.get(relatedKind, '_hostingDeployable', nameNoHash)
+  }
 
   const labelsList = relatedKind.label ? R.split(';')(relatedKind.label) : []
   labelsList.forEach(resLabel => {
@@ -824,7 +843,10 @@ export const setResourceDeployStatus = (node, details) => {
     //ignore packages
     return
   }
-  const resourceName = _.get(node, metadataName, '')
+  const name = _.get(node, metadataName, '')
+  const channel = _.get(node, 'specs.raw.spec.channel', '')
+  const resourceName = channel.length > 0 ? `${channel}-${name}` : name
+
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 
@@ -905,13 +927,27 @@ export const setPodDeployStatus = (node, details) => {
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
     const res = podStatusModel[clusterName]
+    let pulse = 'orange'
+    if (res) {
+      pulse = getPulseForData('', res.ready, res.desired, res.unavailable)
+    }
     const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
-    const isErrorMsg = res && res.ready < res.desired
-    const isPending = valueStr === notDeployedStr
 
-    const statusStr = isErrorMsg
-      ? 'failure'
-      : isPending ? 'pending' : 'checkmark'
+    let statusStr
+    switch (pulse) {
+    case 'red':
+      statusStr = 'failure'
+      break
+    case 'yellow':
+      statusStr = 'warning'
+      break
+    case 'orange':
+      statusStr = 'pending'
+      break
+    default:
+      statusStr = 'checkmark'
+      break
+    }
 
     details.push({
       labelValue: clusterName,
@@ -1016,12 +1052,20 @@ export const setSubscriptionDeployStatus = (node, details) => {
     labelKey: 'resource.deploy.statuses'
   })
 
+  let localSubscriptionFailed = false
   const resourceMap = _.get(node, 'specs.subscriptionModel', {})
   Object.values(resourceMap).forEach(subscription => {
     details.push({
       type: 'spacer'
     })
-    if (!subscription._hubClusterResource) {
+
+    const isLocalFailedSubscription =
+      subscription._hubClusterResource &&
+      R.contains('Fail', R.pathOr('', ['status'])(subscription))
+    if (isLocalFailedSubscription) {
+      localSubscriptionFailed = true
+    }
+    if (!subscription._hubClusterResource || isLocalFailedSubscription) {
       details.push({
         labelValue: subscription.cluster,
         value: subscription.status,
@@ -1044,7 +1088,8 @@ export const setSubscriptionDeployStatus = (node, details) => {
     }
   })
 
-  if (Object.keys(resourceMap).length === 1) {
+  //show placement error only if local subscription is successful
+  if (Object.keys(resourceMap).length === 1 && !localSubscriptionFailed) {
     //no remote subscriptions
     details.push({
       labelValue: msgs.get('resource.subscription.remote'),

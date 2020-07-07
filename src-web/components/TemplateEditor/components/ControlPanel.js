@@ -296,11 +296,11 @@ class ControlPanel extends React.Component {
 
   renderTitle(control) {
     const { locale } = this.props
-    const {title, subtitle, overline, collapsable, collapsed=false, content=[]} = control
+    const {title, subtitle, note, overline, collapsable, collapsed=false, content=[]} = control
     const {info} = control
 
     const handleCollapse = () => {
-      if (control.sectionRef) {
+      if (control.sectionRef && collapsable) {
         const isCollapsed = control.sectionRef.classList.contains('collapsed')
         control.sectionRef.classList.toggle('collapsed', !isCollapsed)
         control.sectionTitleRef.classList.toggle('collapsed', !isCollapsed)
@@ -342,6 +342,7 @@ class ControlPanel extends React.Component {
         <div id={id} className={titleClasses} tabIndex='0' role={'button'} title={text} aria-label={text}
           onClick={handleCollapse} onKeyPress={handleCollapseKey}
           ref={this.setControlSectionTitleRef.bind(this, control)}>
+          {note && <div className='creation-view-controls-note'>{msgs.get(note, locale)}</div>}
           {(title||subtitle) && <div className={mainTitleClasses}>
             {collapsable &&
             <div className={'creation-view-controls-title-main-collapse-button'}>

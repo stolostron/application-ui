@@ -1,55 +1,82 @@
-apiVersion: cluster.open-cluster-management.io/v1
-kind: ManagedCluster
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Application ============================ }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+apiVersion: app.k8s.io/v1beta1
+kind: Application
 metadata:
-  labels:
-{{#if_ne cloud 'auto-detect'}}
-    cloud: '{{../cloud}}' ##cloud
-{{/if_ne}}
-{{#if_eq cloud 'auto-detect'}}
-    cloud: auto-detect ##cloud
-{{/if_eq}}
-    vendor: auto-detect
-    name: {{{name}}}
-    environment: '{{{purpose}}}'  ##purpose
-    {{#each additional}}
-    {{{key}}}: '{{{value}}}'
-    {{/each}}
   name: {{{name}}}
+  namespace: {{{namespace}}}
 spec:
-  hubAcceptsClient: true
+  componentKinds:
+  - group: apps.open-cluster-management.io
+    kind: Subscription
+  descriptor: {}
+  selector:
+    matchExpressions:
+      - key:
+        operator: In
+        values:
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Subscription =========================== }}
+{{! ========================================================== }}
+{{! ========================================================== }}
 ---
-apiVersion: agent.open-cluster-management.io/v1
-kind: KlusterletAddonConfig
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
 metadata:
-  name: {{{name}}}
-  namespace: {{{name}}}
+  name:
+  namespace:
 spec:
-  clusterName: {{{name}}} ##name
-  clusterNamespace: {{{name}}} ##name
-  clusterLabels:
-{{#if_ne cloud 'auto-detect'}}
-    cloud: '{{../cloud}}' ##cloud
-{{/if_ne}}
-{{#if_eq cloud 'auto-detect'}}
-    cloud: auto-detect ##cloud
-{{/if_eq}}
-    vendor: auto-detect
-  # Configure application management feature
-  applicationManager:
-    enabled: {{applicationManager}}
-  # Configure multicluster GRC policy feature
-  policyController:
-    enabled: {{policyController}}
-  # Configure indexing for multicluster search feature
-  searchCollector:
-    enabled: {{searchCollector}}
-  # Configure the CisPolicy controller feature
-  cisPolicyController:
-    enabled: {{cisPolicyController}}
-  # Configure the CertificatePolicy controller feature
-  certPolicyController:
-    enabled: {{certPolicyController}}
-  # Configure the IamPolicy controller feature
-  iamPolicyController:
-    enabled: {{iamPolicyController}}
-  version: 2.0.0
+  channel:
+  placement: 
+    placementRef: 
+      kind: PlacementRule
+      name:
+timeWindow: 
+  type: "active"
+  location: "America/Toronto"
+  weekdays:
+  hours:
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Channel ================================ }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name:
+  namespace:
+spec:
+  gates:
+    annotations:
+  pathname: foo
+  sourceNamespaces:
+  type: Namespace
+
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Placement Rule ========================= }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name:
+  namespace:
+spec:
+  clusterSelector:
+    matchLabels:
+  clusterReplicas:
+
+

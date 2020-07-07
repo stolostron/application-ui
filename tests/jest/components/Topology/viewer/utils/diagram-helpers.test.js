@@ -644,7 +644,7 @@ describe("getNameWithoutChartRelease node for subscription, with label", () => {
     channel: "ch-git-helm/git-helm",
     cluster: "local-cluster",
     kind: "subscription",
-    label: "name=git-sub",
+    label: "app=gbapp; release=app01",
     name: "git-helm-sub",
     namespace: "git-sub-ns-helm",
     selfLink:

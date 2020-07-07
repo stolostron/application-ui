@@ -689,6 +689,12 @@ export const createResourceSearchLink = node => {
 
 //for charts remove release name
 export const getNameWithoutChartRelease = (relatedKind, name) => {
+  const kind = _.get(relatedKind, 'kind', '')
+
+  if (kind === 'subscription') {
+    return name //ignore subscription objects
+  }
+
   //for resources deployed from charts, remove release name
   //note that the name parameter is the _hostingDeployable
   //and is in this format ch-git-helm/git-helm-chart1-1.1.1
@@ -709,7 +715,7 @@ export const getNameWithoutChartRelease = (relatedKind, name) => {
     }
   })
 
-  if (!foundReleaseLabel && relatedKind.kind === 'helmrelease') {
+  if (!foundReleaseLabel && kind === 'helmrelease') {
     //try to guess the release name from the name, which is the _hostingDeployable
     //and is in this format ch-git-helm/git-helm-chart1-1.1.1 - we want chart1-1.1.1
     const resourceName = _.get(relatedKind, 'name', '')
@@ -726,7 +732,7 @@ export const getNameWithoutChartRelease = (relatedKind, name) => {
 
     const values = _.split(name, '-')
     if (values.length > 2) {
-      //take the last 2 values
+      //take the last value which is the version
       name = `${resourceNameNoHash}-${values[values.length - 1]}`
     }
   }

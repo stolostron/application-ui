@@ -128,7 +128,7 @@ class ApplicationCreationPage extends React.Component {
       <Page>
         <TemplateEditor
           type={'cluster'}
-          title={msgs.get('creation.application.yaml', locale)}
+          title={msgs.get('creation.app.yaml', locale)}
           template={createTemplate}
           controlData={controlData}
           portals={Portals}

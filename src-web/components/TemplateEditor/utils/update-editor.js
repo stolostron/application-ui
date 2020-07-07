@@ -169,8 +169,10 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
                   snippet = encodedYAML
                 }
                 snippetMap[snippetKey] = snippet
+                if (Array.isArray(arr)) {
                 arr.push(snippetKey)
-              } else if (!arr.includes(snippet) && controlMap[id]) {
+                }
+              } else if (Array.isArray(arr) && !arr.includes(snippet) && controlMap[id]) {
                 let wasSet = controlMap[id].wasSet
                 if (!wasSet) {
                   wasSet = controlMap[id].wasSet = new Set()

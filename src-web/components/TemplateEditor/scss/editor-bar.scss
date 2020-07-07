@@ -16,6 +16,8 @@
     height: 100%;
     width: 100%;
     justify-content: space-between;
+    font-weight: 600;
+    font-size: 16px;
       
     .editor-bar-title {
       padding-left: 12px;
@@ -36,7 +38,6 @@
           display: flex;
           align-items: center;
           height: 100%;
-          padding: 0 6px;
         }
       
         &:last-of-type {
@@ -80,6 +81,8 @@
     .editor-bar-button {
       padding: 0.125rem;
       cursor: pointer;
+      color: #ededed;
+      padding: 0 6px;
 
       svg {
         width: 20px;
@@ -101,6 +104,14 @@
       &.failure {
         cursor: default;
         fill: $grc__color__critical;
+      }
+    
+      &.restore {
+        color: #c6c6c6;
+      }
+    
+      &.close {
+        padding: 16px;
       }
     }
 

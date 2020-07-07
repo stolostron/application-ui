@@ -9,7 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-/* eslint-disable react/no-unused-state, react/no-unused-prop-types, jsx-a11y/autocomplete-valid */
+/* eslint-disable react/no-unused-state, react/no-unused-prop-types */
 
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -32,34 +32,47 @@ class ControlPanelTreeSelect extends React.Component {
     let {active} = control
     let {currentSelection, searchList, indexes=[], isOpen, searchText} = state
     const branchLabels = []
-    const branchIndents = []
-    let switchOver
     let currentAvailable=[]
+
+    // clicked on a branch in search mode, search for that branch
+    if (currentSelection!==undefined && searchText) {
+      const {value, branch} = searchList[currentSelection]
+      if (!value) {
+        searchText = branch
+        currentSelection = undefined
+      }
+    }
 
 
     /////////////////////////////////////////////////////////////
     // search mode
-    if (searchText && searchText.length>1) {
+    if (searchText && searchText.length) {
       // nothing selected, filter list
       if (currentSelection===undefined) {
         searchList = []
-        const fillArray = (arry) =>{
-          arry.forEach(({children, value, description})=>{
+        const findText = searchText.toLowerCase()
+        const fillArray = (arry, branchMatch, indent) =>{
+          arry.forEach(({label, children, value, description})=>{
             if (value) {
               const instance = `${value} - ${description}`
-              if (instance.toLowerCase().indexOf(searchText)!==-1) {
-                currentAvailable.push(instance)
+              if (branchMatch || instance.toLowerCase().indexOf(findText)!==-1) {
+                currentAvailable.push({instance, indent})
                 searchList.push({value, description})
               }
             } else if (children) {
-              fillArray(children)
+              const beg = currentAvailable.length
+              const bm = branchMatch || label.toLowerCase().indexOf(findText)!==-1
+              fillArray(children, bm, indent+20)
+              if (currentAvailable.length>beg) {
+                currentAvailable.splice(beg, 0, {branch:label, indent})
+                searchList.splice(beg, 0, {branch:label})
+              }
             }
           })
         }
-        fillArray(available)
+        fillArray(available, false, 0)
         isOpen = true
       } else {
-
         // handle change
         const {value, description} = searchList[currentSelection]
         active = `${value}  # ${description}`
@@ -68,13 +81,11 @@ class ControlPanelTreeSelect extends React.Component {
         indexes = []
         isOpen = false
         searchText = null
-
       }
 
     } else {
     /////////////////////////////////////////////////////////////
     // tree mode
-
       // get current list using indexes
       if (currentSelection!==undefined) {
         currentSelection -= branches
@@ -90,37 +101,29 @@ class ControlPanelTreeSelect extends React.Component {
       let path = indexes.map(index=>`[${index}]`).join('.children')
       currentAvailable = path ? _.get(available, path) : available
       currentAvailable = currentAvailable.children || currentAvailable
-
       let indent=0
-
       if (Array.isArray(currentAvailable)) {
         path=''
-        branchIndents.push(indent)
         indexes.forEach(index=>{
           path += `[${index}]`
           let label =_.get(available, `${path}.label`)
           if (label) {
             label = `${label}`
-            branchLabels.push(label)
+            branchLabels.push({branch:label, indent})
             path += '.children'
             indent+=20
-            branchIndents.push(indent)
           }
         })
-        switchOver=branchLabels.length
         currentAvailable =
           [...branchLabels,
             ...currentAvailable.map(item=>{
-              branchIndents.push(indent)
               if (item.label) {
-                switchOver++
-                return item.label
+                return {branch: item.label, indent}
               } else {
-                return `${item.value} - ${item.description}`
+                return {instance: `${item.value} - ${item.description}`, indent}
               }
             })]
       } else {
-
         // handle change
         active = `${currentAvailable.value}  # ${currentAvailable.description}`
         handleChange({selectedItem: active})
@@ -130,8 +133,7 @@ class ControlPanelTreeSelect extends React.Component {
       }
     }
     return {active, currentAvailable, currentSelection: undefined, indexes,
-      branches: branchLabels.length, branchIndents, switchOver, isOpen,
-      searchText, searchList}
+      branches: branchLabels.length, isOpen,  searchText, searchList}
   }
 
   constructor (props) {
@@ -165,7 +167,7 @@ class ControlPanelTreeSelect extends React.Component {
   render() {
     const {control, locale} = this.props
     const {id, name, availableMap={}, validation} = control
-    const {isOpen, active, currentAvailable, switchOver=0, branchIndents, indexes, searchText} = this.state
+    const {isOpen, active, currentAvailable, indexes, searchText} = this.state
     const currentActive = availableMap[active] ? `${active} - ${availableMap[active]}` : active
 
     const toggleClasses = classNames({
@@ -174,7 +176,7 @@ class ControlPanelTreeSelect extends React.Component {
     })
 
     const aria = isOpen ? 'Close menu' : 'Open menu'
-    const key = `${id}-${name}-${currentAvailable.join('-')}`
+    const key = `${id}-${name}-${currentAvailable.map(({branch, instance})=>{return (branch||instance)}).join('-')}`
     return (
       <React.Fragment>
         <div className='creation-view-controls-treeselect'>
@@ -212,17 +214,18 @@ class ControlPanelTreeSelect extends React.Component {
                 </div>
               </div>
               {isOpen && <div className='bx--list-box__menu' key={key} id={key}>
-                {currentAvailable.map((label, inx)=>{
-                  const isBranch = inx<switchOver
+                {currentAvailable.map(({branch, instance, indent=0}, inx)=>{
                   const itemClasses = classNames({
                     'bx--list-box__menu-item': true,
-                    'bx--list-box__menu-branch': isBranch,
+                    'bx--list-box__menu-branch': branch,
+                    'searching': searchText,
                     'open': inx<indexes.length
                   })
-
+                  const label = branch || instance
                   return (
                     <div role='button' key={label} className={itemClasses}
-                      id={`downshift-0-item-${inx}`} tabIndex='0' style={{textIndent: `${branchIndents[inx]}px`}}
+                      id={`downshift-0-item-${inx}`} tabIndex='0'
+                      style={{textIndent: `${indent}px`, whiteSpace: 'pre'}}
                       onClick={this.clickSelect.bind(this, inx)} onKeyPress={this.pressSelect.bind(this, inx)}
                     >
                       {this.renderLabel(label, searchText)}
@@ -238,8 +241,9 @@ class ControlPanelTreeSelect extends React.Component {
   }
 
   renderLabel(label, searchText) {
-    if (searchText && searchText.length>1) {
-      const inx = label.toLowerCase().indexOf(searchText)
+    const inx = searchText && searchText.length &&
+       label.toLowerCase().indexOf(searchText.toLowerCase())
+    if (inx!==null && inx>=0) {
       label = [
         label.substr(0,inx),
         label.substr(inx, searchText.length),

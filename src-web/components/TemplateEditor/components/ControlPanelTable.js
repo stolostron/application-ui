@@ -61,7 +61,9 @@ class ControlPanelTable extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     const { control } = props
-    const {isLoaded, available} = control
+    const { id, isLoaded, available} = control
+    const { pageSize } = state
+    localStorage.setItem(`table-${id}-page-size`, pageSize)
     if (isLoaded && !state.originalSet) {
       return {originalSet: new Set(Object.keys(_.keyBy(available, 'id')))}
     }
@@ -71,11 +73,12 @@ class ControlPanelTable extends React.Component {
 
   constructor(props) {
     super(props)
+    const {control: {id, controlData}} = props
     this.state = {
+      pageSize: parseInt(localStorage.getItem(`table-${id}-page-size`), 10) || PAGE_SIZES.DEFAULT,
       sortDirection: 'asc',
       searchValue: ''
     }
-    const {control: {controlData}} = props
     this.headerMap = _.keyBy(controlData, 'id')
   }
 
@@ -150,7 +153,7 @@ class ControlPanelTable extends React.Component {
   render() {
     const { control, locale } = this.props
     const { exception } = control
-    const { page=1, pageSize=PAGE_SIZES.DEFAULT } = this.state
+    const { page=1, pageSize } = this.state
     let rows = this.getRows()
     const totalFilteredItems = rows.length
     const inx = (page-1)*pageSize
@@ -165,7 +168,7 @@ class ControlPanelTable extends React.Component {
           key='pagination'
           id={'resource-table-pagination'}
           onChange={(pagination) => this.setState(pagination)}
-          pageSize={pageSize || PAGE_SIZES.DEFAULT}
+          pageSize={pageSize}
           pageSizes={PAGE_SIZES.VALUES}
           totalItems={totalFilteredItems}
           page={page}

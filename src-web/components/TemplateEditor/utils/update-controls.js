@@ -491,7 +491,7 @@ const updateGroupControl = (group, templateObjectMap, templateExceptionMap, isFi
 }
 
 const updateTableControl = (table, templateObjectMap, templateExceptionMap, isFinalValidate, locale) => {
-  const {active:rows, controlData, sourcePath:{tabId ='<<main>>', paths}, exceptions} = table
+  const {active:rows, controlData, sourcePath:{tabId ='<<main>>', paths}, validation: {tester}, exceptions} = table
   const controlDataMap = _.keyBy(controlData, 'id')
   let hidden = false
   rows.forEach((row, inx)=>{
@@ -524,7 +524,15 @@ const updateTableControl = (table, templateObjectMap, templateExceptionMap, isFi
   })
   if (exceptions.length>0) {
     table.exception = msgs.get(`creation.ocp.validation.errors${hidden?'.hidden':''}`, locale)
+  } else if (typeof tester ==='function') {
+    const exception = tester(rows)
+    if (exception) {
+      table.exception = msgs.get(exception, locale)
+    }
   }
+
+
+
 }
 
 const updateControl = (control, templateObjectMap, templateExceptionMap, isFinalValidate, locale) => {
@@ -534,7 +542,7 @@ const updateControl = (control, templateObjectMap, templateExceptionMap, isFinal
   if ((isFinalValidate||type==='number') && control.validation) {
     const {name, active, validation: {required, notification}, ref} = control
     if (required && (!active || (type==='cards' && active.length===0))) {
-      const msg = !name || isNaN(active) ? notification : 'creation.ocp.cluster.missing.input'
+      const msg = (!name || isNaN(active)) ? notification : 'creation.ocp.cluster.missing.input'
       control.exception = msgs.get(msg, [name], locale)
       const {sourcePath} = control
       if (sourcePath) {

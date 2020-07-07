@@ -107,6 +107,7 @@
     overflow-y: auto;
 
     &-note{
+      cursor: default;
       display: flex;
       padding-bottom: 2rem;
       font-size: .875rem;
@@ -247,6 +248,8 @@
       }
     
       .bx--list-box__menu-item {
+        white-space: pre;
+        
         .bx--text-input {
           cursor: pointer !important;
         }
@@ -255,6 +258,7 @@
           color: black;
           font-weight: bold;
           font-size: 14px;
+          text-indent: 0px;
         }
       }
     
@@ -522,7 +526,7 @@
 
       .bx--list-box {
         .bx--list-box__menu {
-          max-height: 12rem;
+          max-height: 17rem;
         }
       }
 
@@ -568,6 +572,11 @@
       
         &.open:before {
           content: "\eab7"
+        }
+      
+        &.searching {
+          color: gray;
+          font-weight: normal;
         }
       
       }

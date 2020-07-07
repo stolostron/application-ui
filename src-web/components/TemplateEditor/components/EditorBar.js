@@ -39,7 +39,7 @@ class EditorButton extends React.Component {
   }
 
   render() {
-    const {button: {disabled, tooltip, icon, className='', spacer}} = this.props
+    const {button: {disabled, tooltip, icon, spacer, command}} = this.props
     if (spacer) {
       return (
         <div className='editor-bar-spacer'></div>
@@ -47,7 +47,7 @@ class EditorButton extends React.Component {
     } else {
       const classes = classNames({
         'editor-bar-button': true,
-        [`${className}`]: true,
+        [`${command}`]: true,
         disabled
       })
       return (

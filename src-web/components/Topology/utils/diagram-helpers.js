@@ -689,9 +689,12 @@ export const createResourceSearchLink = node => {
 
 //for charts remove release name
 export const getNameWithoutChartRelease = (relatedKind, name) => {
-  //for charts remove release name
+  //for resources deployed from charts, remove release name
+  //note that the name parameter is the _hostingDeployable
+  //and is in this format ch-git-helm/git-helm-chart1-1.1.1
   const labelAttr = _.get(relatedKind, 'label', '')
   const labels = _.split(labelAttr, ';')
+  let foundReleaseLabel = false
   labels.forEach(label => {
     const splitLabelContent = _.split(label, '=')
     if (
@@ -699,11 +702,34 @@ export const getNameWithoutChartRelease = (relatedKind, name) => {
       _.trim(splitLabelContent[0]) === 'release'
     ) {
       //get for release name
+      foundReleaseLabel = true
       const releaseName = _.trim(splitLabelContent[1])
       name = _.replace(name, `${releaseName}-`, '')
       name = _.replace(name, releaseName, '')
     }
   })
+
+  if (!foundReleaseLabel && relatedKind.kind === 'helmrelease') {
+    //try to guess the release name from the name, which is the _hostingDeployable
+    //and is in this format ch-git-helm/git-helm-chart1-1.1.1 - we want chart1-1.1.1
+    const resourceName = _.get(relatedKind, 'name', '')
+    let resourceNameNoHash = resourceName.replace(
+      /-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/,
+      ''
+    )
+    if (resourceName === resourceNameNoHash) {
+      const idx = resourceNameNoHash.lastIndexOf('-')
+      if (idx !== -1) {
+        resourceNameNoHash = resourceNameNoHash.substr(0, idx)
+      }
+    }
+
+    const values = _.split(name, '-')
+    if (values.length > 2) {
+      //take the last 2 values
+      name = `${resourceNameNoHash}-${values[values.length - 1]}`
+    }
+  }
 
   return name
 }
@@ -1061,7 +1087,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
 
     const isLocalFailedSubscription =
       subscription._hubClusterResource &&
-      R.contains('Fail', R.pathOr('', ['status'])(subscription))
+      R.contains('Fail', R.pathOr('Fail', ['status'])(subscription))
     if (isLocalFailedSubscription) {
       localSubscriptionFailed = true
     }
@@ -1071,7 +1097,9 @@ export const setSubscriptionDeployStatus = (node, details) => {
         value: subscription.status,
         status: R.contains('Fail', R.pathOr('', ['status'])(subscription))
           ? 'failure'
-          : 'checkmark'
+          : R.pathOr(null, ['status'])(subscription) === null
+            ? 'warning'
+            : 'checkmark'
       }) &&
         details.push({
           type: 'link',

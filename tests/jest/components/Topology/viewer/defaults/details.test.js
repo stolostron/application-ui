@@ -943,6 +943,22 @@ describe("getNodeDetails helm node", () => {
     },
     {
       indent: undefined,
+      labelKey: "raw.spec.chart.name",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "mortgage-chart"
+    },
+    {
+      indent: undefined,
+      labelKey: "raw.spec.version",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "1.0.0"
+    },
+    {
+      indent: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
       status: undefined,

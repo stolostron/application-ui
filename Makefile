@@ -66,14 +66,14 @@ build-test-image:
 run-test-image:
 	docker run \
 	-e BROWSER=$(BROWSER) \
-	-v $(pwd)/options.yaml:/resources/options.yaml \
-	-v $(pwd)/results/:/results/ \
+	-v $(shell pwd)/options.yaml:/resources/options.yaml \
+	-v $(shell pwd)/results/:/results/ \
 	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
 
 .PHONY: run-test-image-pr
 run-test-image-pr:
 	docker run \
-	-v $(pwd)/results/:/results/ \
+	-v $(shell pwd)/results/:/results/ \
 	--network host \
 	-e BROWSER=$(BROWSER) \
 	-e USER=$(shell git log -1 --format='%ae') \

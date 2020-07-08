@@ -1,4 +1,4 @@
-cd cypress
+cd tests/cypress
 cp test-artifacts-templates/* test-artifacts/
 
 cd test-artifacts/

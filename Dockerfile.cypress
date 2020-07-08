@@ -14,10 +14,13 @@ COPY package.json .
 COPY download-clis.sh .
 COPY cypress ./tests/cypress
 COPY start-cypress-tests.sh ./tests
+COPY generate-cypress-yaml.sh ./tests
 
 RUN npm install 
 
 RUN sh download-clis.sh
+RUN sh tests/generate-cypress-yaml.sh
+
 RUN ["chmod", "+x", "./tests/start-cypress-tests.sh"]
 
 ENTRYPOINT ["./tests/start-cypress-tests.sh"]

@@ -1,15 +1,15 @@
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
-  name: ns-sub
-  namespace: ns-sub-ns
+  name: ns-sub-$JOB_ID
+  namespace: ns-sub-ns-$JOB_ID
   labels:
-    name: ns-sub
+    name: ns-sub-$JOB_ID
 spec:
-  channel: ch-ns/ns
+  channel: ch-ns-$JOB_ID/ns
   placement:
     placementRef: 
-      name: towhichcluster
+      name: towhichcluster-$JOB_ID
       kind: PlacementRule
   timewindow:
     windowtype: "active"
@@ -23,4 +23,4 @@ spec:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ns-sub-ns		
+  name: ns-sub-ns-{$JOB_ID}

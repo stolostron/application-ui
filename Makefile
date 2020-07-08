@@ -77,6 +77,7 @@ run-test-image-pr:
 	--network host \
 	-e BROWSER=$(BROWSER) \
 	-e USER=$(shell git log -1 --format='%ae') \
+	-e JOB_ID=$(TRAVIS_JOB_ID)
 	-e SLACK_TOKEN=$(SLACK_TOKEN) \
 	-e GITHUB_TOKEN=$(GITHUB_TOKEN) \
 	-e TRAVIS_BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \

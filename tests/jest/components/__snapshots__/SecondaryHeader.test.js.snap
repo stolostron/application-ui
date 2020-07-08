@@ -10,7 +10,7 @@ exports[`SecondaryHeader component 1 renders as expected 1`] = `
     role="region"
   >
     <div
-      className="secondary-header simple-header "
+      className="secondary-header simple-header"
     >
       <h1
         className="bx--detail-page-header-title"
@@ -32,7 +32,7 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
     role="region"
   >
     <div
-      className="secondary-header simple-header "
+      className="secondary-header simple-header"
     >
       <header
         aria-label="Heading: hello world"
@@ -186,7 +186,7 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
     role="region"
   >
     <div
-      className="secondary-header simple-header "
+      className="secondary-header simple-header"
     >
       <header
         aria-label="Heading: hello world"

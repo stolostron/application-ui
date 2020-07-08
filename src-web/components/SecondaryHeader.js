@@ -65,8 +65,8 @@ export class SecondaryHeader extends React.Component {
             aria-label={title}
           >
             <div
-              className={`secondary-header simple-header ${
-                this.state.shadowPresent ? 'header-shadow' : ''
+              className={`secondary-header simple-header${
+                this.state.shadowPresent ? '-with-shadow' : ''
               }`}
             >
               <header aria-label={`Heading: ${title}`}>
@@ -120,8 +120,8 @@ export class SecondaryHeader extends React.Component {
             aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
           >
             <div
-              className={`secondary-header simple-header ${
-                this.state.shadowPresent ? 'header-shadow' : ''
+              className={`secondary-header simple-header${
+                this.state.shadowPresent ? '-with-shadow' : ''
               }`}
             >
               <h1 className="bx--detail-page-header-title">

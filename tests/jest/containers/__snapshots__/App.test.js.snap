@@ -15,7 +15,7 @@ exports[`App App renders correctly with data on single app. 1`] = `
         role="region"
       >
         <div
-          className="secondary-header simple-header "
+          className="secondary-header simple-header"
         >
           <header
             aria-label="Heading: undefined"

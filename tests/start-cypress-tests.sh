@@ -34,6 +34,10 @@ fi
 echo "Logging into Kube API server..."
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
 
+
+echo "DEBUG: Outputting all the cypress yaml files"
+cat ./tests/cypress/test-artifacts/*
+
 echo "Running tests on $CYPRESS_BASE_URL in $CYPRESS_TEST_MODE mode..."
 testCode=0
 npx cypress run --config-file "./tests/cypress/cypress.json" --browser $BROWSER 

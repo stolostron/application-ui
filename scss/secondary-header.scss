@@ -230,6 +230,10 @@
   height: $secondary-header-min-height;
 }
 
+.header-shadow {
+  box-shadow: 0 0.1875rem 0.5rem 0 rgba(0, 0, 0, 0.05);
+}
+
 @media screen and (max-width: 48rem) {
   nav.bx--tabs {
     position: absolute;

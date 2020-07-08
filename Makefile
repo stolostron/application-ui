@@ -16,7 +16,7 @@ BROWSER ?= chrome
 USE_VENDORIZED_BUILD_HARNESS ?=
 
 ifndef USE_VENDORIZED_BUILD_HARNESS
--include $(shell curl -s -H 'Authorization: token ${GITHUB_TOKEN}' -H 'Accept: application/vnd.github.v4.raw' -L https://api.github.com/repos/open-cluster-management/build-harness-extensions/contents/templates/Makefile.build-harness-bootstrap -o .build-harness-bootstrap; echo .build-harness-bootstrap)
+-include $(curl -s -H 'Authorization: token ${GITHUB_TOKEN}' -H 'Accept: application/vnd.github.v4.raw' -L https://api.github.com/repos/open-cluster-management/build-harness-extensions/contents/templates/Makefile.build-harness-bootstrap -o .build-harness-bootstrap; echo .build-harness-bootstrap)
 else
 -include vbh/.build-harness-bootstrap
 endif
@@ -66,25 +66,25 @@ build-test-image:
 run-test-image:
 	docker run \
 	-e BROWSER=$(BROWSER) \
-	-v $(shell pwd)/options.yaml:/resources/options.yaml \
-	-v $(shell pwd)/results/:/results/ \
+	-v $(pwd)/options.yaml:/resources/options.yaml \
+	-v $(pwd)/results/:/results/ \
 	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
 
 .PHONY: run-test-image-pr
 run-test-image-pr:
 	docker run \
-	-v $(shell pwd)/results/:/results/ \
+	-v $(pwd)/results/:/results/ \
 	--network host \
 	-e BROWSER=$(BROWSER) \
 	-e USER=$(shell git log -1 --format='%ae') \
 	-e JOB_ID=$(TRAVIS_JOB_ID)
-	-e SLACK_TOKEN=$(SLACK_TOKEN) \
-	-e GITHUB_TOKEN=$(GITHUB_TOKEN) \
-	-e TRAVIS_BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
-	-e TRAVIS_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
-	-e TRAVIS_PULL_REQUEST=$(TRAVIS_PULL_REQUEST) \
-	-e CYPRESS_TEST_MODE=functional \
-	-e CYPRESS_RESOURCEID=$(shell date +"%s") \
+#	-e SLACK_TOKEN=$(SLACK_TOKEN) \
+#	-e GITHUB_TOKEN=$(GITHUB_TOKEN) \
+#	-e TRAVIS_BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
+#	-e TRAVIS_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
+#	-e TRAVIS_PULL_REQUEST=$(TRAVIS_PULL_REQUEST) \
+#	-e CYPRESS_TEST_MODE=functional \
+#	-e CYPRESS_RESOURCEID=$(date +"%s") \
 	-e CYPRESS_BASE_URL=$(CYPRESS_BASE_URL) \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \
 	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \

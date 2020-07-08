@@ -78,6 +78,7 @@ run-test-image-pr:
 	-e BROWSER=$(BROWSER) \
 	-e USER=$(shell git log -1 --format='%ae') \
 	-e JOB_ID=$(TRAVIS_JOB_ID) \
+	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_BASE_URL=$(CYPRESS_BASE_URL) \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \
 	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \

@@ -240,6 +240,7 @@ SecondaryHeader.propTypes = {
   actions: PropTypes.object,
   breadcrumbItems: PropTypes.array,
   history: PropTypes.object,
+  links: PropTypes.array,
   location: PropTypes.object,
   tabs: PropTypes.array,
   title: PropTypes.string

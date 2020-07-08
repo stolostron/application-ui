@@ -296,7 +296,7 @@ class ControlPanel extends React.Component {
 
   renderTitle(control) {
     const { locale } = this.props
-    const {title, subtitle, note, overline, collapsable, collapsed=false, content=[]} = control
+    const {title, subtitle, note, overline, numbered, collapsable, collapsed=false, content=[]} = control
     const {info} = control
 
     const handleCollapse = () => {
@@ -351,6 +351,9 @@ class ControlPanel extends React.Component {
               </svg>
             </div>
             }
+            {numbered && <div className="creation-view-controls-title-circle">
+              {numbered}
+            </div>}
             <div className="creation-view-controls-title-main-name">
               {title||subtitle}
               {!info &&<Tooltip control={control} locale={locale} />}

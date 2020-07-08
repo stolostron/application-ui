@@ -170,7 +170,7 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
                 }
                 snippetMap[snippetKey] = snippet
                 if (Array.isArray(arr)) {
-                arr.push(snippetKey)
+                  arr.push(snippetKey)
                 }
               } else if (Array.isArray(arr) && !arr.includes(snippet) && controlMap[id]) {
                 let wasSet = controlMap[id].wasSet

@@ -15,6 +15,7 @@ COPY download-clis.sh .
 COPY cypress ./tests/cypress
 COPY start-cypress-tests.sh ./tests
 COPY generate-cypress-yaml.sh ./tests
+COPY options.yaml .
 
 RUN npm install 
 

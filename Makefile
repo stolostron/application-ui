@@ -73,6 +73,7 @@ run-test-image:
 .PHONY: run-test-image-pr
 run-test-image-pr:
 	docker run \
+	-v $(shell pwd)/options.yaml:/resources/options.yaml \
 	-v $(shell pwd)/results/:/results/ \
 	--network host \
 	-e BROWSER=$(BROWSER) \

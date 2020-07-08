@@ -1,4 +1,5 @@
 cd tests/cypress
+mkdir test-artifacts
 cp test-artifacts-templates/* test-artifacts/
 
 cd test-artifacts/

@@ -19,6 +19,8 @@ COPY generate-cypress-yaml.sh ./tests
 RUN npm install 
 
 RUN sh download-clis.sh
+
+ENV JOB_ID=$JOB_ID
 RUN sh tests/generate-cypress-yaml.sh
 
 RUN ["chmod", "+x", "./tests/start-cypress-tests.sh"]

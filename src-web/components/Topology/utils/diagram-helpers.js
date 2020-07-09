@@ -1104,14 +1104,28 @@ export const setSubscriptionDeployStatus = (node, details) => {
       localSubscriptionFailed = true
     }
     if (!subscription._hubClusterResource || isLocalFailedSubscription) {
+      const subscriptionPulse = R.contains(
+        'Fail',
+        R.pathOr('', ['status'])(subscription)
+      )
+        ? 'failure'
+        : R.pathOr(null, ['status'])(subscription) === null
+          ? 'warning'
+          : 'checkmark'
+
+      //if subscription has not status show an error message
+      const emptyStatusErrorMsg = subscription._hubClusterResource
+        ? msgs.get('resource.subscription.nostatus.hub', ['Propagated'])
+        : msgs.get('resource.subscription.nostatus.remote', ['Subscribed'])
+
+      const subscriptionStatus = R.pathOr(emptyStatusErrorMsg, ['status'])(
+        subscription
+      )
+
       details.push({
         labelValue: subscription.cluster,
-        value: subscription.status,
-        status: R.contains('Fail', R.pathOr('', ['status'])(subscription))
-          ? 'failure'
-          : R.pathOr(null, ['status'])(subscription) === null
-            ? 'warning'
-            : 'checkmark'
+        value: subscriptionStatus,
+        status: subscriptionPulse
       }) &&
         details.push({
           type: 'link',

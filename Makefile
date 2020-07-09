@@ -59,7 +59,6 @@ e2e-test:
 build-test-image:
 	@echo "Building $(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)"
 	docker build tests/ \
-	--build-arg JOB_ID=$(TRAVIS_JOB_ID) \
 	-f Dockerfile.cypress \
 	-t $(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG) \
 
@@ -81,6 +80,7 @@ run-test-image-pr:
 	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_BASE_URL=$(CYPRESS_BASE_URL) \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \
+	-e JOB_ID=$(TRAVIS_JOB_ID) \
 	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \
 	-e CYPRESS_OC_CLUSTER_PASS=$(OC_CLUSTER_PASS) \
 	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)

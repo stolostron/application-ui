@@ -978,7 +978,7 @@ describe("setSubscriptionDeployStatus with no sub error", () => {
       labelValue: "Remote subscriptions",
       status: "failure",
       value:
-        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that the hub subscription has been propagated."
+        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that klusterlet-addon-appmgr pod runs on the managed clusters."
     },
     {
       type: "link",
@@ -1043,6 +1043,97 @@ describe("setSubscriptionDeployStatus with error", () => {
   });
 });
 
+describe("setSubscriptionDeployStatus with hub no status", () => {
+  const node = {
+    type: "subscription",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          _hubClusterResource: "true"
+        }
+      }
+    }
+  };
+  const response = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    {
+      labelValue: "local",
+      status: "warning",
+      value:
+        "This subscription has no status. If the status does not change to {0} after waiting for initial creation, verify that the multicluster-operators-hub-subscription pod is running on hub."
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus with hub no status", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+  });
+});
+
+describe("setSubscriptionDeployStatus with remote no status", () => {
+  const node = {
+    type: "subscription",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          status: "Propagated",
+          _hubClusterResource: "true"
+        },
+        sub2: {
+          cluster: "remote1"
+        }
+      }
+    }
+  };
+  const response = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { type: "spacer" },
+    {
+      labelValue: "remote1",
+      status: "warning",
+      value:
+        "This subscription has no status. If the status does not change to {0} after waiting for initial creation, verify that the klusterlet-addon-appmgr pod is running on the remote cluster."
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "remote1",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus with remote no status", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+  });
+});
+
 describe("setSubscriptionDeployStatus for details yellow", () => {
   const node = {
     type: "subscription",
@@ -1078,7 +1169,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
       labelValue: "Remote subscriptions",
       status: "failure",
       value:
-        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that the hub subscription has been propagated."
+        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that klusterlet-addon-appmgr pod runs on the managed clusters."
     },
     {
       type: "link",

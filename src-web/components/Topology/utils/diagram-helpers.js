@@ -693,8 +693,11 @@ export const createResourceSearchLink = node => {
 export const getNameWithoutChartRelease = (relatedKind, name) => {
   const kind = _.get(relatedKind, 'kind', '')
 
-  if (kind === 'subscription') {
-    return name //ignore subscription objects
+  if (
+    kind === 'subscription' ||
+    name !== _.get(relatedKind, '_hostingDeployable', '')
+  ) {
+    return name //ignore subscription objects or objects where the name is not created from the _hostingDeployable
   }
 
   //for resources deployed from charts, remove release name
@@ -709,7 +712,7 @@ export const getNameWithoutChartRelease = (relatedKind, name) => {
       splitLabelContent.length === 2 &&
       _.trim(splitLabelContent[0]) === 'release'
     ) {
-      //get for release name
+      //get label for release name
       foundReleaseLabel = true
       const releaseName = _.trim(splitLabelContent[1])
       name = _.replace(name, `${releaseName}-`, '')

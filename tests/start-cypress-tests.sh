@@ -13,10 +13,6 @@ if [ -z "$BROWSER" ]; then
   export BROWSER="chrome"
 fi
 
-if [ -z "$JOB_ID" ]; then
-  export JOB_ID="$JOB_ID"
-fi
-
 # check and load options.yaml
 OPTIONS_FILE=/resources/options.yaml
 if [ -f $OPTIONS_FILE ]; then

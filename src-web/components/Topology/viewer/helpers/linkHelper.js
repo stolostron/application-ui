@@ -377,6 +377,12 @@ const routeEdge = (
   return preparedColaRouting
 }
 
+export const processColaEdge = colaEdge => {
+  if (colaEdge) {
+    [colaEdge.target, colaEdge.source] = [colaEdge.source, colaEdge.target]
+  }
+}
+
 // do parallel, avoidance, self link layouts
 export const layoutEdges = (
   newLayout,
@@ -410,12 +416,7 @@ export const layoutEdges = (
           layout.isSwapped = nodeMap[sid].position.x > nodeMap[tid].position.x
           if (layout.isSwapped) {
             [tid, sid] = [sid, tid]
-            if (colaEdge) {
-              [colaEdge.target, colaEdge.source] = [
-                colaEdge.source,
-                colaEdge.target
-              ]
-            }
+            processColaEdge(colaEdge)
           }
         }
 

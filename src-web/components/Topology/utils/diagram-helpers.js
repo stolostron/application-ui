@@ -220,7 +220,8 @@ export const getNodePropery = (node, propPath, key, defaultValue, status) => {
     }
   }
 
-  if (data) {
+  if (data !== undefined) {
+    // must show 0 values as well
     return {
       labelKey: key,
       value: data,

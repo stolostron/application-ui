@@ -978,7 +978,7 @@ describe("setSubscriptionDeployStatus with no sub error", () => {
       labelValue: "Remote subscriptions",
       status: "failure",
       value:
-        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that the hub subscription has been propagated."
+        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that appmgr pod runs on the managed clusters."
     },
     {
       type: "link",
@@ -1078,7 +1078,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
       labelValue: "Remote subscriptions",
       status: "failure",
       value:
-        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that the hub subscription has been propagated."
+        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that appmgr pod runs on the managed clusters."
     },
     {
       type: "link",

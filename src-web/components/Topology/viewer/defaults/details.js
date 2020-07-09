@@ -21,7 +21,6 @@ import {
   setApplicationDeployStatus,
   setPlacementRuleDeployStatus,
   addDetails,
-  getAge,
   addNodeOCPRouteLocationForCluster,
   addIngressNodeInfo,
   setClusterStatus
@@ -86,42 +85,6 @@ export const getNodeDetails = node => {
     default:
       addK8Details(node, details)
       break
-    }
-
-    // deployable status
-    const deployStatuses = _.get(node, 'specs.deployStatuses')
-    if (deployStatuses) {
-      deployStatuses.forEach(
-        ({ lastUpdateTime, phase, reason, resourceStatus }) => {
-          details.push({
-            type: 'label',
-            labelKey: 'resource.status',
-            value: phase
-          })
-          if (reason) {
-            details.push({
-              type: 'label',
-              labelKey: 'resource.reason',
-              value: reason
-            })
-          }
-          if (resourceStatus) {
-            details.push({
-              type: 'label',
-              labelKey: 'resource.status.last.updated',
-              value: getAge(lastUpdateTime)
-            })
-            details.push({
-              type: 'label',
-              labelKey: 'resource.resource.status'
-            })
-            details.push({
-              type: 'snippet',
-              value: resourceStatus
-            })
-          }
-        }
-      )
     }
 
     // labels
@@ -267,6 +230,23 @@ function addK8Details(node, details) {
       node,
       ['specs', 'raw', 'spec', 'clusterSelector', 'matchLabels'],
       'raw.spec.clusterSelector'
+    )
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'clusterConditions'],
+      'raw.spec.clusterConditions'
+    )
+  )
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'clusterLabels', 'matchLabels'],
+      'raw.spec.clusterLabels'
     )
   )
 

@@ -28,7 +28,9 @@ class ControlPanelCards extends React.Component {
 
   constructor (props) {
     super(props)
-    this.state = {}
+    const {control} = props
+    const {collapsed} = control
+    this.state = {collapsed}
   }
 
   setControlRef = (control, ref) => {this.multiSelect = control.ref = ref}
@@ -44,6 +46,7 @@ class ControlPanelCards extends React.Component {
   render() {
     const {locale, control, showEditor} = this.props
     const {available, availableMap, active=[]} = control
+    const {collapsed} = this.state
     const gridClasses = classNames({
       'mcx--grid-container': true,
       small: showEditor,
@@ -54,7 +57,8 @@ class ControlPanelCards extends React.Component {
           ref={this.setControlRef.bind(this, control)} >
           <div className={gridClasses}>
             <div className={'bx--grid'}>
-              <div className={'mcx--providers-container bx--row'}>
+              {this.renderTitle(control)}
+              {!collapsed && <div className={'mcx--providers-container bx--row'}>
                 {available.map(availableKey => {
                   const choice = availableMap[availableKey]
                   const {id, hidden} = choice
@@ -66,7 +70,7 @@ class ControlPanelCards extends React.Component {
                     handleOnClick={this.handleChange.bind(this, id)}
                     locale={locale} />)
                 })}
-              </div>
+              </div>}
             </div>
           </div>
         </div>
@@ -74,8 +78,70 @@ class ControlPanelCards extends React.Component {
     )
   }
 
+  renderTitle(control) {
+    const {active, title, collapsable} = control
+    if (title && collapsable) {
+      const {collapsed} = this.state
+      const handleCollapse = () => {
+        this.setState(prevState=>{
+          return {collapsed: !prevState.collapsed}
+        })
+      }
+      const handleCollapseKey = (e) => {
+        if ( e.type==='click' || e.key === 'Enter') {
+          handleCollapse()
+        }
+      }
+      const buttonClasses = classNames({
+        'creation-view-controls-title-main-collapse-button': true,
+        collapsed,
+      })
+      return (
+        <div className='creation-view-controls-cards-title-container'
+          tabIndex='0' role={'button'} title={title} aria-label={title}
+          onClick={handleCollapse} onKeyPress={handleCollapseKey}
+          >
+          <div className="creation-view-controls-cards-title">
+            {this.renderTitleFragment(control)}
+          </div>
+          {active && <div className={buttonClasses}>
+            <svg className='icon'>
+              <use href='#diagramIcons_caret--up' ></use>
+            </svg>
+          </div>}
+        </div>
+      )
+    }
+    return null
+  }
+
+  renderTitleFragment(control) {
+    const {title} = control
+    const {active, availableMap, validation: {required}} = control
+    if (active) {
+      return (
+        <React.Fragment>
+          {availableMap[active].title}
+        </React.Fragment>
+      )
+    } else {
+      return (
+        <React.Fragment>
+          {title}
+          {required && <div className='creation-view-controls-required'>*</div>}
+        </React.Fragment>
+      )
+    }
+  }
+
   handleChange(id) {
-    this.props.handleChange(id)
+    const {control} = this.props
+    const {collapseControlOnSelect} = control
+    if (collapseControlOnSelect) {
+      this.setState({collapsed: true})
+    }
+    this.props.handleChange(id, control)
+    document.getElementsByTagName('body')[0].style.overflow = 'hidden'
   }
 }
 
@@ -112,9 +178,9 @@ const ControlPanelCard = ({choice, handleOnClick, type, selected, locale}) => {
           <use href={'#diagramIcons_checkmark'}></use>
         </svg>
       </div>}
-      <div className='card-tooltip-container'>
+      {tooltip && !selected && <div className='card-tooltip-container'>
         <Tooltip control={{tooltip, learnMore}} locale={locale} />
-      </div>
+      </div>}
     </div>
   </div>
 }

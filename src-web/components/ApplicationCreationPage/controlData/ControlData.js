@@ -56,15 +56,83 @@ export const controlData = [
       {
         id: 'channel',
         type: 'section',
-        subtitle: 'creation.app.channel.group',
-        collapsable: true,
-        collapsed: false,
       },
       ///////////////////////  channel name  /////////////////////////////////////
       {
         id: 'channelName',
         type: 'hidden',
         active: 'channel',
+      },
+      {
+        id: 'channelType',
+        type: 'cards',
+        sort: false,
+        pauseControlCreationHereUntilSelected: true,
+        collapseControlOnSelect: true,
+        title: 'creation.app.channel.type',
+        collapsable: true,
+        collapsed: false,
+        available: [
+          {
+            id: 'existing',
+            logo: 'existing_resource-icon.svg',
+            title: 'creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.existing',
+            change: {
+              //insertControlData: existingChannelData,
+            }
+          },
+          {
+            id: 'github',
+            logo: 'existing_resource-icon.svg',
+            title: 'creation.app.channel.github',
+            tooltip: 'tooltip.creation.app.channel.existing',
+            change: {
+              //insertControlData: githubChannelData,
+            }
+          },
+          {
+            id: 'deployable',
+            logo: 'existing_resource-icon.svg',
+            title: 'creation.app.channel.deployable',
+            tooltip: 'tooltip.creation.app.channel.existing',
+            change: {
+              //insertControlData: deployableChannelData,
+            }
+          },
+          {
+            id: 'helmrelease',
+            logo: 'existing_resource-icon.svg',
+            title: 'creation.app.channel.helmrelease',
+            tooltip: 'tooltip.creation.app.channel.existing',
+            change: {
+              //insertControlData: helmReleaseChannelData,
+            }
+          },
+          {
+            id: 'objectstore',
+            logo: 'existing_resource-icon.svg',
+            title: 'creation.app.channel.objectstore',
+            tooltip: 'tooltip.creation.app.channel.existing',
+            change: {
+              //insertControlData: objectstoreChannelData,
+            }
+          },
+          {
+            id: 'secretname',
+            logo: 'existing_resource-icon.svg',
+            title: 'creation.app.channel.secret.name',
+            tooltip: 'tooltip.creation.app.channel.existing',
+            change: {
+              //insertControlData: secretNameChannelData,
+            }
+          },
+        ],
+        active: '',
+        validation: {
+          notification: 'creation.ocp.cluster.must.select.resource.type',
+          required: true,
+        },
       },
       ///////////////////////  channel type  /////////////////////////////////////
       {
@@ -96,7 +164,7 @@ export const controlData = [
     numbered: '2',
     overline: true,
     collapsable: true,
-    collapsed: true,
+    collapsed: false,
   },
 
   {

@@ -407,8 +407,8 @@ export default class TemplateEditor extends React.Component {
   handleScrollAndCollapse(control, controlData, creationView) {
     const {showEditor, previouslySelectedCards} = this.state
     // user chose a card with new controls in it---scroll the view down to the new fields
-    const {id, pauseControlCreationHereUntilSelected, collapseAboveAfterSelection} = control
-    if (pauseControlCreationHereUntilSelected || collapseAboveAfterSelection) {
+    const {id, scrollViewAfterSelection, collapseAboveAfterSelection} = control
+    if (scrollViewAfterSelection || collapseAboveAfterSelection) {
       const wasPreviouslySelected = previouslySelectedCards.includes(id)
       if (!wasPreviouslySelected) {
         setTimeout(() => {
@@ -426,9 +426,9 @@ export default class TemplateEditor extends React.Component {
                 left: 0,
               })
             }, 100)
-          } else if (pauseControlCreationHereUntilSelected) {
+          } else if (scrollViewAfterSelection) {
             (showEditor?creationView:window).scrollBy({
-              top: 300,
+              top: scrollViewAfterSelection,
               left: 0,
               behavior: 'smooth'
             })

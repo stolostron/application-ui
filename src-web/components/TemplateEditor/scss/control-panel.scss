@@ -187,6 +187,10 @@
           font-weight: 400;
           visibility: hidden;
           
+          &.visible {
+            visibility: visible;
+          }
+        
           .tag {
             cursor: default;
             font-size: 12px;
@@ -507,7 +511,7 @@
       }
     }
 
-    &-textbox, &-multiselect, &-singleselect, &-treeselect, &-select, &-textarea, &-number {
+    &-textbox, &-multiselect, &-singleselect, &-treeselect, &-select, &-textarea, &-number, &-cards {
       padding: 0 0.3125rem 1.5625rem 2px;
 
       &-title {
@@ -655,6 +659,21 @@
       .creation-view-controls-title-main-collapse-button {
         position: relative;
         left: unset;
+        
+        &.collapsed {
+          .icon {
+            transform: rotate(-180deg);
+          }
+        }
+
+      }
+    
+      .mcx--create-cluster-page__provider-card {
+        background-color: $acm_background_color;
+        border: 1px solid #dfe3e6;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
       }
 
     }
@@ -666,8 +685,8 @@
         .card-checkmark {
           pointer-events: none;
           position: absolute;
-          top: 12px;
-          right: 10px;
+          top: 8px;
+          right: 8px;
           fill: blue;
         }
       }
@@ -685,8 +704,8 @@
 
       .card-tooltip-container {
         position: absolute;
-        right: 3px;
-        bottom: 3px;
+        right: 8px;
+        top: 8px;
       }
 
     }
@@ -717,8 +736,15 @@
      .bx--grid {
        margin-right: 2%;
        width: 100%;
+       
+      .creation-view-controls-cards-title-container {
+        cursor: pointer;
+        display: flex;
+      } 
+       
       .mcx--providers-container.bx--row {
          max-width: 1000px;
+         justify-content: space-evenly;
       }
      }
 
@@ -728,12 +754,18 @@
         .mcx--provider-card-container {
           width: 260px;
 
+          .mcx--create-cluster-page__provider-card-isSelected {
+            border: 1px solid #3d70b2;
+          }
+        
           .mcx--create-cluster-page__provider-card {
             width: 260px;
             height: 80px;
             margin: 0 10px 10px 0;
             & > img {
               margin: 0 16px;
+              height: 45px;
+              width: 45px;
             }
           }
 
@@ -743,6 +775,7 @@
             width: 160px;
             display: flex;
             flex-direction: column;
+            font-weight: bold;
           }
         }
       }

@@ -778,9 +778,8 @@ class ControlPanel extends React.Component {
     return field
   }
 
-  handleCardChange(cardId, selection) {
+  handleCardChange(controlId, selection, control) {
     const { controlData, isCustomName } = this.props
-    const control = controlData.find(({id})=>id===cardId)
     const {multiselect, newEditorMode} = control
     if (!newEditorMode) {
       if (!multiselect) {

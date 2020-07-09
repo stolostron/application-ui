@@ -978,7 +978,7 @@ describe("setSubscriptionDeployStatus with no sub error", () => {
       labelValue: "Remote subscriptions",
       status: "failure",
       value:
-        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that appmgr pod runs on the managed clusters."
+        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that klusterlet-addon-appmgr pod runs on the managed clusters."
     },
     {
       type: "link",
@@ -1065,7 +1065,7 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
       labelValue: "local",
       status: "warning",
       value:
-        "This subscription has no status. If the status does not change to {0} after waiting for initial creation, verify that the hub subscription pod is running."
+        "This subscription has no status. If the status does not change to {0} after waiting for initial creation, verify that the multicluster-operators-hub-subscription pod is running on hub."
     },
     {
       indent: true,
@@ -1113,7 +1113,7 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
       labelValue: "remote1",
       status: "warning",
       value:
-        "This subscription has no status. If the status does not change to {0} after waiting for initial creation, verify that the appmgr pod is running on the remote cluster."
+        "This subscription has no status. If the status does not change to {0} after waiting for initial creation, verify that the klusterlet-addon-appmgr pod is running on the remote cluster."
     },
     {
       indent: true,
@@ -1169,7 +1169,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
       labelValue: "Remote subscriptions",
       status: "failure",
       value:
-        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that appmgr pod runs on the managed clusters."
+        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that klusterlet-addon-appmgr pod runs on the managed clusters."
     },
     {
       type: "link",

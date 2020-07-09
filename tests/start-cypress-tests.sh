@@ -35,10 +35,11 @@ echo "Logging into Kube API server..."
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
 
 # copy the test artifact files and append the job_id
+echo "DEBUG: generating the YAML files"
 mkdir ./tests/cypress/test-artifacts
 cp ./tests/cypress/test-artifacts-templates/* ./tests/cypress/test-artifacts/
 # do a find and replace operation to sub in the ID
-sed -i "s/\$JOB_ID/$TRAVIS_JOB_ID/" ./tests/cypress/test-artifacts/*.yaml
+sed -i "s/\$JOB_ID/$JOB_ID/" ./tests/cypress/test-artifacts/*.yaml
 
 echo "DEBUG: Outputting all the cypress yaml files"
 cat ./tests/cypress/test-artifacts/*

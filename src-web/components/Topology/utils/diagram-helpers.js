@@ -554,7 +554,7 @@ function factorize(prefixes, unit, type) {
 }
 
 export const getPercentage = (value, total) => {
-  return Math.floor(100 * value / total) || 0
+  return Math.floor(100 * (total - value) / total) || 0
 }
 
 export const setClusterStatus = (node, details) => {
@@ -574,11 +574,17 @@ export const setClusterStatus = (node, details) => {
   }
 
   clusterArr.forEach(c => {
-    const { metadata = {}, capacity = {}, usage = {}, clusterip, status } = c
+    const {
+      metadata = {},
+      capacity = {},
+      allocatable = {},
+      clusterip,
+      status
+    } = c
     const { name, namespace, creationTimestamp } = metadata
     //void ({ labels } = metadata)
-    const { nodes, cpu: cc, memory: cm, storage: cs } = capacity
-    const { pods, cpu: uc, memory: um, storage: us } = usage
+    const { nodes, cpu: cc, memory: cm } = capacity
+    const { pods, cpu: ac, memory: am } = allocatable
     details.push({ labelKey: 'resource.name', value: name })
     details.push({ labelKey: 'resource.namespace', value: namespace })
     if (c.consoleURL) {
@@ -605,15 +611,11 @@ export const setClusterStatus = (node, details) => {
       { labelKey: 'resource.status', value: status },
       {
         labelKey: 'resource.cpu',
-        value: `${getPercentage(inflateKubeValue(uc), inflateKubeValue(cc))}%`
+        value: `${getPercentage(inflateKubeValue(ac), inflateKubeValue(cc))}%`
       },
       {
         labelKey: 'resource.memory',
-        value: `${getPercentage(inflateKubeValue(um), inflateKubeValue(cm))}%`
-      },
-      {
-        labelKey: 'resource.storage',
-        value: `${getPercentage(inflateKubeValue(us), inflateKubeValue(cs))}%`
+        value: `${getPercentage(inflateKubeValue(am), inflateKubeValue(cm))}%`
       },
       { labelKey: 'resource.created', value: getAge(creationTimestamp) }
     ])

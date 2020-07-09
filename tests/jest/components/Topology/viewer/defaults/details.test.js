@@ -888,11 +888,7 @@ describe("getNodeDetails deployment node", () => {
       type: "label",
       value: "-"
     },
-    { type: "spacer" },
-    { labelKey: "resource.status", type: "label", value: "Subscribed" },
-    { labelKey: "resource.status.last.updated", type: "label", value: "-" },
-    { labelKey: "resource.resource.status", type: "label" },
-    { type: "snippet", value: { availableReplicas: 1 } }
+    { type: "spacer" }
   ];
 
   it("should process the node, deployment node", () => {
@@ -1102,7 +1098,7 @@ describe("getNodeDetails placement rules node with error", () => {
       labelValue: "Error",
       status: "failure",
       value:
-        "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
+        "This Placement Rule does not match any remote clusters. Make sure the clusterSelector and clusterConditions properties, when used, are valid and match your clusters. If using the clusterReplicas property make sure is being set to a positive value."
     }
   ];
   it("should process the node, placement rules node with error", () => {

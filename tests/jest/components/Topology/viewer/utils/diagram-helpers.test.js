@@ -2204,7 +2204,7 @@ describe("setPlacementRuleDeployStatus 1 ", () => {
       labelValue: "Error",
       status: "failure",
       value:
-        "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
+        "This Placement Rule does not match any remote clusters. Make sure the clusterSelector and clusterConditions properties, when used, are valid and match your clusters. If using the clusterReplicas property make sure is being set to a positive value."
     }
   ];
   it("setPlacementRuleDeployStatus deployed 1", () => {

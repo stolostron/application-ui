@@ -149,7 +149,7 @@ class DetailsView extends React.Component {
         ? msgs.get(labelKey, [labelValue], locale)
         : msgs.get(labelKey, locale)
     }
-    label = value ? `${label}:` : label
+    label = value !== undefined ? `${label}:` : label //add : for 0 values
     const mainSectionClasses = classNames({
       sectionContent: true,
       borderLeft: value !== undefined ? true : false

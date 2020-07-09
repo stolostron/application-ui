@@ -39,7 +39,7 @@ echo "DEBUG: generating the YAML files"
 mkdir ./tests/cypress/test-artifacts
 cp ./tests/cypress/test-artifacts-templates/* ./tests/cypress/test-artifacts/
 # do a find and replace operation to sub in the ID
-sed -i "s/\$JOB_ID/$JOB_ID/" ./tests/cypress/test-artifacts/*.yaml
+sed -i "s/\$JOB_ID/$JOB_ID/g" ./tests/cypress/test-artifacts/*.yaml
 
 echo "DEBUG: Outputting all the cypress yaml files"
 cat ./tests/cypress/test-artifacts/*

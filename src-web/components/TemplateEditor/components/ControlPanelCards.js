@@ -140,8 +140,7 @@ class ControlPanelCards extends React.Component {
     if (collapseControlOnSelect) {
       this.setState({collapsed: true})
     }
-    this.props.handleChange(id, control)
-    document.getElementsByTagName('body')[0].style.overflow = 'hidden'
+    this.props.handleChange(id)
   }
 }
 

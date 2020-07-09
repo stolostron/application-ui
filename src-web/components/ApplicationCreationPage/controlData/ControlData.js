@@ -9,9 +9,100 @@
  *******************************************************************************/
 'use strict'
 
-import {VALIDATE_ALPHANUMERIC, VALIDATE_NUMERIC} from '../../TemplateEditor/utils/update-controls'
+import {VALIDATE_ALPHANUMERIC} from '../../TemplateEditor/utils/update-controls'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
+
+const existingChannelData = [
+  ///////////////////////  existing  /////////////////////////////////////
+  {
+    name: 'creation.ocp.purpose',
+    tooltip: 'tooltip.creation.ocp.purpose',
+    id: 'purposeex',
+    type: 'combobox',
+    active: '',
+    placeholder: 'creation.app.channel.existing',
+    available: ['dev', 'prod', 'qa'],
+    validation: VALIDATE_ALPHANUMERIC,
+    cacheUserValueKey: 'create.cluster.purpose',
+  },
+]
+
+const githubChannelData = [
+  ///////////////////////  github  /////////////////////////////////////
+  {
+    name: 'creation.ocp.purpose',
+    tooltip: 'tooltip.creation.ocp.purpose',
+    id: 'purposegh',
+    type: 'combobox',
+    active: '',
+    placeholder: 'cluster.create.select.purpose',
+    available: ['dev', 'prod', 'qa'],
+    validation: VALIDATE_ALPHANUMERIC,
+    cacheUserValueKey: 'create.cluster.purpose',
+  },
+]
+
+const deployableChannelData = [
+  ///////////////////////  Deployable  /////////////////////////////////////
+  {
+    name: 'creation.ocp.purpose',
+    tooltip: 'tooltip.creation.ocp.purpose',
+    id: 'purposedc',
+    type: 'combobox',
+    active: '',
+    placeholder: 'cluster.create.select.purpose',
+    available: ['dev', 'prod', 'qa'],
+    validation: VALIDATE_ALPHANUMERIC,
+    cacheUserValueKey: 'create.cluster.purpose',
+  },
+]
+
+const helmReleaseChannelData = [
+  ///////////////////////  HelmRelease  /////////////////////////////////////
+  {
+    name: 'creation.ocp.purpose',
+    tooltip: 'tooltip.creation.ocp.purpose',
+    id: 'purposehl',
+    type: 'combobox',
+    active: '',
+    placeholder: 'cluster.create.select.purpose',
+    available: ['dev', 'prod', 'qa'],
+    validation: VALIDATE_ALPHANUMERIC,
+    cacheUserValueKey: 'create.cluster.purpose',
+  },
+]
+
+const objectstoreChannelData = [
+  ///////////////////////  Objectstore  /////////////////////////////////////
+  {
+    name: 'creation.ocp.purpose',
+    tooltip: 'tooltip.creation.ocp.purpose',
+    id: 'purposeos',
+    type: 'combobox',
+    active: '',
+    placeholder: 'cluster.create.select.purpose',
+    available: ['dev', 'prod', 'qa'],
+    validation: VALIDATE_ALPHANUMERIC,
+    cacheUserValueKey: 'create.cluster.purpose',
+  },
+]
+
+const secretNameChannelData = [
+  ///////////////////////  Secret name  /////////////////////////////////////
+  {
+    name: 'creation.ocp.purpose',
+    tooltip: 'tooltip.creation.ocp.purpose',
+    id: 'purposesc',
+    type: 'combobox',
+    active: '',
+    placeholder: 'cluster.create.select.purpose',
+    available: ['dev', 'prod', 'qa'],
+    validation: VALIDATE_ALPHANUMERIC,
+    cacheUserValueKey: 'create.cluster.purpose',
+  },
+]
+
 
 
 export const controlData = [
@@ -67,7 +158,6 @@ export const controlData = [
         id: 'channelType',
         type: 'cards',
         sort: false,
-        pauseControlCreationHereUntilSelected: true,
         collapseControlOnSelect: true,
         title: 'creation.app.channel.type',
         collapsable: true,
@@ -79,7 +169,7 @@ export const controlData = [
             title: 'creation.app.channel.existing',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
-              //insertControlData: existingChannelData,
+              insertControlData: existingChannelData,
             }
           },
           {
@@ -88,7 +178,7 @@ export const controlData = [
             title: 'creation.app.channel.github',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
-              //insertControlData: githubChannelData,
+              insertControlData: githubChannelData,
             }
           },
           {
@@ -97,7 +187,7 @@ export const controlData = [
             title: 'creation.app.channel.deployable',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
-              //insertControlData: deployableChannelData,
+              insertControlData: deployableChannelData,
             }
           },
           {
@@ -106,7 +196,7 @@ export const controlData = [
             title: 'creation.app.channel.helmrelease',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
-              //insertControlData: helmReleaseChannelData,
+              insertControlData: helmReleaseChannelData,
             }
           },
           {
@@ -115,7 +205,7 @@ export const controlData = [
             title: 'creation.app.channel.objectstore',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
-              //insertControlData: objectstoreChannelData,
+              insertControlData: objectstoreChannelData,
             }
           },
           {
@@ -124,7 +214,7 @@ export const controlData = [
             title: 'creation.app.channel.secret.name',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
-              //insertControlData: secretNameChannelData,
+              insertControlData: secretNameChannelData,
             }
           },
         ],
@@ -133,25 +223,6 @@ export const controlData = [
           notification: 'creation.ocp.cluster.must.select.resource.type',
           required: true,
         },
-      },
-      ///////////////////////  channel type  /////////////////////////////////////
-      {
-        name: 'creation.app.channel.type',
-        tooltip: 'tooltip.creation.app.channel.type',
-        id: 'channelType',
-        type: 'text',
-        validation: VALIDATE_NUMERIC,
-      },
-      ///////////////////////  repo  /////////////////////////////////////
-      {
-        name: 'creation.app.repository',
-        tooltip: 'tooltip.creation.app.repository',
-        id: 'repository',
-        type: 'combobox',
-        active: 'us-east-1',
-        available: [],
-        validation: VALIDATE_ALPHANUMERIC,
-        cacheUserValueKey: 'create.app.repository',
       },
     ],
   },

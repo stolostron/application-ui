@@ -274,7 +274,7 @@ class ControlPanel extends React.Component {
       return (<ControlPanelCards key={id}
         control={control}
         showEditor={showEditor}
-        handleChange={this.handleCardChange.bind(this, id)}
+        handleChange={this.handleCardChange.bind(this, control)}
         locale={locale}
         fetchData={this.props.fetchData} />)
     case 'table':
@@ -778,7 +778,7 @@ class ControlPanel extends React.Component {
     return field
   }
 
-  handleCardChange(controlId, selection, control) {
+  handleCardChange(control, selection) {
     const { controlData, isCustomName } = this.props
     const {multiselect, newEditorMode} = control
     if (!newEditorMode) {

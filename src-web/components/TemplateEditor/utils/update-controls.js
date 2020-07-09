@@ -111,7 +111,13 @@ export const initializeControlData = (initialControlData, locale, groupNum) =>{
         active = control.active = []
       }
       while (active.length<groupCnt) {
-        active.push(initializeControlData(controlData, locale, active.length+1))
+        const parentControlData = initializeControlData(controlData, locale, active.length+1)
+        parentControlData.forEach(c=>{
+          if (c.type==='cards') {
+            c.parentControlData = parentControlData
+          }
+        })
+        active.push(parentControlData)
       }
       return control
     }
@@ -181,7 +187,7 @@ const initialControl = (control, locale, groupNum) =>{
         } else if (id) {
         // card choices
           availableKey = id
-          const replaces = replacements || change.replacements
+          const replaces = replacements || change.insertControlData
           control.hasReplacements = control.hasReplacements || !!replaces
           if (control.hasReplacements) {
             choice.replacements=replaces
@@ -248,7 +254,7 @@ const initialControl = (control, locale, groupNum) =>{
 }
 
 const convertMsgs = (control, locale, groupNum) => {
-  const { type, controlData} = control
+  const { type, controlData, available} = control
   const keys = ['name', 'description', 'placeholder', 'title', 'subtitle', 'prompt', 'info', 'tooltip']
   keys.forEach(key=>{
     if (control[key]) {
@@ -275,6 +281,20 @@ const convertMsgs = (control, locale, groupNum) => {
       if (!ctrl.isInitialized) {
         convertMsgs(ctrl, locale, groupNum)
         ctrl.isInitialized = true
+      }
+    })
+  }
+
+  // if cards convert the data in that
+  if (type==='cards' && available) {
+    available.forEach(({change})=>{
+      if (change.insertControlData) {
+        change.insertControlData.forEach(ctrl=>{
+          if (!ctrl.isInitialized) {
+            convertMsgs(ctrl, locale, groupNum)
+            ctrl.isInitialized = true
+          }
+        })
       }
     })
   }

@@ -6,7 +6,7 @@ metadata:
   labels:
     name: ns-sub-$JOB_ID
 spec:
-  channel: ch-ns-$JOB_ID/ns
+  channel: ch-ns-$JOB_ID/ns-$JOB_ID
   placement:
     placementRef: 
       name: towhichcluster-$JOB_ID

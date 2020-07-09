@@ -11,7 +11,7 @@ metadata:
   labels:
     name: helm-sub-$JOB_ID
 spec:
-  channel: ch-helm-$JOB_ID/helm
+  channel: ch-helm-$JOB_ID/helm-$JOB_ID
   name: gbapp
   packageFilter:
     version: "0.1.0"

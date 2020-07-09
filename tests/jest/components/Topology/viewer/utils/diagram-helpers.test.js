@@ -603,7 +603,7 @@ describe("getNameWithoutChartRelease node with pods no _hostingDeployable", () =
   it("getNameWithoutChartRelease for pod with no deployable", () => {
     expect(
       getNameWithoutChartRelease(node, "nginx-ingress-edafb-default-backend")
-    ).toEqual("default-backend");
+    ).toEqual("nginx-ingress-edafb-default-backend");
   });
 });
 

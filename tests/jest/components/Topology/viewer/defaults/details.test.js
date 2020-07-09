@@ -6,7 +6,6 @@
 import { getNodeDetails } from "../../../../../../src-web/components/Topology/viewer/defaults/details";
 
 import { inflateKubeValue } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
-import moment from "moment";
 
 const locale = "en-US";
 
@@ -193,14 +192,12 @@ describe("getNodeDetails cluster node 1", () => {
         capacity: {
           nodes: [],
           cpu: "10",
-          memory: "32",
-          storage: "500"
+          memory: "32"
         },
-        usage: {
+        allocatable: {
           pods: [],
           cpu: "8",
-          memory: "24",
-          storage: "400"
+          memory: "24"
         }
       },
       violations: [
@@ -285,7 +282,7 @@ describe("getNodeDetails cluster node 1", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "80%"
+      value: "20%"
     },
     {
       indent: undefined,
@@ -293,15 +290,7 @@ describe("getNodeDetails cluster node 1", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "75%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.storage",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "80%"
+      value: "25%"
     },
     {
       indent: undefined,
@@ -363,14 +352,12 @@ describe("getNodeDetails clusters node", () => {
           capacity: {
             nodes: [],
             cpu: "10",
-            memory: "32Gi",
-            storage: "500Gi"
+            memory: "32Gi"
           },
-          usage: {
+          allocatable: {
             pods: [],
             cpu: "8",
-            memory: "24Ti",
-            storage: "400Ei"
+            memory: "24Ti"
           }
         }
       ],
@@ -434,14 +421,6 @@ describe("getNodeDetails clusters node", () => {
     { labelKey: "resource.namespace", value: undefined },
     {
       indent: undefined,
-      labelKey: "resource.pods",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: []
-    },
-    {
-      indent: undefined,
       labelKey: "resource.nodes",
       labelValue: undefined,
       status: undefined,
@@ -454,7 +433,7 @@ describe("getNodeDetails clusters node", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "80%"
+      value: "100%"
     },
     {
       indent: undefined,
@@ -462,15 +441,7 @@ describe("getNodeDetails clusters node", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "76800%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.storage",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "85899345920%"
+      value: "100%"
     },
     {
       indent: undefined,
@@ -505,7 +476,7 @@ describe("getNodeDetails clusters node", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "80%"
+      value: "20%"
     },
     {
       indent: undefined,
@@ -513,15 +484,7 @@ describe("getNodeDetails clusters node", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "76800%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.storage",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "85899345920%"
+      value: "-76700%"
     },
     {
       indent: undefined,

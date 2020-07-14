@@ -185,7 +185,7 @@ class ControlPanelTable extends React.Component {
 
   renderTree(rows) {
     const { control, locale } = this.props
-    const {isLoading, isFailed, active, prompts, available} = control
+    const {isLoading, isFailed, active, prompts={}, available} = control
     const headers = this.getHeaders()
     if (isFailed) {
       return <Notification title='' className='overview-notification' kind='error'

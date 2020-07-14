@@ -58,19 +58,23 @@ class ControlPanelCards extends React.Component {
           <div className={gridClasses}>
             <div className={'bx--grid'}>
               {this.renderTitle(control)}
-              {!collapsed && <div className={'mcx--providers-container bx--row'}>
-                {available.map(availableKey => {
-                  const choice = availableMap[availableKey]
-                  const {id, hidden} = choice
-                  return (hidden?null:<ControlPanelCard
-                    key={id}
-                    type={id}
-                    selected={active.includes(id)}
-                    choice={choice}
-                    handleOnClick={this.handleChange.bind(this, id)}
-                    locale={locale} />)
-                })}
-              </div>}
+              <div className={'mcx--providers-container bx--row'}>
+                {available
+                  .filter(id=>{
+                    return active.length===0 || !collapsed || active.includes(id)
+                  })
+                  .map(availableKey => {
+                    const choice = availableMap[availableKey]
+                    const {id, hidden} = choice
+                    return (hidden?null:<ControlPanelCard
+                      key={id}
+                      type={id}
+                      selected={active.includes(id)}
+                      choice={choice}
+                      handleOnClick={this.handleChange.bind(this, id)}
+                      locale={locale} />)
+                  })}
+              </div>
             </div>
           </div>
         </div>
@@ -79,9 +83,8 @@ class ControlPanelCards extends React.Component {
   }
 
   renderTitle(control) {
-    const {active, title, collapsable} = control
+    const {title, collapsable, validation: {required}} = control
     if (title && collapsable) {
-      const {collapsed} = this.state
       const handleCollapse = () => {
         this.setState(prevState=>{
           return {collapsed: !prevState.collapsed}
@@ -92,53 +95,28 @@ class ControlPanelCards extends React.Component {
           handleCollapse()
         }
       }
-      const buttonClasses = classNames({
-        'creation-view-controls-title-main-collapse-button': true,
-        collapsed,
-      })
       return (
         <div className='creation-view-controls-cards-title-container'
           tabIndex='0' role={'button'} title={title} aria-label={title}
           onClick={handleCollapse} onKeyPress={handleCollapseKey}
           >
           <div className="creation-view-controls-cards-title">
-            {this.renderTitleFragment(control)}
+            {title}
+            {required && <div className='creation-view-controls-required'>*</div>}
           </div>
-          {active && <div className={buttonClasses}>
-            <svg className='icon'>
-              <use href='#diagramIcons_caret--up' ></use>
-            </svg>
-          </div>}
         </div>
       )
     }
     return null
   }
 
-  renderTitleFragment(control) {
-    const {title} = control
-    const {active, availableMap, validation: {required}} = control
-    if (active) {
-      return (
-        <React.Fragment>
-          {availableMap[active].title}
-        </React.Fragment>
-      )
-    } else {
-      return (
-        <React.Fragment>
-          {title}
-          {required && <div className='creation-view-controls-required'>*</div>}
-        </React.Fragment>
-      )
-    }
-  }
-
   handleChange(id) {
     const {control} = this.props
     const {collapseControlOnSelect} = control
     if (collapseControlOnSelect) {
-      this.setState({collapsed: true})
+      this.setState(prevState=> {
+        return {collapsed: !prevState.collapsed}
+      })
     }
     this.props.handleChange(id)
   }

@@ -4,6 +4,11 @@
 {{! ==================Application ============================ }}
 {{! ========================================================== }}
 {{! ========================================================== }}
+apiVersion: v1                      
+kind: Namespace
+metadata:
+  name: {{{namespace}}}                             
+---
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
@@ -16,10 +21,132 @@ spec:
   descriptor: {}
   selector:
     matchExpressions:
-      - key:
+      - key: app
         operator: In
-        values:
+        values: 
+          - {{{name}}}
 
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Channel(s) ============================= }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+
+
+{{#each channels}}
+
+{{#switch channelType}}
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Github channel ========================= }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{#case 'github'}}
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: {{{../../name}}}-{{{../channelName}}}
+  namespace: {{{../../namespace}}}
+spec:
+  type: GitHub
+  pathname: https://github.com/open-cluster-management/gitops-clusters.git
+  secretRef:
+    name: github-gitops-clusters
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-gitops-clusters
+  namespace: gitops-cluster-lifecycle
+data:
+  user: dXNlcgo=            # Value of user and accessToken is Base 64 coded.
+  accessToken: cGFzc3dvcmQ      
+{{/case}}
+
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Helmrepo channel ==================== }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{#case 'helmrepo'}}
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: {{{../name}}}-{{{channelName}}}
+  namespace: {{{../name}}}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hub-repo
+spec:
+  type: HelmRepo
+  pathname: https://9.21.107.150:8443/helm-repo/charts # URL points to a valid chart URL.
+  configRef:
+    name: insecure-skip-verify
+---
+apiVersion: v1
+data:
+  insecureSkipVerify: "true"
+kind: ConfigMap
+metadata:
+  name: insecure-skip-verify
+  namespace: hub-repo 
+  
+{{/case}}
+
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Objectstore channel ==================== }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{#case 'objectstore'}}
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: {{{../name}}}-{{{channelName}}}
+  namespace: {{{../name}}}
+spec:
+ type: ObjectBucket
+ pathname: http://9.28.236.243:31311/dev
+ secretRef:
+   name: miniosecret
+ gates:
+   annotations:
+     dev-ready: true
+       
+{{/case}}
+
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Deployable channel ===================== }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{#case 'deployable'}}
+  
+{{/case}}
+
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Secret channel ========================= }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{#case 'secret'}}
+  
+{{/case}}
+
+{{/switch}}
+{{/each}}
+  
 {{! ========================================================== }}
 {{! ========================================================== }}
 {{! ==================Subscription =========================== }}
@@ -43,25 +170,6 @@ timeWindow:
   weekdays:
   hours:
 
-{{! ========================================================== }}
-{{! ========================================================== }}
-{{! ==================Channel ================================ }}
-{{! ========================================================== }}
-{{! ========================================================== }}
-
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Channel
-metadata:
-  name:
-  namespace:
-spec:
-  gates:
-    annotations:
-  pathname: foo
-  sourceNamespaces:
-  type: Namespace
-
 
 {{! ========================================================== }}
 {{! ========================================================== }}
@@ -69,6 +177,7 @@ spec:
 {{! ========================================================== }}
 {{! ========================================================== }}
 
+---
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:

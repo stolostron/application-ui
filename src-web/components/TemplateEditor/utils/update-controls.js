@@ -102,7 +102,7 @@ export const ControlMode = Object.freeze({
 })
 
 export const initializeControlData = (initialControlData, locale, groupNum) =>{
-  return initialControlData.map(control=>{
+  const parentControlData = initialControlData.map(control=>{
     const {type, controlData, groupCnt=1} = control
     switch (type) {
     case 'group': {
@@ -111,13 +111,7 @@ export const initializeControlData = (initialControlData, locale, groupNum) =>{
         active = control.active = []
       }
       while (active.length<groupCnt) {
-        const parentControlData = initializeControlData(controlData, locale, active.length+1)
-        parentControlData.forEach(c=>{
-          if (c.type==='cards') {
-            c.parentControlData = parentControlData
-          }
-        })
-        active.push(parentControlData)
+        active.push(initializeControlData(controlData, locale, active.length+1))
       }
       return control
     }
@@ -125,6 +119,14 @@ export const initializeControlData = (initialControlData, locale, groupNum) =>{
       return initialControl(control, locale, groupNum)
     }
   })
+
+  // if any card controls, set this as parent control data
+  parentControlData.forEach(c=>{
+    if (c.type==='cards') {
+      c.parentControlData = parentControlData
+    }
+  })
+  return parentControlData
 }
 
 const initialControl = (control, locale, groupNum) =>{

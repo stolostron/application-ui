@@ -13,33 +13,63 @@ import {VALIDATE_ALPHANUMERIC} from '../../TemplateEditor/utils/update-controls'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
 
-const existingChannelData = [
-  ///////////////////////  existing  /////////////////////////////////////
-  {
-    name: 'creation.ocp.purpose',
-    tooltip: 'tooltip.creation.ocp.purpose',
-    id: 'purposeex',
-    type: 'combobox',
-    active: '',
-    placeholder: 'creation.app.channel.existing',
-    available: ['dev', 'prod', 'qa'],
-    validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose',
-  },
-]
 
 const githubChannelData = [
   ///////////////////////  github  /////////////////////////////////////
   {
-    name: 'creation.ocp.purpose',
-    tooltip: 'tooltip.creation.ocp.purpose',
-    id: 'purposegh',
+    name: 'creation.app.github.path',
+    tooltip: 'tooltip.creation.app.github.path',
+    id: 'githubPath',
     type: 'combobox',
     active: '',
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose',
+    cacheUserValueKey: 'create.app.github.path',
+  },
+  {
+    name: 'creation.app.github.user',
+    tooltip: 'tooltip.creation.app.github.user',
+    id: 'githubUser',
+    type: 'combobox',
+    active: '',
+    placeholder: 'cluster.create.select.purpose',
+    available: ['dev', 'prod', 'qa'],
+    validation: VALIDATE_ALPHANUMERIC,
+    cacheUserValueKey: 'create.app.github.user',
+  },
+  {
+    name: 'creation.app.github.accessid',
+    tooltip: 'tooltip.creation.app.github.accessid',
+    id: 'githubAccessId',
+    type: 'combobox',
+    active: '',
+    placeholder: 'cluster.create.select.purpose',
+    available: ['dev', 'prod', 'qa'],
+    validation: VALIDATE_ALPHANUMERIC,
+    cacheUserValueKey: 'create.app.github.accessid',
+  },
+  {
+    name: 'creation.app.github.branch',
+    tooltip: 'tooltip.creation.app.github.accessid',
+    id: 'githubBranch',
+    type: 'combobox',
+    active: '',
+    placeholder: 'cluster.create.select.purpose',
+    available: ['dev', 'prod', 'qa'],
+    validation: VALIDATE_ALPHANUMERIC,
+    cacheUserValueKey: 'create.app.github.accessid',
+  },
+  {
+    name: 'creation.app.github.commit',
+    tooltip: 'tooltip.creation.app.github.accessid',
+    id: 'githubCommit',
+    type: 'combobox',
+    active: '',
+    placeholder: 'cluster.create.select.purpose',
+    available: ['dev', 'prod', 'qa'],
+    validation: VALIDATE_ALPHANUMERIC,
+    cacheUserValueKey: 'create.app.github.accessid',
   },
 ]
 
@@ -116,6 +146,19 @@ export const controlData = [
     tooltip: 'tooltip.creation.app.name',
     id: 'name',
     type: 'text',
+    syncWith: 'namespace',
+    validation: {
+      constraint: VALID_DNS_LABEL,
+      notification: 'import.form.invalid.dns.label',
+      required: true,
+    },
+  },
+  {
+    name: 'creation.app.namespace',
+    tooltip: 'tooltip.creation.app.namespace',
+    id: 'namespace',
+    type: 'text',
+    syncedWith: 'name',
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
@@ -147,6 +190,9 @@ export const controlData = [
       {
         id: 'channel',
         type: 'section',
+        title: 'creation.app.channel.title',
+        collapsable: true,
+        collapsed: false,
       },
       ///////////////////////  channel name  /////////////////////////////////////
       {
@@ -164,17 +210,8 @@ export const controlData = [
         collapsed: false,
         available: [
           {
-            id: 'existing',
-            logo: 'existing_resource-icon.svg',
-            title: 'creation.app.channel.existing',
-            tooltip: 'tooltip.creation.app.channel.existing',
-            change: {
-              insertControlData: existingChannelData,
-            }
-          },
-          {
             id: 'github',
-            logo: 'existing_resource-icon.svg',
+            logo: 'resource-github-icon.svg',
             title: 'creation.app.channel.github',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
@@ -183,7 +220,7 @@ export const controlData = [
           },
           {
             id: 'deployable',
-            logo: 'existing_resource-icon.svg',
+            logo: 'resource-deployable-icon.svg',
             title: 'creation.app.channel.deployable',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
@@ -191,9 +228,9 @@ export const controlData = [
             }
           },
           {
-            id: 'helmrelease',
-            logo: 'existing_resource-icon.svg',
-            title: 'creation.app.channel.helmrelease',
+            id: 'helmrepo',
+            logo: 'resource-helmrepo-icon.svg',
+            title: 'creation.app.channel.helmrepo',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
               insertControlData: helmReleaseChannelData,
@@ -201,7 +238,7 @@ export const controlData = [
           },
           {
             id: 'objectstore',
-            logo: 'existing_resource-icon.svg',
+            logo: 'resource-objectstore-icon.svg',
             title: 'creation.app.channel.objectstore',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
@@ -209,9 +246,9 @@ export const controlData = [
             }
           },
           {
-            id: 'secretname',
-            logo: 'existing_resource-icon.svg',
-            title: 'creation.app.channel.secret.name',
+            id: 'secret',
+            logo: 'resource-secret-icon.svg',
+            title: 'creation.app.channel.secret',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
               insertControlData: secretNameChannelData,
@@ -247,17 +284,6 @@ export const controlData = [
     available: [],
   },
 
-  {
-    name: 'creation.app.namespace',
-    tooltip: 'tooltip.creation.app.namespace',
-    id: 'name',
-    type: 'text',
-    validation: {
-      constraint: VALID_DNS_LABEL,
-      notification: 'import.form.invalid.dns.label',
-      required: true,
-    },
-  },
 
 
 ]

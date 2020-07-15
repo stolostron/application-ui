@@ -657,11 +657,7 @@ class ControlPanel extends React.Component {
                     input.addEventListener('keyup', (e)=>{
                       if ( e.key === 'Enter') {
                         if (control.typing) {
-                          userData.push(control.typing)
-                          control.userData = userData
-                          control.active = control.typing
-                          this.props.handleControlChange(control, controlData)
-                          delete control.typing
+                          this.handleComboboxChange(control, userData, controlData)
                         }
                       }
                     })
@@ -675,21 +671,26 @@ class ControlPanel extends React.Component {
               onFocus={(e)=>{
                 e.target.select()
               }}
-              onInputChange={this.handleComboboxInputChange.bind(this, control, available)}
+              onInputChange={this.handleComboboxTyping.bind(this, control, userData, available)}
             />}
         </div>
       </React.Fragment>
     )
   }
 
-  handleComboboxInputChange(control, available, evt) {
+  handleComboboxTyping(control, userData, available, evt) {
     const { controlData } = this.props
 
     // if menu is still open, user is typing
     const menu = control.ref.getElementsByClassName('bx--list-box__menu')
     if (menu && menu.length>0) {
 
-      // shh--user is typing something--filter the list
+      // user clicked selection, kill any typing
+      menu[0].addEventListener('click', ()=>{
+        delete control.typing
+      }, true)
+
+      // user is typing something--filter the list
       Array.from(menu[0].getElementsByClassName('bx--list-box__menu-item')).forEach((item, inx)=>{
         if (available[inx].indexOf(evt)===-1) {
           item.innerHTML = available[inx]
@@ -705,8 +706,26 @@ class ControlPanel extends React.Component {
 
     } else {
       control.active = evt
-      this.props.handleControlChange(control, controlData)
+      this.handleComboboxChange(control, userData, controlData)
     }
+  }
+
+  handleComboboxChange(control, userData, controlData) {
+    // if user typed something
+    if (control.typing) {
+      userData.push(control.typing)
+      control.userData = userData
+      control.active = control.typing
+
+      // if this combobox is fetched from server, make sure whatever user types in has an availableMap entry
+      const setAvailableMap = _.get(control, 'fetchAvailable.setAvailableMap')
+      if (setAvailableMap) {
+        setAvailableMap(control)
+      }
+    }
+
+    this.props.handleControlChange(control, controlData)
+    delete control.typing
   }
 
   handleChange(control, evt) {

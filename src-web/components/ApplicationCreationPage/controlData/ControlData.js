@@ -9,10 +9,9 @@
  *******************************************************************************/
 'use strict'
 
-import {VALIDATE_ALPHANUMERIC} from '../../TemplateEditor/utils/update-controls'
+import { VALIDATE_ALPHANUMERIC } from '../../TemplateEditor/utils/update-controls'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
-
 
 const githubChannelData = [
   ///////////////////////  github  /////////////////////////////////////
@@ -25,7 +24,7 @@ const githubChannelData = [
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.path',
+    cacheUserValueKey: 'create.app.github.path'
   },
   {
     name: 'creation.app.github.user',
@@ -36,7 +35,7 @@ const githubChannelData = [
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.user',
+    cacheUserValueKey: 'create.app.github.user'
   },
   {
     name: 'creation.app.github.accessid',
@@ -47,7 +46,7 @@ const githubChannelData = [
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.accessid',
+    cacheUserValueKey: 'create.app.github.accessid'
   },
   {
     name: 'creation.app.github.branch',
@@ -58,7 +57,7 @@ const githubChannelData = [
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.accessid',
+    cacheUserValueKey: 'create.app.github.accessid'
   },
   {
     name: 'creation.app.github.commit',
@@ -69,8 +68,8 @@ const githubChannelData = [
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.accessid',
-  },
+    cacheUserValueKey: 'create.app.github.accessid'
+  }
 ]
 
 const deployableChannelData = [
@@ -84,8 +83,8 @@ const deployableChannelData = [
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose',
-  },
+    cacheUserValueKey: 'create.cluster.purpose'
+  }
 ]
 
 const helmReleaseChannelData = [
@@ -99,8 +98,8 @@ const helmReleaseChannelData = [
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose',
-  },
+    cacheUserValueKey: 'create.cluster.purpose'
+  }
 ]
 
 const objectstoreChannelData = [
@@ -114,8 +113,8 @@ const objectstoreChannelData = [
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose',
-  },
+    cacheUserValueKey: 'create.cluster.purpose'
+  }
 ]
 
 const secretNameChannelData = [
@@ -129,17 +128,15 @@ const secretNameChannelData = [
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose',
-  },
+    cacheUserValueKey: 'create.cluster.purpose'
+  }
 ]
-
-
 
 export const controlData = [
   {
     id: 'main',
     type: 'section',
-    note: 'creation.view.required.mark',
+    note: 'creation.view.required.mark'
   },
   {
     name: 'creation.app.name',
@@ -150,8 +147,8 @@ export const controlData = [
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
-      required: true,
-    },
+      required: true
+    }
   },
   {
     name: 'creation.app.namespace',
@@ -162,8 +159,8 @@ export const controlData = [
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
-      required: true,
-    },
+      required: true
+    }
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  channels  /////////////////////////////////////
@@ -174,7 +171,7 @@ export const controlData = [
     numbered: '1',
     overline: true,
     collapsable: true,
-    collapsed: false,
+    collapsed: false
   },
   ///////////////////////  channels  /////////////////////////////////////
   {
@@ -184,7 +181,7 @@ export const controlData = [
       nameId: 'channelName',
       baseName: 'channel',
       addPrompt: 'creation.app.add.channel',
-      deletePrompt: 'creation.app.delete.channel',
+      deletePrompt: 'creation.app.delete.channel'
     },
     controlData: [
       {
@@ -192,13 +189,13 @@ export const controlData = [
         type: 'section',
         title: 'creation.app.channel.title',
         collapsable: true,
-        collapsed: false,
+        collapsed: false
       },
       ///////////////////////  channel name  /////////////////////////////////////
       {
         id: 'channelName',
         type: 'hidden',
-        active: 'channel',
+        active: 'channel'
       },
       {
         id: 'channelType',
@@ -215,7 +212,7 @@ export const controlData = [
             title: 'creation.app.channel.github',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
-              insertControlData: githubChannelData,
+              insertControlData: githubChannelData
             }
           },
           {
@@ -224,7 +221,7 @@ export const controlData = [
             title: 'creation.app.channel.deployable',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
-              insertControlData: deployableChannelData,
+              insertControlData: deployableChannelData
             }
           },
           {
@@ -233,7 +230,7 @@ export const controlData = [
             title: 'creation.app.channel.helmrepo',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
-              insertControlData: helmReleaseChannelData,
+              insertControlData: helmReleaseChannelData
             }
           },
           {
@@ -242,7 +239,7 @@ export const controlData = [
             title: 'creation.app.channel.objectstore',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
-              insertControlData: objectstoreChannelData,
+              insertControlData: objectstoreChannelData
             }
           },
           {
@@ -251,17 +248,17 @@ export const controlData = [
             title: 'creation.app.channel.secret',
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
-              insertControlData: secretNameChannelData,
+              insertControlData: secretNameChannelData
             }
-          },
+          }
         ],
         active: '',
         validation: {
           notification: 'creation.ocp.cluster.must.select.resource.type',
-          required: true,
-        },
-      },
-    ],
+          required: true
+        }
+      }
+    ]
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
@@ -272,7 +269,7 @@ export const controlData = [
     numbered: '2',
     overline: true,
     collapsable: true,
-    collapsed: false,
+    collapsed: false
   },
 
   {
@@ -281,9 +278,63 @@ export const controlData = [
     placeholder: 'creation.view.policy.select.selectors',
     id: 'clusters',
     type: 'multiselect',
-    available: [],
+    available: []
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  settings  /////////////////////////////////////
+  {
+    id: 'settingsSection',
+    type: 'section',
+    title: 'creation.app.section.settings',
+    numbered: '4',
+    overline: true,
+    collapsable: true,
+    collapsed: false
   },
 
+  {
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClustersOnly',
+    tooltip: 'tooltip.creation.app.settings.onlineClustersOnly',
+    active: true,
+    available: []
+  },
+  // {
+  //   id: 'keep-resources-when-deleted-from-app',
+  //   type: 'checkbox',
+  //   name: 'creation.app.settings.keepResourcesWhenDeletedFromApp',
+  //   tooltip: 'tooltip.creation.app.settings.keepResourcesWhenDeletedFromApp',
+  //   active: false,
+  //   available: [],
+  // },
+  // {
+  //   id: 'disable-resource-reconciliation',
+  //   type: 'checkbox',
+  //   name: 'creation.app.settings.disableResourceReconciliation',
+  //   tooltip: 'tooltip.creation.app.settings.disableResourceReconciliation',
+  //   active: false,
+  //   available: [],
+  // },
 
-
+  {
+    id: 'time-window-title',
+    type: 'title',
+    title: 'creation.app.settings.timeWindow',
+    tooltip: 'tooltip.creation.app.settings.timeWindow'
+  },
+  {
+    id: 'time-window-active-mode',
+    type: 'checkbox',
+    name: 'creation.app.settings.timeWindow.activeMode',
+    active: true,
+    available: []
+  },
+  {
+    id: 'time-window-block-mode',
+    type: 'checkbox',
+    name: 'creation.app.settings.timeWindow.blockMode',
+    active: true,
+    available: []
+  }
 ]

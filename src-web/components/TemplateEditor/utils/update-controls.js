@@ -62,6 +62,21 @@ export const VALIDATE_CIDR = {
   required: true,
 }
 
+export const VALIDATE_URL = {
+  tester: {
+    test: (value) => {
+      try {
+        new URL(value)
+      } catch (_) {
+        return false
+      }
+      return true
+    }
+  },
+  notification: 'creation.ocp.cluster.valid.cidr',
+  required: true,
+}
+
 export const VALIDATE_IP_AGAINST_MACHINE_CIDR = {
   contextTester: MACHINE_CIDR_CONTEXT_TESTER,
   required: true,
@@ -101,7 +116,7 @@ export const ControlMode = Object.freeze({
   PROMPT_ONLY: 'PROMPT_ONLY',
 })
 
-export const initializeControlData = (initialControlData, locale, groupNum) =>{
+export const initializeControlData = (initialControlData, locale, groupNum, inGroup) =>{
   const parentControlData = initialControlData.map(control=>{
     const {type, controlData, groupCnt=1} = control
     switch (type) {
@@ -111,7 +126,7 @@ export const initializeControlData = (initialControlData, locale, groupNum) =>{
         active = control.active = []
       }
       while (active.length<groupCnt) {
-        active.push(initializeControlData(controlData, locale, active.length+1))
+        active.push(initializeControlData(controlData, locale, active.length+1, true))
       }
       return control
     }
@@ -121,11 +136,13 @@ export const initializeControlData = (initialControlData, locale, groupNum) =>{
   })
 
   // if any card controls, set this as parent control data
-  parentControlData.forEach(c=>{
-    if (c.type==='cards') {
-      c.parentControlData = parentControlData
-    }
-  })
+  if (inGroup) {
+    parentControlData.forEach(c=>{
+      if (c.type==='cards') {
+        c.groupControlData = parentControlData
+      }
+    })
+  }
   return parentControlData
 }
 
@@ -189,12 +206,12 @@ const initialControl = (control, locale, groupNum) =>{
         } else if (id) {
         // card choices
           availableKey = id
-          const replaces = replacements || change.insertControlData
+          const replaces = replacements || change.replacements
           control.hasReplacements = control.hasReplacements || !!replaces
           if (control.hasReplacements) {
             choice.replacements=replaces
           }
-          control.newEditorMode = control.hasReplacements && type==='cards' && !multiselect
+          control.newEditorMode = change.insertControlData && type==='cards' && !multiselect
         }
         control.availableMap[availableKey] = choice
         return availableKey
@@ -289,7 +306,7 @@ const convertMsgs = (control, locale, groupNum) => {
 
   // if cards convert the data in that
   if (type==='cards' && available) {
-    available.forEach(({change})=>{
+    available.forEach(({change={}})=>{
       if (change.insertControlData) {
         change.insertControlData.forEach(ctrl=>{
           if (!ctrl.isInitialized) {
@@ -319,7 +336,7 @@ export function hitchControlsToYAML(yaml, otherYAMLTabs=[], controlData) {
   // get controlMap
   const controlMap = {}
   controlData.forEach(control=>{
-    const {id, type, active} = control
+    const {id, type, active=[]} = control
     controlMap[id] = control
 
     switch (type) {
@@ -441,7 +458,7 @@ export function updateControls(editors, templateYAML, otherYAMLTabs=[], controlD
   if (!hasSyntaxExceptions) {
     let stopValidating = false
     controlData.forEach(control=>{
-      const {type, active, pauseControlCreationHereUntilSelected} = control
+      const {type, active=[], pauseControlCreationHereUntilSelected} = control
       delete control.exception
       if (!stopValidating) {
         switch (type) {

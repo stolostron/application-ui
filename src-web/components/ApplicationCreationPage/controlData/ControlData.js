@@ -9,7 +9,10 @@
  *******************************************************************************/
 'use strict'
 
-import {VALIDATE_ALPHANUMERIC, VALIDATE_URL} from '../../TemplateEditor/utils/update-controls'
+import {
+  VALIDATE_ALPHANUMERIC,
+  VALIDATE_URL
+} from '../../TemplateEditor/utils/update-controls'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
 
@@ -24,7 +27,7 @@ const githubChannelData = [
     placeholder: 'app.enter.select.github.url',
     available: [],
     validation: VALIDATE_URL,
-    cacheUserValueKey: 'create.app.github.url',
+    cacheUserValueKey: 'create.app.github.url'
   },
   {
     name: 'creation.app.github.user',
@@ -34,7 +37,7 @@ const githubChannelData = [
     active: '',
     encode: true,
     placeholder: 'app.enter.select.username',
-    validation: VALIDATE_ALPHANUMERIC,
+    validation: VALIDATE_ALPHANUMERIC
   },
   {
     name: 'creation.app.github.accessid',
@@ -44,7 +47,7 @@ const githubChannelData = [
     encode: true,
     active: '',
     placeholder: 'app.enter.access.token',
-    validation: VALIDATE_ALPHANUMERIC,
+    validation: VALIDATE_ALPHANUMERIC
   },
   {
     name: 'creation.app.github.branch',
@@ -55,7 +58,7 @@ const githubChannelData = [
     placeholder: 'app.enter.select.branch',
     available: ['master'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.branch',
+    cacheUserValueKey: 'create.app.github.branch'
   },
   {
     name: 'creation.app.github.path',
@@ -66,7 +69,7 @@ const githubChannelData = [
     placeholder: 'app.enter.select.path',
     available: [],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.path',
+    cacheUserValueKey: 'create.app.github.path'
   },
   {
     name: 'creation.app.github.commit',
@@ -75,8 +78,8 @@ const githubChannelData = [
     type: 'text',
     active: '',
     placeholder: 'app.enter.commit',
-    validation: VALIDATE_ALPHANUMERIC,
-  },
+    validation: VALIDATE_ALPHANUMERIC
+  }
 ]
 
 const deployableChannelData = [
@@ -203,7 +206,7 @@ export const controlData = [
       {
         id: 'channelName',
         type: 'hidden',
-        active: 'resource',
+        active: 'resource'
       },
       {
         id: 'channelType',

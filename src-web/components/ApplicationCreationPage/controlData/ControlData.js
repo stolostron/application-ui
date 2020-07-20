@@ -9,67 +9,74 @@
  *******************************************************************************/
 'use strict'
 
-import { VALIDATE_ALPHANUMERIC } from '../../TemplateEditor/utils/update-controls'
+import {VALIDATE_ALPHANUMERIC, VALIDATE_URL} from '../../TemplateEditor/utils/update-controls'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
 
 const githubChannelData = [
   ///////////////////////  github  /////////////////////////////////////
   {
-    name: 'creation.app.github.path',
-    tooltip: 'tooltip.creation.app.github.path',
-    id: 'githubPath',
+    name: 'creation.app.github.url',
+    tooltip: 'tooltip.creation.app.github.url',
+    id: 'githubURL',
     type: 'combobox',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
-    validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.path'
+    placeholder: 'app.enter.select.github.url',
+    available: [],
+    validation: VALIDATE_URL,
+    cacheUserValueKey: 'create.app.github.url',
   },
   {
     name: 'creation.app.github.user',
     tooltip: 'tooltip.creation.app.github.user',
     id: 'githubUser',
-    type: 'combobox',
+    type: 'text',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
+    encode: true,
+    placeholder: 'app.enter.select.username',
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.user'
   },
   {
     name: 'creation.app.github.accessid',
     tooltip: 'tooltip.creation.app.github.accessid',
     id: 'githubAccessId',
-    type: 'combobox',
+    type: 'text',
+    encode: true,
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
+    placeholder: 'app.enter.access.token',
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.accessid'
   },
   {
     name: 'creation.app.github.branch',
-    tooltip: 'tooltip.creation.app.github.accessid',
+    tooltip: 'tooltip.creation.app.github.branch',
     id: 'githubBranch',
     type: 'combobox',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
+    placeholder: 'app.enter.select.branch',
+    available: ['master'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.accessid'
+    cacheUserValueKey: 'create.app.github.branch',
+  },
+  {
+    name: 'creation.app.github.path',
+    tooltip: 'tooltip.creation.app.github.path',
+    id: 'githubPath',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.path',
+    available: [],
+    validation: VALIDATE_ALPHANUMERIC,
+    cacheUserValueKey: 'create.app.github.path',
   },
   {
     name: 'creation.app.github.commit',
-    tooltip: 'tooltip.creation.app.github.accessid',
+    tooltip: 'tooltip.creation.app.github.commit',
     id: 'githubCommit',
-    type: 'combobox',
+    type: 'text',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
+    placeholder: 'app.enter.commit',
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.accessid'
-  }
+  },
 ]
 
 const deployableChannelData = [
@@ -156,6 +163,7 @@ export const controlData = [
     id: 'namespace',
     type: 'text',
     syncedWith: 'name',
+    syncedSuffix: '-ns',
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
@@ -179,7 +187,7 @@ export const controlData = [
     type: 'group',
     prompts: {
       nameId: 'channelName',
-      baseName: 'channel',
+      baseName: 'resource',
       addPrompt: 'creation.app.add.channel',
       deletePrompt: 'creation.app.delete.channel'
     },
@@ -195,7 +203,7 @@ export const controlData = [
       {
         id: 'channelName',
         type: 'hidden',
-        active: 'channel'
+        active: 'resource',
       },
       {
         id: 'channelType',

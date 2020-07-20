@@ -321,7 +321,7 @@ export default class TemplateEditor extends React.Component {
     if (inx===undefined) {
       // add new group
       const {prompts: {nameId, baseName}} = control
-      const newGroup = initializeControlData(cd, locale, active.length+1)
+      const newGroup = initializeControlData(cd, locale, active.length+1, true)
       active.push(newGroup)
       const nameControl = _.keyBy(newGroup, 'id')[nameId]
       nameControl.active = `${baseName}-${active.length-1}`
@@ -364,6 +364,7 @@ export default class TemplateEditor extends React.Component {
 
   // change editor mode based on what card is selected
   changeEditorMode(control, controlData) {
+    const {locale} = this.props
     let {template} = this.props
     const {otherYAMLTabs} = this.state
     let {templateYAML, templateObject} = this.state
@@ -371,19 +372,19 @@ export default class TemplateEditor extends React.Component {
     let newYAMLTabs = otherYAMLTabs
 
     // if card has its own control data and template, append it to control data
-    const {availableMap, parentControlData} = control
+    const {availableMap, groupControlData} = control
     const {change} = availableMap[control.active]
     if (change) {
-      const {replaceTemplate, insertControlData} = change
+      const {replaceTemplate=template, insertControlData} = change
 
       // insert control data into main control data
       if (insertControlData) {
-
         // splice control data with data from this card
-        const thisControlData = parentControlData || controlData
-        const insertInx = thisControlData.findIndex(({id})=>id===control.id)
-        const deleteLen = thisControlData.length-insertInx-1
-        thisControlData.splice(insertInx+1, deleteLen, ...insertControlData)
+        const parentControlData = groupControlData || controlData
+        const insertInx = parentControlData.findIndex(({id})=>id===control.id)
+        const deleteLen = parentControlData.length-insertInx-1
+        parentControlData.splice(insertInx+1, deleteLen, ..._.cloneDeep(insertControlData))
+        controlData = initializeControlData(controlData, locale)
       }
 
       // replace template and regenerate templateYAML and highlight diffs

@@ -600,16 +600,18 @@ class ControlPanel extends React.Component {
   renderComboBox(control) {
     const {locale} = this.props
     const {id, name, userData=[], availableMap, exception, validation,
-      hasReplacements, isLoading, isFailed} = control
+      hasReplacements, isLoading, isFailed, fetchAvailable} = control
     const { controlData } = this.props
     let {active, available, placeholder=''} = control
     let loadingMsg
-    if (isLoading) {
-      loadingMsg = msgs.get(_.get(control, 'fetchAvailable.loadingDesc', 'resource.loading'), locale)
-    } else if (isFailed) {
-      placeholder = msgs.get('resource.error', locale)
-    } else if (available.length===0) {
-      placeholder = msgs.get(_.get(control, 'fetchAvailable.emptyDesc', 'resource.empty'), locale)
+    if (fetchAvailable) {
+      if (isLoading) {
+        loadingMsg = msgs.get(_.get(control, 'fetchAvailable.loadingDesc', 'resource.loading'), locale)
+      } else if (isFailed) {
+        placeholder = msgs.get('resource.error', locale)
+      } else if (available.length===0) {
+        placeholder = msgs.get(_.get(control, 'fetchAvailable.emptyDesc', 'resource.empty'), locale)
+      }
     }
     available = _.uniq([...userData, ...available])
 
@@ -783,7 +785,7 @@ class ControlPanel extends React.Component {
     if (syncWith) {
       // whatever is typed into this control, also put in other control
       const syncControl = controlData.find(({id})=>id===syncWith)
-      syncControl.active = control.active
+      syncControl.active = `${control.active}${syncControl.syncedSuffix||''}`
     }
     if (syncedWith) {
       // if another control is synced with this control and
@@ -819,7 +821,6 @@ class ControlPanel extends React.Component {
     } else {
       control.active = [selection]
       this.props.handleNewEditorMode(control, controlData, this.creationView)
-      this.props.handleControlChange(control, controlData, this.creationView, isCustomName)
     }
   }
 

@@ -52,18 +52,43 @@ metadata:
   namespace: {{{../../namespace}}}
 spec:
   type: GitHub
-  pathname: https://github.com/open-cluster-management/gitops-clusters.git
+  pathname: {{{../githubURL}}} ##channels.{{@index}}.githubURL
   secretRef:
-    name: github-gitops-clusters
+    name: {{{../../name}}}-github-authentication-{{@index}}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: github-gitops-clusters
-  namespace: gitops-cluster-lifecycle
+  name: {{{../../name}}}-github-authentication-{{@index}}
+  namespace: {{{../../namespace}}}
 data:
-  user: dXNlcgo=            # Value of user and accessToken is Base 64 coded.
-  accessToken: cGFzc3dvcmQ      
+  user: {{{../githubUser}}}
+  accessToken: {{{../githubAccessId}}}      
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  annotations:
+{{#if ../githubBranch}}
+    apps.open-cluster-management.io/github-branch: {{{../../githubBranch}}}
+{{/if}}
+{{#if ../githubPath}}
+    apps.open-cluster-management.io/github-path: {{{../../githubPath}}}
+{{/if}}
+{{#if ../githubCommit}}
+    apps.open-cluster-management.io/git-commit: {{{../../githubCommit}}}
+{{/if}}
+  labels:
+    app: {{{../../name}}}
+  name: placement-{{{../../name}}}-subscription-{{@index}}
+  namespace: {{{../../namespace}}}
+spec:
+  channel: {{{../../namespace}}}/{{{../../name}}}-{{{../channelName}}}
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: {{{../../name}}}-placement
+  
 {{/case}}
 
 
@@ -73,30 +98,6 @@ data:
 {{! ========================================================== }}
 {{! ========================================================== }}
 {{#case 'helmrepo'}}
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Channel
-metadata:
-  name: {{{../name}}}-{{{channelName}}}
-  namespace: {{{../name}}}
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: hub-repo
-spec:
-  type: HelmRepo
-  pathname: https://9.21.107.150:8443/helm-repo/charts # URL points to a valid chart URL.
-  configRef:
-    name: insecure-skip-verify
----
-apiVersion: v1
-data:
-  insecureSkipVerify: "true"
-kind: ConfigMap
-metadata:
-  name: insecure-skip-verify
-  namespace: hub-repo 
   
 {{/case}}
 
@@ -107,20 +108,6 @@ metadata:
 {{! ========================================================== }}
 {{! ========================================================== }}
 {{#case 'objectstore'}}
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Channel
-metadata:
-  name: {{{../name}}}-{{{channelName}}}
-  namespace: {{{../name}}}
-spec:
- type: ObjectBucket
- pathname: http://9.28.236.243:31311/dev
- secretRef:
-   name: miniosecret
- gates:
-   annotations:
-     dev-ready: true
        
 {{/case}}
 
@@ -147,29 +134,6 @@ spec:
 {{/switch}}
 {{/each}}
   
-{{! ========================================================== }}
-{{! ========================================================== }}
-{{! ==================Subscription =========================== }}
-{{! ========================================================== }}
-{{! ========================================================== }}
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Subscription
-metadata:
-  name:
-  namespace:
-spec:
-  channel:
-  placement: 
-    placementRef: 
-      kind: PlacementRule
-      name:
-timeWindow: 
-  type: {{#if time-window-block-mode}} "block" {{else}} "active" {{/if}}
-  location: "America/Toronto"
-  weekdays:
-  hours:
-
 
 {{! ========================================================== }}
 {{! ========================================================== }}
@@ -181,8 +145,8 @@ timeWindow:
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
-  name:
-  namespace:
+  name: {{{name}}}-placement
+  namespace: {{{namespace}}}
 spec:
   clusterSelector:
     matchLabels:

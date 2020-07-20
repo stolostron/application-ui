@@ -131,6 +131,11 @@
         margin: 1rem 0 -1rem 0;
       }
     }
+
+    &-with-shadow {
+      @extend .simple-header;
+      box-shadow: 0 0.1875rem 0.5rem 0 rgba(0, 0, 0, 0.05);
+    }
   }
 
   .bx--detail-page-header--with-tabs {

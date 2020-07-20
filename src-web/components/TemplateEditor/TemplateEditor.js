@@ -383,7 +383,7 @@ export default class TemplateEditor extends React.Component {
         const parentControlData = groupControlData || controlData
         const insertInx = parentControlData.findIndex(({id})=>id===control.id)
         const deleteLen = parentControlData.length-insertInx-1
-        parentControlData.splice(insertInx+1, deleteLen, ...insertControlData)
+        parentControlData.splice(insertInx+1, deleteLen, ..._.cloneDeep(insertControlData))
         controlData = initializeControlData(controlData, locale)
       }
 

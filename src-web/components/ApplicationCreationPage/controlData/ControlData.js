@@ -33,6 +33,7 @@ const githubChannelData = [
     id: 'githubUser',
     type: 'text',
     active: '',
+    encode: true,
     placeholder: 'app.enter.select.username',
     validation: VALIDATE_ALPHANUMERIC,
   },
@@ -41,6 +42,7 @@ const githubChannelData = [
     tooltip: 'tooltip.creation.app.github.accessid',
     id: 'githubAccessId',
     type: 'text',
+    encode: true,
     active: '',
     placeholder: 'app.enter.access.token',
     validation: VALIDATE_ALPHANUMERIC,
@@ -52,7 +54,7 @@ const githubChannelData = [
     type: 'combobox',
     active: '',
     placeholder: 'app.enter.select.branch',
-    available: [],
+    available: ['master'],
     validation: VALIDATE_ALPHANUMERIC,
     cacheUserValueKey: 'create.app.github.branch',
   },
@@ -164,6 +166,7 @@ export const controlData = [
     id: 'namespace',
     type: 'text',
     syncedWith: 'name',
+    syncedSuffix: '-ns',
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
@@ -187,7 +190,7 @@ export const controlData = [
     type: 'group',
     prompts: {
       nameId: 'channelName',
-      baseName: 'channel',
+      baseName: 'resource',
       addPrompt: 'creation.app.add.channel',
       deletePrompt: 'creation.app.delete.channel',
     },
@@ -203,7 +206,7 @@ export const controlData = [
       {
         id: 'channelName',
         type: 'hidden',
-        active: 'channel',
+        active: 'resource',
       },
       {
         id: 'channelType',

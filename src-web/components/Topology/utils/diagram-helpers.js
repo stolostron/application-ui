@@ -220,7 +220,8 @@ export const getNodePropery = (node, propPath, key, defaultValue, status) => {
     }
   }
 
-  if (data) {
+  if (data !== undefined) {
+    // must show 0 values as well
     return {
       labelKey: key,
       value: data,
@@ -554,7 +555,7 @@ function factorize(prefixes, unit, type) {
 }
 
 export const getPercentage = (value, total) => {
-  return Math.floor(100 * value / total) || 0
+  return Math.floor(100 * (total - value) / total) || 0
 }
 
 export const setClusterStatus = (node, details) => {
@@ -574,11 +575,17 @@ export const setClusterStatus = (node, details) => {
   }
 
   clusterArr.forEach(c => {
-    const { metadata = {}, capacity = {}, usage = {}, clusterip, status } = c
+    const {
+      metadata = {},
+      capacity = {},
+      allocatable = {},
+      clusterip,
+      status
+    } = c
     const { name, namespace, creationTimestamp } = metadata
     //void ({ labels } = metadata)
-    const { nodes, cpu: cc, memory: cm, storage: cs } = capacity
-    const { pods, cpu: uc, memory: um, storage: us } = usage
+    const { nodes, cpu: cc, memory: cm } = capacity
+    const { pods, cpu: ac, memory: am } = allocatable
     details.push({ labelKey: 'resource.name', value: name })
     details.push({ labelKey: 'resource.namespace', value: namespace })
     if (c.consoleURL) {
@@ -605,15 +612,11 @@ export const setClusterStatus = (node, details) => {
       { labelKey: 'resource.status', value: status },
       {
         labelKey: 'resource.cpu',
-        value: `${getPercentage(inflateKubeValue(uc), inflateKubeValue(cc))}%`
+        value: `${getPercentage(inflateKubeValue(ac), inflateKubeValue(cc))}%`
       },
       {
         labelKey: 'resource.memory',
-        value: `${getPercentage(inflateKubeValue(um), inflateKubeValue(cm))}%`
-      },
-      {
-        labelKey: 'resource.storage',
-        value: `${getPercentage(inflateKubeValue(us), inflateKubeValue(cs))}%`
+        value: `${getPercentage(inflateKubeValue(am), inflateKubeValue(cm))}%`
       },
       { labelKey: 'resource.created', value: getAge(creationTimestamp) }
     ])
@@ -689,21 +692,56 @@ export const createResourceSearchLink = node => {
 
 //for charts remove release name
 export const getNameWithoutChartRelease = (relatedKind, name) => {
-  //for charts remove release name
+  const kind = _.get(relatedKind, 'kind', '')
+
+  if (
+    kind === 'subscription' ||
+    name !== _.get(relatedKind, '_hostingDeployable', '')
+  ) {
+    return name //ignore subscription objects or objects where the name is not created from the _hostingDeployable
+  }
+
+  //for resources deployed from charts, remove release name
+  //note that the name parameter is the _hostingDeployable
+  //and is in this format ch-git-helm/git-helm-chart1-1.1.1
   const labelAttr = _.get(relatedKind, 'label', '')
   const labels = _.split(labelAttr, ';')
+  let foundReleaseLabel = false
   labels.forEach(label => {
     const splitLabelContent = _.split(label, '=')
     if (
       splitLabelContent.length === 2 &&
       _.trim(splitLabelContent[0]) === 'release'
     ) {
-      //get for release name
+      //get label for release name
+      foundReleaseLabel = true
       const releaseName = _.trim(splitLabelContent[1])
       name = _.replace(name, `${releaseName}-`, '')
       name = _.replace(name, releaseName, '')
     }
   })
+
+  if (!foundReleaseLabel && kind === 'helmrelease') {
+    //try to guess the release name from the name, which is the _hostingDeployable
+    //and is in this format ch-git-helm/git-helm-chart1-1.1.1 - we want chart1-1.1.1
+    const resourceName = _.get(relatedKind, 'name', '')
+    let resourceNameNoHash = resourceName.replace(
+      /-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/,
+      ''
+    )
+    if (resourceName === resourceNameNoHash) {
+      const idx = resourceNameNoHash.lastIndexOf('-')
+      if (idx !== -1) {
+        resourceNameNoHash = resourceNameNoHash.substr(0, idx)
+      }
+    }
+
+    const values = _.split(name, '-')
+    if (values.length > 2) {
+      //take the last value which is the version
+      name = `${resourceNameNoHash}-${values[values.length - 1]}`
+    }
+  }
 
   return name
 }
@@ -1061,17 +1099,33 @@ export const setSubscriptionDeployStatus = (node, details) => {
 
     const isLocalFailedSubscription =
       subscription._hubClusterResource &&
-      R.contains('Fail', R.pathOr('', ['status'])(subscription))
+      R.contains('Fail', R.pathOr('Fail', ['status'])(subscription))
     if (isLocalFailedSubscription) {
       localSubscriptionFailed = true
     }
     if (!subscription._hubClusterResource || isLocalFailedSubscription) {
+      const subscriptionPulse = R.contains(
+        'Fail',
+        R.pathOr('', ['status'])(subscription)
+      )
+        ? 'failure'
+        : R.pathOr(null, ['status'])(subscription) === null
+          ? 'warning'
+          : 'checkmark'
+
+      //if subscription has not status show an error message
+      const emptyStatusErrorMsg = subscription._hubClusterResource
+        ? msgs.get('resource.subscription.nostatus.hub', ['Propagated'])
+        : msgs.get('resource.subscription.nostatus.remote', ['Subscribed'])
+
+      const subscriptionStatus = R.pathOr(emptyStatusErrorMsg, ['status'])(
+        subscription
+      )
+
       details.push({
         labelValue: subscription.cluster,
-        value: subscription.status,
-        status: R.contains('Fail', R.pathOr('', ['status'])(subscription))
-          ? 'failure'
-          : 'checkmark'
+        value: subscriptionStatus,
+        status: subscriptionPulse
       }) &&
         details.push({
           type: 'link',

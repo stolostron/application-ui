@@ -30,7 +30,26 @@ export class SecondaryHeader extends React.Component {
     this.renderTabs = this.renderTabs.bind(this)
     this.renderTooltip = this.renderTooltip.bind(this)
     this.renderLinks = this.renderLinks.bind(this)
+    this.state = {
+      shadowPresent: false
+    }
   }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.listenToScroll)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.listenToScroll)
+  }
+
+  listenToScroll = () => {
+    if (window.scrollY > 0.1 && this.state.shadowPresent === false) {
+      this.setState({ shadowPresent: true })
+    } else if (window.scrollY <= 0.1 && this.state.shadowPresent === true) {
+      this.setState({ shadowPresent: false })
+    }
+  };
 
   render() {
     const { tabs, title, breadcrumbItems, links } = this.props
@@ -46,7 +65,11 @@ export class SecondaryHeader extends React.Component {
             role="region"
             aria-label={title}
           >
-            <div className="secondary-header simple-header">
+            <div
+              className={`secondary-header simple-header${
+                this.state.shadowPresent ? '-with-shadow' : ''
+              }`}
+            >
               <header aria-label={`Heading: ${title}`}>
                 <div className="bx--detail-page-header-content">
                   {tabs && tabs.length > 0 ? (
@@ -104,7 +127,11 @@ export class SecondaryHeader extends React.Component {
             role="region"
             aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
           >
-            <div className="secondary-header simple-header">
+            <div
+              className={`secondary-header simple-header${
+                this.state.shadowPresent ? '-with-shadow' : ''
+              }`}
+            >
               <h1 className="bx--detail-page-header-title">
                 {decodeURIComponent(title)}
               </h1>

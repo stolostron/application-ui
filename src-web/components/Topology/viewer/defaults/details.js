@@ -21,7 +21,6 @@ import {
   setApplicationDeployStatus,
   setPlacementRuleDeployStatus,
   addDetails,
-  getAge,
   addNodeOCPRouteLocationForCluster,
   addIngressNodeInfo,
   setClusterStatus
@@ -88,42 +87,6 @@ export const getNodeDetails = node => {
       break
     }
 
-    // deployable status
-    const deployStatuses = _.get(node, 'specs.deployStatuses')
-    if (deployStatuses) {
-      deployStatuses.forEach(
-        ({ lastUpdateTime, phase, reason, resourceStatus }) => {
-          details.push({
-            type: 'label',
-            labelKey: 'resource.status',
-            value: phase
-          })
-          if (reason) {
-            details.push({
-              type: 'label',
-              labelKey: 'resource.reason',
-              value: reason
-            })
-          }
-          if (resourceStatus) {
-            details.push({
-              type: 'label',
-              labelKey: 'resource.status.last.updated',
-              value: getAge(lastUpdateTime)
-            })
-            details.push({
-              type: 'label',
-              labelKey: 'resource.resource.status'
-            })
-            details.push({
-              type: 'snippet',
-              value: resourceStatus
-            })
-          }
-        }
-      )
-    }
-
     // labels
     if (labels && labels.length) {
       details.push({
@@ -159,6 +122,34 @@ function addK8Details(node, details) {
         : R.pathOr(undefined, ['specs', 'raw', 'metadata', 'namespace'])(node)
     }
   ]
+
+  //for charts
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'chartName'],
+      'raw.spec.chart.name'
+    )
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'releaseName'],
+      'raw.spec.release.name'
+    )
+  )
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'version'],
+      'raw.spec.version'
+    )
+  )
+  //
 
   addPropertyToList(
     mainDetails,
@@ -239,6 +230,23 @@ function addK8Details(node, details) {
       node,
       ['specs', 'raw', 'spec', 'clusterSelector', 'matchLabels'],
       'raw.spec.clusterSelector'
+    )
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'clusterConditions'],
+      'raw.spec.clusterConditions'
+    )
+  )
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'clusterLabels', 'matchLabels'],
+      'raw.spec.clusterLabels'
     )
   )
 

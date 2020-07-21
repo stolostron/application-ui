@@ -122,7 +122,7 @@ class ControlPanelTable extends React.Component {
         }
       }
       columns.forEach(column => {
-        row[column.key] = item[column.key] != undefined ? item[column.key] : '-'
+        row[column.key] = item[column.key] !== undefined ? item[column.key] : '-'
       })
       if (deletePrompt) {
         row.action = (
@@ -232,7 +232,8 @@ class ControlPanelTable extends React.Component {
                             ? <button
                               title={msgs.get(`svg.description.${!sortColumn || sortDirection === 'desc' ? 'asc' : 'desc'}`, locale)}
                               onClick={this.handleSort(header.key)}
-                              className={`bx--table-sort-v2${sortDirection === 'asc' ? ' bx--table-sort-v2--ascending' : ''}${sortColumn === header.key ? ' bx--table-sort-v2--active' : ''}`}
+                              className={`bx--table-sort-v2${sortDirection === 'asc' ?
+                                ' bx--table-sort-v2--ascending' : ''}${sortColumn === header.key ? ' bx--table-sort-v2--active' : ''}`}
                               data-key={header.key} >
                               <span className='bx--table-header-label'>{header.header}</span>
                               <Icon

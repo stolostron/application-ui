@@ -32,6 +32,8 @@ import msgs from '../../../nls/platform.properties'
 import '../../../graphics/diagramIcons.svg'
 import _ from 'lodash'
 
+const TEMPLATE_EDITOR_OPEN_COOKIE = 'template-editor-open-cookie'
+
 export default class TemplateEditor extends React.Component {
 
   static propTypes = {
@@ -128,7 +130,7 @@ export default class TemplateEditor extends React.Component {
     super(props)
     this.state = {
       isCustomName: false,
-      showEditor: !!localStorage.getItem('template-editor-open-cookie'),
+      showEditor: !!localStorage.getItem(TEMPLATE_EDITOR_OPEN_COOKIE),
       template: props.template,
       activeYAMLEditor: 0,
       exceptions: [],
@@ -216,13 +218,13 @@ export default class TemplateEditor extends React.Component {
       this.editors = []
     }
 
-    if (!isLoaded)
+    if (!isLoaded) {
       return <Loading withOverlay={false} className='content-spinner' />
-
-    if (isFailed)
+    }
+    if (isFailed) {
       return <Notification title='' className='overview-notification' kind='error'
         subtitle={msgs.get('overview.error.default', locale)} />
-
+    }
     const viewClasses = classNames({
       'creation-view': true,
       showEditor
@@ -307,8 +309,8 @@ export default class TemplateEditor extends React.Component {
     const {templateYAML:newYAML, templateObject} = generateYAML(template, controlData, otherYAMLTabs)
     updateControls(this.editors, newYAML, otherYAMLTabs, controlData, isFinalValidate, locale)
     highlightAllChanges(this.editors, templateYAML, newYAML, otherYAMLTabs, this.selectedTab)
-    const notifications = controlData.filter(control=>{
-      return !!control.exception && isFinalValidate
+    const notifications = controlData.filter(c=>{
+      return !!c.exception && isFinalValidate
     })
     this.setState({controlData, isCustomName, templateYAML: newYAML, templateObject, exceptions:[], notifications})
     this.handleScrollAndCollapse(control, controlData, creationView)
@@ -351,8 +353,8 @@ export default class TemplateEditor extends React.Component {
 
     delete control.exception
     if (notifications.length>0) {
-      notifications = controlData.filter(control=>{
-        return !!control.exception
+      notifications = controlData.filter(c=>{
+        return !!c.exception
       })
     }
 
@@ -512,7 +514,7 @@ export default class TemplateEditor extends React.Component {
           setEditor={this.addEditor}
           onYamlChange={this.handleEditorChange}
           yaml={templateYAML} />
-        {otherYAMLTabs.map(({id, templateYAML}, inx) => {
+        {otherYAMLTabs.map(({id, templateYAML:yaml}, inx) => {
           return (
             <YamlEditor
               id={id}
@@ -523,7 +525,7 @@ export default class TemplateEditor extends React.Component {
               wrapEnabled={true}
               setEditor={this.addEditor}
               onYamlChange={this.handleEditorChange}
-              yaml={templateYAML} />
+              yaml={yaml} />
           )
         })}
       </React.Fragment>
@@ -620,7 +622,7 @@ export default class TemplateEditor extends React.Component {
   }
 
   closeEdit()  {
-    localStorage.removeItem('template-editor-open-cookie')
+    localStorage.removeItem(TEMPLATE_EDITOR_OPEN_COOKIE)
     this.setState({showEditor: false})
   }
 
@@ -701,9 +703,9 @@ export default class TemplateEditor extends React.Component {
     // if typing on another tab that represents encoded yaml in the main tab,
     // update the main yaml--for now
     if (activeYAMLEditor!==0) {
-      const {template, templateYAML} = this.state
+      const {template, templateYAML:yaml} = this.state
       const {templateYAML:newYAML, templateObject} = generateYAML(template, controlData, otherYAMLTabs)
-      highlightChanges(this.editors[0], templateYAML, newYAML)
+      highlightChanges(this.editors[0], yaml, newYAML)
       this.setState({controlData, notifications, templateYAML: newYAML, templateObject})
     } else {
       this.setState({controlData, notifications, templateYAML})
@@ -774,14 +776,14 @@ export default class TemplateEditor extends React.Component {
     const { portals={}, locale } = this.props
     const { editBtn } = portals
     if (editBtn) {
-      var portal = document.getElementById(editBtn)
+      const portal = document.getElementById(editBtn)
       if (portal) {
         const { showEditor } = this.state
         const handleToggle = () => {
           if (showEditor) {
-            localStorage.removeItem('template-editor-open-cookie')
+            localStorage.removeItem(TEMPLATE_EDITOR_OPEN_COOKIE)
           } else {
-            localStorage.setItem('template-editor-open-cookie', 'true')
+            localStorage.setItem(TEMPLATE_EDITOR_OPEN_COOKIE, 'true')
           }
           this.setState({showEditor: !showEditor})
         }
@@ -810,7 +812,7 @@ export default class TemplateEditor extends React.Component {
     const { portals={}, createControl, locale } = this.props
     const { createBtn } = portals
     if (createControl && createBtn) {
-      var portal = document.getElementById(createBtn)
+      const portal = document.getElementById(createBtn)
       if (portal) {
         return ReactDOM.createPortal(
           <Button id={createBtn}
@@ -838,7 +840,7 @@ export default class TemplateEditor extends React.Component {
     const { portals={}, createControl, locale } = this.props
     const { cancelBtn } = portals
     if (createControl && cancelBtn) {
-      var portal = document.getElementById(cancelBtn)
+      const portal = document.getElementById(cancelBtn)
       if (portal) {
         const {cancelCreate} = createControl
         return ReactDOM.createPortal(

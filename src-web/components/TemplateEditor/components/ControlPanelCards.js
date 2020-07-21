@@ -39,7 +39,11 @@ class ControlPanelCards extends React.Component {
     const { control } = this.props
     if(typeof control.active === 'function') {
       const activeID = control.active(control, this.props.fetchData)
-      activeID ? this.props.handleChange(activeID) : control.active = []
+      if (activeID) {
+        this.props.handleChange(activeID)
+      } else {
+        control.active = []
+      }
     }
   }
 

@@ -39,7 +39,7 @@ class ControlPanelLabels extends React.Component {
   render() {
     const {locale, control} = this.props
     const {id, name, active=[]} = control
-    const formatted = active.map(({key, value})=>(`${key}=${value}`))
+    const formatted = active.map(({key, value:v})=>(`${key}=${v}`))
     const {value, invalid, invalidText} = this.state
     return (
       <React.Fragment>
@@ -96,7 +96,9 @@ class ControlPanelLabels extends React.Component {
     const {control, locale} = this.props
     const {active=[]} = control
     let value = event.target.value
-    if (value===',') value=''
+    if (value===',') {
+      value=''
+    }
     let invalid = !regex.test(value)
     let invalidText = ''
     if (invalid) {

@@ -127,20 +127,20 @@ class ControlPanel extends React.Component {
       }
     })
 
-    return controlSections.map(({title, content})=>{
+    return controlSections.map(({title, content:_content})=>{
       const {id, collapsed=false, shadowed} = title
       const sectionClasses = classNames({
         'creation-view-controls-section': true,
         shadowed,
         collapsed,
       })
-      title.content = content
+      title.content = _content
       return (
         <React.Fragment key={id}>
           {this.renderControl(id, 'section', title)}
           <div className={sectionClasses}
             ref={this.setControlSectionRef.bind(this, title)}>
-            {this.renderControls(content)}
+            {this.renderControls(_content)}
           </div>
         </React.Fragment>
       )
@@ -292,6 +292,7 @@ class ControlPanel extends React.Component {
         {this.renderCheckbox(control)}
       </React.Fragment>)
     }
+    return null
   }
 
   renderTitle(control) {
@@ -306,8 +307,8 @@ class ControlPanel extends React.Component {
         control.sectionTitleRef.classList.toggle('collapsed', !isCollapsed)
         if (isCollapsed) {
           // if expanding make sure at least 1st control is visible
-          const {content} = control
-          const ref = _.get(content, '[2].ref') || _.get(content, '[1].ref') || _.get(content, '[0].ref')
+          const {content:_content} = control
+          const ref = _.get(_content, '[2].ref') || _.get(_content, '[1].ref') || _.get(_content, '[0].ref')
           if (ref) {
             const rect = ref.getBoundingClientRect()
             if(rect.top < 0 || rect.bottom > window.innerHeight) {
@@ -394,8 +395,8 @@ class ControlPanel extends React.Component {
         })
         break
       case 'labels':
-        active.forEach(({key, value})=>{
-          summary.push(`${key}=${value}`)
+        active.forEach(({key:k, value})=>{
+          summary.push(`${k}=${value}`)
         })
         break
       default:
@@ -440,16 +441,8 @@ class ControlPanel extends React.Component {
 
   renderTextInput(control) {
     const {locale} = this.props
-    const {id, name, active:value, existing, exception, validation={}} = control
+    const {id, name, active:value, exception, validation={}} = control
 
-    // special case--validate that name is unique
-    let invalid = !!exception
-    if (!invalid && id==='name') {
-      const { isCustomName } = this.props
-      if (isCustomName && existing) {
-        invalid = new Set(existing).has(value)
-      }
-    }
     // if placeholder missing, create one
     let {placeholder} = control
     if (!placeholder) {
@@ -657,10 +650,8 @@ class ControlPanel extends React.Component {
                   if (input) {
                     input.autocomplete = 'no'
                     input.addEventListener('keyup', (e)=>{
-                      if ( e.key === 'Enter') {
-                        if (control.typing) {
-                          this.handleComboboxChange(control, userData, controlData)
-                        }
+                      if ( e.key === 'Enter' && control.typing) {
+                        this.handleComboboxChange(control, userData, controlData)
                       }
                     })
                   }

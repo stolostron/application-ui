@@ -216,11 +216,11 @@ export const getSearchLinkForAllClusters = () => {
 }
 
 export const getSearchLinkForAllChannels = () => {
-  return '/multicloud/search?filters={"textsearch":"kind%3Achannel"}'
+  return '/multicloud/search?filters={"textsearch":"kind%3Aapplication"}&showrelated=channel'
 }
 
 export const getSearchLinkForAllPlacementRules = () => {
-  return '/multicloud/search?filters={"textsearch":"kind%3Aplacementrule"}'
+  return '/multicloud/search?filters={"textsearch":"kind%3Aapplication"}&showrelated=placementrule'
 }
 
 export const getCardsCommonDetails = (

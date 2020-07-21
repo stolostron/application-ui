@@ -308,6 +308,37 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
           <div
             className="bx--toolbar-content"
           >
+            <a
+              href="undefined/create"
+              onClick={[Function]}
+            >
+              <button
+                className="bx--btn bx--btn--sm bx--btn--primary"
+                disabled={false}
+                tabIndex={0}
+                type="button"
+              >
+                Creation Wizard
+                <svg
+                  alt="Add icon"
+                  aria-label="Add icon"
+                  className="bx--btn__icon"
+                  fillRule="evenodd"
+                  height="16"
+                  name="add--glyph"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    Add icon
+                  </title>
+                  <path
+                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+                  />
+                </svg>
+              </button>
+            </a>
             <div>
               <button
                 className="bx--btn bx--btn--sm bx--btn--primary"
@@ -1004,6 +1035,37 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
           <div
             className="bx--toolbar-content"
           >
+            <a
+              href="undefined/create"
+              onClick={[Function]}
+            >
+              <button
+                className="bx--btn bx--btn--sm bx--btn--primary"
+                disabled={false}
+                tabIndex={0}
+                type="button"
+              >
+                Creation Wizard
+                <svg
+                  alt="Add icon"
+                  aria-label="Add icon"
+                  className="bx--btn__icon"
+                  fillRule="evenodd"
+                  height="16"
+                  name="add--glyph"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    Add icon
+                  </title>
+                  <path
+                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+                  />
+                </svg>
+              </button>
+            </a>
             <div>
               <button
                 className="bx--btn bx--btn--sm bx--btn--primary"

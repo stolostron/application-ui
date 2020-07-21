@@ -381,7 +381,8 @@ describe("getSearchLinkForAllClusters", () => {
 
 describe("getSearchLinkForAllChannels", () => {
   it("should return search link for all channels", () => {
-    const result = '/multicloud/search?filters={"textsearch":"kind%3Achannel"}';
+    const result =
+      '/multicloud/search?filters={"textsearch":"kind%3Aapplication"}&showrelated=channel';
     expect(getSearchLinkForAllChannels()).toEqual(result);
   });
 });
@@ -389,7 +390,7 @@ describe("getSearchLinkForAllChannels", () => {
 describe("getSearchLinkForAllPlacementRules", () => {
   it("should return search link for all placement rules", () => {
     const result =
-      '/multicloud/search?filters={"textsearch":"kind%3Aplacementrule"}';
+      '/multicloud/search?filters={"textsearch":"kind%3Aapplication"}&showrelated=placementrule';
     expect(getSearchLinkForAllPlacementRules()).toEqual(result);
   });
 });

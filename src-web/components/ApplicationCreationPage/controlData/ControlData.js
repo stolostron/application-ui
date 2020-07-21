@@ -9,9 +9,48 @@
  *******************************************************************************/
 'use strict'
 
+import _ from 'lodash'
 import {VALIDATE_ALPHANUMERIC, VALIDATE_URL} from '../../TemplateEditor/utils/update-controls'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
+
+import { HCMChannelList } from '../../../../lib/client/queries'
+
+export const LOAD_EXISTING_CHANNELS  = (type)=>{
+  return {
+    query: HCMChannelList,
+    loadingDesc: 'creation.ocp.cloud.loading.connections',
+    setAvailable: setAvailableChannelSpecs.bind(null, type)
+  }
+}
+
+export const setAvailableChannelSpecs  = (type, control, result)=>{
+  const { loading } = result
+  const { data={} } = result
+  const { items } = data
+  control.available = []
+  control.availableMap = {}
+  control.isLoading = false
+  const error = items ? null : result.error
+  if (error) {
+    control.isFailed = true
+  } else if (items) {
+    control.availableData = _.keyBy(items
+      .filter(({type:p})=>{
+        return type.startsWith(p.toLowerCase())
+      }), 'objectPath')
+    control.available = Object.keys(control.availableData).sort()
+  } else {
+    control.isLoading = loading
+  }
+}
+
+const setGithubPath = (control)=>{
+  const pathData = control.availableData[control.active]
+  const type = !pathData || pathData.secretRef ? 'text' : 'hidden'
+  _.set(control.groupControlData.find(({id}) => id === 'githubUser'), 'type', type)
+  _.set(control.groupControlData.find(({id}) => id === 'githubAccessId'), 'type', type)
+}
 
 
 const githubChannelData = [
@@ -25,7 +64,9 @@ const githubChannelData = [
     placeholder: 'app.enter.select.github.url',
     available: [],
     validation: VALIDATE_URL,
+    fetchAvailable: LOAD_EXISTING_CHANNELS('github'),
     cacheUserValueKey: 'create.app.github.url',
+    onSelect: setGithubPath,
   },
   {
     name: 'creation.app.github.user',

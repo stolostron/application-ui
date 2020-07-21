@@ -610,7 +610,7 @@ class ControlPanel extends React.Component {
       } else if (isFailed) {
         placeholder = msgs.get('resource.error', locale)
       } else if (available.length===0) {
-        placeholder = msgs.get(_.get(control, 'fetchAvailable.emptyDesc', 'resource.empty'), locale)
+        placeholder = placeholder || msgs.get(_.get(control, 'fetchAvailable.emptyDesc', 'resource.empty'), locale)
       }
     }
     available = _.uniq([...userData, ...available])

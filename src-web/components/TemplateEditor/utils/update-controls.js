@@ -418,8 +418,8 @@ const syncControls = (object, path, controlMap, tabId) => {
           syncControls(o, p, controlMap, tabId)
         }
       }
-    } else if (typeof object === 'object') {
-      for (var key in object) {
+    } else if (object && typeof object === 'object') {
+      Object.keys(object).forEach(key => {
         o = object[key]
         if (o.$v!==undefined) {
           if (key.includes('.')) {
@@ -429,7 +429,7 @@ const syncControls = (object, path, controlMap, tabId) => {
           }
           syncControls(o, p, controlMap, tabId)
         }
-      }
+      })
     }
   }
 }

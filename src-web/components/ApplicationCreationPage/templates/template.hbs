@@ -53,9 +53,9 @@ metadata:
 spec:
   type: GitHub
   pathname: {{{../githubURL}}} ##channels.{{@index}}.githubURL
-  secretRef:
-    name: {{#if ../githubUser}}{{{../../../name}}}-github-authentication-{{@index}}{{/if}}
 {{#if ../githubUser}}
+  secretRef:
+    name: {{{../../../name}}}-github-authentication-{{@index}}
 ---
 apiVersion: v1
 kind: Secret

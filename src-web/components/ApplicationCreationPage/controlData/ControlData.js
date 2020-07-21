@@ -19,7 +19,7 @@ import { HCMChannelList } from '../../../../lib/client/queries'
 export const LOAD_EXISTING_CHANNELS  = (type)=>{
   return {
     query: HCMChannelList,
-    loadingDesc: 'creation.ocp.cloud.loading.connections',
+    loadingDesc: 'creation.app.loading.channels',
     setAvailable: setAvailableChannelSpecs.bind(null, type)
   }
 }
@@ -45,11 +45,30 @@ export const setAvailableChannelSpecs  = (type, control, result)=>{
   }
 }
 
-const setGithubPath = (control)=>{
-  const pathData = control.availableData[control.active]
+const updateGithubControls = (urlControl)=>{
+  const {active, availableData, groupControlData} = urlControl
+  const pathData = availableData[active]
+
+  // change channel name to reflect github path
+  let control
+  if (active) {
+    control = groupControlData.find(({id}) => id === 'channelName')
+    const a = document.createElement('a')
+    a.href = active
+    control.active = a.pathname.split('/').pop()
+  }
+
+  // hide user/token controls if user selects a github path that doesn't need them
   const type = !pathData || pathData.secretRef ? 'text' : 'hidden'
-  _.set(control.groupControlData.find(({id}) => id === 'githubUser'), 'type', type)
-  _.set(control.groupControlData.find(({id}) => id === 'githubAccessId'), 'type', type)
+  const setType = (cid) => {
+    control = groupControlData.find(({id}) => id === cid)
+    _.set(control, 'type', type)
+    if (type==='hidden') {
+      _.set(control, 'active', '')
+    }
+  }
+  setType('githubUser')
+  setType('githubAccessId')
 }
 
 
@@ -66,7 +85,7 @@ const githubChannelData = [
     validation: VALIDATE_URL,
     fetchAvailable: LOAD_EXISTING_CHANNELS('github'),
     cacheUserValueKey: 'create.app.github.url',
-    onSelect: setGithubPath,
+    onSelect: updateGithubControls,
   },
   {
     name: 'creation.app.github.user',

@@ -73,7 +73,7 @@ export const VALIDATE_URL = {
       return true
     }
   },
-  notification: 'creation.ocp.cluster.valid.cidr',
+  notification: 'creation.invalid.url',
   required: true,
 }
 

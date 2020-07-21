@@ -407,12 +407,18 @@ export default class TemplateEditor extends React.Component {
   handleScrollAndCollapse(control, controlData, creationView) {
     const {showEditor, previouslySelectedCards} = this.state
     // user chose a card with new controls in it---scroll the view down to the new fields
-    const {id, scrollViewAfterSelection, collapseAboveAfterSelection} = control
-    if (scrollViewAfterSelection || collapseAboveAfterSelection) {
-      const wasPreviouslySelected = previouslySelectedCards.includes(id)
+    const {id, ref, groupNum=0, scrollViewAfterSelection, collapseAboveAfterSelection, scrollViewToTopOnSelect} = control
+    if (scrollViewAfterSelection || collapseAboveAfterSelection || scrollViewToTopOnSelect) {
+      const wasPreviouslySelected = previouslySelectedCards.includes(id+groupNum)
       if (!wasPreviouslySelected) {
+        const scrollView = showEditor ? creationView : window
+        const controlTop = ref.getBoundingClientRect().top
+        const panelTop = showEditor ? creationView.getBoundingClientRect().top : 200
         setTimeout(() => {
-          if (collapseAboveAfterSelection) {
+          switch (true) {
+
+          // collapse section above when this control is selected
+          case collapseAboveAfterSelection:
             controlData.some(({id:tid, sectionRef, sectionTitleRef})=>{
               if (sectionRef && sectionTitleRef) {
                 sectionRef.classList.toggle('collapsed', true)
@@ -421,20 +427,33 @@ export default class TemplateEditor extends React.Component {
               return id===tid
             })
             setTimeout(() => {
-              (showEditor?creationView:window).scrollTo({
+              scrollView.scrollTo({
                 top: 0,
                 left: 0,
               })
             }, 100)
-          } else if (scrollViewAfterSelection) {
-            (showEditor?creationView:window).scrollBy({
+            break
+
+          // scroll view down after control is selected by 'scrollViewAfterSelection' pixels
+          case scrollViewAfterSelection:
+            scrollView.scrollBy({
               top: scrollViewAfterSelection,
               left: 0,
               behavior: 'smooth'
             })
+            break
+
+          // scroll control to top when cards have been collapsed (only one card shown)
+          case scrollViewToTopOnSelect:
+            scrollView.scrollBy({
+              top: controlTop-panelTop,
+              left: 0,
+              behavior: 'smooth'
+            })
+            break
           }
         }, 100)
-        previouslySelectedCards.push(id)
+        previouslySelectedCards.push(id+groupNum)
       }
     }
     this.setState({previouslySelectedCards})

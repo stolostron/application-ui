@@ -112,8 +112,8 @@ class ControlPanelCards extends React.Component {
 
   handleChange(id) {
     const {control} = this.props
-    const {collapseControlOnSelect} = control
-    if (collapseControlOnSelect) {
+    const {collapseCardsControlOnSelect} = control
+    if (collapseCardsControlOnSelect) {
       this.setState(prevState=> {
         return {collapsed: !prevState.collapsed}
       })

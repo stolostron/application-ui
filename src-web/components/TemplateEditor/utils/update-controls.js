@@ -139,6 +139,7 @@ export const initializeControlData = (initialControlData, locale, groupNum, inGr
   if (inGroup) {
     parentControlData.forEach(c=>{
       if (c.type==='cards') {
+        c.groupNum = groupNum
         c.groupControlData = parentControlData
       }
     })

@@ -23,4 +23,4 @@ spec:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ns-sub-ns-{$JOB_ID}
+  name: ns-sub-ns-$JOB_ID

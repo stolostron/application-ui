@@ -13,22 +13,22 @@ describe("Application Resources", () => {
   });
 
   // //github channel
-  // it("Given user logs in as sysadmin, user should be able to add github channel", () => {
-  //   let channelCount_b4 = 0;
-  //   let filename = "03_channel-github.yaml";
-  //   cy.get(".tableGridContainer").then($element => {
-  //     if ($element.find(".channelGridContainer").length > 0) {
-  //       channelCount_b4 = $element.find(".channelNameTitle").length;
-  //     }
-  //     cy.createAppResource("channel", "github");
-  //     pageLoader.shouldNotExist();
-  //     modal.shouldNotBeVisible();
-  //     cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
-  //     cy
-  //       .get(".channelNameTitle", { timeout: 600000 })
-  //       .should("have.length", channelCount_b4 + 1);
-  //   });
-  // });
+  it("Given user logs in as sysadmin, user should be able to add github channel", () => {
+    let channelCount_b4 = 0;
+    let filename = "03_channel-github.yaml";
+    cy.get(".tableGridContainer").then($element => {
+      if ($element.find(".channelGridContainer").length > 0) {
+        channelCount_b4 = $element.find(".channelNameTitle").length;
+      }
+      cy.createAppResource("channel", "github");
+      pageLoader.shouldNotExist();
+      modal.shouldNotBeVisible();
+      cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
+      cy
+        .get(".channelNameTitle", { timeout: 600000 })
+        .should("have.length", channelCount_b4 + 1);
+    });
+  });
 
   it("Given user logs in as sysadmin, user should be able to add github subscription", () => {
     let filename = "02_subscription-github.yaml";
@@ -75,22 +75,22 @@ describe("Application Resources", () => {
   });
 
   // namespace channel
-  // it("Given user logs in as sysadmin, user should be able to add namespace channel", () => {
-  //   let channelCount_b4 = 0;
-  //   let filename = "03_channel-namespace.yaml";
-  //   cy.get(".tableGridContainer").then($element => {
-  //     if ($element.find(".channelGridContainer").length > 0) {
-  //       channelCount_b4 = $element.find(".channelNameTitle").length;
-  //     }
-  //     cy.createAppResource("channel", "namespace");
-  //     pageLoader.shouldNotExist();
-  //     modal.shouldNotBeVisible();
-  //     cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
-  //     cy
-  //       .get(".channelNameTitle", { timeout: 600000 })
-  //       .should("have.length", channelCount_b4 + 1);
-  //   });
-  // });
+  it("Given user logs in as sysadmin, user should be able to add namespace channel", () => {
+    let channelCount_b4 = 0;
+    let filename = "03_channel-namespace.yaml";
+    cy.get(".tableGridContainer").then($element => {
+      if ($element.find(".channelGridContainer").length > 0) {
+        channelCount_b4 = $element.find(".channelNameTitle").length;
+      }
+      cy.createAppResource("channel", "namespace");
+      pageLoader.shouldNotExist();
+      modal.shouldNotBeVisible();
+      cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
+      cy
+        .get(".channelNameTitle", { timeout: 600000 })
+        .should("have.length", channelCount_b4 + 1);
+    });
+  });
 
   it("Given user logs in as sysadmin, user should be able to add namespace subscription", () => {
     let filename = "02_subscription-namespace.yaml";
@@ -137,22 +137,22 @@ describe("Application Resources", () => {
   });
 
   //helmrepo channel
-  // it("Given user logs in as sysadmin, user should be able to add heml repo channel", () => {
-  //   let channelCount_b4 = 0;
-  //   let filename = "03_channel-helmrepo.yaml";
-  //   cy.get(".tableGridContainer").then($element => {
-  //     if ($element.find(".channelGridContainer").length > 0) {
-  //       channelCount_b4 = $element.find(".channelNameTitle").length;
-  //     }
-  //     cy.createAppResource("channel", "helmrepo");
-  //     pageLoader.shouldNotExist();
-  //     modal.shouldNotBeVisible();
-  //     cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
-  //     cy
-  //       .get(".channelNameTitle", { timeout: 600000 })
-  //       .should("have.length", channelCount_b4 + 1);
-  //   });
-  // });
+  it("Given user logs in as sysadmin, user should be able to add heml repo channel", () => {
+    let channelCount_b4 = 0;
+    let filename = "03_channel-helmrepo.yaml";
+    cy.get(".tableGridContainer").then($element => {
+      if ($element.find(".channelGridContainer").length > 0) {
+        channelCount_b4 = $element.find(".channelNameTitle").length;
+      }
+      cy.createAppResource("channel", "helmrepo");
+      pageLoader.shouldNotExist();
+      modal.shouldNotBeVisible();
+      cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
+      cy
+        .get(".channelNameTitle", { timeout: 600000 })
+        .should("have.length", channelCount_b4 + 1);
+    });
+  });
 
   it("Given user logs in as sysadmin, user should be able to add helmrepo subscription", () => {
     let filename = "02_subscription-helmrepo.yaml";
@@ -199,22 +199,22 @@ describe("Application Resources", () => {
   });
 
   //objectbucket channel
-  // it("Given user logs in as sysadmin, user should be able to add object bucket channel", () => {
-  //   let channelCount_b4 = 0;
-  //   let filename = "03_channel-objectbucket.yaml";
-  //   cy.get(".tableGridContainer").then($element => {
-  //     if ($element.find(".channelGridContainer").length > 0) {
-  //       channelCount_b4 = $element.find(".channelNameTitle").length;
-  //     }
-  //     cy.createAppResource("channel", "objectbucket");
-  //     pageLoader.shouldNotExist();
-  //     modal.shouldNotBeVisible();
-  //     cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
-  //     cy
-  //       .get(".channelNameTitle", { timeout: 600000 })
-  //       .should("have.length", channelCount_b4 + 1);
-  //   });
-  // });
+  it("Given user logs in as sysadmin, user should be able to add object bucket channel", () => {
+    let channelCount_b4 = 0;
+    let filename = "03_channel-objectbucket.yaml";
+    cy.get(".tableGridContainer").then($element => {
+      if ($element.find(".channelGridContainer").length > 0) {
+        channelCount_b4 = $element.find(".channelNameTitle").length;
+      }
+      cy.createAppResource("channel", "objectbucket");
+      pageLoader.shouldNotExist();
+      modal.shouldNotBeVisible();
+      cy.wrap(queryAppResourceInFile("Channel", filename)).should("eq", 200);
+      cy
+        .get(".channelNameTitle", { timeout: 600000 })
+        .should("have.length", channelCount_b4 + 1);
+    });
+  });
 
   it("Given user logs in as sysadmin, user should be able to add objectbucket subscription", () => {
     let filename = "02_subscription-objectbucket.yaml";

@@ -9,15 +9,16 @@
  *******************************************************************************/
 'use strict'
 
-import _ from 'lodash'
+import React from 'react'
 import {
   VALIDATE_ALPHANUMERIC,
   VALIDATE_URL
 } from '../../TemplateEditor/utils/update-controls'
+import { HCMChannelList } from '../../../../lib/client/queries'
+import TimeWindow from '../components/TimeWindow'
+import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
-
-import { HCMChannelList } from '../../../../lib/client/queries'
 
 export const LOAD_EXISTING_CHANNELS = type => {
   return {
@@ -391,24 +392,35 @@ export const controlData = [
   //   available: [],
   // },
 
+  // {
+  //   id: 'time-window-title',
+  //   type: 'title',
+  //   title: 'creation.app.settings.timeWindow',
+  //   tooltip: 'tooltip.creation.app.settings.timeWindow'
+  // },
+  // {
+  //   id: 'time-window-active-mode',
+  //   type: 'checkbox',
+  //   name: 'creation.app.settings.timeWindow.activeMode',
+  //   active: true,
+  //   available: []
+  // },
+  // {
+  //   id: 'time-window-block-mode',
+  //   type: 'checkbox',
+  //   name: 'creation.app.settings.timeWindow.blockMode',
+  //   active: true,
+  //   available: []
+  // }
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  SAMPLE CUSTOM  /////////////////////////////////////
+
   {
-    id: 'time-window-title',
-    type: 'title',
-    title: 'creation.app.settings.timeWindow',
-    tooltip: 'tooltip.creation.app.settings.timeWindow'
-  },
-  {
-    id: 'time-window-active-mode',
-    type: 'checkbox',
-    name: 'creation.app.settings.timeWindow.activeMode',
-    active: true,
-    available: []
-  },
-  {
-    id: 'time-window-block-mode',
-    type: 'checkbox',
-    name: 'creation.app.settings.timeWindow.blockMode',
-    active: true,
+    type: 'custom',
+    name: 'creation.view.policy.binding',
+    description: 'policy.create.selectors.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
     available: []
   }
 ]

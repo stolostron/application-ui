@@ -346,6 +346,10 @@ class ControlPanel extends React.Component {
           {this.renderCheckbox(control)}
         </React.Fragment>
       )
+    case 'custom':
+      return (
+        <React.Fragment key={id}>{this.renderCustom(control)}</React.Fragment>
+      )
     }
     return null
   }
@@ -914,6 +918,26 @@ class ControlPanel extends React.Component {
 
     this.props.handleControlChange(control, controlData)
     delete control.typing
+  }
+
+  renderCustom(control) {
+    const { locale } = this.props
+    const { component } = control
+    const custom = React.cloneElement(component, {
+      control,
+      locale,
+      handleChange: this.handleChange.bind(this, control)
+    })
+    return (
+      <React.Fragment>
+        <div
+          className="creation-view-controls-custom"
+          ref={this.setControlRef.bind(this, control)}
+        >
+          {custom}
+        </div>
+      </React.Fragment>
+    )
   }
 
   handleChange(control, evt) {

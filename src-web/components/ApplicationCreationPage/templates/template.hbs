@@ -143,6 +143,12 @@ spec:
 {{! ========================================================== }}
 {{! ========================================================== }}
 
+  {{!-- {{#if online-cluster-only-checkbox}}
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+  {{/if}} --}}
+
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
@@ -153,8 +159,6 @@ spec:
   clusterSelector:
     matchLabels:
   clusterReplicas:
-  {{#if online-cluster-only-checkbox}}
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  {{/if}}
+{{#if timeWindow}}
+  timeWindow: {{{timeWindow}}}
+{{/if}}

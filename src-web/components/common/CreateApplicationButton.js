@@ -23,7 +23,7 @@ class CreateApplicationButton extends Component {
     const { locale } = this.context
     return (
       <Link to={path} key='create-application'>
-        <Button small icon={'add--glyph'} iconDescription='Add icon'>
+        <Button small icon={'add--glyph'} iconDescription='Add icon' kind="secondary">
           {msgs.get('actions.create.application', locale)}
         </Button>
       </Link>

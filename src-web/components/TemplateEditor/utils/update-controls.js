@@ -77,8 +77,8 @@ export const VALIDATE_URL = {
       return true
     }
   },
-  notification: 'creation.ocp.cluster.valid.cidr',
-  required: true
+  notification: 'creation.invalid.url',
+  required: true,
 }
 
 export const VALIDATE_IP_AGAINST_MACHINE_CIDR = {
@@ -150,8 +150,9 @@ export const initializeControlData = (
 
   // if any card controls, set this as parent control data
   if (inGroup) {
-    parentControlData.forEach(c => {
-      if (c.type === 'cards') {
+    parentControlData.forEach(c=>{
+      if (c.type==='cards') {
+        c.groupNum = groupNum
         c.groupControlData = parentControlData
       }
     })
@@ -460,8 +461,8 @@ const syncControls = (object, path, controlMap, tabId) => {
           syncControls(o, p, controlMap, tabId)
         }
       }
-    } else if (typeof object === 'object') {
-      for (var key in object) {
+    } else if (object && typeof object === 'object') {
+      Object.keys(object).forEach(key => {
         o = object[key]
         if (o.$v !== undefined) {
           if (key.includes('.')) {
@@ -471,7 +472,7 @@ const syncControls = (object, path, controlMap, tabId) => {
           }
           syncControls(o, p, controlMap, tabId)
         }
-      }
+      })
     }
   }
 }

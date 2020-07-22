@@ -53,17 +53,19 @@ metadata:
 spec:
   type: GitHub
   pathname: {{{../githubURL}}} ##channels.{{@index}}.githubURL
+{{#if ../githubUser}}
   secretRef:
-    name: {{{../../name}}}-github-authentication-{{@index}}
+    name: {{{../../../name}}}-github-authentication-{{@index}}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{{../../name}}}-github-authentication-{{@index}}
-  namespace: {{{../../namespace}}}
+  name: {{{../../../name}}}-github-authentication-{{@index}}
+  namespace: {{{../../../namespace}}}
 data:
-  user: {{{../githubUser}}}
-  accessToken: {{{../githubAccessId}}}      
+  user: {{{../../githubUser}}}
+  accessToken: {{{../../githubAccessId}}}
+{{/if}}      
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription

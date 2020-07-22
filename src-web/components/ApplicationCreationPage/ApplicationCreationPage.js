@@ -123,14 +123,14 @@ class ApplicationCreationPage extends React.Component {
       creationStatus: mutateStatus,
       creationMsg: mutateErrorMsgs,
     }
-    const {controlData, fetchControl} = this.state
+    const {controlData:cd, fetchControl} = this.state
     return (
       <Page>
         <TemplateEditor
           type={'cluster'}
           title={msgs.get('creation.app.yaml', locale)}
           template={createTemplate}
-          controlData={controlData}
+          controlData={cd}
           portals={Portals}
           fetchControl={fetchControl}
           createControl={createControl}

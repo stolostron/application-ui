@@ -9,6 +9,607 @@
  *******************************************************************************/
 'use strict'
 
+
+class YamlParseException {
+  constructor(message, parsedLine, snippet, parsedFile) {
+    this.rawMessage = message
+    this.parsedLine = (parsedLine !== undefined) ? parsedLine : -1
+    this.snippet = (snippet !== undefined) ? snippet : null
+    this.parsedFile = (parsedFile !== undefined) ? parsedFile : null
+    this.message = message
+  }
+
+  setParsedLine(parsedLine) {
+    this.parsedLine = parsedLine
+  }
+
+  setSnippet(snippet) {
+    this.snippet = snippet
+  }
+}
+class YamlInline {
+
+  parse(value) {
+    var result = null
+    value = this.trim(value)
+
+    if (0 == value.length) {
+      return ''
+    }
+
+    switch (value.charAt(0)) {
+    case '[':
+      result = this.parseSequence(value)
+      break
+    case '{':
+      result = this.parseMapping(value)
+      break
+    default:
+      result = this.parseScalar(value)
+    }
+
+    // some comment can end the scalar
+    if (value.substr(this.i + 1).replace(/^\s*#.*$/, '') != '') {
+      throw new YamlParseException(`Unexpected characters near ${value.substr(this.i)}.`)
+    }
+
+    return result
+  }
+
+  parseScalar(scalar, delimiters, stringDelimiters, i, evaluate) {
+    if (delimiters == undefined) delimiters = null
+    if (stringDelimiters == undefined) stringDelimiters = ['"', '\'']
+    if (i == undefined) i = 0
+    if (evaluate == undefined) evaluate = true
+
+    var output = null
+    var pos = null
+    var matches = null
+
+    if (this.inArray(scalar[i], stringDelimiters)) {
+      // quoted scalar
+      output = this.parseQuotedScalar(scalar, i)
+      i = this.i
+      if (null !== delimiters) {
+        var tmp = scalar.substr(i).replace(/^\s+/, '')
+        if (!this.inArray(tmp.charAt(0), delimiters)) {
+          throw new YamlParseException(`Unexpected characters (${scalar.substr(i)}).`)
+        }
+      }
+    } else {
+      // "normal" string
+      if (delimiters) {
+        matches = new RegExp('^(.+?)(' + delimiters.join('|') + ')').exec((scalar + '').substring(i))
+      }
+      if (!delimiters) {
+        output = (scalar + '').substring(i)
+
+        i += output.length
+
+        // remove comments
+        pos = output.indexOf(' #')
+        if (pos != -1) {
+          output = output.substr(0, pos).replace(/\s+$/g, '')
+        }
+      } else if (matches) {
+        output = matches[1]
+        i += output.length
+      } else {
+        throw new YamlParseException(`Malformed inline YAML string (${scalar}).`)
+      }
+
+      // unended inline string
+      var end = output.slice(-1)
+      if (end === '}' || end === ']') {
+        throw new YamlParseException(`Malformed inline YAML string (${scalar}).`)
+      }
+      output = evaluate ? this.evaluateScalar(output) : output
+    }
+
+    this.i = i
+
+    return output
+  }
+
+  parseQuotedScalar(scalar, i) {
+    var matches = null
+    //var item = /^(.*?)['"]\s*(?:[,:]|[}\]]\s*,)/.exec((scalar+'').substring(i))[1];
+
+    if (!(matches = new RegExp('^' + YamlInline.REGEX_QUOTED_STRING).exec((scalar + '').substring(i)))) {
+      throw new YamlParseException(`Malformed inline YAML string (${(scalar + '').substring(i)}).`)
+    }
+
+    var output = matches[0].substr(1, matches[0].length - 2)
+
+    var unescaper = new YamlUnescaper()
+
+    if ('"' == (scalar + '').charAt(i)) {
+      output = unescaper.unescapeDoubleQuotedString(output)
+    } else {
+      output = unescaper.unescapeSingleQuotedString(output)
+    }
+
+    i += matches[0].length
+
+    this.i = i
+    return output
+  }
+
+  parseSequence(sequence, i) {
+    if (i == undefined) i = 0
+
+    var output = []
+    var len = sequence.length
+    i += 1
+
+    // [foo, bar, ...]
+    while (i < len) {
+      switch (sequence.charAt(i)) {
+      case '[':
+        // nested sequence
+        output.push(this.parseSequence(sequence, i))
+        i = this.i
+        break
+      case '{':
+        // nested mapping
+        output.push(this.parseMapping(sequence, i))
+        i = this.i
+        break
+      case ']':
+        this.i = i
+        return output
+      case ',':
+      case ' ':
+        break
+      default:
+        var isQuoted = this.inArray(sequence.charAt(i), ['"', '\''])
+        var value = this.parseScalar(sequence, [',', ']'], ['"', '\''], i)
+        i = this.i
+
+        if (!isQuoted && (value + '').indexOf(': ') != -1) {
+          // embedded mapping?
+          try {
+            value = this.parseMapping('{' + value + '}')
+          } catch (e) {
+            if (!(e instanceof YamlParseException)) throw e
+            // no, it's not
+          }
+        }
+
+        output.push(value)
+
+        i--
+      }
+
+      i++
+    }
+
+    throw new YamlParseException(`Malformed inline YAML string "${sequence}"`)
+  }
+
+  parseMapping(mapping, i) {
+    if (i == undefined) i = 0
+    var output = {}
+    var len = mapping.length
+    i += 1
+    var done = false
+    var doContinue = false
+
+    // {foo: bar, bar:foo, ...}
+    while (i < len) {
+      doContinue = false
+
+      switch (mapping.charAt(i)) {
+      case ' ':
+      case ',':
+        i++
+        doContinue = true
+        break
+      case '}':
+        this.i = i
+        return output
+      }
+
+      if (doContinue) continue
+
+      // key
+      var key = this.parseScalar(mapping, [':', ' '], ['"', '\''], i, false)
+      i = this.i
+
+      // value
+      done = false
+      while (i < len) {
+        switch (mapping.charAt(i)) {
+        case '[':
+          // nested sequence
+          output[key] = this.parseSequence(mapping, i)
+          i = this.i
+          done = true
+          break
+        case '{':
+          // nested mapping
+          output[key] = {
+            $v: this.parseMapping(mapping, i)
+          }
+          i = this.i
+          done = true
+          break
+        case ':':
+        case ' ':
+          break
+        default:
+          output[key] = this.parseScalar(mapping, [',', '}'], ['"', '\''], i)
+          i = this.i
+          done = true
+          i--
+        }
+
+        ++i
+
+        if (done) {
+          doContinue = true
+          break
+        }
+      }
+
+      if (doContinue) continue
+    }
+
+    throw new YamlParseException(`('Malformed inline YAML string "${mapping}"`)
+  }
+
+  evaluateScalar(scalar) {
+    scalar = this.trim(scalar)
+
+    var raw = null
+    var cast = null
+
+    if (('null' == scalar.toLowerCase()) || ('' == scalar) || ('~' == scalar)) return null
+    if ((scalar + '').indexOf('!str ') == 0) return ('' + scalar).substring(5)
+    if ((scalar + '').indexOf('! ') == 0) return parseInt(this.parseScalar((scalar + '').substr(2)), 10)
+    if (/^\d+$/.test(scalar)) {
+      raw = scalar
+      cast = parseInt(scalar, 10)
+      return '0' == scalar.charAt(0) ? this.octdec(scalar) : (('' + raw == '' + cast) ? cast : raw)
+    }
+    if ('true' == (scalar + '').toLowerCase()) return true
+    if ('false' == (scalar + '').toLowerCase()) return false
+    if (this.isNumeric(scalar)) {
+      return '0x' === (scalar + '').substr(0, 2) ? this.hexdec(scalar) : scalar
+    }
+    if (scalar.toLowerCase() == '.inf') return Infinity
+    if (scalar.toLowerCase() == '.nan') return NaN
+    if (scalar.toLowerCase() == '-.inf') return -Infinity
+    if (/^(-|\+)?[0-9,]+(\.[0-9]+)?$/.test(scalar)) return parseFloat(scalar.split(',').join(''))
+    if (this.getTimestampRegex().test(scalar)) return new Date(this.strtotime(scalar))
+    //else
+    return '' + scalar
+  }
+
+  getTimestampRegex() {
+    return new RegExp('^' +
+                '([0-9][0-9][0-9][0-9])' +
+                '-([0-9][0-9]?)' +
+                '-([0-9][0-9]?)' +
+                '(?:(?:[Tt]|[ \t]+)' +
+                '([0-9][0-9]?)' +
+                ':([0-9][0-9])' +
+                ':([0-9][0-9])' +
+                '(?:.([0-9]*))?' +
+                '(?:[ \t]*(Z|([-+])([0-9][0-9]?)' +
+                '(?::([0-9][0-9]))?))?)?' +
+                '$', 'gi')
+  }
+
+  trim(str) {
+    return (str + '').replace(/^\s+/, '').replace(/\s+$/, '')
+  }
+
+  isNumeric(input) {
+    return (input - 0) == input && input.length > 0 && input.replace(/\s+/g, '') != ''
+  }
+
+  inArray(key, tab) {
+    var i
+    var len = tab.length
+    for (i = 0; i < len; i++) {
+      if (key == tab[i]) return true
+    }
+    return false
+  }
+
+  getKeys(tab) {
+    var ret = []
+
+    for (var name in tab) {
+      if (tab.hasOwnProperty(name)) {
+        ret.push(name)
+      }
+    }
+
+    return ret
+  }
+
+  octdec(input) {
+    return parseInt((input + '').replace(/[^0-7]/gi, ''), 8)
+  }
+
+  hexdec(input) {
+    input = this.trim(input)
+    if ((input + '').substr(0, 2) == '0x') input = (input + '').substring(2)
+    return parseInt((input + '').replace(/[^a-f0-9]/gi, ''), 16)
+  }
+
+  strtotime(h, b) {
+    var f, c, g, k, d = ''
+    h = (h + '').replace(/\s{2,}|^\s|\s$/g, ' ').replace(/[\t\r\n]/g, '')
+    if (h === 'now') {
+      return b === null || isNaN(b) ? new Date().getTime() || 0 : b || 0
+    } else {
+      if (!isNaN(d = Date.parse(h))) {
+        return d || 0
+      } else {
+        if (b) {
+          b = new Date(b)
+        } else {
+          b = new Date()
+        }
+      }
+    }
+    h = h.toLowerCase()
+    var e = {
+      day: {
+        sun: 0,
+        mon: 1,
+        tue: 2,
+        wed: 3,
+        thu: 4,
+        fri: 5,
+        sat: 6
+      },
+      mon: ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    }
+    var a = function(i) {
+      var o = (i[2] && i[2] === 'ago')
+      var n = (n = i[0] === 'last' ? -1 : 1) * (o ? -1 : 1)
+      switch (i[0]) {
+      case 'last':
+      case 'next':
+        switch (i[1].substring(0, 3)) {
+        case 'yea':
+          b.setFullYear(b.getFullYear() + n)
+          break
+        case 'wee':
+          b.setDate(b.getDate() + (n * 7))
+          break
+        case 'day':
+          b.setDate(b.getDate() + n)
+          break
+        case 'hou':
+          b.setHours(b.getHours() + n)
+          break
+        case 'min':
+          b.setMinutes(b.getMinutes() + n)
+          break
+        case 'sec':
+          b.setSeconds(b.getSeconds() + n)
+          break
+        default:
+          if (i[0]==='mon' && i[1] === 'month') {
+            b.setMonth(b.getMonth() + n)
+          } else {
+            var l = e.day[i[1].substring(0, 3)]
+            if (typeof l !== 'undefined') {
+              var p = l - b.getDay()
+              if (p === 0) {
+                p = 7 * n
+              } else {
+                if (p > 0) {
+                  if (i[0] === 'last') {
+                    p -= 7
+                  }
+                } else {
+                  if (i[0] === 'next') {
+                    p += 7
+                  }
+                }
+              }
+              b.setDate(b.getDate() + p)
+              b.setHours(0, 0, 0, 0)
+            }
+          }
+        }
+        break
+      default:
+        if (/\d+/.test(i[0])) {
+          n *= parseInt(i[0], 10)
+          switch (i[1].substring(0, 3)) {
+          case 'yea':
+            b.setFullYear(b.getFullYear() + n)
+            break
+          case 'mon':
+            b.setMonth(b.getMonth() + n)
+            break
+          case 'wee':
+            b.setDate(b.getDate() + (n * 7))
+            break
+          case 'day':
+            b.setDate(b.getDate() + n)
+            break
+          case 'hou':
+            b.setHours(b.getHours() + n)
+            break
+          case 'min':
+            b.setMinutes(b.getMinutes() + n)
+            break
+          case 'sec':
+            b.setSeconds(b.getSeconds() + n)
+            break
+          }
+        } else {
+          return false
+        }
+        break
+      }
+      return true
+    }
+    g = h.match(/^(\d{2,4}-\d{2}-\d{2})(?:\s(\d{1,2}:\d{2}(:\d{2})?)?(?:\.(\d+))?)?$/)
+    if (g !== null) {
+      if (!g[2]) {
+        g[2] = '00:00:00'
+      } else {
+        if (!g[3]) {
+          g[2] += ':00'
+        }
+      }
+      k = g[1].split(/-/g)
+      k[1] = e.mon[k[1] - 1] || k[1]
+      k[0] = +k[0]
+      k[0] = (k[0] >= 0 && k[0] <= 69) ? '20' + (k[0] < 10 ? '0' + k[0] : k[0] + '') : (k[0] >= 70 && k[0] <= 99) ? '19' + k[0] : k[0] + ''
+      return parseInt(this.strtotime(k[2] + ' ' + k[1] + ' ' + k[0] + ' ' + g[2]) + (g[4] ? g[4] : ''), 10)
+    }
+    var j = '([+-]?\\d+\\s(years?|months?|weeks?|days?|hours?|min|minutes?|sec|seconds?|sun\\.?|sunday|mon\\.?|monday|tue\\.?|tuesday|wed\\.?|wednesday|thu\\.?|thursday|fri\\.?|friday|sat\\.?|saturday)|(last|next)\\s(years?|months?|weeks?|days?|hours?|min|minutes?|sec|seconds?|sun\\.?|sunday|mon\\.?|monday|tue\\.?|tuesday|wed\\.?|wednesday|thu\\.?|thursday|fri\\.?|friday|sat\\.?|saturday))(\\sago)?'
+    g = h.match(new RegExp(j, 'gi'))
+    if (g === null) {
+      return false
+    }
+    for (f = 0, c = g.length; f < c; f++) {
+      if (!a(g[f].split(' '))) {
+        return false
+      }
+    }
+    return b.getTime() || 0
+  }
+
+}
+YamlInline.REGEX_QUOTED_STRING = '(?:"(?:[^"\\\\]*(?:\\\\.[^"\\\\]*)*)"|\'(?:[^\']*(?:\'\'[^\']*)*)\')'
+
+class YamlUnescaper {
+
+  unescapeSingleQuotedString(value) {
+    return value.replace(/''/g, '\'')
+  }
+
+  unescapeDoubleQuotedString(value) {
+    var callback = function(m) {
+      return new YamlUnescaper().unescapeCharacter(m)
+    }
+
+    // evaluate the string
+    return value.replace(new RegExp(YamlUnescaper.REGEX_ESCAPED_CHARACTER, 'g'), callback)
+  }
+
+  unescapeCharacter(value) {
+    switch (value.charAt(1)) {
+    case '0':
+      return String.fromCharCode(0)
+    case 'a':
+      return String.fromCharCode(7)
+    case 'b':
+      return String.fromCharCode(8)
+    case 't':
+      return '\t'
+    case '\t':
+      return '\t'
+    case 'n':
+      return '\n'
+    case 'v':
+      return String.fromCharCode(11)
+    case 'f':
+      return String.fromCharCode(12)
+    case 'r':
+      return String.fromCharCode(13)
+    case 'e':
+      return '\x1b'
+    case ' ':
+      return ' '
+    case '"':
+      return '"'
+    case '/':
+      return '/'
+    case '\\':
+      return '\\'
+    case 'N':
+      // U+0085 NEXT LINE
+      return '\x00\x85'
+    case '_':
+      // U+00A0 NO-BREAK SPACE
+      return '\x00\xA0'
+    case 'L':
+      // U+2028 LINE SEPARATOR
+      return ' ('
+    case 'P':
+      // U+2029 PARAGRAPH SEPARATOR
+      return ' )'
+    case 'x':
+      return this.pack('n', new YamlInline().hexdec(value.substr(2, 2)))
+    case 'u':
+      return this.pack('n', new YamlInline().hexdec(value.substr(2, 4)))
+    case 'U':
+      return this.pack('N', new YamlInline().hexdec(value.substr(2, 8)))
+    }
+  }
+
+  pack(B) {
+    var g = 0,
+        o = 1,
+        m = '',
+        z = 0,
+        E, s
+    while (g < B.length) {
+      E = B.charAt(g)
+      s = ''
+      g++
+      while ((g < B.length) && (B.charAt(g).match(/[\d*]/) !== null)) {
+        s += B.charAt(g)
+        g++
+      }
+      if (s === '') {
+        s = '1'
+      }
+      switch (E) {
+      case 'n':
+        if (s === '*') {
+          s = arguments.length - o
+        }
+        if (s > (arguments.length - o)) {
+          throw new Error('Warning:  pack() Type ' + E + ': too few arguments')
+        }
+        for (z = 0; z < s; z++) {
+          m += String.fromCharCode(arguments[o] >> 8 & 255)
+          m += String.fromCharCode(arguments[o] & 255)
+          o++
+        }
+        break
+      case 'N':
+        if (s === '*') {
+          s = arguments.length - o
+        }
+        if (s > (arguments.length - o)) {
+          throw new Error('Warning:  pack() Type ' + E + ': too few arguments')
+        }
+        for (z = 0; z < s; z++) {
+          m += String.fromCharCode(arguments[o] >> 24 & 255)
+          m += String.fromCharCode(arguments[o] >> 16 & 255)
+          m += String.fromCharCode(arguments[o] >> 8 & 255)
+          m += String.fromCharCode(arguments[o] & 255)
+          o++
+        }
+        break
+      default:
+        throw new Error('Warning:  pack() Type ' + E + ': unknown format code')
+      }
+    }
+    if (o < arguments.length) {
+      throw new Error('Warning: pack(): ' + (arguments.length - o) + ' arguments unused')
+    }
+    return m
+  }
+}
+
+YamlUnescaper.REGEX_ESCAPED_CHARACTER = '\\\\([0abt\tnvfre "\\/\\\\N_LP]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})'
+
+
 class YamlParser {
 
   constructor(offset, lined) {
@@ -766,607 +1367,6 @@ class YamlParser {
 
   trim(str) {
     return (str + '').replace(/^ +/, '').replace(/ +$/, '')
-  }
-}
-
-class YamlUnescaper {
-
-  unescapeSingleQuotedString(value) {
-    return value.replace(/''/g, '\'')
-  }
-
-  unescapeDoubleQuotedString(value) {
-    var callback = function(m) {
-      return new YamlUnescaper().unescapeCharacter(m)
-    }
-
-    // evaluate the string
-    return value.replace(new RegExp(YamlUnescaper.REGEX_ESCAPED_CHARACTER, 'g'), callback)
-  }
-
-  unescapeCharacter(value) {
-    switch (value.charAt(1)) {
-    case '0':
-      return String.fromCharCode(0)
-    case 'a':
-      return String.fromCharCode(7)
-    case 'b':
-      return String.fromCharCode(8)
-    case 't':
-      return '\t'
-    case '\t':
-      return '\t'
-    case 'n':
-      return '\n'
-    case 'v':
-      return String.fromCharCode(11)
-    case 'f':
-      return String.fromCharCode(12)
-    case 'r':
-      return String.fromCharCode(13)
-    case 'e':
-      return '\x1b'
-    case ' ':
-      return ' '
-    case '"':
-      return '"'
-    case '/':
-      return '/'
-    case '\\':
-      return '\\'
-    case 'N':
-      // U+0085 NEXT LINE
-      return '\x00\x85'
-    case '_':
-      // U+00A0 NO-BREAK SPACE
-      return '\x00\xA0'
-    case 'L':
-      // U+2028 LINE SEPARATOR
-      return ' ('
-    case 'P':
-      // U+2029 PARAGRAPH SEPARATOR
-      return ' )'
-    case 'x':
-      return this.pack('n', new YamlInline().hexdec(value.substr(2, 2)))
-    case 'u':
-      return this.pack('n', new YamlInline().hexdec(value.substr(2, 4)))
-    case 'U':
-      return this.pack('N', new YamlInline().hexdec(value.substr(2, 8)))
-    }
-  }
-
-  pack(B) {
-    var g = 0,
-        o = 1,
-        m = '',
-        z = 0,
-        E, s
-    while (g < B.length) {
-      E = B.charAt(g)
-      s = ''
-      g++
-      while ((g < B.length) && (B.charAt(g).match(/[\d*]/) !== null)) {
-        s += B.charAt(g)
-        g++
-      }
-      if (s === '') {
-        s = '1'
-      }
-      switch (E) {
-      case 'n':
-        if (s === '*') {
-          s = arguments.length - o
-        }
-        if (s > (arguments.length - o)) {
-          throw new Error('Warning:  pack() Type ' + E + ': too few arguments')
-        }
-        for (z = 0; z < s; z++) {
-          m += String.fromCharCode(arguments[o] >> 8 & 255)
-          m += String.fromCharCode(arguments[o] & 255)
-          o++
-        }
-        break
-      case 'N':
-        if (s === '*') {
-          s = arguments.length - o
-        }
-        if (s > (arguments.length - o)) {
-          throw new Error('Warning:  pack() Type ' + E + ': too few arguments')
-        }
-        for (z = 0; z < s; z++) {
-          m += String.fromCharCode(arguments[o] >> 24 & 255)
-          m += String.fromCharCode(arguments[o] >> 16 & 255)
-          m += String.fromCharCode(arguments[o] >> 8 & 255)
-          m += String.fromCharCode(arguments[o] & 255)
-          o++
-        }
-        break
-      default:
-        throw new Error('Warning:  pack() Type ' + E + ': unknown format code')
-      }
-    }
-    if (o < arguments.length) {
-      throw new Error('Warning: pack(): ' + (arguments.length - o) + ' arguments unused')
-    }
-    return m
-  }
-}
-
-YamlUnescaper.REGEX_ESCAPED_CHARACTER = '\\\\([0abt\tnvfre "\\/\\\\N_LP]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})'
-
-class YamlInline {
-
-  parse(value) {
-    var result = null
-    value = this.trim(value)
-
-    if (0 == value.length) {
-      return ''
-    }
-
-    switch (value.charAt(0)) {
-    case '[':
-      result = this.parseSequence(value)
-      break
-    case '{':
-      result = this.parseMapping(value)
-      break
-    default:
-      result = this.parseScalar(value)
-    }
-
-    // some comment can end the scalar
-    if (value.substr(this.i + 1).replace(/^\s*#.*$/, '') != '') {
-      throw new YamlParseException(`Unexpected characters near ${value.substr(this.i)}.`)
-    }
-
-    return result
-  }
-
-  parseScalar(scalar, delimiters, stringDelimiters, i, evaluate) {
-    if (delimiters == undefined) delimiters = null
-    if (stringDelimiters == undefined) stringDelimiters = ['"', '\'']
-    if (i == undefined) i = 0
-    if (evaluate == undefined) evaluate = true
-
-    var output = null
-    var pos = null
-    var matches = null
-
-    if (this.inArray(scalar[i], stringDelimiters)) {
-      // quoted scalar
-      output = this.parseQuotedScalar(scalar, i)
-      i = this.i
-      if (null !== delimiters) {
-        var tmp = scalar.substr(i).replace(/^\s+/, '')
-        if (!this.inArray(tmp.charAt(0), delimiters)) {
-          throw new YamlParseException(`Unexpected characters (${scalar.substr(i)}).`)
-        }
-      }
-    } else {
-      // "normal" string
-      if (delimiters) {
-        matches = new RegExp('^(.+?)(' + delimiters.join('|') + ')').exec((scalar + '').substring(i))
-      }
-      if (!delimiters) {
-        output = (scalar + '').substring(i)
-
-        i += output.length
-
-        // remove comments
-        pos = output.indexOf(' #')
-        if (pos != -1) {
-          output = output.substr(0, pos).replace(/\s+$/g, '')
-        }
-      } else if (matches) {
-        output = matches[1]
-        i += output.length
-      } else {
-        throw new YamlParseException(`Malformed inline YAML string (${scalar}).`)
-      }
-
-      // unended inline string
-      var end = output.slice(-1)
-      if (end === '}' || end === ']') {
-        throw new YamlParseException(`Malformed inline YAML string (${scalar}).`)
-      }
-      output = evaluate ? this.evaluateScalar(output) : output
-    }
-
-    this.i = i
-
-    return output
-  }
-
-  parseQuotedScalar(scalar, i) {
-    var matches = null
-    //var item = /^(.*?)['"]\s*(?:[,:]|[}\]]\s*,)/.exec((scalar+'').substring(i))[1];
-
-    if (!(matches = new RegExp('^' + YamlInline.REGEX_QUOTED_STRING).exec((scalar + '').substring(i)))) {
-      throw new YamlParseException(`Malformed inline YAML string (${(scalar + '').substring(i)}).`)
-    }
-
-    var output = matches[0].substr(1, matches[0].length - 2)
-
-    var unescaper = new YamlUnescaper()
-
-    if ('"' == (scalar + '').charAt(i)) {
-      output = unescaper.unescapeDoubleQuotedString(output)
-    } else {
-      output = unescaper.unescapeSingleQuotedString(output)
-    }
-
-    i += matches[0].length
-
-    this.i = i
-    return output
-  }
-
-  parseSequence(sequence, i) {
-    if (i == undefined) i = 0
-
-    var output = []
-    var len = sequence.length
-    i += 1
-
-    // [foo, bar, ...]
-    while (i < len) {
-      switch (sequence.charAt(i)) {
-      case '[':
-        // nested sequence
-        output.push(this.parseSequence(sequence, i))
-        i = this.i
-        break
-      case '{':
-        // nested mapping
-        output.push(this.parseMapping(sequence, i))
-        i = this.i
-        break
-      case ']':
-        this.i = i
-        return output
-      case ',':
-      case ' ':
-        break
-      default:
-        var isQuoted = this.inArray(sequence.charAt(i), ['"', '\''])
-        var value = this.parseScalar(sequence, [',', ']'], ['"', '\''], i)
-        i = this.i
-
-        if (!isQuoted && (value + '').indexOf(': ') != -1) {
-          // embedded mapping?
-          try {
-            value = this.parseMapping('{' + value + '}')
-          } catch (e) {
-            if (!(e instanceof YamlParseException)) throw e
-            // no, it's not
-          }
-        }
-
-        output.push(value)
-
-        i--
-      }
-
-      i++
-    }
-
-    throw new YamlParseException(`Malformed inline YAML string "${sequence}"`)
-  }
-
-  parseMapping(mapping, i) {
-    if (i == undefined) i = 0
-    var output = {}
-    var len = mapping.length
-    i += 1
-    var done = false
-    var doContinue = false
-
-    // {foo: bar, bar:foo, ...}
-    while (i < len) {
-      doContinue = false
-
-      switch (mapping.charAt(i)) {
-      case ' ':
-      case ',':
-        i++
-        doContinue = true
-        break
-      case '}':
-        this.i = i
-        return output
-      }
-
-      if (doContinue) continue
-
-      // key
-      var key = this.parseScalar(mapping, [':', ' '], ['"', '\''], i, false)
-      i = this.i
-
-      // value
-      done = false
-      while (i < len) {
-        switch (mapping.charAt(i)) {
-        case '[':
-          // nested sequence
-          output[key] = this.parseSequence(mapping, i)
-          i = this.i
-          done = true
-          break
-        case '{':
-          // nested mapping
-          output[key] = {
-            $v: this.parseMapping(mapping, i)
-          }
-          i = this.i
-          done = true
-          break
-        case ':':
-        case ' ':
-          break
-        default:
-          output[key] = this.parseScalar(mapping, [',', '}'], ['"', '\''], i)
-          i = this.i
-          done = true
-          i--
-        }
-
-        ++i
-
-        if (done) {
-          doContinue = true
-          break
-        }
-      }
-
-      if (doContinue) continue
-    }
-
-    throw new YamlParseException(`('Malformed inline YAML string "${mapping}"`)
-  }
-
-  evaluateScalar(scalar) {
-    scalar = this.trim(scalar)
-
-    var raw = null
-    var cast = null
-
-    if (('null' == scalar.toLowerCase()) || ('' == scalar) || ('~' == scalar)) return null
-    if ((scalar + '').indexOf('!str ') == 0) return ('' + scalar).substring(5)
-    if ((scalar + '').indexOf('! ') == 0) return parseInt(this.parseScalar((scalar + '').substr(2)), 10)
-    if (/^\d+$/.test(scalar)) {
-      raw = scalar
-      cast = parseInt(scalar, 10)
-      return '0' == scalar.charAt(0) ? this.octdec(scalar) : (('' + raw == '' + cast) ? cast : raw)
-    }
-    if ('true' == (scalar + '').toLowerCase()) return true
-    if ('false' == (scalar + '').toLowerCase()) return false
-    if (this.isNumeric(scalar)) {
-      return '0x' === (scalar + '').substr(0, 2) ? this.hexdec(scalar) : scalar
-    }
-    if (scalar.toLowerCase() == '.inf') return Infinity
-    if (scalar.toLowerCase() == '.nan') return NaN
-    if (scalar.toLowerCase() == '-.inf') return -Infinity
-    if (/^(-|\+)?[0-9,]+(\.[0-9]+)?$/.test(scalar)) return parseFloat(scalar.split(',').join(''))
-    if (this.getTimestampRegex().test(scalar)) return new Date(this.strtotime(scalar))
-    //else
-    return '' + scalar
-  }
-
-  getTimestampRegex() {
-    return new RegExp('^' +
-                '([0-9][0-9][0-9][0-9])' +
-                '-([0-9][0-9]?)' +
-                '-([0-9][0-9]?)' +
-                '(?:(?:[Tt]|[ \t]+)' +
-                '([0-9][0-9]?)' +
-                ':([0-9][0-9])' +
-                ':([0-9][0-9])' +
-                '(?:.([0-9]*))?' +
-                '(?:[ \t]*(Z|([-+])([0-9][0-9]?)' +
-                '(?::([0-9][0-9]))?))?)?' +
-                '$', 'gi')
-  }
-
-  trim(str) {
-    return (str + '').replace(/^\s+/, '').replace(/\s+$/, '')
-  }
-
-  isNumeric(input) {
-    return (input - 0) == input && input.length > 0 && input.replace(/\s+/g, '') != ''
-  }
-
-  inArray(key, tab) {
-    var i
-    var len = tab.length
-    for (i = 0; i < len; i++) {
-      if (key == tab[i]) return true
-    }
-    return false
-  }
-
-  getKeys(tab) {
-    var ret = []
-
-    for (var name in tab) {
-      if (tab.hasOwnProperty(name)) {
-        ret.push(name)
-      }
-    }
-
-    return ret
-  }
-
-  octdec(input) {
-    return parseInt((input + '').replace(/[^0-7]/gi, ''), 8)
-  }
-
-  hexdec(input) {
-    input = this.trim(input)
-    if ((input + '').substr(0, 2) == '0x') input = (input + '').substring(2)
-    return parseInt((input + '').replace(/[^a-f0-9]/gi, ''), 16)
-  }
-
-  strtotime(h, b) {
-    var f, c, g, k, d = ''
-    h = (h + '').replace(/\s{2,}|^\s|\s$/g, ' ').replace(/[\t\r\n]/g, '')
-    if (h === 'now') {
-      return b === null || isNaN(b) ? new Date().getTime() || 0 : b || 0
-    } else {
-      if (!isNaN(d = Date.parse(h))) {
-        return d || 0
-      } else {
-        if (b) {
-          b = new Date(b)
-        } else {
-          b = new Date()
-        }
-      }
-    }
-    h = h.toLowerCase()
-    var e = {
-      day: {
-        sun: 0,
-        mon: 1,
-        tue: 2,
-        wed: 3,
-        thu: 4,
-        fri: 5,
-        sat: 6
-      },
-      mon: ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-    }
-    var a = function(i) {
-      var o = (i[2] && i[2] === 'ago')
-      var n = (n = i[0] === 'last' ? -1 : 1) * (o ? -1 : 1)
-      switch (i[0]) {
-      case 'last':
-      case 'next':
-        switch (i[1].substring(0, 3)) {
-        case 'yea':
-          b.setFullYear(b.getFullYear() + n)
-          break
-        case 'wee':
-          b.setDate(b.getDate() + (n * 7))
-          break
-        case 'day':
-          b.setDate(b.getDate() + n)
-          break
-        case 'hou':
-          b.setHours(b.getHours() + n)
-          break
-        case 'min':
-          b.setMinutes(b.getMinutes() + n)
-          break
-        case 'sec':
-          b.setSeconds(b.getSeconds() + n)
-          break
-        default:
-          if (i[0]==='mon' && i[1] === 'month') {
-            b.setMonth(b.getMonth() + n)
-          } else {
-            var l = e.day[i[1].substring(0, 3)]
-            if (typeof l !== 'undefined') {
-              var p = l - b.getDay()
-              if (p === 0) {
-                p = 7 * n
-              } else {
-                if (p > 0) {
-                  if (i[0] === 'last') {
-                    p -= 7
-                  }
-                } else {
-                  if (i[0] === 'next') {
-                    p += 7
-                  }
-                }
-              }
-              b.setDate(b.getDate() + p)
-              b.setHours(0, 0, 0, 0)
-            }
-          }
-        }
-        break
-      default:
-        if (/\d+/.test(i[0])) {
-          n *= parseInt(i[0], 10)
-          switch (i[1].substring(0, 3)) {
-          case 'yea':
-            b.setFullYear(b.getFullYear() + n)
-            break
-          case 'mon':
-            b.setMonth(b.getMonth() + n)
-            break
-          case 'wee':
-            b.setDate(b.getDate() + (n * 7))
-            break
-          case 'day':
-            b.setDate(b.getDate() + n)
-            break
-          case 'hou':
-            b.setHours(b.getHours() + n)
-            break
-          case 'min':
-            b.setMinutes(b.getMinutes() + n)
-            break
-          case 'sec':
-            b.setSeconds(b.getSeconds() + n)
-            break
-          }
-        } else {
-          return false
-        }
-        break
-      }
-      return true
-    }
-    g = h.match(/^(\d{2,4}-\d{2}-\d{2})(?:\s(\d{1,2}:\d{2}(:\d{2})?)?(?:\.(\d+))?)?$/)
-    if (g !== null) {
-      if (!g[2]) {
-        g[2] = '00:00:00'
-      } else {
-        if (!g[3]) {
-          g[2] += ':00'
-        }
-      }
-      k = g[1].split(/-/g)
-      k[1] = e.mon[k[1] - 1] || k[1]
-      k[0] = +k[0]
-      k[0] = (k[0] >= 0 && k[0] <= 69) ? '20' + (k[0] < 10 ? '0' + k[0] : k[0] + '') : (k[0] >= 70 && k[0] <= 99) ? '19' + k[0] : k[0] + ''
-      return parseInt(this.strtotime(k[2] + ' ' + k[1] + ' ' + k[0] + ' ' + g[2]) + (g[4] ? g[4] : ''), 10)
-    }
-    var j = '([+-]?\\d+\\s(years?|months?|weeks?|days?|hours?|min|minutes?|sec|seconds?|sun\\.?|sunday|mon\\.?|monday|tue\\.?|tuesday|wed\\.?|wednesday|thu\\.?|thursday|fri\\.?|friday|sat\\.?|saturday)|(last|next)\\s(years?|months?|weeks?|days?|hours?|min|minutes?|sec|seconds?|sun\\.?|sunday|mon\\.?|monday|tue\\.?|tuesday|wed\\.?|wednesday|thu\\.?|thursday|fri\\.?|friday|sat\\.?|saturday))(\\sago)?'
-    g = h.match(new RegExp(j, 'gi'))
-    if (g === null) {
-      return false
-    }
-    for (f = 0, c = g.length; f < c; f++) {
-      if (!a(g[f].split(' '))) {
-        return false
-      }
-    }
-    return b.getTime() || 0
-  }
-
-}
-YamlInline.REGEX_QUOTED_STRING = '(?:"(?:[^"\\\\]*(?:\\\\.[^"\\\\]*)*)"|\'(?:[^\']*(?:\'\'[^\']*)*)\')'
-
-
-class YamlParseException {
-  constructor(message, parsedLine, snippet, parsedFile) {
-    this.rawMessage = message
-    this.parsedLine = (parsedLine !== undefined) ? parsedLine : -1
-    this.snippet = (snippet !== undefined) ? snippet : null
-    this.parsedFile = (parsedFile !== undefined) ? parsedFile : null
-    this.message = message
-  }
-
-  setParsedLine(parsedLine) {
-    this.parsedLine = parsedLine
-  }
-
-  setSnippet(snippet) {
-    this.snippet = snippet
   }
 }
 

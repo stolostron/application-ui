@@ -553,6 +553,11 @@
         width: $control-max-width-without-editor;
       }
 
+      .bx--text-input::placeholder {
+        color: $color__navy-gray-6;
+        text-overflow: ellipsis;
+      }
+
       .bx--multi-select {
         .bx--list-box__menu {
           max-height: 12rem;

@@ -54,12 +54,12 @@ class ControlPanelMultiSelect extends React.Component {
     let placeholder = ph
     if (active.length>0) {
       const activeKeys = []
-      active.forEach(key=>{
-        if (typeof availableMap ==='object' && availableMap[key]) {
-          const {name} = availableMap[key]
-          activeKeys.push(name||key)
+      active.forEach(k=>{
+        if (typeof availableMap ==='object' && availableMap[k]) {
+          const {name:n} = availableMap[k]
+          activeKeys.push(n||k)
         } else {
-          activeKeys.push(key)
+          activeKeys.push(k)
         }
       })
       placeholder = activeKeys.join(', ')

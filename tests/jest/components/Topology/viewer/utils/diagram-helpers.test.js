@@ -600,10 +600,63 @@ describe("getNameWithoutChartRelease node with pods no _hostingDeployable", () =
     status: "Running"
   };
 
-  it("nodeMustHavePods POD no _hostingDeployable", () => {
+  it("getNameWithoutChartRelease for pod with no deployable", () => {
     expect(
       getNameWithoutChartRelease(node, "nginx-ingress-edafb-default-backend")
-    ).toEqual("default-backend");
+    ).toEqual("nginx-ingress-edafb-default-backend");
+  });
+});
+
+describe("getNameWithoutChartRelease node for helmrelease no label", () => {
+  const node = {
+    apigroup: "apps.open-cluster-management.io",
+    apiversion: "v1",
+    branch: "master",
+    chartPath: "test/github/helmcharts/chart1",
+    cluster: "sharingpenguin",
+    created: "2020-07-07T00:11:41Z",
+    kind: "helmrelease",
+    name: "chart1-5a9ac",
+    namespace: "git-sub-ns-helm",
+    selfLink:
+      "/apis/apps.open-cluster-management.io/v1/namespaces/git-sub-ns-helm/helmreleases/chart1-5a9ac",
+    sourceType: "git",
+    url:
+      "https://github.com/open-cluster-management/multicloud-operators-subscription",
+    _clusterNamespace: "sharingpenguin",
+    _hostingDeployable: "ch-git-helm/git-helm-chart1-1.1.1",
+    _hostingSubscription: "git-sub-ns-helm/git-helm-sub",
+    _rbac: "sharingpenguin_apps.open-cluster-management.io_helmreleases",
+    _uid: "sharingpenguin/c1e81dd9-6c12-443c-9300-b8da955370dc"
+  };
+
+  it("getNameWithoutChartRelease helm release  no no label", () => {
+    expect(
+      getNameWithoutChartRelease(node, "ch-git-helm/git-helm-chart1-1.1.1")
+    ).toEqual("chart1-1.1.1");
+  });
+});
+
+describe("getNameWithoutChartRelease node for subscription, with label", () => {
+  const node = {
+    apigroup: "apps.open-cluster-management.io",
+    apiversion: "v1",
+    channel: "ch-git-helm/git-helm",
+    cluster: "local-cluster",
+    kind: "subscription",
+    label: "app=gbapp; release=app01",
+    name: "git-helm-sub",
+    namespace: "git-sub-ns-helm",
+    selfLink:
+      "/apis/apps.open-cluster-management.io/v1/namespaces/git-sub-ns-helm/subscriptions/git-helm-sub",
+    status: "Propagated",
+    _hubClusterResource: "true"
+  };
+
+  it("getNameWithoutChartRelease helm release  no no label", () => {
+    expect(getNameWithoutChartRelease(node, "git-helm-sub")).toEqual(
+      "git-helm-sub"
+    );
   });
 });
 
@@ -925,7 +978,7 @@ describe("setSubscriptionDeployStatus with no sub error", () => {
       labelValue: "Remote subscriptions",
       status: "failure",
       value:
-        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that the hub subscription has been propagated."
+        "This subscription was not added to a managed cluster. Ensure the Placement Rule resource is valid and exists in the {0} namespace and that the klusterlet-addon-appmgr pod runs on the managed clusters."
     },
     {
       type: "link",
@@ -990,6 +1043,97 @@ describe("setSubscriptionDeployStatus with error", () => {
   });
 });
 
+describe("setSubscriptionDeployStatus with hub no status", () => {
+  const node = {
+    type: "subscription",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          _hubClusterResource: "true"
+        }
+      }
+    }
+  };
+  const response = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    {
+      labelValue: "local",
+      status: "warning",
+      value:
+        "This subscription has no status. If the status does not change to {0} after waiting for initial creation, verify that the multicluster-operators-hub-subscription pod is running on hub."
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus with hub no status", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+  });
+});
+
+describe("setSubscriptionDeployStatus with remote no status", () => {
+  const node = {
+    type: "subscription",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          status: "Propagated",
+          _hubClusterResource: "true"
+        },
+        sub2: {
+          cluster: "remote1"
+        }
+      }
+    }
+  };
+  const response = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { type: "spacer" },
+    {
+      labelValue: "remote1",
+      status: "warning",
+      value:
+        "This subscription has no status. If the status does not change to {0} after waiting for initial creation, verify that the klusterlet-addon-appmgr pod is running on the remote cluster."
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "remote1",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus with remote no status", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+  });
+});
+
 describe("setSubscriptionDeployStatus for details yellow", () => {
   const node = {
     type: "subscription",
@@ -1025,7 +1169,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
       labelValue: "Remote subscriptions",
       status: "failure",
       value:
-        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace and that the hub subscription has been propagated."
+        "This subscription was not added to a managed cluster. Ensure the Placement Rule resource is valid and exists in the {0} namespace and that the klusterlet-addon-appmgr pod runs on the managed clusters."
     },
     {
       type: "link",
@@ -2151,7 +2295,7 @@ describe("setPlacementRuleDeployStatus 1 ", () => {
       labelValue: "Error",
       status: "failure",
       value:
-        "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
+        "This Placement Rule does not match any remote clusters. Make sure the clusterSelector and clusterConditions properties, when used, are valid and match your clusters. If using the clusterReplicas property make sure is being set to a positive value."
     }
   ];
   it("setPlacementRuleDeployStatus deployed 1", () => {

@@ -57,8 +57,8 @@ class MonacoEditorEx extends MonacoEditor {
     // make sure comparison ignores \n\r
     this.componentDidUpdate = ()=>{
       const {value} = this.props
-      var editor = this.editor
-      var model = editor.getModel()
+      const editor = this.editor
+      const model = editor.getModel()
       const v1 = value.split('\r\n').join('\n').split('\r').join('\n')
       const v2 = model.getValue().split('\r\n').join('\n').split('\r').join('\n')
       if (v1 !== v2) {
@@ -125,7 +125,7 @@ class YamlEditor extends React.Component {
 
   componentDidUpdate() {
     // stop flickering
-    var model = this.editor.getModel()
+    const model = this.editor.getModel()
     model.forceTokenization(model.getLineCount())
   }
 

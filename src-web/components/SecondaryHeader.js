@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../actions'
-import { Breadcrumb, Tabs, Tab } from 'carbon-components-react'
+import { Breadcrumb, Tabs, Tab, Button } from 'carbon-components-react'
 import { DetailPageHeader } from 'carbon-addons-cloud-react'
 import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
@@ -28,7 +28,8 @@ export class SecondaryHeader extends React.Component {
     super(props)
     this.renderBreadCrumb = this.renderBreadCrumb.bind(this)
     this.renderTabs = this.renderTabs.bind(this)
-
+    this.renderTooltip = this.renderTooltip.bind(this)
+    this.renderLinks = this.renderLinks.bind(this)
     this.state = {
       shadowPresent: false
     }
@@ -51,7 +52,7 @@ export class SecondaryHeader extends React.Component {
   };
 
   render() {
-    const { tabs, title, breadcrumbItems } = this.props
+    const { tabs, title, breadcrumbItems, links } = this.props
     const { locale } = this.context
     if (
       (tabs && tabs.length > 0) ||
@@ -97,6 +98,8 @@ export class SecondaryHeader extends React.Component {
                     <DetailPageHeader
                       hasTabs={false}
                       title={decodeURIComponent(title)}
+                      statusText={null}
+                      statusContent={this.renderTooltip()}
                       aria-label={`${title} ${msgs.get(
                         'secondaryHeader',
                         locale
@@ -106,6 +109,11 @@ export class SecondaryHeader extends React.Component {
                     </DetailPageHeader>
                   )}
                 </div>
+                {links && links.length>0 &&
+                  <div className='secondary-header-links'>
+                    {this.renderLinks()}
+                  </div>
+                }
               </header>
             </div>
           </div>
@@ -129,6 +137,11 @@ export class SecondaryHeader extends React.Component {
               </h1>
             </div>
           </div>
+          {links && links.length>0 &&
+            <div className='secondary-header-links'>
+              {this.renderTooltip()}
+            </div>
+          }
         </div>
       )
     }
@@ -167,6 +180,35 @@ export class SecondaryHeader extends React.Component {
     )
   }
 
+  renderLinks() {
+    const { links } = this.props,
+          { locale } = this.context
+    return links.map(link => {
+      const {id, label, url, kind='primary', title, handleClick=(()=> this.props.history.push(url)) } = link
+      // if portal, react component will create the button using a portal
+      if (kind==='portal') {
+        return !title ? <div key={id} id={id} className='portal' /> : null
+      }
+      return <Button key={id} id={id} onClick={handleClick} kind={kind} >
+        {msgs.get(label, locale)}
+      </Button>
+    })
+  }
+
+  renderActions() {
+    const { actions } = this.props
+    return (
+      <div className='secondary-header-actions'>
+        <Button kind='secondary' onClick={() => actions.secondary && actions.secondary.action()} className='secondary-header-actions-secondary'>
+          {actions.secondary && actions.secondary.label}
+        </Button>
+        <Button kind='primary' onClick={() => actions.primary && actions.primary.action()} disabled={actions.primary.disabled} className='secondary-header-actions-primary'>
+          {actions.primary && actions.primary.label}
+        </Button>
+      </div>
+    )
+  }
+
   renderTabs() {
     const { tabs } = this.props,
           { locale } = this.context
@@ -185,6 +227,22 @@ export class SecondaryHeader extends React.Component {
         />
       )
     })
+  }
+
+  renderTooltip() {
+    const { links=[] } = this.props
+    return (
+      <React.Fragment>
+        {links && links.map(link => {
+          const {id, kind, title } = link
+          // if portal, react component will create the button using a portal
+          if (kind==='portal' && title) {
+            return <div key={id} id={id} className='portal' />
+          } else {
+            return null
+          }})}
+      </React.Fragment>
+    )
   }
 
   getSelectedTab() {
@@ -209,6 +267,7 @@ SecondaryHeader.propTypes = {
   actions: PropTypes.object,
   breadcrumbItems: PropTypes.array,
   history: PropTypes.object,
+  links: PropTypes.array,
   location: PropTypes.object,
   tabs: PropTypes.array,
   title: PropTypes.string

@@ -97,9 +97,7 @@ exports[`App App renders correctly with data on single app. 1`] = `
                        
                       <span
                         className="bx--detail-page-header-status-text"
-                      >
-                        Running
-                      </span>
+                      />
                     </div>
                   </div>
                 </div>

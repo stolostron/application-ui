@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: git-sub-ns
+  name: git-sub-ns-$JOB_ID
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
-  name: git-sub
-  namespace: git-sub-ns
+  name: git-sub-$JOB_ID
+  namespace: git-sub-ns-$JOB_ID
   labels:
-    name: git-sub
+    name: git-sub-$JOB_ID
 spec:
-  channel: ch-git/github-channel
+  channel: ch-git-$JOB_ID/github-channel-$JOB_ID
   placement:
     placementRef: 
-      name: towhichcluster
+      name: towhichcluster-$JOB_ID
       kind: PlacementRule
   packageFilter:
     filterRef:

@@ -1,8 +1,8 @@
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
-  name: helm-sub-app
-  namespace: helm-sub-ns
+  name: git-sub-app-$JOB_ID
+  namespace: git-sub-ns-$JOB_ID
 spec:
   componentKinds:
     - group: apps.open-cluster-management.io
@@ -10,4 +10,4 @@ spec:
   descriptor: {}
   selector:
     matchLabels:
-      name: helm-sub
+      name: git-sub-$JOB_ID

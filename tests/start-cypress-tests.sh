@@ -46,9 +46,8 @@ cat ./tests/cypress/test-artifacts/*
 
 echo "Running tests on $CYPRESS_BASE_URL in $CYPRESS_TEST_MODE mode..."
 testCode=0
-npx cypress run --config-file "./tests/cypress/cypress.json" --browser $BROWSER 
-#--reporter junit \
-#  --reporter-options "mochaFile=/results/cypress-e2e-[hash].xml"
+npx cypress run --config-file "./tests/cypress/cypress.json" --browser $BROWSER --reporter junit \
+  --reporter-options "mochaFile=/results/cypress-e2e-[hash].xml"
 testCode=$?
 
 echo "Copying outputed screenshots and videos..."

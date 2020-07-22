@@ -78,7 +78,7 @@ export const VALIDATE_URL = {
     }
   },
   notification: 'creation.invalid.url',
-  required: true,
+  required: true
 }
 
 export const VALIDATE_IP_AGAINST_MACHINE_CIDR = {
@@ -150,8 +150,8 @@ export const initializeControlData = (
 
   // if any card controls, set this as parent control data
   if (inGroup) {
-    parentControlData.forEach(c=>{
-      if (c.type==='cards') {
+    parentControlData.forEach(c => {
+      if (c.type === 'cards') {
         c.groupNum = groupNum
         c.groupControlData = parentControlData
       }

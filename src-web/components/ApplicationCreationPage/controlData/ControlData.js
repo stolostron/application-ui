@@ -10,13 +10,16 @@
 'use strict'
 
 import _ from 'lodash'
-import {VALIDATE_ALPHANUMERIC, VALIDATE_URL} from '../../TemplateEditor/utils/update-controls'
+import {
+  VALIDATE_ALPHANUMERIC,
+  VALIDATE_URL
+} from '../../TemplateEditor/utils/update-controls'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
 
 import { HCMChannelList } from '../../../../lib/client/queries'
 
-export const LOAD_EXISTING_CHANNELS  = (type)=>{
+export const LOAD_EXISTING_CHANNELS = type => {
   return {
     query: HCMChannelList,
     loadingDesc: 'creation.app.loading.channels',
@@ -24,9 +27,9 @@ export const LOAD_EXISTING_CHANNELS  = (type)=>{
   }
 }
 
-export const setAvailableChannelSpecs  = (type, control, result)=>{
+export const setAvailableChannelSpecs = (type, control, result) => {
   const { loading } = result
-  const { data={} } = result
+  const { data = {} } = result
   const { items } = data
   control.available = []
   control.availableMap = {}
@@ -35,24 +38,26 @@ export const setAvailableChannelSpecs  = (type, control, result)=>{
   if (error) {
     control.isFailed = true
   } else if (items) {
-    control.availableData = _.keyBy(items
-      .filter(({type:p})=>{
+    control.availableData = _.keyBy(
+      items.filter(({ type: p }) => {
         return type.startsWith(p.toLowerCase())
-      }), 'objectPath')
+      }),
+      'objectPath'
+    )
     control.available = Object.keys(control.availableData).sort()
   } else {
     control.isLoading = loading
   }
 }
 
-const updateGithubControls = (urlControl)=>{
-  const {active, availableData, groupControlData} = urlControl
+const updateGithubControls = urlControl => {
+  const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]
 
   // change channel name to reflect github path
   let control
   if (active) {
-    control = groupControlData.find(({id}) => id === 'channelName')
+    control = groupControlData.find(({ id }) => id === 'channelName')
     const a = document.createElement('a')
     a.href = active
     control.active = a.pathname.split('/').pop()
@@ -60,17 +65,16 @@ const updateGithubControls = (urlControl)=>{
 
   // hide user/token controls if user selects a github path that doesn't need them
   const type = !pathData || pathData.secretRef ? 'text' : 'hidden'
-  const setType = (cid) => {
-    control = groupControlData.find(({id}) => id === cid)
+  const setType = cid => {
+    control = groupControlData.find(({ id }) => id === cid)
     _.set(control, 'type', type)
-    if (type==='hidden') {
+    if (type === 'hidden') {
       _.set(control, 'active', '')
     }
   }
   setType('githubUser')
   setType('githubAccessId')
 }
-
 
 const githubChannelData = [
   ///////////////////////  github  /////////////////////////////////////
@@ -85,7 +89,7 @@ const githubChannelData = [
     validation: VALIDATE_URL,
     fetchAvailable: LOAD_EXISTING_CHANNELS('github'),
     cacheUserValueKey: 'create.app.github.url',
-    onSelect: updateGithubControls,
+    onSelect: updateGithubControls
   },
   {
     name: 'creation.app.github.user',

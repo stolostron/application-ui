@@ -11,38 +11,37 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  MultiSelect
-} from 'carbon-components-react'
+import { MultiSelect } from 'carbon-components-react'
 import Tooltip from './Tooltip'
 import msgs from '../../../../nls/platform.properties'
 
 class ControlPanelMultiSelect extends React.Component {
-
   static propTypes = {
     control: PropTypes.object,
     handleChange: PropTypes.func,
-    locale: PropTypes.string,
-  }
+    locale: PropTypes.string
+  };
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {}
   }
 
-  setControlRef = (control, ref) => {this.multiSelect = control.ref = ref}
+  setControlRef = (control, ref) => {
+    this.multiSelect = control.ref = ref
+  };
 
   render() {
-    const {locale, control} = this.props
-    const {id, name, placeholder:ph=''} = control
+    const { locale, control } = this.props
+    const { id, name, placeholder: ph = '' } = control
 
     // see if we need to add user additions to available (from editing the yaml file)
-    const {userData, userMap, hasCapturedUserSource} = control
-    let {active=[], available, availableMap} = control
+    const { userData, userMap, hasCapturedUserSource } = control
+    let { active = [], available, availableMap } = control
     if (userData) {
       if (!hasCapturedUserSource) {
         available = [...userData, ...available]
-        availableMap = {...userMap, ...availableMap}
+        availableMap = { ...userMap, ...availableMap }
       } else {
         // if user edited the source, we can't automatically update it
         active = available = [msgs.get('creation.view.policy.custom', locale)]
@@ -52,12 +51,12 @@ class ControlPanelMultiSelect extends React.Component {
 
     // place holder
     let placeholder = ph
-    if (active.length>0) {
+    if (active.length > 0) {
       const activeKeys = []
-      active.forEach(k=>{
-        if (typeof availableMap ==='object' && availableMap[k]) {
-          const {name:n} = availableMap[k]
-          activeKeys.push(n||k)
+      active.forEach(k => {
+        if (typeof availableMap === 'object' && availableMap[k]) {
+          const { name: n } = availableMap[k]
+          activeKeys.push(n || k)
         } else {
           activeKeys.push(k)
         }
@@ -69,8 +68,10 @@ class ControlPanelMultiSelect extends React.Component {
     const key = `${id}-${active.join('-')}`
     return (
       <React.Fragment>
-        <div className='creation-view-controls-multiselect'
-          ref={this.setControlRef.bind(this, control)}>
+        <div
+          className="creation-view-controls-multiselect"
+          ref={this.setControlRef.bind(this, control)}
+        >
           <div className="creation-view-controls-multiselect-title">
             {name}
             <Tooltip control={control} locale={locale} />
@@ -80,17 +81,18 @@ class ControlPanelMultiSelect extends React.Component {
             items={available}
             initialSelectedItems={active}
             placeholder={placeholder}
-            itemToString={item=>item}
-            sortItems={items=>items}
-            onChange={this.handleChange.bind(this, id)} />
+            itemToString={item => item}
+            sortItems={items => items}
+            onChange={this.handleChange.bind(this, id)}
+          />
         </div>
       </React.Fragment>
     )
   }
 
   handleChange(id, evt) {
-    const {control, handleChange} = this.props
-    const {isOneSelection} = control
+    const { control, handleChange } = this.props
+    const { isOneSelection } = control
     if (isOneSelection) {
       // close on one selection
       handleChange(evt)
@@ -98,11 +100,13 @@ class ControlPanelMultiSelect extends React.Component {
       // close when user clicks outside of menu
       // unfortunately MultiSelect.Filterable doesn't have an onClose
       this.multiSelect.selectedItems = evt.selectedItems
-      const menu = this.multiSelect.getElementsByClassName('bx--list-box__menu')
-      if (menu && menu.length>0) {
+      const menu = this.multiSelect.getElementsByClassName(
+        'bx--list-box__menu'
+      )
+      if (menu && menu.length > 0) {
         if (!this.multiSelect.observer) {
           this.multiSelect.observer = new MutationObserver(() => {
-            handleChange({selectedItems: this.multiSelect.selectedItems})
+            handleChange({ selectedItems: this.multiSelect.selectedItems })
             this.multiSelect.observer.disconnect()
             delete this.multiSelect.observer
           })
@@ -111,7 +115,7 @@ class ControlPanelMultiSelect extends React.Component {
           })
         }
       } else if (!this.multiSelect.observer) {
-        handleChange({selectedItems: this.multiSelect.selectedItems})
+        handleChange({ selectedItems: this.multiSelect.selectedItems })
       }
     }
   }

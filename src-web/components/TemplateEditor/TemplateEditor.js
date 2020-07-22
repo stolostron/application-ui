@@ -250,11 +250,17 @@ export default class TemplateEditor extends React.Component {
     }
 
     if (!isLoaded) {
-      return <Loading withOverlay={false} className='content-spinner' />
+      return <Loading withOverlay={false} className="content-spinner" />
     }
     if (isFailed) {
-      return <Notification title='' className='overview-notification' kind='error'
-        subtitle={msgs.get('overview.error.default', locale)} />
+      return (
+        <Notification
+          title=""
+          className="overview-notification"
+          kind="error"
+          subtitle={msgs.get('overview.error.default', locale)}
+        />
+      )
     }
     const viewClasses = classNames({
       'creation-view': true,
@@ -350,10 +356,27 @@ export default class TemplateEditor extends React.Component {
       onSelect(control, controlData)
     }
 
-    const {templateYAML:newYAML, templateObject} = generateYAML(template, controlData, otherYAMLTabs)
-    updateControls(this.editors, newYAML, otherYAMLTabs, controlData, isFinalValidate, locale)
-    highlightAllChanges(this.editors, templateYAML, newYAML, otherYAMLTabs, this.selectedTab)
-    const notifications = controlData.filter(c=>{
+    const { templateYAML: newYAML, templateObject } = generateYAML(
+      template,
+      controlData,
+      otherYAMLTabs
+    )
+    updateControls(
+      this.editors,
+      newYAML,
+      otherYAMLTabs,
+      controlData,
+      isFinalValidate,
+      locale
+    )
+    highlightAllChanges(
+      this.editors,
+      templateYAML,
+      newYAML,
+      otherYAMLTabs,
+      this.selectedTab
+    )
+    const notifications = controlData.filter(c => {
       return !!c.exception && isFinalValidate
     })
     this.setState({
@@ -436,8 +459,8 @@ export default class TemplateEditor extends React.Component {
     controlData = newControlData
 
     delete control.exception
-    if (notifications.length>0) {
-      notifications = controlData.filter(c=>{
+    if (notifications.length > 0) {
+      notifications = controlData.filter(c => {
         return !!c.exception
       })
     }
@@ -474,11 +497,17 @@ export default class TemplateEditor extends React.Component {
       if (insertControlData) {
         // splice control data with data from this card
         const parentControlData = groupControlData || controlData
-        const insertInx = parentControlData.findIndex(({id})=>id===control.id)
-        const deleteLen = parentControlData.length-insertInx-1
-        parentControlData.splice(insertInx+1, deleteLen, ..._.cloneDeep(insertControlData))
+        const insertInx = parentControlData.findIndex(
+          ({ id }) => id === control.id
+        )
+        const deleteLen = parentControlData.length - insertInx - 1
+        parentControlData.splice(
+          insertInx + 1,
+          deleteLen,
+          ..._.cloneDeep(insertControlData)
+        )
         if (groupControlData) {
-          parentControlData.forEach(cd=>{
+          parentControlData.forEach(cd => {
             cd.groupControlData = groupControlData
           })
         }
@@ -516,19 +545,33 @@ export default class TemplateEditor extends React.Component {
   handleScrollAndCollapse(control, controlData, creationView) {
     const { showEditor, previouslySelectedCards } = this.state
     // user chose a card with new controls in it---scroll the view down to the new fields
-    const {id, ref, groupNum=0, scrollViewAfterSelection, collapseAboveAfterSelection, scrollViewToTopOnSelect} = control
-    if (scrollViewAfterSelection || collapseAboveAfterSelection || scrollViewToTopOnSelect) {
-      const wasPreviouslySelected = previouslySelectedCards.includes(id+groupNum)
+    const {
+      id,
+      ref,
+      groupNum = 0,
+      scrollViewAfterSelection,
+      collapseAboveAfterSelection,
+      scrollViewToTopOnSelect
+    } = control
+    if (
+      scrollViewAfterSelection ||
+      collapseAboveAfterSelection ||
+      scrollViewToTopOnSelect
+    ) {
+      const wasPreviouslySelected = previouslySelectedCards.includes(
+        id + groupNum
+      )
       if (!wasPreviouslySelected) {
         const scrollView = showEditor ? creationView : window
         const controlTop = ref.getBoundingClientRect().top
-        const panelTop = showEditor ? creationView.getBoundingClientRect().top : 200
+        const panelTop = showEditor
+          ? creationView.getBoundingClientRect().top
+          : 200
         setTimeout(() => {
           switch (true) {
-
           // collapse section above when this control is selected
           case collapseAboveAfterSelection:
-            controlData.some(({id:tid, sectionRef, sectionTitleRef})=>{
+            controlData.some(({ id: tid, sectionRef, sectionTitleRef }) => {
               if (sectionRef && sectionTitleRef) {
                 sectionRef.classList.toggle('collapsed', true)
                 sectionTitleRef.classList.toggle('collapsed', true)
@@ -543,7 +586,7 @@ export default class TemplateEditor extends React.Component {
             }, 100)
             break
 
-          // scroll view down after control is selected by 'scrollViewAfterSelection' pixels
+            // scroll view down after control is selected by 'scrollViewAfterSelection' pixels
           case scrollViewAfterSelection:
             scrollView.scrollBy({
               top: scrollViewAfterSelection,
@@ -552,17 +595,17 @@ export default class TemplateEditor extends React.Component {
             })
             break
 
-          // scroll control to top when cards have been collapsed (only one card shown)
+            // scroll control to top when cards have been collapsed (only one card shown)
           case scrollViewToTopOnSelect:
             scrollView.scrollBy({
-              top: controlTop-panelTop,
+              top: controlTop - panelTop,
               left: 0,
               behavior: 'smooth'
             })
             break
           }
         }, 100)
-        previouslySelectedCards.push(id+groupNum)
+        previouslySelectedCards.push(id + groupNum)
       }
     }
     this.setState({ previouslySelectedCards })
@@ -630,8 +673,9 @@ export default class TemplateEditor extends React.Component {
           wrapEnabled={true}
           setEditor={this.addEditor}
           onYamlChange={this.handleEditorChange}
-          yaml={templateYAML} />
-        {otherYAMLTabs.map(({id, templateYAML:yaml}, inx) => {
+          yaml={templateYAML}
+        />
+        {otherYAMLTabs.map(({ id, templateYAML: yaml }, inx) => {
           return (
             <YamlEditor
               id={id}
@@ -642,7 +686,8 @@ export default class TemplateEditor extends React.Component {
               wrapEnabled={true}
               setEditor={this.addEditor}
               onYamlChange={this.handleEditorChange}
-              yaml={yaml} />
+              yaml={yaml}
+            />
           )
         })}
       </React.Fragment>
@@ -741,9 +786,9 @@ export default class TemplateEditor extends React.Component {
     return command
   }
 
-  closeEdit()  {
+  closeEdit() {
     localStorage.removeItem(TEMPLATE_EDITOR_OPEN_COOKIE)
-    this.setState({showEditor: false})
+    this.setState({ showEditor: false })
   }
 
   handleSearchChange(searchName) {
@@ -843,11 +888,20 @@ export default class TemplateEditor extends React.Component {
 
     // if typing on another tab that represents encoded yaml in the main tab,
     // update the main yaml--for now
-    if (activeYAMLEditor!==0) {
-      const {template, templateYAML:yaml} = this.state
-      const {templateYAML:newYAML, templateObject} = generateYAML(template, controlData, otherYAMLTabs)
+    if (activeYAMLEditor !== 0) {
+      const { template, templateYAML: yaml } = this.state
+      const { templateYAML: newYAML, templateObject } = generateYAML(
+        template,
+        controlData,
+        otherYAMLTabs
+      )
       highlightChanges(this.editors[0], yaml, newYAML)
-      this.setState({controlData, notifications, templateYAML: newYAML, templateObject})
+      this.setState({
+        controlData,
+        notifications,
+        templateYAML: newYAML,
+        templateObject
+      })
     } else {
       this.setState({ controlData, notifications, templateYAML })
     }

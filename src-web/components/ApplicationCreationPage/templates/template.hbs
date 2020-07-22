@@ -153,5 +153,8 @@ spec:
   clusterSelector:
     matchLabels:
   clusterReplicas:
+{{#if timeWindow}}
+  timeWindow: {{{timeWindow}}}
+{{/if}}
 
 

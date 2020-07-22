@@ -9,12 +9,13 @@
  *******************************************************************************/
 'use strict'
 
-import _ from 'lodash'
+import React from 'react'
 import {VALIDATE_ALPHANUMERIC, VALIDATE_URL} from '../../TemplateEditor/utils/update-controls'
+import { HCMChannelList } from '../../../../lib/client/queries'
+import TimeWindow from '../components/TimeWindow'
+import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
-
-import { HCMChannelList } from '../../../../lib/client/queries'
 
 export const LOAD_EXISTING_CHANNELS  = (type)=>{
   return {
@@ -350,6 +351,19 @@ export const controlData = [
     placeholder: 'creation.view.policy.select.selectors',
     id: 'clusters',
     type: 'multiselect',
+    available: [],
+  },
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  SAMPLE CUSTOM  /////////////////////////////////////
+
+  {
+    type: 'custom',
+    name: 'creation.view.policy.binding',
+    description: 'policy.create.selectors.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
     available: [],
   },
 

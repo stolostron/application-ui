@@ -27,7 +27,7 @@
     "test:safari": "nightwatch ./tests/e2e -e safari",
     "test:chrome.headless": "nightwatch ./tests/e2e -e chrome.headless",
     "test:firefox.headless": "nightwatch ./tests/e2e -e firefox.headless",
-    "test:slack": "node ./tests/cypress/scripts/slack-reporter.js"
+    "test:slack": "node tests/cypress/scripts/slack-reporter.js"
   },
   "husky": {
     "hooks": {

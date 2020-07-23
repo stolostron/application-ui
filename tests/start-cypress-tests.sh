@@ -62,10 +62,10 @@ cp -r ./cypress/videos /results/videos
 # cp ./test-output/application-ui.xml /results
 # ls -al /results
 
-# if [[ ! -z "$SLACK_TOKEN" ]]; then
-#   echo "Slack integration is configured; processing..."
-#   npm run test:slack
-# fi
+if [[ ! -z "$SLACK_TOKEN" ]]; then
+   echo "Slack integration is configured; processing..."
+   npm run test:slack
+fi
 
 #if [ $CYPRESS_TEST_MODE == "functional" ]; then
 #  echo "Cleaning up functional test resources..."

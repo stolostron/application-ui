@@ -302,9 +302,12 @@ class ControlPanel extends React.Component {
   }
 
   renderTitle(control) {
-    const { locale } = this.props
+    const { locale, controlData } = this.props
     const {title, subtitle, note, overline, numbered, collapsable, collapsed=false, content=[]} = control
-    const {info} = control
+    let {info} = control
+    if (typeof info === 'function') {
+      info = info(controlData, this.context.locale)
+    }
 
     const handleCollapse = () => {
       if (control.sectionRef && collapsable) {

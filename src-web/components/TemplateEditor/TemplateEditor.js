@@ -21,8 +21,9 @@ import {
   InlineNotification,
   ToggleSmall
 } from 'carbon-components-react'
-import { initializeControlData, cacheUserData, updateControls } from './utils/update-controls'
-import { generateYAML, highlightChanges, highlightAllChanges, getUniqueName } from './utils/update-editor'
+import { initializeControlData } from './utils/initialize-form'
+import { cacheUserData, updateControls } from './utils/update-form'
+import { generateYAML, highlightChanges, highlightAllChanges, getUniqueName } from './utils/update-source'
 import ControlPanel from './components/ControlPanel'
 import EditorHeader from './components/EditorHeader'
 import EditorBar from './components/EditorBar'

@@ -69,6 +69,7 @@ export const processNodeData = (
   node,
   topoResourceMap,
   isClusterGrouped,
+  isHelmRelease,
   topology
 ) => {
   const { name, type } = node
@@ -85,6 +86,14 @@ export const processNodeData = (
   if (type === 'subscription') {
     //don't use cluster name when grouping subscriptions
     topoResourceMap[name] = node
+    const topoAnnotation =
+      _.get(node, 'specs.raw.metadata.annotations') !== undefined
+        ? _.get(node, 'specs.raw.metadata.annotations')[
+          'apps.open-cluster-management.io/topo'
+        ]
+        : undefined
+    isHelmRelease.value =
+      topoAnnotation !== undefined && topoAnnotation.indexOf('helmchart/') > -1
   } else if (clusterName.indexOf(', ') > -1) {
     topoResourceMap[`${type}-${keyName}`] = node
     podsKeyForThisNode = `pod-${keyName}`
@@ -140,6 +149,9 @@ export const getDiagramElements = (
     const isClusterGrouped = {
       value: false
     }
+    const isHelmRelease = {
+      value: false
+    }
     topo_nodes.forEach(node => {
       const { type } = node
 
@@ -152,7 +164,13 @@ export const getDiagramElements = (
         channelsList = _.get(node, 'specs.channels', [])
       }
 
-      processNodeData(node, allResourcesMap, isClusterGrouped, topology)
+      processNodeData(
+        node,
+        allResourcesMap,
+        isClusterGrouped,
+        isHelmRelease,
+        topology
+      )
 
       const raw = _.get(node, 'specs.raw')
       if (raw) {
@@ -187,6 +205,7 @@ export const getDiagramElements = (
       activeChannelInfo,
       localStoreKey,
       isClusterGrouped,
+      isHelmRelease,
       applicationDetails
     )
 
@@ -277,6 +296,7 @@ export const addDiagramDetails = (
   activeChannel,
   localStoreKey,
   isClusterGrouped,
+  isHelmRelease,
   applicationDetails
 ) => {
   const { detailsReloading } = topology
@@ -297,5 +317,11 @@ export const addDiagramDetails = (
     related = getStoredObject(`${localStoreKey}-${activeChannel}-details`)
   }
   //link search objects with topology deployable objects displayed in the tree
-  setupResourceModel(related, allResourcesMap, isClusterGrouped, topology)
+  setupResourceModel(
+    related,
+    allResourcesMap,
+    isClusterGrouped,
+    isHelmRelease,
+    topology
+  )
 }

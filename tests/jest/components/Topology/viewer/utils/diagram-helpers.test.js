@@ -602,7 +602,9 @@ describe("getNameWithoutChartRelease node with pods no _hostingDeployable", () =
 
   it("getNameWithoutChartRelease for pod with no deployable", () => {
     expect(
-      getNameWithoutChartRelease(node, "nginx-ingress-edafb-default-backend")
+      getNameWithoutChartRelease(node, "nginx-ingress-edafb-default-backend", {
+        value: false
+      })
     ).toEqual("nginx-ingress-edafb-default-backend");
   });
 });
@@ -632,7 +634,9 @@ describe("getNameWithoutChartRelease node for helmrelease no label", () => {
 
   it("getNameWithoutChartRelease helm release  no no label", () => {
     expect(
-      getNameWithoutChartRelease(node, "ch-git-helm/git-helm-chart1-1.1.1")
+      getNameWithoutChartRelease(node, "ch-git-helm/git-helm-chart1-1.1.1", {
+        value: true
+      })
     ).toEqual("chart1-1.1.1");
   });
 });
@@ -654,9 +658,9 @@ describe("getNameWithoutChartRelease node for subscription, with label", () => {
   };
 
   it("getNameWithoutChartRelease helm release  no no label", () => {
-    expect(getNameWithoutChartRelease(node, "git-helm-sub")).toEqual(
-      "git-helm-sub"
-    );
+    expect(
+      getNameWithoutChartRelease(node, "git-helm-sub", { value: true })
+    ).toEqual("git-helm-sub");
   });
 });
 
@@ -1211,7 +1215,7 @@ describe("setSubscriptionDeployStatus for node type different then subscription 
 
 describe("setupResourceModel ", () => {
   it("setupResourceModel", () => {
-    expect(setupResourceModel(resourceList, resourceMap, false)).toEqual(
+    expect(setupResourceModel(resourceList, resourceMap, false, false)).toEqual(
       modelResult
     );
   });
@@ -1219,7 +1223,7 @@ describe("setupResourceModel ", () => {
 
 describe("setupResourceModel ", () => {
   it("return setupResourceModel for grouped objects", () => {
-    expect(setupResourceModel(resourceList, resourceMap, true)).toEqual(
+    expect(setupResourceModel(resourceList, resourceMap, true, false)).toEqual(
       modelResult
     );
   });

@@ -100,7 +100,7 @@ class ResourceTable extends React.Component {
               <div className="table-title">
                 {tableTitle}{' '}
                 {tableName === 'All applications' &&
-                  Array.isArray(rows) && <span>({rows.length})</span>}
+                  Array.isArray(rows) && <span>({totalFilteredItems})</span>}
               </div>
             )}
             <TableToolbar

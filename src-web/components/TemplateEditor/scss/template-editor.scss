@@ -23,18 +23,18 @@
   margin-top: -10px;
       
   &.showEditor {
-    margin: -25px 0 -3.125rem 0;
+    margin: -50px 0 -3.125rem 0;
   }
 
   .creation-view-split-container {
 
     &.showEditor {
-      height: calc(100vh - 220px);
+      height: calc(100vh - 200px);
 
       .creation-view-controls-container {
         height: calc(100vh - 245px);
         position: relative;
-        padding-top: 1.0rem;
+        padding-top: 40px;
         
         &-blurr {
           position: absolute;

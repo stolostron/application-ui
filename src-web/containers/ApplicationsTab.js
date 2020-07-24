@@ -14,6 +14,7 @@ import { RESOURCE_TYPES, DOC_LINKS } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
 import { createResources } from '../actions/common'
 import CreateResourceModal from '../components/modals/CreateResourceModal'
+import CreateApplicationButton from '../components/common/CreateApplicationButton'
 import msgs from '../../nls/platform.properties'
 import context from '../../lib/shared/context'
 import { getApplicationSample } from '../shared/yamlSamples/index'
@@ -45,7 +46,7 @@ export default withRouter(
   typedResourcePageWithListAndDetails(
     RESOURCE_TYPES.QUERY_APPLICATIONS,
     [],
-    [registerApplicationModal],
+    [<CreateApplicationButton key="create" />, registerApplicationModal],
     [],
     [<ResourceTableModule key="deployments" definitionsKey="deploymentKeys" />],
     tableTitle,

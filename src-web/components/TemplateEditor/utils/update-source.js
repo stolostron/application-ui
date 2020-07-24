@@ -144,7 +144,7 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
         const choices = Array.isArray(active) ? active : [active]
         choices.forEach((key, idx)=>{
           const {replacements:_replacements} = availableMap[key]
-          Object.entries(_replacements).forEach(([id:_id, partial]) => {
+          Object.entries(_replacements).forEach(([_id, partial]) => {
             const {template:_template, encode} = partial
             partial = _template || partial
             const typeOf = typeof partial

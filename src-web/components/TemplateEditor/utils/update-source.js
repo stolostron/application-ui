@@ -24,7 +24,7 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
   const controlMap = {}
   const getTemplateData = (control) => {
     const {getActive, userMap, id, type, multiselect, singleline, multiline,
-      hasKeyLabels, hasValueDescription, hasReplacements, encode, template} = control
+      hasKeyLabels, hasValueDescription, hasReplacements, encode, template:_template} = control
     let {availableMap} = control
     availableMap = {...userMap, ...availableMap}
     controlMap[id] = control
@@ -55,7 +55,9 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
           const map = {}
           group.forEach(gcontrol=>{
             const gvalue = getTemplateData(gcontrol)
-            if (gvalue) map[gcontrol.id] = gvalue
+            if (gvalue) {
+              map[gcontrol.id] = gvalue
+            }
           })
           return map
         })
@@ -69,7 +71,7 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
         if (lines.length===1 && lines[0].length>max) {
           const lline = lines[0]
           const numChunks = Math.ceil(lline.length / max)
-          lines = new Array(numChunks)
+          lines = Array.from({length: numChunks})
           for (let i = 0, o = 0; i < numChunks; ++i, o += max) {
             lines[i] = lline.substr(o, max)
           }
@@ -77,9 +79,9 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
         ret = lines
       } else if (!multiselect && type!=='table' && type!=='labels' && Array.isArray(active)) {
         ret = active[0]
-      } else if (template) {
+      } else if (_template) {
         // ex: when a text input is part of a url
-        ret = template.replace(`{{{${id}}}}`, active)
+        ret = _template.replace(`{{{${id}}}}`, active)
       } else {
         ret = active
       }
@@ -107,8 +109,8 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
     const controlReplacements = _.get(Object.values(availableMap), '[0].replacements')
     if (controlReplacements) {
       Object.keys(controlReplacements).forEach(id=>{
-        const control = controlMap[id]
-        if (control && control.type === 'hidden') {
+        const ctrl = controlMap[id]
+        if (ctrl && ctrl.type === 'hidden') {
           delete controlMap[id].wasSet
           delete templateData[id]
         }
@@ -141,23 +143,23 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
         // add predefined snippets
         const choices = Array.isArray(active) ? active : [active]
         choices.forEach((key, idx)=>{
-          const {replacements} = availableMap[key]
-          Object.entries(replacements).forEach(([id, partial]) => {
-            const {template, encode} = partial
-            partial = template || partial
+          const {replacements:_replacements} = availableMap[key]
+          Object.entries(_replacements).forEach(([id:_id, partial]) => {
+            const {template:_template, encode} = partial
+            partial = _template || partial
             const typeOf = typeof partial
             if (typeOf === 'string' || typeOf=== 'function') {
               let snippet = typeOf === 'string' ? partial : partial(templateData)
               snippet = snippet.trim().replace(/^\s*$(?:\r\n?|\n)/gm, '')
-              let arr = templateData[id]
+              let arr = templateData[_id]
               if (!arr) {
-                arr = templateData[id] = []
+                arr = templateData[_id] = []
               }
 
               // need to make sure yaml indents line up
               // see below for more
               if (new RegExp(/[\r\n]/).test(snippet)) {
-                const snippetKey = `____${id}-${idx}____`
+                const snippetKey = `____${_id}-${idx}____`
                 if (encode) {
                   snippet = (customYAML || snippet)
                   const encodedYAML = Base64.encode(snippet.replace(/\s*##.+$/gm, ''))
@@ -165,7 +167,7 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
                     control,
                     templateYAML: snippet, //unencoded
                     encodedYAML, // encoded
-                    id
+                    _id
                   })
                   snippet = encodedYAML
                 }
@@ -173,16 +175,16 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
                 if (Array.isArray(arr)) {
                   arr.push(snippetKey)
                 }
-              } else if (Array.isArray(arr) && !arr.includes(snippet) && controlMap[id]) {
-                let wasSet = controlMap[id].wasSet
+              } else if (Array.isArray(arr) && !arr.includes(snippet) && controlMap[_id]) {
+                let wasSet = controlMap[_id].wasSet
                 if (!wasSet) {
-                  wasSet = controlMap[id].wasSet = new Set()
+                  wasSet = controlMap[_id].wasSet = new Set()
                 }
                 // if this control has already been set by this selection
                 // don't do it again in case user unselected it
                 if (arr && !wasSet.has(key)) {
                   arr.push(snippet)
-                  controlMap[id].active = arr
+                  controlMap[_id].active = arr
                   wasSet.add(key)
                 }
               } else {
@@ -192,7 +194,7 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
                 arr.push(snippet)
               }
             } else if (Array.isArray(partial)) {
-              templateData[id] = partial
+              templateData[_id] = partial
             }
           })
         })
@@ -487,7 +489,9 @@ export const parseYAML = (yaml) => {
       $synced.$l = snip.split(/[\r\n]+/g).length
       values.push({$raw: obj, $yml: snip, $synced})
       absLine += $synced.$l
-      if (post) absLine++
+      if (post) {
+        absLine++
+      }
     })
   } catch (e) {
     const {mark={}, reason, message} = e
@@ -584,7 +588,7 @@ const syncControls = (object, path, controlMap, tabId) => {
     let o, p
     object = object.$v!==undefined ? object.$v : object
     if (Array.isArray(object)) {
-      for (var i = 0; i < object.length; i++) {
+      for (let i = 0; i < object.length; i++) {
         o = object[i]
         if (o.$v!==undefined) {
           p = `${path}[${i}].$v`
@@ -612,7 +616,8 @@ export const getUniqueName = (name, nameSet) => {
     let count=1
     const baseName = name.replace(/-*\d+$/, '')
     do {
-      name = `${baseName}-${count++}`
+      name = `${baseName}-${count}`
+      count++
     } while (nameSet.has(name))
   }
   return name

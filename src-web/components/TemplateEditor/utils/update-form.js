@@ -20,16 +20,16 @@ export function updateControls(editors, templateYAML, otherYAMLTabs=[], controlD
   let { parsed, exceptions } = parseYAML(templateYAML)
   const templateObjectMap={'<<main>>': parsed}
   const templateExceptionMap={'<<main>>':{editor: editors[0], exceptions: attachEditorToExceptions(exceptions, editors, 0)}}
-  otherYAMLTabs.forEach(({id, templateYAML}, inx)=>{
-    ({ parsed, exceptions } = parseYAML(templateYAML))
+  otherYAMLTabs.forEach(({id, templateYAML:yaml}, inx)=>{
+    ({ parsed, exceptions } = parseYAML(yaml))
     templateObjectMap[id] = parsed
     templateExceptionMap[id]={editor: editors[inx+1], exceptions: attachEditorToExceptions(exceptions, editors, inx+1)}
   })
 
   // if any syntax errors, report them and leave
   let hasSyntaxExceptions = false
-  Object.values(templateExceptionMap).forEach(({exceptions})=>{
-    if (exceptions.length>0) {
+  Object.values(templateExceptionMap).forEach(({exceptions:_exceptions})=>{
+    if (_exceptions.length>0) {
       hasSyntaxExceptions=true
     }
   })
@@ -64,11 +64,11 @@ export function updateControls(editors, templateYAML, otherYAMLTabs=[], controlD
 
   // update editors with any format exceptions
   let hasValidationExceptions = false
-  Object.values(templateExceptionMap).forEach(({editor, exceptions}, inx)=>{
+  Object.values(templateExceptionMap).forEach(({editor, exceptions:_exceptions}, inx)=>{
     setTimeout(() => {
       if (editor) {
         const decorationList = []
-        exceptions.forEach(({row, text})=>{
+        _exceptions.forEach(({row, text})=>{
           decorationList.push({
             range: new editor.monaco.Range(row, 0, row, 132),
             options: {
@@ -79,7 +79,7 @@ export function updateControls(editors, templateYAML, otherYAMLTabs=[], controlD
             }
           })
         })
-        exceptions.forEach(({row, column})=>{
+        _exceptions.forEach(({row, column})=>{
           decorationList.push({
             range: new editor.monaco.Range(row, column-6, row, column+6),
             options: {
@@ -92,9 +92,9 @@ export function updateControls(editors, templateYAML, otherYAMLTabs=[], controlD
           [...editor.errorList, ...editor.changeList||[]])
       }
     }, 0)
-    if (exceptions.length>0) {
+    if (_exceptions.length>0) {
       hasValidationExceptions = true
-      attachEditorToExceptions(exceptions, editors, inx)
+      attachEditorToExceptions(_exceptions, editors, inx)
     }
   })
   return {templateObjectMap, templateExceptionMap, hasSyntaxExceptions, hasValidationExceptions}
@@ -124,7 +124,7 @@ const updateTableControl = (table, templateObjectMap, templateExceptionMap, isFi
         if (control.exception) {
 
           // add exception to cell in table
-          let exception = exceptions.find(({exception})=>(exception===control.exception))
+          let exception = exceptions.find(({exception:_exception})=>(_exception===control.exception))
           if (!exception) {
             exception = {
               exception: control.exception,
@@ -182,8 +182,7 @@ const updateControl = (control, templateObjectMap, templateExceptionMap, isFinal
   }
 
   if (shouldUpdateControl(control, templateObjectMap)) {
-    const {type} = control
-    switch (type) {
+    switch (control.type) {
     case 'text':
     case 'textarea':
     case 'number':
@@ -288,7 +287,8 @@ const updateSingleSelectControl = (control, templateObjectMap, templateException
   const {available=[], sourcePath={}} = control
   const {tabId='<<main>>', path=''} = sourcePath
   const parsed = templateObjectMap[tabId]
-  const active = control.active = _.get(parsed, path)
+  const active = _.get(parsed, path)
+  control.active = active
   const {exceptions} = templateExceptionMap[tabId]
   const spath = splitPath(path)
   if (!active) {
@@ -474,112 +474,6 @@ const getRow = (path, parsed) => {
   }
   return synced ? synced.$r+1 : 0
 }
-
-
-//looks for ## at end of a YAML line
-export function hitchControlsToYAML(yaml, otherYAMLTabs=[], controlData) {
-  const {parsed} = parseYAML(yaml)
-
-  // get controlMap
-  const controlMap = {}
-  controlData.forEach(control=>{
-    const {id, type, active=[]} = control
-    controlMap[id] = control
-
-    switch (type) {
-    case 'group':
-    // each group gets an array of control data maps, one per group
-      control.controlMapArr=[]
-      active.forEach(cd=>{
-        const cdm = {}
-        control.controlMapArr.push(cdm)
-        cd.forEach(c=>{
-          cdm[c.id] = c
-        })
-      })
-      break
-
-    case 'table':
-    // each table cell has its own source path
-      control.sourcePath={paths:[]}
-      break
-    }
-  })
-
-  otherYAMLTabs.forEach(tab=>{
-    const {id: tabId, templateYAML} = tab
-    const {parsed: tabParsed} = parseYAML(templateYAML)
-    syncControlData(tabParsed, controlData, controlMap, tabId)
-    tab.templateYAML = templateYAML.replace(/\s*##.+$/gm, '') // remove source markers
-  })
-  syncControlData(parsed, controlData, controlMap, '<<main>>')
-  return yaml.replace(/\s*##.+$/gm, '') // remove source markers
-}
-
-
-//point control to what template value it changes
-//looks for ##controlId in template
-const syncControlData = (parsed, controlData, controlMap, tabId) =>{
-  Object.entries(parsed).forEach(([key,value])=>{
-    value.forEach(({$synced}, inx)=>{
-      syncControls($synced, `${key}[${inx}].$synced`, controlMap, tabId)
-    })
-  })
-}
-
-const syncControls = (object, path, controlMap, tabId) => {
-  if (object) {
-    if (object.$cmt) {
-    // comment links in groups/tables have the format ##groupId.inx.controlId
-    // ties into controlMap created above
-      const [controlKey, inx, dataKey] = object.$cmt.split('.')
-      let control = controlMap[controlKey]
-      if (control) {
-        const {type, controlMapArr} = control
-        if (type!=='table') {
-          if (inx) {
-            const cdm = controlMapArr[inx]
-            if (cdm) {
-              control = cdm[dataKey]
-            }
-          }
-          control.sourcePath = {tabId, path}
-        } else if (inx) {
-          control.sourcePath.tabId = tabId
-          let pathMap = control.sourcePath.paths[inx]
-          if (!pathMap) {
-            pathMap = control.sourcePath.paths[inx] = {}
-          }
-          pathMap[dataKey] = path
-        }
-      }
-    }
-    let o, p
-    object = object.$v!==undefined ? object.$v : object
-    if (Array.isArray(object)) {
-      for (var i = 0; i < object.length; i++) {
-        o = object[i]
-        if (o.$v!==undefined) {
-          p = `${path}[${i}].$v`
-          syncControls(o, p, controlMap, tabId)
-        }
-      }
-    } else if (object && typeof object === 'object') {
-      Object.keys(object).forEach(key => {
-        o = object[key]
-        if (o.$v!==undefined) {
-          if (key.includes('.')) {
-            p= `${path}['${key}'].$v`
-          } else {
-            p =`${path}.${key}.$v`
-          }
-          syncControls(o, p, controlMap, tabId)
-        }
-      })
-    }
-  }
-}
-
 
 //don't save user data until they create
 export const cacheUserData = (controlData) => {

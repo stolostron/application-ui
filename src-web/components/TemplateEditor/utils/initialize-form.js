@@ -87,10 +87,10 @@ const initialControl = (control, locale, groupNum) =>{
 
     if (type!=='table' && type!=='treeselect' &&
         typeof _.get(control, 'available[0]') === 'object') {
-      const { available, sort=true } = control
+      const { sort=true } = control
       availableMap = control.availableMap = {}
       sortAvailableChoices = sort
-      control.available = available.map(choice=>{
+      control.available = control.available.map(choice=>{
         let availableKey
         const {id, key, value, name, description, replacements, change={}} = choice
         // label choices

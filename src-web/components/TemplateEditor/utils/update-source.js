@@ -167,7 +167,7 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
                     control,
                     templateYAML: snippet, //unencoded
                     encodedYAML, // encoded
-                    _id
+                    id:_id
                   })
                   snippet = encodedYAML
                 }

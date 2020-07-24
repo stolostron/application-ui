@@ -7,6 +7,11 @@ import { pageLoader, resourceTable, modal, noResource } from "../views/common";
 describe("Application Resources", () => {
   beforeEach(() => {
     cy.visit("/multicloud/applications");
+    cy
+      .get("#bx-pagination-select-resource-table-pagination", {
+        timeout: 20000
+      })
+      .select("100");
     cy.contains("Resources").click();
     cy.get(".refresh-time-selection", { timeout: 300000 }).click();
     cy.get("#refreshDropdown-item-0").click(); //refresh every 15s

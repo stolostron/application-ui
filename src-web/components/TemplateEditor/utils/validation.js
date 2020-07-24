@@ -65,7 +65,7 @@ export const VALIDATE_URL = {
     test: (value) => {
       try {
         new URL(value)
-      } catch (_) {
+      } catch (e) {
         return false
       }
       return true

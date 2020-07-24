@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test:slack": "node ./cypress/scripts/slack-reporter.js"
+    "test:slack": "node ./tests/cypress/scripts/slack-reporter.js"
   },
   "dependencies": {
     "js-yaml": "^3.12.0",

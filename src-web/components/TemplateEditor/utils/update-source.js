@@ -10,7 +10,8 @@
 'use strict'
 
 import {diff} from 'deep-diff'
-import { parseYAML, hitchControlsToYAML } from './update-controls'
+import jsYaml from 'js-yaml'
+import YamlParser from '../components/YamlParser'
 import _ from 'lodash'
 import { Base64 } from 'js-base64'
 
@@ -461,6 +462,148 @@ export const highlightAllChanges = (editors, oldYAML, newYAML, otherYAMLTabs, se
         }, 0)
       }
     }, 0)
+  }
+}
+
+
+export const parseYAML = (yaml) => {
+  let absLine=0
+  const parsed = {}
+  const yamls = yaml.split(/^---$/gm)
+  const exceptions = []
+  // check for syntax errors
+  try {
+    yamls.forEach((snip)=>{
+      const obj = jsYaml.safeLoad(snip)
+      const key = _.get(obj, 'kind', 'unknown')
+      let values = parsed[key]
+      if (!values) {
+        values = parsed[key] = []
+      }
+      const post = new RegExp(/[\r\n]+$/).test(snip)
+      snip = snip.trim()
+      const $synced = new YamlParser().parse(snip, absLine)
+      $synced.$r = absLine
+      $synced.$l = snip.split(/[\r\n]+/g).length
+      values.push({$raw: obj, $yml: snip, $synced})
+      absLine += $synced.$l
+      if (post) absLine++
+    })
+  } catch (e) {
+    const {mark={}, reason, message} = e
+    const {line=0, column=0} = mark
+    exceptions.push({
+      row: line+absLine,
+      column,
+      text: _.capitalize(reason||message),
+      type: 'error',
+    })
+  }
+  return {parsed, exceptions}
+}
+
+
+//looks for ## at end of a YAML line
+export function hitchControlsToYAML(yaml, otherYAMLTabs=[], controlData) {
+  const {parsed} = parseYAML(yaml)
+
+  // get controlMap
+  const controlMap = {}
+  controlData.forEach(control=>{
+    const {id, type, active=[]} = control
+    controlMap[id] = control
+
+    switch (type) {
+    case 'group':
+    // each group gets an array of control data maps, one per group
+      control.controlMapArr=[]
+      active.forEach(cd=>{
+        const cdm = {}
+        control.controlMapArr.push(cdm)
+        cd.forEach(c=>{
+          cdm[c.id] = c
+        })
+      })
+      break
+
+    case 'table':
+    // each table cell has its own source path
+      control.sourcePath={paths:[]}
+      break
+    }
+  })
+
+  otherYAMLTabs.forEach(tab=>{
+    const {id: tabId, templateYAML} = tab
+    const {parsed: tabParsed} = parseYAML(templateYAML)
+    syncControlData(tabParsed, controlData, controlMap, tabId)
+    tab.templateYAML = templateYAML.replace(/\s*##.+$/gm, '') // remove source markers
+  })
+  syncControlData(parsed, controlData, controlMap, '<<main>>')
+  return yaml.replace(/\s*##.+$/gm, '') // remove source markers
+}
+
+
+//point control to what template value it changes
+//looks for ##controlId in template
+const syncControlData = (parsed, controlData, controlMap, tabId) =>{
+  Object.entries(parsed).forEach(([key,value])=>{
+    value.forEach(({$synced}, inx)=>{
+      syncControls($synced, `${key}[${inx}].$synced`, controlMap, tabId)
+    })
+  })
+}
+
+const syncControls = (object, path, controlMap, tabId) => {
+  if (object) {
+    if (object.$cmt) {
+    // comment links in groups/tables have the format ##groupId.inx.controlId
+    // ties into controlMap created above
+      const [controlKey, inx, dataKey] = object.$cmt.split('.')
+      let control = controlMap[controlKey]
+      if (control) {
+        const {type, controlMapArr} = control
+        if (type!=='table') {
+          if (inx) {
+            const cdm = controlMapArr[inx]
+            if (cdm) {
+              control = cdm[dataKey]
+            }
+          }
+          control.sourcePath = {tabId, path}
+        } else if (inx) {
+          control.sourcePath.tabId = tabId
+          let pathMap = control.sourcePath.paths[inx]
+          if (!pathMap) {
+            pathMap = control.sourcePath.paths[inx] = {}
+          }
+          pathMap[dataKey] = path
+        }
+      }
+    }
+    let o, p
+    object = object.$v!==undefined ? object.$v : object
+    if (Array.isArray(object)) {
+      for (var i = 0; i < object.length; i++) {
+        o = object[i]
+        if (o.$v!==undefined) {
+          p = `${path}[${i}].$v`
+          syncControls(o, p, controlMap, tabId)
+        }
+      }
+    } else if (object && typeof object === 'object') {
+      Object.keys(object).forEach(key => {
+        o = object[key]
+        if (o.$v!==undefined) {
+          if (key.includes('.')) {
+            p= `${path}['${key}'].$v`
+          } else {
+            p =`${path}.${key}.$v`
+          }
+          syncControls(o, p, controlMap, tabId)
+        }
+      })
+    }
   }
 }
 

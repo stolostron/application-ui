@@ -10,7 +10,7 @@
 'use strict'
 
 import React from 'react'
-import {VALIDATE_ALPHANUMERIC, VALIDATE_URL} from '../../TemplateEditor/utils/update-controls'
+import {VALIDATE_ALPHANUMERIC, VALIDATE_URL} from '../../TemplateEditor/utils/validation'
 import { HCMChannelList } from '../../../../lib/client/queries'
 import TimeWindow from '../components/TimeWindow'
 import _ from 'lodash'

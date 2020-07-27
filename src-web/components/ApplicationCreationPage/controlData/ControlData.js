@@ -9,10 +9,8 @@
  *******************************************************************************/
 'use strict'
 
-import React from 'react'
 import {VALIDATE_ALPHANUMERIC, VALIDATE_URL} from '../../TemplateEditor/utils/validation'
 import { HCMChannelList } from '../../../../lib/client/queries'
-import TimeWindow from '../components/TimeWindow'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
@@ -56,7 +54,9 @@ const updateGithubControls = (urlControl)=>{
     control = groupControlData.find(({id}) => id === 'channelName')
     const a = document.createElement('a')
     a.href = active
-    control.active = a.pathname.split('/').pop()
+    let name = a.pathname.split('/').pop()
+    name = name.split('.').shift()
+    control.active = `${name}-chn`
   }
 
   // hide user/token controls if user selects a github path that doesn't need them
@@ -353,20 +353,4 @@ export const controlData = [
     type: 'multiselect',
     available: [],
   },
-
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////  SAMPLE CUSTOM  /////////////////////////////////////
-
-  {
-    type: 'custom',
-    name: 'creation.view.policy.binding',
-    description: 'policy.create.selectors.tooltip',
-    id: 'timeWindow',
-    component: <TimeWindow />,
-    available: [],
-  },
-
-
-
 ]

@@ -15,6 +15,7 @@ import PropTypes from 'prop-types'
 import Page from '../common/Page'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { createApplication, clearCreateStatus } from '../../actions/application'
 import { updateSecondaryHeader } from '../../actions/common'
 import { TemplateEditor } from '../TemplateEditor'
 import {controlData} from './controlData/ControlData'
@@ -36,7 +37,7 @@ resources(() => {
 class ApplicationCreationPage extends React.Component {
   static propTypes = {
     cleanReqStatus: PropTypes.func,
-    handleCreateCluster: PropTypes.func,
+    handleCreateApplication: PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object,
     mutateErrorMsgs: PropTypes.array,
@@ -109,7 +110,7 @@ class ApplicationCreationPage extends React.Component {
           this.props.cleanReqStatus()
         }
         // redirect to cluster details pages
-        history.push(`/multicloud/clusters/${this.clusterNamespace}/${this.clusterName}`)
+        history.push(`/multicloud/applications/${this.applicationNamespace}/${this.applicationName}`)
       }, 2000)
     }
   }
@@ -146,11 +147,11 @@ class ApplicationCreationPage extends React.Component {
 
   handleCreate = (resourceJSON) => {
     if (resourceJSON) {
-      const { handleCreateCluster } = this.props
-      handleCreateCluster(resourceJSON)
+      const { handleCreateApplication } = this.props
+      handleCreateApplication(resourceJSON)
       const map = _.keyBy(resourceJSON, 'kind')
-      this.clusterNamespace = _.get(map, 'ClusterDeployment.metadata.namespace')
-      this.clusterName = _.get(map, 'ClusterDeployment.metadata.name')
+      this.applicationNamespace = _.get(map, 'Application.metadata.namespace')
+      this.applicationName = _.get(map, 'Application.metadata.name')
     }
   }
 
@@ -166,6 +167,8 @@ ApplicationCreationPage.contextTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
+    cleanReqStatus: () => dispatch(clearCreateStatus()),
+    handleCreateApplication: (json) => dispatch(createApplication(json)),
     updateSecondaryHeader: (title, tabs, breadcrumbItems, ports, actions, tooltip) => dispatch(updateSecondaryHeader(title, tabs, breadcrumbItems, ports, actions, tooltip)),
   }
 }

@@ -12,10 +12,16 @@
  * action name: <NOUN>_<VERB>
  */
 
+export * from '../reducers/application'
 export * from '../reducers/reducerAppDeployments'
 export * from '../reducers/reducerAppOverview'
 
 export const CLEAR_REQUEST_STATUS = 'CLEAR_REQUEST_STATUS'
+
+export const APPLICATION_CREATE_CLEAR_STATUS = 'APPLICATION_CREATE_CLEAR_STATUS'
+export const APPLICATION_CREATE_IN_PROGRESS = 'APPLICATION_CREATE_IN_PROGRESS'
+export const APPLICATION_CREATE_FAILURE = 'APPLICATION_CREATE_FAILURE'
+export const APPLICATION_CREATE_SUCCESS = 'APPLICATION_CREATE_SUCCESS'
 
 export const DEL_RECEIVE_FAILURE = 'DEL_RECEIVE_FAILURE'
 export const DEL_RECEIVE_SUCCESS = 'DEL_RECEIVE_SUCCESS'

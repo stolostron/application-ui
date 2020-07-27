@@ -41,7 +41,7 @@ class TimeWindow extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-    this.props.control.active = {status: '', text: ''}
+    this.props.control.active = { status: '', text: '' }
   }
 
   render() {
@@ -67,7 +67,10 @@ class TimeWindow extends React.Component {
                 className="timeWindow-btn"
                 name="timeWindow-btn"
                 id="timeWindow-active-btn"
-                labelText={msgs.get("creation.app.settings.timeWindow.activeMode", locale)}
+                labelText={msgs.get(
+                  'creation.app.settings.timeWindow.activeMode',
+                  locale
+                )}
                 value="active"
                 onClick={this.handleChange.bind(this)}
               />
@@ -75,7 +78,10 @@ class TimeWindow extends React.Component {
                 className="timeWindow-btn"
                 name="timeWindow-btn"
                 id="timeWindow-block-btn"
-                labelText={msgs.get("creation.app.settings.timeWindow.blockMode", locale)}
+                labelText={msgs.get(
+                  'creation.app.settings.timeWindow.blockMode',
+                  locale
+                )}
                 value="block"
                 onClick={this.handleChange.bind(this)}
               />
@@ -84,24 +90,30 @@ class TimeWindow extends React.Component {
             <Accordion>
               <AccordionItem
                 open={control.active.status ? true : false}
-                title={msgs.get("creation.app.settings.timeWindow.configuration", locale)}
+                title={msgs.get(
+                  'creation.app.settings.timeWindow.configuration',
+                  locale
+                )}
               >
                 <div className="timeWindow-config-container">
                   <div className="timeWindow-config-days">
                     <span>Days of the week *</span>
                     <br />
-                    <span>Please select at least one day below to create a time window.</span>
+                    <span>
+                      Please select at least one day below to create a time
+                      window.
+                    </span>
                     <div className="timeWindow-config-days-checkboxes">
                       <div className="first-col">
-                        <Checkbox labelText="Monday" id="mon-checkbox"/>
-                        <Checkbox labelText="Tuesday" id="tues-checkbox"/>
-                        <Checkbox labelText="Wednesday" id="wed-checkbox"/>
-                        <Checkbox labelText="Thursday" id="thurs-checkbox"/>
-                        <Checkbox labelText="Friday" id="fri-checkbox"/>
+                        <Checkbox labelText="Monday" id="mon-checkbox" />
+                        <Checkbox labelText="Tuesday" id="tues-checkbox" />
+                        <Checkbox labelText="Wednesday" id="wed-checkbox" />
+                        <Checkbox labelText="Thursday" id="thurs-checkbox" />
+                        <Checkbox labelText="Friday" id="fri-checkbox" />
                       </div>
                       <div className="second-col">
-                        <Checkbox labelText="Saturday" id="sat-checkbox"/>
-                        <Checkbox labelText="Sunday" id="sun-checkbox"/>
+                        <Checkbox labelText="Saturday" id="sat-checkbox" />
+                        <Checkbox labelText="Sunday" id="sun-checkbox" />
                       </div>
                     </div>
                   </div>
@@ -112,18 +124,16 @@ class TimeWindow extends React.Component {
                     <DropdownV2
                       className="timeWindow-config-timezone-dropdown"
                       label="Choose a location"
-                      items={
-                        [
-                          {id: "option-1", label: "Option 1"}, 
-                          {id: "option-2", label: "Option 2"}
-                        ]
-                      }
+                      items={[
+                        { id: 'option-1', label: 'Option 1' },
+                        { id: 'option-2', label: 'Option 2' }
+                      ]}
                     />
                   </div>
 
                   <div className="timeWindow-config-start-end-times">
                     <div className="timeWindow-config-start">
-                      <TimePicker 
+                      <TimePicker
                         id="time-picker-start"
                         labelText="Start Time"
                         maxLength={5}
@@ -150,7 +160,7 @@ class TimeWindow extends React.Component {
                       </TimePicker>
                     </div>
                     <div className="timeWindow-config-end">
-                      <TimePicker 
+                      <TimePicker
                         id="time-picker-end"
                         labelText="End Time"
                         maxLength={5}
@@ -176,9 +186,7 @@ class TimeWindow extends React.Component {
                         </TimePickerSelect>
                       </TimePicker>
                     </div>
-                    <div
-                      clasName="time-picker-add-time"
-                    >
+                    <div clasName="time-picker-add-time">
                       <Icon
                         name="icon--add--glyph"
                         fill="#3d70b2"
@@ -211,9 +219,9 @@ class TimeWindow extends React.Component {
 
   handleChange(event) {
     const { control, handleChange } = this.props
-    if (event.target.name === "timeWindow-btn-group") {
+    if (event.target.name === 'timeWindow-btn-group') {
       control.active.status = '"' + event.target.value + '"'
-    } else if (event.target.name === "timeWindow-text") {
+    } else if (event.target.name === 'timeWindow-text') {
       control.active.text = '"' + event.target.value + '"'
     }
     handleChange(control)

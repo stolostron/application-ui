@@ -375,50 +375,10 @@ export const controlData = [
     active: true,
     available: []
   },
-  // {
-  //   id: 'keep-resources-when-deleted-from-app',
-  //   type: 'checkbox',
-  //   name: 'creation.app.settings.keepResourcesWhenDeletedFromApp',
-  //   tooltip: 'tooltip.creation.app.settings.keepResourcesWhenDeletedFromApp',
-  //   active: false,
-  //   available: [],
-  // },
-  // {
-  //   id: 'disable-resource-reconciliation',
-  //   type: 'checkbox',
-  //   name: 'creation.app.settings.disableResourceReconciliation',
-  //   tooltip: 'tooltip.creation.app.settings.disableResourceReconciliation',
-  //   active: false,
-  //   available: [],
-  // },
-
-  // {
-  //   id: 'time-window-title',
-  //   type: 'title',
-  //   title: 'creation.app.settings.timeWindow',
-  //   tooltip: 'tooltip.creation.app.settings.timeWindow'
-  // },
-  // {
-  //   id: 'time-window-active-mode',
-  //   type: 'checkbox',
-  //   name: 'creation.app.settings.timeWindow.activeMode',
-  //   active: true,
-  //   available: []
-  // },
-  // {
-  //   id: 'time-window-block-mode',
-  //   type: 'checkbox',
-  //   name: 'creation.app.settings.timeWindow.blockMode',
-  //   active: true,
-  //   available: []
-  // }
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////  SAMPLE CUSTOM  /////////////////////////////////////
-
   {
     type: 'custom',
-    name: 'creation.view.policy.binding',
-    description: 'policy.create.selectors.tooltip',
+    name: 'creation.app.settings.timeWindow',
+    description: 'creation.app.settings.timeWindow.tooltip',
     id: 'timeWindow',
     component: <TimeWindow />,
     available: []

@@ -109,7 +109,43 @@ spec:
 {{! ========================================================== }}
 {{! ========================================================== }}
 {{#case 'objectstore'}}
-       
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: {{{../../name}}}-{{{../channelName}}}
+  namespace: {{{../../namespace}}}
+spec:
+  type: ObjectBucket
+  pathname: {{{../objectstoreURL}}} ##channels.{{@index}}.objectstoreURL
+{{#if ../accessKey}}
+  secretRef:
+    name: {{{../../../name}}}-objectstore-authentication-{{@index}}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{{../../../name}}}-objectstore-authentication-{{@index}}
+  namespace: {{{../../../namespace}}}
+data:
+  user: {{{../../accessKey}}}
+  accessToken: {{{../../secretKey}}}
+{{/if}}      
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  labels:
+    app: {{{../../name}}}
+  name: placement-{{{../../name}}}-subscription-{{@index}}
+  namespace: {{{../../namespace}}}
+spec:
+  channel: {{{../../namespace}}}/{{{../../name}}}-{{{../channelName}}}
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: {{{../../name}}}-placement
+     
 {{/case}}
 
 

@@ -9,7 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-/* eslint-disable react/no-unused-state, react/no-unused-prop-types, jsx-a11y/autocomplete-valid */
+/* eslint-disable react/no-unused-state, react/no-unused-prop-types */
 
 import React from 'react'
 import PropTypes from 'prop-types'

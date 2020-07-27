@@ -421,7 +421,7 @@ export default class TemplateEditor extends React.Component {
           switch (true) {
 
           // collapse section above when this control is selected
-          case collapseAboveAfterSelection:
+          case collapseAboveAfterSelection===true:
             controlData.some(({id:tid, sectionRef, sectionTitleRef})=>{
               if (sectionRef && sectionTitleRef) {
                 sectionRef.classList.toggle('collapsed', true)
@@ -438,7 +438,7 @@ export default class TemplateEditor extends React.Component {
             break
 
           // scroll view down after control is selected by 'scrollViewAfterSelection' pixels
-          case scrollViewAfterSelection:
+          case scrollViewAfterSelection!==undefined:
             scrollView.scrollBy({
               top: scrollViewAfterSelection,
               left: 0,
@@ -447,7 +447,7 @@ export default class TemplateEditor extends React.Component {
             break
 
           // scroll control to top when cards have been collapsed (only one card shown)
-          case scrollViewToTopOnSelect:
+          case scrollViewToTopOnSelect!==undefined:
             scrollView.scrollBy({
               top: controlTop-panelTop,
               left: 0,
@@ -704,9 +704,9 @@ export default class TemplateEditor extends React.Component {
     // if typing on another tab that represents encoded yaml in the main tab,
     // update the main yaml--for now
     if (activeYAMLEditor!==0) {
-      const {template, templateYAML:yaml} = this.state
+      const {template, templateYAML:oldYAML} = this.state
       const {templateYAML:newYAML, templateObject} = generateYAML(template, controlData, otherYAMLTabs)
-      highlightChanges(this.editors[0], yaml, newYAML)
+      highlightChanges(this.editors[0], oldYAML, newYAML)
       this.setState({controlData, notifications, templateYAML: newYAML, templateObject})
     } else {
       this.setState({controlData, notifications, templateYAML})

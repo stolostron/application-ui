@@ -141,7 +141,7 @@ describe("Application Resources", () => {
             appCount_b4 = rowCount;
           });
         }
-        cy.createAppResource("application", "github");
+        cy.createAppResource("application", "namespace");
         pageLoader.shouldNotExist();
         modal.shouldNotBeVisible();
         cy
@@ -210,7 +210,7 @@ describe("Application Resources", () => {
             appCount_b4 = rowCount;
           });
         }
-        cy.createAppResource("application", "github");
+        cy.createAppResource("application", "helmrepo");
         pageLoader.shouldNotExist();
         modal.shouldNotBeVisible();
         cy
@@ -279,7 +279,7 @@ describe("Application Resources", () => {
             appCount_b4 = rowCount;
           });
         }
-        cy.createAppResource("application", "github");
+        cy.createAppResource("application", "objectbucket");
         pageLoader.shouldNotExist();
         modal.shouldNotBeVisible();
         cy

@@ -57,24 +57,31 @@ describe("Application Resources", () => {
     let appCount_b4 = 0;
     let filename = "00_application-github.yaml";
     cy.contains("Overview").click();
-    cy.get(".page-content-container").then($element => {
-      if ($element.find(".no-resource").length < 1) {
-        cy.log($element.find(".no-resource").length);
-        resourceTable.rowCount().then(rowCount => {
-          appCount_b4 = rowCount;
-        });
-      }
-      cy.createAppResource("application", "github");
-      pageLoader.shouldNotExist();
-      modal.shouldNotBeVisible();
+    let appName = "";
+    cy.task("getResourceMetadataInFile", filename).then(meta => {
+      appName = meta.name;
+      // filter the table with appName
       cy
-        .wrap(queryAppResourceInFile("Application", filename))
-        .should("eq", 200);
-      cy.task("getResourceMetadataInFile", filename).then(meta => {
-        resourceTable.rowShouldExist(meta.name);
-      });
-      resourceTable.rowCount().then(rowCount => {
-        expect(rowCount).to.equal(appCount_b4 + 1);
+        .get("#undefined-search")
+        .click()
+        .type(appName);
+      cy.get(".page-content-container").then($element => {
+        if ($element.find(".no-resource").length < 1) {
+          cy.log($element.find(".no-resource").length);
+          resourceTable.rowCount().then(rowCount => {
+            appCount_b4 = rowCount;
+          });
+        }
+        cy.createAppResource("application", "github");
+        pageLoader.shouldNotExist();
+        modal.shouldNotBeVisible();
+        cy
+          .wrap(queryAppResourceInFile("Application", filename))
+          .should("eq", 200);
+        resourceTable.rowShouldExist(appName);
+        resourceTable.rowCount().then(rowCount => {
+          expect(rowCount).to.equal(appCount_b4 + 1);
+        });
       });
     });
   });
@@ -119,24 +126,31 @@ describe("Application Resources", () => {
     let appCount_b4 = 0;
     let filename = "00_application-namespace.yaml";
     cy.contains("Overview").click();
-    cy.get(".page-content-container").then($element => {
-      if ($element.find(".no-resource").length < 1) {
-        cy.log($element.find(".no-resource").length);
-        resourceTable.rowCount().then(rowCount => {
-          appCount_b4 = rowCount;
-        });
-      }
-      cy.createAppResource("application", "namespace");
-      pageLoader.shouldNotExist();
-      modal.shouldNotBeVisible();
+    let appName = "";
+    cy.task("getResourceMetadataInFile", filename).then(meta => {
+      appName = meta.name;
+      // filter the table with appName
       cy
-        .wrap(queryAppResourceInFile("Application", filename))
-        .should("eq", 200);
-      cy.task("getResourceMetadataInFile", filename).then(meta => {
-        resourceTable.rowShouldExist(meta.name);
-      });
-      resourceTable.rowCount().then(rowCount => {
-        expect(rowCount).to.equal(appCount_b4 + 1);
+        .get("#undefined-search")
+        .click()
+        .type(appName);
+      cy.get(".page-content-container").then($element => {
+        if ($element.find(".no-resource").length < 1) {
+          cy.log($element.find(".no-resource").length);
+          resourceTable.rowCount().then(rowCount => {
+            appCount_b4 = rowCount;
+          });
+        }
+        cy.createAppResource("application", "namespace");
+        pageLoader.shouldNotExist();
+        modal.shouldNotBeVisible();
+        cy
+          .wrap(queryAppResourceInFile("Application", filename))
+          .should("eq", 200);
+        resourceTable.rowShouldExist(appName);
+        resourceTable.rowCount().then(rowCount => {
+          expect(rowCount).to.equal(appCount_b4 + 1);
+        });
       });
     });
   });
@@ -181,24 +195,31 @@ describe("Application Resources", () => {
     let appCount_b4 = 0;
     let filename = "00_application-helmrepo.yaml";
     cy.contains("Overview").click();
-    cy.get(".page-content-container").then($element => {
-      if ($element.find(".no-resource").length < 1) {
-        cy.log($element.find(".no-resource").length);
-        resourceTable.rowCount().then(rowCount => {
-          appCount_b4 = rowCount;
-        });
-      }
-      cy.createAppResource("application", "helmrepo");
-      pageLoader.shouldNotExist();
-      modal.shouldNotBeVisible();
+    let appName = "";
+    cy.task("getResourceMetadataInFile", filename).then(meta => {
+      appName = meta.name;
+      // filter the table with appName
       cy
-        .wrap(queryAppResourceInFile("Application", filename))
-        .should("eq", 200);
-      cy.task("getResourceMetadataInFile", filename).then(meta => {
-        resourceTable.rowShouldExist(meta.name);
-      });
-      resourceTable.rowCount().then(rowCount => {
-        expect(rowCount).to.equal(appCount_b4 + 1);
+        .get("#undefined-search")
+        .click()
+        .type(appName);
+      cy.get(".page-content-container").then($element => {
+        if ($element.find(".no-resource").length < 1) {
+          cy.log($element.find(".no-resource").length);
+          resourceTable.rowCount().then(rowCount => {
+            appCount_b4 = rowCount;
+          });
+        }
+        cy.createAppResource("application", "helmrepo");
+        pageLoader.shouldNotExist();
+        modal.shouldNotBeVisible();
+        cy
+          .wrap(queryAppResourceInFile("Application", filename))
+          .should("eq", 200);
+        resourceTable.rowShouldExist(appName);
+        resourceTable.rowCount().then(rowCount => {
+          expect(rowCount).to.equal(appCount_b4 + 1);
+        });
       });
     });
   });
@@ -243,24 +264,31 @@ describe("Application Resources", () => {
     let appCount_b4 = 0;
     let filename = "00_application-objectbucket.yaml";
     cy.contains("Overview").click();
-    cy.get(".page-content-container").then($element => {
-      if ($element.find(".no-resource").length < 1) {
-        cy.log($element.find(".no-resource").length);
-        resourceTable.rowCount().then(rowCount => {
-          appCount_b4 = rowCount;
-        });
-      }
-      cy.createAppResource("application", "objectbucket");
-      pageLoader.shouldNotExist();
-      modal.shouldNotBeVisible();
+    let appName = "";
+    cy.task("getResourceMetadataInFile", filename).then(meta => {
+      appName = meta.name;
+      // filter the table with appName
       cy
-        .wrap(queryAppResourceInFile("Application", filename))
-        .should("eq", 200);
-      cy.task("getResourceMetadataInFile", filename).then(meta => {
-        resourceTable.rowShouldExist(meta.name);
-      });
-      resourceTable.rowCount().then(rowCount => {
-        expect(rowCount).to.equal(appCount_b4 + 1);
+        .get("#undefined-search")
+        .click()
+        .type(appName);
+      cy.get(".page-content-container").then($element => {
+        if ($element.find(".no-resource").length < 1) {
+          cy.log($element.find(".no-resource").length);
+          resourceTable.rowCount().then(rowCount => {
+            appCount_b4 = rowCount;
+          });
+        }
+        cy.createAppResource("application", "objectbucket");
+        pageLoader.shouldNotExist();
+        modal.shouldNotBeVisible();
+        cy
+          .wrap(queryAppResourceInFile("Application", filename))
+          .should("eq", 200);
+        resourceTable.rowShouldExist(appName);
+        resourceTable.rowCount().then(rowCount => {
+          expect(rowCount).to.equal(appCount_b4 + 1);
+        });
       });
     });
   });

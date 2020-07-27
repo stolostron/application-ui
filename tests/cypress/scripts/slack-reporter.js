@@ -18,7 +18,7 @@ async function slackReporter() {
       "Missing SLACK_TOKEN environment variable; skipping slack reporting..."
     );
   }
-  const reportPath = path.join(__dirname, "..", "test-output", "cypress");
+  const reportPath = path.join(__dirname, "test-output", "cypress");
   const reports = fs.readdirSync(reportPath);
   const slackData = await mapSlackUserByGitEmail();
   const prData = await getPullRequestData();
@@ -27,7 +27,7 @@ async function slackReporter() {
 
 async function reportFailure(report, slackData, prData) {
   try {
-    const testReport = require(`../test-output/cypress/${report}`);
+    const testReport = require(`test-output/cypress/${report}`);
     if (testReport.stats.failures > 0) {
       const testFailureData = getTestFailureData(testReport);
       const videoDir = path.join(__dirname, "..", "videos");

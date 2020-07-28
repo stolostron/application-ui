@@ -10,26 +10,32 @@
 
 
 import apolloClient from '../../lib/client/apollo-client'
-import * as Actions from './index'
+import {
+  APPLICATION_CREATE_CLEAR_STATUS,
+  APPLICATION_CREATE_IN_PROGRESS,
+  APPLICATION_CREATE_SUCCESS,
+  APPLICATION_CREATE_FAILURE,
+  REQUEST_STATUS,
+} from './index'
 import _ from 'lodash'
 
 export const clearCreateStatus = () => ({
-  type: Actions.APPLICATION_CREATE_CLEAR_STATUS,
+  type: APPLICATION_CREATE_CLEAR_STATUS,
 })
 
 export const createApplicationInProgress = (resourceName) => ({
-  type: Actions.APPLICATION_CREATE_IN_PROGRESS,
+  type: APPLICATION_CREATE_IN_PROGRESS,
   resourceName,
 })
 
 export const createApplicationSuccess = (resourceName) => ({
-  type: Actions.APPLICATION_CREATE_SUCCESS,
+  type: APPLICATION_CREATE_SUCCESS,
   resourceName,
 })
 
 export const createApplicationFailure = (errors) => ({
-  type: Actions.APPLICATION_CREATE_FAILURE,
-  postStatus: Actions.REQUEST_STATUS.ERROR,
+  type: APPLICATION_CREATE_FAILURE,
+  postStatus: REQUEST_STATUS.ERROR,
   errors,
 })
 
@@ -38,7 +44,7 @@ export const createApplication = (resourceJson) => {
     dispatch(createApplicationInProgress())
     return apolloClient.createApplication(resourceJson)
       .then(result => {
-        var errors = _.get(result, 'data.createApplication.errors')
+        const errors = _.get(result, 'data.createApplication.errors')
         if (errors && errors.length > 0){
           dispatch(createApplicationFailure(errors))
         } else {

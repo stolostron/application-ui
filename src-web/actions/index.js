@@ -12,7 +12,7 @@
  * action name: <NOUN>_<VERB>
  */
 
-export * from '../reducers/application'
+export {applicationPageResources} from '../reducers/application'
 export * from '../reducers/reducerAppDeployments'
 export * from '../reducers/reducerAppOverview'
 

@@ -20,7 +20,7 @@ import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
 
-export const LOAD_EXISTING_CHANNELS = type => {
+export const loadExistingChannels = type => {
   return {
     query: HCMChannelList,
     loadingDesc: 'creation.app.loading.channels',
@@ -116,7 +116,7 @@ const githubChannelData = [
     placeholder: 'app.enter.select.github.url',
     available: [],
     validation: VALIDATE_URL,
-    fetchAvailable: LOAD_EXISTING_CHANNELS('github'),
+    fetchAvailable: loadExistingChannels('github'),
     cacheUserValueKey: 'create.app.github.url',
     onSelect: updateGithubControls
   },
@@ -214,7 +214,7 @@ const objectstoreChannelData = [
     placeholder: 'app.enter.select.objectstore.url',
     available: [],
     validation: VALIDATE_URL,
-    fetchAvailable: LOAD_EXISTING_CHANNELS('ObjectBucket'),
+    fetchAvailable: loadExistingChannels('ObjectBucket'),
     cacheUserValueKey: 'create.app.objectstore.url',
     onSelect: updateObjectStoreControls
   },

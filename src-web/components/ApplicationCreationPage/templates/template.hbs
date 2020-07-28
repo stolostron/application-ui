@@ -110,14 +110,19 @@ spec:
 {{! ========================================================== }}
 {{#case 'objectstore'}}
 ---
+apiVersion: v1                      
+kind: Namespace
+metadata:
+  name: {{{../../name}}}-{{{../channelName}}}-ns
+---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:
   name: {{{../../name}}}-{{{../channelName}}}
-  namespace: {{{../../namespace}}}
+  namespace: {{{../../name}}}-{{{../channelName}}}-ns
 spec:
   type: ObjectBucket
-  pathname: {{{../objectstoreURL}}} ##channels.{{@index}}.objectstoreURL
+  pathname: '{{{../objectstoreURL}}}' ##channels.{{@index}}.objectstoreURL
 {{#if ../accessKey}}
   secretRef:
     name: {{{../../../name}}}-objectstore-authentication-{{@index}}
@@ -126,7 +131,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: {{{../../../name}}}-objectstore-authentication-{{@index}}
-  namespace: {{{../../../namespace}}}
+  namespace: {{{../../name}}}-{{{../channelName}}}-ns
 data:
   user: {{{../../accessKey}}}
   accessToken: {{{../../secretKey}}}
@@ -140,7 +145,7 @@ metadata:
   name: placement-{{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
-  channel: {{{../../namespace}}}/{{{../../name}}}-{{{../channelName}}}
+  channel: {{{../../name}}}-{{{../channelName}}}-ns/{{{../../name}}}-{{{../channelName}}}
   placement:
     placementRef:
       kind: PlacementRule

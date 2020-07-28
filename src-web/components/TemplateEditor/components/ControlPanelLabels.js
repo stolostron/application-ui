@@ -17,9 +17,12 @@ import Tooltip from './Tooltip'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
-const regex = /([a-zA-Z0-9]+)\s*=\s*([a-zA-Z0-9-]*)/
-const KEY_CAPTURE_GROUP_INDEX = 1
-const VALUE_CAPTURE_GROUP_INDEX = 2
+export const DNS_LABEL = '[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?'
+export const PREFIX = `${DNS_LABEL}(.${DNS_LABEL})*/`
+export const NAME_OR_VALUE = '[a-z0-9A-Z]([a-z0-9A-Z_.-]{0,61}[a-z0-9A-Z])?'
+export const regex = new RegExp(`^((${PREFIX})?${NAME_OR_VALUE})=(${NAME_OR_VALUE})?$`)
+export const KEY_CAPTURE_GROUP_INDEX = 1
+export const VALUE_CAPTURE_GROUP_INDEX = 7
 
 class ControlPanelLabels extends React.Component {
 

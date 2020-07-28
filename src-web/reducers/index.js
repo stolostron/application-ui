@@ -32,6 +32,7 @@ export { role } from './role'
 
 export { modal } from './modal'
 
+export { applicationPageResources } from './application'
 export { AppDeployments } from './reducerAppDeployments'
 export { AppOverview } from './reducerAppOverview'
 

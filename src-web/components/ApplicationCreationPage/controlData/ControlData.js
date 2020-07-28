@@ -83,7 +83,7 @@ const updateObjectStoreControls = urlControl => {
   const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]
 
-  // change channel name to reflect github path
+  // change channel name to reflect objectstore path
   let control
   if (active) {
     control = groupControlData.find(({ id }) => id === 'channelName')
@@ -92,7 +92,7 @@ const updateObjectStoreControls = urlControl => {
     control.active = a.pathname.split('/').pop()
   }
 
-  // hide user/token controls if user selects a github path that doesn't need them
+  // hide user/token controls if user selects a objectstore path that doesn't need them
   const type = !pathData || pathData.secretRef ? 'text' : 'hidden'
   const setType = cid => {
     control = groupControlData.find(({ id }) => id === cid)

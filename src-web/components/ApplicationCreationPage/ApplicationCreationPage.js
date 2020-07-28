@@ -128,7 +128,7 @@ class ApplicationCreationPage extends React.Component {
     return (
       <Page>
         <TemplateEditor
-          type={'cluster'}
+          type={'application'}
           title={msgs.get('creation.app.yaml', locale)}
           template={createTemplate}
           controlData={cd}
@@ -174,12 +174,11 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
+  const {applicationPageResources} = state
+  const {mutateStatus, mutateErrorMsgs} = applicationPageResources||{}
   return {
-    cluster_address: state.uiconfig && state.uiconfig.cluster_address,
-    cluster_router_https_port: state.uiconfig && state.uiconfig.cluster_router_https_port,
-    user: state.user,
-    namespaces: state.namespaces && state.namespaces.namespaces,
-    role: state.role && state.role.role
+    mutateStatus,
+    mutateErrorMsgs,
   }
 }
 

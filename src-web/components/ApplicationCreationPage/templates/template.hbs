@@ -90,6 +90,15 @@ spec:
     placementRef:
       kind: PlacementRule
       name: {{{../../name}}}-placement
+{{#if ../../timeWindow.mode}}
+  timewindow:
+    windowtype: {{{../../../timeWindow.mode}}}
+    location: {{{../../../timeWindow.timezone}}}
+    weekdays: [{{{../../../timeWindow.days}}}]
+    hours:
+      - start: "8:00AM"
+        end: "10:00PM"
+{{/if}}
   
 {{/case}}
 
@@ -158,12 +167,3 @@ spec:
     - type: ManagedClusterConditionAvailable
       status: "True"
   {{/if}}
-{{#if timeWindow.mode}}
-  timewindow:
-    windowtype: {{{timeWindow.mode}}}
-    location: {{{timeWindow.timezone}}}
-    weekdays: [{{{timeWindow.days}}}]
-    hours:
-      - start: {{{timeWindow.text}}}
-        end: "10:10PM"
-{{/if}}

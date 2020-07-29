@@ -14,10 +14,17 @@
   // Active/Block mode btns
   .timeWindow-mode-container {
     display: inline-grid;
+    margin-bottom: 10px;
   }
 
-  .timeWindow-mode {
+  .mode-btn {
     margin: 5px 0;
+  }
+
+  // Time window config accordion
+  .bx--accordion__title {
+    font-weight: 600;
+    font-size: 14px;
   }
 
   // Show Time window config section only when expanded
@@ -27,12 +34,33 @@
 
   .bx--accordion__item--active {
     .bx--accordion__content {
+      width: 100%;
+      max-width: 645px;
       display: inline-block;
+      background-color: white;
+      border-left: 5px solid #dee3e6;
+      padding: 1rem;
+      box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
     }
   }
 
   // Time window config - Days of the week section
-  .timeWindow-config-days-selector {
+  .config-days-section {
+    margin-bottom: 40px;
+  }
+
+  .config-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .config-descr {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .config-days-selector {
     width: 50%;
     display: grid;
     grid-template-columns: auto auto;
@@ -47,22 +75,61 @@
   }
 
   // Time window config - Timezone section
-  .timeWindow-config-timezone-dropdown {
+  .config-timezone-section {
+    margin-bottom: 40px;
+  }
+
+  .config-timezone-dropdown {
     width: 180px;
+    background-color: $acm_background_color;
+  }
+
+  .bx--list-box__label {
+    color: #3d70b2;
   }
 
   // Time window config - Start/End time section
-  .timeWindow-config-times-section {
+  .config-time-section {
     display: block;
   }
 
-  .timeWindow-config-time-start {
+  .config-start-time {
     float: left;
+  }
+
+  .bx--label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .bx--time-picker__input-field {
+    background-color: $acm_background_color;
   }
 
   .bx--select--inline {
     svg.bx--select__arrow {
       position: relative;
     }
+  }
+
+  .add-time-btn {
+    width: 220px;
+    height: 40px;
+    margin-top: 10px;
+    padding: 13px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .add-time-btn-icon {
+    margin-left: 7px;
+    float: left;
+  }
+
+  .add-time-btn-text {
+    font-weight: 600;
+    font-size: 14px;
+    color: #3d70b2;
   }
 }

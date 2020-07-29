@@ -46,6 +46,8 @@ class TimeWindow extends React.Component {
   render() {
     const { locale, control } = this.props
     const { name, validation = {} } = control
+    const modeSelected = control.active.mode ? true : false
+
     return (
       <React.Fragment>
         <div className="creation-view-controls-labels">
@@ -63,7 +65,7 @@ class TimeWindow extends React.Component {
               name="timeWindow-mode-container"
             >
               <RadioButton
-                className="timeWindow-mode"
+                className="mode-btn"
                 id="active-mode"
                 labelText={msgs.get(
                   'creation.app.settings.timeWindow.activeMode',
@@ -73,7 +75,7 @@ class TimeWindow extends React.Component {
                 onClick={this.handleChange.bind(this)}
               />
               <RadioButton
-                className="timeWindow-mode"
+                className="mode-btn"
                 id="block-mode"
                 labelText={msgs.get(
                   'creation.app.settings.timeWindow.blockMode',
@@ -86,27 +88,35 @@ class TimeWindow extends React.Component {
 
             <Accordion>
               <AccordionItem
-                open={control.active.mode ? true : false}
+                open={modeSelected}
                 title={msgs.get(
-                  'creation.app.settings.timeWindow.configuration',
+                  'creation.app.settings.timeWindow.config',
                   locale
                 )}
               >
                 <div className="timeWindow-config-container">
-                  <div className="timeWindow-config-days-section">
-                    <span>Days of the week *</span>
-                    <br />
-                    <span>
-                      Please select at least one day below to create a time
-                      window.
-                    </span>
-                    <div className="timeWindow-config-days-selector">
+                  <div className="config-days-section">
+                    <div className="config-title">
+                      {msgs.get(
+                        'creation.app.settings.timeWindow.config.days.title',
+                        locale
+                      )}{' '}
+                      *
+                    </div>
+                    <div className="config-descr">
+                      {msgs.get(
+                        'creation.app.settings.timeWindow.config.days.descr',
+                        locale
+                      )}
+                    </div>
+                    <div className="config-days-selector">
                       <div className="first-col">
                         <Checkbox
                           labelText="Monday"
                           name="days-selector"
                           id="mon"
                           value="&quot;Monday&quot;"
+                          disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
@@ -114,6 +124,7 @@ class TimeWindow extends React.Component {
                           name="days-selector"
                           id="tues"
                           value="&quot;Tuesday&quot;"
+                          disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
@@ -121,6 +132,7 @@ class TimeWindow extends React.Component {
                           name="days-selector"
                           id="wed"
                           value="&quot;Wednesday&quot;"
+                          disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
@@ -128,6 +140,7 @@ class TimeWindow extends React.Component {
                           name="days-selector"
                           id="thurs"
                           value="&quot;Thursday&quot;"
+                          disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
@@ -135,6 +148,7 @@ class TimeWindow extends React.Component {
                           name="days-selector"
                           id="fri"
                           value="&quot;Friday&quot;"
+                          disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
                         />
                       </div>
@@ -144,6 +158,7 @@ class TimeWindow extends React.Component {
                           name="days-selector"
                           id="sat"
                           value="&quot;Saturday&quot;"
+                          disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
@@ -151,17 +166,23 @@ class TimeWindow extends React.Component {
                           name="days-selector"
                           id="sun"
                           value="&quot;Sunday&quot;"
+                          disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="timeWindow-config-timezone-section">
-                    <span>Timezone *</span>
-                    <br />
+                  <div className="config-timezone-section">
+                    <div className="config-title">
+                      {msgs.get(
+                        'creation.app.settings.timeWindow.config.timezone.title',
+                        locale
+                      )}{' '}
+                      *
+                    </div>
                     <DropdownV2
-                      className="timeWindow-config-timezone-dropdown"
+                      className="config-timezone-dropdown"
                       label="Choose a location"
                       items={[
                         {
@@ -190,23 +211,26 @@ class TimeWindow extends React.Component {
                           value: '"America/Winnipeg"'
                         }
                       ]}
+                      disabled={!modeSelected}
                       onChange={this.handleChange.bind(this)}
                     />
                   </div>
 
-                  <div className="timeWindow-config-times-section">
-                    <div className="timeWindow-config-time-start">
+                  <div className="config-time-section">
+                    <div className="config-start-time">
                       <TimePicker
-                        id="time-picker-start"
+                        id="start-time"
                         labelText="Start Time"
                         maxLength={5}
                         placeholder="hh:mm"
                         type="text"
+                        disabled={!modeSelected}
                       >
                         <TimePickerSelect
-                          id="time-picker-start-selector"
+                          id="start-time-selector"
                           labelText="AM/PM"
                           placeholder="hh:mm"
+                          disabled={!modeSelected}
                         >
                           <SelectItem
                             disabled={false}
@@ -223,18 +247,20 @@ class TimeWindow extends React.Component {
                         </TimePickerSelect>
                       </TimePicker>
                     </div>
-                    <div className="timeWindow-config-time-end">
+                    <div className="config-end-time">
                       <TimePicker
-                        id="time-picker-end"
+                        id="end-time"
                         labelText="End Time"
                         maxLength={5}
                         placeholder="hh:mm"
                         type="text"
+                        disabled={!modeSelected}
                       >
                         <TimePickerSelect
-                          id="time-picker-end-selector"
+                          id="end-time-selector"
                           labelText="AM/PM"
                           placeholder="hh:mm"
+                          disabled={!modeSelected}
                         >
                           <SelectItem
                             disabled={false}
@@ -251,14 +277,19 @@ class TimeWindow extends React.Component {
                         </TimePickerSelect>
                       </TimePicker>
                     </div>
-                    <div className="time-picker-add-time">
+                    <div className="add-time-btn">
                       <Icon
                         name="icon--add--glyph"
                         fill="#3d70b2"
                         description=""
-                        className="time-picker-add-time-icon"
+                        className="add-time-btn-icon"
                       />
-                      <span>Add another time range</span>
+                      <div className="add-time-btn-text">
+                        {msgs.get(
+                          'creation.app.settings.timeWindow.config.time.add',
+                          locale
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -158,10 +158,11 @@ spec:
     - type: ManagedClusterConditionAvailable
       status: "True"
   {{/if}}
-{{#if timeWindow}}
+{{#if timeWindow.mode}}
   timewindow:
-    windowtype: {{{timeWindow.status}}}
-    location: "America/Toronto"
+    windowtype: {{{timeWindow.mode}}}
+    location: {{{timeWindow.timezone}}}
+    weekdays: [{{{timeWindow.days}}}]
     hours:
       - start: {{{timeWindow.text}}}
         end: "10:10PM"

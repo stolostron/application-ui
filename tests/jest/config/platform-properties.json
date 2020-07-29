@@ -164,6 +164,7 @@
   "creation.app.settings.timeWindow": "Time window",
   "creation.app.settings.timeWindow.activeMode": "Active mode",
   "creation.app.settings.timeWindow.blockMode": "Block mode",
+  "creation.app.settings.timeWindow.configuration": "Time window configuration",
   "creation.app.github.url": "URL",
   "creation.app.github.path": "Path",
   "creation.app.github.user": "Username",

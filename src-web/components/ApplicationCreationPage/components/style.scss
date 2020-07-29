@@ -11,15 +11,28 @@
 .timeWindow-container {
   position: relative;
 
-  .timeWindow-btn-group {
+  // Active/Block mode btns
+  .timeWindow-mode-container {
     display: inline-grid;
   }
 
-  .timeWindow-btn {
+  .timeWindow-mode {
     margin: 5px 0;
   }
 
-  .timeWindow-config-days-checkboxes {
+  // Show Time window config section only when expanded
+  .bx--accordion__content {
+    display: none;
+  }
+
+  .bx--accordion__item--active {
+    .bx--accordion__content {
+      display: inline-block;
+    }
+  }
+
+  // Time window config - Days of the week section
+  .timeWindow-config-days-selector {
     width: 50%;
     display: grid;
     grid-template-columns: auto auto;
@@ -33,15 +46,17 @@
     }
   }
 
+  // Time window config - Timezone section
   .timeWindow-config-timezone-dropdown {
     width: 180px;
   }
 
-  .timeWindow-config-start-end-times {
+  // Time window config - Start/End time section
+  .timeWindow-config-times-section {
     display: block;
   }
 
-  .timeWindow-config-start {
+  .timeWindow-config-time-start {
     float: left;
   }
 

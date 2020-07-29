@@ -111,7 +111,7 @@ class ApplicationCreationPage extends React.Component {
         }
         // redirect to cluster details pages
         history.push(`/multicloud/applications/${this.applicationNamespace}/${this.applicationName}`)
-      }, 2000)
+      }, 3000)
     }
   }
 

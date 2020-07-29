@@ -82,7 +82,7 @@ export default class TemplateEditor extends React.Component {
         notifications= [{
           id: 'success',
           kind: 'success',
-          exception:  Array.isArray(creationMsg) ? creationMsg[0] :  msgs.get('success.create.cluster', locale),
+          exception:  Array.isArray(creationMsg) ? creationMsg[0] :  msgs.get('success.create.created', [type], locale),
         }]
         break
 

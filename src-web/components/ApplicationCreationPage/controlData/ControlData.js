@@ -9,8 +9,6 @@
  *******************************************************************************/
 'use strict'
 
-import {VALIDATE_ALPHANUMERIC, VALIDATE_URL} from '../../TemplateEditor/utils/validation'
-import React from 'react'
 import {
   VALIDATE_ALPHANUMERIC,
   VALIDATE_URL
@@ -51,7 +49,7 @@ export const setAvailableChannelSpecs = (type, control, result) => {
   }
 }
 
-const updateGithubControls = urlControl => {
+const updateChannelControls = urlControl => {
   const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]
 
@@ -75,34 +73,14 @@ const updateGithubControls = urlControl => {
       _.set(control, 'active', '')
     }
   }
-  setType('githubUser')
-  setType('githubAccessId')
-}
-
-const updateObjectStoreControls = urlControl => {
-  const { active, availableData, groupControlData } = urlControl
-  const pathData = availableData[active]
-
-  // change channel name to reflect objectstore path
-  let control
-  if (active) {
-    control = groupControlData.find(({ id }) => id === 'channelName')
-    const a = document.createElement('a')
-    a.href = active
-    control.active = a.pathname.split('/').pop()
+  const { id } = urlControl
+  if (id === 'githubURL') {
+    setType('githubUser')
+    setType('githubAccessId')
+  } else if (id === 'objectstoreURL') {
+    setType('accessKey')
+    setType('secretKey')
   }
-
-  // hide user/token controls if user selects a objectstore path that doesn't need them
-  const type = !pathData || pathData.secretRef ? 'text' : 'hidden'
-  const setType = cid => {
-    control = groupControlData.find(({ id }) => id === cid)
-    _.set(control, 'type', type)
-    if (type === 'hidden') {
-      _.set(control, 'active', '')
-    }
-  }
-  setType('accessKey')
-  setType('secretKey')
 }
 
 const githubChannelData = [
@@ -118,7 +96,7 @@ const githubChannelData = [
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('github'),
     cacheUserValueKey: 'create.app.github.url',
-    onSelect: updateGithubControls
+    onSelect: updateChannelControls
   },
   {
     name: 'creation.app.github.user',
@@ -216,7 +194,7 @@ const objectstoreChannelData = [
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('ObjectBucket'),
     cacheUserValueKey: 'create.app.objectstore.url',
-    onSelect: updateObjectStoreControls
+    onSelect: updateChannelControls
   },
   {
     name: 'creation.app.objectstore.accesskey',
@@ -237,21 +215,6 @@ const objectstoreChannelData = [
     active: '',
     placeholder: 'app.enter.secretkey',
     validation: VALIDATE_ALPHANUMERIC
-  }
-]
-
-const secretNameChannelData = [
-  ///////////////////////  Secret name  /////////////////////////////////////
-  {
-    name: 'creation.ocp.purpose',
-    tooltip: 'tooltip.creation.ocp.purpose',
-    id: 'purposesc',
-    type: 'combobox',
-    active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
-    validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose'
   }
 ]
 
@@ -366,15 +329,6 @@ export const controlData = [
             change: {
               insertControlData: objectstoreChannelData
             }
-          },
-          {
-            id: 'secret',
-            logo: 'resource-secret-icon.svg',
-            title: 'creation.app.channel.secret',
-            tooltip: 'tooltip.creation.app.channel.existing',
-            change: {
-              insertControlData: secretNameChannelData
-            }
           }
         ],
         active: '',
@@ -404,5 +358,5 @@ export const controlData = [
     id: 'clusters',
     type: 'multiselect',
     available: []
-  },
+  }
 ]

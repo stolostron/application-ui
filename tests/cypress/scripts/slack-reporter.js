@@ -11,14 +11,17 @@ const exec = util.promisify(require("child_process").exec);
 const { SLACK_TOKEN, USER, TRAVIS_BUILD_WEB_URL } = process.env;
 
 const web = new WebClient(SLACK_TOKEN);
+// ./tests/cypress/scripts/slack-reporter.js
 
+// /usr/src/app/cypress/videos/application.spec.js.mp4
+// /usr/src/app/tests/cypress/scripts/test-output/cypress
 async function slackReporter() {
   if (!process.env.SLACK_TOKEN) {
     return console.error(
       "Missing SLACK_TOKEN environment variable; skipping slack reporting..."
     );
   }
-  const reportPath = path.join(__dirname, "test-output", "cypress");
+  const reportPath = path.join(__dirname, "..", "..", "..", "cypress");
   const reports = fs.readdirSync(reportPath);
   const slackData = await mapSlackUserByGitEmail();
   const prData = await getPullRequestData();
@@ -27,7 +30,7 @@ async function slackReporter() {
 
 async function reportFailure(report, slackData, prData) {
   try {
-    const testReport = require(`test-output/cypress/${report}`);
+    const testReport = require(`../../../cypress/${report}`);
     if (testReport.stats.failures > 0) {
       const testFailureData = getTestFailureData(testReport);
       const videoDir = path.join(__dirname, "..", "videos");

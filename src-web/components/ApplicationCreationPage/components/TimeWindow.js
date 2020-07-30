@@ -47,6 +47,8 @@ class TimeWindow extends React.Component {
     const { locale, control } = this.props
     const { name, validation = {} } = control
     const modeSelected = control.active.mode ? true : false
+    const daysSelectorID = 'days-selector'
+    const timezoneDropdownID = 'timezone-dropdown'
 
     return (
       <React.Fragment>
@@ -113,7 +115,7 @@ class TimeWindow extends React.Component {
                       <div className="first-col">
                         <Checkbox
                           labelText="Monday"
-                          name="days-selector"
+                          name={daysSelectorID}
                           id="mon"
                           value="&quot;Monday&quot;"
                           disabled={!modeSelected}
@@ -121,7 +123,7 @@ class TimeWindow extends React.Component {
                         />
                         <Checkbox
                           labelText="Tuesday"
-                          name="days-selector"
+                          name={daysSelectorID}
                           id="tues"
                           value="&quot;Tuesday&quot;"
                           disabled={!modeSelected}
@@ -129,7 +131,7 @@ class TimeWindow extends React.Component {
                         />
                         <Checkbox
                           labelText="Wednesday"
-                          name="days-selector"
+                          name={daysSelectorID}
                           id="wed"
                           value="&quot;Wednesday&quot;"
                           disabled={!modeSelected}
@@ -137,7 +139,7 @@ class TimeWindow extends React.Component {
                         />
                         <Checkbox
                           labelText="Thursday"
-                          name="days-selector"
+                          name={daysSelectorID}
                           id="thurs"
                           value="&quot;Thursday&quot;"
                           disabled={!modeSelected}
@@ -145,7 +147,7 @@ class TimeWindow extends React.Component {
                         />
                         <Checkbox
                           labelText="Friday"
-                          name="days-selector"
+                          name={daysSelectorID}
                           id="fri"
                           value="&quot;Friday&quot;"
                           disabled={!modeSelected}
@@ -155,7 +157,7 @@ class TimeWindow extends React.Component {
                       <div className="second-col">
                         <Checkbox
                           labelText="Saturday"
-                          name="days-selector"
+                          name={daysSelectorID}
                           id="sat"
                           value="&quot;Saturday&quot;"
                           disabled={!modeSelected}
@@ -163,7 +165,7 @@ class TimeWindow extends React.Component {
                         />
                         <Checkbox
                           labelText="Sunday"
-                          name="days-selector"
+                          name={daysSelectorID}
                           id="sun"
                           value="&quot;Sunday&quot;"
                           disabled={!modeSelected}
@@ -187,27 +189,27 @@ class TimeWindow extends React.Component {
                       items={[
                         {
                           label: 'America/Edmonton',
-                          name: 'timezone-dropdown',
+                          name: timezoneDropdownID,
                           value: '"America/Edmonton"'
                         },
                         {
                           label: 'America/Halifax',
-                          name: 'timezone-dropdown',
+                          name: timezoneDropdownID,
                           value: '"America/Halifax"'
                         },
                         {
                           label: 'America/Toronto',
-                          name: 'timezone-dropdown',
+                          name: timezoneDropdownID,
                           value: '"America/Toronto"'
                         },
                         {
                           label: 'America/Vancouver',
-                          name: 'timezone-dropdown',
+                          name: timezoneDropdownID,
                           value: '"America/Vancouver"'
                         },
                         {
                           label: 'America/Winnipeg',
-                          name: 'timezone-dropdown',
+                          name: timezoneDropdownID,
                           value: '"America/Winnipeg"'
                         }
                       ]}

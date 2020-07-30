@@ -22,7 +22,21 @@ class MockViewContainer {
 
 describe("DetailsView no components", () => {
   const returnEmptyArr = jest.fn();
-  returnEmptyArr.mockReturnValue([]);
+  returnEmptyArr.mockReturnValue([
+    {
+      uid: "deployment1",
+      type: "deployment",
+      name: "name",
+      namespace: "ns",
+      specs: {
+        raw: {
+          metadata: {
+            namespace: "ns"
+          }
+        }
+      }
+    }
+  ]);
   const viewContainer = jest.fn();
   viewContainer.mockReturnValue(new MockViewContainer());
   const mockData = {
@@ -33,7 +47,7 @@ describe("DetailsView no components", () => {
       getNodeDetails: returnEmptyArr
     },
     getLayoutNodes: returnEmptyArr,
-    selectedNodeId: "",
+    selectedNodeId: "deployment1",
     getViewContainer: viewContainer,
     processActionLink: jest.fn()
   };
@@ -161,7 +175,12 @@ const mockLaidoutNodes = {
         activeChannel: "__ALL__/__ALL__//__ALL__/__ALL__",
         channels: [
           "default/mortgage-app-subscription//default/mortgage-channel"
-        ]
+        ],
+        raw: {
+          metadata: {
+            namespace: "default"
+          }
+        }
       },
       namespace: "default",
       topology: null,
@@ -207,7 +226,12 @@ const mockLaidoutNodes = {
         isDesign: true,
         hasRules: true,
         isPlaced: true,
-        row: 20
+        row: 20,
+        raw: {
+          metadata: {
+            namespace: "default"
+          }
+        }
       },
       namespace: "default",
       topology: null,
@@ -251,7 +275,12 @@ const mockLaidoutNodes = {
       type: "rules",
       specs: {
         isDesign: true,
-        row: 49
+        row: 49,
+        raw: {
+          metadata: {
+            namespace: "default"
+          }
+        }
       },
       namespace: "default",
       topology: null,
@@ -384,7 +413,16 @@ const mockLaidoutNodes = {
       cluster: null,
       clusterName: null,
       type: "deployable",
-      specs: { isDesign: true, isDivider: true, row: 66 },
+      specs: {
+        isDesign: true,
+        isDivider: true,
+        row: 66,
+        raw: {
+          metadata: {
+            namespace: "default"
+          }
+        }
+      },
       namespace: "default",
       topology: null,
       labels: null,
@@ -433,7 +471,12 @@ const mockLaidoutNodes = {
           { lastUpdateTime: "2020-02-23T20:22:11Z", phase: "Subscribed" }
         ],
         isDesign: false,
-        row: 111
+        row: 111,
+        raw: {
+          metadata: {
+            namespace: "default"
+          }
+        }
       },
       namespace: "",
       topology: null,
@@ -510,6 +553,11 @@ const mockLaidoutNodes = {
           hasFailure: false,
           hasRestarts: false,
           pulse: null
+        },
+        raw: {
+          metadata: {
+            namespace: "default"
+          }
         }
       },
       namespace: "",

@@ -80,10 +80,6 @@ class App extends React.Component {
       !location.pathname.startsWith('/multicloud/welcome') &&
       !location.pathname.startsWith('/multicloud/overview') &&
       !location.pathname.startsWith('/multicloud/search')
-    const showExtraTabs =
-      location.pathname &&
-      location.pathname.startsWith('/multicloud/applications/') &&
-      location.pathname.split('/').length === 5
 
     return (
       <div className="expand-vertically">
@@ -95,7 +91,6 @@ class App extends React.Component {
             render={params => (
               <ApplicationHeaderTabs
                 params={params}
-                showExtraTabs={showExtraTabs}
                 serverProps={this.getServerProps()}
               />
             )}

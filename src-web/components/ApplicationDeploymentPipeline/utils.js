@@ -19,19 +19,13 @@ export const getApplicationsList = list => {
 
 export const getApplicationsForSelection = (
   list,
-  breadcrumbItems,
+  selectedApp,
   AppDeployments
 ) => {
-  let selectedAppName = ''
-  let selectedAppNamespace = ''
-  const isSingleApplicationView = breadcrumbItems.length === 2
+  const {isSingleApplicationView, selectedAppName, selectedAppNamespace} =  selectedApp
 
   let filteredApplications = ''
   if (isSingleApplicationView) {
-    const urlArray = R.split('/', breadcrumbItems[1].url)
-    selectedAppName = urlArray[urlArray.length - 1]
-    selectedAppNamespace = urlArray[urlArray.length - 2]
-
     // if there is only a single application, filter the list with the selectedAppName and selectedAppNamespace
     filteredApplications = filterSingleApp(
       list,
@@ -51,10 +45,10 @@ export const getApplicationsForSelection = (
 export const getSubscribedChannels = (
   channels,
   applications,
-  breadcrumbItems,
+  selectedApp,
   AppDeployments
 ) => {
-  const isSingleApplicationView = breadcrumbItems.length === 2
+  const {isSingleApplicationView} =  selectedApp
 
   if (isSingleApplicationView && !AppDeployments.showAllChannels) {
     const selectedApp =

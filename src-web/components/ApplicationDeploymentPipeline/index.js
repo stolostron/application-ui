@@ -135,7 +135,6 @@ const mapStateToProps = state => {
     HCMChannelList,
     HCMSubscriptionList,
     AppDeployments,
-    secondaryHeader,
     QueryApplicationList,
     GlobalApplicationDataList,
     role,
@@ -152,7 +151,6 @@ const mapStateToProps = state => {
     QueryApplicationList,
     GlobalApplicationDataList,
     loading: AppDeployments.loading,
-    breadcrumbItems: secondaryHeader.breadcrumbItems || [],
     mutateStatus:
       state['HCMChannelList'].mutateStatus ||
       state['HCMSubscriptionList'].mutateStatus ||
@@ -218,7 +216,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   reload() {
     const {
-      breadcrumbItems,
+      selectedApp,
       fetchApplications,
       fetchApplicationsGlobalData,
       fetchSubscriptions,
@@ -227,7 +225,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     // only reload data if there are nothing being fetched and no modals are open
     this.setState({ xhrPoll: true })
-    const isSingleApplicationView = breadcrumbItems.length === 2
+    const {isSingleApplicationView} =  selectedApp
     if (!isSingleApplicationView) {
       // reload all the applications
       fetchApplications()
@@ -269,6 +267,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     const {
       serverProps,
+      selectedApp,
       AppDeployments,
       actions,
       editResource,
@@ -280,7 +279,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       editSubscription,
       loading,
       userRole,
-      breadcrumbItems,
       fetchSubscriptions,
       fetchChannels,
       fetchPlacementRules,
@@ -297,7 +295,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     const applications = getApplicationsForSelection(
       QueryApplicationList,
-      breadcrumbItems,
+      selectedApp,
       AppDeployments
     )
 
@@ -307,12 +305,11 @@ class ApplicationDeploymentPipeline extends React.Component {
     const channels = getSubscribedChannels(
       getChannelsList(HCMChannelList),
       applications,
-      breadcrumbItems,
+      selectedApp,
       AppDeployments
     )
 
-    const isSingleApplicationView =
-      breadcrumbItems && breadcrumbItems.length === 2
+    const {isSingleApplicationView} =  selectedApp
     let selectedAppName = ''
     let selectedAppNS = ''
     let app = null
@@ -484,7 +481,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           bulkSubscriptionList={bulkSubscriptionList}
           editResource={editResource}
           deleteResource={deleteResource}
-          breadcrumbItems={breadcrumbItems}
+          selectedApp={selectedApp}
         />
         <SubscriptionModal
           displayModal={AppDeployments.displaySubscriptionModal}

@@ -1,28 +1,28 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: guestbook
-  namespace: ch-git
+  name: guestbook-$JOB_ID
+  namespace: ch-git-$JOB_ID
   labels:
-    name: git-sub
+    name: git-sub-$JOB_ID
 data:
   path: git-ops/bookinfo/guestbook
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:
-  name: github-channel
-  namespace: ch-git
+  name: github-channel-$JOB_ID
+  namespace: ch-git-$JOB_ID
   labels:
-    name: git-sub
+    name: git-sub-$JOB_ID
 spec:
   type: GitHub
   pathname: https://github.com/ianzhang366/acm-applifecycle-samples.git
   configMapRef:
-    name: guestbook
+    name: guestbook-$JOB_ID
     kind: configmap
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ch-git
+  name: ch-git-$JOB_ID

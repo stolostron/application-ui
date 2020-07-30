@@ -9,8 +9,6 @@
  *******************************************************************************/
 'use strict'
 
-/* eslint-disable react/no-array-index-key */
-
 import React from 'react'
 import { Query } from 'react-apollo'
 import PropTypes from 'prop-types'
@@ -185,6 +183,7 @@ class ControlPanel extends React.Component {
       <React.Fragment key={id}>
         {active.map((controlData, inx) => {
           return (
+            /* eslint-disable-next-line react/no-array-index-key */
             <React.Fragment key={`${controlData[0].id}Group${inx}`}>
               <div className="creation-view-group-container">
                 {prompts &&
@@ -355,7 +354,7 @@ class ControlPanel extends React.Component {
   }
 
   renderTitle(control) {
-    const { locale } = this.props
+    const { locale, controlData } = this.props
     const {
       title,
       subtitle,
@@ -366,7 +365,10 @@ class ControlPanel extends React.Component {
       collapsed = false,
       content = []
     } = control
-    const { info } = control
+    let { info } = control
+    if (typeof info === 'function') {
+      info = info(controlData, this.context.locale)
+    }
 
     const handleCollapse = () => {
       if (control.sectionRef && collapsable) {
@@ -454,6 +456,7 @@ class ControlPanel extends React.Component {
                 {!info && <Tooltip control={control} locale={locale} />}
                 <span className="creation-view-controls-title-main-summary">
                   {summary.map((tag, inx) => {
+                    /* eslint-disable-next-line react/no-array-index-key */
                     return (
                       <Tag
                         key={`${id}-${tag}-${inx}`}

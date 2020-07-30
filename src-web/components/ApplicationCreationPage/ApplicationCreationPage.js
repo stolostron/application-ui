@@ -15,6 +15,10 @@ import PropTypes from 'prop-types'
 import Page from '../common/Page'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import {
+  createApplication,
+  clearCreateStatus
+} from '../../actions/application'
 import { updateSecondaryHeader } from '../../actions/common'
 import { TemplateEditor } from '../TemplateEditor'
 import { controlData } from './controlData/ControlData'
@@ -35,7 +39,7 @@ resources(() => {
 class ApplicationCreationPage extends React.Component {
   static propTypes = {
     cleanReqStatus: PropTypes.func,
-    handleCreateCluster: PropTypes.func,
+    handleCreateApplication: PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object,
     mutateErrorMsgs: PropTypes.array,
@@ -118,9 +122,11 @@ class ApplicationCreationPage extends React.Component {
         }
         // redirect to cluster details pages
         history.push(
-          `/multicloud/clusters/${this.clusterNamespace}/${this.clusterName}`
+          `/multicloud/applications/${this.applicationNamespace}/${
+            this.applicationName
+          }`
         )
-      }, 2000)
+      }, 3000)
     }
   }
 
@@ -143,7 +149,7 @@ class ApplicationCreationPage extends React.Component {
     return (
       <Page>
         <TemplateEditor
-          type={'cluster'}
+          type={'application'}
           title={msgs.get('creation.app.yaml', locale)}
           template={createTemplate}
           controlData={cd}
@@ -161,14 +167,11 @@ class ApplicationCreationPage extends React.Component {
 
   handleCreate = resourceJSON => {
     if (resourceJSON) {
-      const { handleCreateCluster } = this.props
-      handleCreateCluster(resourceJSON)
+      const { handleCreateApplication } = this.props
+      handleCreateApplication(resourceJSON)
       const map = _.keyBy(resourceJSON, 'kind')
-      this.clusterNamespace = _.get(
-        map,
-        'ClusterDeployment.metadata.namespace'
-      )
-      this.clusterName = _.get(map, 'ClusterDeployment.metadata.name')
+      this.applicationNamespace = _.get(map, 'Application.metadata.namespace')
+      this.applicationName = _.get(map, 'Application.metadata.name')
     }
   };
 
@@ -183,6 +186,8 @@ ApplicationCreationPage.contextTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
+    cleanReqStatus: () => dispatch(clearCreateStatus()),
+    handleCreateApplication: json => dispatch(createApplication(json)),
     updateSecondaryHeader: (
       title,
       tabs,
@@ -205,13 +210,11 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
+  const { applicationPageResources } = state
+  const { mutateStatus, mutateErrorMsgs } = applicationPageResources || {}
   return {
-    cluster_address: state.uiconfig && state.uiconfig.cluster_address,
-    cluster_router_https_port:
-      state.uiconfig && state.uiconfig.cluster_router_https_port,
-    user: state.user,
-    namespaces: state.namespaces && state.namespaces.namespaces,
-    role: state.role && state.role.role
+    mutateStatus,
+    mutateErrorMsgs
   }
 }
 

@@ -691,13 +691,13 @@ export const createResourceSearchLink = node => {
 }
 
 //for charts remove release name
-export const getNameWithoutChartRelease = (relatedKind, name) => {
+export const getNameWithoutChartRelease = (
+  relatedKind,
+  name,
+  isHelmRelease
+) => {
   const kind = _.get(relatedKind, 'kind', '')
-
-  if (
-    kind === 'subscription' ||
-    name !== _.get(relatedKind, '_hostingDeployable', '')
-  ) {
+  if (kind === 'subscription' || !isHelmRelease.value) {
     return name //ignore subscription objects or objects where the name is not created from the _hostingDeployable
   }
 
@@ -815,7 +815,12 @@ export const getNameWithoutPodHash = relatedKind => {
 }
 
 //creates a map with all related kinds for this app, not only pod types
-export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
+export const setupResourceModel = (
+  list,
+  resourceMap,
+  isClusterGrouped,
+  isHelmRelease
+) => {
   if (list && resourceMap) {
     list.forEach(kindArray => {
       if (
@@ -841,7 +846,8 @@ export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
 
         const nameWithoutChartRelease = getNameWithoutChartRelease(
           relatedKind,
-          nameNoHash
+          nameNoHash,
+          isHelmRelease
         )
 
         const name = computeResourceName(

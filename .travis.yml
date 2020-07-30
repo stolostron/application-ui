@@ -1,7 +1,7 @@
 ###############################################################################
 # Licensed Materials - Property of IBM
 # (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
-# US Government Users Restricted Rights - Use, duplication or disclosure 
+# US Government Users Restricted Rights - Use, duplication or disclosure
 # restricted by GSA ADP Schedule Contract with IBM Corp.
 # Copyright (c) 2020 Red Hat, Inc.
 #
@@ -25,7 +25,7 @@ addons:
     organization: "open-cluster-management"
     token:
       secure: "DIRJBk/UF3HgixDQwyIfUcxbm3SxZ3U4ESyJIUmkgGUFNNMF9ST0OdK3ULIVT4n/EnDkzuB99gXyORdU022c1lGZoIqsuSJ6ZSIP50nIK10upRtsOTijtQVNC2I9Hea/QgjReWmB7Fvel+cK5gg/ixEy1+6IfabKJIq4yXluPXR3YsqQkFbDtJ69mYBLxS95SfWIwVmVqsMuvZJswMVYSnWjJ0PK7BAlK2R+4yOiZRv2OEOgny+jJE18i9byBRjQCA3nw3rC72IUHBwj3QyAiPHe+Grx2K3plA/8bpXRsQ55M1NtUx33W1L03w9NBBxrIj8lM0XYy1aR5cPNmQ9483Tc+RJO5Uw3QqEay7CoZW5YXv3TMsvX+8jXhdDKBmwljaMjOinq2rsclsKoy+8RvcS1IqZ2QH6VxPHWYo3+t4F8ogVWIMpwA2elHCq7O+Q8um2/CFh9g7p7D2zxWI8lRltCit4aDmnu/khzqV/JtCXVLgjrcQaQ5d3bXNLSZctimTnZXYdwNk/HxG11yM0sfOntmPbi4tZgpHrzSM5CtHqcaMiKikq5DPoLyf0OU+2Btc/GYmsbAmDyQPENzdrWnhpysP7qJzJOUgORufyHlFEv+ZitghXw/PQ6ygONj2BjEmIdXmwgEL3UqVdjMnwOeHMX4dwLENaQrJKChBulyH8="
-    
+
 env:
   global:
     # Required
@@ -41,12 +41,12 @@ stages:
   - build
   - build-test
   - unit-test
-  - test-e2e
-  - release-ff  
+  # - test-e2e
+  - release-ff
   - publish
-  
+
 before_script:
-  - make init  
+  - make init
 
 jobs:
   include:
@@ -57,41 +57,41 @@ jobs:
         - make
         - make component/build || travis_terminate 1
         - make component/push
-        - make security/scans 
+        - make security/scans
     - stage: build-test
       name: "Build the test image and push it"
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
-        - make 
+        - make
         - make build-test-image
-        - make push-test-image        
+        - make push-test-image
     - stage: unit-test
       name: "Build and run unit tests"
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
         - chmod +x copyright-check.sh
-        - make copyright-check TRAVIS_BRANCH=${TRAVIS_BRANCH} 
+        - make copyright-check TRAVIS_BRANCH=${TRAVIS_BRANCH}
         - make sonar/js/jest-init
-        - | 
+        - |
           make 
           make component/pull         
           make component/test/unit
-        - make sonar/js  
-    - stage: test-e2e
-      name: "Deploy the image to a cluster and run e2e tests"
-      if: type = pull_request
-      script:
-        - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
-        - |
-          make 
-          make component/pull 
-          make component/test/e2e 
+        - make sonar/js
+    # - stage: test-e2e
+    #   name: "Deploy the image to a cluster and run e2e tests"
+    #   if: type = pull_request
+    #   script:
+    #     - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
+    #     - |
+    #       make
+    #       make component/pull
+    #       make component/test/e2e
     - stage: release-ff
       name: "Push commits to current release branch"
       if: type = push AND branch =~ /^master$/
       script:
         - make
-        - make release-ff          
+        - make release-ff
     - stage: publish
       name: "Publish the image to quay with an official version/sha tag and publish entry to integration pipeline stage"
       if: type = push AND branch =~ /^release-[0-9]+\..*$/
@@ -101,4 +101,3 @@ jobs:
           make pipeline-manifest/update PIPELINE_MANIFEST_COMPONENT_SHA256=${TRAVIS_COMMIT} PIPELINE_MANIFEST_COMPONENT_REPO=${TRAVIS_REPO_SLUG} PIPELINE_MANIFEST_BRANCH=${TRAVIS_BRANCH}
         - echo "Waiting 60s before publishing test image..." && sleep 60
         - make publish-test-image
-        

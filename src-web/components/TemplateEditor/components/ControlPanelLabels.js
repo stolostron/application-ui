@@ -15,7 +15,14 @@ import Tooltip from './Tooltip'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
-const regex = /([a-zA-Z0-9]+)\s*=\s*([a-zA-Z0-9-]*)/
+export const DNS_LABEL = '[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?'
+export const PREFIX = `${DNS_LABEL}(.${DNS_LABEL})*/`
+export const NAME_OR_VALUE = '[a-z0-9A-Z]([a-z0-9A-Z_.-]{0,61}[a-z0-9A-Z])?'
+export const regex = new RegExp(
+  `^((${PREFIX})?${NAME_OR_VALUE})=(${NAME_OR_VALUE})?$`
+)
+export const KEY_CAPTURE_GROUP_INDEX = 1
+export const VALUE_CAPTURE_GROUP_INDEX = 7
 
 class ControlPanelLabels extends React.Component {
   static propTypes = {
@@ -108,9 +115,13 @@ class ControlPanelLabels extends React.Component {
     } else {
       const match = regex.exec(value)
       const map = _.keyBy(active, 'key')
-      if (map[match[1]]) {
+      if (map[match[KEY_CAPTURE_GROUP_INDEX]]) {
         invalid = true
-        invalidText = msgs.get('enter.duplicate.key', [match[1]], locale)
+        invalidText = msgs.get(
+          'enter.duplicate.key',
+          [match[KEY_CAPTURE_GROUP_INDEX]],
+          locale
+        )
       }
     }
     this.setState({ value, invalid, invalidText })
@@ -134,9 +145,7 @@ class ControlPanelLabels extends React.Component {
   }
 
   handleBlur() {
-    setTimeout(() => {
-      this.createLabel()
-    }, 250)
+    this.createLabel()
   }
 
   deleteLastLabel() {
@@ -158,7 +167,10 @@ class ControlPanelLabels extends React.Component {
     const { value, invalid } = this.state
     if (value && !invalid) {
       const match = regex.exec(value)
-      active.push({ key: match[1], value: match[2] })
+      active.push({
+        key: match[KEY_CAPTURE_GROUP_INDEX],
+        value: match[VALUE_CAPTURE_GROUP_INDEX] || ''
+      })
       handleChange(control)
     }
     this.cancelLabel()

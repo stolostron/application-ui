@@ -13,14 +13,14 @@ import React from 'react'
 import {
   VALIDATE_ALPHANUMERIC,
   VALIDATE_URL
-} from '../../TemplateEditor/utils/update-controls'
+} from '../../TemplateEditor/utils/validation'
 import { HCMChannelList } from '../../../../lib/client/queries'
 import TimeWindow from '../components/TimeWindow'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
 
-export const LOAD_EXISTING_CHANNELS = type => {
+export const loadExistingChannels = type => {
   return {
     query: HCMChannelList,
     loadingDesc: 'creation.app.loading.channels',
@@ -51,7 +51,7 @@ export const setAvailableChannelSpecs = (type, control, result) => {
   }
 }
 
-const updateGithubControls = urlControl => {
+const updateChannelControls = urlControl => {
   const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]
 
@@ -61,7 +61,9 @@ const updateGithubControls = urlControl => {
     control = groupControlData.find(({ id }) => id === 'channelName')
     const a = document.createElement('a')
     a.href = active
-    control.active = a.pathname.split('/').pop()
+    let name = a.pathname.split('/').pop()
+    name = name.split('.').shift()
+    control.active = `${name}-chn`
   }
 
   // hide user/token controls if user selects a github path that doesn't need them
@@ -73,8 +75,14 @@ const updateGithubControls = urlControl => {
       _.set(control, 'active', '')
     }
   }
-  setType('githubUser')
-  setType('githubAccessId')
+  const { id } = urlControl
+  if (id === 'githubURL') {
+    setType('githubUser')
+    setType('githubAccessId')
+  } else if (id === 'objectstoreURL') {
+    setType('accessKey')
+    setType('secretKey')
+  }
 }
 
 const githubChannelData = [
@@ -88,9 +96,9 @@ const githubChannelData = [
     placeholder: 'app.enter.select.github.url',
     available: [],
     validation: VALIDATE_URL,
-    fetchAvailable: LOAD_EXISTING_CHANNELS('github'),
+    fetchAvailable: loadExistingChannels('github'),
     cacheUserValueKey: 'create.app.github.url',
-    onSelect: updateGithubControls
+    onSelect: updateChannelControls
   },
   {
     name: 'creation.app.github.user',
@@ -178,30 +186,37 @@ const helmReleaseChannelData = [
 const objectstoreChannelData = [
   ///////////////////////  Objectstore  /////////////////////////////////////
   {
-    name: 'creation.ocp.purpose',
-    tooltip: 'tooltip.creation.ocp.purpose',
-    id: 'purposeos',
+    name: 'creation.app.objectstore.url',
+    tooltip: 'tooltip.creation.app.github.url',
+    id: 'objectstoreURL',
     type: 'combobox',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
-    validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose'
-  }
-]
-
-const secretNameChannelData = [
-  ///////////////////////  Secret name  /////////////////////////////////////
+    placeholder: 'app.enter.select.objectstore.url',
+    available: [],
+    validation: VALIDATE_URL,
+    fetchAvailable: loadExistingChannels('ObjectBucket'),
+    cacheUserValueKey: 'create.app.objectstore.url',
+    onSelect: updateChannelControls
+  },
   {
-    name: 'creation.ocp.purpose',
-    tooltip: 'tooltip.creation.ocp.purpose',
-    id: 'purposesc',
-    type: 'combobox',
+    name: 'creation.app.objectstore.accesskey',
+    tooltip: 'tooltip.creation.app.objectstore.accesskey',
+    id: 'accessKey',
+    type: 'text',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
-    validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose'
+    encode: true,
+    placeholder: 'app.enter.accesskey',
+    validation: VALIDATE_ALPHANUMERIC
+  },
+  {
+    name: 'creation.app.objectstore.secretkey',
+    tooltip: 'tooltip.creation.app.objectstore.secretkey',
+    id: 'secretKey',
+    type: 'text',
+    encode: true,
+    active: '',
+    placeholder: 'app.enter.secretkey',
+    validation: VALIDATE_ALPHANUMERIC
   }
 ]
 
@@ -315,15 +330,6 @@ export const controlData = [
             tooltip: 'tooltip.creation.app.channel.existing',
             change: {
               insertControlData: objectstoreChannelData
-            }
-          },
-          {
-            id: 'secret',
-            logo: 'resource-secret-icon.svg',
-            title: 'creation.app.channel.secret',
-            tooltip: 'tooltip.creation.app.channel.existing',
-            change: {
-              insertControlData: secretNameChannelData
             }
           }
         ],

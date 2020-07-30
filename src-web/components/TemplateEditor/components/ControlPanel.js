@@ -456,9 +456,9 @@ class ControlPanel extends React.Component {
                 {!info && <Tooltip control={control} locale={locale} />}
                 <span className="creation-view-controls-title-main-summary">
                   {summary.map((tag, inx) => {
-                    /* eslint-disable-next-line react/no-array-index-key */
                     return (
                       <Tag
+                        /* eslint-disable-next-line react/no-array-index-key */
                         key={`${id}-${tag}-${inx}`}
                         className="tag"
                         type="custom"

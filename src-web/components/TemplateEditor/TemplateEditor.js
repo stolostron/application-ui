@@ -945,9 +945,10 @@ export default class TemplateEditor extends React.Component {
       })
     }
     canCreate = notifications.length === 0
-    /* eslint-disable-next-line react/no-unused-state */
+
     this.setState({
       notifications,
+      /* eslint-disable-next-line react/no-unused-state */
       hasFormExceptions: !canCreate,
       isFinalValidate: true
     })

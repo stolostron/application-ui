@@ -18,12 +18,16 @@ import config from '../../../lib/shared/config'
 const path = `${config.contextPath}/create`
 
 class CreateApplicationButton extends Component {
-
   render() {
     const { locale } = this.context
     return (
-      <Link to={path} key='create-application'>
-        <Button small icon={'add--glyph'} iconDescription='Add icon' kind="secondary">
+      <Link to={path} key="create-application">
+        <Button
+          small
+          icon={'add--glyph'}
+          iconDescription="Add icon"
+          kind="secondary"
+        >
           {msgs.get('actions.create.application', locale)}
         </Button>
       </Link>

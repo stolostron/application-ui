@@ -109,11 +109,12 @@ export class SecondaryHeader extends React.Component {
                     </DetailPageHeader>
                   )}
                 </div>
-                {links && links.length>0 &&
-                  <div className='secondary-header-links'>
-                    {this.renderLinks()}
-                  </div>
-                }
+                {links &&
+                  links.length > 0 && (
+                    <div className="secondary-header-links">
+                      {this.renderLinks()}
+                    </div>
+                )}
               </header>
             </div>
           </div>
@@ -137,11 +138,12 @@ export class SecondaryHeader extends React.Component {
               </h1>
             </div>
           </div>
-          {links && links.length>0 &&
-            <div className='secondary-header-links'>
-              {this.renderTooltip()}
-            </div>
-          }
+          {links &&
+            links.length > 0 && (
+              <div className="secondary-header-links">
+                {this.renderTooltip()}
+              </div>
+          )}
         </div>
       )
     }
@@ -184,25 +186,43 @@ export class SecondaryHeader extends React.Component {
     const { links } = this.props,
           { locale } = this.context
     return links.map(link => {
-      const {id, label, url, kind='primary', title, handleClick=(()=> this.props.history.push(url)) } = link
+      const {
+        id,
+        label,
+        url,
+        kind = 'primary',
+        title,
+        handleClick = () => this.props.history.push(url)
+      } = link
       // if portal, react component will create the button using a portal
-      if (kind==='portal') {
-        return !title ? <div key={id} id={id} className='portal' /> : null
+      if (kind === 'portal') {
+        return !title ? <div key={id} id={id} className="portal" /> : null
       }
-      return <Button key={id} id={id} onClick={handleClick} kind={kind} >
-        {msgs.get(label, locale)}
-      </Button>
+      return (
+        <Button key={id} id={id} onClick={handleClick} kind={kind}>
+          {msgs.get(label, locale)}
+        </Button>
+      )
     })
   }
 
   renderActions() {
     const { actions } = this.props
     return (
-      <div className='secondary-header-actions'>
-        <Button kind='secondary' onClick={() => actions.secondary && actions.secondary.action()} className='secondary-header-actions-secondary'>
+      <div className="secondary-header-actions">
+        <Button
+          kind="secondary"
+          onClick={() => actions.secondary && actions.secondary.action()}
+          className="secondary-header-actions-secondary"
+        >
           {actions.secondary && actions.secondary.label}
         </Button>
-        <Button kind='primary' onClick={() => actions.primary && actions.primary.action()} disabled={actions.primary.disabled} className='secondary-header-actions-primary'>
+        <Button
+          kind="primary"
+          onClick={() => actions.primary && actions.primary.action()}
+          disabled={actions.primary.disabled}
+          className="secondary-header-actions-primary"
+        >
           {actions.primary && actions.primary.label}
         </Button>
       </div>
@@ -230,17 +250,19 @@ export class SecondaryHeader extends React.Component {
   }
 
   renderTooltip() {
-    const { links=[] } = this.props
+    const { links = [] } = this.props
     return (
       <React.Fragment>
-        {links && links.map(link => {
-          const {id, kind, title } = link
-          // if portal, react component will create the button using a portal
-          if (kind==='portal' && title) {
-            return <div key={id} id={id} className='portal' />
-          } else {
-            return null
-          }})}
+        {links &&
+          links.map(link => {
+            const { id, kind, title } = link
+            // if portal, react component will create the button using a portal
+            if (kind === 'portal' && title) {
+              return <div key={id} id={id} className="portal" />
+            } else {
+              return null
+            }
+          })}
       </React.Fragment>
     )
   }

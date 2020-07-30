@@ -29,38 +29,79 @@ or npm run build:production
 
 ## Running
 
-1. The localhost redirect ui registration URL was removed by the auth team.  You must configure an existing cluster to support local development.
+1. To run your local `application-ui` code against an existing ACM installation, make sure you are logged in using `oc` then source the `setup-env.sh` script.
+   ```
+   . ./setup-env.sh
+   ```
+   This will automatically set up the redirect URL and export all required environment variables, allowing you to skip the next 2 steps. The variables are also printed out as JSON in case you prefer to set them up in a VS Code launch configuration as described below.
 
-> 1. SSH into your existing cluster (`make ssh`)
-> 2. Install `jq` if not already installed (`sudo apt-get install jq -y`)
-> 3. Run the `setup-dev.sh` script in `platform-ui`: `curl https://github.com/open-cluster-management/platform-ui/master/setup-dev.sh?token=<token> | sudo bash`
->    or copy the script from `https://github.com/open-cluster-management/platform-ui/blob/master/setup-dev.sh` then execute it
-> 4. Copy the environment variables printed at the end of the script and proceed to step 2.
+   The script works in `zsh` or `bash` and requires `oc` and `jq`.
 
-2. Run mcm-ui-api locally following the instructions in the readme.md file from https://github.com/open-cluster-management/mcm-ui-api to get grahql calls working
+   By default, the script sets the `hcmUiApiURL` variable to use the running ACM. To use local `console-api`, unset this variable.
+   ```
+   unset hcmUiApiUrl
+   ```
+
+2. Add your `application-ui` redirect link to your hub's oauthclient multicloudingress if it does not already exist there
+   <pre>
+   oc edit oauthclient multicloudingress -n open-cluster-management
+
+   (Add "- https://localhost:3001/multicloud/applications/auth/callback" to "redirectURIs:" list)
+   </pre>
 
 3. The following environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
-<pre>
-export OAUTH2_CLIENT_ID=
-export OAUTH2_CLIENT_SECRET=
-export OAUTH2_REDIRECT_URL=https://localhost:3001/multicloud/applications/auth/callback
+    <pre>
+    export OAUTH2_CLIENT_ID=
+    export OAUTH2_CLIENT_SECRET=
+    export OAUTH2_REDIRECT_URL=https://localhost:3001/multicloud/applications/auth/callback
 
-#for local testing, from ocp login token
-export API_SERVER_URL=
-export SERVICEACCT_TOKEN=
-export NODE_ENV=development
+    #for local testing, from ocp login token
+    export API_SERVER_URL=
+    export SERVICEACCT_TOKEN=
+    export NODE_ENV=development
 
-#search and mcm-ui-api
-export searchApiUrl=`<searchAPIRouteEndpoint>/searchapi/graphql`
-export hcmUiApiUrl=`<searchAPIRouteEndpoint>/hcmuiapi`
-</pre>
+    #search and mcm-ui-api
+    export searchApiUrl=`<searchAPIRouteEndpoint>/searchapi/graphql`
+    export hcmUiApiUrl=`<searchAPIRouteEndpoint>/hcmuiapi`
+    </pre>
 
-4. Start the server for production
+    For vscode users, these variables can be set in your local VS Code enviroment using the launch.json in the .vscode directory. To create a launch.json file, open your project folder in VS Code (File > Open Folder) and then select the Configure gear icon on the Run view top bar.  If you go back to the File Explorer view (Ctrl+Shift+E), you'll see that VS Code has created a .vscode folder and added the launch.json file to your workspace.
+
+    Use a map, `env:{}` , in launch.json to contain your environment variables.
+    <pre>
+    {
+        "version": "0.2.0",
+        "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "",
+            "program": "${workspaceFolder}/app.js",
+            "env": {
+            "hcmUiApiUrl": "https://localhost:4000/hcmuiapi",
+            "searchApiUrl": "https://localhost:4010/searchapi",
+            "NODE_ENV": "",
+            "leftNav": "",
+            "headerUrl": "",
+            "OAUTH2_REDIRECT_URL": "https://localhost:3001/multicloud/applications/auth/callback",
+            "OAUTH2_CLIENT_ID": "",
+            "OAUTH2_CLIENT_SECRET": "",
+            "SERVICEACCT_TOKEN": "",
+            "API_SERVER_URL": "",
+            }
+        }
+        ]
+    }
+    </pre>
+
+4. If you are working on changes to `console-ui`, run `console-api` locally following the instructions from https://github.com/open-cluster-management/console-api
+
+5. Start the server for production
 <pre>
 npm run start:production
 </pre>
 
-5. Start the server for development, make sure execute both following npm commands
+6. Start the server for development, make sure execute both following npm commands
 <pre>
 npm run build:watch
 npm run start

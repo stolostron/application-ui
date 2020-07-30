@@ -192,7 +192,7 @@ const objectstoreChannelData = [
     placeholder: 'app.enter.select.objectstore.url',
     available: [],
     validation: VALIDATE_URL,
-    fetchAvailable: loadExistingChannels('ObjectBucket'),
+    fetchAvailable: loadExistingChannels('objectbucket'),
     cacheUserValueKey: 'create.app.objectstore.url',
     onSelect: updateChannelControls
   },

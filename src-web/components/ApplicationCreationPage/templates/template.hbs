@@ -133,8 +133,8 @@ metadata:
   name: {{{../../../name}}}-objectstore-authentication-{{@index}}
   namespace: {{{../../../name}}}-{{{../../channelName}}}-ns
 data:
-  user: {{{../../accessKey}}}
-  accessToken: {{{../../secretKey}}}
+  AccessKeyID: {{{../../accessKey}}}
+  SecretAccessKey: {{{../../secretKey}}}
 {{/if}}      
 ---
 apiVersion: apps.open-cluster-management.io/v1

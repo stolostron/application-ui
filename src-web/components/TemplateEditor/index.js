@@ -7,4 +7,4 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-export {default as TemplateEditor} from './TemplateEditor'
+export { default as TemplateEditor } from './TemplateEditor'

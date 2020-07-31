@@ -97,7 +97,12 @@ describe("getNodeDetails application node", () => {
     namespace: "ns-sub-1",
     specs: {
       isDesign: true,
-      row: 0
+      row: 0,
+      raw: {
+        metadata: {
+          namespace: "ns-sub-1"
+        }
+      }
     },
     topology: null,
     type: "application",
@@ -153,7 +158,7 @@ describe("getNodeDetails application node", () => {
         data: {
           action: "open_link",
           targetLink:
-            '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3ANA%20cluster%3Alocal-cluster"}'
+            '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3Ans-sub-1%20cluster%3Alocal-cluster"}'
         },
         id: "application--nginx-app-3-subscrSearch",
         label: "View all subscriptions in {0} namespace"
@@ -591,7 +596,8 @@ describe("getNodeDetails deployment node", () => {
         kind: "Deployment",
         metadata: {
           labels: { app: "mortgage-app-mortgage" },
-          name: "mortgage-app-deploy"
+          name: "mortgage-app-deploy",
+          namespace: "default"
         },
         spec: {
           replicas: 1,
@@ -712,6 +718,14 @@ describe("getNodeDetails deployment node", () => {
       status: undefined,
       type: "label",
       value: "deployment"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.namespace",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "default"
     },
     {
       indent: undefined,
@@ -874,7 +888,8 @@ describe("getNodeDetails helm node", () => {
         metadata: {
           labels: { app: "mortgage-app-mortgage" },
           name: "mortgage-app-deploy",
-          channel: "demo-ns-helm-git-ch/git-helm-ch"
+          channel: "demo-ns-helm-git-ch/git-helm-ch",
+          namespace: "default"
         },
         spec: {
           chartName: "mortgage-chart",
@@ -899,6 +914,14 @@ describe("getNodeDetails helm node", () => {
       status: undefined,
       type: "label",
       value: "helmrelease"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.namespace",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "default"
     },
     {
       indent: undefined,
@@ -1007,7 +1030,8 @@ describe("getNodeDetails placement rules node with error", () => {
         kind: "PlacementRule",
         metadata: {
           labels: { app: "mortgage-app-mortgage" },
-          name: "mortgage-app-deploy"
+          name: "mortgage-app-deploy",
+          namespace: "default"
         },
         spec: {
           clusterSelector: {
@@ -1031,6 +1055,14 @@ describe("getNodeDetails placement rules node with error", () => {
       status: undefined,
       type: "label",
       value: "rules"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.namespace",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "default"
     },
     {
       indent: undefined,
@@ -1083,7 +1115,8 @@ describe("getNodeDetails placement rules node with success", () => {
         kind: "PlacementRule",
         metadata: {
           labels: { app: "mortgage-app-mortgage" },
-          name: "mortgage-app-deploy"
+          name: "mortgage-app-deploy",
+          namespace: "default"
         },
         status: {
           decisions: [{ name: "cls1", namespace: "ns" }]
@@ -1110,6 +1143,14 @@ describe("getNodeDetails placement rules node with success", () => {
       status: undefined,
       type: "label",
       value: "rules"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.namespace",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "default"
     },
     {
       indent: undefined,

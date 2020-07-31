@@ -9,11 +9,13 @@
  *******************************************************************************/
 'use strict'
 
+import React from 'react'
 import {
   VALIDATE_ALPHANUMERIC,
   VALIDATE_URL
 } from '../../TemplateEditor/utils/validation'
 import { HCMChannelList } from '../../../../lib/client/queries'
+import TimeWindow from '../components/TimeWindow'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
@@ -192,7 +194,7 @@ const objectstoreChannelData = [
     placeholder: 'app.enter.select.objectstore.url',
     available: [],
     validation: VALIDATE_URL,
-    fetchAvailable: loadExistingChannels('ObjectBucket'),
+    fetchAvailable: loadExistingChannels('objectbucket'),
     cacheUserValueKey: 'create.app.objectstore.url',
     onSelect: updateChannelControls
   },
@@ -357,6 +359,34 @@ export const controlData = [
     placeholder: 'creation.view.policy.select.selectors',
     id: 'clusters',
     type: 'multiselect',
+    available: []
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  settings  /////////////////////////////////////
+  {
+    id: 'settingsSection',
+    type: 'section',
+    title: 'creation.app.section.settings',
+    numbered: '4',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+
+  {
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClustersOnly',
+    tooltip: 'tooltip.creation.app.settings.onlineClustersOnly',
+    active: true,
+    available: []
+  },
+  {
+    type: 'custom',
+    name: 'creation.app.settings.timeWindow',
+    description: 'creation.app.settings.timeWindow.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
     available: []
   }
 ]

@@ -89,6 +89,15 @@ spec:
     placementRef:
       kind: PlacementRule
       name: {{{../../name}}}-placement
+{{#if ../../timeWindow.mode}}
+  timewindow:
+    windowtype: {{{../../../timeWindow.mode}}}
+    location: {{{../../../timeWindow.timezone}}}
+    weekdays: [{{{../../../timeWindow.days}}}]
+    hours:
+      - start: "8:00AM"
+        end: "10:00PM"
+{{/if}}
   
 {{/case}}
 
@@ -133,8 +142,8 @@ metadata:
   name: {{{../../../name}}}-objectstore-authentication-{{@index}}
   namespace: {{{../../../name}}}-{{{../../channelName}}}-ns
 data:
-  user: {{{../../accessKey}}}
-  accessToken: {{{../../secretKey}}}
+  AccessKeyID: {{{../../accessKey}}}
+  SecretAccessKey: {{{../../secretKey}}}
 {{/if}}      
 ---
 apiVersion: apps.open-cluster-management.io/v1
@@ -186,3 +195,8 @@ spec:
   clusterSelector:
     matchLabels:
       environment: Dev
+  {{#if online-cluster-only-checkbox}}
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+  {{/if}}

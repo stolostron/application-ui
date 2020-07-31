@@ -610,6 +610,33 @@ describe("getNameWithoutChartRelease node with pods no _hostingDeployable", () =
   });
 });
 
+describe("getNameWithoutChartRelease node with the pod name same as the release name", () => {
+  const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label:
+      "app=nginx-ingress; chart=nginx-ingress-1.36.3; component=default-backend; heritage=Helm; release=nginx-ingress-edafb",
+    name: "nginx-ingress-edafb",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+
+  it("getNameWithoutChartRelease for pod name same as the release name", () => {
+    expect(
+      getNameWithoutChartRelease(node, "nginx-ingress-edafb", {
+        value: true
+      })
+    ).toEqual("nginx-ingress");
+  });
+});
+
 describe("getNameWithoutChartRelease node for helmrelease no label", () => {
   const node = {
     apigroup: "apps.open-cluster-management.io",

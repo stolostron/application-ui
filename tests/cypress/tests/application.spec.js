@@ -72,7 +72,8 @@ describe("Application Resources", () => {
         cy
           .wrap(queryAppResourceInFile("Application", filename))
           .should("eq", 200);
-        resourceTable.rowShouldExist(appName);
+        // wait 90 seconds for search to return the application
+        resourceTable.rowShouldExist(appName, { timeout: 90000 });
         resourceTable.rowCount().then(rowCount => {
           expect(rowCount).to.equal(appCount_b4 + 1);
         });
@@ -98,55 +99,55 @@ describe("Application Resources", () => {
   //   });
   // });
 
-  it("Given user logs in as sysadmin, user should be able to add namespace subscription", () => {
-    let filename = "02_subscription-namespace.yaml";
-    cy.createAppResource("subscription", "namespace");
-    pageLoader.shouldNotExist();
-    modal.shouldNotBeVisible();
-    cy.wrap(queryAppResourceInFile("Subscription", filename)).should("eq", 200);
-  });
+  // it("Given user logs in as sysadmin, user should be able to add namespace subscription", () => {
+  //   let filename = "02_subscription-namespace.yaml";
+  //   cy.createAppResource("subscription", "namespace");
+  //   pageLoader.shouldNotExist();
+  //   modal.shouldNotBeVisible();
+  //   cy.wrap(queryAppResourceInFile("Subscription", filename)).should("eq", 200);
+  // });
 
-  it("Given user logs in as sysadmin, user should be able to add namespace placement rule", () => {
-    let filename = "01_placementrule-namespace.yaml";
-    cy.createAppResource("placementrule", "namespace");
-    pageLoader.shouldNotExist();
-    modal.shouldNotBeVisible();
-    cy
-      .wrap(queryAppResourceInFile("PlacementRule", filename))
-      .should("eq", 200);
-  });
+  // it("Given user logs in as sysadmin, user should be able to add namespace placement rule", () => {
+  //   let filename = "01_placementrule-namespace.yaml";
+  //   cy.createAppResource("placementrule", "namespace");
+  //   pageLoader.shouldNotExist();
+  //   modal.shouldNotBeVisible();
+  //   cy
+  //     .wrap(queryAppResourceInFile("PlacementRule", filename))
+  //     .should("eq", 200);
+  // });
 
-  it("Given user logs in as sysadmin, user should be able to add namespace application", () => {
-    let appCount_b4 = 0;
-    let filename = "00_application-namespace.yaml";
-    cy.contains("Overview").click();
-    let appName = "";
-    cy.task("getResourceMetadataInFile", filename).then(meta => {
-      appName = meta.name;
-      cy.get(".page-content-container").then($element => {
-        if ($element.find(".no-resource").length < 1) {
-          cy.log($element.find(".no-resource").length);
-          cy
-            .get("#undefined-search")
-            .click()
-            .type(appName);
-          resourceTable.rowCount().then(rowCount => {
-            appCount_b4 = rowCount;
-          });
-        }
-        cy.createAppResource("application", "namespace");
-        pageLoader.shouldNotExist();
-        modal.shouldNotBeVisible();
-        cy
-          .wrap(queryAppResourceInFile("Application", filename))
-          .should("eq", 200);
-        resourceTable.rowShouldExist(appName);
-        resourceTable.rowCount().then(rowCount => {
-          expect(rowCount).to.equal(appCount_b4 + 1);
-        });
-      });
-    });
-  });
+  // it("Given user logs in as sysadmin, user should be able to add namespace application", () => {
+  //   let appCount_b4 = 0;
+  //   let filename = "00_application-namespace.yaml";
+  //   cy.contains("Overview").click();
+  //   let appName = "";
+  //   cy.task("getResourceMetadataInFile", filename).then(meta => {
+  //     appName = meta.name;
+  //     cy.get(".page-content-container").then($element => {
+  //       if ($element.find(".no-resource").length < 1) {
+  //         cy.log($element.find(".no-resource").length);
+  //         cy
+  //           .get("#undefined-search")
+  //           .click()
+  //           .type(appName);
+  //         resourceTable.rowCount().then(rowCount => {
+  //           appCount_b4 = rowCount;
+  //         });
+  //       }
+  //       cy.createAppResource("application", "namespace");
+  //       pageLoader.shouldNotExist();
+  //       modal.shouldNotBeVisible();
+  //       cy
+  //         .wrap(queryAppResourceInFile("Application", filename))
+  //         .should("eq", 200);
+  //       resourceTable.rowShouldExist(appName);
+  //       resourceTable.rowCount().then(rowCount => {
+  //         expect(rowCount).to.equal(appCount_b4 + 1);
+  //       });
+  //     });
+  //   });
+  // });
 
   //helmrepo channel
   // it("Given user logs in as sysadmin, user should be able to add heml repo channel", () => {
@@ -166,55 +167,55 @@ describe("Application Resources", () => {
   //   });
   // });
 
-  it("Given user logs in as sysadmin, user should be able to add helmrepo subscription", () => {
-    let filename = "02_subscription-helmrepo.yaml";
-    cy.createAppResource("subscription", "helmrepo");
-    pageLoader.shouldNotExist();
-    modal.shouldNotBeVisible();
-    cy.wrap(queryAppResourceInFile("Subscription", filename)).should("eq", 200);
-  });
+  // it("Given user logs in as sysadmin, user should be able to add helmrepo subscription", () => {
+  //   let filename = "02_subscription-helmrepo.yaml";
+  //   cy.createAppResource("subscription", "helmrepo");
+  //   pageLoader.shouldNotExist();
+  //   modal.shouldNotBeVisible();
+  //   cy.wrap(queryAppResourceInFile("Subscription", filename)).should("eq", 200);
+  // });
 
-  it("Given user logs in as sysadmin, user should be able to add helmrepo placement rule", () => {
-    let filename = "01_placementrule-helmrepo.yaml";
-    cy.createAppResource("placementrule", "helmrepo");
-    pageLoader.shouldNotExist();
-    modal.shouldNotBeVisible();
-    cy
-      .wrap(queryAppResourceInFile("PlacementRule", filename))
-      .should("eq", 200);
-  });
+  // it("Given user logs in as sysadmin, user should be able to add helmrepo placement rule", () => {
+  //   let filename = "01_placementrule-helmrepo.yaml";
+  //   cy.createAppResource("placementrule", "helmrepo");
+  //   pageLoader.shouldNotExist();
+  //   modal.shouldNotBeVisible();
+  //   cy
+  //     .wrap(queryAppResourceInFile("PlacementRule", filename))
+  //     .should("eq", 200);
+  // });
 
-  it("Given user logs in as sysadmin, user should be able to add helmrepo application", () => {
-    let appCount_b4 = 0;
-    let filename = "00_application-helmrepo.yaml";
-    cy.contains("Overview").click();
-    let appName = "";
-    cy.task("getResourceMetadataInFile", filename).then(meta => {
-      appName = meta.name;
-      cy.get(".page-content-container").then($element => {
-        if ($element.find(".no-resource").length < 1) {
-          cy.log($element.find(".no-resource").length);
-          cy
-            .get("#undefined-search")
-            .click()
-            .type(appName);
-          resourceTable.rowCount().then(rowCount => {
-            appCount_b4 = rowCount;
-          });
-        }
-        cy.createAppResource("application", "helmrepo");
-        pageLoader.shouldNotExist();
-        modal.shouldNotBeVisible();
-        cy
-          .wrap(queryAppResourceInFile("Application", filename))
-          .should("eq", 200);
-        resourceTable.rowShouldExist(appName);
-        resourceTable.rowCount().then(rowCount => {
-          expect(rowCount).to.equal(appCount_b4 + 1);
-        });
-      });
-    });
-  });
+  // it("Given user logs in as sysadmin, user should be able to add helmrepo application", () => {
+  //   let appCount_b4 = 0;
+  //   let filename = "00_application-helmrepo.yaml";
+  //   cy.contains("Overview").click();
+  //   let appName = "";
+  //   cy.task("getResourceMetadataInFile", filename).then(meta => {
+  //     appName = meta.name;
+  //     cy.get(".page-content-container").then($element => {
+  //       if ($element.find(".no-resource").length < 1) {
+  //         cy.log($element.find(".no-resource").length);
+  //         cy
+  //           .get("#undefined-search")
+  //           .click()
+  //           .type(appName);
+  //         resourceTable.rowCount().then(rowCount => {
+  //           appCount_b4 = rowCount;
+  //         });
+  //       }
+  //       cy.createAppResource("application", "helmrepo");
+  //       pageLoader.shouldNotExist();
+  //       modal.shouldNotBeVisible();
+  //       cy
+  //         .wrap(queryAppResourceInFile("Application", filename))
+  //         .should("eq", 200);
+  //       resourceTable.rowShouldExist(appName);
+  //       resourceTable.rowCount().then(rowCount => {
+  //         expect(rowCount).to.equal(appCount_b4 + 1);
+  //       });
+  //     });
+  //   });
+  // });
 
   //objectbucket channel
   // it("Given user logs in as sysadmin, user should be able to add object bucket channel", () => {
@@ -234,55 +235,55 @@ describe("Application Resources", () => {
   //   });
   // });
 
-  it("Given user logs in as sysadmin, user should be able to add objectbucket subscription", () => {
-    let filename = "02_subscription-objectbucket.yaml";
-    cy.createAppResource("subscription", "objectbucket");
-    pageLoader.shouldNotExist();
-    modal.shouldNotBeVisible();
-    cy.wrap(queryAppResourceInFile("Subscription", filename)).should("eq", 200);
-  });
+  // it("Given user logs in as sysadmin, user should be able to add objectbucket subscription", () => {
+  //   let filename = "02_subscription-objectbucket.yaml";
+  //   cy.createAppResource("subscription", "objectbucket");
+  //   pageLoader.shouldNotExist();
+  //   modal.shouldNotBeVisible();
+  //   cy.wrap(queryAppResourceInFile("Subscription", filename)).should("eq", 200);
+  // });
 
-  it("Given user logs in as sysadmin, user should be able to add objectbucket placement rule", () => {
-    let filename = "01_placementrule-objectbucket.yaml";
-    cy.createAppResource("placementrule", "objectbucket");
-    pageLoader.shouldNotExist();
-    modal.shouldNotBeVisible();
-    cy
-      .wrap(queryAppResourceInFile("PlacementRule", filename))
-      .should("eq", 200);
-  });
+  // it("Given user logs in as sysadmin, user should be able to add objectbucket placement rule", () => {
+  //   let filename = "01_placementrule-objectbucket.yaml";
+  //   cy.createAppResource("placementrule", "objectbucket");
+  //   pageLoader.shouldNotExist();
+  //   modal.shouldNotBeVisible();
+  //   cy
+  //     .wrap(queryAppResourceInFile("PlacementRule", filename))
+  //     .should("eq", 200);
+  // });
 
-  it("Given user logs in as sysadmin, user should be able to add objectbucket application", () => {
-    let appCount_b4 = 0;
-    let filename = "00_application-objectbucket.yaml";
-    cy.contains("Overview").click();
-    let appName = "";
-    cy.task("getResourceMetadataInFile", filename).then(meta => {
-      appName = meta.name;
-      cy.get(".page-content-container").then($element => {
-        if ($element.find(".no-resource").length < 1) {
-          cy.log($element.find(".no-resource").length);
-          cy
-            .get("#undefined-search")
-            .click()
-            .type(appName);
-          resourceTable.rowCount().then(rowCount => {
-            appCount_b4 = rowCount;
-          });
-        }
-        cy.createAppResource("application", "objectbucket");
-        pageLoader.shouldNotExist();
-        modal.shouldNotBeVisible();
-        cy
-          .wrap(queryAppResourceInFile("Application", filename))
-          .should("eq", 200);
-        resourceTable.rowShouldExist(appName);
-        resourceTable.rowCount().then(rowCount => {
-          expect(rowCount).to.equal(appCount_b4 + 1);
-        });
-      });
-    });
-  });
+  // it("Given user logs in as sysadmin, user should be able to add objectbucket application", () => {
+  //   let appCount_b4 = 0;
+  //   let filename = "00_application-objectbucket.yaml";
+  //   cy.contains("Overview").click();
+  //   let appName = "";
+  //   cy.task("getResourceMetadataInFile", filename).then(meta => {
+  //     appName = meta.name;
+  //     cy.get(".page-content-container").then($element => {
+  //       if ($element.find(".no-resource").length < 1) {
+  //         cy.log($element.find(".no-resource").length);
+  //         cy
+  //           .get("#undefined-search")
+  //           .click()
+  //           .type(appName);
+  //         resourceTable.rowCount().then(rowCount => {
+  //           appCount_b4 = rowCount;
+  //         });
+  //       }
+  //       cy.createAppResource("application", "objectbucket");
+  //       pageLoader.shouldNotExist();
+  //       modal.shouldNotBeVisible();
+  //       cy
+  //         .wrap(queryAppResourceInFile("Application", filename))
+  //         .should("eq", 200);
+  //       resourceTable.rowShouldExist(appName);
+  //       resourceTable.rowCount().then(rowCount => {
+  //         expect(rowCount).to.equal(appCount_b4 + 1);
+  //       });
+  //     });
+  //   });
+  // });
 
   after(() => {
     cy.logout();

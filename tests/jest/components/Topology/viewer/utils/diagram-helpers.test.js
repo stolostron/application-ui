@@ -29,7 +29,8 @@ import {
   addNodeInfoPerCluster,
   getClusterName,
   getPodState,
-  getNameWithoutChartRelease
+  getNameWithoutChartRelease,
+  removeReleaseGeneratedSuffix
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -3466,5 +3467,13 @@ describe("getPodState pod 2", () => {
 
   it("should return getPodState pod 2", () => {
     expect(getPodState(podItem, clusterName, types)).toEqual(result);
+  });
+});
+
+describe("removeReleaseGeneratedSuffix remove suffix", () => {
+  it("should remove generate suffix for the helmrelease", () => {
+    expect(removeReleaseGeneratedSuffix("nginx-ingress-66f46")).toEqual(
+      "nginx-ingress"
+    );
   });
 });

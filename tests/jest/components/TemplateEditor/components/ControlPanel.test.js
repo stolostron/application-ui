@@ -16,6 +16,11 @@ import renderer from "react-test-renderer";
 
 import { controlData } from "../../TestingData";
 
+// mock the Math.random() value
+const mockMath = Object.create(global.Math);
+mockMath.random = () => 0.5;
+global.Math = mockMath;
+
 describe("ControlPanel component", () => {
   it("renders as expected", () => {
     const component = renderer.create(

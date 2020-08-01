@@ -55,7 +55,7 @@ exports[`ControlPanel component renders as expected 1`] = `
               <div
                 aria-expanded={false}
                 aria-haspopup="true"
-                id="__carbon-tooltip-trigger_p9sbu3h5khs"
+                id="__carbon-tooltip-trigger_i"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -133,7 +133,7 @@ exports[`ControlPanel component renders as expected 1`] = `
               <div
                 aria-expanded={false}
                 aria-haspopup="true"
-                id="__carbon-tooltip-trigger_1ofc0thong5"
+                id="__carbon-tooltip-trigger_i"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}

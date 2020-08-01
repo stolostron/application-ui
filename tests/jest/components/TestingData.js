@@ -860,6 +860,51 @@ export const secondaryHeaderAllApps = {
   breadcrumbItems: []
 };
 
+export const portals = Object.freeze({
+  cancelBtn: "cancel-button-portal-id",
+  createBtn: "create-button-portal-id",
+  editBtn: "edit-button-portal-id"
+});
+
+const VALID_DNS_LABEL = "^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$";
+export const controlData = [
+  {
+    id: "main",
+    type: "section",
+    note: "creation.view.required.mark"
+  },
+  {
+    name: "creation.app.name",
+    tooltip: "tooltip.creation.app.name",
+    id: "name",
+    type: "text",
+    syncWith: "namespace",
+    validation: {
+      constraint: VALID_DNS_LABEL,
+      notification: "import.form.invalid.dns.label",
+      required: true
+    }
+  },
+  {
+    name: "creation.app.namespace",
+    tooltip: "tooltip.creation.app.namespace",
+    id: "namespace",
+    type: "text",
+    syncedWith: "name",
+    syncedSuffix: "-ns",
+    validation: {
+      constraint: VALID_DNS_LABEL,
+      notification: "import.form.invalid.dns.label",
+      required: true
+    }
+  }
+];
+
+export const createAppStore = {
+  controlData: controlData,
+  portals: portals
+};
+
 export const reduxStoreAppPipeline = {
   AppDeployments: {
     displaySubscriptionModal: false,

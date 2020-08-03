@@ -39,7 +39,11 @@ export const ApplicationDeploymentPipeline = loadable(() =>
   import(/* webpackChunkName: "applicationdeploymentpipeline" */ '../../components/ApplicationDeploymentPipeline')
 )
 
-const routes = ['', 'pipeline', 'yaml']
+export const ApplicationCreationPage = loadable(() =>
+  import(/* webpackChunkName: "applicationcreatepage" */ '../../components/ApplicationCreationPage/ApplicationCreationPage')
+)
+
+const routes = ['', 'pipeline', 'yaml', 'create']
 // This will render the two tabs
 // Overview, Resources
 const ApplicationHeaderTabs = withLocale(
@@ -72,18 +76,19 @@ const ApplicationHeaderTabs = withLocale(
     }
 
     // update breadcrumbs
-    const breadcrumbItems = []
-    breadcrumbItems.push({
+    const breadcrumbs = []
+    breadcrumbs.push({
       label: 'Applications',
       url: segments.join('/')
     })
     if (isSingleApplicationView) {
-      breadcrumbItems.push({
+      breadcrumbs.push({
         label: selectedAppName,
         url: [...segments, selectedAppNamespace, selectedAppName].join('/')
       })
     }
-    updateBreadcrumbs(breadcrumbItems)
+    updateBreadcrumbs(breadcrumbs)
+    selectedApp.breadcrumbs = breadcrumbs
 
     const noop = () => {
       // no op function for optional properties
@@ -110,7 +115,7 @@ const ApplicationHeaderTabs = withLocale(
         case 2:
           return (
             <div className="page-content-container">
-              <ApplicationDeploymentPipeline serverProps={serverProps} selectedApp={selectedApp} />
+              <ApplicationCreationPage serverProps={serverProps} selectedApp={selectedApp} />
             </div>
           )
         }
@@ -118,59 +123,62 @@ const ApplicationHeaderTabs = withLocale(
       return null
     }
 
-
-    return (
-      <div id="applicationheadertabs">
-        <div className="whiteSpacer">
-          <Tabs
-            className="some-class"
-            onClick={noop}
-            onKeyDown={noop}
-            selected={selectedTab}
-            onSelectionChange={id => {
-              // Remove previous success message if any
-              mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
-              mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
-              mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
-              mutateSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
-              deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
-              deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
-              deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
-              deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
-              // open the tab
-              const route = id>0 ? `${routes[id]}`:''
-              history.push(`${basePath}/${route}`)
-            }}
-            tabcontentclassname="tab-content"
-          >
-            <Tab
-              disabled={false}
+    if (selectedTab<=2) {
+      return (
+        <div id="applicationheadertabs">
+          <div className="whiteSpacer">
+            <Tabs
+              className="some-class"
               onClick={noop}
               onKeyDown={noop}
-              label={msgs.get('description.title.overview', locale)}
-            >
-              {renderTab(0)}
-            </Tab>
-            <Tab
-              disabled={false}
-              onClick={noop}
-              onKeyDown={noop}
-              label={msgs.get('description.title.deployments', locale)}
-            >
-              {renderTab(1)}
-            </Tab>
-            {isSingleApplicationView&&<Tab
-              disabled={false}
-              onClick={noop}
-              onKeyDown={noop}
-              label={msgs.get('description.title.yaml', locale)}
-          >
-              {renderTab(2)}
-            </Tab>}
-          </Tabs>
+              selected={selectedTab}
+              onSelectionChange={id => {
+                // Remove previous success message if any
+                mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+                mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+                mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+                mutateSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+                deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+                deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+                deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+                deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+                // open the tab
+                const route = id>0 ? `${routes[id]}`:''
+                history.push(`${basePath}/${route}`)
+              }}
+              tabcontentclassname="tab-content"
+              >
+              <Tab
+                disabled={false}
+                onClick={noop}
+                onKeyDown={noop}
+                label={msgs.get('description.title.overview', locale)}
+                >
+                {renderTab(0)}
+              </Tab>
+              <Tab
+                disabled={false}
+                onClick={noop}
+                onKeyDown={noop}
+                label={msgs.get('description.title.deployments', locale)}
+                >
+                {renderTab(1)}
+              </Tab>
+              {isSingleApplicationView&&<Tab
+                disabled={false}
+                onClick={noop}
+                onKeyDown={noop}
+                label={msgs.get('description.title.yaml', locale)}
+              >
+                  {renderTab(2)}
+                </Tab>}
+            </Tabs>
+          </div>
         </div>
-      </div>
-    )
+      )
+    } else {
+      return <ApplicationCreationPage secondaryHeaderProps={{title: 'application.create.title'}} />
+    }
   }
 )
 
@@ -181,8 +189,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(mutateResourceSuccessFinished(resourceType)),
     deleteSuccessFinished: resourceType =>
       dispatch(delResourceSuccessFinished(resourceType)),
-    updateBreadcrumbs: (breadcrumbItems) =>
-      dispatch(updateSecondaryHeader('', [], breadcrumbItems))
+    updateBreadcrumbs: (breadcrumbs) =>
+      dispatch(updateSecondaryHeader('', [], breadcrumbs))
   }
 }
 const mapStateToProps = state => {

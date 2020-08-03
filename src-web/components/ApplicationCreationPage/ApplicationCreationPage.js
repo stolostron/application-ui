@@ -37,6 +37,7 @@ resources(() => {
 class ApplicationCreationPage extends React.Component {
   static propTypes = {
     cleanReqStatus: PropTypes.func,
+    editApplication: PropTypes.object,
     handleCreateApplication: PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object,
@@ -78,8 +79,8 @@ class ApplicationCreationPage extends React.Component {
 
 
   componentDidMount(){
-    const breadcrumbs = this.getBreadcrumbs()
-    const { secondaryHeaderProps, cleanReqStatus } = this.props
+    const { secondaryHeaderProps={}, editApplication={}, cleanReqStatus } = this.props
+    const {selectedAppName, breadcrumbs= this.getBreadcrumbs()} = editApplication
     const { locale } = this.context
     if (cleanReqStatus) {
       this.props.cleanReqStatus()
@@ -99,7 +100,8 @@ class ApplicationCreationPage extends React.Component {
         kind: 'portal',
       }]
     const tooltip = ''//{ text: msgs.get('tooltip.text.createCluster', locale), link: TOOLTIP_LINKS.CREATE_CLUSTER }
-    this.props.updateSecondaryHeader(msgs.get(secondaryHeaderProps.title, locale),secondaryHeaderProps.tabs, breadcrumbs, portals, tooltip)
+    const title = selectedAppName || msgs.get(secondaryHeaderProps.title, locale)
+    this.props.updateSecondaryHeader(title, secondaryHeaderProps.tabs, breadcrumbs, portals, tooltip)
   }
 
   componentDidUpdate() {

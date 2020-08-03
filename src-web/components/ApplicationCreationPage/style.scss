@@ -20,197 +20,27 @@
 
       .creation-view-controls-container {
         padding-top: 1.0rem;
+        height: calc(100vh - 250px);
       }
     }
   }
 }
 
-
-.resourceDiagramSourceContainer {
-  position: relative;
-
-  /* diagram and controls */
-  .resourceDiagramControlsContainer {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.10);
-
-    /* title */
-    .diagram-title {
-      background-color: #fff;
-      font-weight: bold;
-      font-size: 14px;
-      border-bottom: 1px solid #dfe3e6;
-      padding: 15px;
+.tab-content {
+  .creation-view {
+    &.showEditor {
+      margin: -55px 0 -9.125rem 0;
     }
-
-    .diagram-title-divider {
-      background-color: #dcdcdc;
-      width: 1px;
-      height: 17px;
-      margin-left: 20px;
-      margin-right: 20px;
-      vertical-align: text-bottom;
-    }
-
-    .how-to-read-text {
-      color: #3d70b2;
-      font-size: 14px;
-      line-height: 20px;
-      text-align: left;
-      cursor: pointer;
-      margin-right: 4px;
-    }
-
-    .how-to-read-icon {
-      width: 14px;
-      height: 11px;
-      margin-left: 9px;
-    }
-
-    .bx--tooltip__trigger svg {
-      height: 14px;
-    }
-
-    /* filter bar */
-    .diagram-controls-container {
-      background-color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px 10px 10px;
-      border-top: 1px solid #dfe3e6;
-
-      .diagram-type-filter-bar {
-        display: flex;
-      }
-
-      .diagram-expand-button {
-        display: flex;
-        font-size: 12px;
-        cursor: pointer;
-        color: #3d70b2;
-
-        .icon {
-          margin-right: 8px;
-          width: 13px;
-          height: 13px;
-          stroke: #3d70b2;
+  
+    .creation-view-split-container {
+      &.showEditor {
+        height: calc(100vh - 260px);
+  
+        .creation-view-controls-container {
+          padding-top: 1.0rem;
+          height: calc(100vh - 265px);
         }
       }
     }
-  }
-
-  /* source editor */
-  .resourceEditorContainer {
-    width: 100%;
-    height: calc(100vh - 200px);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-
-    .resource-editor-toolbar {
-      display: flex;
-      align-items: center;
-      margin-top: 26px;
-    }
-
-    .bx--inline-notification {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      z-index: 1000;
-      background-color: white;
-    }
-  }
-
-  /* when editor is open */
-  &.showExpandedTopology {
-    height: calc(100vh - 213px);
-    margin: -30px -4rem -70px -3rem;
-
-    /* when editor is open, diagram and control positions */
-    .resourceDiagramControlsContainer {
-      height: calc(100vh - 225px);
-      box-shadow: none;
-
-      /* title */
-      .diagram-title {
-        display: none;
-      }
-
-      .topology-container {
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.10);
-      }
-
-
-      /* filter bar */
-      .diagram-controls-container {
-        border: none;
-        background-color: unset;
-        padding: 0 0 6px;
-      }
-    }
-  }
-
-  .last-update-container {
-    position: absolute;
-    right: 20px;
-    top: 10px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    font-size: 9px;
-    line-height: 12px;
-
-    .bx--loading--small {
-      width: 1rem;
-      height: 1rem;
-      margin: -2px 0;
-    }
-  }
-
-  /* when view is split, show details view on other side of diagram */
-  &.split {
-    .topologyDetails {
-      left: -200px;
-      right: unset;
-    }
-  }
-
-  .yamlEditorContainer {
-    height: calc(100% - 36px);
-
-    & * {
-      font-family: unset;
-    }
-  }
-
-  .Resizer {
-    width: 0;
-    opacity: .2;
-    z-index: 1;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding;
-    background-clip: padding-box;
-    border-left: 3px solid rgba(255, 255, 255, 0);
-    border-right: 3px solid rgba(255, 255, 255, 0);
-    cursor: col-resize;
-    margin: 0 5px;
-  }
-
-  .Resizer:hover {
-    -webkit-transition: all .2s ease;
-    transition: all .2s ease;
-  }
-
-  .Resizer.vertical:hover {
-    background: rgba(0, 0, 0, 0.5);
   }
 }

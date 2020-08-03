@@ -24,7 +24,7 @@ class CreateApplicationButton extends Component {
     return (
       <Link to={path} key='create-application'>
         <Button small icon={'add--glyph'} iconDescription='Add icon' kind="secondary">
-          {msgs.get('actions.create.application', locale)}
+          {msgs.get('actions.create.application.2.1', locale)}
         </Button>
       </Link>
     )

@@ -64,6 +64,10 @@ class ActionModalApollo extends React.PureComponent {
           })
       )
     }
+    case 'table.actions.applications.edit.2.1': {
+      location = `/multicloud/applications/${encodeURIComponent(data.namespace)}/${encodeURIComponent(data.name)}/yaml`
+      return null
+    }
     case 'table.actions.applications.grafana': {
       window.open(data.dashboard, '_blank')
       return null

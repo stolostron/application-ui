@@ -49,34 +49,18 @@ describe("Application Resources", () => {
   });
 
   it("Given user logs in as sysadmin, user should be able to add github application", () => {
-    let appCount_b4 = 0;
     let filename = "00_application-github.yaml";
     cy.contains("Overview").click();
     let appName = "";
     cy.task("getResourceMetadataInFile", filename).then(meta => {
       appName = meta.name;
-      cy.get(".page-content-container").then($element => {
-        if ($element.find(".no-resource").length < 1) {
-          cy.log($element.find(".no-resource").length);
-          cy
-            .get("#undefined-search")
-            .click()
-            .type(appName);
-          resourceTable.rowCount().then(rowCount => {
-            appCount_b4 = rowCount;
-          });
-        }
+      cy.get(".page-content-container").then(() => {
         cy.createAppResource("application", "github");
         pageLoader.shouldNotExist();
         modal.shouldNotBeVisible();
         cy
           .wrap(queryAppResourceInFile("Application", filename))
           .should("eq", 200);
-        // wait 90 seconds for search to return the application
-        resourceTable.rowShouldExist(appName, { timeout: 90000 });
-        resourceTable.rowCount().then(rowCount => {
-          expect(rowCount).to.equal(appCount_b4 + 1);
-        });
       });
     });
   });

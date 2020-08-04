@@ -56,16 +56,16 @@ metadata:
   name: {{{../../name}}}-{{{../channelName}}}
   namespace: {{{../../name}}}-{{{../channelName}}}-ns
 spec:
-  type: GitHub
+  type: Git
   pathname: '{{{../githubURL}}}' ##channels.{{@index}}.githubURL
 {{#if ../githubUser}}
   secretRef:
-    name: {{{../../../name}}}-github-authentication-{{@index}}
+    name: {{{../../../name}}}-git-authentication-{{@index}}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{{../../../name}}}-github-authentication-{{@index}}
+  name: {{{../../../name}}}-git-authentication-{{@index}}
   namespace: {{{../../../name}}}-{{{../../channelName}}}-ns
 data:
   user: {{{../../githubUser}}}

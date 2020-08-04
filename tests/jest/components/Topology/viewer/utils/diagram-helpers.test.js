@@ -799,7 +799,14 @@ describe("createResourceSearchLink for PR", () => {
   const node = {
     type: "rules",
     name: "rule1",
-    namespace: "ns"
+    namespace: "ns",
+    specs: {
+      raw: {
+        metadata: {
+          namespace: "ns"
+        }
+      }
+    }
   };
   const result = {
     type: "link",
@@ -824,7 +831,14 @@ describe("createResourceSearchLink for details", () => {
   const node = {
     type: "deployment",
     name: "name",
-    namespace: "ns"
+    namespace: "ns",
+    specs: {
+      raw: {
+        metadata: {
+          namespace: "ns"
+        }
+      }
+    }
   };
   const result = {
     type: "link",

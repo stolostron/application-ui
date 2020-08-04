@@ -103,8 +103,24 @@ export const getNodeDetails = node => {
 }
 
 function addK8Details(node, details) {
-  const { clusterName, namespace, type, layout = {} } = node
+  const { clusterName, type, layout = {} } = node
   const { type: ltype } = layout
+
+  // not all resources have a namespace
+
+  let namespace = ''
+  if (node && R.pathOr('', ['specs', 'pulse'])(node) !== 'orange') {
+    const kindModel = _.get(node, `specs.${type}Model`, {})
+    let computedNSList = []
+    Object.values(kindModel).forEach(item => {
+      computedNSList = R.union(computedNSList, [item.namespace])
+    })
+
+    computedNSList.forEach(item => {
+      namespace = namespace.length === 0 ? item : `${namespace},${item}`
+    })
+  }
+
   // the main stuff
   const mainDetails = [
     {
@@ -119,7 +135,7 @@ function addK8Details(node, details) {
       labelKey: 'resource.namespace',
       value: namespace
         ? namespace
-        : R.pathOr(undefined, ['specs', 'raw', 'metadata', 'namespace'])(node)
+        : R.pathOr('N/A', ['specs', 'raw', 'metadata', 'namespace'])(node)
     }
   ]
 

@@ -80,7 +80,7 @@ class App extends React.Component {
       !location.pathname.startsWith('/multicloud/welcome') &&
       !location.pathname.startsWith('/multicloud/overview') &&
       !location.pathname.startsWith('/multicloud/search')
-    const showExtraTabs =
+    const showSingleApp =
       location.pathname &&
       location.pathname.startsWith('/multicloud/applications/') &&
       location.pathname.split('/').length === 5
@@ -89,13 +89,20 @@ class App extends React.Component {
       <div className="expand-vertically">
         {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
-          <Route path={`${match.url}/create`} render={() => <ApplicationCreationPage secondaryHeaderProps={{title: 'application.create.title'}} />} />
+          <Route
+            path={`${match.url}/create`}
+            render={() => (
+              <ApplicationCreationPage
+                secondaryHeaderProps={{ title: 'application.create.title' }}
+              />
+            )}
+          />
           <Route
             path={`${match.url}`}
             render={params => (
               <ApplicationHeaderTabs
                 params={params}
-                showExtraTabs={showExtraTabs}
+                showSingleApp={showSingleApp}
                 serverProps={this.getServerProps()}
               />
             )}

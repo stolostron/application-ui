@@ -27,7 +27,7 @@ import {
   closeModals
 } from '../../../reducers/reducerAppDeployments'
 import apolloClient from '../../../../lib/client/apollo-client'
-import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
+import OverviewCards from '../OverviewCards'
 import { RESOURCE_TYPES, DOC_LINKS } from '../../../../lib/shared/constants'
 import { updateModal } from '../../../actions/common'
 import HeaderActions from '../../common/HeaderActions'

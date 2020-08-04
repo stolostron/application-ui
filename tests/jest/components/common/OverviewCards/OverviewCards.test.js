@@ -6,7 +6,7 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-jest.mock("../../../../../../../lib/client/apollo-client", () => ({
+jest.mock("../../../../../lib/client/apollo-client", () => ({
   getSearchClient: jest.fn(() => {
     return null;
   }),
@@ -45,13 +45,13 @@ jest.mock("../../../../../../../lib/client/apollo-client", () => ({
   }),
   search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
 }));
-const React = require("../../../../../../../node_modules/react");
+const React = require("../../../../../node_modules/react");
 
-import OverviewCards from "../../../../../../../src-web/components/ApplicationDeploymentPipeline/components/InfoCards/OverviewCards";
+import OverviewCards from "../../../../../src-web/components/common/OverviewCards";
 
 import { mount } from "enzyme";
 import renderer from "react-test-renderer";
-import * as reducers from "../../../../../../../src-web/reducers";
+import * as reducers from "../../../../../src-web/reducers";
 
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
@@ -60,10 +60,7 @@ import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
 import { MockedProvider } from "react-apollo/test-utils";
 
-import {
-  reduxStoreAppPipelineWithCEM,
-  serverProps
-} from "../../../../TestingData";
+import { reduxStoreAppPipelineWithCEM, serverProps } from "../../TestingData";
 
 const preloadedState = window.__PRELOADED_STATE__;
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

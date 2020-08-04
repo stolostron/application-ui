@@ -11,14 +11,14 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
       className="bx--accordion"
     >
       <li
-        className="bx--accordion__item"
+        className="bx--accordion__item--active bx--accordion__item"
         onClick={[Function]}
         onKeyPress={[Function]}
-        open={false}
+        open={true}
         role="presentation"
       >
         <button
-          aria-expanded={false}
+          aria-expanded={true}
           className="bx--accordion__heading"
           onClick={[Function]}
           type="button"
@@ -295,14 +295,14 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
       className="bx--accordion"
     >
       <li
-        className="bx--accordion__item"
+        className="bx--accordion__item--active bx--accordion__item"
         onClick={[Function]}
         onKeyPress={[Function]}
-        open={false}
+        open={true}
         role="presentation"
       >
         <button
-          aria-expanded={false}
+          aria-expanded={true}
           className="bx--accordion__heading"
           onClick={[Function]}
           type="button"

@@ -11,6 +11,8 @@
 import React from 'react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
+import { Query } from 'react-apollo'
+import { getApplication } from '../../../lib/client/queries'
 import PropTypes from 'prop-types'
 import Page from '../common/Page'
 import { withRouter } from 'react-router-dom'
@@ -119,6 +121,45 @@ class ApplicationCreationPage extends React.Component {
 
   render() {
     const { locale } = this.context
+    const { editApplication } = this.props
+    if (editApplication) {
+      // if editing an existing app, grab it first
+      const {selectedAppName, selectedAppNamespace} = editApplication
+      return (
+        <Page>
+          <Query query={getApplication} variables={{name: selectedAppName, namespace: selectedAppNamespace}} >
+            {( result ) => {
+              const { loading } = result
+              const { data={} } = result
+              const { application } = data
+              const errored = application ? false : true
+              const error = application ? null : result.error
+              if (!loading && error) {
+                const errorName = result.error.graphQLErrors[0].name ? result.error.graphQLErrors[0].name : error.name
+                error.name = errorName
+              }
+
+
+
+
+
+              return this.renderEditor()
+            }
+            }
+          </Query>
+        </Page>
+      )
+    }
+    return (
+      <Page>
+        {this.renderEditor()}
+      </Page>
+    )
+    return
+  }
+
+  renderEditor() {
+    const { locale } = this.context
     const { mutateStatus, mutateErrorMsgs, updateFormState, savedFormData, history } = this.props
     const createControl = {
       createResource: this.handleCreate.bind(this),
@@ -128,21 +169,19 @@ class ApplicationCreationPage extends React.Component {
     }
     const {controlData:cd, fetchControl} = this.state
     return (
-      <Page>
-        <TemplateEditor
-          type={'application'}
-          title={msgs.get('creation.app.yaml', locale)}
-          template={createTemplate}
-          controlData={cd}
-          portals={Portals}
-          fetchControl={fetchControl}
-          createControl={createControl}
-          locale={locale}
-          updateFormState={updateFormState}
-          savedFormData={savedFormData}
-          history={history}
+      <TemplateEditor
+        type={'application'}
+        title={msgs.get('creation.app.yaml', locale)}
+        template={createTemplate}
+        controlData={cd}
+        portals={Portals}
+        fetchControl={fetchControl}
+        createControl={createControl}
+        locale={locale}
+        updateFormState={updateFormState}
+        savedFormData={savedFormData}
+        history={history}
         />
-      </Page>
     )
   }
 

@@ -96,7 +96,7 @@ const githubChannelData = [
     placeholder: 'app.enter.select.github.url',
     available: [],
     validation: VALIDATE_URL,
-    fetchAvailable: loadExistingChannels('github'),
+    fetchAvailable: loadExistingChannels('git'),
     cacheUserValueKey: 'create.app.github.url',
     onSelect: updateChannelControls
   },
@@ -187,7 +187,7 @@ const objectstoreChannelData = [
   ///////////////////////  Objectstore  /////////////////////////////////////
   {
     name: 'creation.app.objectstore.url',
-    tooltip: 'tooltip.creation.app.github.url',
+    tooltip: 'tooltip.creation.app.objectstore.url',
     id: 'objectstoreURL',
     type: 'combobox',
     active: '',
@@ -300,7 +300,7 @@ export const controlData = [
             id: 'github',
             logo: 'resource-github-icon.svg',
             title: 'creation.app.channel.github',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.git',
             change: {
               insertControlData: githubChannelData
             }
@@ -309,7 +309,7 @@ export const controlData = [
             id: 'deployable',
             logo: 'resource-deployable-icon.svg',
             title: 'creation.app.channel.deployable',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.namespace',
             change: {
               insertControlData: deployableChannelData
             }
@@ -318,7 +318,7 @@ export const controlData = [
             id: 'helmrepo',
             logo: 'resource-helmrepo-icon.svg',
             title: 'creation.app.channel.helmrepo',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.helmrepo',
             change: {
               insertControlData: helmReleaseChannelData
             }
@@ -327,7 +327,7 @@ export const controlData = [
             id: 'objectstore',
             logo: 'resource-objectstore-icon.svg',
             title: 'creation.app.channel.objectstore',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.objectstore',
             change: {
               insertControlData: objectstoreChannelData
             }

@@ -47,11 +47,11 @@ export SERVICEACCT_TOKEN=`${BUILD_HARNESS_PATH}/vendor/oc whoami --show-token`
 echo "SERVICEACCT_TOKEN=$SERVICEACCT_TOKEN"
 
 #application-ui
-docker run --network test-network -d --ip 10.10.0.6 -t -i -p 3000:3000 --name application-ui \
+docker run --network test-network -d --ip 10.10.0.6 -t -i -p 3001:3001 --name application-ui \
 -e NODE_ENV=development \
 -e SERVICEACCT_TOKEN=$SERVICEACCT_TOKEN \
 -e headerUrl=$headerUrl \
--e OAUTH2_REDIRECT_URL=https://localhost:3000/multicloud/auth/callback \
+-e OAUTH2_REDIRECT_URL=https://localhost:3001/multicloud/applications/auth/callback \\
 -e hcmUiApiUrl=$hcmUiApiUrl \
 -e searchApiUrl=$searchApiUrl \
 -e PLATFORM_IDENTITY_PROVIDER_URL=$PLATFORM_IDENTITY_PROVIDER_URL \

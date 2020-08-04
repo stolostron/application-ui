@@ -78,7 +78,7 @@ run-test-image-pr:
 	-e BROWSER=$(BROWSER) \
 	-e USER=$(shell git log -1 --format='%ae') \
 	-e CYPRESS_TEST_MODE=functional \
-	-e CYPRESS_BASE_URL=https://localhost:3000 \
+	-e CYPRESS_BASE_URL=https://localhost:3001 \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \
 	-e JOB_ID=$(TRAVIS_JOB_ID) \
 	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \

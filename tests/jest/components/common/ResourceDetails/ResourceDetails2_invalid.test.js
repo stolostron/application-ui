@@ -18,6 +18,14 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
     };
     return Promise.resolve(data);
   }),
+  get: jest.fn(resourceType => {
+    const data = {
+      data: {
+        items: []
+      }
+    };
+    return Promise.resolve(data);
+  }),
   search: jest.fn(resourceType => {
     return Promise.resolve({
       response: {

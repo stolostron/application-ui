@@ -12,33 +12,31 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { SkeletonText } from 'carbon-components-react'
-import resources from '../../../../../../lib/shared/resources'
-import { RESOURCE_TYPES } from '../../../../../../lib/shared/constants'
-import { fetchResources } from '../../../../../actions/common'
+import resources from '../../../../lib/shared/resources'
+import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
+import { fetchResources } from '../../../actions/common'
 import { bindActionCreators } from 'redux'
-import * as Actions from '../../../../../actions'
-import msgs from '../../../../../../nls/platform.properties'
+import * as Actions from '../../../actions'
+import msgs from '../../../../nls/platform.properties'
 import {
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClustersSingle,
   getPodData,
-  concatDataForSubTextKey
-} from '../utils'
-import {
+  concatDataForSubTextKey,
   getSearchLinkForOneApplication,
   getCardsCommonDetails
-} from '../../../../common/ResourceOverview/utils'
+} from '../ResourceOverview/utils'
 import {
   startPolling,
   stopPolling,
   handleRefreshPropertiesChanged,
   handleVisibilityChanged
-} from '../../../../../shared/utils/refetch'
+} from '../../../shared/utils/refetch'
 
 /* eslint-disable react/prop-types */
 
 resources(() => {
-  require('../style.scss')
+  require('./style.scss')
 })
 
 const mapDispatchToProps = dispatch => {

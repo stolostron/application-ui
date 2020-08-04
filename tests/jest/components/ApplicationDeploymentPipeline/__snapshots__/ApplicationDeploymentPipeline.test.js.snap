@@ -88,17 +88,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
-    className="pipelineHeader"
-  >
-    Resource pipeline
-     
-    <span>
-      (
-      0
-      )
-    </span>
-  </div>
-  <div
     id="DeploymentHighlights"
   >
     <div
@@ -108,14 +97,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         className="bx--accordion"
       >
         <li
-          className="bx--accordion__item"
+          className="bx--accordion__item--active bx--accordion__item"
           onClick={[Function]}
           onKeyPress={[Function]}
-          open={false}
+          open={true}
           role="presentation"
         >
           <button
-            aria-expanded={false}
+            aria-expanded={true}
             className="bx--accordion__heading"
             onClick={[Function]}
             type="button"
@@ -235,247 +224,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           </div>
         </li>
       </ul>
-    </div>
-  </div>
-  <div
-    className="resource-cards-container"
-  >
-    <div
-      className="resource-cards-info-container"
-    >
-      <div
-        className="resource-cards-info"
-      >
-        <div
-          className="single-card clickable"
-          id="0_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Subscriptions
-          </div>
-          <div
-            className="card-text"
-          >
-            On hub cluster
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="1_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Managed clusters
-          </div>
-          <div
-            className="card-text"
-          >
-            0 Total subscriptions
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="2_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            3
-          </div>
-          <div
-            className="card-type"
-          >
-            Channels
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="3_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Placement rule
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="resource-cards-create-container"
-    >
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-subscription"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create subscription
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-placement-rule"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create placement rule
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-channel"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create channel
-            <svg
-              alt="Open channel editor"
-              aria-label="Open channel editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open channel editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
   <div
@@ -957,6 +705,116 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               Close
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="resource-cards-container"
+  >
+    <div
+      className="resource-cards-create-container"
+    >
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-subscription"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create subscription
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-placement-rule"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create placement rule
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-channel"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create channel
+            <svg
+              alt="Open channel editor"
+              aria-label="Open channel editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open channel editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -1052,17 +910,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
-    className="pipelineHeader"
-  >
-    Resource pipeline
-     
-    <span>
-      (
-      3
-      )
-    </span>
-  </div>
-  <div
     id="DeploymentHighlights"
   >
     <div
@@ -1072,14 +919,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         className="bx--accordion"
       >
         <li
-          className="bx--accordion__item"
+          className="bx--accordion__item--active bx--accordion__item"
           onClick={[Function]}
           onKeyPress={[Function]}
-          open={false}
+          open={true}
           role="presentation"
         >
           <button
-            aria-expanded={false}
+            aria-expanded={true}
             className="bx--accordion__heading"
             onClick={[Function]}
             type="button"
@@ -1199,247 +1046,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           </div>
         </li>
       </ul>
-    </div>
-  </div>
-  <div
-    className="resource-cards-container"
-  >
-    <div
-      className="resource-cards-info-container"
-    >
-      <div
-        className="resource-cards-info"
-      >
-        <div
-          className="single-card clickable"
-          id="0_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Subscriptions
-          </div>
-          <div
-            className="card-text"
-          >
-            On hub cluster
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="1_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Managed clusters
-          </div>
-          <div
-            className="card-text"
-          >
-            0 Total subscriptions
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="2_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            3
-          </div>
-          <div
-            className="card-type"
-          >
-            Channels
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="3_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Placement rule
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="resource-cards-create-container"
-    >
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-subscription"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create subscription
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-placement-rule"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create placement rule
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-channel"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create channel
-            <svg
-              alt="Open channel editor"
-              aria-label="Open channel editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open channel editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
   <div
@@ -2433,6 +2039,116 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               Close
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="resource-cards-container"
+  >
+    <div
+      className="resource-cards-create-container"
+    >
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-subscription"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create subscription
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-placement-rule"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create placement rule
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-channel"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create channel
+            <svg
+              alt="Open channel editor"
+              aria-label="Open channel editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open channel editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -2528,17 +2244,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
-    className="pipelineHeader"
-  >
-    Resource pipeline
-     
-    <span>
-      (
-      3
-      )
-    </span>
-  </div>
-  <div
     id="DeploymentHighlights"
   >
     <div
@@ -2548,14 +2253,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         className="bx--accordion"
       >
         <li
-          className="bx--accordion__item"
+          className="bx--accordion__item--active bx--accordion__item"
           onClick={[Function]}
           onKeyPress={[Function]}
-          open={false}
+          open={true}
           role="presentation"
         >
           <button
-            aria-expanded={false}
+            aria-expanded={true}
             className="bx--accordion__heading"
             onClick={[Function]}
             type="button"
@@ -2675,247 +2380,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           </div>
         </li>
       </ul>
-    </div>
-  </div>
-  <div
-    className="resource-cards-container"
-  >
-    <div
-      className="resource-cards-info-container"
-    >
-      <div
-        className="resource-cards-info"
-      >
-        <div
-          className="single-card clickable"
-          id="0_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Subscriptions
-          </div>
-          <div
-            className="card-text"
-          >
-            On hub cluster
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="1_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Managed clusters
-          </div>
-          <div
-            className="card-text"
-          >
-            0 Total subscriptions
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="2_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            3
-          </div>
-          <div
-            className="card-type"
-          >
-            Channels
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="3_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Placement rule
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="resource-cards-create-container"
-    >
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-subscription"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create subscription
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-placement-rule"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create placement rule
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-channel"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create channel
-            <svg
-              alt="Open channel editor"
-              aria-label="Open channel editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open channel editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
   <div
@@ -3913,6 +3377,116 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       </div>
     </div>
   </div>
+  <div
+    className="resource-cards-container"
+  >
+    <div
+      className="resource-cards-create-container"
+    >
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-subscription"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create subscription
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-placement-rule"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create placement rule
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-channel"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create channel
+            <svg
+              alt="Open channel editor"
+              aria-label="Open channel editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open channel editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -4004,95 +3578,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
-    className="app-info-and-dashboard-links"
-  >
-    <span>
-      <a
-        aria-disabled={false}
-        className="bx--link"
-        href="https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <svg
-          alt="Provide a description that will be used as the title"
-          aria-label="Provide a description that will be used as the title"
-          className="app-dashboard-icon"
-          fill="#3D70B2"
-          fillRule="evenodd"
-          height="16"
-          name="icon--launch"
-          role="img"
-          viewBox="0 0 16 16"
-          width="16"
-        >
-          <title>
-            Provide a description that will be used as the title
-          </title>
-          <path
-            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-          />
-          <path
-            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-          />
-          <path
-            d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
-          />
-        </svg>
-        Grafana
-      </a>
-      <span
-        className="app-info-and-dashboard-links-separator"
-      />
-    </span>
-    <a
-      aria-disabled={false}
-      className="bx--link"
-      href="#"
-      id="headerAppLink"
-      onClick={[Function]}
-    >
-      <svg
-        alt="Provide a description that will be used as the title"
-        aria-label="Provide a description that will be used as the title"
-        className="app-dashboard-icon"
-        fill="#3D70B2"
-        fillRule="evenodd"
-        height="16"
-        name="icon--edit"
-        role="img"
-        viewBox="0 0 16 16"
-        width="16"
-      >
-        <title>
-          Provide a description that will be used as the title
-        </title>
-        <path
-          d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-        />
-      </svg>
-      Edit app
-    </a>
-    <span
-      className="app-info-and-dashboard-links-separator"
-    />
-     
-    <span
-      className="app-info-and-dashboard-links-separator-f"
-    />
-  </div>
-  <div
-    className="pipelineHeader"
-  >
-    Resource pipeline
-     
-    <span>
-      (
-      0
-      )
-    </span>
-  </div>
-  <div
     id="DeploymentHighlights"
   >
     <div
@@ -4102,14 +3587,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         className="bx--accordion"
       >
         <li
-          className="bx--accordion__item"
+          className="bx--accordion__item--active bx--accordion__item"
           onClick={[Function]}
           onKeyPress={[Function]}
-          open={false}
+          open={true}
           role="presentation"
         >
           <button
-            aria-expanded={false}
+            aria-expanded={true}
             className="bx--accordion__heading"
             onClick={[Function]}
             type="button"
@@ -4232,318 +3717,69 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
-    className="resource-cards-container"
+    className="searchAndButtonContainer"
   >
     <div
-      className="resource-cards-info-container"
+      aria-labelledby="search-1-label"
+      className="bx--search bx--search--lg bx--search--light deploymentPipelineSearch"
+      role="search"
     >
-      <div
-        className="resource-cards-info single-app"
+      <svg
+        alt="Find applications"
+        aria-label="Find applications"
+        className="bx--search-magnifier"
+        fillRule="evenodd"
+        height="16"
+        role="img"
+        viewBox="0 0 16 16"
+        width="16"
       >
-        <div
-          className="single-card clickable"
-          id="0_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
+        <title>
+          Find applications
+        </title>
+        <path
+          d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm4.936-1.27l4.563 4.557-.707.708-4.563-4.558a6.5 6.5 0 1 1 .707-.707z"
+        />
+      </svg>
+      <label
+        className="bx--label"
+        htmlFor="search-1"
+        id="search-1-label"
+      >
+        Find applications
+      </label>
+      <input
+        className="bx--search-input"
+        defaultValue=""
+        id="search-1"
+        name=""
+        onChange={[Function]}
+        placeholder="Find applications"
+        type="text"
+      />
+      <button
+        aria-label=""
+        className="bx--search-close bx--search-close--hidden"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          alt=""
+          aria-label=""
+          fillRule="evenodd"
+          height="16"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
         >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Subscription
-          </div>
-          <div
-            className="card-text"
-          >
-            On hub cluster
-          </div>
-          <div
-            className="row-divider"
+          <title>
+            
+          </title>
+          <path
+            d="M8 6.586L5.879 4.464 4.464 5.88 6.586 8l-2.122 2.121 1.415 1.415L8 9.414l2.121 2.122 1.415-1.415L9.414 8l2.122-2.121-1.415-1.415L8 6.586zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
           />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="1_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Managed cluster
-          </div>
-          <div
-            className="card-text"
-          >
-            10 Total subscriptions
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            6 failed
-          </div>
-          <div
-            className="card-subtext"
-          >
-            3 no status
-          </div>
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="2_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Channel
-          </div>
-          <div
-            className="card-text"
-          >
-            In use
-          </div>
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card"
-          id="3_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            0
-          </div>
-          <div
-            className="card-type"
-          >
-            Placement rules
-          </div>
-          <div
-            className="card-text"
-          >
-            In use
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="resource-cards-create-container"
-    >
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-subscription"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create subscription
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-placement-rule"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create placement rule
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-channel"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create channel
-            <svg
-              alt="Open channel editor"
-              aria-label="Open channel editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open channel editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    className="show-channels-container"
-  >
-    <div>
-      <div
-        className="bx--form-item bx--checkbox-wrapper"
-      >
-        <input
-          className="bx--checkbox"
-          id="ShowAllChannels"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <label
-          className="bx--checkbox-label"
-          htmlFor="ShowAllChannels"
-          title={null}
-        >
-          <span
-            className=""
-          >
-            Show all channels
-          </span>
-        </label>
-      </div>
-    </div>
-    <div
-      className="show-channels-icon"
-    >
-      <div
-        className="bx--tooltip__trigger"
-      >
-        
-        <div
-          aria-expanded={false}
-          aria-haspopup="true"
-          id="__carbon-tooltip-trigger_i"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <svg
-            alt="tooltip"
-            aria-label="tooltip"
-            fillRule="evenodd"
-            height="24"
-            name="info"
-            role="img"
-            viewBox="0 0 24 24"
-            width="24"
-          >
-            <title>
-              
-            </title>
-            <path
-              d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"
-            />
-            <path
-              d="M14 10H9v2h2v4H9v2h7v-2h-2zM11 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
-            />
-          </svg>
-        </div>
-      </div>
+        </svg>
+      </button>
     </div>
   </div>
   <div
@@ -4963,6 +4199,116 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       </div>
     </div>
   </div>
+  <div
+    className="resource-cards-container"
+  >
+    <div
+      className="resource-cards-create-container"
+    >
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-subscription"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create subscription
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-placement-rule"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create placement rule
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-channel"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create channel
+            <svg
+              alt="Open channel editor"
+              aria-label="Open channel editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open channel editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -5054,17 +4400,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
-    className="pipelineHeader"
-  >
-    Resource pipeline
-     
-    <span>
-      (
-      3
-      )
-    </span>
-  </div>
-  <div
     id="DeploymentHighlights"
   >
     <div
@@ -5074,14 +4409,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         className="bx--accordion"
       >
         <li
-          className="bx--accordion__item"
+          className="bx--accordion__item--active bx--accordion__item"
           onClick={[Function]}
           onKeyPress={[Function]}
-          open={false}
+          open={true}
           role="presentation"
         >
           <button
-            aria-expanded={false}
+            aria-expanded={true}
             className="bx--accordion__heading"
             onClick={[Function]}
             type="button"
@@ -5201,247 +4536,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           </div>
         </li>
       </ul>
-    </div>
-  </div>
-  <div
-    className="resource-cards-container"
-  >
-    <div
-      className="resource-cards-info-container"
-    >
-      <div
-        className="resource-cards-info"
-      >
-        <div
-          className="single-card clickable"
-          id="0_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Subscriptions
-          </div>
-          <div
-            className="card-text"
-          >
-            On hub cluster
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="1_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Managed clusters
-          </div>
-          <div
-            className="card-text"
-          >
-            0 Total subscriptions
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="2_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            3
-          </div>
-          <div
-            className="card-type"
-          >
-            Channels
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="3_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Placement rule
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="resource-cards-create-container"
-    >
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-subscription"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create subscription
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-placement-rule"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create placement rule
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-channel"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create channel
-            <svg
-              alt="Open channel editor"
-              aria-label="Open channel editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open channel editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
   <div
@@ -6435,6 +5529,116 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               Close
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="resource-cards-container"
+  >
+    <div
+      className="resource-cards-create-container"
+    >
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-subscription"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create subscription
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-placement-rule"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create placement rule
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-channel"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create channel
+            <svg
+              alt="Open channel editor"
+              aria-label="Open channel editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open channel editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -6530,17 +5734,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
-    className="pipelineHeader"
-  >
-    Resource pipeline
-     
-    <span>
-      (
-      3
-      )
-    </span>
-  </div>
-  <div
     id="DeploymentHighlights"
   >
     <div
@@ -6550,14 +5743,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         className="bx--accordion"
       >
         <li
-          className="bx--accordion__item"
+          className="bx--accordion__item--active bx--accordion__item"
           onClick={[Function]}
           onKeyPress={[Function]}
-          open={false}
+          open={true}
           role="presentation"
         >
           <button
-            aria-expanded={false}
+            aria-expanded={true}
             className="bx--accordion__heading"
             onClick={[Function]}
             type="button"
@@ -6677,247 +5870,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           </div>
         </li>
       </ul>
-    </div>
-  </div>
-  <div
-    className="resource-cards-container"
-  >
-    <div
-      className="resource-cards-info-container"
-    >
-      <div
-        className="resource-cards-info"
-      >
-        <div
-          className="single-card clickable"
-          id="0_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Subscriptions
-          </div>
-          <div
-            className="card-text"
-          >
-            On hub cluster
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="1_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Managed clusters
-          </div>
-          <div
-            className="card-text"
-          >
-            0 Total subscriptions
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="2_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            3
-          </div>
-          <div
-            className="card-type"
-          >
-            Channels
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="3_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Placement rule
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="resource-cards-create-container"
-    >
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-subscription"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create subscription
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-placement-rule"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create placement rule
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-channel"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create channel
-            <svg
-              alt="Open channel editor"
-              aria-label="Open channel editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open channel editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
   <div
@@ -7911,6 +6863,116 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               Close
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="resource-cards-container"
+  >
+    <div
+      className="resource-cards-create-container"
+    >
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-subscription"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create subscription
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-placement-rule"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create placement rule
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-channel"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create channel
+            <svg
+              alt="Open channel editor"
+              aria-label="Open channel editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open channel editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -8006,17 +7068,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
-    className="pipelineHeader"
-  >
-    Resource pipeline
-     
-    <span>
-      (
-      3
-      )
-    </span>
-  </div>
-  <div
     id="DeploymentHighlights"
   >
     <div
@@ -8026,14 +7077,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         className="bx--accordion"
       >
         <li
-          className="bx--accordion__item"
+          className="bx--accordion__item--active bx--accordion__item"
           onClick={[Function]}
           onKeyPress={[Function]}
-          open={false}
+          open={true}
           role="presentation"
         >
           <button
-            aria-expanded={false}
+            aria-expanded={true}
             className="bx--accordion__heading"
             onClick={[Function]}
             type="button"
@@ -8153,247 +7204,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           </div>
         </li>
       </ul>
-    </div>
-  </div>
-  <div
-    className="resource-cards-container"
-  >
-    <div
-      className="resource-cards-info-container"
-    >
-      <div
-        className="resource-cards-info"
-      >
-        <div
-          className="single-card clickable"
-          id="0_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Subscriptions
-          </div>
-          <div
-            className="card-text"
-          >
-            On hub cluster
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="1_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Managed clusters
-          </div>
-          <div
-            className="card-text"
-          >
-            0 Total subscriptions
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="2_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            3
-          </div>
-          <div
-            className="card-type"
-          >
-            Channels
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="3_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Placement rule
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="resource-cards-create-container"
-    >
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-subscription"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create subscription
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-placement-rule"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create placement rule
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-channel"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create channel
-            <svg
-              alt="Open channel editor"
-              aria-label="Open channel editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open channel editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
   <div
@@ -9387,6 +8197,116 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               Close
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="resource-cards-container"
+  >
+    <div
+      className="resource-cards-create-container"
+    >
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-subscription"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create subscription
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-placement-rule"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create placement rule
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-channel"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create channel
+            <svg
+              alt="Open channel editor"
+              aria-label="Open channel editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open channel editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -9482,17 +8402,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
-    className="pipelineHeader"
-  >
-    Resource pipeline
-     
-    <span>
-      (
-      3
-      )
-    </span>
-  </div>
-  <div
     id="DeploymentHighlights"
   >
     <div
@@ -9502,14 +8411,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         className="bx--accordion"
       >
         <li
-          className="bx--accordion__item"
+          className="bx--accordion__item--active bx--accordion__item"
           onClick={[Function]}
           onKeyPress={[Function]}
-          open={false}
+          open={true}
           role="presentation"
         >
           <button
-            aria-expanded={false}
+            aria-expanded={true}
             className="bx--accordion__heading"
             onClick={[Function]}
             type="button"
@@ -9629,247 +8538,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           </div>
         </li>
       </ul>
-    </div>
-  </div>
-  <div
-    className="resource-cards-container"
-  >
-    <div
-      className="resource-cards-info-container"
-    >
-      <div
-        className="resource-cards-info"
-      >
-        <div
-          className="single-card clickable"
-          id="0_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Subscriptions
-          </div>
-          <div
-            className="card-text"
-          >
-            On hub cluster
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="1_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            2
-          </div>
-          <div
-            className="card-type"
-          >
-            Managed clusters
-          </div>
-          <div
-            className="card-text"
-          >
-            0 Total subscriptions
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="2_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            3
-          </div>
-          <div
-            className="card-type"
-          >
-            Channels
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="3_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Placement rule
-          </div>
-          <div
-            className="card-text"
-          >
-            Total
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="resource-cards-create-container"
-    >
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-subscription"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create subscription
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-placement-rule"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create placement rule
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-channel"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create channel
-            <svg
-              alt="Open channel editor"
-              aria-label="Open channel editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open channel editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
   <div
@@ -10867,6 +9535,116 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       </div>
     </div>
   </div>
+  <div
+    className="resource-cards-container"
+  >
+    <div
+      className="resource-cards-create-container"
+    >
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-subscription"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create subscription
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-placement-rule"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create placement rule
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-channel"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create channel
+            <svg
+              alt="Open channel editor"
+              aria-label="Open channel editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open channel editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -10958,95 +9736,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
-    className="app-info-and-dashboard-links"
-  >
-    <span>
-      <a
-        aria-disabled={false}
-        className="bx--link"
-        href="https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <svg
-          alt="Provide a description that will be used as the title"
-          aria-label="Provide a description that will be used as the title"
-          className="app-dashboard-icon"
-          fill="#3D70B2"
-          fillRule="evenodd"
-          height="16"
-          name="icon--launch"
-          role="img"
-          viewBox="0 0 16 16"
-          width="16"
-        >
-          <title>
-            Provide a description that will be used as the title
-          </title>
-          <path
-            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-          />
-          <path
-            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-          />
-          <path
-            d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
-          />
-        </svg>
-        Grafana
-      </a>
-      <span
-        className="app-info-and-dashboard-links-separator"
-      />
-    </span>
-    <a
-      aria-disabled={false}
-      className="bx--link"
-      href="#"
-      id="headerAppLink"
-      onClick={[Function]}
-    >
-      <svg
-        alt="Provide a description that will be used as the title"
-        aria-label="Provide a description that will be used as the title"
-        className="app-dashboard-icon"
-        fill="#3D70B2"
-        fillRule="evenodd"
-        height="16"
-        name="icon--edit"
-        role="img"
-        viewBox="0 0 16 16"
-        width="16"
-      >
-        <title>
-          Provide a description that will be used as the title
-        </title>
-        <path
-          d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-        />
-      </svg>
-      Edit app
-    </a>
-    <span
-      className="app-info-and-dashboard-links-separator"
-    />
-     
-    <span
-      className="app-info-and-dashboard-links-separator-f"
-    />
-  </div>
-  <div
-    className="pipelineHeader"
-  >
-    Resource pipeline
-     
-    <span>
-      (
-      1
-      )
-    </span>
-  </div>
-  <div
     id="DeploymentHighlights"
   >
     <div
@@ -11056,14 +9745,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         className="bx--accordion"
       >
         <li
-          className="bx--accordion__item"
+          className="bx--accordion__item--active bx--accordion__item"
           onClick={[Function]}
           onKeyPress={[Function]}
-          open={false}
+          open={true}
           role="presentation"
         >
           <button
-            aria-expanded={false}
+            aria-expanded={true}
             className="bx--accordion__heading"
             onClick={[Function]}
             type="button"
@@ -11186,318 +9875,69 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
-    className="resource-cards-container"
+    className="searchAndButtonContainer"
   >
     <div
-      className="resource-cards-info-container"
+      aria-labelledby="search-1-label"
+      className="bx--search bx--search--lg bx--search--light deploymentPipelineSearch"
+      role="search"
     >
-      <div
-        className="resource-cards-info single-app"
+      <svg
+        alt="Find applications"
+        aria-label="Find applications"
+        className="bx--search-magnifier"
+        fillRule="evenodd"
+        height="16"
+        role="img"
+        viewBox="0 0 16 16"
+        width="16"
       >
-        <div
-          className="single-card clickable"
-          id="0_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
+        <title>
+          Find applications
+        </title>
+        <path
+          d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm4.936-1.27l4.563 4.557-.707.708-4.563-4.558a6.5 6.5 0 1 1 .707-.707z"
+        />
+      </svg>
+      <label
+        className="bx--label"
+        htmlFor="search-1"
+        id="search-1-label"
+      >
+        Find applications
+      </label>
+      <input
+        className="bx--search-input"
+        defaultValue=""
+        id="search-1"
+        name=""
+        onChange={[Function]}
+        placeholder="Find applications"
+        type="text"
+      />
+      <button
+        aria-label=""
+        className="bx--search-close bx--search-close--hidden"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          alt=""
+          aria-label=""
+          fillRule="evenodd"
+          height="16"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
         >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Subscription
-          </div>
-          <div
-            className="card-text"
-          >
-            On hub cluster
-          </div>
-          <div
-            className="row-divider"
+          <title>
+            
+          </title>
+          <path
+            d="M8 6.586L5.879 4.464 4.464 5.88 6.586 8l-2.122 2.121 1.415 1.415L8 9.414l2.121 2.122 1.415-1.415L9.414 8l2.122-2.121-1.415-1.415L8 6.586zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
           />
-          <div
-            className="card-subtext"
-          >
-            0 failed
-          </div>
-          
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="1_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Managed cluster
-          </div>
-          <div
-            className="card-text"
-          >
-            10 Total subscriptions
-          </div>
-          <div
-            className="row-divider"
-          />
-          <div
-            className="card-subtext"
-          >
-            6 failed
-          </div>
-          <div
-            className="card-subtext"
-          >
-            3 no status
-          </div>
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card clickable"
-          id="2_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            1
-          </div>
-          <div
-            className="card-type"
-          >
-            Channel
-          </div>
-          <div
-            className="card-text"
-          >
-            In use
-          </div>
-        </div>
-        <div
-          className="column-divider"
-        />
-        <div
-          className="single-card"
-          id="3_resourceCardsData"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        >
-          <div
-            className="card-count"
-          >
-            0
-          </div>
-          <div
-            className="card-type"
-          >
-            Placement rules
-          </div>
-          <div
-            className="card-text"
-          >
-            In use
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="resource-cards-create-container"
-    >
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-subscription"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create subscription
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-placement-rule"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create placement rule
-            <svg
-              alt="Open subscription editor"
-              aria-label="Open subscription editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open subscription editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        className="AddResourceButton"
-      >
-        <div>
-          <button
-            className="bx--btn bx--btn--sm bx--btn--primary"
-            disabled={false}
-            id="create-channel"
-            onClick={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            Create channel
-            <svg
-              alt="Open channel editor"
-              aria-label="Open channel editor"
-              className="bx--btn__icon"
-              fillRule="evenodd"
-              height="16"
-              name="add--glyph"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-            >
-              <title>
-                Open channel editor
-              </title>
-              <path
-                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    className="show-channels-container"
-  >
-    <div>
-      <div
-        className="bx--form-item bx--checkbox-wrapper"
-      >
-        <input
-          className="bx--checkbox"
-          id="ShowAllChannels"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <label
-          className="bx--checkbox-label"
-          htmlFor="ShowAllChannels"
-          title={null}
-        >
-          <span
-            className=""
-          >
-            Show all channels
-          </span>
-        </label>
-      </div>
-    </div>
-    <div
-      className="show-channels-icon"
-    >
-      <div
-        className="bx--tooltip__trigger"
-      >
-        
-        <div
-          aria-expanded={false}
-          aria-haspopup="true"
-          id="__carbon-tooltip-trigger_i"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <svg
-            alt="tooltip"
-            aria-label="tooltip"
-            fillRule="evenodd"
-            height="24"
-            name="info"
-            role="img"
-            viewBox="0 0 24 24"
-            width="24"
-          >
-            <title>
-              
-            </title>
-            <path
-              d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"
-            />
-            <path
-              d="M14 10H9v2h2v4H9v2h7v-2h-2zM11 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
-            />
-          </svg>
-        </div>
-      </div>
+        </svg>
+      </button>
     </div>
   </div>
   <div
@@ -12104,6 +10544,116 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               Close
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="resource-cards-container"
+  >
+    <div
+      className="resource-cards-create-container"
+    >
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-subscription"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create subscription
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-placement-rule"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create placement rule
+            <svg
+              alt="Open subscription editor"
+              aria-label="Open subscription editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open subscription editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AddResourceButton"
+      >
+        <div>
+          <button
+            className="bx--btn bx--btn--sm bx--btn--primary"
+            disabled={false}
+            id="create-channel"
+            onClick={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Create channel
+            <svg
+              alt="Open channel editor"
+              aria-label="Open channel editor"
+              className="bx--btn__icon"
+              fillRule="evenodd"
+              height="16"
+              name="add--glyph"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Open channel editor
+              </title>
+              <path
+                d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>

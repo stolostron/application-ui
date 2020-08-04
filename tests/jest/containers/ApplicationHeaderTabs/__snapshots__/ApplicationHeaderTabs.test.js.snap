@@ -87,7 +87,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
             role="tab"
             tabIndex={0}
           >
-            Resources
+            Advanced Configuration
           </a>
         </li>
       </ul>
@@ -137,7 +137,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
           onClick={[Function]}
           tabIndex={-1}
         >
-          Resources
+          
         </a>
         <svg
           alt="show menu options"
@@ -179,25 +179,6 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
             Overview
           </a>
         </li>
-        <li
-          className="bx--tabs__nav-item bx--tabs__nav-item--selected"
-          disabled={false}
-          onClick={[Function]}
-          onKeyDown={[Function]}
-          role="presentation"
-          selected={true}
-          tabIndex={-1}
-        >
-          <a
-            aria-selected={true}
-            className="bx--tabs__nav-link"
-            href="#"
-            role="tab"
-            tabIndex={0}
-          >
-            Resources
-          </a>
-        </li>
       </ul>
     </nav>
     <div
@@ -206,16 +187,6 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
       hidden={true}
       selected={false}
     />
-    <div
-      aria-hidden={false}
-      className="tab-content"
-      hidden={false}
-      selected={true}
-    >
-      <div
-        className="page-content-container"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -291,33 +262,8 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
             Overview
           </a>
         </li>
-        <li
-          className="bx--tabs__nav-item"
-          disabled={false}
-          onClick={[Function]}
-          onKeyDown={[Function]}
-          role="presentation"
-          selected={false}
-          tabIndex={-1}
-        >
-          <a
-            aria-selected={false}
-            className="bx--tabs__nav-link"
-            href="#"
-            role="tab"
-            tabIndex={0}
-          >
-            Resources
-          </a>
-        </li>
       </ul>
     </nav>
-    <div
-      aria-hidden={true}
-      className="tab-content"
-      hidden={true}
-      selected={false}
-    />
     <div
       aria-hidden={true}
       className="tab-content"

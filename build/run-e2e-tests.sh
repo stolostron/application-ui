@@ -52,7 +52,9 @@ docker run --network test-network -d --ip 10.10.0.6 -t -i -p 3000:3000 --name ap
 -e SERVICEACCT_TOKEN=$SERVICEACCT_TOKEN \
 -e headerUrl=$headerUrl \
 -e OAUTH2_REDIRECT_URL=https://localhost:3000/multicloud/auth/callback \
--e hcmUiApiUrl=https://10.10.0.5:4000/hcmuiapi \
+-e hcmUiApiUrl=$hcmUiApiUrl \
+-e searchApiUrl=$searchApiUrl \
+-e PLATFORM_IDENTITY_PROVIDER_URL=$PLATFORM_IDENTITY_PROVIDER_URL \
 -e OAUTH2_CLIENT_ID=multicloudingress \
 -e OAUTH2_CLIENT_SECRET=multicloudingresssecret \
 -e API_SERVER_URL=$OC_CLUSTER_URL $UI_CURRENT_IMAGE

@@ -30,12 +30,12 @@ make oc/install
 echo "Running oc/login..."
 make oc/login
 
-#echo "Running docker network create..."
-#docker network create --subnet 10.10.0.0/16 test-network
+echo "Running docker network create..."
+docker network create --subnet 10.10.0.0/16 test-network
 
-# make docker/login
-#export DOCKER_URI=quay.io/open-cluster-management/console-api:latest
-#make docker/pull
+make docker/login
+export DOCKER_URI=quay.io/open-cluster-management/application-ui:latest
+make docker/pull
 
 echo "Running pull-test-image..."
 make pull-test-image
@@ -46,16 +46,16 @@ export SERVICEACCT_TOKEN=`${BUILD_HARNESS_PATH}/vendor/oc whoami --show-token`
 echo "SERVICEACCT_TOKEN=$SERVICEACCT_TOKEN"
 
 #application-ui
-#docker run --network test-network -d --ip 10.10.0.6 -t -i -p 3000:3000 --name application-ui \
-#-e NODE_ENV=development \
-#-e SERVICEACCT_TOKEN=$SERVICEACCT_TOKEN \
-#-e headerUrl=$headerUrl \
-#-e OAUTH2_REDIRECT_URL=https://localhost:3000/multicloud/auth/callback \
-#-e hcmUiApiUrl=https://10.10.0.5:4000/hcmuiapi \
-#-e OAUTH2_CLIENT_ID=multicloudingress \
-#-e OAUTH2_CLIENT_SECRET=multicloudingresssecret \
-#-e API_SERVER_URL=$OC_CLUSTER_URL $UI_CURRENT_IMAGE
-#docker container ls -a
+docker run --network test-network -d --ip 10.10.0.6 -t -i -p 3000:3000 --name application-ui \
+-e NODE_ENV=development \
+-e SERVICEACCT_TOKEN=$SERVICEACCT_TOKEN \
+-e headerUrl=$headerUrl \
+-e OAUTH2_REDIRECT_URL=https://localhost:3000/multicloud/auth/callback \
+-e hcmUiApiUrl=https://10.10.0.5:4000/hcmuiapi \
+-e OAUTH2_CLIENT_ID=multicloudingress \
+-e OAUTH2_CLIENT_SECRET=multicloudingresssecret \
+-e API_SERVER_URL=$OC_CLUSTER_URL $UI_CURRENT_IMAGE
+docker container ls -a
 
 fold_end test-setup
 

@@ -51,7 +51,7 @@ docker run --network test-network -d --ip 10.10.0.6 -t -i -p 3001:3001 --name ap
 -e NODE_ENV=development \
 -e SERVICEACCT_TOKEN=$SERVICEACCT_TOKEN \
 -e headerUrl=$headerUrl \
--e OAUTH2_REDIRECT_URL=https://localhost:3001/multicloud/applications/auth/callback \\
+-e OAUTH2_REDIRECT_URL=https://localhost:3001/multicloud/applications/auth/callback \
 -e hcmUiApiUrl=$hcmUiApiUrl \
 -e searchApiUrl=$searchApiUrl \
 -e PLATFORM_IDENTITY_PROVIDER_URL=$PLATFORM_IDENTITY_PROVIDER_URL \

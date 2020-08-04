@@ -61,7 +61,7 @@ exports[`TemplateEditor component renders as expected 1`] = `
                   <div
                     aria-expanded={false}
                     aria-haspopup="true"
-                    id="__carbon-tooltip-trigger_q9x34jrt1s"
+                    id=""
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -139,7 +139,7 @@ exports[`TemplateEditor component renders as expected 1`] = `
                   <div
                     aria-expanded={false}
                     aria-haspopup="true"
-                    id="__carbon-tooltip-trigger_dctyx2pfe7b"
+                    id=""
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}

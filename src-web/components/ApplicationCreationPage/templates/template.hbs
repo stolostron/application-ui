@@ -94,9 +94,15 @@ spec:
     windowtype: {{{../../../timeWindow.mode}}}
     location: {{{../../../timeWindow.timezone}}}
     weekdays: [{{{../../../timeWindow.days}}}]
+    {{#if ../../../timeWindow.showTimeSection}}
     hours:
-      - start: "8:00AM"
-        end: "10:00PM"
+      {{#each ../../../timeWindow.timeList}}
+      {{#if validTime}}
+      - start: "{{{start}}}"
+        end: "{{{end}}}"
+      {{/if}}
+      {{/each}}
+    {{/if}}
 {{/if}}
   
 {{/case}}

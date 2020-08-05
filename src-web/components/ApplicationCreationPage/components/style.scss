@@ -93,6 +93,11 @@
     display: block;
   }
 
+  .config-time-container {
+    display: flex;
+    margin-bottom: 20px;
+  }
+
   .config-start-time {
     float: left;
   }
@@ -104,6 +109,8 @@
   }
 
   .bx--time-picker__input-field {
+    width: 140px;
+    margin-right: 10px;
     background-color: $acm_background_color;
   }
 
@@ -131,5 +138,10 @@
     font-weight: 600;
     font-size: 14px;
     color: #3d70b2;
+  }
+
+  .remove-time-btn {
+    padding: 12px 5px;
+    cursor: pointer;
   }
 }

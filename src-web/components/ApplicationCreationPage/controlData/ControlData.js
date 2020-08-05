@@ -107,8 +107,7 @@ const githubChannelData = [
     type: 'text',
     active: '',
     encode: true,
-    placeholder: 'app.enter.select.username',
-    validation: VALIDATE_ALPHANUMERIC
+    placeholder: 'app.enter.select.username'
   },
   {
     name: 'creation.app.github.accessid',
@@ -117,8 +116,7 @@ const githubChannelData = [
     type: 'text',
     encode: true,
     active: '',
-    placeholder: 'app.enter.access.token',
-    validation: VALIDATE_ALPHANUMERIC
+    placeholder: 'app.enter.access.token'
   },
   {
     name: 'creation.app.github.branch',
@@ -205,8 +203,7 @@ const objectstoreChannelData = [
     type: 'text',
     active: '',
     encode: true,
-    placeholder: 'app.enter.accesskey',
-    validation: VALIDATE_ALPHANUMERIC
+    placeholder: 'app.enter.accesskey'
   },
   {
     name: 'creation.app.objectstore.secretkey',
@@ -215,8 +212,7 @@ const objectstoreChannelData = [
     type: 'text',
     encode: true,
     active: '',
-    placeholder: 'app.enter.secretkey',
-    validation: VALIDATE_ALPHANUMERIC
+    placeholder: 'app.enter.secretkey'
   }
 ]
 
@@ -335,7 +331,7 @@ export const controlData = [
         ],
         active: '',
         validation: {
-          notification: 'creation.ocp.cluster.must.select.resource.type',
+          notification: 'creation.must.select.resource.type',
           required: true
         }
       }

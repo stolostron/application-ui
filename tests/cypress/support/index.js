@@ -38,6 +38,7 @@ before(() => {
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.exec("oc whoami -t").then(res => {
       cy.setCookie("acm-access-token-cookie", res.stdout);
+      Cypress.env("token", res.stdout);
     });
   } else {
     cy.visit("/");
@@ -57,14 +58,15 @@ before(() => {
     cy.acquireToken().then(token => {
       Cypress.env("token", token);
     });
-    //delete app resource
-    cy.task("getFileList", "yaml").then(list => {
-      cy.log(list);
-      list.forEach(file => {
-        cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
-      });
-    });
   }
+
+  //delete app resource
+  cy.task("getFileList", "yaml").then(list => {
+    cy.log(list);
+    list.forEach(file => {
+      cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
+    });
+  });
 });
 
 Cypress.on("uncaught:exception", (err, runnable) => {

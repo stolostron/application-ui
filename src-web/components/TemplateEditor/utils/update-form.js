@@ -255,9 +255,7 @@ const updateControl = (
     } = control
     if (required && (!active || (type === 'cards' && active.length === 0))) {
       const msg =
-        !name || isNaN(active)
-          ? notification
-          : 'creation.ocp.cluster.missing.input'
+        !name || isNaN(active) ? notification : 'creation.missing.input'
       control.exception = msgs.get(msg, [name], locale)
       const { sourcePath } = control
       if (sourcePath) {

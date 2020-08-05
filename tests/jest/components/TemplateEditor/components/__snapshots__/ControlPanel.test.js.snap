@@ -44,11 +44,6 @@ exports[`ControlPanel component renders as expected 1`] = `
           >
             creation.app.name
             <div
-              className="creation-view-controls-required"
-            >
-              *
-            </div>
-            <div
               className="bx--tooltip__trigger"
             >
               
@@ -121,11 +116,6 @@ exports[`ControlPanel component renders as expected 1`] = `
             className="creation-view-controls-textbox-title"
           >
             creation.app.namespace
-            <div
-              className="creation-view-controls-required"
-            >
-              *
-            </div>
             <div
               className="bx--tooltip__trigger"
             >

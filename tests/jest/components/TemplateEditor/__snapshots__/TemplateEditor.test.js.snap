@@ -18,12 +18,14 @@ exports[`TemplateEditor component renders as expected 1`] = `
           className="content"
         >
           <div
+            aria-label="Application settings"
             className="creation-view-controls-title"
             id="main-"
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
             tabIndex="0"
+            title="Application settings"
           >
             <div
               className="creation-view-controls-note"

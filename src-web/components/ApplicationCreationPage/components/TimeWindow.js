@@ -264,7 +264,7 @@ class TimeWindow extends React.Component {
             <div className="config-time-container">
               <div className="config-start-time">
                 <TimePicker
-                  id={item.id}
+                  id={`start-time-${item.id}`}
                   name="start-time"
                   labelText={item.id === 0 ? 'Start Time' : ''}
                   type="time"
@@ -275,7 +275,7 @@ class TimeWindow extends React.Component {
               </div>
               <div className="config-end-time">
                 <TimePicker
-                  id={item.id}
+                  id={`end-time-${item.id}`}
                   name="end-time"
                   labelText={item.id === 0 ? 'End Time' : ''}
                   type="time"
@@ -381,18 +381,22 @@ class TimeWindow extends React.Component {
         break
       case 'start-time':
         {
+          const startTimeID = parseInt(event.target.id.split('-')[2])
           const convertedTime = this.convertTimeFormat(event.target.value)
           // As long as first start-time is entered, all times will show
-          if (event.target.id == 0) {
+          if (startTimeID === 0) {
             control.active.showTimeSection = convertedTime ? true : false
           }
-          control.active.timeList[event.target.id].start = convertedTime
+          control.active.timeList[startTimeID].start = convertedTime
         }
         break
       case 'end-time':
-        control.active.timeList[event.target.id].end = this.convertTimeFormat(
-          event.target.value
-        )
+        {
+          const endTimeID = parseInt(event.target.id.split('-')[2])
+          control.active.timeList[endTimeID].end = this.convertTimeFormat(
+            event.target.value
+          )
+        }
         break
       }
     } else if (

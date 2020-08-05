@@ -29,7 +29,8 @@ import {
   addNodeInfoPerCluster,
   getClusterName,
   getPodState,
-  getNameWithoutChartRelease
+  getNameWithoutChartRelease,
+  removeReleaseGeneratedSuffix
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -606,6 +607,60 @@ describe("getNameWithoutChartRelease node with pods no _hostingDeployable", () =
         value: false
       })
     ).toEqual("nginx-ingress-edafb-default-backend");
+  });
+});
+
+describe("getNameWithoutChartRelease node with the pod name same as the release name", () => {
+  const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label:
+      "app=nginx-ingress; chart=nginx-ingress-1.36.3; component=default-backend; heritage=Helm; release=nginx-ingress-edafb",
+    name: "nginx-ingress-edafb",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+
+  it("getNameWithoutChartRelease for pod name same as the release name", () => {
+    expect(
+      getNameWithoutChartRelease(node, "nginx-ingress-edafb", {
+        value: true
+      })
+    ).toEqual("nginx-ingress");
+  });
+});
+
+describe("getNameWithoutChartRelease node with release name plus pod name", () => {
+  const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label:
+      "app=nginx-ingress; chart=nginx-ingress-1.36.3; component=default-backend; heritage=Helm; release=nginx-ingress-edafb",
+    name: "nginx-ingress-edafb",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+
+  it("getNameWithoutChartRelease for pod with release name plus pod name", () => {
+    expect(
+      getNameWithoutChartRelease(node, "nginx-ingress-edafb-controller", {
+        value: true
+      })
+    ).toEqual("controller");
   });
 });
 
@@ -3480,5 +3535,13 @@ describe("getPodState pod 2", () => {
 
   it("should return getPodState pod 2", () => {
     expect(getPodState(podItem, clusterName, types)).toEqual(result);
+  });
+});
+
+describe("removeReleaseGeneratedSuffix remove suffix", () => {
+  it("should remove generate suffix for the helmrelease", () => {
+    expect(removeReleaseGeneratedSuffix("nginx-ingress-66f46")).toEqual(
+      "nginx-ingress"
+    );
   });
 });

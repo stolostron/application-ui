@@ -33,11 +33,6 @@ make oc/login
 echo "Running docker network create..."
 docker network create --subnet 10.10.0.0/16 test-network
 
-# make docker/login
-# export DOCKER_URI=quay.io/open-cluster-management/application-ui:latest
-# make docker/pull
-
-
 echo "Running pull-test-image..."
 make pull-test-image
 

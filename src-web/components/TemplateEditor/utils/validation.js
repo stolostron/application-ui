@@ -105,13 +105,13 @@ export const VALIDATE_MAC_ADDRESS = {
 
 export const VALIDATE_ALPHANUMERIC = {
   tester: new RegExp('^[A-Za-z0-9-_]+$'),
-  notification: 'creation.ocp.cluster.valid.alphanumeric',
+  notification: 'creation.valid.alphanumeric',
   required: false
 }
 
 export const VALIDATE_NUMERIC = {
   tester: new RegExp('^[0-9]+$'),
-  notification: 'creation.ocp.cluster.valid.numeric',
+  notification: 'creation.valid.numeric',
   required: true
 }
 

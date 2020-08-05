@@ -127,6 +127,8 @@ class ApplicationCreationPage extends React.Component {
           }`
         )
       }, 3000)
+    } else if (mutateStatus && mutateStatus === 'ERROR') {
+      this.props.cleanReqStatus()
     }
   }
 

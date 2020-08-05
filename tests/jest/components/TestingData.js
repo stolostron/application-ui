@@ -878,12 +878,7 @@ export const controlData = [
     tooltip: "tooltip.creation.app.name",
     id: "name",
     type: "text",
-    syncWith: "namespace",
-    validation: {
-      constraint: VALID_DNS_LABEL,
-      notification: "import.form.invalid.dns.label",
-      required: true
-    }
+    syncWith: "namespace"
   },
   {
     name: "creation.app.namespace",
@@ -891,12 +886,7 @@ export const controlData = [
     id: "namespace",
     type: "text",
     syncedWith: "name",
-    syncedSuffix: "-ns",
-    validation: {
-      constraint: VALID_DNS_LABEL,
-      notification: "import.form.invalid.dns.label",
-      required: true
-    }
+    syncedSuffix: "-ns"
   }
 ];
 

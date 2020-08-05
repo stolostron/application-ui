@@ -50,11 +50,6 @@ exports[`TemplateEditor component renders as expected 1`] = `
               >
                 Name
                 <div
-                  className="creation-view-controls-required"
-                >
-                  *
-                </div>
-                <div
                   className="bx--tooltip__trigger"
                 >
                   
@@ -127,11 +122,6 @@ exports[`TemplateEditor component renders as expected 1`] = `
                 className="creation-view-controls-textbox-title"
               >
                 Namespace
-                <div
-                  className="creation-view-controls-required"
-                >
-                  *
-                </div>
                 <div
                   className="bx--tooltip__trigger"
                 >

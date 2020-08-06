@@ -348,13 +348,12 @@ export const controlData = [
     collapsable: true,
     collapsed: false
   },
-
   {
-    name: 'creation.view.policy.binding',
-    description: 'policy.create.selectors.tooltip',
-    placeholder: 'creation.view.policy.select.selectors',
-    id: 'clusters',
-    type: 'multiselect',
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: true,
     available: []
   },
   ////////////////////////////////////////////////////////////////////////////////////
@@ -363,24 +362,15 @@ export const controlData = [
     id: 'settingsSection',
     type: 'section',
     title: 'creation.app.section.settings',
-    numbered: '4',
+    numbered: '3',
     overline: true,
     collapsable: true,
     collapsed: false
   },
-
-  {
-    id: 'online-cluster-only-checkbox',
-    type: 'checkbox',
-    name: 'creation.app.settings.onlineClustersOnly',
-    tooltip: 'tooltip.creation.app.settings.onlineClustersOnly',
-    active: true,
-    available: []
-  },
   {
     type: 'custom',
     name: 'creation.app.settings.timeWindow',
-    description: 'creation.app.settings.timeWindow.tooltip',
+    tooltip: 'creation.app.settings.timeWindow.tooltip',
     id: 'timeWindow',
     component: <TimeWindow />,
     available: []

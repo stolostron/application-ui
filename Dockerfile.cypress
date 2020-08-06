@@ -10,18 +10,15 @@ COPY --from=builder /go/bin/yq /usr/bin/yq
 
 WORKDIR /usr/src/app
 
+# copy dependencies needed for Cypress tests
 COPY package.json .
 COPY download-clis.sh .
 COPY cypress ./tests/cypress
 COPY start-cypress-tests.sh ./tests
-COPY generate-cypress-yaml.sh ./tests
 
 RUN npm install 
 
 RUN sh download-clis.sh
-
-#ENV JOB_ID=$(JOB_ID)
-#RUN sh tests/generate-cypress-yaml.sh
 
 RUN ["chmod", "+x", "./tests/start-cypress-tests.sh"]
 

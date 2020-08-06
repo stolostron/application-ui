@@ -262,7 +262,12 @@ export const controlData = [
   {
     id: 'channels',
     type: 'group',
-
+    prompts: {
+      nameId: 'channelName',
+      baseName: 'resource',
+      addPrompt: 'creation.app.add.channel',
+      deletePrompt: 'creation.app.delete.channel'
+    },
     controlData: [
       {
         id: 'channel',

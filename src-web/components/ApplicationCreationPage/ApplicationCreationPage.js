@@ -15,11 +15,15 @@ import PropTypes from 'prop-types'
 import Page from '../common/Page'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import {
   createApplication,
   clearCreateStatus
 } from '../../actions/application'
-import { updateSecondaryHeader } from '../../actions/common'
+import {
+  updateSecondaryHeader,
+  delResourceSuccessFinished
+} from '../../actions/common'
 import { TemplateEditor } from '../TemplateEditor'
 import { controlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
@@ -39,6 +43,7 @@ resources(() => {
 class ApplicationCreationPage extends React.Component {
   static propTypes = {
     cleanReqStatus: PropTypes.func,
+    deleteSuccessFinished: PropTypes.func,
     handleCreateApplication: PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object,
@@ -88,6 +93,7 @@ class ApplicationCreationPage extends React.Component {
     if (cleanReqStatus) {
       this.props.cleanReqStatus()
     }
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
     const portals = [
       {
         id: 'edit-button-portal-id',
@@ -127,6 +133,8 @@ class ApplicationCreationPage extends React.Component {
           }`
         )
       }, 3000)
+    } else if (mutateStatus && mutateStatus === 'ERROR') {
+      this.props.cleanReqStatus()
     }
   }
 
@@ -187,6 +195,8 @@ ApplicationCreationPage.contextTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     cleanReqStatus: () => dispatch(clearCreateStatus()),
+    deleteSuccessFinished: resourceType =>
+      dispatch(delResourceSuccessFinished(resourceType)),
     handleCreateApplication: json => dispatch(createApplication(json)),
     updateSecondaryHeader: (
       title,

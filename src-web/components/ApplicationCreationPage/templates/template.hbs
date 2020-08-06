@@ -165,6 +165,21 @@ spec:
     placementRef:
       kind: PlacementRule
       name: {{{../../name}}}-placement
+{{#if ../../timeWindow.mode}}
+  timewindow:
+    windowtype: {{{../../../timeWindow.mode}}}
+    location: {{{../../../timeWindow.timezone}}}
+    weekdays: [{{{../../../timeWindow.days}}}]
+    {{#if ../../../timeWindow.showTimeSection}}
+    hours:
+      {{#each ../../../timeWindow.timeList}}
+      {{#if validTime}}
+      - start: "{{{start}}}"
+        end: "{{{end}}}"
+      {{/if}}
+      {{/each}}
+    {{/if}}
+{{/if}}
      
 {{/case}}
 

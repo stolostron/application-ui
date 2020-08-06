@@ -74,9 +74,9 @@ class TimeWindow extends React.Component {
             >
               <RadioButton
                 className="mode-btn"
-                id="disabled-mode"
+                id="always-active-mode"
                 labelText={msgs.get(
-                  'creation.app.settings.timeWindow.disabledMode',
+                  'creation.app.settings.timeWindow.alwaysActiveMode',
                   locale
                 )}
                 value=""

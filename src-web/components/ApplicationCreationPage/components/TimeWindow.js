@@ -319,7 +319,7 @@ class TimeWindow extends React.Component {
           </React.Fragment>
         )
       }
-      return
+      return ''
     })
   };
 

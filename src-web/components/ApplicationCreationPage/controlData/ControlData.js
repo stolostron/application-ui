@@ -367,7 +367,7 @@ export const controlData = [
     id: 'settingsSection',
     type: 'section',
     title: 'creation.app.section.settings',
-    numbered: '4',
+    numbered: '3',
     overline: true,
     collapsable: true,
     collapsed: false
@@ -384,7 +384,7 @@ export const controlData = [
   {
     type: 'custom',
     name: 'creation.app.settings.timeWindow',
-    description: 'creation.app.settings.timeWindow.tooltip',
+    tooltip: 'creation.app.settings.timeWindow.tooltip',
     id: 'timeWindow',
     component: <TimeWindow />,
     available: []

@@ -70,7 +70,18 @@ class TimeWindow extends React.Component {
             <RadioButtonGroup
               className="timeWindow-mode-container"
               name="timeWindow-mode-container"
+              defaultSelected=""
             >
+              <RadioButton
+                className="mode-btn"
+                id="disabled-mode"
+                labelText={msgs.get(
+                  'creation.app.settings.timeWindow.disabledMode',
+                  locale
+                )}
+                value=""
+                onClick={this.handleChange.bind(this)}
+              />
               <RadioButton
                 className="mode-btn"
                 id="active-mode"
@@ -226,10 +237,12 @@ class TimeWindow extends React.Component {
                   <div className="config-time-section">
                     {this.renderTimes(control, modeSelected)}
                     <div
-                      className="add-time-btn"
+                      className={`add-time-btn ${
+                        !modeSelected ? 'btn-disabled' : ''
+                      }`}
                       tabIndex="0"
                       role={'button'}
-                      onClick={() => this.addTimeToList(control)}
+                      onClick={() => this.addTimeToList(control, modeSelected)}
                       onKeyPress={this.addTimeKeyPress.bind(this)}
                     >
                       <Icon
@@ -294,7 +307,7 @@ class TimeWindow extends React.Component {
                   onKeyPress={this.removeTimeKeyPress.bind(this)}
                 >
                   <Icon
-                    name="icon--close"
+                    name="icon--close--glyph"
                     fill="#3d70b2"
                     className="remove-time-btn-icon"
                   />
@@ -322,18 +335,20 @@ class TimeWindow extends React.Component {
     }
   };
 
-  addTimeToList = control => {
-    // Create new "time" item
-    control.active.timeList.push({
-      id: control.active.timeListID,
-      start: '',
-      end: '',
-      validTime: true
-    })
-    control.active.timeListID++
+  addTimeToList = (control, modeSelected) => {
+    if (modeSelected) {
+      // Create new "time" item
+      control.active.timeList.push({
+        id: control.active.timeListID,
+        start: '',
+        end: '',
+        validTime: true
+      })
+      control.active.timeListID++
 
-    // Update UI
-    this.forceUpdate()
+      // Update UI
+      this.forceUpdate()
+    }
   };
 
   addTimeKeyPress = e => {

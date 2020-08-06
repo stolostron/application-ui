@@ -79,7 +79,7 @@ const ResourceOverview = withLocale(
             <div className="overview-content-header">
               {msgs.get('dashboard.card.deployment.summary.title', locale)}
             </div>
-            {!item || loading ? (
+            {loading ? (
               loadingComponent()
             ) : (
               <div className="overview-cards-info-container">

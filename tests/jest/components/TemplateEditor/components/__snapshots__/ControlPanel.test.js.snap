@@ -12,12 +12,14 @@ exports[`ControlPanel component renders as expected 1`] = `
       className="content"
     >
       <div
+        aria-label="Application settings"
         className="creation-view-controls-title"
         id="main-"
         onClick={[Function]}
         onKeyPress={[Function]}
         role="button"
         tabIndex="0"
+        title="Application settings"
       >
         <div
           className="creation-view-controls-note"
@@ -44,18 +46,13 @@ exports[`ControlPanel component renders as expected 1`] = `
           >
             creation.app.name
             <div
-              className="creation-view-controls-required"
-            >
-              *
-            </div>
-            <div
               className="bx--tooltip__trigger"
             >
               
               <div
                 aria-expanded={false}
                 aria-haspopup="true"
-                id="__carbon-tooltip-trigger_i"
+                id=""
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -122,18 +119,13 @@ exports[`ControlPanel component renders as expected 1`] = `
           >
             creation.app.namespace
             <div
-              className="creation-view-controls-required"
-            >
-              *
-            </div>
-            <div
               className="bx--tooltip__trigger"
             >
               
               <div
                 aria-expanded={false}
                 aria-haspopup="true"
-                id="__carbon-tooltip-trigger_i"
+                id=""
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}

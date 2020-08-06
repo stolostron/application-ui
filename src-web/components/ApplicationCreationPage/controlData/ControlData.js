@@ -96,7 +96,7 @@ const githubChannelData = [
     placeholder: 'app.enter.select.github.url',
     available: [],
     validation: VALIDATE_URL,
-    fetchAvailable: loadExistingChannels('github'),
+    fetchAvailable: loadExistingChannels('git'),
     cacheUserValueKey: 'create.app.github.url',
     onSelect: updateChannelControls
   },
@@ -107,8 +107,7 @@ const githubChannelData = [
     type: 'text',
     active: '',
     encode: true,
-    placeholder: 'app.enter.select.username',
-    validation: VALIDATE_ALPHANUMERIC
+    placeholder: 'app.enter.select.username'
   },
   {
     name: 'creation.app.github.accessid',
@@ -117,8 +116,7 @@ const githubChannelData = [
     type: 'text',
     encode: true,
     active: '',
-    placeholder: 'app.enter.access.token',
-    validation: VALIDATE_ALPHANUMERIC
+    placeholder: 'app.enter.access.token'
   },
   {
     name: 'creation.app.github.branch',
@@ -187,7 +185,7 @@ const objectstoreChannelData = [
   ///////////////////////  Objectstore  /////////////////////////////////////
   {
     name: 'creation.app.objectstore.url',
-    tooltip: 'tooltip.creation.app.github.url',
+    tooltip: 'tooltip.creation.app.objectstore.url',
     id: 'objectstoreURL',
     type: 'combobox',
     active: '',
@@ -205,8 +203,7 @@ const objectstoreChannelData = [
     type: 'text',
     active: '',
     encode: true,
-    placeholder: 'app.enter.accesskey',
-    validation: VALIDATE_ALPHANUMERIC
+    placeholder: 'app.enter.accesskey'
   },
   {
     name: 'creation.app.objectstore.secretkey',
@@ -215,8 +212,7 @@ const objectstoreChannelData = [
     type: 'text',
     encode: true,
     active: '',
-    placeholder: 'app.enter.secretkey',
-    validation: VALIDATE_ALPHANUMERIC
+    placeholder: 'app.enter.secretkey'
   }
 ]
 
@@ -300,7 +296,7 @@ export const controlData = [
             id: 'github',
             logo: 'resource-github-icon.svg',
             title: 'creation.app.channel.github',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.git',
             change: {
               insertControlData: githubChannelData
             }
@@ -309,7 +305,7 @@ export const controlData = [
             id: 'deployable',
             logo: 'resource-deployable-icon.svg',
             title: 'creation.app.channel.deployable',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.namespace',
             change: {
               insertControlData: deployableChannelData
             }
@@ -318,7 +314,7 @@ export const controlData = [
             id: 'helmrepo',
             logo: 'resource-helmrepo-icon.svg',
             title: 'creation.app.channel.helmrepo',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.helmrepo',
             change: {
               insertControlData: helmReleaseChannelData
             }
@@ -327,7 +323,7 @@ export const controlData = [
             id: 'objectstore',
             logo: 'resource-objectstore-icon.svg',
             title: 'creation.app.channel.objectstore',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.objectstore',
             change: {
               insertControlData: objectstoreChannelData
             }
@@ -335,7 +331,7 @@ export const controlData = [
         ],
         active: '',
         validation: {
-          notification: 'creation.ocp.cluster.must.select.resource.type',
+          notification: 'creation.must.select.resource.type',
           required: true
         }
       }
@@ -352,13 +348,12 @@ export const controlData = [
     collapsable: true,
     collapsed: false
   },
-
   {
-    name: 'creation.view.policy.binding',
-    description: 'policy.create.selectors.tooltip',
-    placeholder: 'creation.view.policy.select.selectors',
-    id: 'clusters',
-    type: 'multiselect',
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: true,
     available: []
   },
   ////////////////////////////////////////////////////////////////////////////////////
@@ -371,15 +366,6 @@ export const controlData = [
     overline: true,
     collapsable: true,
     collapsed: false
-  },
-
-  {
-    id: 'online-cluster-only-checkbox',
-    type: 'checkbox',
-    name: 'creation.app.settings.onlineClustersOnly',
-    tooltip: 'tooltip.creation.app.settings.onlineClustersOnly',
-    active: true,
-    available: []
   },
   {
     type: 'custom',

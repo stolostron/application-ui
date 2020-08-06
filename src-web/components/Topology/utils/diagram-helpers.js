@@ -692,6 +692,10 @@ export const createResourceSearchLink = node => {
   return result
 }
 
+export const removeReleaseGeneratedSuffix = name => {
+  return name.replace(/-[0-9a-zA-Z]{4,5}$/, '')
+}
+
 //for charts remove release name
 export const getNameWithoutChartRelease = (
   relatedKind,
@@ -706,6 +710,7 @@ export const getNameWithoutChartRelease = (
   //for resources deployed from charts, remove release name
   //note that the name parameter is the _hostingDeployable
   //and is in this format ch-git-helm/git-helm-chart1-1.1.1
+  const savedName = name
   const labelAttr = _.get(relatedKind, 'label', '')
   const labels = _.split(labelAttr, ';')
   let foundReleaseLabel = false
@@ -720,6 +725,11 @@ export const getNameWithoutChartRelease = (
       const releaseName = _.trim(splitLabelContent[1])
       name = _.replace(name, `${releaseName}-`, '')
       name = _.replace(name, releaseName, '')
+
+      if (name.length === 0) {
+        // release name is used as name, need to strip generated suffix
+        name = removeReleaseGeneratedSuffix(savedName)
+      }
     }
   })
 

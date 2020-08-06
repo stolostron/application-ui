@@ -319,16 +319,17 @@ class TimeWindow extends React.Component {
           </React.Fragment>
         )
       }
+      return
     })
   };
 
   // Convert 24-hour format to 12-hour format
   convertTimeFormat = time => {
     if (time !== '') {
-      var hour24 = +time.substring(0, 2)
-      var hour12 = hour24 % 12 || 12
+      const hour24 = +time.substring(0, 2)
+      let hour12 = hour24 % 12 || 12
       hour12 = hour12 < 10 ? '0' + hour12 : hour12
-      var period = hour24 < 12 ? 'AM' : 'PM'
+      const period = hour24 < 12 ? 'AM' : 'PM'
       return hour12 + time.substring(2) + period
     } else {
       return ''
@@ -396,7 +397,7 @@ class TimeWindow extends React.Component {
         break
       case 'start-time':
         {
-          const startTimeID = parseInt(event.target.id.split('-')[2])
+          const startTimeID = parseInt(event.target.id.split('-')[2], 10)
           const convertedTime = this.convertTimeFormat(event.target.value)
           // As long as first start-time is entered, all times will show
           if (startTimeID === 0) {
@@ -407,7 +408,7 @@ class TimeWindow extends React.Component {
         break
       case 'end-time':
         {
-          const endTimeID = parseInt(event.target.id.split('-')[2])
+          const endTimeID = parseInt(event.target.id.split('-')[2], 10)
           control.active.timeList[endTimeID].end = this.convertTimeFormat(
             event.target.value
           )

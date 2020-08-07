@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClusterSelector component renders as expected 1`] = `
+<div
+  className="creation-view-controls-labels"
+>
+  <div
+    className="creation-view-controls-textarea-title"
+  />
+  <div
+    className="timeWindow-container"
+  >
+    <div
+      className="bx--form-item bx--checkbox-wrapper"
+    >
+      <input
+        className="bx--checkbox"
+        id="clusterSelector-mode-container"
+        name="clusterSelector-mode-container"
+        onChange={[Function]}
+        onClick={[Function]}
+        type="checkbox"
+      />
+      <label
+        className="bx--checkbox-label clusterSelector-mode-container"
+        htmlFor="clusterSelector-mode-container"
+        title={null}
+      >
+        <span
+          className=""
+        >
+          Use cluster labels
+        </span>
+      </label>
+    </div>
+    <ul
+      className="bx--accordion"
+    >
+      <li
+        className="bx--accordion__item"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        open={false}
+        role="presentation"
+      >
+        <button
+          aria-expanded={false}
+          className="bx--accordion__heading"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            alt="Expand/Collapse"
+            aria-label="Expand/Collapse"
+            className="bx--accordion__arrow"
+            fillRule="evenodd"
+            height="12"
+            role={null}
+            viewBox="0 0 7 12"
+            width="7"
+          >
+            <title>
+              Expand/Collapse
+            </title>
+            <path
+              d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+            />
+          </svg>
+          <div
+            className="bx--accordion__title"
+          >
+            
+          </div>
+        </button>
+        <div
+          className="bx--accordion__content"
+        >
+          <div
+            className="timeWindow-config-container"
+          >
+            <div
+              className="config-days-section"
+            >
+              <div
+                className="config-descr"
+              >
+                Enter one or more matching labels
+              </div>
+            </div>
+            <div
+              className="config-time-section"
+            >
+              <div
+                className="config-time-container"
+              >
+                <div
+                  className="bx--form-item"
+                >
+                  <label
+                    className="bx--label"
+                    htmlFor="labelName-0"
+                  >
+                    Label
+                  </label>
+                  <input
+                    className="bx--text-input bx--text__input"
+                    disabled={true}
+                    id="labelName-0"
+                    name="labelName"
+                    onChange={[Function]}
+                    onClick={[Function]}
+                    placeholder="Label name"
+                    type="text"
+                  />
+                </div>
+                <div>
+                   
+                </div>
+                <div
+                  className="bx--form-item"
+                >
+                  <label
+                    className="bx--label"
+                    htmlFor="labelValue-0"
+                  >
+                    Value
+                  </label>
+                  <input
+                    className="bx--text-input bx--text__input"
+                    disabled={true}
+                    id="labelValue-0"
+                    name="labelValue"
+                    onChange={[Function]}
+                    onClick={[Function]}
+                    placeholder="Label value"
+                    type="text"
+                  />
+                </div>
+                
+              </div>
+              <div
+                className="add-time-btn btn-disabled"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <svg
+                  alt=""
+                  aria-label=""
+                  className="add-time-btn-icon"
+                  fill="#3d70b2"
+                  fillRule="evenodd"
+                  height="16"
+                  name="icon--add--glyph"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    
+                  </title>
+                  <path
+                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+                  />
+                </svg>
+                <div
+                  className="add-time-btn-text"
+                >
+                  Add another label
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

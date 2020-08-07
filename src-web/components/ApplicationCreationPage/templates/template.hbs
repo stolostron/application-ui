@@ -213,9 +213,15 @@ metadata:
   namespace: {{{namespace}}}
 spec:
   clusterReplicas: 3
+  {{#if clusterSelector.mode}}
   clusterSelector:
     matchLabels:
-      environment: Dev
+      {{#each clusterSelector.clusterLabelsList}}
+      {{#if validValue}}
+      {{{labelName}}}: {{{labelValue}}}
+      {{/if}}
+      {{/each}}
+  {{/if}}  
   {{#if online-cluster-only-checkbox}}
   clusterConditions:
     - type: ManagedClusterConditionAvailable

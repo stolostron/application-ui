@@ -30,15 +30,18 @@ export const resourceTable = {
   openRowMenu: name =>
     cy.get(`tr[data-row-name="${name}"] .bx--overflow-menu`).click(),
   menuClickEdit: () =>
-    cy.get('button[data-table-action="table.actions.connection.edit"]').click(),
+    cy
+      .get('button[data-table-action="table.actions.applications.edit"]')
+      .click(),
   menuClickDelete: () =>
     cy
-      .get('button[data-table-action="table.actions.connection.delete"]')
+      .get('button[data-table-action="table.actions.applications.remove"]')
       .click(),
-  menuClickDestroy: () =>
-    cy.get('button[data-table-action="table.actions.cluster.destroy"]').click(),
-  menuClickDetach: () =>
-    cy.get('button[data-table-action="table.actions.cluster.detach"]').click()
+  menuClickDeleteConfirm: () =>
+    cy
+      .get("button")
+      .contains("Delete application")
+      .click()
 };
 
 export const secondaryHeader = {

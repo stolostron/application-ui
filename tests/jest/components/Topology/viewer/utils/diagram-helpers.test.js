@@ -340,7 +340,7 @@ describe("getPulseForNodeWithPodStatus no replica", () => {
   };
 
   it("getPulseForNodeWithPodStatus pulse no replica", () => {
-    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("green");
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("yellow");
   });
 });
 

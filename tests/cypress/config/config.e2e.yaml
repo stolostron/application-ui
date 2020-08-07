@@ -6,4 +6,4 @@ wizards:
     # accessToken: kjshdjkshjkshkjchdsjkfjkdsnj
     url: "https://github.com/fxiang1/app-samples.git"
     branch: "master"
-    path: "nginx"
+    path: "helloworld"

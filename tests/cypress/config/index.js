@@ -20,8 +20,10 @@ exports.getConfig = () => {
     config = jsYaml.safeLoad(config);
 
     // append JOB_ID to the name for unique runs
-    config.wizards.git.name =
-      config.wizards.git.name + "-" + process.env.CYPRESS_JOB_ID;
+    typeof process.env.CYPRESS_JOB_ID === "undefined"
+      ? config.wizards.git.name
+      : (config.wizards.git.name =
+          config.wizards.git.name + "-" + process.env.CYPRESS_JOB_ID);
   } catch (e) {
     throw new Error(e);
   }

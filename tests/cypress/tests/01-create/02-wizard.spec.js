@@ -9,10 +9,6 @@ const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
 describe("create wizard", () => {
   for (const resource in wizards) {
     const { name, url, username, token, branch, path } = wizards[resource];
-    console.log(Cypress.env("JOB_ID"));
-    typeof Cypress.env("JOB_ID") === "undefined"
-      ? name
-      : (name = name + "-" + Cypress.env("JOB_ID"));
     it(`can be created on resource ${resource}`, () => {
       cy.visit("/multicloud/applications");
       modal.clickSecondary();

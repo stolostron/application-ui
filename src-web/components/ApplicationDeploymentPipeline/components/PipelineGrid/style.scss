@@ -149,15 +149,16 @@
   }
 
   .noResTitle {
-    font-family: 'RedHatText-Medium';
+    font-family: 'RedHatText';
     font-size: 24px;
+    font-weight: 600;
     line-height: 31px;
     color: $mcm__color__gray_text;
   }
 
   .noResDescription {
     margin-top: 12px;
-    font-family: 'RedHatText-Regular';
+    font-family: 'RedHatText';
     font-size: 16px;
     line-height: 24px;
     color: $mcm__color__gray_text;
@@ -172,8 +173,9 @@
   }
 
   .noSubTitle {
-    font-family: 'RedHatText-Medium';
+    font-family: 'RedHatText';
     font-size: 14px;
+    font-weight: 600;
     color: $mcm__color__gray_text;
   }
 
@@ -185,7 +187,8 @@
   }
 
   #text-highlight {
-    font-family: 'RedHatText-Medium';
+    font-family: 'RedHatText';
+    font-weight: 600;
     color: $color__blue-51;
   }
 

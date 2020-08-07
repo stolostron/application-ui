@@ -140,15 +140,6 @@ const githubChannelData = [
     available: [],
     validation: VALIDATE_ALPHANUMERIC,
     cacheUserValueKey: 'create.app.github.path'
-  },
-  {
-    name: 'creation.app.github.commit',
-    tooltip: 'tooltip.creation.app.github.commit',
-    id: 'githubCommit',
-    type: 'text',
-    active: '',
-    placeholder: 'app.enter.commit',
-    validation: VALIDATE_ALPHANUMERIC
   }
 ]
 

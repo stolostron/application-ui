@@ -30,7 +30,8 @@ import {
   getClusterName,
   getPodState,
   getNameWithoutChartRelease,
-  removeReleaseGeneratedSuffix
+  removeReleaseGeneratedSuffix,
+  getClusterHost
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -3079,7 +3080,7 @@ describe("addNodeOCPRouteLocationForCluster", () => {
       specs: {
         clusters: [
           {
-            clusterip: "222",
+            consoleURL: "https://console-openshift-console.222",
             metadata: {
               name: "possiblereptile"
             }
@@ -3542,6 +3543,14 @@ describe("removeReleaseGeneratedSuffix remove suffix", () => {
   it("should remove generate suffix for the helmrelease", () => {
     expect(removeReleaseGeneratedSuffix("nginx-ingress-66f46")).toEqual(
       "nginx-ingress"
+    );
+  });
+});
+
+describe("getClusterHost", () => {
+  it("should host from cluster URL", () => {
+    expect(getClusterHost("https://console-openshift-console.222")).toEqual(
+      "222"
     );
   });
 });

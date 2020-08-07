@@ -45,8 +45,8 @@ resources(() => {
 class ApplicationCreationPage extends React.Component {
   static propTypes = {
     cleanReqStatus: PropTypes.func,
-    editApplication: PropTypes.object,
     deleteSuccessFinished: PropTypes.func,
+    editApplication: PropTypes.object,
     handleCreateApplication: PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object,
@@ -113,8 +113,9 @@ class ApplicationCreationPage extends React.Component {
       }
     ]
     const tooltip = '' //{ text: msgs.get('tooltip.text.createCluster', locale), link: TOOLTIP_LINKS.CREATE_CLUSTER }
+    const title = selectedAppName || msgs.get(secondaryHeaderProps.title, locale)
     this.props.updateSecondaryHeader(
-      msgs.get(secondaryHeaderProps.title, locale),
+      title,
       secondaryHeaderProps.tabs,
       breadcrumbs,
       portals,
@@ -142,7 +143,6 @@ class ApplicationCreationPage extends React.Component {
   }
 
   render() {
-    const { locale } = this.context
     const { editApplication } = this.props
     if (editApplication) {
       // if editing an existing app, grab it first
@@ -154,7 +154,7 @@ class ApplicationCreationPage extends React.Component {
               const { loading } = result
               const { data={} } = result
               const { application } = data
-              const errored = application ? false : true
+              //const errored = application ? false : true
               const error = application ? null : result.error
               if (!loading && error) {
                 const errorName = result.error.graphQLErrors[0].name ? result.error.graphQLErrors[0].name : error.name
@@ -177,7 +177,6 @@ class ApplicationCreationPage extends React.Component {
         {this.renderEditor()}
       </Page>
     )
-    return
   }
 
   renderEditor() {

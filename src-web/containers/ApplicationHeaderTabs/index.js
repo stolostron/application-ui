@@ -43,7 +43,7 @@ export const ApplicationCreationPage = loadable(() =>
   import(/* webpackChunkName: "applicationcreatepage" */ '../../components/ApplicationCreationPage/ApplicationCreationPage')
 )
 
-const routes = ['', 'pipeline', 'yaml', 'create']
+const routes = ['', 'advanced', 'yaml', 'create']
 // This will render the two tabs
 // Overview, Resources
 const ApplicationHeaderTabs = withLocale(

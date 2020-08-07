@@ -259,7 +259,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
 
     const {
-      serverProps,
       selectedApp,
       AppDeployments,
       actions,
@@ -300,20 +299,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       selectedApp,
       AppDeployments
     )
-
-    const {isSingleApplicationView} =  selectedApp
-    let selectedAppName = ''
-    let selectedAppNS = ''
-    let app = null
-    if (
-      applications &&
-      applications instanceof Array &&
-      applications.length === 1
-    ) {
-      app = applications[0]
-      selectedAppNS = app.namespace
-      selectedAppName = app.name
-    }
 
     const subscriptionModalHeader =
       AppDeployments.subscriptionModalHeaderInfo &&

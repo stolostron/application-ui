@@ -1318,7 +1318,8 @@ export const addNodeOCPRouteLocationForCluster = (
         R.pathOr('NA', ['metadata', 'name'])(clusterObject) ===
         _.get(typeObject, 'cluster', '')
       ) {
-        hostName = `${node.name}-${node.namespace}.${clusterObject.clusterip}`
+        const clusterHost = getClusterHost(clusterObject.consoleURL)
+        hostName = `${node.name}-${node.namespace}.${clusterHost}`
       }
     })
   }
@@ -1495,4 +1496,14 @@ export const getType = (type, locale) => {
   return !nlsType.startsWith('!resource.')
     ? nlsType
     : _.capitalize(_.startCase(type))
+}
+
+export const getClusterHost = consoleURL => {
+  const ocpIdx = consoleURL
+    ? consoleURL.indexOf('https://console-openshift-console.')
+    : -1
+  if (ocpIdx < 0) {
+    return ''
+  }
+  return consoleURL.substr(ocpIdx + 34)
 }

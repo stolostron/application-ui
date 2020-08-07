@@ -794,7 +794,7 @@ const PipelineGrid = withLocale(
     },
     locale
   ) => {
-    const {isSingleApplicationView:oneApplication} =  selectedApp
+    const {isSingleApplicationView:oneApplication} =  selectedApp||{}
 
     const sortedChannels = sortChannelsBySubscriptionLength(
       channels,

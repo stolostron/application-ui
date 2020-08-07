@@ -57,7 +57,7 @@ const ApplicationHeaderTabs = withLocale(
   }) => {
 
     // process restful api into which tab to show
-    const {history, location} = params
+    const {history, location} = params||{}
     const pathname = _.get(location, 'pathname', '')
     const segments = pathname.split('/')
     const isSingleApplicationView = segments.length>=5
@@ -97,7 +97,6 @@ const ApplicationHeaderTabs = withLocale(
     const renderTab = thisTab => {
       if (selectedTab === thisTab) {
         switch (thisTab) {
-        default:
         case 0:
           return (
             <div className="some-content">
@@ -143,8 +142,8 @@ const ApplicationHeaderTabs = withLocale(
                 deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
                 deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
                 // open the tab
-                const route = id>0 ? `${routes[id]}`:''
-                history.push(`${basePath}/${route}`)
+                const theRoute = id>0 ? `${routes[id]}`:''
+                history.push(`${basePath}/${theRoute}`)
               }}
               tabcontentclassname="tab-content"
               >

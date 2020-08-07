@@ -22,7 +22,7 @@ export const getApplicationsForSelection = (
   selectedApp,
   AppDeployments
 ) => {
-  const {isSingleApplicationView, selectedAppName, selectedAppNamespace} =  selectedApp
+  const {isSingleApplicationView, selectedAppName, selectedAppNamespace} =  selectedApp||{}
 
   let filteredApplications = ''
   if (isSingleApplicationView) {
@@ -48,14 +48,9 @@ export const getSubscribedChannels = (
   selectedApp,
   AppDeployments
 ) => {
-  const {isSingleApplicationView} =  selectedApp
+  const {isSingleApplicationView} =  selectedApp||{}
 
   if (isSingleApplicationView && !AppDeployments.showAllChannels) {
-    const selectedApp =
-      applications &&
-      applications instanceof Array &&
-      applications.length === 1
-
     if (selectedApp) {
       const subscribedChannels = []
       const subscriptionsFetched = applications[0].hubSubscriptions

@@ -823,6 +823,7 @@ class ControlPanel extends React.Component {
             </div>
           ) : (
             <ComboBox
+              id={id}
               key={key}
               items={items}
               itemToString={item => (item ? item.label : '')}

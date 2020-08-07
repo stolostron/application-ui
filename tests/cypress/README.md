@@ -1,32 +1,43 @@
 
 # Application-UI Cypress Tests
 
-The Cypress tests for [Application-UI](https://github.com/open-cluster-management/application-ui)
+This is the project for the End-to-end (E2E) Cypress tests for [Application-UI](https://github.com/open-cluster-management/application-ui)
+
+The tests can be run locally and also are containerized in Docker for running on the Travis CI pipeline. On Travis, each PR build creates an appiication-ui image which is run using Docker, and another application-ui-tests image is built and also run on Docker, pointing to the application-ui image. The intent is that the tests will be run on new code every build.
+
+For running tests locally for general testing, or development of test cases, the local environment can be configured to run on a hub cluster that has application-ui running. It can also be pointing to a local deployment that points to a hub cluster.
 
 ## How to run Cypress tests
 
 #### Prerequisites:
 - Install Node on MacOS (npm will be installed with Node): `brew install node`
 - `npm install`
-
+- oc - OpenShift CLI
 ---
 
-#### Live Cluster
+#### Running Cypress tests on a live hub cluster
 
 1. Export the following environment variables:
-    - CYPRESS_BASE_URL (e.g. `https://multicloud-console.apps.mycluster.dev07.open-cluster-management.com`)
-    - CYPRESS_OC_IDP (the desired identity provider group on OCP login page; defaults to `kube:admin` if not set)
-    - CYPRESS_OC_CLUSTER_USER (`login username`; defaults to `kubeadmin` if not set)
-    - CYPRESS_OC_CLUSTER_PASS (`login password`)
+	- `export CYPRESS_BASE_URL=https://multicloud-console.apps.hli-test.dev06.red-chesterfield.com/` (URL of a working cluster)
+	- `export CYPRESS_OC_CLUSTER_USER=kubeadmin`
+	- `export CYPRESS_OC_CLUSTER_PASS=xxxxxxxxx`
 2. From the root application-ui directory, run `npx cypress open`
 
-#### Local Environment
+#### Running Cypress tests on a local environment
 
-1. Get the application running locally.
-2. `oc login` to your hub cluster.
-3. From the root application-ui directory, run `npx cypress open`
+The environment variables are similar to running on the live cluster, however in order to run Cypress tests on a local environment, 
 
-#### Running Cypress Tests in a Docker Container
+1. Deploy the application-ui locally either by running `npm start` or running the application-ui using a Docker image
+2. `oc login` to the hub cluster the local environment is pointing to. For local instances, an authenticated token is required.  
+	- Example: `oc login --token=xxxxxxx --server=https://api.hli-test.dev06.red-chesterfield.com:6443`
+3. Export the following environment variables:
+	- `export CYPRESS_BASE_URL=https://localhost:3001`
+	- `export CYPRESS_OC_CLUSTER_USER=kubeadmin`
+	- `export CYPRESS_OC_CLUSTER_PASS=xxxxxxxxx`
+	- `export CYPRESS_OC_CLUSTER_URL=https://api.hli-test.dev06.red-chesterfield.com:6443` (API of the cluster that the local env points to needs to be specified)
+4. From the root application-ui directory, run `npx cypress open`
+
+#### Building and Running Cypress tests in a Docker Container
 
 1. Create an options.yaml file in /application-ui/, this is a configuration file that is used by the Docker container, the following is an example: 
 

@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -30,7 +31,7 @@ describe("ApplicationHeaderTabs", () => {
     const component = mount(
       <Provider store={storeApp}>
         <ApplicationHeaderTabs
-          showExtraTabs={false}
+          showSingleApp={false}
           serverProps={serverProps}
         />
       </Provider>
@@ -45,7 +46,7 @@ describe("ApplicationHeaderTabs", () => {
       .create(
         <Provider store={storeApp}>
           <ApplicationHeaderTabs
-            showExtraTabs={false}
+            showSingleApp={false}
             serverProps={serverProps}
           />
         </Provider>
@@ -62,7 +63,7 @@ describe("ApplicationHeaderTabs", () => {
       .create(
         <Provider store={storeApp}>
           <ApplicationHeaderTabs
-            showExtraTabs={true}
+            showSingleApp={true}
             serverProps={serverProps}
           />
         </Provider>
@@ -79,7 +80,7 @@ describe("ApplicationHeaderTabs", () => {
       .create(
         <Provider store={storeApp}>
           <ApplicationHeaderTabs
-            showExtraTabs={true}
+            showSingleApp={true}
             serverProps={serverProps}
           />
         </Provider>

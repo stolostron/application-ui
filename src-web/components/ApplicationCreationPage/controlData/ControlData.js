@@ -9,13 +9,18 @@
  *******************************************************************************/
 'use strict'
 
-import {VALIDATE_ALPHANUMERIC, VALIDATE_URL} from '../../TemplateEditor/utils/validation'
+import React from 'react'
+import {
+  VALIDATE_ALPHANUMERIC,
+  VALIDATE_URL
+} from '../../TemplateEditor/utils/validation'
 import { HCMChannelList } from '../../../../lib/client/queries'
+import TimeWindow from '../components/TimeWindow'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
 
-export const LOAD_EXISTING_CHANNELS  = (type)=>{
+export const loadExistingChannels = type => {
   return {
     query: HCMChannelList,
     loadingDesc: 'creation.app.loading.channels',
@@ -23,9 +28,9 @@ export const LOAD_EXISTING_CHANNELS  = (type)=>{
   }
 }
 
-export const setAvailableChannelSpecs  = (type, control, result)=>{
+export const setAvailableChannelSpecs = (type, control, result) => {
   const { loading } = result
-  const { data={} } = result
+  const { data = {} } = result
   const { items } = data
   control.available = []
   control.availableMap = {}
@@ -34,24 +39,26 @@ export const setAvailableChannelSpecs  = (type, control, result)=>{
   if (error) {
     control.isFailed = true
   } else if (items) {
-    control.availableData = _.keyBy(items
-      .filter(({type:p})=>{
+    control.availableData = _.keyBy(
+      items.filter(({ type: p }) => {
         return type.startsWith(p.toLowerCase())
-      }), 'objectPath')
+      }),
+      'objectPath'
+    )
     control.available = Object.keys(control.availableData).sort()
   } else {
     control.isLoading = loading
   }
 }
 
-const updateGithubControls = (urlControl)=>{
-  const {active, availableData, groupControlData} = urlControl
+const updateChannelControls = urlControl => {
+  const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]
 
   // change channel name to reflect github path
   let control
   if (active) {
-    control = groupControlData.find(({id}) => id === 'channelName')
+    control = groupControlData.find(({ id }) => id === 'channelName')
     const a = document.createElement('a')
     a.href = active
     let name = a.pathname.split('/').pop()
@@ -61,17 +68,22 @@ const updateGithubControls = (urlControl)=>{
 
   // hide user/token controls if user selects a github path that doesn't need them
   const type = !pathData || pathData.secretRef ? 'text' : 'hidden'
-  const setType = (cid) => {
-    control = groupControlData.find(({id}) => id === cid)
+  const setType = cid => {
+    control = groupControlData.find(({ id }) => id === cid)
     _.set(control, 'type', type)
-    if (type==='hidden') {
+    if (type === 'hidden') {
       _.set(control, 'active', '')
     }
   }
-  setType('githubUser')
-  setType('githubAccessId')
+  const { id } = urlControl
+  if (id === 'githubURL') {
+    setType('githubUser')
+    setType('githubAccessId')
+  } else if (id === 'objectstoreURL') {
+    setType('accessKey')
+    setType('secretKey')
+  }
 }
-
 
 const githubChannelData = [
   ///////////////////////  github  /////////////////////////////////////
@@ -84,9 +96,9 @@ const githubChannelData = [
     placeholder: 'app.enter.select.github.url',
     available: [],
     validation: VALIDATE_URL,
-    fetchAvailable: LOAD_EXISTING_CHANNELS('github'),
+    fetchAvailable: loadExistingChannels('git'),
     cacheUserValueKey: 'create.app.github.url',
-    onSelect: updateGithubControls,
+    onSelect: updateChannelControls
   },
   {
     name: 'creation.app.github.user',
@@ -95,8 +107,7 @@ const githubChannelData = [
     type: 'text',
     active: '',
     encode: true,
-    placeholder: 'app.enter.select.username',
-    validation: VALIDATE_ALPHANUMERIC,
+    placeholder: 'app.enter.select.username'
   },
   {
     name: 'creation.app.github.accessid',
@@ -105,8 +116,7 @@ const githubChannelData = [
     type: 'text',
     encode: true,
     active: '',
-    placeholder: 'app.enter.access.token',
-    validation: VALIDATE_ALPHANUMERIC,
+    placeholder: 'app.enter.access.token'
   },
   {
     name: 'creation.app.github.branch',
@@ -117,7 +127,7 @@ const githubChannelData = [
     placeholder: 'app.enter.select.branch',
     available: ['master'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.branch',
+    cacheUserValueKey: 'create.app.github.branch'
   },
   {
     name: 'creation.app.github.path',
@@ -128,7 +138,7 @@ const githubChannelData = [
     placeholder: 'app.enter.select.path',
     available: [],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.app.github.path',
+    cacheUserValueKey: 'create.app.github.path'
   },
   {
     name: 'creation.app.github.commit',
@@ -137,8 +147,8 @@ const githubChannelData = [
     type: 'text',
     active: '',
     placeholder: 'app.enter.commit',
-    validation: VALIDATE_ALPHANUMERIC,
-  },
+    validation: VALIDATE_ALPHANUMERIC
+  }
 ]
 
 const deployableChannelData = [
@@ -152,8 +162,8 @@ const deployableChannelData = [
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose',
-  },
+    cacheUserValueKey: 'create.cluster.purpose'
+  }
 ]
 
 const helmReleaseChannelData = [
@@ -167,47 +177,50 @@ const helmReleaseChannelData = [
     placeholder: 'cluster.create.select.purpose',
     available: ['dev', 'prod', 'qa'],
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose',
-  },
+    cacheUserValueKey: 'create.cluster.purpose'
+  }
 ]
 
 const objectstoreChannelData = [
   ///////////////////////  Objectstore  /////////////////////////////////////
   {
-    name: 'creation.ocp.purpose',
-    tooltip: 'tooltip.creation.ocp.purpose',
-    id: 'purposeos',
+    name: 'creation.app.objectstore.url',
+    tooltip: 'tooltip.creation.app.objectstore.url',
+    id: 'objectstoreURL',
     type: 'combobox',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
-    validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose',
+    placeholder: 'app.enter.select.objectstore.url',
+    available: [],
+    validation: VALIDATE_URL,
+    fetchAvailable: loadExistingChannels('objectbucket'),
+    cacheUserValueKey: 'create.app.objectstore.url',
+    onSelect: updateChannelControls
   },
-]
-
-const secretNameChannelData = [
-  ///////////////////////  Secret name  /////////////////////////////////////
   {
-    name: 'creation.ocp.purpose',
-    tooltip: 'tooltip.creation.ocp.purpose',
-    id: 'purposesc',
-    type: 'combobox',
+    name: 'creation.app.objectstore.accesskey',
+    tooltip: 'tooltip.creation.app.objectstore.accesskey',
+    id: 'accessKey',
+    type: 'text',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
-    validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose',
+    encode: true,
+    placeholder: 'app.enter.accesskey'
   },
+  {
+    name: 'creation.app.objectstore.secretkey',
+    tooltip: 'tooltip.creation.app.objectstore.secretkey',
+    id: 'secretKey',
+    type: 'text',
+    encode: true,
+    active: '',
+    placeholder: 'app.enter.secretkey'
+  }
 ]
-
-
 
 export const controlData = [
   {
     id: 'main',
     type: 'section',
-    note: 'creation.view.required.mark',
+    note: 'creation.view.required.mark'
   },
   {
     name: 'creation.app.name',
@@ -218,8 +231,8 @@ export const controlData = [
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
-      required: true,
-    },
+      required: true
+    }
   },
   {
     name: 'creation.app.namespace',
@@ -231,8 +244,8 @@ export const controlData = [
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
-      required: true,
-    },
+      required: true
+    }
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  channels  /////////////////////////////////////
@@ -243,7 +256,7 @@ export const controlData = [
     numbered: '1',
     overline: true,
     collapsable: true,
-    collapsed: false,
+    collapsed: false
   },
   ///////////////////////  channels  /////////////////////////////////////
   {
@@ -253,7 +266,7 @@ export const controlData = [
       nameId: 'channelName',
       baseName: 'resource',
       addPrompt: 'creation.app.add.channel',
-      deletePrompt: 'creation.app.delete.channel',
+      deletePrompt: 'creation.app.delete.channel'
     },
     controlData: [
       {
@@ -261,13 +274,13 @@ export const controlData = [
         type: 'section',
         title: 'creation.app.channel.title',
         collapsable: true,
-        collapsed: false,
+        collapsed: false
       },
       ///////////////////////  channel name  /////////////////////////////////////
       {
         id: 'channelName',
         type: 'hidden',
-        active: 'resource',
+        active: 'resource'
       },
       {
         id: 'channelType',
@@ -283,55 +296,46 @@ export const controlData = [
             id: 'github',
             logo: 'resource-github-icon.svg',
             title: 'creation.app.channel.github',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.git',
             change: {
-              insertControlData: githubChannelData,
+              insertControlData: githubChannelData
             }
           },
           {
             id: 'deployable',
             logo: 'resource-deployable-icon.svg',
             title: 'creation.app.channel.deployable',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.namespace',
             change: {
-              insertControlData: deployableChannelData,
+              insertControlData: deployableChannelData
             }
           },
           {
             id: 'helmrepo',
             logo: 'resource-helmrepo-icon.svg',
             title: 'creation.app.channel.helmrepo',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.helmrepo',
             change: {
-              insertControlData: helmReleaseChannelData,
+              insertControlData: helmReleaseChannelData
             }
           },
           {
             id: 'objectstore',
             logo: 'resource-objectstore-icon.svg',
             title: 'creation.app.channel.objectstore',
-            tooltip: 'tooltip.creation.app.channel.existing',
+            tooltip: 'tooltip.creation.app.channel.objectstore',
             change: {
-              insertControlData: objectstoreChannelData,
+              insertControlData: objectstoreChannelData
             }
-          },
-          {
-            id: 'secret',
-            logo: 'resource-secret-icon.svg',
-            title: 'creation.app.channel.secret',
-            tooltip: 'tooltip.creation.app.channel.existing',
-            change: {
-              insertControlData: secretNameChannelData,
-            }
-          },
+          }
         ],
         active: '',
         validation: {
-          notification: 'creation.ocp.cluster.must.select.resource.type',
-          required: true,
-        },
-      },
-    ],
+          notification: 'creation.must.select.resource.type',
+          required: true
+        }
+      }
+    ]
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
@@ -342,15 +346,33 @@ export const controlData = [
     numbered: '2',
     overline: true,
     collapsable: true,
-    collapsed: false,
+    collapsed: false
   },
-
   {
-    name: 'creation.view.policy.binding',
-    description: 'policy.create.selectors.tooltip',
-    placeholder: 'creation.view.policy.select.selectors',
-    id: 'clusters',
-    type: 'multiselect',
-    available: [],
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: true,
+    available: []
   },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  settings  /////////////////////////////////////
+  {
+    id: 'settingsSection',
+    type: 'section',
+    title: 'creation.app.section.settings',
+    numbered: '3',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    type: 'custom',
+    name: 'creation.app.settings.timeWindow',
+    tooltip: 'creation.app.settings.timeWindow.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
+    available: []
+  }
 ]

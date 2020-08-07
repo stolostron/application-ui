@@ -8,49 +8,47 @@
 //  * Copyright (c) 2020 Red Hat, Inc.
 //  *******************************************************************************/
 
-
 import apolloClient from '../../lib/client/apollo-client'
 import {
   APPLICATION_CREATE_CLEAR_STATUS,
   APPLICATION_CREATE_IN_PROGRESS,
   APPLICATION_CREATE_SUCCESS,
   APPLICATION_CREATE_FAILURE,
-  REQUEST_STATUS,
+  REQUEST_STATUS
 } from './index'
 import _ from 'lodash'
 
 export const clearCreateStatus = () => ({
-  type: APPLICATION_CREATE_CLEAR_STATUS,
+  type: APPLICATION_CREATE_CLEAR_STATUS
 })
 
-export const createApplicationInProgress = (resourceName) => ({
+export const createApplicationInProgress = resourceName => ({
   type: APPLICATION_CREATE_IN_PROGRESS,
-  resourceName,
+  resourceName
 })
 
-export const createApplicationSuccess = (resourceName) => ({
+export const createApplicationSuccess = resourceName => ({
   type: APPLICATION_CREATE_SUCCESS,
-  resourceName,
+  resourceName
 })
 
-export const createApplicationFailure = (errors) => ({
+export const createApplicationFailure = errors => ({
   type: APPLICATION_CREATE_FAILURE,
   postStatus: REQUEST_STATUS.ERROR,
-  errors,
+  errors
 })
 
-export const createApplication = (resourceJson) => {
-  return (dispatch) => {
+export const createApplication = resourceJson => {
+  return dispatch => {
     dispatch(createApplicationInProgress())
-    return apolloClient.createApplication(resourceJson)
-      .then(result => {
-        const errors = _.get(result, 'data.createApplication.errors')
-        if (errors && errors.length > 0){
-          dispatch(createApplicationFailure(errors))
-        } else {
-          dispatch(createApplicationSuccess())
-        }
-        return result
-      })
+    return apolloClient.createApplication(resourceJson).then(result => {
+      const errors = _.get(result, 'data.createApplication.errors')
+      if (errors && errors.length > 0) {
+        dispatch(createApplicationFailure(errors))
+      } else {
+        dispatch(createApplicationSuccess())
+      }
+      return result
+    })
   }
 }

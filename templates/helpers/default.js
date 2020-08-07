@@ -9,7 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-module.exports = (opts) => {
+module.exports = opts => {
   if (opts.data && opts.data._switch_value_ && !opts.data._cased_) {
     return opts.fn(this)
   }

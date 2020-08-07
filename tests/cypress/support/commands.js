@@ -30,6 +30,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 var apiUrl =
+  Cypress.env("OC_CLUSTER_URL") ||
   Cypress.config().baseUrl.replace("multicloud-console.apps", "api") + ":6443";
 var authUrl = Cypress.config().baseUrl.replace(
   "multicloud-console",

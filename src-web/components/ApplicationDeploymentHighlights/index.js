@@ -7,7 +7,6 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import R from 'ramda'
 import React from 'react'
 
 import { connect } from 'react-redux'
@@ -30,36 +29,9 @@ const mapStateToProps = state => {
 
 class ApplicationDeploymentHighlights extends React.Component {
   render() {
-    const { QueryApplicationList, secondaryHeader } = this.props
-
-    const applications = R.pathOr([], ['items'])(QueryApplicationList)
-    let open = applications.length === 0
-    if (applications.length > 0) {
-      const isSingleApplicationView =
-        R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length === 2
-      let selectedAppName = ''
-      let selectedAppNS = ''
-
-      if (isSingleApplicationView) {
-        const urlArray = R.split('/', secondaryHeader.breadcrumbItems[1].url)
-        selectedAppName = urlArray[urlArray.length - 1]
-        selectedAppNS = urlArray[urlArray.length - 2]
-
-        const apps = R.find(
-          R.propEq('name', selectedAppName) &&
-            R.propEq('namespace', selectedAppNS)
-        )(applications) //filter by name, ns
-        open = !(
-          apps &&
-          apps.hubSubscriptions &&
-          apps.hubSubscriptions.length > 0
-        )
-      }
-    }
-
     return (
       <div id="DeploymentHighlights">
-        <ApplicationDeploymentHighlightsTerminology open={open} />
+        <ApplicationDeploymentHighlightsTerminology open={true} />
       </div>
     )
   }

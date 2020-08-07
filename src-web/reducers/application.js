@@ -17,25 +17,25 @@ import {
 } from '../actions'
 
 export const applicationPageResources = (state = null, action) => {
-  switch(action.type){
+  switch (action.type) {
   case APPLICATION_CREATE_CLEAR_STATUS:
     return {
       mutateStatus: null,
-      mutateErrorMsg: null,
+      mutateErrorMsg: null
     }
   case APPLICATION_CREATE_IN_PROGRESS:
     return {
       mutateStatus: REQUEST_STATUS.IN_PROGRESS,
-      mutateErrorMsg: null,
+      mutateErrorMsg: null
     }
   case APPLICATION_CREATE_FAILURE:
     return Object.assign({}, state, {
       mutateStatus: REQUEST_STATUS.ERROR,
-      mutateErrorMsgs: action.errors,
+      mutateErrorMsgs: action.errors
     })
   case APPLICATION_CREATE_SUCCESS:
     return Object.assign({}, state, {
-      mutateStatus: REQUEST_STATUS.DONE,
+      mutateStatus: REQUEST_STATUS.DONE
     })
 
   default:

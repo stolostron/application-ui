@@ -14,20 +14,27 @@ import _ from 'lodash'
 
 export const ControlMode = Object.freeze({
   TABLE_ONLY: 'TABLE_ONLY',
-  PROMPT_ONLY: 'PROMPT_ONLY',
+  PROMPT_ONLY: 'PROMPT_ONLY'
 })
 
-export const initializeControlData = (initialControlData, locale, groupNum, inGroup) =>{
-  const parentControlData = initialControlData.map(control=>{
-    const {type, controlData, groupCnt=1} = control
+export const initializeControlData = (
+  initialControlData,
+  locale,
+  groupNum,
+  inGroup
+) => {
+  const parentControlData = initialControlData.map(control => {
+    const { type, controlData, groupCnt = 1 } = control
     switch (type) {
     case 'group': {
       let active = control.active
       if (!active) {
         active = control.active = []
       }
-      while (active.length<groupCnt) {
-        active.push(initializeControlData(controlData, locale, active.length+1, true))
+      while (active.length < groupCnt) {
+        active.push(
+          initializeControlData(controlData, locale, active.length + 1, true)
+        )
       }
       return control
     }
@@ -38,8 +45,8 @@ export const initializeControlData = (initialControlData, locale, groupNum, inGr
 
   // if any card controls, set this as parent control data
   if (inGroup) {
-    parentControlData.forEach(c=>{
-      if (c.type==='cards') {
+    parentControlData.forEach(c => {
+      if (c.type === 'cards') {
         c.groupNum = groupNum
         c.groupControlData = parentControlData
       }
@@ -48,28 +55,30 @@ export const initializeControlData = (initialControlData, locale, groupNum, inGr
   return parentControlData
 }
 
-const initialControl = (control, locale, groupNum) =>{
-  const {type, active, available=[], multiselect, isInitialized} = control
+const initialControl = (control, locale, groupNum) => {
+  const { type, active, available = [], multiselect, isInitialized } = control
   if (!isInitialized) {
     control = Object.assign({}, control)
 
     // if checkbox, convert active from an item name to a boolean
-    if (type==='checkbox') {
-      control.active = available.indexOf(active)>0
+    if (type === 'checkbox') {
+      control.active = available.indexOf(active) > 0
     }
     if (typeof control.active === 'boolean') {
       control.initialActive = control.active
     } else {
-      control.initialActive = control.active||''
+      control.initialActive = control.active || ''
     }
-    if (type==='number') {
+    if (type === 'number') {
       control.active = control.initial
     }
 
     // if user data was cached, apply now
     // save custom user input for session??
     if (control.cacheUserValueKey) {
-      const storageKey = `${control.cacheUserValueKey}--${window.location.href}`
+      const storageKey = `${control.cacheUserValueKey}--${
+        window.location.href
+      }`
       const sessionObject = JSON.parse(sessionStorage.getItem(storageKey))
       if (sessionObject) {
         control.userData = sessionObject
@@ -81,18 +90,29 @@ const initialControl = (control, locale, groupNum) =>{
 
     // if available choices are objects, convert to keys
     // required for label lists, multiselect, cards
-    let sortAvailableChoices=true
+    let sortAvailableChoices = true
     let sortLabelsByName = false
     let availableMap = {}
 
-    if (type!=='table' && type!=='treeselect' &&
-        typeof _.get(control, 'available[0]') === 'object') {
-      const { sort=true } = control
+    if (
+      type !== 'table' &&
+      type !== 'treeselect' &&
+      typeof _.get(control, 'available[0]') === 'object'
+    ) {
+      const { sort = true } = control
       availableMap = control.availableMap = {}
       sortAvailableChoices = sort
-      control.available = control.available.map(choice=>{
+      control.available = control.available.map(choice => {
         let availableKey
-        const {id, key, value, name, description, replacements, change={}} = choice
+        const {
+          id,
+          key,
+          value,
+          name,
+          description,
+          replacements,
+          change = {}
+        } = choice
         // label choices
         if (key && value) {
           availableKey = `${key}: "${value}"`
@@ -102,24 +122,25 @@ const initialControl = (control, locale, groupNum) =>{
           sortLabelsByName = control.hasValueDescription = true
           choice = choice.value
         } else if (name && description) {
-        // multiselect choices
+          // multiselect choices
           availableKey = `${name} - ${description}`
           control.hasReplacements = true
         } else if (id) {
-        // card choices
+          // card choices
           availableKey = id
           const replaces = replacements || change.replacements
           control.hasReplacements = control.hasReplacements || !!replaces
           if (control.hasReplacements) {
-            choice.replacements=replaces
+            choice.replacements = replaces
           }
-          control.newEditorMode = change.insertControlData && type==='cards' && !multiselect
+          control.newEditorMode =
+            change.insertControlData && type === 'cards' && !multiselect
         }
         control.availableMap[availableKey] = choice
         return availableKey
       })
       if (sortAvailableChoices) {
-        control.available = control.available.sort((a,b)=>{
+        control.available = control.available.sort((a, b) => {
           switch (type) {
           case 'cards':
             a = availableMap[a].title || a
@@ -141,9 +162,9 @@ const initialControl = (control, locale, groupNum) =>{
     }
 
     // connect controls to source for updates/validation
-    const {validation, multiline} = control
+    const { validation, multiline } = control
     if (validation) {
-      let {constraint} = validation
+      let { constraint } = validation
       if (constraint) {
         if (multiline) {
           validation.tester = new RegExp(constraint)
@@ -175,19 +196,30 @@ const initialControl = (control, locale, groupNum) =>{
 }
 
 const convertMsgs = (control, locale, groupNum) => {
-  const { type, controlData, available} = control
-  const keys = ['name', 'description', 'placeholder', 'title', 'subtitle', 'prompt', 'info', 'tooltip']
-  keys.forEach(key=>{
+  const { type, controlData, available } = control
+  const keys = [
+    'name',
+    'description',
+    'placeholder',
+    'title',
+    'subtitle',
+    'prompt',
+    'info',
+    'tooltip'
+  ]
+  keys.forEach(key => {
     if (typeof control[key] === 'string') {
-      control[key] = groupNum ? msgs.get(control[key], [groupNum], locale) : msgs.get(control[key], locale)
+      control[key] = groupNum
+        ? msgs.get(control[key], [groupNum], locale)
+        : msgs.get(control[key], locale)
     }
   })
   const properties = ['available', 'active']
-  properties.forEach(prop=>{
+  properties.forEach(prop => {
     const values = _.get(control, prop)
     if (Array.isArray(values)) {
-      values.forEach(item=>{
-        keys.forEach(key=>{
+      values.forEach(item => {
+        keys.forEach(key => {
           if (item[key] && item[key].split('.').length > 2) {
             if (typeof item[key] === 'string') {
               item[key] = msgs.get(item[key], locale)
@@ -199,8 +231,8 @@ const convertMsgs = (control, locale, groupNum) => {
   })
 
   // if table convert the controlData in that
-  if (type==='table' && controlData) {
-    controlData.forEach(ctrl=>{
+  if (type === 'table' && controlData) {
+    controlData.forEach(ctrl => {
       if (!ctrl.isInitialized) {
         convertMsgs(ctrl, locale, groupNum)
         ctrl.isInitialized = true
@@ -209,10 +241,10 @@ const convertMsgs = (control, locale, groupNum) => {
   }
 
   // if cards convert the data in that
-  if (type==='cards' && available) {
-    available.forEach(({change={}})=>{
+  if (type === 'cards' && available) {
+    available.forEach(({ change = {} }) => {
       if (change.insertControlData) {
-        change.insertControlData.forEach(ctrl=>{
+        change.insertControlData.forEach(ctrl => {
           if (!ctrl.isInitialized) {
             convertMsgs(ctrl, locale, groupNum)
             ctrl.isInitialized = true
@@ -222,4 +254,3 @@ const convertMsgs = (control, locale, groupNum) => {
     })
   }
 }
-

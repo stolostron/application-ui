@@ -258,7 +258,8 @@ export const nodeMustHavePods = node => {
       'daemonset',
       'statefulset',
       'replicationcontroller',
-      'deployment'
+      'deployment',
+      'deploymentconfig'
     ])
   ) {
     //pod deployables must have pods
@@ -358,7 +359,7 @@ export const getPodState = (podItem, clusterName, types) => {
   let result = 0
   if (
     !clusterName ||
-    R.contains(clusterName, R.pathOr('unkown', ['cluster'])(podItem))
+    R.equals(clusterName, R.pathOr('unkown', ['cluster'])(podItem))
   ) {
     types.forEach(type => {
       if (R.contains(type, podStatus)) {
@@ -396,10 +397,17 @@ export const getPulseForData = (
 
 export const getPulseForNodeWithPodStatus = node => {
   let pulse = 'green'
+  const pulseArr = []
+  const pulseValueArr = ['red', 'orange', 'yellow', 'green']
   const resourceMap = _.get(node, `specs.${node.type}Model`)
-  const desired =
+  let desired =
     _.get(node, 'specs.raw.spec.replicas') ||
     _.get(node, 'specs.raw.spec.desired', 'NA')
+
+  // special case, pod type can only deploy 1 pod
+  if (node.type === 'pod') {
+    desired = 1
+  }
   const resourceName = _.get(node, metadataName, '')
 
   if (!resourceMap) {
@@ -419,6 +427,10 @@ export const getPulseForNodeWithPodStatus = node => {
 
     const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
     const processItem = Object.keys(podList).length === 0 && resourceItem
+
+    if (resourceItem && resourceItem.kind === 'daemonset') {
+      desired = resourceItem.desired
+    }
 
     let podsReady = 0
     let podsUnavailable = 0
@@ -450,13 +462,26 @@ export const getPulseForNodeWithPodStatus = node => {
 
       pulse = getPulseForData(
         pulse,
-        resourceItem.available,
+        resourceItem.available ? resourceItem.available : 0,
         resourceItem.desired,
         0
       )
     }
+    // assign a number to each pulse with lowest number being most critical
+    if (pulse === 'green') {
+      pulseArr.push(3)
+    } else if (pulse === 'yellow') {
+      pulseArr.push(2)
+    } else if (pulse === 'orange') {
+      pulseArr.push(1)
+    } else if (pulse === 'red') {
+      pulseArr.push(0)
+    }
   })
 
+  // set node icon to the most critical status
+  const minPulse = Math.min.apply(null, pulseArr)
+  pulse = pulseValueArr[minPulse]
   _.set(node, 'podStatusMap', podStatusMap)
 
   return pulse
@@ -680,7 +705,9 @@ export const createResourceSearchLink = node => {
           name:
             computedName && computedName.length > 0 ? computedName : node.name,
           namespace:
-            computedNS && computedNS.length > 0 ? computedNS : node.namespace,
+            computedNS && computedNS.length > 0
+              ? computedNS
+              : node.specs.raw.metadata.namespace,
           kind: nodeType === 'rules' ? 'placementrule' : _.get(node, 'type', '')
         },
         indent: true
@@ -688,6 +715,10 @@ export const createResourceSearchLink = node => {
     }
   }
   return result
+}
+
+export const removeReleaseGeneratedSuffix = name => {
+  return name.replace(/-[0-9a-zA-Z]{4,5}$/, '')
 }
 
 //for charts remove release name
@@ -704,6 +735,7 @@ export const getNameWithoutChartRelease = (
   //for resources deployed from charts, remove release name
   //note that the name parameter is the _hostingDeployable
   //and is in this format ch-git-helm/git-helm-chart1-1.1.1
+  const savedName = name
   const labelAttr = _.get(relatedKind, 'label', '')
   const labels = _.split(labelAttr, ';')
   let foundReleaseLabel = false
@@ -718,6 +750,11 @@ export const getNameWithoutChartRelease = (
       const releaseName = _.trim(splitLabelContent[1])
       name = _.replace(name, `${releaseName}-`, '')
       name = _.replace(name, releaseName, '')
+
+      if (name.length === 0) {
+        // release name is used as name, need to strip generated suffix
+        name = removeReleaseGeneratedSuffix(savedName)
+      }
     }
   })
 

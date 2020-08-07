@@ -37,6 +37,7 @@ nightwatch*
 upload-selenium.sh
 webpack*
 version.ejs
+setup-env.sh
 state
 cicd-travis-logger
 vbh

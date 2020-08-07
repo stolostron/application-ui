@@ -31,27 +31,21 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
-import {
-  Search,
-  Notification,
-  Checkbox,
-  Tooltip
-} from 'carbon-components-react'
+import { Search, Notification } from 'carbon-components-react'
 import {
   getChannelsList,
   getApplicationsForSelection,
   getSubscribedChannels
 } from './utils'
-import { loadingComponent ,
+import {
+  loadingComponent,
   handleEditResource,
   handleDeleteResource,
   showEditModalByType
 } from '../../components/common/ResourceOverview/utils'
 import apolloClient from '../../../lib/client/apollo-client'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
-import ResourceCards from './components/InfoCards/ResourceCards'
 
-import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
 import {
   renderRefreshTime,
@@ -240,8 +234,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       HCMSubscriptionList,
       HCMChannelList,
-      QueryApplicationList,
-      GlobalApplicationDataList
+      QueryApplicationList
     } = this.props
     if (
       QueryApplicationList.status === Actions.REQUEST_STATUS.ERROR ||
@@ -273,7 +266,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       editResource,
       deleteResource,
       getChannelResource,
-      getApplicationResource,
       getSubscriptionResource,
       getPlacementRuleResource,
       editSubscription,
@@ -393,72 +385,22 @@ class ApplicationDeploymentPipeline extends React.Component {
             kind="success"
           />
         )}
-        {isSingleApplicationView && (
-          <HeaderActions
-            serverProps={serverProps}
-            getApplicationResource={getApplicationResource}
-            app={app}
-          />
-        )}
-        <div className="pipelineHeader">
-          {msgs.get('description.title.deploymentPipeline', locale)}{' '}
-          {channels && <span>({channels.length})</span>}
-        </div>
         <ApplicationDeploymentHighlights />
-        <div className="resource-cards-container">
-          <div className="resource-cards-info-container">
-            <ResourceCards
-              selectedAppName={selectedAppName}
-              selectedAppNS={selectedAppNS}
-              isSingleApplicationView={isSingleApplicationView}
-              globalAppData={GlobalApplicationDataList}
-            />
-          </div>
-          <CreateResourceActions
-            fetchChannels={fetchChannels}
-            fetchSubscriptions={fetchSubscriptions}
-            fetchPlacementRules={fetchPlacementRules}
-            userRole={userRole}
+        <div className="searchAndButtonContainer">
+          <Search
+            className="deploymentPipelineSearch"
+            light
+            name=""
+            defaultValue=""
+            labelText={msgs.get('actions.searchApplications', locale)}
+            closeButtonLabelText=""
+            placeHolderText={msgs.get('actions.searchApplications', locale)}
+            onChange={event => {
+              actions.setDeploymentSearch(event.target.value)
+            }}
+            id="search-1"
           />
         </div>
-        {!isSingleApplicationView && (
-          <div className="searchAndButtonContainer">
-            <Search
-              className="deploymentPipelineSearch"
-              light
-              name=""
-              defaultValue=""
-              labelText={msgs.get('actions.searchApplications', locale)}
-              closeButtonLabelText=""
-              placeHolderText={msgs.get('actions.searchApplications', locale)}
-              onChange={event => {
-                actions.setDeploymentSearch(event.target.value)
-              }}
-              id="search-1"
-            />
-          </div>
-        )}
-        {isSingleApplicationView && (
-          <div className="show-channels-container">
-            <div>
-              <Checkbox
-                id="ShowAllChannels"
-                checked={AppDeployments.showAllChannels}
-                onChange={event => {
-                  actions.setShowAllChannels(event)
-                }}
-                labelText={msgs.get('actions.showAllChannels', locale)}
-              />
-            </div>
-            <div className="show-channels-icon">
-              <Tooltip triggerText="" iconName="info">
-                <span className="showAllChannelsTooltip">
-                  {msgs.get('description.show.all.channels.tooltip', locale)}
-                </span>
-              </Tooltip>
-            </div>
-          </div>
-        )}
         <PipelineGrid
           applications={applications}
           channels={channels}
@@ -495,6 +437,14 @@ class ApplicationDeploymentPipeline extends React.Component {
           bulkSubscriptionList={bulkSubscriptionList}
           applications={QueryApplicationList}
         />
+        <div className="resource-cards-container">
+          <CreateResourceActions
+            fetchChannels={fetchChannels}
+            fetchSubscriptions={fetchSubscriptions}
+            fetchPlacementRules={fetchPlacementRules}
+            userRole={userRole}
+          />
+        </div>
       </div>
     )
   }

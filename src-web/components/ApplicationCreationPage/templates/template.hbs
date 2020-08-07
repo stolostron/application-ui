@@ -56,17 +56,17 @@ metadata:
   name: {{{../../name}}}-{{{../channelName}}}
   namespace: {{{../../name}}}-{{{../channelName}}}-ns
 spec:
-  type: GitHub
+  type: Git
   pathname: '{{{../githubURL}}}' ##channels.{{@index}}.githubURL
 {{#if ../githubUser}}
   secretRef:
-    name: {{{../../../name}}}-github-authentication-{{@index}}
+    name: {{{../../../name}}}-git-authentication-{{@index}}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{{../../../name}}}-github-authentication-{{@index}}
-  namespace: {{{../../name}}}-{{{../channelName}}}-ns
+  name: {{{../../../name}}}-git-authentication-{{@index}}
+  namespace: {{{../../../name}}}-{{{../../channelName}}}-ns
 data:
   user: {{{../../githubUser}}}
   accessToken: {{{../../githubAccessId}}}
@@ -76,12 +76,12 @@ apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   annotations:
-    apps.open-cluster-management.io/github-branch: {{{../githubBranch}}}
-    apps.open-cluster-management.io/github-path: {{{../githubPath}}}
+    apps.open-cluster-management.io/git-branch: {{{../githubBranch}}}
+    apps.open-cluster-management.io/git-path: {{{../githubPath}}}
     apps.open-cluster-management.io/git-commit: {{{../githubCommit}}}
   labels:
     app: {{{../../name}}}
-  name: placement-{{{../../name}}}-subscription-{{@index}}
+  name: {{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
   channel: {{{../../name}}}-{{{../channelName}}}-ns/{{{../../name}}}-{{{../channelName}}}
@@ -89,6 +89,21 @@ spec:
     placementRef:
       kind: PlacementRule
       name: {{{../../name}}}-placement
+{{#if ../../timeWindow.mode}}
+  timewindow:
+    windowtype: {{{../../../timeWindow.mode}}}
+    location: {{{../../../timeWindow.timezone}}}
+    weekdays: [{{{../../../timeWindow.days}}}]
+    {{#if ../../../timeWindow.showTimeSection}}
+    hours:
+      {{#each ../../../timeWindow.timeList}}
+      {{#if validTime}}
+      - start: "{{{start}}}"
+        end: "{{{end}}}"
+      {{/if}}
+      {{/each}}
+    {{/if}}
+{{/if}}
   
 {{/case}}
 
@@ -109,7 +124,63 @@ spec:
 {{! ========================================================== }}
 {{! ========================================================== }}
 {{#case 'objectstore'}}
-       
+---
+apiVersion: v1                      
+kind: Namespace
+metadata:
+  name: {{{../../name}}}-{{{../channelName}}}-ns
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: {{{../../name}}}-{{{../channelName}}}
+  namespace: {{{../../name}}}-{{{../channelName}}}-ns
+spec:
+  type: ObjectBucket
+  pathname: '{{{../objectstoreURL}}}' ##channels.{{@index}}.objectstoreURL
+{{#if ../accessKey}}
+  secretRef:
+    name: {{{../../../name}}}-objectstore-authentication-{{@index}}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{{../../../name}}}-objectstore-authentication-{{@index}}
+  namespace: {{{../../../name}}}-{{{../../channelName}}}-ns
+data:
+  AccessKeyID: {{{../../accessKey}}}
+  SecretAccessKey: {{{../../secretKey}}}
+{{/if}}      
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  labels:
+    app: {{{../../name}}}
+  name: {{{../../name}}}-subscription-{{@index}}
+  namespace: {{{../../namespace}}}
+spec:
+  channel: {{{../../name}}}-{{{../channelName}}}-ns/{{{../../name}}}-{{{../channelName}}}
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: {{{../../name}}}-placement
+{{#if ../../timeWindow.mode}}
+  timewindow:
+    windowtype: {{{../../../timeWindow.mode}}}
+    location: {{{../../../timeWindow.timezone}}}
+    weekdays: [{{{../../../timeWindow.days}}}]
+    {{#if ../../../timeWindow.showTimeSection}}
+    hours:
+      {{#each ../../../timeWindow.timeList}}
+      {{#if validTime}}
+      - start: "{{{start}}}"
+        end: "{{{end}}}"
+      {{/if}}
+      {{/each}}
+    {{/if}}
+{{/if}}
+     
 {{/case}}
 
 
@@ -119,16 +190,6 @@ spec:
 {{! ========================================================== }}
 {{! ========================================================== }}
 {{#case 'deployable'}}
-  
-{{/case}}
-
-
-{{! ========================================================== }}
-{{! ========================================================== }}
-{{! ==================Secret channel ========================= }}
-{{! ========================================================== }}
-{{! ========================================================== }}
-{{#case 'secret'}}
   
 {{/case}}
 
@@ -155,3 +216,8 @@ spec:
   clusterSelector:
     matchLabels:
       environment: Dev
+  {{#if online-cluster-only-checkbox}}
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+  {{/if}}

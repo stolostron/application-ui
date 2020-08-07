@@ -21,12 +21,25 @@ export const resourceTable = {
     cy.get(".resource-table", { timeout: 500000 }).then($table => {
       return $table.find("tbody").find("tr").length;
     }),
-  rowShouldExist: name =>
-    cy.get(`tr[data-row-name="${name}"]`, { timeout: 500000 }).should("exist"),
-  rowShouldNotExist: name =>
+  rowShouldExist: function(name) {
+    this.searchTable(name);
+    cy.get(`tr[data-row-name="${name}"]`, { timeout: 30000 }).should("exist");
+  },
+  rowShouldNotExist: function(name, timeout, disableSearch) {
+    !disableSearch && this.searchTable(name);
     cy
-      .get(`tr[data-row-name="${name}"]`, { timeout: 500000 })
-      .should("not.exist"),
+      .get(`tr[data-row-name="${name}"]`, { timeout: timeout || 30000 })
+      .should("not.exist");
+  },
+  rowNameClick: name => cy.get(`a[href*="${name}"]`).click(),
+  searchTable: function(name) {
+    cy.get("#page").then(page => {
+      if (page.find("#resource-search-bar", { timeout: 15000 }).length > 0) {
+        this.clearSearch();
+        cy.get("#resource-search-bar").paste(name);
+      }
+    });
+  },
   openRowMenu: name =>
     cy.get(`tr[data-row-name="${name}"] .bx--overflow-menu`).click(),
   menuClickEdit: () =>

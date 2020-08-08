@@ -28,7 +28,7 @@ resources(() => {
   require('./style.scss')
 })
 
-class TimeWindow extends React.Component {
+export class TimeWindow extends React.Component {
   static propTypes = {
     control: PropTypes.object,
     handleChange: PropTypes.func,

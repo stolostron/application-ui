@@ -84,7 +84,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
               <div
                 className="config-descr"
               >
-                Enter one or more matching labels
+                Optionally enter one or more matching labels to select the clusters to deploy to
               </div>
             </div>
             <div

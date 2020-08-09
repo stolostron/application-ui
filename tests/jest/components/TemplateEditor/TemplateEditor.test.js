@@ -88,11 +88,9 @@ describe("getResourceJSON function", () => {
     {
       apiVersion: "apps.open-cluster-management.io/v1",
       kind: "PlacementRule",
-      metadata: { labels: { app: null }, name: "-placement", namespace: null },
-      spec: { clusterReplicas: 3 }
+      metadata: { labels: { app: null }, name: "-placement", namespace: null }
     }
   ];
-
   it("renders as expected", () => {
     const wrapper = shallow(
       <TemplateEditor

@@ -210,19 +210,36 @@ metadata:
     app: {{{name}}}
   name: {{{name}}}-placement
   namespace: {{{namespace}}}
+{{#if clusterSelector.mode}}  
 spec:
-  clusterReplicas: 3
-  {{#if clusterSelector.mode}}
+  {{#if clusterReplicas}}
+  clusterReplicas: {{{clusterReplicas}}}
+  {{/if}}  
   clusterSelector:
     matchLabels:
       {{#each clusterSelector.clusterLabelsList}}
       {{#if validValue}}
       {{{labelName}}}: {{{labelValue}}}
       {{/if}}
-      {{/each}}
-  {{/if}}  
+      {{/each}} 
   {{#if online-cluster-only-checkbox}}
   clusterConditions:
     - type: ManagedClusterConditionAvailable
       status: "True"
   {{/if}}
+{{else}}
+  {{#if online-cluster-only-checkbox}}
+spec:
+  {{#if clusterReplicas}}
+  clusterReplicas: {{{clusterReplicas}}}
+  {{/if}} 
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+  {{else}} 
+  {{#if clusterReplicas}}
+spec:  
+  clusterReplicas: {{{clusterReplicas}}}
+  {{/if}}    
+  {{/if}}
+{{/if}}

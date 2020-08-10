@@ -548,7 +548,7 @@ describe("getSubscribedChannels", () => {
       }
     ];
     expect(
-      getSubscribedChannels(channels, apps, breadcrumbs, hideAppDeployments)
+      getSubscribedChannels(channels, apps, selectedApp, hideAppDeployments)
     ).toEqual(result);
   });
 });

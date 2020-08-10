@@ -318,7 +318,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 tabIndex={0}
                 type="button"
               >
-                Create application (2.1)
+                Create application 2.1
                 <svg
                   alt="Add icon"
                   aria-label="Add icon"
@@ -1045,7 +1045,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 tabIndex={0}
                 type="button"
               >
-                Create application (2.1)
+                Create application 2.1
                 <svg
                   alt="Add icon"
                   aria-label="Add icon"

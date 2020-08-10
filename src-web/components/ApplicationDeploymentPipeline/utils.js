@@ -53,7 +53,7 @@ export const getSubscribedChannels = (
   if (isSingleApplicationView && !AppDeployments.showAllChannels) {
     if (selectedApp) {
       const subscribedChannels = []
-      const subscriptionsFetched = applications[0].hubSubscriptions
+      const subscriptionsFetched = applications.length>0 ? applications[0].hubSubscriptions : []
       const subscriptionsForApp = subscriptionsFetched || []
       // Go through subscriptions of selected app and find the subscribed channels
       channels.forEach(channel => {

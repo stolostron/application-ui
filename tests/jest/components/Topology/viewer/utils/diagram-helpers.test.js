@@ -29,7 +29,9 @@ import {
   addNodeInfoPerCluster,
   getClusterName,
   getPodState,
-  getNameWithoutChartRelease
+  getNameWithoutChartRelease,
+  removeReleaseGeneratedSuffix,
+  getClusterHost
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -339,7 +341,7 @@ describe("getPulseForNodeWithPodStatus no replica", () => {
   };
 
   it("getPulseForNodeWithPodStatus pulse no replica", () => {
-    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("green");
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("yellow");
   });
 });
 
@@ -602,8 +604,64 @@ describe("getNameWithoutChartRelease node with pods no _hostingDeployable", () =
 
   it("getNameWithoutChartRelease for pod with no deployable", () => {
     expect(
-      getNameWithoutChartRelease(node, "nginx-ingress-edafb-default-backend")
+      getNameWithoutChartRelease(node, "nginx-ingress-edafb-default-backend", {
+        value: false
+      })
     ).toEqual("nginx-ingress-edafb-default-backend");
+  });
+});
+
+describe("getNameWithoutChartRelease node with the pod name same as the release name", () => {
+  const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label:
+      "app=nginx-ingress; chart=nginx-ingress-1.36.3; component=default-backend; heritage=Helm; release=nginx-ingress-edafb",
+    name: "nginx-ingress-edafb",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+
+  it("getNameWithoutChartRelease for pod name same as the release name", () => {
+    expect(
+      getNameWithoutChartRelease(node, "nginx-ingress-edafb", {
+        value: true
+      })
+    ).toEqual("nginx-ingress");
+  });
+});
+
+describe("getNameWithoutChartRelease node with release name plus pod name", () => {
+  const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label:
+      "app=nginx-ingress; chart=nginx-ingress-1.36.3; component=default-backend; heritage=Helm; release=nginx-ingress-edafb",
+    name: "nginx-ingress-edafb",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+
+  it("getNameWithoutChartRelease for pod with release name plus pod name", () => {
+    expect(
+      getNameWithoutChartRelease(node, "nginx-ingress-edafb-controller", {
+        value: true
+      })
+    ).toEqual("controller");
   });
 });
 
@@ -632,7 +690,9 @@ describe("getNameWithoutChartRelease node for helmrelease no label", () => {
 
   it("getNameWithoutChartRelease helm release  no no label", () => {
     expect(
-      getNameWithoutChartRelease(node, "ch-git-helm/git-helm-chart1-1.1.1")
+      getNameWithoutChartRelease(node, "ch-git-helm/git-helm-chart1-1.1.1", {
+        value: true
+      })
     ).toEqual("chart1-1.1.1");
   });
 });
@@ -654,9 +714,9 @@ describe("getNameWithoutChartRelease node for subscription, with label", () => {
   };
 
   it("getNameWithoutChartRelease helm release  no no label", () => {
-    expect(getNameWithoutChartRelease(node, "git-helm-sub")).toEqual(
-      "git-helm-sub"
-    );
+    expect(
+      getNameWithoutChartRelease(node, "git-helm-sub", { value: true })
+    ).toEqual("git-helm-sub");
   });
 });
 
@@ -795,7 +855,14 @@ describe("createResourceSearchLink for PR", () => {
   const node = {
     type: "rules",
     name: "rule1",
-    namespace: "ns"
+    namespace: "ns",
+    specs: {
+      raw: {
+        metadata: {
+          namespace: "ns"
+        }
+      }
+    }
   };
   const result = {
     type: "link",
@@ -820,7 +887,14 @@ describe("createResourceSearchLink for details", () => {
   const node = {
     type: "deployment",
     name: "name",
-    namespace: "ns"
+    namespace: "ns",
+    specs: {
+      raw: {
+        metadata: {
+          namespace: "ns"
+        }
+      }
+    }
   };
   const result = {
     type: "link",
@@ -1211,7 +1285,7 @@ describe("setSubscriptionDeployStatus for node type different then subscription 
 
 describe("setupResourceModel ", () => {
   it("setupResourceModel", () => {
-    expect(setupResourceModel(resourceList, resourceMap, false)).toEqual(
+    expect(setupResourceModel(resourceList, resourceMap, false, false)).toEqual(
       modelResult
     );
   });
@@ -1219,7 +1293,7 @@ describe("setupResourceModel ", () => {
 
 describe("setupResourceModel ", () => {
   it("return setupResourceModel for grouped objects", () => {
-    expect(setupResourceModel(resourceList, resourceMap, true)).toEqual(
+    expect(setupResourceModel(resourceList, resourceMap, true, false)).toEqual(
       modelResult
     );
   });
@@ -3006,7 +3080,7 @@ describe("addNodeOCPRouteLocationForCluster", () => {
       specs: {
         clusters: [
           {
-            clusterip: "222",
+            consoleURL: "https://console-openshift-console.222",
             metadata: {
               name: "possiblereptile"
             }
@@ -3462,5 +3536,21 @@ describe("getPodState pod 2", () => {
 
   it("should return getPodState pod 2", () => {
     expect(getPodState(podItem, clusterName, types)).toEqual(result);
+  });
+});
+
+describe("removeReleaseGeneratedSuffix remove suffix", () => {
+  it("should remove generate suffix for the helmrelease", () => {
+    expect(removeReleaseGeneratedSuffix("nginx-ingress-66f46")).toEqual(
+      "nginx-ingress"
+    );
+  });
+});
+
+describe("getClusterHost", () => {
+  it("should host from cluster URL", () => {
+    expect(getClusterHost("https://console-openshift-console.222")).toEqual(
+      "222"
+    );
   });
 });

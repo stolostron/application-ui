@@ -29,7 +29,7 @@ import {
   pullOutKindPerApplication,
   getPlacementRuleFromBulkSubscription
 } from '../../utils'
-import { getPodData } from '../../../ApplicationDeploymentPipeline/components/InfoCards/utils'
+import { getPodData } from '../../../common/ResourceOverview/utils'
 import {
   Tile,
   Icon,

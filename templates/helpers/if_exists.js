@@ -15,7 +15,9 @@ module.exports = (array, opts) => {
     return opts.fn(this)
   } else if (array && array.length === 1) {
     if (lodash.isObject(array[0])) {
-      const emptyVals = Object.keys(array[0]).filter(key => array[0][key] === '')
+      const emptyVals = Object.keys(array[0]).filter(
+        key => array[0][key] === ''
+      )
       return emptyVals.length < 1 ? opts.fn(this) : opts.inverse(this)
     } else if (array[0] !== '') {
       return opts.fn(this)

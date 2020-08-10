@@ -42,17 +42,13 @@ export const ApplicationDeploymentPipeline = loadable(() =>
 const ApplicationHeaderTabs = withLocale(
   ({
     selectedAppTab,
-    showExtraTabs,
+    showSingleApp,
     actions,
     locale,
     serverProps,
     mutateSuccessFinished,
     deleteSuccessFinished
   }) => {
-    if (!showExtraTabs && selectedAppTab > 1) {
-      actions.setSelectedAppTab(0)
-    }
-
     const noop = () => {
       // no op function for optional properties
     }
@@ -113,14 +109,16 @@ const ApplicationHeaderTabs = withLocale(
             >
               {renderTab(0)}
             </Tab>
-            <Tab
-              disabled={false}
-              onClick={noop}
-              onKeyDown={noop}
-              label={msgs.get('description.title.deployments', locale)}
-            >
-              {renderTab(1)}
-            </Tab>
+            {!showSingleApp && (
+              <Tab
+                disabled={false}
+                onClick={noop}
+                onKeyDown={noop}
+                label={msgs.get('description.title.deployments', locale)}
+              >
+                {renderTab(1)}
+              </Tab>
+            )}
           </Tabs>
         </div>
       </div>

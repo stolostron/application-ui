@@ -239,10 +239,6 @@ describe("ApplicationDeploymentPipeline", () => {
       .find({ id: "create-placement-rule" })
       .simulate("click");
 
-    wrapper.find(".bx--search-input").simulate("change");
-
-    wrapper.find(".bx--search-close").simulate("change");
-
     wrapper
       .find(".applicationTile")
       .at(0)
@@ -391,16 +387,6 @@ describe("ApplicationDeploymentPipeline", () => {
 
     wrapper
       .find(".subscriptionMenueContainer")
-      .at(0)
-      .simulate("click");
-
-    wrapper
-      .find(".bx--link")
-      .at(0)
-      .simulate("click");
-
-    wrapper
-      .find("#headerAppLink")
       .at(0)
       .simulate("click");
   });

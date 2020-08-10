@@ -45,6 +45,12 @@ const jestConfig = {
     '**/tests/jest/**/*.test.js',
     '**/src-web/**/*.test.js'
   ],
+  transform: {
+    '^.+\\.js$': 'babel-jest',
+    '.+\\.(hbs)$': 'jest-handlebars',
+    '.+\\.(handlebars)$': 'jest-handlebars',
+    '.+\\.(yaml)$': 'jest-yaml-transform'
+  },
   transformIgnorePatterns: ['/node_modules/(?!monaco-editor).+\\.js$'],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
   setupFiles: ['<rootDir>/tests/jest/config/setup.js'],

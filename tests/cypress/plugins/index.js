@@ -29,7 +29,7 @@
 const fs = require("fs");
 const yaml = require("js-yaml");
 const dir = "./tests/cypress/test-artifacts/";
-// const testConfig = require('../config').getConfig()
+const testConfig = require("../config").getConfig();
 
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
@@ -87,5 +87,8 @@ module.exports = (on, config) => {
       return meta;
     }
   });
+
+  config.env.TEST_CONFIG = testConfig;
+
   return config;
 };

@@ -19,7 +19,7 @@ For running tests locally for general testing, or development of test cases, the
 #### Running Cypress tests on a live hub cluster
 
 1. Export the following environment variables:
-   - `export CYPRESS_BASE_URL=https://multicloud-console.apps.hli-test.dev06.red-chesterfield.com/` (URL of a working cluster)
+   - `export CYPRESS_BASE_URL=https://multicloud-console.apps.{clusterName}.dev06.red-chesterfield.com/` (URL of a working cluster)
    - `export CYPRESS_OC_CLUSTER_USER=kubeadmin`
    - `export CYPRESS_OC_CLUSTER_PASS=xxxxxxxxx`
 2. From the root application-ui directory, run `npx cypress open`
@@ -30,12 +30,12 @@ The environment variables are similar to running on the live cluster, however in
 
 1. Deploy the application-ui locally either by running `npm start` or running the application-ui using a Docker image
 2. `oc login` to the hub cluster the local environment is pointing to. For local instances, an authenticated token is required.
-   - Example: `oc login --token=xxxxxxx --server=https://api.hli-test.dev06.red-chesterfield.com:6443`
+   - Example: `oc login --token=xxxxxxx --server=https://api.{clusterName}.dev06.red-chesterfield.com:6443`
 3. Export the following environment variables:
    - `export CYPRESS_BASE_URL=https://localhost:3001`
    - `export CYPRESS_OC_CLUSTER_USER=kubeadmin`
    - `export CYPRESS_OC_CLUSTER_PASS=xxxxxxxxx`
-   - `export CYPRESS_OC_CLUSTER_URL=https://api.hli-test.dev06.red-chesterfield.com:6443` (API of the cluster that the local env points to needs to be specified)
+   - `export CYPRESS_OC_CLUSTER_URL=https://api.{clusterName}.dev06.red-chesterfield.com:6443` (API of the cluster that the local env points to needs to be specified)
 4. From the root application-ui directory, run `npx cypress open`
 
 #### Functional vs E2E
@@ -60,11 +60,11 @@ Afterwards, update the `tests/cypress/config/config.e2e.yaml` file with your con
 
    options:
    hub:
-      name: multicloud-console
-      baseDomain: definite-oarfish.dev06.red-chesterfield.com
-      user: kubeadmin
-      password: xxxxxxx
-      idp: ocp
+   name: multicloud-console
+   baseDomain: {clusterName}.dev06.red-chesterfield.com
+   user: kubeadmin
+   password: xxxxxxx
+   idp: ocp
 
 2. From the /application-ui/ directory, run `make build-test-image` this will build the Docker container with the Cypress tests inside /application-ui/tests/
 3. Export the following environment variables:

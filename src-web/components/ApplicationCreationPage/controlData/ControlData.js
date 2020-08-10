@@ -350,10 +350,17 @@ export const controlData = [
   },
   {
     type: 'custom',
-    name: 'creation.app.settings.clusterSelector',
-    tooltip: 'tooltip.creation.app.settings.clusterSelector',
     id: 'clusterSelector',
     component: <ClusterSelector />,
+    available: []
+  },
+  {
+    name: 'creation.app.settings.clustersReplica',
+    tooltip: 'tooltip.creation.app.settings.clustersReplica',
+    id: 'clusterReplicas',
+    type: 'text',
+    active: '',
+    placeholder: 'creation.app.settings.ph.clustersReplica',
     available: []
   },
   ////////////////////////////////////////////////////////////////////////////////////

@@ -65,7 +65,7 @@ export class ClusterSelector extends React.Component {
               name="clusterSelector-mode-container"
               id="clusterSelector-mode-container"
               labelText={msgs.get(
-                'creation.app.settings.clusterSelector.useLabels',
+                'tooltip.creation.app.settings.clusterSelector',
                 locale
               )}
               onClick={this.handleChange.bind(this)}

@@ -44,21 +44,23 @@ spec:
 {{! ========================================================== }}
 {{! ========================================================== }}
 {{#case 'github'}}
+
+{{#unless ../channelNamespace}}
 ---
 apiVersion: v1                      
 kind: Namespace
 metadata:
-  name: {{{../../name}}}-{{{../channelName}}}-ns
+  name: {{{../../../name}}}-{{{../../channelName}}}-ns
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:
-  name: {{{../../name}}}-{{{../channelName}}}
-  namespace: {{{../../name}}}-{{{../channelName}}}-ns
+  name: {{{../../../name}}}-{{{../../channelName}}}
+  namespace: {{{../../../name}}}-{{{../../channelName}}}-ns
 spec:
   type: Git
-  pathname: '{{{../githubURL}}}' ##channels.{{@index}}.githubURL
-{{#if ../githubUser}}
+  pathname: '{{{../../githubURL}}}'
+{{#if ../../githubUser}}
   secretRef:
     name: {{{../../../name}}}-git-authentication-{{@index}}
 ---
@@ -70,7 +72,8 @@ metadata:
 data:
   user: {{{../../githubUser}}}
   accessToken: {{{../../githubAccessId}}}
-{{/if}}      
+{{/if}}
+{{/unless}}      
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
@@ -83,7 +86,11 @@ metadata:
   name: {{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
-  channel: {{{../../name}}}-{{{../channelName}}}-ns/{{{../../name}}}-{{{../channelName}}}
+{{#if ../channelNamespace}}
+  channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
+{{else}}
+  channel: {{{../../../name}}}-{{{../../channelName}}}-ns/{{{../../../name}}}-{{{../../channelName}}}
+{{/if}}
   placement:
     placementRef:
       kind: PlacementRule
@@ -103,7 +110,7 @@ spec:
       {{/each}}
     {{/if}}
 {{/if}}
-  
+
 {{/case}}
 
 
@@ -136,7 +143,7 @@ metadata:
   namespace: {{{../../name}}}-{{{../channelName}}}-ns
 spec:
   type: ObjectBucket
-  pathname: '{{{../objectstoreURL}}}' ##channels.{{@index}}.objectstoreURL
+  pathname: '{{{../objectstoreURL}}}'
 {{#if ../accessKey}}
   secretRef:
     name: {{{../../../name}}}-objectstore-authentication-{{@index}}

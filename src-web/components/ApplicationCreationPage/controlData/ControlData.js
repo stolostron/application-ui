@@ -56,19 +56,33 @@ const updateChannelControls = urlControl => {
   const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]
 
-  // change channel name to reflect github path
-  let control
+  const nameControl = groupControlData.find(({ id }) => id === 'channelName')
+  const namespaceControl = groupControlData.find(
+    ({ id }) => id === 'channelNamespace'
+  )
+  // change channel name and namespace to reflect github path
   if (active) {
-    control = groupControlData.find(({ id }) => id === 'channelName')
     const a = document.createElement('a')
     a.href = active
-    let name = a.pathname.split('/').pop()
-    name = name.split('.').shift()
-    control.active = `${name}-chn`
+
+    // if existing channel, reuse channel name and namespace
+    if (pathData) {
+      nameControl.active = pathData.metadata.name
+      namespaceControl.active = pathData.metadata.namespace
+    } else {
+      let name = a.pathname.split('/').pop()
+      name = name.split('.').shift()
+      nameControl.active = `${name}-chn`
+      namespaceControl.active = ''
+    }
+  } else {
+    nameControl.active = 'resource'
+    namespaceControl.active = ''
   }
 
-  // hide user/token controls if user selects a github path that doesn't need them
-  const type = !pathData || pathData.secretRef ? 'text' : 'hidden'
+  let control
+  // if existing channel, hide user/token controls
+  const type = !pathData ? 'text' : 'hidden'
   const setType = cid => {
     control = groupControlData.find(({ id }) => id === cid)
     _.set(control, 'type', type)
@@ -275,6 +289,11 @@ export const controlData = [
         active: 'resource'
       },
       {
+        id: 'channelNamespace',
+        type: 'hidden',
+        active: ''
+      },
+      {
         id: 'channelType',
         type: 'cards',
         sort: false,
@@ -322,10 +341,7 @@ export const controlData = [
           }
         ],
         active: '',
-        validation: {
-          notification: 'creation.must.select.resource.type',
-          required: true
-        }
+        validation: {}
       }
     ]
   },

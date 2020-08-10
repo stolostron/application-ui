@@ -40,7 +40,7 @@ The environment variables are similar to running on the live cluster, however in
 
 #### Functional vs E2E
 
-Functional tests are primarily used to test behaviors of the UI. E2E tests are used to test the UIs integrations with other components in RHACM, such as Hive.
+Functional tests are primarily used to test behaviors of the UI. E2E tests are used to test the UIs integrations with other components in RHACM, such as different application branches and paths.
 
 The default mode in which tests are run is functional, where we are using mock data. If you want to run the tests in the E2E mode, export the following variable:
 
@@ -73,7 +73,10 @@ Afterwards, update the `tests/cypress/config/config.e2e.yaml` file with your con
    - COMPONENT_NAME (some unique value for local Docker container)
    - TEST_IMAGE_TAG (some unique value for local Docker container)
 4. Run `make run-test-image` to run the Docker container.
-5. Alternatively, you can manually from the command line using this command: `docker run \ -e BROWSER=$(BROWSER) \ -v $(shell pwd)/options.yaml:/resources/options.yaml \ -v $(shell pwd)/results/:/results/ \ $(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)`
+5. Alternatively, you can manually from the command line using this command:
+
+- `docker run \ -e BROWSER=$(BROWSER) \ -v $(shell pwd)/options.yaml:/resources/options.yaml \ -v $(shell pwd)/results/:/results/ \ $(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)`
+
 6. After running, the XML results, screenshots and videos will be copied from inside the Docker container into /application-ui/results/
 
 ## Code Coverage

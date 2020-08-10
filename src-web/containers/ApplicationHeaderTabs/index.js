@@ -15,7 +15,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import loadable from 'loadable-components'
-import { updateSecondaryHeader ,
+import {
+  updateSecondaryHeader,
   delResourceSuccessFinished,
   mutateResourceSuccessFinished
 } from '../../actions/common'
@@ -55,20 +56,21 @@ const ApplicationHeaderTabs = withLocale(
     deleteSuccessFinished,
     updateSecondary
   }) => {
-
     // process restful api into which tab to show
-    const {history, location} = params||{}
+    const { history, location } = params || {}
     const pathname = _.get(location, 'pathname', '')
     const segments = pathname.split('/')
-    const isSingleApplicationView = segments.length>=5
+    const isSingleApplicationView = segments.length >= 5
     let route = ''
-    if (segments.length===4 || segments.length===6) {
+    if (segments.length === 4 || segments.length === 6) {
       route = segments.pop()
     }
     const basePath = segments.join('/')
     const selectedTab = routes.indexOf(route)
     const selectedAppName = isSingleApplicationView ? segments.pop() : null
-    const selectedAppNamespace = isSingleApplicationView ? segments.pop() : null
+    const selectedAppNamespace = isSingleApplicationView
+      ? segments.pop()
+      : null
     const selectedApp = {
       isSingleApplicationView,
       selectedAppName,
@@ -87,7 +89,7 @@ const ApplicationHeaderTabs = withLocale(
         url: [...segments, selectedAppNamespace, selectedAppName].join('/')
       })
     }
-    updateSecondary(selectedAppName||'Applications', breadcrumbs)
+    updateSecondary(selectedAppName || 'Applications', breadcrumbs)
     selectedApp.breadcrumbs = breadcrumbs
 
     const noop = () => {
@@ -108,13 +110,16 @@ const ApplicationHeaderTabs = withLocale(
         case 1:
           return (
             <div className="page-content-container">
-              <ApplicationDeploymentPipeline serverProps={serverProps} selectedApp={selectedApp} />
+              <ApplicationDeploymentPipeline serverProps={serverProps} />
             </div>
           )
         case 2:
           return (
             <div className="page-content-container">
-              <ApplicationCreationPage serverProps={serverProps} editApplication={selectedApp} />
+              <ApplicationCreationPage
+                serverProps={serverProps}
+                editApplication={selectedApp}
+                />
             </div>
           )
         }
@@ -122,7 +127,7 @@ const ApplicationHeaderTabs = withLocale(
       return null
     }
 
-    if (selectedTab<=2) {
+    if (selectedTab <= 2) {
       return (
         <div id="applicationheadertabs">
           <div className="whiteSpacer">
@@ -142,41 +147,49 @@ const ApplicationHeaderTabs = withLocale(
                 deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
                 deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
                 // open the tab
-                const theRoute = id>0 ? `${routes[id]}`:''
+                const theRoute = id > 0 ? `${routes[id]}` : ''
                 history.push(`${basePath}/${theRoute}`)
               }}
               tabcontentclassname="tab-content"
-              >
+            >
               <Tab
                 disabled={false}
                 onClick={noop}
                 onKeyDown={noop}
                 label={msgs.get('description.title.overview', locale)}
-                >
+              >
                 {renderTab(0)}
               </Tab>
-              <Tab
-                disabled={false}
-                onClick={noop}
-                onKeyDown={noop}
-                label={msgs.get('description.title.deployments', locale)}
+              {!isSingleApplicationView && (
+                <Tab
+                  disabled={false}
+                  onClick={noop}
+                  onKeyDown={noop}
+                  label={msgs.get('description.title.deployments', locale)}
                 >
-                {renderTab(1)}
-              </Tab>
-              {isSingleApplicationView&&<Tab
-                disabled={false}
-                onClick={noop}
-                onKeyDown={noop}
-                label={msgs.get('description.title.yaml', locale)}
-              >
+                  {renderTab(1)}
+                </Tab>
+              )}
+              {isSingleApplicationView && (
+                <Tab
+                  disabled={false}
+                  onClick={noop}
+                  onKeyDown={noop}
+                  label={msgs.get('description.title.yaml', locale)}
+                >
                   {renderTab(2)}
-                </Tab>}
+                </Tab>
+              )}
             </Tabs>
           </div>
         </div>
       )
     } else {
-      return <ApplicationCreationPage secondaryHeaderProps={{title: 'application.create.title'}} />
+      return (
+        <ApplicationCreationPage
+          secondaryHeaderProps={{ title: 'application.create.title' }}
+        />
+      )
     }
   }
 )

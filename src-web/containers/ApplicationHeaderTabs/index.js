@@ -44,7 +44,8 @@ export const ApplicationCreationPage = loadable(() =>
   import(/* webpackChunkName: "applicationcreatepage" */ '../../components/ApplicationCreationPage/ApplicationCreationPage')
 )
 
-const routes = ['', 'advanced', 'yaml', 'create']
+const singleAppRoutes = ['', 'yaml', 'create']
+const allAppsRoutes = ['', 'advanced', 'create']
 // This will render the two tabs
 // Overview, Resources
 const ApplicationHeaderTabs = withLocale(
@@ -61,6 +62,9 @@ const ApplicationHeaderTabs = withLocale(
     const pathname = _.get(location, 'pathname', '')
     const segments = pathname.split('/')
     const isSingleApplicationView = segments.length >= 5
+
+    const routes = isSingleApplicationView ? singleAppRoutes : allAppsRoutes
+
     let route = ''
     if (segments.length === 4 || segments.length === 6) {
       route = segments.pop()
@@ -108,26 +112,35 @@ const ApplicationHeaderTabs = withLocale(
             </div>
           )
         case 1:
-          return (
-            <div className="page-content-container">
-              <ApplicationDeploymentPipeline serverProps={serverProps} />
-            </div>
-          )
+          if (isSingleApplicationView) {
+            return (
+              <div className="page-content-container">
+                <ApplicationCreationPage
+                  serverProps={serverProps}
+                  editApplication={selectedApp}
+                  />
+              </div>
+            )
+          } else {
+            return (
+              <div className="page-content-container">
+                <ApplicationDeploymentPipeline serverProps={serverProps} />
+              </div>
+            )
+          }
+
         case 2:
           return (
-            <div className="page-content-container">
-              <ApplicationCreationPage
-                serverProps={serverProps}
-                editApplication={selectedApp}
-                />
-            </div>
+            <ApplicationCreationPage
+              secondaryHeaderProps={{ title: 'application.create.title' }}
+              />
           )
         }
       }
       return null
     }
 
-    if (selectedTab <= 2) {
+    if (selectedTab < 2) {
       return (
         <div id="applicationheadertabs">
           <div className="whiteSpacer">
@@ -177,7 +190,7 @@ const ApplicationHeaderTabs = withLocale(
                   onKeyDown={noop}
                   label={msgs.get('description.title.yaml', locale)}
                 >
-                  {renderTab(2)}
+                  {renderTab(1)}
                 </Tab>
               )}
             </Tabs>

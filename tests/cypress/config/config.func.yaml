@@ -1,4 +1,9 @@
-createWizard:
+wizards:
   git:
     disabled: false
-    name: "ui-test-create-appplication-git"
+    name: "ui-test-create-application-git"
+    url: "https://github.com/fxiang1/app-samples.git"
+    username: ""
+    token: ""
+    branch: "master"
+    path: "helloworld"

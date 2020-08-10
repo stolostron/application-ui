@@ -38,7 +38,11 @@ import renderer from "react-test-renderer";
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
 
-import { reduxStoreAllAppsPipeline, serverProps } from "../TestingData";
+import {
+  reduxStoreAllAppsPipeline,
+  serverProps,
+  selectedApp
+} from "../TestingData";
 
 const middleware = [thunkMiddleware];
 const mockStore = configureMockStore(middleware);

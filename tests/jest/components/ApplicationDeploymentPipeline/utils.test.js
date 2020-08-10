@@ -376,16 +376,11 @@ describe("getSubscribedChannels", () => {
       ]
     }
   ];
-  const singleAppbreadcrumbs = [
-    {
-      label: "Applications",
-      url: "/multicloud/applications"
-    },
-    {
-      label: "app-obj",
-      url: "/multicloud/applications/obj-sub-ns/app-obj"
-    }
-  ];
+  const selectedApp = {
+    isSingleApplicationView: true,
+    selectedAppName: "app-obj",
+    selectedAppNamespace: "obj-sub-ns"
+  };
   const allAppbreadcrumbs = [
     {
       label: "Applications",
@@ -454,7 +449,7 @@ describe("getSubscribedChannels", () => {
       getSubscribedChannels(
         channels,
         applications,
-        singleAppbreadcrumbs,
+        selectedApp,
         showAppDeployments
       )
     ).toEqual(allChannelsResult);
@@ -488,12 +483,7 @@ describe("getSubscribedChannels", () => {
       }
     ];
     expect(
-      getSubscribedChannels(
-        channels,
-        apps,
-        singleAppbreadcrumbs,
-        showAppDeployments
-      )
+      getSubscribedChannels(channels, apps, selectedApp, showAppDeployments)
     ).toEqual(allChannelsResult);
   });
 
@@ -505,7 +495,7 @@ describe("getSubscribedChannels", () => {
       getSubscribedChannels(
         channels,
         applications,
-        singleAppbreadcrumbs,
+        selectedApp,
         hideAppDeployments
       )
     ).toEqual(result);
@@ -553,7 +543,7 @@ describe("getSubscribedChannels", () => {
       }
     ];
     expect(
-      getSubscribedChannels(channels, apps, breadcrumbs, hideAppDeployments)
+      getSubscribedChannels(channels, apps, selectedApp, hideAppDeployments)
     ).toEqual(result);
   });
 });

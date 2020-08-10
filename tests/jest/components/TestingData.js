@@ -17,6 +17,12 @@ export const serverProps = {
   xsrfToken: "test"
 };
 
+export const selectedApp = {
+  isSingleApplicationView: true,
+  selectedAppName: "mortgage-app",
+  selectedAppNamespace: "default"
+};
+
 export const resourceType = {
   name: "QueryApplications",
   list: "QueryApplicationList"

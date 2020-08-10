@@ -789,12 +789,12 @@ const PipelineGrid = withLocale(
       appDropDownList,
       bulkSubscriptionList,
       hasAdminRole,
-      breadcrumbItems,
+      selectedApp,
       deleteResource
     },
     locale
   ) => {
-    const oneApplication = breadcrumbItems.length === 2
+    const { isSingleApplicationView: oneApplication } = selectedApp || {}
 
     const sortedChannels = sortChannelsBySubscriptionLength(
       channels,

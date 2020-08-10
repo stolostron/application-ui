@@ -16,6 +16,7 @@ import {
 } from '../../TemplateEditor/utils/validation'
 import { HCMChannelList } from '../../../../lib/client/queries'
 import TimeWindow from '../components/TimeWindow'
+import ClusterSelector from '../components/ClusterSelector'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
@@ -345,6 +346,21 @@ export const controlData = [
     name: 'creation.app.settings.onlineClusters',
     tooltip: 'tooltip.creation.app.settings.onlineClusters',
     active: true,
+    available: []
+  },
+  {
+    type: 'custom',
+    id: 'clusterSelector',
+    component: <ClusterSelector />,
+    available: []
+  },
+  {
+    name: 'creation.app.settings.clustersReplica',
+    tooltip: 'tooltip.creation.app.settings.clustersReplica',
+    id: 'clusterReplicas',
+    type: 'text',
+    active: '',
+    placeholder: 'creation.app.settings.ph.clustersReplica',
     available: []
   },
   ////////////////////////////////////////////////////////////////////////////////////

@@ -12,8 +12,7 @@
 import React from 'react'
 import {
   VALIDATE_ALPHANUMERIC,
-  VALIDATE_URL,
-  VALIDATE_NUMERIC
+  VALIDATE_URL
 } from '../../TemplateEditor/utils/validation'
 import { HCMChannelList } from '../../../../lib/client/queries'
 import TimeWindow from '../components/TimeWindow'
@@ -351,8 +350,6 @@ export const controlData = [
   },
   {
     type: 'custom',
-    name: 'creation.app.settings.clusterSelector',
-    tooltip: 'tooltip.creation.app.settings.clusterSelector',
     id: 'clusterSelector',
     component: <ClusterSelector />,
     available: []
@@ -364,8 +361,7 @@ export const controlData = [
     type: 'text',
     active: '',
     placeholder: 'creation.app.settings.ph.clustersReplica',
-    available: [],
-    validation: VALIDATE_NUMERIC
+    available: []
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  settings  /////////////////////////////////////

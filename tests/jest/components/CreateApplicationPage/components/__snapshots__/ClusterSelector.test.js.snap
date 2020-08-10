@@ -29,7 +29,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
         <span
           className=""
         >
-          Use cluster labels
+          Deploy application resources only on clusters matching specified labels
         </span>
       </label>
     </div>

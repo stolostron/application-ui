@@ -197,6 +197,7 @@ import {
   reduxStoreAppPipeline,
   reduxStoreAllAppsPipeline,
   serverProps,
+  selectedApp,
   reduxStoreAllAppsPipelineNoChannels,
   reduxStoreAppPipelineNoChannels,
   channelObjectForEdit,
@@ -366,7 +367,7 @@ describe("ApplicationDeploymentPipeline", () => {
   it("ApplicationsTab renders correctly with data on single app with yaml actions", () => {
     const wrapper = mount(
       <Provider store={storeApp}>
-        <ApplicationDeploymentPipeline serverProps={serverProps} />
+        <ApplicationDeploymentPipeline serverProps={serverProps} selectedApp={selectedApp} />
       </Provider>
     );
 

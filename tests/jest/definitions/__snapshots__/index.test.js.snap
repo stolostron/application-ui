@@ -71,6 +71,7 @@ Object {
   "secondaryKey": "namespace",
   "tableActions": Array [
     "table.actions.applications.edit",
+    "table.actions.applications.edit.2.1",
     "table.actions.applications.remove",
   ],
   "tableKeys": Array [

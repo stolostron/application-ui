@@ -12,7 +12,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
       onClick={[Function]}
       onKeyDown={[Function]}
       role="navigation"
-      selected={2}
+      selected={0}
       tabcontentclassname="tab-content"
     >
       <div
@@ -29,7 +29,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
           onClick={[Function]}
           tabIndex={-1}
         >
-          
+          Overview
         </a>
         <svg
           alt="show menu options"
@@ -53,16 +53,16 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
         role="tablist"
       >
         <li
-          className="bx--tabs__nav-item"
+          className="bx--tabs__nav-item bx--tabs__nav-item--selected"
           disabled={false}
           onClick={[Function]}
           onKeyDown={[Function]}
           role="presentation"
-          selected={false}
+          selected={true}
           tabIndex={-1}
         >
           <a
-            aria-selected={false}
+            aria-selected={true}
             className="bx--tabs__nav-link"
             href="#"
             role="tab"
@@ -93,11 +93,15 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
       </ul>
     </nav>
     <div
-      aria-hidden={true}
+      aria-hidden={false}
       className="tab-content"
-      hidden={true}
-      selected={false}
-    />
+      hidden={false}
+      selected={true}
+    >
+      <div
+        className="some-content"
+      />
+    </div>
     <div
       aria-hidden={true}
       className="tab-content"
@@ -120,7 +124,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
       onClick={[Function]}
       onKeyDown={[Function]}
       role="navigation"
-      selected={1}
+      selected={0}
       tabcontentclassname="tab-content"
     >
       <div
@@ -137,7 +141,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
           onClick={[Function]}
           tabIndex={-1}
         >
-          
+          Overview
         </a>
         <svg
           alt="show menu options"
@@ -161,6 +165,25 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
         role="tablist"
       >
         <li
+          className="bx--tabs__nav-item bx--tabs__nav-item--selected"
+          disabled={false}
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="presentation"
+          selected={true}
+          tabIndex={-1}
+        >
+          <a
+            aria-selected={true}
+            className="bx--tabs__nav-link"
+            href="#"
+            role="tab"
+            tabIndex={0}
+          >
+            Overview
+          </a>
+        </li>
+        <li
           className="bx--tabs__nav-item"
           disabled={false}
           onClick={[Function]}
@@ -176,11 +199,21 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
             role="tab"
             tabIndex={0}
           >
-            Overview
+            Advanced Configuration
           </a>
         </li>
       </ul>
     </nav>
+    <div
+      aria-hidden={false}
+      className="tab-content"
+      hidden={false}
+      selected={true}
+    >
+      <div
+        className="some-content"
+      />
+    </div>
     <div
       aria-hidden={true}
       className="tab-content"
@@ -203,7 +236,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
       onClick={[Function]}
       onKeyDown={[Function]}
       role="navigation"
-      selected={2}
+      selected={0}
       tabcontentclassname="tab-content"
     >
       <div
@@ -220,7 +253,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
           onClick={[Function]}
           tabIndex={-1}
         >
-          
+          Overview
         </a>
         <svg
           alt="show menu options"
@@ -244,6 +277,25 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
         role="tablist"
       >
         <li
+          className="bx--tabs__nav-item bx--tabs__nav-item--selected"
+          disabled={false}
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="presentation"
+          selected={true}
+          tabIndex={-1}
+        >
+          <a
+            aria-selected={true}
+            className="bx--tabs__nav-link"
+            href="#"
+            role="tab"
+            tabIndex={0}
+          >
+            Overview
+          </a>
+        </li>
+        <li
           className="bx--tabs__nav-item"
           disabled={false}
           onClick={[Function]}
@@ -259,11 +311,21 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
             role="tab"
             tabIndex={0}
           >
-            Overview
+            Advanced Configuration
           </a>
         </li>
       </ul>
     </nav>
+    <div
+      aria-hidden={false}
+      className="tab-content"
+      hidden={false}
+      selected={true}
+    >
+      <div
+        className="some-content"
+      />
+    </div>
     <div
       aria-hidden={true}
       className="tab-content"

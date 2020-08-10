@@ -27,9 +27,6 @@ export const ActionModalApollo = loadable(() =>
 export const ApplicationHeaderTabs = loadable(() =>
   import(/* webpackChunkName: "applicationHeaderTabs" */ './ApplicationHeaderTabs')
 )
-export const ApplicationCreationPage = loadable(() =>
-  import(/* webpackChunkName: "applicationCreationPage" */ '../components/ApplicationCreationPage/ApplicationCreationPage')
-)
 
 resources(() => {
   require('../../scss/common.scss')
@@ -80,29 +77,16 @@ class App extends React.Component {
       !location.pathname.startsWith('/multicloud/welcome') &&
       !location.pathname.startsWith('/multicloud/overview') &&
       !location.pathname.startsWith('/multicloud/search')
-    const showSingleApp =
-      location.pathname &&
-      location.pathname.startsWith('/multicloud/applications/') &&
-      location.pathname.split('/').length === 5
 
     return (
       <div className="expand-vertically">
         {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
           <Route
-            path={`${match.url}/create`}
-            render={() => (
-              <ApplicationCreationPage
-                secondaryHeaderProps={{ title: 'application.create.title' }}
-              />
-            )}
-          />
-          <Route
             path={`${match.url}`}
             render={params => (
               <ApplicationHeaderTabs
                 params={params}
-                showSingleApp={showSingleApp}
                 serverProps={this.getServerProps()}
               />
             )}

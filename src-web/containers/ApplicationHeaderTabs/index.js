@@ -15,7 +15,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import loadable from 'loadable-components'
-import { updateSecondaryHeader ,
+import {
+  updateSecondaryHeader,
   delResourceSuccessFinished,
   mutateResourceSuccessFinished
 } from '../../actions/common'
@@ -43,7 +44,8 @@ export const ApplicationCreationPage = loadable(() =>
   import(/* webpackChunkName: "applicationcreatepage" */ '../../components/ApplicationCreationPage/ApplicationCreationPage')
 )
 
-const routes = ['', 'advanced', 'yaml', 'create']
+const singleAppRoutes = ['', 'yaml', 'create']
+const allAppsRoutes = ['', 'advanced', 'create']
 // This will render the two tabs
 // Overview, Resources
 const ApplicationHeaderTabs = withLocale(
@@ -55,20 +57,24 @@ const ApplicationHeaderTabs = withLocale(
     deleteSuccessFinished,
     updateSecondary
   }) => {
-
     // process restful api into which tab to show
-    const {history, location} = params||{}
+    const { history, location } = params || {}
     const pathname = _.get(location, 'pathname', '')
     const segments = pathname.split('/')
-    const isSingleApplicationView = segments.length>=5
+    const isSingleApplicationView = segments.length >= 5
+
+    const routes = isSingleApplicationView ? singleAppRoutes : allAppsRoutes
+
     let route = ''
-    if (segments.length===4 || segments.length===6) {
+    if (segments.length === 4 || segments.length === 6) {
       route = segments.pop()
     }
     const basePath = segments.join('/')
     const selectedTab = routes.indexOf(route)
     const selectedAppName = isSingleApplicationView ? segments.pop() : null
-    const selectedAppNamespace = isSingleApplicationView ? segments.pop() : null
+    const selectedAppNamespace = isSingleApplicationView
+      ? segments.pop()
+      : null
     const selectedApp = {
       isSingleApplicationView,
       selectedAppName,
@@ -87,7 +93,7 @@ const ApplicationHeaderTabs = withLocale(
         url: [...segments, selectedAppNamespace, selectedAppName].join('/')
       })
     }
-    updateSecondary(selectedAppName||'Applications', breadcrumbs)
+    updateSecondary(selectedAppName || 'Applications', breadcrumbs)
     selectedApp.breadcrumbs = breadcrumbs
 
     const noop = () => {
@@ -106,23 +112,35 @@ const ApplicationHeaderTabs = withLocale(
             </div>
           )
         case 1:
-          return (
-            <div className="page-content-container">
-              <ApplicationDeploymentPipeline serverProps={serverProps} selectedApp={selectedApp} />
-            </div>
-          )
+          if (isSingleApplicationView) {
+            return (
+              <div className="page-content-container">
+                <ApplicationCreationPage
+                  serverProps={serverProps}
+                  editApplication={selectedApp}
+                  />
+              </div>
+            )
+          } else {
+            return (
+              <div className="page-content-container">
+                <ApplicationDeploymentPipeline serverProps={serverProps} />
+              </div>
+            )
+          }
+
         case 2:
           return (
-            <div className="page-content-container">
-              <ApplicationCreationPage serverProps={serverProps} editApplication={selectedApp} />
-            </div>
+            <ApplicationCreationPage
+              secondaryHeaderProps={{ title: 'application.create.title' }}
+              />
           )
         }
       }
       return null
     }
 
-    if (selectedTab<=2) {
+    if (selectedTab < 2) {
       return (
         <div id="applicationheadertabs">
           <div className="whiteSpacer">
@@ -142,41 +160,49 @@ const ApplicationHeaderTabs = withLocale(
                 deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
                 deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
                 // open the tab
-                const theRoute = id>0 ? `${routes[id]}`:''
+                const theRoute = id > 0 ? `${routes[id]}` : ''
                 history.push(`${basePath}/${theRoute}`)
               }}
               tabcontentclassname="tab-content"
-              >
+            >
               <Tab
                 disabled={false}
                 onClick={noop}
                 onKeyDown={noop}
                 label={msgs.get('description.title.overview', locale)}
-                >
+              >
                 {renderTab(0)}
               </Tab>
-              <Tab
-                disabled={false}
-                onClick={noop}
-                onKeyDown={noop}
-                label={msgs.get('description.title.deployments', locale)}
+              {!isSingleApplicationView && (
+                <Tab
+                  disabled={false}
+                  onClick={noop}
+                  onKeyDown={noop}
+                  label={msgs.get('description.title.deployments', locale)}
                 >
-                {renderTab(1)}
-              </Tab>
-              {isSingleApplicationView&&<Tab
-                disabled={false}
-                onClick={noop}
-                onKeyDown={noop}
-                label={msgs.get('description.title.yaml', locale)}
-              >
-                  {renderTab(2)}
-                </Tab>}
+                  {renderTab(1)}
+                </Tab>
+              )}
+              {isSingleApplicationView && (
+                <Tab
+                  disabled={false}
+                  onClick={noop}
+                  onKeyDown={noop}
+                  label={msgs.get('description.title.yaml', locale)}
+                >
+                  {renderTab(1)}
+                </Tab>
+              )}
             </Tabs>
           </div>
         </div>
       )
     } else {
-      return <ApplicationCreationPage secondaryHeaderProps={{title: 'application.create.title'}} />
+      return (
+        <ApplicationCreationPage
+          secondaryHeaderProps={{ title: 'application.create.title' }}
+        />
+      )
     }
   }
 )

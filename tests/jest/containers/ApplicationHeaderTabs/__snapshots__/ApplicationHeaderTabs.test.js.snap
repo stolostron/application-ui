@@ -87,7 +87,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
             role="tab"
             tabIndex={0}
           >
-            Advanced Configuration
+            Advanced configuration
           </a>
         </li>
       </ul>
@@ -199,7 +199,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
             role="tab"
             tabIndex={0}
           >
-            Advanced Configuration
+            Advanced configuration
           </a>
         </li>
       </ul>
@@ -311,7 +311,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
             role="tab"
             tabIndex={0}
           >
-            Advanced Configuration
+            Advanced configuration
           </a>
         </li>
       </ul>

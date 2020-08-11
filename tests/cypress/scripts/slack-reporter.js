@@ -3,9 +3,12 @@
  * Copyright (c) 2020 Red Hat, Inc.
  ****************************************************************************** */
 
+/* eslint-disable no-console */
+
 const fs = require("fs");
 const path = require("path");
 const util = require("util");
+const rimraf = require("rimraf");
 const { WebClient } = require("@slack/web-api");
 const exec = util.promisify(require("child_process").exec);
 const { SLACK_TOKEN, USER, TRAVIS_BUILD_WEB_URL } = process.env;
@@ -26,40 +29,36 @@ async function slackReporter() {
     "cypress",
     "json"
   );
-  console.log("reportPath", reportPath);
   const reports = fs.readdirSync(reportPath);
   const slackData = await mapSlackUserByGitEmail();
   const prData = await getPullRequestData();
 
-  // console.log("slackData",slackData);
-  // const result =  web.files.upload({
-  //   channels: slackData.id,
-  //   filename: "test.txt",
-  //   file: fs.createReadStream("./test.txt"),
-  //   initial_comment: "Hey, your test failed!"
-  // })
-  // console.log("Slack result",result);
+  const videoDir = await path.resolve(__dirname, "..", "videos");
+  const videoDirFolders =
+    fs
+      .readdirSync(videoDir)
+      .filter(item => fs.lstatSync(`${videoDir}/${item}`).isDirectory()) || [];
+  videoDirFolders.forEach(folder =>
+    moveVideos(`${videoDir}/${folder}`, videoDir)
+  );
 
-  reports.forEach(report => reportFailure(report, slackData, prData));
+  const videos = fs
+    .readdirSync(videoDir, { withFileTypes: true })
+    .map(video => video.name);
+  reports.forEach(report =>
+    reportFailure(report, slackData, prData, videoDir, videos)
+  );
 }
 
-async function reportFailure(report, slackData, prData) {
+async function reportFailure(report, slackData, prData, videoDir, videos) {
   try {
-    console.log("report", report);
-    console.log("slackData", slackData);
-    console.log("prData", prData);
     const testReport = require(`../../test-output/cypress/json/${report}`);
     if (testReport.stats.failures > 0) {
       const testFailureData = getTestFailureData(testReport);
-      const videoDir = path.join(__dirname, "..", "videos");
-      const videos = fs
-        .readdirSync(videoDir, { withFileTypes: true })
-        .map(video => video.name);
-
       testFailureData.forEach(testFailure => {
         const { suiteFile, failedTests } = testFailure;
         const matchedVideoFile = videos.find(video =>
-          video.includes(suiteFile)
+          video.startsWith(path.parse(suiteFile).base)
         );
         const videoFilePath = path.join(videoDir, matchedVideoFile);
         const comment = buildComment(failedTests, prData, slackData);
@@ -74,13 +73,22 @@ async function reportFailure(report, slackData, prData) {
 function buildComment(failedTests, prData, slackData) {
   const { title, html_url } = prData;
   const { id } = slackData;
-  console.log(failedTests);
   return `:failed: *FAILED: ${title}*\n
 ${failedTests.map(test => `- ${test} \n`).join("")}\n
 :travis-ci: <${TRAVIS_BUILD_WEB_URL ||
     "https://travis-ci.com/github/open-cluster-management/application-ui/pull_requests"}|View build> | :github: <${html_url ||
     "https://github.com/open-cluster-management/application-ui/pulls"}|View pull request> \n\n
 ${id ? `<@${id}>` : ""}`;
+}
+
+function moveVideos(path, videoDir) {
+  console.log("moving video");
+  fs
+    .readdirSync(path, { withFileTypes: true })
+    .forEach(file =>
+      fs.copyFileSync(`${path}/${file.name}`, `${videoDir}/${file.name}`)
+    );
+  rimraf.sync(path);
 }
 
 async function mapSlackUserByGitEmail() {
@@ -101,7 +109,7 @@ async function postVideo(fileName, filePath, comment, userId) {
       initial_comment: comment
     });
   } catch (e) {
-    console.error("Slack Post Video Response", response);
+    console.error("Slack Post Error", e);
   }
 }
 
@@ -117,7 +125,7 @@ function getTestFailureData(report) {
     const searchIndex = suite.file.lastIndexOf("/") + 1;
     const suiteFile = suite.file.substring(searchIndex);
     const failedTests = [];
-    suite.suites[0].tests.forEach((test, i) => {
+    suite.suites[0].tests.forEach(test => {
       test.fail && failedTests.push(test.fullTitle);
     });
     return { suiteFile, failedTests };
@@ -137,4 +145,4 @@ async function getPullRequestData() {
   }
 }
 
-// slackReporter();
+slackReporter();

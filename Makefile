@@ -79,6 +79,9 @@ run-test-image-pr:
 	-e USER=$(shell git log -1 --format='%ae') \
 	-e SLACK_TOKEN=$(SLACK_TOKEN) \
 	-e GITHUB_TOKEN=$(GITHUB_TOKEN) \
+	-e TRAVIS_BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
+	-e TRAVIS_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
+	-e TRAVIS_PULL_REQUEST=$(TRAVIS_PULL_REQUEST) \
 	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_BASE_URL=https://localhost:3001 \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \

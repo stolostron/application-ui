@@ -707,7 +707,7 @@ export const createResourceSearchLink = node => {
           namespace:
             computedNS && computedNS.length > 0
               ? computedNS
-              : node.specs.raw.metadata.namespace,
+              : R.pathOr('', ['specs', 'raw', 'metadata', 'namespace'])(node),
           kind: nodeType === 'rules' ? 'placementrule' : _.get(node, 'type', '')
         },
         indent: true

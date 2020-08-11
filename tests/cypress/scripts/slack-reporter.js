@@ -137,4 +137,4 @@ async function getPullRequestData() {
   }
 }
 
-slackReporter();
+// slackReporter();

@@ -78,7 +78,7 @@ run-test-image-pr:
 	-e BROWSER=$(BROWSER) \
 	-e USER=$(shell git log -1 --format='%ae') \
 	-e SLACK_TOKEN=$(SLACK_TOKEN) \
-	-e GITHUB_TOKEN=$(GITHUB_TOKEN) \	
+	-e GITHUB_TOKEN=$(GITHUB_TOKEN) \
 	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_BASE_URL=https://localhost:3001 \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \

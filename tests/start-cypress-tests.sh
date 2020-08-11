@@ -43,9 +43,8 @@ sed -i "s/\$JOB_ID/$JOB_ID/g" ./cypress/test-artifacts/*.yaml
 
 echo "Running tests on $CYPRESS_BASE_URL in $CYPRESS_TEST_MODE mode..."
 testCode=0
-npx cypress run --browser $BROWSER --reporter junit \
-  --reporter-options "mochaFile=/results/cypress-e2-[hash].xml"
-testCode=$?e
+npx cypress run --config-file "./cypress.json" --browser $BROWSER
+testCode=$?
 
 echo "Copying outputed screenshots and videos..."
 cp -r ./cypress/screenshots /results/screenshots

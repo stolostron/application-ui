@@ -41,6 +41,8 @@ describe("Application Resources", () => {
     pageLoader.shouldNotExist();
     modal.shouldNotBeVisible();
     cy.wrap(queryAppResourceInFile("Subscription", filename)).should("eq", 200);
+
+    throw new Error("Failing test case for Slack integration PR");
   });
 
   it("Given user logs in as sysadmin, user should be able to add github placement rule", () => {

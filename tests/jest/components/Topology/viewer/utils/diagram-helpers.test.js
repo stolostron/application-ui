@@ -1052,7 +1052,7 @@ describe("setSubscriptionDeployStatus with no sub error", () => {
       labelValue: "Remote subscriptions",
       status: "failure",
       value:
-        "This subscription was not added to a managed cluster. Ensure the Placement Rule resource is valid and exists in the {0} namespace and that the klusterlet-addon-appmgr pod runs on the managed clusters."
+        "This subscription was not added to a managed cluster. If this status does not change after waiting for initial creation, ensure the Placement Rule resource is valid and exists in the {0} namespace and that the klusterlet-addon-appmgr pod runs on the managed clusters."
     },
     {
       type: "link",
@@ -1243,7 +1243,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
       labelValue: "Remote subscriptions",
       status: "failure",
       value:
-        "This subscription was not added to a managed cluster. Ensure the Placement Rule resource is valid and exists in the {0} namespace and that the klusterlet-addon-appmgr pod runs on the managed clusters."
+        "This subscription was not added to a managed cluster. If this status does not change after waiting for initial creation, ensure the Placement Rule resource is valid and exists in the {0} namespace and that the klusterlet-addon-appmgr pod runs on the managed clusters."
     },
     {
       type: "link",

@@ -18,7 +18,7 @@ export const resourceTable = {
   shouldNotExist: () =>
     cy.get(".resource-table", { timeout: 20000 }).should("not.exist"),
   rowCount: () =>
-    cy.get(".resource-table", { timeout: 500000 }).then($table => {
+    cy.get(".resource-table", { timeout: 500 * 1000 }).then($table => {
       return $table.find("tbody").find("tr").length;
     }),
   rowShouldExist: function(name) {
@@ -41,19 +41,27 @@ export const resourceTable = {
     });
   },
   openRowMenu: name =>
-    cy.get(`tr[data-row-name="${name}"] .bx--overflow-menu`).click(),
+    cy
+      .get(`tr[data-row-name="${name}"] .bx--overflow-menu`, {
+        timeout: 20 * 10000
+      })
+      .click(),
   menuClickEdit: () =>
     cy
-      .get('button[data-table-action="table.actions.applications.edit"]')
+      .get('button[data-table-action="table.actions.applications.edit"]', {
+        timeout: 20 * 1000
+      })
       .click(),
   menuClickDelete: () =>
     cy
-      .get('button[data-table-action="table.actions.applications.remove"]')
+      .get('button[data-table-action="table.actions.applications.remove"]', {
+        timeout: 20 * 1000
+      })
       .click(),
   menuClickDeleteConfirm: () =>
     cy
       .get("button")
-      .contains("Delete application")
+      .contains("Delete application", { timeout: 20 * 1000 })
       .click()
 };
 

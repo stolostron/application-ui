@@ -15,13 +15,13 @@
   "reporterOptions": {
     "reporterEnabled": "mochawesome, mocha-junit-reporter",
     "mochawesomeReporterOptions": {
-      "reportDir": "tests/test-output/cypress/json",
+      "reportDir": "test-output/cypress/json",
       "overwrite": false,
       "html": false,
       "json": true
     },
     "mochaJunitReporterReporterOptions": {
-      "mochaFile": "tests/test-output/cypress/xml/cypress-[hash].xml"
+      "mochaFile": "test-output/cypress/xml/cypress-[hash].xml"
     }
   }
 }

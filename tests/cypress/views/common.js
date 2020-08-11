@@ -21,14 +21,20 @@ export const resourceTable = {
     cy.get(".resource-table", { timeout: 500 * 1000 }).then($table => {
       return $table.find("tbody").find("tr").length;
     }),
-  rowShouldExist: function(name) {
+  rowShouldExist: function(name, timeout) {
     this.searchTable(name);
-    cy.get(`tr[data-row-name="${name}"]`, { timeout: 30000 }).should("exist");
+    cy
+      .get(`tr[data-row-name="${name}"]`, {
+        timeout: timeout || 30 * 1000
+      })
+      .should("exist");
   },
   rowShouldNotExist: function(name, timeout, disableSearch) {
     !disableSearch && this.searchTable(name);
     cy
-      .get(`tr[data-row-name="${name}"]`, { timeout: timeout || 30000 })
+      .get(`tr[data-row-name="${name}"]`, {
+        timeout: timeout || 30 * 1000
+      })
       .should("not.exist");
   },
   rowNameClick: name => cy.get(`a[href*="${name}"]`).click(),
@@ -72,9 +78,9 @@ export const secondaryHeader = {
 
 export const noResource = {
   shouldExist: () => cy.get(".no-resource", { timeout: 20000 }).should("exist"),
-  shouldNotExist: time =>
+  shouldNotExist: timeout =>
     cy
-      .get(".no-resource", { timeout: time ? time : 20 * 1000 })
+      .get(".no-resource", { timeout: timeout ? timeout : 20 * 1000 })
       .should("not.exist")
 };
 

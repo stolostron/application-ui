@@ -8,22 +8,22 @@ exports[`ClusterSelector component renders as expected 1`] = `
     className="creation-view-controls-textarea-title"
   />
   <div
-    className="timeWindow-container"
+    className="clusterSelector-container"
   >
     <div
       className="bx--form-item bx--checkbox-wrapper"
     >
       <input
         className="bx--checkbox"
-        id="clusterSelector-mode-container"
-        name="clusterSelector-mode-container"
+        id="clusterSelector-checkbox"
+        name="clusterSelector-checkbox"
         onChange={[Function]}
         onClick={[Function]}
         type="checkbox"
       />
       <label
-        className="bx--checkbox-label clusterSelector-mode-container"
-        htmlFor="clusterSelector-mode-container"
+        className="bx--checkbox-label clusterSelector-checkbox"
+        htmlFor="clusterSelector-checkbox"
         title={null}
       >
         <span
@@ -76,70 +76,71 @@ exports[`ClusterSelector component renders as expected 1`] = `
           className="bx--accordion__content"
         >
           <div
-            className="timeWindow-config-container"
+            className="clusterSelector-labels-section"
           >
             <div
-              className="config-days-section"
+              className="labels-descr"
             >
-              <div
-                className="config-descr"
-              >
-                Optionally enter one or more matching labels to select the clusters to deploy to
-              </div>
+              Optionally enter one or more matching labels to select the clusters to deploy to
             </div>
             <div
-              className="config-time-section"
+              className="labels-section"
             >
               <div
-                className="config-time-container"
+                className="matching-labels-container"
               >
                 <div
-                  className="bx--form-item"
+                  className="matching-labels-input"
                 >
-                  <label
-                    className="bx--label"
-                    htmlFor="labelName-0"
+                  <div
+                    className="bx--form-item"
                   >
-                    Label
-                  </label>
-                  <input
-                    className="bx--text-input bx--text__input"
-                    disabled={true}
-                    id="labelName-0"
-                    name="labelName"
-                    onChange={[Function]}
-                    onClick={[Function]}
-                    placeholder="Label name"
-                    type="text"
-                  />
-                </div>
-                <div>
-                   
+                    <label
+                      className="bx--label"
+                      htmlFor="labelName-0"
+                    >
+                      Label
+                    </label>
+                    <input
+                      className="bx--text-input text-input"
+                      disabled={true}
+                      id="labelName-0"
+                      name="labelName"
+                      onChange={[Function]}
+                      onClick={[Function]}
+                      placeholder="Label name"
+                      type="text"
+                    />
+                  </div>
                 </div>
                 <div
-                  className="bx--form-item"
+                  className="matching-labels-input"
                 >
-                  <label
-                    className="bx--label"
-                    htmlFor="labelValue-0"
+                  <div
+                    className="bx--form-item"
                   >
-                    Value
-                  </label>
-                  <input
-                    className="bx--text-input bx--text__input"
-                    disabled={true}
-                    id="labelValue-0"
-                    name="labelValue"
-                    onChange={[Function]}
-                    onClick={[Function]}
-                    placeholder="Label value"
-                    type="text"
-                  />
+                    <label
+                      className="bx--label"
+                      htmlFor="labelValue-0"
+                    >
+                      Value
+                    </label>
+                    <input
+                      className="bx--text-input text-input"
+                      disabled={true}
+                      id="labelValue-0"
+                      name="labelValue"
+                      onChange={[Function]}
+                      onClick={[Function]}
+                      placeholder="Label value"
+                      type="text"
+                    />
+                  </div>
                 </div>
                 
               </div>
               <div
-                className="add-time-btn btn-disabled"
+                className="add-label-btn btn-disabled"
                 onClick={[Function]}
                 onKeyPress={[Function]}
                 role="button"
@@ -148,7 +149,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                 <svg
                   alt=""
                   aria-label=""
-                  className="add-time-btn-icon"
+                  className="add-label-btn-icon"
                   fill="#3d70b2"
                   fillRule="evenodd"
                   height="16"
@@ -165,7 +166,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                   />
                 </svg>
                 <div
-                  className="add-time-btn-text"
+                  className="add-label-btn-text"
                 >
                   Add another label
                 </div>

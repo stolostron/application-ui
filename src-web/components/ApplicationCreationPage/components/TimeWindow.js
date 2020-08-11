@@ -94,12 +94,12 @@ export class TimeWindow extends React.Component {
               />
               <RadioButton
                 className="mode-btn"
-                id="block-mode"
+                id="blocked-mode"
                 labelText={msgs.get(
-                  'creation.app.settings.timeWindow.blockMode',
+                  'creation.app.settings.timeWindow.blockedMode',
                   locale
                 )}
-                value="&quot;block&quot;"
+                value="&quot;blocked&quot;"
                 onClick={this.handleChange.bind(this)}
               />
             </RadioButtonGroup>

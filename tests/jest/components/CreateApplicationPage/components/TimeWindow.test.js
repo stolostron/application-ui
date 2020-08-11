@@ -60,7 +60,7 @@ describe("on control change function", () => {
       .at(0)
       .simulate("click", evt);
     wrapper
-      .find("#block-mode")
+      .find("#blocked-mode")
       .at(0)
       .simulate("click", evt);
     wrapper

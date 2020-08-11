@@ -237,7 +237,7 @@ spec:
     matchLabels:
       {{#each clusterSelector.clusterLabelsList}}
       {{#if validValue}}
-      {{{labelName}}}: {{{labelValue}}}
+      {{{labelName}}}: '{{{labelValue}}}'
       {{/if}}
       {{/each}} 
   {{#if online-cluster-only-checkbox}}

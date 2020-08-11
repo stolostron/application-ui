@@ -103,6 +103,11 @@ const updateChannelControls = urlControl => {
 const githubChannelData = [
   ///////////////////////  github  /////////////////////////////////////
   {
+    id: 'channelNamespace',
+    type: 'hidden',
+    active: ''
+  },
+  {
     name: 'creation.app.github.url',
     tooltip: 'tooltip.creation.app.github.url',
     id: 'githubURL',
@@ -112,7 +117,6 @@ const githubChannelData = [
     available: [],
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('git'),
-    cacheUserValueKey: 'create.app.github.url',
     onSelect: updateChannelControls
   },
   {
@@ -189,6 +193,11 @@ const helmReleaseChannelData = [
 
 const objectstoreChannelData = [
   ///////////////////////  Objectstore  /////////////////////////////////////
+  {
+    id: 'channelNamespace',
+    type: 'hidden',
+    active: ''
+  },
   {
     name: 'creation.app.objectstore.url',
     tooltip: 'tooltip.creation.app.objectstore.url',
@@ -287,11 +296,6 @@ export const controlData = [
         id: 'channelName',
         type: 'hidden',
         active: 'resource'
-      },
-      {
-        id: 'channelNamespace',
-        type: 'hidden',
-        active: ''
       },
       {
         id: 'channelType',

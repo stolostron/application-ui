@@ -59,7 +59,9 @@ metadata:
   namespace: {{{../../../name}}}-{{{../../channelName}}}-ns
 spec:
   type: Git
+{{#if ../../githubURL}}
   pathname: '{{{../../githubURL}}}'
+{{/if}}
 {{#if ../../githubUser}}
   secretRef:
     name: {{{../../../name}}}-git-authentication-{{@index}}

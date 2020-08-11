@@ -23,7 +23,8 @@ describe("create wizard", () => {
 
       cy.get("#githubBranch").type(branch);
       cy.get("#githubPath").type(path);
-      cy.get("#online-cluster-only-checkbox").click({ force: true });
+      // Disable deploy for now when we figure out how to validate the through api
+      // cy.get("#online-cluster-only-checkbox").click({ force: true });
       cy.get("#create-button-portal-id").click();
     });
 

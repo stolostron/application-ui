@@ -61,12 +61,12 @@ before(() => {
   }
 
   //delete app resource
-  cy.task("getFileList", "yaml").then(list => {
-    cy.log(list);
-    list.forEach(file => {
-      cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
-    });
-  });
+  // cy.task("getFileList", "yaml").then(list => {
+  //   cy.log(list);
+  //   list.forEach(file => {
+  //     cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
+  //   });
+  // });
 });
 
 Cypress.on("uncaught:exception", (err, runnable) => {

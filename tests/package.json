@@ -3,6 +3,7 @@
     "test:slack": "node ./tests/cypress/scripts/slack-reporter.js"
   },
   "dependencies": {
+    "cypress": "^4.12.1",
     "cypress-log-to-output": "^1.0.8",
     "cypress-multi-reporters": "^1.4.0",
     "js-yaml": "^3.12.0",

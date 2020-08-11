@@ -48,7 +48,7 @@ async function reportFailure(report, slackData, prData) {
     console.log("report", report);
     console.log("slackData", slackData);
     console.log("prData", prData);
-    const testReport = require(`./test-output/cypress/json/${report}`);
+    const testReport = require(`../../test-output/cypress/json/${report}`);
     if (testReport.stats.failures > 0) {
       const testFailureData = getTestFailureData(testReport);
       const videoDir = path.join(__dirname, "..", "videos");

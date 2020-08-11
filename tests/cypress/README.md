@@ -6,6 +6,8 @@ The tests can be run locally and also are containerized in Docker for running on
 
 For running tests locally for general testing, or development of test cases, the local environment can be configured to run on a hub cluster that has application-ui running. It can also be pointing to a local deployment that points to a hub cluster.
 
+The Cypress tests are stored inside the /tests/ directory, which has its own package.json, it is built as a separate package from the application-ui, despite being stored inside the application-ui repository.
+
 ## How to run Cypress tests
 
 #### Prerequisites:
@@ -22,7 +24,7 @@ For running tests locally for general testing, or development of test cases, the
    - `export CYPRESS_BASE_URL=https://multicloud-console.apps.{clusterName}.dev06.red-chesterfield.com/` (URL of a working cluster)
    - `export CYPRESS_OC_CLUSTER_USER=kubeadmin`
    - `export CYPRESS_OC_CLUSTER_PASS=xxxxxxxxx`
-2. From the root application-ui directory, run `npx cypress open`
+2. From the application-ui/tests directory, run `npx cypress open`
 
 #### Running Cypress tests on a local environment
 
@@ -36,7 +38,7 @@ The environment variables are similar to running on the live cluster, however in
    - `export CYPRESS_OC_CLUSTER_USER=kubeadmin`
    - `export CYPRESS_OC_CLUSTER_PASS=xxxxxxxxx`
    - `export CYPRESS_OC_CLUSTER_URL=https://api.{clusterName}.dev06.red-chesterfield.com:6443` (API of the cluster that the local env points to needs to be specified)
-4. From the root application-ui directory, run `npx cypress open`
+4. From the application-ui/tests directory, run `npx cypress open`
 
 #### Functional vs E2E
 

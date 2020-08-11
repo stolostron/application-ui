@@ -68,7 +68,7 @@ describe("on control change function", () => {
     };
 
     wrapper
-      .find("#clusterSelector-mode-container")
+      .find("#clusterSelector-checkbox")
       .at(0)
       .simulate("change", evt);
     wrapper

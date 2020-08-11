@@ -68,21 +68,21 @@ exports[`TimeWindow component renders as expected 1`] = `
           <input
             checked={false}
             className="bx--radio-button"
-            id="block-mode"
+            id="blocked-mode"
             name="timeWindow-mode-container"
             onChange={[Function]}
             onClick={[Function]}
             type="radio"
-            value="\\"block\\""
+            value="\\"blocked\\""
           />
           <label
             className="bx--radio-button__label"
-            htmlFor="block-mode"
+            htmlFor="blocked-mode"
           >
             <span
               className="bx--radio-button__appearance"
             />
-            Block within specified interval
+            Blocked within specified interval
           </label>
         </div>
       </div>

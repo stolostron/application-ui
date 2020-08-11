@@ -56,19 +56,33 @@ const updateChannelControls = urlControl => {
   const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]
 
-  // change channel name to reflect github path
-  let control
+  const nameControl = groupControlData.find(({ id }) => id === 'channelName')
+  const namespaceControl = groupControlData.find(
+    ({ id }) => id === 'channelNamespace'
+  )
+  // change channel name and namespace to reflect github path
   if (active) {
-    control = groupControlData.find(({ id }) => id === 'channelName')
     const a = document.createElement('a')
     a.href = active
-    let name = a.pathname.split('/').pop()
-    name = name.split('.').shift()
-    control.active = `${name}-chn`
+
+    // if existing channel, reuse channel name and namespace
+    if (pathData && pathData.metadata) {
+      nameControl.active = pathData.metadata.name
+      namespaceControl.active = pathData.metadata.namespace
+    } else {
+      let name = a.pathname.split('/').pop()
+      name = name.split('.').shift()
+      nameControl.active = `${name}-chn`
+      namespaceControl.active = ''
+    }
+  } else {
+    nameControl.active = 'resource'
+    namespaceControl.active = ''
   }
 
-  // hide user/token controls if user selects a github path that doesn't need them
-  const type = !pathData || pathData.secretRef ? 'text' : 'hidden'
+  let control
+  // if existing channel, hide user/token controls
+  const type = !pathData ? 'text' : 'hidden'
   const setType = cid => {
     control = groupControlData.find(({ id }) => id === cid)
     _.set(control, 'type', type)
@@ -89,6 +103,16 @@ const updateChannelControls = urlControl => {
 const githubChannelData = [
   ///////////////////////  github  /////////////////////////////////////
   {
+    id: 'channelName',
+    type: 'hidden',
+    active: 'resource'
+  },
+  {
+    id: 'channelNamespace',
+    type: 'hidden',
+    active: ''
+  },
+  {
     name: 'creation.app.github.url',
     tooltip: 'tooltip.creation.app.github.url',
     id: 'githubURL',
@@ -98,7 +122,6 @@ const githubChannelData = [
     available: [],
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('git'),
-    cacheUserValueKey: 'create.app.github.url',
     onSelect: updateChannelControls
   },
   {
@@ -176,6 +199,16 @@ const helmReleaseChannelData = [
 const objectstoreChannelData = [
   ///////////////////////  Objectstore  /////////////////////////////////////
   {
+    id: 'channelName',
+    type: 'hidden',
+    active: 'resource'
+  },
+  {
+    id: 'channelNamespace',
+    type: 'hidden',
+    active: ''
+  },
+  {
     name: 'creation.app.objectstore.url',
     tooltip: 'tooltip.creation.app.objectstore.url',
     id: 'objectstoreURL',
@@ -185,7 +218,6 @@ const objectstoreChannelData = [
     available: [],
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('objectbucket'),
-    cacheUserValueKey: 'create.app.objectstore.url',
     onSelect: updateChannelControls
   },
   {
@@ -255,7 +287,7 @@ export const controlData = [
     id: 'channels',
     type: 'group',
     prompts: {
-      nameId: 'channelName',
+      nameId: 'channelPrompt',
       baseName: 'resource',
       addPrompt: 'creation.app.add.channel',
       deletePrompt: 'creation.app.delete.channel'
@@ -270,9 +302,9 @@ export const controlData = [
       },
       ///////////////////////  channel name  /////////////////////////////////////
       {
-        id: 'channelName',
+        id: 'channelPrompt',
         type: 'hidden',
-        active: 'resource'
+        active: ''
       },
       {
         id: 'channelType',
@@ -322,10 +354,7 @@ export const controlData = [
           }
         ],
         active: '',
-        validation: {
-          notification: 'creation.must.select.resource.type',
-          required: true
-        }
+        validation: {}
       }
     ]
   },

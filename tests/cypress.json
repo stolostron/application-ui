@@ -7,6 +7,7 @@
   "videosFolder": "cypress/videos",
   "baseUrl": "https://localhost:3001",
   "nodeVersion": "system",
+  "ignoreTestFiles": "**/ignoredTestFiles/*.js",
   "env": {
     "OC_IDP": "kube:admin",
     "OC_CLUSTER_USER": "kubeadmin"

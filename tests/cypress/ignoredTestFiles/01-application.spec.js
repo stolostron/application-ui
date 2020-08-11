@@ -2,12 +2,7 @@
  * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
 
-import {
-  pageLoader,
-  resourceTable,
-  modal,
-  noResource
-} from "../../views/common";
+import { pageLoader, resourceTable, modal, noResource } from "../views/common";
 
 describe("Application Resources", () => {
   beforeEach(() => {

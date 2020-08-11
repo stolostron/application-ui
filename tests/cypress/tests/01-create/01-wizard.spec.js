@@ -23,7 +23,8 @@ describe("create wizard", () => {
 
       cy.get("#githubBranch").type(branch);
       cy.get("#githubPath").type(path);
-      cy.get("#online-cluster-only-checkbox").click({ force: true });
+      // Disable deploy for now when we figure out how to validate the through api
+      // cy.get("#online-cluster-only-checkbox").click({ force: true });
       cy.get("#create-button-portal-id").click();
     });
 
@@ -34,7 +35,7 @@ describe("create wizard", () => {
         .get("#undefined-search")
         .type(name)
         .type("{enter}");
-      resourceTable.rowShouldExist(name);
+      resourceTable.rowShouldExist(name, 500 * 1000);
       resourceTable.rowNameClick(name);
       cy.wait(10 * 1000); // wait for the application to deploy
       cy.reload(); // status isn't updating after unknown failure

@@ -76,8 +76,8 @@ function buildComment(failedTests, prData, slackData) {
   return `:failed: *FAILED: ${title}*\n
 ${failedTests.map(test => `- ${test} \n`).join("")}\n
 :travis-ci: <${TRAVIS_BUILD_WEB_URL ||
-    "https://travis-ci.com/github/open-cluster-management/console-ui/pull_requests"}|View build> | :github: <${html_url ||
-    "https://github.com/open-cluster-management/console-ui/pulls"}|View pull request> \n\n
+    "https://travis-ci.com/github/open-cluster-management/application-ui/pull_requests"}|View build> | :github: <${html_url ||
+    "https://github.com/open-cluster-management/application-ui/pulls"}|View pull request> \n\n
 ${id ? `<@${id}>` : ""}`;
 }
 

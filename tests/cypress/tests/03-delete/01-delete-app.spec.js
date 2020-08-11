@@ -1,0 +1,36 @@
+/*******************************************************************************
+ * Copyright (c) 2020 Red Hat, Inc.
+ *******************************************************************************/
+
+const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
+import { noResource, resourceTable, modal } from "../../views/common";
+
+describe("delete application", () => {
+  for (const resource in wizards) {
+    const { url, name } = wizards[resource];
+    it(`can be created on resource ${resource}`, () => {
+      cy.visit("/multicloud/applications");
+      if (noResource.shouldNotExist()) {
+        cy
+          .get("#undefined-search")
+          .click()
+          .type(name);
+        resourceTable.rowShouldExist(name);
+        resourceTable.openRowMenu(name);
+        resourceTable.menuClickDelete();
+        modal.shouldBeOpen();
+        // delete confirmation
+        modal.clickDanger();
+        modal.shouldNotBeVisible();
+
+        // should not equal 200 as it should not exist
+        //cy.getAppResourceAPI(Cypress.env("token"), "application", appNamespace, appName);
+
+        // after deleting the app, it should not exist in the app table
+        resourceTable.rowShouldNotExist(name, 90 * 1000);
+      } else {
+        cy.log("No apps to delete...");
+      }
+    });
+  }
+});

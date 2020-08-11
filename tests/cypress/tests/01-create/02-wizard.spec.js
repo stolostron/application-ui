@@ -2,7 +2,7 @@
  * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
 
-import { modal, resourceTable } from "../../views/common";
+import { noResource, modal, resourceTable } from "../../views/common";
 
 const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
 
@@ -25,12 +25,11 @@ describe("create wizard", () => {
       cy.get("#githubPath").type(path);
       cy.get("#online-cluster-only-checkbox").click({ force: true });
       cy.get("#create-button-portal-id").click();
-
-      cy.wait(30 * 1000); // wait for the application to deploy
     });
 
     it(`can be validated`, () => {
       cy.visit(`/multicloud/applications`);
+      noResource.shouldNotExist(90 * 1000);
       cy
         .get("#undefined-search")
         .type(name)

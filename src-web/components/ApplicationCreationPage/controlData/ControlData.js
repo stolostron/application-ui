@@ -66,7 +66,7 @@ const updateChannelControls = urlControl => {
     a.href = active
 
     // if existing channel, reuse channel name and namespace
-    if (pathData) {
+    if (pathData && pathData.metadata) {
       nameControl.active = pathData.metadata.name
       namespaceControl.active = pathData.metadata.namespace
     } else {
@@ -102,6 +102,11 @@ const updateChannelControls = urlControl => {
 
 const githubChannelData = [
   ///////////////////////  github  /////////////////////////////////////
+  {
+    id: 'channelName',
+    type: 'hidden',
+    active: 'resource'
+  },
   {
     id: 'channelNamespace',
     type: 'hidden',
@@ -194,6 +199,11 @@ const helmReleaseChannelData = [
 const objectstoreChannelData = [
   ///////////////////////  Objectstore  /////////////////////////////////////
   {
+    id: 'channelName',
+    type: 'hidden',
+    active: 'resource'
+  },
+  {
     id: 'channelNamespace',
     type: 'hidden',
     active: ''
@@ -208,7 +218,6 @@ const objectstoreChannelData = [
     available: [],
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('objectbucket'),
-    cacheUserValueKey: 'create.app.objectstore.url',
     onSelect: updateChannelControls
   },
   {
@@ -278,7 +287,7 @@ export const controlData = [
     id: 'channels',
     type: 'group',
     prompts: {
-      nameId: 'channelName',
+      nameId: 'channelPrompt',
       baseName: 'resource',
       addPrompt: 'creation.app.add.channel',
       deletePrompt: 'creation.app.delete.channel'
@@ -293,9 +302,9 @@ export const controlData = [
       },
       ///////////////////////  channel name  /////////////////////////////////////
       {
-        id: 'channelName',
+        id: 'channelPrompt',
         type: 'hidden',
-        active: 'resource'
+        active: ''
       },
       {
         id: 'channelType',

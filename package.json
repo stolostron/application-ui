@@ -26,7 +26,8 @@
     "test:firefox": "nightwatch ./tests/e2e -e firefox",
     "test:safari": "nightwatch ./tests/e2e -e safari",
     "test:chrome.headless": "nightwatch ./tests/e2e -e chrome.headless",
-    "test:firefox.headless": "nightwatch ./tests/e2e -e firefox.headless"
+    "test:firefox.headless": "nightwatch ./tests/e2e -e firefox.headless",
+    "test:slack": "node tests/cypress/scripts/slack-reporter.js"
   },
   "husky": {
     "hooks": {
@@ -156,6 +157,7 @@
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.7.2",
+    "@slack/web-api": "^5.8.0",
     "apollo-cache-inmemory": "^1.6.2",
     "assets-webpack-plugin": "^3.0.0",
     "babel-core": "^6.26.0",

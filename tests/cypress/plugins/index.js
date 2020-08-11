@@ -28,7 +28,7 @@
 
 const fs = require("fs");
 const yaml = require("js-yaml");
-const dir = "./tests/cypress/test-artifacts/";
+const dir = "./cypress/test-artifacts/";
 const testConfig = require("../config").getConfig();
 
 module.exports = (on, config) => {

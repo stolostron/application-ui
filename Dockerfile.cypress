@@ -12,14 +12,15 @@ WORKDIR /usr/src/app
 
 # copy dependencies needed for Cypress tests
 COPY package.json .
+COPY cypress.json .
 COPY download-clis.sh .
-COPY cypress ./tests/cypress
-COPY start-cypress-tests.sh ./tests
+COPY cypress ./cypress
+COPY start-cypress-tests.sh .
 
 RUN npm install 
 
 RUN sh download-clis.sh
 
-RUN ["chmod", "+x", "./tests/start-cypress-tests.sh"]
+RUN ["chmod", "+x", "./start-cypress-tests.sh"]
 
-ENTRYPOINT ["./tests/start-cypress-tests.sh"]
+ENTRYPOINT ["./start-cypress-tests.sh"]

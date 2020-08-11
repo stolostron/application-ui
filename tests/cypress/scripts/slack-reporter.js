@@ -18,16 +18,37 @@ async function slackReporter() {
       "Missing SLACK_TOKEN environment variable; skipping slack reporting..."
     );
   }
-  const reportPath = path.join(__dirname, "..", "..", "test-output", "cypress");
+  const reportPath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "test-output",
+    "cypress",
+    "json"
+  );
+  console.log("reportPath", reportPath);
   const reports = fs.readdirSync(reportPath);
   const slackData = await mapSlackUserByGitEmail();
   const prData = await getPullRequestData();
+
+  // console.log("slackData",slackData);
+  // const result =  web.files.upload({
+  //   channels: slackData.id,
+  //   filename: "test.txt",
+  //   file: fs.createReadStream("./test.txt"),
+  //   initial_comment: "Hey, your test failed!"
+  // })
+  // console.log("Slack result",result);
+
   reports.forEach(report => reportFailure(report, slackData, prData));
 }
 
 async function reportFailure(report, slackData, prData) {
   try {
-    const testReport = require(`../../test-output/cypress/${report}`);
+    console.log("report", report);
+    console.log("slackData", slackData);
+    console.log("prData", prData);
+    const testReport = require(`../../test-output/cypress/json/${report}`);
     if (testReport.stats.failures > 0) {
       const testFailureData = getTestFailureData(testReport);
       const videoDir = path.join(__dirname, "..", "videos");
@@ -57,8 +78,8 @@ function buildComment(failedTests, prData, slackData) {
   return `:failed: *FAILED: ${title}*\n
 ${failedTests.map(test => `- ${test} \n`).join("")}\n
 :travis-ci: <${TRAVIS_BUILD_WEB_URL ||
-    "https://travis-ci.com/github/open-cluster-management/console-ui/pull_requests"}|View build> | :github: <${html_url ||
-    "https://github.com/open-cluster-management/console-ui/pulls"}|View pull request> \n\n
+    "https://travis-ci.com/github/open-cluster-management/application-ui/pull_requests"}|View build> | :github: <${html_url ||
+    "https://github.com/open-cluster-management/application-ui/pulls"}|View pull request> \n\n
 ${id ? `<@${id}>` : ""}`;
 }
 
@@ -116,4 +137,4 @@ async function getPullRequestData() {
   }
 }
 
-slackReporter();
+// slackReporter();

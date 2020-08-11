@@ -35,7 +35,7 @@ describe("create wizard", () => {
         .get("#undefined-search")
         .type(name)
         .type("{enter}");
-      resourceTable.rowShouldExist(name);
+      resourceTable.rowShouldExist(name, 500 * 1000);
       resourceTable.rowNameClick(name);
       cy.wait(10 * 1000); // wait for the application to deploy
       cy.reload(); // status isn't updating after unknown failure

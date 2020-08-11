@@ -60,7 +60,7 @@ before(() => {
     });
   }
 
-  //delete app resource
+  //delete app resource - disabled now as it's not used currently
   // cy.task("getFileList", "yaml").then(list => {
   //   cy.log(list);
   //   list.forEach(file => {

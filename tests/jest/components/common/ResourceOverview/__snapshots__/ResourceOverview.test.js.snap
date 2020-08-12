@@ -8,38 +8,6 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
   <div
     className="app-info-and-dashboard-links"
   >
-    <a
-      aria-disabled={false}
-      className="bx--link"
-      href="#"
-      id="headerAppLink"
-      onClick={[Function]}
-    >
-      <svg
-        alt="Provide a description that will be used as the title"
-        aria-label="Provide a description that will be used as the title"
-        className="app-dashboard-icon"
-        fill="#3D70B2"
-        fillRule="evenodd"
-        height="16"
-        name="icon--edit"
-        role="img"
-        viewBox="0 0 16 16"
-        width="16"
-      >
-        <title>
-          Provide a description that will be used as the title
-        </title>
-        <path
-          d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-        />
-      </svg>
-      Edit app
-    </a>
-    <span
-      className="app-info-and-dashboard-links-separator"
-    />
-     
     <span
       className="app-info-and-dashboard-links-separator-f"
     />
@@ -475,38 +443,6 @@ exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
   <div
     className="app-info-and-dashboard-links"
   >
-    <a
-      aria-disabled={true}
-      className="bx--link"
-      href="#"
-      id="headerAppLink"
-      onClick={[Function]}
-    >
-      <svg
-        alt="Provide a description that will be used as the title"
-        aria-label="Provide a description that will be used as the title"
-        className="app-dashboard-icon"
-        fill="#3D70B2"
-        fillRule="evenodd"
-        height="16"
-        name="icon--edit"
-        role="img"
-        viewBox="0 0 16 16"
-        width="16"
-      >
-        <title>
-          Provide a description that will be used as the title
-        </title>
-        <path
-          d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-        />
-      </svg>
-      Edit app
-    </a>
-    <span
-      className="app-info-and-dashboard-links-separator"
-    />
-     
     <span
       className="app-info-and-dashboard-links-separator-f"
     />

@@ -11,7 +11,6 @@ import { compose, setDisplayName } from 'recompose'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import SecondaryHeader from '../components/SecondaryHeader'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import resources from '../../lib/shared/resources'
@@ -19,7 +18,6 @@ import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
 import Modal from '../components/common/Modal'
-import * as Actions from '../actions'
 
 export const ActionModalApollo = loadable(() =>
   import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo')
@@ -62,13 +60,6 @@ class App extends React.Component {
     return this.props.staticContext
   }
 
-  componentDidMount() {
-    const { actions } = this.props
-    const serverProps = this.getServerProps()
-
-    actions.setEnableGrafanaAction(serverProps && serverProps.isGrafanaRunning)
-  }
-
   render() {
     const serverProps = this.getServerProps()
     const { match, location } = this.props
@@ -107,7 +98,6 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  actions: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
   serverProps: PropTypes.object,
@@ -118,20 +108,13 @@ App.childContextTypes = {
   locale: PropTypes.string
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  }
-}
-
 const mapStateToProps = state => {
   return {
     user: state.user
   }
 }
 
-const Container = Component =>
-  withRouter(connect(mapStateToProps, mapDispatchToProps)(Component))
+const Container = Component => withRouter(connect(mapStateToProps)(Component))
 const AppContainer = Container(App)
 
 export default compose(setDisplayName('AppComponent'))(props => (

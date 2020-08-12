@@ -236,8 +236,7 @@ class ResourceDetails extends React.Component {
       selectedNodeId,
       showExpandedTopology,
       actions,
-      children,
-      showGrafanaAction
+      children
     } = this.props
     return (
       <div id="ResourceDetails">
@@ -249,7 +248,6 @@ class ResourceDetails extends React.Component {
           modules={children}
           selectedNodeId={selectedNodeId}
           showExpandedTopology={showExpandedTopology}
-          showGrafanaAction={showGrafanaAction}
         />
       </div>
     )
@@ -322,7 +320,6 @@ ResourceDetails.propTypes = {
   routes: PropTypes.array,
   selectedNodeId: PropTypes.string,
   showExpandedTopology: PropTypes.bool,
-  showGrafanaAction: PropTypes.bool,
   staticResourceData: PropTypes.object,
   tabs: PropTypes.array,
   updateSecondaryHeaderFn: PropTypes.func
@@ -366,7 +363,6 @@ const mapStateToProps = (state, ownProps) => {
     clusterName,
     selectedNodeId: AppOverview.selectedNodeId,
     showExpandedTopology: AppOverview.showExpandedTopology,
-    showGrafanaAction: AppOverview.showGrafanaAction,
     params: params
   }
 }

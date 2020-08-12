@@ -16,7 +16,6 @@ const ReactDOMServer = require('react-dom/server'),
       React = require('react'),
       express = require('express'),
       StaticRouter = require('react-router-dom').StaticRouter,
-      serviceDiscovery = require('../../lib/server/service-discovery'),
       context = require('../../lib/shared/context'),
       msgs = require('../../nls/platform.properties'),
       config = require('../../config'),
@@ -88,15 +87,8 @@ router.get('*', (req, res) => {
       })
     }
 
-    const isGrafanaRunning = serviceDiscovery.serviceEnabled(
-      'monitoring-prometheus'
-    )
-
-    logger.info(`is Grafana Running: ${isGrafanaRunning}`)
-
     const serverProps = {
-      ...context,
-      isGrafanaRunning: isGrafanaRunning
+      ...context
     }
 
     try {

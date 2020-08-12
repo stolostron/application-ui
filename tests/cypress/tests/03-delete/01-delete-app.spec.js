@@ -7,12 +7,12 @@ import { noResource, resourceTable, modal } from "../../views/common";
 
 describe("delete application", () => {
   for (const resource in wizards) {
-    const { url, name } = wizards[resource];
+    const { name } = wizards[resource];
     it(`can be created on resource ${resource}`, () => {
       cy.visit("/multicloud/applications");
       if (noResource.shouldNotExist()) {
         cy
-          .get("#undefined-search")
+          .get("#undefined-search", { timeout: 20 * 1000 })
           .click()
           .type(name);
         resourceTable.rowShouldExist(name);

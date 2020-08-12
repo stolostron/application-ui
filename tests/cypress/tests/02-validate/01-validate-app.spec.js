@@ -1,0 +1,31 @@
+/*******************************************************************************
+ * Copyright (c) 2020 Red Hat, Inc.
+ *******************************************************************************/
+
+import {
+  pageLoader,
+  noResource,
+  modal,
+  resourceTable
+} from "../../views/common";
+import { timeDay } from "d3";
+import { connect } from "react-redux";
+
+const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
+
+describe("create wizard", () => {
+  for (const resource in wizards) {
+    const { name } = wizards[resource];
+    it(`can be validated`, () => {
+      cy.visit(`/multicloud/applications`);
+      pageLoader.shouldNotExist();
+      cy.reload();
+      resourceTable.rowShouldExist(name, 60 * 1000, () => {
+        cy.reload();
+      });
+      resourceTable.rowNameClick(name);
+      cy.reload(); // status isn't updating after unknown failure
+      cy.get(".bx--detail-page-header-title");
+    });
+  }
+});

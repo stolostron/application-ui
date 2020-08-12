@@ -28,7 +28,7 @@ class CreateApplicationButton extends Component {
           iconDescription="Add icon"
           kind="secondary"
         >
-          {msgs.get('actions.create.application.2.1', locale)}
+          {msgs.get('actions.create.application', locale)}
         </Button>
       </Link>
     )

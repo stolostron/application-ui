@@ -94,7 +94,6 @@ describe("ApplicationsTab", () => {
         </Provider>
       </BrowserRouter>
     );
-    wrapper.find(".bx--btn--primary").simulate("click");
     wrapper.find(".bx--search-input").simulate("change");
     wrapper.find(".bx--search-close").simulate("click");
     wrapper

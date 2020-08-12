@@ -26,20 +26,7 @@ describe("create wizard", () => {
       // Disable deploy for now when we figure out how to validate the through api
       // cy.get("#online-cluster-only-checkbox").click({ force: true });
       cy.get("#create-button-portal-id").click();
-    });
-
-    it(`can be validated`, () => {
-      cy.visit(`/multicloud/applications`);
-      noResource.shouldNotExist(90 * 1000);
-      cy
-        .get("#undefined-search")
-        .type(name)
-        .type("{enter}");
-      resourceTable.rowShouldExist(name, 500 * 1000);
-      resourceTable.rowNameClick(name);
-      cy.wait(10 * 1000); // wait for the application to deploy
-      cy.reload(); // status isn't updating after unknown failure
-      cy.get(".bx--detail-page-header-title");
+      cy.visit(`/multicloud/applications/${name}-ns/${name}`);
     });
   }
 });

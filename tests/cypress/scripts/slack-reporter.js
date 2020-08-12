@@ -96,7 +96,7 @@ function moveVideos(path, videoDir) {
 async function mapSlackUserByGitEmail() {
   try {
     const { user: { id } } = await web.users.lookupByEmail({
-      email: "magchen@redhat.com"
+      email: USER
     });
     return { id };
   } catch (e) {

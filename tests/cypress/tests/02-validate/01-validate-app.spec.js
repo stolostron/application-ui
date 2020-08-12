@@ -8,8 +8,6 @@ import {
   modal,
   resourceTable
 } from "../../views/common";
-import { timeDay } from "d3";
-import { connect } from "react-redux";
 
 const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
 

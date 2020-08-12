@@ -220,6 +220,7 @@ spec:
 {{! ========================================================== }}
 {{! ========================================================== }}
 
+{{#if channels.0.channelType}}
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
@@ -260,4 +261,6 @@ spec:
   clusterReplicas: {{{clusterReplicas}}}
   {{/if}}    
   {{/if}}
+{{/if}}
+
 {{/if}}

@@ -84,11 +84,6 @@ describe("getResourceJSON function", () => {
           matchExpressions: [{ key: "app", operator: "In", values: [null] }]
         }
       }
-    },
-    {
-      apiVersion: "apps.open-cluster-management.io/v1",
-      kind: "PlacementRule",
-      metadata: { labels: { app: null }, name: "-placement", namespace: null }
     }
   ];
 

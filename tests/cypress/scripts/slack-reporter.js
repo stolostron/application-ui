@@ -54,12 +54,14 @@ async function reportFailure(report, slackData, prData, videoDir, videos) {
   try {
     const testReport = require(`../../test-output/cypress/json/${report}`);
     if (testReport.stats.failures > 0) {
+      console.log("Test failures reported, attempting to send videos...");
       const testFailureData = getTestFailureData(testReport);
       testFailureData.forEach(testFailure => {
         const { suiteFile, failedTests } = testFailure;
         const matchedVideoFile = videos.find(video =>
           video.startsWith(path.parse(suiteFile).base)
         );
+        console.log("Matched Video File", matchedVideoFile);
         const videoFilePath = path.join(videoDir, matchedVideoFile);
         const comment = buildComment(failedTests, prData, slackData);
         postVideo(matchedVideoFile, videoFilePath, comment, slackData.id);
@@ -82,7 +84,7 @@ ${id ? `<@${id}>` : ""}`;
 }
 
 function moveVideos(path, videoDir) {
-  console.log("moving video");
+  console.log("moving video", path);
   fs
     .readdirSync(path, { withFileTypes: true })
     .forEach(file =>
@@ -93,7 +95,9 @@ function moveVideos(path, videoDir) {
 
 async function mapSlackUserByGitEmail() {
   try {
-    const { user: { id } } = await web.users.lookupByEmail({ email: USER });
+    const { user: { id } } = await web.users.lookupByEmail({
+      email: "magchen@redhat.com"
+    });
     return { id };
   } catch (e) {
     console.error("Failed to map user's git e-mail to Slack", e);
@@ -102,6 +106,7 @@ async function mapSlackUserByGitEmail() {
 
 async function postVideo(fileName, filePath, comment, userId) {
   try {
+    console.log(`Sending video ${filePath} to ${userId}`);
     await web.files.upload({
       channels: userId,
       filename: fileName,

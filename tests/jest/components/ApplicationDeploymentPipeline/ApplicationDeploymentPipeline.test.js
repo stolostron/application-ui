@@ -225,20 +225,6 @@ describe("ApplicationDeploymentPipeline", () => {
         <ApplicationDeploymentPipeline serverProps={serverProps} />
       </Provider>
     );
-    wrapper
-      .find(".bx--btn--primary")
-      .find({ id: "create-channel" })
-      .simulate("click");
-
-    wrapper
-      .find(".bx--btn--primary")
-      .find({ id: "create-subscription" })
-      .simulate("click");
-
-    wrapper
-      .find(".bx--btn--primary")
-      .find({ id: "create-placement-rule" })
-      .simulate("click");
 
     wrapper
       .find(".applicationTile")
@@ -367,7 +353,10 @@ describe("ApplicationDeploymentPipeline", () => {
   it("ApplicationsTab renders correctly with data on single app with yaml actions", () => {
     const wrapper = mount(
       <Provider store={storeApp}>
-        <ApplicationDeploymentPipeline serverProps={serverProps} selectedApp={selectedApp} />
+        <ApplicationDeploymentPipeline
+          serverProps={serverProps}
+          selectedApp={selectedApp}
+        />
       </Provider>
     );
 

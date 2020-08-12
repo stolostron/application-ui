@@ -318,7 +318,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 tabIndex={0}
                 type="button"
               >
-                Create application 2.1
+                Create application
                 <svg
                   alt="Add icon"
                   aria-label="Add icon"
@@ -339,36 +339,6 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 </svg>
               </button>
             </a>
-            <div>
-              <button
-                className="bx--btn bx--btn--sm bx--btn--primary"
-                disabled={false}
-                id="create-application"
-                onClick={[Function]}
-                tabIndex={0}
-                type="button"
-              >
-                Create application
-                <svg
-                  alt="Provide icon description if icon is used"
-                  aria-label="Provide icon description if icon is used"
-                  className="bx--btn__icon"
-                  fillRule="evenodd"
-                  height="16"
-                  name="add--glyph"
-                  role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
-                >
-                  <title>
-                    Provide icon description if icon is used
-                  </title>
-                  <path
-                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-                  />
-                </svg>
-              </button>
-            </div>
           </div>
         </section>
         <table
@@ -1045,7 +1015,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 tabIndex={0}
                 type="button"
               >
-                Create application 2.1
+                Create application
                 <svg
                   alt="Add icon"
                   aria-label="Add icon"
@@ -1066,36 +1036,6 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 </svg>
               </button>
             </a>
-            <div>
-              <button
-                className="bx--btn bx--btn--sm bx--btn--primary"
-                disabled={false}
-                id="create-application"
-                onClick={[Function]}
-                tabIndex={0}
-                type="button"
-              >
-                Create application
-                <svg
-                  alt="Provide icon description if icon is used"
-                  aria-label="Provide icon description if icon is used"
-                  className="bx--btn__icon"
-                  fillRule="evenodd"
-                  height="16"
-                  name="add--glyph"
-                  role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
-                >
-                  <title>
-                    Provide icon description if icon is used
-                  </title>
-                  <path
-                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-                  />
-                </svg>
-              </button>
-            </div>
           </div>
         </section>
         <table

@@ -46,7 +46,6 @@ import {
 import apolloClient from '../../../lib/client/apollo-client'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 
-import CreateResourceActions from './components/CreateResourceActions'
 import {
   renderRefreshTime,
   stopPolling,
@@ -131,14 +130,12 @@ const mapStateToProps = state => {
     AppDeployments,
     QueryApplicationList,
     GlobalApplicationDataList,
-    role,
     refetch
   } = state
   // Filter Application List based on search input
   // Currently just filterin on application name
 
   return {
-    userRole: role && role.role,
     HCMChannelList,
     HCMSubscriptionList,
     AppDeployments,
@@ -219,7 +216,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     // only reload data if there are nothing being fetched and no modals are open
     this.setState({ xhrPoll: true })
-    const {isSingleApplicationView} =  selectedApp
+    const { isSingleApplicationView } = selectedApp
     if (!isSingleApplicationView) {
       // reload all the applications
       fetchApplications()
@@ -269,10 +266,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       getPlacementRuleResource,
       editSubscription,
       loading,
-      userRole,
-      fetchSubscriptions,
       fetchChannels,
-      fetchPlacementRules,
       closeModal,
       mutateStatus,
       deleteStatus,
@@ -422,14 +416,6 @@ class ApplicationDeploymentPipeline extends React.Component {
           bulkSubscriptionList={bulkSubscriptionList}
           applications={QueryApplicationList}
         />
-        <div className="resource-cards-container">
-          <CreateResourceActions
-            fetchChannels={fetchChannels}
-            fetchSubscriptions={fetchSubscriptions}
-            fetchPlacementRules={fetchPlacementRules}
-            userRole={userRole}
-          />
-        </div>
       </div>
     )
   }

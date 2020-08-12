@@ -22,7 +22,8 @@
       "json": true
     },
     "mochaJunitReporterReporterOptions": {
-      "mochaFile": "test-output/cypress/xml/cypress-[hash].xml"
+      "mochaFile": "test-output/cypress/xml/cypress-[hash].xml",
+      "toConsole": true
     }
   }
 }

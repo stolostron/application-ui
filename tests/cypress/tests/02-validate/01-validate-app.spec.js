@@ -2,16 +2,11 @@
  * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
 
-import {
-  pageLoader,
-  noResource,
-  modal,
-  resourceTable
-} from "../../views/common";
+import { pageLoader, resourceTable } from "../../views/common";
 
 const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
 
-describe("create wizard", () => {
+describe("validate wizard", () => {
   for (const resource in wizards) {
     const { name } = wizards[resource];
     it(`can be validated`, () => {

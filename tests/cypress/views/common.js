@@ -77,11 +77,12 @@ export const secondaryHeader = {
 };
 
 export const noResource = {
-  shouldExist: () => cy.get(".no-resource", { timeout: 20000 }).should("exist"),
+  shouldExist: () =>
+    cy.get(".no-resource", { timeout: 20000 }).should("be.visible"),
   shouldNotExist: timeout =>
     cy
       .get(".no-resource", { timeout: timeout ? timeout : 20 * 1000 })
-      .should("not.exist")
+      .should("not.be.visible")
 };
 
 export const modal = {

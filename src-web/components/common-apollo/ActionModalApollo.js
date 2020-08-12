@@ -47,29 +47,9 @@ class ActionModalApollo extends React.PureComponent {
       )
     }
     case 'table.actions.applications.edit': {
-      return (
-        open &&
-          this.getResourceModal({
-            open: true,
-            type: 'resource-edit',
-            action: 'put',
-            resourceType,
-            editorMode: 'yaml',
-            label: {
-              primaryBtn: 'modal.button.submit',
-              label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
-              heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
-            },
-            data: data
-          })
-      )
-    }
-    case 'table.actions.applications.edit.2.1': {
-      location = `/multicloud/applications/${encodeURIComponent(data.namespace)}/${encodeURIComponent(data.name)}/yaml`
-      return null
-    }
-    case 'table.actions.applications.grafana': {
-      window.open(data.dashboard, '_blank')
+      location = `/multicloud/applications/${encodeURIComponent(
+        data.namespace
+      )}/${encodeURIComponent(data.name)}/yaml`
       return null
     }
     case 'table.actions.applications.remove':

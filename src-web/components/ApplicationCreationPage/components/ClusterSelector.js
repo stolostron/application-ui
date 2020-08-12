@@ -59,11 +59,11 @@ export class ClusterSelector extends React.Component {
             <Tooltip control={control} locale={locale} />
           </div>
 
-          <div className="timeWindow-container">
+          <div className="clusterSelector-container">
             <Checkbox
-              className="clusterSelector-mode-container"
-              name="clusterSelector-mode-container"
-              id="clusterSelector-mode-container"
+              className="clusterSelector-checkbox"
+              name="clusterSelector-checkbox"
+              id="clusterSelector-checkbox"
               labelText={msgs.get(
                 'tooltip.creation.app.settings.clusterSelector',
                 locale
@@ -73,20 +73,18 @@ export class ClusterSelector extends React.Component {
 
             <Accordion>
               <AccordionItem open={modeSelected} title={''}>
-                <div className="timeWindow-config-container">
-                  <div className="config-days-section">
-                    <div className="config-descr">
-                      {msgs.get(
-                        'creation.app.settings.selectorClusters.config',
-                        locale
-                      )}
-                    </div>
+                <div className="clusterSelector-labels-section">
+                  <div className="labels-descr">
+                    {msgs.get(
+                      'creation.app.settings.selectorClusters.config',
+                      locale
+                    )}
                   </div>
 
-                  <div className="config-time-section">
+                  <div className="labels-section">
                     {this.renderClusterLabels(control, modeSelected)}
                     <div
-                      className={`add-time-btn ${
+                      className={`add-label-btn ${
                         !modeSelected ? 'btn-disabled' : ''
                       }`}
                       tabIndex="0"
@@ -98,9 +96,9 @@ export class ClusterSelector extends React.Component {
                         name="icon--add--glyph"
                         fill="#3d70b2"
                         description=""
-                        className="add-time-btn-icon"
+                        className="add-label-btn-icon"
                       />
-                      <div className="add-time-btn-text">
+                      <div className="add-label-btn-text">
                         {msgs.get(
                           'creation.app.settings.selectorClusters.prop.add',
                           locale
@@ -123,29 +121,34 @@ export class ClusterSelector extends React.Component {
       if (item.validValue) {
         return (
           <React.Fragment key={item.id}>
-            <div className="config-time-container">
-              <TextInput
-                id={`labelName-${item.id}`}
-                name="labelName"
-                labelText={item.id === 0 ? 'Label' : ''}
-                placeholder="Label name"
-                disabled={!modeSelected}
-                onChange={this.handleChange.bind(this)}
-              />
-              <div>&nbsp;</div>
-              <TextInput
-                id={`labelValue-${item.id}`}
-                name="labelValue"
-                placeholder="Label value"
-                labelText={item.id === 0 ? 'Value' : ''}
-                disabled={!modeSelected}
-                onChange={this.handleChange.bind(this)}
-              />
+            <div className="matching-labels-container">
+              <div className="matching-labels-input">
+                <TextInput
+                  id={`labelName-${item.id}`}
+                  name="labelName"
+                  className="text-input"
+                  labelText={item.id === 0 ? 'Label' : ''}
+                  placeholder="Label name"
+                  disabled={!modeSelected}
+                  onChange={this.handleChange.bind(this)}
+                />
+              </div>
+              <div className="matching-labels-input">
+                <TextInput
+                  id={`labelValue-${item.id}`}
+                  name="labelValue"
+                  className="text-input"
+                  labelText={item.id === 0 ? 'Value' : ''}
+                  placeholder="Label value"
+                  disabled={!modeSelected}
+                  onChange={this.handleChange.bind(this)}
+                />
+              </div>
 
-              {item.id !== 0 ? ( // Option to remove added times
+              {item.id !== 0 ? ( // Option to remove added labels
                 <div
                   id={item.id}
-                  className="remove-time-btn"
+                  className="remove-label-btn"
                   tabIndex="0"
                   role={'button'}
                   onClick={() => this.removeLabelFromList(control, item)}
@@ -154,7 +157,7 @@ export class ClusterSelector extends React.Component {
                   <Icon
                     name="icon--close--glyph"
                     fill="#3d70b2"
-                    className="remove-time-btn-icon"
+                    className="remove-label-btn-icon"
                   />
                 </div>
               ) : (
@@ -170,7 +173,7 @@ export class ClusterSelector extends React.Component {
 
   addLabelToList = (control, modeSelected) => {
     if (modeSelected) {
-      // Create new "time" item
+      // Create new "label" item
       control.active.clusterLabelsList.push({
         id: control.active.clusterLabelsListID,
         labelName: '',
@@ -191,7 +194,7 @@ export class ClusterSelector extends React.Component {
   };
 
   removeLabelFromList = (control, item) => {
-    // Removed times are no longer valid
+    // Removed labels are no longer valid
     control.active.clusterLabelsList[item.id].validValue = false
 
     // Update UI and yaml editor
@@ -216,7 +219,7 @@ export class ClusterSelector extends React.Component {
 
     if (targetName) {
       switch (targetName) {
-      case 'clusterSelector-mode-container':
+      case 'clusterSelector-checkbox':
         control.active.mode = event.target.checked
         break
       case 'labelName':

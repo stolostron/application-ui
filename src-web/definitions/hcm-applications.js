@@ -50,7 +50,6 @@ export default {
   ],
   tableActions: [
     'table.actions.applications.edit',
-    'table.actions.applications.edit.2.1',
     'table.actions.applications.remove'
   ],
   detailKeys: {

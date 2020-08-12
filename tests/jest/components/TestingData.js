@@ -9,8 +9,6 @@
  ****************************************************************************** */
 
 export const serverProps = {
-  isCEMRunning: true,
-  isGrafanaRunning: true,
   context: {
     locale: "en-US"
   },
@@ -19,10 +17,9 @@ export const serverProps = {
 
 export const selectedApp = {
   isSingleApplicationView: true,
-  selectedAppName: 'mortgage-app',
-  selectedAppNamespace: 'default'
+  selectedAppName: "mortgage-app",
+  selectedAppNamespace: "default"
 };
-
 
 export const resourceType = {
   name: "QueryApplications",
@@ -844,7 +841,6 @@ export const AppOverview = {
   selectedAppTab: 0,
   showAppDetails: false,
   showExpandedTopology: false,
-  showGrafanaAction: true,
   selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
 };
 
@@ -852,7 +848,6 @@ export const AppOverviewWithCEM = {
   selectedAppTab: 0,
   showAppDetails: false,
   showExpandedTopology: false,
-  showGrafanaAction: true,
   selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
 };
 

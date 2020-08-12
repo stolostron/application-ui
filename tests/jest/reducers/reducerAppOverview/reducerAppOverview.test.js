@@ -12,8 +12,7 @@ import { AppOverview } from "../../../../src-web/reducers/reducerAppOverview";
 const initialStateOverview = {
   selectedAppTab: 0,
   showAppDetails: false,
-  showExpandedTopology: false,
-  showGrafanaAction: false
+  showExpandedTopology: false
 };
 
 describe("AppOverview reducer", () => {
@@ -54,18 +53,6 @@ describe("AppOverview reducer", () => {
       ...initialStateOverview,
       selectedNodeId: "node1",
       showExpandedTopology: true
-    });
-  });
-
-  it("handles SET_ENABLE_GRAFANA_ACTION", () => {
-    expect(
-      AppOverview(initialStateOverview, {
-        type: "SET_ENABLE_GRAFANA_ACTION",
-        payload: true
-      })
-    ).toEqual({
-      ...initialStateOverview,
-      showGrafanaAction: true
     });
   });
 });

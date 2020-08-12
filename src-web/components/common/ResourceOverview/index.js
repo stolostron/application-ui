@@ -38,14 +38,11 @@ resources(() => {
 
 const ResourceOverview = withLocale(
   ({
-    item,
     params,
     actions,
     showExpandedTopology,
     locale,
-    getApplicationResource,
     loading,
-    showGrafanaAction,
     openEditApplicationModal,
     currentApplicationInfo,
     closeModal,
@@ -64,16 +61,10 @@ const ResourceOverview = withLocale(
       })
     }
 
-    const serverProps = {
-      isGrafanaRunning: showGrafanaAction
-    }
+    const serverProps = {}
     return (
       <div id="resource-overview" className="overview-content">
-        <HeaderActions
-          serverProps={serverProps}
-          getApplicationResource={getApplicationResource}
-          app={item}
-        />
+        <HeaderActions />
         <React.Fragment>
           <div className="overview-content-bottom overview-content-with-padding">
             <div className="overview-content-header">

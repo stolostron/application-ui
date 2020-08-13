@@ -14,12 +14,41 @@ import {
   VALIDATE_ALPHANUMERIC,
   VALIDATE_URL
 } from '../../TemplateEditor/utils/validation'
-import { HCMChannelList } from '../../../../lib/client/queries'
+import {
+  HCMChannelList,
+  HCMNamespaceList
+} from '../../../../lib/client/queries'
 import TimeWindow from '../components/TimeWindow'
 import ClusterSelector from '../components/ClusterSelector'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
+
+export const loadExistingNamespaces = () => {
+  return {
+    query: HCMNamespaceList,
+    loadingDesc: 'creation.app.loading.namespaces',
+    setAvailable: setAvailableNSSpecs.bind(null)
+  }
+}
+
+export const setAvailableNSSpecs = (control, result) => {
+  const { loading } = result
+  const { data = {} } = result
+  const { items } = data
+  control.available = []
+  control.availableMap = {}
+  control.isLoading = false
+  const error = items ? null : result.error
+  if (error) {
+    control.isFailed = true
+  } else if (items) {
+    control.availableData = _.keyBy(items, 'metadata.name')
+    control.available = Object.keys(control.availableData).sort()
+  } else {
+    control.isLoading = loading
+  }
+}
 
 export const loadExistingChannels = type => {
   return {
@@ -262,9 +291,10 @@ export const controlData = [
     name: 'creation.app.namespace',
     tooltip: 'tooltip.creation.app.namespace',
     id: 'namespace',
-    type: 'text',
+    type: 'combobox',
     syncedWith: 'name',
     syncedSuffix: '-ns',
+    fetchAvailable: loadExistingNamespaces(),
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',

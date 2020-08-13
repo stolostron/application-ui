@@ -200,7 +200,7 @@
   "import.form.invalid.dns.label": "The value must be a valid DNS label that consists of up to 63 lowercase alphanumeric characters. The character '-' is also permitted, as long as it does not appear in the first or last position.",
   "import.form.invalid.url": "Invalid URL",
   "tooltip.creation.app.name": "Application name",
-  "tooltip.creation.app.namespace": "Set the application namespace by selecting an existing one from the list or enter a name to create a new one. Only namespaces accesible by the current user are listed. The user should have authority to create new namespaces if not using an existing one.",
+  "tooltip.creation.app.namespace": "Set the application namespace from the list of namespaces accesible by the current user. Enter a new name to create a namespace (user must have authority to create namespace resources). ",
   "tooltip.creation.app.channel.git": "Use a Git repository",
   "tooltip.creation.app.channel.objectstore": "Use an ObjectBucket repository",
   "tooltip.creation.app.channel.helmrepo": "Use a HelmRepo repository",

@@ -2,14 +2,14 @@
  * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
 
-import { noResource, modal, resourceTable } from "../../views/common";
+import { modal } from "../../views/common";
 
 const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
 
-describe("create wizard", () => {
+describe("Application", () => {
   for (const resource in wizards) {
     const { name, url, username, token, branch, path } = wizards[resource];
-    it(`can be created on resource ${resource}`, () => {
+    it(`can be created on resource ${resource} from the wizard`, () => {
       cy.visit("/multicloud/applications");
       modal.clickSecondary();
       cy.get(".bx--detail-page-header-title-container").should("exist");
@@ -26,7 +26,10 @@ describe("create wizard", () => {
       // Disable deploy for now when we figure out how to validate the through api
       // cy.get("#online-cluster-only-checkbox").click({ force: true });
       cy.get("#create-button-portal-id").click();
-      cy.visit(`/multicloud/applications/${name}-ns/${name}`);
+      cy
+        .location("pathname", { timeout: 60 * 1000 })
+        .should("include", `${name}-ns/${name}`);
+      // cy.visit(`/multicloud/applications/`);
     });
   }
 });

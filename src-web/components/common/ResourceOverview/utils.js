@@ -497,3 +497,99 @@ export const getCardsCommonDetails = (
     }
   ]
 }
+
+export const getAppOverviewCardsData = (topologyData, appName, appNamespace, clusterResourceStatus, targetLink) => {
+  // Get app details only when topology data is properly loaded for the selected app
+  if (topologyData.loaded !== 'undefined' &&
+    topologyData.activeFilters &&
+    topologyData.activeFilters.application &&
+    topologyData.activeFilters.application.name === appName &&
+    topologyData.activeFilters.application.namespace === appNamespace
+  ) {
+    let creationTimestamp = ''
+    let remoteClusterCount = 0
+
+    topologyData.nodes.map(node => {
+      // Get date and time of app creation
+      if (node.type === "application" &&
+        node.specs &&
+        node.specs.raw &&
+        node.specs.raw.metadata &&
+        node.specs.raw.metadata.creationTimestamp
+      ) {
+        const timestampArray = (new Date(node.specs.raw.metadata.creationTimestamp).toUTCString()).split(" ")
+        const date = timestampArray[2] + " " + timestampArray[1] + " " + timestampArray[3]
+        const timeArray = timestampArray[4].split(":")
+        const timePeriod = timeArray[0] < 12 ? 'am' : 'pm'
+        const timeHour12 = timeArray[0] % 12 || 12
+        const time = timeHour12 + ":" + timeArray[1] + " " + timePeriod
+
+        creationTimestamp = date + ", " + time
+      } 
+      // Get remote cluster count
+      else if ( node.type === "cluster" &&
+        node.specs &&
+        node.specs.clusterNames
+      ) {
+        remoteClusterCount = node.specs.clusterNames.length
+      }
+      // Get cluster resource statuses
+      else if ( node.type !== "subscription" &&
+        node.type !== "rules" &&
+        node.specs &&
+        node.specs.pulse
+      ) {
+        const nodeStatusData = {
+          type: node.type,
+          name: node.name,
+          namespace: node.namespace,
+          pulse: node.specs.pulse
+        }
+
+        // Search for node in status list
+        let newNodeIndex = clusterResourceStatus.findIndex(
+          x => x.type === nodeStatusData.type &&
+          x.name === nodeStatusData.name &&
+          x.namespace === nodeStatusData.namespace &&
+          x.pulse === nodeStatusData.pulse
+        )
+        // Add node to status list if it doesn't exist yet
+        if (newNodeIndex === -1) {
+          clusterResourceStatus.push(nodeStatusData)
+
+          // Find and remove old node instance (before the status change) if it exists
+          let updateNodeIndex = clusterResourceStatus.findIndex(
+            x => x.type === nodeStatusData.type &&
+            x.name === nodeStatusData.name &&
+            x.namespace === nodeStatusData.namespace &&
+            x.pulse !== nodeStatusData.pulse
+          )
+          if (updateNodeIndex !== -1) {
+            clusterResourceStatus.splice(updateNodeIndex, 1)
+          }
+        }
+      }
+    })
+    // Clear node status list if remote clusters are detached
+    if (remoteClusterCount === 0 && clusterResourceStatus.length > 0) {
+      clusterResourceStatus.splice(0, clusterResourceStatus.length)
+    }
+    return ({
+      appName: appName,
+      appNamespace: appNamespace,
+      creationTimestamp: creationTimestamp,
+      remoteClusterCount: remoteClusterCount,
+      clusterResourceStatus: clusterResourceStatus,
+      targetLink: targetLink
+    })
+  } else {
+    return ({
+      appName: appName,
+      appNamespace: appNamespace,
+      creationTimestamp: -1,
+      remoteClusterCount: -1,
+      clusterResourceStatus: -1,
+      targetLink: targetLink
+    })
+  }
+}

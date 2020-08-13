@@ -6,6 +6,133 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
+.overview-cards-container {
+  // Details accordion
+  .overview-cards-details-section {
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+  }
+
+  // Accordion header
+  .bx--accordion__heading {
+    height: 57px;
+    padding: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+
+  // Accordion title
+  .bx--accordion__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #151515;
+  }
+
+  // Accordion arrow
+  .bx--accordion__arrow {
+    fill: #151515 !important;
+    position: absolute;
+    right: 7%;
+  }
+
+  // App Overview details
+  .bx--accordion__item--active>.bx--accordion__content {
+    height: 170px;
+  }
+
+  // Divide left and right sides
+  .bx--accordion__content {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 0;
+  }
+
+  .details-col {
+    display: grid;
+    grid-template-rows: 40px 40px 40px;
+    padding: calc(10px + 1rem);
+  }
+
+  #left-col {
+    grid-column-start: 1;
+    border-right: 1px solid rgba(0,0,0,0.1);
+  }
+
+  #right-col {
+    grid-column-start: 2;
+  }
+
+  // The 3 rows of data for each side
+  .details-item {
+    padding: 10px 0;
+    font-size: 14px;
+  }
+
+  .details-item-title {
+    float: left;
+    font-weight: 600;
+
+    &.left-item {
+      width: 20%;
+    }
+    &.right-item {
+      width: 32%;
+    }
+  }
+
+  .loading-skeleton-text {
+    display: inline-block;
+  }
+
+  // Cluster resource status icons
+  .status-icon-container {
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+    border-radius: 12px;
+    padding: 6px 8px;
+    margin-right: 8px;
+  }
+
+  .green-status {
+    background-color: #F3FAF2;
+  }
+
+  .yellow-status {
+    background-color: #FDF7E7;
+  }
+
+  .red-status {
+    background-color: #FAEAE8;
+  }
+
+  .orange-status {
+    background-color: #F0F0F0;
+  }
+
+  .status-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .status-count {
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 4px;
+    vertical-align: top;
+  }
+
+  // Search resource link
+  .details-item-link {
+    color: #0066CC;
+    text-decoration: none;
+  }
+
+  .details-item-link-icon {
+    margin: 0 10px;
+    height: 10px;
+  }
+}
+
 .resource-cards-info,
 .overview-cards-info {
   display: flex;

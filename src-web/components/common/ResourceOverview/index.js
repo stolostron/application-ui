@@ -67,19 +67,14 @@ const ResourceOverview = withLocale(
         <HeaderActions />
         <React.Fragment>
           <div className="overview-content-bottom overview-content-with-padding">
-            <div className="overview-content-header">
-              {msgs.get('dashboard.card.deployment.summary.title', locale)}
-            </div>
             {loading ? (
               loadingComponent()
             ) : (
-              <div className="overview-cards-info-container">
                 <OverviewCards
                   selectedAppName={params.name}
                   selectedAppNS={params.namespace}
                   serverProps={serverProps}
                 />
-              </div>
             )}
           </div>
 

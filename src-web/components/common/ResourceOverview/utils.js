@@ -498,7 +498,7 @@ export const getCardsCommonDetails = (
   ]
 }
 
-export const getAppOverviewCardsData = (topologyData, appName, appNamespace, clusterResourceNodes, nodeStatuses, targetLink) => {
+export const getAppOverviewCardsData = (topologyData, appName, appNamespace, nodeStatuses, updateFlags, targetLink) => {
   // Get app details only when topology data is properly loaded for the selected app
   if (typeof topologyData.loaded !== 'undefined' &&
     typeof topologyData.nodes !== 'undefined' &&
@@ -509,6 +509,8 @@ export const getAppOverviewCardsData = (topologyData, appName, appNamespace, clu
   ) {
     let creationTimestamp = ''
     let remoteClusterCount = 0
+    let tempNodeStatuses = {green: 0, yellow: 0, red: 0, orange: 0}
+    let statusLoaded = false
 
     topologyData.nodes.map(node => {
       // Get date and time of app creation
@@ -540,47 +542,25 @@ export const getAppOverviewCardsData = (topologyData, appName, appNamespace, clu
         node.specs &&
         node.specs.pulse
       ) {
-        const nodeStatusData = {
-          type: node.type,
-          name: node.name,
-          namespace: node.namespace,
-          pulse: node.specs.pulse
-        }
-
-        // Search for node in status list
-        let newNodeIndex = clusterResourceNodes.findIndex(
-          x => x.type === nodeStatusData.type &&
-          x.name === nodeStatusData.name &&
-          x.namespace === nodeStatusData.namespace &&
-          x.pulse === nodeStatusData.pulse
-        )
-        // Add node to status list if it doesn't exist yet
-        if (newNodeIndex === -1) {
-          clusterResourceNodes.push(nodeStatusData)
-          // Add new node's pulse status
-          nodeStatuses[nodeStatusData.pulse]++
-
-          // Find and remove old node instance (before the status change) if it exists
-          let updateNodeIndex = clusterResourceNodes.findIndex(
-            x => x.type === nodeStatusData.type &&
-            x.name === nodeStatusData.name &&
-            x.namespace === nodeStatusData.namespace &&
-            x.pulse !== nodeStatusData.pulse
-          )
-          if (updateNodeIndex !== -1) {
-            const pulseToRemove = clusterResourceNodes[updateNodeIndex].pulse
-            clusterResourceNodes.splice(updateNodeIndex, 1)
-            // Remove the pulse status of the old node instance
-            nodeStatuses[pulseToRemove]--
-          }
-        }
+        statusLoaded = true
+        tempNodeStatuses[node.specs.pulse]++
       }
     })
 
+    // Update the node status list if the statuses have changed
+    if (statusLoaded && !_.isEqual(nodeStatuses, tempNodeStatuses)) {
+      Object.keys(nodeStatuses).forEach(pulse => {
+        nodeStatuses[pulse] = tempNodeStatuses[pulse]
+      })
+      updateFlags.isInitialState = false
+    }
+
     // Clear node status list if remote clusters are detached
-    if (remoteClusterCount === 0 && clusterResourceNodes.length > 0) {
-      clusterResourceNodes.splice(0, clusterResourceNodes.length)
-      nodeStatuses = {green: 0, yellow: 0, red: 0, orange: 0}
+    if (remoteClusterCount === 0 && !updateFlags.isInitialState) {
+      Object.keys(nodeStatuses).forEach(pulse => {
+        nodeStatuses[pulse] = 0
+      })
+      updateFlags.isInitialState = true
     }
 
     return ({

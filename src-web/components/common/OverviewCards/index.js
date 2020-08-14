@@ -71,8 +71,8 @@ class OverviewCards extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      clusterResourceNodes: [],
-      nodeStatuses: {green: 0, yellow: 0, red: 0, orange: 0}
+      nodeStatuses: {green: 0, yellow: 0, red: 0, orange: 0},
+      updateFlags: {isInitialState: true}
     }
   }
 
@@ -116,7 +116,7 @@ class OverviewCards extends React.Component {
       selectedAppName,
       selectedAppNS
     } = this.props
-    const { clusterResourceNodes, nodeStatuses } = this.state
+    const { nodeStatuses, updateFlags } = this.state
     const { locale } = this.context
 
     const targetLink = getSearchLinkForOneApplication({
@@ -129,9 +129,9 @@ class OverviewCards extends React.Component {
       topology,
       selectedAppName,
       selectedAppNS,
-      clusterResourceNodes,
       nodeStatuses,
-      targetLink
+      updateFlags,
+      targetLink,
     )
 
     return (

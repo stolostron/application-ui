@@ -71,7 +71,8 @@ class OverviewCards extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      clusterResourceStatus: []
+      clusterResourceNodes: [],
+      nodeStatuses: {green: 0, yellow: 0, red: 0, orange: 0}
     }
   }
 
@@ -115,7 +116,7 @@ class OverviewCards extends React.Component {
       selectedAppName,
       selectedAppNS
     } = this.props
-    const { clusterResourceStatus } = this.state
+    const { clusterResourceNodes, nodeStatuses } = this.state
     const { locale } = this.context
 
     const targetLink = getSearchLinkForOneApplication({
@@ -128,7 +129,8 @@ class OverviewCards extends React.Component {
       topology,
       selectedAppName,
       selectedAppNS,
-      clusterResourceStatus,
+      clusterResourceNodes,
+      nodeStatuses,
       targetLink
     )
 
@@ -148,7 +150,7 @@ const showCardData = (checkData, showData, width) => {
   )
 }
 
-const createStatusIcons = (nodeStatusCount) => {
+const createStatusIcons = (nodeStatuses) => {
   return (
     <React.Fragment>
       <div className='status-icon-container green-status'>
@@ -159,7 +161,7 @@ const createStatusIcons = (nodeStatusCount) => {
           className="status-icon"
         />
         <div className='status-count'>
-          {nodeStatusCount[0]}
+          {nodeStatuses.green}
         </div>
       </div>
       <div className='status-icon-container yellow-status'>
@@ -170,7 +172,7 @@ const createStatusIcons = (nodeStatusCount) => {
           className="status-icon"
         />
         <div className='status-count'>
-          {nodeStatusCount[1]}
+          {nodeStatuses.yellow}
         </div>
       </div>
       <div className='status-icon-container red-status'>
@@ -181,7 +183,7 @@ const createStatusIcons = (nodeStatusCount) => {
           className="status-icon"
         />
         <div className='status-count'>
-          {nodeStatusCount[2]}
+          {nodeStatuses.red}
         </div>
       </div>
       <div className='status-icon-container orange-status'>
@@ -192,7 +194,7 @@ const createStatusIcons = (nodeStatusCount) => {
           className="status-icon"
         />
         <div className='status-count'>
-          {nodeStatusCount[3]}
+          {nodeStatuses.orange}
         </div>
       </div>
     </React.Fragment>
@@ -202,26 +204,6 @@ const createStatusIcons = (nodeStatusCount) => {
 const OverviewCardsData = ({ appOverviewCardsData, locale }) => {
   let getUrl = window.location.href
   getUrl = getUrl.substring(0, getUrl.indexOf('/multicloud/applications/'))
-
-  let nodeStatusCount = [0,0,0,0]
-  if (appOverviewCardsData.clusterResourceStatus !== -1) {
-    appOverviewCardsData.clusterResourceStatus.forEach(node => {
-      switch(node.pulse) {
-        case 'green':
-          nodeStatusCount[0]++
-          break;
-        case 'yellow':
-          nodeStatusCount[1]++
-          break;
-        case 'red':
-          nodeStatusCount[2]++
-          break;
-        case 'orange':
-          nodeStatusCount[3]++
-          break;
-      }
-    })
-  }
 
   return (
     <React.Fragment>
@@ -284,8 +266,8 @@ const OverviewCardsData = ({ appOverviewCardsData, locale }) => {
               </div>
               <div className='details-item-content'>
                 {showCardData(
-                  appOverviewCardsData.clusterResourceStatus,
-                  createStatusIcons(nodeStatusCount),
+                  appOverviewCardsData.nodeStatuses,
+                  createStatusIcons(appOverviewCardsData.nodeStatuses),
                   '30%'
                 )}
               </div>

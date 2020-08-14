@@ -498,7 +498,7 @@ export const getCardsCommonDetails = (
   ]
 }
 
-export const getAppOverviewCardsData = (topologyData, appName, appNamespace, clusterResourceStatus, targetLink) => {
+export const getAppOverviewCardsData = (topologyData, appName, appNamespace, clusterResourceNodes, nodeStatuses, targetLink) => {
   // Get app details only when topology data is properly loaded for the selected app
   if (topologyData.loaded !== 'undefined' &&
     topologyData.activeFilters &&
@@ -547,7 +547,7 @@ export const getAppOverviewCardsData = (topologyData, appName, appNamespace, clu
         }
 
         // Search for node in status list
-        let newNodeIndex = clusterResourceStatus.findIndex(
+        let newNodeIndex = clusterResourceNodes.findIndex(
           x => x.type === nodeStatusData.type &&
           x.name === nodeStatusData.name &&
           x.namespace === nodeStatusData.namespace &&
@@ -555,31 +555,39 @@ export const getAppOverviewCardsData = (topologyData, appName, appNamespace, clu
         )
         // Add node to status list if it doesn't exist yet
         if (newNodeIndex === -1) {
-          clusterResourceStatus.push(nodeStatusData)
+          clusterResourceNodes.push(nodeStatusData)
+          // Add new node's pulse status
+          nodeStatuses[nodeStatusData.pulse]++
 
           // Find and remove old node instance (before the status change) if it exists
-          let updateNodeIndex = clusterResourceStatus.findIndex(
+          let updateNodeIndex = clusterResourceNodes.findIndex(
             x => x.type === nodeStatusData.type &&
             x.name === nodeStatusData.name &&
             x.namespace === nodeStatusData.namespace &&
             x.pulse !== nodeStatusData.pulse
           )
           if (updateNodeIndex !== -1) {
-            clusterResourceStatus.splice(updateNodeIndex, 1)
+            const pulseToRemove = clusterResourceNodes[updateNodeIndex].pulse
+            clusterResourceNodes.splice(updateNodeIndex, 1)
+            // Remove the pulse status of the old node instance
+            nodeStatuses[pulseToRemove]--
           }
         }
       }
     })
+
     // Clear node status list if remote clusters are detached
-    if (remoteClusterCount === 0 && clusterResourceStatus.length > 0) {
-      clusterResourceStatus.splice(0, clusterResourceStatus.length)
+    if (remoteClusterCount === 0 && clusterResourceNodes.length > 0) {
+      clusterResourceNodes.splice(0, clusterResourceNodes.length)
+      nodeStatuses = {green: 0, yellow: 0, red: 0, orange: 0}
     }
+
     return ({
       appName: appName,
       appNamespace: appNamespace,
       creationTimestamp: creationTimestamp,
       remoteClusterCount: remoteClusterCount,
-      clusterResourceStatus: clusterResourceStatus,
+      nodeStatuses: nodeStatuses,
       targetLink: targetLink
     })
   } else {
@@ -588,7 +596,7 @@ export const getAppOverviewCardsData = (topologyData, appName, appNamespace, clu
       appNamespace: appNamespace,
       creationTimestamp: -1,
       remoteClusterCount: -1,
-      clusterResourceStatus: -1,
+      nodeStatuses: -1,
       targetLink: targetLink
     })
   }

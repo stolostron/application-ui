@@ -500,7 +500,8 @@ export const getCardsCommonDetails = (
 
 export const getAppOverviewCardsData = (topologyData, appName, appNamespace, clusterResourceNodes, nodeStatuses, targetLink) => {
   // Get app details only when topology data is properly loaded for the selected app
-  if (topologyData.loaded !== 'undefined' &&
+  if (typeof topologyData.loaded !== 'undefined' &&
+    typeof topologyData.nodes !== 'undefined' &&
     topologyData.activeFilters &&
     topologyData.activeFilters.application &&
     topologyData.activeFilters.application.name === appName &&

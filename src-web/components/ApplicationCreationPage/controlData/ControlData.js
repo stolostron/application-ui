@@ -50,6 +50,21 @@ export const setAvailableNSSpecs = (control, result) => {
   }
 }
 
+export const updateNSControls = (urlControl, control) => {
+  const { active, availableData } = urlControl
+  const userDefinedNSControl = control.find(
+    ({ id }) => id === 'userDefinedNamespace'
+  )
+  if (userDefinedNSControl) {
+    if (active && availableData && !(active in availableData)) {
+      userDefinedNSControl.active = active
+    } else {
+      userDefinedNSControl.active = ''
+    }
+  }
+  return userDefinedNSControl
+}
+
 export const loadExistingChannels = type => {
   return {
     query: HCMChannelList,
@@ -280,7 +295,6 @@ export const controlData = [
     tooltip: 'tooltip.creation.app.name',
     id: 'name',
     type: 'text',
-    syncWith: 'namespace',
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
@@ -292,14 +306,18 @@ export const controlData = [
     tooltip: 'tooltip.creation.app.namespace',
     id: 'namespace',
     type: 'combobox',
-    syncedWith: 'name',
-    syncedSuffix: '-ns',
     fetchAvailable: loadExistingNamespaces(),
+    onSelect: updateNSControls,
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
       required: true
     }
+  },
+  {
+    id: 'userDefinedNamespace',
+    type: 'hidden',
+    active: ''
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  channels  /////////////////////////////////////

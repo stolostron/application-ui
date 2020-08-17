@@ -132,20 +132,22 @@ export function getNumRemoteSubs(item = {}, locale) {
   }
   return (
     <ul>
-      <LabelWithOptionalTooltip key="1" labelText={total} />
-      {(failed !== 0 || unknown !== 0) && <span>{' | '}</span>}
-      <LabelWithOptionalTooltip
-        key="2"
-        labelText={failed}
-        iconName="failed-status"
-        description={msgs.get('table.cell.failed', locale)}
-      />
-      <LabelWithOptionalTooltip
-        key="3"
-        labelText={unknown}
-        iconName="no-status"
-        description={msgs.get('table.cell.status.absent', locale)}
-      />
+      <li>
+        <LabelWithOptionalTooltip key="1" labelText={total} />
+        {(failed !== 0 || unknown !== 0) && <span>{' | '}</span>}
+        <LabelWithOptionalTooltip
+          key="2"
+          labelText={failed}
+          iconName="failed-status"
+          description={msgs.get('table.cell.failed', locale)}
+        />
+        <LabelWithOptionalTooltip
+          key="3"
+          labelText={unknown}
+          iconName="no-status"
+          description={msgs.get('table.cell.status.absent', locale)}
+        />
+      </li>
     </ul>
   )
 }

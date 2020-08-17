@@ -50,9 +50,9 @@ export const setAvailableNSSpecs = (control, result) => {
   }
 }
 
-export const updateNSControls = (urlControl, controlData) => {
+export const updateNSControls = (urlControl, control) => {
   const { active, availableData } = urlControl
-  const userDefinedNSControl = controlData.find(
+  const userDefinedNSControl = control.find(
     ({ id }) => id === 'userDefinedNamespace'
   )
   if (userDefinedNSControl) {

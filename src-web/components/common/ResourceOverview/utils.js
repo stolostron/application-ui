@@ -597,7 +597,7 @@ export const getAppOverviewSubsData = (appList, appName, appNamespace, appSubscr
           if (resource.kind === 'subscription') {
             resource.items.forEach(sub => {
               if (!sub._hostingSubscription) {
-                appSubscriptions.subsList.push({name: sub.name})
+                appSubscriptions.subsList.push({name: sub.name, id: sub._uid})
               }
             })
           }
@@ -608,7 +608,6 @@ export const getAppOverviewSubsData = (appList, appName, appNamespace, appSubscr
     updateFlags.subsLoaded = false
   }
   return ({
-    subsList: appSubscriptions.subsList,
-    subsLoaded: updateFlags.subsLoaded
+    subsList: appSubscriptions.subsList
   })
 }

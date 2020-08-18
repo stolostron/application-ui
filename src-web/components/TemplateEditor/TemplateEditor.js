@@ -1035,7 +1035,6 @@ export default class TemplateEditor extends React.Component {
             id={createBtn}
             onClick={this.handleCreateResource.bind(this)}
             kind={'primary'}
-            disabled={!this.state.hasUndo}
           >
             {msgs.get('button.create', locale)}
           </Button>,

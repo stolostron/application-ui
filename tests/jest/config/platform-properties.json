@@ -757,6 +757,7 @@
   "raw.spec.clusterConditions": "Cluster Conditions",
   "resource.subscription.nostatus.hub": "This subscription has no status. If the status does not change to {0} after waiting for initial creation, verify that the multicluster-operators-hub-subscription pod is running on hub.",
   "resource.subscription.nostatus.remote": "This subscription has no status. If the status does not change to {0} after waiting for initial creation, verify that the klusterlet-addon-appmgr pod is running on the remote cluster.",
+  "resource.subscription.local": "Subscription deployed on local cluster",
   "routes.admin": "Admin",
   "routes.applications": "Applications",
   "routes.charts": "Helm charts",

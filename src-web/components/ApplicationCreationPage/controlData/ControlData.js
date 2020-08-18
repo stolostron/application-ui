@@ -65,6 +65,33 @@ export const updateNSControls = (urlControl, control) => {
   return userDefinedNSControl
 }
 
+export const updatePlacementControls = (urlControl, control) => {
+  const { active } = urlControl
+
+  const onlineControl = control.find(
+    ({ id }) => id === 'online-cluster-only-checkbox'
+  )
+  const clusterSelectorControl = control.find(
+    ({ id }) => id === 'clusterSelector'
+  )
+
+  const clusterReplicasControl = control.find(
+    ({ id }) => id === 'clusterReplicas'
+  )
+
+  if (active === true) {
+    onlineControl && _.set(onlineControl, 'type', 'hidden')
+    clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'hidden')
+    clusterReplicasControl && _.set(clusterReplicasControl, 'type', 'hidden')
+  } else {
+    onlineControl && _.set(onlineControl, 'type', 'checkbox')
+    clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'custom')
+    clusterReplicasControl && _.set(clusterReplicasControl, 'type', 'text')
+  }
+
+  return control
+}
+
 export const loadExistingChannels = type => {
   return {
     query: HCMChannelList,
@@ -416,6 +443,15 @@ export const controlData = [
     overline: true,
     collapsable: true,
     collapsed: false
+  },
+  {
+    id: 'local-cluster-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.localClusters',
+    tooltip: 'tooltip.creation.app.settings.localClusters',
+    onSelect: updatePlacementControls,
+    active: true,
+    available: []
   },
   {
     id: 'online-cluster-only-checkbox',

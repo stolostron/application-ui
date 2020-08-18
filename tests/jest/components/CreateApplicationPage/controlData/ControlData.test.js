@@ -10,7 +10,10 @@
 
 "use strict";
 
-import { updateNSControls } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
+import {
+  updateNSControls,
+  updatePlacementControls
+} from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
 
 describe("updateNSControls with existing NS", () => {
   const urlControl = {
@@ -34,5 +37,86 @@ describe("updateNSControls with new NS", () => {
   const result = { active: "newNS", id: "userDefinedNamespace" };
   it("should return new user data", () => {
     expect(updateNSControls(urlControl, controlData)).toEqual(result);
+  });
+});
+
+describe("updateNSControls without controls", () => {
+  const urlControl = {
+    id: "local-cluster-checkbox",
+    type: "checkbox"
+  };
+  const controlData = [{ id: "local-cluster-checkbox" }];
+  const result = [{ id: "local-cluster-checkbox" }];
+  it("should return same data", () => {
+    expect(updatePlacementControls(urlControl, controlData)).toEqual(result);
+  });
+});
+
+describe("updateNSControls with controls", () => {
+  const urlControl = {
+    id: "local-cluster-checkbox",
+    type: "checkbox"
+  };
+  const controlData = [
+    {
+      id: "local-cluster-checkbox",
+      type: "checkbox"
+    },
+    {
+      id: "online-cluster-only-checkbox",
+      type: "checkbox"
+    },
+    {
+      id: "clusterSelector",
+      type: "custom"
+    },
+    {
+      id: "clusterReplicas",
+      type: "text"
+    }
+  ];
+  const result = [
+    { id: "local-cluster-checkbox", type: "checkbox" },
+    { id: "online-cluster-only-checkbox", type: "checkbox" },
+    { id: "clusterSelector", type: "custom" },
+    { id: "clusterReplicas", type: "text" }
+  ];
+  it("should return all data", () => {
+    expect(updatePlacementControls(urlControl, controlData)).toEqual(result);
+  });
+});
+
+describe("updateNSControls with controls", () => {
+  const urlControl = {
+    id: "local-cluster-checkbox",
+    type: "checkbox",
+    active: true
+  };
+  const controlData = [
+    {
+      id: "local-cluster-checkbox",
+      type: "checkbox"
+    },
+    {
+      id: "online-cluster-only-checkbox",
+      type: "checkbox"
+    },
+    {
+      id: "clusterSelector",
+      type: "custom"
+    },
+    {
+      id: "clusterReplicas",
+      type: "text"
+    }
+  ];
+  const result = [
+    { id: "local-cluster-checkbox", type: "checkbox" },
+    { id: "online-cluster-only-checkbox", type: "hidden" },
+    { id: "clusterSelector", type: "hidden" },
+    { id: "clusterReplicas", type: "hidden" }
+  ];
+  it("should return local only", () => {
+    expect(updatePlacementControls(urlControl, controlData)).toEqual(result);
   });
 });

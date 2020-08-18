@@ -12,15 +12,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Accordion, AccordionItem, Icon, SkeletonText } from 'carbon-components-react'
 import resources from '../../../../lib/shared/resources'
-// import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
-// import { fetchResources } from '../../../actions/common'
 import { fetchTopology } from '../../../actions/topology'
-import { bindActionCreators } from 'redux'
-import * as Actions from '../../../actions'
 import msgs from '../../../../nls/platform.properties'
 import {
-  getAppOverviewCardsData,
   getSearchLinkForOneApplication,
+  getAppOverviewCardsData,
+  getAppOverviewSubsData
 } from '../ResourceOverview/utils'
 import {
   startPolling,
@@ -38,8 +35,6 @@ resources(() => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { selectedAppNS, selectedAppName } = ownProps
   return {
-    // fetchApplications: () =>
-    //   dispatch(fetchResources(RESOURCE_TYPES.QUERY_APPLICATIONS)),
     fetchAppTopology: (fetchChannel, reloading) => {
       const fetchFilters = {
         application: { selectedAppName, selectedAppNS, channel: fetchChannel }
@@ -47,18 +42,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(
         fetchTopology({ filter: { ...fetchFilters } }, fetchFilters, reloading)
       )
-    },
-    actions: bindActionCreators(Actions, dispatch)
+    }
   }
 }
 
 const mapStateToProps = state => {
-  const { 
-    // QueryApplicationList,
+  const {
+    HCMApplicationList,
     topology
   } = state
   return {
-    // QueryApplicationList,
+    HCMApplicationList,
     topology
   }
 }
@@ -72,13 +66,13 @@ class OverviewCards extends React.Component {
     super(props)
     this.state = {
       nodeStatuses: {green: 0, yellow: 0, red: 0, orange: 0},
-      updateFlags: {isInitialState: true}
+      appSubscriptions: {subsList: []},
+      updateFlags: {nodesLoaded: false, subsLoaded: false},
     }
+    // this.reload = this.reload.bind(this)
   }
 
   componentDidMount() {
-    // const { fetchApplications } = this.props
-    // fetchApplications()
     const { fetchAppTopology } = this.props
     const activeChannel = '__ALL__/__ALL__//__ALL__/__ALL__'
     fetchAppTopology(activeChannel, true)
@@ -100,23 +94,20 @@ class OverviewCards extends React.Component {
     handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
   }
 
-  reload() {
-    // const { fetchApplications } = this.props
-    // fetchApplications()
-    const { fetchAppTopology } = this.props
-    const activeChannel = '__ALL__/__ALL__//__ALL__/__ALL__'
-    fetchAppTopology(activeChannel, true)
-  }
+  // reload() {
+  //   const { fetchAppTopology } = this.props
+  //   const activeChannel = '__ALL__/__ALL__//__ALL__/__ALL__'
+  //   fetchAppTopology(activeChannel, true)
+  // }
 
   render() {
     const {
-      // QueryApplicationList,
+      HCMApplicationList,
       topology,
-      // actions,
       selectedAppName,
       selectedAppNS
     } = this.props
-    const { nodeStatuses, updateFlags } = this.state
+    const { nodeStatuses, appSubscriptions, updateFlags } = this.state
     const { locale } = this.context
 
     const targetLink = getSearchLinkForOneApplication({
@@ -125,7 +116,6 @@ class OverviewCards extends React.Component {
     })
 
     const appOverviewCardsData = getAppOverviewCardsData(
-      // QueryApplicationList,
       topology,
       selectedAppName,
       selectedAppNS,
@@ -134,9 +124,17 @@ class OverviewCards extends React.Component {
       targetLink,
     )
 
+    const appOverviewSubsData = getAppOverviewSubsData(
+      HCMApplicationList,
+      selectedAppName,
+      selectedAppNS,
+      appSubscriptions,
+      updateFlags
+    )
+
     return (
       <div className={'overview-cards-container'}>
-        <OverviewCardsData appOverviewCardsData={appOverviewCardsData} locale={locale} />
+        <OverviewCardsData appOverviewCardsData={appOverviewCardsData} appOverviewSubsData={appOverviewSubsData} locale={locale} />
       </div>
     )
   }
@@ -201,7 +199,7 @@ const createStatusIcons = (nodeStatuses) => {
   )
 }
 
-const OverviewCardsData = ({ appOverviewCardsData, locale }) => {
+const OverviewCardsData = ({ appOverviewCardsData, appOverviewSubsData, locale }) => {
   let getUrl = window.location.href
   getUrl = getUrl.substring(0, getUrl.indexOf('/multicloud/applications/'))
 

@@ -552,15 +552,15 @@ export const getAppOverviewCardsData = (topologyData, appName, appNamespace, nod
       Object.keys(nodeStatuses).forEach(pulse => {
         nodeStatuses[pulse] = tempNodeStatuses[pulse]
       })
-      updateFlags.isInitialState = false
+      updateFlags.nodesLoaded = true
     }
 
     // Clear node status list if remote clusters are detached
-    if (remoteClusterCount === 0 && !updateFlags.isInitialState) {
+    if (remoteClusterCount === 0 && updateFlags.nodesLoaded) {
       Object.keys(nodeStatuses).forEach(pulse => {
         nodeStatuses[pulse] = 0
       })
-      updateFlags.isInitialState = true
+      updateFlags.nodesLoaded = false
     }
 
     return ({
@@ -581,4 +581,34 @@ export const getAppOverviewCardsData = (topologyData, appName, appNamespace, nod
       targetLink: targetLink
     })
   }
+}
+
+export const getAppOverviewSubsData = (appList, appName, appNamespace, appSubscriptions, updateFlags) => {
+  if (appList && appList.items && appList.items.length > 0) {
+    updateFlags.subsLoaded = true
+    appList.items.forEach(app => {
+      if (app.name === appName &&
+        app.namespace === appNamespace &&
+        app.related &&
+        app.related.length > 0
+      ) {
+        appSubscriptions.subsList = []
+        app.related.forEach(resource => {
+          if (resource.kind === 'subscription') {
+            resource.items.forEach(sub => {
+              if (!sub._hostingSubscription) {
+                appSubscriptions.subsList.push({name: sub.name})
+              }
+            })
+          }
+        })
+      }
+    })
+  } else {
+    updateFlags.subsLoaded = false
+  }
+  return ({
+    subsList: appSubscriptions.subsList,
+    subsLoaded: updateFlags.subsLoaded
+  })
 }

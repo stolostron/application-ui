@@ -67,10 +67,15 @@ export const getClusterName = nodeId => {
   if (nodeId === undefined) {
     return ''
   }
-  const startPos = nodeId.indexOf('--clusters--') + 12
-  const endPos = nodeId.indexOf('--', startPos)
+  const clusterIndex = nodeId.indexOf('--clusters--')
+  if (clusterIndex !== -1) {
+    const startPos = nodeId.indexOf('--clusters--') + 12
+    const endPos = nodeId.indexOf('--', startPos)
+    return nodeId.slice(startPos, endPos)
+  }
 
-  return nodeId.slice(startPos, endPos)
+  //node must be deployed locally on hub, such as ansible jobs
+  return 'local-cluster'
 }
 
 export const getWrappedNodeLabel = (label, width, rows = 3) => {

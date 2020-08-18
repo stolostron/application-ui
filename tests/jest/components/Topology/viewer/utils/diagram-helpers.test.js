@@ -3491,6 +3491,14 @@ describe("getClusterName node id undefined", () => {
   });
 });
 
+describe("getClusterName node id doesn't have cluster info", () => {
+  it("should return empty string", () => {
+    const nodeId =
+      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch";
+    expect(getClusterName(nodeId)).toEqual("local-cluster");
+  });
+});
+
 describe("getPodState pod", () => {
   const podItem = {
     apiversion: "v1",

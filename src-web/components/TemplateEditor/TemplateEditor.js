@@ -909,8 +909,9 @@ export default class TemplateEditor extends React.Component {
 
   getResourceJSON() {
     const { locale } = this.context
-    const { controlData, templateYAML, otherYAMLTabs } = this.state
+    const { template, controlData, otherYAMLTabs } = this.state
     let canCreate = false
+    const {templateYAML} = generateYAML(template, controlData, otherYAMLTabs, true)
     const {
       templateObjectMap,
       templateExceptionMap,

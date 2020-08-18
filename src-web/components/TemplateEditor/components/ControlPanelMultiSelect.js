@@ -72,10 +72,10 @@ class ControlPanelMultiSelect extends React.Component {
           className="creation-view-controls-multiselect"
           ref={this.setControlRef.bind(this, control)}
         >
-          <div className="creation-view-controls-multiselect-title">
+          <label className="creation-view-controls-multiselect-title" htmlFor={id}>
             {name}
             <Tooltip control={control} locale={locale} />
-          </div>
+          </label>
           <MultiSelect.Filterable
             key={key}
             items={available}

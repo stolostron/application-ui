@@ -499,7 +499,7 @@ class ControlPanel extends React.Component {
         case 'hidden':
           break
         case 'checkbox':
-          summary.push(available[!active ? 0 : 1])
+          summary.push(available ? available[!active?0:1] : active.toString())
           break
         case 'number':
           summary.push(active || initial)
@@ -579,18 +579,18 @@ class ControlPanel extends React.Component {
           style={{ display: '' }}
           ref={this.setControlRef.bind(this, control)}
         >
-          <div className="creation-view-controls-textbox-title">
+          <label className="creation-view-controls-textbox-title" htmlFor={id}>
             {name}
             {validation.required ? (
               <div className="creation-view-controls-required">*</div>
             ) : null}
             <Tooltip control={control} locale={locale} />
-          </div>
+          </label>
           <TextInput
             id={id}
             hideLabel
             spellCheck={false}
-            autoComplete={'no'}
+            autoComplete={'new-password'}
             labelText=""
             invalid={!!exception}
             invalidText={exception}
@@ -625,7 +625,7 @@ class ControlPanel extends React.Component {
             invalidText={exception}
             hideLabel
             spellCheck={false}
-            autoComplete={'no'}
+            autoComplete={'new-password'}
             labelText=""
             value={value}
             onChange={this.handleChange.bind(this, control)}
@@ -730,13 +730,13 @@ class ControlPanel extends React.Component {
           className="creation-view-controls-number"
           ref={this.setControlRef.bind(this, control)}
         >
-          <div className="creation-view-controls-multiselect-title">
+          <label className="creation-view-controls-multiselect-title" htmlFor={id}>
             {name}
             {validation.required ? (
               <div className="creation-view-controls-required">*</div>
             ) : null}
             <Tooltip control={control} locale={locale} />
-          </div>
+          </label>
           <NumberInput
             allowEmpty
             id={id}
@@ -834,7 +834,7 @@ class ControlPanel extends React.Component {
                 if (ref) {
                   const input = _.get(ref, 'textInput.current')
                   if (input) {
-                    input.autocomplete = 'no'
+                    input.autocomplete = 'new-password'
                     input.addEventListener('keyup', e => {
                       if (e.key === 'Enter' && control.typing) {
                         this.handleComboboxChange(

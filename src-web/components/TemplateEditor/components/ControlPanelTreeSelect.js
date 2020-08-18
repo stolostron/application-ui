@@ -192,7 +192,7 @@ class ControlPanelTreeSelect extends React.Component {
                 onClick={this.clickToggle.bind(this)} onKeyPress={this.pressToggle.bind(this)}>
                 <input className='bx--text-input' aria-label='ListBox input field'
                   spellCheck='false' role='combobox' aria-controls={key}
-                  aria-autocomplete='list' aria-expanded='true' autoComplete='no'
+                  aria-autocomplete='list' aria-expanded='true' autoComplete='new-password'
                   id='downshift-0-input' placeholder='' value={searchText!==null? searchText : currentActive}
                   onFocus={(e)=>{ e.target.select() }} onKeyDown={this.pressPress.bind(this)}
                   onChange={(evt)=>this.setState({searchText:evt.currentTarget.value})}

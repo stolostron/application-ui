@@ -91,8 +91,11 @@ class ControlPanelPrompt extends React.Component {
     return (
       <React.Fragment>
         <div className='creation-view-controls-add-value-container bottom-right'>
-          <Link to={url} id={id}>
-            <div className='counts-value'>{text}</div>
+          <Link
+            to={url}
+            id={id}
+            className='creation-view-controls-add-button'>
+            {text}
           </Link>
         </div>
       </React.Fragment>

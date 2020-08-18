@@ -951,7 +951,7 @@ describe("getNodeDetails helm node", () => {
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
     { type: "spacer" },
-    { labelValue: "", status: "pending", value: "Not Deployed" },
+    { labelValue: "local-cluster", status: "pending", value: "Not Deployed" },
     { type: "spacer" }
   ];
 

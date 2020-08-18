@@ -276,8 +276,8 @@ class ControlPanelTable extends React.Component {
                   />
                   <TableToolbarContent>{actions}</TableToolbarContent>
                 </TableToolbar>
-                <Table 
-                  className='resource-table' 
+                <Table
+                  className='resource-table'
                   zebra={false} >
                   <TableHead>
                     <TableRow>

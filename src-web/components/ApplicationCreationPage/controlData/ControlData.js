@@ -234,6 +234,57 @@ const githubChannelData = [
     available: [],
     validation: VALIDATE_ALPHANUMERIC,
     cacheUserValueKey: 'create.app.github.path'
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  clusters  /////////////////////////////////////
+  {
+    id: 'clusterSection',
+    type: 'section',
+    title: 'creation.app.placement.rule',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: false,
+    available: []
+  },
+  {
+    type: 'custom',
+    id: 'clusterSelector',
+    component: <ClusterSelector />,
+    available: []
+  },
+  {
+    name: 'creation.app.settings.clustersReplica',
+    tooltip: 'tooltip.creation.app.settings.clustersReplica',
+    id: 'clusterReplicas',
+    type: 'text',
+    active: '',
+    placeholder: 'creation.app.settings.ph.clustersReplica',
+    available: []
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  settings  /////////////////////////////////////
+  {
+    id: 'settingsSection',
+    type: 'section',
+    title: 'creation.app.section.settings',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    type: 'custom',
+    name: 'creation.app.settings.timeWindow',
+    tooltip: 'creation.app.settings.timeWindow.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
+    available: []
   }
 ]
 
@@ -308,6 +359,57 @@ const objectstoreChannelData = [
     encode: true,
     active: '',
     placeholder: 'app.enter.secretkey'
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  clusters  /////////////////////////////////////
+  {
+    id: 'clusterSection',
+    type: 'section',
+    title: 'creation.app.placement.rule',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: false,
+    available: []
+  },
+  {
+    type: 'custom',
+    id: 'clusterSelector',
+    component: <ClusterSelector />,
+    available: []
+  },
+  {
+    name: 'creation.app.settings.clustersReplica',
+    tooltip: 'tooltip.creation.app.settings.clustersReplica',
+    id: 'clusterReplicas',
+    type: 'text',
+    active: '',
+    placeholder: 'creation.app.settings.ph.clustersReplica',
+    available: []
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  settings  /////////////////////////////////////
+  {
+    id: 'settingsSection',
+    type: 'section',
+    title: 'creation.app.section.settings',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    type: 'custom',
+    name: 'creation.app.settings.timeWindow',
+    tooltip: 'creation.app.settings.timeWindow.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
+    available: []
   }
 ]
 
@@ -352,7 +454,6 @@ export const controlData = [
     id: 'channelSection',
     type: 'section',
     title: 'creation.app.channels',
-    numbered: '1',
     overline: true,
     collapsable: true,
     collapsed: false
@@ -432,67 +533,5 @@ export const controlData = [
         validation: {}
       }
     ]
-  },
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////  clusters  /////////////////////////////////////
-  {
-    id: 'clusterSection',
-    type: 'section',
-    title: 'creation.app.placement.rule',
-    numbered: '2',
-    overline: true,
-    collapsable: true,
-    collapsed: false
-  },
-  {
-    id: 'local-cluster-checkbox',
-    type: 'checkbox',
-    name: 'creation.app.settings.localClusters',
-    tooltip: 'tooltip.creation.app.settings.localClusters',
-    onSelect: updatePlacementControls,
-    active: true,
-    available: []
-  },
-  {
-    id: 'online-cluster-only-checkbox',
-    type: 'checkbox',
-    name: 'creation.app.settings.onlineClusters',
-    tooltip: 'tooltip.creation.app.settings.onlineClusters',
-    active: true,
-    available: []
-  },
-  {
-    type: 'custom',
-    id: 'clusterSelector',
-    component: <ClusterSelector />,
-    available: []
-  },
-  {
-    name: 'creation.app.settings.clustersReplica',
-    tooltip: 'tooltip.creation.app.settings.clustersReplica',
-    id: 'clusterReplicas',
-    type: 'text',
-    active: '',
-    placeholder: 'creation.app.settings.ph.clustersReplica',
-    available: []
-  },
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////  settings  /////////////////////////////////////
-  {
-    id: 'settingsSection',
-    type: 'section',
-    title: 'creation.app.section.settings',
-    numbered: '3',
-    overline: true,
-    collapsable: true,
-    collapsed: false
-  },
-  {
-    type: 'custom',
-    name: 'creation.app.settings.timeWindow',
-    tooltip: 'creation.app.settings.timeWindow.tooltip',
-    id: 'timeWindow',
-    component: <TimeWindow />,
-    available: []
   }
 ]

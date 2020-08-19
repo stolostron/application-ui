@@ -2360,6 +2360,12 @@ describe("setResourceDeployStatus ansiblejob ", () => {
     id:
       "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
     specs: {
+      raw: {
+        metadata: {
+          name: "bigjoblaunch",
+          namespace: "default"
+        }
+      },
       ansiblejobModel: {
         "bigjoblaunch-local-cluster": {
           label: "tower_job_id=999999999"
@@ -2371,7 +2377,27 @@ describe("setResourceDeployStatus ansiblejob ", () => {
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
     { type: "spacer" },
-    { labelValue: "local-cluster", status: "pending", value: "Not Deployed" },
+    {
+      indent: undefined,
+      labelKey: "description.ansible.job",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "tower_job_id=999999999"
+    },
+    { labelValue: "local-cluster", status: "checkmark", value: "Deployed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
     { type: "spacer" }
   ];
   it("setResourceDeployStatus ansiblejob", () => {

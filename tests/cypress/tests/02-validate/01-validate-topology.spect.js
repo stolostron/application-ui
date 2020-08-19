@@ -13,7 +13,7 @@ describe("Application", () => {
       cy
         .get(".search-query-card-loading", { timeout: 20 * 1000 })
         .should("not.exist");
-      cy.get(".overview-cards-info-container");
+      cy.get(".overview-cards-container");
       cy.get("#topologySvgId", { timeout: 50 * 1000 });
     });
   }

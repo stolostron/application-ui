@@ -10,7 +10,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Accordion, AccordionItem, Button, Icon, SkeletonText } from 'carbon-components-react'
+import {
+  Accordion,
+  AccordionItem,
+  Button,
+  Icon,
+  SkeletonText
+} from 'carbon-components-react'
 import resources from '../../../../lib/shared/resources'
 import { fetchTopology } from '../../../actions/topology'
 import msgs from '../../../../nls/platform.properties'
@@ -47,10 +53,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = state => {
-  const {
-    HCMApplicationList,
-    topology
-  } = state
+  const { HCMApplicationList, topology } = state
   return {
     HCMApplicationList,
     topology
@@ -60,14 +63,14 @@ const mapStateToProps = state => {
 class OverviewCards extends React.Component {
   static propTypes = {
     fetchAppTopology: PropTypes.func
-  }
+  };
 
   constructor(props) {
     super(props)
     this.state = {
-      nodeStatuses: {green: 0, yellow: 0, red: 0, orange: 0},
-      appSubscriptions: {subsList: []},
-      updateFlags: {nodesLoaded: false, subsLoaded: false, showSubs: false},
+      nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 0 },
+      appSubscriptions: { subsList: [] },
+      updateFlags: { nodesLoaded: false, subsLoaded: false, showSubs: false }
     }
     // this.reload = this.reload.bind(this)
   }
@@ -115,7 +118,7 @@ class OverviewCards extends React.Component {
 
     const targetLink = getSearchLinkForOneApplication({
       name: encodeURIComponent(selectedAppName),
-      namespace: encodeURIComponent(selectedAppNS),
+      namespace: encodeURIComponent(selectedAppNS)
     })
 
     const appOverviewCardsData = getAppOverviewCardsData(
@@ -124,7 +127,7 @@ class OverviewCards extends React.Component {
       selectedAppNS,
       nodeStatuses,
       updateFlags,
-      targetLink,
+      targetLink
     )
 
     const appOverviewSubsData = getAppOverviewSubsData(
@@ -136,37 +139,37 @@ class OverviewCards extends React.Component {
     )
 
     return (
-      <div className={'overview-cards-container'}>
+      <div className="overview-cards-container">
         <Accordion>
           <AccordionItem
             open={true}
             title={msgs.get('dashboard.card.overview.cards.title', locale)}
-            className='overview-cards-details-section'
+            className="overview-cards-details-section"
           >
-            <div className='details-col' id='left-col'>
-              <div className='details-item'>
-                <div className='details-item-title left-item'>
+            <div className="details-col" id="left-col">
+              <div className="details-item">
+                <div className="details-item-title left-item">
                   {msgs.get('dashboard.card.overview.cards.name', locale)}
                 </div>
-                <div className='details-item-content'>
+                <div className="details-item-content">
                   {appOverviewCardsData.appName}
                 </div>
               </div>
 
-              <div className='details-item'>
-                <div className='details-item-title left-item'>
+              <div className="details-item">
+                <div className="details-item-title left-item">
                   {msgs.get('dashboard.card.overview.cards.namespace', locale)}
                 </div>
-                <div className='details-item-content'>
+                <div className="details-item-content">
                   {appOverviewCardsData.appNamespace}
                 </div>
               </div>
 
-              <div className='details-item'>
-                <div className='details-item-title left-item'>
+              <div className="details-item">
+                <div className="details-item-title left-item">
                   {msgs.get('dashboard.card.overview.cards.created', locale)}
                 </div>
-                <div className='details-item-content'>
+                <div className="details-item-content">
                   {this.renderData(
                     appOverviewCardsData.creationTimestamp,
                     appOverviewCardsData.creationTimestamp,
@@ -176,12 +179,15 @@ class OverviewCards extends React.Component {
               </div>
             </div>
 
-            <div className='details-col' id='right-col'>
-              <div className='details-item'>
-                <div className='details-item-title right-item'>
-                  {msgs.get('dashboard.card.overview.cards.remote.clusters', locale)}
+            <div className="details-col" id="right-col">
+              <div className="details-item">
+                <div className="details-item-title right-item">
+                  {msgs.get(
+                    'dashboard.card.overview.cards.remote.clusters',
+                    locale
+                  )}
                 </div>
-                <div className='details-item-content'>
+                <div className="details-item-content">
                   {this.renderData(
                     appOverviewCardsData.remoteClusterCount,
                     appOverviewCardsData.remoteClusterCount,
@@ -190,11 +196,14 @@ class OverviewCards extends React.Component {
                 </div>
               </div>
 
-              <div className='details-item'>
-                <div className='details-item-title right-item'>
-                  {msgs.get('dashboard.card.overview.cards.cluster.resource.status', locale)}
+              <div className="details-item">
+                <div className="details-item-title right-item">
+                  {msgs.get(
+                    'dashboard.card.overview.cards.cluster.resource.status',
+                    locale
+                  )}
                 </div>
-                <div className='details-item-content'>
+                <div className="details-item-content">
                   {this.renderData(
                     appOverviewCardsData.nodeStatuses,
                     this.createStatusIcons(appOverviewCardsData.nodeStatuses),
@@ -203,10 +212,18 @@ class OverviewCards extends React.Component {
                 </div>
               </div>
 
-              <div className='details-item'>
-                <a className='details-item-link' id='app-search-link' href={(getUrl + appOverviewCardsData.targetLink)} target="_blank">
+              <div className="details-item">
+                <a
+                  className="details-item-link"
+                  id="app-search-link"
+                  href={getUrl + appOverviewCardsData.targetLink}
+                  target="_blank"
+                >
                   <div>
-                    {msgs.get('dashboard.card.overview.cards.search.resource', locale)}
+                    {msgs.get(
+                      'dashboard.card.overview.cards.search.resource',
+                      locale
+                    )}
                     <Icon
                       name="icon--arrow--right"
                       fill="#0066CC"
@@ -220,18 +237,25 @@ class OverviewCards extends React.Component {
           </AccordionItem>
         </Accordion>
 
-        <div className='overview-cards-subs-section'>
-          {updateFlags.showSubs ? this.createSubsCards(appOverviewSubsData.subsList, locale) : ''}
+        <div className="overview-cards-subs-section">
+          {updateFlags.showSubs
+            ? this.createSubsCards(appOverviewSubsData.subsList, locale)
+            : ''}
           <Button
-            className='toggle-subs-btn'
+            className="toggle-subs-btn"
             onClick={() => this.toggleSubsBtn(updateFlags)}
           >
             {this.renderData(
               updateFlags.subsLoaded ? 0 : -1,
-              (updateFlags.showSubs ?
-                msgs.get('dashboard.card.overview.cards.subs.btn.hide', locale)
-                : msgs.get('dashboard.card.overview.cards.subs.btn.show', locale))
-                + ` (${appOverviewSubsData.subsList.length})`,
+              (updateFlags.showSubs
+                ? msgs.get(
+                  'dashboard.card.overview.cards.subs.btn.hide',
+                  locale
+                )
+                : msgs.get(
+                  'dashboard.card.overview.cards.subs.btn.show',
+                  locale
+                )) + ` (${appOverviewSubsData.subsList.length})`,
               '70%'
             )}
           </Button>
@@ -244,77 +268,72 @@ class OverviewCards extends React.Component {
     return checkData !== -1 ? (
       showData
     ) : (
-      <SkeletonText width={width} className='loading-skeleton-text' />
+      <SkeletonText width={width} className="loading-skeleton-text" />
     )
-  }
+  };
 
-  createStatusIcons = (nodeStatuses) => {
+  createStatusIcons = nodeStatuses => {
     return (
       <React.Fragment>
-        <div className='status-icon-container green-status'>
+        <div className="status-icon-container green-status">
           <Icon
             name="icon--checkmark--glyph"
             fill="#3E8635"
             description=""
             className="status-icon"
           />
-          <div className='status-count'>
-            {nodeStatuses.green}
-          </div>
+          <div className="status-count">{nodeStatuses.green}</div>
         </div>
-        <div className='status-icon-container yellow-status'>
+        <div className="status-icon-container yellow-status">
           <Icon
             name="icon--warning--glyph"
             fill="#F0AB00"
             description=""
             className="status-icon"
           />
-          <div className='status-count'>
-            {nodeStatuses.yellow}
-          </div>
+          <div className="status-count">{nodeStatuses.yellow}</div>
         </div>
-        <div className='status-icon-container red-status'>
+        <div className="status-icon-container red-status">
           <Icon
             name="icon--error--glyph"
             fill="#C9190B"
             description=""
             className="status-icon"
           />
-          <div className='status-count'>
-            {nodeStatuses.red}
-          </div>
+          <div className="status-count">{nodeStatuses.red}</div>
         </div>
-        <div className='status-icon-container orange-status'>
+        <div className="status-icon-container orange-status">
           <Icon
             name="icon--subtract--glyph"
             fill="#5c5c5c"
             description=""
             className="status-icon"
           />
-          <div className='status-count'>
-            {nodeStatuses.orange}
-          </div>
+          <div className="status-count">{nodeStatuses.orange}</div>
         </div>
       </React.Fragment>
     )
-  }
+  };
 
   createSubsCards = (subsList, locale) => {
     return subsList.map(sub => {
       if (sub.name) {
         return (
           <React.Fragment key={sub.id}>
-            <div className='sub-card-container'>
-              <div className='sub-card-column'>
+            <div className="sub-card-container">
+              <div className="sub-card-column">
                 <Icon
                   name="icon--filter--glyph"
                   fill="#5c5c5c"
                   description=""
                   className="subs-icon"
                 />
-                <div className='sub-card-content'>
-                  <div className='sub-card-title'>
-                    {msgs.get('dashboard.card.overview.cards.subs.label', locale)}
+                <div className="sub-card-content">
+                  <div className="sub-card-title">
+                    {msgs.get(
+                      'dashboard.card.overview.cards.subs.label',
+                      locale
+                    )}
                   </div>
                   <span>{sub.name}</span>
                 </div>
@@ -325,12 +344,12 @@ class OverviewCards extends React.Component {
       }
       return ''
     })
-  }
+  };
 
-  toggleSubsBtn = (updateFlag) => {
+  toggleSubsBtn = updateFlag => {
     updateFlag.showSubs = !updateFlag.showSubs
     this.forceUpdate()
-  }
+  };
 }
 
 OverviewCards.propTypes = {}

@@ -228,7 +228,7 @@ class OverviewCards extends React.Component {
           >
             {this.renderData(
               updateFlags.subsLoaded ? 0 : -1,
-              (updateFlags.showSubs ? 
+              (updateFlags.showSubs ?
                 msgs.get('dashboard.card.overview.cards.subs.btn.hide', locale)
                 : msgs.get('dashboard.card.overview.cards.subs.btn.show', locale))
                 + ` (${appOverviewSubsData.subsList.length})`,
@@ -323,6 +323,7 @@ class OverviewCards extends React.Component {
           </React.Fragment>
         )
       }
+      return ''
     })
   }
 

@@ -168,6 +168,7 @@ export default class TemplateEditor extends React.Component {
       isFinalValidate: false,
       hasUndo: false,
       hasRedo: false,
+      isDirty: false,
       resetInx: 0
     }
     this.selectedTab = 0
@@ -382,7 +383,8 @@ export default class TemplateEditor extends React.Component {
       templateYAML: newYAML,
       templateObject,
       exceptions: [],
-      notifications
+      notifications,
+      isDirty: true
     })
     this.handleScrollAndCollapse(control, controlData, creationView)
   }
@@ -441,7 +443,7 @@ export default class TemplateEditor extends React.Component {
       otherYAMLTabs,
       this.selectedTab
     )
-    this.setState({ controlData, templateYAML: newYAML, templateObject })
+    this.setState({ controlData, templateYAML: newYAML, templateObject, isDirty: true })
   }
 
   handleNewEditorMode(control, controlData, creationView) {
@@ -1036,6 +1038,7 @@ export default class TemplateEditor extends React.Component {
             id={createBtn}
             onClick={this.handleCreateResource.bind(this)}
             kind={'primary'}
+            disabled={!this.state.isDirty}
           >
             {msgs.get('button.create', locale)}
           </Button>,
@@ -1098,6 +1101,7 @@ export default class TemplateEditor extends React.Component {
       updateMessage: '',
       hasUndo: false,
       hasRedo: false,
+      isDirty: false,
       isFinalValidate: false,
       templateYAML,
       templateObject,

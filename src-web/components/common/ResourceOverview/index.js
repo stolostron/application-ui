@@ -21,7 +21,6 @@ import {
 import { handleEditResource, loadingComponent } from './utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
-import msgs from '../../../../nls/platform.properties'
 import {
   fetchApplicationResource,
   closeModals

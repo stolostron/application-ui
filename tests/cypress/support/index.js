@@ -77,5 +77,6 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 });
 
 Cypress.on("fail", err => {
+  throw err;
   debugger;
 });

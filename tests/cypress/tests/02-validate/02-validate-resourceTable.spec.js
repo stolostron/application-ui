@@ -6,7 +6,7 @@ import { pageLoader, resourceTable } from "../../views/common";
 
 const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
 
-describe("Created application", () => {
+describe("Application", () => {
   for (const resource in wizards) {
     const { name } = wizards[resource];
     it(`should be validated from the resource table`, () => {
@@ -18,7 +18,7 @@ describe("Created application", () => {
           timeout: 60 * 1000
         })
         .should("exist");
-      resourceTable.rowShouldExist(name, 60 * 1000);
+      resourceTable.rowShouldExist(name, 100 * 1000);
       resourceTable.rowNameClick(name);
       cy.reload(); // status isn't updating after unknown failure
       cy.get(".bx--detail-page-header-title");

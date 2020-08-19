@@ -11,9 +11,10 @@ describe("Application", () => {
     const { name, url, username, token, branch, path } = wizards[resource];
     it(`can be created on resource ${resource} from the wizard`, () => {
       cy.visit("/multicloud/applications");
-      modal.clickSecondary();
+      modal.clickPrimary();
       cy.get(".bx--detail-page-header-title-container").should("exist");
       cy.get("#name").type(name);
+      cy.get("#namespace", { timeout: 20 * 1000 }).type(`${name}-ns`);
       cy.get(`#${resource}`).click();
       cy.get("#githubURL", { timeout: 20 * 1000 }).type(url);
       if (username && token) {
@@ -29,7 +30,6 @@ describe("Application", () => {
       cy
         .location("pathname", { timeout: 60 * 1000 })
         .should("include", `${name}-ns/${name}`);
-      // cy.visit(`/multicloud/applications/`);
     });
   }
 });

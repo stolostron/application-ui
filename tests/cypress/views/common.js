@@ -94,7 +94,7 @@ export const modal = {
   shouldNotBeVisible: () =>
     cy.get(".bx--modal-container", { timeout: 20000 }).should("not.be.visible"),
   clickDanger: () => cy.get(".bx--modal .bx--btn--danger--primary").click(),
-  clickPrimary: () => cy.get(".bx--modal .bx--btn--primary").click(),
+  clickPrimary: () => cy.get(".bx--btn.bx--btn--sm.bx--btn--primary").click(),
   clickSecondary: () =>
     cy
       .get(".bx--btn.bx--btn--sm.bx--btn--secondary", { timeout: 20000 })

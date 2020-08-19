@@ -19,101 +19,196 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
       className="overview-content-bottom overview-content-with-padding"
     >
       <div
-        className="overview-content-header"
+        className="overview-cards-container"
       >
-        Resource highlights
-      </div>
-      <div
-        className="overview-cards-info-container"
-      >
-        <div
-          className="overview-cards-info single-app"
+        <ul
+          className="bx--accordion"
         >
-          <div
-            className="single-card card-margin"
-            id="0_overviewCardsData"
+          <li
+            className="bx--accordion__item--active bx--accordion__item overview-cards-details-section"
             onClick={[Function]}
             onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
+            open={true}
+            role="presentation"
           >
-            <div
-              className="card-count"
+            <button
+              aria-expanded={true}
+              className="bx--accordion__heading"
+              onClick={[Function]}
+              type="button"
             >
-              0
-            </div>
+              <svg
+                alt="Expand/Collapse"
+                aria-label="Expand/Collapse"
+                className="bx--accordion__arrow"
+                fillRule="evenodd"
+                height="12"
+                role={null}
+                viewBox="0 0 7 12"
+                width="7"
+              >
+                <title>
+                  Expand/Collapse
+                </title>
+                <path
+                  d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+                />
+              </svg>
+              <div
+                className="bx--accordion__title"
+              >
+                Details
+              </div>
+            </button>
             <div
-              className="card-type"
+              className="bx--accordion__content"
             >
-              Subscriptions
+              <div
+                className="details-col"
+                id="left-col"
+              >
+                <div
+                  className="details-item"
+                >
+                  <div
+                    className="details-item-title left-item"
+                  >
+                    Name
+                  </div>
+                  <div
+                    className="details-item-content"
+                  />
+                </div>
+                <div
+                  className="details-item"
+                >
+                  <div
+                    className="details-item-title left-item"
+                  >
+                    Namespace
+                  </div>
+                  <div
+                    className="details-item-content"
+                  />
+                </div>
+                <div
+                  className="details-item"
+                >
+                  <div
+                    className="details-item-title left-item"
+                  >
+                    Created
+                  </div>
+                  <div
+                    className="details-item-content"
+                  >
+                    <p
+                      className="bx--skeleton__text loading-skeleton-text"
+                      style={
+                        Object {
+                          "width": "30%",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                className="details-col"
+                id="right-col"
+              >
+                <div
+                  className="details-item"
+                >
+                  <div
+                    className="details-item-title right-item"
+                  >
+                    Remote clusters
+                  </div>
+                  <div
+                    className="details-item-content"
+                  >
+                    <p
+                      className="bx--skeleton__text loading-skeleton-text"
+                      style={
+                        Object {
+                          "width": "30%",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+                <div
+                  className="details-item"
+                >
+                  <div
+                    className="details-item-title right-item"
+                  >
+                    Cluster resource status
+                  </div>
+                  <div
+                    className="details-item-content"
+                  >
+                    <p
+                      className="bx--skeleton__text loading-skeleton-text"
+                      style={
+                        Object {
+                          "width": "30%",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+                <div
+                  className="details-item"
+                >
+                  <a
+                    className="details-item-link"
+                    href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Aapplication%20name%3Aundefined%20namespace%3Aundefined\\"}"
+                    id="app-search-link"
+                    target="_blank"
+                  >
+                    <div>
+                      Search resource
+                      <svg
+                        alt=""
+                        aria-label=""
+                        className="details-item-link-icon"
+                        fill="#0066CC"
+                        fillRule="evenodd"
+                        height="14"
+                        name="icon--arrow--right"
+                        role="img"
+                        viewBox="0 0 16 14"
+                        width="16"
+                      >
+                        <title>
+                          
+                        </title>
+                        <path
+                          d="M11.95 5.997L7.86 2.092 9.233.639l6.763 6.356-6.763 6.366L7.86 11.91l4.092-3.912H-.003v-2h11.952z"
+                        />
+                      </svg>
+                    </div>
+                  </a>
+                </div>
+              </div>
             </div>
-            <div
-              className="card-text"
-            >
-              On hub cluster
-            </div>
-            
-            
-            
-          </div>
-          <div
-            className="column-divider"
-          />
-          <div
-            className="single-card card-margin"
-            id="1_overviewCardsData"
+          </li>
+        </ul>
+        <div
+          className="overview-cards-subs-section"
+        >
+          
+          <button
+            className="toggle-subs-btn bx--btn bx--btn--primary"
+            disabled={false}
             onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
+            tabIndex={0}
+            type="button"
           >
-            <div
-              className="card-count"
-            >
-              0
-            </div>
-            <div
-              className="card-type"
-            >
-              Managed clusters
-            </div>
-            <div
-              className="card-text"
-            >
-              0 Total subscriptions
-            </div>
-            
-            
-            
-          </div>
-          <div
-            className="column-divider"
-          />
-          <div
-            className="single-card card-margin"
-            id="2_overviewCardsData"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            <div
-              className="card-count"
-            >
-              0
-            </div>
-            <div
-              className="card-type"
-            >
-              Pods
-            </div>
-            <div
-              className="card-text"
-            />
-            
-            
-            
-          </div>
+            Show subscription details (0)
+          </button>
         </div>
       </div>
     </div>

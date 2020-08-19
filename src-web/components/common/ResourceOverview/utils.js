@@ -498,9 +498,17 @@ export const getCardsCommonDetails = (
   ]
 }
 
-export const getAppOverviewCardsData = (topologyData, appName, appNamespace, nodeStatuses, updateFlags, targetLink) => {
+export const getAppOverviewCardsData = (
+  topologyData,
+  appName,
+  appNamespace,
+  nodeStatuses,
+  updateFlags,
+  targetLink
+) => {
   // Get app details only when topology data is properly loaded for the selected app
-  if (typeof topologyData.loaded !== 'undefined' &&
+  if (
+    typeof topologyData.loaded !== 'undefined' &&
     typeof topologyData.nodes !== 'undefined' &&
     topologyData.activeFilters &&
     topologyData.activeFilters.application &&
@@ -509,39 +517,45 @@ export const getAppOverviewCardsData = (topologyData, appName, appNamespace, nod
   ) {
     let creationTimestamp = ''
     let remoteClusterCount = 0
-    const tempNodeStatuses = {green: 0, yellow: 0, red: 0, orange: 0}
+    const tempNodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
     let statusLoaded = false
 
     topologyData.nodes.map(node => {
       // Get date and time of app creation
-      if (node.type === 'application' &&
+      if (
+        node.type === 'application' &&
         node.specs &&
         node.specs.raw &&
         node.specs.raw.metadata &&
         node.specs.raw.metadata.creationTimestamp
       ) {
-        const timestampArray = (new Date(node.specs.raw.metadata.creationTimestamp).toUTCString()).split(" ")
-        const date = timestampArray[2] + ' ' + timestampArray[1] + ' ' + timestampArray[3]
+        const timestampArray = new Date(
+          node.specs.raw.metadata.creationTimestamp
+        )
+          .toUTCString()
+          .split(' ')
+        const date =
+          timestampArray[2] + ' ' + timestampArray[1] + ' ' + timestampArray[3]
         const timeArray = timestampArray[4].split(':')
         const timePeriod = timeArray[0] < 12 ? 'am' : 'pm'
         const timeHour12 = timeArray[0] % 12 || 12
         const time = timeHour12 + ':' + timeArray[1] + ' ' + timePeriod
 
         creationTimestamp = date + ', ' + time
-      }
-      // Get remote cluster count
-      else if ( node.type === 'cluster' &&
+      } else if (
+        node.type === 'cluster' &&
         node.specs &&
         node.specs.clusterNames
       ) {
+        // Get remote cluster count
         remoteClusterCount = node.specs.clusterNames.length
-      }
-      // Get cluster resource statuses
-      else if ( node.type !== 'subscription' &&
+      } else if (
+        node.type !== 'subscription' &&
         node.type !== 'rules' &&
         node.specs &&
         node.specs.pulse
       ) {
+        // Get cluster resource statuses
         statusLoaded = true
         tempNodeStatuses[node.specs.pulse]++
       }
@@ -563,31 +577,38 @@ export const getAppOverviewCardsData = (topologyData, appName, appNamespace, nod
       updateFlags.nodesLoaded = false
     }
 
-    return ({
+    return {
       appName: appName,
       appNamespace: appNamespace,
       creationTimestamp: creationTimestamp,
       remoteClusterCount: remoteClusterCount,
       nodeStatuses: nodeStatuses,
       targetLink: targetLink
-    })
+    }
   } else {
-    return ({
+    return {
       appName: appName,
       appNamespace: appNamespace,
       creationTimestamp: -1,
       remoteClusterCount: -1,
       nodeStatuses: -1,
       targetLink: targetLink
-    })
+    }
   }
 }
 
-export const getAppOverviewSubsData = (appList, appName, appNamespace, appSubscriptions, updateFlags) => {
+export const getAppOverviewSubsData = (
+  appList,
+  appName,
+  appNamespace,
+  appSubscriptions,
+  updateFlags
+) => {
   if (appList && appList.items && appList.items.length > 0) {
     updateFlags.subsLoaded = true
     appList.items.forEach(app => {
-      if (app.name === appName &&
+      if (
+        app.name === appName &&
         app.namespace === appNamespace &&
         app.related &&
         app.related.length > 0
@@ -597,7 +618,10 @@ export const getAppOverviewSubsData = (appList, appName, appNamespace, appSubscr
           if (resource.kind === 'subscription') {
             resource.items.forEach(sub => {
               if (!sub._hostingSubscription) {
-                appSubscriptions.subsList.push({name: sub.name, id: sub._uid})
+                appSubscriptions.subsList.push({
+                  name: sub.name,
+                  id: sub._uid
+                })
               }
             })
           }
@@ -607,7 +631,7 @@ export const getAppOverviewSubsData = (appList, appName, appNamespace, appSubscr
   } else {
     updateFlags.subsLoaded = false
   }
-  return ({
+  return {
     subsList: appSubscriptions.subsList
-  })
+  }
 }

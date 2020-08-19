@@ -40,7 +40,6 @@ const ResourceOverview = withLocale(
     params,
     actions,
     showExpandedTopology,
-    locale,
     loading,
     openEditApplicationModal,
     currentApplicationInfo,
@@ -69,11 +68,11 @@ const ResourceOverview = withLocale(
             {loading ? (
               loadingComponent()
             ) : (
-                <OverviewCards
-                  selectedAppName={params.name}
-                  selectedAppNS={params.namespace}
-                  serverProps={serverProps}
-                />
+              <OverviewCards
+                selectedAppName={params.name}
+                selectedAppNS={params.namespace}
+                serverProps={serverProps}
+              />
             )}
           </div>
 
@@ -89,10 +88,6 @@ const ResourceOverview = withLocale(
     )
   }
 )
-
-ResourceOverview.contextTypes = {
-  locale: PropTypes.string
-}
 
 ResourceOverview.propTypes = {
   item: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),

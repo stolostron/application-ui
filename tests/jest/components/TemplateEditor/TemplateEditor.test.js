@@ -70,7 +70,6 @@ describe("on control change function", () => {
 
 describe("getResourceJSON function", () => {
   const result = [
-    { apiVersion: "v1", kind: "Namespace", metadata: { name: null } },
     {
       apiVersion: "app.k8s.io/v1beta1",
       kind: "Application",
@@ -84,11 +83,6 @@ describe("getResourceJSON function", () => {
           matchExpressions: [{ key: "app", operator: "In", values: [null] }]
         }
       }
-    },
-    {
-      apiVersion: "apps.open-cluster-management.io/v1",
-      kind: "PlacementRule",
-      metadata: { labels: { app: null }, name: "-placement", namespace: null }
     }
   ];
 

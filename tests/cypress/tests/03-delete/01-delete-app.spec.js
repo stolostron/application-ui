@@ -3,16 +3,21 @@
  *******************************************************************************/
 
 const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
-import { noResource, resourceTable, modal } from "../../views/common";
+import {
+  noResource,
+  resourceTable,
+  modal,
+  notification
+} from "../../views/common";
 
-describe("delete application", () => {
+describe("Delete application", () => {
   for (const resource in wizards) {
-    const { url, name } = wizards[resource];
-    it(`can be created on resource ${resource}`, () => {
+    const { name } = wizards[resource];
+    it(`${name} should be successful from UI`, () => {
       cy.visit("/multicloud/applications");
       if (noResource.shouldNotExist()) {
         cy
-          .get("#undefined-search")
+          .get("#undefined-search", { timeout: 20 * 1000 })
           .click()
           .type(name);
         resourceTable.rowShouldExist(name);
@@ -28,6 +33,7 @@ describe("delete application", () => {
 
         // after deleting the app, it should not exist in the app table
         resourceTable.rowShouldNotExist(name, 90 * 1000);
+        notification.shouldExist("success");
       } else {
         cy.log("No apps to delete...");
       }

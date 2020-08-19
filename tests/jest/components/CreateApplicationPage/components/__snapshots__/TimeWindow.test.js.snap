@@ -145,7 +145,7 @@ exports[`TimeWindow component renders as expected 1`] = `
               <div
                 className="config-descr"
               >
-                Please select at least one day below to create a time window.
+                Select at least one day to create a time window.
               </div>
               <div
                 className="config-days-selector"
@@ -341,7 +341,7 @@ exports[`TimeWindow component renders as expected 1`] = `
               <div
                 className="config-title"
               >
-                Timezone
+                Time zone
                  
                 *
               </div>

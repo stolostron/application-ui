@@ -46,10 +46,13 @@ testCode=0
 npx cypress run --config-file "./cypress.json" --browser $BROWSER
 testCode=$?
 
-echo "Copying outputed screenshots and videos..."
+echo "Copying Mocha JSON and XML output to /results..."
+cp -r ./test-output/cypress/json/* /results
+cp -r ./test-output/cypress/xml/* /results
+
+echo "Copying outputed screenshots and videos to /results..."
 cp -r ./cypress/screenshots /results/screenshots
 cp -r ./cypress/videos /results/videos
-
 
 # merge xml reports
 # echo "Merging xml reports..."

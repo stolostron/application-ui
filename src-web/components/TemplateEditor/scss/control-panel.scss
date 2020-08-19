@@ -385,6 +385,7 @@
         background-color: white;
         .bx--list-box__menu {
           max-height: 12rem;
+          z-index: 500;
         }
       }
     }
@@ -545,6 +546,7 @@
       .bx--list-box {
         .bx--list-box__menu {
           max-height: 17rem;
+          z-index: 500;
         }
       }
 
@@ -562,6 +564,7 @@
         .bx--list-box__menu {
           max-height: 12rem;
           animation: slideopen 200ms  ease-in-out;
+          z-index: 500;
         }
 
         &.bx--combo-box input::placeholder {

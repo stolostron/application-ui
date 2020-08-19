@@ -77,11 +77,12 @@ export const secondaryHeader = {
 };
 
 export const noResource = {
-  shouldExist: () => cy.get(".no-resource", { timeout: 20000 }).should("exist"),
+  shouldExist: () =>
+    cy.get(".no-resource", { timeout: 20000 }).should("be.visible"),
   shouldNotExist: timeout =>
     cy
       .get(".no-resource", { timeout: timeout ? timeout : 20 * 1000 })
-      .should("not.exist")
+      .should("not.be.visible")
 };
 
 export const modal = {
@@ -93,7 +94,7 @@ export const modal = {
   shouldNotBeVisible: () =>
     cy.get(".bx--modal-container", { timeout: 20000 }).should("not.be.visible"),
   clickDanger: () => cy.get(".bx--modal .bx--btn--danger--primary").click(),
-  clickPrimary: () => cy.get(".bx--modal .bx--btn--primary").click(),
+  clickPrimary: () => cy.get(".bx--btn.bx--btn--sm.bx--btn--primary").click(),
   clickSecondary: () =>
     cy
       .get(".bx--btn.bx--btn--sm.bx--btn--secondary", { timeout: 20000 })

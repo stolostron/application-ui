@@ -67,10 +67,15 @@ export const getClusterName = nodeId => {
   if (nodeId === undefined) {
     return ''
   }
-  const startPos = nodeId.indexOf('--clusters--') + 12
-  const endPos = nodeId.indexOf('--', startPos)
+  const clusterIndex = nodeId.indexOf('--clusters--')
+  if (clusterIndex !== -1) {
+    const startPos = nodeId.indexOf('--clusters--') + 12
+    const endPos = nodeId.indexOf('--', startPos)
+    return nodeId.slice(startPos, endPos)
+  }
 
-  return nodeId.slice(startPos, endPos)
+  //node must be deployed locally on hub, such as ansible jobs
+  return 'local-cluster'
 }
 
 export const getWrappedNodeLabel = (label, width, rows = 3) => {
@@ -1125,6 +1130,15 @@ export const setSubscriptionDeployStatus = (node, details) => {
   if (R.pathOr('', ['type'])(node) !== 'subscription') {
     return details
   }
+
+  const isLocalPlacementSubs = _.get(node, 'specs.raw.spec.placement.local')
+  if (isLocalPlacementSubs) {
+    details.push({
+      labelKey: 'resource.subscription.local',
+      value: 'true'
+    })
+  }
+
   details.push({
     type: 'spacer'
   })
@@ -1146,7 +1160,11 @@ export const setSubscriptionDeployStatus = (node, details) => {
     if (isLocalFailedSubscription) {
       localSubscriptionFailed = true
     }
-    if (!subscription._hubClusterResource || isLocalFailedSubscription) {
+    if (
+      isLocalPlacementSubs ||
+      !subscription._hubClusterResource ||
+      isLocalFailedSubscription
+    ) {
       const subscriptionPulse = R.contains(
         'Fail',
         R.pathOr('', ['status'])(subscription)
@@ -1164,7 +1182,6 @@ export const setSubscriptionDeployStatus = (node, details) => {
       const subscriptionStatus = R.pathOr(emptyStatusErrorMsg, ['status'])(
         subscription
       )
-
       details.push({
         labelValue: subscription.cluster,
         value: subscriptionStatus,
@@ -1185,8 +1202,12 @@ export const setSubscriptionDeployStatus = (node, details) => {
     }
   })
 
-  //show placement error only if local subscription is successful
-  if (Object.keys(resourceMap).length === 1 && !localSubscriptionFailed) {
+  //show missing remote placement error only if local subscription is successful and is not local placement
+  if (
+    Object.keys(resourceMap).length === 1 &&
+    !localSubscriptionFailed &&
+    !isLocalPlacementSubs
+  ) {
     //no remote subscriptions
     details.push({
       labelValue: msgs.get('resource.subscription.remote'),

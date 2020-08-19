@@ -246,6 +246,15 @@ const githubChannelData = [
     collapsed: false
   },
   {
+    id: 'local-cluster-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.localClusters',
+    tooltip: 'tooltip.creation.app.settings.localClusters',
+    onSelect: updatePlacementControls,
+    active: false,
+    available: []
+  },
+  {
     id: 'online-cluster-only-checkbox',
     type: 'checkbox',
     name: 'creation.app.settings.onlineClusters',
@@ -369,6 +378,15 @@ const objectstoreChannelData = [
     overline: true,
     collapsable: true,
     collapsed: false
+  },
+  {
+    id: 'local-cluster-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.localClusters',
+    tooltip: 'tooltip.creation.app.settings.localClusters',
+    onSelect: updatePlacementControls,
+    active: false,
+    available: []
   },
   {
     id: 'online-cluster-only-checkbox',

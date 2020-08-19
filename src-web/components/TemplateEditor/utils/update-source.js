@@ -364,7 +364,7 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
             case 'N':
               // convert new array item to new range
               kind = 'N'
-              obj = obj.$v[index]
+              obj = obj.$v[index].$r ? obj.$v[index] : obj
               break
             case 'D':
               // if array delete, ignore any other edits within array

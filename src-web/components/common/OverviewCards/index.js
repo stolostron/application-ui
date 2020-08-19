@@ -204,7 +204,7 @@ class OverviewCards extends React.Component {
               </div>
 
               <div className='details-item'>
-                <a className='details-item-link' href={(getUrl + appOverviewCardsData.targetLink)} target="_blank">
+                <a className='details-item-link' id='app-search-link' href={(getUrl + appOverviewCardsData.targetLink)} target="_blank">
                   <div>
                     {msgs.get('dashboard.card.overview.cards.search.resource', locale)}
                     <Icon

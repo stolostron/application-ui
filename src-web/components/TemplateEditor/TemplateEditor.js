@@ -185,6 +185,10 @@ export default class TemplateEditor extends React.Component {
     this.handleGroupChange = this.handleGroupChange.bind(this)
     const { type = 'unknown' } = this.props
     this.splitterSizeCookie = `TEMPLATE-EDITOR-SPLITTER-SIZE-${type.toUpperCase()}`
+    window.addEventListener('beforeunload', ((event) => {
+      event.preventDefault()
+      event.returnValue = !this.state.isDirty ? 'saveOk' : ''
+    }).bind(this))
   }
 
   componentDidMount() {

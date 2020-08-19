@@ -269,13 +269,16 @@ class ControlPanelTable extends React.Component {
                         page: 1
                       })
                     }
+                    id='resource-search-bar'
                     translateWithId={translateWithId.bind(null, locale)}
                     value={searchValue}
                     placeHolderText={msgs.get('search.label', locale)}
                   />
                   <TableToolbarContent>{actions}</TableToolbarContent>
                 </TableToolbar>
-                <Table zebra={false}>
+                <Table
+                  className='resource-table'
+                  zebra={false} >
                   <TableHead>
                     <TableRow>
                       <TableSelectAll
@@ -342,6 +345,7 @@ class ControlPanelTable extends React.Component {
                       <TableRow
                         key={row.id}
                         className={!originalSet.has(row.id) && 'new-row'}
+                        data-row-name={_.get(row, 'cells[0].value')}
                       >
                         <TableSelectRow
                           id={row.id}

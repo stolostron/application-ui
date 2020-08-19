@@ -14,12 +14,83 @@ import {
   VALIDATE_ALPHANUMERIC,
   VALIDATE_URL
 } from '../../TemplateEditor/utils/validation'
-import { HCMChannelList } from '../../../../lib/client/queries'
+import {
+  HCMChannelList,
+  HCMNamespaceList
+} from '../../../../lib/client/queries'
 import TimeWindow from '../components/TimeWindow'
 import ClusterSelector from '../components/ClusterSelector'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
+
+export const loadExistingNamespaces = () => {
+  return {
+    query: HCMNamespaceList,
+    loadingDesc: 'creation.app.loading.namespaces',
+    setAvailable: setAvailableNSSpecs.bind(null)
+  }
+}
+
+export const setAvailableNSSpecs = (control, result) => {
+  const { loading } = result
+  const { data = {} } = result
+  const { items } = data
+  control.available = []
+  control.availableMap = {}
+  control.isLoading = false
+  const error = items ? null : result.error
+  if (error) {
+    control.isFailed = true
+  } else if (items) {
+    control.availableData = _.keyBy(items, 'metadata.name')
+    control.available = Object.keys(control.availableData).sort()
+  } else {
+    control.isLoading = loading
+  }
+}
+
+export const updateNSControls = (urlControl, control) => {
+  const { active, availableData } = urlControl
+  const userDefinedNSControl = control.find(
+    ({ id }) => id === 'userDefinedNamespace'
+  )
+  if (userDefinedNSControl) {
+    if (active && availableData && !(active in availableData)) {
+      userDefinedNSControl.active = active
+    } else {
+      userDefinedNSControl.active = ''
+    }
+  }
+  return userDefinedNSControl
+}
+
+export const updatePlacementControls = (urlControl, control) => {
+  const { active } = urlControl
+
+  const onlineControl = control.find(
+    ({ id }) => id === 'online-cluster-only-checkbox'
+  )
+  const clusterSelectorControl = control.find(
+    ({ id }) => id === 'clusterSelector'
+  )
+
+  const clusterReplicasControl = control.find(
+    ({ id }) => id === 'clusterReplicas'
+  )
+
+  if (active === true) {
+    onlineControl && _.set(onlineControl, 'type', 'hidden')
+    clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'hidden')
+    clusterReplicasControl && _.set(clusterReplicasControl, 'type', 'hidden')
+  } else {
+    onlineControl && _.set(onlineControl, 'type', 'checkbox')
+    clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'custom')
+    clusterReplicasControl && _.set(clusterReplicasControl, 'type', 'text')
+  }
+
+  return control
+}
 
 export const loadExistingChannels = type => {
   return {
@@ -251,7 +322,6 @@ export const controlData = [
     tooltip: 'tooltip.creation.app.name',
     id: 'name',
     type: 'text',
-    syncWith: 'namespace',
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
@@ -262,14 +332,19 @@ export const controlData = [
     name: 'creation.app.namespace',
     tooltip: 'tooltip.creation.app.namespace',
     id: 'namespace',
-    type: 'text',
-    syncedWith: 'name',
-    syncedSuffix: '-ns',
+    type: 'combobox',
+    fetchAvailable: loadExistingNamespaces(),
+    onSelect: updateNSControls,
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
       required: true
     }
+  },
+  {
+    id: 'userDefinedNamespace',
+    type: 'hidden',
+    active: ''
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  channels  /////////////////////////////////////
@@ -368,6 +443,15 @@ export const controlData = [
     overline: true,
     collapsable: true,
     collapsed: false
+  },
+  {
+    id: 'local-cluster-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.localClusters',
+    tooltip: 'tooltip.creation.app.settings.localClusters',
+    onSelect: updatePlacementControls,
+    active: true,
+    available: []
   },
   {
     id: 'online-cluster-only-checkbox',

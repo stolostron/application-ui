@@ -989,6 +989,53 @@ describe("createResourceSearchLink for details with model info, same names", () 
   });
 });
 
+describe("setSubscriptionDeployStatus with local hub subscription error ", () => {
+  const node = {
+    type: "subscription",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          status: "Failed",
+          _hubClusterResource: "true"
+        }
+      },
+      raw: {
+        spec: {
+          placement: {
+            local: true
+          }
+        }
+      }
+    }
+  };
+  const response = [
+    { labelKey: "resource.subscription.local", value: "true" },
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "local", status: "failure", value: "Failed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus with local hub subscription error", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+  });
+});
+
 describe("setSubscriptionDeployStatus with hub error", () => {
   const node = {
     type: "subscription",
@@ -3441,6 +3488,14 @@ describe("processResourceActionLink dummy link", () => {
 describe("getClusterName node id undefined", () => {
   it("should return empty string", () => {
     expect(getClusterName(undefined)).toEqual("");
+  });
+});
+
+describe("getClusterName node id doesn't have cluster info", () => {
+  it("should return empty string", () => {
+    const nodeId =
+      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch";
+    expect(getClusterName(nodeId)).toEqual("local-cluster");
   });
 });
 

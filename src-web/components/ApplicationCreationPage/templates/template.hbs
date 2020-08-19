@@ -4,11 +4,13 @@
 {{! ==================Application ============================ }}
 {{! ========================================================== }}
 {{! ========================================================== }}
-apiVersion: v1                      
+{{#if userDefinedNamespace}}
+apiVersion: v1                    
 kind: Namespace
 metadata:
   name: {{{namespace}}}                             
 ---
+{{/if}}
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
@@ -94,9 +96,13 @@ spec:
   channel: {{{../../../name}}}-{{{../../channelName}}}-ns/{{{../../../name}}}-{{{../../channelName}}}
 {{/if}}
   placement:
+{{#if ../../local-cluster-checkbox}} 
+    local: true
+{{else}}
     placementRef:
       kind: PlacementRule
       name: {{{../../name}}}-placement
+{{/if}}   
 {{#if ../../timeWindow.mode}}
   timewindow:
     windowtype: {{{../../../timeWindow.mode}}}
@@ -179,9 +185,13 @@ spec:
   channel: {{{../../../name}}}-{{{../../channelName}}}-ns/{{{../../../name}}}-{{{../../channelName}}}
 {{/if}}
   placement:
+{{#if ../../../local-cluster-checkbox}} 
+    local: true
+{{else}}
     placementRef:
       kind: PlacementRule
       name: {{{../../name}}}-placement
+{{/if}}      
 {{#if ../../timeWindow.mode}}
   timewindow:
     windowtype: {{{../../../timeWindow.mode}}}
@@ -221,6 +231,7 @@ spec:
 {{! ========================================================== }}
 
 {{#if channels.0.channelType}}
+{{#unless local-cluster-checkbox}} 
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
@@ -262,5 +273,6 @@ spec:
   {{/if}}    
   {{/if}}
 {{/if}}
-
+{{/unless}}
 {{/if}}
+

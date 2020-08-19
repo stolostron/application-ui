@@ -5,10 +5,10 @@
 const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { noResource, resourceTable, modal } from "../../views/common";
 
-describe("delete application", () => {
+describe("Delete application", () => {
   for (const resource in wizards) {
     const { name } = wizards[resource];
-    it(`can be created on resource ${resource}`, () => {
+    it(`${name} should be successful from UI`, () => {
       cy.visit("/multicloud/applications");
       if (noResource.shouldNotExist()) {
         cy

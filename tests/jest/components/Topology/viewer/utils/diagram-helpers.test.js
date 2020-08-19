@@ -2334,8 +2334,48 @@ describe("setResourceDeployStatus 1 ", () => {
       "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
     specs: {}
   };
-  it("setResourceDeployStatus not deployed", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(undefined);
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "braveman", status: "pending", value: "Not Deployed" },
+    { type: "spacer" },
+    { labelValue: "possiblereptile", status: "pending", value: "Not Deployed" },
+    { type: "spacer" },
+    { labelValue: "sharingpenguin", status: "pending", value: "Not Deployed" },
+    { type: "spacer" },
+    { labelValue: "relievedox", status: "pending", value: "Not Deployed" },
+    { type: "spacer" }
+  ];
+  it("setResourceDeployStatus not deployed 1", () => {
+    expect(setResourceDeployStatus(node, [])).toEqual(result);
+  });
+});
+
+describe("setResourceDeployStatus ansiblejob ", () => {
+  const node = {
+    type: "ansiblejob",
+    name: "bigjoblaunch",
+    namespace: "default",
+    id:
+      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+    specs: {
+      ansiblejobModel: {
+        "bigjoblaunch-local-cluster": {
+          label: "tower_job_id=999999999"
+        }
+      }
+    }
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "local-cluster", status: "pending", value: "Not Deployed" },
+    { type: "spacer" }
+  ];
+  it("setResourceDeployStatus ansiblejob", () => {
+    expect(setResourceDeployStatus(node, [])).toEqual(result);
   });
 });
 
@@ -2367,12 +2407,31 @@ describe("setResourceDeployStatus 2 ", () => {
       }
     }
   };
-  it("setResourceDeployStatus deployed", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(undefined);
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "possiblereptile", status: "checkmark", value: "Deployed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "possiblereptile",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setResourceDeployStatus deployed 2", () => {
+    expect(setResourceDeployStatus(node, [])).toEqual(result);
   });
 });
 
-describe("setResourceDeployStatus 2 ", () => {
+describe("setResourceDeployStatus 3 ", () => {
   const node = {
     type: "service",
     name: "cassandra",
@@ -2388,8 +2447,21 @@ describe("setResourceDeployStatus 2 ", () => {
       }
     }
   };
-  it("setResourceDeployStatus deployed", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(undefined);
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "braveman", status: "pending", value: "Not Deployed" },
+    { type: "spacer" },
+    { labelValue: "possiblereptile", status: "pending", value: "Not Deployed" },
+    { type: "spacer" },
+    { labelValue: "sharingpenguin", status: "pending", value: "Not Deployed" },
+    { type: "spacer" },
+    { labelValue: "relievedox", status: "pending", value: "Not Deployed" },
+    { type: "spacer" }
+  ];
+  it("setResourceDeployStatus deployed 3", () => {
+    expect(setResourceDeployStatus(node, [])).toEqual(result);
   });
 });
 

@@ -28,6 +28,7 @@ resources(() => {
 export class ClusterSelector extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -45,7 +46,7 @@ export class ClusterSelector extends React.Component {
   }
 
   render() {
-    const { locale, control } = this.props
+    const { controlId, locale, control } = this.props
     const { name, active, validation = {} } = control
     const modeSelected = active && active.mode ? true : false
     return (
@@ -63,7 +64,7 @@ export class ClusterSelector extends React.Component {
             <Checkbox
               className="clusterSelector-checkbox"
               name="clusterSelector-checkbox"
-              id="clusterSelector-checkbox"
+              id={controlId}
               labelText={msgs.get(
                 'tooltip.creation.app.settings.clusterSelector',
                 locale

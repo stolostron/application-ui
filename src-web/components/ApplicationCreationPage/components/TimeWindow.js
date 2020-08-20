@@ -31,6 +31,7 @@ resources(() => {
 export class TimeWindow extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -49,7 +50,7 @@ export class TimeWindow extends React.Component {
   }
 
   render() {
-    const { locale, control } = this.props
+    const { controlId, locale, control } = this.props
     const { name, active, validation = {} } = control
     const modeSelected = active && active.mode ? true : false
     const daysSelectorID = 'days-selector'
@@ -74,7 +75,7 @@ export class TimeWindow extends React.Component {
             >
               <RadioButton
                 className="mode-btn"
-                id="default-mode"
+                id={`default-mode-${controlId}`}
                 labelText={msgs.get(
                   'creation.app.settings.timeWindow.defaultMode',
                   locale
@@ -84,7 +85,7 @@ export class TimeWindow extends React.Component {
               />
               <RadioButton
                 className="mode-btn"
-                id="active-mode"
+                id={`active-mode-${controlId}`}
                 labelText={msgs.get(
                   'creation.app.settings.timeWindow.activeMode',
                   locale
@@ -94,7 +95,7 @@ export class TimeWindow extends React.Component {
               />
               <RadioButton
                 className="mode-btn"
-                id="blocked-mode"
+                id={`blocked-mode-${controlId}`}
                 labelText={msgs.get(
                   'creation.app.settings.timeWindow.blockedMode',
                   locale
@@ -132,7 +133,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Monday"
                           name={daysSelectorID}
-                          id="mon"
+                          id={`mon-${controlId}`}
                           value="&quot;Monday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -140,7 +141,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Tuesday"
                           name={daysSelectorID}
-                          id="tues"
+                          id={`tues-${controlId}`}
                           value="&quot;Tuesday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -148,7 +149,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Wednesday"
                           name={daysSelectorID}
-                          id="wed"
+                          id={`wed-${controlId}`}
                           value="&quot;Wednesday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -156,7 +157,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Thursday"
                           name={daysSelectorID}
-                          id="thurs"
+                          id={`thurs-${controlId}`}
                           value="&quot;Thursday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -164,7 +165,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Friday"
                           name={daysSelectorID}
-                          id="fri"
+                          id={`fri-${controlId}`}
                           value="&quot;Friday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -174,7 +175,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Saturday"
                           name={daysSelectorID}
-                          id="sat"
+                          id={`sat-${controlId}`}
                           value="&quot;Saturday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -182,7 +183,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Sunday"
                           name={daysSelectorID}
-                          id="sun"
+                          id={`sun-${controlId}`}
                           value="&quot;Sunday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}

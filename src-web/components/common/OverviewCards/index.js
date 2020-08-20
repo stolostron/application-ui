@@ -70,7 +70,7 @@ class OverviewCards extends React.Component {
     this.state = {
       nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 0 },
       appSubscriptions: { subsList: [] },
-      updateFlags: { nodesLoaded: false, subsLoaded: false, showSubs: false }
+      updateFlags: { subsLoaded: false, showSubs: false }
     }
     // this.reload = this.reload.bind(this)
   }
@@ -126,7 +126,6 @@ class OverviewCards extends React.Component {
       selectedAppName,
       selectedAppNS,
       nodeStatuses,
-      updateFlags,
       targetLink
     )
 
@@ -137,6 +136,20 @@ class OverviewCards extends React.Component {
       appSubscriptions,
       updateFlags
     )
+
+    let clusterString = ''
+    if (appOverviewCardsData.localClusterDeploy) {
+      if (appOverviewCardsData.remoteClusterCount > 0) {
+        const tempString =
+          appOverviewCardsData.remoteClusterCount +
+          ' Remote, 1 Local deployment'
+        clusterString = tempString
+      } else {
+        clusterString = 'Local deployment'
+      }
+    } else {
+      clusterString = appOverviewCardsData.remoteClusterCount + ' Remote'
+    }
 
     return (
       <div className="overview-cards-container">
@@ -182,15 +195,15 @@ class OverviewCards extends React.Component {
             <div className="details-col" id="right-col">
               <div className="details-item">
                 <div className="details-item-title right-item">
-                  {msgs.get(
-                    'dashboard.card.overview.cards.remote.clusters',
-                    locale
-                  )}
+                  {msgs.get('dashboard.card.overview.cards.clusters', locale)}
                 </div>
                 <div className="details-item-content">
                   {this.renderData(
-                    appOverviewCardsData.remoteClusterCount,
-                    appOverviewCardsData.remoteClusterCount,
+                    appOverviewCardsData.remoteClusterCount !== -1 ||
+                    appOverviewCardsData.localClusterDeploy
+                      ? 0
+                      : -1,
+                    clusterString,
                     '30%'
                   )}
                 </div>
@@ -243,6 +256,7 @@ class OverviewCards extends React.Component {
             : ''}
           <Button
             className="toggle-subs-btn"
+            disabled={appOverviewSubsData.subsList.length === 0 ? true : false}
             onClick={() => this.toggleSubsBtn(updateFlags)}
           >
             {this.renderData(

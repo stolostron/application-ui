@@ -503,7 +503,6 @@ export const getAppOverviewCardsData = (
   appName,
   appNamespace,
   nodeStatuses,
-  updateFlags,
   targetLink
 ) => {
   // Get app details only when topology data is properly loaded for the selected app
@@ -517,6 +516,7 @@ export const getAppOverviewCardsData = (
   ) {
     let creationTimestamp = ''
     let remoteClusterCount = 0
+    let localClusterDeploy = false
     const tempNodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
     let statusLoaded = false
 
@@ -524,10 +524,7 @@ export const getAppOverviewCardsData = (
       // Get date and time of app creation
       if (
         node.type === 'application' &&
-        node.specs &&
-        node.specs.raw &&
-        node.specs.raw.metadata &&
-        node.specs.raw.metadata.creationTimestamp
+        _.get(node, 'specs.raw.metadata.creationTimestamp')
       ) {
         const timestampArray = new Date(
           node.specs.raw.metadata.creationTimestamp
@@ -542,18 +539,20 @@ export const getAppOverviewCardsData = (
         const time = timeHour12 + ':' + timeArray[1] + ' ' + timePeriod
 
         creationTimestamp = date + ', ' + time
-      } else if (
-        node.type === 'cluster' &&
-        node.specs &&
-        node.specs.clusterNames
-      ) {
+      } else if (node.type === 'cluster' && _.get(node, 'specs.clusterNames')) {
         // Get remote cluster count
         remoteClusterCount = node.specs.clusterNames.length
       } else if (
+        node.type === 'subscription' &&
+        _.get(node, 'specs.raw.spec.placement.local')
+      ) {
+        localClusterDeploy = true
+      } else if (
+        node.type !== 'application' &&
+        node.type !== 'cluster' &&
         node.type !== 'subscription' &&
         node.type !== 'rules' &&
-        node.specs &&
-        node.specs.pulse
+        _.get(node, 'specs.pulse')
       ) {
         // Get cluster resource statuses
         statusLoaded = true
@@ -566,15 +565,6 @@ export const getAppOverviewCardsData = (
       Object.keys(nodeStatuses).forEach(pulse => {
         nodeStatuses[pulse] = tempNodeStatuses[pulse]
       })
-      updateFlags.nodesLoaded = true
-    }
-
-    // Clear node status list if remote clusters are detached
-    if (remoteClusterCount === 0 && updateFlags.nodesLoaded) {
-      Object.keys(nodeStatuses).forEach(pulse => {
-        nodeStatuses[pulse] = 0
-      })
-      updateFlags.nodesLoaded = false
     }
 
     return {
@@ -582,6 +572,7 @@ export const getAppOverviewCardsData = (
       appNamespace: appNamespace,
       creationTimestamp: creationTimestamp,
       remoteClusterCount: remoteClusterCount,
+      localClusterDeploy: localClusterDeploy,
       nodeStatuses: nodeStatuses,
       targetLink: targetLink
     }
@@ -591,6 +582,7 @@ export const getAppOverviewCardsData = (
       appNamespace: appNamespace,
       creationTimestamp: -1,
       remoteClusterCount: -1,
+      localClusterDeploy: false,
       nodeStatuses: -1,
       targetLink: targetLink
     }

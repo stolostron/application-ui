@@ -77,11 +77,7 @@ export const validateResourceTable = name => {
 export const deleteApplicationUI = name => {
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
-    cy
-      .get("#undefined-search", { timeout: 100 * 1000 })
-      .click()
-      .type(name);
-    resourceTable.rowShouldExist(name);
+    resourceTable.rowShouldExist(name, 150 * 1000);
     resourceTable.openRowMenu(name);
     resourceTable.menuClickDelete();
     modal.shouldBeOpen();

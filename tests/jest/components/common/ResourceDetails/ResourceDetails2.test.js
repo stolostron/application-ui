@@ -43,7 +43,8 @@ import {
   reduxStoreAppPipelineWithCEM_Inception,
   resourceType,
   staticResourceDataApp,
-  HCMApplication
+  HCMApplication,
+  topology
 } from "../../../components/TestingData";
 
 const middleware = [thunkMiddleware];
@@ -82,6 +83,7 @@ describe("ResourceDetails", () => {
         <BrowserRouter>
           <Provider store={storeApp}>
             <ResourceDetails
+              topology={topology}
               item={HCMApplication}
               match={mockData.match}
               loading={false}

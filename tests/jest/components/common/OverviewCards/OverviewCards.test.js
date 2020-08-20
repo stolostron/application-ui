@@ -10,38 +10,101 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
   getSearchClient: jest.fn(() => {
     return null;
   }),
-  get: jest.fn(resourceType => {
-    //resourceType.list is always ApplicationsList
-    return Promise.resolve({
-      data: {
-        applications: {
-          "mortgage-app-default": {
-            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",
-            name: "mortgage-app",
-            namespace: "default",
-            dashboard:
-              "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
-            clusterCount: 1,
-            remoteSubscriptionStatusCount: {
-              Subscribed: 1
-            },
-            podStatusCount: {
-              Running: 1
-            },
-            hubSubscriptions: [
-              {
-                _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
-                status: "Propagated",
-                channel: "default/mortgage-channel",
-                __typename: "Subscription"
-              }
-            ],
-            created: "2020-02-18T23:57:04Z",
-            __typename: "Application"
-          }
+  getResource: jest.fn((resourceType, { namespace }) => {
+    if (
+      resourceType === "channel" ||
+      (resourceType.name && resourceType.name === "HCMChannel")
+    ) {
+      const channelData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "channel",
+                  name: "mortgage-channel",
+                  namespace: "mortgage-ch",
+                  _hubClusterResource: "true"
+                }
+              ]
+            }
+          ]
         }
-      }
-    });
+      };
+      return Promise.resolve(channelData);
+    }
+
+    if (
+      resourceType === "subscription" ||
+      (resourceType.name && resourceType.name === "HCMSubscription")
+    ) {
+      const subscriptionData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "subscription",
+                  name: "orphan",
+                  namespace: "default",
+                  status: "Propagated",
+                  cluster: "local-cluster",
+                  channel: "default/mortgage-channel",
+                  apigroup: "app.ibm.com",
+                  apiversion: "v1alpha1",
+                  _rbac: "default_app.ibm.com_subscriptions",
+                  _hubClusterResource: "true",
+                  _uid:
+                    "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26orphan",
+                  packageFilterVersion: ">=1.x",
+                  label:
+                    "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
+                  related: []
+                }
+              ]
+            }
+          ]
+        }
+      };
+      return Promise.resolve(subscriptionData);
+    }
+
+    if (
+      resourceType === "placementrule" ||
+      (resourceType.name && resourceType.name === "HCMPlacementRule")
+    ) {
+      const prData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "subscription",
+                  name: "orphan",
+                  namespace: "default",
+                  status: "Propagated",
+                  cluster: "local-cluster",
+                  channel: "default/mortgage-channel",
+                  apigroup: "app.ibm.com",
+                  apiversion: "v1alpha1",
+                  _rbac: "default_app.ibm.com_subscriptions",
+                  _hubClusterResource: "true",
+                  _uid:
+                    "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26orphan",
+                  packageFilterVersion: ">=1.x",
+                  label:
+                    "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
+                  related: []
+                }
+              ]
+            }
+          ]
+        }
+      };
+      return Promise.resolve(prData);
+    }
+
+    return Promise.resolve({ response: "invalid resonse" });
   }),
   search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
 }));
@@ -103,9 +166,9 @@ describe("OverviewCards", () => {
       </Provider>
     );
 
-    wrapper.find({ id: "0_overviewCardsData" }).simulate("click");
+    wrapper.find({ id: "app-search-link" }).simulate("click");
     wrapper
-      .find({ id: "0_overviewCardsData" })
+      .find({ id: "app-search-link" })
       .simulate("keypress", { key: "Enter" });
   });
 

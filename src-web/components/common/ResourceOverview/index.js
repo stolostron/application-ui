@@ -21,7 +21,6 @@ import {
 import { handleEditResource, loadingComponent } from './utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
-import msgs from '../../../../nls/platform.properties'
 import {
   fetchApplicationResource,
   closeModals
@@ -41,7 +40,6 @@ const ResourceOverview = withLocale(
     params,
     actions,
     showExpandedTopology,
-    locale,
     loading,
     openEditApplicationModal,
     currentApplicationInfo,
@@ -67,19 +65,14 @@ const ResourceOverview = withLocale(
         <HeaderActions />
         <React.Fragment>
           <div className="overview-content-bottom overview-content-with-padding">
-            <div className="overview-content-header">
-              {msgs.get('dashboard.card.deployment.summary.title', locale)}
-            </div>
             {loading ? (
               loadingComponent()
             ) : (
-              <div className="overview-cards-info-container">
-                <OverviewCards
-                  selectedAppName={params.name}
-                  selectedAppNS={params.namespace}
-                  serverProps={serverProps}
-                />
-              </div>
+              <OverviewCards
+                selectedAppName={params.name}
+                selectedAppNS={params.namespace}
+                serverProps={serverProps}
+              />
             )}
           </div>
 
@@ -95,10 +88,6 @@ const ResourceOverview = withLocale(
     )
   }
 )
-
-ResourceOverview.contextTypes = {
-  locale: PropTypes.string
-}
 
 ResourceOverview.propTypes = {
   item: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),

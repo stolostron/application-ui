@@ -268,7 +268,7 @@
   "dashboard.card.overview.cards.name": "Name",
   "dashboard.card.overview.cards.namespace": "Namespace",
   "dashboard.card.overview.cards.created": "Created",
-  "dashboard.card.overview.cards.remote.clusters": "Remote clusters",
+  "dashboard.card.overview.cards.clusters": "Clusters",
   "dashboard.card.overview.cards.cluster.resource.status": "Cluster resource status",
   "dashboard.card.overview.cards.search.resource": "Search resource",
   "dashboard.card.overview.cards.subs.btn.show": "Show subscription details",

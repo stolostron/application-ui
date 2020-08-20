@@ -74,6 +74,7 @@ export const getLegendTitle = (type, locale) => {
   case 'daemonset':
   case 'replicaset':
   case 'configmap':
+  case 'ansiblejob':
   case 'customresource':
   case 'statefulset':
   case 'storageclass':

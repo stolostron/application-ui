@@ -105,7 +105,7 @@ export const modal = {
 export const notification = {
   shouldExist: type =>
     cy
-      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 10000 })
+      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 50 * 1000 })
       .should("exist")
 };
 

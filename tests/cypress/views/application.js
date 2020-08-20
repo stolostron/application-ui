@@ -68,12 +68,7 @@ export const validateResourceTable = name => {
   cy.visit(`/multicloud/applications`);
   cy.get(".search-query-card-loading").should("not.exist");
   pageLoader.shouldNotExist();
-  cy
-    .get("#bx-pagination-select-resource-table-pagination", {
-      timeout: 60 * 1000
-    })
-    .should("exist");
-  resourceTable.rowShouldExist(name, 100 * 1000);
+  resourceTable.rowShouldExist(name, 150 * 1000);
   resourceTable.rowNameClick(name);
   cy.reload(); // status isn't updating after unknown failure
   cy.get(".bx--detail-page-header-title");
@@ -83,7 +78,7 @@ export const deleteApplicationUI = name => {
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
     cy
-      .get("#undefined-search", { timeout: 20 * 1000 })
+      .get("#undefined-search", { timeout: 100 * 1000 })
       .click()
       .type(name);
     resourceTable.rowShouldExist(name);

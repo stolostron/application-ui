@@ -5,7 +5,105 @@
 
 /// <reference types="cypress" />
 
-import { pageLoader, resourceTable } from "./common";
+import {
+  pageLoader,
+  resourceTable,
+  modal,
+  noResource,
+  notification
+} from "./common";
+
+export const createApplication = (type, application, name, url) => {
+  type = type.replace(/\s+/g, "-").toLowerCase();
+  modal.clickPrimary();
+  cy.get(".bx--detail-page-header-title-container").should("exist");
+  cy.get("#name").type(name);
+  cy.get("#namespace", { timeout: 20 * 1000 }).type(`${name}-ns`);
+
+  if (type === "git") {
+    const { username, token, branch, path } = application;
+    cy.get(`#${type}`).click();
+    cy.get("#githubURL", { timeout: 20 * 1000 }).type(url);
+    if (username && token) {
+      cy.get("#githubUser").type(username);
+      cy.get("#githubAccessID").type(token);
+    }
+    cy.get("#githubBranch").type(branch);
+    cy.get("#githubPath").type(path);
+    // Disable deploy for now when we figure out how to validate the through api
+    // cy.get("#online-cluster-only-checkbox").click({ force: true });
+  }
+  if (type === "objectbucket") {
+    const { accessKey, secretKey } = application;
+    cy.get(`#${type}`).click();
+    cy.get("#objectstoreURL").type(url);
+    cy.get("#accessKey").then(input => {
+      if (input.is("enabled")) {
+        cy.get("#accessKey").type(accessKey);
+        cy.get("#secretKey").type(secretKey);
+      } else {
+        cy.log(`credentials have been saved for ${type} - url: ${url}`);
+      }
+    });
+  }
+
+  cy.get("#create-button-portal-id").click();
+  notification.shouldExist("success", { timeout: 60 * 1000 });
+  cy
+    .location("pathname", { timeout: 60 * 1000 })
+    .should("include", `${name}-ns/${name}`);
+};
+
+export const validateTopology = name => {
+  cy.visit(`/multicloud/applications/${name}-ns/${name}`);
+  cy.reload();
+  cy
+    .get(".search-query-card-loading", { timeout: 20 * 1000 })
+    .should("not.exist");
+  cy.get(".overview-cards-container");
+  cy.get("#topologySvgId", { timeout: 50 * 1000 });
+};
+
+export const validateResourceTable = name => {
+  cy.visit(`/multicloud/applications`);
+  cy.get(".search-query-card-loading").should("not.exist");
+  pageLoader.shouldNotExist();
+  cy
+    .get("#bx-pagination-select-resource-table-pagination", {
+      timeout: 60 * 1000
+    })
+    .should("exist");
+  resourceTable.rowShouldExist(name, 100 * 1000);
+  resourceTable.rowNameClick(name);
+  cy.reload(); // status isn't updating after unknown failure
+  cy.get(".bx--detail-page-header-title");
+};
+
+export const deleteApplicationUI = name => {
+  cy.visit("/multicloud/applications");
+  if (noResource.shouldNotExist()) {
+    cy
+      .get("#undefined-search", { timeout: 20 * 1000 })
+      .click()
+      .type(name);
+    resourceTable.rowShouldExist(name);
+    resourceTable.openRowMenu(name);
+    resourceTable.menuClickDelete();
+    modal.shouldBeOpen();
+    // delete confirmation
+    modal.clickDanger();
+    modal.shouldNotBeVisible();
+
+    // should not equal 200 as it should not exist
+    //cy.getAppResourceAPI(Cypress.env("token"), "application", appNamespace, appName);
+
+    // after deleting the app, it should not exist in the app table
+    resourceTable.rowShouldNotExist(name, 90 * 1000);
+    notification.shouldExist("success");
+  } else {
+    cy.log("No apps to delete...");
+  }
+};
 
 export const deleteAPIResources = name => {
   cy
@@ -77,29 +175,4 @@ export const deleteAPIResources = name => {
           }
         });
     });
-};
-
-export const validateTopology = name => {
-  cy.visit(`/multicloud/applications/${name}-ns/${name}`);
-  cy.reload();
-  cy
-    .get(".search-query-card-loading", { timeout: 20 * 1000 })
-    .should("not.exist");
-  cy.get(".overview-cards-container");
-  cy.get("#topologySvgId", { timeout: 50 * 1000 });
-};
-
-export const validateResourceTable = name => {
-  cy.visit(`/multicloud/applications`);
-  cy.get(".search-query-card-loading").should("not.exist");
-  pageLoader.shouldNotExist();
-  cy
-    .get("#bx-pagination-select-resource-table-pagination", {
-      timeout: 60 * 1000
-    })
-    .should("exist");
-  resourceTable.rowShouldExist(name, 100 * 1000);
-  resourceTable.rowNameClick(name);
-  cy.reload(); // status isn't updating after unknown failure
-  cy.get(".bx--detail-page-header-title");
 };

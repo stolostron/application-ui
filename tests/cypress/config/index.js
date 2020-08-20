@@ -11,7 +11,6 @@ exports.getConfig = () => {
   let config;
   if (process.env.CYPRESS_TEST_MODE === "e2e") {
     config = fs.readFileSync(path.join(__dirname, "config.e2e.yaml"));
-    console.log("getConfig", config);
   } else {
     config = fs.readFileSync(path.join(__dirname, "config.func.yaml"));
   }
@@ -19,11 +18,11 @@ exports.getConfig = () => {
   try {
     config = jsYaml.safeLoad(config);
 
-    // append JOB_ID to the name for unique runs
-    typeof process.env.CYPRESS_JOB_ID === "undefined"
-      ? config.wizards.git.name
-      : (config.wizards.git.name =
-          config.wizards.git.name + "-" + process.env.CYPRESS_JOB_ID);
+    for (const [key, value] of Object.entries(config.wizards)) {
+      typeof process.env.CYPRESS_JOB_ID === "undefined"
+        ? value.name
+        : (value.name = value.name + "-" + process.env.CYPRESS_JOB_ID);
+    }
   } catch (e) {
     throw new Error(e);
   }

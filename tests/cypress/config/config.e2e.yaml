@@ -1,5 +1,5 @@
 wizards:
-  git:
+  Git:
     disabled: false
     name: ""
     url: ""
@@ -7,3 +7,9 @@ wizards:
     token: ""
     branch: ""
     path: ""
+  ObjectBucket:
+    disabled: false
+    name: ""
+    url: ""
+    accessKey: ""
+    secretKey: ""

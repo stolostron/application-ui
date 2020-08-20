@@ -9,7 +9,7 @@ const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
 describe("Application", () => {
   for (const type in wizards) {
     const { name } = wizards[type];
-    it(`should be validated from the resource table`, () => {
+    it(`should be validated from the resource table - ${type}: ${name}`, () => {
       validateResourceTable(name);
     });
   }

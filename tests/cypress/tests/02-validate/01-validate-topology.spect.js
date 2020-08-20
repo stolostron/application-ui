@@ -8,7 +8,7 @@ import { validateTopology } from "../../views/application";
 describe("Application", () => {
   for (const type in wizards) {
     const { name } = wizards[type];
-    it(`should be validated from the topology`, () => {
+    it(`should be validated from the topology - ${type}: ${name}`, () => {
       validateTopology(name);
     });
   }

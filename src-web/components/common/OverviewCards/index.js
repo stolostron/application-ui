@@ -139,12 +139,14 @@ class OverviewCards extends React.Component {
 
     let clusterString = ''
     if (appOverviewCardsData.localClusterDeploy) {
-      appOverviewCardsData.remoteClusterCount > 0
-        ? (clusterString =
-            appOverviewCardsData.remoteClusterCount +
-            ' Remote, ' +
-            '1 Local deployment')
-        : (clusterString = 'Local deployment')
+      if (appOverviewCardsData.remoteClusterCount > 0) {
+        const tempString =
+          appOverviewCardsData.remoteClusterCount +
+          ' Remote, 1 Local deployment'
+        clusterString = tempString
+      } else {
+        clusterString = 'Local deployment'
+      }
     } else {
       clusterString = appOverviewCardsData.remoteClusterCount + ' Remote'
     }

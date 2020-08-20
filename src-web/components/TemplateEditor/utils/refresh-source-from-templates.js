@@ -10,16 +10,76 @@
 'use strict'
 
 import { parseYAML } from './source-utils'
-import { hitchControlsToYAML } from './intialize-templates'
-import _ from 'lodash'
 import { Base64 } from 'js-base64'
+import _ from 'lodash'
 
-export const generateYAML = (template, controlData, otherYAMLTabs, isFinalGenerate) => {
-  // convert controlData active into templateData
-  // do replacements second in case it depends on previous templateData
-  let templateData = {}
+export const generateSourceFromTemplate = (template, controlData, otherYAMLTabs, isFinalGenerate) => {
+
+  /////////////////////////////////////////////////////////
+  // generate a map of id:values that can be passed to the handlerbars template
+  /////////////////////////////////////////////////////////
   const replacements = []
   const controlMap = {}
+  const templateData = generateTemplateData(controlData, replacements, controlMap, isFinalGenerate)
+
+  /////////////////////////////////////////////////////////
+  // add replacements to templateData
+  /////////////////////////////////////////////////////////
+  // replacements are snippets of code instead of single values
+  // ex: when you select a card, it inserts a snippet of code into
+  //     the template instead of a text value
+  const {snippetMap, tabInfo} = addCodeSnippetsTemplateData(templateData, replacements, controlMap)
+
+  /////////////////////////////////////////////////////////
+  // generate the yaml!!
+  /////////////////////////////////////////////////////////
+  let yaml = template(templateData) || ''
+
+  /////////////////////////////////////////////////////////
+  // insert snippets
+  /////////////////////////////////////////////////////////
+  // make sure the code snippets align with the yaml around it
+  yaml = replaceSnippetMap(yaml, snippetMap)
+
+  /////////////////////////////////////////////////////////
+  // if there are multiple tabs, update the yaml that belongs on each
+  /////////////////////////////////////////////////////////
+  // if tab(s) were created to show encoded YAML, update that tab's info
+  if (otherYAMLTabs) {
+    const lines = yaml.split(/[\r\n]+/g)
+    tabInfo.forEach(({ id, control, templateYAML, encodedYAML }) => {
+      const row = lines.findIndex(line => line.indexOf(encodedYAML) !== -1)
+      if (row !== -1) {
+        templateYAML = replaceSnippetMap(templateYAML, snippetMap)
+        const existingInx = otherYAMLTabs.findIndex(
+          ({ id: existingId }) => existingId === id
+        )
+        if (existingInx !== -1) {
+          const existingTab = otherYAMLTabs[existingInx]
+          existingTab.oldTemplateYAML = existingTab.templateYAML
+          existingTab.templateYAML = templateYAML
+        } else {
+          otherYAMLTabs.push({
+            id,
+            control,
+            templateYAML,
+            hasEncodedYAML: true
+          })
+        }
+      }
+    })
+  }
+
+  return {
+    templateYAML: yaml,
+    templateObject: parseYAML(yaml).parsed
+  }
+}
+
+const generateTemplateData = (controlData, replacements, controlMap, isFinalGenerate) => {
+//convert controlData active into templateData
+//do replacements second in case it depends on previous templateData
+  let templateData = {}
   const getTemplateData = control => {
     const {
       getActive,
@@ -92,9 +152,9 @@ export const generateYAML = (template, controlData, otherYAMLTabs, isFinalGenera
         ret = lines
       } else if (
         !multiselect &&
-        type !== 'table' &&
-        type !== 'labels' &&
-        Array.isArray(active)
+     type !== 'table' &&
+     type !== 'labels' &&
+     Array.isArray(active)
       ) {
         ret = active[0]
       } else if (_template) {
@@ -119,6 +179,10 @@ export const generateYAML = (template, controlData, otherYAMLTabs, isFinalGenera
       }
     }
   })
+  return templateData
+}
+
+const addCodeSnippetsTemplateData = (templateData, replacements, controlMap) => {
 
   // if replacement updates a hidden control that user can't change
   // reset that control's active state and let replacement fill from scratch
@@ -141,6 +205,8 @@ export const generateYAML = (template, controlData, otherYAMLTabs, isFinalGenera
 
   // sort the controls with handlerbars to bottom in case they need values
   // from other replacements to do the replacements
+  // iow: a snippet might itself be a handlerbars template that needs
+  //      templateData to resolve it
   replacements.sort((a, b) => {
     if (a.noHandlebarReplacements && !b.noHandlebarReplacements) {
       return -1
@@ -150,7 +216,7 @@ export const generateYAML = (template, controlData, otherYAMLTabs, isFinalGenera
     return 0
   })
 
-  // add replacements
+  //add replacements
   const snippetMap = {}
   const tabInfo = []
   replacements.forEach(control => {
@@ -248,44 +314,7 @@ export const generateYAML = (template, controlData, otherYAMLTabs, isFinalGenera
     }
   })
 
-  let yaml = template(templateData) || ''
-
-  // find indent of key and indent the whole snippet
-  yaml = replaceSnippetMap(yaml, snippetMap)
-
-  // if tab(s) were created to show encoded YAML, update that tab's info
-  if (otherYAMLTabs) {
-    const lines = yaml.split(/[\r\n]+/g)
-    tabInfo.forEach(({ id, control, templateYAML, encodedYAML }) => {
-      const row = lines.findIndex(line => line.indexOf(encodedYAML) !== -1)
-      if (row !== -1) {
-        templateYAML = replaceSnippetMap(templateYAML, snippetMap)
-        const existingInx = otherYAMLTabs.findIndex(
-          ({ id: existingId }) => existingId === id
-        )
-        if (existingInx !== -1) {
-          const existingTab = otherYAMLTabs[existingInx]
-          existingTab.oldTemplateYAML = existingTab.templateYAML
-          existingTab.templateYAML = templateYAML
-        } else {
-          otherYAMLTabs.push({
-            id,
-            control,
-            templateYAML,
-            hasEncodedYAML: true
-          })
-        }
-      }
-    })
-  }
-
-  // link controls with YAML
-  yaml = hitchControlsToYAML(yaml, otherYAMLTabs, controlData)
-
-  return {
-    templateYAML: yaml,
-    templateObject: parseYAML(yaml).parsed
-  }
+  return {snippetMap, tabInfo}
 }
 
 const replaceSnippetMap = (yaml, snippetMap) => {
@@ -310,3 +339,4 @@ const replaceSnippetMap = (yaml, snippetMap) => {
   }
   return yaml
 }
+

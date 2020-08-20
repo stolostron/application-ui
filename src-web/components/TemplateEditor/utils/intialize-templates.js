@@ -12,7 +12,45 @@
 import { parseYAML } from './source-utils'
 
 
-export const initializeTemplateData = () => {
+export const initializeTemplateData = () => {//template, controlData) => {
+
+//  A regex template {{{ID.a-z.a-z}}} with {{{ID}}}[a-z.a-z]
+//
+//  B loop thru control data
+//
+//  C if control doesn’t have controlData, add to markerData as  id: <<ID>>
+//
+//  E) if markerData not empty,
+//
+//    2 use handlebars func and markerData to get yaml template
+//
+//    3 replace << >> with {{{. ]}}
+//
+//      Yaml = yaml.replace(/<<(.+)>>/g, (a)=>{
+//
+//      return `{{{${a}}}}`
+//
+//    4 parse
+//
+//    5 flattenObject—see email
+//
+//    6 filter out any w/o {{{ }}}
+//
+//    7 _.inverseBy( ).  —- {{{ }}}: [a.b.c, f.y.t]
+//
+//    8 get ids from key and append to sourcePath on control:
+//
+//      sourcePaths: [ {[{ }}}: [paths] ]
+//
+//      if {{{ }}}[a.z] —> {{{ID.a-z}}}
+//
+//
+//
+//  B if control itself has controlData, Reiterate
+//
+//
+
+  return template
 }
 
 

@@ -246,6 +246,16 @@ class ControlPanel extends React.Component {
     )
   }
 
+  handleAddActive = (control, items) => {
+    control.active = items
+    this.props.handleControlChange(
+      control,
+      this.props.controlData,
+      this.creationView,
+      this.props.isCustomName
+    )
+  };
+
   renderControl(id, type, control) {
     const { controlData, locale, showEditor } = this.props
     switch (type) {
@@ -479,16 +489,6 @@ class ControlPanel extends React.Component {
     const { controlData } = this.props
     this.props.handleControlChange(control, controlData)
   }
-
-  handleAddActive = (control, items) => {
-    control.active = items
-    this.props.handleControlChange(
-      control,
-      this.props.controlData,
-      this.creationView,
-      this.props.isCustomName
-    )
-  };
 
   renderNotifications() {
     const { notifications = [] } = this.props

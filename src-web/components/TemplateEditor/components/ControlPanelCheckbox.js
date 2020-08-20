@@ -17,6 +17,7 @@ import Tooltip from './Tooltip'
 class ControlPanelCheckbox extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -31,8 +32,8 @@ class ControlPanelCheckbox extends React.Component {
   };
 
   render() {
-    const { locale, control } = this.props
-    const { id, name, active } = control
+    const { controlId, locale, control } = this.props
+    const { name, active } = control
     return (
       <React.Fragment>
         <div
@@ -40,7 +41,7 @@ class ControlPanelCheckbox extends React.Component {
           ref={this.setControlRef.bind(this, control)}
         >
           <Checkbox
-            id={id}
+            id={controlId}
             className="checkbox"
             hideLabel
             labelText=""

@@ -21,6 +21,7 @@ class ControlPanelTreeSelect extends React.Component {
 
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string,
   }
@@ -170,8 +171,8 @@ class ControlPanelTreeSelect extends React.Component {
   }
 
   render() {
-    const {control, locale} = this.props
-    const {id, name, availableMap={}, validation} = control
+    const {controlId, control, locale} = this.props
+    const {name, availableMap={}, validation} = control
     const {isOpen, active, currentAvailable, indexes, searchText} = this.state
     const currentActive = availableMap[active] ? `${active} - ${availableMap[active]}` : active
 
@@ -181,7 +182,7 @@ class ControlPanelTreeSelect extends React.Component {
     })
 
     const aria = isOpen ? 'Close menu' : 'Open menu'
-    const key = `${id}-${name}-${currentAvailable.map(({branch, instance})=>{return (branch||instance)}).join('-')}`
+    const key = `${controlId}-${name}-${currentAvailable.map(({branch, instance})=>{return (branch||instance)}).join('-')}`
     return (
       <React.Fragment>
         <div className='creation-view-controls-treeselect'>
@@ -190,7 +191,7 @@ class ControlPanelTreeSelect extends React.Component {
             {validation.required ? <div className='creation-view-controls-required'>*</div> : null}
             <Tooltip control={control} locale={locale} />
           </div>
-          <div id={id}>
+          <div id={controlId}>
             <div role='listbox' aria-label='Choose an item' tabIndex='0' className='bx--dropdown bx--list-box'>
               <div role='button' className='' tabIndex='0' type='button'
                 aria-label={aria} aria-expanded={isOpen} aria-haspopup='true' data-toggle='true'

@@ -17,6 +17,7 @@ import Tooltip from './Tooltip'
 class ControlPanelNumber extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -31,8 +32,8 @@ class ControlPanelNumber extends React.Component {
   };
 
   render() {
-    const { locale, control } = this.props
-    const { id, name, initial, exception, validation } = control
+    const { controlId, locale, control } = this.props
+    const { name, initial, exception, validation } = control
 
     return (
       <React.Fragment>
@@ -40,7 +41,7 @@ class ControlPanelNumber extends React.Component {
           className="creation-view-controls-number"
           ref={this.setControlRef.bind(this, control)}
         >
-          <label className="creation-view-controls-multiselect-title" htmlFor={id}>
+          <label className="creation-view-controls-multiselect-title" htmlFor={controlId}>
             {name}
             {validation.required ? (
               <div className="creation-view-controls-required">*</div>
@@ -49,7 +50,7 @@ class ControlPanelNumber extends React.Component {
           </label>
           <NumberInput
             allowEmpty
-            id={id}
+            id={controlId}
             value={typeof initial === 'string' ? Number(initial) : initial}
             invalid={!!exception}
             invalidText={exception}

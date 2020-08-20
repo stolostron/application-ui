@@ -25,6 +25,7 @@ export const VALUE_CAPTURE_GROUP_INDEX = 2
 class ControlPanelLabels extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -39,8 +40,8 @@ class ControlPanelLabels extends React.Component {
   }
 
   render() {
-    const { locale, control } = this.props
-    const { id, name, active = [] } = control
+    const { controlId, locale, control } = this.props
+    const { name, active = [] } = control
     const formatted = active.map(({ key, value: v }) => `${key}=${v}`)
     const { value, invalid, invalidText } = this.state
     return (
@@ -66,7 +67,7 @@ class ControlPanelLabels extends React.Component {
             })}
             <div className="creation-view-controls-labels-edit-container">
               <TextInput
-                id={id}
+                id={controlId}
                 hideLabel
                 labelText=""
                 invalid={invalid}

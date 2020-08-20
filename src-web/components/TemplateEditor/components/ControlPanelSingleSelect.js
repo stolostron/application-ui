@@ -19,6 +19,7 @@ import _ from 'lodash'
 class ControlPanelSingleSelect extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -33,9 +34,8 @@ class ControlPanelSingleSelect extends React.Component {
   };
 
   render() {
-    const { locale, control } = this.props
+    const { controlId, locale, control } = this.props
     const {
-      id,
       name,
       placeholder = '',
       available = [],
@@ -59,7 +59,7 @@ class ControlPanelSingleSelect extends React.Component {
         )
       }
     }
-    const key = `${id}-${name}-${available.join('-')}`
+    const key = `${controlId}-${name}-${available.join('-')}`
     return (
       <React.Fragment>
         <div
@@ -79,7 +79,7 @@ class ControlPanelSingleSelect extends React.Component {
               <InlineLoading description={active} />
             </div>
           ) : (
-            <div id={id}>
+            <div id={controlId}>
               <DropdownV2
                 key={key}
                 items={available}

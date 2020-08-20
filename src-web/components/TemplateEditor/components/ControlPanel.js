@@ -107,7 +107,7 @@ class ControlPanel extends React.Component {
     )
   }
 
-  renderControlSections(controlData) {
+  renderControlSections(controlData, grpId='') {
     // create collapsable control sections
     let section
     let content = []
@@ -141,35 +141,35 @@ class ControlPanel extends React.Component {
       title.content = _content
       return (
         <React.Fragment key={id}>
-          {this.renderControl(id, 'section', title)}
+          {this.renderControl(id, 'section', title, grpId)}
           <div
             className={sectionClasses}
             ref={this.setControlSectionRef.bind(this, title)}
           >
-            {this.renderControls(_content)}
+            {this.renderControls(_content, grpId)}
           </div>
         </React.Fragment>
       )
     })
   }
 
-  renderControls(controlData) {
+  renderControls(controlData, grpId) {
     return (
       <React.Fragment>
         {controlData.map((control, i) => {
           const { id = `${control.type}-${i}`, type } = control
           switch (type) {
           case 'group':
-            return this.renderGroup(control)
+            return this.renderGroup(control, grpId)
           default:
-            return this.renderControlWithFetch(id, type, control)
+            return this.renderControlWithFetch(id, type, control, grpId)
           }
         })}
       </React.Fragment>
     )
   }
 
-  renderGroup(control) {
+  renderGroup(control, grpId='') {
     const { id, active = [], prompts } = control
     return (
       <React.Fragment key={id}>
@@ -181,7 +181,7 @@ class ControlPanel extends React.Component {
                 {prompts &&
                   inx > 0 &&
                   this.renderDeleteGroupButton(control, inx)}
-                {this.renderControlSections(controlData)}
+                {this.renderControlSections(controlData, `${grpId}grp${inx}`)}
               </div>
               {prompts &&
                 active.length - 1 === inx &&
@@ -194,7 +194,7 @@ class ControlPanel extends React.Component {
   }
 
   // if data for 'available' is fetched from server, use apollo component
-  renderControlWithFetch(id, type, control) {
+  renderControlWithFetch(id, type, control, grpId) {
     const { fetchAvailable } = control
     if (fetchAvailable) {
       const { query, setAvailable } = fetchAvailable
@@ -202,16 +202,16 @@ class ControlPanel extends React.Component {
         <Query query={query} key={id}>
           {result => {
             setAvailable(control, result)
-            return this.renderControlWithPrompt(id, type, control)
+            return this.renderControlWithPrompt(id, type, control, grpId)
           }}
         </Query>
       )
     }
-    return this.renderControlWithPrompt(id, type, control)
+    return this.renderControlWithPrompt(id, type, control, grpId)
   }
 
   // if data for 'available' is fetched from server, use apollo component
-  renderControlWithPrompt(id, type, control) {
+  renderControlWithPrompt(id, type, control, grpId) {
     const { prompts } = control
     if (prompts) {
       const { positionAboveControl } = prompts
@@ -219,19 +219,19 @@ class ControlPanel extends React.Component {
         return (
           <React.Fragment key={id}>
             {this.renderControlPrompt(control)}
-            {this.renderControl(id, type, control)}
+            {this.renderControl(id, type, control, grpId)}
           </React.Fragment>
         )
       } else {
         return (
           <React.Fragment key={id}>
-            {this.renderControl(id, type, control)}
+            {this.renderControl(id, type, control, grpId)}
             {this.renderControlPrompt(control)}
           </React.Fragment>
         )
       }
     }
-    return this.renderControl(id, type, control)
+    return this.renderControl(id, type, control, grpId)
   }
 
   renderControlPrompt(control) {
@@ -256,14 +256,16 @@ class ControlPanel extends React.Component {
     )
   };
 
-  renderControl(id, type, control) {
+  renderControl(id, type, control, grpId) {
     const { controlData, locale, showEditor } = this.props
+    const controlId = `${id}${grpId}`
     switch (type) {
     case 'title':
     case 'section':
       return (
         <ControlPanelAccordion
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           controlData={controlData}
           handleChange={this.handleChange.bind(this, control)}
@@ -273,7 +275,8 @@ class ControlPanel extends React.Component {
     case 'text':
       return (
         <ControlPanelTextInput
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleChange.bind(this, control)}
           locale={locale}
@@ -282,7 +285,8 @@ class ControlPanel extends React.Component {
     case 'textarea':
       return (
         <ControlPanelTextArea
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleChange.bind(this, control)}
           locale={locale}
@@ -291,7 +295,8 @@ class ControlPanel extends React.Component {
     case 'singleselect':
       return (
         <ControlPanelSingleSelect
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleChange.bind(this, control)}
           locale={locale}
@@ -300,7 +305,8 @@ class ControlPanel extends React.Component {
     case 'number':
       return (
         <ControlPanelNumber
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleChange.bind(this, control)}
           locale={locale}
@@ -309,7 +315,8 @@ class ControlPanel extends React.Component {
     case 'combobox':
       return (
         <ControlPanelComboBox
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           controlData={controlData}
           handleControlChange={this.handleControlChange.bind(this, control)}
@@ -319,7 +326,8 @@ class ControlPanel extends React.Component {
     case 'multiselect':
       return (
         <ControlPanelMultiSelect
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleChange.bind(this, control)}
           locale={locale}
@@ -328,7 +336,8 @@ class ControlPanel extends React.Component {
     case 'treeselect':
       return (
         <ControlPanelTreeSelect
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleChange.bind(this, control)}
           locale={locale}
@@ -337,7 +346,8 @@ class ControlPanel extends React.Component {
     case 'cards':
       return (
         <ControlPanelCards
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           showEditor={showEditor}
           handleChange={this.handleCardChange.bind(this, control)}
@@ -348,7 +358,8 @@ class ControlPanel extends React.Component {
     case 'table':
       return (
         <ControlPanelTable
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleControlChange.bind(this, control)}
           locale={locale}
@@ -357,7 +368,8 @@ class ControlPanel extends React.Component {
     case 'labels':
       return (
         <ControlPanelLabels
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleControlChange.bind(this, control)}
           locale={locale}
@@ -366,7 +378,8 @@ class ControlPanel extends React.Component {
     case 'checkbox':
       return (
         <ControlPanelCheckbox
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleChange.bind(this, control)}
           locale={locale}
@@ -374,7 +387,7 @@ class ControlPanel extends React.Component {
       )
     case 'custom':
       return (
-        <React.Fragment key={id}>{this.renderCustom(control)}</React.Fragment>
+        <React.Fragment key={controlId}>{this.renderCustom(control, controlId)}</React.Fragment>
       )
     }
     return null
@@ -385,12 +398,13 @@ class ControlPanel extends React.Component {
   };
 
 
-  renderCustom(control) {
+  renderCustom(control, controlId) {
     const { locale } = this.props
     const { component } = control
     const custom = React.cloneElement(component, {
       control,
       locale,
+      controlId,
       handleChange: this.handleChange.bind(this, control)
     })
     return (

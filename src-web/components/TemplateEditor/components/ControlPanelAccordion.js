@@ -21,6 +21,7 @@ class ControlPanelAccordion extends React.Component {
   static propTypes = {
     control: PropTypes.object,
     controlData: PropTypes.array,
+    controlId: PropTypes.string,
     locale: PropTypes.string
   };
 
@@ -34,7 +35,7 @@ class ControlPanelAccordion extends React.Component {
   };
 
   render() {
-    const { locale, control, controlData } = this.props
+    const { controlId, locale, control, controlData } = this.props
     const {
       title,
       subtitle,
@@ -93,7 +94,7 @@ class ControlPanelAccordion extends React.Component {
     let summary = []
     this.getSummary(content, summary)
     summary = summary.filter(s => !!s)
-    let id = `${control.id}-${title || subtitle || ''}`
+    let id = `${controlId}-${title || subtitle || ''}`
     id = id.replace(/\s+/g, '-').toLowerCase()
     return (
       <React.Fragment>

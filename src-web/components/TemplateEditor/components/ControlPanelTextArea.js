@@ -17,6 +17,7 @@ import Tooltip from './Tooltip'
 class ControlPanelTextArea extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -31,8 +32,8 @@ class ControlPanelTextArea extends React.Component {
   };
 
   render() {
-    const { locale, control } = this.props
-    const { id, name, active: value, exception, validation } = control
+    const { controlId, locale, control } = this.props
+    const { name, active: value, exception, validation } = control
     return (
       <React.Fragment>
         <div
@@ -47,7 +48,7 @@ class ControlPanelTextArea extends React.Component {
             <Tooltip control={control} locale={locale} />
           </div>
           <TextArea
-            id={id}
+            id={controlId}
             invalid={!!exception}
             invalidText={exception}
             hideLabel

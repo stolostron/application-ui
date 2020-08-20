@@ -20,6 +20,7 @@ class ControlPanelComboBox extends React.Component {
   static propTypes = {
     control: PropTypes.object,
     controlData: PropTypes.array,
+    controlId: PropTypes.string,
     handleControlChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -34,9 +35,8 @@ class ControlPanelComboBox extends React.Component {
   }
 
   render() {
-    const { locale, control } = this.props
+    const { controlId, locale, control } = this.props
     const {
-      id,
       name,
       userData = [],
       availableMap,
@@ -82,7 +82,7 @@ class ControlPanelComboBox extends React.Component {
     })
     const initialSelectedItem = items.find(item => item.label === active)
 
-    const key = `${id}-${name}-${active}`
+    const key = `${controlId}-${name}-${active}`
     return (
       <React.Fragment>
         <div
@@ -103,7 +103,7 @@ class ControlPanelComboBox extends React.Component {
             </div>
           ) : (
             <ComboBox
-              id={id}
+              id={controlId}
               key={key}
               items={items}
               itemToString={item => (item ? item.label : '')}

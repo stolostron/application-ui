@@ -18,6 +18,7 @@ import msgs from '../../../../nls/platform.properties'
 class ControlPanelTextInput extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -32,8 +33,8 @@ class ControlPanelTextInput extends React.Component {
   };
 
   render() {
-    const { locale, control } = this.props
-    const { id, name, active: value, exception, validation = {} } = control
+    const { controlId, locale, control } = this.props
+    const { name, active: value, exception, validation = {} } = control
 
     // if placeholder missing, create one
     let { placeholder } = control
@@ -51,7 +52,7 @@ class ControlPanelTextInput extends React.Component {
           style={{ display: '' }}
           ref={this.setControlRef.bind(this, control)}
         >
-          <label className="creation-view-controls-textbox-title" htmlFor={id}>
+          <label className="creation-view-controls-textbox-title" htmlFor={controlId}>
             {name}
             {validation.required ? (
               <div className="creation-view-controls-required">*</div>
@@ -59,7 +60,7 @@ class ControlPanelTextInput extends React.Component {
             <Tooltip control={control} locale={locale} />
           </label>
           <TextInput
-            id={id}
+            id={controlId}
             hideLabel
             spellCheck={false}
             autoComplete={'new-password'}

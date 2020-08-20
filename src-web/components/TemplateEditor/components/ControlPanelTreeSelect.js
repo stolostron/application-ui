@@ -27,6 +27,11 @@ class ControlPanelTreeSelect extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     const {control, handleChange} = props
+    const handleTreeChange = (evt) => {
+      control.active = evt.selectedItem
+      handleChange(evt)
+    }
+
     const {available=[]} = control
     const {branches=0} = state
     let {active} = control
@@ -76,7 +81,7 @@ class ControlPanelTreeSelect extends React.Component {
         // handle change
         const {value, description} = searchList[currentSelection]
         active = `${value}  # ${description}`
-        handleChange({selectedItem: active})
+        handleTreeChange({selectedItem: active})
         currentAvailable = []
         indexes = []
         isOpen = false
@@ -126,7 +131,7 @@ class ControlPanelTreeSelect extends React.Component {
       } else {
         // handle change
         active = `${currentAvailable.value}  # ${currentAvailable.description}`
-        handleChange({selectedItem: active})
+        handleTreeChange({selectedItem: active})
         currentAvailable = []
         indexes = []
         isOpen = false

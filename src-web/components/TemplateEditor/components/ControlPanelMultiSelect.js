@@ -83,19 +83,19 @@ class ControlPanelMultiSelect extends React.Component {
             placeholder={placeholder}
             itemToString={item => item}
             sortItems={items => items}
-            onChange={this.handleChange.bind(this, id)}
+            onChange={this.handleSelectionChange.bind(this, id)}
           />
         </div>
       </React.Fragment>
     )
   }
 
-  handleChange(id, evt) {
-    const { control, handleChange } = this.props
+  handleSelectionChange(id, evt) {
+    const { control } = this.props
     const { isOneSelection } = control
     if (isOneSelection) {
       // close on one selection
-      handleChange(evt)
+      this.handleChange(evt)
     } else {
       // close when user clicks outside of menu
       // unfortunately MultiSelect.Filterable doesn't have an onClose
@@ -106,7 +106,7 @@ class ControlPanelMultiSelect extends React.Component {
       if (menu && menu.length > 0) {
         if (!this.multiSelect.observer) {
           this.multiSelect.observer = new MutationObserver(() => {
-            handleChange({ selectedItems: this.multiSelect.selectedItems })
+            this.handleChange({ selectedItems: this.multiSelect.selectedItems })
             this.multiSelect.observer.disconnect()
             delete this.multiSelect.observer
           })
@@ -115,9 +115,15 @@ class ControlPanelMultiSelect extends React.Component {
           })
         }
       } else if (!this.multiSelect.observer) {
-        handleChange({ selectedItems: this.multiSelect.selectedItems })
+        this.handleChange({ selectedItems: this.multiSelect.selectedItems })
       }
     }
+  }
+
+  handleChange(evt) {
+    const { control, handleChange } = this.props
+    control.active = evt.selectedItems
+    handleChange(evt)
   }
 }
 

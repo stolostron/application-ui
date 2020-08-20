@@ -9,8 +9,8 @@
  *******************************************************************************/
 'use strict'
 
-import { ControlMode } from './initialize-form'
-import { parseYAML } from './update-source'
+import { ControlMode } from './initialize-controls'
+import { parseYAML } from './source-utils'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -682,20 +682,4 @@ const getRow = (path, parsed) => {
     )
   }
   return synced ? synced.$r + 1 : 0
-}
-
-//don't save user data until they create
-export const cacheUserData = controlData => {
-  controlData.forEach(control => {
-    if (
-      control.cacheUserValueKey &&
-      control.userData &&
-      control.userData.length > 0
-    ) {
-      const storageKey = `${control.cacheUserValueKey}--${
-        window.location.href
-      }`
-      sessionStorage.setItem(storageKey, JSON.stringify(control.userData))
-    }
-  })
 }

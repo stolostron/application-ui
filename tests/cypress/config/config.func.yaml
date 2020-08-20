@@ -7,7 +7,6 @@ wizards:
     token: ""
     branch: "master"
     path: "helloworld"
-
   ObjectBucket:
     disabled: false
     name: "ui-test-create-application-objectbucket"

@@ -174,6 +174,7 @@ class ControlPanel extends React.Component {
     return (
       <React.Fragment key={id}>
         {active.map((controlData, inx) => {
+          const groupId = inx > 0 ? `${grpId}grp${inx}` : ''
           return (
             /* eslint-disable-next-line react/no-array-index-key */
             <React.Fragment key={`${controlData[0].id}Group${inx}`}>
@@ -181,7 +182,7 @@ class ControlPanel extends React.Component {
                 {prompts &&
                   inx > 0 &&
                   this.renderDeleteGroupButton(control, inx)}
-                {this.renderControlSections(controlData, `${grpId}grp${inx}`)}
+                {this.renderControlSections(controlData, groupId)}
               </div>
               {prompts &&
                 active.length - 1 === inx &&

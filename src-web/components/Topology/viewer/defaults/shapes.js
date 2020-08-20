@@ -22,6 +22,10 @@ export const defaultShapes = Object.freeze({
     shape: 'cluster',
     className: 'container'
   },
+  ansiblejob: {
+    shape: 'ansiblejob',
+    className: 'container'
+  },
   configmap: {
     shape: 'configmap',
     className: 'container'

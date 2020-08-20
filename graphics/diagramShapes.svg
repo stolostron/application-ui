@@ -22,6 +22,18 @@
             </g>
         </g>
     </symbol>
+    <symbol viewBox="0 0 32 32" id="ansiblejob">
+        <g id="Topology" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-4227.000000, -354.000000)" fill-rule="nonzero">
+            <g id="Ansible" transform="translate(4227.000000, 354.000000)">
+                <circle id="Oval" stroke="#1192E8" stroke-width="1.404" fill="#FFFFFF" cx="15.795" cy="15.795" r="15.093"></circle>
+                <circle id="Oval" fill="#FAFAFA" cx="15.795" cy="15.795" r="10.53"></circle>
+                <ellipse id="Oval" fill="#000000" transform="translate(15.980384, 15.986491) rotate(-80.819458) translate(-15.980384, -15.986491) " cx="15.9803842" cy="15.9864909" rx="13.8938054" ry="13.8192949"></ellipse>
+                <path d="M22.5138983,21.5363636 L17.0287005,8.26363635 C16.9005628,7.90549107 16.5591719,7.66977155 16.1807909,7.6781818 C15.79534,7.66603213 15.4446693,7.90114089 15.3075706,8.26363635 L9.28723162,22.8236364 L11.3464407,22.8236364 L13.7292655,16.8236363 L20.839774,22.6018182 C21.1272316,22.8345455 21.3333333,22.94 21.600904,22.94 C21.8661069,22.946376 22.1226249,22.8447395 22.3122368,22.6581584 C22.5018488,22.4715775 22.6084729,22.2158764 22.607914,21.9490909 C22.5997073,21.8072011 22.5679306,21.6676953 22.5138983,21.5363636 L22.5138983,21.5363636 Z M16.1862147,10.6472727 L19.7459887,19.4963636 L14.360226,15.2309091 L16.1862147,10.6472727 Z" id="Shape" fill="#FFFFFF"></path>
+            </g>
+        </g>
+        </g>
+    </symbol>    
     <symbol viewBox="0 0 32 32" id="chart">
         <g id="Topology" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
             <g id="Artboard" transform="translate(-1371.000000, -1018.000000)">

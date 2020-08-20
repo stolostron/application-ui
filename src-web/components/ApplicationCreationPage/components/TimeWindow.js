@@ -50,8 +50,8 @@ export class TimeWindow extends React.Component {
 
   render() {
     const { locale, control } = this.props
-    const { name, validation = {} } = control
-    const modeSelected = control.active.mode ? true : false
+    const { name, active, validation = {} } = control
+    const modeSelected = active && active.mode ? true : false
     const daysSelectorID = 'days-selector'
     const timezoneDropdownID = 'timezone-dropdown'
 
@@ -269,58 +269,61 @@ export class TimeWindow extends React.Component {
   }
 
   renderTimes = (control, modeSelected) => {
-    return control.active.timeList.map(item => {
-      // Don't show deleted time invertals
-      if (item.validTime) {
-        return (
-          <React.Fragment key={item.id}>
-            <div className="config-time-container">
-              <div className="config-start-time">
-                <TimePicker
-                  id={`start-time-${item.id}`}
-                  name="start-time"
-                  labelText={item.id === 0 ? 'Start Time' : ''}
-                  type="time"
-                  value={this.state.startTime || ''}
-                  disabled={!modeSelected}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </div>
-              <div className="config-end-time">
-                <TimePicker
-                  id={`end-time-${item.id}`}
-                  name="end-time"
-                  labelText={item.id === 0 ? 'End Time' : ''}
-                  type="time"
-                  value={this.state.endTime || ''}
-                  disabled={!modeSelected}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </div>
-              {item.id !== 0 ? ( // Option to remove added times
-                <div
-                  id={item.id}
-                  className="remove-time-btn"
-                  tabIndex="0"
-                  role={'button'}
-                  onClick={() => this.removeTimeFromList(control, item)}
-                  onKeyPress={this.removeTimeKeyPress.bind(this)}
-                >
-                  <Icon
-                    name="icon--close--glyph"
-                    fill="#3d70b2"
-                    className="remove-time-btn-icon"
+    return (
+      control.active &&
+      control.active.timeList.map(item => {
+        // Don't show deleted time invertals
+        if (item.validTime) {
+          return (
+            <React.Fragment key={item.id}>
+              <div className="config-time-container">
+                <div className="config-start-time">
+                  <TimePicker
+                    id={`start-time-${item.id}`}
+                    name="start-time"
+                    labelText={item.id === 0 ? 'Start Time' : ''}
+                    type="time"
+                    value={this.state.startTime || ''}
+                    disabled={!modeSelected}
+                    onChange={this.handleChange.bind(this)}
                   />
                 </div>
-              ) : (
-                ''
-              )}
-            </div>
-          </React.Fragment>
-        )
-      }
-      return ''
-    })
+                <div className="config-end-time">
+                  <TimePicker
+                    id={`end-time-${item.id}`}
+                    name="end-time"
+                    labelText={item.id === 0 ? 'End Time' : ''}
+                    type="time"
+                    value={this.state.endTime || ''}
+                    disabled={!modeSelected}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                </div>
+                {item.id !== 0 ? ( // Option to remove added times
+                  <div
+                    id={item.id}
+                    className="remove-time-btn"
+                    tabIndex="0"
+                    role={'button'}
+                    onClick={() => this.removeTimeFromList(control, item)}
+                    onKeyPress={this.removeTimeKeyPress.bind(this)}
+                  >
+                    <Icon
+                      name="icon--close--glyph"
+                      fill="#3d70b2"
+                      className="remove-time-btn-icon"
+                    />
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
+            </React.Fragment>
+          )
+        }
+        return ''
+      })
+    )
   };
 
   // Convert 24-hour format to 12-hour format

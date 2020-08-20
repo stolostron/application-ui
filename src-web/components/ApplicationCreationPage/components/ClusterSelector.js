@@ -46,8 +46,8 @@ export class ClusterSelector extends React.Component {
 
   render() {
     const { locale, control } = this.props
-    const { name, validation = {} } = control
-    const modeSelected = control.active.mode ? true : false
+    const { name, active, validation = {} } = control
+    const modeSelected = active && active.mode ? true : false
     return (
       <React.Fragment>
         <div className="creation-view-controls-labels">
@@ -116,59 +116,62 @@ export class ClusterSelector extends React.Component {
   }
 
   renderClusterLabels = (control, modeSelected) => {
-    return control.active.clusterLabelsList.map(item => {
-      // Don't show deleted time invertals
-      if (item.validValue) {
-        return (
-          <React.Fragment key={item.id}>
-            <div className="matching-labels-container">
-              <div className="matching-labels-input">
-                <TextInput
-                  id={`labelName-${item.id}`}
-                  name="labelName"
-                  className="text-input"
-                  labelText={item.id === 0 ? 'Label' : ''}
-                  placeholder="Label name"
-                  disabled={!modeSelected}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </div>
-              <div className="matching-labels-input">
-                <TextInput
-                  id={`labelValue-${item.id}`}
-                  name="labelValue"
-                  className="text-input"
-                  labelText={item.id === 0 ? 'Value' : ''}
-                  placeholder="Label value"
-                  disabled={!modeSelected}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </div>
-
-              {item.id !== 0 ? ( // Option to remove added labels
-                <div
-                  id={item.id}
-                  className="remove-label-btn"
-                  tabIndex="0"
-                  role={'button'}
-                  onClick={() => this.removeLabelFromList(control, item)}
-                  onKeyPress={this.removeLabelKeyPress.bind(this)}
-                >
-                  <Icon
-                    name="icon--close--glyph"
-                    fill="#3d70b2"
-                    className="remove-label-btn-icon"
+    return (
+      control.active &&
+      control.active.clusterLabelsList.map(item => {
+        // Don't show deleted time invertals
+        if (item.validValue) {
+          return (
+            <React.Fragment key={item.id}>
+              <div className="matching-labels-container">
+                <div className="matching-labels-input">
+                  <TextInput
+                    id={`labelName-${item.id}`}
+                    name="labelName"
+                    className="text-input"
+                    labelText={item.id === 0 ? 'Label' : ''}
+                    placeholder="Label name"
+                    disabled={!modeSelected}
+                    onChange={this.handleChange.bind(this)}
                   />
                 </div>
-              ) : (
-                ''
-              )}
-            </div>
-          </React.Fragment>
-        )
-      }
-      return ''
-    })
+                <div className="matching-labels-input">
+                  <TextInput
+                    id={`labelValue-${item.id}`}
+                    name="labelValue"
+                    className="text-input"
+                    labelText={item.id === 0 ? 'Value' : ''}
+                    placeholder="Label value"
+                    disabled={!modeSelected}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                </div>
+
+                {item.id !== 0 ? ( // Option to remove added labels
+                  <div
+                    id={item.id}
+                    className="remove-label-btn"
+                    tabIndex="0"
+                    role={'button'}
+                    onClick={() => this.removeLabelFromList(control, item)}
+                    onKeyPress={this.removeLabelKeyPress.bind(this)}
+                  >
+                    <Icon
+                      name="icon--close--glyph"
+                      fill="#3d70b2"
+                      className="remove-label-btn-icon"
+                    />
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
+            </React.Fragment>
+          )
+        }
+        return ''
+      })
+    )
   };
 
   addLabelToList = (control, modeSelected) => {

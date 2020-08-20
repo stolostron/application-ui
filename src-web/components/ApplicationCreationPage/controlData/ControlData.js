@@ -50,8 +50,8 @@ export const setAvailableNSSpecs = (control, result) => {
   }
 }
 
-export const updateNSControls = (urlControl, control) => {
-  const { active, availableData } = urlControl
+export const updateNSControls = (nsControl, control) => {
+  const { active, availableData } = nsControl
   const userDefinedNSControl = control.find(
     ({ id }) => id === 'userDefinedNamespace'
   )
@@ -62,20 +62,18 @@ export const updateNSControls = (urlControl, control) => {
       userDefinedNSControl.active = ''
     }
   }
-  return userDefinedNSControl
 }
 
-export const updatePlacementControls = (urlControl, control) => {
-  const { active } = urlControl
+export const updatePlacementControls = placementControl => {
+  const { active, groupControlData } = placementControl
 
-  const onlineControl = control.find(
+  const onlineControl = groupControlData.find(
     ({ id }) => id === 'online-cluster-only-checkbox'
   )
-  const clusterSelectorControl = control.find(
+  const clusterSelectorControl = groupControlData.find(
     ({ id }) => id === 'clusterSelector'
   )
-
-  const clusterReplicasControl = control.find(
+  const clusterReplicasControl = groupControlData.find(
     ({ id }) => id === 'clusterReplicas'
   )
 
@@ -88,8 +86,6 @@ export const updatePlacementControls = (urlControl, control) => {
     clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'custom')
     clusterReplicasControl && _.set(clusterReplicasControl, 'type', 'text')
   }
-
-  return control
 }
 
 export const loadExistingChannels = type => {

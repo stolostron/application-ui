@@ -31,7 +31,7 @@ import "./commands";
 // require('./commands')
 
 Cypress.Cookies.defaults({
-  whitelist: ["acm-access-token-cookie", "_oauth_proxy", "XSRF-TOKEN", "_csrf"]
+  preserve: ["acm-access-token-cookie", "_oauth_proxy", "XSRF-TOKEN", "_csrf"]
 });
 
 before(() => {

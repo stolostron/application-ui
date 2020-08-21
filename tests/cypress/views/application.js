@@ -68,7 +68,7 @@ export const validateResourceTable = name => {
   cy.visit(`/multicloud/applications`);
   cy.get(".search-query-card-loading").should("not.exist");
   pageLoader.shouldNotExist();
-  resourceTable.rowShouldExist(name, 150 * 1000);
+  resourceTable.rowShouldExist(name, 600 * 1000);
   resourceTable.rowNameClick(name);
   cy.reload(); // status isn't updating after unknown failure
   cy.get(".bx--detail-page-header-title");
@@ -77,7 +77,7 @@ export const validateResourceTable = name => {
 export const deleteApplicationUI = name => {
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
-    resourceTable.rowShouldExist(name, 150 * 1000);
+    resourceTable.rowShouldExist(name, 600 * 1000);
     resourceTable.openRowMenu(name);
     resourceTable.menuClickDelete();
     modal.shouldBeOpen();
@@ -89,8 +89,8 @@ export const deleteApplicationUI = name => {
     //cy.getAppResourceAPI(Cypress.env("token"), "application", appNamespace, appName);
 
     // after deleting the app, it should not exist in the app table
-    resourceTable.rowShouldNotExist(name, 90 * 1000);
-    // disable for now letting the canary pass
+    resourceTable.rowShouldNotExist(name, 300 * 1000);
+    // disable for now letting the canary pass until #4677 is fixed
     // notification.shouldExist("success");
   } else {
     cy.log("No apps to delete...");
@@ -102,7 +102,7 @@ export const deleteAPIResources = name => {
     .exec(
       `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
         "OC_CLUSTER_USER"
-      )} -p ${Cypress.env("OC_CLUSTER_PASS")}`
+      )} -p ${Cypress.env("OC_CLUSTER_PASS")} --insecure-skip-tls-verify=true`
     )
     .its("stdout")
     .should("contain", "Login successful.")

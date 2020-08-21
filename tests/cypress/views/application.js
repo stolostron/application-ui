@@ -89,7 +89,7 @@ export const deleteApplicationUI = name => {
     //cy.getAppResourceAPI(Cypress.env("token"), "application", appNamespace, appName);
 
     // after deleting the app, it should not exist in the app table
-    resourceTable.rowShouldNotExist(name, 90 * 1000);
+    resourceTable.rowShouldNotExist(name, 300 * 1000);
     // disable for now letting the canary pass
     // notification.shouldExist("success");
   } else {

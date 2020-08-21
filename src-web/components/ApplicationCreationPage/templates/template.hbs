@@ -79,6 +79,9 @@ data:
 {{/if}}
 {{/unless}}      
 ---
+{{#if ../../selectedRuleName}} 
+AAA: {{{../../../selectedRuleName}}}
+{{/if}}
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
@@ -101,7 +104,11 @@ spec:
 {{else}}
     placementRef:
       kind: PlacementRule
+{{#if ../../../selectedRuleName}} 
+      name: {{{../../../selectedRuleName}}}
+{{else}}       
       name: {{{../../../name}}}-placement
+{{/if}}
 {{/if}}   
 {{#if ../../timeWindow.mode}}
   timewindow:
@@ -190,8 +197,12 @@ spec:
 {{else}}
     placementRef:
       kind: PlacementRule
-      name: {{{../../name}}}-placement
-{{/if}}      
+{{#if ../../../selectedRuleName}} 
+      name: {{{../../../selectedRuleName}}}
+{{else}}       
+      name: {{{../../../name}}}-placement
+{{/if}}          
+{{/if}}          
 {{#if ../../timeWindow.mode}}
   timewindow:
     windowtype: {{{../../../timeWindow.mode}}}
@@ -231,7 +242,8 @@ spec:
 {{! ========================================================== }}
 
 {{#if channels.0.channelType}}
-{{#unless local-cluster-checkbox}} 
+{{#unless existingrule-checkbox}} 
+{{#unless local-cluster-checkbox}}
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
@@ -273,6 +285,7 @@ spec:
   {{/if}}    
   {{/if}}
 {{/if}}
+{{/unless}}
 {{/unless}}
 {{/if}}
 

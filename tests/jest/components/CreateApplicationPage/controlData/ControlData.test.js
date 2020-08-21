@@ -21,7 +21,21 @@ describe("updateNSControls with existing NS", () => {
     active: "acmtest-helmrepo-ns-sub",
     availableData: { "acmtest-helmrepo-ns-sub": {} }
   };
-  const controlData = [{ id: "userDefinedNamespace" }];
+  const controlData = [
+    { id: "userDefinedNamespace" },
+    {
+      id: "existingrule-checkbox",
+      active: ""
+    },
+    {
+      id: "placementrulecombo",
+      active: ""
+    },
+    {
+      id: "clusterSelector",
+      active: ""
+    }
+  ];
   const result = { active: "", id: "userDefinedNamespace" };
   it("should return empty user data", () => {
     expect(updateNSControls(urlControl, controlData)).toEqual(result);
@@ -33,7 +47,21 @@ describe("updateNSControls with new NS", () => {
     active: "newNS",
     availableData: { "acmtest-helmrepo-ns-sub": {} }
   };
-  const controlData = [{ id: "userDefinedNamespace" }];
+  const controlData = [
+    { id: "userDefinedNamespace" },
+    {
+      id: "existingrule-checkbox",
+      active: ""
+    },
+    {
+      id: "placementrulecombo",
+      active: ""
+    },
+    {
+      id: "clusterSelector",
+      active: ""
+    }
+  ];
   const result = { active: "newNS", id: "userDefinedNamespace" };
   it("should return new user data", () => {
     expect(updateNSControls(urlControl, controlData)).toEqual(result);

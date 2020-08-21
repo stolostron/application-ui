@@ -52,15 +52,15 @@ describe("on control change function", () => {
     };
 
     wrapper
-      .find("#default-mode")
+      .find("#default-mode-undefined")
       .at(0)
       .simulate("click", evt);
     wrapper
-      .find("#active-mode")
+      .find("#active-mode-undefined")
       .at(0)
       .simulate("click", evt);
     wrapper
-      .find("#blocked-mode")
+      .find("#blocked-mode-undefined")
       .at(0)
       .simulate("click", evt);
     wrapper
@@ -74,7 +74,7 @@ describe("on control change function", () => {
       .simulate("click", evt);
 
     wrapper
-      .find("#tues")
+      .find("#tues-undefined")
       .at(0)
       .simulate("click", evt);
   });

@@ -74,7 +74,7 @@ export class ClusterSelector extends React.Component {
             <Checkbox
               className="clusterSelector-checkbox"
               name="clusterSelector-checkbox"
-              id={controlId}
+              id={`clusterSelector-checkbox-${controlId}`}
               labelText={msgs.get(
                 'tooltip.creation.app.settings.clusterSelector',
                 locale

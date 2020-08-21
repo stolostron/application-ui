@@ -62,6 +62,8 @@ export const updateNSControls = (nsControl, control) => {
       userDefinedNSControl.active = ''
     }
   }
+
+  return userDefinedNSControl
 }
 
 export const updatePlacementControls = placementControl => {
@@ -86,6 +88,8 @@ export const updatePlacementControls = placementControl => {
     clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'custom')
     clusterReplicasControl && _.set(clusterReplicasControl, 'type', 'text')
   }
+
+  return groupControlData
 }
 
 export const loadExistingChannels = type => {

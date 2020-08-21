@@ -93,8 +93,10 @@ export const modal = {
     cy.get(".bx--modal-container", { timeout: 20000 }).should("be.visible"),
   shouldNotBeVisible: () =>
     cy.get(".bx--modal-container", { timeout: 20000 }).should("not.be.visible"),
-  clickDanger: () => cy.get(".bx--modal .bx--btn--danger--primary").click(),
-  clickPrimary: () => cy.get(".bx--btn.bx--btn--sm.bx--btn--primary").click(),
+  clickDanger: () =>
+    cy.get(".bx--modal .bx--btn--danger--primary", { timeout: 20000 }).click(),
+  clickPrimary: () =>
+    cy.get(".bx--btn.bx--btn--sm.bx--btn--primary", { timeout: 20000 }).click(),
   clickSecondary: () =>
     cy
       .get(".bx--btn.bx--btn--sm.bx--btn--secondary", { timeout: 20000 })
@@ -105,7 +107,7 @@ export const modal = {
 export const notification = {
   shouldExist: type =>
     cy
-      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 50 * 1000 })
+      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 200 * 1000 })
       .should("exist")
 };
 

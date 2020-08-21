@@ -96,21 +96,21 @@ spec:
   channel: {{{../../../name}}}-{{{../../channelName}}}-ns/{{{../../../name}}}-{{{../../channelName}}}
 {{/if}}
   placement:
-{{#if ../../local-cluster-checkbox}} 
+{{#if ../local-cluster-checkbox}} 
     local: true
 {{else}}
     placementRef:
       kind: PlacementRule
-      name: {{{../../../name}}}-placement
-{{/if}}   
-{{#if ../../timeWindow.mode}}
+      name: {{{../../../name}}}-placement-{{@index}}
+{{/if}}
+{{#if ../timeWindow.mode}}
   timewindow:
-    windowtype: {{{../../../timeWindow.mode}}}
-    location: {{{../../../timeWindow.timezone}}}
-    weekdays: [{{{../../../timeWindow.days}}}]
-    {{#if ../../../timeWindow.showTimeSection}}
+    windowtype: {{{../../timeWindow.mode}}}
+    location: {{{../../timeWindow.timezone}}}
+    weekdays: [{{{../../timeWindow.days}}}]
+    {{#if ../../timeWindow.showTimeSection}}
     hours:
-      {{#each ../../../timeWindow.timeList}}
+      {{#each ../../timeWindow.timeList}}
       {{#if validTime}}
       - start: "{{{start}}}"
         end: "{{{end}}}"
@@ -118,6 +118,49 @@ spec:
       {{/each}}
     {{/if}}
 {{/if}}
+{{#unless ../local-cluster-checkbox}}
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  labels:
+    app: {{{../../../name}}}
+  name: {{{../../../name}}}-placement-{{@index}}
+  namespace: {{{../../../namespace}}}
+{{#if ../../clusterSelector.mode}}  
+spec:
+  {{#if ../../clusterReplicas}}
+  clusterReplicas: {{{../../clusterReplicas}}}
+  {{/if}}  
+  clusterSelector:
+    matchLabels:
+      {{#each ../../clusterSelector.clusterLabelsList}}
+      {{#if validValue}}
+      {{{labelName}}}: '{{{labelValue}}}'
+      {{/if}}
+      {{/each}} 
+  {{#if ../../online-cluster-only-checkbox}}
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+  {{/if}}
+{{else}}
+  {{#if ../../online-cluster-only-checkbox}}
+spec:
+  {{#if ../../clusterReplicas}}
+  clusterReplicas: {{{../../clusterReplicas}}}
+  {{/if}} 
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+  {{else}} 
+  {{#if ../../clusterReplicas}}
+spec:  
+  clusterReplicas: {{{../../clusterReplicas}}}
+  {{/if}}    
+  {{/if}}
+{{/if}}
+{{/unless}}
 
 {{/case}}
 
@@ -185,21 +228,21 @@ spec:
   channel: {{{../../../name}}}-{{{../../channelName}}}-ns/{{{../../../name}}}-{{{../../channelName}}}
 {{/if}}
   placement:
-{{#if ../../../local-cluster-checkbox}} 
+{{#if ../local-cluster-checkbox}} 
     local: true
 {{else}}
     placementRef:
       kind: PlacementRule
-      name: {{{../../name}}}-placement
-{{/if}}      
-{{#if ../../timeWindow.mode}}
+      name: {{{../../../name}}}-placement-{{@index}}
+{{/if}}
+{{#if ../timeWindow.mode}}
   timewindow:
-    windowtype: {{{../../../timeWindow.mode}}}
-    location: {{{../../../timeWindow.timezone}}}
-    weekdays: [{{{../../../timeWindow.days}}}]
-    {{#if ../../../timeWindow.showTimeSection}}
+    windowtype: {{{../../timeWindow.mode}}}
+    location: {{{../../timeWindow.timezone}}}
+    weekdays: [{{{../../timeWindow.days}}}]
+    {{#if ../../timeWindow.showTimeSection}}
     hours:
-      {{#each ../../../timeWindow.timeList}}
+      {{#each ../../timeWindow.timeList}}
       {{#if validTime}}
       - start: "{{{start}}}"
         end: "{{{end}}}"
@@ -207,7 +250,50 @@ spec:
       {{/each}}
     {{/if}}
 {{/if}}
-  
+{{#unless ../local-cluster-checkbox}}
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  labels:
+    app: {{{../../../name}}}
+  name: {{{../../../name}}}-placement-{{@index}}
+  namespace: {{{../../../namespace}}}
+{{#if ../../clusterSelector.mode}}  
+spec:
+  {{#if ../../clusterReplicas}}
+  clusterReplicas: {{{../../clusterReplicas}}}
+  {{/if}}  
+  clusterSelector:
+    matchLabels:
+      {{#each ../../clusterSelector.clusterLabelsList}}
+      {{#if validValue}}
+      {{{labelName}}}: '{{{labelValue}}}'
+      {{/if}}
+      {{/each}} 
+  {{#if ../../online-cluster-only-checkbox}}
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+  {{/if}}
+{{else}}
+  {{#if ../../online-cluster-only-checkbox}}
+spec:
+  {{#if ../../clusterReplicas}}
+  clusterReplicas: {{{../../clusterReplicas}}}
+  {{/if}} 
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+  {{else}} 
+  {{#if ../../clusterReplicas}}
+spec:  
+  clusterReplicas: {{{../../clusterReplicas}}}
+  {{/if}}    
+  {{/if}}
+{{/if}}
+{{/unless}}
+
 {{/case}}
 
 
@@ -222,57 +308,3 @@ spec:
 
 {{/switch}}
 {{/each}}
-  
-
-{{! ========================================================== }}
-{{! ========================================================== }}
-{{! ==================Placement Rule ========================= }}
-{{! ========================================================== }}
-{{! ========================================================== }}
-
-{{#if channels.0.channelType}}
-{{#unless local-cluster-checkbox}} 
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: PlacementRule
-metadata:
-  labels:
-    app: {{{name}}}
-  name: {{{name}}}-placement
-  namespace: {{{namespace}}}
-{{#if clusterSelector.mode}}  
-spec:
-  {{#if clusterReplicas}}
-  clusterReplicas: {{{clusterReplicas}}}
-  {{/if}}  
-  clusterSelector:
-    matchLabels:
-      {{#each clusterSelector.clusterLabelsList}}
-      {{#if validValue}}
-      {{{labelName}}}: '{{{labelValue}}}'
-      {{/if}}
-      {{/each}} 
-  {{#if online-cluster-only-checkbox}}
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  {{/if}}
-{{else}}
-  {{#if online-cluster-only-checkbox}}
-spec:
-  {{#if clusterReplicas}}
-  clusterReplicas: {{{clusterReplicas}}}
-  {{/if}} 
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  {{else}} 
-  {{#if clusterReplicas}}
-spec:  
-  clusterReplicas: {{{clusterReplicas}}}
-  {{/if}}    
-  {{/if}}
-{{/if}}
-{{/unless}}
-{{/if}}
-

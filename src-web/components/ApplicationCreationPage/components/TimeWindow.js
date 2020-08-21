@@ -67,7 +67,7 @@ export class TimeWindow extends React.Component {
     const timezoneDropdownID = 'timezone-dropdown'
 
     return (
-      <React.Fragment key={controlId}>
+      <React.Fragment>
         <div className="creation-view-controls-labels">
           <div className="creation-view-controls-textarea-title">
             {name}

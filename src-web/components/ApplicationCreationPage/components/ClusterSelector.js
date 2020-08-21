@@ -58,6 +58,7 @@ export class ClusterSelector extends React.Component {
     const { controlId, locale, control } = this.props
     const { name, active, validation = {} } = control
     const modeSelected = active && active.mode ? true : false
+
     return (
       <React.Fragment>
         <div className="creation-view-controls-labels">

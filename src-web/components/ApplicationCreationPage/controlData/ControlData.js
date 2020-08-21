@@ -288,19 +288,10 @@ const githubChannelData = [
     name: 'creation.app.settings.timeWindow',
     tooltip: 'creation.app.settings.timeWindow.tooltip',
     id: 'timeWindow',
-    component: <TimeWindow timeWindowDefaults={timeWindowDefaults} />,
+    component: <TimeWindow />,
     available: []
   }
 ]
-
-const timeWindowDefaults = {
-  mode: '',
-  days: [],
-  timezone: '',
-  showTimeSection: false,
-  timeList: [{ id: 0, start: '', end: '', validTime: true }],
-  timeListID: 1
-}
 
 const deployableChannelData = [
   ///////////////////////  Deployable  /////////////////////////////////////
@@ -431,7 +422,7 @@ const objectstoreChannelData = [
     name: 'creation.app.settings.timeWindow',
     tooltip: 'creation.app.settings.timeWindow.tooltip',
     id: 'timeWindow',
-    component: <TimeWindow timeWindowDefaults={timeWindowDefaults} />,
+    component: <TimeWindow />,
     available: []
   }
 ]

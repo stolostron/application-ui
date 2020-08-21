@@ -203,7 +203,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
         
         <button
           className="toggle-subs-btn bx--btn bx--btn--primary"
-          disabled={true}
+          disabled={false}
           onClick={[Function]}
           tabIndex={0}
           type="button"
@@ -718,7 +718,7 @@ exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
         
         <button
           className="toggle-subs-btn bx--btn bx--btn--primary"
-          disabled={true}
+          disabled={false}
           onClick={[Function]}
           tabIndex={0}
           type="button"

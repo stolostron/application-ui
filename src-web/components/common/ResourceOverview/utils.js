@@ -519,6 +519,7 @@ export const getAppOverviewCardsData = (
     let localClusterDeploy = false
     const tempNodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
     let statusLoaded = false
+    const subsList = []
 
     topologyData.nodes.map(node => {
       // Get date and time of app creation
@@ -542,11 +543,14 @@ export const getAppOverviewCardsData = (
       } else if (node.type === 'cluster' && _.get(node, 'specs.clusterNames')) {
         // Get remote cluster count
         remoteClusterCount = node.specs.clusterNames.length
-      } else if (
-        node.type === 'subscription' &&
-        _.get(node, 'specs.raw.spec.placement.local')
-      ) {
-        localClusterDeploy = true
+      } else if (node.type === 'subscription') {
+        subsList.push({
+          name: node.name,
+          id: node.id
+        })
+        if (_.get(node, 'specs.raw.spec.placement.local')) {
+          localClusterDeploy = true
+        }
       } else if (
         node.type !== 'application' &&
         node.type !== 'cluster' &&
@@ -574,7 +578,8 @@ export const getAppOverviewCardsData = (
       remoteClusterCount: remoteClusterCount,
       localClusterDeploy: localClusterDeploy,
       nodeStatuses: nodeStatuses,
-      targetLink: targetLink
+      targetLink: targetLink,
+      subsList: subsList
     }
   } else {
     return {
@@ -584,46 +589,8 @@ export const getAppOverviewCardsData = (
       remoteClusterCount: -1,
       localClusterDeploy: false,
       nodeStatuses: -1,
-      targetLink: targetLink
+      targetLink: targetLink,
+      subsList: -1
     }
-  }
-}
-
-export const getAppOverviewSubsData = (
-  appList,
-  appName,
-  appNamespace,
-  appSubscriptions,
-  updateFlags
-) => {
-  if (appList && appList.items && appList.items.length > 0) {
-    updateFlags.subsLoaded = true
-    appList.items.forEach(app => {
-      if (
-        app.name === appName &&
-        app.namespace === appNamespace &&
-        app.related &&
-        app.related.length > 0
-      ) {
-        appSubscriptions.subsList = []
-        app.related.forEach(resource => {
-          if (resource.kind === 'subscription') {
-            resource.items.forEach(sub => {
-              if (!sub._hostingSubscription) {
-                appSubscriptions.subsList.push({
-                  name: sub.name,
-                  id: sub._uid
-                })
-              }
-            })
-          }
-        })
-      }
-    })
-  } else {
-    updateFlags.subsLoaded = false
-  }
-  return {
-    subsList: appSubscriptions.subsList
   }
 }

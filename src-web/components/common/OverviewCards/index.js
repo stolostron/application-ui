@@ -22,8 +22,7 @@ import { fetchTopology } from '../../../actions/topology'
 import msgs from '../../../../nls/platform.properties'
 import {
   getSearchLinkForOneApplication,
-  getAppOverviewCardsData,
-  getAppOverviewSubsData
+  getAppOverviewCardsData
 } from '../ResourceOverview/utils'
 import {
   startPolling,
@@ -53,9 +52,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = state => {
-  const { HCMApplicationList, topology } = state
+  const { topology } = state
   return {
-    HCMApplicationList,
     topology
   }
 }
@@ -69,8 +67,7 @@ class OverviewCards extends React.Component {
     super(props)
     this.state = {
       nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 0 },
-      appSubscriptions: { subsList: [] },
-      updateFlags: { subsLoaded: false, showSubs: false }
+      updateFlags: { showSubs: false }
     }
     // this.reload = this.reload.bind(this)
   }
@@ -104,13 +101,8 @@ class OverviewCards extends React.Component {
   // }
 
   render() {
-    const {
-      HCMApplicationList,
-      topology,
-      selectedAppName,
-      selectedAppNS
-    } = this.props
-    const { nodeStatuses, appSubscriptions, updateFlags } = this.state
+    const { topology, selectedAppName, selectedAppNS } = this.props
+    const { nodeStatuses, updateFlags } = this.state
     const { locale } = this.context
 
     let getUrl = window.location.href
@@ -127,14 +119,6 @@ class OverviewCards extends React.Component {
       selectedAppNS,
       nodeStatuses,
       targetLink
-    )
-
-    const appOverviewSubsData = getAppOverviewSubsData(
-      HCMApplicationList,
-      selectedAppName,
-      selectedAppNS,
-      appSubscriptions,
-      updateFlags
     )
 
     let clusterString = ''
@@ -252,15 +236,15 @@ class OverviewCards extends React.Component {
 
         <div className="overview-cards-subs-section">
           {updateFlags.showSubs
-            ? this.createSubsCards(appOverviewSubsData.subsList, locale)
+            ? this.createSubsCards(appOverviewCardsData.subsList, locale)
             : ''}
           <Button
             className="toggle-subs-btn"
-            disabled={appOverviewSubsData.subsList.length === 0 ? true : false}
+            disabled={appOverviewCardsData.subsList.length === 0 ? true : false}
             onClick={() => this.toggleSubsBtn(updateFlags)}
           >
             {this.renderData(
-              updateFlags.subsLoaded ? 0 : -1,
+              appOverviewCardsData.subsList,
               (updateFlags.showSubs
                 ? msgs.get(
                   'dashboard.card.overview.cards.subs.btn.hide',
@@ -269,7 +253,7 @@ class OverviewCards extends React.Component {
                 : msgs.get(
                   'dashboard.card.overview.cards.subs.btn.show',
                   locale
-                )) + ` (${appOverviewSubsData.subsList.length})`,
+                )) + ` (${appOverviewCardsData.subsList.length})`,
               '70%'
             )}
           </Button>
@@ -360,8 +344,8 @@ class OverviewCards extends React.Component {
     })
   };
 
-  toggleSubsBtn = updateFlag => {
-    updateFlag.showSubs = !updateFlag.showSubs
+  toggleSubsBtn = updateFlags => {
+    updateFlags.showSubs = !updateFlags.showSubs
     this.forceUpdate()
   };
 }

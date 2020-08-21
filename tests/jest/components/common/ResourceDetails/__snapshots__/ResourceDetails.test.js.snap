@@ -202,12 +202,19 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
           
           <button
             className="toggle-subs-btn bx--btn bx--btn--primary"
-            disabled={true}
+            disabled={false}
             onClick={[Function]}
             tabIndex={0}
             type="button"
           >
-            Show subscription details (0)
+            <p
+              className="bx--skeleton__text loading-skeleton-text"
+              style={
+                Object {
+                  "width": "70%",
+                }
+              }
+            />
           </button>
         </div>
       </div>

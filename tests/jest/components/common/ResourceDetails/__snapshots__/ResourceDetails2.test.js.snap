@@ -202,7 +202,7 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
           
           <button
             className="toggle-subs-btn bx--btn bx--btn--primary"
-            disabled={true}
+            disabled={false}
             onClick={[Function]}
             tabIndex={0}
             type="button"

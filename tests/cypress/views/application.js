@@ -156,12 +156,12 @@ export const deleteAPIResources = name => {
           if ((stdout || stderr).includes("No resource") === false) {
             cy.log("There exist leftover subscription");
             cy
-              .exec(`oc delete placementrule ${name}-placement -n ${name}-ns`)
+              .exec(`oc delete placementrule ${name}-placement-0 -n ${name}-ns`)
               .its("stdout")
               .should("contain", "deleted");
           } else {
             cy.log(
-              `The placementrule ${name}-placement in namespace:${name}-ns is empty`
+              `The placementrule ${name}-placement-0 in namespace:${name}-ns is empty`
             );
           }
         });

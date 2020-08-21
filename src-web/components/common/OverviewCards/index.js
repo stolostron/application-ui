@@ -67,7 +67,7 @@ class OverviewCards extends React.Component {
     super(props)
     this.state = {
       nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 0 },
-      updateFlags: { showSubs: false }
+      showSubCards: false
     }
     // this.reload = this.reload.bind(this)
   }
@@ -102,7 +102,7 @@ class OverviewCards extends React.Component {
 
   render() {
     const { topology, selectedAppName, selectedAppNS } = this.props
-    const { nodeStatuses, updateFlags } = this.state
+    const { nodeStatuses, showSubCards } = this.state
     const { locale } = this.context
 
     let getUrl = window.location.href
@@ -235,17 +235,17 @@ class OverviewCards extends React.Component {
         </Accordion>
 
         <div className="overview-cards-subs-section">
-          {updateFlags.showSubs
+          {showSubCards
             ? this.createSubsCards(appOverviewCardsData.subsList, locale)
             : ''}
           <Button
             className="toggle-subs-btn"
             disabled={appOverviewCardsData.subsList.length === 0 ? true : false}
-            onClick={() => this.toggleSubsBtn(updateFlags)}
+            onClick={() => this.toggleSubsBtn(showSubCards)}
           >
             {this.renderData(
               appOverviewCardsData.subsList,
-              (updateFlags.showSubs
+              (showSubCards
                 ? msgs.get(
                   'dashboard.card.overview.cards.subs.btn.hide',
                   locale
@@ -344,8 +344,8 @@ class OverviewCards extends React.Component {
     })
   };
 
-  toggleSubsBtn = updateFlags => {
-    updateFlags.showSubs = !updateFlags.showSubs
+  toggleSubsBtn = showSubCards => {
+    this.setState({ showSubCards: !showSubCards })
     this.forceUpdate()
   };
 }

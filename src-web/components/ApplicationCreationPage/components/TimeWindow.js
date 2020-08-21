@@ -33,36 +33,27 @@ export class TimeWindow extends React.Component {
     control: PropTypes.object,
     controlId: PropTypes.string,
     handleChange: PropTypes.func,
-    locale: PropTypes.string
+    locale: PropTypes.string,
+    timeWindowDefaults: PropTypes.object
   };
 
   constructor(props) {
     super(props)
     this.state = {}
-    this.props.control.active = {
-      mode: '',
-      days: [],
-      timezone: '',
-      showTimeSection: false,
-      timeList: [{ id: 0, start: '', end: '', validTime: true }],
-      timeListID: 1
-    }
+    // this.props.control.active = {
+    //   mode: '',
+    //   days: [],
+    //   timezone: '',
+    //   showTimeSection: false,
+    //   timeList: [{ id: 0, start: '', end: '', validTime: true }],
+    //   timeListID: 1
+    // }
   }
 
   render() {
-    if (!this.props.control.active) {
-      this.props.control.active = {
-        mode: '',
-        days: [],
-        timezone: '',
-        showTimeSection: false,
-        timeList: [{ id: 0, start: '', end: '', validTime: true }],
-        timeListID: 1
-      }
-    }
-    const { controlId, locale, control } = this.props
-    const { name, active, validation = {} } = control
-    const modeSelected = active && active.mode ? true : false
+    const { controlId, locale, control, timeWindowDefaults } = this.props
+    const { name, validation = {} } = control
+    const modeSelected = timeWindowDefaults.mode ? true : false
     const daysSelectorID = 'days-selector'
     const timezoneDropdownID = 'timezone-dropdown'
 
@@ -247,14 +238,16 @@ export class TimeWindow extends React.Component {
                   </div>
 
                   <div className="config-time-section">
-                    {this.renderTimes(control, modeSelected)}
+                    {this.renderTimes(timeWindowDefaults, modeSelected)}
                     <div
                       className={`add-time-btn ${
                         !modeSelected ? 'btn-disabled' : ''
                       }`}
                       tabIndex="0"
                       role={'button'}
-                      onClick={() => this.addTimeToList(control, modeSelected)}
+                      onClick={() =>
+                        this.addTimeToList(timeWindowDefaults, modeSelected)
+                      }
                       onKeyPress={this.addTimeKeyPress.bind(this)}
                     >
                       <Icon
@@ -280,62 +273,61 @@ export class TimeWindow extends React.Component {
     )
   }
 
-  renderTimes = (control, modeSelected) => {
-    return (
-      control.active &&
-      control.active.timeList.map(item => {
-        // Don't show deleted time invertals
-        if (item.validTime) {
-          return (
-            <React.Fragment key={item.id}>
-              <div className="config-time-container">
-                <div className="config-start-time">
-                  <TimePicker
-                    id={`start-time-${item.id}`}
-                    name="start-time"
-                    labelText={item.id === 0 ? 'Start Time' : ''}
-                    type="time"
-                    value={this.state.startTime || ''}
-                    disabled={!modeSelected}
-                    onChange={this.handleChange.bind(this)}
-                  />
-                </div>
-                <div className="config-end-time">
-                  <TimePicker
-                    id={`end-time-${item.id}`}
-                    name="end-time"
-                    labelText={item.id === 0 ? 'End Time' : ''}
-                    type="time"
-                    value={this.state.endTime || ''}
-                    disabled={!modeSelected}
-                    onChange={this.handleChange.bind(this)}
-                  />
-                </div>
-                {item.id !== 0 ? ( // Option to remove added times
-                  <div
-                    id={item.id}
-                    className="remove-time-btn"
-                    tabIndex="0"
-                    role={'button'}
-                    onClick={() => this.removeTimeFromList(control, item)}
-                    onKeyPress={this.removeTimeKeyPress.bind(this)}
-                  >
-                    <Icon
-                      name="icon--close--glyph"
-                      fill="#3d70b2"
-                      className="remove-time-btn-icon"
-                    />
-                  </div>
-                ) : (
-                  ''
-                )}
+  renderTimes = (timeWindowDefaults, modeSelected) => {
+    return timeWindowDefaults.timeList.map(item => {
+      // Don't show deleted time invertals
+      if (item.validTime) {
+        return (
+          <React.Fragment key={item.id}>
+            <div className="config-time-container">
+              <div className="config-start-time">
+                <TimePicker
+                  id={`start-time-${item.id}`}
+                  name="start-time"
+                  labelText={item.id === 0 ? 'Start Time' : ''}
+                  type="time"
+                  value={this.state.startTime || ''}
+                  disabled={!modeSelected}
+                  onChange={this.handleChange.bind(this)}
+                />
               </div>
-            </React.Fragment>
-          )
-        }
-        return ''
-      })
-    )
+              <div className="config-end-time">
+                <TimePicker
+                  id={`end-time-${item.id}`}
+                  name="end-time"
+                  labelText={item.id === 0 ? 'End Time' : ''}
+                  type="time"
+                  value={this.state.endTime || ''}
+                  disabled={!modeSelected}
+                  onChange={this.handleChange.bind(this)}
+                />
+              </div>
+              {item.id !== 0 ? ( // Option to remove added times
+                <div
+                  id={item.id}
+                  className="remove-time-btn"
+                  tabIndex="0"
+                  role={'button'}
+                  onClick={() =>
+                    this.removeTimeFromList(timeWindowDefaults, item)
+                  }
+                  onKeyPress={this.removeTimeKeyPress.bind(this)}
+                >
+                  <Icon
+                    name="icon--close--glyph"
+                    fill="#3d70b2"
+                    className="remove-time-btn-icon"
+                  />
+                </div>
+              ) : (
+                ''
+              )}
+            </div>
+          </React.Fragment>
+        )
+      }
+      return ''
+    })
   };
 
   // Convert 24-hour format to 12-hour format
@@ -351,16 +343,16 @@ export class TimeWindow extends React.Component {
     }
   };
 
-  addTimeToList = (control, modeSelected) => {
+  addTimeToList = (timeWindowDefaults, modeSelected) => {
     if (modeSelected) {
       // Create new "time" item
-      control.active.timeList.push({
-        id: control.active.timeListID,
+      timeWindowDefaults.timeList.push({
+        id: timeWindowDefaults.timeListID,
         start: '',
         end: '',
         validTime: true
       })
-      control.active.timeListID++
+      timeWindowDefaults.timeListID++
 
       // Update UI
       this.forceUpdate()
@@ -369,13 +361,13 @@ export class TimeWindow extends React.Component {
 
   addTimeKeyPress = e => {
     if (e.type === 'click' || e.key === 'Enter') {
-      this.addTimeToList(this.props.control)
+      this.addTimeToList(this.props.timeWindowDefaults)
     }
   };
 
-  removeTimeFromList = (control, item) => {
+  removeTimeFromList = (timeWindowDefaults, item) => {
     // Removed times are no longer valid
-    control.active.timeList[item.id].validTime = false
+    timeWindowDefaults.timeList[item.id].validTime = false
 
     // Update UI and yaml editor
     this.forceUpdate()
@@ -384,12 +376,14 @@ export class TimeWindow extends React.Component {
 
   removeTimeKeyPress = e => {
     if (e.type === 'click' || e.key === 'Enter') {
-      this.removeTimeFromList(this.props.control, { id: e.target.id })
+      this.removeTimeFromList(this.props.timeWindowDefaults, {
+        id: e.target.id
+      })
     }
   };
 
   handleChange(event) {
-    const { control, handleChange } = this.props
+    const { timeWindowDefaults, handleChange, control } = this.props
     let targetName = ''
     try {
       targetName = event.target.name
@@ -399,15 +393,15 @@ export class TimeWindow extends React.Component {
 
     if (targetName) {
       if (targetName.startsWith('timeWindow-mode-container')) {
-        control.active.mode = event.target.value
+        timeWindowDefaults.mode = event.target.value
       } else {
         switch (targetName) {
         case 'days-selector':
           if (event.target.checked === true) {
-            control.active.days.push(event.target.value)
+            timeWindowDefaults.days.push(event.target.value)
           } else {
-            const index = control.active.days.indexOf(event.target.value)
-            control.active.days.splice(index, 1)
+            const index = timeWindowDefaults.days.indexOf(event.target.value)
+            timeWindowDefaults.days.splice(index, 1)
           }
           break
         case 'start-time':
@@ -416,17 +410,19 @@ export class TimeWindow extends React.Component {
             const convertedTime = this.convertTimeFormat(event.target.value)
             // As long as first start-time is entered, all times will show
             if (startTimeID === 0) {
-              control.active.showTimeSection = convertedTime ? true : false
+              timeWindowDefaults.showTimeSection = convertedTime
+                ? true
+                : false
             }
-            control.active.timeList[startTimeID].start = convertedTime
+            timeWindowDefaults.timeList[startTimeID].start = convertedTime
           }
           break
         case 'end-time':
           {
             const endTimeID = parseInt(event.target.id.split('-')[2], 10)
-            control.active.timeList[endTimeID].end = this.convertTimeFormat(
-              event.target.value
-            )
+            timeWindowDefaults.timeList[
+              endTimeID
+            ].end = this.convertTimeFormat(event.target.value)
           }
           break
         }
@@ -435,7 +431,7 @@ export class TimeWindow extends React.Component {
       event.selectedItem &&
       event.selectedItem.name === 'timezone-dropdown'
     ) {
-      control.active.timezone = event.selectedItem.value
+      timeWindowDefaults.timezone = event.selectedItem.value
     }
 
     handleChange(control)

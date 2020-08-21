@@ -46,6 +46,15 @@ export class ClusterSelector extends React.Component {
   }
 
   render() {
+    if (!this.props.control.active) {
+      this.props.control.active = {
+        mode: '',
+        clusterLabelsList: [
+          { id: 0, labelName: '', labelValue: '', validValue: true }
+        ],
+        clusterLabelsListID: 1
+      }
+    }
     const { controlId, locale, control } = this.props
     const { name, active, validation = {} } = control
     const modeSelected = active && active.mode ? true : false

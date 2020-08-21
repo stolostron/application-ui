@@ -50,6 +50,16 @@ export class TimeWindow extends React.Component {
   }
 
   render() {
+    if (!this.props.control.active) {
+      this.props.control.active = {
+        mode: '',
+        days: [],
+        timezone: '',
+        showTimeSection: false,
+        timeList: [{ id: 0, start: '', end: '', validTime: true }],
+        timeListID: 1
+      }
+    }
     const { controlId, locale, control } = this.props
     const { name, active, validation = {} } = control
     const modeSelected = active && active.mode ? true : false
@@ -57,7 +67,7 @@ export class TimeWindow extends React.Component {
     const timezoneDropdownID = 'timezone-dropdown'
 
     return (
-      <React.Fragment>
+      <React.Fragment key={controlId}>
         <div className="creation-view-controls-labels">
           <div className="creation-view-controls-textarea-title">
             {name}
@@ -70,8 +80,9 @@ export class TimeWindow extends React.Component {
           <div className="timeWindow-container">
             <RadioButtonGroup
               className="timeWindow-mode-container"
-              name="timeWindow-mode-container"
+              name={`timeWindow-mode-container-${controlId}`}
               defaultSelected=""
+              id={controlId}
             >
               <RadioButton
                 className="mode-btn"
@@ -387,37 +398,38 @@ export class TimeWindow extends React.Component {
     }
 
     if (targetName) {
-      switch (targetName) {
-      case 'timeWindow-mode-container':
+      if (targetName.startsWith('timeWindow-mode-container')) {
         control.active.mode = event.target.value
-        break
-      case 'days-selector':
-        if (event.target.checked === true) {
-          control.active.days.push(event.target.value)
-        } else {
-          const index = control.active.days.indexOf(event.target.value)
-          control.active.days.splice(index, 1)
-        }
-        break
-      case 'start-time':
-        {
-          const startTimeID = parseInt(event.target.id.split('-')[2], 10)
-          const convertedTime = this.convertTimeFormat(event.target.value)
-          // As long as first start-time is entered, all times will show
-          if (startTimeID === 0) {
-            control.active.showTimeSection = convertedTime ? true : false
+      } else {
+        switch (targetName) {
+        case 'days-selector':
+          if (event.target.checked === true) {
+            control.active.days.push(event.target.value)
+          } else {
+            const index = control.active.days.indexOf(event.target.value)
+            control.active.days.splice(index, 1)
           }
-          control.active.timeList[startTimeID].start = convertedTime
+          break
+        case 'start-time':
+          {
+            const startTimeID = parseInt(event.target.id.split('-')[2], 10)
+            const convertedTime = this.convertTimeFormat(event.target.value)
+            // As long as first start-time is entered, all times will show
+            if (startTimeID === 0) {
+              control.active.showTimeSection = convertedTime ? true : false
+            }
+            control.active.timeList[startTimeID].start = convertedTime
+          }
+          break
+        case 'end-time':
+          {
+            const endTimeID = parseInt(event.target.id.split('-')[2], 10)
+            control.active.timeList[endTimeID].end = this.convertTimeFormat(
+              event.target.value
+            )
+          }
+          break
         }
-        break
-      case 'end-time':
-        {
-          const endTimeID = parseInt(event.target.id.split('-')[2], 10)
-          control.active.timeList[endTimeID].end = this.convertTimeFormat(
-            event.target.value
-          )
-        }
-        break
       }
     } else if (
       event.selectedItem &&

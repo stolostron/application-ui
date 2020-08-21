@@ -90,7 +90,7 @@ export const deleteApplicationUI = name => {
 
     // after deleting the app, it should not exist in the app table
     resourceTable.rowShouldNotExist(name, 300 * 1000);
-    // disable for now letting the canary pass
+    // disable for now letting the canary pass until #4677 is fixed
     // notification.shouldExist("success");
   } else {
     cy.log("No apps to delete...");
@@ -102,7 +102,7 @@ export const deleteAPIResources = name => {
     .exec(
       `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
         "OC_CLUSTER_USER"
-      )} -p ${Cypress.env("OC_CLUSTER_PASS")}`
+      )} -p ${Cypress.env("OC_CLUSTER_PASS")} --insecure-skip-tls-verify=true`
     )
     .its("stdout")
     .should("contain", "Login successful.")

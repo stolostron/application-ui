@@ -31,6 +31,7 @@ resources(() => {
 export class TimeWindow extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -49,9 +50,19 @@ export class TimeWindow extends React.Component {
   }
 
   render() {
-    const { locale, control } = this.props
-    const { name, validation = {} } = control
-    const modeSelected = control.active.mode ? true : false
+    if (!this.props.control.active) {
+      this.props.control.active = {
+        mode: '',
+        days: [],
+        timezone: '',
+        showTimeSection: false,
+        timeList: [{ id: 0, start: '', end: '', validTime: true }],
+        timeListID: 1
+      }
+    }
+    const { controlId, locale, control } = this.props
+    const { name, active, validation = {} } = control
+    const modeSelected = active && active.mode ? true : false
     const daysSelectorID = 'days-selector'
     const timezoneDropdownID = 'timezone-dropdown'
 
@@ -69,12 +80,13 @@ export class TimeWindow extends React.Component {
           <div className="timeWindow-container">
             <RadioButtonGroup
               className="timeWindow-mode-container"
-              name="timeWindow-mode-container"
+              name={`timeWindow-mode-container-${controlId}`}
               defaultSelected=""
+              id={controlId}
             >
               <RadioButton
                 className="mode-btn"
-                id="default-mode"
+                id={`default-mode-${controlId}`}
                 labelText={msgs.get(
                   'creation.app.settings.timeWindow.defaultMode',
                   locale
@@ -84,7 +96,7 @@ export class TimeWindow extends React.Component {
               />
               <RadioButton
                 className="mode-btn"
-                id="active-mode"
+                id={`active-mode-${controlId}`}
                 labelText={msgs.get(
                   'creation.app.settings.timeWindow.activeMode',
                   locale
@@ -94,7 +106,7 @@ export class TimeWindow extends React.Component {
               />
               <RadioButton
                 className="mode-btn"
-                id="blocked-mode"
+                id={`blocked-mode-${controlId}`}
                 labelText={msgs.get(
                   'creation.app.settings.timeWindow.blockedMode',
                   locale
@@ -132,7 +144,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Monday"
                           name={daysSelectorID}
-                          id="mon"
+                          id={`mon-${controlId}`}
                           value="&quot;Monday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -140,7 +152,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Tuesday"
                           name={daysSelectorID}
-                          id="tues"
+                          id={`tues-${controlId}`}
                           value="&quot;Tuesday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -148,7 +160,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Wednesday"
                           name={daysSelectorID}
-                          id="wed"
+                          id={`wed-${controlId}`}
                           value="&quot;Wednesday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -156,7 +168,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Thursday"
                           name={daysSelectorID}
-                          id="thurs"
+                          id={`thurs-${controlId}`}
                           value="&quot;Thursday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -164,7 +176,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Friday"
                           name={daysSelectorID}
-                          id="fri"
+                          id={`fri-${controlId}`}
                           value="&quot;Friday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -174,7 +186,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Saturday"
                           name={daysSelectorID}
-                          id="sat"
+                          id={`sat-${controlId}`}
                           value="&quot;Saturday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -182,7 +194,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Sunday"
                           name={daysSelectorID}
-                          id="sun"
+                          id={`sun-${controlId}`}
                           value="&quot;Sunday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -269,58 +281,61 @@ export class TimeWindow extends React.Component {
   }
 
   renderTimes = (control, modeSelected) => {
-    return control.active.timeList.map(item => {
-      // Don't show deleted time invertals
-      if (item.validTime) {
-        return (
-          <React.Fragment key={item.id}>
-            <div className="config-time-container">
-              <div className="config-start-time">
-                <TimePicker
-                  id={`start-time-${item.id}`}
-                  name="start-time"
-                  labelText={item.id === 0 ? 'Start Time' : ''}
-                  type="time"
-                  value={this.state.startTime || ''}
-                  disabled={!modeSelected}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </div>
-              <div className="config-end-time">
-                <TimePicker
-                  id={`end-time-${item.id}`}
-                  name="end-time"
-                  labelText={item.id === 0 ? 'End Time' : ''}
-                  type="time"
-                  value={this.state.endTime || ''}
-                  disabled={!modeSelected}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </div>
-              {item.id !== 0 ? ( // Option to remove added times
-                <div
-                  id={item.id}
-                  className="remove-time-btn"
-                  tabIndex="0"
-                  role={'button'}
-                  onClick={() => this.removeTimeFromList(control, item)}
-                  onKeyPress={this.removeTimeKeyPress.bind(this)}
-                >
-                  <Icon
-                    name="icon--close--glyph"
-                    fill="#3d70b2"
-                    className="remove-time-btn-icon"
+    return (
+      control.active &&
+      control.active.timeList.map(item => {
+        // Don't show deleted time invertals
+        if (item.validTime) {
+          return (
+            <React.Fragment key={item.id}>
+              <div className="config-time-container">
+                <div className="config-start-time">
+                  <TimePicker
+                    id={`start-time-${item.id}`}
+                    name="start-time"
+                    labelText={item.id === 0 ? 'Start Time' : ''}
+                    type="time"
+                    value={this.state.startTime || ''}
+                    disabled={!modeSelected}
+                    onChange={this.handleChange.bind(this)}
                   />
                 </div>
-              ) : (
-                ''
-              )}
-            </div>
-          </React.Fragment>
-        )
-      }
-      return ''
-    })
+                <div className="config-end-time">
+                  <TimePicker
+                    id={`end-time-${item.id}`}
+                    name="end-time"
+                    labelText={item.id === 0 ? 'End Time' : ''}
+                    type="time"
+                    value={this.state.endTime || ''}
+                    disabled={!modeSelected}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                </div>
+                {item.id !== 0 ? ( // Option to remove added times
+                  <div
+                    id={item.id}
+                    className="remove-time-btn"
+                    tabIndex="0"
+                    role={'button'}
+                    onClick={() => this.removeTimeFromList(control, item)}
+                    onKeyPress={this.removeTimeKeyPress.bind(this)}
+                  >
+                    <Icon
+                      name="icon--close--glyph"
+                      fill="#3d70b2"
+                      className="remove-time-btn-icon"
+                    />
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
+            </React.Fragment>
+          )
+        }
+        return ''
+      })
+    )
   };
 
   // Convert 24-hour format to 12-hour format
@@ -383,37 +398,38 @@ export class TimeWindow extends React.Component {
     }
 
     if (targetName) {
-      switch (targetName) {
-      case 'timeWindow-mode-container':
+      if (targetName.startsWith('timeWindow-mode-container')) {
         control.active.mode = event.target.value
-        break
-      case 'days-selector':
-        if (event.target.checked === true) {
-          control.active.days.push(event.target.value)
-        } else {
-          const index = control.active.days.indexOf(event.target.value)
-          control.active.days.splice(index, 1)
-        }
-        break
-      case 'start-time':
-        {
-          const startTimeID = parseInt(event.target.id.split('-')[2], 10)
-          const convertedTime = this.convertTimeFormat(event.target.value)
-          // As long as first start-time is entered, all times will show
-          if (startTimeID === 0) {
-            control.active.showTimeSection = convertedTime ? true : false
+      } else {
+        switch (targetName) {
+        case 'days-selector':
+          if (event.target.checked === true) {
+            control.active.days.push(event.target.value)
+          } else {
+            const index = control.active.days.indexOf(event.target.value)
+            control.active.days.splice(index, 1)
           }
-          control.active.timeList[startTimeID].start = convertedTime
+          break
+        case 'start-time':
+          {
+            const startTimeID = parseInt(event.target.id.split('-')[2], 10)
+            const convertedTime = this.convertTimeFormat(event.target.value)
+            // As long as first start-time is entered, all times will show
+            if (startTimeID === 0) {
+              control.active.showTimeSection = convertedTime ? true : false
+            }
+            control.active.timeList[startTimeID].start = convertedTime
+          }
+          break
+        case 'end-time':
+          {
+            const endTimeID = parseInt(event.target.id.split('-')[2], 10)
+            control.active.timeList[endTimeID].end = this.convertTimeFormat(
+              event.target.value
+            )
+          }
+          break
         }
-        break
-      case 'end-time':
-        {
-          const endTimeID = parseInt(event.target.id.split('-')[2], 10)
-          control.active.timeList[endTimeID].end = this.convertTimeFormat(
-            event.target.value
-          )
-        }
-        break
       }
     } else if (
       event.selectedItem &&

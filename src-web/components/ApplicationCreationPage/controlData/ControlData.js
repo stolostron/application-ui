@@ -113,7 +113,7 @@ export const setAvailableChannelSpecs = (type, control, result) => {
   } else if (items) {
     control.availableData = _.keyBy(
       items.filter(({ type: p }) => {
-        return type.startsWith(p.toLowerCase())
+        return p.toLowerCase().startsWith(type)
       }),
       'objectPath'
     )

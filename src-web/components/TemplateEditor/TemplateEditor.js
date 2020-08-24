@@ -22,6 +22,7 @@ import {
   ToggleSmall
 } from 'carbon-components-react'
 import { initializeControlData, cacheUserData } from './utils/initialize-controls'
+import { initializeTemplateData } from './utils/initialize-templates'
 import { updateControls } from './utils/refresh-controls-from-source'
 import { generateSourceFromTemplate } from './utils/refresh-source-from-templates'
 import { getUniqueName } from './utils/source-utils'
@@ -124,6 +125,8 @@ export default class TemplateEditor extends React.Component {
           _.cloneDeep(initialControlData),
           locale
         );
+        initializeTemplateData(template,
+          controlData)
         ({ templateYAML, templateObject } = generateSourceFromTemplate(
           template,
           controlData
@@ -432,6 +435,9 @@ export default class TemplateEditor extends React.Component {
       controlData,
       otherYAMLTabs
     )
+    
+    
+    
     updateControls(
       this.editors,
       newYAML,

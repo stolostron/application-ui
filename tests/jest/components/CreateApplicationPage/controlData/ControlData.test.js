@@ -15,26 +15,60 @@ import {
   updatePlacementControls
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
 
-describe("updateNSControls with existing NS", () => {
+describe("updateNSControls with existing NS and no channel selection", () => {
   const urlControl = {
     id: "namespace",
     active: "acmtest-helmrepo-ns-sub",
     availableData: { "acmtest-helmrepo-ns-sub": {} }
   };
-  const controlData = [{ id: "userDefinedNamespace" }];
-  const result = { active: "", id: "userDefinedNamespace" };
-  it("should return empty user data", () => {
+  const controlData = [
+    { id: "userDefinedNamespace" },
+    {
+      channels: {
+        controlMapArr: []
+      }
+    }
+  ];
+  const result = { id: "userDefinedNamespace" };
+  it("should return no PR when no channel selection", () => {
     expect(updateNSControls(urlControl, controlData)).toEqual(result);
   });
 });
 
-describe("updateNSControls with new NS", () => {
+describe("updateNSControls with new NS AND channel selection", () => {
   const urlControl = {
     active: "newNS",
     availableData: { "acmtest-helmrepo-ns-sub": {} }
   };
-  const controlData = [{ id: "userDefinedNamespace" }];
-  const result = { active: "newNS", id: "userDefinedNamespace" };
+  const controlData = [
+    { id: "userDefinedNamespace" },
+    {
+      channels: {
+        controlMapArr: [
+          {
+            "local-cluster-checkbox": {
+              active: false,
+              id: "local-cluster-checkbox"
+            }
+          },
+          {
+            "online-cluster-only-checkbox": {
+              active: false,
+              id: "online-cluster-only-checkbox"
+            }
+          },
+          {
+            placementrulecombo: {
+              active: false,
+              id: "local-cluster-checkbox",
+              ns: "aa-ns"
+            }
+          }
+        ]
+      }
+    }
+  ];
+  const result = { id: "userDefinedNamespace" };
   it("should return new user data", () => {
     expect(updateNSControls(urlControl, controlData)).toEqual(result);
   });

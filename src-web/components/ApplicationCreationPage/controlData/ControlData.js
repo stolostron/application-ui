@@ -16,13 +16,56 @@ import {
 } from '../../TemplateEditor/utils/validation'
 import {
   HCMChannelList,
-  HCMNamespaceList
+  HCMNamespaceList,
+  HCMPlacementRuleList
 } from '../../../../lib/client/queries'
 import TimeWindow from '../components/TimeWindow'
 import ClusterSelector from '../components/ClusterSelector'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
+
+export const loadExistingPlacementRules = () => {
+  return {
+    query: HCMPlacementRuleList,
+    loadingDesc: 'creation.app.loading.rules',
+    setAvailable: setAvailableRules.bind(null)
+  }
+}
+
+export const setAvailableRules = (control, result) => {
+  const { loading } = result
+  const { data = {} } = result
+  const { placementrules } = data
+  control.available = []
+  control.availableMap = {}
+  control.isLoading = false
+  control.active = ''
+
+  const selectedNS = control.ns
+  const error = placementrules ? null : result.error
+
+  if (error) {
+    control.isFailed = true
+  } else if (placementrules) {
+    if (_.get(control, 'ns', '') === '') {
+      control.available = [] // no app namespace selected so no rule to show
+    } else {
+      control.availableData = _.keyBy(
+        placementrules.filter(
+          rule => _.get(rule, 'metadata.namespace', '') === selectedNS
+        ),
+        'metadata.name'
+      )
+      control.available = Object.keys(control.availableData).sort()
+      if (Object.keys(control.availableData).length === 0) {
+        _.set(control, 'type', 'hidden')
+      }
+    }
+  } else {
+    control.isLoading = loading
+  }
+}
 
 export const loadExistingNamespaces = () => {
   return {
@@ -50,23 +93,217 @@ export const setAvailableNSSpecs = (control, result) => {
   }
 }
 
-export const updateNSControls = (nsControl, control) => {
+export const getExistingPRControlsSection = control => {
+  //returns the existing placement rule options for this channel
+  const channelsControl = control.find(({ id }) => id === 'channels')
+
+  if (channelsControl) {
+    const channelControlsList = _.get(channelsControl, 'controlMapArr', [])
+
+    if (channelControlsList.length > 0) {
+      return channelControlsList[0]
+    }
+  }
+
+  return null
+}
+
+export const updateNSControls = (nsControl, globalControl) => {
   const { active, availableData } = nsControl
-  const userDefinedNSControl = control.find(
+  const userDefinedNSControl = globalControl.find(
     ({ id }) => id === 'userDefinedNamespace'
   )
-  if (userDefinedNSControl) {
-    if (active && availableData && !(active in availableData)) {
-      userDefinedNSControl.active = active
-    } else {
-      userDefinedNSControl.active = ''
+
+  const control = getExistingPRControlsSection(globalControl)
+  if (control) {
+    const existingRuleControl = _.get(control, 'placementrulecombo')
+    const existingruleCheckbox = _.get(control, 'existingrule-checkbox')
+    //update placement rule controls
+    if (existingRuleControl && existingruleCheckbox) {
+      if (userDefinedNSControl) {
+        if (availableData[active] === undefined) {
+          userDefinedNSControl.active = active
+          _.set(existingruleCheckbox, 'type', 'hidden')
+          _.set(existingRuleControl, 'type', 'hidden')
+
+          _.set(existingRuleControl, 'ns', '')
+        } else {
+          _.set(existingruleCheckbox, 'type', 'checkbox')
+          _.set(existingruleCheckbox, 'active', false)
+
+          _.set(existingRuleControl, 'ns', active)
+          _.set(existingRuleControl, 'type', 'hidden')
+
+          userDefinedNSControl.active = active
+        }
+      }
+      _.set(existingRuleControl, 'active', '')
+      updateNewRuleControlsData('', control)
     }
   }
 
   return userDefinedNSControl
 }
 
+export const updateNewRuleControls = (urlControl, controlGlobal) => {
+  const control = getExistingPRControlsSection(controlGlobal)
+
+  const { active, availableData } = urlControl
+  const selectedPR = availableData[active]
+
+  const selectedRuleNameControl = _.get(control, 'selectedRuleName')
+  selectedRuleNameControl.active = active
+
+  return updateNewRuleControlsData(selectedPR, control)
+}
+
+export const updateNewRuleControlsData = (selectedPR, control) => {
+  const onlineControl = _.get(control, 'online-cluster-only-checkbox')
+  const clusterSelectorControl = _.get(control, 'clusterSelector')
+
+  const clusterReplicasControl = _.get(control, 'clusterReplicas')
+
+  const localClusterControl = _.get(control, 'local-cluster-checkbox')
+
+  if (selectedPR) {
+    const clusterConditionsList = _.get(
+      selectedPR,
+      'raw.spec.clusterConditions',
+      []
+    )
+    const localClusterData = clusterConditionsList.filter(
+      rule =>
+        _.get(rule, 'status', '').toLowerCase() === 'true' &&
+        _.get(rule, 'type', '') === 'ManagedClusterConditionAvailable'
+    )
+
+    onlineControl.active = localClusterData.length > 0
+    localClusterData.length > 0 && _.set(onlineControl, 'type', 'checkbox')
+
+    const clusterReplicas = _.get(selectedPR, 'raw.spec.clusterReplicas', '')
+    clusterReplicasControl.active = _.toString(clusterReplicas)
+    clusterReplicas !== '' && _.set(clusterReplicasControl, 'type', 'text')
+
+    const clusterSelectorData = _.get(
+      selectedPR,
+      'raw.spec.clusterSelector.matchLabels',
+      null
+    )
+
+    clusterSelectorData !== null &&
+      _.set(clusterSelectorControl, 'type', 'custom')
+
+    clusterSelectorControl.active.mode = clusterSelectorData !== null
+
+    if (clusterSelectorData) {
+      clusterSelectorControl.active.clusterLabelsList.splice(
+        0,
+        clusterSelectorControl.active.clusterLabelsList.length
+      )
+
+      const newData = []
+      let idx = 0
+      Object.keys(clusterSelectorData).forEach(key => {
+        newData.push({
+          id: idx,
+          labelName: key,
+          labelValue: clusterSelectorData[key],
+          validValue: true
+        })
+        idx = idx + 1
+      })
+
+      clusterSelectorControl.active.mode =
+        clusterSelectorControl.active.clusterLabelsList.length > 0
+
+      if (newData.length === 0) {
+        newData.push({
+          id: 0,
+          labelName: '',
+          labelValue: '',
+          validValue: true
+        })
+      }
+
+      clusterSelectorControl.showData = newData
+      clusterSelectorControl.active = {
+        mode: true,
+        clusterLabelsList: newData,
+        clusterLabelsListID: newData.length
+      }
+    }
+
+    _.set(localClusterControl, 'type', 'hidden')
+  } else {
+    _.set(localClusterControl, 'type', 'checkbox')
+
+    _.set(onlineControl, 'type', 'checkbox')
+    _.set(onlineControl, 'active', false)
+
+    _.set(clusterSelectorControl, 'type', 'custom')
+    _.set(clusterSelectorControl, 'active.mode', false)
+    clusterSelectorControl.active.clusterLabelsList = [
+      { id: 0, labelName: '', labelValue: '', validValue: true }
+    ]
+    clusterSelectorControl.showData = []
+
+    _.set(clusterReplicasControl, 'type', 'text')
+    _.set(clusterReplicasControl, 'active', '')
+
+    clusterSelectorControl.showData = []
+  }
+
+  return control
+}
+
+export const updateDisplayForPlacementControls = (
+  urlControl,
+  controlGlobal
+) => {
+  //hide or show placement rule settings if user selects an existing PR
+  const { active } = urlControl
+
+  const control = getExistingPRControlsSection(controlGlobal)
+
+  const existingRuleControl = _.get(control, 'placementrulecombo')
+
+  const onlineControl = _.get(control, 'online-cluster-only-checkbox')
+  const clusterSelectorControl = _.get(control, 'clusterSelector')
+
+  const clusterReplicasControl = _.get(control, 'clusterReplicas')
+
+  const localClusterControl = _.get(control, 'local-cluster-checkbox')
+
+  if (active === true) {
+    _.set(existingRuleControl, 'type', 'singleselect')
+
+    _.set(onlineControl, 'type', 'hidden')
+    _.set(clusterSelectorControl, 'type', 'hidden')
+    _.set(clusterReplicasControl, 'type', 'hidden')
+    _.set(localClusterControl, 'type', 'hidden')
+  } else {
+    _.set(existingRuleControl, 'type', 'hidden')
+
+    _.set(onlineControl, 'type', 'checkbox')
+    _.set(clusterSelectorControl, 'type', 'custom')
+    _.set(clusterReplicasControl, 'type', 'text')
+    _.set(localClusterControl, 'type', 'checkbox')
+  }
+
+  //reset all values
+  _.set(localClusterControl, 'active', false)
+  _.set(onlineControl, 'active', false)
+  _.set(clusterSelectorControl, 'active.mode', false)
+  _.set(clusterReplicasControl, 'active', '')
+  _.set(clusterSelectorControl, 'active.mode', false)
+  clusterSelectorControl.active.clusterLabelsList = [
+    { id: 0, labelName: '', labelValue: '', validValue: true }
+  ]
+  return control
+}
+
 export const updatePlacementControls = placementControl => {
+  //update PR controls on channel or ns change
   const { active, groupControlData } = placementControl
 
   const onlineControl = groupControlData.find(
@@ -123,7 +360,11 @@ export const setAvailableChannelSpecs = (type, control, result) => {
   }
 }
 
-const updateChannelControls = urlControl => {
+const updateChannelControls = (urlControl, globalControl) => {
+  //update existing placement rule section when user changes the namespace
+  const nsControl = globalControl.find(({ id }) => id === 'namespace')
+  updateNSControls(nsControl, globalControl)
+
   const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]
 
@@ -246,6 +487,30 @@ const githubChannelData = [
     collapsed: false
   },
   {
+    id: 'existingrule-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.existingRule',
+    tooltip: 'tooltip.creation.app.settings.existingRule',
+    onSelect: updateDisplayForPlacementControls,
+    active: false,
+    available: [],
+    validation: {}
+  },
+  {
+    name: 'creation.app.exitingRuleCombo',
+    tooltip: 'tooltip.creation.app.exitingRuleCombo',
+    id: 'placementrulecombo',
+    type: 'hidden',
+    fetchAvailable: loadExistingPlacementRules(),
+    onSelect: updateNewRuleControls,
+    validation: {}
+  },
+  {
+    id: 'selectedRuleName',
+    type: 'hidden',
+    active: ''
+  },
+  {
     id: 'local-cluster-checkbox',
     type: 'checkbox',
     name: 'creation.app.settings.localClusters',
@@ -275,7 +540,8 @@ const githubChannelData = [
     type: 'text',
     active: '',
     placeholder: 'creation.app.settings.ph.clustersReplica',
-    available: []
+    available: [],
+    validation: {}
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  settings  /////////////////////////////////////
@@ -311,6 +577,30 @@ const hubClusterChannelData = [
     collapsed: false
   },
   {
+    id: 'existingrule-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.existingRule',
+    tooltip: 'tooltip.creation.app.settings.existingRule',
+    onSelect: updateDisplayForPlacementControls,
+    active: false,
+    available: [],
+    validation: {}
+  },
+  {
+    name: 'creation.app.exitingRuleCombo',
+    tooltip: 'tooltip.creation.app.exitingRuleCombo',
+    id: 'placementrulecombo',
+    type: 'hidden',
+    fetchAvailable: loadExistingPlacementRules(),
+    onSelect: updateNewRuleControls,
+    validation: {}
+  },
+  {
+    id: 'selectedRuleName',
+    type: 'hidden',
+    active: ''
+  },
+  {
     id: 'local-cluster-checkbox',
     type: 'checkbox',
     name: 'creation.app.settings.localClusters',
@@ -340,7 +630,8 @@ const hubClusterChannelData = [
     type: 'text',
     active: '',
     placeholder: 'creation.app.settings.ph.clustersReplica',
-    available: []
+    available: [],
+    validation: {}
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  settings  /////////////////////////////////////
@@ -435,6 +726,30 @@ const objectstoreChannelData = [
     collapsed: false
   },
   {
+    id: 'existingrule-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.existingRule',
+    tooltip: 'tooltip.creation.app.settings.existingRule',
+    onSelect: updateDisplayForPlacementControls,
+    active: false,
+    available: [],
+    validation: {}
+  },
+  {
+    name: 'creation.app.exitingRuleCombo',
+    tooltip: 'tooltip.creation.app.exitingRuleCombo',
+    id: 'placementrulecombo',
+    type: 'hidden',
+    fetchAvailable: loadExistingPlacementRules(),
+    onSelect: updateNewRuleControls,
+    validation: {}
+  },
+  {
+    id: 'selectedRuleName',
+    type: 'hidden',
+    active: ''
+  },
+  {
     id: 'local-cluster-checkbox',
     type: 'checkbox',
     name: 'creation.app.settings.localClusters',
@@ -464,7 +779,8 @@ const objectstoreChannelData = [
     type: 'text',
     active: '',
     placeholder: 'creation.app.settings.ph.clustersReplica',
-    available: []
+    available: [],
+    validation: {}
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  settings  /////////////////////////////////////

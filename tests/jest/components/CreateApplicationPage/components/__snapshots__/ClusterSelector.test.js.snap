@@ -14,6 +14,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
       className="bx--form-item bx--checkbox-wrapper"
     >
       <input
+        checked={false}
         className="bx--checkbox"
         id="clusterSelector-checkbox-undefined"
         name="clusterSelector-checkbox"
@@ -103,7 +104,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                     </label>
                     <input
                       className="bx--text-input text-input"
-                      disabled={true}
+                      disabled={false}
                       id="labelName-0"
                       name="labelName"
                       onChange={[Function]}
@@ -127,7 +128,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                     </label>
                     <input
                       className="bx--text-input text-input"
-                      disabled={true}
+                      disabled={false}
                       id="labelValue-0"
                       name="labelValue"
                       onChange={[Function]}
@@ -140,7 +141,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                 
               </div>
               <div
-                className="add-label-btn btn-disabled"
+                className="add-label-btn "
                 onClick={[Function]}
                 onKeyPress={[Function]}
                 role="button"

@@ -20,6 +20,7 @@ import {
 } from 'carbon-components-react'
 import Tooltip from '../../TemplateEditor/components/Tooltip'
 import msgs from '../../../../nls/platform.properties'
+import _ from 'lodash'
 
 resources(() => {
   require('./style.scss')
@@ -36,29 +37,32 @@ export class ClusterSelector extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-    this.props.control.active = {
-      mode: '',
-      clusterLabelsList: [
-        { id: 0, labelName: '', labelValue: '', validValue: true }
-      ],
-      clusterLabelsListID: 1
-    }
-  }
-
-  render() {
-    if (!this.props.control.active) {
+    if (
+      !this.props.control.showData ||
+      this.props.control.showData.length === 0
+    ) {
       this.props.control.active = {
-        mode: '',
+        mode: false,
         clusterLabelsList: [
           { id: 0, labelName: '', labelValue: '', validValue: true }
         ],
         clusterLabelsListID: 1
       }
+    } else {
+      //display existing placement rule
+      this.props.control.active = {
+        mode: true,
+        clusterLabelsList: this.props.control.showData,
+        clusterLabelsListID: this.props.control.showData.length
+      }
     }
+  }
+
+  render() {
     const { controlId, locale, control } = this.props
     const { name, active, validation = {} } = control
     const modeSelected = active && active.mode ? true : false
-
+    const isReadOnly = _.get(this.props, 'control.showData', []).length > 0
     return (
       <React.Fragment>
         <div className="creation-view-controls-labels">
@@ -75,6 +79,7 @@ export class ClusterSelector extends React.Component {
               className="clusterSelector-checkbox"
               name="clusterSelector-checkbox"
               id={`clusterSelector-checkbox-${controlId}`}
+              checked={modeSelected}
               labelText={msgs.get(
                 'tooltip.creation.app.settings.clusterSelector',
                 locale
@@ -96,11 +101,11 @@ export class ClusterSelector extends React.Component {
                     {this.renderClusterLabels(control, modeSelected)}
                     <div
                       className={`add-label-btn ${
-                        !modeSelected ? 'btn-disabled' : ''
+                        isReadOnly ? 'btn-disabled' : ''
                       }`}
                       tabIndex="0"
                       role={'button'}
-                      onClick={() => this.addLabelToList(control, modeSelected)}
+                      onClick={() => this.addLabelToList(control, !isReadOnly)}
                       onKeyPress={this.addLabelKeyPress.bind(this)}
                     >
                       <Icon
@@ -126,7 +131,10 @@ export class ClusterSelector extends React.Component {
     )
   }
 
-  renderClusterLabels = (control, modeSelected) => {
+  renderClusterLabels = (control, isReadOnly) => {
+    if (!_.get(control, 'active.clusterLabelsList')) {
+      return ''
+    }
     return (
       control.active &&
       control.active.clusterLabelsList.map(item => {
@@ -142,7 +150,7 @@ export class ClusterSelector extends React.Component {
                     className="text-input"
                     labelText={item.id === 0 ? 'Label' : ''}
                     placeholder="Label name"
-                    disabled={!modeSelected}
+                    disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}
                   />
                 </div>
@@ -153,7 +161,7 @@ export class ClusterSelector extends React.Component {
                     className="text-input"
                     labelText={item.id === 0 ? 'Value' : ''}
                     placeholder="Label value"
-                    disabled={!modeSelected}
+                    disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}
                   />
                 </div>

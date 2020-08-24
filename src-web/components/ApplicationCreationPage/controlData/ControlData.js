@@ -512,7 +512,7 @@ export const controlData = [
         available: [
           {
             id: 'github',
-            logo: 'resource-github-icon.svg',
+            logo: 'git-repo.svg',
             title: 'creation.app.channel.github',
             tooltip: 'tooltip.creation.app.channel.git',
             change: {
@@ -521,7 +521,7 @@ export const controlData = [
           },
           {
             id: 'deployable',
-            logo: 'resource-deployable-icon.svg',
+            logo: 'namespace-repo.svg',
             title: 'creation.app.channel.deployable',
             tooltip: 'tooltip.creation.app.channel.namespace',
             change: {
@@ -530,7 +530,7 @@ export const controlData = [
           },
           {
             id: 'helmrepo',
-            logo: 'resource-helmrepo-icon.svg',
+            logo: 'helm-repo.png',
             title: 'creation.app.channel.helmrepo',
             tooltip: 'tooltip.creation.app.channel.helmrepo',
             change: {
@@ -539,7 +539,7 @@ export const controlData = [
           },
           {
             id: 'objectstore',
-            logo: 'resource-objectstore-icon.svg',
+            logo: 'object-bucket-repo.svg',
             title: 'creation.app.channel.objectstore',
             tooltip: 'tooltip.creation.app.channel.objectstore',
             change: {

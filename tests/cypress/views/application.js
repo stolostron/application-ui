@@ -36,7 +36,7 @@ export const createApplication = (type, application, name, url) => {
   if (type === "objectbucket") {
     const { accessKey, secretKey } = application;
     cy.get(`#${type}`).click();
-    cy.get("#objectstoreURL").type(url);
+    cy.get("#objectstoreURL", { timeout: 20 * 1000 }).type(url);
     cy.get("#accessKey").then(input => {
       if (input.is("enabled")) {
         cy.get("#accessKey").type(accessKey);

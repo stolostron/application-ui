@@ -303,6 +303,97 @@ spec:
 {{! ========================================================== }}
 {{! ========================================================== }}
 {{#case 'deployable'}}
+
+---
+apiVersion: v1                      
+kind: Namespace
+metadata:
+  name: {{{../../name}}}-{{{../channelName}}}-ns
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: {{{../../name}}}-{{{../channelName}}}
+  namespace: {{{../../name}}}-{{{../channelName}}}-ns
+spec:
+  type: Namespace
+  pathname: {{{../../name}}}-{{{../channelName}}}-ns
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  labels:
+    app: {{{../../name}}}
+  name: {{{../../name}}}-subscription-{{@index}}
+  namespace: {{{../../namespace}}}
+spec:
+  channel: {{{../../name}}}-{{{../channelName}}}-ns/{{{../../name}}}-{{{../channelName}}}
+  placement:
+{{#if ../local-cluster-checkbox}} 
+    local: true
+{{else}}
+    placementRef:
+      kind: PlacementRule
+      name: {{{../../../name}}}-placement-{{@index}}
+{{/if}}
+{{#if ../timeWindow.mode}}
+  timewindow:
+    windowtype: {{{../../timeWindow.mode}}}
+    location: {{{../../timeWindow.timezone}}}
+    weekdays: [{{{../../timeWindow.days}}}]
+    {{#if ../../timeWindow.showTimeSection}}
+    hours:
+      {{#each ../../timeWindow.timeList}}
+      {{#if validTime}}
+      - start: "{{{start}}}"
+        end: "{{{end}}}"
+      {{/if}}
+      {{/each}}
+    {{/if}}
+{{/if}}
+{{#unless ../local-cluster-checkbox}}
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  labels:
+    app: {{{../../../name}}}
+  name: {{{../../../name}}}-placement-{{@index}}
+  namespace: {{{../../../namespace}}}
+{{#if ../../clusterSelector.mode}}  
+spec:
+  {{#if ../../clusterReplicas}}
+  clusterReplicas: {{{../../clusterReplicas}}}
+  {{/if}}  
+  clusterSelector:
+    matchLabels:
+      {{#each ../../clusterSelector.clusterLabelsList}}
+      {{#if validValue}}
+      {{{labelName}}}: '{{{labelValue}}}'
+      {{/if}}
+      {{/each}} 
+  {{#if ../../online-cluster-only-checkbox}}
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+  {{/if}}
+{{else}}
+  {{#if ../../online-cluster-only-checkbox}}
+spec:
+  {{#if ../../clusterReplicas}}
+  clusterReplicas: {{{../../clusterReplicas}}}
+  {{/if}} 
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+  {{else}} 
+  {{#if ../../clusterReplicas}}
+spec:  
+  clusterReplicas: {{{../../clusterReplicas}}}
+  {{/if}}    
+  {{/if}}
+{{/if}}
+{{/unless}}
   
 {{/case}}
 

@@ -297,18 +297,73 @@ const githubChannelData = [
   }
 ]
 
-const deployableChannelData = [
-  ///////////////////////  Deployable  /////////////////////////////////////
+const hubClusterChannelData = [
+  ///////////////////////  Hub Cluster  /////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  clusters  /////////////////////////////////////
   {
-    name: 'creation.ocp.purpose',
-    tooltip: 'tooltip.creation.ocp.purpose',
-    id: 'purposedc',
-    type: 'combobox',
+    id: 'clusterSection',
+    type: 'section',
+    title: 'creation.app.placement.rule',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    id: 'local-cluster-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.localClusters',
+    tooltip: 'tooltip.creation.app.settings.localClusters',
+    onSelect: updatePlacementControls,
+    active: false,
+    available: []
+  },
+  {
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: false,
+    available: []
+  },
+  {
+    type: 'custom',
+    id: 'clusterSelector',
+    component: <ClusterSelector />,
+    available: []
+  },
+  {
+    name: 'creation.app.settings.clustersReplica',
+    tooltip: 'tooltip.creation.app.settings.clustersReplica',
+    id: 'clusterReplicas',
+    type: 'text',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
-    validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose'
+    placeholder: 'creation.app.settings.ph.clustersReplica',
+    available: []
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  settings  /////////////////////////////////////
+  {
+    id: 'channelName',
+    type: 'hidden',
+    active: 'resource'
+  },
+  {
+    id: 'settingsSection',
+    type: 'section',
+    title: 'creation.app.section.settings',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    type: 'custom',
+    name: 'creation.app.settings.timeWindow',
+    tooltip: 'creation.app.settings.timeWindow.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
+    available: []
   }
 ]
 
@@ -525,7 +580,7 @@ export const controlData = [
             title: 'creation.app.channel.deployable',
             tooltip: 'tooltip.creation.app.channel.namespace',
             change: {
-              insertControlData: deployableChannelData
+              insertControlData: hubClusterChannelData
             }
           },
           {

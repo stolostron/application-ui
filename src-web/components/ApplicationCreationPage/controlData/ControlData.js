@@ -61,53 +61,70 @@ export const loadExistingNamespaces = () => {
 
 export const updateNSControls = (nsControl, globalControl) => {
   const { active, availableData } = nsControl
+
   const userDefinedNSControl = globalControl.find(
     ({ id }) => id === 'userDefinedNamespace'
   )
 
-  const control = getExistingPRControlsSection(globalControl)
-  if (control) {
+  userDefinedNSControl.active =
+    availableData[active] === undefined ? active : ''
+
+  return updateControlsForNS(nsControl, nsControl, globalControl)
+}
+
+export const updateControlsForNS = (
+  initiatingControl,
+  nsControl,
+  globalControl
+) => {
+  const { active, availableData } = nsControl
+
+  const controlList = getExistingPRControlsSection(
+    initiatingControl,
+    globalControl
+  )
+  controlList.forEach(control => {
     const existingRuleControl = _.get(control, 'placementrulecombo')
     const existingruleCheckbox = _.get(control, existingRuleCheckbox)
+    const selectedRuleNameControl = _.get(control, 'selectedRuleName')
     //update placement rule controls
     if (existingRuleControl && existingruleCheckbox) {
-      if (userDefinedNSControl) {
-        if (availableData[active] === undefined) {
-          //user defined namespace
-          userDefinedNSControl.active = active
-          _.set(existingruleCheckbox, 'type', 'hidden')
-          _.set(existingRuleControl, 'type', 'hidden')
+      if (availableData[active] === undefined) {
+        //user defined namespace
+        _.set(existingruleCheckbox, 'type', 'hidden')
+        _.set(existingRuleControl, 'type', 'hidden')
 
-          _.set(existingRuleControl, 'ns', '')
-        } else {
-          //existing namespace
-          _.set(existingruleCheckbox, 'type', 'checkbox')
-          _.set(existingruleCheckbox, 'active', false)
+        _.set(existingRuleControl, 'ns', '')
+        selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
+        _.set(existingruleCheckbox, 'active', false)
+      } else {
+        //existing namespace
+        _.set(existingruleCheckbox, 'type', 'checkbox')
+        _.set(existingruleCheckbox, 'active', false)
 
-          _.set(existingRuleControl, 'ns', active)
-          _.set(existingRuleControl, 'type', 'hidden')
-
-          userDefinedNSControl.active = ''
-        }
+        _.set(existingRuleControl, 'ns', active)
+        _.set(existingRuleControl, 'type', 'hidden')
       }
       _.set(existingRuleControl, 'active', '')
       updateNewRuleControlsData('', control)
     }
-  }
+  })
 
-  return userDefinedNSControl
+  return globalControl
 }
 
 export const updateNewRuleControls = (urlControl, controlGlobal) => {
-  const control = getExistingPRControlsSection(controlGlobal)
+  const controlList = getExistingPRControlsSection(urlControl, controlGlobal)
 
   const { active, availableData } = urlControl
   const selectedPR = availableData[active]
 
-  const selectedRuleNameControl = _.get(control, 'selectedRuleName')
-  selectedRuleNameControl.active = active
+  controlList.forEach(control => {
+    const selectedRuleNameControl = _.get(control, 'selectedRuleName')
+    selectedRuleNameControl.active = active
 
-  return updateNewRuleControlsData(selectedPR, control)
+    updateNewRuleControlsData(selectedPR, control)
+  })
 }
 
 export const updateDisplayForPlacementControls = (
@@ -116,45 +133,46 @@ export const updateDisplayForPlacementControls = (
 ) => {
   //hide or show placement rule settings if user selects an existing PR
   const { active } = urlControl
-  const control = getExistingPRControlsSection(controlGlobal)
+  const controlList = getExistingPRControlsSection(urlControl, controlGlobal)
 
-  const existingRuleControl = _.get(control, 'placementrulecombo')
+  controlList.forEach(control => {
+    const existingRuleControl = _.get(control, 'placementrulecombo')
 
-  const onlineControl = _.get(control, 'online-cluster-only-checkbox')
-  const clusterSelectorControl = _.get(control, 'clusterSelector')
+    const onlineControl = _.get(control, 'online-cluster-only-checkbox')
+    const clusterSelectorControl = _.get(control, 'clusterSelector')
 
-  const clusterReplicasControl = _.get(control, 'clusterReplicas')
+    const clusterReplicasControl = _.get(control, 'clusterReplicas')
 
-  const localClusterControl = _.get(control, localClusterCheckbox)
+    const localClusterControl = _.get(control, localClusterCheckbox)
 
-  if (active === true) {
-    _.set(existingRuleControl, 'type', 'singleselect')
+    if (active === true) {
+      _.set(existingRuleControl, 'type', 'singleselect')
 
-    _.set(onlineControl, 'type', 'hidden')
-    _.set(clusterSelectorControl, 'type', 'hidden')
-    _.set(clusterReplicasControl, 'type', 'hidden')
-    _.set(localClusterControl, 'type', 'hidden')
-  } else {
-    _.set(existingRuleControl, 'type', 'hidden')
+      _.set(onlineControl, 'type', 'hidden')
+      _.set(clusterSelectorControl, 'type', 'hidden')
+      _.set(clusterReplicasControl, 'type', 'hidden')
+      _.set(localClusterControl, 'type', 'hidden')
+    } else {
+      _.set(existingRuleControl, 'type', 'hidden')
 
-    _.set(onlineControl, 'type', 'checkbox')
-    _.set(clusterSelectorControl, 'type', 'custom')
-    _.set(clusterReplicasControl, 'type', 'text')
-    _.set(localClusterControl, 'type', 'checkbox')
-  }
+      _.set(onlineControl, 'type', 'checkbox')
+      _.set(clusterSelectorControl, 'type', 'custom')
+      _.set(clusterReplicasControl, 'type', 'text')
+      _.set(localClusterControl, 'type', 'checkbox')
+    }
 
-  //reset all values
-  _.set(localClusterControl, 'active', false)
-  _.set(onlineControl, 'active', false)
-  _.set(clusterReplicasControl, 'active', '')
-  clusterSelectorControl.active.clusterLabelsListID = 1
-  delete clusterSelectorControl.active.clusterLabelsList
-  clusterSelectorControl.active.clusterLabelsList = [
-    { id: 0, labelName: '', labelValue: '', validValue: true }
-  ]
-  clusterSelectorControl.active.mode = false
-  delete clusterSelectorControl.showData
-  return control
+    //reset all values
+    _.set(localClusterControl, 'active', false)
+    _.set(onlineControl, 'active', false)
+    _.set(clusterReplicasControl, 'active', '')
+    clusterSelectorControl.active.clusterLabelsListID = 1
+    delete clusterSelectorControl.active.clusterLabelsList
+    clusterSelectorControl.active.clusterLabelsList = [
+      { id: 0, labelName: '', labelValue: '', validValue: true }
+    ]
+    clusterSelectorControl.active.mode = false
+    delete clusterSelectorControl.showData
+  })
 }
 
 export const updatePlacementControls = placementControl => {
@@ -189,7 +207,7 @@ const updateChannelControls = (urlControl, globalControl) => {
   const nsControl = globalControl.find(
     ({ id: idCtrl }) => idCtrl === 'namespace'
   )
-  updateNSControls(nsControl, globalControl)
+  updateControlsForNS(urlControl, nsControl, globalControl)
 
   const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]

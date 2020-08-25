@@ -74,7 +74,7 @@ describe("on control change function", () => {
       .simulate("click", evt);
 
     wrapper
-      .find("#tues-undefined")
+      .find("#tue-undefined")
       .at(0)
       .simulate("click", evt);
   });

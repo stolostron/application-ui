@@ -266,7 +266,6 @@ export const updateDisplayForPlacementControls = (
 ) => {
   //hide or show placement rule settings if user selects an existing PR
   const { active } = urlControl
-
   const control = getExistingPRControlsSection(controlGlobal)
 
   const existingRuleControl = _.get(control, 'placementrulecombo')

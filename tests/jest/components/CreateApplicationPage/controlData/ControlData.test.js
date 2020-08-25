@@ -12,8 +12,83 @@
 
 import {
   updateNSControls,
-  updatePlacementControls
+  updatePlacementControls,
+  updateDisplayForPlacementControls
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
+
+const controlDataNS = [
+  { id: "userDefinedNamespace" },
+  {
+    id: "channels",
+    controlMapArr: [
+      {
+        clusterSelector: {
+          id: "clusterSelector",
+          active: {
+            mode: "",
+            clusterLabelsList: [
+              { id: 0, labelName: "", labelValue: "", validValue: true }
+            ],
+            clusterLabelsListID: 1
+          }
+        },
+        available: []
+      },
+      {
+        "local-cluster-checkbox": {
+          active: false,
+          id: "local-cluster-checkbox"
+        }
+      },
+      {
+        "online-cluster-only-checkbox": {
+          active: false,
+          id: "online-cluster-only-checkbox"
+        }
+      },
+      {
+        placementrulecombo: {
+          active: false,
+          id: "placementrulecombo",
+          ns: "aa-ns"
+        }
+      },
+      {
+        selectedRuleName: {
+          id: "selectedRuleName",
+          actve: "result-pr"
+        }
+      }
+    ]
+  }
+];
+
+describe("updateDisplayForPlacementControls", () => {
+  const urlControl = {
+    id: "existingrule-checkbox",
+    active: true,
+    availableData: { "acmtest-helmrepo-ns-sub": {} }
+  };
+  const result = {
+    available: [],
+    clusterSelector: {
+      active: {
+        clusterLabelsList: [
+          { id: 0, labelName: "", labelValue: "", validValue: true }
+        ],
+        clusterLabelsListID: 1,
+        mode: false
+      },
+      id: "clusterSelector",
+      type: "hidden"
+    }
+  };
+  it("updateDisplayForPlacementControls", () => {
+    expect(
+      updateDisplayForPlacementControls(urlControl, controlDataNS)
+    ).toEqual(result);
+  });
+});
 
 describe("updateNSControls with existing NS and no channel selection", () => {
   const urlControl = {
@@ -37,40 +112,20 @@ describe("updateNSControls with existing NS and no channel selection", () => {
 
 describe("updateNSControls with new NS AND channel selection", () => {
   const urlControl = {
-    active: "newNS",
-    availableData: { "acmtest-helmrepo-ns-sub": {} }
-  };
-  const controlData = [
-    { id: "userDefinedNamespace" },
-    {
-      channels: {
-        controlMapArr: [
-          {
-            "local-cluster-checkbox": {
-              active: false,
-              id: "local-cluster-checkbox"
-            }
-          },
-          {
-            "online-cluster-only-checkbox": {
-              active: false,
-              id: "online-cluster-only-checkbox"
-            }
-          },
-          {
-            placementrulecombo: {
-              active: false,
-              id: "local-cluster-checkbox",
-              ns: "aa-ns"
-            }
-          }
-        ]
+    active: "aa-ns",
+    availableData: {
+      "acmtest-helmrepo-ns-sub": {},
+      "aa-ns": {
+        metadata: {
+          name: "aa-ns"
+        }
       }
     }
-  ];
+  };
+
   const result = { id: "userDefinedNamespace" };
   it("should return new user data", () => {
-    expect(updateNSControls(urlControl, controlData)).toEqual(result);
+    expect(updateNSControls(urlControl, controlDataNS)).toEqual(result);
   });
 });
 
@@ -78,9 +133,53 @@ describe("updatePlacementControls without controls", () => {
   const placementControl = {
     id: "local-cluster-checkbox",
     type: "checkbox",
-    groupControlData: [{ id: "local-cluster-checkbox" }]
+    groupControlData: [
+      {
+        "local-cluster-checkbox": {
+          active: true,
+          id: "local-cluster-checkbox"
+        }
+      },
+      {
+        "online-cluster-only-checkbox": {
+          active: false,
+          id: "online-cluster-only-checkbox"
+        }
+      },
+      {
+        placementrulecombo: {
+          active: false,
+          id: "placementrulecombo",
+          ns: "aa-ns"
+        }
+      },
+      {
+        selectedRuleName: {
+          id: "selectedRuleName",
+          actve: "result-pr"
+        }
+      }
+    ]
   };
-  const result = [{ id: "local-cluster-checkbox" }];
+  const result = [
+    {
+      "local-cluster-checkbox": { active: true, id: "local-cluster-checkbox" }
+    },
+    {
+      "online-cluster-only-checkbox": {
+        active: false,
+        id: "online-cluster-only-checkbox"
+      }
+    },
+    {
+      placementrulecombo: {
+        active: false,
+        id: "placementrulecombo",
+        ns: "aa-ns"
+      }
+    },
+    { selectedRuleName: { actve: "result-pr", id: "selectedRuleName" } }
+  ];
   it("should return same data", () => {
     expect(updatePlacementControls(placementControl)).toEqual(result);
   });

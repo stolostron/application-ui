@@ -16,6 +16,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
       <input
         checked={false}
         className="bx--checkbox"
+        disabled={false}
         id="clusterSelector-checkbox-undefined"
         name="clusterSelector-checkbox"
         onChange={[Function]}
@@ -111,6 +112,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                       onClick={[Function]}
                       placeholder="Label name"
                       type="text"
+                      value=""
                     />
                   </div>
                 </div>
@@ -135,6 +137,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                       onClick={[Function]}
                       placeholder="Label value"
                       type="text"
+                      value=""
                     />
                   </div>
                 </div>

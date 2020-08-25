@@ -4,6 +4,7 @@
  ****************************************************************************** */
 
 /// <reference types="cypress" />
+const { wizards, timeWindows } = JSON.parse(Cypress.env("TEST_CONFIG"));
 
 import {
   pageLoader,
@@ -13,7 +14,17 @@ import {
   notification
 } from "./common";
 
-export const createApplication = (type, application, name, url) => {
+export const createApplication = (
+  type,
+  application,
+  name,
+  url,
+  timeWindowData,
+  timewindowType
+) => {
+  timeWindowData && timewindowType
+    ? (name = name + "-" + timewindowType)
+    : name;
   type = type.replace(/\s+/g, "-").toLowerCase();
   modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");
@@ -46,7 +57,9 @@ export const createApplication = (type, application, name, url) => {
       }
     });
   }
-
+  if (timeWindowData) {
+    selectTimeWindow(timeWindowData, timewindowType);
+  }
   cy.get("#create-button-portal-id").click();
   notification.shouldExist("success", { timeout: 60 * 1000 });
   cy
@@ -72,6 +85,38 @@ export const validateResourceTable = name => {
   resourceTable.rowNameClick(name);
   cy.reload(); // status isn't updating after unknown failure
   cy.get(".bx--detail-page-header-title");
+};
+
+export const validateTimewindow = name => {
+  cy
+    .exec(
+      `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
+        "OC_CLUSTER_USER"
+      )} -p ${Cypress.env("OC_CLUSTER_PASS")} --insecure-skip-tls-verify=true`
+    )
+    .its("stdout")
+    .should("contain", "Login successful.")
+    .then(() => {
+      // get the subscription
+      cy.log("get the subscription if it exists");
+      cy
+        .exec(`oc get subscription -n ${name}-ns`)
+        .then(({ stdout, stderr }) => {
+          cy.log(stdout || stderr);
+          if ((stdout || stderr).includes("No resource") === false) {
+            cy.log("There exist leftover subscription");
+            cy
+              .exec(
+                `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
+              )
+              .its("stdout");
+          } else {
+            cy.log(
+              `The subscription ${name}-subscription-0 in namespace:${name}-ns is empty`
+            );
+          }
+        });
+    });
 };
 
 export const deleteApplicationUI = name => {
@@ -167,4 +212,31 @@ export const deleteAPIResources = name => {
           }
         });
     });
+};
+
+export const passTimeWindowType = timeWindowType => {
+  let timeWindowData;
+  if (timeWindows[timeWindowType].setting) {
+    timeWindowData = timeWindows[timeWindowType];
+    timeWindowType = timeWindowType.replace(/\s+/g, "-").toLowerCase();
+  }
+  return { timeWindowData: timeWindowData, timeWindowType: timeWindowType };
+};
+
+export const selectTimeWindow = (timeWindowData, timewindowType) => {
+  const { setting, date } = timeWindowData;
+  console.log(setting, date);
+  if ((timewindowType = "blockWithInterval")) {
+    cy
+      .get("#blocked-mode-timeWindow")
+      .scrollIntoView()
+      .click({ force: true });
+    cy.get("#mon-timeWindow").click({ force: true });
+  } else if ((timewindowType = "activeWithInterval")) {
+    cy
+      .get("#active-mode-timeWindow")
+      .scrollIntoView()
+      .click({ force: true });
+    cy.get("#mon-timeWindow").click({ force: true });
+  }
 };

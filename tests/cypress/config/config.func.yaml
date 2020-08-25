@@ -13,3 +13,12 @@ wizards:
     url: "http://ec2-100-26-232-156.compute-1.amazonaws.com:9000/minio/dev1"
     accessKey: "admin"
     secretKey: "passwordadmin"
+timeWindows:
+  alwaysActive:
+    setting: true
+  activeWithInterval:
+    setting: true
+    date: "Monday"
+  blockWithInterval:
+    setting: true
+    date: "Monday"

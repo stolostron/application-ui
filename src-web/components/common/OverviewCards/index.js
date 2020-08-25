@@ -381,13 +381,12 @@ class OverviewCards extends React.Component {
                       target="_blank"
                     >
                       {sub.resourceType}
+                      <Icon
+                        name="icon--launch"
+                        description=""
+                        className="resource-type-icon"
+                      />
                     </a>
-                    <Icon
-                      name="icon--launch--glyph"
-                      fill="#5c5c5c"
-                      description=""
-                      className="resource-type-icon"
-                    />
                   </div>
                 </div>
               </div>

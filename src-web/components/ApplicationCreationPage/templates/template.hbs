@@ -312,21 +312,22 @@ spec:
 {{! ========================================================== }}
 {{! ========================================================== }}
 {{#case 'deployable'}}
-
+{{#unless ../channelNamespace}}
 ---
 apiVersion: v1                      
 kind: Namespace
 metadata:
-  name: {{{../../name}}}-{{{../channelName}}}-ns
+  name: {{{../../../name}}}-{{{../../channelName}}}-ns
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:
-  name: {{{../../name}}}-{{{../channelName}}}
-  namespace: {{{../../name}}}-{{{../channelName}}}-ns
+  name: {{{../../../name}}}-{{{../../channelName}}}
+  namespace: {{{../../../name}}}-{{{../../channelName}}}-ns
 spec:
   type: Namespace
-  pathname: {{{../../name}}}-{{{../channelName}}}-ns
+  pathname: {{{../../../name}}}-{{{../../channelName}}}-ns
+{{/unless}} 
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
@@ -336,7 +337,11 @@ metadata:
   name: {{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
-  channel: {{{../../name}}}-{{{../channelName}}}-ns/{{{../../name}}}-{{{../channelName}}}
+{{#if ../channelNamespace}}
+  channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
+{{else}}
+  channel: {{{../../../name}}}-{{{../../channelName}}}-ns/{{{../../../name}}}-{{{../../channelName}}}
+{{/if}}
   placement:  
 {{#if ../local-cluster-checkbox}} 
     local: true

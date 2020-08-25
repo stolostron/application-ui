@@ -152,7 +152,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Tuesday"
                           name={daysSelectorID}
-                          id={`tues-${controlId}`}
+                          id={`tue-${controlId}`}
                           value="&quot;Tuesday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}
@@ -168,7 +168,7 @@ export class TimeWindow extends React.Component {
                         <Checkbox
                           labelText="Thursday"
                           name={daysSelectorID}
-                          id={`thurs-${controlId}`}
+                          id={`thu-${controlId}`}
                           value="&quot;Thursday&quot;"
                           disabled={!modeSelected}
                           onClick={this.handleChange.bind(this)}

@@ -499,6 +499,32 @@ export const getCardsCommonDetails = (
   ]
 }
 
+const getRepoResourceData = (queryAppData, channelIdentifier) => {
+  let resourceType = ''
+  let resourcePath = ''
+  if (queryAppData && queryAppData.related) {
+    queryAppData.related.forEach(resource => {
+      if (resource.kind === 'channel' && resource.items) {
+        resource.items.forEach(chn => {
+          // Get resource type and path of corresponding channel
+          if (
+            chn.name === channelIdentifier[1] &&
+            chn.namespace === channelIdentifier[0]
+          ) {
+            resourceType = chn.type
+            resourcePath = chn.pathname
+          }
+        })
+      }
+    })
+  }
+
+  return {
+    type: resourceType,
+    path: resourcePath
+  }
+}
+
 export const getAppOverviewCardsData = (
   QueryApplicationList,
   topologyData,
@@ -541,6 +567,15 @@ export const getAppOverviewCardsData = (
           localClusterDeploy = true
         }
 
+        // Get name and namespace of channel to match with data from QueryAppList
+        const channelIdentifier = _.get(node, 'specs.raw.spec.channel').split(
+          '/'
+        )
+        const resourceTypeData = getRepoResourceData(
+          _.get(QueryApplicationList, 'items[0]'),
+          channelIdentifier
+        )
+
         // Get time window type
         const timeWindowData = _.get(node, 'specs.raw.spec.timewindow')
         let timeWindowType = 'default'
@@ -548,41 +583,12 @@ export const getAppOverviewCardsData = (
           timeWindowType = timeWindowData.windowtype
         }
 
-        // Get name and namespace of channel to match with data from QueryAppList
-        const channelIdentifier = _.get(node, 'specs.raw.spec.channel').split(
-          '/'
-        )
-        const queryAppData = _.get(QueryApplicationList, 'items[0]')
-        let resourceType = ''
-        let resourcePath = ''
-        if (
-          queryAppData &&
-          queryAppData.name === appName &&
-          queryAppData.namespace === appNamespace &&
-          queryAppData.related
-        ) {
-          queryAppData.related.forEach(resource => {
-            if (resource.kind === 'channel' && resource.items) {
-              resource.items.forEach(chn => {
-                // Get resource type and path of corresponding channel
-                if (
-                  chn.name === channelIdentifier[1] &&
-                  chn.namespace === channelIdentifier[0]
-                ) {
-                  resourceType = chn.type
-                  resourcePath = chn.pathname
-                }
-              })
-            }
-          })
-        }
-
         subsList.push({
           name: node.name,
           id: node.id,
           timeWindowType: timeWindowType,
-          resourceType: resourceType,
-          resourcePath: resourcePath
+          resourceType: resourceTypeData.type,
+          resourcePath: resourceTypeData.path
         })
       } else if (
         node.type !== 'application' &&

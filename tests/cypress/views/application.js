@@ -22,14 +22,16 @@ export const createApplication = (
   timeWindowData,
   timewindowType
 ) => {
-  timeWindowData && timewindowType
-    ? (name = name + "-" + timewindowType)
-    : name;
+  // timeWindowData && timewindowType
+  //   ? (name = name + "-" + timewindowType)
+  //   : name;
   type = type.replace(/\s+/g, "-").toLowerCase();
   modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name").type(name);
-  cy.get("#namespace", { timeout: 20 * 1000 }).type(`${name}-ns`);
+  cy.get("#namespace", { timeout: 20 * 1000 }).type(`${name}-ns`, {
+    timeout: 20 * 1000
+  });
 
   if (type === "git") {
     const { username, token, branch, path } = application;
@@ -65,6 +67,7 @@ export const createApplication = (
   cy
     .location("pathname", { timeout: 60 * 1000 })
     .should("include", `${name}-ns/${name}`);
+  return name;
 };
 
 export const validateTopology = name => {
@@ -225,18 +228,25 @@ export const passTimeWindowType = timeWindowType => {
 
 export const selectTimeWindow = (timeWindowData, timewindowType) => {
   const { setting, date } = timeWindowData;
-  console.log(setting, date);
-  if ((timewindowType = "blockWithInterval")) {
+  if (setting && date) {
+    const dateId = date.toLowerCase().substring(0, 3) + "-timeWindow";
+    const typeID = (timewindowType = "blockInterval")
+      ? "#blocked-mode-timeWindow"
+      : "#active-mode-timeWindow";
     cy
-      .get("#blocked-mode-timeWindow")
+      .get(typeID)
       .scrollIntoView()
       .click({ force: true });
-    cy.get("#mon-timeWindow").click({ force: true });
-  } else if ((timewindowType = "activeWithInterval")) {
+    cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true });
     cy
-      .get("#active-mode-timeWindow")
-      .scrollIntoView()
-      .click({ force: true });
-    cy.get("#mon-timeWindow").click({ force: true });
+      .get(".bx--dropdown.config-timezone-dropdown.bx--list-box")
+      .within($timezone => {
+        cy.get("[type='button']").click();
+        cy
+          .get(".bx--list-box__menu-item:first-of-type", {
+            timeout: 30 * 1000
+          })
+          .click();
+      });
   }
 };

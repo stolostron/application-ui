@@ -571,7 +571,7 @@ export const getAppOverviewCardsData = (
         const channelIdentifier = _.get(node, 'specs.raw.spec.channel').split(
           '/'
         )
-        const resourceTypeData = getRepoResourceData(
+        const repoResourceData = getRepoResourceData(
           _.get(QueryApplicationList, 'items[0]'),
           channelIdentifier
         )
@@ -587,8 +587,8 @@ export const getAppOverviewCardsData = (
           name: node.name,
           id: node.id,
           timeWindowType: timeWindowType,
-          resourceType: resourceTypeData.type,
-          resourcePath: resourceTypeData.path
+          resourceType: repoResourceData.type,
+          resourcePath: repoResourceData.path
         })
       } else if (
         node.type !== 'application' &&

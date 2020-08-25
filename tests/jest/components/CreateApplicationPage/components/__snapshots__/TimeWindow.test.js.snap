@@ -193,7 +193,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     />
                     <label
                       className="bx--checkbox-label"
-                      htmlFor="tues-undefined"
+                      htmlFor="tue-undefined"
                       title={null}
                     >
                       <span

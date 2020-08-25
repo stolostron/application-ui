@@ -12,6 +12,7 @@ import _ from 'lodash'
 import React from 'react'
 import { SkeletonText } from 'carbon-components-react'
 import { Module } from 'carbon-addons-cloud-react'
+import { getCreationDate } from '../../../../lib/client/resource-helper'
 
 import { UPDATE_ACTION_MODAL } from '../../../apollo-client/queries/StateQueries'
 import msgs from '../../../../nls/platform.properties'
@@ -499,6 +500,7 @@ export const getCardsCommonDetails = (
 }
 
 export const getAppOverviewCardsData = (
+  QueryApplicationList,
   topologyData,
   appName,
   appNamespace,
@@ -506,13 +508,13 @@ export const getAppOverviewCardsData = (
   targetLink
 ) => {
   // Get app details only when topology data is properly loaded for the selected app
+  const appData = _.get(topologyData, 'activeFilters.application')
   if (
     typeof topologyData.loaded !== 'undefined' &&
     typeof topologyData.nodes !== 'undefined' &&
-    topologyData.activeFilters &&
-    topologyData.activeFilters.application &&
-    topologyData.activeFilters.application.name === appName &&
-    topologyData.activeFilters.application.namespace === appNamespace
+    appData &&
+    appData.name === appName &&
+    appData.namespace === appNamespace
   ) {
     let creationTimestamp = ''
     let remoteClusterCount = 0
@@ -527,30 +529,61 @@ export const getAppOverviewCardsData = (
         node.type === 'application' &&
         _.get(node, 'specs.raw.metadata.creationTimestamp')
       ) {
-        const timestampArray = new Date(
+        creationTimestamp = getCreationDate(
           node.specs.raw.metadata.creationTimestamp
         )
-          .toUTCString()
-          .split(' ')
-        const date =
-          timestampArray[2] + ' ' + timestampArray[1] + ' ' + timestampArray[3]
-        const timeArray = timestampArray[4].split(':')
-        const timePeriod = timeArray[0] < 12 ? 'am' : 'pm'
-        const timeHour12 = timeArray[0] % 12 || 12
-        const time = timeHour12 + ':' + timeArray[1] + ' ' + timePeriod
-
-        creationTimestamp = date + ', ' + time
       } else if (node.type === 'cluster' && _.get(node, 'specs.clusterNames')) {
         // Get remote cluster count
         remoteClusterCount = node.specs.clusterNames.length
       } else if (node.type === 'subscription') {
-        subsList.push({
-          name: node.name,
-          id: node.id
-        })
+        // Check if subscription is remote or local deployment
         if (_.get(node, 'specs.raw.spec.placement.local')) {
           localClusterDeploy = true
         }
+
+        // Get time window type
+        const timeWindowData = _.get(node, 'specs.raw.spec.timewindow')
+        let timeWindowType = 'default'
+        if (timeWindowData) {
+          timeWindowType = timeWindowData.windowtype
+        }
+
+        // Get name and namespace of channel to match with data from QueryAppList
+        const channelIdentifier = _.get(node, 'specs.raw.spec.channel').split(
+          '/'
+        )
+        const queryAppData = _.get(QueryApplicationList, 'items[0]')
+        let resourceType = ''
+        let resourcePath = ''
+        if (
+          queryAppData &&
+          queryAppData.name === appName &&
+          queryAppData.namespace === appNamespace &&
+          queryAppData.related
+        ) {
+          queryAppData.related.forEach(resource => {
+            if (resource.kind === 'channel' && resource.items) {
+              resource.items.forEach(chn => {
+                // Get resource type and path of corresponding channel
+                if (
+                  chn.name === channelIdentifier[1] &&
+                  chn.namespace === channelIdentifier[0]
+                ) {
+                  resourceType = chn.type
+                  resourcePath = chn.pathname
+                }
+              })
+            }
+          })
+        }
+
+        subsList.push({
+          name: node.name,
+          id: node.id,
+          timeWindowType: timeWindowType,
+          resourceType: resourceType,
+          resourcePath: resourcePath
+        })
       } else if (
         node.type !== 'application' &&
         node.type !== 'cluster' &&

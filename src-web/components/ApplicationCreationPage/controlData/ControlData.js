@@ -24,6 +24,10 @@ import ClusterSelector from '../components/ClusterSelector'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
+const exiting_rule_checkbox = 'existingrule-checkbox'
+const online_cluster_only_checkbox = 'online-cluster-only-checkbox'
+const local_cluster_checkbox = 'local-cluster-checkbox'
+const active_mode = 'active.mode'
 
 export const loadExistingPlacementRules = () => {
   return {
@@ -117,7 +121,7 @@ export const updateNSControls = (nsControl, globalControl) => {
   const control = getExistingPRControlsSection(globalControl)
   if (control) {
     const existingRuleControl = _.get(control, 'placementrulecombo')
-    const existingruleCheckbox = _.get(control, 'existingrule-checkbox')
+    const existingruleCheckbox = _.get(control, exiting_rule_checkbox)
     //update placement rule controls
     if (existingRuleControl && existingruleCheckbox) {
       if (userDefinedNSControl) {
@@ -158,12 +162,12 @@ export const updateNewRuleControls = (urlControl, controlGlobal) => {
 }
 
 export const updateNewRuleControlsData = (selectedPR, control) => {
-  const onlineControl = _.get(control, 'online-cluster-only-checkbox')
+  const onlineControl = _.get(control, online_cluster_only_checkbox)
   const clusterSelectorControl = _.get(control, 'clusterSelector')
 
   const clusterReplicasControl = _.get(control, 'clusterReplicas')
 
-  const localClusterControl = _.get(control, 'local-cluster-checkbox')
+  const localClusterControl = _.get(control, local_cluster_checkbox)
 
   if (selectedPR) {
     const clusterConditionsList = _.get(
@@ -241,7 +245,7 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
     _.set(onlineControl, 'active', false)
 
     _.set(clusterSelectorControl, 'type', 'custom')
-    _.set(clusterSelectorControl, 'active.mode', false)
+    _.set(clusterSelectorControl, active_mode, false)
     clusterSelectorControl.active.clusterLabelsList = [
       { id: 0, labelName: '', labelValue: '', validValue: true }
     ]
@@ -267,12 +271,12 @@ export const updateDisplayForPlacementControls = (
 
   const existingRuleControl = _.get(control, 'placementrulecombo')
 
-  const onlineControl = _.get(control, 'online-cluster-only-checkbox')
+  const onlineControl = _.get(control, online_cluster_only_checkbox)
   const clusterSelectorControl = _.get(control, 'clusterSelector')
 
   const clusterReplicasControl = _.get(control, 'clusterReplicas')
 
-  const localClusterControl = _.get(control, 'local-cluster-checkbox')
+  const localClusterControl = _.get(control, local_cluster_checkbox)
 
   if (active === true) {
     _.set(existingRuleControl, 'type', 'singleselect')
@@ -309,7 +313,7 @@ export const updatePlacementControls = placementControl => {
   const { active, groupControlData } = placementControl
 
   const onlineControl = groupControlData.find(
-    ({ id }) => id === 'online-cluster-only-checkbox'
+    ({ id }) => id === online_cluster_only_checkbox
   )
   const clusterSelectorControl = groupControlData.find(
     ({ id }) => id === 'clusterSelector'
@@ -364,13 +368,17 @@ export const setAvailableChannelSpecs = (type, control, result) => {
 
 const updateChannelControls = (urlControl, globalControl) => {
   //update existing placement rule section when user changes the namespace
-  const nsControl = globalControl.find(({ id }) => id === 'namespace')
+  const nsControl = globalControl.find(
+    ({ id: idCtrl }) => idCtrl === 'namespace'
+  )
   updateNSControls(nsControl, globalControl)
 
   const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]
 
-  const nameControl = groupControlData.find(({ id }) => id === 'channelName')
+  const nameControl = groupControlData.find(
+    ({ id: idCtrl }) => idCtrl === 'channelName'
+  )
   const namespaceControl = groupControlData.find(
     ({ id }) => id === 'channelNamespace'
   )
@@ -489,7 +497,7 @@ const githubChannelData = [
     collapsed: false
   },
   {
-    id: 'existingrule-checkbox',
+    id: exiting_rule_checkbox,
     type: 'checkbox',
     name: 'creation.app.settings.existingRule',
     tooltip: 'tooltip.creation.app.settings.existingRule',
@@ -513,7 +521,7 @@ const githubChannelData = [
     active: ''
   },
   {
-    id: 'local-cluster-checkbox',
+    id: local_cluster_checkbox,
     type: 'checkbox',
     name: 'creation.app.settings.localClusters',
     tooltip: 'tooltip.creation.app.settings.localClusters',
@@ -522,7 +530,7 @@ const githubChannelData = [
     available: []
   },
   {
-    id: 'online-cluster-only-checkbox',
+    id: online_cluster_only_checkbox,
     type: 'checkbox',
     name: 'creation.app.settings.onlineClusters',
     tooltip: 'tooltip.creation.app.settings.onlineClusters',
@@ -579,7 +587,7 @@ const hubClusterChannelData = [
     collapsed: false
   },
   {
-    id: 'existingrule-checkbox',
+    id: exiting_rule_checkbox,
     type: 'checkbox',
     name: 'creation.app.settings.existingRule',
     tooltip: 'tooltip.creation.app.settings.existingRule',
@@ -603,7 +611,7 @@ const hubClusterChannelData = [
     active: ''
   },
   {
-    id: 'local-cluster-checkbox',
+    id: local_cluster_checkbox,
     type: 'checkbox',
     name: 'creation.app.settings.localClusters',
     tooltip: 'tooltip.creation.app.settings.localClusters',
@@ -612,7 +620,7 @@ const hubClusterChannelData = [
     available: []
   },
   {
-    id: 'online-cluster-only-checkbox',
+    id: online_cluster_only_checkbox,
     type: 'checkbox',
     name: 'creation.app.settings.onlineClusters',
     tooltip: 'tooltip.creation.app.settings.onlineClusters',
@@ -728,7 +736,7 @@ const objectstoreChannelData = [
     collapsed: false
   },
   {
-    id: 'existingrule-checkbox',
+    id: exiting_rule_checkbox,
     type: 'checkbox',
     name: 'creation.app.settings.existingRule',
     tooltip: 'tooltip.creation.app.settings.existingRule',
@@ -752,7 +760,7 @@ const objectstoreChannelData = [
     active: ''
   },
   {
-    id: 'local-cluster-checkbox',
+    id: local_cluster_checkbox,
     type: 'checkbox',
     name: 'creation.app.settings.localClusters',
     tooltip: 'tooltip.creation.app.settings.localClusters',
@@ -761,7 +769,7 @@ const objectstoreChannelData = [
     available: []
   },
   {
-    id: 'online-cluster-only-checkbox',
+    id: online_cluster_only_checkbox,
     type: 'checkbox',
     name: 'creation.app.settings.onlineClusters',
     tooltip: 'tooltip.creation.app.settings.onlineClusters',

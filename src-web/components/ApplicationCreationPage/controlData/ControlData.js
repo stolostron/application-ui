@@ -293,12 +293,14 @@ export const updateDisplayForPlacementControls = (
   //reset all values
   _.set(localClusterControl, 'active', false)
   _.set(onlineControl, 'active', false)
-  _.set(clusterSelectorControl, 'active.mode', false)
   _.set(clusterReplicasControl, 'active', '')
-  _.set(clusterSelectorControl, 'active.mode', false)
+  clusterSelectorControl.active.clusterLabelsListID = 1
+  delete clusterSelectorControl.active.clusterLabelsList
   clusterSelectorControl.active.clusterLabelsList = [
     { id: 0, labelName: '', labelValue: '', validValue: true }
   ]
+  clusterSelectorControl.active.mode = false
+  delete clusterSelectorControl.showData
   return control
 }
 

@@ -70,7 +70,7 @@ export class ClusterSelector extends React.Component {
     }
     const { controlId, locale, control } = this.props
     const { name, active, validation = {} } = control
-    const modeSelected = active && active.mode ? true : false
+    const modeSelected = active && active.mode === true
     const isReadOnly = _.get(this.props, 'control.showData', []).length > 0
 
     return (
@@ -89,6 +89,7 @@ export class ClusterSelector extends React.Component {
               className="clusterSelector-checkbox"
               name="clusterSelector-checkbox"
               checked={modeSelected}
+              disabled={isReadOnly}
               id={`clusterSelector-checkbox-${controlId}`}
               labelText={msgs.get(
                 'tooltip.creation.app.settings.clusterSelector',
@@ -108,7 +109,7 @@ export class ClusterSelector extends React.Component {
                   </div>
 
                   <div className="labels-section">
-                    {this.renderClusterLabels(control, modeSelected)}
+                    {this.renderClusterLabels(control, isReadOnly)}
                     <div
                       className={`add-label-btn ${
                         isReadOnly ? 'btn-disabled' : ''

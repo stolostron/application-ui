@@ -101,8 +101,11 @@ spec:
 {{else}}
     placementRef:
       kind: PlacementRule
+{{#if ../../selectedRuleName}} 
+      name: {{{../../selectedRuleName}}}
+{{else}}       
       name: {{{../../../name}}}-placement-{{@index}}
-{{/if}}
+{{/if}} {{/if}}
 {{#if ../timeWindow.mode}}
   timewindow:
     windowtype: {{{../../timeWindow.mode}}}
@@ -118,6 +121,7 @@ spec:
       {{/each}}
     {{/if}}
 {{/if}}
+{{#unless ../existingrule-checkbox}} 
 {{#unless ../local-cluster-checkbox}}
 ---
 apiVersion: apps.open-cluster-management.io/v1
@@ -160,6 +164,7 @@ spec:
   {{/if}}    
   {{/if}}
 {{/if}}
+{{/unless}}
 {{/unless}}
 
 {{/case}}
@@ -233,8 +238,11 @@ spec:
 {{else}}
     placementRef:
       kind: PlacementRule
+{{#if ../../selectedRuleName}} 
+      name: {{{../../selectedRuleName}}}
+{{else}}       
       name: {{{../../../name}}}-placement-{{@index}}
-{{/if}}
+{{/if}} {{/if}}
 {{#if ../timeWindow.mode}}
   timewindow:
     windowtype: {{{../../timeWindow.mode}}}
@@ -250,6 +258,7 @@ spec:
       {{/each}}
     {{/if}}
 {{/if}}
+{{#unless ../existingrule-checkbox}} 
 {{#unless ../local-cluster-checkbox}}
 ---
 apiVersion: apps.open-cluster-management.io/v1
@@ -293,7 +302,7 @@ spec:
   {{/if}}
 {{/if}}
 {{/unless}}
-
+{{/unless}}
 {{/case}}
 
 
@@ -328,13 +337,17 @@ metadata:
   namespace: {{{../../namespace}}}
 spec:
   channel: {{{../../name}}}-{{{../channelName}}}-ns/{{{../../name}}}-{{{../channelName}}}
-  placement:
+  placement:  
 {{#if ../local-cluster-checkbox}} 
     local: true
 {{else}}
     placementRef:
       kind: PlacementRule
+{{#if ../../selectedRuleName}} 
+      name: {{{../../selectedRuleName}}}
+{{else}}       
       name: {{{../../../name}}}-placement-{{@index}}
+{{/if}}       
 {{/if}}
 {{#if ../timeWindow.mode}}
   timewindow:
@@ -351,6 +364,7 @@ spec:
       {{/each}}
     {{/if}}
 {{/if}}
+{{#unless ../existingrule-checkbox}} 
 {{#unless ../local-cluster-checkbox}}
 ---
 apiVersion: apps.open-cluster-management.io/v1
@@ -394,8 +408,9 @@ spec:
   {{/if}}
 {{/if}}
 {{/unless}}
-  
+{{/unless}} 
 {{/case}}
 
 {{/switch}}
 {{/each}}
+

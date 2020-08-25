@@ -184,7 +184,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     <input
                       className="bx--checkbox"
                       disabled={true}
-                      id="tues-undefined"
+                      id="tue-undefined"
                       name="days-selector"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -234,7 +234,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     <input
                       className="bx--checkbox"
                       disabled={true}
-                      id="thurs-undefined"
+                      id="thu-undefined"
                       name="days-selector"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -243,7 +243,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     />
                     <label
                       className="bx--checkbox-label"
-                      htmlFor="thurs-undefined"
+                      htmlFor="thu-undefined"
                       title={null}
                     >
                       <span

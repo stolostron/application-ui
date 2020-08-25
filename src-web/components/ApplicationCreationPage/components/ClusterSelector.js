@@ -158,7 +158,8 @@ export class ClusterSelector extends React.Component {
                     id={`labelName-${item.id}`}
                     name="labelName"
                     className="text-input"
-                    labelText={item.id === 0 ? 'Label' : 'ppp'}
+                    labelText={item.id === 0 ? 'Label' : ''}
+                    value={item.labelName === '' ? '' : item.labelName}
                     placeholder="Label name"
                     disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}
@@ -169,7 +170,8 @@ export class ClusterSelector extends React.Component {
                     id={`labelValue-${item.id}`}
                     name="labelValue"
                     className="text-input"
-                    labelText={item.id === 0 ? 'Value' : 'vvv'}
+                    labelText={item.id === 0 ? 'Value' : ''}
+                    value={item.labelValue === '' ? '' : item.labelValue}
                     placeholder="Label value"
                     disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}

@@ -32,9 +32,8 @@ import {
 } from './utils'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
-const existing_rule_checkbox = 'existingrule-checkbox'
-
-const local_cluster_checkbox = 'local-cluster-checkbox'
+const existingRuleCheckbox = 'existingrule-checkbox'
+const localClusterCheckbox = 'local-cluster-checkbox'
 
 export const loadExistingPlacementRules = () => {
   return {
@@ -61,7 +60,7 @@ export const updateNSControls = (nsControl, globalControl) => {
   const control = getExistingPRControlsSection(globalControl)
   if (control) {
     const existingRuleControl = _.get(control, 'placementrulecombo')
-    const existingruleCheckbox = _.get(control, existing_rule_checkbox)
+    const existingruleCheckbox = _.get(control, existingRuleCheckbox)
     //update placement rule controls
     if (existingRuleControl && existingruleCheckbox) {
       if (userDefinedNSControl) {
@@ -116,7 +115,7 @@ export const updateDisplayForPlacementControls = (
 
   const clusterReplicasControl = _.get(control, 'clusterReplicas')
 
-  const localClusterControl = _.get(control, local_cluster_checkbox)
+  const localClusterControl = _.get(control, localClusterCheckbox)
 
   if (active === true) {
     _.set(existingRuleControl, 'type', 'singleselect')
@@ -314,7 +313,7 @@ const githubChannelData = [
     collapsed: false
   },
   {
-    id: existing_rule_checkbox,
+    id: existingRuleCheckbox,
     type: 'hidden',
     name: 'creation.app.settings.existingRule',
     tooltip: 'tooltip.creation.app.settings.existingRule',
@@ -338,7 +337,7 @@ const githubChannelData = [
     active: ''
   },
   {
-    id: local_cluster_checkbox,
+    id: localClusterCheckbox,
     type: 'checkbox',
     name: 'creation.app.settings.localClusters',
     tooltip: 'tooltip.creation.app.settings.localClusters',
@@ -404,7 +403,7 @@ const hubClusterChannelData = [
     collapsed: false
   },
   {
-    id: existing_rule_checkbox,
+    id: existingRuleCheckbox,
     type: 'hidden',
     name: 'creation.app.settings.existingRule',
     tooltip: 'tooltip.creation.app.settings.existingRule',
@@ -428,7 +427,7 @@ const hubClusterChannelData = [
     active: ''
   },
   {
-    id: local_cluster_checkbox,
+    id: localClusterCheckbox,
     type: 'checkbox',
     name: 'creation.app.settings.localClusters',
     tooltip: 'tooltip.creation.app.settings.localClusters',
@@ -553,7 +552,7 @@ const objectstoreChannelData = [
     collapsed: false
   },
   {
-    id: existing_rule_checkbox,
+    id: existingRuleCheckbox,
     type: 'hidden',
     name: 'creation.app.settings.existingRule',
     tooltip: 'tooltip.creation.app.settings.existingRule',
@@ -577,7 +576,7 @@ const objectstoreChannelData = [
     active: ''
   },
   {
-    id: local_cluster_checkbox,
+    id: localClusterCheckbox,
     type: 'checkbox',
     name: 'creation.app.settings.localClusters',
     tooltip: 'tooltip.creation.app.settings.localClusters',

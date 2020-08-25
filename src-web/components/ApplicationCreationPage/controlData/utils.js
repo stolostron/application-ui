@@ -11,10 +11,8 @@
 
 import _ from 'lodash'
 
-//export const exiting_rule_checkbox = 'existingrule-checkbox'
-export const online_cluster_only_checkbox = 'online-cluster-only-checkbox'
-export const local_cluster_checkbox = 'local-cluster-checkbox'
-export const active_mode = 'active.mode'
+const onlineClustersCheckbox = 'online-cluster-only-checkbox'
+const localClusterCheckbox = 'local-cluster-checkbox'
 
 export const setAvailableRules = (control, result) => {
   const { loading } = result
@@ -84,12 +82,12 @@ export const getExistingPRControlsSection = control => {
 }
 
 export const updateNewRuleControlsData = (selectedPR, control) => {
-  const onlineControl = _.get(control, online_cluster_only_checkbox)
+  const onlineControl = _.get(control, onlineClustersCheckbox)
   const clusterSelectorControl = _.get(control, 'clusterSelector')
 
   const clusterReplicasControl = _.get(control, 'clusterReplicas')
 
-  const localClusterControl = _.get(control, local_cluster_checkbox)
+  const localClusterControl = _.get(control, localClusterCheckbox)
 
   if (selectedPR) {
     const clusterConditionsList = _.get(
@@ -167,7 +165,7 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
     _.set(onlineControl, 'active', false)
 
     _.set(clusterSelectorControl, 'type', 'custom')
-    _.set(clusterSelectorControl, active_mode, false)
+    _.set(clusterSelectorControl, 'active.mode', false)
     clusterSelectorControl.active.clusterLabelsList = [
       { id: 0, labelName: '', labelValue: '', validValue: true }
     ]

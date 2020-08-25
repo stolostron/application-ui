@@ -35,6 +35,14 @@ const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
 const existingRuleCheckbox = 'existingrule-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
 
+export const loadExistingChannels = type => {
+  return {
+    query: HCMChannelList,
+    loadingDesc: 'creation.app.loading.channels',
+    setAvailable: setAvailableChannelSpecs.bind(null, type)
+  }
+}
+
 export const loadExistingPlacementRules = () => {
   return {
     query: HCMPlacementRuleList,
@@ -174,14 +182,6 @@ export const updatePlacementControls = placementControl => {
   }
 
   return groupControlData
-}
-
-export const loadExistingChannels = type => {
-  return {
-    query: HCMChannelList,
-    loadingDesc: 'creation.app.loading.channels',
-    setAvailable: setAvailableChannelSpecs.bind(null, type)
-  }
 }
 
 const updateChannelControls = (urlControl, globalControl) => {
@@ -397,6 +397,28 @@ const hubClusterChannelData = [
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
   {
+    id: 'channelName',
+    type: 'hidden',
+    active: 'resource'
+  },
+  {
+    id: 'channelNamespace',
+    type: 'hidden',
+    active: ''
+  },
+  {
+    name: 'creation.app.namespace.name',
+    tooltip: 'tooltip.creation.app.namespace.name',
+    id: 'namespaceChannelName',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.namespace.name',
+    available: [],
+    validation: [],
+    fetchAvailable: loadExistingChannels('namespace'),
+    onSelect: updateChannelControls
+  },
+  {
     id: 'clusterSection',
     type: 'section',
     title: 'creation.app.placement.rule',
@@ -463,11 +485,6 @@ const hubClusterChannelData = [
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  settings  /////////////////////////////////////
-  {
-    id: 'channelName',
-    type: 'hidden',
-    active: 'resource'
-  },
   {
     id: 'settingsSection',
     type: 'section',

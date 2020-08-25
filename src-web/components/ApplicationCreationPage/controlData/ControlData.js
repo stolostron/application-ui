@@ -65,19 +65,21 @@ export const updateNSControls = (nsControl, globalControl) => {
     if (existingRuleControl && existingruleCheckbox) {
       if (userDefinedNSControl) {
         if (availableData[active] === undefined) {
+          //user defined namespace
           userDefinedNSControl.active = active
           _.set(existingruleCheckbox, 'type', 'hidden')
           _.set(existingRuleControl, 'type', 'hidden')
 
           _.set(existingRuleControl, 'ns', '')
         } else {
+          //existing namespace
           _.set(existingruleCheckbox, 'type', 'checkbox')
           _.set(existingruleCheckbox, 'active', false)
 
           _.set(existingRuleControl, 'ns', active)
           _.set(existingRuleControl, 'type', 'hidden')
 
-          userDefinedNSControl.active = active
+          userDefinedNSControl.active = ''
         }
       }
       _.set(existingRuleControl, 'active', '')

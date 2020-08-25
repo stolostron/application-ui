@@ -9,8 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import { ControlMode } from './initialize-controls'
-import { parseYAML } from './source-utils'
+import { ControlMode, parseYAML } from './source-utils'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 

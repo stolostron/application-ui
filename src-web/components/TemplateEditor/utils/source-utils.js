@@ -13,6 +13,11 @@ import jsYaml from 'js-yaml'
 import YamlParser from '../components/YamlParser'
 import _ from 'lodash'
 
+export const ControlMode = Object.freeze({
+  TABLE_ONLY: 'TABLE_ONLY',
+  PROMPT_ONLY: 'PROMPT_ONLY'
+})
+
 export const parseYAML = yaml => {
   let absLine = 0
   const parsed = {}

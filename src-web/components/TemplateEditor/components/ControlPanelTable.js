@@ -21,7 +21,7 @@ import {
   Icon
 } from 'carbon-components-react'
 import msgs from '../../../../nls/platform.properties'
-import { ControlMode } from '../../TemplateEditor/utils/initialize-controls'
+import { ControlMode } from '../../TemplateEditor/utils/source-utils'
 import '../../../../graphics/diagramIcons.svg'
 import _ from 'lodash'
 

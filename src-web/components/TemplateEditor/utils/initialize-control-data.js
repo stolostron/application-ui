@@ -10,12 +10,8 @@
 'use strict'
 
 import msgs from '../../../../nls/platform.properties'
+import { ControlMode } from './source-utils'
 import _ from 'lodash'
-
-export const ControlMode = Object.freeze({
-  TABLE_ONLY: 'TABLE_ONLY',
-  PROMPT_ONLY: 'PROMPT_ONLY'
-})
 
 ///////////////////////////////////////////////////////////////////////////////
 // intialize controls and groups

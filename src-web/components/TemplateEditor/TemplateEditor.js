@@ -124,9 +124,9 @@ export default class TemplateEditor extends React.Component {
         controlData = initializeControlData(
           _.cloneDeep(initialControlData),
           locale
-        );
+        )
         initializeControlSourcePaths(template,
-          controlData)
+          controlData);
         ({ templateYAML, templateObject } = generateSourceFromTemplate(
           template,
           controlData
@@ -435,9 +435,9 @@ export default class TemplateEditor extends React.Component {
       controlData,
       otherYAMLTabs
     )
-    
-    
-    
+
+
+
     updateControls(
       this.editors,
       newYAML,

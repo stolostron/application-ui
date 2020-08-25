@@ -10,9 +10,7 @@
 'use strict'
 
 import { diff } from 'deep-diff'
-import jsYaml from 'js-yaml'
-import { parseYAML } from './source-utils'
-import YamlParser from '../components/YamlParser'
+import { parseYAML, getInsideObject } from './source-utils'
 import _ from 'lodash'
 import { Base64 } from 'js-base64'
 
@@ -20,25 +18,14 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
   // mark any modified/added lines in editor
   const decorationList = []
 
-  const getInside = (ikey, { parsed }) => {
-    const ret = {}
-    Object.keys(parsed).forEach(key => {
-      ret[key] = []
-      _.get(parsed, `${key}`, []).forEach(obj => {
-        ret[key].push(_.get(obj, `${ikey}`))
-      })
-    })
-    return ret
-  }
-
   // determine what rows were modified or added
   oldYAML = oldYAML.replace(/\./g, '_') // any periods will mess up the _.get later
   newYAML = newYAML.replace(/\./g, '_')
   const oldParse = parseYAML(oldYAML)
   const newParse = parseYAML(newYAML)
-  const oldRaw = getInside('$raw', oldParse)
-  const newRaw = getInside('$raw', newParse)
-  const newSynced = getInside('$synced', newParse)
+  const oldRaw = getInsideObject('$raw', oldParse.parsed)
+  const newRaw = getInsideObject('$raw', newParse.parsed)
+  const newSynced = getInsideObject('$synced', newParse.parsed)
   let firstModRow = undefined
   let firstNewRow = undefined
   const ignorePaths = []

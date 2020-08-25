@@ -56,6 +56,17 @@ export const parseYAML = yaml => {
   return { parsed, exceptions }
 }
 
+export const getInsideObject = (ikey, parsed) => {
+  const ret = {}
+  Object.keys(parsed).forEach(key => {
+    ret[key] = []
+    _.get(parsed, `${key}`, []).forEach(obj => {
+      ret[key].push(_.get(obj, `${ikey}`))
+    })
+  })
+  return ret
+}
+
 export const getUniqueName = (name, nameSet) => {
   if (nameSet.has(name)) {
     let count = 1

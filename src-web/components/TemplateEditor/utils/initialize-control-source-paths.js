@@ -9,150 +9,149 @@
  *******************************************************************************/
 'use strict'
 
-import { parseYAML } from './source-utils'
+import { getInsideObject } from './source-utils'
+import { generateSourceFromTemplate } from './refresh-source-from-templates'
+import _ from 'lodash'
 
 
-export const initializeTemplateData = () => {//template, controlData) => {
-
-//  A regex template {{{ID.a-z.a-z}}} with {{{ID}}}[a-z.a-z]
-//
-//  B loop thru control data
-//
-//  C if control doesn’t have controlData, add to markerData as  id: <<ID>>
-//
-//  E) if markerData not empty,
-//
-//    2 use handlebars func and markerData to get yaml template
-//
-//    3 replace << >> with {{{. ]}}
-//
-//      Yaml = yaml.replace(/<<(.+)>>/g, (a)=>{
-//
-//      return `{{{${a}}}}`
-//
-//    4 parse
-//
-//    5 flattenObject—see email
-//
-//    6 filter out any w/o {{{ }}}
-//
-//    7 _.inverseBy( ).  —- {{{ }}}: [a.b.c, f.y.t]
-//
-//    8 get ids from key and append to sourcePath on control:
-//
-//      sourcePaths: [ {[{ }}}: [paths] ]
-//
-//      if {{{ }}}[a.z] —> {{{ID.a-z}}}
-//
-//
-//
-//  B if control itself has controlData, Reiterate
-//
-//
-
-  return template
+export const initializeControlSourcePaths = (template, controlData) => {
+  setSectionSourcePaths(template, _.cloneDeep(controlData), _.keyBy(controlData, 'id'))
 }
 
+const setSectionSourcePaths = (template, controlData, controlMap, childControlData) => {
+  const groups = [];
+  const choices = [];
 
-//looks for ## at end of a YAML line
-export function hitchControlsToYAML(yaml, otherYAMLTabs = [], controlData) {
-  const { parsed } = parseYAML(yaml)
-
-  // get controlMap
-  const controlMap = {}
-  controlData.forEach(control => {
-    const { id, type, active = [] } = control
-    controlMap[id] = control
-
-    switch (type) {
+  // set control.active to proxies such that when run through
+  // the handlebars template, the yaml is returned with markers (<<<controlId>>>)
+  // where the active value would have been placed
+  (childControlData||controlData).forEach(control => {
+    switch (control.type) {
+    case 'section':
+      break
+      
     case 'group':
-    // each group gets an array of control data maps, one per group
-      control.controlMapArr = []
-      active.forEach(cd => {
-        const cdm = {}
-        control.controlMapArr.push(cdm)
-        cd.forEach(c => {
-          cdm[c.id] = c
-        })
-      })
+      groups.push(control)
+      break
+      
+    case 'cards':
+      choices.push(control)
       break
 
-    case 'table':
-    // each table cell has its own source path
-      control.sourcePath = { paths: [] }
-      break
-    }
-  })
+    default:
+      control.active =  new Proxy({}, {
+        get: (target, prop) => {//}, receiver) => {
+          //          console.log(typeof prop)
+          //          console.log(prop.toString())
+          //          console.log(control.type)
+          //          const value = control.actived
+          //          if (typeof value === 'object') {
+          //            var tt = Reflect.get(value, prop)
+          //            return tt;
+          //          }
+          //
+          //          var tr = {...arguments}
+          //          var ww = Reflect.get(...arguments)
 
-  otherYAMLTabs.forEach(tab => {
-    const { id: tabId, templateYAML } = tab
-    const { parsed: tabParsed } = parseYAML(templateYAML)
-    syncControlData(tabParsed, controlData, controlMap, tabId)
-    tab.templateYAML = templateYAML.replace(/\s*##.+$/gm, '') // remove source markers
-  })
-  syncControlData(parsed, controlData, controlMap, '<<main>>')
-  return yaml.replace(/\s*##.+$/gm, '') // remove source markers
-}
-
-//point control to what template value it changes
-//looks for ##controlId in template
-const syncControlData = (parsed, controlData, controlMap, tabId) => {
-  Object.entries(parsed).forEach(([key, value]) => {
-    value.forEach(({ $synced }, inx) => {
-      syncControls($synced, `${key}[${inx}].$synced`, controlMap, tabId)
-    })
-  })
-}
-
-const syncControls = (object, path, controlMap, tabId) => {
-  if (object) {
-    if (object.$cmt) {
-    // comment links in groups/tables have the format ##groupId.inx.controlId
-    // ties into controlMap created above
-      const [controlKey, inx, dataKey] = object.$cmt.split('.')
-      let control = controlMap[controlKey]
-      if (control) {
-        const { type, controlMapArr } = control
-        if (type !== 'table') {
-          if (inx) {
-            const cdm = controlMapArr[inx]
-            if (cdm) {
-              control = cdm[dataKey]
+          // nested property was specified (controlId.property)
+          if (typeof prop === 'string') {
+            return ()=> {
+              return `<<<${control.id}.${prop}>>>`
+            }
+          } else {
+            return ()=> {
+              return `<<<${control.id}>>>`
             }
           }
-          control.sourcePath = { tabId, path }
-        } else if (inx) {
-          control.sourcePath.tabId = tabId
-          let pathMap = control.sourcePath.paths[inx]
-          if (!pathMap) {
-            pathMap = control.sourcePath.paths[inx] = {}
+        },
+        // allow all control nested properties to be processed
+        getOwnPropertyDescriptor() {
+          return {
+            configurable: true,
+            enumerable: true
           }
-          pathMap[dataKey] = path
-        }
-      }
-    }
-    let o, p
-    object = object.$v !== undefined ? object.$v : object
-    if (Array.isArray(object)) {
-      for (let i = 0; i < object.length; i++) {
-        o = object[i]
-        if (o.$v !== undefined) {
-          p = `${path}[${i}].$v`
-          syncControls(o, p, controlMap, tabId)
-        }
-      }
-    } else if (object && typeof object === 'object') {
-      Object.keys(object).forEach(key => {
-        o = object[key]
-        if (o.$v !== undefined) {
-          if (key.includes('.')) {
-            p = `${path}['${key}'].$v`
-          } else {
-            p = `${path}.${key}.$v`
-          }
-          syncControls(o, p, controlMap, tabId)
         }
       })
+      break;
     }
-  }
+  })
+
+  // get templateObject with markers
+  const {templateObject} = generateSourceFromTemplate(template, controlData)
+
+  // flatten and invert templateObject
+  const flattenedTemplateObject = flattenObject(getInsideObject('$raw', templateObject))
+
+  // set source paths into controls
+  setControlSourcePaths(flattenedTemplateObject, controlMap)
+  
+  // process the inner controlData of groups
+  setGroupSourcePaths(groups, template, controlData, controlMap)
+  
+  // process the inner controlData of groups
+  setChoicesSourcePaths(choices, template, controlData, controlMap)
+}
+
+//find the markers in the source, convert back to {{{ }}} and add paths/markers to each control
+const setGroupSourcePaths = (groups, template, controlData, controlMap) => {
+  groups.forEach(group=>{
+
+    group.active = [_.cloneDeep(group.controlData)]
+    setSectionSourcePaths(template, controlData, controlMap, group.active[0])
+      
+  })
+}
+
+//find the markers in the source, convert back to {{{ }}} and add paths/markers to each control
+const setChoicesSourcePaths = (choices, template, controlData, controlMap) => {
+  choices.forEach(control=>{
+  
+    control.available.forEach(choice=>{
+      const {id, change:{insertControlData}} = choice
+      
+      control.active = id
+      setSectionSourcePaths(template, controlData, controlMap, insertControlData)
+    
+    })
+    
+  })
+}
+
+// find the markers in the source, convert back to {{{ }}} and add paths/markers to each control
+const setControlSourcePaths = (flattenedTemplateObject, controlMap) => {
+  Object.entries(_.invertBy(flattenedTemplateObject)).forEach(([snip, sourcePaths])=>{
+    const controlIds = []
+    snip = snip.replace(/<<<(.*?)>>>/g, (match, capture) => {
+      controlIds.push(capture)
+      return `{{{${capture}}}}`
+    })
+    if (controlIds.length) {
+      const controlId = controlIds[0].split('.')[0]
+      const control = controlMap[controlId]
+      if (control) {
+        let srcPaths = _.get(control, 'sourcePath', [])
+        srcPaths = [...srcPaths, ...sourcePaths.map((path)=>{return {path, snip}})]
+        _.set(control, 'sourcePath', srcPaths)
+      } else {
+        // eslint-disable-next-line no-console
+        console.error(`template contains ID that is not in controls: ${controlId}`)
+      }
+    }
+  })
+}
+
+// return {a: {b: c}} as 'a.b: c'
+const flattenObject = (obj) => {
+  const ret = {}
+  _.forOwn(obj, (obj1, key1) => {
+    if (typeof obj1 === 'object' && obj1 !== null) {
+      const flatObject = flattenObject(obj1)
+      _.forOwn(flatObject, (obj2, key2) => {
+        ret[key1 + '.' + key2] = obj2
+      })
+    } else {
+      ret[key1] = obj1
+    }
+  })
+  return ret
 }

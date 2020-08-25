@@ -9,5 +9,30 @@
  *******************************************************************************/
 'use strict'
 
+//import Handlebars from 'handlebars'
+
 export const generateYAMLFromObjects = () => {
+
+
+
+
+//  var raw = getInsideObject('$raw', templateObject)
+
+//  var tt = Handlebars.compile(snip)
+//  var dd = tt({name:'tad', namespace:'fff'})
+//  sourcePaths.forEach(p=>{
+//    var ff = _.set(raw, p+'.f', dd)
+//    debugger
+//
+//  })
+//  debugger
+//
+//
+
+
+
+
+
+
+
 }

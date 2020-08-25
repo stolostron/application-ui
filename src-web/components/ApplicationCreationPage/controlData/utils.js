@@ -46,6 +46,8 @@ export const setAvailableRules = (control, result) => {
   } else {
     control.isLoading = loading
   }
+
+  return control
 }
 
 export const setAvailableNSSpecs = (control, result) => {

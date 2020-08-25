@@ -16,6 +16,8 @@ import {
   updateDisplayForPlacementControls
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
 
+import { setAvailableRules } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
+
 const controlDataNS = [
   { id: "userDefinedNamespace" },
   {
@@ -62,6 +64,42 @@ const controlDataNS = [
     ]
   }
 ];
+
+describe("setAvailableRules", () => {
+  const urlControl = {
+    id: "placementrulecombo",
+    ns: "aa-ns",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    data: {
+      placementrules: [
+        {
+          metadata: {
+            name: "dev-clusters",
+            namespace: "aa-ns"
+          }
+        }
+      ]
+    }
+  };
+  const result = {
+    active: "",
+    available: ["dev-clusters"],
+    availableData: {
+      "dev-clusters": { metadata: { name: "dev-clusters", namespace: "aa-ns" } }
+    },
+    availableMap: {},
+    id: "placementrulecombo",
+    isLoading: false,
+    ns: "aa-ns"
+  };
+
+  it("setAvailableRules", () => {
+    expect(setAvailableRules(urlControl, model)).toEqual(result);
+  });
+});
 
 describe("updateDisplayForPlacementControls", () => {
   const urlControl = {

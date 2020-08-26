@@ -89,7 +89,6 @@ export const validateResourceTable = name => {
 
 export const validateTimewindow = (name, timeWindowType) => {
   const windowType = { activeinterval: "active", blockinterval: "blocked" };
-
   cy
     .exec(
       `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
@@ -109,7 +108,11 @@ export const validateTimewindow = (name, timeWindowType) => {
           cy.log(stdout || stderr);
           if ((stdout || stderr).includes("No resource") === false) {
             cy.log("the subscription is not empty");
-            if (timeWindowType == "activeinterval" || "blockinterval") {
+            console.log(timeWindowType);
+            if (
+              timeWindowType === "activeinterval" ||
+              timeWindowType === "blockinterval"
+            ) {
               const searchText = windowType[timeWindowType];
               cy
                 .exec(
@@ -118,7 +121,17 @@ export const validateTimewindow = (name, timeWindowType) => {
                 .its("stdout")
                 .should("contain", "timewindow")
                 .should("contain", searchText);
+            } else if (timeWindowType === "active") {
+              cy
+                .exec(
+                  `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
+                )
+                .its("stdout")
+                .should("not.contain", "timewindow");
             } else {
+              cy.log(
+                "there is no timewindow selected... checking the default type"
+              );
               cy
                 .exec(
                   `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`

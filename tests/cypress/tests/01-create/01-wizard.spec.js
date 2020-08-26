@@ -15,7 +15,9 @@ describe("Application", () => {
     it(`can be created on resource ${type} from the wizard`, () => {
       const application = wizards[type];
       let { name, url } = application;
-      cy.visit("/multicloud/applications");
+      cy.visit("/multicloud/applications").then(() => {
+        cy.reload();
+      });
       const timeWindowType = getTimeWindowType(name);
       const timeWindowData = passTimeWindowType(timeWindowType).timeWindowData;
       timeWindowData && timeWindowType

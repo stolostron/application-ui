@@ -4,6 +4,7 @@
  ****************************************************************************** */
 
 /// <reference types="cypress" />
+const { wizards, timeWindows } = JSON.parse(Cypress.env("TEST_CONFIG"));
 
 import {
   pageLoader,
@@ -13,12 +14,21 @@ import {
   notification
 } from "./common";
 
-export const createApplication = (type, application, name, url) => {
+export const createApplication = (
+  type,
+  application,
+  name,
+  url,
+  timeWindowData,
+  timewindowType
+) => {
   type = type.replace(/\s+/g, "-").toLowerCase();
   modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name").type(name);
-  cy.get("#namespace", { timeout: 20 * 1000 }).type(`${name}-ns`);
+  cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`, {
+    timeout: 50 * 1000
+  });
 
   if (type === "git") {
     const { username, token, branch, path } = application;
@@ -46,12 +56,15 @@ export const createApplication = (type, application, name, url) => {
       }
     });
   }
-
+  if (timeWindowData) {
+    selectTimeWindow(timeWindowData, timewindowType);
+  }
   cy.get("#create-button-portal-id").click();
   notification.shouldExist("success", { timeout: 60 * 1000 });
   cy
     .location("pathname", { timeout: 60 * 1000 })
     .should("include", `${name}-ns/${name}`);
+  return name;
 };
 
 export const validateTopology = name => {
@@ -72,6 +85,67 @@ export const validateResourceTable = name => {
   resourceTable.rowNameClick(name);
   cy.reload(); // status isn't updating after unknown failure
   cy.get(".bx--detail-page-header-title");
+};
+
+export const validateTimewindow = (name, timeWindowType) => {
+  const windowType = { activeinterval: "active", blockinterval: "blocked" };
+  cy
+    .exec(
+      `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
+        "OC_CLUSTER_USER"
+      )} -p ${Cypress.env("OC_CLUSTER_PASS")} --insecure-skip-tls-verify=true`
+    )
+    .its("stdout")
+    .should("contain", "Login successful.")
+    .then(() => {
+      // get the subscription
+      cy.log(
+        "the subscription should contain the correct timewindow information"
+      );
+      cy
+        .exec(`oc get subscription -n ${name}-ns`)
+        .then(({ stdout, stderr }) => {
+          cy.log(stdout || stderr);
+          if ((stdout || stderr).includes("No resource") === false) {
+            cy.log("the subscription is not empty");
+            console.log(timeWindowType);
+            if (
+              timeWindowType === "activeinterval" ||
+              timeWindowType === "blockinterval"
+            ) {
+              const searchText = windowType[timeWindowType];
+              cy
+                .exec(
+                  `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
+                )
+                .its("stdout")
+                .should("contain", "timewindow")
+                .should("contain", searchText);
+            } else if (timeWindowType === "active") {
+              cy
+                .exec(
+                  `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
+                )
+                .its("stdout")
+                .should("not.contain", "timewindow");
+            } else {
+              cy.log(
+                "there is no timewindow selected... checking the default type"
+              );
+              cy
+                .exec(
+                  `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
+                )
+                .its("stdout")
+                .should("not.contain", "timewindow");
+            }
+          } else {
+            cy.log(
+              `The subscription ${name}-subscription-0 in namespace:${name}-ns is empty`
+            );
+          }
+        });
+    });
 };
 
 export const deleteApplicationUI = name => {
@@ -167,4 +241,51 @@ export const deleteAPIResources = name => {
           }
         });
     });
+};
+
+export const passTimeWindowType = timeWindowType => {
+  let timeWindowData;
+  if (timeWindows[timeWindowType].setting) {
+    timeWindowData = timeWindows[timeWindowType];
+  }
+  return { timeWindowData: timeWindowData };
+};
+
+export const selectTimeWindow = (timeWindowData, timeWindowType) => {
+  const { setting, date } = timeWindowData;
+  if (setting && date) {
+    cy.log("Select TimeWindow...");
+    cy.log(timeWindowType);
+    const dateId = date.toLowerCase().substring(0, 3) + "-timeWindow";
+    let typeID =
+      timeWindowType === "blockinterval"
+        ? "#blocked-mode-timeWindow"
+        : "#active-mode-timeWindow";
+    cy
+      .get(typeID)
+      .scrollIntoView()
+      .click({ force: true });
+    cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true });
+    cy
+      .get(".bx--dropdown.config-timezone-dropdown.bx--list-box")
+      .within($timezone => {
+        cy.get("[type='button']").click();
+        cy
+          .get(".bx--list-box__menu-item:first-of-type", {
+            timeout: 30 * 1000
+          })
+          .click();
+      });
+  }
+};
+
+export const getTimeWindowType = name => {
+  let nameList = name.split("-");
+  let timeWindowType;
+  "active activeinterval blockinterval".indexOf(
+    nameList[nameList.length - 1]
+  ) !== -1
+    ? (timeWindowType = nameList[nameList.length - 1])
+    : (timeWindowType = undefined);
+  return timeWindowType;
 };

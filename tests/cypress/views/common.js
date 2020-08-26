@@ -122,5 +122,3 @@ export const resourcePage = {
     });
   }
 };
-
-export const menu = {};

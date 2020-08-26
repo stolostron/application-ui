@@ -19,9 +19,21 @@ exports.getConfig = () => {
     config = jsYaml.safeLoad(config);
 
     for (const [key, value] of Object.entries(config.wizards)) {
+      const timeWindowType = Object.keys(config.timeWindows)[
+        Math.floor(Math.random() * 3)
+      ];
       typeof process.env.CYPRESS_JOB_ID === "undefined"
-        ? value.name
-        : (value.name = value.name + "-" + process.env.CYPRESS_JOB_ID);
+        ? config.timeWindows.timeWindowType
+          ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
+          : value.name
+        : config.timeWindows.timeWindowType
+          ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
+          : (value.name =
+              value.name +
+              "-" +
+              process.env.CYPRESS_JOB_ID +
+              "-" +
+              timeWindowType.toLowerCase());
     }
   } catch (e) {
     throw new Error(e);

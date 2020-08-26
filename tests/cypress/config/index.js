@@ -22,7 +22,6 @@ exports.getConfig = () => {
       const timeWindowType = Object.keys(config.timeWindows)[
         Math.floor(Math.random() * 3)
       ];
-      console.log(timeWindowType);
       typeof process.env.CYPRESS_JOB_ID === "undefined"
         ? config.timeWindows.timeWindowType
           ? (value.name = value.name + "-" + timeWindowType.toLowerCase())

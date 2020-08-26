@@ -57,7 +57,6 @@ export const createApplication = (
     });
   }
   if (timeWindowData) {
-    console.log();
     selectTimeWindow(timeWindowData, timewindowType);
   }
   cy.get("#create-button-portal-id").click();
@@ -88,9 +87,9 @@ export const validateResourceTable = name => {
   cy.get(".bx--detail-page-header-title");
 };
 
-export const validateTimewindow = (name, timeWindowType, timeWindowData) => {
-  const { date } = timeWindowData;
-  console.log(timeWindowType);
+export const validateTimewindow = (name, timeWindowType) => {
+  const windowType = { activeinterval: "active", blockinterval: "blocked" };
+
   cy
     .exec(
       `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
@@ -111,12 +110,14 @@ export const validateTimewindow = (name, timeWindowType, timeWindowData) => {
           if ((stdout || stderr).includes("No resource") === false) {
             cy.log("the subscription is not empty");
             if (timeWindowType == "activeinterval" || "blockinterval") {
+              const searchText = windowType[timeWindowType];
               cy
                 .exec(
                   `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
                 )
                 .its("stdout")
-                .should("contain", "timewindow");
+                .should("contain", "timewindow")
+                .should("contain", searchText);
             } else {
               cy
                 .exec(
@@ -238,13 +239,15 @@ export const passTimeWindowType = timeWindowType => {
 };
 
 export const selectTimeWindow = (timeWindowData, timeWindowType) => {
-  console.log(timeWindowType);
   const { setting, date } = timeWindowData;
   if (setting && date) {
+    cy.log("Select TimeWindow...");
+    cy.log(timeWindowType);
     const dateId = date.toLowerCase().substring(0, 3) + "-timeWindow";
-    const typeID = (timeWindowType = "blockinterval")
-      ? "#blocked-mode-timeWindow"
-      : "#active-mode-timeWindow";
+    let typeID =
+      timeWindowType === "blockinterval"
+        ? "#blocked-mode-timeWindow"
+        : "#active-mode-timeWindow";
     cy
       .get(typeID)
       .scrollIntoView()

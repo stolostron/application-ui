@@ -13,3 +13,12 @@ wizards:
     url: ""
     accessKey: ""
     secretKey: ""
+timeWindows:
+  active:
+    setting: false
+  activeinterval:
+    setting: false
+    date: ""
+  blockinterval:
+    setting: false
+    date: ""

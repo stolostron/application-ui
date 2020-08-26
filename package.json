@@ -98,6 +98,7 @@
     "handlebars-loader": "^1.6.0",
     "helmet": "^3.22.0",
     "http-proxy-middleware": "^1.0.4",
+    "ignore-styles": "^5.0.1",
     "image2svg-loader": "^0.10.0",
     "ip-address": "^6.3.0",
     "ip-cidr": "^2.0.11",

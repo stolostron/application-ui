@@ -101,33 +101,6 @@ describe("setAvailableRules", () => {
   });
 });
 
-describe("updateDisplayForPlacementControls", () => {
-  const urlControl = {
-    id: "existingrule-checkbox",
-    active: true,
-    availableData: { "acmtest-helmrepo-ns-sub": {} }
-  };
-  const result = {
-    available: [],
-    clusterSelector: {
-      active: {
-        clusterLabelsList: [
-          { id: 0, labelName: "", labelValue: "", validValue: true }
-        ],
-        clusterLabelsListID: 1,
-        mode: false
-      },
-      id: "clusterSelector",
-      type: "hidden"
-    }
-  };
-  it("updateDisplayForPlacementControls", () => {
-    expect(
-      updateDisplayForPlacementControls(urlControl, controlDataNS)
-    ).toEqual(result);
-  });
-});
-
 describe("updateNSControls with existing NS and no channel selection", () => {
   const urlControl = {
     id: "namespace",
@@ -142,7 +115,10 @@ describe("updateNSControls with existing NS and no channel selection", () => {
       }
     }
   ];
-  const result = { id: "userDefinedNamespace" };
+  const result = [
+    { active: "", id: "userDefinedNamespace" },
+    { channels: { controlMapArr: [] } }
+  ];
   it("should return no PR when no channel selection", () => {
     expect(updateNSControls(urlControl, controlData)).toEqual(result);
   });
@@ -161,7 +137,47 @@ describe("updateNSControls with new NS AND channel selection", () => {
     }
   };
 
-  const result = { id: "userDefinedNamespace" };
+  const result = [
+    { active: "", id: "userDefinedNamespace" },
+    {
+      controlMapArr: [
+        {
+          available: [],
+          clusterSelector: {
+            active: {
+              clusterLabelsList: [
+                { id: 0, labelName: "", labelValue: "", validValue: true }
+              ],
+              clusterLabelsListID: 1,
+              mode: ""
+            },
+            id: "clusterSelector"
+          }
+        },
+        {
+          "local-cluster-checkbox": {
+            active: false,
+            id: "local-cluster-checkbox"
+          }
+        },
+        {
+          "online-cluster-only-checkbox": {
+            active: false,
+            id: "online-cluster-only-checkbox"
+          }
+        },
+        {
+          placementrulecombo: {
+            active: false,
+            id: "placementrulecombo",
+            ns: "aa-ns"
+          }
+        },
+        { selectedRuleName: { actve: "result-pr", id: "selectedRuleName" } }
+      ],
+      id: "channels"
+    }
+  ];
   it("should return new user data", () => {
     expect(updateNSControls(urlControl, controlDataNS)).toEqual(result);
   });

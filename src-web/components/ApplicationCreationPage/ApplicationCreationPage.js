@@ -30,6 +30,14 @@ import { TemplateEditor } from '../TemplateEditor'
 import { controlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
 
+import {
+  NotificationDrawer,
+  NotificationDrawerBody,
+  NotificationDrawerList,
+  NotificationDrawerListItem,
+  NotificationDrawerListItemHeader
+} from '@patternfly/react-core'
+
 import _ from 'lodash'
 
 const Portals = Object.freeze({
@@ -89,9 +97,16 @@ class ApplicationCreationPage extends React.Component {
     ]
   }
 
-  componentDidMount(){
-    const { secondaryHeaderProps={}, editApplication={}, cleanReqStatus } = this.props
-    const {selectedAppName, breadcrumbs= this.getBreadcrumbs()} = editApplication
+  componentDidMount() {
+    const {
+      secondaryHeaderProps = {},
+      editApplication = {},
+      cleanReqStatus
+    } = this.props
+    const {
+      selectedAppName,
+      breadcrumbs = this.getBreadcrumbs()
+    } = editApplication
     const { locale } = this.context
     if (cleanReqStatus) {
       this.props.cleanReqStatus()
@@ -113,7 +128,8 @@ class ApplicationCreationPage extends React.Component {
       }
     ]
     const tooltip = '' //{ text: msgs.get('tooltip.text.createCluster', locale), link: TOOLTIP_LINKS.CREATE_CLUSTER }
-    const title = selectedAppName || msgs.get(secondaryHeaderProps.title, locale)
+    const title =
+      selectedAppName || msgs.get(secondaryHeaderProps.title, locale)
     this.props.updateSecondaryHeader(
       title,
       secondaryHeaderProps.tabs,
@@ -146,42 +162,47 @@ class ApplicationCreationPage extends React.Component {
     const { editApplication } = this.props
     if (editApplication) {
       // if editing an existing app, grab it first
-      const {selectedAppName, selectedAppNamespace} = editApplication
+      const { selectedAppName, selectedAppNamespace } = editApplication
       return (
         <Page>
-          <Query query={getApplication} variables={{name: selectedAppName, namespace: selectedAppNamespace}} >
-            {( result ) => {
+          <Query
+            query={getApplication}
+            variables={{
+              name: selectedAppName,
+              namespace: selectedAppNamespace
+            }}
+          >
+            {result => {
               const { loading } = result
-              const { data={} } = result
+              const { data = {} } = result
               const { application } = data
               //const errored = application ? false : true
               const error = application ? null : result.error
               if (!loading && error) {
-                const errorName = result.error.graphQLErrors[0].name ? result.error.graphQLErrors[0].name : error.name
+                const errorName = result.error.graphQLErrors[0].name
+                  ? result.error.graphQLErrors[0].name
+                  : error.name
                 error.name = errorName
               }
 
-
-
-
-
               return this.renderEditor()
-            }
-            }
+            }}
           </Query>
         </Page>
       )
     }
-    return (
-      <Page>
-        {this.renderEditor()}
-      </Page>
-    )
+    return <Page>{this.renderEditor()}</Page>
   }
 
   renderEditor() {
     const { locale } = this.context
-    const { mutateStatus, mutateErrorMsgs, updateFormState, savedFormData, history } = this.props
+    const {
+      mutateStatus,
+      mutateErrorMsgs,
+      updateFormState,
+      savedFormData,
+      history
+    } = this.props
     const createControl = {
       createResource: this.handleCreate.bind(this),
       cancelCreate: this.handleCancel.bind(this),
@@ -190,19 +211,34 @@ class ApplicationCreationPage extends React.Component {
     }
     const { controlData: cd, fetchControl } = this.state
     return (
-      <TemplateEditor
-        type={'application'}
-        title={msgs.get('creation.app.yaml', locale)}
-        template={createTemplate}
-        controlData={cd}
-        portals={Portals}
-        fetchControl={fetchControl}
-        createControl={createControl}
-        locale={locale}
-        updateFormState={updateFormState}
-        savedFormData={savedFormData}
-        history={history}
+      <React.Fragment>
+        <NotificationDrawer>
+          <NotificationDrawerBody>
+            <NotificationDrawerList>
+              <NotificationDrawerListItem variant="danger">
+                <NotificationDrawerListItemHeader
+                  variant="danger"
+                  title="test"
+                  srTitle="Danger notification:"
+                />
+              </NotificationDrawerListItem>
+            </NotificationDrawerList>
+          </NotificationDrawerBody>
+        </NotificationDrawer>
+        <TemplateEditor
+          type={'application'}
+          title={msgs.get('creation.app.yaml', locale)}
+          template={createTemplate}
+          controlData={cd}
+          portals={Portals}
+          fetchControl={fetchControl}
+          createControl={createControl}
+          locale={locale}
+          updateFormState={updateFormState}
+          savedFormData={savedFormData}
+          history={history}
         />
+      </React.Fragment>
     )
   }
 

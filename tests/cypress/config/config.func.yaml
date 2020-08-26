@@ -1,7 +1,7 @@
 wizards:
   Git:
     disabled: false
-    name: "ui-create-application-git"
+    name: "ui-create-app-git"
     url: "https://github.com/fxiang1/app-samples.git"
     username: ""
     token: ""
@@ -9,10 +9,13 @@ wizards:
     path: "helloworld"
   ObjectBucket:
     disabled: false
-    name: "ui-create-application-objbucket"
+    name: "ui-create-app-objbucket"
     url: "http://ec2-100-26-232-156.compute-1.amazonaws.com:9000/minio/dev1"
     accessKey: "admin"
     secretKey: "passwordadmin"
+  local-cluster:
+    name: "ui-create-app-local"
+    repository: "ui-test"
 timeWindows:
   active:
     setting: true

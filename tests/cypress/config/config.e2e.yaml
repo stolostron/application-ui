@@ -13,6 +13,9 @@ wizards:
     url: ""
     accessKey: ""
     secretKey: ""
+  local-cluster:
+    name: ""
+    repository: ""
 timeWindows:
   active:
     setting: false

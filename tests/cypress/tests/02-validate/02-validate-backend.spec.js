@@ -6,6 +6,7 @@
 import {
   getTimeWindowType,
   validateTimewindow,
+  validateCreation,
   passTimeWindowType
 } from "../../views/application";
 const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
@@ -13,7 +14,7 @@ const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
 describe("Application", () => {
   for (const type in wizards) {
     const { name } = wizards[type];
-    it(`should be validated from the timewindow - ${type}: ${name}`, () => {
+    it(`timewindow - should be validated - ${type}: ${name}`, () => {
       const timeWindowType = getTimeWindowType(name);
       const timeWindowData = passTimeWindowType(timeWindowType).timeWindowData;
       validateTimewindow(name, timeWindowType, timeWindowData);

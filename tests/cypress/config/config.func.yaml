@@ -16,9 +16,9 @@ wizards:
 timeWindows:
   active:
     setting: true
-  activeInterval:
+  activeinterval:
     setting: true
     date: "Monday"
-  blockInterval:
+  blockinterval:
     setting: true
     date: "Monday"

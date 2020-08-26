@@ -22,15 +22,12 @@ export const createApplication = (
   timeWindowData,
   timewindowType
 ) => {
-  // timeWindowData && timewindowType
-  //   ? (name = name + "-" + timewindowType)
-  //   : name;
   type = type.replace(/\s+/g, "-").toLowerCase();
   modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name").type(name);
-  cy.get("#namespace", { timeout: 20 * 1000 }).type(`${name}-ns`, {
-    timeout: 20 * 1000
+  cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`, {
+    timeout: 50 * 1000
   });
 
   if (type === "git") {
@@ -60,6 +57,7 @@ export const createApplication = (
     });
   }
   if (timeWindowData) {
+    console.log();
     selectTimeWindow(timeWindowData, timewindowType);
   }
   cy.get("#create-button-portal-id").click();
@@ -90,7 +88,9 @@ export const validateResourceTable = name => {
   cy.get(".bx--detail-page-header-title");
 };
 
-export const validateTimewindow = name => {
+export const validateTimewindow = (name, timeWindowType, timeWindowData) => {
+  const { date } = timeWindowData;
+  console.log(timeWindowType);
   cy
     .exec(
       `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
@@ -101,18 +101,30 @@ export const validateTimewindow = name => {
     .should("contain", "Login successful.")
     .then(() => {
       // get the subscription
-      cy.log("get the subscription if it exists");
+      cy.log(
+        "the subscription should contain the correct timewindow information"
+      );
       cy
         .exec(`oc get subscription -n ${name}-ns`)
         .then(({ stdout, stderr }) => {
           cy.log(stdout || stderr);
           if ((stdout || stderr).includes("No resource") === false) {
-            cy.log("There exist leftover subscription");
-            cy
-              .exec(
-                `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
-              )
-              .its("stdout");
+            cy.log("the subscription is not empty");
+            if (timeWindowType == "activeinterval" || "blockinterval") {
+              cy
+                .exec(
+                  `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
+                )
+                .its("stdout")
+                .should("contain", "timewindow");
+            } else {
+              cy
+                .exec(
+                  `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
+                )
+                .its("stdout")
+                .should("not.contain", "timewindow");
+            }
           } else {
             cy.log(
               `The subscription ${name}-subscription-0 in namespace:${name}-ns is empty`
@@ -221,16 +233,16 @@ export const passTimeWindowType = timeWindowType => {
   let timeWindowData;
   if (timeWindows[timeWindowType].setting) {
     timeWindowData = timeWindows[timeWindowType];
-    timeWindowType = timeWindowType.replace(/\s+/g, "-").toLowerCase();
   }
-  return { timeWindowData: timeWindowData, timeWindowType: timeWindowType };
+  return { timeWindowData: timeWindowData };
 };
 
-export const selectTimeWindow = (timeWindowData, timewindowType) => {
+export const selectTimeWindow = (timeWindowData, timeWindowType) => {
+  console.log(timeWindowType);
   const { setting, date } = timeWindowData;
   if (setting && date) {
     const dateId = date.toLowerCase().substring(0, 3) + "-timeWindow";
-    const typeID = (timewindowType = "blockInterval")
+    const typeID = (timeWindowType = "blockinterval")
       ? "#blocked-mode-timeWindow"
       : "#active-mode-timeWindow";
     cy
@@ -249,4 +261,15 @@ export const selectTimeWindow = (timeWindowData, timewindowType) => {
           .click();
       });
   }
+};
+
+export const getTimeWindowType = name => {
+  let nameList = name.split("-");
+  let timeWindowType;
+  "active activeinterval blockinterval".indexOf(
+    nameList[nameList.length - 1]
+  ) !== -1
+    ? (timeWindowType = nameList[nameList.length - 1])
+    : (timeWindowType = undefined);
+  return timeWindowType;
 };

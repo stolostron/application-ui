@@ -11,10 +11,11 @@ import React from 'react'
 import { TooltipIcon } from 'carbon-components-react'
 import { getAge } from '../../lib/client/resource-helper'
 import { getNumClustersForApp } from '../components/common/ResourceOverview/utils'
-import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import { validator } from './validators/hcm-application-validator'
+import { Label } from '@patternfly/react-core'
+import msgs from '../../nls/platform.properties'
 
 export default {
   defaultSortField: 'name',
@@ -24,7 +25,7 @@ export default {
   validator,
   tableKeys: [
     {
-      msgKey: 'table.header.applicationName',
+      msgKey: 'table.header.name',
       resourceKey: 'name',
       transformFunction: createApplicationLink
     },
@@ -33,14 +34,19 @@ export default {
       resourceKey: 'namespace'
     },
     {
-      msgKey: 'table.header.managedClusters',
+      msgKey: 'table.header.clusters',
       resourceKey: 'clusters',
       transformFunction: getNumClustersForApp
     },
     {
-      msgKey: 'table.header.subscriptions',
-      resourceKey: 'subscriptions',
-      transformFunction: getNumRemoteSubs
+      msgKey: 'table.header.resource',
+      resourceKey: 'channels',
+      transformFunction: getChannels
+    },
+    {
+      msgKey: 'table.header.timeWindow',
+      resourceKey: 'hubSubscriptions',
+      transformFunction: getTimeWindow
     },
     {
       msgKey: 'table.header.created',
@@ -114,6 +120,43 @@ export function createApplicationLink(item = {}, ...param) {
     namespace
   )}/${encodeURIComponent(name)}`
   return <Link to={link}>{name}</Link>
+}
+
+export function getChannels(item = {}, locale) {
+  const groupByChannelType = R.groupBy(ch => {
+    const channelType = (R.path(['ch.type'], ch) || '').toLowerCase()
+    return channelType === 'github' ? 'git' : channelType
+  })
+  const channelMap = groupByChannelType(R.path(['hubChannels'], item) || [])
+
+  return (
+    <React.Fragment>
+      {['git', 'helmrepo', 'namespace', 'objectbucket'].map(chType => {
+        if (channelMap[chType]) {
+          return (
+            <Label
+              key={`${item.name}-${item.namespace}-${chType}`}
+              onClick={event => {
+                event.preventDefault()
+                event.nativeEvent.preventDefault()
+                event.stopPropagation()
+              }}
+              color="grey"
+              href="#"
+            >
+              {msgs.get(`channel.type.${chType}`, locale)}
+            </Label>
+          )
+        }
+      })}
+    </React.Fragment>
+  )
+}
+
+export function getTimeWindow(item = {}) {
+  return (R.path(['hubSubscriptions'], item) || [])
+    .map(sub => R.path(['timeWindow'], sub))
+    .join(', ')
 }
 
 export function getNumRemoteSubs(item = {}, locale) {

@@ -6,6 +6,7 @@
 const fs = require("fs");
 const path = require("path");
 const jsYaml = require("js-yaml");
+const cons = require("consolidate");
 
 exports.getConfig = () => {
   let config;
@@ -23,18 +24,20 @@ exports.getConfig = () => {
         Math.floor(Math.random() * 3)
       ];
       if (value.enable) {
-        typeof process.env.CYPRESS_JOB_ID === "undefined"
-          ? config.timeWindows.timeWindowType
-            ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
-            : value.name
-          : config.timeWindows.timeWindowType
-            ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
-            : (value.name =
+        const timewindowFlag = config.timeWindows[timeWindowType].setting;
+        process.env.CYPRESS_JOB_ID
+          ? timewindowFlag
+            ? (value.name =
                 value.name +
                 "-" +
                 process.env.CYPRESS_JOB_ID +
                 "-" +
-                timeWindowType.toLowerCase());
+                timeWindowType.toLowerCase())
+            : (value.name = value.name + "-" + process.env.CYPRESS_JOB_ID)
+          : timewindowFlag
+            ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
+            : value.name;
+        console.log("type: ", value.name);
       }
     }
   } catch (e) {

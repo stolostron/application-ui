@@ -96,7 +96,8 @@ export const validateTimewindow = (name, timeWindowType) => {
     .exec(
       `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
         "OC_CLUSTER_USER"
-      )} -p ${Cypress.env("OC_CLUSTER_PASS")} --insecure-skip-tls-verify=true`
+      )} -p ${Cypress.env("OC_CLUSTER_PASS")} --insecure-skip-tls-verify=true`,
+      { timeout: 50 * 1000 }
     )
     .its("stdout")
     .should("contain", "Login successful.")

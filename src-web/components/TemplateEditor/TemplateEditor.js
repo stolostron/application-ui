@@ -19,7 +19,8 @@ import {
   Loading,
   Notification,
   InlineNotification,
-  ToggleSmall
+  ToggleSmall,
+  TooltipDefinition
 } from 'carbon-components-react'
 import { initializeControlData } from './utils/initialize-form'
 import { cacheUserData, updateControls } from './utils/update-form'
@@ -37,6 +38,7 @@ import './scss/template-editor.scss'
 import msgs from '../../../nls/platform.properties'
 import '../../../graphics/diagramIcons.svg'
 import _ from 'lodash'
+import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 
 const TEMPLATE_EDITOR_OPEN_COOKIE = 'template-editor-open-cookie'
 
@@ -168,7 +170,8 @@ export default class TemplateEditor extends React.Component {
       isFinalValidate: false,
       hasUndo: false,
       hasRedo: false,
-      resetInx: 0
+      resetInx: 0,
+      canDisable: true
     }
     this.selectedTab = 0
     this.firstGoToLinePerformed = false
@@ -187,6 +190,12 @@ export default class TemplateEditor extends React.Component {
   }
 
   componentDidMount() {
+    canCreateActionAllNamespaces('applications', 'create', 'app.k8s.io').then(
+      response => {
+        const disabled = _.get(response, 'data.userAccessAllNamespaces')
+        this.setState({ canDisable: !disabled })
+      }
+    )
     if (!this.renderedPortals) {
       setTimeout(() => {
         this.forceUpdate()
@@ -1027,18 +1036,39 @@ export default class TemplateEditor extends React.Component {
   renderCreateButton() {
     const { portals = {}, createControl, locale } = this.props
     const { createBtn } = portals
+    const { canDisable } = this.state
+    let disableButton = true
+    if (this.state.hasUndo && !canDisable) {
+      disableButton = false
+    }
+    const titleText = canDisable
+      ? msgs.get('button.save.access.denied', locale)
+      : undefined
     if (createControl && createBtn) {
       const portal = document.getElementById(createBtn)
+      const button = (
+        <Button
+          id={createBtn}
+          onClick={this.handleCreateResource.bind(this)}
+          kind={'primary'}
+          disabled={disableButton}
+        >
+          {msgs.get('button.create', locale)}
+        </Button>
+      )
       if (portal) {
         return ReactDOM.createPortal(
-          <Button
-            id={createBtn}
-            onClick={this.handleCreateResource.bind(this)}
-            kind={'primary'}
-            disabled={!this.state.hasUndo}
-          >
-            {msgs.get('button.create', locale)}
-          </Button>,
+          disableButton ? (
+            <TooltipDefinition
+              direction="bottom"
+              tooltipText={titleText}
+              align="center"
+            >
+              {button}
+            </TooltipDefinition>
+          ) : (
+            button
+          ),
           portal
         )
       }

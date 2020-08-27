@@ -43,6 +43,16 @@ jest.mock("../../../lib/client/apollo-client", () => ({
         }
       }
     });
+  }),
+  getUserAccessAllNamespaces: jest.fn(variables => {
+    return Promise.resolve({
+      data: {
+        userAccessAllNamespaces: true
+      },
+      loading: false,
+      networkStatus: 7,
+      stale: false
+    });
   })
 }));
 

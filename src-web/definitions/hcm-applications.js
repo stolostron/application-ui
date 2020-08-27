@@ -9,7 +9,7 @@
 import R from 'ramda'
 import React from 'react'
 import { TooltipIcon } from 'carbon-components-react'
-import { getAge } from '../../lib/client/resource-helper'
+import { getCreationDate } from '../../lib/client/resource-helper'
 import { getNumClustersForApp } from '../components/common/ResourceOverview/utils'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
@@ -51,7 +51,7 @@ export default {
     {
       msgKey: 'table.header.created',
       resourceKey: 'created',
-      transformFunction: getAge
+      transformFunction: getCreated
     }
   ],
   tableActions: [
@@ -92,7 +92,7 @@ export default {
           },
           {
             resourceKey: 'created',
-            transformFunction: getAge
+            transformFunction: getCreated
           }
         ]
       },
@@ -157,6 +157,11 @@ export function getTimeWindow(item = {}) {
   return (R.path(['hubSubscriptions'], item) || [])
     .map(sub => R.path(['timeWindow'], sub))
     .join(', ')
+}
+
+export function getCreated(item = {}) {
+  const timestamp = R.path(['created'], item) || ''
+  return timestamp ? getCreationDate(timestamp) : '-'
 }
 
 export function getNumRemoteSubs(item = {}, locale) {

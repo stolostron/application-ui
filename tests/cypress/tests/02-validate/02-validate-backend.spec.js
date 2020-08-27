@@ -13,11 +13,18 @@ const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
 
 describe("Application", () => {
   for (const type in wizards) {
-    const { name } = wizards[type];
-    it(`timewindow - should be validated - ${type}: ${name}`, () => {
-      const timeWindowType = getTimeWindowType(name);
-      const timeWindowData = passTimeWindowType(timeWindowType).timeWindowData;
-      validateTimewindow(name, timeWindowType, timeWindowData);
-    });
+    const { name, enable } = wizards[type];
+    if (enable) {
+      it(`timewindow - should be validated - ${type}: ${name}`, () => {
+        const timeWindowType = getTimeWindowType(name);
+        const timeWindowData = passTimeWindowType(timeWindowType)
+          .timeWindowData;
+        validateTimewindow(name, timeWindowType, timeWindowData);
+      });
+    } else {
+      it(`disable validation on resource ${type}`, () => {
+        cy.log(`skipping ${type} - ${name}`);
+      });
+    }
   }
 });

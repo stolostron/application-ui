@@ -7,10 +7,16 @@ import { apiResources } from "../../views/application";
 
 describe("Cleanup resouces", () => {
   for (const type in wizards) {
-    const { name } = wizards[type];
+    const { name, enable } = wizards[type];
     const application = wizards[type];
-    it(`delete application ${name}'s channel, subscription and placementrule`, () => {
-      apiResources.action(name, "delete", application);
-    });
+    if (enable) {
+      it(`delete application ${name}'s channel, subscription and placementrule`, () => {
+        apiResources.action(name, "delete", application);
+      });
+    } else {
+      it(`disable deletion on resource ${type}`, () => {
+        cy.log(`skipping ${type} - ${name}`);
+      });
+    }
   }
 });

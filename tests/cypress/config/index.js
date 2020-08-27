@@ -22,18 +22,20 @@ exports.getConfig = () => {
       const timeWindowType = Object.keys(config.timeWindows)[
         Math.floor(Math.random() * 3)
       ];
-      typeof process.env.CYPRESS_JOB_ID === "undefined"
-        ? config.timeWindows.timeWindowType
-          ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
-          : value.name
-        : config.timeWindows.timeWindowType
-          ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
-          : (value.name =
-              value.name +
-              "-" +
-              process.env.CYPRESS_JOB_ID +
-              "-" +
-              timeWindowType.toLowerCase());
+      if (value.enable) {
+        typeof process.env.CYPRESS_JOB_ID === "undefined"
+          ? config.timeWindows.timeWindowType
+            ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
+            : value.name
+          : config.timeWindows.timeWindowType
+            ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
+            : (value.name =
+                value.name +
+                "-" +
+                process.env.CYPRESS_JOB_ID +
+                "-" +
+                timeWindowType.toLowerCase());
+      }
     }
   } catch (e) {
     throw new Error(e);

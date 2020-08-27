@@ -224,17 +224,6 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
         className="bx--data-table-v2-container"
         id="undefined-table-container"
       >
-        <div
-          className="table-title"
-        >
-          All applications
-           
-          <span>
-            (
-            0
-            )
-          </span>
-        </div>
         <section
           aria-label="undefined-search"
           className="bx--table-toolbar"
@@ -382,7 +371,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                   <span
                     className="bx--table-header-label"
                   >
-                    Application name
+                    Name
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -452,7 +441,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                   <span
                     className="bx--table-header-label"
                   >
-                    Managed clusters
+                    Clusters
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -480,14 +469,49 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 <button
                   className="bx--table-sort-v2 bx--table-sort-v2--ascending"
                   data-default-key="name"
-                  data-key="subscriptions"
+                  data-key="channels"
                   onClick={[Function]}
                   title="Sort rows by this header in descending order"
                 >
                   <span
                     className="bx--table-header-label"
                   >
-                    Subscriptions (On managed clusters)
+                    Resource
+                  </span>
+                  <svg
+                    alt="Sort rows by this header in descending order"
+                    aria-label="Sort rows by this header in descending order"
+                    className="bx--table-sort-v2__icon"
+                    fillRule="evenodd"
+                    height="5"
+                    name="caret--down"
+                    role="img"
+                    viewBox="0 0 10 5"
+                    width="10"
+                  >
+                    <title>
+                      Sort rows by this header in descending order
+                    </title>
+                    <path
+                      d="M0 0l5 4.998L10 0z"
+                    />
+                  </svg>
+                </button>
+              </th>
+              <th
+                scope="col"
+              >
+                <button
+                  className="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                  data-default-key="name"
+                  data-key="hubSubscriptions"
+                  onClick={[Function]}
+                  title="Sort rows by this header in descending order"
+                >
+                  <span
+                    className="bx--table-header-label"
+                  >
+                    Time window
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -944,17 +968,6 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
         className="bx--data-table-v2-container"
         id="undefined-table-container"
       >
-        <div
-          className="table-title"
-        >
-          All applications
-           
-          <span>
-            (
-            0
-            )
-          </span>
-        </div>
         <section
           aria-label="undefined-search"
           className="bx--table-toolbar"
@@ -1102,7 +1115,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                   <span
                     className="bx--table-header-label"
                   >
-                    Application name
+                    Name
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -1172,7 +1185,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                   <span
                     className="bx--table-header-label"
                   >
-                    Managed clusters
+                    Clusters
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -1200,14 +1213,49 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 <button
                   className="bx--table-sort-v2 bx--table-sort-v2--ascending"
                   data-default-key="name"
-                  data-key="subscriptions"
+                  data-key="channels"
                   onClick={[Function]}
                   title="Sort rows by this header in descending order"
                 >
                   <span
                     className="bx--table-header-label"
                   >
-                    Subscriptions (On managed clusters)
+                    Resource
+                  </span>
+                  <svg
+                    alt="Sort rows by this header in descending order"
+                    aria-label="Sort rows by this header in descending order"
+                    className="bx--table-sort-v2__icon"
+                    fillRule="evenodd"
+                    height="5"
+                    name="caret--down"
+                    role="img"
+                    viewBox="0 0 10 5"
+                    width="10"
+                  >
+                    <title>
+                      Sort rows by this header in descending order
+                    </title>
+                    <path
+                      d="M0 0l5 4.998L10 0z"
+                    />
+                  </svg>
+                </button>
+              </th>
+              <th
+                scope="col"
+              >
+                <button
+                  className="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                  data-default-key="name"
+                  data-key="hubSubscriptions"
+                  onClick={[Function]}
+                  title="Sort rows by this header in descending order"
+                >
+                  <span
+                    className="bx--table-header-label"
+                  >
+                    Time window
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"

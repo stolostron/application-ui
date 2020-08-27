@@ -58,7 +58,8 @@ module.exports = {
         loader: "babel-loader?cacheDirectory"
       },
       {
-        test: [/\.scss$/],
+        test: [/\.s?css$/],
+        exclude: /node_modules\/(?!(@patternfly)\/).*/,
         loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [
@@ -74,6 +75,12 @@ module.exports = {
                 plugins() {
                   return [require("autoprefixer")];
                 }
+              }
+            },
+            {
+              loader: "resolve-url-loader",
+              options: {
+                sourceMap: true
               }
             },
             {
@@ -100,19 +107,14 @@ module.exports = {
       },
       {
         test: /\.svg$/,
+        include: path.resolve(__dirname, "./graphics"),
         use: ["svg-sprite-loader"]
       },
       {
-        test: /\.(png|jpg)$/,
-        use: ["svg-sprite-loader?symbolId=icon-[name]", "image2svg-loader"]
-      },
-      {
         test: [/\.handlebars$/, /\.hbs$/],
-        loader: 'handlebars-loader',
+        loader: "handlebars-loader",
         query: {
-          helperDirs: [
-            path.resolve(__dirname, './templates/helpers')
-          ],
+          helperDirs: [path.resolve(__dirname, "./templates/helpers")],
           precompileOptions: {
             knownHelpersOnly: false
           }
@@ -123,8 +125,8 @@ module.exports = {
         loader: "js-yaml-loader"
       },
       {
-        test: /\.(woff2?|ttf|eot|otf)(\?.*$|$)/,
-        exclude: overpassTest,
+        test: /\.(png|jpg|jpeg|gif|svg|woff2?|ttf|eot|otf)(\?.*$|$)/,
+        exclude: [overpassTest, path.resolve(__dirname, "./graphics")],
         loader: "file-loader",
         options: {
           name: "assets/[name].[ext]"

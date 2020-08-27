@@ -13,7 +13,6 @@
 <head>
     {>meta-tags/}
     <title>{title}</title>
-    <link rel='stylesheet' href="{contextPath}/{manifest.common.css}">
     <link rel='stylesheet' href="{filesH.css.path}">
     {+head/}
 </head>
@@ -33,7 +32,6 @@
     <script id='context' type='application/json'>{context|js|s}</script>
     <script id='propshcm' type='application/json'>{props|js|s}</script>
     <script src="{contextPath}/{manifest.vendorhcm.js}"></script>
-    <script src="{contextPath}/{manifest.common.js}"></script>
     <script id='props' type='application/json'>{propsH|js|s}</script>
     <script src="{filesH.nls.path}"></script>
     <script src="{filesH.dll.path}"></script>

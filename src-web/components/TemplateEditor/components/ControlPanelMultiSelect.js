@@ -18,6 +18,7 @@ import msgs from '../../../../nls/platform.properties'
 class ControlPanelMultiSelect extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -32,8 +33,8 @@ class ControlPanelMultiSelect extends React.Component {
   };
 
   render() {
-    const { locale, control } = this.props
-    const { id, name, placeholder: ph = '' } = control
+    const { controlId, locale, control } = this.props
+    const { name, placeholder: ph = '' } = control
 
     // see if we need to add user additions to available (from editing the yaml file)
     const { userData, userMap, hasCapturedUserSource } = control
@@ -65,37 +66,41 @@ class ControlPanelMultiSelect extends React.Component {
     }
 
     // change key if active changes so that carbon component is re-created with new initial values
-    const key = `${id}-${active.join('-')}`
+    const key = `${controlId}-${active.join('-')}`
     return (
       <React.Fragment>
         <div
           className="creation-view-controls-multiselect"
           ref={this.setControlRef.bind(this, control)}
         >
-          <div className="creation-view-controls-multiselect-title">
+          <label
+            className="creation-view-controls-multiselect-title"
+            htmlFor={controlId}
+          >
             {name}
             <Tooltip control={control} locale={locale} />
-          </div>
+          </label>
           <MultiSelect.Filterable
             key={key}
+            id={controlId}
             items={available}
             initialSelectedItems={active}
             placeholder={placeholder}
             itemToString={item => item}
             sortItems={items => items}
-            onChange={this.handleChange.bind(this, id)}
+            onChange={this.handleSelectionChange.bind(this)}
           />
         </div>
       </React.Fragment>
     )
   }
 
-  handleChange(id, evt) {
-    const { control, handleChange } = this.props
+  handleSelectionChange(evt) {
+    const { control } = this.props
     const { isOneSelection } = control
     if (isOneSelection) {
       // close on one selection
-      handleChange(evt)
+      this.handleChange(evt)
     } else {
       // close when user clicks outside of menu
       // unfortunately MultiSelect.Filterable doesn't have an onClose
@@ -106,7 +111,9 @@ class ControlPanelMultiSelect extends React.Component {
       if (menu && menu.length > 0) {
         if (!this.multiSelect.observer) {
           this.multiSelect.observer = new MutationObserver(() => {
-            handleChange({ selectedItems: this.multiSelect.selectedItems })
+            this.handleChange({
+              selectedItems: this.multiSelect.selectedItems
+            })
             this.multiSelect.observer.disconnect()
             delete this.multiSelect.observer
           })
@@ -115,9 +122,15 @@ class ControlPanelMultiSelect extends React.Component {
           })
         }
       } else if (!this.multiSelect.observer) {
-        handleChange({ selectedItems: this.multiSelect.selectedItems })
+        this.handleChange({ selectedItems: this.multiSelect.selectedItems })
       }
     }
+  }
+
+  handleChange(evt) {
+    const { control, handleChange } = this.props
+    control.active = evt.selectedItems
+    handleChange(evt)
   }
 }
 

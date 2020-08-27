@@ -67,10 +67,15 @@ export const getClusterName = nodeId => {
   if (nodeId === undefined) {
     return ''
   }
-  const startPos = nodeId.indexOf('--clusters--') + 12
-  const endPos = nodeId.indexOf('--', startPos)
+  const clusterIndex = nodeId.indexOf('--clusters--')
+  if (clusterIndex !== -1) {
+    const startPos = nodeId.indexOf('--clusters--') + 12
+    const endPos = nodeId.indexOf('--', startPos)
+    return nodeId.slice(startPos, endPos)
+  }
 
-  return nodeId.slice(startPos, endPos)
+  //node must be deployed locally on hub, such as ansible jobs
+  return 'local-cluster'
 }
 
 export const getWrappedNodeLabel = (label, width, rows = 3) => {
@@ -922,7 +927,7 @@ export const setResourceDeployStatus = (node, details) => {
   ) {
     //resource with pods info is processed separately
     //ignore packages
-    return
+    return details
   }
   const name = _.get(node, metadataName, '')
   const channel = _.get(node, 'specs.raw.spec.channel', '')
@@ -945,6 +950,16 @@ export const setResourceDeployStatus = (node, details) => {
     })
     clusterName = R.trim(clusterName)
     const res = resourceMap[`${resourceName}-${clusterName}`]
+
+    if (res && _.get(node, 'type', '') === 'ansiblejob') {
+      addDetails(details, [
+        {
+          labelKey: 'description.ansible.job',
+          value: _.get(res, 'label')
+        }
+      ])
+    }
+
     const deployedKey = res
       ? node.type === 'namespace' ? deployedNSStr : deployedStr
       : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr
@@ -984,6 +999,8 @@ export const setResourceDeployStatus = (node, details) => {
   details.push({
     type: 'spacer'
   })
+
+  return details
 }
 
 //show resource deployed status for resources producing pods

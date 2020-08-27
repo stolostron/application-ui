@@ -47,8 +47,9 @@ exports[`TemplateEditor component renders as expected 1`] = `
                 }
               }
             >
-              <div
+              <label
                 className="creation-view-controls-textbox-title"
+                htmlFor="name"
               >
                 Name
                 <div
@@ -94,12 +95,12 @@ exports[`TemplateEditor component renders as expected 1`] = `
                     </svg>
                   </div>
                 </div>
-              </div>
+              </label>
               <div
                 className="bx--form-item"
               >
                 <input
-                  autoComplete="no"
+                  autoComplete="new-password"
                   className="bx--text-input bx--text__input"
                   disabled={false}
                   id="name"
@@ -120,8 +121,9 @@ exports[`TemplateEditor component renders as expected 1`] = `
                 }
               }
             >
-              <div
+              <label
                 className="creation-view-controls-textbox-title"
+                htmlFor="namespace"
               >
                 Namespace
                 <div
@@ -167,12 +169,12 @@ exports[`TemplateEditor component renders as expected 1`] = `
                     </svg>
                   </div>
                 </div>
-              </div>
+              </label>
               <div
                 className="bx--form-item"
               >
                 <input
-                  autoComplete="no"
+                  autoComplete="new-password"
                   className="bx--text-input bx--text__input"
                   disabled={false}
                   id="namespace"

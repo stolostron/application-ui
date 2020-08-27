@@ -7,24 +7,24 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { SkeletonText } from 'carbon-components-react'
-import resources from '../../../../lib/shared/resources'
+import {
+  Accordion,
+  AccordionItem,
+  Button,
+  Icon,
+  SkeletonText
+} from 'carbon-components-react'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
-import { fetchResources } from '../../../actions/common'
-import { bindActionCreators } from 'redux'
-import * as Actions from '../../../actions'
+import { fetchResource } from '../../../actions/common'
+import resources from '../../../../lib/shared/resources'
+import { fetchTopology } from '../../../actions/topology'
 import msgs from '../../../../nls/platform.properties'
 import {
-  getSubscriptionDataOnHub,
-  getSubscriptionDataOnManagedClustersSingle,
-  getPodData,
-  concatDataForSubTextKey,
   getSearchLinkForOneApplication,
-  getCardsCommonDetails
+  getAppOverviewCardsData
 } from '../ResourceOverview/utils'
 import {
   startPolling,
@@ -39,88 +39,55 @@ resources(() => {
   require('./style.scss')
 })
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const { selectedAppNS, selectedAppName } = ownProps
   return {
-    fetchApplications: () =>
-      dispatch(fetchResources(RESOURCE_TYPES.QUERY_APPLICATIONS)),
-    actions: bindActionCreators(Actions, dispatch)
+    fetchApplication: () =>
+      dispatch(
+        fetchResource(
+          RESOURCE_TYPES.QUERY_APPLICATIONS,
+          selectedAppNS,
+          selectedAppName
+        )
+      ),
+    fetchAppTopology: (fetchChannel, reloading) => {
+      const fetchFilters = {
+        application: { selectedAppName, selectedAppNS, channel: fetchChannel }
+      }
+      dispatch(
+        fetchTopology({ filter: { ...fetchFilters } }, fetchFilters, reloading)
+      )
+    }
   }
 }
 
 const mapStateToProps = state => {
-  const { QueryApplicationList, secondaryHeader, refetch } = state
-  const isSingleApplicationView =
-    R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length === 2
+  const { QueryApplicationList, topology } = state
   return {
     QueryApplicationList,
-    isSingleApplicationView,
-    refetch
+    topology
   }
 }
 
-const getOverviewCardsData = (
-  QueryApplicationList,
-  isSingleApplicationView,
-  applicationName,
-  applicationNamespace,
-  targetLinkForPods,
-  locale
-) => {
-  // All functions will return -1 if data or data.items is undefined... this will be used for skeleton text load bar
-  const subscriptionDataOnHub = getSubscriptionDataOnHub(
-    QueryApplicationList,
-    isSingleApplicationView,
-    applicationName,
-    applicationNamespace
-  )
-  const subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersSingle(
-    QueryApplicationList,
-    applicationName,
-    applicationNamespace
-  )
-  const podData = getPodData(
-    QueryApplicationList,
-    applicationName,
-    applicationNamespace
-  )
-
-  const result = getCardsCommonDetails(
-    subscriptionDataOnHub,
-    subscriptionDataOnManagedClusters,
-    isSingleApplicationView,
-    applicationName,
-    applicationNamespace,
-    locale
-  )
-  result.push({
-    msgKey:
-      podData.total === 1
-        ? msgs.get('dashboard.card.deployment.pod', locale)
-        : msgs.get('dashboard.card.deployment.pods', locale),
-    count: podData.total,
-    targetLink: podData.total === 0 ? '' : targetLinkForPods,
-    subtextKeyFirst: concatDataForSubTextKey(
-      podData.total,
-      podData.total,
-      podData.running,
-      msgs.get('dashboard.card.deployment.running', locale)
-    ),
-    subtextKeySecond: concatDataForSubTextKey(
-      podData.total,
-      podData.total,
-      podData.failed,
-      msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-    )
-  })
-
-  return result
-}
-
 class OverviewCards extends React.Component {
-  componentDidMount() {
-    const { fetchApplications } = this.props
+  static propTypes = {
+    fetchAppTopology: PropTypes.func
+  };
 
-    fetchApplications()
+  constructor(props) {
+    super(props)
+    this.state = {
+      nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 0 },
+      showSubCards: false
+    }
+    // this.reload = this.reload.bind(this)
+  }
+
+  componentDidMount() {
+    const { fetchApplication, fetchAppTopology } = this.props
+    const activeChannel = '__ALL__/__ALL__//__ALL__/__ALL__'
+    fetchAppTopology(activeChannel, true)
+    fetchApplication()
 
     document.addEventListener('visibilitychange', this.onVisibilityChange)
     startPolling(this, setInterval)
@@ -139,136 +106,343 @@ class OverviewCards extends React.Component {
     handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
   }
 
-  reload() {
-    const { fetchApplications } = this.props
-    fetchApplications()
-  }
+  // reload() {
+  //   const { fetchAppTopology } = this.props
+  //   const activeChannel = '__ALL__/__ALL__//__ALL__/__ALL__'
+  //   fetchAppTopology(activeChannel, true)
+  // }
 
   render() {
     const {
       QueryApplicationList,
-      isSingleApplicationView,
-      actions,
+      topology,
       selectedAppName,
       selectedAppNS
     } = this.props
+    const { nodeStatuses, showSubCards } = this.state
     const { locale } = this.context
-    const singleAppStyle = isSingleApplicationView ? ' single-app' : ''
-    const applicationName = selectedAppName
-    const applicationNamespace = selectedAppNS
 
-    const targetLinkForPods = getSearchLinkForOneApplication({
-      name: encodeURIComponent(applicationName),
-      namespace: encodeURIComponent(applicationNamespace),
-      showRelated: 'pod'
+    let getUrl = window.location.href
+    getUrl = getUrl.substring(0, getUrl.indexOf('/multicloud/applications/'))
+
+    const targetLink = getSearchLinkForOneApplication({
+      name: encodeURIComponent(selectedAppName),
+      namespace: encodeURIComponent(selectedAppNS)
     })
 
-    const overviewCardsData = getOverviewCardsData(
+    const appOverviewCardsData = getAppOverviewCardsData(
       QueryApplicationList,
-      isSingleApplicationView,
-      applicationName,
-      applicationNamespace,
-      targetLinkForPods,
-      locale
+      topology,
+      selectedAppName,
+      selectedAppNS,
+      nodeStatuses,
+      targetLink
     )
 
+    let clusterString = ''
+    if (appOverviewCardsData.localClusterDeploy) {
+      if (appOverviewCardsData.remoteClusterCount > 0) {
+        const tempString =
+          appOverviewCardsData.remoteClusterCount +
+          ' Remote, 1 Local deployment'
+        clusterString = tempString
+      } else {
+        clusterString = 'Local deployment'
+      }
+    } else {
+      clusterString = appOverviewCardsData.remoteClusterCount + ' Remote'
+    }
+
+    const disableBtn =
+      appOverviewCardsData.subsList && appOverviewCardsData.subsList.length > 0
+        ? false
+        : true
+
     return (
-      <div className={'overview-cards-info' + singleAppStyle}>
-        <InfoCards overviewCardsData={overviewCardsData} actions={actions} />
+      <div className="overview-cards-container">
+        <Accordion>
+          <AccordionItem
+            open={true}
+            title={msgs.get('dashboard.card.overview.cards.title', locale)}
+            className="overview-cards-details-section"
+          >
+            <div className="details-col" id="left-col">
+              <div className="details-item">
+                <div className="details-item-title left-item">
+                  {msgs.get('dashboard.card.overview.cards.name', locale)}
+                </div>
+                <div className="details-item-content">
+                  {appOverviewCardsData.appName}
+                </div>
+              </div>
+
+              <div className="details-item">
+                <div className="details-item-title left-item">
+                  {msgs.get('dashboard.card.overview.cards.namespace', locale)}
+                </div>
+                <div className="details-item-content">
+                  {appOverviewCardsData.appNamespace}
+                </div>
+              </div>
+
+              <div className="details-item">
+                <div className="details-item-title left-item">
+                  {msgs.get('dashboard.card.overview.cards.created', locale)}
+                </div>
+                <div className="details-item-content">
+                  {this.renderData(
+                    appOverviewCardsData.creationTimestamp,
+                    appOverviewCardsData.creationTimestamp,
+                    '30%'
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="details-col" id="right-col">
+              <div className="details-item">
+                <div className="details-item-title right-item">
+                  {msgs.get('dashboard.card.overview.cards.clusters', locale)}
+                </div>
+                <div className="details-item-content">
+                  {this.renderData(
+                    appOverviewCardsData.remoteClusterCount !== -1 ||
+                    appOverviewCardsData.localClusterDeploy
+                      ? 0
+                      : -1,
+                    clusterString,
+                    '30%'
+                  )}
+                </div>
+              </div>
+
+              <div className="details-item">
+                <div className="details-item-title right-item">
+                  {msgs.get(
+                    'dashboard.card.overview.cards.cluster.resource.status',
+                    locale
+                  )}
+                </div>
+                <div className="details-item-content">
+                  {this.renderData(
+                    appOverviewCardsData.nodeStatuses,
+                    this.createStatusIcons(appOverviewCardsData.nodeStatuses),
+                    '30%'
+                  )}
+                </div>
+              </div>
+
+              <div className="details-item">
+                <a
+                  className="details-item-link"
+                  id="app-search-link"
+                  href={getUrl + appOverviewCardsData.targetLink}
+                  target="_blank"
+                >
+                  <div>
+                    {msgs.get(
+                      'dashboard.card.overview.cards.search.resource',
+                      locale
+                    )}
+                    <Icon
+                      name="icon--arrow--right"
+                      fill="#0066CC"
+                      description=""
+                      className="details-item-link-icon"
+                    />
+                  </div>
+                </a>
+              </div>
+            </div>
+          </AccordionItem>
+        </Accordion>
+
+        <div className="overview-cards-subs-section">
+          {showSubCards
+            ? this.createSubsCards(appOverviewCardsData.subsList, locale)
+            : ''}
+          <Button
+            className="toggle-subs-btn"
+            disabled={disableBtn}
+            onClick={() => this.toggleSubsBtn(showSubCards)}
+          >
+            {this.renderData(
+              appOverviewCardsData.subsList,
+              (showSubCards
+                ? msgs.get(
+                  'dashboard.card.overview.cards.subs.btn.hide',
+                  locale
+                )
+                : msgs.get(
+                  'dashboard.card.overview.cards.subs.btn.show',
+                  locale
+                )) + ` (${appOverviewCardsData.subsList.length})`,
+              '70%'
+            )}
+          </Button>
+        </div>
       </div>
     )
   }
-}
 
-const showCardData = (cardCount, width, className) => {
-  return cardCount !== -1 ? (
-    cardCount
-  ) : (
-    <SkeletonText width={width} className={className} />
-  )
-}
+  renderData = (checkData, showData, width) => {
+    return checkData !== -1 ? (
+      showData
+    ) : (
+      <SkeletonText width={width} className="loading-skeleton-text" />
+    )
+  };
 
-const InfoCards = ({ overviewCardsData, actions }) => {
-  return (
-    <React.Fragment>
-      {Object.keys(overviewCardsData).map(key => {
-        const card = overviewCardsData[key]
-        const id = `${key}_overviewCardsData`
-        const cardMarginClass = 'card-margin'
-        const handleClick = (e, resource) => {
-          if (resource.targetTab != null) {
-            actions.setSelectedAppTab(resource.targetTab)
-          } else if (resource.targetLink) {
-            window.open(resource.targetLink, '_blank')
-          }
-        }
-        const handleKeyPress = (e, resource) => {
-          if (e.key === 'Enter') {
-            handleClick(e, resource)
-          }
-        }
+  createStatusIcons = nodeStatuses => {
+    return (
+      <React.Fragment>
+        <div className="status-icon-container green-status">
+          <Icon
+            name="icon--checkmark--glyph"
+            fill="#3E8635"
+            description=""
+            className="status-icon"
+          />
+          <div className="status-count">{nodeStatuses.green}</div>
+        </div>
+        <div className="status-icon-container yellow-status">
+          <Icon
+            name="icon--warning--glyph"
+            fill="#F0AB00"
+            description=""
+            className="status-icon"
+          />
+          <div className="status-count">{nodeStatuses.yellow}</div>
+        </div>
+        <div className="status-icon-container red-status">
+          <Icon
+            name="icon--error--glyph"
+            fill="#C9190B"
+            description=""
+            className="status-icon"
+          />
+          <div className="status-count">{nodeStatuses.red}</div>
+        </div>
+        <div className="status-icon-container orange-status">
+          <Icon
+            name="icon--subtract--glyph"
+            fill="#5c5c5c"
+            description=""
+            className="status-icon"
+          />
+          <div className="status-count">{nodeStatuses.orange}</div>
+        </div>
+      </React.Fragment>
+    )
+  };
 
+  createSubsCards = (subsList, locale) => {
+    return subsList.map(sub => {
+      if (sub.name) {
         return (
-          <React.Fragment key={key}>
-            <div
-              id={id}
-              key={card}
-              className={
-                card.targetLink || card.targetTab
-                  ? `single-card clickable ${cardMarginClass}`
-                  : `single-card ${cardMarginClass}`
-              }
-              role="button"
-              tabIndex="0"
-              onClick={e => handleClick(e, card)}
-              onKeyPress={e => handleKeyPress(e, card)}
-            >
-              <div className={card.alert ? 'card-count alert' : 'card-count'}>
-                {showCardData(
-                  card.count,
-                  '60%',
-                  'loading-skeleton-text-header'
-                )}
+          <React.Fragment key={sub.id}>
+            <div className="sub-card-container">
+              <div className="sub-card-column">
+                <Icon
+                  name="icon--filter--glyph"
+                  fill="#5c5c5c"
+                  description=""
+                  className="subs-icon"
+                />
+                <div className="sub-card-content">
+                  <div className="sub-card-title">
+                    {msgs.get(
+                      'dashboard.card.overview.cards.subs.label',
+                      locale
+                    )}
+                  </div>
+                  <span>{sub.name}</span>
+                </div>
               </div>
-              <div className="card-type">{card.msgKey}</div>
-              <div className="card-text">
-                {showCardData(card.textKey, '80%', 'loading-skeleton-text-lrg')}
+
+              <div className="sub-card-column">
+                <Icon
+                  name="icon--folder"
+                  fill="#5c5c5c"
+                  description=""
+                  className="subs-icon"
+                />
+                <div className="sub-card-content">
+                  <div className="sub-card-title">
+                    {msgs.get(
+                      'dashboard.card.overview.cards.repoResource.label',
+                      locale
+                    )}
+                  </div>
+                  <div className="sub-card-status-icon" id="resource-type-icon">
+                    <a
+                      className="resource-type-link"
+                      href={sub.resourcePath}
+                      target="_blank"
+                    >
+                      {sub.resourceType}
+                      <Icon
+                        name="icon--launch"
+                        description=""
+                        className="resource-type-icon"
+                      />
+                    </a>
+                  </div>
+                </div>
               </div>
-              {(card.subtextKeyFirst || card.subtextKeySecond) && (
-                <div className="row-divider" />
-              )}
-              {card.subtextKeyFirst && (
-                <div className="card-subtext">
-                  {showCardData(
-                    card.subtextKeyFirst,
-                    '40%',
-                    'loading-skeleton-text-sm'
+
+              <div className="sub-card-column">
+                <Icon
+                  name="icon--terminal"
+                  fill="#5c5c5c"
+                  description=""
+                  className="subs-icon"
+                />
+                <div className="sub-card-content">
+                  <div className="sub-card-title">
+                    {msgs.get(
+                      'dashboard.card.overview.cards.timeWindow.label',
+                      locale
+                    )}
+                  </div>
+                  {sub.timeWindowType === 'default' ? (
+                    <a
+                      className="set-time-window-link"
+                      href={
+                        window.location.href +
+                        (window.location.href.slice(-1) === '/'
+                          ? 'yaml'
+                          : '/yaml')
+                      }
+                      target="_blank"
+                    >
+                      {msgs.get(
+                        'dashboard.card.overview.cards.timeWindow.set.label',
+                        locale
+                      )}
+                    </a>
+                  ) : (
+                    <div
+                      className="sub-card-status-icon"
+                      id={sub.timeWindowType + '-type-icon'}
+                    >
+                      {sub.timeWindowType}
+                    </div>
                   )}
                 </div>
-              )}
-              {card.subtextKeySecond && (
-                <div className="card-subtext">
-                  {showCardData(
-                    card.subtextKeySecond,
-                    '60%',
-                    'loading-skeleton-text-med'
-                  )}
-                </div>
-              )}
+              </div>
             </div>
-            {key < Object.keys(overviewCardsData).length - 1 && (
-              <div className="column-divider" />
-            )}
           </React.Fragment>
         )
-      })}
-    </React.Fragment>
-  )
-}
+      }
+      return ''
+    })
+  };
 
-InfoCards.propTypes = {
-  actions: PropTypes.object,
-  overviewCardsData: PropTypes.array
+  toggleSubsBtn = showSubCards => {
+    this.setState({ showSubCards: !showSubCards })
+    this.forceUpdate()
+  };
 }
 
 OverviewCards.propTypes = {}

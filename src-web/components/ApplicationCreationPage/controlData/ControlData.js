@@ -16,54 +16,24 @@ import {
 } from '../../TemplateEditor/utils/validation'
 import {
   HCMChannelList,
-  HCMNamespaceList
+  HCMNamespaceList,
+  HCMPlacementRuleList
 } from '../../../../lib/client/queries'
 import TimeWindow from '../components/TimeWindow'
 import ClusterSelector from '../components/ClusterSelector'
 import _ from 'lodash'
 
+import {
+  setAvailableRules,
+  setAvailableNSSpecs,
+  getExistingPRControlsSection,
+  updateNewRuleControlsData,
+  setAvailableChannelSpecs
+} from './utils'
+
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
-
-export const loadExistingNamespaces = () => {
-  return {
-    query: HCMNamespaceList,
-    loadingDesc: 'creation.app.loading.namespaces',
-    setAvailable: setAvailableNSSpecs.bind(null)
-  }
-}
-
-export const setAvailableNSSpecs = (control, result) => {
-  const { loading } = result
-  const { data = {} } = result
-  const { items } = data
-  control.available = []
-  control.availableMap = {}
-  control.isLoading = false
-  const error = items ? null : result.error
-  if (error) {
-    control.isFailed = true
-  } else if (items) {
-    control.availableData = _.keyBy(items, 'metadata.name')
-    control.available = Object.keys(control.availableData).sort()
-  } else {
-    control.isLoading = loading
-  }
-}
-
-export const updateNSControls = (urlControl, control) => {
-  const { active, availableData } = urlControl
-  const userDefinedNSControl = control.find(
-    ({ id }) => id === 'userDefinedNamespace'
-  )
-  if (userDefinedNSControl) {
-    if (active && availableData && !(active in availableData)) {
-      userDefinedNSControl.active = active
-    } else {
-      userDefinedNSControl.active = ''
-    }
-  }
-  return userDefinedNSControl
-}
+const existingRuleCheckbox = 'existingrule-checkbox'
+const localClusterCheckbox = 'local-cluster-checkbox'
 
 export const loadExistingChannels = type => {
   return {
@@ -73,34 +43,178 @@ export const loadExistingChannels = type => {
   }
 }
 
-export const setAvailableChannelSpecs = (type, control, result) => {
-  const { loading } = result
-  const { data = {} } = result
-  const { items } = data
-  control.available = []
-  control.availableMap = {}
-  control.isLoading = false
-  const error = items ? null : result.error
-  if (error) {
-    control.isFailed = true
-  } else if (items) {
-    control.availableData = _.keyBy(
-      items.filter(({ type: p }) => {
-        return type.startsWith(p.toLowerCase())
-      }),
-      'objectPath'
-    )
-    control.available = Object.keys(control.availableData).sort()
-  } else {
-    control.isLoading = loading
+export const loadExistingPlacementRules = () => {
+  return {
+    query: HCMPlacementRuleList,
+    loadingDesc: 'creation.app.loading.rules',
+    setAvailable: setAvailableRules.bind(null)
   }
 }
 
-const updateChannelControls = urlControl => {
+export const loadExistingNamespaces = () => {
+  return {
+    query: HCMNamespaceList,
+    loadingDesc: 'creation.app.loading.namespaces',
+    setAvailable: setAvailableNSSpecs.bind(null)
+  }
+}
+
+export const updateNSControls = (nsControl, globalControl) => {
+  const { active, availableData } = nsControl
+
+  const userDefinedNSControl = globalControl.find(
+    ({ id }) => id === 'userDefinedNamespace'
+  )
+
+  userDefinedNSControl.active =
+    availableData[active] === undefined ? active : ''
+
+  return updateControlsForNS(nsControl, nsControl, globalControl)
+}
+
+export const updateControlsForNS = (
+  initiatingControl,
+  nsControl,
+  globalControl
+) => {
+  const { active, availableData } = nsControl
+
+  const controlList = getExistingPRControlsSection(
+    initiatingControl,
+    globalControl
+  )
+  controlList.forEach(control => {
+    const existingRuleControl = _.get(control, 'placementrulecombo')
+    const existingruleCheckbox = _.get(control, existingRuleCheckbox)
+    const selectedRuleNameControl = _.get(control, 'selectedRuleName')
+    //update placement rule controls
+    if (existingRuleControl && existingruleCheckbox) {
+      if (availableData[active] === undefined) {
+        //user defined namespace
+        _.set(existingruleCheckbox, 'type', 'hidden')
+        _.set(existingRuleControl, 'type', 'hidden')
+
+        _.set(existingRuleControl, 'ns', '')
+        selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
+        _.set(existingruleCheckbox, 'active', false)
+      } else {
+        //existing namespace
+        _.set(existingruleCheckbox, 'type', 'checkbox')
+        _.set(existingruleCheckbox, 'active', false)
+
+        _.set(existingRuleControl, 'ns', active)
+        _.set(existingRuleControl, 'type', 'hidden')
+      }
+      _.set(existingRuleControl, 'active', '')
+      updateNewRuleControlsData('', control)
+    }
+  })
+
+  return globalControl
+}
+
+export const updateNewRuleControls = (urlControl, controlGlobal) => {
+  const controlList = getExistingPRControlsSection(urlControl, controlGlobal)
+
+  const { active, availableData } = urlControl
+  const selectedPR = availableData[active]
+
+  controlList.forEach(control => {
+    const selectedRuleNameControl = _.get(control, 'selectedRuleName')
+    selectedRuleNameControl.active = active
+
+    updateNewRuleControlsData(selectedPR, control)
+  })
+}
+
+export const updateDisplayForPlacementControls = (
+  urlControl,
+  controlGlobal
+) => {
+  //hide or show placement rule settings if user selects an existing PR
+  const { active } = urlControl
+  const controlList = getExistingPRControlsSection(urlControl, controlGlobal)
+
+  controlList.forEach(control => {
+    const existingRuleControl = _.get(control, 'placementrulecombo')
+
+    const onlineControl = _.get(control, 'online-cluster-only-checkbox')
+    const clusterSelectorControl = _.get(control, 'clusterSelector')
+
+    const clusterReplicasControl = _.get(control, 'clusterReplicas')
+
+    const localClusterControl = _.get(control, localClusterCheckbox)
+
+    if (active === true) {
+      _.set(existingRuleControl, 'type', 'singleselect')
+
+      _.set(onlineControl, 'type', 'hidden')
+      _.set(clusterSelectorControl, 'type', 'hidden')
+      _.set(clusterReplicasControl, 'type', 'hidden')
+      _.set(localClusterControl, 'type', 'hidden')
+    } else {
+      _.set(existingRuleControl, 'type', 'hidden')
+
+      _.set(onlineControl, 'type', 'checkbox')
+      _.set(clusterSelectorControl, 'type', 'custom')
+      _.set(clusterReplicasControl, 'type', 'text')
+      _.set(localClusterControl, 'type', 'checkbox')
+    }
+
+    //reset all values
+    _.set(localClusterControl, 'active', false)
+    _.set(onlineControl, 'active', false)
+    _.set(clusterReplicasControl, 'active', '')
+    clusterSelectorControl.active.clusterLabelsListID = 1
+    delete clusterSelectorControl.active.clusterLabelsList
+    clusterSelectorControl.active.clusterLabelsList = [
+      { id: 0, labelName: '', labelValue: '', validValue: true }
+    ]
+    clusterSelectorControl.active.mode = false
+    delete clusterSelectorControl.showData
+  })
+}
+
+export const updatePlacementControls = placementControl => {
+  //update PR controls on channel or ns change
+  const { active, groupControlData } = placementControl
+
+  const onlineControl = groupControlData.find(
+    ({ id }) => id === 'online-cluster-only-checkbox'
+  )
+  const clusterSelectorControl = groupControlData.find(
+    ({ id }) => id === 'clusterSelector'
+  )
+  const clusterReplicasControl = groupControlData.find(
+    ({ id }) => id === 'clusterReplicas'
+  )
+
+  if (active === true) {
+    onlineControl && _.set(onlineControl, 'type', 'hidden')
+    clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'hidden')
+    clusterReplicasControl && _.set(clusterReplicasControl, 'type', 'hidden')
+  } else {
+    onlineControl && _.set(onlineControl, 'type', 'checkbox')
+    clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'custom')
+    clusterReplicasControl && _.set(clusterReplicasControl, 'type', 'text')
+  }
+
+  return groupControlData
+}
+
+const updateChannelControls = (urlControl, globalControl) => {
+  //update existing placement rule section when user changes the namespace
+  const nsControl = globalControl.find(
+    ({ id: idCtrl }) => idCtrl === 'namespace'
+  )
+  updateControlsForNS(urlControl, nsControl, globalControl)
+
   const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]
 
-  const nameControl = groupControlData.find(({ id }) => id === 'channelName')
+  const nameControl = groupControlData.find(
+    ({ id: idCtrl }) => idCtrl === 'channelName'
+  )
   const namespaceControl = groupControlData.find(
     ({ id }) => id === 'channelNamespace'
   )
@@ -207,21 +321,203 @@ const githubChannelData = [
     available: [],
     validation: VALIDATE_ALPHANUMERIC,
     cacheUserValueKey: 'create.app.github.path'
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  clusters  /////////////////////////////////////
+  {
+    id: 'clusterSection',
+    type: 'section',
+    title: 'creation.app.placement.rule',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    id: existingRuleCheckbox,
+    type: 'hidden',
+    name: 'creation.app.settings.existingRule',
+    tooltip: 'tooltip.creation.app.settings.existingRule',
+    onSelect: updateDisplayForPlacementControls,
+    active: false,
+    available: [],
+    validation: {}
+  },
+  {
+    name: 'creation.app.exitingRuleCombo',
+    tooltip: 'tooltip.creation.app.exitingRuleCombo',
+    id: 'placementrulecombo',
+    type: 'hidden',
+    fetchAvailable: loadExistingPlacementRules(),
+    onSelect: updateNewRuleControls,
+    validation: {}
+  },
+  {
+    id: 'selectedRuleName',
+    type: 'hidden',
+    active: ''
+  },
+  {
+    id: localClusterCheckbox,
+    type: 'checkbox',
+    name: 'creation.app.settings.localClusters',
+    tooltip: 'tooltip.creation.app.settings.localClusters',
+    onSelect: updatePlacementControls,
+    active: false,
+    available: []
+  },
+  {
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: false,
+    available: []
+  },
+  {
+    type: 'custom',
+    id: 'clusterSelector',
+    component: <ClusterSelector />,
+    available: []
+  },
+  {
+    name: 'creation.app.settings.clustersReplica',
+    tooltip: 'tooltip.creation.app.settings.clustersReplica',
+    id: 'clusterReplicas',
+    type: 'text',
+    active: '',
+    placeholder: 'creation.app.settings.ph.clustersReplica',
+    available: [],
+    validation: {}
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  settings  /////////////////////////////////////
+  {
+    id: 'settingsSection',
+    type: 'section',
+    title: 'creation.app.section.settings',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    type: 'custom',
+    name: 'creation.app.settings.timeWindow',
+    tooltip: 'creation.app.settings.timeWindow.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
+    available: []
   }
 ]
 
-const deployableChannelData = [
-  ///////////////////////  Deployable  /////////////////////////////////////
+const hubClusterChannelData = [
+  ///////////////////////  Hub Cluster  /////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  clusters  /////////////////////////////////////
   {
-    name: 'creation.ocp.purpose',
-    tooltip: 'tooltip.creation.ocp.purpose',
-    id: 'purposedc',
+    id: 'channelName',
+    type: 'hidden',
+    active: 'resource'
+  },
+  {
+    id: 'channelNamespace',
+    type: 'hidden',
+    active: ''
+  },
+  {
+    name: 'creation.app.namespace.name',
+    tooltip: 'tooltip.creation.app.namespace.name',
+    id: 'namespaceChannelName',
     type: 'combobox',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
-    validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose'
+    placeholder: 'app.enter.select.namespace.name',
+    available: [],
+    validation: [],
+    fetchAvailable: loadExistingChannels('namespace'),
+    onSelect: updateChannelControls
+  },
+  {
+    id: 'clusterSection',
+    type: 'section',
+    title: 'creation.app.placement.rule',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    id: existingRuleCheckbox,
+    type: 'hidden',
+    name: 'creation.app.settings.existingRule',
+    tooltip: 'tooltip.creation.app.settings.existingRule',
+    onSelect: updateDisplayForPlacementControls,
+    active: false,
+    available: [],
+    validation: {}
+  },
+  {
+    name: 'creation.app.exitingRuleCombo',
+    tooltip: 'tooltip.creation.app.exitingRuleCombo',
+    id: 'placementrulecombo',
+    type: 'hidden',
+    fetchAvailable: loadExistingPlacementRules(),
+    onSelect: updateNewRuleControls,
+    validation: {}
+  },
+  {
+    id: 'selectedRuleName',
+    type: 'hidden',
+    active: ''
+  },
+  {
+    id: localClusterCheckbox,
+    type: 'checkbox',
+    name: 'creation.app.settings.localClusters',
+    tooltip: 'tooltip.creation.app.settings.localClusters',
+    onSelect: updatePlacementControls,
+    active: false,
+    available: []
+  },
+  {
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: false,
+    available: []
+  },
+  {
+    type: 'custom',
+    id: 'clusterSelector',
+    component: <ClusterSelector />,
+    available: []
+  },
+  {
+    name: 'creation.app.settings.clustersReplica',
+    tooltip: 'tooltip.creation.app.settings.clustersReplica',
+    id: 'clusterReplicas',
+    type: 'text',
+    active: '',
+    placeholder: 'creation.app.settings.ph.clustersReplica',
+    available: [],
+    validation: {}
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  settings  /////////////////////////////////////
+  {
+    id: 'settingsSection',
+    type: 'section',
+    title: 'creation.app.section.settings',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    type: 'custom',
+    name: 'creation.app.settings.timeWindow',
+    tooltip: 'creation.app.settings.timeWindow.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
+    available: []
   }
 ]
 
@@ -281,6 +577,91 @@ const objectstoreChannelData = [
     encode: true,
     active: '',
     placeholder: 'app.enter.secretkey'
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  clusters  /////////////////////////////////////
+  {
+    id: 'clusterSection',
+    type: 'section',
+    title: 'creation.app.placement.rule',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    id: existingRuleCheckbox,
+    type: 'hidden',
+    name: 'creation.app.settings.existingRule',
+    tooltip: 'tooltip.creation.app.settings.existingRule',
+    onSelect: updateDisplayForPlacementControls,
+    active: false,
+    available: [],
+    validation: {}
+  },
+  {
+    name: 'creation.app.exitingRuleCombo',
+    tooltip: 'tooltip.creation.app.exitingRuleCombo',
+    id: 'placementrulecombo',
+    type: 'hidden',
+    fetchAvailable: loadExistingPlacementRules(),
+    onSelect: updateNewRuleControls,
+    validation: {}
+  },
+  {
+    id: 'selectedRuleName',
+    type: 'hidden',
+    active: ''
+  },
+  {
+    id: localClusterCheckbox,
+    type: 'checkbox',
+    name: 'creation.app.settings.localClusters',
+    tooltip: 'tooltip.creation.app.settings.localClusters',
+    onSelect: updatePlacementControls,
+    active: false,
+    available: []
+  },
+  {
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: false,
+    available: []
+  },
+  {
+    type: 'custom',
+    id: 'clusterSelector',
+    component: <ClusterSelector />,
+    available: []
+  },
+  {
+    name: 'creation.app.settings.clustersReplica',
+    tooltip: 'tooltip.creation.app.settings.clustersReplica',
+    id: 'clusterReplicas',
+    type: 'text',
+    active: '',
+    placeholder: 'creation.app.settings.ph.clustersReplica',
+    available: [],
+    validation: {}
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  settings  /////////////////////////////////////
+  {
+    id: 'settingsSection',
+    type: 'section',
+    title: 'creation.app.section.settings',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    type: 'custom',
+    name: 'creation.app.settings.timeWindow',
+    tooltip: 'creation.app.settings.timeWindow.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
+    available: []
   }
 ]
 
@@ -325,7 +706,6 @@ export const controlData = [
     id: 'channelSection',
     type: 'section',
     title: 'creation.app.channels',
-    numbered: '1',
     overline: true,
     collapsable: true,
     collapsed: false
@@ -366,7 +746,7 @@ export const controlData = [
         available: [
           {
             id: 'github',
-            logo: 'resource-github-icon.svg',
+            logo: 'git-repo.svg',
             title: 'creation.app.channel.github',
             tooltip: 'tooltip.creation.app.channel.git',
             change: {
@@ -375,16 +755,16 @@ export const controlData = [
           },
           {
             id: 'deployable',
-            logo: 'resource-deployable-icon.svg',
+            logo: 'namespace-repo.svg',
             title: 'creation.app.channel.deployable',
             tooltip: 'tooltip.creation.app.channel.namespace',
             change: {
-              insertControlData: deployableChannelData
+              insertControlData: hubClusterChannelData
             }
           },
           {
             id: 'helmrepo',
-            logo: 'resource-helmrepo-icon.svg',
+            logo: 'helm-repo.png',
             title: 'creation.app.channel.helmrepo',
             tooltip: 'tooltip.creation.app.channel.helmrepo',
             change: {
@@ -393,7 +773,7 @@ export const controlData = [
           },
           {
             id: 'objectstore',
-            logo: 'resource-objectstore-icon.svg',
+            logo: 'object-bucket-repo.svg',
             title: 'creation.app.channel.objectstore',
             tooltip: 'tooltip.creation.app.channel.objectstore',
             change: {
@@ -405,58 +785,5 @@ export const controlData = [
         validation: {}
       }
     ]
-  },
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////  clusters  /////////////////////////////////////
-  {
-    id: 'clusterSection',
-    type: 'section',
-    title: 'creation.app.placement.rule',
-    numbered: '2',
-    overline: true,
-    collapsable: true,
-    collapsed: false
-  },
-  {
-    id: 'online-cluster-only-checkbox',
-    type: 'checkbox',
-    name: 'creation.app.settings.onlineClusters',
-    tooltip: 'tooltip.creation.app.settings.onlineClusters',
-    active: true,
-    available: []
-  },
-  {
-    type: 'custom',
-    id: 'clusterSelector',
-    component: <ClusterSelector />,
-    available: []
-  },
-  {
-    name: 'creation.app.settings.clustersReplica',
-    tooltip: 'tooltip.creation.app.settings.clustersReplica',
-    id: 'clusterReplicas',
-    type: 'text',
-    active: '',
-    placeholder: 'creation.app.settings.ph.clustersReplica',
-    available: []
-  },
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////  settings  /////////////////////////////////////
-  {
-    id: 'settingsSection',
-    type: 'section',
-    title: 'creation.app.section.settings',
-    numbered: '3',
-    overline: true,
-    collapsable: true,
-    collapsed: false
-  },
-  {
-    type: 'custom',
-    name: 'creation.app.settings.timeWindow',
-    tooltip: 'creation.app.settings.timeWindow.tooltip',
-    id: 'timeWindow',
-    component: <TimeWindow />,
-    available: []
   }
 ]

@@ -15,18 +15,19 @@ import Tooltip from './Tooltip'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
-export const DNS_LABEL = '[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?'
-export const PREFIX = `${DNS_LABEL}(.${DNS_LABEL})*/`
-export const NAME_OR_VALUE = '[a-z0-9A-Z]([a-z0-9A-Z_.-]{0,61}[a-z0-9A-Z])?'
+export const DNS_LABEL = '[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?'
+export const PREFIX = `${DNS_LABEL}(?:\\.${DNS_LABEL})*/`
+export const NAME_OR_VALUE = '[a-z0-9A-Z](?:[a-z0-9A-Z_.-]{0,61}[a-z0-9A-Z])?'
 export const regex = new RegExp(
-  `^((${PREFIX})?${NAME_OR_VALUE})=(${NAME_OR_VALUE})?$`
+  `^((?:${PREFIX})?${NAME_OR_VALUE})=(${NAME_OR_VALUE})?$`
 )
 export const KEY_CAPTURE_GROUP_INDEX = 1
-export const VALUE_CAPTURE_GROUP_INDEX = 7
+export const VALUE_CAPTURE_GROUP_INDEX = 2
 
 class ControlPanelLabels extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    controlId: PropTypes.string,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -41,8 +42,8 @@ class ControlPanelLabels extends React.Component {
   }
 
   render() {
-    const { locale, control } = this.props
-    const { id, name, active = [] } = control
+    const { controlId, locale, control } = this.props
+    const { name, active = [] } = control
     const formatted = active.map(({ key, value: v }) => `${key}=${v}`)
     const { value, invalid, invalidText } = this.state
     return (
@@ -68,7 +69,7 @@ class ControlPanelLabels extends React.Component {
             })}
             <div className="creation-view-controls-labels-edit-container">
               <TextInput
-                id={id}
+                id={controlId}
                 hideLabel
                 labelText=""
                 invalid={invalid}

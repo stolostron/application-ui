@@ -12,9 +12,8 @@ import _ from 'lodash'
 import React from 'react'
 import { SkeletonText } from 'carbon-components-react'
 import { Module } from 'carbon-addons-cloud-react'
-
 import { UPDATE_ACTION_MODAL } from '../../../apollo-client/queries/StateQueries'
-import msgs from '../../../../nls/platform.properties'
+import { getCreationDate } from '../../../../lib/client/resource-helper'
 
 export const kindsToExcludeForDeployments = [
   'cluster',
@@ -30,172 +29,6 @@ export const kindsToExcludeForDeployments = [
   'vulnerabilitypolicy',
   'mutationpolicy'
 ]
-
-const getRemoteSubsCounts = (
-  subData,
-  allSubscriptions,
-  failedSubsCount,
-  noStatusSubsCount
-) => {
-  Object.keys(subData).forEach(key => {
-    if (key === 'Failed') {
-      failedSubsCount = subData[key]
-    } else if (key === 'Subscribed') {
-      allSubscriptions = subData[key]
-    } else {
-      // All statuses that are neither "Failed" or "Subscribed" belong to "No status"
-      noStatusSubsCount += subData[key]
-    }
-  })
-  allSubscriptions += failedSubsCount + noStatusSubsCount
-
-  return [allSubscriptions, failedSubsCount, noStatusSubsCount]
-}
-
-export const getSubscriptionDataOnManagedClustersSingle = (
-  applications,
-  applicationName,
-  applicationNamespace
-) => {
-  if (applications && applications.items) {
-    let managedClusterCount = 0
-    let allSubscriptions = 0
-    let failedSubsCount = 0
-    let noStatusSubsCount = 0
-
-    Object.keys(applications.items).forEach(appIndex => {
-      // Get subscription data for the current application opened
-      if (
-        applications.items[appIndex].name === applicationName &&
-        applications.items[appIndex].namespace === applicationNamespace
-      ) {
-        if (applications.items[appIndex].clusterCount !== undefined) {
-          managedClusterCount = applications.items[appIndex].clusterCount
-        }
-        // Increment counts if the data exists
-        if (applications.items[appIndex].remoteSubscriptionStatusCount) {
-          const countData = getRemoteSubsCounts(
-            applications.items[appIndex].remoteSubscriptionStatusCount,
-            allSubscriptions,
-            failedSubsCount,
-            noStatusSubsCount
-          )
-          allSubscriptions = countData[0]
-          failedSubsCount = countData[1]
-          noStatusSubsCount = countData[2]
-        }
-      }
-    })
-
-    return {
-      clusters: managedClusterCount,
-      total: allSubscriptions,
-      failed: failedSubsCount,
-      noStatus: noStatusSubsCount
-    }
-  }
-  // data is undefined... -1 is used to identify when skeleton text load bar should appear
-  return {
-    clusters: -1
-  }
-}
-
-const getSubObjs = (subData, allSubscriptions, allChannels) => {
-  Object.keys(subData).forEach(subIndex => {
-    const subObj = {
-      status: subData[subIndex].status,
-      id: subData[subIndex]._uid
-    }
-    allSubscriptions = allSubscriptions.concat(subObj)
-    allChannels = allChannels.concat(subData[subIndex].channel)
-  })
-  return [allSubscriptions, allChannels]
-}
-
-export const getSubscriptionDataOnHub = (
-  applications,
-  isSingleApplicationView,
-  applicationName,
-  applicationNamespace
-) => {
-  if (applications && applications.items) {
-    let allSubscriptions = []
-    let failedSubsCount = 0
-    let noStatusSubsCount = 0
-    let allChannels = []
-
-    // Single application view
-    if (isSingleApplicationView) {
-      Object.keys(applications.items).forEach(appIndex => {
-        // Get subscription data for the current application opened
-        if (
-          applications.items[appIndex].name === applicationName &&
-          applications.items[appIndex].namespace === applicationNamespace &&
-          applications.items[appIndex].hubSubscriptions
-        ) {
-          const subObjs = getSubObjs(
-            applications.items[appIndex].hubSubscriptions,
-            allSubscriptions,
-            allChannels
-          )
-          allSubscriptions = subObjs[0]
-          allChannels = subObjs[1]
-        }
-      })
-    } else {
-      // Root application view
-      // Get subscription data for all applications
-      Object.keys(applications.items).forEach(appIndex => {
-        if (applications.items[appIndex].hubSubscriptions) {
-          const subObjs = getSubObjs(
-            applications.items[appIndex].hubSubscriptions,
-            allSubscriptions,
-            allChannels
-          )
-          allSubscriptions = subObjs[0]
-          allChannels = subObjs[1]
-        }
-      })
-    }
-
-    if (allChannels.length > 0) {
-      // Remove duplicate channels (that were found in more than one app)
-      allChannels = R.uniq(allChannels)
-    }
-
-    if (allSubscriptions.length > 0) {
-      // Remove duplicate subscriptions (that were found in more than one app)
-      allSubscriptions = R.uniq(allSubscriptions)
-
-      // Increment "no status" and "failed" counts using the new non-duplicated subscriptions list
-      Object.keys(allSubscriptions).forEach(key => {
-        if (
-          allSubscriptions[key].status === null ||
-          allSubscriptions[key].status === undefined ||
-          allSubscriptions[key].status === ''
-        ) {
-          noStatusSubsCount++
-        } else if (
-          allSubscriptions[key].status.toLowerCase() !== 'propagated'
-        ) {
-          failedSubsCount++
-        }
-      })
-    }
-
-    return {
-      total: allSubscriptions.length,
-      failed: failedSubsCount,
-      noStatus: noStatusSubsCount,
-      channels: allChannels.length
-    }
-  }
-  // data is undefined... -1 is used to identify when skeleton text load bar should appear
-  return {
-    total: -1,
-    channels: -1
-  }
-}
 
 export const getPodData = (
   applications,
@@ -255,30 +88,6 @@ export const getPodData = (
   return {
     total: -1
   }
-}
-
-export const concatDataForTextKey = (
-  mainCounter,
-  valueToShow,
-  textOption1,
-  textOption2
-) => {
-  return mainCounter === -1
-    ? -1
-    : valueToShow
-      .toString()
-      .concat(' ', valueToShow === 1 ? textOption1 : textOption2)
-}
-
-export const concatDataForSubTextKey = (
-  mainCounter,
-  valueToCheck,
-  valueToShow,
-  text
-) => {
-  return mainCounter === -1
-    ? -1
-    : valueToCheck > 0 ? valueToShow.toString().concat(' ', text) : ''
 }
 
 export const loadingComponent = () => {
@@ -373,18 +182,6 @@ export const getNumClustersForApp = data => {
   return 0
 }
 
-export const getNumDeployables = data => {
-  if (data && data.related instanceof Array && data.related.length > 0) {
-    const filtered = data.related.filter(elem => elem.kind === 'deployable')
-    return filtered.reduce(
-      (acc, cur) => acc + (cur.items instanceof Array ? cur.items.length : 0),
-      0
-    )
-  } else {
-    return 0
-  }
-}
-
 export const getSearchLinkForOneApplication = params => {
   if (params && params.name) {
     if (params.namespace) {
@@ -412,88 +209,137 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
-export const getPoliciesLinkForOneApplication = params => {
-  if (params && params.name) {
-    return `/multicloud/policies/all?card=false&filters=%7B"textsearch"%3A%5B"${
-      params.name
-    }"%5D%7D&index=2`
+const getRepoResourceData = (queryAppData, channelIdentifier) => {
+  let resourceType = ''
+  let resourcePath = ''
+  if (queryAppData && queryAppData.related) {
+    queryAppData.related.forEach(resource => {
+      if (resource.kind === 'channel' && resource.items) {
+        resource.items.forEach(chn => {
+          // Get resource type and path of corresponding channel
+          if (
+            chn.name === channelIdentifier[1] &&
+            chn.namespace === channelIdentifier[0]
+          ) {
+            resourceType = chn.type
+            resourcePath = chn.pathname
+          }
+        })
+      }
+    })
   }
-  return ''
+
+  return {
+    type: resourceType,
+    path: resourcePath
+  }
 }
 
-export const getCardsCommonDetails = (
-  subscriptionDataOnHub,
-  subscriptionDataOnManagedClusters,
-  isSingleApplicationView,
+export const getAppOverviewCardsData = (
+  QueryApplicationList,
+  topologyData,
   appName,
-  appNS,
-  locale
+  appNamespace,
+  nodeStatuses,
+  targetLink
 ) => {
-  const targetLinkForClusters = getSearchLinkForOneApplication({
-    name: encodeURIComponent(appName),
-    namespace: encodeURIComponent(appNS),
-    showRelated: 'cluster'
-  })
+  // Get app details only when topology data is properly loaded for the selected app
+  const appData = _.get(topologyData, 'activeFilters.application')
+  if (
+    typeof topologyData.loaded !== 'undefined' &&
+    typeof topologyData.nodes !== 'undefined' &&
+    appData &&
+    appData.name === appName &&
+    appData.namespace === appNamespace
+  ) {
+    let creationTimestamp = ''
+    let remoteClusterCount = 0
+    let localClusterDeploy = false
+    const tempNodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
+    let statusLoaded = false
+    const subsList = []
 
-  const targetLinkForSubscriptions = getSearchLinkForOneApplication({
-    name: encodeURIComponent(appName),
-    namespace: encodeURIComponent(appNS),
-    showRelated: 'subscription'
-  })
+    topologyData.nodes.map(node => {
+      // Get date and time of app creation
+      if (
+        node.type === 'application' &&
+        _.get(node, 'specs.raw.metadata.creationTimestamp')
+      ) {
+        creationTimestamp = getCreationDate(
+          node.specs.raw.metadata.creationTimestamp
+        )
+      } else if (node.type === 'cluster' && _.get(node, 'specs.clusterNames')) {
+        // Get remote cluster count
+        remoteClusterCount = node.specs.clusterNames.length
+      } else if (node.type === 'subscription') {
+        // Check if subscription is remote or local deployment
+        if (_.get(node, 'specs.raw.spec.placement.local')) {
+          localClusterDeploy = true
+        }
 
-  const failedLowercase = 'dashboard.card.deployment.failed.lowercase'
+        // Get name and namespace of channel to match with data from QueryAppList
+        const channelIdentifier = _.get(node, 'specs.raw.spec.channel').split(
+          '/'
+        )
+        const repoResourceData = getRepoResourceData(
+          _.get(QueryApplicationList, 'items[0]'),
+          channelIdentifier
+        )
 
-  return [
-    {
-      msgKey:
-        subscriptionDataOnHub.total === 1
-          ? msgs.get('dashboard.card.deployment.subscription', locale)
-          : msgs.get('dashboard.card.deployment.subscriptions', locale),
-      count: subscriptionDataOnHub.total,
-      targetLink:
-        subscriptionDataOnHub.total === 0 ? '' : targetLinkForSubscriptions,
-      textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
-      subtextKeyFirst: concatDataForSubTextKey(
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.failed,
-        msgs.get(failedLowercase, locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        subscriptionDataOnHub.total,
-        subscriptionDataOnHub.noStatus,
-        subscriptionDataOnHub.noStatus,
-        msgs.get('dashboard.card.deployment.noStatus', locale)
-      )
-    },
-    {
-      msgKey:
-        subscriptionDataOnManagedClusters.clusters === 1
-          ? msgs.get('dashboard.card.deployment.managedCluster', locale)
-          : msgs.get('dashboard.card.deployment.managedClusters', locale),
-      count: subscriptionDataOnManagedClusters.clusters,
-      targetLink:
-        subscriptionDataOnManagedClusters.clusters === 0
-          ? ''
-          : targetLinkForClusters,
-      textKey: concatDataForTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.total,
-        msgs.get('dashboard.card.deployment.totalSubscription', locale),
-        msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
-      ),
-      subtextKeyFirst: concatDataForSubTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.failed,
-        msgs.get(failedLowercase, locale)
-      ),
-      subtextKeySecond: concatDataForSubTextKey(
-        subscriptionDataOnManagedClusters.clusters,
-        subscriptionDataOnManagedClusters.noStatus,
-        subscriptionDataOnManagedClusters.noStatus,
-        msgs.get('dashboard.card.deployment.noStatus', locale)
-      )
+        // Get time window type
+        const timeWindowData = _.get(node, 'specs.raw.spec.timewindow')
+        let timeWindowType = 'default'
+        if (timeWindowData) {
+          timeWindowType = timeWindowData.windowtype
+        }
+
+        subsList.push({
+          name: node.name,
+          id: node.id,
+          timeWindowType: timeWindowType,
+          resourceType: repoResourceData.type,
+          resourcePath: repoResourceData.path
+        })
+      } else if (
+        node.type !== 'application' &&
+        node.type !== 'cluster' &&
+        node.type !== 'subscription' &&
+        node.type !== 'rules' &&
+        _.get(node, 'specs.pulse')
+      ) {
+        // Get cluster resource statuses
+        statusLoaded = true
+        tempNodeStatuses[node.specs.pulse]++
+      }
+    })
+
+    // Update the node status list if the statuses have changed
+    if (statusLoaded && !_.isEqual(nodeStatuses, tempNodeStatuses)) {
+      Object.keys(nodeStatuses).forEach(pulse => {
+        nodeStatuses[pulse] = tempNodeStatuses[pulse]
+      })
     }
-  ]
+
+    return {
+      appName: appName,
+      appNamespace: appNamespace,
+      creationTimestamp: creationTimestamp,
+      remoteClusterCount: remoteClusterCount,
+      localClusterDeploy: localClusterDeploy,
+      nodeStatuses: nodeStatuses,
+      targetLink: targetLink,
+      subsList: subsList
+    }
+  } else {
+    return {
+      appName: appName,
+      appNamespace: appNamespace,
+      creationTimestamp: -1,
+      remoteClusterCount: -1,
+      localClusterDeploy: false,
+      nodeStatuses: -1,
+      targetLink: targetLink,
+      subsList: -1
+    }
+  }
 }

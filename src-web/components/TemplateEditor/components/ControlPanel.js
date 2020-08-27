@@ -12,30 +12,24 @@
 import React from 'react'
 import { Query } from 'react-apollo'
 import PropTypes from 'prop-types'
-import {
-  Tag,
-  TextInput,
-  TextArea,
-  Checkbox,
-  DropdownV2,
-  DropdownSkeleton,
-  ComboBox,
-  NumberInput,
-  Notification,
-  InlineLoading
-} from 'carbon-components-react'
+import { Notification } from 'carbon-components-react'
 import classNames from 'classnames'
-import ControlPanelPrompt from './ControlPanelPrompt'
+import ControlPanelAccordion from './ControlPanelAccordion'
+import ControlPanelTextInput from './ControlPanelTextInput'
+import ControlPanelComboBox from './ControlPanelComboBox'
+import ControlPanelTextArea from './ControlPanelTextArea'
+import ControlPanelNumber from './ControlPanelNumber'
+import ControlPanelCheckbox from './ControlPanelCheckbox'
+import ControlPanelSingleSelect from './ControlPanelSingleSelect'
 import ControlPanelTreeSelect from './ControlPanelTreeSelect'
 import ControlPanelMultiSelect from './ControlPanelMultiSelect'
 import ControlPanelCards from './ControlPanelCards'
 import ControlPanelTable from './ControlPanelTable'
 import ControlPanelLabels from './ControlPanelLabels'
-import Tooltip from './Tooltip'
+import ControlPanelPrompt from './ControlPanelPrompt'
 import '../scss/control-panel.scss'
 import '../../../../graphics/diagramIcons.svg'
 import msgs from '../../../../nls/platform.properties'
-import _ from 'lodash'
 
 class ControlPanel extends React.Component {
   static propTypes = {
@@ -83,10 +77,6 @@ class ControlPanel extends React.Component {
     title.sectionRef = ref
   };
 
-  setControlSectionTitleRef = (title, ref) => {
-    title.sectionTitleRef = ref
-  };
-
   render() {
     const { controlData, showEditor } = this.props
     const controlClasses = classNames({
@@ -115,7 +105,7 @@ class ControlPanel extends React.Component {
     )
   }
 
-  renderControlSections(controlData) {
+  renderControlSections(controlData, grpId = '') {
     // create collapsable control sections
     let section
     let content = []
@@ -149,39 +139,40 @@ class ControlPanel extends React.Component {
       title.content = _content
       return (
         <React.Fragment key={id}>
-          {this.renderControl(id, 'section', title)}
+          {this.renderControl(id, 'section', title, grpId)}
           <div
             className={sectionClasses}
             ref={this.setControlSectionRef.bind(this, title)}
           >
-            {this.renderControls(_content)}
+            {this.renderControls(_content, grpId)}
           </div>
         </React.Fragment>
       )
     })
   }
 
-  renderControls(controlData) {
+  renderControls(controlData, grpId) {
     return (
       <React.Fragment>
         {controlData.map((control, i) => {
           const { id = `${control.type}-${i}`, type } = control
           switch (type) {
           case 'group':
-            return this.renderGroup(control)
+            return this.renderGroup(control, grpId)
           default:
-            return this.renderControlWithFetch(id, type, control)
+            return this.renderControlWithFetch(id, type, control, grpId)
           }
         })}
       </React.Fragment>
     )
   }
 
-  renderGroup(control) {
+  renderGroup(control, grpId = '') {
     const { id, active = [], prompts } = control
     return (
       <React.Fragment key={id}>
         {active.map((controlData, inx) => {
+          const groupId = inx > 0 ? `${grpId}grp${inx}` : ''
           return (
             /* eslint-disable-next-line react/no-array-index-key */
             <React.Fragment key={`${controlData[0].id}Group${inx}`}>
@@ -189,7 +180,7 @@ class ControlPanel extends React.Component {
                 {prompts &&
                   inx > 0 &&
                   this.renderDeleteGroupButton(control, inx)}
-                {this.renderControlSections(controlData)}
+                {this.renderControlSections(controlData, groupId)}
               </div>
               {prompts &&
                 active.length - 1 === inx &&
@@ -202,7 +193,7 @@ class ControlPanel extends React.Component {
   }
 
   // if data for 'available' is fetched from server, use apollo component
-  renderControlWithFetch(id, type, control) {
+  renderControlWithFetch(id, type, control, grpId) {
     const { fetchAvailable } = control
     if (fetchAvailable) {
       const { query, setAvailable } = fetchAvailable
@@ -210,16 +201,16 @@ class ControlPanel extends React.Component {
         <Query query={query} key={id}>
           {result => {
             setAvailable(control, result)
-            return this.renderControlWithPrompt(id, type, control)
+            return this.renderControlWithPrompt(id, type, control, grpId)
           }}
         </Query>
       )
     }
-    return this.renderControlWithPrompt(id, type, control)
+    return this.renderControlWithPrompt(id, type, control, grpId)
   }
 
   // if data for 'available' is fetched from server, use apollo component
-  renderControlWithPrompt(id, type, control) {
+  renderControlWithPrompt(id, type, control, grpId) {
     const { prompts } = control
     if (prompts) {
       const { positionAboveControl } = prompts
@@ -227,19 +218,19 @@ class ControlPanel extends React.Component {
         return (
           <React.Fragment key={id}>
             {this.renderControlPrompt(control)}
-            {this.renderControl(id, type, control)}
+            {this.renderControl(id, type, control, grpId)}
           </React.Fragment>
         )
       } else {
         return (
           <React.Fragment key={id}>
-            {this.renderControl(id, type, control)}
+            {this.renderControl(id, type, control, grpId)}
             {this.renderControlPrompt(control)}
           </React.Fragment>
         )
       }
     }
-    return this.renderControl(id, type, control)
+    return this.renderControl(id, type, control, grpId)
   }
 
   renderControlPrompt(control) {
@@ -254,48 +245,88 @@ class ControlPanel extends React.Component {
     )
   }
 
-  renderControl(id, type, control) {
-    const { locale, showEditor } = this.props
+  handleAddActive = (control, items) => {
+    control.active = items
+    this.props.handleControlChange(
+      control,
+      this.props.controlData,
+      this.creationView,
+      this.props.isCustomName
+    )
+  };
+
+  renderControl(id, type, control, grpId) {
+    const { controlData, locale, showEditor } = this.props
+    const controlId = `${id}${grpId}`
     switch (type) {
     case 'title':
     case 'section':
       return (
-        <React.Fragment key={id}>{this.renderTitle(control)}</React.Fragment>
+        <ControlPanelAccordion
+          key={controlId}
+          controlId={controlId}
+          control={control}
+          controlData={controlData}
+          handleChange={this.handleChange.bind(this, control)}
+          locale={locale}
+          />
       )
     case 'text':
       return (
-        <React.Fragment key={id}>
-          {this.renderTextInput(control)}
-        </React.Fragment>
+        <ControlPanelTextInput
+          key={controlId}
+          controlId={controlId}
+          control={control}
+          handleChange={this.handleChange.bind(this, control)}
+          locale={locale}
+          />
       )
     case 'textarea':
       return (
-        <React.Fragment key={id}>
-          {this.renderTextArea(control)}
-        </React.Fragment>
+        <ControlPanelTextArea
+          key={controlId}
+          controlId={controlId}
+          control={control}
+          handleChange={this.handleChange.bind(this, control)}
+          locale={locale}
+          />
       )
     case 'singleselect':
       return (
-        <React.Fragment key={id}>
-          {this.renderSingleSelect(control)}
-        </React.Fragment>
+        <ControlPanelSingleSelect
+          key={controlId}
+          controlId={controlId}
+          control={control}
+          handleChange={this.handleChange.bind(this, control)}
+          locale={locale}
+          />
       )
     case 'number':
       return (
-        <React.Fragment key={id}>
-          {this.renderNumberInput(control)}
-        </React.Fragment>
+        <ControlPanelNumber
+          key={controlId}
+          controlId={controlId}
+          control={control}
+          handleChange={this.handleChange.bind(this, control)}
+          locale={locale}
+          />
       )
     case 'combobox':
       return (
-        <React.Fragment key={id}>
-          {this.renderComboBox(control)}
-        </React.Fragment>
+        <ControlPanelComboBox
+          key={controlId}
+          controlId={controlId}
+          control={control}
+          controlData={controlData}
+          handleControlChange={this.handleControlChange.bind(this, control)}
+          locale={locale}
+          />
       )
     case 'multiselect':
       return (
         <ControlPanelMultiSelect
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleChange.bind(this, control)}
           locale={locale}
@@ -304,7 +335,8 @@ class ControlPanel extends React.Component {
     case 'treeselect':
       return (
         <ControlPanelTreeSelect
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleChange.bind(this, control)}
           locale={locale}
@@ -313,7 +345,8 @@ class ControlPanel extends React.Component {
     case 'cards':
       return (
         <ControlPanelCards
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           showEditor={showEditor}
           handleChange={this.handleCardChange.bind(this, control)}
@@ -324,7 +357,8 @@ class ControlPanel extends React.Component {
     case 'table':
       return (
         <ControlPanelTable
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleControlChange.bind(this, control)}
           locale={locale}
@@ -333,7 +367,8 @@ class ControlPanel extends React.Component {
     case 'labels':
       return (
         <ControlPanelLabels
-          key={id}
+          key={controlId}
+          controlId={controlId}
           control={control}
           handleChange={this.handleControlChange.bind(this, control)}
           locale={locale}
@@ -341,595 +376,35 @@ class ControlPanel extends React.Component {
       )
     case 'checkbox':
       return (
-        <React.Fragment key={id}>
-          {this.renderCheckbox(control)}
-        </React.Fragment>
+        <ControlPanelCheckbox
+          key={controlId}
+          controlId={controlId}
+          control={control}
+          handleChange={this.handleChange.bind(this, control)}
+          locale={locale}
+          />
       )
     case 'custom':
       return (
-        <React.Fragment key={id}>{this.renderCustom(control)}</React.Fragment>
+        <React.Fragment key={controlId}>
+          {this.renderCustom(control, controlId)}
+        </React.Fragment>
       )
     }
     return null
-  }
-
-  renderTitle(control) {
-    const { locale, controlData } = this.props
-    const {
-      title,
-      subtitle,
-      note,
-      overline,
-      numbered,
-      collapsable,
-      collapsed = false,
-      content = []
-    } = control
-    let { info } = control
-    if (typeof info === 'function') {
-      info = info(controlData, this.context.locale)
-    }
-
-    const handleCollapse = () => {
-      if (control.sectionRef && collapsable) {
-        const isCollapsed = control.sectionRef.classList.contains('collapsed')
-        control.sectionRef.classList.toggle('collapsed', !isCollapsed)
-        control.sectionTitleRef.classList.toggle('collapsed', !isCollapsed)
-        if (isCollapsed) {
-          // if expanding make sure at least 1st control is visible
-          const { content: _content } = control
-          const ref =
-            _.get(_content, '[2].ref') ||
-            _.get(_content, '[1].ref') ||
-            _.get(_content, '[0].ref')
-          if (ref) {
-            const rect = ref.getBoundingClientRect()
-            if (rect.top < 0 || rect.bottom > window.innerHeight) {
-              ref.scrollIntoView({
-                behavior: 'smooth',
-                block: 'end',
-                inline: 'nearest'
-              })
-            }
-          }
-        }
-      }
-    }
-    const handleCollapseKey = e => {
-      if (e.type === 'click' || e.key === 'Enter') {
-        handleCollapse()
-      }
-    }
-    const text = msgs.get('creation.ocp.toggle', locale)
-    const titleClasses = classNames({
-      'creation-view-controls-title': true,
-      overline,
-      collapsed
-    })
-    const mainTitleClasses = classNames({
-      'creation-view-controls-title-main': true,
-      subtitle: !!subtitle
-    })
-    let summary = []
-    this.getSummary(content, summary)
-    summary = summary.filter(s => !!s)
-    let id = `${control.id}-${title || subtitle || ''}`
-    id = id.replace(/\s+/g, '-').toLowerCase()
-    return (
-      <React.Fragment>
-        <div
-          id={id}
-          className={titleClasses}
-          tabIndex="0"
-          role={'button'}
-          title={text}
-          aria-label={text}
-          onClick={handleCollapse}
-          onKeyPress={handleCollapseKey}
-          ref={this.setControlSectionTitleRef.bind(this, control)}
-        >
-          {note && (
-            <div className="creation-view-controls-note">
-              {msgs.get(note, locale)}
-            </div>
-          )}
-          {(title || subtitle) && (
-            <div className={mainTitleClasses}>
-              {collapsable && (
-                <div
-                  className={
-                    'creation-view-controls-title-main-collapse-button'
-                  }
-                >
-                  <svg className="icon">
-                    <use href="#diagramIcons_caret--up" />
-                  </svg>
-                </div>
-              )}
-              {numbered && (
-                <div className="creation-view-controls-title-circle">
-                  {numbered}
-                </div>
-              )}
-              <div className="creation-view-controls-title-main-name">
-                {title || subtitle}
-                {!info && <Tooltip control={control} locale={locale} />}
-                <span className="creation-view-controls-title-main-summary">
-                  {summary.map((tag, inx) => {
-                    return (
-                      <Tag
-                        /* eslint-disable-next-line react/no-array-index-key */
-                        key={`${id}-${tag}-${inx}`}
-                        className="tag"
-                        type="custom"
-                      >
-                        {tag}
-                      </Tag>
-                    )
-                  })}
-                </span>
-              </div>
-            </div>
-          )}
-          <div className="creation-view-controls-title-normal-container">
-            {info && (
-              <div className="creation-view-controls-title-normal">{info}</div>
-            )}
-          </div>
-        </div>
-      </React.Fragment>
-    )
-  }
-
-  getSummary(content = [], summary, ignoreEmpty) {
-    content.forEach(
-      ({
-        id,
-        type,
-        hasValueDescription,
-        summaryKey: key,
-        active,
-        initial,
-        available,
-        availableMap
-      }) => {
-        switch (type) {
-        case 'title':
-        case 'section':
-        case 'hidden':
-          break
-        case 'checkbox':
-          summary.push(available[!active ? 0 : 1])
-          break
-        case 'number':
-          summary.push(active || initial)
-          break
-        case 'table':
-          active.forEach(a => {
-            summary.push(a[key])
-          })
-          break
-        case 'labels':
-          active.forEach(({ key: k, value }) => {
-            summary.push(`${k}=${value}`)
-          })
-          break
-        default:
-          if (hasValueDescription && availableMap) {
-            summary.push(availableMap[active] || active)
-          } else if (Array.isArray(active)) {
-            if (availableMap && active.length === 1) {
-              const { title = '' } = availableMap[active[0]]
-              summary.push(title)
-            } else if (typeof active[0] === 'string') {
-              summary.push(...active)
-            } else {
-              this.getSummary(active[0], summary, true)
-            }
-          } else {
-            switch (typeof active) {
-            case 'string':
-              if (active.length > 24) {
-                if (id.indexOf('ssh') !== -1) {
-                  active = 'ssh'
-                } else if (id.indexOf('secret') !== -1) {
-                  active = 'secret'
-                } else {
-                  active = `${active.substr(0, 12)}...${active.substr(
-                    -12
-                  )}`
-                }
-              }
-              summary.push(active)
-              break
-            default:
-              if (!ignoreEmpty) {
-                summary.push('')
-              }
-              break
-            }
-          }
-          break
-        }
-      }
-    )
   }
 
   setControlRef = (control, ref) => {
     control.ref = ref
   };
 
-  renderTextInput(control) {
-    const { locale } = this.props
-    const { id, name, active: value, exception, validation = {} } = control
-
-    // if placeholder missing, create one
-    let { placeholder } = control
-    if (!placeholder) {
-      placeholder = msgs.get(
-        'creation.ocp.cluster.enter.value',
-        [name.toLowerCase()],
-        locale
-      )
-    }
-    return (
-      <React.Fragment>
-        <div
-          className="creation-view-controls-textbox"
-          style={{ display: '' }}
-          ref={this.setControlRef.bind(this, control)}
-        >
-          <div className="creation-view-controls-textbox-title">
-            {name}
-            {validation.required ? (
-              <div className="creation-view-controls-required">*</div>
-            ) : null}
-            <Tooltip control={control} locale={locale} />
-          </div>
-          <TextInput
-            id={id}
-            hideLabel
-            spellCheck={false}
-            autoComplete={'no'}
-            labelText=""
-            invalid={!!exception}
-            invalidText={exception}
-            placeholder={placeholder}
-            value={value || ''}
-            onChange={this.handleChange.bind(this, control)}
-          />
-        </div>
-      </React.Fragment>
-    )
-  }
-
-  renderTextArea(control) {
-    const { locale } = this.props
-    const { id, name, active: value, exception, validation } = control
-    return (
-      <React.Fragment>
-        <div
-          className="creation-view-controls-textarea"
-          ref={this.setControlRef.bind(this, control)}
-        >
-          <div className="creation-view-controls-textarea-title">
-            {name}
-            {validation.required ? (
-              <div className="creation-view-controls-required">*</div>
-            ) : null}
-            <Tooltip control={control} locale={locale} />
-          </div>
-          <TextArea
-            id={id}
-            invalid={!!exception}
-            invalidText={exception}
-            hideLabel
-            spellCheck={false}
-            autoComplete={'no'}
-            labelText=""
-            value={value}
-            onChange={this.handleChange.bind(this, control)}
-          />
-        </div>
-      </React.Fragment>
-    )
-  }
-
-  renderCheckbox(control) {
-    const { locale } = this.props
-    const { id, name, active } = control
-    return (
-      <React.Fragment>
-        <div
-          className="creation-view-controls-checkbox"
-          ref={this.setControlRef.bind(this, control)}
-        >
-          <Checkbox
-            id={id}
-            className="checkbox"
-            hideLabel
-            labelText=""
-            checked={active}
-            onChange={this.handleChange.bind(this, control)}
-          />
-          <div style={{ height: '20px' }}>{name}</div>
-          <Tooltip control={control} locale={locale} />
-        </div>
-      </React.Fragment>
-    )
-  }
-
-  renderSingleSelect(control) {
-    const { locale } = this.props
-    const {
-      id,
-      name,
-      placeholder = '',
-      available = [],
-      validation,
-      isLoading,
-      isFailed
-    } = control
-    let { active } = control
-    if (!active) {
-      if (isLoading) {
-        active = msgs.get(
-          _.get(control, 'fetchAvailable.loadingDesc', 'resource.loading'),
-          locale
-        )
-      } else if (isFailed) {
-        active = msgs.get('resource.error', locale)
-      } else if (available.length === 0) {
-        active = msgs.get(
-          _.get(control, 'fetchAvailable.emptyDesc', 'resource.none'),
-          locale
-        )
-      }
-    }
-    const key = `${id}-${name}-${available.join('-')}`
-    return (
-      <React.Fragment>
-        <div
-          className="creation-view-controls-singleselect"
-          ref={this.setControlRef.bind(this, control)}
-        >
-          <div className="creation-view-controls-multiselect-title">
-            {name}
-            {validation.required ? (
-              <div className="creation-view-controls-required">*</div>
-            ) : null}
-            <Tooltip control={control} locale={locale} />
-          </div>
-          {isLoading ? (
-            <div className="creation-view-controls-singleselect-loading">
-              <DropdownSkeleton />
-              <InlineLoading description={active} />
-            </div>
-          ) : (
-            <div id={id}>
-              <DropdownV2
-                key={key}
-                items={available}
-                label={active || placeholder}
-                onChange={this.handleChange.bind(this, control)}
-              />
-            </div>
-          )}
-        </div>
-      </React.Fragment>
-    )
-  }
-
-  renderNumberInput(control) {
-    const { locale } = this.props
-    const { id, name, initial, exception, validation } = control
-
-    return (
-      <React.Fragment>
-        <div
-          className="creation-view-controls-number"
-          ref={this.setControlRef.bind(this, control)}
-        >
-          <div className="creation-view-controls-multiselect-title">
-            {name}
-            {validation.required ? (
-              <div className="creation-view-controls-required">*</div>
-            ) : null}
-            <Tooltip control={control} locale={locale} />
-          </div>
-          <NumberInput
-            allowEmpty
-            id={id}
-            value={typeof initial === 'string' ? Number(initial) : initial}
-            invalid={!!exception}
-            invalidText={exception}
-            min={1}
-            max={100}
-            step={1}
-            onChange={this.handleChange.bind(this, control)}
-          />
-        </div>
-      </React.Fragment>
-    )
-  }
-
-  renderComboBox(control) {
-    const { locale } = this.props
-    const {
-      id,
-      name,
-      userData = [],
-      availableMap,
-      exception,
-      validation,
-      hasReplacements,
-      isLoading,
-      isFailed,
-      fetchAvailable
-    } = control
-    const { controlData } = this.props
-    let { active, available, placeholder = '' } = control
-    let loadingMsg
-    if (fetchAvailable) {
-      if (isLoading) {
-        loadingMsg = msgs.get(
-          _.get(control, 'fetchAvailable.loadingDesc', 'resource.loading'),
-          locale
-        )
-      } else if (isFailed) {
-        placeholder = msgs.get('resource.error', locale)
-      } else if (available.length === 0) {
-        placeholder =
-          placeholder ||
-          msgs.get(
-            _.get(control, 'fetchAvailable.emptyDesc', 'resource.empty'),
-            locale
-          )
-      }
-    }
-    available = _.uniq([...userData, ...available])
-
-    // when available map has descriptions of choices
-    // ex: instance types have # cpu's etc
-    if (availableMap && !hasReplacements) {
-      const map = _.invert(availableMap)
-      active = map[active] || active
-    }
-
-    // combo prefers id's
-    const items = available.map((label, inx) => {
-      return { label, id: inx }
-    })
-    const initialSelectedItem = items.find(item => item.label === active)
-
-    const key = `${id}-${name}-${active}`
-    return (
-      <React.Fragment>
-        <div
-          className="creation-view-controls-singleselect"
-          ref={this.setControlRef.bind(this, control)}
-        >
-          <div className="creation-view-controls-multiselect-title">
-            {name}
-            {validation.required ? (
-              <div className="creation-view-controls-required">*</div>
-            ) : null}
-            <Tooltip control={control} locale={locale} />
-          </div>
-          {isLoading ? (
-            <div className="creation-view-controls-singleselect-loading">
-              <DropdownSkeleton />
-              <InlineLoading description={loadingMsg} />
-            </div>
-          ) : (
-            <ComboBox
-              id={id}
-              key={key}
-              items={items}
-              itemToString={item => (item ? item.label : '')}
-              initialSelectedItem={initialSelectedItem}
-              selecteditem={active}
-              spellCheck={false}
-              ref={ref => {
-                if (ref) {
-                  const input = _.get(ref, 'textInput.current')
-                  if (input) {
-                    input.autocomplete = 'no'
-                    input.addEventListener('keyup', e => {
-                      if (e.key === 'Enter' && control.typing) {
-                        this.handleComboboxChange(
-                          control,
-                          userData,
-                          controlData
-                        )
-                      }
-                    })
-                  }
-                }
-              }}
-              invalid={!!exception}
-              invalidText={exception}
-              placeholder={placeholder}
-              onChange={() => {}}
-              onFocus={e => {
-                e.target.select()
-              }}
-              onInputChange={this.handleComboboxTyping.bind(
-                this,
-                control,
-                userData,
-                available
-              )}
-            />
-          )}
-        </div>
-      </React.Fragment>
-    )
-  }
-
-  handleComboboxTyping(control, userData, available, evt) {
-    const { controlData } = this.props
-
-    // if menu is still open, user is typing
-    const menu = control.ref.getElementsByClassName('bx--list-box__menu')
-    if (menu && menu.length > 0) {
-      // user clicked selection, kill any typing
-      menu[0].addEventListener(
-        'click',
-        () => {
-          delete control.typing
-        },
-        true
-      )
-
-      // user is typing something--filter the list
-      Array.from(
-        menu[0].getElementsByClassName('bx--list-box__menu-item')
-      ).forEach((item, inx) => {
-        if (available[inx].indexOf(evt) === -1) {
-          item.innerHTML = available[inx]
-          item.style.display = 'none'
-        } else {
-          item.innerHTML = available[inx].replace(
-            new RegExp(evt, 'gi'),
-            found => {
-              return '<b>' + found + '</b>'
-            }
-          )
-          item.style.display = ''
-        }
-      })
-      control.typing = evt
-    } else {
-      control.active = evt
-      this.handleComboboxChange(control, userData, controlData)
-    }
-  }
-
-  handleComboboxChange(control, userData, controlData) {
-    // if user typed something
-    if (control.typing) {
-      userData.push(control.typing)
-      control.userData = userData
-      control.active = control.typing
-
-      // if this combobox is fetched from server, make sure whatever user types in has an availableMap entry
-      const setAvailableMap = _.get(control, 'fetchAvailable.setAvailableMap')
-      if (setAvailableMap) {
-        setAvailableMap(control)
-      }
-    }
-
-    this.props.handleControlChange(control, controlData)
-    delete control.typing
-  }
-
-  renderCustom(control) {
+  renderCustom(control, controlId) {
     const { locale } = this.props
     const { component } = control
     const custom = React.cloneElement(component, {
       control,
       locale,
+      controlId,
       handleChange: this.handleChange.bind(this, control)
     })
     return (
@@ -944,39 +419,19 @@ class ControlPanel extends React.Component {
     )
   }
 
-  handleChange(control, evt) {
+  handleChange(control) {
     let updateName = false
     let { isCustomName } = this.props
     const { controlData, originalControlData } = this.props
     const { id: field, type, syncWith, syncedWith } = control
     switch (type) {
     case 'text':
-      control.active = evt.target.value
       isCustomName = field === 'name'
       break
-    case 'textarea':
-      control.active = evt.target.value
-      break
-    case 'singleselect':
-      control.active = evt.selectedItem
-      break
-    case 'number':
-      control.active = evt.imaginaryTarget.valueAsNumber
-      break
-    case 'combobox':
-      control.active = evt.selectedItem
-      break
-    case 'treeselect':
-      control.active = evt.selectedItem
-      break
     case 'multiselect':
-      control.active = evt.selectedItems
       // if user was able to select something that automatically
       // generates the name, blow away the user name
       updateName = !isCustomName && control.updateNamePrefix
-      break
-    case 'checkbox':
-      control.active = evt
       break
     }
 
@@ -1048,16 +503,6 @@ class ControlPanel extends React.Component {
     const { controlData } = this.props
     this.props.handleControlChange(control, controlData)
   }
-
-  handleAddActive = (control, items) => {
-    control.active = items
-    this.props.handleControlChange(
-      control,
-      this.props.controlData,
-      this.creationView,
-      this.props.isCustomName
-    )
-  };
 
   renderNotifications() {
     const { notifications = [] } = this.props

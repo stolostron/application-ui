@@ -232,6 +232,320 @@ export const QueryApplicationList = {
   ]
 };
 
+const QueryApplicationList_singleApp = {
+  forceReload: false,
+  items: [
+    {
+      apigroup: "app.k8s.io",
+      cluster: "local-cluster",
+      created: "2020-08-13T19:23:00Z",
+      custom: { clusters: 0, created: "13 days ago" },
+      dashboard: "",
+      kind: "application",
+      label: "",
+      name: "mortgage-app",
+      namespace: "default",
+      related: [
+        {
+          items: [
+            {
+              HubAcceptedManagedCluster: "True",
+              ManagedClusterConditionAvailable: "True",
+              ManagedClusterInfoSynced: "True",
+              ManagedClusterJoined: "True",
+              apigroup: "internal.open-cluster-management.io",
+              consoleURL:
+                "https://console-openshift-console.apps.fxiang.dev06.red-chesterfield.com",
+              cpu: 36,
+              created: "2020-08-13T18:17:34Z",
+              kind: "cluster",
+              kubernetesVersion: "v1.17.1+9d33dd3",
+              label:
+                "cloud=AWS; environment=Dev; name=fxiang; vendor=OpenShift",
+              memory: "144591Mi",
+              name: "fxiang",
+              nodes: 6,
+              _clusterNamespace: "fxiang",
+              _rbac:
+                "fxiang_internal.open-cluster-management.io_managedclusterinfos",
+              _uid: "cluster__fxiang"
+            }
+          ],
+          kind: "cluster",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apiversion: "v1",
+              cluster: "fxiang",
+              container: "mortgage-app-mortgage",
+              created: "2020-08-25T16:31:41Z",
+              hostIP: "10.0.164.61",
+              image: "fxiang/mortgage:0.4.0",
+              kind: "pod",
+              label: "app=mortgage-app-mortgage; pod-template-hash=55c65b9c8f",
+              name: "mortgage-app-deploy-55c65b9c8f-dqclq",
+              namespace: "default",
+              podIP: "10.128.3.9",
+              restarts: 0,
+              selfLink:
+                "/api/v1/namespaces/default/pods/mortgage-app-deploy-55c65b9c8f-dqclq",
+              startedAt: "2020-08-25T16:31:41Z",
+              status: "Running",
+              _clusterNamespace: "fxiang",
+              _rbac: "fxiang_null_pods",
+              _uid: "fxiang/88348f1c-de2d-4be7-86c4-c45affaab3b1"
+            }
+          ],
+          kind: "pod",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              cluster: "local-cluster",
+              created: "2020-08-26T15:04:26Z",
+              kind: "deployable",
+              label:
+                "apps.open-cluster-management.io/channel-type=GitHub; apps.open-cluster-management.io/channel=mortgage-channel; apps.open-cluster-management.io/subscription=default-mortgage-app-subscription",
+              name:
+                "mortgage-app-subscription-mortgage-mortgage-app-svc-service",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/deployables/mortgage-app-subscription-mortgage-mortgage-app-svc-service",
+              _hubClusterResource: "true",
+              _rbac: "default_apps.open-cluster-management.io_deployables",
+              _uid: "local-cluster/bb8cea4d-e06c-490c-8d53-629203b4f2a0"
+            },
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              cluster: "local-cluster",
+              created: "2020-08-26T15:04:26Z",
+              kind: "deployable",
+              label:
+                "apps.open-cluster-management.io/channel-type=GitHub; apps.open-cluster-management.io/channel=mortgage-channel; apps.open-cluster-management.io/subscription=default-mortgage-app-subscription",
+              name:
+                "mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/deployables/mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment",
+              _hubClusterResource: "true",
+              _rbac: "default_apps.open-cluster-management.io_deployables",
+              _uid: "local-cluster/5c164372-0ec3-489c-b0fa-677a4d2564ef"
+            }
+          ],
+          kind: "deployable",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps",
+              apiversion: "v1",
+              available: 1,
+              cluster: "fxiang",
+              created: "2020-08-25T16:31:41Z",
+              current: 1,
+              desired: 1,
+              kind: "deployment",
+              label: "app=mortgage-app-mortgage",
+              name: "mortgage-app-deploy",
+              namespace: "default",
+              ready: 1,
+              selfLink:
+                "/apis/apps/v1/namespaces/default/deployments/mortgage-app-deploy",
+              _clusterNamespace: "fxiang",
+              _hostingDeployable:
+                "mortgage-ch/mortgage-channel-Deployment-mortgage-app-deploy",
+              _hostingSubscription: "default/mortgage-app-subscription",
+              _rbac: "fxiang_apps_deployments",
+              _uid: "fxiang/59ec5165-1924-4b05-ac35-70d38d367c13"
+            }
+          ],
+          kind: "deployment",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apiversion: "v1",
+              cluster: "fxiang",
+              clusterIP: "172.30.95.86",
+              created: "2020-08-25T16:31:46Z",
+              kind: "service",
+              label: "app=mortgage-app-mortgage",
+              name: "mortgage-app-svc",
+              namespace: "default",
+              port: "9080:30240/TCP",
+              selfLink: "/api/v1/namespaces/default/services/mortgage-app-svc",
+              type: "NodePort",
+              _clusterNamespace: "fxiang",
+              _hostingDeployable:
+                "mortgage-ch/mortgage-channel-Service-mortgage-app-svc",
+              _hostingSubscription: "default/mortgage-app-subscription",
+              _rbac: "fxiang_null_services",
+              _uid: "fxiang/27be449b-e536-4c6a-8b52-0cc42f21cd15"
+            }
+          ],
+          kind: "service",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps",
+              apiversion: "v1",
+              cluster: "fxiang",
+              created: "2020-08-25T16:31:41Z",
+              current: 1,
+              desired: 1,
+              kind: "replicaset",
+              label: "app=mortgage-app-mortgage; pod-template-hash=55c65b9c8f",
+              name: "mortgage-app-deploy-55c65b9c8f",
+              namespace: "default",
+              selfLink:
+                "/apis/apps/v1/namespaces/default/replicasets/mortgage-app-deploy-55c65b9c8f",
+              _clusterNamespace: "fxiang",
+              _hostingDeployable:
+                "mortgage-ch/mortgage-channel-Deployment-mortgage-app-deploy",
+              _hostingSubscription: "default/mortgage-app-subscription",
+              _rbac: "fxiang_apps_replicasets",
+              _uid: "fxiang/9fab09f8-127a-4edc-a01a-1a6adc01d34a"
+            }
+          ],
+          kind: "replicaset",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              cluster: "local-cluster",
+              created: "2020-08-13T19:23:00Z",
+              kind: "channel",
+              name: "mortgage-channel",
+              namespace: "mortgage-ch",
+              pathname: "https://github.com/fxiang1/app-samples.git",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/mortgage-ch/channels/mortgage-channel",
+              type: "GitHub",
+              _hubClusterResource: "true",
+              _rbac: "mortgage-ch_apps.open-cluster-management.io_channels",
+              _uid: "local-cluster/54bb2ff5-7545-49fa-9020-6ea14b47f346"
+            },
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              cluster: "fxiang",
+              created: "2020-08-25T15:52:19Z",
+              kind: "channel",
+              name: "mortgage-channel",
+              namespace: "mortgage-ch",
+              pathname: "https://github.com/fxiang1/app-samples.git",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/mortgage-ch/channels/mortgage-channel",
+              type: "GitHub",
+              _clusterNamespace: "fxiang",
+              _rbac: "fxiang_apps.open-cluster-management.io_channels",
+              _uid: "fxiang/5effe27c-4ca2-4508-9051-e2a0a1e77358"
+            }
+          ],
+          kind: "channel",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              channel: "mortgage-ch/mortgage-channel",
+              cluster: "local-cluster",
+              created: "2020-08-13T19:23:01Z",
+              kind: "subscription",
+              label: "app=mortgage-app-mortgage",
+              name: "mortgage-app-subscription",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgage-app-subscription",
+              status: "Propagated",
+              _gitcommit: "0660bd66c02d09a4c8813d3ae2e711fc98b6426b",
+              _hubClusterResource: "true",
+              _rbac: "default_apps.open-cluster-management.io_subscriptions",
+              _uid: "local-cluster/e5a9d3e2-a5df-43de-900c-c15a2079f760"
+            },
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              channel: "mortgage-ch/mortgage-channel",
+              cluster: "fxiang",
+              created: "2020-08-13T19:24:02Z",
+              kind: "subscription",
+              label:
+                "app=mortgage-app-mortgage; hosting-deployable-name=mortgage-app-subscription-deployable; subscription-pause=false",
+              name: "mortgage-app-subscription",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgage-app-subscription",
+              status: "Subscribed",
+              _clusterNamespace: "fxiang",
+              _gitbranch: "master",
+              _gitpath: "mortgage",
+              _hostingDeployable:
+                "fxiang/mortgage-app-subscription-deployable-th2bj",
+              _hostingSubscription: "default/mortgage-app-subscription",
+              _rbac: "fxiang_apps.open-cluster-management.io_subscriptions",
+              _uid: "fxiang/4125419b-0b70-4e4b-8c94-b8b23c166410"
+            }
+          ],
+          kind: "subscription",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              cluster: "local-cluster",
+              created: "2020-08-13T19:23:00Z",
+              kind: "placementrule",
+              label: "app=mortgage-app-mortgage",
+              name: "mortgage-app-placement",
+              namespace: "default",
+              replicas: 1,
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/placementrules/mortgage-app-placement",
+              _hubClusterResource: "true",
+              _rbac: "default_apps.open-cluster-management.io_placementrules",
+              _uid: "local-cluster/0533baf0-e272-4db6-ae00-b99f1d4e2e1c"
+            }
+          ],
+          kind: "placementrule",
+          __typename: "SearchRelatedResult"
+        }
+      ],
+      selfLink:
+        "/apis/app.k8s.io/v1beta1/namespaces/default/applications/mortgage-app",
+      _hubClusterResource: "true",
+      _rbac: "default_app.k8s.io_applications",
+      _uid: "local-cluster/dc9499ab-d23f-4dac-ba9d-9232218a383f"
+    }
+  ],
+  itemsPerPage: 20,
+  page: 1,
+  pendingActions: [],
+  postErrorMsg: "",
+  putErrorMsg: "",
+  resourceVersion: undefined,
+  search: "",
+  sortDirection: "asc",
+  status: "DONE"
+};
+
 export const QueryApplicationList_INCEPTION = {
   status: "INCEPTION",
   itemsPerPage: 20,
@@ -434,6 +748,157 @@ export const HCMChannel = {
   label: "app=gbapp; chart=gbapp-0.1.0; heritage=Tiller; release=samplebook",
   _hubClusterResource: "true",
   _rbac: "sample_app.k8s.io_applications"
+};
+
+export const HCMApplicationList = {
+  forceReload: false,
+  items: [
+    {
+      apigroup: "app.k8s.io",
+      cluster: "local-cluster",
+      created: "2020-08-13T19:23:00Z",
+      dashboard: "",
+      kind: "application",
+      label: "",
+      name: "mortgage-app",
+      namespace: "default",
+      related: [
+        {
+          items: [
+            {
+              kind: "cluster",
+              kubernetesVersion: "",
+              name: "local-cluster",
+              status: "OK"
+            }
+          ],
+          kind: "cluster",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              channel: "mortgage-ch/mortgage-channel",
+              cluster: "local-cluster",
+              created: "2020-08-13T19:23:01Z",
+              kind: "subscription",
+              label: "app=mortgage-app-mortgage",
+              name: "mortgage-app-subscription",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgage-app-subscription",
+              status: "Propagated",
+              _gitcommit: "0660bd66c02d09a4c8813d3ae2e711fc98b6426b",
+              _hubClusterResource: "true",
+              _rbac: "default_apps.open-cluster-management.io_subscriptions",
+              _uid: "local-cluster/e5a9d3e2-a5df-43de-900c-c15a2079f760"
+            }
+          ],
+          kind: "subscription",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              cluster: "local-cluster",
+              created: "2020-08-15T09:11:11Z",
+              kind: "deployable",
+              label:
+                "apps.open-cluster-management.io/channel-type=GitHub; apps.open-cluster-management.io/channel=mortgage-channel; apps.open-cluster-management.io/subscription=default-mortgage-app-subscription",
+              name:
+                "mortgage-app-subscription-mortgage-mortgage-app-svc-service",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/deployables/mortgage-app-subscription-mortgage-mortgage-app-svc-service",
+              _hubClusterResource: "true",
+              _rbac: "default_apps.open-cluster-management.io_deployables",
+              _uid: "local-cluster/96551002-3e14-41fc-ad28-3912b51dd958"
+            },
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              cluster: "local-cluster",
+              created: "2020-08-15T09:11:11Z",
+              kind: "deployable",
+              label:
+                "apps.open-cluster-management.io/channel-type=GitHub; apps.open-cluster-management.io/channel=mortgage-channel; apps.open-cluster-management.io/subscription=default-mortgage-app-subscription",
+              name:
+                "mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/deployables/mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment",
+              _hubClusterResource: "true",
+              _rbac: "default_apps.open-cluster-management.io_deployables",
+              _uid: "local-cluster/c2e1cc72-3ae9-4b4a-acaa-e87ca5247a73"
+            }
+          ],
+          kind: "deployable",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              cluster: "local-cluster",
+              created: "2020-08-13T19:23:00Z",
+              kind: "placementrule",
+              label: "app=mortgage-app-mortgage",
+              name: "mortgage-app-placement",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/placementrules/mortgage-app-placement",
+              _hubClusterResource: "true",
+              _rbac: "default_apps.open-cluster-management.io_placementrules",
+              _uid: "local-cluster/0533baf0-e272-4db6-ae00-b99f1d4e2e1c"
+            }
+          ],
+          kind: "placementrule",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              cluster: "local-cluster",
+              created: "2020-08-13T19:23:00Z",
+              kind: "channel",
+              name: "mortgage-channel",
+              namespace: "mortgage-ch",
+              pathname: "https://github.com/fxiang1/app-samples.git",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/mortgage-ch/channels/mortgage-channel",
+              type: "GitHub",
+              _hubClusterResource: "true",
+              _rbac: "mortgage-ch_apps.open-cluster-management.io_channels",
+              _uid: "local-cluster/54bb2ff5-7545-49fa-9020-6ea14b47f346"
+            }
+          ],
+          kind: "channel",
+          __typename: "SearchRelatedResult"
+        }
+      ],
+      selfLink:
+        "/apis/app.k8s.io/v1beta1/namespaces/default/applications/mortgage-app",
+      _hubClusterResource: "true",
+      _rbac: "default_app.k8s.io_applications",
+      _uid: "local-cluster/dc9499ab-d23f-4dac-ba9d-9232218a383f"
+    }
+  ],
+  itemsPerPage: 20,
+  page: 1,
+  pendingActions: [],
+  postErrorMsg: "",
+  putErrorMsg: "",
+  resourceVersion: undefined,
+  search: "",
+  sortDirection: "asc",
+  status: "DONE"
 };
 
 export const HCMSubscriptionList = {
@@ -720,6 +1185,357 @@ export const GlobalApplicationDataList = {
   }
 };
 
+export const topology = {
+  activeFilters: {
+    application: {
+      channel: "__ALL__/__ALL__//__ALL__/__ALL__",
+      name: "mortgage-app",
+      namespace: "default"
+    }
+  },
+  availableFilters: {
+    clusters: [],
+    labels: [],
+    namespaces: [],
+    types: []
+  },
+  detailsLoaded: true,
+  detailsReloading: false,
+  diagramFilters: [],
+  fetchFilters: {
+    application: {
+      channel: "__ALL__/__ALL__//__ALL__/__ALL__",
+      name: "mortgage-app",
+      namespace: "default"
+    }
+  },
+  links: [
+    {
+      from: { uid: "application--mortgage-app", __typename: "Resource" },
+      specs: { isDesign: true },
+      to: {
+        uid: "member--subscription--default--mortgage-app-subscription",
+        __typename: "Resource"
+      },
+      type: "",
+      __typename: "Relationship"
+    },
+    {
+      from: {
+        uid: "member--subscription--default--mortgage-app-subscription",
+        __typename: "Resource"
+      },
+      specs: { isDesign: true },
+      to: {
+        uid: "member--rules--default--mortgage-app-placement--0",
+        __typename: "Resource"
+      },
+      type: "uses",
+      __typename: "Relationship"
+    },
+    {
+      from: {
+        uid: "member--subscription--default--mortgage-app-subscription",
+        __typename: "Resource"
+      },
+      specs: { isDesign: true },
+      to: { uid: "member--clusters--fxiang", __typename: "Resource" },
+      type: "",
+      __typename: "Relationship"
+    },
+    {
+      from: { uid: "member--clusters--fxiang", __typename: "Resource" },
+      specs: null,
+      to: {
+        uid:
+          "member--member--deployable--member--clusters--fxia…rtgage-app-svc-service--service--mortgage-app-svc",
+        __typename: "Resource"
+      },
+      type: "",
+      __typename: "Relationship"
+    },
+    {
+      from: { uid: "member--clusters--fxiang", __typename: "Resource" },
+      specs: null,
+      to: {
+        uid:
+          "member--member--deployable--member--clusters--fxia…eploy-deployment--deployment--mortgage-app-deploy",
+        __typename: "Resource"
+      },
+      type: "",
+      __typename: "Relationship"
+    },
+    {
+      from: {
+        uid:
+          "member--member--deployable--member--clusters--fxia…eploy-deployment--deployment--mortgage-app-deploy",
+        __typename: "Resource"
+      },
+      specs: null,
+      to: {
+        uid:
+          "member--member--deployable--member--clusters--fxiang--replicaset--mortgage-app-deploy",
+        __typename: "Resource"
+      },
+      type: "",
+      __typename: "Relationship"
+    }
+  ],
+  loaded: true,
+  nodes: [
+    {
+      cluster: null,
+      clusterName: null,
+      id: "application--mortgage-app",
+      labels: null,
+      name: "mortgage-app",
+      namespace: "default",
+      specs: {
+        activeChannel: "__ALL__/__ALL__//__ALL__/__ALL__",
+        channels: [
+          "default/mortgage-app-subscription//mortgage-ch/mortgage-channel"
+        ],
+        isDesign: true,
+        pulse: "green",
+        raw: {
+          apiVersion: "app.k8s.io/v1beta1",
+          kind: "Application",
+          metadata: {
+            creationTimestamp: "2020-08-13T19:23:00Z",
+            generation: 2,
+            name: "mortgage-app",
+            namespace: "default",
+            resourceVersion: "2349939",
+            selfLink:
+              "/apis/app.k8s.io/v1beta1/namespaces/default/applications/mortgage-app",
+            uid: "dc9499ab-d23f-4dac-ba9d-9232218a383f"
+          },
+          spec: {
+            componentKinds: [
+              {
+                group: "apps.open-cluster-management.io",
+                kind: "Subscription"
+              }
+            ],
+            descriptor: {},
+            selector: {
+              matchExpressions: [
+                {
+                  key: "app",
+                  operator: "In",
+                  values: ["mortgage-app-mortgage"]
+                }
+              ]
+            }
+          }
+        },
+        row: 0
+      },
+      topology: null,
+      type: "application",
+      uid: "application--mortgage-app",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id: "member--subscription--default--mortgage-app-subscription",
+      labels: null,
+      name: "mortgage-app-subscription",
+      namespace: "default",
+      specs: {
+        hasRules: true,
+        isDesign: true,
+        isPlaced: true,
+        pulse: "yellow",
+        raw: {
+          apiVersion: "apps.open-cluster-management.io/v1",
+          channels: [],
+          kind: "Subscription",
+          metadata: {
+            creationTimestamp: "2020-08-13T19:23:01Z",
+            generation: 2,
+            name: "mortgage-app-subscription"
+          },
+          spec: { channel: "mortgage-ch/mortgage-channel" },
+          status: {
+            lastUpdateTime: "2020-08-15T09:11:11Z",
+            phase: "Propagated"
+          }
+        },
+        row: 18
+      },
+      topology: null,
+      type: "subscription",
+      uid: "member--subscription--default--mortgage-app-subscription",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id: "member--rules--default--mortgage-app-placement--0",
+      labels: null,
+      name: "mortgage-app-placement",
+      namespace: "default",
+      specs: {
+        isDesign: true,
+        pulse: "green",
+        raw: {
+          apiVersion: "apps.open-cluster-management.io/v1",
+          kind: "PlacementRule"
+        },
+        row: 34
+      },
+      topology: null,
+      type: "rules",
+      uid: "member--rules--default--mortgage-app-placement--0",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id: "member--clusters--fxiang",
+      labels: null,
+      name: "fxiang",
+      namespace: "",
+      specs: {
+        cluster: {
+          allocatable: { cpu: "33", memory: "137847Mi" },
+          capacity: { cpu: "36", memory: "144591Mi" },
+          consoleURL:
+            "https://console-openshift-console.apps.fxiang.dev06.red-chesterfield.com",
+          metadata: {
+            creationTimestamp: "2020-08-13T18:17:34Z",
+            finalizers: Array(5),
+            generation: 1,
+            name: "fxiang"
+          },
+          rawCluster: {
+            apiVersion: "cluster.open-cluster-management.io/v1",
+            kind: "ManagedCluster"
+          },
+          rawStatus: {
+            apiVersion: "internal.open-cluster-management.io/v1beta1",
+            kind: "ManagedClusterInfo"
+          },
+          status: "ok"
+        },
+        clusterNames: ["fxiang"],
+        clusters: [
+          {
+            allocatable: { cpu: "33", memory: "137847Mi" },
+            capacity: { cpu: "36", memory: "144591Mi" },
+            consoleURL:
+              "https://console-openshift-console.apps.fxiang.dev06.red-chesterfield.com",
+            metadata: {
+              creationTimestamp: "2020-08-13T18:17:34Z",
+              finalizers: Array(5),
+              generation: 1,
+              name: "fxiang"
+            },
+            rawCluster: {
+              apiVersion: "cluster.open-cluster-management.io/v1",
+              kind: "ManagedCluster"
+            },
+            rawStatus: {
+              apiVersion: "internal.open-cluster-management.io/v1beta1",
+              kind: "ManagedClusterInfo"
+            },
+            status: "ok"
+          }
+        ],
+        pulse: "orange"
+      },
+      topology: null,
+      type: "cluster",
+      uid: "member--clusters--fxiang",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id:
+        "member--member--deployable--member--clusters--fxiang--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
+      labels: null,
+      name: "mortgage-app-svc",
+      namespace: "default",
+      specs: {
+        deployStatuses: [],
+        isDesign: false,
+        parent: {
+          parentId: "member--clusters--fxiang",
+          parentName: "fxiang",
+          parentType: "cluster"
+        },
+        pulse: "orange",
+        raw: { apiVersion: "v1", kind: "Service" },
+        row: 48
+      },
+      topology: null,
+      type: "service",
+      uid:
+        "member--member--deployable--member--clusters--fxiang--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id:
+        "member--member--deployable--member--clusters--fxiang--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+      labels: null,
+      name: "mortgage-app-deploy",
+      namespace: "default",
+      specs: {
+        deployStatuses: [],
+        isDesign: false,
+        parent: {
+          parentId: "member--clusters--fxiang",
+          parentName: "fxiang",
+          parentType: "cluster"
+        },
+        pulse: "orange",
+        raw: { apiVersion: "apps/v1", kind: "Deployment" },
+        row: 63
+      },
+      topology: null,
+      type: "deployment",
+      uid:
+        "member--member--deployable--member--clusters--fxiang--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id:
+        "member--member--deployable--member--clusters--fxiang--replicaset--mortgage-app-deploy",
+      labels: null,
+      name: "mortgage-app-deploy",
+      namespace: "default",
+      specs: {
+        isDesign: false,
+        parent: {
+          parentId:
+            "member--member--deployable--member--clusters--fxia…eploy-deployment--deployment--mortgage-app-deploy",
+          parentName: "mortgage-app-deploy",
+          parentType: "deployment"
+        },
+        pulse: "orange",
+        raw: { kind: "replicaset" },
+        row: 93
+      },
+      topology: null,
+      type: "replicaset",
+      uid:
+        "member--member--deployable--member--clusters--fxiang--replicaset--mortgage-app-deploy",
+      __typename: "Resource"
+    }
+  ],
+  otherTypeFilters: [],
+  reloading: false,
+  status: "DONE",
+  willLoadDetails: false
+};
+
 export const channelObjectForEdit = {
   data: {
     items: [
@@ -928,11 +1744,14 @@ export const reduxStoreAppPipelineWithCEM = {
   },
   secondaryHeader: secondaryHeader,
   QueryApplicationList: QueryApplicationList,
+  QueryApplicationList_singleApp: QueryApplicationList_singleApp,
+  HCMApplicationList: HCMApplicationList,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
   GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
+  topology: topology,
   role: {
     role: "ClusterAdministrator"
   }
@@ -942,6 +1761,7 @@ export const reduxStoreAppPipelineWithCEM_Inception = {
   AppDeployments: {
     displaySubscriptionModal: false
   },
+  topology: topology,
   resourceFilters: {
     filters: {},
     selectedFilters: {}

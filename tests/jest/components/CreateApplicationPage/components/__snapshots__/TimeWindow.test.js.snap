@@ -22,8 +22,8 @@ exports[`TimeWindow component renders as expected 1`] = `
           <input
             checked={true}
             className="bx--radio-button"
-            id="default-mode"
-            name="timeWindow-mode-container"
+            id="default-mode-undefined"
+            name="timeWindow-mode-container-undefined"
             onChange={[Function]}
             onClick={[Function]}
             type="radio"
@@ -31,7 +31,7 @@ exports[`TimeWindow component renders as expected 1`] = `
           />
           <label
             className="bx--radio-button__label"
-            htmlFor="default-mode"
+            htmlFor="default-mode-undefined"
           >
             <span
               className="bx--radio-button__appearance"
@@ -45,8 +45,8 @@ exports[`TimeWindow component renders as expected 1`] = `
           <input
             checked={false}
             className="bx--radio-button"
-            id="active-mode"
-            name="timeWindow-mode-container"
+            id="active-mode-undefined"
+            name="timeWindow-mode-container-undefined"
             onChange={[Function]}
             onClick={[Function]}
             type="radio"
@@ -54,7 +54,7 @@ exports[`TimeWindow component renders as expected 1`] = `
           />
           <label
             className="bx--radio-button__label"
-            htmlFor="active-mode"
+            htmlFor="active-mode-undefined"
           >
             <span
               className="bx--radio-button__appearance"
@@ -68,8 +68,8 @@ exports[`TimeWindow component renders as expected 1`] = `
           <input
             checked={false}
             className="bx--radio-button"
-            id="blocked-mode"
-            name="timeWindow-mode-container"
+            id="blocked-mode-undefined"
+            name="timeWindow-mode-container-undefined"
             onChange={[Function]}
             onClick={[Function]}
             type="radio"
@@ -77,7 +77,7 @@ exports[`TimeWindow component renders as expected 1`] = `
           />
           <label
             className="bx--radio-button__label"
-            htmlFor="blocked-mode"
+            htmlFor="blocked-mode-undefined"
           >
             <span
               className="bx--radio-button__appearance"
@@ -145,7 +145,7 @@ exports[`TimeWindow component renders as expected 1`] = `
               <div
                 className="config-descr"
               >
-                Please select at least one day below to create a time window.
+                Select at least one day to create a time window.
               </div>
               <div
                 className="config-days-selector"
@@ -159,7 +159,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     <input
                       className="bx--checkbox"
                       disabled={true}
-                      id="mon"
+                      id="mon-undefined"
                       name="days-selector"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -168,7 +168,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     />
                     <label
                       className="bx--checkbox-label"
-                      htmlFor="mon"
+                      htmlFor="mon-undefined"
                       title={null}
                     >
                       <span
@@ -184,7 +184,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     <input
                       className="bx--checkbox"
                       disabled={true}
-                      id="tues"
+                      id="tue-undefined"
                       name="days-selector"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -193,7 +193,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     />
                     <label
                       className="bx--checkbox-label"
-                      htmlFor="tues"
+                      htmlFor="tue-undefined"
                       title={null}
                     >
                       <span
@@ -209,7 +209,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     <input
                       className="bx--checkbox"
                       disabled={true}
-                      id="wed"
+                      id="wed-undefined"
                       name="days-selector"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -218,7 +218,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     />
                     <label
                       className="bx--checkbox-label"
-                      htmlFor="wed"
+                      htmlFor="wed-undefined"
                       title={null}
                     >
                       <span
@@ -234,7 +234,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     <input
                       className="bx--checkbox"
                       disabled={true}
-                      id="thurs"
+                      id="thu-undefined"
                       name="days-selector"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -243,7 +243,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     />
                     <label
                       className="bx--checkbox-label"
-                      htmlFor="thurs"
+                      htmlFor="thu-undefined"
                       title={null}
                     >
                       <span
@@ -259,7 +259,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     <input
                       className="bx--checkbox"
                       disabled={true}
-                      id="fri"
+                      id="fri-undefined"
                       name="days-selector"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -268,7 +268,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     />
                     <label
                       className="bx--checkbox-label"
-                      htmlFor="fri"
+                      htmlFor="fri-undefined"
                       title={null}
                     >
                       <span
@@ -288,7 +288,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     <input
                       className="bx--checkbox"
                       disabled={true}
-                      id="sat"
+                      id="sat-undefined"
                       name="days-selector"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -297,7 +297,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     />
                     <label
                       className="bx--checkbox-label"
-                      htmlFor="sat"
+                      htmlFor="sat-undefined"
                       title={null}
                     >
                       <span
@@ -313,7 +313,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     <input
                       className="bx--checkbox"
                       disabled={true}
-                      id="sun"
+                      id="sun-undefined"
                       name="days-selector"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -322,7 +322,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     />
                     <label
                       className="bx--checkbox-label"
-                      htmlFor="sun"
+                      htmlFor="sun-undefined"
                       title={null}
                     >
                       <span
@@ -341,7 +341,7 @@ exports[`TimeWindow component renders as expected 1`] = `
               <div
                 className="config-title"
               >
-                Timezone
+                Time zone
                  
                 *
               </div>

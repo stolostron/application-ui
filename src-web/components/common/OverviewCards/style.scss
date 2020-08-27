@@ -5,6 +5,217 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'scss/variables';
+
+.overview-cards-container {
+  // Details accordion
+  .overview-cards-details-section {
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  // Accordion header
+  .bx--accordion__heading {
+    height: 57px;
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  // Accordion title
+  .bx--accordion__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #151515;
+  }
+
+  // Accordion arrow
+  .bx--accordion__arrow {
+    fill: #151515 !important;
+    position: absolute;
+    right: 7%;
+  }
+
+  // App Overview details
+  .bx--accordion__item--active > .bx--accordion__content {
+    height: 170px;
+  }
+
+  // Divide left and right sides
+  .bx--accordion__content {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 0;
+  }
+
+  .details-col {
+    display: grid;
+    grid-template-rows: 40px 40px 40px;
+    padding: calc(10px + 1rem);
+  }
+
+  #left-col {
+    grid-column-start: 1;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  #right-col {
+    grid-column-start: 2;
+  }
+
+  // The 3 rows of data for each side
+  .details-item {
+    padding: 10px 0;
+    font-size: 14px;
+  }
+
+  .details-item-title {
+    float: left;
+    font-weight: 600;
+
+    &.left-item {
+      width: 20%;
+    }
+
+    &.right-item {
+      width: 32%;
+    }
+  }
+
+  .loading-skeleton-text {
+    display: inline-block;
+  }
+
+  // Cluster resource status icons
+  .status-icon-container {
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+    border-radius: 12px;
+    padding: 6px 2px 6px 6px;
+    margin-right: 8px;
+  }
+
+  .green-status {
+    background-color: #f3faf2;
+  }
+
+  .yellow-status {
+    background-color: #fdf7e7;
+  }
+
+  .red-status {
+    background-color: #faeae8;
+  }
+
+  .orange-status {
+    background-color: #f0f0f0;
+  }
+
+  .status-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .status-count {
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 4px;
+    vertical-align: top;
+  }
+
+  // Search resource link
+  .details-item-link {
+    color: #0066cc;
+    text-decoration: none;
+  }
+
+  .details-item-link-icon {
+    margin: 0 10px;
+    height: 10px;
+  }
+
+  // Toggle subscriptions btn
+  .toggle-subs-btn {
+    width: 208px;
+    height: 32px;
+    display: block !important;
+    padding: 6px 0;
+    margin: 20px auto 10px;
+    font-size: 13px;
+    color: #0066cc;
+    background-color: $acm_background_color;
+    border: 1px solid #0066cc;
+    border-radius: 3px;
+  }
+
+  // Subscription cards
+  .sub-card-container {
+    width: 100%;
+    height: 99px;
+    display: grid;
+    margin-top: 16px;
+    font-size: 14px;
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    grid-template-columns: 33% 34% 33%;
+  }
+
+  .sub-card-column {
+    padding: calc(10px + 1rem);
+  }
+
+  .subs-icon {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+  }
+
+  .sub-card-content {
+    margin-left: 30px;
+  }
+
+  .sub-card-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .sub-card-status-icon {
+    display: inline-block;
+    padding: 6px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+
+  #resource-type-icon {
+    background-color: #f0f0f0;
+  }
+
+  .resource-type-link {
+    color: black;
+    text-decoration: none;
+  }
+
+  .resource-type-icon {
+    width: 11px;
+    height: 11px;
+    margin: 0 2px 0 8px;
+  }
+
+  #active-type-icon {
+    background-color: #f3faf2;
+  }
+
+  #blocked-type-icon {
+    background-color: #fdf7e7;
+  }
+
+  .set-time-window-link {
+    color: #0066cc;
+    text-decoration: none;
+  }
+}
 
 .resource-cards-info,
 .overview-cards-info {

@@ -49,7 +49,7 @@ class CreateApplicationButton extends Component {
           small
           icon={'add--glyph'}
           iconDescription="Add icon"
-          kind="secondary"
+          kind="primary"
         >
           {msgs.get('actions.create.application', locale)}
         </Button>

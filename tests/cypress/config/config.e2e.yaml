@@ -1,9 +1,28 @@
 wizards:
-  git:
-    disabled: false
+  Git:
+    enable: false
     name: ""
     url: ""
     username: ""
     token: ""
     branch: ""
     path: ""
+  ObjectBucket:
+    enable: false
+    name: ""
+    url: ""
+    accessKey: ""
+    secretKey: ""
+  local-cluster:
+    enable: false
+    name: ""
+    repository: ""
+timeWindows:
+  active:
+    setting: false
+  activeinterval:
+    setting: false
+    date: ""
+  blockinterval:
+    setting: false
+    date: ""

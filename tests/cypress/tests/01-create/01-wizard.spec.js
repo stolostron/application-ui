@@ -2,34 +2,42 @@
  * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
 
-import { modal } from "../../views/common";
-
-const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
+const { wizards, timeWindows } = JSON.parse(Cypress.env("TEST_CONFIG"));
+import {
+  createApplication,
+  passTimeWindowType,
+  getTimeWindowType
+} from "../../views/application";
+import _ from "lodash";
 
 describe("Application", () => {
-  for (const resource in wizards) {
-    const { name, url, username, token, branch, path } = wizards[resource];
-    it(`can be created on resource ${resource} from the wizard`, () => {
-      cy.visit("/multicloud/applications");
-      modal.clickSecondary();
-      cy.get(".bx--detail-page-header-title-container").should("exist");
-      cy.get("#name").type(name);
-      cy.get(`#${resource}`).click();
-      cy.get("#githubURL", { timeout: 20 * 1000 }).type(url);
-      if (username && token) {
-        cy.get("#githubUser").type(username);
-        cy.get("#githubAccessID").type(token);
-      }
+  for (const type in wizards) {
+    const application = wizards[type];
+    let { name, url, enable } = application;
+    if (enable) {
+      it(`can be created on resource ${type} from the wizard`, () => {
+        cy.visit("/multicloud/applications").then(() => {
+          cy.reload();
+        });
+        const timeWindowType = getTimeWindowType(name);
+        const timeWindowData = passTimeWindowType(timeWindowType)
+          .timeWindowData;
 
-      cy.get("#githubBranch").type(branch);
-      cy.get("#githubPath").type(path);
-      // Disable deploy for now when we figure out how to validate the through api
-      // cy.get("#online-cluster-only-checkbox").click({ force: true });
-      cy.get("#create-button-portal-id").click();
-      cy
-        .location("pathname", { timeout: 60 * 1000 })
-        .should("include", `${name}-ns/${name}`);
-      // cy.visit(`/multicloud/applications/`);
-    });
+        timeWindowData && timeWindowType
+          ? createApplication(
+              type,
+              application,
+              name,
+              url,
+              timeWindowData,
+              timeWindowType
+            )
+          : createApplication(type, application, name, url);
+      });
+    } else {
+      it(`disable creation on resource ${type}`, () => {
+        cy.log(`skipping ${type} - ${name}`);
+      });
+    }
   }
 });

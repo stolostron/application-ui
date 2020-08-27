@@ -44,14 +44,6 @@
           </g>
       </g>
     </svg>
-    <symbol viewBox="0 0 31 34" id="zoomIn_old">
-        <path d="M1.43739537,33 L30.4373954,33 L30.4373954,15.4609375 C30.4373954,7.45280863 23.9455242,0.9609375 15.9373954,0.9609375 C7.9292665,0.9609375 1.43739537,7.45280863 1.43739537,15.4609375 L1.43739537,33 Z" id="Rectangle-3" stroke="#D1D7F4" fill="#FFFFFF"></path>
-        <g id="add" transform="translate(8.937395, 10.411133)" fill="#3C6DF0" fill-rule="nonzero">
-            <g id="Icon" transform="translate(0.750000, 0.750000)">
-                <polygon id="Shape" points="6.875 5.625 6.875 0 5.625 0 5.625 5.625 0 5.625 0 6.875 5.625 6.875 5.625 12.5 6.875 12.5 6.875 6.875 12.5 6.875 12.5 5.625"></polygon>
-            </g>
-        </g>
-    </symbol>
     <svg width="18px" height="18px" viewBox="0 0 18 18" id="zoomOut">
         <g id="Topology" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
             <g id="App-Topology--Resource-Detail-01.00" transform="translate(-151.000000, -852.000000)" fill="#000000">
@@ -61,14 +53,6 @@
             </g>
         </g>
     </svg>    
-    <symbol viewBox="0 0 31 34" id="zoomOut_old">
-        <path d="M1.08485631,33.4192708 L30.0848563,33.4192708 L30.0848563,15.8802083 C30.0848563,7.87207946 23.5929852,1.38020833 15.5848563,1.38020833 C7.57672743,1.38020833 1.08485631,7.87207946 1.08485631,15.8802083 L1.08485631,33.4192708 Z" id="Rectangle-3" stroke="#D1D7F4" fill="#FFFFFF" transform="translate(15.584856, 17.399740) scale(1, -1) translate(-15.584856, -17.399740) "></path>
-        <g id="subtract" transform="translate(8.584856, 15.380208)" fill="#3C6DF0" fill-rule="nonzero">
-            <g id="Icon" transform="translate(0.750000, 0.375000)">
-                <rect id="Rectangle-path" x="0" y="0" width="12.5" height="1.25"></rect>
-            </g>
-        </g>
-    </symbol>
     <svg width="14px" height="14px" viewBox="0 0 14 14" id="zoomTarget">
         <title>A54FB67F-6769-4DEF-9638-9EF1860867EA</title>
         <g id="Topology" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -79,25 +63,6 @@
             </g>
         </g>
     </svg>    
-    <symbol viewBox="0 0 32 32" id="zoomTarget_old">
-        <circle id="Oval-3-Copy" stroke="#D1D7F4" fill="#FFFFFF" cx="15.3129883" cy="15.6591797" r="15"></circle>
-        <g id="Group-6-Copy" transform="translate(5.216553, 4.659180)">
-            <g id="radio--button--checked" transform="translate(1.240356, 2.000000)" fill="#3C6DF0" fill-rule="nonzero">
-                <g id="Icon" transform="translate(0.250000, 0.250000)">
-                    <circle id="Oval" cx="8.75" cy="8.75" r="3.75"></circle>
-                    <path d="M8.75,-3.33066907e-16 C3.91750844,-1.16573418e-15 -3.33066907e-16,3.91750844 -8.8817842e-16,8.75 C-1.44328993e-15,13.5824916 3.91750844,17.5 8.75,17.5 C13.5824916,17.5 17.5,13.5824916 17.5,8.75 C17.5,6.42935571 16.5781276,4.20375898 14.9371843,2.56281566 C13.296241,0.921872353 11.0706443,-6.10622664e-16 8.75,-3.33066907e-16 Z M8.75,16.25 C4.60786438,16.25 1.25,12.8921356 1.25,8.75 C1.25,4.60786438 4.60786438,1.25 8.75,1.25 C12.8921356,1.25 16.25,4.60786438 16.25,8.75 C16.25,10.7391237 15.4598237,12.646778 14.0533009,14.0533009 C12.646778,15.4598237 10.7391237,16.25 8.75,16.25 Z" id="Shape"></path>
-                </g>
-            </g>
-            <g id="Group-4" transform="translate(0.000000, 10.000000)" stroke="#3C6DF0" stroke-linecap="square" stroke-width="1.25">
-                <path d="M16.2403564,1 L20.2403564,1" id="Line-4"></path>
-                <path d="M0.177490234,1 L4.17749023,1" id="Line-4-Copy-2"></path>
-            </g>
-            <g id="Group-5" transform="translate(9.000000, 0.000000)" stroke="#3C6DF0" stroke-linecap="square" stroke-width="1.25">
-                <path d="M1.24035645,17.1583252 L1.24035645,21.1583252" id="Line-4"></path>
-                <path d="M1.24035645,0.871337891 L1.24035645,4.87133789" id="Line-4-Copy"></path>
-            </g>
-        </g>
-    </symbol>
     <symbol viewBox="-4 -4 16 16" id="close">
       <path d="M9.8 8.6L8.4 10 5 6.4 1.4 10 0 8.6 3.6 5 .1 1.4 1.5 0 5 3.6 8.6 0 10 1.4 6.4 5z"/>
     </symbol>
@@ -152,10 +117,6 @@
         </g>
       </g>
     </symbol>
-    <symbol viewBox="0 0 16 16" id="warning_old">
-      <circle cx="8" cy="8" r="8" fill="white" fill-opacity="1"/>
-      <path d="M8 1L0 15h16L8 1zm-.8 5h1.5v1.4L8.3 11h-.8l-.4-3.6V6h.1zm.8 8c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z"/>
-    </symbol>
     <symbol viewBox="8 8 24 24" id="warning">
       <g transform="scale(1.68)">
         <g id="Topology" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -170,12 +131,6 @@
         </g>
       </g>
     </symbol>
-    <symbol viewBox="0 0 16 16" id="failure_old">
-    <g>
-      <circle cx="8" cy="8" r="8" fill="white" fill-opacity="1"/>
-      <path d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM5.1 13.3L3.5 12 11 2.6l1.5 1.2-7.4 9.5z"/>
-      </g>
-    </symbol>
     <symbol viewBox="8 8 24 24" id="failure">
       <g transform="scale(1.68)">
         <circle id="Oval" fill="#FFFFFF" cx="12" cy="12" r="6"></circle>
@@ -184,9 +139,6 @@
     </symbol>
     <symbol viewBox="0 0 16 16" id="running">
        <path d="M197.248626,287.247075 C195.905243,286.402995 194.405989,286 192.924438,286 C190.249988,286.00019 187.632884,287.31278 186.093411,289.712847 C185.552094,290.556927 185.192049,291.463285 185,292.387544 L186.51869,292.64713 C186.675909,291.914844 186.96456,291.197605 187.393111,290.529502 C188.600443,288.647463 190.668148,287.5238 192.924438,287.52361 C194.162367,287.52361 195.372201,287.872898 196.423468,288.533383 C199.469316,290.447037 200.373949,294.456416 198.440371,297.470688 C197.233039,299.352728 195.165334,300.47639 192.909044,300.47639 C191.671115,300.47639 190.461281,300.127293 189.410013,299.466808 C188.921038,299.15961 188.490948,298.796039 188.115509,298.393615 L186.952052,299.392722 C187.423708,299.903322 187.966372,300.364405 188.584856,300.753116 C189.928239,301.597196 191.427493,302 192.909044,302 C195.583493,302 198.200598,300.68722 199.740071,298.287343 C202.132412,294.557736 201.017064,289.614955 197.248626,287.247075" id="ProgressIndeterminate"></path>
-    </symbol>
-    <symbol viewBox="0 0 16 16" id="pending_old">
-       <ellipse id="Oval" cx="8" cy="8" rx="8" ry="8"></ellipse>
     </symbol>
     <symbol viewBox="8 8 24 24" id="pending">
       <g transform="scale(1.68)">

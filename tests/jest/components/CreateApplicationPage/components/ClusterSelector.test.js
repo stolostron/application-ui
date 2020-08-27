@@ -68,7 +68,7 @@ describe("on control change function", () => {
     };
 
     wrapper
-      .find("#clusterSelector-checkbox")
+      .find("#clusterSelector-checkbox-undefined")
       .at(0)
       .simulate("change", evt);
     wrapper

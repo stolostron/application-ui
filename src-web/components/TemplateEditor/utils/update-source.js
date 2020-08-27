@@ -15,7 +15,12 @@ import YamlParser from '../components/YamlParser'
 import _ from 'lodash'
 import { Base64 } from 'js-base64'
 
-export const generateYAML = (template, controlData, otherYAMLTabs) => {
+export const generateYAML = (
+  template,
+  controlData,
+  otherYAMLTabs,
+  isFinalGenerate
+) => {
   // convert controlData active into templateData
   // do replacements second in case it depends on previous templateData
   let templateData = {}
@@ -34,6 +39,7 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
       hasValueDescription,
       hasReplacements,
       encode,
+      trueOnCreate,
       template: _template
     } = control
     let { availableMap } = control
@@ -61,6 +67,8 @@ export const generateYAML = (template, controlData, otherYAMLTabs) => {
         ret = map
       } else if (hasValueDescription) {
         ret = availableMap[active] || active
+      } else if (trueOnCreate && isFinalGenerate) {
+        ret = true
       } else if (type === 'group') {
         ret = active.map(group => {
           const map = {}
@@ -361,7 +369,7 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
             case 'N':
               // convert new array item to new range
               kind = 'N'
-              obj = obj.$v[index]
+              obj = obj.$v[index].$r ? obj.$v[index] : obj
               break
             case 'D':
               // if array delete, ignore any other edits within array

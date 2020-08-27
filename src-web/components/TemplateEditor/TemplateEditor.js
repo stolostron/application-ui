@@ -170,6 +170,7 @@ export default class TemplateEditor extends React.Component {
       isFinalValidate: false,
       hasUndo: false,
       hasRedo: false,
+      isDirty: false,
       resetInx: 0,
       canDisable: true
     }
@@ -187,6 +188,13 @@ export default class TemplateEditor extends React.Component {
     this.handleGroupChange = this.handleGroupChange.bind(this)
     const { type = 'unknown' } = this.props
     this.splitterSizeCookie = `TEMPLATE-EDITOR-SPLITTER-SIZE-${type.toUpperCase()}`
+    window.addEventListener(
+      'beforeunload',
+      (event => {
+        event.preventDefault()
+        event.returnValue = !this.state.isDirty ? 'saveOk' : ''
+      }).bind(this)
+    )
   }
 
   componentDidMount() {
@@ -391,7 +399,8 @@ export default class TemplateEditor extends React.Component {
       templateYAML: newYAML,
       templateObject,
       exceptions: [],
-      notifications
+      notifications,
+      isDirty: true
     })
     this.handleScrollAndCollapse(control, controlData, creationView)
   }
@@ -450,7 +459,12 @@ export default class TemplateEditor extends React.Component {
       otherYAMLTabs,
       this.selectedTab
     )
-    this.setState({ controlData, templateYAML: newYAML, templateObject })
+    this.setState({
+      controlData,
+      templateYAML: newYAML,
+      templateObject,
+      isDirty: true
+    })
   }
 
   handleNewEditorMode(control, controlData, creationView) {
@@ -918,8 +932,14 @@ export default class TemplateEditor extends React.Component {
 
   getResourceJSON() {
     const { locale } = this.context
-    const { controlData, templateYAML, otherYAMLTabs } = this.state
+    const { template, controlData, otherYAMLTabs } = this.state
     let canCreate = false
+    const { templateYAML } = generateYAML(
+      template,
+      controlData,
+      otherYAMLTabs,
+      true
+    )
     const {
       templateObjectMap,
       templateExceptionMap,
@@ -1038,7 +1058,7 @@ export default class TemplateEditor extends React.Component {
     const { createBtn } = portals
     const { canDisable } = this.state
     let disableButton = true
-    if (this.state.hasUndo && !canDisable) {
+    if (this.state.isDirty && !canDisable) {
       disableButton = false
     }
     const titleText = canDisable
@@ -1057,20 +1077,18 @@ export default class TemplateEditor extends React.Component {
         </Button>
       )
       if (portal) {
-        return ReactDOM.createPortal(
-          disableButton ? (
+        return canDisable
+          ? ReactDOM.createPortal(
             <TooltipDefinition
               direction="bottom"
               tooltipText={titleText}
               align="center"
-            >
+              >
               {button}
-            </TooltipDefinition>
-          ) : (
-            button
-          ),
-          portal
-        )
+            </TooltipDefinition>,
+            portal
+          )
+          : ReactDOM.createPortal(button, portal)
       }
     }
     return null
@@ -1128,6 +1146,7 @@ export default class TemplateEditor extends React.Component {
       updateMessage: '',
       hasUndo: false,
       hasRedo: false,
+      isDirty: false,
       isFinalValidate: false,
       templateYAML,
       templateObject,

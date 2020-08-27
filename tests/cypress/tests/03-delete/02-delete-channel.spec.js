@@ -3,13 +3,20 @@
  *******************************************************************************/
 
 const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
-import { deleteAPIResources } from "../../views/application";
+import { apiResources } from "../../views/application";
 
 describe("Cleanup resouces", () => {
   for (const type in wizards) {
-    const { name } = wizards[type];
-    it(`delete application ${name}'s channel, subscription and placementrule`, () => {
-      deleteAPIResources(name);
-    });
+    const { name, enable } = wizards[type];
+    const application = wizards[type];
+    if (enable) {
+      it(`delete application ${name}'s channel, subscription and placementrule`, () => {
+        apiResources.action(name, "delete", application);
+      });
+    } else {
+      it(`disable deletion on resource ${type}`, () => {
+        cy.log(`skipping ${type} - ${name}`);
+      });
+    }
   }
 });

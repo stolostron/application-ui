@@ -1,6 +1,6 @@
 wizards:
   Git:
-    disabled: false
+    enable: false
     name: ""
     url: ""
     username: ""
@@ -8,11 +8,15 @@ wizards:
     branch: ""
     path: ""
   ObjectBucket:
-    disabled: false
+    enable: false
     name: ""
     url: ""
     accessKey: ""
     secretKey: ""
+  local-cluster:
+    enable: false
+    name: ""
+    repository: ""
 timeWindows:
   active:
     setting: false

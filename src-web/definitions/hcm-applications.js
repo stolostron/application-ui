@@ -9,8 +9,11 @@
 import R from 'ramda'
 import React from 'react'
 import { TooltipIcon } from 'carbon-components-react'
-import { getCreationDate } from '../../lib/client/resource-helper'
-import { getNumClustersForApp } from '../components/common/ResourceOverview/utils'
+import {
+  getCreationDate,
+  getClusterCountString
+} from '../../lib/client/resource-helper'
+import { getSearchLink } from '../components/common/ResourceOverview/utils'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import { validator } from './validators/hcm-application-validator'
@@ -36,7 +39,7 @@ export default {
     {
       msgKey: 'table.header.clusters',
       resourceKey: 'clusters',
-      transformFunction: getNumClustersForApp
+      transformFunction: createClustersLink
     },
     {
       msgKey: 'table.header.resource',
@@ -122,6 +125,33 @@ export function createApplicationLink(item = {}, ...param) {
   return <Link to={link}>{name}</Link>
 }
 
+export function createClustersLink(item = {}, locale) {
+  const clusterCount = R.path(['clusterCount'], item) || 0
+  const localPlacement = (R.path(['hubSubscriptions'], item) || []).some(
+    sub => sub.localPlacement
+  )
+  const clusterCountString = getClusterCountString(
+    locale,
+    clusterCount,
+    localPlacement
+  )
+
+  if (clusterCount) {
+    const searchLink = getSearchLink({
+      properties: {
+        name: item.name,
+        namespace: item.namespace,
+        kind: 'application',
+        apigroup: 'app.k8s.io'
+      },
+      showRelated: 'cluster'
+    })
+    return <Link to={searchLink}>{clusterCountString}</Link>
+  } else {
+    return clusterCountString
+  }
+}
+
 export function getChannels(item = {}, locale) {
   const groupByChannelType = R.groupBy(ch => {
     const channelType = (R.path(['ch.type'], ch) || '').toLowerCase()
@@ -143,6 +173,7 @@ export function getChannels(item = {}, locale) {
               }}
               color="grey"
               href="#"
+              className="table-label"
             >
               {msgs.get(`channel.type.${chType}`, locale)}
             </Label>
@@ -153,10 +184,10 @@ export function getChannels(item = {}, locale) {
   )
 }
 
-export function getTimeWindow(item = {}) {
-  return (R.path(['hubSubscriptions'], item) || [])
-    .map(sub => R.path(['timeWindow'], sub))
-    .join(', ')
+export function getTimeWindow(item = {}, locale) {
+  return (R.path(['hubSubscriptions'], item) || []).some(sub => sub.timeWindow)
+    ? msgs.get('table.cell.yes', locale)
+    : ''
 }
 
 export function getCreated(item = {}) {

@@ -18,13 +18,13 @@ import ScrollToTop from './components/common/ScrollToTop'
 import * as reducers from './reducers'
 import config from '../lib/shared/config'
 import apolloClient from '../lib/client/apollo-client'
-import createBrowserHistory from 'history/createBrowserHistory'
+import history from 'history'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 window.SHARED_HISTORY = window.SHARED_HISTORY
   ? window.SHARED_HISTORY
-  : createBrowserHistory()
+  : history.createBrowserHistory()
 
 const loggerMiddleware = createLogger()
 // Grab the state from a global variable injected into the server-generated HTML

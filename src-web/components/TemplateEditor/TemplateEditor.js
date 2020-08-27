@@ -200,7 +200,7 @@ export default class TemplateEditor extends React.Component {
   componentDidMount() {
     canCreateActionAllNamespaces('applications', 'create', 'app.k8s.io').then(
       response => {
-        const disabled = _.get(response, 'data.userAccessAllNamespaces')
+        const disabled = _.get(response, 'data.userAccessAnyNamespaces')
         this.setState({ canDisable: !disabled })
       }
     )

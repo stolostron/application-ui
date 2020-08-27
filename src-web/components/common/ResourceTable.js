@@ -80,8 +80,6 @@ class ResourceTable extends React.Component {
       onSelect,
       onSelectAll,
       onSelectSubItem,
-      tableTitle,
-      tableName,
       locale
     } = this.props
     return [
@@ -96,13 +94,6 @@ class ResourceTable extends React.Component {
             id={`${staticResourceData.resourceKey &&
               staticResourceData.resourceKey}-table-container`}
           >
-            {tableTitle && (
-              <div className="table-title">
-                {tableTitle}{' '}
-                {tableName === 'All applications' &&
-                  Array.isArray(rows) && <span>({totalFilteredItems})</span>}
-              </div>
-            )}
             <TableToolbar
               aria-label={`${staticResourceData.resourceKey &&
                 staticResourceData.resourceKey}-search`}

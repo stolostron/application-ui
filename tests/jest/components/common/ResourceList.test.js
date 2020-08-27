@@ -236,8 +236,6 @@ const props = {
   },
   buttons: [{}],
   modules: [{}],
-  tableTitle: "All applications",
-  tableName: "All applications",
   tabs: undefined,
   title: "routes.applications",
   children: [{}]

@@ -6,7 +6,6 @@
 const fs = require("fs");
 const path = require("path");
 const jsYaml = require("js-yaml");
-const cons = require("consolidate");
 
 exports.getConfig = () => {
   let config;

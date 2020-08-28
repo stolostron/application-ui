@@ -12,7 +12,7 @@ describe("Cleanup resouces", () => {
       it(`delete application ${
         data.name
       }'s channel, subscription and placementrule`, () => {
-        apiResources.action(data.name, "delete", data);
+        apiResources.action(type, "delete", data);
       });
     } else {
       it(`disable deletion on resource ${type}`, () => {

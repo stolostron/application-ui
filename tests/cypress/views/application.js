@@ -59,9 +59,7 @@ export const createApplication = (data, type) => {
     .should("not.be.disabled")
     .click();
   notification.shouldExist("success", { timeout: 60 * 1000 });
-  cy
-    .location("pathname", { timeout: 60 * 1000 })
-    .should("include", `${name}-ns/${name}`);
+  cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
   return name;
 };
 
@@ -94,7 +92,7 @@ export const validateTimewindow = (name, timeWindow) => {
       `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
         "OC_CLUSTER_USER"
       )} -p ${Cypress.env("OC_CLUSTER_PASS")} --insecure-skip-tls-verify=true`,
-      { timeout: 50 * 1000 }
+      { timeout: 100 * 1000 }
     )
     .its("stdout")
     .should("contain", "Login successful.")
@@ -154,7 +152,8 @@ export const deleteApplicationUI = name => {
 };
 
 export const apiResources = {
-  action: (name, action, data) => {
+  action: (type, action, data) => {
+    const name = data.name;
     cy
       .exec(
         `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
@@ -164,64 +163,84 @@ export const apiResources = {
       .its("stdout")
       .should("contain", "Login successful.")
       .then(() => {
-        // app channel
-        cy.log(`${action} the channel if it exists`);
-        cy
-          .exec(`oc get channels -n ${name}-app-samples-chn-ns`)
-          .then(({ stdout, stderr }) => {
-            cy.log(stdout || stderr);
-            if ((stdout || stderr).includes("No resource") === false) {
-              cy.log("There exist channel");
-              cy
-                .exec(
-                  `oc ${action} channel ${name}-app-samples-chn -n ${name}-app-samples-chn-ns`
-                )
-                .its("stdout")
-                .should("contain", name);
-            } else {
-              cy.log(
-                `The channel ${name}--app-samples-chn-ns in namespace:${name}-app-samples-chn-ns is empty`
-              );
-            }
-          });
-        // channel
-        cy.log(`${action} the channel if it exists`);
-
-        cy
-          .exec(`oc get channels -n ${name}-resource-ns-0`)
-          .then(({ stdout, stderr }) => {
-            cy.log(stdout || stderr);
-            if ((stdout || stderr).includes("No resource") === false) {
-              cy.log("There exist channel");
-              cy
-                .exec(
-                  `oc ${action} channel ${name}-resource-0 -n ${name}-resource-ns-0`
-                )
-                .its("stdout")
-                .should("contain", name);
-            } else {
-              cy.log(
-                `The channel ${name}-resource-0 in namespace:${name}-resource-ns-0 is empty`
-              );
-            }
-          });
-        const { repository } = data;
-        if (repository) {
+        cy.log(`${action} the ${type} channel if it exists`);
+        if (type == "git") {
           cy
-            .exec(`oc get channels -n ${name}-${repository}-chn-ns-0`)
+            .exec(`oc get channels -n ${name}-app-samples-chn-ns-0`)
             .then(({ stdout, stderr }) => {
               cy.log(stdout || stderr);
               if ((stdout || stderr).includes("No resource") === false) {
-                cy.log("There exists channel");
+                cy.log("There exist channel");
                 cy
                   .exec(
-                    `oc ${action} channel ${name}-${repository}-chn-0 -n ${name}-${repository}-chn-ns-0`
+                    `oc ${action} channel ${name}-app-samples-chn-0 -n ${name}-app-samples-chn-ns-0`
                   )
                   .its("stdout")
                   .should("contain", name);
               } else {
                 cy.log(
-                  `The channel ${name}-${repository}-chn-0 in namespace:${name}-${repository}-chn-ns-0 is empty`
+                  `The channel ${name}--app-samples-chn-0 in namespace:${name}-app-samples-chn-ns-0 is empty`
+                );
+              }
+            });
+        } else if (type == "local-cluster") {
+          cy.log(`${action} the channel if it exists`);
+
+          cy
+            .exec(`oc get channels -n ${name}-resource-ns-0`)
+            .then(({ stdout, stderr }) => {
+              cy.log(stdout || stderr);
+              if ((stdout || stderr).includes("No resource") === false) {
+                cy.log("There exist channel");
+                cy
+                  .exec(
+                    `oc ${action} channel ${name}-resource-0 -n ${name}-resource-ns-0`
+                  )
+                  .its("stdout")
+                  .should("contain", name);
+              } else {
+                cy.log(
+                  `The channel ${name}-resource-0 in namespace:${name}-resource-ns-0 is empty`
+                );
+              }
+            });
+          const { repository } = data;
+          if (repository) {
+            cy
+              .exec(`oc get channels -n ${name}-${repository}-chn-ns-0`)
+              .then(({ stdout, stderr }) => {
+                cy.log(stdout || stderr);
+                if ((stdout || stderr).includes("No resource") === false) {
+                  cy.log("There exists channel");
+                  cy
+                    .exec(
+                      `oc ${action} channel ${name}-${repository}-chn-0 -n ${name}-${repository}-chn-ns-0`
+                    )
+                    .its("stdout")
+                    .should("contain", name);
+                } else {
+                  cy.log(
+                    `The channel ${name}-${repository}-chn-0 in namespace:${name}-${repository}-chn-ns-0 is empty`
+                  );
+                }
+              });
+          }
+        } else if (type == "objectbucket") {
+          cy
+            .exec(`oc get channels -n ${name}-dev1-chn-ns-0`)
+            .then(({ stdout, stderr }) => {
+              cy.log(stdout || stderr);
+              if ((stdout || stderr).includes("No resource") === false) {
+                cy.log("There exist channel");
+                cy
+                  .exec(
+                    `oc ${action} channel ${name}-dev1-chn-0 -n ${name}-dev1-chn-ns-0`
+                  )
+                  .its("stdout")
+                  .should("contain", name);
+              } else {
+                cy.log(
+                  `The channel ${name}-dev1-chn-0 in namespace:${name}-dev1-chn-ns-0 is empty`
                 );
               }
             });

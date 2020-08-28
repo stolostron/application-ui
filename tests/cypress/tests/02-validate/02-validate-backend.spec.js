@@ -12,7 +12,7 @@ describe("Application", () => {
       it(`channels, subscription and placementrule - should be validated - ${type}: ${
         data.name
       }`, () => {
-        apiResources.action(data.name, "get", data);
+        apiResources.action(type, "get", data);
       });
       it(`timewindow - should be validated - ${type}: ${data.name}`, () => {
         validateTimewindow(data.name, data.timeWindow);

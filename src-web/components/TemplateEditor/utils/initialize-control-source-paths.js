@@ -19,7 +19,7 @@ export const initializeControlSourcePaths = (template, controlData) => {
 }
 
 const setSectionSourcePaths = (template, controlData, controlMap, parentData, childrenData) => {
-  const groups = [];
+  const groups = []
   const choices = [];
 
   // set control.active to proxies such that when run through
@@ -29,11 +29,11 @@ const setSectionSourcePaths = (template, controlData, controlMap, parentData, ch
     switch (control.type) {
     case 'section':
       break
-      
+
     case 'group':
       groups.push(control)
       break
-      
+
     case 'cards':
       choices.push(control)
       break
@@ -73,7 +73,7 @@ const setSectionSourcePaths = (template, controlData, controlMap, parentData, ch
           }
         }
       })
-      break;
+      break
     }
   })
 
@@ -85,10 +85,10 @@ const setSectionSourcePaths = (template, controlData, controlMap, parentData, ch
 
   // set source paths into controls
   setControlSourcePaths(flattenedTemplateObject, controlMap)
-  
+
   // process the inner controlData of groups
   setGroupSourcePaths(groups, template, controlData, controlMap)
-  
+
   // process the inner controlData of groups
   setChoicesSourcePaths(choices, template, controlData, controlMap, parentData)
 }
@@ -97,26 +97,26 @@ const setSectionSourcePaths = (template, controlData, controlMap, parentData, ch
 const setGroupSourcePaths = (groups, template, controlData, controlMap) => {
   groups.forEach(group=>{
 
-    const groupData = _.cloneDeep(group.controlData) 
+    const groupData = _.cloneDeep(group.controlData)
     group.active = [groupData]
     setSectionSourcePaths(template, controlData, controlMap, groupData, groupData)
-      
+
   })
 }
 
 // set the source paths for each option of a control with choices (ex: cards)
 const setChoicesSourcePaths = (choices, template, controlData, controlMap, parentData) => {
   choices.forEach(control=>{
-  
+
     control.available.forEach(choice=>{
       const {id, change:{insertControlData}} = choice
-      
+
       control.active = id
       parentData.push(...insertControlData)
       setSectionSourcePaths(template, controlData, controlMap, parentData, insertControlData)
-    
+
     })
-    
+
   })
 }
 

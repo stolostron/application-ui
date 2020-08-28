@@ -258,7 +258,6 @@ const addCodeSnippetsTemplateData = (templateData, replacements, controlMap) => 
                     templateYAML: snippet,
                     id: _id
                   })
-                  snippet = encodedYAML
                 }
                 snippetMap[snippetKey] = snippet
                 if (Array.isArray(arr)) {

@@ -17,16 +17,16 @@ exports.getConfig = () => {
 
   try {
     config = jsYaml.safeLoad(config);
+    for (const [key, value] of Object.entries(config)) {
+      if (value.data.enable) {
+        process.env.CYPRESS_JOB_ID
+          ? (value.data.name =
+              value.data.name + "-" + process.env.CYPRESS_JOB_ID)
+          : value.data.name;
+      }
+    }
   } catch (e) {
     throw new Error(e);
-  }
-
-  for (const [key, value] of Object.entries(config)) {
-    if (value.data.enable) {
-      process.env.CYPRESS_JOB_ID
-        ? (value.data.name = value.data.name + "-" + process.env.CYPRESS_JOB_ID)
-        : value.data.name;
-    }
   }
 
   return JSON.stringify(config);

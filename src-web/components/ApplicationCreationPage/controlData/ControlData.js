@@ -218,7 +218,7 @@ const updateChannelControls = (urlControl, globalControl) => {
   const namespaceControl = groupControlData.find(
     ({ id }) => id === 'channelNamespace'
   )
-  // change channel name and namespace to reflect github path
+  // change channel name and namespace to reflect repository path
   if (active) {
     const a = document.createElement('a')
     a.href = active
@@ -249,12 +249,19 @@ const updateChannelControls = (urlControl, globalControl) => {
     }
   }
   const { id } = urlControl
-  if (id === 'githubURL') {
+  switch (id) {
+  case 'githubURL':
     setType('githubUser')
     setType('githubAccessId')
-  } else if (id === 'objectstoreURL') {
+    break
+  case 'objectstoreURL':
     setType('accessKey')
     setType('secretKey')
+    break
+  case 'helmURL':
+    setType('helmUser')
+    setType('helmPassword')
+    break
   }
 }
 
@@ -524,15 +531,148 @@ const hubClusterChannelData = [
 const helmReleaseChannelData = [
   ///////////////////////  HelmRelease  /////////////////////////////////////
   {
-    name: 'creation.ocp.purpose',
-    tooltip: 'tooltip.creation.ocp.purpose',
-    id: 'purposehl',
+    id: 'channelName',
+    type: 'hidden',
+    active: 'resource'
+  },
+  {
+    id: 'channelNamespace',
+    type: 'hidden',
+    active: ''
+  },
+  {
+    name: 'creation.app.helmrepo.url',
+    tooltip: 'tooltip.creation.app.helmrepo.url',
+    id: 'helmURL',
     type: 'combobox',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
-    validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose'
+    placeholder: 'app.enter.select.helmrepo.url',
+    available: [],
+    validation: VALIDATE_URL,
+    fetchAvailable: loadExistingChannels('helmrepo'),
+    onSelect: updateChannelControls
+  },
+  {
+    name: 'creation.app.helmrepo.user',
+    tooltip: 'tooltip.creation.app.helmrepo.user',
+    id: 'helmUser',
+    type: 'text',
+    active: '',
+    encode: true,
+    placeholder: 'app.enter.helmrepo.username'
+  },
+  {
+    name: 'creation.app.helmrepo.password',
+    tooltip: 'tooltip.creation.app.helmrepo.password',
+    id: 'helmPassword',
+    type: 'text',
+    encode: true,
+    active: '',
+    placeholder: 'app.enter.helmrepo.password'
+  },
+  {
+    name: 'creation.app.helmrepo.chart.name',
+    tooltip: 'tooltip.creation.app.helmrepo.chart.name',
+    id: 'helmChartName',
+    type: 'text',
+    active: '',
+    placeholder: 'app.enter.helmrepo.chart.name',
+    validation: {
+      required: true
+    }
+  },
+  {
+    name: 'creation.app.helmrepo.package.version',
+    tooltip: 'tooltip.creation.app.helmrepo.package.version',
+    id: 'helmPackageVersion',
+    type: 'text',
+    active: '',
+    placeholder: 'app.enter.helmrepo.package.version'
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  clusters  /////////////////////////////////////
+  {
+    id: 'clusterSection',
+    type: 'section',
+    title: 'creation.app.placement.rule',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    id: existingRuleCheckbox,
+    type: 'hidden',
+    name: 'creation.app.settings.existingRule',
+    tooltip: 'tooltip.creation.app.settings.existingRule',
+    onSelect: updateDisplayForPlacementControls,
+    active: false,
+    available: [],
+    validation: {}
+  },
+  {
+    name: 'creation.app.exitingRuleCombo',
+    tooltip: 'tooltip.creation.app.exitingRuleCombo',
+    id: 'placementrulecombo',
+    type: 'hidden',
+    fetchAvailable: loadExistingPlacementRules(),
+    onSelect: updateNewRuleControls,
+    validation: {}
+  },
+  {
+    id: 'selectedRuleName',
+    type: 'hidden',
+    active: ''
+  },
+  {
+    id: localClusterCheckbox,
+    type: 'checkbox',
+    name: 'creation.app.settings.localClusters',
+    tooltip: 'tooltip.creation.app.settings.localClusters',
+    onSelect: updatePlacementControls,
+    active: false,
+    available: []
+  },
+  {
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: false,
+    available: []
+  },
+  {
+    type: 'custom',
+    id: 'clusterSelector',
+    component: <ClusterSelector />,
+    available: []
+  },
+  {
+    name: 'creation.app.settings.clustersReplica',
+    tooltip: 'tooltip.creation.app.settings.clustersReplica',
+    id: 'clusterReplicas',
+    type: 'text',
+    active: '',
+    placeholder: 'creation.app.settings.ph.clustersReplica',
+    available: [],
+    validation: {}
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  settings  /////////////////////////////////////
+  {
+    id: 'settingsSection',
+    type: 'section',
+    title: 'creation.app.section.settings',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    type: 'custom',
+    name: 'creation.app.settings.timeWindow',
+    tooltip: 'creation.app.settings.timeWindow.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
+    available: []
   }
 ]
 

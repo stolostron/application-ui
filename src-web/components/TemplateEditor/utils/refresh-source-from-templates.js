@@ -31,44 +31,40 @@ export const generateSourceFromTemplate = (template, controlData, otherYAMLTabs,
   const {snippetMap, tabInfo} = addCodeSnippetsTemplateData(templateData, replacements, controlMap)
 
   /////////////////////////////////////////////////////////
-  // generate the yaml!!
-  /////////////////////////////////////////////////////////
-  let yaml = template(templateData) || ''
-
-  /////////////////////////////////////////////////////////
-  // insert snippets
-  /////////////////////////////////////////////////////////
-  // make sure the code snippets align with the yaml around it
-  yaml = replaceSnippetMap(yaml, snippetMap)
-
-  /////////////////////////////////////////////////////////
   // if there are multiple tabs, update the yaml that belongs on each
   /////////////////////////////////////////////////////////
   // if tab(s) were created to show encoded YAML, update that tab's info
   if (otherYAMLTabs) {
-    const lines = yaml.split(/[\r\n]+/g)
-    tabInfo.forEach(({ id, control, templateYAML, encodedYAML }) => {
-      const row = lines.findIndex(line => line.indexOf(encodedYAML) !== -1)
-      if (row !== -1) {
-        templateYAML = replaceSnippetMap(templateYAML, snippetMap)
-        const existingInx = otherYAMLTabs.findIndex(
-          ({ id: existingId }) => existingId === id
+    tabInfo.forEach(({ id, control, templateYAML, encode, snippetKey }) => {
+      templateYAML = replaceSnippetMap(templateYAML, snippetMap)
+      if (encode) {
+        snippetMap[snippetKey] = Base64.encode(
+          templateYAML.replace(/\s*##.+$/gm, '')
         )
-        if (existingInx !== -1) {
-          const existingTab = otherYAMLTabs[existingInx]
-          existingTab.oldTemplateYAML = existingTab.templateYAML
-          existingTab.templateYAML = templateYAML
-        } else {
-          otherYAMLTabs.push({
-            id,
-            control,
-            templateYAML,
-            hasEncodedYAML: true
-          })
-        }
+      }
+      const existingInx = otherYAMLTabs.findIndex(
+        ({ id: existingId }) => existingId === id
+      )
+      if (existingInx !== -1) {
+        const existingTab = otherYAMLTabs[existingInx]
+        existingTab.oldTemplateYAML = existingTab.templateYAML
+        existingTab.templateYAML = templateYAML
+      } else {
+        otherYAMLTabs.push({
+          id,
+          control,
+          templateYAML,
+        })
       }
     })
   }
+
+  /////////////////////////////////////////////////////////
+  // generate the yaml!!
+  // make sure the code snippets align with the yaml around it
+  /////////////////////////////////////////////////////////
+  let yaml = template(templateData) || ''
+  yaml = replaceSnippetMap(yaml, snippetMap)
 
   return {
     templateYAML: yaml,
@@ -257,13 +253,9 @@ const addCodeSnippetsTemplateData = (templateData, replacements, controlMap) => 
                 const snippetKey = `____${_id}-${idx}____`
                 if (encode) {
                   snippet = customYAML || snippet
-                  const encodedYAML = Base64.encode(
-                    snippet.replace(/\s*##.+$/gm, '')
-                  )
                   tabInfo.push({
                     control,
-                    templateYAML: snippet, //unencoded
-                    encodedYAML, // encoded
+                    templateYAML: snippet,
                     id: _id
                   })
                   snippet = encodedYAML

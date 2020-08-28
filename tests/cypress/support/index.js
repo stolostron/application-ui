@@ -60,14 +60,38 @@ before(() => {
     });
   }
 
-  //delete app resource - disabled now as it's not used currently
-  // cy.task("getFileList", "yaml").then(list => {
-  //   cy.log(list);
-  //   list.forEach(file => {
-  //     cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
-  //   });
-  // });
+  // let config = [];
+  // for (const [key, value] of Object.entries(wizards)) {
+  //   const timeWindowType = Cypress._.sample(Object.keys(timeWindows));
+  //   if (value.enable) {
+  //     const timewindowFlag = timeWindows[timeWindowType].setting;
+  //     process.env.CYPRESS_JOB_ID
+  //       ? timewindowFlag
+  //         ? (value.name =
+  //             value.name +
+  //             "-" +
+  //             process.env.CYPRESS_JOB_ID +
+  //             "-" +
+  //             timeWindowType.toLowerCase())
+  //         : (value.name = value.name + "-" + process.env.CYPRESS_JOB_ID)
+  //       : timewindowFlag
+  //       ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
+  //       : value.name;
+  //     config.push({ name: value.name, timeWindowType: timeWindowType });
+  //   }
+  //   // cy.readFile("cypress/config/data.json").then((user) => {
+  //   //   expect(user.name).to.equal("Eliza"); // true
+  //   // });
+  // }
+  // cy.writeFile("cypress/config/data.json", config);
 });
+//delete app resource - disabled now as it's not used currently
+// cy.task("getFileList", "yaml").then(list => {
+//   cy.log(list);
+//   list.forEach(file => {
+//     cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
+//   });
+// });
 
 Cypress.on("uncaught:exception", (err, runnable) => {
   debugger;

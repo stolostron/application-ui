@@ -8,9 +8,15 @@ import { deleteApplicationUI } from "../../views/application";
 
 describe("Delete application", () => {
   for (const type in wizards) {
-    const { name } = wizards[type];
-    it(`${name} should be successful from UI`, () => {
-      deleteApplicationUI(name);
-    });
+    const { name, enable } = wizards[type];
+    if (enable) {
+      it(`${name} should be successful from UI`, () => {
+        deleteApplicationUI(name);
+      });
+    } else {
+      it(`disable deletion on resource ${type}`, () => {
+        cy.log(`skipping ${type} - ${name}`);
+      });
+    }
   }
 });

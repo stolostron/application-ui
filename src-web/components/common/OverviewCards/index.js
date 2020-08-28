@@ -17,13 +17,14 @@ import {
   Icon,
   SkeletonText
 } from 'carbon-components-react'
+import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
+import { fetchResource } from '../../../actions/common'
 import resources from '../../../../lib/shared/resources'
 import { fetchTopology } from '../../../actions/topology'
 import msgs from '../../../../nls/platform.properties'
 import {
   getSearchLinkForOneApplication,
-  getAppOverviewCardsData,
-  getAppOverviewSubsData
+  getAppOverviewCardsData
 } from '../ResourceOverview/utils'
 import {
   startPolling,
@@ -41,6 +42,14 @@ resources(() => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { selectedAppNS, selectedAppName } = ownProps
   return {
+    fetchApplication: () =>
+      dispatch(
+        fetchResource(
+          RESOURCE_TYPES.QUERY_APPLICATIONS,
+          selectedAppNS,
+          selectedAppName
+        )
+      ),
     fetchAppTopology: (fetchChannel, reloading) => {
       const fetchFilters = {
         application: { selectedAppName, selectedAppNS, channel: fetchChannel }
@@ -53,9 +62,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = state => {
-  const { HCMApplicationList, topology } = state
+  const { QueryApplicationList, topology } = state
   return {
-    HCMApplicationList,
+    QueryApplicationList,
     topology
   }
 }
@@ -69,16 +78,16 @@ class OverviewCards extends React.Component {
     super(props)
     this.state = {
       nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 0 },
-      appSubscriptions: { subsList: [] },
-      updateFlags: { subsLoaded: false, showSubs: false }
+      showSubCards: false
     }
     // this.reload = this.reload.bind(this)
   }
 
   componentDidMount() {
-    const { fetchAppTopology } = this.props
+    const { fetchApplication, fetchAppTopology } = this.props
     const activeChannel = '__ALL__/__ALL__//__ALL__/__ALL__'
     fetchAppTopology(activeChannel, true)
+    fetchApplication()
 
     document.addEventListener('visibilitychange', this.onVisibilityChange)
     startPolling(this, setInterval)
@@ -105,12 +114,12 @@ class OverviewCards extends React.Component {
 
   render() {
     const {
-      HCMApplicationList,
+      QueryApplicationList,
       topology,
       selectedAppName,
       selectedAppNS
     } = this.props
-    const { nodeStatuses, appSubscriptions, updateFlags } = this.state
+    const { nodeStatuses, showSubCards } = this.state
     const { locale } = this.context
 
     let getUrl = window.location.href
@@ -122,19 +131,12 @@ class OverviewCards extends React.Component {
     })
 
     const appOverviewCardsData = getAppOverviewCardsData(
+      QueryApplicationList,
       topology,
       selectedAppName,
       selectedAppNS,
       nodeStatuses,
       targetLink
-    )
-
-    const appOverviewSubsData = getAppOverviewSubsData(
-      HCMApplicationList,
-      selectedAppName,
-      selectedAppNS,
-      appSubscriptions,
-      updateFlags
     )
 
     let clusterString = ''
@@ -150,6 +152,11 @@ class OverviewCards extends React.Component {
     } else {
       clusterString = appOverviewCardsData.remoteClusterCount + ' Remote'
     }
+
+    const disableBtn =
+      appOverviewCardsData.subsList && appOverviewCardsData.subsList.length > 0
+        ? false
+        : true
 
     return (
       <div className="overview-cards-container">
@@ -251,17 +258,17 @@ class OverviewCards extends React.Component {
         </Accordion>
 
         <div className="overview-cards-subs-section">
-          {updateFlags.showSubs
-            ? this.createSubsCards(appOverviewSubsData.subsList, locale)
+          {showSubCards
+            ? this.createSubsCards(appOverviewCardsData.subsList, locale)
             : ''}
           <Button
             className="toggle-subs-btn"
-            disabled={appOverviewSubsData.subsList.length === 0 ? true : false}
-            onClick={() => this.toggleSubsBtn(updateFlags)}
+            disabled={disableBtn}
+            onClick={() => this.toggleSubsBtn(showSubCards)}
           >
             {this.renderData(
-              updateFlags.subsLoaded ? 0 : -1,
-              (updateFlags.showSubs
+              appOverviewCardsData.subsList,
+              (showSubCards
                 ? msgs.get(
                   'dashboard.card.overview.cards.subs.btn.hide',
                   locale
@@ -269,7 +276,7 @@ class OverviewCards extends React.Component {
                 : msgs.get(
                   'dashboard.card.overview.cards.subs.btn.show',
                   locale
-                )) + ` (${appOverviewSubsData.subsList.length})`,
+                )) + ` (${appOverviewCardsData.subsList.length})`,
               '70%'
             )}
           </Button>
@@ -352,6 +359,78 @@ class OverviewCards extends React.Component {
                   <span>{sub.name}</span>
                 </div>
               </div>
+
+              <div className="sub-card-column">
+                <Icon
+                  name="icon--folder"
+                  fill="#5c5c5c"
+                  description=""
+                  className="subs-icon"
+                />
+                <div className="sub-card-content">
+                  <div className="sub-card-title">
+                    {msgs.get(
+                      'dashboard.card.overview.cards.repoResource.label',
+                      locale
+                    )}
+                  </div>
+                  <div className="sub-card-status-icon" id="resource-type-icon">
+                    <a
+                      className="resource-type-link"
+                      href={sub.resourcePath}
+                      target="_blank"
+                    >
+                      {sub.resourceType}
+                      <Icon
+                        name="icon--launch"
+                        description=""
+                        className="resource-type-icon"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="sub-card-column">
+                <Icon
+                  name="icon--terminal"
+                  fill="#5c5c5c"
+                  description=""
+                  className="subs-icon"
+                />
+                <div className="sub-card-content">
+                  <div className="sub-card-title">
+                    {msgs.get(
+                      'dashboard.card.overview.cards.timeWindow.label',
+                      locale
+                    )}
+                  </div>
+                  {sub.timeWindowType === 'default' ? (
+                    <a
+                      className="set-time-window-link"
+                      href={
+                        window.location.href +
+                        (window.location.href.slice(-1) === '/'
+                          ? 'yaml'
+                          : '/yaml')
+                      }
+                      target="_blank"
+                    >
+                      {msgs.get(
+                        'dashboard.card.overview.cards.timeWindow.set.label',
+                        locale
+                      )}
+                    </a>
+                  ) : (
+                    <div
+                      className="sub-card-status-icon"
+                      id={sub.timeWindowType + '-type-icon'}
+                    >
+                      {sub.timeWindowType}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </React.Fragment>
         )
@@ -360,8 +439,8 @@ class OverviewCards extends React.Component {
     })
   };
 
-  toggleSubsBtn = updateFlag => {
-    updateFlag.showSubs = !updateFlag.showSubs
+  toggleSubsBtn = showSubCards => {
+    this.setState({ showSubCards: !showSubCards })
     this.forceUpdate()
   };
 }

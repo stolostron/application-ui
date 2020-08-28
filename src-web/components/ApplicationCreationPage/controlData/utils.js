@@ -68,19 +68,31 @@ export const setAvailableNSSpecs = (control, result) => {
   }
 }
 
-export const getExistingPRControlsSection = control => {
-  //returns the existing placement rule options for this channel
-  const channelsControl = control.find(({ id }) => id === 'channels')
+export const getExistingPRControlsSection = (initiatingControl, control) => {
+  //returns the existing placement rule options for the channel selection
+  let result = []
 
-  if (channelsControl) {
-    const channelControlsList = _.get(channelsControl, 'controlMapArr', [])
+  if (_.get(initiatingControl, 'groupControlData')) {
+    //the update happened on a single channel, get that channel only PRs
+    const controlDataList = _.get(initiatingControl, 'groupControlData')
 
-    if (channelControlsList.length > 0) {
-      return channelControlsList[0]
+    const channelInfo = {}
+
+    controlDataList.forEach(controlDataObject => {
+      channelInfo[controlDataObject.id] = controlDataObject
+    })
+
+    result.push(channelInfo)
+  } else {
+    //this is a global update, get all channels PRs
+    const channelsControl = control.find(({ id }) => id === 'channels')
+
+    if (channelsControl) {
+      result = _.get(channelsControl, 'controlMapArr', [])
     }
   }
 
-  return null
+  return result
 }
 
 export const updateNewRuleControlsData = (selectedPR, control) => {

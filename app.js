@@ -45,6 +45,8 @@ require('node-i18n-util')
 
 process.env.BABEL_ENV = 'server'
 require('babel-register')
+// Ignore required CSS in PatternFly components
+require('ignore-styles')
 
 var bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),

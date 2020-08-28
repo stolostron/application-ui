@@ -11,8 +11,51 @@
 
 import _ from 'lodash'
 
+const GitHub = require('github-api')
+
 const onlineClustersCheckbox = 'online-cluster-only-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
+
+export const getGitBranches = gitControl => {
+  try {
+    const groupControlData = _.get(gitControl, 'groupControlData')
+
+    let gitPath = _.get(gitControl, 'active', '')
+
+    if (gitPath.length > 0 && groupControlData) {
+      const branchCtrl = groupControlData.find(
+        ({ id }) => id === 'githubBranch'
+      )
+
+      var github = new GitHub()
+      const gitUrl = new URL(gitPath)
+
+      if (gitUrl.host === 'github.com') {
+        //check only github repos
+
+        //get the url path, remove first / and .git
+        gitPath = gitUrl.pathname.substring(1).replace('.git', '')
+
+        const repoObj = github.getRepo(gitPath)
+
+        repoObj.listBranches().then(result => {
+          branchCtrl.active = ''
+          branchCtrl.available = []
+
+          if (result.data) {
+            result.data.forEach(branch => {
+              branchCtrl.available.push(branch.name)
+            })
+          }
+        })
+      }
+    }
+  } catch (err) {
+    //return err
+  }
+
+  return gitControl
+}
 
 export const setAvailableRules = (control, result) => {
   const { loading } = result

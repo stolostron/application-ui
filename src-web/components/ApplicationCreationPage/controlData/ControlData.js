@@ -28,7 +28,8 @@ import {
   setAvailableNSSpecs,
   getExistingPRControlsSection,
   updateNewRuleControlsData,
-  setAvailableChannelSpecs
+  setAvailableChannelSpecs,
+  getGitBranches
 } from './utils'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
@@ -203,6 +204,8 @@ export const updatePlacementControls = placementControl => {
 }
 
 const updateChannelControls = (urlControl, globalControl) => {
+  getGitBranches(urlControl)
+
   //update existing placement rule section when user changes the namespace
   const nsControl = globalControl.find(
     ({ id: idCtrl }) => idCtrl === 'namespace'

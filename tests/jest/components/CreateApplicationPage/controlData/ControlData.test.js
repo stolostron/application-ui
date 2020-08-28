@@ -12,11 +12,13 @@
 
 import {
   updateNSControls,
-  updatePlacementControls,
-  updateDisplayForPlacementControls
+  updatePlacementControls
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
 
-import { setAvailableRules } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
+import {
+  setAvailableRules,
+  getGitBranches
+} from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
 
 const controlDataNS = [
   { id: "userDefinedNamespace" },
@@ -64,6 +66,29 @@ const controlDataNS = [
     ]
   }
 ];
+
+describe("getGitBranches", () => {
+  const urlControl = {
+    id: "githubURL",
+    active: "https://github.com/fxiang1/app-samples.git",
+    groupControlData: [
+      {
+        id: "githubBranch",
+        active: "aa",
+        available: ["aa"]
+      }
+    ]
+  };
+
+  const result = {
+    active: "https://github.com/fxiang1/app-samples.git",
+    groupControlData: [{ active: "aa", available: ["aa"], id: "githubBranch" }],
+    id: "githubURL"
+  };
+  it("getGitBranches valid url", () => {
+    expect(getGitBranches(urlControl)).toEqual(result);
+  });
+});
 
 describe("setAvailableRules", () => {
   const urlControl = {

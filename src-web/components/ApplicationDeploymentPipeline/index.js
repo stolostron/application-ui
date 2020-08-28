@@ -271,9 +271,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       mutateStatus,
       deleteStatus,
       deleteMsg,
-      refetchIntervalUpdateDispatch
+      refetchIntervalUpdateDispatch,
+      locale
     } = this.props
-    const { locale } = this.context
 
     const { isLoaded = true, isReloading = false } = fetchChannels
     const { timestamp = new Date().toString() } = this.state

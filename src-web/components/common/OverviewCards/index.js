@@ -22,6 +22,7 @@ import { fetchResource } from '../../../actions/common'
 import resources from '../../../../lib/shared/resources'
 import { fetchTopology } from '../../../actions/topology'
 import msgs from '../../../../nls/platform.properties'
+import config from '../../../../lib/shared/config'
 import {
   getSearchLinkForOneApplication,
   getAppOverviewCardsData
@@ -80,7 +81,6 @@ class OverviewCards extends React.Component {
       nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 0 },
       showSubCards: false
     }
-    // this.reload = this.reload.bind(this)
   }
 
   componentDidMount() {
@@ -105,12 +105,6 @@ class OverviewCards extends React.Component {
   componentDidUpdate(prevProps) {
     handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
   }
-
-  // reload() {
-  //   const { fetchAppTopology } = this.props
-  //   const activeChannel = '__ALL__/__ALL__//__ALL__/__ALL__'
-  //   fetchAppTopology(activeChannel, true)
-  // }
 
   render() {
     const {
@@ -297,38 +291,34 @@ class OverviewCards extends React.Component {
     return (
       <React.Fragment>
         <div className="status-icon-container green-status">
-          <Icon
-            name="icon--checkmark--glyph"
-            fill="#3E8635"
-            description=""
+          <img
             className="status-icon"
+            alt="node-status-success"
+            src={`${config.contextPath}/graphics/nodeStatusSuccess.svg`}
           />
           <div className="status-count">{nodeStatuses.green}</div>
         </div>
         <div className="status-icon-container yellow-status">
-          <Icon
-            name="icon--warning--glyph"
-            fill="#F0AB00"
-            description=""
+          <img
             className="status-icon"
+            alt="node-status-warning"
+            src={`${config.contextPath}/graphics/nodeStatusWarning.svg`}
           />
           <div className="status-count">{nodeStatuses.yellow}</div>
         </div>
         <div className="status-icon-container red-status">
-          <Icon
-            name="icon--error--glyph"
-            fill="#C9190B"
-            description=""
+          <img
             className="status-icon"
+            alt="node-status-failure"
+            src={`${config.contextPath}/graphics/nodeStatusFailure.svg`}
           />
           <div className="status-count">{nodeStatuses.red}</div>
         </div>
         <div className="status-icon-container orange-status">
-          <Icon
-            name="icon--subtract--glyph"
-            fill="#5c5c5c"
-            description=""
+          <img
             className="status-icon"
+            alt="node-status-pending"
+            src={`${config.contextPath}/graphics/nodeStatusPending.svg`}
           />
           <div className="status-count">{nodeStatuses.orange}</div>
         </div>

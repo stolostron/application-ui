@@ -11,7 +11,11 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { DropdownV2, DropdownSkeleton, InlineLoading } from 'carbon-components-react'
+import {
+  DropdownV2,
+  DropdownSkeleton,
+  InlineLoading
+} from 'carbon-components-react'
 import Tooltip from './Tooltip'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'

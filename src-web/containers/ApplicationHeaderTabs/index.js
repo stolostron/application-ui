@@ -124,7 +124,10 @@ const ApplicationHeaderTabs = withLocale(
           } else {
             return (
               <div className="page-content-container">
-                <ApplicationDeploymentPipeline serverProps={serverProps} />
+                <ApplicationDeploymentPipeline
+                  serverProps={serverProps}
+                  locale={locale}
+                  />
               </div>
             )
           }

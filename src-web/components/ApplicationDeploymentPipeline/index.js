@@ -216,8 +216,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     // only reload data if there are nothing being fetched and no modals are open
     this.setState({ xhrPoll: true })
-    const { isSingleApplicationView } = selectedApp
-    if (!isSingleApplicationView) {
+    if (!selectedApp) {
       // reload all the applications
       fetchApplications()
       fetchApplicationsGlobalData()
@@ -271,9 +270,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       mutateStatus,
       deleteStatus,
       deleteMsg,
-      refetchIntervalUpdateDispatch
+      refetchIntervalUpdateDispatch,
+      locale
     } = this.props
-    const { locale } = this.context
 
     const { isLoaded = true, isReloading = false } = fetchChannels
     const { timestamp = new Date().toString() } = this.state

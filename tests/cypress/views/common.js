@@ -104,8 +104,8 @@ export const modal = {
   confirmAction: text => cy.get("#confirm-action").type(text),
   primaryShouldBeEnabled: () =>
     cy
-      .get(".bx--btn.bx--btn--sm.bx--btn--primary")
-      .should("not.have.prop", "disabled")
+      .get(".bx--btn.bx--btn--sm.bx--btn--primary", { timeout: 20000 })
+      .should("not.have.attr", "disabled")
 };
 
 export const notification = {

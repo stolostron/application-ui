@@ -54,13 +54,12 @@ export const getGitBranches = async groupControlData => {
           _.get(gitControl, 'availableData', {}),
           gitPath
         )
-        if (selectedChannel) {
-          //check if this is a private channel
-          const secretRef = _.get(selectedChannel, 'raw.spec.secretRef.name')
-          if (secretRef) {
-            //this is a private channel, don't try to retreive the branches
-            existingPrivateChannel = true
-          }
+        if (
+          selectedChannel &&
+          _.get(selectedChannel, 'raw.spec.secretRef.name')
+        ) {
+          //this is a private channel, don't try to retreive the branches
+          existingPrivateChannel = true
         }
       }
 

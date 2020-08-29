@@ -105,7 +105,7 @@ export const modal = {
   primaryShouldBeEnabled: () =>
     cy
       .get(".bx--btn.bx--btn--sm.bx--btn--primary")
-      .should("not.have.attr", "disabled")
+      .should("not.have.prop", "disabled")
 };
 
 export const notification = {

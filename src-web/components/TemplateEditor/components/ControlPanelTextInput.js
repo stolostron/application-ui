@@ -52,7 +52,10 @@ class ControlPanelTextInput extends React.Component {
           style={{ display: '' }}
           ref={this.setControlRef.bind(this, control)}
         >
-          <label className="creation-view-controls-textbox-title" htmlFor={controlId}>
+          <label
+            className="creation-view-controls-textbox-title"
+            htmlFor={controlId}
+          >
             {name}
             {validation.required ? (
               <div className="creation-view-controls-required">*</div>

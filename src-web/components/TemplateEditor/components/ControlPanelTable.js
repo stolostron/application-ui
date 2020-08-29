@@ -269,16 +269,14 @@ class ControlPanelTable extends React.Component {
                         page: 1
                       })
                     }
-                    id='resource-search-bar'
+                    id="resource-search-bar"
                     translateWithId={translateWithId.bind(null, locale)}
                     value={searchValue}
                     placeHolderText={msgs.get('search.label', locale)}
                   />
                   <TableToolbarContent>{actions}</TableToolbarContent>
                 </TableToolbar>
-                <Table
-                  className='resource-table'
-                  zebra={false} >
+                <Table className="resource-table" zebra={false}>
                   <TableHead>
                     <TableRow>
                       <TableSelectAll

@@ -41,7 +41,10 @@ class ControlPanelNumber extends React.Component {
           className="creation-view-controls-number"
           ref={this.setControlRef.bind(this, control)}
         >
-          <label className="creation-view-controls-multiselect-title" htmlFor={controlId}>
+          <label
+            className="creation-view-controls-multiselect-title"
+            htmlFor={controlId}
+          >
             {name}
             {validation.required ? (
               <div className="creation-view-controls-required">*</div>

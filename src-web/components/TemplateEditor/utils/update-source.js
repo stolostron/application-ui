@@ -15,7 +15,12 @@ import YamlParser from '../components/YamlParser'
 import _ from 'lodash'
 import { Base64 } from 'js-base64'
 
-export const generateYAML = (template, controlData, otherYAMLTabs, isFinalGenerate) => {
+export const generateYAML = (
+  template,
+  controlData,
+  otherYAMLTabs,
+  isFinalGenerate
+) => {
   // convert controlData active into templateData
   // do replacements second in case it depends on previous templateData
   let templateData = {}

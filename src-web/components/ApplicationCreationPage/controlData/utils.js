@@ -130,6 +130,8 @@ export const setAvailableNSSpecs = (control, result) => {
   } else {
     control.isLoading = loading
   }
+
+  return control
 }
 
 export const getExistingPRControlsSection = (initiatingControl, control) => {
@@ -279,4 +281,6 @@ export const setAvailableChannelSpecs = (type, control, result) => {
   } else {
     control.isLoading = loading
   }
+
+  return control
 }

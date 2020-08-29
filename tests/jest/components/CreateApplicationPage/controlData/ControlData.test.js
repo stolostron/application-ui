@@ -17,7 +17,10 @@ import {
 
 import {
   setAvailableRules,
-  getGitBranches
+  setAvailableNSSpecs,
+  setAvailableChannelSpecs,
+  getGitBranches,
+  updateNewRuleControlsData
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
 
 const controlDataNS = [
@@ -68,25 +71,244 @@ const controlDataNS = [
 ];
 
 describe("getGitBranches", () => {
+  const groupControlData = [
+    {
+      id: "githubURL",
+      active: "https://github.com/fxiang1/app-samples",
+      available: ["urlPath"]
+    },
+    {
+      id: "githubBranch",
+      active: "aa",
+      available: ["aa"]
+    }
+  ];
+
+  const result = [
+    {
+      active: "https://github.com/fxiang1/app-samples",
+      available: ["urlPath"],
+      id: "githubURL"
+    },
+    { active: "aa", available: ["aa"], id: "githubBranch" }
+  ];
+  it("getGitBranches valid url", () => {
+    expect(getGitBranches(groupControlData)).toEqual(result);
+  });
+});
+
+describe("getGitBranches", () => {
+  const groupControlData = [
+    {
+      id: "githubURL",
+      active: "",
+      available: ["urlPath"]
+    },
+    {
+      id: "githubBranch",
+      active: "",
+      available: ["aa"]
+    }
+  ];
+
+  const result = [
+    { active: "", available: ["urlPath"], id: "githubURL" },
+    { active: "", available: [], id: "githubBranch" }
+  ];
+  it("getGitBranches no url", () => {
+    expect(getGitBranches(groupControlData)).toEqual(result);
+  });
+});
+
+describe("getGitBranches", () => {
+  const groupControlData = [
+    {
+      id: "githubURL",
+      active: "",
+      available: ["urlPath"]
+    },
+    {
+      id: "githubBranch",
+      active: "aaa",
+      available: ["aa"]
+    },
+    {
+      id: "githubUser",
+      active: "user"
+    },
+    {
+      id: "githubAccessId",
+      active: "token"
+    }
+  ];
+
+  const result = [
+    { active: "", available: ["urlPath"], id: "githubURL" },
+    { active: "", available: [], id: "githubBranch" },
+    { active: "user", id: "githubUser" },
+    { active: "token", id: "githubAccessId" }
+  ];
+  it("getGitBranches with user and pwd", () => {
+    expect(getGitBranches(groupControlData)).toEqual(result);
+  });
+});
+
+describe("setAvailableChannelSpecs", () => {
+  const type = "git";
   const urlControl = {
-    id: "githubURL",
-    active: "https://github.com/fxiang1/app-samples.git",
-    groupControlData: [
-      {
-        id: "githubBranch",
-        active: "aa",
-        available: ["aa"]
-      }
-    ]
+    id: "channel",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    data: {
+      items: [
+        {
+          type: "git",
+          metadata: {
+            name: "aa-ns"
+          }
+        }
+      ]
+    }
+  };
+  const result = {
+    active: true,
+    available: ["undefined"],
+    availableData: { undefined: { metadata: { name: "aa-ns" }, type: "git" } },
+    availableMap: {},
+    id: "channel",
+    isLoading: false
+  };
+  it("setAvailableChannelSpecs no error", () => {
+    expect(setAvailableChannelSpecs(type, urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableChannelSpecs", () => {
+  const type = "git";
+  const urlControl = {
+    id: "channel",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    error: "error msg",
+    data: {}
+  };
+  const result = {
+    active: true,
+    available: [],
+    availableData: {},
+    availableMap: {},
+    id: "channel",
+    isFailed: true,
+    isLoading: false
+  };
+  it("setAvailableChannelSpecs with error", () => {
+    expect(setAvailableChannelSpecs(type, urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableChannelSpecs", () => {
+  const type = "git";
+  const urlControl = {
+    id: "channel",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    loading: "loading data",
+    data: {}
+  };
+  const result = {
+    active: true,
+    available: [],
+    availableData: {},
+    availableMap: {},
+    id: "channel",
+    isLoading: "loading data"
+  };
+  it("setAvailableChannelSpecs loading", () => {
+    expect(setAvailableChannelSpecs(type, urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableNSSpecs", () => {
+  const urlControl = {
+    id: "namespace",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    data: {
+      items: [
+        {
+          metadata: {
+            name: "aa-ns"
+          }
+        }
+      ]
+    }
+  };
+  const result = {
+    active: true,
+    available: ["aa-ns"],
+    availableData: { "aa-ns": { metadata: { name: "aa-ns" } } },
+    availableMap: {},
+    id: "namespace",
+    isLoading: false
   };
 
-  const result = {
-    active: "https://github.com/fxiang1/app-samples.git",
-    groupControlData: [{ active: "aa", available: ["aa"], id: "githubBranch" }],
-    id: "githubURL"
+  it("setAvailableNSSpecs no error", () => {
+    expect(setAvailableNSSpecs(urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableNSSpecs", () => {
+  const urlControl = {
+    id: "namespace",
+    active: true,
+    availableData: {}
   };
-  it("getGitBranches valid url", () => {
-    expect(getGitBranches(urlControl)).toEqual(result);
+  const model = {
+    error: "error msg",
+    data: {}
+  };
+  const result = {
+    active: true,
+    available: [],
+    availableData: {},
+    availableMap: {},
+    id: "namespace",
+    isFailed: true,
+    isLoading: false
+  };
+  it("setAvailableNSSpecs with error", () => {
+    expect(setAvailableNSSpecs(urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableNSSpecs", () => {
+  const urlControl = {
+    id: "namespace",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    loading: "loading message",
+    data: {}
+  };
+  const result = {
+    active: true,
+    available: [],
+    availableData: {},
+    availableMap: {},
+    id: "namespace",
+    isLoading: "loading message"
+  };
+  it("setAvailableNSSpecs loading", () => {
+    expect(setAvailableNSSpecs(urlControl, model)).toEqual(result);
   });
 });
 
@@ -121,7 +343,60 @@ describe("setAvailableRules", () => {
     ns: "aa-ns"
   };
 
-  it("setAvailableRules", () => {
+  it("setAvailableRules no error", () => {
+    expect(setAvailableRules(urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableRules", () => {
+  const urlControl = {
+    id: "placementrulecombo",
+    ns: "aa-ns",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    error: "error msg",
+    data: {}
+  };
+  const result = {
+    active: "",
+    available: [],
+    availableData: {},
+    availableMap: {},
+    id: "placementrulecombo",
+    isFailed: true,
+    isLoading: false,
+    ns: "aa-ns"
+  };
+  it("setAvailableRules with error", () => {
+    expect(setAvailableRules(urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableRules", () => {
+  const urlControl = {
+    id: "placementrulecombo",
+    ns: "aa-ns",
+    active: true,
+    availableData: {
+      loading: "loading message",
+      data: {}
+    }
+  };
+  const model = {
+    loading: "data loading"
+  };
+  const result = {
+    active: "",
+    available: [],
+    availableData: { data: {}, loading: "loading message" },
+    availableMap: {},
+    id: "placementrulecombo",
+    isLoading: "data loading",
+    ns: "aa-ns"
+  };
+  it("setAvailableRules loading", () => {
     expect(setAvailableRules(urlControl, model)).toEqual(result);
   });
 });
@@ -208,6 +483,94 @@ describe("updateNSControls with new NS AND channel selection", () => {
   });
 });
 
+describe("updateNewRuleControlsData without controls", () => {
+  const selectedPR = {
+    raw: {
+      spec: {
+        clusterConditions: [
+          {
+            type: "ManagedClusterConditionAvailable",
+            status: "true"
+          }
+        ]
+      }
+    }
+  };
+  const placementControl = {
+    "local-cluster-checkbox": {
+      active: true,
+      id: "local-cluster-checkbox"
+    },
+    "online-cluster-only-checkbox": {
+      active: false,
+      id: "online-cluster-only-checkbox"
+    },
+    placementrulecombo: {
+      active: false,
+      id: "placementrulecombo",
+      ns: "aa-ns"
+    },
+    selectedRuleName: {
+      id: "selectedRuleName",
+      active: "result-pr"
+    },
+    clusterReplicas: {
+      active: "",
+      id: "clusterReplicas",
+      type: "text"
+    },
+    clusterSelector: {
+      id: "clusterSelector",
+      type: "custom",
+      available: [],
+      active: {
+        mode: false,
+        clusterLabelsListID: 1,
+        clusterLabelsList: [
+          { id: 0, labelName: "", labelValue: "", validValue: true }
+        ]
+      }
+    }
+  };
+
+  const result = {
+    clusterReplicas: { active: "", id: "clusterReplicas", type: "text" },
+    clusterSelector: {
+      active: {
+        clusterLabelsList: [
+          { id: 0, labelName: "", labelValue: "", validValue: true }
+        ],
+        clusterLabelsListID: 1,
+        mode: false
+      },
+      available: [],
+      id: "clusterSelector",
+      type: "custom"
+    },
+    "local-cluster-checkbox": {
+      active: true,
+      id: "local-cluster-checkbox",
+      type: "hidden"
+    },
+    "online-cluster-only-checkbox": {
+      active: true,
+      id: "online-cluster-only-checkbox",
+      type: "checkbox"
+    },
+    placementrulecombo: {
+      active: false,
+      id: "placementrulecombo",
+      ns: "aa-ns"
+    },
+    selectedRuleName: { active: "result-pr", id: "selectedRuleName" }
+  };
+  it("should return same data", () => {
+    expect(updateNewRuleControlsData(selectedPR, placementControl)).toEqual(
+      result
+    );
+  });
+});
+
 describe("updatePlacementControls without controls", () => {
   const placementControl = {
     id: "local-cluster-checkbox",
@@ -235,7 +598,7 @@ describe("updatePlacementControls without controls", () => {
       {
         selectedRuleName: {
           id: "selectedRuleName",
-          actve: "result-pr"
+          active: "result-pr"
         }
       }
     ]
@@ -257,7 +620,7 @@ describe("updatePlacementControls without controls", () => {
         ns: "aa-ns"
       }
     },
-    { selectedRuleName: { actve: "result-pr", id: "selectedRuleName" } }
+    { selectedRuleName: { active: "result-pr", id: "selectedRuleName" } }
   ];
   it("should return same data", () => {
     expect(updatePlacementControls(placementControl)).toEqual(result);

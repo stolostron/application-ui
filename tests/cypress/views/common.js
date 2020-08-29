@@ -103,7 +103,9 @@ export const modal = {
       .click(),
   confirmAction: text => cy.get("#confirm-action").type(text),
   primaryShouldBeEnabled: () =>
-    cy.get(".bx--btn.bx--btn--sm.bx--btn--primary").should("not.be.disabled")
+    cy
+      .get(".bx--btn.bx--btn--sm.bx--btn--primary")
+      .should("not.have.attr", "disabled")
 };
 
 export const notification = {

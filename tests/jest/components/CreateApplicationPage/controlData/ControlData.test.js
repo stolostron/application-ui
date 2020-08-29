@@ -84,16 +84,8 @@ describe("getGitBranches", () => {
     }
   ];
 
-  const result = [
-    {
-      active: "https://github.com/fxiang1/app-samples",
-      available: ["urlPath"],
-      id: "githubURL"
-    },
-    { active: "aa", available: ["aa"], id: "githubBranch" }
-  ];
   it("getGitBranches valid url", () => {
-    expect(getGitBranches(groupControlData)).toEqual(result);
+    expect(getGitBranches(groupControlData)).toEqual(Promise.resolve({}));
   });
 });
 
@@ -111,12 +103,8 @@ describe("getGitBranches", () => {
     }
   ];
 
-  const result = [
-    { active: "", available: ["urlPath"], id: "githubURL" },
-    { active: "", available: [], id: "githubBranch" }
-  ];
   it("getGitBranches no url", () => {
-    expect(getGitBranches(groupControlData)).toEqual(result);
+    expect(getGitBranches(groupControlData)).toEqual(Promise.resolve({}));
   });
 });
 
@@ -142,14 +130,8 @@ describe("getGitBranches", () => {
     }
   ];
 
-  const result = [
-    { active: "", available: ["urlPath"], id: "githubURL" },
-    { active: "", available: [], id: "githubBranch" },
-    { active: "user", id: "githubUser" },
-    { active: "token", id: "githubAccessId" }
-  ];
   it("getGitBranches with user and pwd", () => {
-    expect(getGitBranches(groupControlData)).toEqual(result);
+    expect(getGitBranches(groupControlData)).toEqual(Promise.resolve({}));
   });
 });
 

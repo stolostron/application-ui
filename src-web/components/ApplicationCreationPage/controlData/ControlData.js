@@ -342,7 +342,7 @@ const githubChannelData = [
     type: 'combobox',
     active: '',
     placeholder: 'app.enter.select.branch',
-    available: ['master'],
+    available: [],
     validation: VALIDATE_ALPHANUMERIC,
     cacheUserValueKey: 'create.app.github.branch'
   },

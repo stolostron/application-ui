@@ -16,7 +16,7 @@ const GitHub = require('github-api')
 const onlineClustersCheckbox = 'online-cluster-only-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
 
-export const getGitBranches = groupControlData => {
+export const getGitBranches = async groupControlData => {
   try {
     const gitControl = groupControlData.find(({ id }) => id === 'githubURL')
     const branchCtrl = groupControlData.find(({ id }) => id === 'githubBranch')
@@ -28,6 +28,7 @@ export const getGitBranches = groupControlData => {
     )
 
     let gitPath = _.get(gitControl, 'active', '')
+    let existingPrivateChannel = false
 
     if (gitPath.length === 0) {
       branchCtrl.active = ''
@@ -47,19 +48,32 @@ export const getGitBranches = groupControlData => {
           password: tokenCtrl.active,
           auth: 'basic'
         })
+      } else {
+        //check if this is an existing private channel
+        const selectedChannel = _.get(
+          _.get(gitControl, 'availableData', {}),
+          gitPath
+        )
+        if (selectedChannel) {
+          //check if this is a private channel
+          const secretRef = _.get(selectedChannel, 'raw.spec.secretRef.name')
+          if (secretRef) {
+            //this is a private channel, don't try to retreive the branches
+            existingPrivateChannel = true
+          }
+        }
       }
 
       const gitUrl = new URL(gitPath)
 
-      if (gitUrl.host === 'github.com') {
-        //check only github repos
-
-        //get the url path, remove first / and .git
+      if (gitUrl.host === 'github.com' && existingPrivateChannel === false) {
+        //check only github repos; and only new private channels since we don't have the channel secret info for existing channels
+        //get the url path, then remove first / and .git
         gitPath = gitUrl.pathname.substring(1).replace('.git', '')
 
         const repoObj = github.getRepo(gitPath)
 
-        repoObj.listBranches().then(result => {
+        await repoObj.listBranches().then(result => {
           branchCtrl.active = ''
           branchCtrl.available = []
 

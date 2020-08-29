@@ -1,4 +1,5 @@
 {
+  "pageLoadTimeout": 100000,
   "integrationFolder": "cypress/tests",
   "fixturesFolder": "cypress/fixtures",
   "pluginsFile": "cypress/plugins/index.js",

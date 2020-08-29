@@ -291,7 +291,6 @@ export const apiResources = {
 };
 
 export const selectTimeWindow = timeWindow => {
-  console.log(timeWindow);
   const { setting, type, date } = timeWindow;
   if (setting && date) {
     cy.log(`Select TimeWindow - ${type}...`);

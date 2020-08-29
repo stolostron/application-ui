@@ -23,6 +23,7 @@ export const createApplication = (
   timewindowType
 ) => {
   type = type.replace(/\s+/g, "-").toLowerCase();
+  modal.primaryShouldBeEnabled();
   modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name").type(name);

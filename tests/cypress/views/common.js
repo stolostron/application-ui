@@ -101,7 +101,9 @@ export const modal = {
     cy
       .get(".bx--btn.bx--btn--sm.bx--btn--secondary", { timeout: 20000 })
       .click(),
-  confirmAction: text => cy.get("#confirm-action").type(text)
+  confirmAction: text => cy.get("#confirm-action").type(text),
+  primaryShouldBeEnabled: () =>
+    cy.get(".bx--btn.bx--btn--sm.bx--btn--primary").should("not.be.disabled")
 };
 
 export const notification = {

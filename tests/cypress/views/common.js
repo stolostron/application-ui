@@ -96,7 +96,10 @@ export const modal = {
   clickDanger: () =>
     cy.get(".bx--modal .bx--btn--danger--primary", { timeout: 20000 }).click(),
   clickPrimary: () =>
-    cy.get(".bx--btn.bx--btn--sm.bx--btn--primary", { timeout: 20000 }).click(),
+    cy
+      .get(".bx--btn.bx--btn--sm.bx--btn--primary", { timeout: 20000 })
+      .should("not.have.attr", "disabled")
+      .click(),
   clickSecondary: () =>
     cy
       .get(".bx--btn.bx--btn--sm.bx--btn--secondary", { timeout: 20000 })

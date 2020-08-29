@@ -62,7 +62,10 @@ export const createApplication = (
   if (timeWindowData) {
     selectTimeWindow(timeWindowData, timewindowType);
   }
-  cy.get("#create-button-portal-id").click();
+  cy
+    .get("#create-button-portal-id", { timeout: 10000 })
+    .should("not.have.attr", "disabled")
+    .click();
   notification.shouldExist("success", { timeout: 60 * 1000 });
   cy
     .location("pathname", { timeout: 60 * 1000 })

@@ -203,8 +203,31 @@ export const updatePlacementControls = placementControl => {
   return groupControlData
 }
 
+const updateGitCredentials = urlControl => {
+  const groupControlData = _.get(urlControl, 'groupControlData')
+
+  const userCtrlData = _.get(
+    groupControlData.find(({ id }) => id === 'githubUser'),
+    'active',
+    ''
+  )
+
+  const tokenCtrlData = _.get(
+    groupControlData.find(({ id }) => id === 'githubAccessId'),
+    'active',
+    ''
+  )
+
+  if (
+    (userCtrlData.length > 0 && tokenCtrlData.length > 0) ||
+    (userCtrlData.length === 0 && tokenCtrlData.length === 0)
+  ) {
+    getGitBranches(_.get(urlControl, 'groupControlData'))
+  }
+}
+
 const updateChannelControls = (urlControl, globalControl) => {
-  getGitBranches(urlControl)
+  getGitBranches(_.get(urlControl, 'groupControlData'))
 
   //update existing placement rule section when user changes the namespace
   const nsControl = globalControl.find(
@@ -299,7 +322,8 @@ const githubChannelData = [
     type: 'text',
     active: '',
     encode: true,
-    placeholder: 'app.enter.select.username'
+    placeholder: 'app.enter.select.username',
+    onSelect: updateGitCredentials
   },
   {
     name: 'creation.app.github.accessid',
@@ -308,7 +332,8 @@ const githubChannelData = [
     type: 'text',
     encode: true,
     active: '',
-    placeholder: 'app.enter.access.token'
+    placeholder: 'app.enter.access.token',
+    onSelect: updateGitCredentials
   },
   {
     name: 'creation.app.github.branch',

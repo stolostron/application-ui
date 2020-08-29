@@ -16,18 +16,39 @@ const GitHub = require('github-api')
 const onlineClustersCheckbox = 'online-cluster-only-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
 
-export const getGitBranches = gitControl => {
+export const getGitBranches = groupControlData => {
   try {
-    const groupControlData = _.get(gitControl, 'groupControlData')
+    const gitControl = groupControlData.find(({ id }) => id === 'githubURL')
+    const branchCtrl = groupControlData.find(({ id }) => id === 'githubBranch')
+
+    const userCtrl = groupControlData.find(({ id }) => id === 'githubUser')
+
+    const tokenCtrl = groupControlData.find(
+      ({ id }) => id === 'githubAccessId'
+    )
 
     let gitPath = _.get(gitControl, 'active', '')
 
-    if (gitPath.length > 0 && groupControlData) {
-      const branchCtrl = groupControlData.find(
-        ({ id }) => id === 'githubBranch'
-      )
+    if (gitPath.length === 0) {
+      branchCtrl.active = ''
+      branchCtrl.available = []
+    }
 
-      var github = new GitHub()
+    if (gitPath.length > 0) {
+      let github = new GitHub()
+
+      if (
+        _.get(userCtrl, 'active', '').length > 0 &&
+        _.get(tokenCtrl, 'active', '').length > 0
+      ) {
+        //use authentication
+        github = new GitHub({
+          username: userCtrl.active,
+          password: tokenCtrl.active,
+          auth: 'basic'
+        })
+      }
+
       const gitUrl = new URL(gitPath)
 
       if (gitUrl.host === 'github.com') {
@@ -54,7 +75,7 @@ export const getGitBranches = gitControl => {
     //return err
   }
 
-  return gitControl
+  return groupControlData
 }
 
 export const setAvailableRules = (control, result) => {

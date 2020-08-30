@@ -90,6 +90,12 @@ metadata:
   name: {{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
+{{#if ../preJob}} 
+  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
+{{/if}}
+{{#if ../postJob}} 
+  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
+{{/if}}
 {{#if ../channelNamespace}}
   channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
 {{else}}
@@ -217,6 +223,12 @@ metadata:
   name: {{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
+{{#if ../preJob}} 
+  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
+{{/if}}
+{{#if ../postJob}} 
+  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
+{{/if}}
 {{#if ../channelNamespace}}
   channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
 {{else}}
@@ -351,6 +363,12 @@ metadata:
   name: {{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
+{{#if ../preJob}} 
+  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
+{{/if}}
+{{#if ../postJob}} 
+  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
+{{/if}}
 {{#if ../channelNamespace}}
   channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
 {{else}}
@@ -461,6 +479,12 @@ metadata:
   name: {{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
+{{#if ../preJob}} 
+  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
+{{/if}}
+{{#if ../postJob}} 
+  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
+{{/if}}
 {{#if ../channelNamespace}}
   channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
 {{else}}

@@ -361,6 +361,36 @@ const githubChannelData = [
     cacheUserValueKey: 'create.app.github.path'
   },
   ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  pre/post jobs  /////////////////////////////////////
+  {
+    id: 'perPostSection',
+    type: 'section',
+    title: 'creation.app.section.prePost',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    name: 'creation.app.pre.job',
+    tooltip: 'tooltip.creation.app.preJob',
+    id: 'preJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.preJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  {
+    name: 'creation.app.post.job',
+    tooltip: 'tooltip.creation.app.postJob',
+    id: 'postJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.postJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
   {
     id: 'clusterSection',
@@ -474,6 +504,38 @@ const hubClusterChannelData = [
     fetchAvailable: loadExistingChannels('namespace'),
     onSelect: updateChannelControls
   },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  pre/post jobs  /////////////////////////////////////
+  {
+    id: 'perPostSection',
+    type: 'section',
+    title: 'creation.app.section.prePost',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    name: 'creation.app.pre.job',
+    tooltip: 'tooltip.creation.app.preJob',
+    id: 'preJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.preJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  {
+    name: 'creation.app.post.job',
+    tooltip: 'tooltip.creation.app.postJob',
+    id: 'postJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.postJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  clusters  /////////////////////////////////////
   {
     id: 'clusterSection',
     type: 'section',
@@ -621,6 +683,36 @@ const helmReleaseChannelData = [
     placeholder: 'app.enter.helmrepo.package.version'
   },
   ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  pre/post jobs  /////////////////////////////////////
+  {
+    id: 'perPostSection',
+    type: 'section',
+    title: 'creation.app.section.prePost',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    name: 'creation.app.pre.job',
+    tooltip: 'tooltip.creation.app.preJob',
+    id: 'preJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.preJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  {
+    name: 'creation.app.post.job',
+    tooltip: 'tooltip.creation.app.postJob',
+    id: 'postJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.postJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
   {
     id: 'clusterSection',
@@ -748,6 +840,36 @@ const objectstoreChannelData = [
     encode: true,
     active: '',
     placeholder: 'app.enter.secretkey'
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  pre/post jobs  /////////////////////////////////////
+  {
+    id: 'perPostSection',
+    type: 'section',
+    title: 'creation.app.section.prePost',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    name: 'creation.app.pre.job',
+    tooltip: 'tooltip.creation.app.preJob',
+    id: 'preJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.preJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  {
+    name: 'creation.app.post.job',
+    tooltip: 'tooltip.creation.app.postJob',
+    id: 'postJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.postJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////

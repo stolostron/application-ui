@@ -42,7 +42,6 @@ module.exports = (on, config) => {
   on("task", {
     yaml2json(filename) {
       obj = yaml.safeLoadAll(fs.readFileSync(dir + filename, "utf-8"));
-      console.log(JSON.stringify(obj, null, 2));
       return JSON.stringify(obj, null, 2);
     }
   });

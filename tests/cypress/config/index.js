@@ -10,31 +10,19 @@ const jsYaml = require("js-yaml");
 exports.getConfig = () => {
   let config;
   if (process.env.CYPRESS_TEST_MODE === "e2e") {
-    config = fs.readFileSync(path.join(__dirname, "config.e2e.yaml"));
+    config = fs.readFileSync(path.join(__dirname, "config.e2e.json"));
   } else {
-    config = fs.readFileSync(path.join(__dirname, "config.func.yaml"));
+    config = fs.readFileSync(path.join(__dirname, "config.func.json"));
   }
 
   try {
     config = jsYaml.safeLoad(config);
-
-    for (const [key, value] of Object.entries(config.wizards)) {
-      const timeWindowType = Object.keys(config.timeWindows)[
-        Math.floor(Math.random() * 3)
-      ];
-      if (value.enable) {
-        typeof process.env.CYPRESS_JOB_ID === "undefined"
-          ? config.timeWindows.timeWindowType
-            ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
-            : value.name
-          : config.timeWindows.timeWindowType
-            ? (value.name = value.name + "-" + timeWindowType.toLowerCase())
-            : (value.name =
-                value.name +
-                "-" +
-                process.env.CYPRESS_JOB_ID +
-                "-" +
-                timeWindowType.toLowerCase());
+    for (const [key, value] of Object.entries(config)) {
+      if (value.data.enable) {
+        process.env.CYPRESS_JOB_ID
+          ? (value.data.name =
+              value.data.name + "-" + process.env.CYPRESS_JOB_ID)
+          : value.data.name;
       }
     }
   } catch (e) {

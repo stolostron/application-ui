@@ -203,7 +203,7 @@ export const updatePlacementControls = placementControl => {
   return groupControlData
 }
 
-const updateGitCredentials = urlControl => {
+export const updateGitCredentials = urlControl => {
   const groupControlData = _.get(urlControl, 'groupControlData')
 
   const userCtrlData = _.get(
@@ -224,9 +224,10 @@ const updateGitCredentials = urlControl => {
   ) {
     getGitBranches(_.get(urlControl, 'groupControlData'))
   }
+  return groupControlData
 }
 
-const updateChannelControls = (urlControl, globalControl) => {
+export const updateChannelControls = (urlControl, globalControl) => {
   getGitBranches(_.get(urlControl, 'groupControlData'))
 
   //update existing placement rule section when user changes the namespace
@@ -289,6 +290,8 @@ const updateChannelControls = (urlControl, globalControl) => {
     setType('helmPassword')
     break
   }
+
+  return globalControl
 }
 
 const githubChannelData = [

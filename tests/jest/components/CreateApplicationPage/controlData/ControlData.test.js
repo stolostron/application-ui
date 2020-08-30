@@ -12,7 +12,9 @@
 
 import {
   updateNSControls,
-  updatePlacementControls
+  updatePlacementControls,
+  updateGitCredentials,
+  updateChannelControls
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
 
 import {
@@ -24,6 +26,11 @@ import {
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
 
 const controlDataNS = [
+  {
+    id: "namespace",
+    active: true,
+    availableData: {}
+  },
   { id: "userDefinedNamespace" },
   {
     id: "channels",
@@ -69,6 +76,127 @@ const controlDataNS = [
     ]
   }
 ];
+
+describe("updateChannelControls", () => {
+  const data = {
+    active: "",
+    availableData: [],
+    groupControlData: [
+      {
+        id: "channelName",
+        type: "hidden",
+        active: ""
+      },
+      {
+        id: "channelNamespace",
+        type: "hidden",
+        active: ""
+      },
+      {
+        id: "githubURL",
+        active: "",
+        available: ["urlPath"]
+      },
+      {
+        id: "githubBranch",
+        active: "aaa",
+        available: ["aa"]
+      },
+      {
+        id: "githubUser",
+        active: "user"
+      },
+      {
+        id: "githubAccessId",
+        active: "token"
+      }
+    ]
+  };
+
+  const result = [
+    { active: true, availableData: {}, id: "namespace" },
+    { id: "userDefinedNamespace" },
+    {
+      controlMapArr: [
+        {
+          available: [],
+          clusterSelector: {
+            active: {
+              clusterLabelsList: [
+                { id: 0, labelName: "", labelValue: "", validValue: true }
+              ],
+              clusterLabelsListID: 1,
+              mode: ""
+            },
+            id: "clusterSelector"
+          }
+        },
+        {
+          "local-cluster-checkbox": {
+            active: false,
+            id: "local-cluster-checkbox"
+          }
+        },
+        {
+          "online-cluster-only-checkbox": {
+            active: false,
+            id: "online-cluster-only-checkbox"
+          }
+        },
+        {
+          placementrulecombo: {
+            active: false,
+            id: "placementrulecombo",
+            ns: "aa-ns"
+          }
+        },
+        { selectedRuleName: { actve: "result-pr", id: "selectedRuleName" } }
+      ],
+      id: "channels"
+    }
+  ];
+  it("updateChannelControls valid url", () => {
+    expect(updateChannelControls(data, controlDataNS)).toEqual(result);
+  });
+});
+
+describe("updateGitCredentials", () => {
+  const data = {
+    active: "",
+    availableData: [],
+    groupControlData: [
+      {
+        id: "githubURL",
+        active: "",
+        available: ["urlPath"]
+      },
+      {
+        id: "githubBranch",
+        active: "aaa",
+        available: ["aa"]
+      },
+      {
+        id: "githubUser",
+        active: "user"
+      },
+      {
+        id: "githubAccessId",
+        active: "token"
+      }
+    ]
+  };
+
+  const result = [
+    { active: "", available: ["urlPath"], id: "githubURL" },
+    { active: "", available: [], id: "githubBranch" },
+    { active: "user", id: "githubUser" },
+    { active: "token", id: "githubAccessId" }
+  ];
+
+  it("updateGitCredentials valid url", () => {
+    expect(updateGitCredentials(data)).toEqual(result);
+  });
+});
 
 describe("getGitBranches", () => {
   const groupControlData = [
@@ -420,6 +548,7 @@ describe("updateNSControls with new NS AND channel selection", () => {
   };
 
   const result = [
+    { active: true, availableData: {}, id: "namespace" },
     { active: "", id: "userDefinedNamespace" },
     {
       controlMapArr: [

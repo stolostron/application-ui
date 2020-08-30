@@ -2,28 +2,24 @@
  * Licensed Materials - Property of Red Hat, Inc.
  * Copyright (c) 2020 Red Hat, Inc.
  ****************************************************************************** */
-
-import {
-  getTimeWindowType,
-  validateTimewindow,
-  validateCreation,
-  passTimeWindowType
-} from "../../views/application";
-const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
+const config = JSON.parse(Cypress.env("TEST_CONFIG"));
+import { validateTimewindow, apiResources } from "../../views/application";
 
 describe("Application", () => {
-  for (const type in wizards) {
-    const { name, enable } = wizards[type];
-    if (enable) {
-      it(`timewindow - should be validated - ${type}: ${name}`, () => {
-        const timeWindowType = getTimeWindowType(name);
-        const timeWindowData = passTimeWindowType(timeWindowType)
-          .timeWindowData;
-        validateTimewindow(name, timeWindowType, timeWindowData);
+  for (const type in config) {
+    const data = config[type].data;
+    if (data.enable) {
+      it(`channels, subscription and placementrule - should be validated - ${type}: ${
+        data.name
+      }`, () => {
+        apiResources.action(type, "get", data);
+      });
+      it(`timewindow - should be validated - ${type}: ${data.name}`, () => {
+        validateTimewindow(data.name, data.timeWindow);
       });
     } else {
       it(`disable validation on resource ${type}`, () => {
-        cy.log(`skipping ${type} - ${name}`);
+        cy.log(`skipping ${type} - ${data.name}`);
       });
     }
   }

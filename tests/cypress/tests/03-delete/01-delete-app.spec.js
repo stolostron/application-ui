@@ -3,19 +3,19 @@
  * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
 
-const { wizards } = JSON.parse(Cypress.env("TEST_CONFIG"));
+const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { deleteApplicationUI } from "../../views/application";
 
 describe("Delete application", () => {
-  for (const type in wizards) {
-    const { name, enable } = wizards[type];
-    if (enable) {
-      it(`${name} should be successful from UI`, () => {
-        deleteApplicationUI(name);
+  for (const type in config) {
+    const data = config[type].data;
+    if (data.enable) {
+      it(`${data.name} should be deleted from UI`, () => {
+        deleteApplicationUI(data.name);
       });
     } else {
       it(`disable deletion on resource ${type}`, () => {
-        cy.log(`skipping ${type} - ${name}`);
+        cy.log(`skipping ${type} - ${data.name}`);
       });
     }
   }

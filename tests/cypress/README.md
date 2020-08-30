@@ -52,7 +52,7 @@ To switch to the functional mode, export the following variable:
 
 - export CYPRESS_TEST_MODE='functional'
 
-Afterwards, update the `tests/cypress/config/config.e2e.yaml` file with your configurations (please do not commit your configs to this file).
+Afterwards, update the `tests/cypress/config/config.e2e.json` file with your configurations (please do not commit your configs to this file).
 
 ---
 
@@ -62,11 +62,11 @@ Afterwards, update the `tests/cypress/config/config.e2e.yaml` file with your con
 
    options:
    hub:
-      name: multicloud-console
-      baseDomain: {clusterName}.dev06.red-chesterfield.com
-      user: kubeadmin
-      password: xxxxxxx
-      idp: ocp
+   name: multicloud-console
+   baseDomain: {clusterName}.dev06.red-chesterfield.com
+   user: kubeadmin
+   password: xxxxxxx
+   idp: ocp
 
 2. From the /application-ui/ directory, run `make build-test-image` this will build the Docker container with the Cypress tests inside /application-ui/tests/
 3. Export the following environment variables:

@@ -73,7 +73,10 @@ class ControlPanelMultiSelect extends React.Component {
           className="creation-view-controls-multiselect"
           ref={this.setControlRef.bind(this, control)}
         >
-          <label className="creation-view-controls-multiselect-title" htmlFor={controlId}>
+          <label
+            className="creation-view-controls-multiselect-title"
+            htmlFor={controlId}
+          >
             {name}
             <Tooltip control={control} locale={locale} />
           </label>
@@ -108,7 +111,9 @@ class ControlPanelMultiSelect extends React.Component {
       if (menu && menu.length > 0) {
         if (!this.multiSelect.observer) {
           this.multiSelect.observer = new MutationObserver(() => {
-            this.handleChange({ selectedItems: this.multiSelect.selectedItems })
+            this.handleChange({
+              selectedItems: this.multiSelect.selectedItems
+            })
             this.multiSelect.observer.disconnect()
             delete this.multiSelect.observer
           })

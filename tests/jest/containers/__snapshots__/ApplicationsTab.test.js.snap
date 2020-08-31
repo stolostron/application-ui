@@ -308,37 +308,60 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
           <div
             className="bx--toolbar-content"
           >
-            <a
-              href="undefined/create"
-              onClick={[Function]}
+            <div
+              align="center"
+              className="bx--tooltip--definition"
             >
               <button
-                className="bx--btn bx--btn--sm bx--btn--primary"
-                disabled={false}
-                tabIndex={0}
-                type="button"
+                aria-describedby="definition-tooltip-3"
+                className="bx--tooltip__trigger"
               >
-                Create application
-                <svg
-                  alt="Add icon"
-                  aria-label="Add icon"
-                  className="bx--btn__icon"
-                  fillRule="evenodd"
-                  height="16"
-                  name="add--glyph"
-                  role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
+                <a
+                  href="undefined/create"
+                  onClick={[Function]}
                 >
-                  <title>
-                    Add icon
-                  </title>
-                  <path
-                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-                  />
-                </svg>
+                  <button
+                    className="bx--btn bx--btn--sm bx--btn--primary"
+                    disabled={true}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    Create application
+                    <svg
+                      alt="Add icon"
+                      aria-label="Add icon"
+                      className="bx--btn__icon"
+                      fillRule="evenodd"
+                      height="16"
+                      name="add--glyph"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                    >
+                      <title>
+                        Add icon
+                      </title>
+                      <path
+                        d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+                      />
+                    </svg>
+                  </button>
+                </a>
               </button>
-            </a>
+              <div
+                aria-label="You are not authorized to create applications"
+                className="bx--tooltip--definition__top"
+                id="definition-tooltip-3"
+                role="tooltip"
+              >
+                <span
+                  className="bx--tooltip__caret"
+                />
+                <p>
+                  You are not authorized to create applications
+                </p>
+              </div>
+            </div>
           </div>
         </section>
         <table
@@ -1005,37 +1028,60 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
           <div
             className="bx--toolbar-content"
           >
-            <a
-              href="undefined/create"
-              onClick={[Function]}
+            <div
+              align="center"
+              className="bx--tooltip--definition"
             >
               <button
-                className="bx--btn bx--btn--sm bx--btn--primary"
-                disabled={false}
-                tabIndex={0}
-                type="button"
+                aria-describedby="definition-tooltip-2"
+                className="bx--tooltip__trigger"
               >
-                Create application
-                <svg
-                  alt="Add icon"
-                  aria-label="Add icon"
-                  className="bx--btn__icon"
-                  fillRule="evenodd"
-                  height="16"
-                  name="add--glyph"
-                  role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
+                <a
+                  href="undefined/create"
+                  onClick={[Function]}
                 >
-                  <title>
-                    Add icon
-                  </title>
-                  <path
-                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-                  />
-                </svg>
+                  <button
+                    className="bx--btn bx--btn--sm bx--btn--primary"
+                    disabled={true}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    Create application
+                    <svg
+                      alt="Add icon"
+                      aria-label="Add icon"
+                      className="bx--btn__icon"
+                      fillRule="evenodd"
+                      height="16"
+                      name="add--glyph"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                    >
+                      <title>
+                        Add icon
+                      </title>
+                      <path
+                        d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+                      />
+                    </svg>
+                  </button>
+                </a>
               </button>
-            </a>
+              <div
+                aria-label="You are not authorized to create applications"
+                className="bx--tooltip--definition__top"
+                id="definition-tooltip-2"
+                role="tooltip"
+              >
+                <span
+                  className="bx--tooltip__caret"
+                />
+                <p>
+                  You are not authorized to create applications
+                </p>
+              </div>
+            </div>
           </div>
         </section>
         <table

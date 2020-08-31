@@ -59,15 +59,14 @@ before(() => {
       Cypress.env("token", token);
     });
   }
-
-  //delete app resource - disabled now as it's not used currently
-  // cy.task("getFileList", "yaml").then(list => {
-  //   cy.log(list);
-  //   list.forEach(file => {
-  //     cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
-  //   });
-  // });
 });
+//delete app resource - disabled now as it's not used currently
+// cy.task("getFileList", "yaml").then(list => {
+//   cy.log(list);
+//   list.forEach(file => {
+//     cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
+//   });
+// });
 
 Cypress.on("uncaught:exception", (err, runnable) => {
   debugger;

@@ -12,9 +12,7 @@
 import React from 'react'
 import { Query } from 'react-apollo'
 import PropTypes from 'prop-types'
-import {
-  Notification
-} from 'carbon-components-react'
+import { Notification } from 'carbon-components-react'
 import classNames from 'classnames'
 import ControlPanelAccordion from './ControlPanelAccordion'
 import ControlPanelTextInput from './ControlPanelTextInput'
@@ -107,7 +105,7 @@ class ControlPanel extends React.Component {
     )
   }
 
-  renderControlSections(controlData, grpId='') {
+  renderControlSections(controlData, grpId = '') {
     // create collapsable control sections
     let section
     let content = []
@@ -169,7 +167,7 @@ class ControlPanel extends React.Component {
     )
   }
 
-  renderGroup(control, grpId='') {
+  renderGroup(control, grpId = '') {
     const { id, active = [], prompts } = control
     return (
       <React.Fragment key={id}>
@@ -392,7 +390,9 @@ class ControlPanel extends React.Component {
       )
     case 'custom':
       return (
-        <React.Fragment key={controlId}>{this.renderCustom(control, controlId)}</React.Fragment>
+        <React.Fragment key={controlId}>
+          {this.renderCustom(control, controlId)}
+        </React.Fragment>
       )
     }
     return null
@@ -401,7 +401,6 @@ class ControlPanel extends React.Component {
   setControlRef = (control, ref) => {
     control.ref = ref
   };
-
 
   renderCustom(control, controlId) {
     const { locale } = this.props

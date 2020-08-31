@@ -14,15 +14,10 @@ import {
   notification
 } from "./common";
 
-export const createApplication = (
-  type,
-  application,
-  name,
-  url,
-  timeWindowData,
-  timewindowType
-) => {
+export const createApplication = (data, type) => {
+  const { name, timeWindow } = data;
   type = type.replace(/\s+/g, "-").toLowerCase();
+  cy.wait(10000);
   modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name").type(name);
@@ -31,7 +26,7 @@ export const createApplication = (
   });
   cy.get(`#${type}`).click();
   if (type === "git") {
-    const { username, token, branch, path } = application;
+    const { url, username, token, branch, path } = data;
     cy.get("#githubURL", { timeout: 20 * 1000 }).type(url);
     if (username && token) {
       cy.get("#githubUser").type(username);
@@ -42,7 +37,7 @@ export const createApplication = (
     // Disable deploy for now when we figure out how to validate the through api
     // cy.get("#online-cluster-only-checkbox").click({ force: true });
   } else if (type === "objectbucket") {
-    const { accessKey, secretKey } = application;
+    const { url, accessKey, secretKey } = data;
     cy.get("#objectstoreURL", { timeout: 20 * 1000 }).type(url);
     cy.get("#accessKey").then(input => {
       if (input.is("enabled")) {
@@ -53,20 +48,20 @@ export const createApplication = (
       }
     });
   } else if (type === "local-cluster") {
-    const { repository } = application;
+    const { repository } = data;
     repository
       ? cy.get("#namespaceChannelName", { timeout: 20 * 1000 }).type(repository)
       : cy.log("skip repository name as it is not provided");
   }
 
-  if (timeWindowData) {
-    selectTimeWindow(timeWindowData, timewindowType);
-  }
-  cy.get("#create-button-portal-id").click();
-  notification.shouldExist("success", { timeout: 60 * 1000 });
+  selectTimeWindow(timeWindow);
+
   cy
-    .location("pathname", { timeout: 60 * 1000 })
-    .should("include", `${name}-ns/${name}`);
+    .get("#create-button-portal-id", { timeout: 20 * 1000 })
+    .should("not.be.disabled")
+    .click();
+  notification.shouldExist("success", { timeout: 60 * 1000 });
+  cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
   return name;
 };
 
@@ -82,7 +77,9 @@ export const validateTopology = name => {
 
 export const validateResourceTable = name => {
   cy.visit(`/multicloud/applications`);
-  cy.get(".search-query-card-loading").should("not.exist");
+  cy.get(".search-query-card-loading").should("not.exist", {
+    timeout: 60 * 1000
+  });
   pageLoader.shouldNotExist();
   resourceTable.rowShouldExist(name, 600 * 1000);
   resourceTable.rowNameClick(name);
@@ -90,13 +87,14 @@ export const validateResourceTable = name => {
   cy.get(".bx--detail-page-header-title");
 };
 
-export const validateTimewindow = (name, timeWindowType) => {
+export const validateTimewindow = (name, timeWindow) => {
   const windowType = { activeinterval: "active", blockinterval: "blocked" };
   cy
     .exec(
       `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
         "OC_CLUSTER_USER"
-      )} -p ${Cypress.env("OC_CLUSTER_PASS")} --insecure-skip-tls-verify=true`
+      )} -p ${Cypress.env("OC_CLUSTER_PASS")} --insecure-skip-tls-verify=true`,
+      { timeout: 100 * 1000 }
     )
     .its("stdout")
     .should("contain", "Login successful.")
@@ -109,43 +107,27 @@ export const validateTimewindow = (name, timeWindowType) => {
         .exec(`oc get subscription -n ${name}-ns`)
         .then(({ stdout, stderr }) => {
           cy.log(stdout || stderr);
-          if ((stdout || stderr).includes("No resource") === false) {
-            cy.log("the subscription is not empty");
-            console.log(timeWindowType);
-            if (
-              timeWindowType === "activeinterval" ||
-              timeWindowType === "blockinterval"
-            ) {
-              const searchText = windowType[timeWindowType];
-              cy
-                .exec(
-                  `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
-                )
-                .its("stdout")
-                .should("contain", "timewindow")
-                .should("contain", searchText);
-            } else if (timeWindowType === "active") {
-              cy
-                .exec(
-                  `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
-                )
-                .its("stdout")
-                .should("not.contain", "timewindow");
-            } else {
-              cy.log(
-                "there is no timewindow selected... checking the default type"
-              );
-              cy
-                .exec(
-                  `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
-                )
-                .its("stdout")
-                .should("not.contain", "timewindow");
-            }
+          cy.log("the subscription is not empty");
+          if (
+            timeWindow.type === "activeinterval" ||
+            timeWindow.type === "blockinterval"
+          ) {
+            const searchText = windowType[timeWindow.type];
+            cy
+              .exec(
+                `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
+              )
+              .its("stdout")
+              .should("contain", "timewindow")
+              .should("contain", searchText);
           } else {
-            cy.log(
-              `The subscription ${name}-subscription-0 in namespace:${name}-ns is empty`
-            );
+            cy.log("active selected... checking the default type");
+            cy
+              .exec(
+                `oc get subscription ${name}-subscription-0 -n ${name}-ns -o yaml`
+              )
+              .its("stdout")
+              .should("not.contain", "timewindow");
           }
         });
     });
@@ -162,9 +144,6 @@ export const deleteApplicationUI = name => {
     modal.clickDanger();
     modal.shouldNotBeVisible();
 
-    // should not equal 200 as it should not exist
-    //cy.getAppResourceAPI(Cypress.env("token"), "application", appNamespace, appName);
-
     // after deleting the app, it should not exist in the app table
     resourceTable.rowShouldNotExist(name, 300 * 1000);
     // disable for now letting the canary pass until #4677 is fixed
@@ -175,7 +154,8 @@ export const deleteApplicationUI = name => {
 };
 
 export const apiResources = {
-  action: (name, action, application) => {
+  action: (type, action, data) => {
+    const name = data.name;
     cy
       .exec(
         `oc login --server=${Cypress.env("OC_CLUSTER_URL")} -u ${Cypress.env(
@@ -185,67 +165,84 @@ export const apiResources = {
       .its("stdout")
       .should("contain", "Login successful.")
       .then(() => {
-        // app channel
-        cy.log(`${action} the channel if it exists`);
-        cy
-          .exec(`oc get channels -n ${name}-app-samples-chn-ns`)
-          .then(({ stdout, stderr }) => {
-            cy.log(stdout || stderr);
-            if ((stdout || stderr).includes("No resource") === false) {
-              cy.log("There exist channel");
-              cy
-                .exec(
-                  `oc ${action} channel ${name}-app-samples-chn -n ${name}-app-samples-chn-ns`
-                )
-                .its("stdout")
-                .should("contain", `${action}`)
-                .should("contain", name);
-            } else {
-              cy.log(
-                `The channel ${name}--app-samples-chn-ns in namespace:${name}-app-samples-chn-ns is empty`
-              );
-            }
-          });
-        // channel
-        cy.log(`${action} the channel if it exists`);
-
-        cy
-          .exec(`oc get channels -n ${name}-resource-ns-0`)
-          .then(({ stdout, stderr }) => {
-            cy.log(stdout || stderr);
-            if ((stdout || stderr).includes("No resource") === false) {
-              cy.log("There exist channel");
-              cy
-                .exec(
-                  `oc ${action} channel ${name}-resource-0 -n ${name}-resource-ns-0`
-                )
-                .its("stdout")
-                .should("contain", `${action}`)
-                .should("contain", name);
-            } else {
-              cy.log(
-                `The channel ${name}-resource-0 in namespace:${name}-resource-ns-0 is empty`
-              );
-            }
-          });
-        const { repository } = application;
-        if (repository) {
+        cy.log(`${action} the ${type} channel if it exists`);
+        if (type == "git") {
           cy
-            .exec(`oc get channels -n ${name}-${repository}-chn-ns-0`)
+            .exec(`oc get channels -n ${name}-app-samples-chn-ns-0`)
             .then(({ stdout, stderr }) => {
               cy.log(stdout || stderr);
               if ((stdout || stderr).includes("No resource") === false) {
-                cy.log("There exist leftover channel");
+                cy.log("There exist channel");
                 cy
                   .exec(
-                    `oc ${action} channel ${name}-${repository}-chn-0 -n ${name}-${repository}-chn-ns-0`
+                    `oc ${action} channel ${name}-app-samples-chn-0 -n ${name}-app-samples-chn-ns-0`
                   )
                   .its("stdout")
-                  .should("contain", `${action}`)
                   .should("contain", name);
               } else {
                 cy.log(
-                  `The channel ${name}-${repository}-chn-0 in namespace:${name}-${repository}-chn-ns-0 is empty`
+                  `The channel ${name}--app-samples-chn-0 in namespace:${name}-app-samples-chn-ns-0 is empty`
+                );
+              }
+            });
+        } else if (type == "local-cluster") {
+          cy.log(`${action} the channel if it exists`);
+
+          cy
+            .exec(`oc get channels -n ${name}-resource-ns-0`)
+            .then(({ stdout, stderr }) => {
+              cy.log(stdout || stderr);
+              if ((stdout || stderr).includes("No resource") === false) {
+                cy.log("There exist channel");
+                cy
+                  .exec(
+                    `oc ${action} channel ${name}-resource-0 -n ${name}-resource-ns-0`
+                  )
+                  .its("stdout")
+                  .should("contain", name);
+              } else {
+                cy.log(
+                  `The channel ${name}-resource-0 in namespace:${name}-resource-ns-0 is empty`
+                );
+              }
+            });
+          const { repository } = data;
+          if (repository) {
+            cy
+              .exec(`oc get channels -n ${name}-${repository}-chn-ns-0`)
+              .then(({ stdout, stderr }) => {
+                cy.log(stdout || stderr);
+                if ((stdout || stderr).includes("No resource") === false) {
+                  cy.log("There exists channel");
+                  cy
+                    .exec(
+                      `oc ${action} channel ${name}-${repository}-chn-0 -n ${name}-${repository}-chn-ns-0`
+                    )
+                    .its("stdout")
+                    .should("contain", name);
+                } else {
+                  cy.log(
+                    `The channel ${name}-${repository}-chn-0 in namespace:${name}-${repository}-chn-ns-0 is empty`
+                  );
+                }
+              });
+          }
+        } else if (type == "objectbucket") {
+          cy
+            .exec(`oc get channels -n ${name}-dev1-chn-ns-0`)
+            .then(({ stdout, stderr }) => {
+              cy.log(stdout || stderr);
+              if ((stdout || stderr).includes("No resource") === false) {
+                cy.log("There exist channel");
+                cy
+                  .exec(
+                    `oc ${action} channel ${name}-dev1-chn-0 -n ${name}-dev1-chn-ns-0`
+                  )
+                  .its("stdout")
+                  .should("contain", name);
+              } else {
+                cy.log(
+                  `The channel ${name}-dev1-chn-0 in namespace:${name}-dev1-chn-ns-0 is empty`
                 );
               }
             });
@@ -258,13 +255,13 @@ export const apiResources = {
           .then(({ stdout, stderr }) => {
             cy.log(stdout || stderr);
             if ((stdout || stderr).includes("No resource") === false) {
-              cy.log("There exist leftover subscription");
+              cy.log("There exists subscription");
               cy
                 .exec(
                   `oc ${action} subscription ${name}-subscription-0 -n ${name}-ns`
                 )
                 .its("stdout")
-                .should("contain", `${action}`);
+                .should("contain", `${name}`);
             } else {
               cy.log(
                 `The subscription ${name}-subscription-0 in namespace:${name}-ns is empty`
@@ -284,7 +281,7 @@ export const apiResources = {
                   `oc ${action} placementrule ${name}-placement-0 -n ${name}-ns`
                 )
                 .its("stdout")
-                .should("contain", `${action}`);
+                .should("contain", `${name}`);
             } else {
               cy.log(
                 `The placementrule ${name}-placement-0 in namespace:${name}-ns is empty`
@@ -295,22 +292,13 @@ export const apiResources = {
   }
 };
 
-export const passTimeWindowType = timeWindowType => {
-  let timeWindowData;
-  if (timeWindows[timeWindowType].setting) {
-    timeWindowData = timeWindows[timeWindowType];
-  }
-  return { timeWindowData: timeWindowData };
-};
-
-export const selectTimeWindow = (timeWindowData, timeWindowType) => {
-  const { setting, date } = timeWindowData;
+export const selectTimeWindow = timeWindow => {
+  const { setting, type, date } = timeWindow;
   if (setting && date) {
-    cy.log("Select TimeWindow...");
-    cy.log(timeWindowType);
+    cy.log(`Select TimeWindow - ${type}...`);
     const dateId = date.toLowerCase().substring(0, 3) + "-timeWindow";
     let typeID =
-      timeWindowType === "blockinterval"
+      type === "blockinterval"
         ? "#blocked-mode-timeWindow"
         : "#active-mode-timeWindow";
     cy
@@ -328,6 +316,8 @@ export const selectTimeWindow = (timeWindowData, timeWindowType) => {
           })
           .click();
       });
+  } else {
+    cy.log("leave default `active`");
   }
 };
 

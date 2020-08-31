@@ -180,7 +180,9 @@ class ControlPanelAccordion extends React.Component {
         case 'hidden':
           break
         case 'checkbox':
-          summary.push(available ? available[!active?0:1] : active.toString())
+          summary.push(
+            available ? available[!active ? 0 : 1] : active.toString()
+          )
           break
         case 'number':
           summary.push(active || initial)

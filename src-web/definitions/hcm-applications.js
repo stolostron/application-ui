@@ -17,7 +17,7 @@ import { getSearchLink } from '../components/common/ResourceOverview/utils'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import { validator } from './validators/hcm-application-validator'
-import { Label } from '@patternfly/react-core'
+import LabelWithPopover from '../components/common/LabelWithPopover'
 import msgs from '../../nls/platform.properties'
 
 export default {
@@ -160,27 +160,18 @@ export function getChannels(item = {}, locale) {
   const channelMap = groupByChannelType(R.path(['hubChannels'], item) || [])
 
   return (
-    <React.Fragment>
+    <div className="label-with-popover-container">
       {['git', 'helmrepo', 'namespace', 'objectbucket'].map(chType => {
         if (channelMap[chType]) {
           return (
-            <Label
-              key={`${item.name}-${item.namespace}-${chType}`}
-              onClick={event => {
-                event.preventDefault()
-                event.nativeEvent.preventDefault()
-                event.stopPropagation()
-              }}
-              color="grey"
-              href="#"
-              className="table-label"
-            >
-              {msgs.get(`channel.type.${chType}`, locale)}
-            </Label>
+            <LabelWithPopover
+              key={`${item.name}-${item.namespace}-${chType}-label`}
+              labelText={msgs.get(`channel.type.${chType}`, locale)}
+            />
           )
         }
       })}
-    </React.Fragment>
+    </div>
   )
 }
 

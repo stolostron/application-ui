@@ -1,0 +1,18 @@
+// Copyright (c) 2020 Red Hat, Inc.
+.label-with-popover-container {
+  display: flex;
+}
+
+.label-with-popover {
+  display: inline-block;
+  margin-right: 8px;
+
+  .pf-c-button {
+    display: none;
+  }
+
+  .pf-c-popover__arrow {
+    width: 0.6rem;
+    height: 0.6rem;
+  }
+}

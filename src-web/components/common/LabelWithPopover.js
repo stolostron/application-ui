@@ -1,7 +1,7 @@
 // Copyright (c) 2020 Red Hat, Inc.
 'use strict'
 
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Label, Popover } from '@patternfly/react-core'
 import resources from '../../../lib/shared/resources'
@@ -11,7 +11,6 @@ resources(() => {
 })
 
 const LabelWithPopover = ({ labelText }) => {
-  const labelRef = useRef()
   const [
     { popoverOpen, popoverPinnedOpen, justClosed },
     setPopoverState
@@ -51,33 +50,34 @@ const LabelWithPopover = ({ labelText }) => {
   }
 
   return (
-    <div ref={labelRef} className="label-with-popover">
-      <Label
-        onClick={event => {
-          event.preventDefault()
-          event.nativeEvent.preventDefault()
-          event.stopPropagation()
-          pinPopover()
-        }}
-        onPointerEnter={openPopover}
-        onPointerLeave={closePopover}
-        color="grey"
-        href="#"
-      >
-        {labelText}
-      </Label>
+    <div className="label-with-popover">
       <Popover
         bodyContent="Popover Content"
         isVisible={popoverOpen || popoverPinnedOpen}
         shouldClose={shouldClose}
         shouldOpen={pinPopover}
-        reference={labelRef}
         className="label-with-popover"
         enableFlip
         position="bottom"
         flipBehavior={['bottom', 'top', 'right', 'left']}
         distance={10}
-      />
+        zIndex={500}
+      >
+        <Label
+          onClick={event => {
+            event.preventDefault()
+            event.nativeEvent.preventDefault()
+            event.stopPropagation()
+            pinPopover()
+          }}
+          onPointerEnter={openPopover}
+          onPointerLeave={closePopover}
+          color="grey"
+          href="#"
+        >
+          {labelText}
+        </Label>
+      </Popover>
     </div>
   )
 }

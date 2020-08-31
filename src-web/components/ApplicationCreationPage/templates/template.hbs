@@ -90,6 +90,12 @@ metadata:
   name: {{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
+{{#if ../preJob}} 
+  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
+{{/if}}
+{{#if ../postJob}} 
+  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
+{{/if}}
 {{#if ../channelNamespace}}
   channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
 {{else}}
@@ -122,7 +128,7 @@ spec:
     {{/if}}
 {{/if}}
 {{#unless ../existingrule-checkbox}} 
-{{#unless ../local-cluster-checkbox}}
+{{#unless ../../local-cluster-checkbox}}
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
@@ -217,6 +223,12 @@ metadata:
   name: {{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
+{{#if ../preJob}} 
+  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
+{{/if}}
+{{#if ../postJob}} 
+  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
+{{/if}}
 {{#if ../channelNamespace}}
   channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
 {{else}}
@@ -256,7 +268,7 @@ spec:
     {{/if}}
 {{/if}}
 {{#unless ../existingrule-checkbox}} 
-{{#unless ../local-cluster-checkbox}}
+{{#unless ../../local-cluster-checkbox}}
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
@@ -351,6 +363,12 @@ metadata:
   name: {{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
+{{#if ../preJob}} 
+  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
+{{/if}}
+{{#if ../postJob}} 
+  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
+{{/if}}
 {{#if ../channelNamespace}}
   channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
 {{else}}
@@ -383,7 +401,7 @@ spec:
     {{/if}}
 {{/if}}
 {{#unless ../existingrule-checkbox}} 
-{{#unless ../local-cluster-checkbox}}
+{{#unless ../../local-cluster-checkbox}}
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
@@ -461,6 +479,12 @@ metadata:
   name: {{{../../name}}}-subscription-{{@index}}
   namespace: {{{../../namespace}}}
 spec:
+{{#if ../preJob}} 
+  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
+{{/if}}
+{{#if ../postJob}} 
+  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
+{{/if}}
 {{#if ../channelNamespace}}
   channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
 {{else}}
@@ -494,7 +518,7 @@ spec:
     {{/if}}
 {{/if}}
 {{#unless ../existingrule-checkbox}} 
-{{#unless ../local-cluster-checkbox}}
+{{#unless ../../local-cluster-checkbox}}
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule

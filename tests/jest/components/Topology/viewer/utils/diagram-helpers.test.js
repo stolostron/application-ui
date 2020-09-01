@@ -2364,24 +2364,38 @@ describe("setResourceDeployStatus ansiblejob ", () => {
         metadata: {
           name: "bigjoblaunch",
           namespace: "default"
+        },
+        spec: {
+          ansibleJobResult: {
+            joburl: "http://ansible_url/job",
+            status: "successful"
+          }
         }
       },
       ansiblejobModel: {
         "bigjoblaunch-local-cluster": {
           label: "tower_job_id=999999999"
         }
-      },
-      spec: {
-        ansibleJobResult: {
-          job: {
-            url: "ansible_url"
-          }
-        }
       }
     }
   };
   const result = [
-    { labelValue: "Ansible Job status", status: "pending", value: "" },
+    { labelKey: "description.ansible.job.url", type: "label" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: { action: "open_link", targetLink: "http://ansible_url/job" },
+        id: "http://ansible_url/job-location",
+        label: "http://ansible_url/job"
+      }
+    },
+    { type: "spacer" },
+    {
+      labelValue: "Ansible Job status",
+      status: "checkmark",
+      value: "successful"
+    },
     { type: "spacer" },
     {
       indent: true,

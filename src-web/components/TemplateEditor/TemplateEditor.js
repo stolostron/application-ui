@@ -19,8 +19,7 @@ import {
   Loading,
   Notification,
   InlineNotification,
-  ToggleSmall,
-  TooltipDefinition
+  ToggleSmall
 } from 'carbon-components-react'
 import { initializeControlData, cacheUserData } from './utils/initialize-control-data'
 //import { initializeControlSourcePaths } from './utils/initialize-control-source-paths'
@@ -35,6 +34,7 @@ import ControlPanel from './components/ControlPanel'
 import EditorHeader from './components/EditorHeader'
 import EditorBar from './components/EditorBar'
 import YamlEditor from './components/YamlEditor'
+import TooltipContainer from './components/TooltipContainer'
 import './scss/template-editor.scss'
 import msgs from '../../../nls/platform.properties'
 import '../../../graphics/diagramIcons.svg'
@@ -1085,13 +1085,9 @@ export default class TemplateEditor extends React.Component {
       if (portal) {
         return canDisable
           ? ReactDOM.createPortal(
-            <TooltipDefinition
-              direction="bottom"
-              tooltipText={titleText}
-              align="center"
-              >
+            <TooltipContainer tooltip={titleText} isDisabled={canDisable}>
               {button}
-            </TooltipDefinition>,
+            </TooltipContainer>,
             portal
           )
           : ReactDOM.createPortal(button, portal)

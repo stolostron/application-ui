@@ -3,7 +3,7 @@
  * Copyright (c) 2020 Red Hat, Inc.
  ****************************************************************************** */
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
-import { validateTimewindow, apiResources } from "../../views/application";
+import { apiResources, validateTimewindow } from "../../views/resources";
 
 describe("Application", () => {
   for (const type in config) {
@@ -15,7 +15,7 @@ describe("Application", () => {
         apiResources.action(type, "get", data);
       });
       it(`timewindow - should be validated - ${type}: ${data.name}`, () => {
-        validateTimewindow(data.name, data.timeWindow);
+        validateTimewindow(data.name, data.config);
       });
     } else {
       it(`disable validation on resource ${type}`, () => {

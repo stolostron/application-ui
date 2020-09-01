@@ -2370,22 +2370,19 @@ describe("setResourceDeployStatus ansiblejob ", () => {
         "bigjoblaunch-local-cluster": {
           label: "tower_job_id=999999999"
         }
+      },
+      spec: {
+        ansibleJobResult: {
+          job: {
+            url: "ansible_url"
+          }
+        }
       }
     }
   };
   const result = [
+    { labelValue: "Ansible Job status", status: "pending", value: "" },
     { type: "spacer" },
-    { labelKey: "resource.deploy.statuses", type: "label" },
-    { type: "spacer" },
-    {
-      indent: undefined,
-      labelKey: "description.ansible.job",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "tower_job_id=999999999"
-    },
-    { labelValue: "local-cluster", status: "checkmark", value: "Deployed" },
     {
       indent: true,
       type: "link",

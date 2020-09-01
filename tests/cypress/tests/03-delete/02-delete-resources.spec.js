@@ -3,28 +3,19 @@
  *******************************************************************************/
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
-import {
-  validateTopology,
-  validateResourceTable
-} from "../../views/application";
+import { apiResources } from "../../views/resources";
 
-describe("Application", () => {
+describe("Cleanup resouces", () => {
   for (const type in config) {
     const data = config[type].data;
-
     if (data.enable) {
-      it(`should be validated from the topology - ${type}: ${
+      it(`delete application ${
         data.name
-      }`, () => {
-        validateTopology(data.name);
-      });
-      it(`should be validated from the resource table - ${type}: ${
-        data.name
-      }`, () => {
-        validateResourceTable(data.name);
+      }'s channel, subscription and placementrule`, () => {
+        apiResources.action(type, "delete", data);
       });
     } else {
-      it(`disable validation on resource ${type}`, () => {
+      it(`disable deletion on resource ${type}`, () => {
         cy.log(`skipping ${type} - ${data.name}`);
       });
     }

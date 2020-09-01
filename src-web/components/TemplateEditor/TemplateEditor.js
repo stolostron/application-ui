@@ -19,16 +19,18 @@ import {
   Loading,
   Notification,
   InlineNotification,
-  ToggleSmall
+  ToggleSmall,
+  TooltipDefinition
 } from 'carbon-components-react'
-import { initializeControlData } from './utils/initialize-form'
-import { cacheUserData, updateControls } from './utils/update-form'
+import { initializeControlData, cacheUserData } from './utils/initialize-control-data'
+//import { initializeControlSourcePaths } from './utils/initialize-control-source-paths'
+import { updateControls } from './utils/refresh-controls-from-source'
+import { generateSourceFromTemplate } from './utils/refresh-source-from-templates'
+import { getUniqueName } from './utils/source-utils'
 import {
-  generateYAML,
   highlightChanges,
   highlightAllChanges,
-  getUniqueName
-} from './utils/update-source'
+} from './utils/refresh-source-highlighting'
 import ControlPanel from './components/ControlPanel'
 import EditorHeader from './components/EditorHeader'
 import EditorBar from './components/EditorBar'
@@ -37,6 +39,7 @@ import './scss/template-editor.scss'
 import msgs from '../../../nls/platform.properties'
 import '../../../graphics/diagramIcons.svg'
 import _ from 'lodash'
+import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 
 const TEMPLATE_EDITOR_OPEN_COOKIE = 'template-editor-open-cookie'
 
@@ -124,7 +127,9 @@ export default class TemplateEditor extends React.Component {
           _.cloneDeep(initialControlData),
           locale
         );
-        ({ templateYAML, templateObject } = generateYAML(
+        //initializeControlSourcePaths(template,
+        //  controlData);
+        ({ templateYAML, templateObject } = generateSourceFromTemplate(
           template,
           controlData
         ))
@@ -139,7 +144,7 @@ export default class TemplateEditor extends React.Component {
           const uniqueName = getUniqueName(active, new Set(existing))
           if (uniqueName !== active) {
             name.active = uniqueName;
-            ({ templateYAML, templateObject } = generateYAML(
+            ({ templateYAML, templateObject } = generateSourceFromTemplate(
               template,
               controlData
             ))
@@ -169,7 +174,8 @@ export default class TemplateEditor extends React.Component {
       hasUndo: false,
       hasRedo: false,
       isDirty: false,
-      resetInx: 0
+      resetInx: 0,
+      canDisable: true
     }
     this.selectedTab = 0
     this.firstGoToLinePerformed = false
@@ -185,13 +191,22 @@ export default class TemplateEditor extends React.Component {
     this.handleGroupChange = this.handleGroupChange.bind(this)
     const { type = 'unknown' } = this.props
     this.splitterSizeCookie = `TEMPLATE-EDITOR-SPLITTER-SIZE-${type.toUpperCase()}`
-    window.addEventListener('beforeunload', ((event) => {
-      event.preventDefault()
-      event.returnValue = !this.state.isDirty ? 'saveOk' : ''
-    }).bind(this))
+    window.addEventListener(
+      'beforeunload',
+      (event => {
+        event.preventDefault()
+        event.returnValue = !this.state.isDirty ? 'saveOk' : ''
+      }).bind(this)
+    )
   }
 
   componentDidMount() {
+    canCreateActionAllNamespaces('applications', 'create', 'app.k8s.io').then(
+      response => {
+        const disabled = _.get(response, 'data.userAccessAnyNamespaces')
+        this.setState({ canDisable: !disabled })
+      }
+    )
     if (!this.renderedPortals) {
       setTimeout(() => {
         this.forceUpdate()
@@ -358,7 +373,7 @@ export default class TemplateEditor extends React.Component {
       onSelect(control, controlData)
     }
 
-    const { templateYAML: newYAML, templateObject } = generateYAML(
+    const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
       template,
       controlData,
       otherYAMLTabs
@@ -427,11 +442,14 @@ export default class TemplateEditor extends React.Component {
     } else {
       active.splice(inx, 1)
     }
-    const { templateYAML: newYAML, templateObject } = generateYAML(
+    const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
       template,
       controlData,
       otherYAMLTabs
     )
+
+
+
     updateControls(
       this.editors,
       newYAML,
@@ -447,7 +465,12 @@ export default class TemplateEditor extends React.Component {
       otherYAMLTabs,
       this.selectedTab
     )
-    this.setState({ controlData, templateYAML: newYAML, templateObject, isDirty: true })
+    this.setState({
+      controlData,
+      templateYAML: newYAML,
+      templateObject,
+      isDirty: true
+    })
   }
 
   handleNewEditorMode(control, controlData, creationView) {
@@ -521,7 +544,7 @@ export default class TemplateEditor extends React.Component {
       if (replaceTemplate) {
         template = replaceTemplate
         newYAMLTabs = newYAMLTabs || [];
-        ({ templateYAML: newYAML, templateObject } = generateYAML(
+        ({ templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
           template,
           controlData,
           newYAMLTabs
@@ -893,7 +916,7 @@ export default class TemplateEditor extends React.Component {
     // update the main yaml--for now
     if (activeYAMLEditor !== 0) {
       const { template, templateYAML: oldYAML } = this.state
-      const { templateYAML: newYAML, templateObject } = generateYAML(
+      const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
         template,
         controlData,
         otherYAMLTabs
@@ -917,7 +940,12 @@ export default class TemplateEditor extends React.Component {
     const { locale } = this.context
     const { template, controlData, otherYAMLTabs } = this.state
     let canCreate = false
-    const {templateYAML} = generateYAML(template, controlData, otherYAMLTabs, true)
+    const { templateYAML } = generateSourceFromTemplate(
+      template,
+      controlData,
+      otherYAMLTabs,
+      true
+    )
     const {
       templateObjectMap,
       templateExceptionMap,
@@ -1034,20 +1062,39 @@ export default class TemplateEditor extends React.Component {
   renderCreateButton() {
     const { portals = {}, createControl, locale } = this.props
     const { createBtn } = portals
+    const { canDisable } = this.state
+    let disableButton = true
+    if (this.state.isDirty && !canDisable) {
+      disableButton = false
+    }
+    const titleText = canDisable
+      ? msgs.get('button.save.access.denied', locale)
+      : undefined
     if (createControl && createBtn) {
       const portal = document.getElementById(createBtn)
+      const button = (
+        <Button
+          id={createBtn}
+          onClick={this.handleCreateResource.bind(this)}
+          kind={'primary'}
+          disabled={disableButton}
+        >
+          {msgs.get('button.create', locale)}
+        </Button>
+      )
       if (portal) {
-        return ReactDOM.createPortal(
-          <Button
-            id={createBtn}
-            onClick={this.handleCreateResource.bind(this)}
-            kind={'primary'}
-            disabled={!this.state.isDirty}
-          >
-            {msgs.get('button.create', locale)}
-          </Button>,
-          portal
-        )
+        return canDisable
+          ? ReactDOM.createPortal(
+            <TooltipDefinition
+              direction="bottom"
+              tooltipText={titleText}
+              align="center"
+              >
+              {button}
+            </TooltipDefinition>,
+            portal
+          )
+          : ReactDOM.createPortal(button, portal)
       }
     }
     return null
@@ -1088,7 +1135,7 @@ export default class TemplateEditor extends React.Component {
       locale
     )
     const otherYAMLTabs = []
-    const { templateYAML, templateObject } = generateYAML(
+    const { templateYAML, templateObject } = generateSourceFromTemplate(
       template,
       controlData,
       otherYAMLTabs

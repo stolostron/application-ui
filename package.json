@@ -91,6 +91,7 @@
     "dustjs-linkedin": "^2.7.5",
     "express": "^4.16.3",
     "express-session": "^1.17.0",
+    "github-api": "^3.3.0",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.1",
     "handlebars": "^4.7.6",

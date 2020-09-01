@@ -1,0 +1,49 @@
+{
+  "git": {
+    "data": {
+      "enable": false,
+      "name": "",
+      "config": {
+        "url": "",
+        "username": "",
+        "token": "",
+        "branch": "",
+        "path": "",
+        "timeWindow": {
+          "setting": false,
+          "type": "",
+          "date": ""
+        }
+      }
+    }
+  },
+  "objectbucket": {
+    "data": {
+      "enable": false,
+      "name": "",
+      "config": {
+        "url": "",
+        "accessKey": "",
+        "secretKey": "",
+        "timeWindow": {
+          "setting": false,
+          "type": "",
+          "date": ""
+        }
+      }
+    }
+  },
+  "local-cluster": {
+    "data": {
+      "enable": false,
+      "name": "",
+      "config": {
+        "repository": "",
+        "timeWindow": {
+          "setting": false,
+          "type": ""
+        }
+      }
+    }
+  }
+}

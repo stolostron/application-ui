@@ -28,7 +28,8 @@ import {
   setAvailableNSSpecs,
   getExistingPRControlsSection,
   updateNewRuleControlsData,
-  setAvailableChannelSpecs
+  setAvailableChannelSpecs,
+  getGitBranches
 } from './utils'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
@@ -89,7 +90,7 @@ export const updateControlsForNS = (
     const selectedRuleNameControl = _.get(control, 'selectedRuleName')
     //update placement rule controls
     if (existingRuleControl && existingruleCheckbox) {
-      if (availableData[active] === undefined) {
+      if (availableData===undefined || availableData[active] === undefined) {
         //user defined namespace
         _.set(existingruleCheckbox, 'type', 'hidden')
         _.set(existingRuleControl, 'type', 'hidden')
@@ -202,7 +203,33 @@ export const updatePlacementControls = placementControl => {
   return groupControlData
 }
 
-const updateChannelControls = (urlControl, globalControl) => {
+export const updateGitCredentials = urlControl => {
+  const groupControlData = _.get(urlControl, 'groupControlData')
+
+  const userCtrlData = _.get(
+    groupControlData.find(({ id }) => id === 'githubUser'),
+    'active',
+    ''
+  )
+
+  const tokenCtrlData = _.get(
+    groupControlData.find(({ id }) => id === 'githubAccessId'),
+    'active',
+    ''
+  )
+
+  if (
+    (userCtrlData.length > 0 && tokenCtrlData.length > 0) ||
+    (userCtrlData.length === 0 && tokenCtrlData.length === 0)
+  ) {
+    getGitBranches(_.get(urlControl, 'groupControlData'))
+  }
+  return groupControlData
+}
+
+export const updateChannelControls = (urlControl, globalControl) => {
+  getGitBranches(_.get(urlControl, 'groupControlData'))
+
   //update existing placement rule section when user changes the namespace
   const nsControl = globalControl.find(
     ({ id: idCtrl }) => idCtrl === 'namespace'
@@ -218,7 +245,7 @@ const updateChannelControls = (urlControl, globalControl) => {
   const namespaceControl = groupControlData.find(
     ({ id }) => id === 'channelNamespace'
   )
-  // change channel name and namespace to reflect github path
+  // change channel name and namespace to reflect repository path
   if (active) {
     const a = document.createElement('a')
     a.href = active
@@ -249,13 +276,22 @@ const updateChannelControls = (urlControl, globalControl) => {
     }
   }
   const { id } = urlControl
-  if (id === 'githubURL') {
+  switch (id) {
+  case 'githubURL':
     setType('githubUser')
     setType('githubAccessId')
-  } else if (id === 'objectstoreURL') {
+    break
+  case 'objectstoreURL':
     setType('accessKey')
     setType('secretKey')
+    break
+  case 'helmURL':
+    setType('helmUser')
+    setType('helmPassword')
+    break
   }
+
+  return globalControl
 }
 
 const githubChannelData = [
@@ -289,7 +325,8 @@ const githubChannelData = [
     type: 'text',
     active: '',
     encode: true,
-    placeholder: 'app.enter.select.username'
+    placeholder: 'app.enter.select.username',
+    onSelect: updateGitCredentials
   },
   {
     name: 'creation.app.github.accessid',
@@ -298,7 +335,8 @@ const githubChannelData = [
     type: 'text',
     encode: true,
     active: '',
-    placeholder: 'app.enter.access.token'
+    placeholder: 'app.enter.access.token',
+    onSelect: updateGitCredentials
   },
   {
     name: 'creation.app.github.branch',
@@ -307,7 +345,7 @@ const githubChannelData = [
     type: 'combobox',
     active: '',
     placeholder: 'app.enter.select.branch',
-    available: ['master'],
+    available: [],
     validation: VALIDATE_ALPHANUMERIC,
     cacheUserValueKey: 'create.app.github.branch'
   },
@@ -321,6 +359,36 @@ const githubChannelData = [
     available: [],
     validation: VALIDATE_ALPHANUMERIC,
     cacheUserValueKey: 'create.app.github.path'
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  pre/post jobs  /////////////////////////////////////
+  {
+    id: 'perPostSection',
+    type: 'section',
+    title: 'creation.app.section.prePost',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    name: 'creation.app.pre.job',
+    tooltip: 'tooltip.creation.app.preJob',
+    id: 'preJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.preJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  {
+    name: 'creation.app.post.job',
+    tooltip: 'tooltip.creation.app.postJob',
+    id: 'postJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.postJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
@@ -436,6 +504,38 @@ const hubClusterChannelData = [
     fetchAvailable: loadExistingChannels('namespace'),
     onSelect: updateChannelControls
   },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  pre/post jobs  /////////////////////////////////////
+  {
+    id: 'perPostSection',
+    type: 'section',
+    title: 'creation.app.section.prePost',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    name: 'creation.app.pre.job',
+    tooltip: 'tooltip.creation.app.preJob',
+    id: 'preJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.preJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  {
+    name: 'creation.app.post.job',
+    tooltip: 'tooltip.creation.app.postJob',
+    id: 'postJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.postJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  clusters  /////////////////////////////////////
   {
     id: 'clusterSection',
     type: 'section',
@@ -524,15 +624,178 @@ const hubClusterChannelData = [
 const helmReleaseChannelData = [
   ///////////////////////  HelmRelease  /////////////////////////////////////
   {
-    name: 'creation.ocp.purpose',
-    tooltip: 'tooltip.creation.ocp.purpose',
-    id: 'purposehl',
+    id: 'channelName',
+    type: 'hidden',
+    active: 'resource'
+  },
+  {
+    id: 'channelNamespace',
+    type: 'hidden',
+    active: ''
+  },
+  {
+    name: 'creation.app.helmrepo.url',
+    tooltip: 'tooltip.creation.app.helmrepo.url',
+    id: 'helmURL',
     type: 'combobox',
     active: '',
-    placeholder: 'cluster.create.select.purpose',
-    available: ['dev', 'prod', 'qa'],
+    placeholder: 'app.enter.select.helmrepo.url',
+    available: [],
+    validation: VALIDATE_URL,
+    fetchAvailable: loadExistingChannels('helmrepo'),
+    onSelect: updateChannelControls
+  },
+  {
+    name: 'creation.app.helmrepo.user',
+    tooltip: 'tooltip.creation.app.helmrepo.user',
+    id: 'helmUser',
+    type: 'text',
+    active: '',
+    encode: true,
+    placeholder: 'app.enter.helmrepo.username'
+  },
+  {
+    name: 'creation.app.helmrepo.password',
+    tooltip: 'tooltip.creation.app.helmrepo.password',
+    id: 'helmPassword',
+    type: 'text',
+    encode: true,
+    active: '',
+    placeholder: 'app.enter.helmrepo.password'
+  },
+  {
+    name: 'creation.app.helmrepo.chart.name',
+    tooltip: 'tooltip.creation.app.helmrepo.chart.name',
+    id: 'helmChartName',
+    type: 'text',
+    active: '',
+    placeholder: 'app.enter.helmrepo.chart.name',
+    validation: {
+      required: true
+    }
+  },
+  {
+    name: 'creation.app.helmrepo.package.version',
+    tooltip: 'tooltip.creation.app.helmrepo.package.version',
+    id: 'helmPackageVersion',
+    type: 'text',
+    active: '',
+    placeholder: 'app.enter.helmrepo.package.version'
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  pre/post jobs  /////////////////////////////////////
+  {
+    id: 'perPostSection',
+    type: 'section',
+    title: 'creation.app.section.prePost',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    name: 'creation.app.pre.job',
+    tooltip: 'tooltip.creation.app.preJob',
+    id: 'preJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.preJob',
     validation: VALIDATE_ALPHANUMERIC,
-    cacheUserValueKey: 'create.cluster.purpose'
+    available: []
+  },
+  {
+    name: 'creation.app.post.job',
+    tooltip: 'tooltip.creation.app.postJob',
+    id: 'postJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.postJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  clusters  /////////////////////////////////////
+  {
+    id: 'clusterSection',
+    type: 'section',
+    title: 'creation.app.placement.rule',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    id: existingRuleCheckbox,
+    type: 'hidden',
+    name: 'creation.app.settings.existingRule',
+    tooltip: 'tooltip.creation.app.settings.existingRule',
+    onSelect: updateDisplayForPlacementControls,
+    active: false,
+    available: [],
+    validation: {}
+  },
+  {
+    name: 'creation.app.exitingRuleCombo',
+    tooltip: 'tooltip.creation.app.exitingRuleCombo',
+    id: 'placementrulecombo',
+    type: 'hidden',
+    fetchAvailable: loadExistingPlacementRules(),
+    onSelect: updateNewRuleControls,
+    validation: {}
+  },
+  {
+    id: 'selectedRuleName',
+    type: 'hidden',
+    active: ''
+  },
+  {
+    id: localClusterCheckbox,
+    type: 'checkbox',
+    name: 'creation.app.settings.localClusters',
+    tooltip: 'tooltip.creation.app.settings.localClusters',
+    onSelect: updatePlacementControls,
+    active: false,
+    available: []
+  },
+  {
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: false,
+    available: []
+  },
+  {
+    type: 'custom',
+    id: 'clusterSelector',
+    component: <ClusterSelector />,
+    available: []
+  },
+  {
+    name: 'creation.app.settings.clustersReplica',
+    tooltip: 'tooltip.creation.app.settings.clustersReplica',
+    id: 'clusterReplicas',
+    type: 'text',
+    active: '',
+    placeholder: 'creation.app.settings.ph.clustersReplica',
+    available: [],
+    validation: {}
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  settings  /////////////////////////////////////
+  {
+    id: 'settingsSection',
+    type: 'section',
+    title: 'creation.app.section.settings',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    type: 'custom',
+    name: 'creation.app.settings.timeWindow',
+    tooltip: 'creation.app.settings.timeWindow.tooltip',
+    id: 'timeWindow',
+    component: <TimeWindow />,
+    available: []
   }
 ]
 
@@ -577,6 +840,36 @@ const objectstoreChannelData = [
     encode: true,
     active: '',
     placeholder: 'app.enter.secretkey'
+  },
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////  pre/post jobs  /////////////////////////////////////
+  {
+    id: 'perPostSection',
+    type: 'section',
+    title: 'creation.app.section.prePost',
+    overline: true,
+    collapsable: true,
+    collapsed: false
+  },
+  {
+    name: 'creation.app.pre.job',
+    tooltip: 'tooltip.creation.app.preJob',
+    id: 'preJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.preJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
+  },
+  {
+    name: 'creation.app.post.job',
+    tooltip: 'tooltip.creation.app.postJob',
+    id: 'postJob',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.postJob',
+    validation: VALIDATE_ALPHANUMERIC,
+    available: []
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////

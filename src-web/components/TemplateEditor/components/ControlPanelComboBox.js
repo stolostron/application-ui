@@ -11,7 +11,11 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ComboBox, DropdownSkeleton, InlineLoading } from 'carbon-components-react'
+import {
+  ComboBox,
+  DropdownSkeleton,
+  InlineLoading
+} from 'carbon-components-react'
 import Tooltip from './Tooltip'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -32,7 +36,7 @@ class ControlPanelComboBox extends React.Component {
 
   setControlRef = (control, ref) => {
     control.ref = ref
-  }
+  };
 
   render() {
     const { controlId, locale, control } = this.props

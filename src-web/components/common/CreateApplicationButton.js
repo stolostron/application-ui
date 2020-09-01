@@ -11,18 +11,41 @@
 
 import React, { Component } from 'react'
 import msgs from '../../../nls/platform.properties'
-import { Button } from 'carbon-components-react'
+import { Button, TooltipDefinition } from 'carbon-components-react'
 import { Link } from 'react-router-dom'
 import config from '../../../lib/shared/config'
+import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
+import _ from 'lodash'
 
 const path = `${config.contextPath}/create`
 
 class CreateApplicationButton extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      canDisable: true
+    }
+  }
+
+  componentDidMount() {
+    canCreateActionAllNamespaces('applications', 'create', 'app.k8s.io').then(
+      response => {
+        const disabled = _.get(response, 'data.userAccessAnyNamespaces')
+        this.setState({ canDisable: !disabled })
+      }
+    )
+  }
+
   render() {
     const { locale } = this.context
-    return (
+    const { canDisable } = this.state
+    const titleText = canDisable
+      ? msgs.get('actions.create.application.access.denied', locale)
+      : undefined
+    const button = (
       <Link to={path} key="create-application">
         <Button
+          disabled={canDisable}
           small
           icon={'add--glyph'}
           iconDescription="Add icon"
@@ -31,6 +54,13 @@ class CreateApplicationButton extends Component {
           {msgs.get('actions.create.application', locale)}
         </Button>
       </Link>
+    )
+    return canDisable ? (
+      <TooltipDefinition direction="top" tooltipText={titleText} align="center">
+        {button}
+      </TooltipDefinition>
+    ) : (
+      button
     )
   }
 }

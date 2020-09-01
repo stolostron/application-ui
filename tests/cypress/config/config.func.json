@@ -1,0 +1,49 @@
+{
+  "git": {
+    "data": {
+      "enable": true,
+      "name": "ui-create-app-git",
+      "config": {
+        "url": "https://github.com/fxiang1/app-samples.git",
+        "username": "",
+        "token": "",
+        "branch": "master",
+        "path": "helloworld",
+        "timeWindow": {
+          "setting": true,
+          "type": "blockinterval",
+          "date": "Monday"
+        }
+      }
+    }
+  },
+  "objectbucket": {
+    "data": {
+      "enable": true,
+      "name": "ui-create-app-objbucket",
+      "config": {
+        "url": "http://ec2-dummy/dev1",
+        "accessKey": "dummy1",
+        "secretKey": "dummy2",
+        "timeWindow": {
+          "setting": true,
+          "type": "activeinterval",
+          "date": "Sunday"
+        }
+      }
+    }
+  },
+  "local-cluster": {
+    "data": {
+      "enable": true,
+      "name": "ui-create-app-local",
+      "config": {
+        "repository": "ui-test",
+        "timeWindow": {
+          "setting": true,
+          "type": "active"
+        }
+      }
+    }
+  }
+}

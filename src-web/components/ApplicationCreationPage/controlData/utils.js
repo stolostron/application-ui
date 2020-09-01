@@ -11,8 +11,85 @@
 
 import _ from 'lodash'
 
+const GitHub = require('github-api')
+
 const onlineClustersCheckbox = 'online-cluster-only-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
+
+export const getGitBranches = async groupControlData => {
+  try {
+    const gitControl = groupControlData.find(({ id }) => id === 'githubURL')
+    const branchCtrl = groupControlData.find(({ id }) => id === 'githubBranch')
+
+    const userCtrl = groupControlData.find(({ id }) => id === 'githubUser')
+
+    const tokenCtrl = groupControlData.find(
+      ({ id }) => id === 'githubAccessId'
+    )
+
+    let gitPath = _.get(gitControl, 'active', '')
+    let existingPrivateChannel = false
+
+    if (gitPath.length === 0) {
+      branchCtrl.active = ''
+      branchCtrl.available = []
+    }
+
+    if (gitPath.length > 0) {
+      let github = new GitHub()
+
+      if (
+        _.get(userCtrl, 'active', '').length > 0 &&
+        _.get(tokenCtrl, 'active', '').length > 0
+      ) {
+        //use authentication
+        github = new GitHub({
+          username: userCtrl.active,
+          password: tokenCtrl.active,
+          auth: 'basic'
+        })
+      } else {
+        //check if this is an existing private channel
+        const selectedChannel = _.get(
+          _.get(gitControl, 'availableData', {}),
+          gitPath
+        )
+        if (
+          selectedChannel &&
+          _.get(selectedChannel, 'raw.spec.secretRef.name')
+        ) {
+          //this is a private channel, don't try to retreive the branches
+          existingPrivateChannel = true
+        }
+      }
+
+      const gitUrl = new URL(gitPath)
+
+      if (gitUrl.host === 'github.com' && existingPrivateChannel === false) {
+        //check only github repos; and only new private channels since we don't have the channel secret info for existing channels
+        //get the url path, then remove first / and .git
+        gitPath = gitUrl.pathname.substring(1).replace('.git', '')
+
+        const repoObj = github.getRepo(gitPath)
+
+        await repoObj.listBranches().then(result => {
+          branchCtrl.active = ''
+          branchCtrl.available = []
+
+          if (result.data) {
+            result.data.forEach(branch => {
+              branchCtrl.available.push(branch.name)
+            })
+          }
+        })
+      }
+    }
+  } catch (err) {
+    //return err
+  }
+
+  return groupControlData
+}
 
 export const setAvailableRules = (control, result) => {
   const { loading } = result
@@ -66,6 +143,8 @@ export const setAvailableNSSpecs = (control, result) => {
   } else {
     control.isLoading = loading
   }
+
+  return control
 }
 
 export const getExistingPRControlsSection = (initiatingControl, control) => {
@@ -215,4 +294,6 @@ export const setAvailableChannelSpecs = (type, control, result) => {
   } else {
     control.isLoading = loading
   }
+
+  return control
 }

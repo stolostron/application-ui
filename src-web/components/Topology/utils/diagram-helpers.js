@@ -919,7 +919,7 @@ export const showAnsibleJobDetails = (node, details) => {
   const statusStr =
     statusKey === 'successful'
       ? 'checkmark'
-      : (statusKey === 'successful') === 'error' ? 'failure' : 'pending'
+      : statusKey === 'error' ? 'failure' : 'pending'
 
   if (jobUrl) {
     details.push({

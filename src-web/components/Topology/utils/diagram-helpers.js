@@ -912,6 +912,48 @@ export const setupResourceModel = (
   return resourceMap
 }
 
+export const showAnsibleJobDetails = (node, details) => {
+  const jobUrl = _.get(node, 'specs.raw.spec.ansibleJobResult.joburl')
+
+  const statusKey = _.get(node, 'specs.raw.spec.ansibleJobResult.status', '')
+  const statusStr =
+    statusKey === 'successful'
+      ? 'checkmark'
+      : (statusKey === 'successful') === 'error' ? 'failure' : 'pending'
+
+  if (jobUrl) {
+    details.push({
+      type: 'label',
+      labelKey: 'description.ansible.job.url'
+    })
+
+    details.push({
+      type: 'link',
+      value: {
+        label: jobUrl,
+        id: `${jobUrl}-location`,
+        data: {
+          action: 'open_link',
+          targetLink: jobUrl
+        }
+      },
+      indent: true
+    })
+
+    details.push({
+      type: 'spacer'
+    })
+  }
+
+  details.push({
+    labelValue: msgs.get('description.ansible.job.status'),
+    value: statusKey,
+    status: statusStr
+  })
+
+  return details
+}
+
 //show resource deployed status on the remote clusters
 //for resources not producing pods
 export const setResourceDeployStatus = (node, details) => {
@@ -936,13 +978,17 @@ export const setResourceDeployStatus = (node, details) => {
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 
-  details.push({
-    type: 'spacer'
-  })
-  details.push({
-    type: 'label',
-    labelKey: 'resource.deploy.statuses'
-  })
+  if (_.get(node, 'type', '') === 'ansiblejob') {
+    showAnsibleJobDetails(node, details)
+  } else {
+    details.push({
+      type: 'spacer'
+    })
+    details.push({
+      type: 'label',
+      labelKey: 'resource.deploy.statuses'
+    })
+  }
 
   clusterNames.forEach(clusterName => {
     details.push({
@@ -951,28 +997,21 @@ export const setResourceDeployStatus = (node, details) => {
     clusterName = R.trim(clusterName)
     const res = resourceMap[`${resourceName}-${clusterName}`]
 
-    if (res && _.get(node, 'type', '') === 'ansiblejob') {
-      addDetails(details, [
-        {
-          labelKey: 'description.ansible.job',
-          value: _.get(res, 'label')
-        }
-      ])
+    if (_.get(node, 'type', '') !== 'ansiblejob') {
+      const deployedKey = res
+        ? node.type === 'namespace' ? deployedNSStr : deployedStr
+        : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr
+      const statusStr =
+        deployedKey === deployedStr || deployedKey === deployedNSStr
+          ? 'checkmark'
+          : 'pending'
+
+      details.push({
+        labelValue: clusterName,
+        value: deployedKey,
+        status: statusStr
+      })
     }
-
-    const deployedKey = res
-      ? node.type === 'namespace' ? deployedNSStr : deployedStr
-      : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr
-    const statusStr =
-      deployedKey === deployedStr || deployedKey === deployedNSStr
-        ? 'checkmark'
-        : 'pending'
-
-    details.push({
-      labelValue: clusterName,
-      value: deployedKey,
-      status: statusStr
-    })
 
     if (res) {
       //for open shift routes show location info

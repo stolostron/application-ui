@@ -63,7 +63,7 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources in the same namespace where it is created on the subscribed target clusters.
+                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
               </p>
             </div>
             <div
@@ -91,7 +91,7 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as a Git repositories, Helm chart repositories, object store, or hub namespace. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -205,7 +205,7 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources in the same namespace where it is created on the subscribed target clusters.
+                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
               </p>
             </div>
             <div
@@ -233,7 +233,7 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as a Git repositories, Helm chart repositories, object store, or hub namespace. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -347,7 +347,7 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources in the same namespace where it is created on the subscribed target clusters.
+                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
               </p>
             </div>
             <div
@@ -375,7 +375,7 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as a Git repositories, Helm chart repositories, object store, or hub namespace. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div

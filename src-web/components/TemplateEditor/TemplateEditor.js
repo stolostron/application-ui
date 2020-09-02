@@ -39,7 +39,6 @@ import './scss/template-editor.scss'
 import msgs from '../../../nls/platform.properties'
 import '../../../graphics/diagramIcons.svg'
 import _ from 'lodash'
-import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 
 const TEMPLATE_EDITOR_OPEN_COOKIE = 'template-editor-open-cookie'
 
@@ -57,6 +56,7 @@ export default class TemplateEditor extends React.Component {
       isFailed: PropTypes.bool,
       fetchData: PropTypes.object
     }),
+    hasPermissions: PropTypes.bool,
     history: PropTypes.object,
     locale: PropTypes.string,
     portals: PropTypes.object.isRequired,
@@ -174,8 +174,7 @@ export default class TemplateEditor extends React.Component {
       hasUndo: false,
       hasRedo: false,
       isDirty: false,
-      resetInx: 0,
-      canDisable: true
+      resetInx: 0
     }
     this.selectedTab = 0
     this.firstGoToLinePerformed = false
@@ -201,12 +200,6 @@ export default class TemplateEditor extends React.Component {
   }
 
   componentDidMount() {
-    canCreateActionAllNamespaces('applications', 'create', 'app.k8s.io').then(
-      response => {
-        const disabled = _.get(response, 'data.userAccessAnyNamespaces')
-        this.setState({ canDisable: !disabled })
-      }
-    )
     if (!this.renderedPortals) {
       setTimeout(() => {
         this.forceUpdate()
@@ -1071,14 +1064,13 @@ export default class TemplateEditor extends React.Component {
   }
 
   renderCreateButton() {
-    const { portals = {}, createControl, locale } = this.props
+    const { portals = {}, createControl, hasPermissions=true, locale } = this.props
     const { createBtn } = portals
-    const { canDisable } = this.state
     let disableButton = true
-    if (this.state.isDirty && !canDisable) {
+    if (this.state.isDirty && hasPermissions) {
       disableButton = false
     }
-    const titleText = canDisable
+    const titleText = !hasPermissions
       ? msgs.get('button.save.access.denied', locale)
       : undefined
     if (createControl && createBtn) {
@@ -1094,9 +1086,9 @@ export default class TemplateEditor extends React.Component {
         </Button>
       )
       if (portal) {
-        return canDisable
+        return !hasPermissions
           ? ReactDOM.createPortal(
-            <TooltipContainer tooltip={titleText} isDisabled={canDisable}>
+            <TooltipContainer tooltip={titleText} isDisabled={!hasPermissions}>
               {button}
             </TooltipContainer>,
             portal

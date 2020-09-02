@@ -10,9 +10,7 @@
 'use strict'
 
 import React from 'react'
-import {
-  HCMPlacementRuleList
-} from '../../../../lib/client/queries'
+import { HCMPlacementRuleList } from '../../../../lib/client/queries'
 import TimeWindow from '../components/TimeWindow'
 import ClusterSelector from '../components/ClusterSelector'
 import {
@@ -178,16 +176,6 @@ const placementData = [
     id: 'clusterSelector',
     component: <ClusterSelector />,
     available: []
-  },
-  {
-    name: 'creation.app.settings.clustersReplica',
-    tooltip: 'tooltip.creation.app.settings.clustersReplica',
-    id: 'clusterReplicas',
-    type: 'text',
-    active: '',
-    placeholder: 'creation.app.settings.ph.clustersReplica',
-    available: [],
-    validation: {}
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  settings  /////////////////////////////////////

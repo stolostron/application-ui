@@ -22,7 +22,7 @@ export const channels = (type, action, name, config) => {
       channelNs: "app-samples-chn-ns",
       channelName: "app-samples-chn"
     },
-    objectbucket: {
+    objectstore: {
       channelNs: "dev1-chn-ns",
       channelName: "dev1-chn"
     },

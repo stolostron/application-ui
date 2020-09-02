@@ -9,12 +9,133 @@
  *******************************************************************************/
 'use strict'
 
+import {
+  HCMChannelList
+} from '../../../../lib/client/queries'
+
 import _ from 'lodash'
 
 const GitHub = require('github-api')
 
 const onlineClustersCheckbox = 'online-cluster-only-checkbox'
+const existingRuleCheckbox = 'existingrule-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
+
+export const loadExistingChannels = type => {
+  return {
+    query: HCMChannelList,
+    loadingDesc: 'creation.app.loading.channels',
+    setAvailable: setAvailableChannelSpecs.bind(null, type)
+  }
+}
+
+export const updateChannelControls = (urlControl, globalControl) => {
+  getGitBranches(_.get(urlControl, 'groupControlData'))
+
+  //update existing placement rule section when user changes the namespace
+  const nsControl = globalControl.find(
+    ({ id: idCtrl }) => idCtrl === 'namespace'
+  )
+  updateControlsForNS(urlControl, nsControl, globalControl)
+
+  const { active, availableData, groupControlData } = urlControl
+  const pathData = availableData[active]
+
+  const nameControl = groupControlData.find(
+    ({ id: idCtrl }) => idCtrl === 'channelName'
+  )
+  const namespaceControl = groupControlData.find(
+    ({ id }) => id === 'channelNamespace'
+  )
+  // change channel name and namespace to reflect repository path
+  if (active) {
+    const a = document.createElement('a')
+    a.href = active
+
+    // if existing channel, reuse channel name and namespace
+    if (pathData && pathData.metadata) {
+      nameControl.active = pathData.metadata.name
+      namespaceControl.active = pathData.metadata.namespace
+    } else {
+      let name = a.pathname.split('/').pop()
+      name = name.split('.').shift()
+      nameControl.active = `${name}-chn`
+      namespaceControl.active = ''
+    }
+  } else {
+    nameControl.active = 'resource'
+    namespaceControl.active = ''
+  }
+
+  let control
+  // if existing channel, hide user/token controls
+  const type = !pathData ? 'text' : 'hidden'
+  const setType = cid => {
+    control = groupControlData.find(({ id }) => id === cid)
+    _.set(control, 'type', type)
+    if (type === 'hidden') {
+      _.set(control, 'active', '')
+    }
+  }
+  const { id } = urlControl
+  switch (id) {
+  case 'githubURL':
+    setType('githubUser')
+    setType('githubAccessId')
+    break
+  case 'objectstoreURL':
+    setType('accessKey')
+    setType('secretKey')
+    break
+  case 'helmURL':
+    setType('helmUser')
+    setType('helmPassword')
+    break
+  }
+
+  return globalControl
+}
+
+export const updateControlsForNS = (
+  initiatingControl,
+  nsControl,
+  globalControl
+) => {
+  const { active, availableData={} } = nsControl
+
+  const controlList = getExistingPRControlsSection(
+    initiatingControl,
+    globalControl
+  )
+  controlList.forEach(control => {
+    const existingRuleControl = _.get(control, 'placementrulecombo')
+    const existingruleCheckbox = _.get(control, existingRuleCheckbox)
+    const selectedRuleNameControl = _.get(control, 'selectedRuleName')
+    //update placement rule controls
+    if (existingRuleControl && existingruleCheckbox) {
+      if (availableData[active] === undefined) {
+        //user defined namespace
+        _.set(existingruleCheckbox, 'type', 'hidden')
+        _.set(existingRuleControl, 'type', 'hidden')
+
+        _.set(existingRuleControl, 'ns', '')
+        selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
+        _.set(existingruleCheckbox, 'active', false)
+      } else {
+        //existing namespace
+        _.set(existingruleCheckbox, 'type', 'checkbox')
+        _.set(existingruleCheckbox, 'active', false)
+
+        _.set(existingRuleControl, 'ns', active)
+        _.set(existingRuleControl, 'type', 'hidden')
+      }
+      _.set(existingRuleControl, 'active', '')
+      updateNewRuleControlsData('', control)
+    }
+  })
+
+  return globalControl
+}
 
 export const getGitBranches = async groupControlData => {
   try {

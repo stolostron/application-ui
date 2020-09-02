@@ -17,7 +17,7 @@
       }
     }
   },
-  "objectbucket": {
+  "objectstore": {
     "data": {
       "enable": true,
       "name": "ui-create-app-objbucket",

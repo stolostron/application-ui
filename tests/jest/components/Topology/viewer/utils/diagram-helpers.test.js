@@ -34,6 +34,81 @@ import {
   getClusterHost
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
+const ansibleSuccess = {
+  type: "ansiblejob",
+  name: "bigjoblaunch",
+  namespace: "default",
+  id:
+    "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+  specs: {
+    raw: {
+      metadata: {
+        name: "bigjoblaunch",
+        namespace: "default"
+      },
+      spec: {
+        ansibleJobResult: {
+          joburl: "http://ansible_url/job",
+          status: "successful"
+        }
+      }
+    },
+    ansiblejobModel: {
+      "bigjoblaunch-local-cluster": {
+        label: "tower_job_id=999999999"
+      }
+    }
+  }
+};
+const ansibleError = {
+  type: "ansiblejob",
+  name: "bigjoblaunch",
+  namespace: "default",
+  id:
+    "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+  specs: {
+    raw: {
+      metadata: {
+        name: "bigjoblaunch",
+        namespace: "default"
+      }
+    },
+    ansiblejobModel: {
+      "bigjoblaunch-local-cluster": {
+        label: "tower_job_id=999999999"
+      }
+    }
+  }
+};
+const ansibleError2 = {
+  type: "ansiblejob",
+  name: "bigjoblaunch",
+  namespace: "default",
+  id:
+    "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+  specs: {
+    raw: {
+      metadata: {
+        name: "bigjoblaunch",
+        namespace: "default"
+      },
+      spec: {
+        conditions: [
+          {
+            type: "Failure",
+            message: "secret error"
+          }
+        ]
+      }
+    },
+    ansiblejobModel: {
+      "bigjoblaunch-local-cluster": {
+        label: "tower_job_id=999999999"
+      }
+    }
+  }
+};
+
 const node = {
   specs: {
     raw: {
@@ -2239,55 +2314,12 @@ describe("computeNodeStatus ", () => {
       }
     }
   };
-  const ansibleSuccess = {
-    type: "ansiblejob",
-    name: "bigjoblaunch",
-    namespace: "default",
-    id:
-      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
-    specs: {
-      raw: {
-        metadata: {
-          name: "bigjoblaunch",
-          namespace: "default"
-        },
-        spec: {
-          ansibleJobResult: {
-            joburl: "http://ansible_url/job",
-            status: "successful"
-          }
-        }
-      },
-      ansiblejobModel: {
-        "bigjoblaunch-local-cluster": {
-          label: "tower_job_id=999999999"
-        }
-      }
-    }
-  };
-  const ansibleError = {
-    type: "ansiblejob",
-    name: "bigjoblaunch",
-    namespace: "default",
-    id:
-      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
-    specs: {
-      raw: {
-        metadata: {
-          name: "bigjoblaunch",
-          namespace: "default"
-        },
-        spec: {}
-      },
-      ansiblejobModel: {
-        "bigjoblaunch-local-cluster": {
-          label: "tower_job_id=999999999"
-        }
-      }
-    }
-  };
+
   it("return Ansible error", () => {
     expect(computeNodeStatus(ansibleError)).toEqual("red");
+  });
+  it("return Ansible error2", () => {
+    expect(computeNodeStatus(ansibleError2)).toEqual("red");
   });
   it("return Ansible success", () => {
     expect(computeNodeStatus(ansibleSuccess)).toEqual("green");
@@ -2495,11 +2527,48 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
       labelValue: "Ansible Job status",
       status: "failure",
       value:
-        "Ansible job was not executed, check the Subscription YAML for status errors."
+        "Ansible job was not executed. Check the Subscription YAML for status errors."
     }
   ];
+
+  const result1 = [
+    {
+      labelValue: "Ansible Job status",
+      status: "failure",
+      value:
+        "Ansible job was not executed. Check the Subscription YAML for status errors."
+    }
+  ];
+  const result2 = [
+    {
+      labelValue: "Ansible Job status",
+      status: "failure",
+      value: "Ansible job was not executed. Error:secret error"
+    },
+    { type: "spacer" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" }
+  ];
+
   it("setResourceDeployStatus ansiblejob no status", () => {
     expect(setResourceDeployStatus(node, [])).toEqual(result);
+  });
+  it("setResourceDeployStatus ansiblejob no status 1", () => {
+    expect(setResourceDeployStatus(ansibleError, [])).toEqual(result1);
+  });
+  it("setResourceDeployStatus ansiblejob no status 2", () => {
+    expect(setResourceDeployStatus(ansibleError2, [])).toEqual(result2);
   });
 });
 

@@ -924,11 +924,32 @@ export const setupResourceModel = (
 export const showAnsibleJobDetails = (node, details) => {
   const jobUrl = _.get(node, 'specs.raw.spec.ansibleJobResult.joburl')
 
-  const statusKey = _.get(
-    node,
-    'specs.raw.spec.ansibleJobResult.status',
-    msgs.get('description.ansible.job.status.empty')
-  )
+  let statusKey = _.get(node, 'specs.raw.spec.ansibleJobResult.status')
+
+  if (!statusKey) {
+    //not executed, get error message
+    const conditions = _.get(node, 'specs.raw.spec.conditions', [])
+    const failIndex = _.findIndex(conditions, (condition) => {
+      return condition.type === 'Failure'
+    })
+    if (failIndex !== -1) {
+      statusKey = `${msgs.get(
+        'description.ansible.job.status.empty'
+      )} ${msgs.get('description.ansible.job.status.empty.err2')}${_.get(
+        conditions[failIndex],
+        'message',
+        ''
+      )}`
+    }
+  }
+
+  if (!statusKey) {
+    //use generic message
+    statusKey = `${msgs.get('description.ansible.job.status.empty')} ${msgs.get(
+      'description.ansible.job.status.empty.err'
+    )}`
+  }
+
   const statusStr =
     statusKey === 'successful'
       ? 'checkmark'
@@ -997,7 +1018,7 @@ export const setResourceDeployStatus = (node, details) => {
   if (_.get(node, 'type', '') === 'ansiblejob') {
     showAnsibleJobDetails(node, details)
 
-    if (!_.get(node, 'specs.raw.spec.ansibleJobResult.status')) {
+    if (!_.get(node, 'specs.raw.spec')) {
       return details // no other status info so return here
     }
   } else {

@@ -11,7 +11,7 @@ import {
   resourceTable,
   modal,
   noResource,
-  notification
+  notification,
 } from "./common";
 
 export const createApplication = (data, type) => {
@@ -22,7 +22,7 @@ export const createApplication = (data, type) => {
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name").type(name);
   cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`, {
-    timeout: 50 * 1000
+    timeout: 50 * 1000,
   });
   cy.get(`#${type}`).click();
   if (type === "git") {
@@ -38,7 +38,7 @@ export const createApplication = (data, type) => {
   submitSave();
 };
 
-export const createGit = config => {
+export const createGit = (config) => {
   const { url, username, token, branch, path } = config;
   cy.get("#githubURL", { timeout: 20 * 1000 }).type(url);
   if (username && token) {
@@ -49,10 +49,10 @@ export const createGit = config => {
   cy.get("#githubPath").type(path);
 };
 
-export const createObj = config => {
+export const createObj = (config) => {
   const { url, accessKey, secretKey } = config;
   cy.get("#objectstoreURL", { timeout: 20 * 1000 }).type(url);
-  cy.get("#accessKey").then(input => {
+  cy.get("#accessKey").then((input) => {
     if (input.is("enabled")) {
       cy.get("#accessKey").type(accessKey);
       cy.get("#secretKey").type(secretKey);
@@ -62,7 +62,7 @@ export const createObj = config => {
   });
 };
 
-export const createLocal = config => {
+export const createLocal = (config) => {
   const { repository } = config;
   repository
     ? cy.get("#namespaceChannelName", { timeout: 20 * 1000 }).type(repository)
@@ -70,28 +70,71 @@ export const createLocal = config => {
 };
 
 export const submitSave = () => {
-  cy
-    .get("#create-button-portal-id", { timeout: 20 * 1000 })
+  cy.get("#create-button-portal-id", { timeout: 20 * 1000 })
     .should("not.be.disabled")
     .click();
   notification.shouldExist("success", { timeout: 60 * 1000 });
   cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
 };
 
-export const validateTopology = name => {
+export const validateTopology = (name, data, type) => {
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();
-  cy
-    .get(".search-query-card-loading", { timeout: 20 * 1000 })
-    .should("not.exist");
+  cy.get(".search-query-card-loading", { timeout: 20 * 1000 }).should(
+    "not.exist"
+  );
   cy.get(".overview-cards-container");
   cy.get("#topologySvgId", { timeout: 50 * 1000 });
+  cy.get(".layoutLoadingContainer").should("not.be.visible");
+  cy.get(".bx--loading").should("not.be.visible");
+  // application
+  cy.log("validate the application...");
+  cy.get(`g[type=${name}]`, { timeout: 100 * 1000 }).should("be.visible");
+
+  //subscription
+  cy.log("validate the subscription...");
+  cy.get(`g[type="${name}-subscription-0"]`, { timeout: 100 * 1000 }).should(
+    "be.visible"
+  );
+
+  //placementrule
+  cy.log("validate the placementrule...");
+  cy.get(`g[type="${name}-placement-0"]`, { timeout: 100 * 1000 }).should(
+    "be.visible"
+  );
+
+  const { path } = type == "git" ? data.config : data.config;
+  path == "helloworld" ? validateHelloWorld() : null;
 };
 
-export const validateResourceTable = name => {
+export const validateHelloWorld = () => {
+  // validate route
+  cy.log("validate the route...");
+  cy.get(`g[type="helloworld-app-route"]`, {
+    timeout: 100 * 1000,
+  })
+    .should("be.visible")
+    .click();
+  cy.get(".topologyDetails")
+    .children(".details-view-container")
+    .find(">div")
+    .first()
+    .within(($div) => {
+      cy.get("#linkForNodeAction")
+        .contains("http://")
+        .invoke("text")
+        .then((urlLink) => {
+          cy.exec(`curl ${urlLink}`)
+            .its("stdout")
+            .should("contain", "Hello World!");
+        });
+    });
+};
+
+export const validateResourceTable = (name) => {
   cy.visit(`/multicloud/applications`);
   cy.get(".search-query-card-loading").should("not.exist", {
-    timeout: 60 * 1000
+    timeout: 60 * 1000,
   });
   pageLoader.shouldNotExist();
   resourceTable.rowShouldExist(name, 600 * 1000);
@@ -100,7 +143,7 @@ export const validateResourceTable = name => {
   cy.get(".bx--detail-page-header-title");
 };
 
-export const deleteApplicationUI = name => {
+export const deleteApplicationUI = (name) => {
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
     resourceTable.rowShouldExist(name, 600 * 1000);
@@ -120,7 +163,7 @@ export const deleteApplicationUI = name => {
   }
 };
 
-export const selectTimeWindow = timeWindow => {
+export const selectTimeWindow = (timeWindow) => {
   const { setting, type, date } = timeWindow;
   if (setting && date) {
     cy.log(`Select TimeWindow - ${type}...`);
@@ -129,27 +172,22 @@ export const selectTimeWindow = timeWindow => {
       type === "blockinterval"
         ? "#blocked-mode-timeWindow"
         : "#active-mode-timeWindow";
-    cy
-      .get(typeID)
-      .scrollIntoView()
-      .click({ force: true });
+    cy.get(typeID).scrollIntoView().click({ force: true });
     cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true });
-    cy
-      .get(".bx--dropdown.config-timezone-dropdown.bx--list-box")
-      .within($timezone => {
+    cy.get(".bx--dropdown.config-timezone-dropdown.bx--list-box").within(
+      ($timezone) => {
         cy.get("[type='button']").click();
-        cy
-          .get(".bx--list-box__menu-item:first-of-type", {
-            timeout: 30 * 1000
-          })
-          .click();
-      });
+        cy.get(".bx--list-box__menu-item:first-of-type", {
+          timeout: 30 * 1000,
+        }).click();
+      }
+    );
   } else {
     cy.log("leave default `active`");
   }
 };
 
-export const getTimeWindowType = name => {
+export const getTimeWindowType = (name) => {
   let nameList = name.split("-");
   let timeWindowType;
   "active activeinterval blockinterval".indexOf(

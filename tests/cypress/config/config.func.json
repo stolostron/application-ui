@@ -20,7 +20,7 @@
   "objectstore": {
     "data": {
       "enable": true,
-      "name": "ui-create-app-objbucket",
+      "name": "ui-create-app-objstore",
       "config": {
         "url": "http://ec2-dummy/dev1",
         "accessKey": "dummy1",

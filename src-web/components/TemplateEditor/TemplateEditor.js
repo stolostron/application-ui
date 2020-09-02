@@ -513,25 +513,36 @@ export default class TemplateEditor extends React.Component {
     let newYAML = templateYAML
     let newYAMLTabs = otherYAMLTabs
 
-    // if card has its own control data and template, append it to control data
+    // delete all controls below this card control
     const { availableMap, groupControlData } = control
-    const { change } = availableMap[control.active]
+    const parentControlData = groupControlData || controlData
+    const insertInx = parentControlData.findIndex(
+      ({ id }) => id === control.id
+    )
+    const deleteLen = parentControlData.length - insertInx - 1
+    if (deleteLen) {
+      parentControlData.splice(
+        insertInx + 1,
+        deleteLen
+      )
+    }
+
+    // add new controls and template
+    const { change } = availableMap[control.active[0]] || {}
     if (change) {
       const { replaceTemplate = template, insertControlData } = change
 
       // insert control data into main control data
       if (insertControlData) {
         // splice control data with data from this card
-        const parentControlData = groupControlData || controlData
-        const insertInx = parentControlData.findIndex(
-          ({ id }) => id === control.id
-        )
-        const deleteLen = parentControlData.length - insertInx - 1
         parentControlData.splice(
           insertInx + 1,
-          deleteLen,
+          0,
           ..._.cloneDeep(insertControlData)
         )
+
+        // if this card control is in a group, tell each control
+        // what group control it belongs to
         if (groupControlData) {
           parentControlData.forEach(cd => {
             cd.groupControlData = groupControlData

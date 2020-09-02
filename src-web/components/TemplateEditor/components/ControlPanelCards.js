@@ -130,6 +130,7 @@ class ControlPanelCards extends React.Component {
   }
 
   handleChange(id) {
+    const { collapsed } = this.state
     const { control } = this.props
     const { collapseCardsControlOnSelect } = control
     if (collapseCardsControlOnSelect) {
@@ -137,7 +138,7 @@ class ControlPanelCards extends React.Component {
         return { collapsed: !prevState.collapsed }
       })
     }
-    this.props.handleChange(id)
+    this.props.handleChange(collapsed?null:id)
   }
 }
 

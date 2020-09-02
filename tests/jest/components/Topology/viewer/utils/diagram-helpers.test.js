@@ -2543,7 +2543,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
     {
       labelValue: "Ansible Job status",
       status: "failure",
-      value: "Ansible job was not executed. Error:secret error"
+      value: "Execution error:secret error"
     },
     { type: "spacer" },
     {

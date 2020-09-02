@@ -929,17 +929,13 @@ export const showAnsibleJobDetails = (node, details) => {
   if (!statusKey) {
     //not executed, get error message
     const conditions = _.get(node, 'specs.raw.spec.conditions', [])
-    const failIndex = _.findIndex(conditions, (condition) => {
+    const failIndex = _.findIndex(conditions, condition => {
       return condition.type === 'Failure'
     })
     if (failIndex !== -1) {
       statusKey = `${msgs.get(
-        'description.ansible.job.status.empty'
-      )} ${msgs.get('description.ansible.job.status.empty.err2')}${_.get(
-        conditions[failIndex],
-        'message',
-        ''
-      )}`
+        'description.ansible.job.status.empty.err2'
+      )}${_.get(conditions[failIndex], 'message', '')}`
     }
   }
 

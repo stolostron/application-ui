@@ -11,18 +11,24 @@
 "use strict";
 
 import {
-  updateNSControls,
-  updatePlacementControls,
-  updateGitCredentials,
-  updateChannelControls
+  updateNSControls
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
+
+import {
+  updatePlacementControls,
+} from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
+
+import {
+  updateGitCredentials,
+} from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataGit";
 
 import {
   setAvailableRules,
   setAvailableNSSpecs,
   setAvailableChannelSpecs,
   getGitBranches,
-  updateNewRuleControlsData
+  updateNewRuleControlsData,
+  updateChannelControls
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
 
 const controlDataNS = [

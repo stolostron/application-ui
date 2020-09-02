@@ -51,11 +51,13 @@ export const createGit = config => {
 
 export const createObj = config => {
   const { url, accessKey, secretKey } = config;
-  cy.get("#objectstoreURL", { timeout: 20 * 1000 }).type(url);
+  cy
+    .get("#objectstoreURL", { timeout: 20 * 1000 })
+    .type(Cypress.env("OBJ_URL"));
   cy.get("#accessKey").then(input => {
     if (input.is("enabled")) {
-      cy.get("#accessKey").type(accessKey);
-      cy.get("#secretKey").type(secretKey);
+      cy.get("#accessKey").type(Cypress.env("OBJ_ACESSKEY"));
+      cy.get("#secretKey").type(Cypress.env("OBJ_SECRETKEY"));
     } else {
       cy.log(`credentials have not been saved...`);
     }
@@ -114,7 +116,7 @@ export const validateHelloWorld = () => {
   cy.scrollTo("bottom");
   cy
     .get('g[type="helloworld-app-route"]', {
-      timeout: 200 * 1000
+      timeout: 100 * 1000
     })
     .should("be.visible")
     .click();

@@ -354,6 +354,14 @@ const getPulseStatusForGenericNode = node => {
     }
   })
 
+  //ansible job status
+  if (_.get(node, 'type', '') === 'ansiblejob') {
+    const jobStatus = _.get(node, 'specs.raw.spec.ansibleJobResult.status')
+    if (!jobStatus || jobStatus === 'error') {
+      pulse = 'red' // ansible not executed
+    }
+  }
+
   return pulse
 }
 
@@ -498,7 +506,7 @@ export const computeNodeStatus = node => {
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
     _.set(node, specPulse, pulse)
-    return
+    return pulse
   }
 
   switch (node.type) {
@@ -520,6 +528,7 @@ export const computeNodeStatus = node => {
   }
 
   _.set(node, specPulse, pulse)
+  return pulse
 }
 
 export const createDeployableYamlLink = (node, details) => {
@@ -923,7 +932,10 @@ export const showAnsibleJobDetails = (node, details) => {
   const statusStr =
     statusKey === 'successful'
       ? 'checkmark'
-      : statusKey === 'error' ? 'failure' : 'pending'
+      : statusKey === 'error' ||
+        !_.get(node, 'specs.raw.spec.ansibleJobResult.status')
+        ? 'failure'
+        : 'pending'
 
   if (jobUrl) {
     details.push({

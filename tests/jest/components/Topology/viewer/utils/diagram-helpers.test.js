@@ -1887,7 +1887,7 @@ describe("computeNodeStatus ", () => {
     }
   };
 
-  const deploymentNodeGreen = {
+  const deploymentNodeRed3 = {
     id:
       "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
     uid:
@@ -2161,7 +2161,7 @@ describe("computeNodeStatus ", () => {
     }
   };
 
-  const packageNodeGreen = {
+  const packageNodeOrange = {
     id:
       "member--member--package--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
     uid:
@@ -2181,7 +2181,7 @@ describe("computeNodeStatus ", () => {
     specs: {}
   };
 
-  const ruleNodeRed2 = {
+  const ruleNodeGreen2 = {
     name: "mortgage-app-deploy2",
     cluster: null,
     clusterName: null,
@@ -2239,88 +2239,141 @@ describe("computeNodeStatus ", () => {
       }
     }
   };
+  const ansibleSuccess = {
+    type: "ansiblejob",
+    name: "bigjoblaunch",
+    namespace: "default",
+    id:
+      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+    specs: {
+      raw: {
+        metadata: {
+          name: "bigjoblaunch",
+          namespace: "default"
+        },
+        spec: {
+          ansibleJobResult: {
+            joburl: "http://ansible_url/job",
+            status: "successful"
+          }
+        }
+      },
+      ansiblejobModel: {
+        "bigjoblaunch-local-cluster": {
+          label: "tower_job_id=999999999"
+        }
+      }
+    }
+  };
+  const ansibleError = {
+    type: "ansiblejob",
+    name: "bigjoblaunch",
+    namespace: "default",
+    id:
+      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+    specs: {
+      raw: {
+        metadata: {
+          name: "bigjoblaunch",
+          namespace: "default"
+        },
+        spec: {}
+      },
+      ansiblejobModel: {
+        "bigjoblaunch-local-cluster": {
+          label: "tower_job_id=999999999"
+        }
+      }
+    }
+  };
+  it("return Ansible error", () => {
+    expect(computeNodeStatus(ansibleError)).toEqual("red");
+  });
+  it("return Ansible success", () => {
+    expect(computeNodeStatus(ansibleSuccess)).toEqual("green");
+  });
   it("return appNnoChannelRed crash error", () => {
-    expect(computeNodeStatus(podCrash)).toEqual(undefined);
+    expect(computeNodeStatus(podCrash)).toEqual("orange");
   });
 
   it("return appNnoChannelRed red", () => {
-    expect(computeNodeStatus(appNoChannelRed)).toEqual(undefined);
+    expect(computeNodeStatus(appNoChannelRed)).toEqual("red");
   });
 
-  it("return appNnoChannelRed1 red", () => {
-    expect(computeNodeStatus(appNoChannelRed1)).toEqual(undefined);
+  it("return appNnoChannelRed1 green", () => {
+    expect(computeNodeStatus(appNoChannelRed1)).toEqual("green");
   });
-  it("return computeNodeStatus green", () => {
-    expect(computeNodeStatus(subscriptionInputGreen)).toEqual(undefined);
-  });
-
   it("return computeNodeStatus red", () => {
-    expect(computeNodeStatus(subscriptionInputRed)).toEqual(undefined);
+    expect(computeNodeStatus(subscriptionInputGreen)).toEqual("red");
+  });
+
+  it("return computeNodeStatus orange", () => {
+    expect(computeNodeStatus(subscriptionInputRed)).toEqual("orange");
   });
 
   it("return computeNodeStatus yellow", () => {
-    expect(computeNodeStatus(subscriptionInputYellow)).toEqual(undefined);
+    expect(computeNodeStatus(subscriptionInputYellow)).toEqual("yellow");
   });
 
   it("return computeNodeStatus not places", () => {
-    expect(computeNodeStatus(subscriptionInputNotPlaced)).toEqual(undefined);
+    expect(computeNodeStatus(subscriptionInputNotPlaced)).toEqual("green");
+  });
+
+  it("return computeNodeStatus generic node orange", () => {
+    expect(computeNodeStatus(genericNodeInputRed)).toEqual("orange");
+  });
+
+  it("return computeNodeStatus generic node orange 2", () => {
+    expect(computeNodeStatus(genericNodeInputRed2)).toEqual("orange");
   });
 
   it("return computeNodeStatus generic node red", () => {
-    expect(computeNodeStatus(genericNodeInputRed)).toEqual(undefined);
-  });
-
-  it("return computeNodeStatus generic node red2", () => {
-    expect(computeNodeStatus(genericNodeInputRed2)).toEqual(undefined);
-  });
-
-  it("return computeNodeStatus generic node green", () => {
-    expect(computeNodeStatus(deploymentNodeGreen)).toEqual(undefined);
+    expect(computeNodeStatus(deploymentNodeRed3)).toEqual("red");
   });
 
   it("return computeNodeStatus generic no  pod", () => {
-    expect(computeNodeStatus(deploymentNodeNoPodModel)).toEqual(undefined);
+    expect(computeNodeStatus(deploymentNodeNoPodModel)).toEqual("yellow");
   });
 
   it("return computeNodeStatus generic node no pods", () => {
-    expect(computeNodeStatus(deploymentNodeNoPODS)).toEqual(undefined);
+    expect(computeNodeStatus(deploymentNodeNoPODS)).toEqual("yellow");
   });
 
   it("return computeNodeStatus generic node no pods res", () => {
-    expect(computeNodeStatus(deploymentNodeNoPODSNoRes)).toEqual(undefined);
+    expect(computeNodeStatus(deploymentNodeNoPODSNoRes)).toEqual("yellow");
   });
 
   it("return computeNodeStatus generic node green", () => {
-    expect(computeNodeStatus(genericNodeGreen)).toEqual(undefined);
+    expect(computeNodeStatus(genericNodeGreen)).toEqual("yellow");
   });
 
-  it("return computeNodeStatus package node green", () => {
-    expect(computeNodeStatus(packageNodeGreen)).toEqual(undefined);
+  it("return computeNodeStatus package node orange", () => {
+    expect(computeNodeStatus(packageNodeOrange)).toEqual("orange");
   });
 
   it("return computeNodeStatus rules node red", () => {
-    expect(computeNodeStatus(ruleNodeRed)).toEqual(undefined);
+    expect(computeNodeStatus(ruleNodeRed)).toEqual("red");
   });
 
-  it("return computeNodeStatus rules node red2", () => {
-    expect(computeNodeStatus(ruleNodeRed2)).toEqual(undefined);
+  it("return computeNodeStatus rules node green2", () => {
+    expect(computeNodeStatus(ruleNodeGreen2)).toEqual("green");
   });
   it("return computeNodeStatus deploymentNodeYellow", () => {
-    expect(computeNodeStatus(deploymentNodeYellow)).toEqual(undefined);
+    expect(computeNodeStatus(deploymentNodeYellow)).toEqual("green");
   });
   it("return computeNodeStatus deploymentNodeRed", () => {
-    expect(computeNodeStatus(deploymentNodeRed)).toEqual(undefined);
+    expect(computeNodeStatus(deploymentNodeRed)).toEqual("green");
   });
   it("return computeNodeStatus deploymentNodeRed2", () => {
-    expect(computeNodeStatus(deploymentNodeRed2)).toEqual(undefined);
+    expect(computeNodeStatus(deploymentNodeRed2)).toEqual("green");
   });
   it("return computeNodeStatus deploymentNodeYellow2", () => {
-    expect(computeNodeStatus(deploymentNodeYellow2)).toEqual(undefined);
+    expect(computeNodeStatus(deploymentNodeYellow2)).toEqual("green");
   });
 
   it("return computeNodeStatus subscriptionGreenNotPlacedYellow", () => {
     expect(computeNodeStatus(subscriptionGreenNotPlacedYellow)).toEqual(
-      undefined
+      "yellow"
     );
   });
 });
@@ -2440,9 +2493,9 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
   const result = [
     {
       labelValue: "Ansible Job status",
-      status: "pending",
+      status: "failure",
       value:
-        "Ansible job not executed, check the Subscription YAML for status errors."
+        "Ansible job was not executed, check the Subscription YAML for status errors."
     }
   ];
   it("setResourceDeployStatus ansiblejob no status", () => {

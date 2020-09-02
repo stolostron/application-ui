@@ -32,8 +32,7 @@ export const createApplication = (data, type) => {
   } else if (type === "local-cluster") {
     createLocal(config);
   }
-  // comment until the validation is done
-  // cy.get("#online-cluster-only-checkbox").click({ force: true });
+  cy.get("#online-cluster-only-checkbox").click({ force: true });
   selectTimeWindow(timeWindow);
   submitSave();
 };
@@ -78,7 +77,7 @@ export const submitSave = () => {
   cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
 };
 
-export const validateTopology = name => {
+export const validateTopology = (name, data, type) => {
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();
   cy
@@ -86,6 +85,54 @@ export const validateTopology = name => {
     .should("not.exist");
   cy.get(".overview-cards-container");
   cy.get("#topologySvgId", { timeout: 50 * 1000 });
+  cy.get(".layoutLoadingContainer").should("not.be.visible");
+  cy.get(".bx--loading").should("not.be.visible");
+  // application
+  cy.log("validate the application...");
+  cy.get(`g[type=${name}]`, { timeout: 100 * 1000 }).should("be.visible");
+
+  //subscription
+  cy.log("validate the subscription...");
+  cy
+    .get(`g[type="${name}-subscription-0"]`, { timeout: 100 * 1000 })
+    .should("be.visible");
+
+  //placementrule
+  cy.log("validate the placementrule...");
+  cy
+    .get(`g[type="${name}-placement-0"]`, { timeout: 100 * 1000 })
+    .should("be.visible");
+
+  const { path } = type == "git" ? data.config : data.config;
+  path == "helloworld" ? validateHelloWorld() : null;
+};
+
+export const validateHelloWorld = () => {
+  // validate route
+  cy.log("validate the route...");
+  cy
+    .get(`g[type="helloworld-app-route"]`, {
+      timeout: 100 * 1000
+    })
+    .should("be.visible")
+    .click();
+  cy
+    .get(".topologyDetails")
+    .children(".details-view-container")
+    .find(">div")
+    .first()
+    .within($div => {
+      cy
+        .get("#linkForNodeAction")
+        .contains("http://")
+        .invoke("text")
+        .then(urlLink => {
+          cy
+            .exec(`curl ${urlLink}`)
+            .its("stdout")
+            .should("contain", "Hello World!");
+        });
+    });
 };
 
 export const validateResourceTable = name => {

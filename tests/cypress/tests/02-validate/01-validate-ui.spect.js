@@ -16,7 +16,7 @@ describe("Application", () => {
       it(`should be validated from the topology - ${type}: ${
         data.name
       }`, () => {
-        validateTopology(data.name);
+        validateTopology(data.name, data, type);
       });
       it(`should be validated from the resource table - ${type}: ${
         data.name

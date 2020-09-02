@@ -9,7 +9,7 @@ const validNamespaceSample =
   "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n gates:\n annotations: foo\n pathname: foo\n sourceNamespaces: foo\n type: Namespace";
 const validHelmRepoSample =
   "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n configRef:\n name: foo\n type: HelmRepo\n---\napiVersion: v1\nkind: ConfigMap\nmetadata:\n name: cf1\n namespace: ns1";
-const validObjectBucketSample =
+const validObjectStoreSample =
   "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n type: ObjectBucket\n pathname: foo\n secretRef:\n name: sr1\n gates:\n annotations: foo";
 const validGitHubRepoSample =
   "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n type: GitHub\n pathname: foo";
@@ -20,7 +20,7 @@ const requiredNamespaceSample =
   "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: Namespace";
 const requiredHelmRepoSample =
   "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: HelmRepo";
-const requiredObjectBucketSample =
+const requiredObjectStoreSample =
   "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: ObjectBucket";
 const requiredGitHubRepoSample =
   "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: GitHub";
@@ -171,8 +171,8 @@ describe("validator testing for hcm-channel", () => {
     expect(exceptions).toEqual([]);
   });
 
-  it("validObjectBucketSample should be validated successfully", () => {
-    const { exceptions } = parse(validObjectBucketSample, validator, "en-un");
+  it("validObjectStoreSample should be validated successfully", () => {
+    const { exceptions } = parse(validObjectStoreSample, validator, "en-un");
     expect(exceptions).toEqual([]);
   });
 
@@ -196,12 +196,8 @@ describe("validator testing for hcm-channel", () => {
     expect(exceptions).toEqual([]);
   });
 
-  it("requiredObjectBucketSample should be validated successfully", () => {
-    const { exceptions } = parse(
-      requiredObjectBucketSample,
-      validator,
-      "en-un"
-    );
+  it("requiredObjectStoreSample should be validated successfully", () => {
+    const { exceptions } = parse(requiredObjectStoreSample, validator, "en-un");
     expect(exceptions).toEqual([]);
   });
 

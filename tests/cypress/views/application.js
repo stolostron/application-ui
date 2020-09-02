@@ -27,7 +27,7 @@ export const createApplication = (data, type) => {
   cy.get(`#${type}`).click();
   if (type === "git") {
     createGit(config);
-  } else if (type === "objectbucket") {
+  } else if (type === "objectstore") {
     createObj(config);
   } else if (type === "local-cluster") {
     createLocal(config);

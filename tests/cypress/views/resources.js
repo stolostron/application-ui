@@ -117,8 +117,8 @@ export const validateTimewindow = (name, config) => {
     cy.log(stdout || stderr);
     cy.log("the subscription is not empty");
     if (
-      timeWindow.type === "activeinterval" ||
-      timeWindow.type === "blockinterval"
+      timeWindow.type == "activeinterval" ||
+      timeWindow.type == "blockinterval"
     ) {
       const searchText = windowType[timeWindow.type];
       cy

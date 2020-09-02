@@ -196,7 +196,7 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
-export const getSearchLink = params => {
+export const getSearchLink = (params = {}) => {
   const { properties, showRelated } = params
   let textsearch = ''
   _.entries(properties).forEach(([key, value]) => {

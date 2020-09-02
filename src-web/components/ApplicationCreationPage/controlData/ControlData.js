@@ -168,7 +168,7 @@ export const controlData = [
           {
             id: 'github',
             logo: 'git-repo.svg',
-            title: 'creation.app.channel.github',
+            title: 'channel.type.git',
             tooltip: 'tooltip.creation.app.channel.git',
             change: {
               insertControlData: gitChannelData
@@ -177,7 +177,7 @@ export const controlData = [
           {
             id: 'deployable',
             logo: 'namespace-repo.svg',
-            title: 'creation.app.channel.deployable',
+            title: 'channel.type.namespace',
             tooltip: 'tooltip.creation.app.channel.namespace',
             change: {
               insertControlData: hubClusterChannelData
@@ -186,8 +186,8 @@ export const controlData = [
           {
             id: 'helmrepo',
             logo: 'helm-repo.png',
-            title: 'creation.app.channel.helmrepo',
-            tooltip: 'tooltip.creation.app.channel.helmrepo',
+            title: 'channel.type.helmrepo',
+            tooltip: 'tooltip.channel.type.helmrepo',
             change: {
               insertControlData: helmReleaseChannelData
             }
@@ -195,8 +195,8 @@ export const controlData = [
           {
             id: 'objectstore',
             logo: 'object-bucket-repo.svg',
-            title: 'creation.app.channel.objectstore',
-            tooltip: 'tooltip.creation.app.channel.objectstore',
+            title: 'channel.type.objectbucket',
+            tooltip: 'tooltip.channel.type.objectbucket',
             change: {
               insertControlData: objectstoreChannelData
             }

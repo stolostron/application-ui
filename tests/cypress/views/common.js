@@ -37,7 +37,8 @@ export const resourceTable = {
       })
       .should("not.exist");
   },
-  rowNameClick: name => cy.get(`a[href*="${name}"]`).click(),
+  rowNameClick: name =>
+    cy.get(`a[href*="multicloud/applications/${name}-ns/${name}"]`).click(),
   searchTable: function(name) {
     cy.get("#page").then(page => {
       if (page.find("#resource-search-bar", { timeout: 15000 }).length > 0) {

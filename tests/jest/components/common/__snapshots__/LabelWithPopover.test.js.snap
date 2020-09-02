@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LabelWithPopover renders as expected 1`] = `
+<div
+  className="label-with-popover"
+>
+  <span
+    className="pf-c-label"
+    onClick={[Function]}
+    onPointerEnter={[Function]}
+    onPointerLeave={[Function]}
+  >
+    <a
+      className="pf-c-label__content"
+      href="#"
+    >
+      <span
+        className="pf-c-label__icon"
+      >
+        <svg
+          alt="Provide a description that will be used as the title"
+          aria-label="Provide a description that will be used as the title"
+          fillRule="evenodd"
+          height="16"
+          name="icon--launch"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
+        >
+          <title>
+            Provide a description that will be used as the title
+          </title>
+          <path
+            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+          />
+          <path
+            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+          />
+          <path
+            d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+          />
+        </svg>
+      </span>
+      TheLabel
+    </a>
+  </span>
+</div>
+`;

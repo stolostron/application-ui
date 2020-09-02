@@ -32,6 +32,7 @@ import {
   handleRefreshPropertiesChanged,
   handleVisibilityChanged
 } from '../../../shared/utils/refetch'
+import ChannelLabels from '../ChannelLabels'
 
 /* eslint-disable react/prop-types */
 
@@ -374,20 +375,15 @@ class OverviewCards extends React.Component {
                       locale
                     )}
                   </div>
-                  <div className="sub-card-status-icon" id="resource-type-icon">
-                    <a
-                      className="resource-type-link"
-                      href={sub.resourcePath}
-                      target="_blank"
-                    >
-                      {sub.resourceType}
-                      <Icon
-                        name="icon--launch"
-                        description=""
-                        className="resource-type-icon"
-                      />
-                    </a>
-                  </div>
+                  <ChannelLabels
+                    channels={[
+                      {
+                        type: sub.resourceType,
+                        pathname: sub.resourcePath
+                      }
+                    ]}
+                    locale={locale}
+                  />
                 </div>
               </div>
 

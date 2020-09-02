@@ -184,29 +184,36 @@ export const getNumClustersForApp = data => {
 
 export const getSearchLinkForOneApplication = params => {
   if (params && params.name) {
-    if (params.namespace) {
-      if (params.showRelated) {
-        return `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${
-          params.name
-        }%20namespace%3A${params.namespace}"}&showrelated=${
-          params.showRelated
-        }`
-      } else {
-        return `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${
-          params.name
-        }%20namespace%3A${params.namespace}"}`
-      }
-    } else if (params.showRelated) {
-      return `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${
-        params.name
-      }"}&showrelated=${params.showRelated}`
-    } else {
-      return `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${
-        params.name
-      }"}`
-    }
+    const name = `%20name%3A${params.name}`
+    const namespace = params.namespace
+      ? `%20namespace%3A${params.namespace}`
+      : ''
+    const showRelated = params.showRelated
+      ? `&showrelated=${params.showRelated}`
+      : ''
+    return `/multicloud/search?filters={"textsearch":"kind%3Aapplication${name}${namespace}"}${showRelated}`
   }
   return ''
+}
+
+export const getSearchLink = (params = {}) => {
+  const { properties, showRelated } = params
+  let textsearch = ''
+  _.entries(properties).forEach(([key, value]) => {
+    textsearch = `${textsearch}${textsearch ? ' ' : ''}${key}:${value}`
+  })
+  const queryParams = []
+  if (textsearch) {
+    queryParams.push(
+      `filters={"textsearch":"${encodeURIComponent(textsearch)}"}`
+    )
+  }
+  if (showRelated) {
+    queryParams.push(`showrelated=${showRelated}`)
+  }
+  return `/multicloud/search${queryParams.length ? '?' : ''}${queryParams.join(
+    '&'
+  )}`
 }
 
 const getRepoResourceData = (queryAppData, channelIdentifier) => {

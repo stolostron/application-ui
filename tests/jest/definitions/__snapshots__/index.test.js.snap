@@ -75,7 +75,7 @@ Object {
   ],
   "tableKeys": Array [
     Object {
-      "msgKey": "table.header.applicationName",
+      "msgKey": "table.header.name",
       "resourceKey": "name",
       "transformFunction": [Function],
     },
@@ -84,13 +84,18 @@ Object {
       "resourceKey": "namespace",
     },
     Object {
-      "msgKey": "table.header.managedClusters",
+      "msgKey": "table.header.clusters",
       "resourceKey": "clusters",
       "transformFunction": [Function],
     },
     Object {
-      "msgKey": "table.header.subscriptions",
-      "resourceKey": "subscriptions",
+      "msgKey": "table.header.resource",
+      "resourceKey": "channels",
+      "transformFunction": [Function],
+    },
+    Object {
+      "msgKey": "table.header.timeWindow",
+      "resourceKey": "hubSubscriptions",
       "transformFunction": [Function],
     },
     Object {
@@ -109,7 +114,7 @@ exports[`definitions/index tests should return the secondary key of node 1`] = `
 exports[`definitions/index tests should return the table keys for this node 1`] = `
 Array [
   Object {
-    "msgKey": "table.header.applicationName",
+    "msgKey": "table.header.name",
     "resourceKey": "name",
     "transformFunction": [Function],
   },
@@ -118,13 +123,18 @@ Array [
     "resourceKey": "namespace",
   },
   Object {
-    "msgKey": "table.header.managedClusters",
+    "msgKey": "table.header.clusters",
     "resourceKey": "clusters",
     "transformFunction": [Function],
   },
   Object {
-    "msgKey": "table.header.subscriptions",
-    "resourceKey": "subscriptions",
+    "msgKey": "table.header.resource",
+    "resourceKey": "channels",
+    "transformFunction": [Function],
+  },
+  Object {
+    "msgKey": "table.header.timeWindow",
+    "resourceKey": "hubSubscriptions",
     "transformFunction": [Function],
   },
   Object {

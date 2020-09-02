@@ -8,7 +8,6 @@
  *******************************************************************************/
 import R from 'ramda'
 import React from 'react'
-import { TooltipIcon } from 'carbon-components-react'
 import {
   getCreationDate,
   getClusterCountString
@@ -125,7 +124,7 @@ export function createApplicationLink(item = {}, ...param) {
   return <Link to={link}>{name}</Link>
 }
 
-export function createClustersLink(item = {}, locale) {
+export function createClustersLink(item = {}, locale = '') {
   const clusterCount = R.path(['clusterCount'], item) || 0
   const localPlacement = (R.path(['hubSubscriptions'], item) || []).some(
     sub => sub.localPlacement
@@ -152,7 +151,7 @@ export function createClustersLink(item = {}, locale) {
   }
 }
 
-export function getChannels(item = {}, locale) {
+export function getChannels(item = {}, locale = '') {
   return (
     <ChannelLabels
       channels={(R.path(['hubChannels'], item) || []).map(ch => ({
@@ -164,7 +163,7 @@ export function getChannels(item = {}, locale) {
   )
 }
 
-export function getTimeWindow(item = {}, locale) {
+export function getTimeWindow(item = {}, locale = '') {
   return (R.path(['hubSubscriptions'], item) || []).some(sub => sub.timeWindow)
     ? msgs.get('table.cell.yes', locale)
     : ''
@@ -173,66 +172,4 @@ export function getTimeWindow(item = {}, locale) {
 export function getCreated(item = {}) {
   const timestamp = R.path(['created'], item) || ''
   return timestamp ? getCreationDate(timestamp) : '-'
-}
-
-export function getNumRemoteSubs(item = {}, locale) {
-  let total = 0
-  let failed = 0
-  let unknown = 0
-  let subscribed = 0
-
-  if (item) {
-    failed = R.path(['remoteSubscriptionStatusCount', 'Failed'], item) || 0
-    unknown = R.path(['remoteSubscriptionStatusCount', 'null'], item) || 0
-    subscribed =
-      R.path(['remoteSubscriptionStatusCount', 'Subscribed'], item) || 0
-
-    total = failed + unknown + subscribed
-  }
-  return (
-    <ul>
-      <li>
-        <LabelWithOptionalTooltip key="1" labelText={total} />
-        {(failed !== 0 || unknown !== 0) && <span>{' | '}</span>}
-        <LabelWithOptionalTooltip
-          key="2"
-          labelText={failed}
-          iconName="failed-status"
-          description={msgs.get('table.cell.failed', locale)}
-        />
-        <LabelWithOptionalTooltip
-          key="3"
-          labelText={unknown}
-          iconName="no-status"
-          description={msgs.get('table.cell.status.absent', locale)}
-        />
-      </li>
-    </ul>
-  )
-}
-
-export const LabelWithOptionalTooltip = text => {
-  if (text && text.labelText) {
-    return (
-      <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-        {text.iconName && (
-          <TooltipIcon direction={'top'} tooltipText={text.description}>
-            <img
-              style={{ marginRight: '4px' }}
-              width="10px"
-              height="10px"
-              src={`${config.contextPath}/graphics/${text.iconName}.svg`}
-              alt={''}
-            />
-          </TooltipIcon>
-        )}
-        <p style={{ fontSize: '14px', paddingRight: '8px' }}>
-          {text.labelText}
-        </p>
-      </div>
-    )
-  } else if (text && !text.iconName) {
-    return <p style={{ fontSize: '14px' }}>{text.labelText}</p>
-  }
-  return <span />
 }

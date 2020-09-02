@@ -29,8 +29,9 @@ const ChannelLabels = ({ channels, locale }) => {
 
   return (
     <div className="label-with-popover-container channel-labels">
-      {['git', 'helmrepo', 'namespace', 'objectbucket'].map(chType => {
-        if (channelMap[chType]) {
+      {['git', 'helmrepo', 'namespace', 'objectbucket']
+        .filter(chType => channelMap[chType])
+        .map(chType => {
           return (
             <LabelWithPopover
               key={`${chType}`}
@@ -88,8 +89,7 @@ const ChannelLabels = ({ channels, locale }) => {
               </Stack>
             </LabelWithPopover>
           )
-        }
-      })}
+        })}
     </div>
   )
 }

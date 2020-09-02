@@ -13,12 +13,8 @@ import {
   VALIDATE_ALPHANUMERIC,
   VALIDATE_URL
 } from '../../TemplateEditor/utils/validation'
-import {
-  loadExistingChannels,
-  updateChannelControls
-} from './utils'
+import { loadExistingChannels, updateChannelControls } from './utils'
 import placementData from './ControlDataPlacement'
-
 
 const objectstoreChannelData = [
   ///////////////////////  Objectstore  /////////////////////////////////////
@@ -41,7 +37,7 @@ const objectstoreChannelData = [
     placeholder: 'app.enter.select.objectstore.url',
     available: [],
     validation: VALIDATE_URL,
-    fetchAvailable: loadExistingChannels('objectbucket'),
+    fetchAvailable: loadExistingChannels('objectstore'),
     onSelect: updateChannelControls
   },
   {
@@ -96,4 +92,3 @@ const objectstoreChannelData = [
 ]
 
 export default objectstoreChannelData
-

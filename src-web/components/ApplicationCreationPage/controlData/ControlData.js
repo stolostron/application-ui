@@ -9,13 +9,11 @@
  *******************************************************************************/
 'use strict'
 
-import {
-  HCMNamespaceList
-} from '../../../../lib/client/queries'
+import { HCMNamespaceList } from '../../../../lib/client/queries'
 import gitChannelData from './ControlDataGit'
 import helmReleaseChannelData from './ControlDataHelm'
 import hubClusterChannelData from './ControlDataLocalCluster'
-import objectstoreChannelData from './ControlDataObjectBucket'
+import objectstoreChannelData from './ControlDataObjectStore'
 import {
   setAvailableNSSpecs,
   getExistingPRControlsSection,
@@ -35,7 +33,7 @@ export const loadExistingNamespaces = () => {
 }
 
 export const updateNSControls = (nsControl, globalControl) => {
-  const { active, availableData={} } = nsControl
+  const { active, availableData = {} } = nsControl
 
   const userDefinedNSControl = globalControl.find(
     ({ id }) => id === 'userDefinedNamespace'
@@ -52,7 +50,7 @@ export const updateControlsForNS = (
   nsControl,
   globalControl
 ) => {
-  const { active, availableData={} } = nsControl
+  const { active, availableData = {} } = nsControl
 
   const controlList = getExistingPRControlsSection(
     initiatingControl,

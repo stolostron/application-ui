@@ -58,8 +58,6 @@ export const updateDisplayForPlacementControls = (
     const onlineControl = _.get(control, 'online-cluster-only-checkbox')
     const clusterSelectorControl = _.get(control, 'clusterSelector')
 
-    const clusterReplicasControl = _.get(control, 'clusterReplicas')
-
     const localClusterControl = _.get(control, localClusterCheckbox)
 
     if (active === true) {
@@ -67,21 +65,18 @@ export const updateDisplayForPlacementControls = (
 
       _.set(onlineControl, 'type', 'hidden')
       _.set(clusterSelectorControl, 'type', 'hidden')
-      _.set(clusterReplicasControl, 'type', 'hidden')
       _.set(localClusterControl, 'type', 'hidden')
     } else {
       _.set(existingRuleControl, 'type', 'hidden')
 
       _.set(onlineControl, 'type', 'checkbox')
       _.set(clusterSelectorControl, 'type', 'custom')
-      _.set(clusterReplicasControl, 'type', 'text')
       _.set(localClusterControl, 'type', 'checkbox')
     }
 
     //reset all values
     _.set(localClusterControl, 'active', false)
     _.set(onlineControl, 'active', false)
-    _.set(clusterReplicasControl, 'active', '')
     clusterSelectorControl.active.clusterLabelsListID = 1
     delete clusterSelectorControl.active.clusterLabelsList
     clusterSelectorControl.active.clusterLabelsList = [
@@ -102,18 +97,13 @@ export const updatePlacementControls = placementControl => {
   const clusterSelectorControl = groupControlData.find(
     ({ id }) => id === 'clusterSelector'
   )
-  const clusterReplicasControl = groupControlData.find(
-    ({ id }) => id === 'clusterReplicas'
-  )
 
   if (active === true) {
     onlineControl && _.set(onlineControl, 'type', 'hidden')
     clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'hidden')
-    clusterReplicasControl && _.set(clusterReplicasControl, 'type', 'hidden')
   } else {
     onlineControl && _.set(onlineControl, 'type', 'checkbox')
     clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'custom')
-    clusterReplicasControl && _.set(clusterReplicasControl, 'type', 'text')
   }
 
   return groupControlData

@@ -11,6 +11,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import {Prompt} from 'react-router-dom'
 import SplitPane from 'react-split-pane'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
@@ -254,7 +255,7 @@ export default class TemplateEditor extends React.Component {
   render() {
     const { fetchControl, locale } = this.props
     const { isLoaded, isFailed } = fetchControl || { isLoaded: true }
-    const { showEditor, resetInx } = this.state
+    const { showEditor, resetInx, isDirty } = this.state
     if (!showEditor) {
       this.editors = []
     }
@@ -282,6 +283,9 @@ export default class TemplateEditor extends React.Component {
         className={viewClasses}
         ref={this.setContainerRef}
       >
+        <Prompt
+          when={isDirty}
+          message={msgs.get('changes.maybe.lost', locale)} />
         {this.renderEditButton()}
         {this.renderCreateButton()}
         {this.renderCancelButton()}

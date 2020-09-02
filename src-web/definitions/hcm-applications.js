@@ -17,8 +17,8 @@ import { getSearchLink } from '../components/common/ResourceOverview/utils'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import { validator } from './validators/hcm-application-validator'
-import LabelWithPopover from '../components/common/LabelWithPopover'
 import msgs from '../../nls/platform.properties'
+import ChannelLabels from '../components/common/ChannelLabels'
 
 export default {
   defaultSortField: 'name',
@@ -146,32 +146,21 @@ export function createClustersLink(item = {}, locale) {
       },
       showRelated: 'cluster'
     })
-    return <Link to={searchLink}>{clusterCountString}</Link>
+    return <a href={searchLink}>{clusterCountString}</a>
   } else {
     return clusterCountString
   }
 }
 
 export function getChannels(item = {}, locale) {
-  const groupByChannelType = R.groupBy(ch => {
-    const channelType = (R.path(['ch.type'], ch) || '').toLowerCase()
-    return channelType === 'github' ? 'git' : channelType
-  })
-  const channelMap = groupByChannelType(R.path(['hubChannels'], item) || [])
-
   return (
-    <div className="label-with-popover-container">
-      {['git', 'helmrepo', 'namespace', 'objectbucket'].map(chType => {
-        if (channelMap[chType]) {
-          return (
-            <LabelWithPopover
-              key={`${item.name}-${item.namespace}-${chType}-label`}
-              labelText={msgs.get(`channel.type.${chType}`, locale)}
-            />
-          )
-        }
-      })}
-    </div>
+    <ChannelLabels
+      channels={(R.path(['hubChannels'], item) || []).map(ch => ({
+        type: ch['ch.type'],
+        pathname: ch['ch.pathname']
+      }))}
+      locale={locale}
+    />
   )
 }
 

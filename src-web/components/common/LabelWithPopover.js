@@ -10,7 +10,7 @@ resources(() => {
   require('../../../scss/label-with-popover.scss')
 })
 
-const LabelWithPopover = ({ labelText }) => {
+const LabelWithPopover = ({ children, labelContent, labelIcon }) => {
   const [
     { popoverOpen, popoverPinnedOpen, justClosed },
     setPopoverState
@@ -52,7 +52,7 @@ const LabelWithPopover = ({ labelText }) => {
   return (
     <div className="label-with-popover">
       <Popover
-        bodyContent="Popover Content"
+        bodyContent={children}
         isVisible={popoverOpen || popoverPinnedOpen}
         shouldClose={shouldClose}
         shouldOpen={pinPopover}
@@ -74,8 +74,9 @@ const LabelWithPopover = ({ labelText }) => {
           onPointerLeave={closePopover}
           color="grey"
           href="#"
+          icon={labelIcon}
         >
-          {labelText}
+          {labelContent}
         </Label>
       </Popover>
     </div>
@@ -83,7 +84,9 @@ const LabelWithPopover = ({ labelText }) => {
 }
 
 LabelWithPopover.propTypes = {
-  labelText: PropTypes.string
+  children: PropTypes.object,
+  labelContent: PropTypes.object,
+  labelIcon: PropTypes.object
 }
 
 export default LabelWithPopover

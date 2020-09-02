@@ -81,6 +81,7 @@ export const VALIDATE_URL = {
 
 export const VALIDATE_IP_AGAINST_MACHINE_CIDR = {
   contextTester: MACHINE_CIDR_CONTEXT_TESTER,
+  notification: 'creation.ocp.cluster.valid.ip',
   required: true
 }
 
@@ -173,3 +174,5 @@ export const VALIDATE_BASE_DNS_NAME_REQUIRED = {
   notification: 'creation.ocp.cluster.missing.input',
   required: true
 }
+
+export const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'

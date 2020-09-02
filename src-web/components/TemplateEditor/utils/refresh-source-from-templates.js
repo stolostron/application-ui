@@ -69,7 +69,7 @@ export const generateSourceFromTemplate = (template, controlData, otherYAMLTabs,
 
 
   // temp
-  hitchControlsToYAML(yaml, otherYAMLTabs, controlData)
+  yaml = hitchControlsToYAML(yaml, otherYAMLTabs, controlData)
 
 
 
@@ -265,6 +265,8 @@ const addCodeSnippetsTemplateData = (templateData, replacements, controlMap) => 
                   tabInfo.push({
                     control,
                     templateYAML: snippet,
+                    snippetKey,
+                    encode,
                     id: _id
                   })
                 }

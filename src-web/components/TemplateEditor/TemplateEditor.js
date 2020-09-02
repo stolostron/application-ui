@@ -367,7 +367,17 @@ export default class TemplateEditor extends React.Component {
     // custom action when control is selected
     const { onSelect } = control
     if (typeof onSelect === 'function') {
-      onSelect(control, controlData)
+      onSelect(control, controlData, (ctrl, isLoading)=>{
+        if (isLoading) {
+          ctrl.isLoading = isLoading
+          this.forceUpdate()
+        } else {
+          setTimeout(() => {
+            ctrl.isLoading = isLoading
+            this.forceUpdate()
+          })
+        }
+      })
     }
 
     const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(

@@ -54,7 +54,7 @@ class ControlPanelComboBox extends React.Component {
     const { controlData } = this.props
     let { active, available, placeholder = '' } = control
     let loadingMsg
-    if (fetchAvailable) {
+    if (fetchAvailable || isLoading) {
       if (isLoading) {
         loadingMsg = msgs.get(
           _.get(control, 'fetchAvailable.loadingDesc', 'resource.loading'),

@@ -111,6 +111,7 @@ export const controlData = [
     id: 'namespace',
     type: 'combobox',
     fetchAvailable: loadExistingNamespaces(),
+    placeholder: 'app.enter.namespace',
     onSelect: updateNSControls,
     validation: {
       constraint: VALID_DNS_LABEL,

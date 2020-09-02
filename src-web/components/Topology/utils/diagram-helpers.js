@@ -34,6 +34,8 @@ const podWarningStates = ['pending', 'creating']
 
 const podSuccessStates = ['run']
 
+const ansibleJobStatus = 'specs.raw.spec.ansibleJobResult.status'
+
 /*
 * UI helpers to help with data transformations
 * */
@@ -356,7 +358,7 @@ const getPulseStatusForGenericNode = node => {
 
   //ansible job status
   if (_.get(node, 'type', '') === 'ansiblejob') {
-    const jobStatus = _.get(node, 'specs.raw.spec.ansibleJobResult.status')
+    const jobStatus = _.get(node, ansibleJobStatus)
     if (!jobStatus || jobStatus === 'error') {
       pulse = 'red' // ansible not executed
     }
@@ -922,9 +924,9 @@ export const setupResourceModel = (
 }
 
 export const showAnsibleJobDetails = (node, details) => {
-  const jobUrl = _.get(node, 'specs.raw.spec.ansibleJobResult.joburl')
+  const jobUrl = _.get(node, 'specs.raw.spec.ansibleJobResult.url')
 
-  let statusKey = _.get(node, 'specs.raw.spec.ansibleJobResult.status')
+  let statusKey = _.get(node, ansibleJobStatus)
 
   if (!statusKey) {
     //not executed, get error message
@@ -949,8 +951,7 @@ export const showAnsibleJobDetails = (node, details) => {
   const statusStr =
     statusKey === 'successful'
       ? 'checkmark'
-      : statusKey === 'error' ||
-        !_.get(node, 'specs.raw.spec.ansibleJobResult.status')
+      : statusKey === 'error' || !_.get(node, ansibleJobStatus)
         ? 'failure'
         : 'pending'
 

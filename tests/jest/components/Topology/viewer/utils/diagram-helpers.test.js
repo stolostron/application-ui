@@ -48,7 +48,7 @@ const ansibleSuccess = {
       },
       spec: {
         ansibleJobResult: {
-          joburl: "http://ansible_url/job",
+          url: "http://ansible_url/job",
           status: "successful"
         }
       }
@@ -2452,7 +2452,7 @@ describe("setResourceDeployStatus ansiblejob ", () => {
         },
         spec: {
           ansibleJobResult: {
-            joburl: "http://ansible_url/job",
+            url: "http://ansible_url/job",
             status: "successful"
           }
         }

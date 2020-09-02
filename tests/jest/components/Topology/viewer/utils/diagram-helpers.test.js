@@ -2416,6 +2416,40 @@ describe("setResourceDeployStatus ansiblejob ", () => {
   });
 });
 
+describe("setResourceDeployStatus ansiblejob no status", () => {
+  const node = {
+    type: "ansiblejob",
+    name: "bigjoblaunch",
+    namespace: "default",
+    id:
+      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+    specs: {
+      raw: {
+        metadata: {
+          name: "bigjoblaunch",
+          namespace: "default"
+        }
+      },
+      ansiblejobModel: {
+        "bigjoblaunch-local-cluster": {
+          label: "tower_job_id=999999999"
+        }
+      }
+    }
+  };
+  const result = [
+    {
+      labelValue: "Ansible Job status",
+      status: "pending",
+      value:
+        "Ansible job not executed, check the Subscription YAML for status errors."
+    }
+  ];
+  it("setResourceDeployStatus ansiblejob no status", () => {
+    expect(setResourceDeployStatus(node, [])).toEqual(result);
+  });
+});
+
 describe("setResourceDeployStatus 2 ", () => {
   const node = {
     type: "service",

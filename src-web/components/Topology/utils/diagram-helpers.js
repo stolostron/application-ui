@@ -915,7 +915,11 @@ export const setupResourceModel = (
 export const showAnsibleJobDetails = (node, details) => {
   const jobUrl = _.get(node, 'specs.raw.spec.ansibleJobResult.joburl')
 
-  const statusKey = _.get(node, 'specs.raw.spec.ansibleJobResult.status', '')
+  const statusKey = _.get(
+    node,
+    'specs.raw.spec.ansibleJobResult.status',
+    msgs.get('description.ansible.job.status.empty')
+  )
   const statusStr =
     statusKey === 'successful'
       ? 'checkmark'
@@ -980,6 +984,10 @@ export const setResourceDeployStatus = (node, details) => {
 
   if (_.get(node, 'type', '') === 'ansiblejob') {
     showAnsibleJobDetails(node, details)
+
+    if (!_.get(node, 'specs.raw.spec.ansibleJobResult.status')) {
+      return details // no other status info so return here
+    }
   } else {
     details.push({
       type: 'spacer'

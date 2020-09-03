@@ -60,7 +60,6 @@ export default {
     {
       key: 'table.actions.applications.view',
       link: {
-        replace: true,
         url: item =>
           `/multicloud/applications/${encodeURIComponent(
             item.namespace
@@ -70,7 +69,6 @@ export default {
     {
       key: 'table.actions.applications.edit',
       link: {
-        replace: true,
         url: item =>
           `/multicloud/applications/${encodeURIComponent(
             item.namespace
@@ -80,7 +78,6 @@ export default {
     {
       key: 'table.actions.applications.search',
       link: {
-        replace: false, // Search is in a different SPA, so add history
         url: item =>
           getSearchLink({
             properties: {

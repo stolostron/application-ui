@@ -73,21 +73,18 @@ Object {
     Object {
       "key": "table.actions.applications.view",
       "link": Object {
-        "replace": true,
         "url": [Function],
       },
     },
     Object {
       "key": "table.actions.applications.edit",
       "link": Object {
-        "replace": true,
         "url": [Function],
       },
     },
     Object {
       "key": "table.actions.applications.search",
       "link": Object {
-        "replace": false,
         "url": [Function],
       },
     },

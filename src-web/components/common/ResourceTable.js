@@ -377,11 +377,7 @@ class ResourceTable extends React.Component {
     const namespace = _.get(item, 'namespace', '')
     if (action.link) {
       const url = action.link.url(item)
-      if (action.link.replace) {
-        history.replace(url)
-      } else {
-        history.push(url)
-      }
+      history.push(url)
     } else if (action.modal) {
       client.mutate({
         mutation: UPDATE_ACTION_MODAL,

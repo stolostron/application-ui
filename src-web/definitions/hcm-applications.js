@@ -57,8 +57,45 @@ export default {
     }
   ],
   tableActions: [
-    'table.actions.applications.edit',
-    'table.actions.applications.remove'
+    {
+      key: 'table.actions.applications.view',
+      link: {
+        replace: true,
+        url: item =>
+          `/multicloud/applications/${encodeURIComponent(
+            item.namespace
+          )}/${encodeURIComponent(item.name)}`
+      }
+    },
+    {
+      key: 'table.actions.applications.edit',
+      link: {
+        replace: true,
+        url: item =>
+          `/multicloud/applications/${encodeURIComponent(
+            item.namespace
+          )}/${encodeURIComponent(item.name)}/yaml`
+      }
+    },
+    {
+      key: 'table.actions.applications.search',
+      link: {
+        replace: false, // Search is in a different SPA, so add history
+        url: item =>
+          getSearchLink({
+            properties: {
+              name: item.name,
+              namespace: item.namespace,
+              kind: 'application',
+              apigroup: 'app.k8s.io'
+            }
+          })
+      }
+    },
+    {
+      key: 'table.actions.applications.remove',
+      modal: true
+    }
   ],
   detailKeys: {
     title: 'application.details',

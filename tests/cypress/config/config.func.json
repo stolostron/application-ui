@@ -43,7 +43,7 @@
           "timeWindow": {
             "setting": true,
             "type": "activeinterval",
-            "date": ["Sunday"]
+            "date": ["Sunday", "Monday"]
           }
         },
         {

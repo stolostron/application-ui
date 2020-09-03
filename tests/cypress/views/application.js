@@ -20,139 +20,118 @@ export const createApplication = (data, type) => {
   modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name").type(name);
-  cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`, {
-    timeout: 50 * 1000
-  });
-  cy.get(`#${type}`).click();
+  cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`);
   if (type === "git") {
-    config.length > 1 ? createMultipleGit(config) : createGit(config);
+    createGit(config);
   } else if (type === "objectstore") {
-    config.length > 1 ? createMultipleObj(config) : createObj(config);
+    createObj(config);
   } else if (type === "local-cluster") {
-    config.length > 1 ? createMultipleLocal(config) : createLocal(config);
+    createLocal(config);
   }
   // comment until the validation is done
   // cy.get("#online-cluster-only-checkbox").click({ force: true });
   submitSave();
 };
 
-export const createGit = config => {
-  const { url, username, token, branch, path, timeWindow } = config;
-  cy.get("#githubURL", { timeout: 20 * 1000 }).type(url);
-  if (username && token) {
-    cy.get("#githubUser").type(username);
-    cy.get("#githubAccessID").type(token);
-  }
-  cy.get("#githubBranch").type(branch);
-  cy.get("#githubPath").type(path);
-
-  selectTimeWindow(timeWindow);
-};
-
-export const createMultipleGit = configs => {
-  for (const [key, value] of Object.entries(configs)) {
-    key == 0 ? createGit(value) : multipleGit(key, value);
-  }
-};
-
-export const multipleGit = (key, config) => {
-  const { url, username, token, branch, path, timeWindow } = config;
-  cy.get("#add-channels").click();
+export const gitTasks = (value, gitCss, key = 0) => {
+  const { url, username, token, branch, path, timeWindow } = value;
+  const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
   cy
-    .get(".creation-view-group-container")
-    .eq(key)
-    .within($content => {
-      cy
-        .get(`#git`)
-        .click()
-        .trigger("mouseover");
-      cy.get(`#githubURLgrp${key}`, { timeout: 20 * 1000 }).type(url);
-      if (username && token) {
-        cy.get(`#githubUsergrp${key}`).type(username);
-        cy.get(`#githubAccessIDgrp${key}`).type(token);
-      }
-      cy.get(`#githubBranchgrp${key}`).type(branch);
-      cy.get(`#githubPathgrp${key}`).type(path);
-      selectTimeWindow(timeWindow, key);
-    });
+    .get(`#git`)
+    .click()
+    .trigger("mouseover");
+  cy.get(gitUrl, { timeout: 20 * 1000 }).type(url);
+  if (username && token) {
+    cy.get(gitUser).type(username);
+    cy.get(gitKey).type(token);
+  }
+  cy.get(gitBranch).type(branch);
+  cy.get(gitPath).type(path);
+
+  selectTimeWindow(timeWindow, key);
 };
 
-export const createObj = config => {
-  const { url, accessKey, secretKey, timeWindow } = config;
-  cy.get("#objectstoreURL", { timeout: 20 * 1000 }).type(url);
-  cy.get("#accessKey").then(input => {
+export const createGit = configs => {
+  let gitCss = {
+    gitUrl: "#githubURL",
+    gitUser: "#githubUser",
+    gitKey: "#githubAccessID",
+    gitBranch: "#githubBranch",
+    gitPath: "#githubPath"
+  };
+  for (const [key, value] of Object.entries(configs)) {
+    key == 0
+      ? gitTasks(value, gitCss)
+      : multipleTemplate(value, gitCss, key, gitTasks);
+  }
+};
+
+export const createObj = configs => {
+  let objCss = {
+    objUrl: "#objectstoreURL",
+    objAccess: "#accessKey",
+    objSecret: "#secretKey"
+  };
+  for (const [key, value] of Object.entries(configs)) {
+    key == 0
+      ? objTasks(value, objCss)
+      : multipleTemplate(value, objCss, key, objTasks);
+  }
+};
+
+export const objTasks = (value, css, key = 0) => {
+  const { url, accessKey, secretKey, timeWindow } = value;
+  const { objUrl, objAccess, objSecret } = css;
+  cy
+    .get(`#objectstore`)
+    .click()
+    .trigger("mouseover");
+  cy.get(objUrl, { timeout: 20 * 1000 }).type(url);
+  cy.get(objAccess).then(input => {
     if (input.is("enabled")) {
-      cy.get("#accessKey").type(accessKey);
-      cy.get("#secretKey").type(secretKey);
+      cy.get(objAccess).type(accessKey);
+      cy.get(objSecret).type(secretKey);
     } else {
       cy.log(`credentials have not been saved...`);
     }
   });
-  selectTimeWindow(timeWindow);
+  selectTimeWindow(timeWindow, key);
 };
 
-export const createMultipleObj = configs => {
-  for (const [key, value] of Object.entries(configs)) {
-    key == 0 ? createObj(value) : multipleObj(key, value);
-  }
-};
-
-export const multipleObj = (key, config) => {
-  const { url, accessKey, secretKey, timeWindow } = config;
+export const multipleTemplate = (value, css, key, func) => {
+  Object.keys(css).forEach(k => (css[k] = css[k] + `grp${key}`));
+  console.log(css);
   cy.get("#add-channels").click();
   cy
     .get(".creation-view-group-container")
     .eq(key)
     .within($content => {
-      cy
-        .get(`#objectstore`)
-        .click()
-        .trigger("mouseover");
-      cy.get(`#objectstoreURLgrp${key}`, { timeout: 20 * 1000 }).type(url);
-      cy.get(`#accessKeygrp${key}`).then(input => {
-        if (input.is("enabled")) {
-          cy.get(`#accessKeygrp${key}`).type(accessKey);
-          cy.get(`#secretKeygrp${key}`).type(secretKey);
-        } else {
-          cy.log(`credentials have not been saved...`);
-        }
-      });
-      selectTimeWindow(timeWindow, key);
+      func(value, css, key);
     });
 };
 
-export const createLocal = config => {
-  const { repository, timeWindow } = config;
+export const createLocal = configs => {
+  let localCss = {
+    channelName: "#namespaceChannelName"
+  };
+  for (const [key, value] of Object.entries(configs)) {
+    key == 0
+      ? localTasks(value, localCss)
+      : multipleTemplate(value, localCss, key, localTasks);
+  }
+};
+
+export const localTasks = (value, css, key = 0) => {
+  const { repository, timeWindow } = value;
+  const { channelName } = css;
+  cy
+    .get(`#local-cluster`)
+    .click()
+    .trigger("mouseover");
   repository
-    ? cy.get("#namespaceChannelName", { timeout: 20 * 1000 }).type(repository)
+    ? cy.get(channelName, { timeout: 20 * 1000 }).type(repository)
     : cy.log("skip repository name as it is not provided");
-  selectTimeWindow(timeWindow);
-};
-
-export const createMultipleLocal = configs => {
-  for (const [key, value] of Object.entries(configs)) {
-    key == 0 ? createLocal(value) : multipleLocal(key, value);
-  }
-};
-
-export const multipleLocal = (key, config) => {
-  const { repository, timeWindow } = config;
-  cy.get("#add-channels").click();
-  cy
-    .get(".creation-view-group-container")
-    .eq(key)
-    .within($content => {
-      cy
-        .get(`#local-cluster`)
-        .click()
-        .trigger("mouseover");
-      repository
-        ? cy
-            .get(`#namespaceChannelNamegrp${key}`, { timeout: 20 * 1000 })
-            .type(repository)
-        : cy.log("skip repository name as it is not provided");
-      selectTimeWindow(timeWindow, key);
-    });
+  selectTimeWindow(timeWindow, key);
 };
 
 export const submitSave = () => {

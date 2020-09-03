@@ -76,7 +76,7 @@ export const updateDisplayForPlacementControls = (
 
     //reset all values
     _.set(localClusterControl, 'active', false)
-    _.set(onlineControl, 'active', false)
+    _.set(onlineControl, 'active', true)
     clusterSelectorControl.active.clusterLabelsListID = 1
     delete clusterSelectorControl.active.clusterLabelsList
     clusterSelectorControl.active.clusterLabelsList = [
@@ -158,7 +158,7 @@ const placementData = [
     type: 'checkbox',
     name: 'creation.app.settings.onlineClusters',
     tooltip: 'tooltip.creation.app.settings.onlineClusters',
-    active: false,
+    active: true,
     available: []
   },
   {

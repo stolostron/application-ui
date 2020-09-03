@@ -20,7 +20,7 @@ metadata:
 spec:
   type: ObjectBucket
 {{#if objectstoreURL}}
-  pathname: '{{{objectstoreURL}}}'
+  pathname: '{{{objectstoreURL}}}' ##channels.{{@index}}.objectstoreURL
 {{/if}}
 {{#if accessKey}}
   secretRef:

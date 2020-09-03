@@ -19,7 +19,7 @@ metadata:
 spec:
   type: Git
 {{#if githubURL}}
-  pathname: '{{{githubURL}}}'
+  pathname: '{{{githubURL}}}'  ##channels.{{@index}}.githubURL
 {{/if}}
 {{#if githubUser}}
   secretRef:

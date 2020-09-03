@@ -19,7 +19,7 @@ metadata:
 spec:
   type: HelmRepo
 {{#if helmURL}}
-  pathname: '{{{helmURL}}}'
+  pathname: '{{{helmURL}}}'  ##channels.{{@index}}.helmURL
 {{/if}}
 {{#if helmUser}}
   secretRef:

@@ -927,12 +927,16 @@ export const showAnsibleJobDetails = (node, details) => {
   const jobUrl = _.get(node, 'specs.raw.spec.ansibleJobResult.url')
 
   let statusKey = _.get(node, ansibleJobStatus)
-
+  let failIndex = -1
+  let runningIndex = -1
   if (!statusKey) {
     //not executed, get error message
     const conditions = _.get(node, 'specs.raw.spec.conditions', [])
-    const failIndex = _.findIndex(conditions, condition => {
+    failIndex = _.findIndex(conditions, condition => {
       return condition.type === 'Failure'
+    })
+    runningIndex = _.findIndex(conditions, condition => {
+      return condition.type === 'Running'
     })
     if (failIndex !== -1) {
       statusKey = `${msgs.get(
@@ -941,7 +945,7 @@ export const showAnsibleJobDetails = (node, details) => {
     }
   }
 
-  if (!statusKey) {
+  if (!statusKey && runningIndex === -1) {
     //use generic message
     statusKey = `${msgs.get('description.ansible.job.status.empty')} ${msgs.get(
       'description.ansible.job.status.empty.err'
@@ -949,7 +953,7 @@ export const showAnsibleJobDetails = (node, details) => {
   }
 
   const statusStr =
-    statusKey === 'successful'
+    statusKey === 'successful' || runningIndex !== -1
       ? 'checkmark'
       : statusKey === 'error' || !_.get(node, ansibleJobStatus)
         ? 'failure'

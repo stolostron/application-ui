@@ -1105,7 +1105,7 @@ ShallowWrapper {
           },
           "getDerivedStateFromError": true,
           "getDerivedStateFromProps": Object {
-            "hasShouldComponentUpdateBug": false,
+            "hasShouldComponentUpdateBug": true,
           },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
@@ -2226,7 +2226,7 @@ ShallowWrapper {
           },
           "getDerivedStateFromError": true,
           "getDerivedStateFromProps": Object {
-            "hasShouldComponentUpdateBug": false,
+            "hasShouldComponentUpdateBug": true,
           },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
@@ -3347,7 +3347,7 @@ ShallowWrapper {
           },
           "getDerivedStateFromError": true,
           "getDerivedStateFromProps": Object {
-            "hasShouldComponentUpdateBug": false,
+            "hasShouldComponentUpdateBug": true,
           },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
@@ -4468,7 +4468,7 @@ ShallowWrapper {
           },
           "getDerivedStateFromError": true,
           "getDerivedStateFromProps": Object {
-            "hasShouldComponentUpdateBug": false,
+            "hasShouldComponentUpdateBug": true,
           },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {

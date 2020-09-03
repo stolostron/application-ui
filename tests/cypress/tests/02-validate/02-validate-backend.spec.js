@@ -9,11 +9,11 @@ describe("Application", () => {
   for (const type in config) {
     const data = config[type].data;
     if (data.enable) {
-      it(`channels, subscription and placementrule - should be validated - ${type}: ${
-        data.name
-      }`, () => {
-        apiResources.action(type, "get", data);
-      });
+      // it(`channels, subscription and placementrule - should be validated - ${type}: ${
+      //   data.name
+      // }`, () => {
+      //   apiResources.action(type, "get", data);
+      // });
       it(`timewindow - should be validated - ${type}: ${data.name}`, () => {
         validateTimewindow(data.name, data.config);
       });

@@ -20,14 +20,15 @@ export const apiResources = {
 
 export const channels = (key, type, action, name, config) => {
   const { repository } = config;
+  const objChannelKey = parseInt(key) + 1;
   const channelDict = {
     git: {
       channelNs: "app-samples-chn-ns",
       channelName: "app-samples-chn"
     },
     objectstore: {
-      channelNs: `dev${key}-chn-ns`,
-      channelName: `dev${key}-chn`
+      channelNs: `dev${objChannelKey}-chn-ns`,
+      channelName: `dev${objChannelKey}-chn`
     },
     "local-cluster": {
       channelNs: "resource-ns",

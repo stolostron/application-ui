@@ -13,7 +13,7 @@
           "timeWindow": {
             "setting": true,
             "type": "blockinterval",
-            "date": "Monday"
+            "date": ["Monday", "Tuesday"]
           }
         },
         {
@@ -25,7 +25,7 @@
           "timeWindow": {
             "setting": true,
             "type": "activeinterval",
-            "date": "Thursday"
+            "date": ["Thursday", "Friday"]
           }
         }
       ]
@@ -43,7 +43,7 @@
           "timeWindow": {
             "setting": true,
             "type": "activeinterval",
-            "date": "Sunday"
+            "date": ["Sunday"]
           }
         },
         {
@@ -53,7 +53,7 @@
           "timeWindow": {
             "setting": true,
             "type": "activeinterval",
-            "date": "Tuesday"
+            "date": ["Tuesday"]
           }
         }
       ]
@@ -76,7 +76,7 @@
           "timeWindow": {
             "setting": true,
             "type": "activeinterval",
-            "date": "Wednesday"
+            "date": ["Wednesday", "Saturday", "Sunday"]
           }
         }
       ]

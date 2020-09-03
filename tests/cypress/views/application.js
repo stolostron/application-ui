@@ -78,7 +78,6 @@ export const multipleGit = (key, config) => {
 };
 
 export const createObj = config => {
-  console.log(config);
   const { url, accessKey, secretKey, timeWindow } = config;
   cy.get("#objectstoreURL", { timeout: 20 * 1000 }).type(url);
   cy.get("#accessKey").then(input => {
@@ -211,7 +210,6 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
   const { setting, type, date } = timeWindow;
   if (setting && date) {
     cy.log(`Select TimeWindow - ${type}...`);
-    const dateId = date.toLowerCase().substring(0, 3) + "-timeWindow";
     let typeID;
     key == 0
       ? (typeID =
@@ -227,11 +225,7 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
       .get(typeID)
       .scrollIntoView()
       .click({ force: true });
-    key == 0
-      ? cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
-      : cy
-          .get(`#${dateId}grp${key}`, { timeout: 20 * 1000 })
-          .click({ force: true });
+    selectDate(date, key);
 
     cy
       .get(".bx--dropdown.config-timezone-dropdown.bx--list-box")
@@ -248,13 +242,13 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
   }
 };
 
-export const getTimeWindowType = name => {
-  let nameList = name.split("-");
-  let timeWindowType;
-  "active activeinterval blockinterval".indexOf(
-    nameList[nameList.length - 1]
-  ) !== -1
-    ? (timeWindowType = nameList[nameList.length - 1])
-    : (timeWindowType = undefined);
-  return timeWindowType;
+export const selectDate = (date, key) => {
+  date.forEach(d => {
+    const dateId = d.toLowerCase().substring(0, 3) + "-timeWindow";
+    key == 0
+      ? cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
+      : cy
+          .get(`#${dateId}grp${key}`, { timeout: 20 * 1000 })
+          .click({ force: true });
+  });
 };

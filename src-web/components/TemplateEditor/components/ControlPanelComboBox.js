@@ -54,7 +54,7 @@ class ControlPanelComboBox extends React.Component {
     const { controlData } = this.props
     let { active, available, placeholder = '' } = control
     let loadingMsg
-    if (fetchAvailable || isLoading) {
+    if (fetchAvailable) {
       if (isLoading) {
         loadingMsg = msgs.get(
           _.get(control, 'fetchAvailable.loadingDesc', 'resource.loading'),
@@ -70,6 +70,19 @@ class ControlPanelComboBox extends React.Component {
             locale
           )
       }
+    } else if (isLoading) {
+      loadingMsg = msgs.get(
+        'creation.loading.values',
+        [name.toLowerCase()],
+        locale
+      )
+    }
+    if (!placeholder) {
+      placeholder = msgs.get(
+        'creation.enter.value',
+        [name.toLowerCase()],
+        locale
+      )
     }
     available = _.uniq([...userData, ...available])
 

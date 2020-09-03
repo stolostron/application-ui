@@ -29,8 +29,8 @@ export const loadExistingChannels = type => {
   }
 }
 
-export const updateChannelControls = (urlControl, globalControl, setLoading) => {
-  getGitBranches(_.get(urlControl, 'groupControlData'), setLoading)
+export const updateChannelControls = (urlControl, globalControl, setLoadingState) => {
+  getGitBranches(_.get(urlControl, 'groupControlData'), setLoadingState)
 
   //update existing placement rule section when user changes the namespace
   const nsControl = globalControl.find(
@@ -137,7 +137,7 @@ export const updateControlsForNS = (
   return globalControl
 }
 
-export const getGitBranches = async (groupControlData, setLoading) => {
+export const getGitBranches = async (groupControlData, setLoadingState) => {
   try {
     const gitControl = groupControlData.find(({ id }) => id === 'githubURL')
     const branchCtrl = groupControlData.find(({ id }) => id === 'githubBranch')
@@ -193,7 +193,7 @@ export const getGitBranches = async (groupControlData, setLoading) => {
 
         const repoObj = github.getRepo(gitPath)
 
-        setLoading(branchCtrl, true)
+        setLoadingState(branchCtrl, true)
         await repoObj.listBranches().then(result => {
           branchCtrl.active = ''
           branchCtrl.available = []
@@ -203,7 +203,7 @@ export const getGitBranches = async (groupControlData, setLoading) => {
               branchCtrl.available.push(branch.name)
             })
           }
-          setLoading(branchCtrl, false)
+          setLoadingState(branchCtrl, false)
         })
       }
     }

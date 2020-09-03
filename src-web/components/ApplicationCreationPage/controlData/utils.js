@@ -368,7 +368,7 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
     _.set(localClusterControl, 'type', 'checkbox')
 
     _.set(onlineControl, 'type', 'checkbox')
-    _.set(onlineControl, 'active', false)
+    _.set(onlineControl, 'active', true)
 
     _.set(clusterSelectorControl, 'type', 'custom')
     _.set(clusterSelectorControl, 'active.mode', false)

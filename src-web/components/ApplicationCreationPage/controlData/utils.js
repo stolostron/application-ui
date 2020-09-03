@@ -9,9 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import {
-  HCMChannelList
-} from '../../../../lib/client/queries'
+import { HCMChannelList } from '../../../../lib/client/queries'
 
 import _ from 'lodash'
 
@@ -101,7 +99,7 @@ export const updateControlsForNS = (
   nsControl,
   globalControl
 ) => {
-  const { active, availableData={} } = nsControl
+  const { active, availableData = {} } = nsControl
 
   const controlList = getExistingPRControlsSection(
     initiatingControl,
@@ -299,8 +297,6 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
   const onlineControl = _.get(control, onlineClustersCheckbox)
   const clusterSelectorControl = _.get(control, 'clusterSelector')
 
-  const clusterReplicasControl = _.get(control, 'clusterReplicas')
-
   const localClusterControl = _.get(control, localClusterCheckbox)
 
   if (selectedPR) {
@@ -317,10 +313,6 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
 
     onlineControl.active = localClusterData.length > 0
     localClusterData.length > 0 && _.set(onlineControl, 'type', 'checkbox')
-
-    const clusterReplicas = _.get(selectedPR, 'raw.spec.clusterReplicas', '')
-    clusterReplicasControl.active = _.toString(clusterReplicas)
-    clusterReplicas !== '' && _.set(clusterReplicasControl, 'type', 'text')
 
     const clusterSelectorData = _.get(
       selectedPR,
@@ -384,9 +376,6 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
       { id: 0, labelName: '', labelValue: '', validValue: true }
     ]
     clusterSelectorControl.showData = []
-
-    _.set(clusterReplicasControl, 'type', 'text')
-    _.set(clusterReplicasControl, 'active', '')
 
     clusterSelectorControl.showData = []
   }

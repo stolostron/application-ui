@@ -10,17 +10,11 @@
 
 "use strict";
 
-import {
-  updateNSControls
-} from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
+import { updateNSControls } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
 
-import {
-  updatePlacementControls,
-} from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
+import { updatePlacementControls } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
 
-import {
-  updateGitCredentials,
-} from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataGit";
+import { updateGitCredentials } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataGit";
 
 import {
   setAvailableRules,
@@ -631,11 +625,6 @@ describe("updateNewRuleControlsData without controls", () => {
       id: "selectedRuleName",
       active: "result-pr"
     },
-    clusterReplicas: {
-      active: "",
-      id: "clusterReplicas",
-      type: "text"
-    },
     clusterSelector: {
       id: "clusterSelector",
       type: "custom",
@@ -651,7 +640,6 @@ describe("updateNewRuleControlsData without controls", () => {
   };
 
   const result = {
-    clusterReplicas: { active: "", id: "clusterReplicas", type: "text" },
     clusterSelector: {
       active: {
         clusterLabelsList: [
@@ -760,18 +748,13 @@ describe("updatePlacementControls with controls", () => {
       {
         id: "clusterSelector",
         type: "custom"
-      },
-      {
-        id: "clusterReplicas",
-        type: "text"
       }
     ]
   };
   const result = [
     { id: "local-cluster-checkbox", type: "checkbox" },
     { id: "online-cluster-only-checkbox", type: "checkbox" },
-    { id: "clusterSelector", type: "custom" },
-    { id: "clusterReplicas", type: "text" }
+    { id: "clusterSelector", type: "custom" }
   ];
   it("should return all data", () => {
     expect(updatePlacementControls(placementControl)).toEqual(result);
@@ -795,18 +778,13 @@ describe("updatePlacementControls with controls", () => {
       {
         id: "clusterSelector",
         type: "custom"
-      },
-      {
-        id: "clusterReplicas",
-        type: "text"
       }
     ]
   };
   const result = [
     { id: "local-cluster-checkbox", type: "checkbox" },
     { id: "online-cluster-only-checkbox", type: "hidden" },
-    { id: "clusterSelector", type: "hidden" },
-    { id: "clusterReplicas", type: "hidden" }
+    { id: "clusterSelector", type: "hidden" }
   ];
   it("should return local only", () => {
     expect(updatePlacementControls(placementControl)).toEqual(result);

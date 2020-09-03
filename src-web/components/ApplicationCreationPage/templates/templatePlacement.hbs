@@ -44,9 +44,6 @@ metadata:
   namespace: {{{@root.namespace}}}
 {{#if clusterSelector.mode}}  
 spec:
-  {{#if clusterReplicas}}
-  clusterReplicas: {{{clusterReplicas}}}
-  {{/if}}  
   clusterSelector:
     matchLabels:
       {{#each clusterSelector.clusterLabelsList}}
@@ -62,17 +59,9 @@ spec:
 {{else}}
   {{#if online-cluster-only-checkbox}}
 spec:
-  {{#if clusterReplicas}}
-  clusterReplicas: {{{clusterReplicas}}}
-  {{/if}} 
   clusterConditions:
     - type: ManagedClusterConditionAvailable
       status: "True"
-  {{else}} 
-  {{#if clusterReplicas}}
-spec:  
-  clusterReplicas: {{{clusterReplicas}}}
-  {{/if}}    
   {{/if}}
 {{/if}}
 {{/unless}}

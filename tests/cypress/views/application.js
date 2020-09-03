@@ -17,7 +17,6 @@ import {
 export const createApplication = (data, type) => {
   cy.visit("/multicloud/applications");
   const { name, config } = data;
-  const { timeWindow } = config;
   modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name").type(name);
@@ -26,20 +25,19 @@ export const createApplication = (data, type) => {
   });
   cy.get(`#${type}`).click();
   if (type === "git") {
-    createGit(config);
+    config.length > 1 ? createMultipleGit(config) : createGit(config);
   } else if (type === "objectstore") {
-    createObj(config);
+    config.length > 1 ? createMultipleObj(config) : createObj(config);
   } else if (type === "local-cluster") {
-    createLocal(config);
+    config.length > 1 ? createMultipleLocal(config) : createLocal(config);
   }
   // comment until the validation is done
   // cy.get("#online-cluster-only-checkbox").click({ force: true });
-  selectTimeWindow(timeWindow);
   submitSave();
 };
 
 export const createGit = config => {
-  const { url, username, token, branch, path } = config;
+  const { url, username, token, branch, path, timeWindow } = config;
   cy.get("#githubURL", { timeout: 20 * 1000 }).type(url);
   if (username && token) {
     cy.get("#githubUser").type(username);
@@ -47,10 +45,41 @@ export const createGit = config => {
   }
   cy.get("#githubBranch").type(branch);
   cy.get("#githubPath").type(path);
+
+  selectTimeWindow(timeWindow);
+};
+
+export const createMultipleGit = configs => {
+  for (const [key, value] of Object.entries(configs)) {
+    key == 0 ? createGit(value) : multipleGit(key, value);
+  }
+};
+
+export const multipleGit = (key, config) => {
+  const { url, username, token, branch, path, timeWindow } = config;
+  cy.get("#add-channels").click();
+  cy
+    .get(".creation-view-group-container")
+    .eq(key)
+    .within($content => {
+      cy
+        .get(`#git`)
+        .click()
+        .trigger("mouseover");
+      cy.get(`#githubURLgrp${key}`, { timeout: 20 * 1000 }).type(url);
+      if (username && token) {
+        cy.get(`#githubUsergrp${key}`).type(username);
+        cy.get(`#githubAccessIDgrp${key}`).type(token);
+      }
+      cy.get(`#githubBranchgrp${key}`).type(branch);
+      cy.get(`#githubPathgrp${key}`).type(path);
+      selectTimeWindow(timeWindow, key);
+    });
 };
 
 export const createObj = config => {
-  const { url, accessKey, secretKey } = config;
+  console.log(config);
+  const { url, accessKey, secretKey, timeWindow } = config;
   cy.get("#objectstoreURL", { timeout: 20 * 1000 }).type(url);
   cy.get("#accessKey").then(input => {
     if (input.is("enabled")) {
@@ -60,13 +89,71 @@ export const createObj = config => {
       cy.log(`credentials have not been saved...`);
     }
   });
+  selectTimeWindow(timeWindow);
+};
+
+export const createMultipleObj = configs => {
+  for (const [key, value] of Object.entries(configs)) {
+    key == 0 ? createObj(value) : multipleObj(key, value);
+  }
+};
+
+export const multipleObj = (key, config) => {
+  const { url, accessKey, secretKey, timeWindow } = config;
+  cy.get("#add-channels").click();
+  cy
+    .get(".creation-view-group-container")
+    .eq(key)
+    .within($content => {
+      cy
+        .get(`#objectstore`)
+        .click()
+        .trigger("mouseover");
+      cy.get(`#objectstoreURLgrp${key}`, { timeout: 20 * 1000 }).type(url);
+      cy.get(`#accessKeygrp${key}`).then(input => {
+        if (input.is("enabled")) {
+          cy.get(`#accessKeygrp${key}`).type(accessKey);
+          cy.get(`#secretKeygrp${key}`).type(secretKey);
+        } else {
+          cy.log(`credentials have not been saved...`);
+        }
+      });
+      selectTimeWindow(timeWindow, key);
+    });
 };
 
 export const createLocal = config => {
-  const { repository } = config;
+  const { repository, timeWindow } = config;
   repository
     ? cy.get("#namespaceChannelName", { timeout: 20 * 1000 }).type(repository)
     : cy.log("skip repository name as it is not provided");
+  selectTimeWindow(timeWindow);
+};
+
+export const createMultipleLocal = configs => {
+  for (const [key, value] of Object.entries(configs)) {
+    key == 0 ? createLocal(value) : multipleLocal(key, value);
+  }
+};
+
+export const multipleLocal = (key, config) => {
+  const { repository, timeWindow } = config;
+  cy.get("#add-channels").click();
+  cy
+    .get(".creation-view-group-container")
+    .eq(key)
+    .within($content => {
+      cy
+        .get(`#local-cluster`)
+        .click()
+        .trigger("mouseover");
+      repository
+        ? cy
+            .get(`#namespaceChannelNamegrp${key}`, { timeout: 20 * 1000 })
+            .type(repository)
+        : cy.log("skip repository name as it is not provided");
+      selectTimeWindow(timeWindow, key);
+    });
 };
 
 export const submitSave = () => {
@@ -120,20 +207,32 @@ export const deleteApplicationUI = name => {
   }
 };
 
-export const selectTimeWindow = timeWindow => {
+export const selectTimeWindow = (timeWindow, key = 0) => {
   const { setting, type, date } = timeWindow;
   if (setting && date) {
     cy.log(`Select TimeWindow - ${type}...`);
     const dateId = date.toLowerCase().substring(0, 3) + "-timeWindow";
-    let typeID =
-      type === "blockinterval"
-        ? "#blocked-mode-timeWindow"
-        : "#active-mode-timeWindow";
+    let typeID;
+    key == 0
+      ? (typeID =
+          type === "blockinterval"
+            ? "#blocked-mode-timeWindow"
+            : "#active-mode-timeWindow")
+      : (typeID =
+          type === "blockinterval"
+            ? `#blocked-mode-timeWindowgrp${key}`
+            : `#active-mode-timeWindowgrp${key}`);
+
     cy
       .get(typeID)
       .scrollIntoView()
       .click({ force: true });
-    cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true });
+    key == 0
+      ? cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
+      : cy
+          .get(`#${dateId}grp${key}`, { timeout: 20 * 1000 })
+          .click({ force: true });
+
     cy
       .get(".bx--dropdown.config-timezone-dropdown.bx--list-box")
       .within($timezone => {

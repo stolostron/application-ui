@@ -8,13 +8,16 @@
  *******************************************************************************/
 import R from 'ramda'
 import React from 'react'
-import { TooltipIcon } from 'carbon-components-react'
-import { getAge } from '../../lib/client/resource-helper'
-import { getNumClustersForApp } from '../components/common/ResourceOverview/utils'
-import msgs from '../../nls/platform.properties'
+import {
+  getCreationDate,
+  getClusterCountString
+} from '../../lib/client/resource-helper'
+import { getSearchLink } from '../components/common/ResourceOverview/utils'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import { validator } from './validators/hcm-application-validator'
+import msgs from '../../nls/platform.properties'
+import ChannelLabels from '../components/common/ChannelLabels'
 
 export default {
   defaultSortField: 'name',
@@ -24,7 +27,7 @@ export default {
   validator,
   tableKeys: [
     {
-      msgKey: 'table.header.applicationName',
+      msgKey: 'table.header.name',
       resourceKey: 'name',
       transformFunction: createApplicationLink
     },
@@ -33,19 +36,24 @@ export default {
       resourceKey: 'namespace'
     },
     {
-      msgKey: 'table.header.managedClusters',
+      msgKey: 'table.header.clusters',
       resourceKey: 'clusters',
-      transformFunction: getNumClustersForApp
+      transformFunction: createClustersLink
     },
     {
-      msgKey: 'table.header.subscriptions',
-      resourceKey: 'subscriptions',
-      transformFunction: getNumRemoteSubs
+      msgKey: 'table.header.resource',
+      resourceKey: 'channels',
+      transformFunction: getChannels
+    },
+    {
+      msgKey: 'table.header.timeWindow',
+      resourceKey: 'hubSubscriptions',
+      transformFunction: getTimeWindow
     },
     {
       msgKey: 'table.header.created',
       resourceKey: 'created',
-      transformFunction: getAge
+      transformFunction: getCreated
     }
   ],
   tableActions: [
@@ -86,7 +94,7 @@ export default {
           },
           {
             resourceKey: 'created',
-            transformFunction: getAge
+            transformFunction: getCreated
           }
         ]
       },
@@ -116,64 +124,52 @@ export function createApplicationLink(item = {}, ...param) {
   return <Link to={link}>{name}</Link>
 }
 
-export function getNumRemoteSubs(item = {}, locale) {
-  let total = 0
-  let failed = 0
-  let unknown = 0
-  let subscribed = 0
+export function createClustersLink(item = {}, locale = '') {
+  const clusterCount = R.path(['clusterCount'], item) || 0
+  const localPlacement = (R.path(['hubSubscriptions'], item) || []).some(
+    sub => sub.localPlacement
+  )
+  const clusterCountString = getClusterCountString(
+    locale,
+    clusterCount,
+    localPlacement
+  )
 
-  if (item) {
-    failed = R.path(['remoteSubscriptionStatusCount', 'Failed'], item) || 0
-    unknown = R.path(['remoteSubscriptionStatusCount', 'null'], item) || 0
-    subscribed =
-      R.path(['remoteSubscriptionStatusCount', 'Subscribed'], item) || 0
-
-    total = failed + unknown + subscribed
+  if (clusterCount) {
+    const searchLink = getSearchLink({
+      properties: {
+        name: item.name,
+        namespace: item.namespace,
+        kind: 'application',
+        apigroup: 'app.k8s.io'
+      },
+      showRelated: 'cluster'
+    })
+    return <a href={searchLink}>{clusterCountString}</a>
+  } else {
+    return clusterCountString
   }
+}
+
+export function getChannels(item = {}, locale = '') {
   return (
-    <ul>
-      <li>
-        <LabelWithOptionalTooltip key="1" labelText={total} />
-        {(failed !== 0 || unknown !== 0) && <span>{' | '}</span>}
-        <LabelWithOptionalTooltip
-          key="2"
-          labelText={failed}
-          iconName="failed-status"
-          description={msgs.get('table.cell.failed', locale)}
-        />
-        <LabelWithOptionalTooltip
-          key="3"
-          labelText={unknown}
-          iconName="no-status"
-          description={msgs.get('table.cell.status.absent', locale)}
-        />
-      </li>
-    </ul>
+    <ChannelLabels
+      channels={(R.path(['hubChannels'], item) || []).map(ch => ({
+        type: ch['ch.type'],
+        pathname: ch['ch.pathname']
+      }))}
+      locale={locale}
+    />
   )
 }
 
-export const LabelWithOptionalTooltip = text => {
-  if (text && text.labelText) {
-    return (
-      <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-        {text.iconName && (
-          <TooltipIcon direction={'top'} tooltipText={text.description}>
-            <img
-              style={{ marginRight: '4px' }}
-              width="10px"
-              height="10px"
-              src={`${config.contextPath}/graphics/${text.iconName}.svg`}
-              alt={''}
-            />
-          </TooltipIcon>
-        )}
-        <p style={{ fontSize: '14px', paddingRight: '8px' }}>
-          {text.labelText}
-        </p>
-      </div>
-    )
-  } else if (text && !text.iconName) {
-    return <p style={{ fontSize: '14px' }}>{text.labelText}</p>
-  }
-  return <span />
+export function getTimeWindow(item = {}, locale = '') {
+  return (R.path(['hubSubscriptions'], item) || []).some(sub => sub.timeWindow)
+    ? msgs.get('table.cell.yes', locale)
+    : ''
+}
+
+export function getCreated(item = {}) {
+  const timestamp = R.path(['created'], item) || ''
+  return timestamp ? getCreationDate(timestamp) : '-'
 }

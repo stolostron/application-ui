@@ -34,6 +34,8 @@ const podWarningStates = ['pending', 'creating']
 
 const podSuccessStates = ['run']
 
+const ansibleJobStatus = 'specs.raw.spec.ansibleJobResult.status'
+
 /*
 * UI helpers to help with data transformations
 * */
@@ -354,6 +356,14 @@ const getPulseStatusForGenericNode = node => {
     }
   })
 
+  //ansible job status
+  if (_.get(node, 'type', '') === 'ansiblejob') {
+    const jobStatus = _.get(node, ansibleJobStatus)
+    if (!jobStatus || jobStatus === 'error') {
+      pulse = 'red' // ansible not executed
+    }
+  }
+
   return pulse
 }
 
@@ -498,7 +508,7 @@ export const computeNodeStatus = node => {
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
     _.set(node, specPulse, pulse)
-    return
+    return pulse
   }
 
   switch (node.type) {
@@ -520,6 +530,7 @@ export const computeNodeStatus = node => {
   }
 
   _.set(node, specPulse, pulse)
+  return pulse
 }
 
 export const createDeployableYamlLink = (node, details) => {
@@ -913,13 +924,36 @@ export const setupResourceModel = (
 }
 
 export const showAnsibleJobDetails = (node, details) => {
-  const jobUrl = _.get(node, 'specs.raw.spec.ansibleJobResult.joburl')
+  const jobUrl = _.get(node, 'specs.raw.spec.ansibleJobResult.url')
 
-  const statusKey = _.get(node, 'specs.raw.spec.ansibleJobResult.status', '')
+  let statusKey = _.get(node, ansibleJobStatus)
+
+  if (!statusKey) {
+    //not executed, get error message
+    const conditions = _.get(node, 'specs.raw.spec.conditions', [])
+    const failIndex = _.findIndex(conditions, condition => {
+      return condition.type === 'Failure'
+    })
+    if (failIndex !== -1) {
+      statusKey = `${msgs.get(
+        'description.ansible.job.status.empty.err2'
+      )}${_.get(conditions[failIndex], 'message', '')}`
+    }
+  }
+
+  if (!statusKey) {
+    //use generic message
+    statusKey = `${msgs.get('description.ansible.job.status.empty')} ${msgs.get(
+      'description.ansible.job.status.empty.err'
+    )}`
+  }
+
   const statusStr =
     statusKey === 'successful'
       ? 'checkmark'
-      : statusKey === 'error' ? 'failure' : 'pending'
+      : statusKey === 'error' || !_.get(node, ansibleJobStatus)
+        ? 'failure'
+        : 'pending'
 
   if (jobUrl) {
     details.push({
@@ -980,6 +1014,10 @@ export const setResourceDeployStatus = (node, details) => {
 
   if (_.get(node, 'type', '') === 'ansiblejob') {
     showAnsibleJobDetails(node, details)
+
+    if (!_.get(node, 'specs.raw.spec')) {
+      return details // no other status info so return here
+    }
   } else {
     details.push({
       type: 'spacer'

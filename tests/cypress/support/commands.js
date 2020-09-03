@@ -113,7 +113,7 @@ Cypress.Commands.add("createAppResource", (kind, resourceType) => {
             .contains("HelmRepo")
             .click({ force: true });
           break;
-        case "objectbucket":
+        case "objectstore":
           cy
             .get("a")
             .contains("ObjectBucket")

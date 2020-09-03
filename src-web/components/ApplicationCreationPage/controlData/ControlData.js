@@ -9,13 +9,11 @@
  *******************************************************************************/
 'use strict'
 
-import {
-  HCMNamespaceList
-} from '../../../../lib/client/queries'
+import { HCMNamespaceList } from '../../../../lib/client/queries'
 import gitChannelData from './ControlDataGit'
 import helmReleaseChannelData from './ControlDataHelm'
 import hubClusterChannelData from './ControlDataLocalCluster'
-import objectstoreChannelData from './ControlDataObjectBucket'
+import objectstoreChannelData from './ControlDataObjectStore'
 import {
   setAvailableNSSpecs,
   getExistingPRControlsSection,
@@ -35,7 +33,7 @@ export const loadExistingNamespaces = () => {
 }
 
 export const updateNSControls = (nsControl, globalControl) => {
-  const { active, availableData={} } = nsControl
+  const { active, availableData = {} } = nsControl
 
   const userDefinedNSControl = globalControl.find(
     ({ id }) => id === 'userDefinedNamespace'
@@ -52,7 +50,7 @@ export const updateControlsForNS = (
   nsControl,
   globalControl
 ) => {
-  const { active, availableData={} } = nsControl
+  const { active, availableData = {} } = nsControl
 
   const controlList = getExistingPRControlsSection(
     initiatingControl,
@@ -170,7 +168,7 @@ export const controlData = [
           {
             id: 'github',
             logo: 'git-repo.svg',
-            title: 'creation.app.channel.github',
+            title: 'channel.type.git',
             tooltip: 'tooltip.creation.app.channel.git',
             change: {
               insertControlData: gitChannelData
@@ -179,7 +177,7 @@ export const controlData = [
           {
             id: 'deployable',
             logo: 'namespace-repo.svg',
-            title: 'creation.app.channel.deployable',
+            title: 'channel.type.namespace',
             tooltip: 'tooltip.creation.app.channel.namespace',
             change: {
               insertControlData: hubClusterChannelData
@@ -188,8 +186,8 @@ export const controlData = [
           {
             id: 'helmrepo',
             logo: 'helm-repo.png',
-            title: 'creation.app.channel.helmrepo',
-            tooltip: 'tooltip.creation.app.channel.helmrepo',
+            title: 'channel.type.helmrepo',
+            tooltip: 'tooltip.channel.type.helmrepo',
             change: {
               insertControlData: helmReleaseChannelData
             }
@@ -197,8 +195,8 @@ export const controlData = [
           {
             id: 'objectstore',
             logo: 'object-bucket-repo.svg',
-            title: 'creation.app.channel.objectstore',
-            tooltip: 'tooltip.creation.app.channel.objectstore',
+            title: 'channel.type.objectbucket',
+            tooltip: 'tooltip.channel.type.objectbucket',
             change: {
               insertControlData: objectstoreChannelData
             }

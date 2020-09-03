@@ -119,8 +119,6 @@ class ResourceList extends React.Component {
       selectedFilters,
       updateBrowserURL,
       clientSideFilters,
-      tableTitle,
-      tableName,
       fetchTableResources,
       refetchIntervalUpdateDispatch
     } = this.props
@@ -240,8 +238,6 @@ class ResourceList extends React.Component {
             searchValue={searchValue}
             defaultSearchValue={clientSideFilters}
             tableActions={staticResourceData.tableActions}
-            tableTitle={tableTitle}
-            tableName={tableName}
             locale={locale}
           />
         </div>
@@ -373,8 +369,6 @@ ResourceList.propTypes = {
   sortTableFn: PropTypes.func,
   staticResourceData: PropTypes.object,
   status: PropTypes.string,
-  tableName: PropTypes.string,
-  tableTitle: PropTypes.string,
   tabs: PropTypes.array,
   title: PropTypes.string,
   totalFilteredItems: PropTypes.number,

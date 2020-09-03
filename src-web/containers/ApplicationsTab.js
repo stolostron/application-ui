@@ -13,16 +13,6 @@ import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
 import CreateApplicationButton from '../components/common/CreateApplicationButton'
-import msgs from '../../nls/platform.properties'
-import context from '../../lib/shared/context'
-
-let locale = 'en-US'
-try {
-  locale = context().locale
-} catch (e) {
-  locale = 'en-US'
-}
-const tableTitle = msgs.get('table.title.allApplications', locale)
 
 export default withRouter(
   typedResourcePageWithListAndDetails(
@@ -30,8 +20,6 @@ export default withRouter(
     [],
     [<CreateApplicationButton key="create" />],
     [],
-    [<ResourceTableModule key="deployments" definitionsKey="deploymentKeys" />],
-    tableTitle,
-    'All applications'
+    [<ResourceTableModule key="deployments" definitionsKey="deploymentKeys" />]
   )
 )

@@ -70,8 +70,28 @@ Object {
   "primaryKey": "name",
   "secondaryKey": "namespace",
   "tableActions": Array [
-    "table.actions.applications.edit",
-    "table.actions.applications.remove",
+    Object {
+      "key": "table.actions.applications.view",
+      "link": Object {
+        "url": [Function],
+      },
+    },
+    Object {
+      "key": "table.actions.applications.edit",
+      "link": Object {
+        "url": [Function],
+      },
+    },
+    Object {
+      "key": "table.actions.applications.search",
+      "link": Object {
+        "url": [Function],
+      },
+    },
+    Object {
+      "key": "table.actions.applications.remove",
+      "modal": true,
+    },
   ],
   "tableKeys": Array [
     Object {

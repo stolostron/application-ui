@@ -57,8 +57,42 @@ export default {
     }
   ],
   tableActions: [
-    'table.actions.applications.edit',
-    'table.actions.applications.remove'
+    {
+      key: 'table.actions.applications.view',
+      link: {
+        url: item =>
+          `/multicloud/applications/${encodeURIComponent(
+            item.namespace
+          )}/${encodeURIComponent(item.name)}`
+      }
+    },
+    {
+      key: 'table.actions.applications.edit',
+      link: {
+        url: item =>
+          `/multicloud/applications/${encodeURIComponent(
+            item.namespace
+          )}/${encodeURIComponent(item.name)}/yaml`
+      }
+    },
+    {
+      key: 'table.actions.applications.search',
+      link: {
+        url: item =>
+          getSearchLink({
+            properties: {
+              name: item.name,
+              namespace: item.namespace,
+              kind: 'application',
+              apigroup: 'app.k8s.io'
+            }
+          })
+      }
+    },
+    {
+      key: 'table.actions.applications.remove',
+      modal: true
+    }
   ],
   detailKeys: {
     title: 'application.details',

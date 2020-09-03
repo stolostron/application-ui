@@ -40,13 +40,24 @@ export const createApplication = (data, type) => {
 
 export const createGit = config => {
   const { url, username, token, branch, path } = config;
-  cy.get("#githubURL", { timeout: 20 * 1000 }).type(url);
+  
+  // use blur() and wait to give form time to react
+  cy.get("#githubURL", { timeout: 20 * 1000 }).type(url).blur();
   if (username && token) {
     cy.get("#githubUser").type(username);
     cy.get("#githubAccessID").type(token);
   }
-  cy.get("#githubBranch").type(branch);
-  cy.get("#githubPath").type(path);
+  cy.wait(500).then(()=>{
+    cy.get("#githubBranch").then(input => {
+      if (input.is("enabled")) {
+        cy.get("#githubBranch").type(branch);
+        cy.get("#githubPath").type(path);
+      } else {
+        cy.get("#githubBranch").type(branch);
+        cy.get("#githubPath").type(path);
+      }
+    });
+  });
 };
 
 export const createObj = config => {

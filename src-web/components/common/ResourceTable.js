@@ -80,8 +80,6 @@ class ResourceTable extends React.Component {
       onSelect,
       onSelectAll,
       onSelectSubItem,
-      tableTitle,
-      tableName,
       locale
     } = this.props
     return [
@@ -96,13 +94,6 @@ class ResourceTable extends React.Component {
             id={`${staticResourceData.resourceKey &&
               staticResourceData.resourceKey}-table-container`}
           >
-            {tableTitle && (
-              <div className="table-title">
-                {tableTitle}{' '}
-                {tableName === 'All applications' &&
-                  Array.isArray(rows) && <span>({totalFilteredItems})</span>}
-              </div>
-            )}
             <TableToolbar
               aria-label={`${staticResourceData.resourceKey &&
                 staticResourceData.resourceKey}-search`}
@@ -380,32 +371,37 @@ class ResourceTable extends React.Component {
     return userRole !== constants.ROLES.VIEWER
   }
 
-  handleActionClick(action, resourceType, item) {
+  handleActionClick(action, resourceType, item, history) {
     const client = apolloClient.getClient()
     const name = _.get(item, 'name', '')
     const namespace = _.get(item, 'namespace', '')
-    client.mutate({
-      mutation: UPDATE_ACTION_MODAL,
-      variables: {
-        __typename: 'actionModal',
-        open: true,
-        type: action,
-        resourceType: {
-          __typename: 'resourceType',
-          name: resourceType.name,
-          list: resourceType.list
-        },
-        data: {
-          __typename: 'ModalData',
-          name,
-          namespace,
-          clusterName: _.get(item, 'cluster', ''),
-          selfLink: _.get(item, 'selfLink', ''),
-          _uid: _.get(item, '_uid', ''),
-          kind: _.get(item, 'kind', '')
+    if (action.link) {
+      const url = action.link.url(item)
+      history.push(url)
+    } else if (action.modal) {
+      client.mutate({
+        mutation: UPDATE_ACTION_MODAL,
+        variables: {
+          __typename: 'actionModal',
+          open: true,
+          type: action.key,
+          resourceType: {
+            __typename: 'resourceType',
+            name: resourceType.name,
+            list: resourceType.list
+          },
+          data: {
+            __typename: 'ModalData',
+            name,
+            namespace,
+            clusterName: _.get(item, 'cluster', ''),
+            selfLink: _.get(item, 'selfLink', ''),
+            _uid: _.get(item, '_uid', ''),
+            kind: _.get(item, 'kind', '')
+          }
         }
-      }
-    })
+      })
+    }
   }
 
   getRows() {
@@ -415,7 +411,8 @@ class ResourceTable extends React.Component {
       staticResourceData,
       match,
       userRole,
-      locale
+      locale,
+      history
     } = this.props
 
     const { normalizedKey } = staticResourceData
@@ -458,19 +455,19 @@ class ResourceTable extends React.Component {
             >
               {filteredActions.map(action => (
                 <OverflowMenuItem
-                  data-table-action={action}
+                  data-table-action={action.key}
                   isDelete={
-                    action === 'table.actions.remove' ||
-                    action === 'table.actions.applications.remove'
+                    action.key === 'table.actions.remove' ||
+                    action.key === 'table.actions.applications.remove'
                   }
                   onClick={() => {
-                    this.handleActionClick(action, resourceType, item)
+                    this.handleActionClick(action, resourceType, item, history)
                   }}
-                  key={action}
+                  key={action.key}
                   itemText={
                     <div className="item-container">
                       <div className="menu-item">
-                        {msgs.get(action, locale)}
+                        {msgs.get(action.key, locale)}
                       </div>
                     </div>
                   }

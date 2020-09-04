@@ -202,7 +202,7 @@ class ControlPanelAccordion extends React.Component {
             summary.push(availableMap[active] || active)
           } else if (Array.isArray(active)) {
             if (availableMap && active.length === 1) {
-              const { title = '' } = availableMap[active[0]]
+              const { title = '' } = availableMap[active[0]]||{}
               summary.push(title)
             } else if (typeof active[0] === 'string') {
               summary.push(...active)

@@ -10,6 +10,7 @@
 import {
   getNumClustersForApp,
   getSearchLinkForOneApplication,
+  getSearchLink,
   getPodData,
   getAppOverviewCardsData
 } from "../../../../../src-web/components/common/ResourceOverview/utils";
@@ -270,6 +271,31 @@ describe("getSearchLinkForOneApplication", () => {
   });
   it("should return empty string if name param is empty", () => {
     expect(getSearchLinkForOneApplication()).toEqual("");
+  });
+});
+
+describe("getSearchLink", () => {
+  it("returns a bare link to search with no properties", () => {
+    expect(getSearchLink()).toEqual("/multicloud/search");
+  });
+
+  it("handles multiple properties", () => {
+    expect(
+      getSearchLink({ properties: { name: "testing", kind: "resource" } })
+    ).toEqual(
+      '/multicloud/search?filters={"textsearch":"name%3Atesting%20kind%3Aresource"}'
+    );
+  });
+
+  it("can include related resources", () => {
+    expect(
+      getSearchLink({
+        properties: { name: "testing" },
+        showRelated: "subscriptions"
+      })
+    ).toEqual(
+      '/multicloud/search?filters={"textsearch":"name%3Atesting"}&showrelated=subscriptions'
+    );
   });
 });
 

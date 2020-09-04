@@ -47,131 +47,26 @@ spec:
 {{! ========================================================== }}
 {{#case 'github'}}
 
-{{#unless ../channelNamespace}}
----
-apiVersion: v1                      
-kind: Namespace
-metadata:
-  name: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Channel
-metadata:
-  name: {{{../../../name}}}-{{{../../channelName}}}-{{@index}}
-  namespace: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
-spec:
-  type: Git
-{{#if ../../githubURL}}
-  pathname: '{{{../../githubURL}}}'
-{{/if}}
-{{#if ../../githubUser}}
-  secretRef:
-    name: {{{../../../name}}}-git-authentication-{{@index}}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{{../../../name}}}-git-authentication-{{@index}}
-  namespace: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
-data:
-  user: {{{../../githubUser}}}
-  accessToken: {{{../../githubAccessId}}}
-{{/if}}
-{{/unless}}      
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Subscription
-metadata:
-  annotations:
-    apps.open-cluster-management.io/git-branch: {{{../githubBranch}}}
-    apps.open-cluster-management.io/git-path: {{{../githubPath}}}
-  labels:
-    app: {{{../../name}}}
-  name: {{{../../name}}}-subscription-{{@index}}
-  namespace: {{{../../namespace}}}
-spec:
-{{#if ../preJob}} 
-  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
-{{/if}}
-{{#if ../postJob}} 
-  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
-{{/if}}
-{{#if ../channelNamespace}}
-  channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
-{{else}}
-  channel: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}/{{{../../../name}}}-{{{../../channelName}}}-{{@index}}
-{{/if}}
-  placement:
-{{#if ../local-cluster-checkbox}} 
-    local: true
-{{else}}
-    placementRef:
-      kind: PlacementRule
-{{#if ../../selectedRuleName}} 
-      name: {{{../../selectedRuleName}}}
-{{else}}       
-      name: {{{../../../name}}}-placement-{{@index}}
-{{/if}} {{/if}}
-{{#if ../timeWindow.mode}}
-  timewindow:
-    windowtype: {{{../../timeWindow.mode}}}
-    location: {{{../../timeWindow.timezone}}}
-    weekdays: [{{{../../timeWindow.days}}}]
-    {{#if ../../timeWindow.showTimeSection}}
-    hours:
-      {{#each ../../timeWindow.timeList}}
-      {{#if validTime}}
-      - start: "{{{start}}}"
-        end: "{{{end}}}"
-      {{/if}}
-      {{/each}}
-    {{/if}}
-{{/if}}
-{{#unless ../existingrule-checkbox}} 
-{{#unless ../../local-cluster-checkbox}}
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: PlacementRule
-metadata:
-  labels:
-    app: {{{../../../name}}}
-  name: {{{../../../name}}}-placement-{{@index}}
-  namespace: {{{../../../namespace}}}
-{{#if ../../clusterSelector.mode}}  
-spec:
-  {{#if ../../clusterReplicas}}
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}}  
-  clusterSelector:
-    matchLabels:
-      {{#each ../../clusterSelector.clusterLabelsList}}
-      {{#if validValue}}
-      {{{labelName}}}: '{{{labelValue}}}'
-      {{/if}}
-      {{/each}} 
-  {{#if ../../online-cluster-only-checkbox}}
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  {{/if}}
-{{else}}
-  {{#if ../../online-cluster-only-checkbox}}
-spec:
-  {{#if ../../clusterReplicas}}
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}} 
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  {{else}} 
-  {{#if ../../clusterReplicas}}
-spec:  
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}}    
-  {{/if}}
-{{/if}}
-{{/unless}}
-{{/unless}}
+{{>templateGit 
+  channelName=../channelName 
+  channelNamespace=../channelNamespace 
+  githubURL=../githubURL 
+  githubUser=../githubUser 
+  githubAccessId=../githubAccessId 
+  githubBranch=../githubBranch 
+  githubPath=../githubPath 
+  preJob=../preJob 
+  postJob=../postJob
+}}
+
+{{>templatePlacement 
+  timeWindow=../timeWindow
+  selectedRuleName=../selectedRuleName
+  existingrule-checkbox=../existingrule-checkbox
+  local-cluster-checkbox=../local-cluster-checkbox
+  clusterSelector=../clusterSelector
+  online-cluster-only-checkbox=../online-cluster-only-checkbox
+}}
 
 {{/case}}
 
@@ -183,136 +78,28 @@ spec:
 {{! ========================================================== }}
 {{#case 'helmrepo'}}
 
-{{#unless ../channelNamespace}}
----
-apiVersion: v1                      
-kind: Namespace
-metadata:
-  name: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Channel
-metadata:
-  name: {{{../../../name}}}-{{{../../channelName}}}-{{@index}}
-  namespace: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
-spec:
-  type: HelmRepo
-{{#if ../../helmURL}}
-  pathname: '{{{../../helmURL}}}'
-{{/if}}
-{{#if ../../helmUser}}
-  secretRef:
-    name: {{{../../../name}}}-git-authentication-{{@index}}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{{../../../name}}}-git-authentication-{{@index}}
-  namespace: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
-data:
-  user: {{{../../helmUser}}}
-  accessToken: {{{../../helmPassword}}}
-{{/if}}
-{{/unless}}      
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Subscription
-metadata:
-  labels:
-    app: {{{../../name}}}
-  name: {{{../../name}}}-subscription-{{@index}}
-  namespace: {{{../../namespace}}}
-spec:
-{{#if ../preJob}} 
-  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
-{{/if}}
-{{#if ../postJob}} 
-  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
-{{/if}}
-{{#if ../channelNamespace}}
-  channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
-{{else}}
-  channel: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}/{{{../../../name}}}-{{{../../channelName}}}-{{@index}}
-{{/if}}
-{{#if ../helmChartName}}
-  name: {{{../../helmChartName}}}
-{{/if}}
-{{#if ../helmPackageVersion}}
-  packageFilter:
-    version: "{{{../../helmPackageVersion}}}"
-{{/if}}
-  placement:
-{{#if ../local-cluster-checkbox}} 
-    local: true
-{{else}}
-    placementRef:
-      kind: PlacementRule
-{{#if ../../selectedRuleName}} 
-      name: {{{../../selectedRuleName}}}
-{{else}}       
-      name: {{{../../../name}}}-placement-{{@index}}
-{{/if}} {{/if}}
-{{#if ../timeWindow.mode}}
-  timewindow:
-    windowtype: {{{../../timeWindow.mode}}}
-    location: {{{../../timeWindow.timezone}}}
-    weekdays: [{{{../../timeWindow.days}}}]
-    {{#if ../../timeWindow.showTimeSection}}
-    hours:
-      {{#each ../../timeWindow.timeList}}
-      {{#if validTime}}
-      - start: "{{{start}}}"
-        end: "{{{end}}}"
-      {{/if}}
-      {{/each}}
-    {{/if}}
-{{/if}}
-{{#unless ../existingrule-checkbox}} 
-{{#unless ../../local-cluster-checkbox}}
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: PlacementRule
-metadata:
-  labels:
-    app: {{{../../../name}}}
-  name: {{{../../../name}}}-placement-{{@index}}
-  namespace: {{{../../../namespace}}}
-{{#if ../../clusterSelector.mode}}  
-spec:
-  {{#if ../../clusterReplicas}}
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}}  
-  clusterSelector:
-    matchLabels:
-      {{#each ../../clusterSelector.clusterLabelsList}}
-      {{#if validValue}}
-      {{{labelName}}}: '{{{labelValue}}}'
-      {{/if}}
-      {{/each}} 
-  {{#if ../../online-cluster-only-checkbox}}
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  {{/if}}
-{{else}}
-  {{#if ../../online-cluster-only-checkbox}}
-spec:
-  {{#if ../../clusterReplicas}}
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}} 
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  {{else}} 
-  {{#if ../../clusterReplicas}}
-spec:  
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}}    
-  {{/if}}
-{{/if}}
-{{/unless}}
-{{/unless}}
-  
+{{>templateHelm
+  channelName=../channelName 
+  channelNamespace=../channelNamespace 
+  helmURL=../helmURL
+  helmUser=../helmUser
+  helmPassword=../helmPassword
+  helmChartName=../helmChartName
+  helmPackageVersion=../helmPackageVersion
+  preJob=../preJob 
+  postJob=../postJob
+}}
+
+
+{{>templatePlacement 
+  timeWindow=../timeWindow
+  selectedRuleName=../selectedRuleName
+  existingrule-checkbox=../existingrule-checkbox
+  local-cluster-checkbox=../local-cluster-checkbox
+  clusterSelector=../clusterSelector
+  online-cluster-only-checkbox=../online-cluster-only-checkbox
+}}
+
 {{/case}}
 
 
@@ -323,245 +110,51 @@ spec:
 {{! ========================================================== }}
 {{#case 'objectstore'}}
 
-{{#unless ../channelNamespace}}
----
-apiVersion: v1                      
-kind: Namespace
-metadata:
-  name: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Channel
-metadata:
-  name: {{{../../../name}}}-{{{../../channelName}}}-{{@index}}
-  namespace: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
-spec:
-  type: ObjectBucket
-{{#if ../../objectstoreURL}}
-  pathname: '{{{../../objectstoreURL}}}'
-{{/if}}
-{{#if ../../accessKey}}
-  secretRef:
-    name: {{{../../../name}}}-objectstore-authentication-{{@index}}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{{../../../name}}}-objectstore-authentication-{{@index}}
-  namespace: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
-data:
-  AccessKeyID: {{{../../accessKey}}}
-  SecretAccessKey: {{{../../secretKey}}}
-{{/if}} 
-{{/unless}}      
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Subscription
-metadata:
-  labels:
-    app: {{{../../name}}}
-  name: {{{../../name}}}-subscription-{{@index}}
-  namespace: {{{../../namespace}}}
-spec:
-{{#if ../preJob}} 
-  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
-{{/if}}
-{{#if ../postJob}} 
-  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
-{{/if}}
-{{#if ../channelNamespace}}
-  channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
-{{else}}
-  channel: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}/{{{../../../name}}}-{{{../../channelName}}}-{{@index}}
-{{/if}}
-  placement:
-{{#if ../local-cluster-checkbox}} 
-    local: true
-{{else}}
-    placementRef:
-      kind: PlacementRule
-{{#if ../../selectedRuleName}} 
-      name: {{{../../selectedRuleName}}}
-{{else}}       
-      name: {{{../../../name}}}-placement-{{@index}}
-{{/if}} {{/if}}
-{{#if ../timeWindow.mode}}
-  timewindow:
-    windowtype: {{{../../timeWindow.mode}}}
-    location: {{{../../timeWindow.timezone}}}
-    weekdays: [{{{../../timeWindow.days}}}]
-    {{#if ../../timeWindow.showTimeSection}}
-    hours:
-      {{#each ../../timeWindow.timeList}}
-      {{#if validTime}}
-      - start: "{{{start}}}"
-        end: "{{{end}}}"
-      {{/if}}
-      {{/each}}
-    {{/if}}
-{{/if}}
-{{#unless ../existingrule-checkbox}} 
-{{#unless ../../local-cluster-checkbox}}
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: PlacementRule
-metadata:
-  labels:
-    app: {{{../../../name}}}
-  name: {{{../../../name}}}-placement-{{@index}}
-  namespace: {{{../../../namespace}}}
-{{#if ../../clusterSelector.mode}}  
-spec:
-  {{#if ../../clusterReplicas}}
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}}  
-  clusterSelector:
-    matchLabels:
-      {{#each ../../clusterSelector.clusterLabelsList}}
-      {{#if validValue}}
-      {{{labelName}}}: '{{{labelValue}}}'
-      {{/if}}
-      {{/each}} 
-  {{#if ../../online-cluster-only-checkbox}}
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  {{/if}}
-{{else}}
-  {{#if ../../online-cluster-only-checkbox}}
-spec:
-  {{#if ../../clusterReplicas}}
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}} 
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  {{else}} 
-  {{#if ../../clusterReplicas}}
-spec:  
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}}    
-  {{/if}}
-{{/if}}
-{{/unless}}
-{{/unless}}
+{{>templateObjectStore
+  channelName=../channelName 
+  channelNamespace=../channelNamespace
+  objectstoreURL=../objectstoreURL
+  accessKey=../accessKey
+  secretKey=../secretKey
+  preJob=../preJob 
+  postJob=../postJob
+}}
+
+{{>templatePlacement 
+  timeWindow=../timeWindow
+  selectedRuleName=../selectedRuleName
+  existingrule-checkbox=../existingrule-checkbox
+  local-cluster-checkbox=../local-cluster-checkbox
+  clusterSelector=../clusterSelector
+  online-cluster-only-checkbox=../online-cluster-only-checkbox
+}}
+
 {{/case}}
 
 
 {{! ========================================================== }}
 {{! ========================================================== }}
-{{! ==================Deployable channel ===================== }}
+{{! ==================Local cluster channel ================== }}
 {{! ========================================================== }}
 {{! ========================================================== }}
 {{#case 'deployable'}}
-{{#unless ../channelNamespace}}
----
-apiVersion: v1                      
-kind: Namespace
-metadata:
-  name: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Channel
-metadata:
-  name: {{{../../../name}}}-{{{../../channelName}}}-{{@index}}
-  namespace: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
-spec:
-  type: Namespace
-  pathname: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}
-{{/unless}} 
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Subscription
-metadata:
-  labels:
-    app: {{{../../name}}}
-  name: {{{../../name}}}-subscription-{{@index}}
-  namespace: {{{../../namespace}}}
-spec:
-{{#if ../preJob}} 
-  prehook: {{{../../../namespace}}}/{{{../../preJob}}}
-{{/if}}
-{{#if ../postJob}} 
-  posthook: {{{../../../namespace}}}/{{{../../postJob}}}
-{{/if}}
-{{#if ../channelNamespace}}
-  channel: {{{../../channelNamespace}}}/{{{../../channelName}}}
-{{else}}
-  channel: {{{../../../name}}}-{{{../../channelName}}}-ns-{{@index}}/{{{../../../name}}}-{{{../../channelName}}}-{{@index}}
-{{/if}}
-  placement:  
-{{#if ../local-cluster-checkbox}} 
-    local: true
-{{else}}
-    placementRef:
-      kind: PlacementRule
-{{#if ../../selectedRuleName}} 
-      name: {{{../../selectedRuleName}}}
-{{else}}       
-      name: {{{../../../name}}}-placement-{{@index}}
-{{/if}}       
-{{/if}}
-{{#if ../timeWindow.mode}}
-  timewindow:
-    windowtype: {{{../../timeWindow.mode}}}
-    location: {{{../../timeWindow.timezone}}}
-    weekdays: [{{{../../timeWindow.days}}}]
-    {{#if ../../timeWindow.showTimeSection}}
-    hours:
-      {{#each ../../timeWindow.timeList}}
-      {{#if validTime}}
-      - start: "{{{start}}}"
-        end: "{{{end}}}"
-      {{/if}}
-      {{/each}}
-    {{/if}}
-{{/if}}
-{{#unless ../existingrule-checkbox}} 
-{{#unless ../../local-cluster-checkbox}}
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: PlacementRule
-metadata:
-  labels:
-    app: {{{../../../name}}}
-  name: {{{../../../name}}}-placement-{{@index}}
-  namespace: {{{../../../namespace}}}
-{{#if ../../clusterSelector.mode}}  
-spec:
-  {{#if ../../clusterReplicas}}
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}}  
-  clusterSelector:
-    matchLabels:
-      {{#each ../../clusterSelector.clusterLabelsList}}
-      {{#if validValue}}
-      {{{labelName}}}: '{{{labelValue}}}'
-      {{/if}}
-      {{/each}} 
-  {{#if ../../online-cluster-only-checkbox}}
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  {{/if}}
-{{else}}
-  {{#if ../../online-cluster-only-checkbox}}
-spec:
-  {{#if ../../clusterReplicas}}
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}} 
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  {{else}} 
-  {{#if ../../clusterReplicas}}
-spec:  
-  clusterReplicas: {{{../../clusterReplicas}}}
-  {{/if}}    
-  {{/if}}
-{{/if}}
-{{/unless}}
-{{/unless}} 
+
+{{>templateLocalCluster
+  channelName=../channelName 
+  channelNamespace=../channelNamespace 
+  preJob=../preJob 
+  postJob=../postJob
+}}
+
+{{>templatePlacement 
+  timeWindow=../timeWindow
+  selectedRuleName=../selectedRuleName
+  existingrule-checkbox=../existingrule-checkbox
+  local-cluster-checkbox=../local-cluster-checkbox
+  clusterSelector=../clusterSelector
+  online-cluster-only-checkbox=../online-cluster-only-checkbox
+}}
+
 {{/case}}
 
 {{/switch}}

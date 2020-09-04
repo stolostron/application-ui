@@ -7,11 +7,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import {
-  getNumRemoteSubs,
-  createApplicationLink,
-  LabelWithOptionalTooltip
-} from "../../../src-web/definitions/hcm-applications";
+import { createApplicationLink } from "../../../src-web/definitions/hcm-applications";
 
 const query_data1 = {
   name: "val",
@@ -224,22 +220,6 @@ const noItem = {
   type: "ul"
 };
 
-describe("getNumRemoteSubs", () => {
-  it("should return remote subscriptions count", () => {
-    expect(JSON.parse(JSON.stringify(getNumRemoteSubs(query_data1)))).toEqual(
-      result1
-    );
-  });
-  it("should return 4 subscribed, no errors", () => {
-    expect(JSON.parse(JSON.stringify(getNumRemoteSubs(query_data2)))).toEqual(
-      result2
-    );
-  });
-  it("should return no data", () => {
-    expect(JSON.parse(JSON.stringify(getNumRemoteSubs()))).toEqual(noItem);
-  });
-});
-
 describe("createApplicationLink", () => {
   it("should return the app link ", () => {
     const result = {
@@ -252,137 +232,5 @@ describe("createApplicationLink", () => {
     expect(
       JSON.parse(JSON.stringify(createApplicationLink(query_data1)))
     ).toEqual(result);
-  });
-});
-
-describe("LabelWithOptionalTooltip", () => {
-  it("show failed tooltip ", () => {
-    const props = {
-      description: "Failed",
-      iconName: "failed-status",
-      labelText: 10
-    };
-    const result = {
-      _owner: null,
-      _store: {},
-      key: null,
-      props: {
-        children: [
-          {
-            _owner: null,
-            _store: {},
-            key: null,
-            props: {
-              children: {
-                _owner: null,
-                _store: {},
-                key: null,
-                props: {
-                  alt: "",
-                  height: "10px",
-                  src: "undefined/graphics/failed-status.svg",
-                  style: { marginRight: "4px" },
-                  width: "10px"
-                },
-                ref: null,
-                type: "img"
-              },
-              direction: "top",
-              tooltipText: "Failed"
-            },
-            ref: null
-          },
-          {
-            _owner: null,
-            _store: {},
-            key: null,
-            props: {
-              children: 10,
-              style: { fontSize: "14px", paddingRight: "8px" }
-            },
-            ref: null,
-            type: "p"
-          }
-        ],
-        style: { alignItems: "center", display: "inline-flex" }
-      },
-      ref: null,
-      type: "div"
-    };
-    expect(JSON.parse(JSON.stringify(LabelWithOptionalTooltip(props)))).toEqual(
-      result
-    );
-  });
-  it("show failed tooltip, with label, no icon", () => {
-    const props = { description: "Failed", labelText: 10 };
-    const result = {
-      _owner: null,
-      _store: {},
-      key: null,
-      props: {
-        children: [
-          null,
-          {
-            _owner: null,
-            _store: {},
-            key: null,
-            props: {
-              children: 10,
-              style: { fontSize: "14px", paddingRight: "8px" }
-            },
-            ref: null,
-            type: "p"
-          }
-        ],
-        style: { alignItems: "center", display: "inline-flex" }
-      },
-      ref: null,
-      type: "div"
-    };
-    expect(JSON.parse(JSON.stringify(LabelWithOptionalTooltip(props)))).toEqual(
-      result
-    );
-  });
-  it("show no text and no icon, label ", () => {
-    const props = { description: "Failed" };
-    const result = {
-      _owner: null,
-      _store: {},
-      key: null,
-      props: { style: { fontSize: "14px" } },
-      ref: null,
-      type: "p"
-    };
-    expect(JSON.parse(JSON.stringify(LabelWithOptionalTooltip(props)))).toEqual(
-      result
-    );
-  });
-  it("show no text and icon ", () => {
-    const props = { description: "Failed", iconName: "failed-status" };
-    const result = {
-      _owner: null,
-      _store: {},
-      key: null,
-      props: {},
-      ref: null,
-      type: "span"
-    };
-    expect(JSON.parse(JSON.stringify(LabelWithOptionalTooltip(props)))).toEqual(
-      result
-    );
-  });
-  it("show no description ", () => {
-    const props = {};
-    const result = {
-      _owner: null,
-      _store: {},
-      key: null,
-      props: { style: { fontSize: "14px" } },
-      ref: null,
-      type: "p"
-    };
-    expect(JSON.parse(JSON.stringify(LabelWithOptionalTooltip(props)))).toEqual(
-      result
-    );
   });
 });

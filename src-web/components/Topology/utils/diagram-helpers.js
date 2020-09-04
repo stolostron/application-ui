@@ -34,6 +34,8 @@ const podWarningStates = ['pending', 'creating']
 
 const podSuccessStates = ['run']
 
+const ansibleJobStatus = 'specs.raw.spec.ansibleJobResult.status'
+
 /*
 * UI helpers to help with data transformations
 * */
@@ -354,6 +356,14 @@ const getPulseStatusForGenericNode = node => {
     }
   })
 
+  //ansible job status
+  if (_.get(node, 'type', '') === 'ansiblejob') {
+    const jobStatus = _.get(node, ansibleJobStatus)
+    if (!jobStatus || jobStatus === 'error') {
+      pulse = 'red' // ansible not executed
+    }
+  }
+
   return pulse
 }
 
@@ -498,7 +508,7 @@ export const computeNodeStatus = node => {
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
     _.set(node, specPulse, pulse)
-    return
+    return pulse
   }
 
   switch (node.type) {
@@ -520,6 +530,7 @@ export const computeNodeStatus = node => {
   }
 
   _.set(node, specPulse, pulse)
+  return pulse
 }
 
 export const createDeployableYamlLink = (node, details) => {
@@ -912,6 +923,71 @@ export const setupResourceModel = (
   return resourceMap
 }
 
+export const showAnsibleJobDetails = (node, details) => {
+  const jobUrl = _.get(node, 'specs.raw.spec.ansibleJobResult.url')
+
+  let statusKey = _.get(node, ansibleJobStatus)
+
+  if (!statusKey) {
+    //not executed, get error message
+    const conditions = _.get(node, 'specs.raw.spec.conditions', [])
+    const failIndex = _.findIndex(conditions, condition => {
+      return condition.type === 'Failure'
+    })
+    if (failIndex !== -1) {
+      statusKey = `${msgs.get(
+        'description.ansible.job.status.empty.err2'
+      )}${_.get(conditions[failIndex], 'message', '')}`
+    }
+  }
+
+  if (!statusKey) {
+    //use generic message
+    statusKey = `${msgs.get('description.ansible.job.status.empty')} ${msgs.get(
+      'description.ansible.job.status.empty.err'
+    )}`
+  }
+
+  const statusStr =
+    statusKey === 'successful'
+      ? 'checkmark'
+      : statusKey === 'error' || !_.get(node, ansibleJobStatus)
+        ? 'failure'
+        : 'pending'
+
+  if (jobUrl) {
+    details.push({
+      type: 'label',
+      labelKey: 'description.ansible.job.url'
+    })
+
+    details.push({
+      type: 'link',
+      value: {
+        label: jobUrl,
+        id: `${jobUrl}-location`,
+        data: {
+          action: 'open_link',
+          targetLink: jobUrl
+        }
+      },
+      indent: true
+    })
+
+    details.push({
+      type: 'spacer'
+    })
+  }
+
+  details.push({
+    labelValue: msgs.get('description.ansible.job.status'),
+    value: statusKey,
+    status: statusStr
+  })
+
+  return details
+}
+
 //show resource deployed status on the remote clusters
 //for resources not producing pods
 export const setResourceDeployStatus = (node, details) => {
@@ -936,13 +1012,21 @@ export const setResourceDeployStatus = (node, details) => {
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 
-  details.push({
-    type: 'spacer'
-  })
-  details.push({
-    type: 'label',
-    labelKey: 'resource.deploy.statuses'
-  })
+  if (_.get(node, 'type', '') === 'ansiblejob') {
+    showAnsibleJobDetails(node, details)
+
+    if (!_.get(node, 'specs.raw.spec')) {
+      return details // no other status info so return here
+    }
+  } else {
+    details.push({
+      type: 'spacer'
+    })
+    details.push({
+      type: 'label',
+      labelKey: 'resource.deploy.statuses'
+    })
+  }
 
   clusterNames.forEach(clusterName => {
     details.push({
@@ -951,28 +1035,21 @@ export const setResourceDeployStatus = (node, details) => {
     clusterName = R.trim(clusterName)
     const res = resourceMap[`${resourceName}-${clusterName}`]
 
-    if (res && _.get(node, 'type', '') === 'ansiblejob') {
-      addDetails(details, [
-        {
-          labelKey: 'description.ansible.job',
-          value: _.get(res, 'label')
-        }
-      ])
+    if (_.get(node, 'type', '') !== 'ansiblejob') {
+      const deployedKey = res
+        ? node.type === 'namespace' ? deployedNSStr : deployedStr
+        : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr
+      const statusStr =
+        deployedKey === deployedStr || deployedKey === deployedNSStr
+          ? 'checkmark'
+          : 'pending'
+
+      details.push({
+        labelValue: clusterName,
+        value: deployedKey,
+        status: statusStr
+      })
     }
-
-    const deployedKey = res
-      ? node.type === 'namespace' ? deployedNSStr : deployedStr
-      : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr
-    const statusStr =
-      deployedKey === deployedStr || deployedKey === deployedNSStr
-        ? 'checkmark'
-        : 'pending'
-
-    details.push({
-      labelValue: clusterName,
-      value: deployedKey,
-      status: statusStr
-    })
 
     if (res) {
       //for open shift routes show location info

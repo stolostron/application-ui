@@ -1,6 +1,6 @@
 {
   "retries": {
-    "runMode": 1,
+    "runMode": 3,
     "openMode": 3
   },
   "integrationFolder": "cypress/tests",

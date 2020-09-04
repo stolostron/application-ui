@@ -11,7 +11,8 @@
 
 import React, { Component } from 'react'
 import msgs from '../../../nls/platform.properties'
-import { Button, TooltipDefinition } from 'carbon-components-react'
+import { Button } from 'carbon-components-react'
+import TooltipContainer from '../TemplateEditor/components/TooltipContainer'
 import { Link } from 'react-router-dom'
 import config from '../../../lib/shared/config'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
@@ -42,25 +43,20 @@ class CreateApplicationButton extends Component {
     const titleText = canDisable
       ? msgs.get('actions.create.application.access.denied', locale)
       : undefined
-    const button = (
-      <Link to={path} key="create-application">
-        <Button
-          disabled={canDisable}
-          small
-          icon={'add--glyph'}
-          iconDescription="Add icon"
-          kind="primary"
-        >
-          {msgs.get('actions.create.application', locale)}
-        </Button>
-      </Link>
-    )
-    return canDisable ? (
-      <TooltipDefinition direction="top" tooltipText={titleText} align="center">
-        {button}
-      </TooltipDefinition>
-    ) : (
-      button
+    return (
+      <TooltipContainer tooltip={titleText} isDisabled={canDisable}>
+        <Link to={path} key="create-application">
+          <Button
+            disabled={canDisable}
+            small
+            icon={'add--glyph'}
+            iconDescription="Add icon"
+            kind="primary"
+      >
+            {msgs.get('actions.create.application', locale)}
+          </Button>
+        </Link>
+      </TooltipContainer>
     )
   }
 }

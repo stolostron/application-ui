@@ -11,6 +11,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import {Prompt} from 'react-router-dom'
 import SplitPane from 'react-split-pane'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
@@ -19,8 +20,7 @@ import {
   Loading,
   Notification,
   InlineNotification,
-  ToggleSmall,
-  TooltipDefinition
+  ToggleSmall
 } from 'carbon-components-react'
 import { initializeControlData, cacheUserData } from './utils/initialize-control-data'
 //import { initializeControlSourcePaths } from './utils/initialize-control-source-paths'
@@ -35,11 +35,11 @@ import ControlPanel from './components/ControlPanel'
 import EditorHeader from './components/EditorHeader'
 import EditorBar from './components/EditorBar'
 import YamlEditor from './components/YamlEditor'
+import TooltipContainer from './components/TooltipContainer'
 import './scss/template-editor.scss'
 import msgs from '../../../nls/platform.properties'
 import '../../../graphics/diagramIcons.svg'
 import _ from 'lodash'
-import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 
 const TEMPLATE_EDITOR_OPEN_COOKIE = 'template-editor-open-cookie'
 
@@ -57,6 +57,7 @@ export default class TemplateEditor extends React.Component {
       isFailed: PropTypes.bool,
       fetchData: PropTypes.object
     }),
+    hasPermissions: PropTypes.bool,
     history: PropTypes.object,
     locale: PropTypes.string,
     portals: PropTypes.object.isRequired,
@@ -174,8 +175,7 @@ export default class TemplateEditor extends React.Component {
       hasUndo: false,
       hasRedo: false,
       isDirty: false,
-      resetInx: 0,
-      canDisable: true
+      resetInx: 0
     }
     this.selectedTab = 0
     this.firstGoToLinePerformed = false
@@ -201,12 +201,6 @@ export default class TemplateEditor extends React.Component {
   }
 
   componentDidMount() {
-    canCreateActionAllNamespaces('applications', 'create', 'app.k8s.io').then(
-      response => {
-        const disabled = _.get(response, 'data.userAccessAnyNamespaces')
-        this.setState({ canDisable: !disabled })
-      }
-    )
     if (!this.renderedPortals) {
       setTimeout(() => {
         this.forceUpdate()
@@ -261,7 +255,7 @@ export default class TemplateEditor extends React.Component {
   render() {
     const { fetchControl, locale } = this.props
     const { isLoaded, isFailed } = fetchControl || { isLoaded: true }
-    const { showEditor, resetInx } = this.state
+    const { showEditor, resetInx, isDirty } = this.state
     if (!showEditor) {
       this.editors = []
     }
@@ -289,6 +283,9 @@ export default class TemplateEditor extends React.Component {
         className={viewClasses}
         ref={this.setContainerRef}
       >
+        <Prompt
+          when={isDirty}
+          message={msgs.get('changes.maybe.lost', locale)} />
         {this.renderEditButton()}
         {this.renderCreateButton()}
         {this.renderCancelButton()}
@@ -370,7 +367,17 @@ export default class TemplateEditor extends React.Component {
     // custom action when control is selected
     const { onSelect } = control
     if (typeof onSelect === 'function') {
-      onSelect(control, controlData)
+      onSelect(control, controlData, (ctrl, isLoading)=>{
+        if (isLoading) {
+          ctrl.isLoading = isLoading
+          this.forceUpdate()
+        } else {
+          setTimeout(() => {
+            ctrl.isLoading = isLoading
+            this.forceUpdate()
+          })
+        }
+      })
     }
 
     const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
@@ -513,25 +520,36 @@ export default class TemplateEditor extends React.Component {
     let newYAML = templateYAML
     let newYAMLTabs = otherYAMLTabs
 
-    // if card has its own control data and template, append it to control data
+    // delete all controls below this card control
     const { availableMap, groupControlData } = control
-    const { change } = availableMap[control.active]
+    const parentControlData = groupControlData || controlData
+    const insertInx = parentControlData.findIndex(
+      ({ id }) => id === control.id
+    )
+    const deleteLen = parentControlData.length - insertInx - 1
+    if (deleteLen) {
+      parentControlData.splice(
+        insertInx + 1,
+        deleteLen
+      )
+    }
+
+    // add new controls and template
+    const { change } = availableMap[control.active[0]] || {}
     if (change) {
       const { replaceTemplate = template, insertControlData } = change
 
       // insert control data into main control data
       if (insertControlData) {
         // splice control data with data from this card
-        const parentControlData = groupControlData || controlData
-        const insertInx = parentControlData.findIndex(
-          ({ id }) => id === control.id
-        )
-        const deleteLen = parentControlData.length - insertInx - 1
         parentControlData.splice(
           insertInx + 1,
-          deleteLen,
+          0,
           ..._.cloneDeep(insertControlData)
         )
+
+        // if this card control is in a group, tell each control
+        // what group control it belongs to
         if (groupControlData) {
           parentControlData.forEach(cd => {
             cd.groupControlData = groupControlData
@@ -1060,14 +1078,13 @@ export default class TemplateEditor extends React.Component {
   }
 
   renderCreateButton() {
-    const { portals = {}, createControl, locale } = this.props
+    const { portals = {}, createControl, hasPermissions=true, locale } = this.props
     const { createBtn } = portals
-    const { canDisable } = this.state
     let disableButton = true
-    if (this.state.isDirty && !canDisable) {
+    if (this.state.isDirty && hasPermissions) {
       disableButton = false
     }
-    const titleText = canDisable
+    const titleText = !hasPermissions
       ? msgs.get('button.save.access.denied', locale)
       : undefined
     if (createControl && createBtn) {
@@ -1083,15 +1100,11 @@ export default class TemplateEditor extends React.Component {
         </Button>
       )
       if (portal) {
-        return canDisable
+        return !hasPermissions
           ? ReactDOM.createPortal(
-            <TooltipDefinition
-              direction="bottom"
-              tooltipText={titleText}
-              align="center"
-              >
+            <TooltipContainer tooltip={titleText} isDisabled={!hasPermissions}>
               {button}
-            </TooltipDefinition>,
+            </TooltipContainer>,
             portal
           )
           : ReactDOM.createPortal(button, portal)

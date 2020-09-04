@@ -1,0 +1,64 @@
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Helmrepo channel ==================== }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+
+{{#unless channelNamespace}}
+---
+apiVersion: v1                      
+kind: Namespace
+metadata:
+  name: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: {{{@root.name}}}-{{{channelName}}}-{{@index}}
+  namespace: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}
+spec:
+  type: HelmRepo
+{{#if helmURL}}
+  pathname: '{{{helmURL}}}'  ##channels.{{@index}}.helmURL
+{{/if}}
+{{#if helmUser}}
+  secretRef:
+    name: {{{@root.name}}}-git-authentication-{{@index}}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{{@root.name}}}-git-authentication-{{@index}}
+  namespace: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}
+data:
+  user: {{{helmUser}}}
+  accessToken: {{{helmPassword}}}
+{{/if}}
+{{/unless}}      
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  labels:
+    app: {{{@root.name}}}
+  name: {{{@root.name}}}-subscription-{{@index}}
+  namespace: {{{@root.namespace}}}
+spec:
+{{#if preJob}} 
+  prehook: {{{@root.namespace}}}/{{{preJob}}}
+{{/if}}
+{{#if postJob}} 
+  posthook: {{{@root.namespace}}}/{{{postJob}}}
+{{/if}}
+{{#if channelNamespace}}
+  channel: {{{channelNamespace}}}/{{{channelName}}}
+{{else}}
+  channel: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}/{{{@root.name}}}-{{{channelName}}}-{{@index}}
+{{/if}}
+{{#if helmChartName}}
+  name: {{{helmChartName}}}
+{{/if}}
+{{#if helmPackageVersion}}
+  packageFilter:
+    version: "{{{helmPackageVersion}}}"
+{{/if}}

@@ -3,47 +3,83 @@
     "data": {
       "enable": false,
       "name": "",
-      "config": {
-        "url": "",
-        "username": "",
-        "token": "",
-        "branch": "",
-        "path": "",
-        "timeWindow": {
-          "setting": false,
-          "type": "",
-          "date": ""
+      "config": [
+        {
+          "url": "",
+          "username": "",
+          "token": "",
+          "branch": "",
+          "path": "",
+          "timeWindow": {
+            "setting": false,
+            "type": "",
+            "date": ["Monday", "Tuesday"]
+          }
+        },
+        {
+          "url": "",
+          "username": "",
+          "token": "",
+          "branch": "",
+          "path": "",
+          "timeWindow": {
+            "setting": false,
+            "type": "",
+            "date": ["Thursday", "Friday"]
+          }
         }
-      }
+      ]
     }
   },
-  "objectbucket": {
+  "objectstore": {
     "data": {
       "enable": false,
       "name": "",
-      "config": {
-        "url": "",
-        "accessKey": "",
-        "secretKey": "",
-        "timeWindow": {
-          "setting": false,
-          "type": "",
-          "date": ""
+      "config": [
+        {
+          "url": "http://ec2-dummy/dev1",
+          "accessKey": "dummy1",
+          "secretKey": "dummy2",
+          "timeWindow": {
+            "setting": false,
+            "type": "activeinterval",
+            "date": ["Sunday", "Monday"]
+          }
+        },
+        {
+          "url": "http://ec2-dummy/dev2",
+          "accessKey": "dummy11",
+          "secretKey": "dummy22",
+          "timeWindow": {
+            "setting": false,
+            "type": "activeinterval",
+            "date": ["Tuesday"]
+          }
         }
-      }
+      ]
     }
   },
   "local-cluster": {
     "data": {
       "enable": false,
       "name": "",
-      "config": {
-        "repository": "",
-        "timeWindow": {
-          "setting": false,
-          "type": ""
+      "config": [
+        {
+          "repository": "",
+          "timeWindow": {
+            "setting": false,
+            "type": "active"
+          }
+        },
+        {
+          "repository": "",
+          "timeWindow": {
+            "setting": false,
+            "type": "activeinterval",
+            "date": ["Wednesday", "Saturday", "Sunday"]
+          }
         }
-      }
+      ]
     }
   }
 }

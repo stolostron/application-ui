@@ -26,6 +26,7 @@ import {
   updateSecondaryHeader,
   delResourceSuccessFinished
 } from '../../actions/common'
+import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 import { TemplateEditor } from '../TemplateEditor'
 import { controlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
@@ -73,7 +74,8 @@ class ApplicationCreationPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      controlData: null
+      controlData: null,
+      hasPermissions: false
     }
     this.getBreadcrumbs = this.getBreadcrumbs.bind(this)
   }
@@ -121,6 +123,13 @@ class ApplicationCreationPage extends React.Component {
       portals,
       tooltip
     )
+
+    canCreateActionAllNamespaces('applications', 'create', 'app.k8s.io').then(
+      response => {
+        const hasPermissions = _.get(response, 'data.userAccessAnyNamespaces')
+        this.setState({ hasPermissions })
+      }
+    )
   }
 
   componentDidUpdate() {
@@ -160,11 +169,6 @@ class ApplicationCreationPage extends React.Component {
                 const errorName = result.error.graphQLErrors[0].name ? result.error.graphQLErrors[0].name : error.name
                 error.name = errorName
               }
-
-
-
-
-
               return this.renderEditor()
             }
             }
@@ -188,7 +192,7 @@ class ApplicationCreationPage extends React.Component {
       creationStatus: mutateStatus,
       creationMsg: mutateErrorMsgs
     }
-    const { controlData: cd, fetchControl } = this.state
+    const { controlData: cd, fetchControl, hasPermissions } = this.state
     return (
       <TemplateEditor
         type={'application'}
@@ -202,6 +206,7 @@ class ApplicationCreationPage extends React.Component {
         updateFormState={updateFormState}
         savedFormData={savedFormData}
         history={history}
+        hasPermissions={hasPermissions}
         />
     )
   }

@@ -9,7 +9,8 @@ import {
   getLabelsToList,
   getTabs,
   getAge,
-  getResourceType
+  getResourceType,
+  getClusterCountString
 } from "../../../../lib/client/resource-helper";
 
 describe("transform", () => {
@@ -385,6 +386,30 @@ describe("getAge", () => {
     const timestampKey = "unknown";
     const output = getAge(item, locale, timestampKey);
     expect(output).toEqual("-");
+  });
+});
+
+describe("getClusterCountString", () => {
+  it("returns empty when there are no remote or local clusters", () => {
+    expect(getClusterCountString("", 0, false)).toEqual("");
+  });
+
+  it("returns a string that does not include 'local' when localDeployment is false", () => {
+    const result = getClusterCountString("", 5, false).toLowerCase();
+    expect(result).toEqual(expect.not.stringContaining("local"));
+    expect(result).toEqual(expect.stringContaining("remote"));
+  });
+
+  it("returns a string that does not include 'remote' when there are no remote clusters", () => {
+    const result = getClusterCountString("", 0, true).toLowerCase();
+    expect(result).toEqual(expect.stringContaining("local"));
+    expect(result).toEqual(expect.not.stringContaining("remote"));
+  });
+
+  it("returns a string that includes both remote and local clusters when applicable", () => {
+    const result = getClusterCountString("", 3, true).toLowerCase();
+    expect(result).toEqual(expect.stringContaining("local"));
+    expect(result).toEqual(expect.stringContaining("remote"));
   });
 });
 

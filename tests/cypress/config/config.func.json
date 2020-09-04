@@ -3,47 +3,83 @@
     "data": {
       "enable": true,
       "name": "ui-create-app-git",
-      "config": {
-        "url": "https://github.com/fxiang1/app-samples.git",
-        "username": "",
-        "token": "",
-        "branch": "master",
-        "path": "helloworld",
-        "timeWindow": {
-          "setting": true,
-          "type": "blockinterval",
-          "date": "Monday"
+      "config": [
+        {
+          "url": "https://github.com/fxiang1/app-samples.git",
+          "username": "",
+          "token": "",
+          "branch": "master",
+          "path": "helloworld",
+          "timeWindow": {
+            "setting": true,
+            "type": "blockinterval",
+            "date": ["Monday", "Tuesday"]
+          }
+        },
+        {
+          "url": "https://github.com/fxiang1/app-samples.git",
+          "username": "",
+          "token": "",
+          "branch": "master",
+          "path": "nginx",
+          "timeWindow": {
+            "setting": true,
+            "type": "activeinterval",
+            "date": ["Thursday", "Friday"]
+          }
         }
-      }
+      ]
     }
   },
-  "objectbucket": {
+  "objectstore": {
     "data": {
       "enable": true,
-      "name": "ui-create-app-objbucket",
-      "config": {
-        "url": "http://ec2-dummy/dev1",
-        "accessKey": "dummy1",
-        "secretKey": "dummy2",
-        "timeWindow": {
-          "setting": true,
-          "type": "activeinterval",
-          "date": "Sunday"
+      "name": "ui-create-app-objstore",
+      "config": [
+        {
+          "url": "http://ec2-dummy/dev1",
+          "accessKey": "dummy1",
+          "secretKey": "dummy2",
+          "timeWindow": {
+            "setting": true,
+            "type": "activeinterval",
+            "date": ["Sunday", "Monday"]
+          }
+        },
+        {
+          "url": "http://ec2-dummy/dev2",
+          "accessKey": "dummy11",
+          "secretKey": "dummy22",
+          "timeWindow": {
+            "setting": true,
+            "type": "activeinterval",
+            "date": ["Tuesday"]
+          }
         }
-      }
+      ]
     }
   },
   "local-cluster": {
     "data": {
       "enable": true,
       "name": "ui-create-app-local",
-      "config": {
-        "repository": "ui-test",
-        "timeWindow": {
-          "setting": true,
-          "type": "active"
+      "config": [
+        {
+          "repository": "ui-test",
+          "timeWindow": {
+            "setting": true,
+            "type": "active"
+          }
+        },
+        {
+          "repository": "ui-test2",
+          "timeWindow": {
+            "setting": true,
+            "type": "activeinterval",
+            "date": ["Wednesday", "Saturday", "Sunday"]
+          }
         }
-      }
+      ]
     }
   }
 }

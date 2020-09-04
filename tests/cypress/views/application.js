@@ -40,14 +40,22 @@ export const gitTasks = (value, gitCss, key = 0) => {
     .get(`#git`)
     .click()
     .trigger("mouseover");
-  cy.get(gitUrl, { timeout: 20 * 1000 }).type(url);
+  cy.get(gitUrl, { timeout: 20 * 1000 }).type(url).blur();
   if (username && token) {
     cy.get(gitUser).type(username);
     cy.get(gitKey).type(token);
   }
-  cy.get(gitBranch).type(branch);
-  cy.get(gitPath).type(path);
-
+  cy.wait(500).then(()=>{
+    cy.get(gitBranch).then(input => {
+      if (input.is("enabled")) {
+        cy.get(gitBranch).type(branch);
+        cy.get(gitPath).type(path);
+      } else {
+        cy.log(`typing in branch name too soon...`);
+      }
+    });
+  });
+  
   selectTimeWindow(timeWindow, key);
 };
 

@@ -339,12 +339,21 @@ export const editResource = (
     })
 }
 
-export const updateSecondaryHeader = (title, tabs, breadcrumbItems, links) => ({
+export const updateSecondaryHeader = (
+  title,
+  tabs,
+  breadcrumbItems,
+  links,
+  actions,
+  tooltip
+) => ({
   type: Actions.SECONDARY_HEADER_UPDATE,
   title,
   tabs,
   breadcrumbItems,
-  links
+  links,
+  actions,
+  tooltip
 })
 
 export const updateModal = data => ({

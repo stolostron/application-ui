@@ -18,6 +18,7 @@ import {
   fetchResources,
   fetchGlobalAppsData,
   updateModal,
+  updateSecondaryHeader,
   mutateResourceSuccessFinished,
   delResourceSuccessFinished
 } from '../../actions/common'
@@ -119,7 +120,10 @@ const mapDispatchToProps = dispatch => {
       dispatch(mutateResourceSuccessFinished(resourceType)),
     deleteSuccessFinished: resourceType =>
       dispatch(delResourceSuccessFinished(resourceType)),
-    refetchIntervalUpdateDispatch: data => dispatch(refetchIntervalUpdate(data))
+    refetchIntervalUpdateDispatch: data =>
+      dispatch(refetchIntervalUpdate(data)),
+    updateSecondaryHeader: (title, tabs, links) =>
+      dispatch(updateSecondaryHeader(title, tabs, null, links))
   }
 }
 
@@ -171,9 +175,17 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchChannels,
       fetchSubscriptions,
       fetchApplications,
-      fetchApplicationsGlobalData
+      fetchApplicationsGlobalData,
+      secondaryHeaderProps,
+      updateSecondaryHeader,
+      locale
     } = this.props
 
+    updateSecondaryHeader(
+      msgs.get(secondaryHeaderProps.title, locale),
+      secondaryHeaderProps.tabs,
+      secondaryHeaderProps.links
+    )
     fetchApplications()
     fetchChannels()
     fetchSubscriptions()

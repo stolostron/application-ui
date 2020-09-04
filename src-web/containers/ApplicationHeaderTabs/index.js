@@ -52,10 +52,10 @@ const ApplicationHeaderTabs = withLocale(
   ({
     params,
     locale,
+    secondaryHeaderProps,
     serverProps,
     mutateSuccessFinished,
-    deleteSuccessFinished,
-    updateSecondary
+    deleteSuccessFinished
   }) => {
     // process restful api into which tab to show
     const { history, location } = params || {}
@@ -93,7 +93,6 @@ const ApplicationHeaderTabs = withLocale(
         url: [...segments, selectedAppNamespace, selectedAppName].join('/')
       })
     }
-    updateSecondary(selectedAppName || 'Applications', breadcrumbs)
     selectedApp.breadcrumbs = breadcrumbs
 
     const noop = () => {
@@ -106,9 +105,7 @@ const ApplicationHeaderTabs = withLocale(
         case 0:
           return (
             <div className="some-content">
-              <ApplicationsTab
-                secondaryHeaderProps={{ title: 'routes.applications' }}
-                />
+              <ApplicationsTab secondaryHeaderProps={secondaryHeaderProps} />
             </div>
           )
         case 1:
@@ -217,8 +214,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(mutateResourceSuccessFinished(resourceType)),
     deleteSuccessFinished: resourceType =>
       dispatch(delResourceSuccessFinished(resourceType)),
-    updateSecondary: (title, breadcrumbs) =>
-      dispatch(updateSecondaryHeader(title, [], breadcrumbs))
+    updateSecondary: (title, tabs, breadcrumbs) =>
+      dispatch(updateSecondaryHeader(title, tabs, breadcrumbs))
   }
 }
 const mapStateToProps = state => {

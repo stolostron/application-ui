@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SecondaryHeader from '../components/SecondaryHeader'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import { withLocale } from '../providers/LocaleProvider'
 import resources from '../../lib/shared/resources'
 import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
@@ -22,8 +23,17 @@ import Modal from '../components/common/Modal'
 export const ActionModalApollo = loadable(() =>
   import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo')
 )
-export const ApplicationHeaderTabs = loadable(() =>
-  import(/* webpackChunkName: "applicationHeaderTabs" */ './ApplicationHeaderTabs')
+
+export const ApplicationsTab = loadable(() =>
+  import(/* webpackChunkName: "applications" */ './ApplicationsTab')
+)
+
+export const ApplicationCreationPage = loadable(() =>
+  import(/* webpackChunkName: "applicationcreatepage" */ '../components/ApplicationCreationPage/ApplicationCreationPage')
+)
+
+export const ApplicationDeploymentPipeline = loadable(() =>
+  import(/* webpackChunkName: "applicationdeploymentpipeline" */ '../components/ApplicationDeploymentPipeline')
 )
 
 resources(() => {
@@ -62,23 +72,69 @@ class App extends React.Component {
 
   render() {
     const serverProps = this.getServerProps()
-    const { match, location } = this.props
-    const showSecondaryHeader =
-      location.pathname &&
-      !location.pathname.startsWith('/multicloud/welcome') &&
-      !location.pathname.startsWith('/multicloud/overview') &&
-      !location.pathname.startsWith('/multicloud/search')
+    const { locale, match } = this.props
+
+    const BASE_PAGE_PATH = match.url.replace(/\/$/, '')
+    const tabs = [
+      {
+        id: 'overview',
+        label: 'description.title.overview',
+        url: BASE_PAGE_PATH
+      },
+      {
+        id: 'advanced',
+        label: 'description.title.advancedConfiguration',
+        url: `${BASE_PAGE_PATH}/advanced`
+      }
+    ]
 
     return (
       <div className="expand-vertically">
-        {showSecondaryHeader && <SecondaryHeader />}
+        <SecondaryHeader />
         <Switch>
+          <Route
+            path={`${match.url}/advanced`}
+            exact
+            render={params => (
+              <div className="page-content-container">
+                <ApplicationDeploymentPipeline
+                  params={params}
+                  serverProps={serverProps}
+                  secondaryHeaderProps={{ title: 'routes.applications', tabs }}
+                  locale={locale}
+                />
+              </div>
+            )}
+          />
+          <Route
+            path={`${match.url}/create`}
+            exact
+            render={params => (
+              <ApplicationCreationPage
+                params={params}
+                serverProps={this.getServerProps()}
+                secondaryHeaderProps={{ title: 'application.create.title' }}
+              />
+            )}
+          />
+          <Route
+            path={`${match.url}/:namespace/:name/yaml`}
+            exact
+            render={params => (
+              <ApplicationCreationPage
+                params={params}
+                serverProps={this.getServerProps()}
+                secondaryHeaderProps={{ title: 'application.create.title' }}
+              />
+            )}
+          />
           <Route
             path={`${match.url}`}
             render={params => (
-              <ApplicationHeaderTabs
+              <ApplicationsTab
                 params={params}
                 serverProps={this.getServerProps()}
+                secondaryHeaderProps={{ title: 'routes.applications', tabs }}
               />
             )}
           />
@@ -98,7 +154,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  location: PropTypes.object,
+  locale: PropTypes.object,
   match: PropTypes.object,
   serverProps: PropTypes.object,
   staticContext: PropTypes.object
@@ -114,7 +170,8 @@ const mapStateToProps = state => {
   }
 }
 
-const Container = Component => withRouter(connect(mapStateToProps)(Component))
+const Container = Component =>
+  withRouter(withLocale(connect(mapStateToProps)(Component)))
 const AppContainer = Container(App)
 
 export default compose(setDisplayName('AppComponent'))(props => (

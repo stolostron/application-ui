@@ -174,10 +174,10 @@ export default class TemplateEditor extends React.Component {
       isFinalValidate: false,
       hasUndo: false,
       hasRedo: false,
-      isDirty: false,
       resetInx: 0
     }
     this.selectedTab = 0
+    this.isDirty = false
     this.firstGoToLinePerformed = false
     this.editors = []
     this.parseDebounced = _.debounce(yaml => {
@@ -195,7 +195,7 @@ export default class TemplateEditor extends React.Component {
       'beforeunload',
       (event => {
         event.preventDefault()
-        event.returnValue = !this.state.isDirty ? 'saveOk' : ''
+        event.returnValue = !this.isDirty ? 'saveOk' : ''
       }).bind(this)
     )
   }
@@ -255,7 +255,7 @@ export default class TemplateEditor extends React.Component {
   render() {
     const { fetchControl, locale } = this.props
     const { isLoaded, isFailed } = fetchControl || { isLoaded: true }
-    const { showEditor, resetInx, isDirty } = this.state
+    const { showEditor, resetInx } = this.state
     if (!showEditor) {
       this.editors = []
     }
@@ -284,7 +284,7 @@ export default class TemplateEditor extends React.Component {
         ref={this.setContainerRef}
       >
         <Prompt
-          when={isDirty}
+          when={this.isDirty}
           message={msgs.get('changes.maybe.lost', locale)} />
         {this.renderEditButton()}
         {this.renderCreateButton()}
@@ -409,9 +409,9 @@ export default class TemplateEditor extends React.Component {
       templateYAML: newYAML,
       templateObject,
       exceptions: [],
-      notifications,
-      isDirty: true
+      notifications
     })
+    this.isDirty = true
     this.handleScrollAndCollapse(control, controlData, creationView)
   }
 
@@ -454,9 +454,6 @@ export default class TemplateEditor extends React.Component {
       controlData,
       otherYAMLTabs
     )
-
-
-
     updateControls(
       this.editors,
       newYAML,
@@ -476,8 +473,8 @@ export default class TemplateEditor extends React.Component {
       controlData,
       templateYAML: newYAML,
       templateObject,
-      isDirty: true
     })
+    this.isDirty = true
   }
 
   handleNewEditorMode(control, controlData, creationView) {
@@ -929,6 +926,7 @@ export default class TemplateEditor extends React.Component {
         })
       }
     }
+    this.isDirty = true
 
     // if typing on another tab that represents encoded yaml in the main tab,
     // update the main yaml--for now
@@ -1005,6 +1003,7 @@ export default class TemplateEditor extends React.Component {
       hasFormExceptions: !canCreate,
       isFinalValidate: true
     })
+    this.isDirty = false
     this.scrollControlPaneToTop()
 
     if (canCreate) {
@@ -1081,7 +1080,7 @@ export default class TemplateEditor extends React.Component {
     const { portals = {}, createControl, hasPermissions=true, locale } = this.props
     const { createBtn } = portals
     let disableButton = true
-    if (this.state.isDirty && hasPermissions) {
+    if (this.isDirty && hasPermissions) {
       disableButton = false
     }
     const titleText = !hasPermissions
@@ -1165,12 +1164,12 @@ export default class TemplateEditor extends React.Component {
       updateMessage: '',
       hasUndo: false,
       hasRedo: false,
-      isDirty: false,
       isFinalValidate: false,
       templateYAML,
       templateObject,
       resetInx: resetInx + 1
     })
+    this.isDirty = false
     this.selectedTab = 0
     this.firstGoToLinePerformed = false
     this.editors = []

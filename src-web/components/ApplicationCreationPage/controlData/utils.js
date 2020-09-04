@@ -202,6 +202,10 @@ export const getGitBranches = async (groupControlData, setLoadingState) => {
             })
           }
           setLoadingState(branchCtrl, false)
+        }, ()=>{
+          branchCtrl.active = ''
+          branchCtrl.available = ['master']
+          setLoadingState(branchCtrl, false)
         })
       }
     }

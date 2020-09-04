@@ -301,8 +301,8 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
               align="center"
               className="bx--tooltip--definition"
             >
-              <button
-                aria-describedby="definition-tooltip-3"
+              <div
+                aria-describedby="definition-tooltip-4"
                 className="bx--tooltip__trigger"
               >
                 <a
@@ -336,11 +336,11 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                     </svg>
                   </button>
                 </a>
-              </button>
+              </div>
               <div
                 aria-label="You are not authorized to create applications"
                 className="bx--tooltip--definition__top"
-                id="definition-tooltip-3"
+                id="definition-tooltip-4"
                 role="tooltip"
               >
                 <span
@@ -1247,8 +1247,8 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
               align="center"
               className="bx--tooltip--definition"
             >
-              <button
-                aria-describedby="definition-tooltip-2"
+              <div
+                aria-describedby="definition-tooltip-4"
                 className="bx--tooltip__trigger"
               >
                 <a
@@ -1282,11 +1282,11 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                     </svg>
                   </button>
                 </a>
-              </button>
+              </div>
               <div
                 aria-label="You are not authorized to create applications"
                 className="bx--tooltip--definition__top"
-                id="definition-tooltip-2"
+                id="definition-tooltip-4"
                 role="tooltip"
               >
                 <span

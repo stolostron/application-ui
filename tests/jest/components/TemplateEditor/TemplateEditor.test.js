@@ -11,6 +11,7 @@
 "use strict";
 
 import React from "react";
+import { BrowserRouter } from 'react-router-dom'
 import { TemplateEditor } from "../../../../src-web/components/TemplateEditor";
 import renderer from "react-test-renderer";
 import applicationTemplate from "../../../../src-web/components/ApplicationCreationPage/templates/template.hbs";
@@ -23,14 +24,16 @@ import { controlData, portals } from "../TestingData";
 describe("TemplateEditor component", () => {
   it("renders as expected", () => {
     const component = renderer.create(
-      <TemplateEditor
-        template={applicationTemplate}
-        controlData={controlData}
-        portals={portals}
-        type={"application"}
-        title={"creation.app.yaml"}
-        locale={"en-US"}
-      />
+      <BrowserRouter>
+        <TemplateEditor
+          template={applicationTemplate}
+          controlData={controlData}
+          portals={portals}
+          type={"application"}
+          title={"creation.app.yaml"}
+          locale={"en-US"}
+        />
+      </BrowserRouter>
     );
     expect(component.toJSON()).toMatchSnapshot();
   });
@@ -39,11 +42,13 @@ describe("TemplateEditor component", () => {
 describe("on control change function", () => {
   it("renders as expected", () => {
     const wrapper = mount(
+        <BrowserRouter>
       <TemplateEditor
         template={applicationTemplate}
         controlData={controlData}
         portals={portals}
       />
+      </BrowserRouter>
     );
     const evt = {
       target: {
@@ -88,12 +93,14 @@ describe("getResourceJSON function", () => {
 
   it("renders as expected", () => {
     const wrapper = shallow(
-      <TemplateEditor
-        template={applicationTemplate}
-        controlData={controlData}
-        portals={portals}
-      />
+      <BrowserRouter>
+        <TemplateEditor
+          template={applicationTemplate}
+          controlData={controlData}
+          portals={portals}
+        />
+      </BrowserRouter>
     );
-    expect(wrapper.instance().getResourceJSON()).toEqual(result);
+    expect(wrapper.find('TemplateEditor').dive().instance().getResourceJSON()).toEqual(result);
   });
 });

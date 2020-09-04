@@ -59,7 +59,7 @@ module.exports = {
       },
       {
         test: [/\.s?css$/],
-        exclude: /node_modules\/(?!(@patternfly)\/).*/,
+        exclude: [path.resolve(__dirname, "./node_modules/monaco-editor"), /node_modules\/(?!(@patternfly)\/).*/],
         loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [

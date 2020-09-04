@@ -70,6 +70,19 @@ class ControlPanelComboBox extends React.Component {
             locale
           )
       }
+    } else if (isLoading) {
+      loadingMsg = msgs.get(
+        'creation.loading.values',
+        [name.toLowerCase()],
+        locale
+      )
+    }
+    if (!placeholder) {
+      placeholder = msgs.get(
+        'creation.enter.value',
+        [name.toLowerCase()],
+        locale
+      )
     }
     available = _.uniq([...userData, ...available])
 

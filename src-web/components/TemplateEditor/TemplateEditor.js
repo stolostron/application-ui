@@ -47,6 +47,7 @@ export default class TemplateEditor extends React.Component {
   static propTypes = {
     controlData: PropTypes.array.isRequired,
     createControl: PropTypes.shape({
+      hasPermissions: PropTypes.bool,
       createResource: PropTypes.func,
       cancelCreate: PropTypes.func,
       creationStatus: PropTypes.string,
@@ -57,7 +58,6 @@ export default class TemplateEditor extends React.Component {
       isFailed: PropTypes.bool,
       fetchData: PropTypes.object
     }),
-    hasPermissions: PropTypes.bool,
     history: PropTypes.object,
     locale: PropTypes.string,
     portals: PropTypes.object.isRequired,
@@ -1078,16 +1078,17 @@ export default class TemplateEditor extends React.Component {
   }
 
   renderCreateButton() {
-    const { portals = {}, createControl, hasPermissions=true, locale } = this.props
+    const { portals = {}, createControl, locale } = this.props
     const { createBtn } = portals
-    let disableButton = true
-    if (this.state.isDirty && hasPermissions) {
-      disableButton = false
-    }
-    const titleText = !hasPermissions
-      ? msgs.get('button.save.access.denied', locale)
-      : undefined
     if (createControl && createBtn) {
+      const { hasPermissions = true } = createControl
+      const titleText = !hasPermissions
+        ? msgs.get('button.save.access.denied', locale)
+        : undefined
+      let disableButton = true
+      if (this.state.isDirty && hasPermissions) {
+        disableButton = false
+      }
       const portal = document.getElementById(createBtn)
       const button = (
         <Button

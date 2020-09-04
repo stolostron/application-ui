@@ -163,13 +163,19 @@ class ApplicationCreationPage extends React.Component {
               const { loading } = result
               const { data={} } = result
               const { application } = data
-              //const errored = application ? false : true
+              const errored = application ? false : true
               const error = application ? null : result.error
               if (!loading && error) {
                 const errorName = result.error.graphQLErrors[0].name ? result.error.graphQLErrors[0].name : error.name
                 error.name = errorName
               }
-              return this.renderEditor()
+              const fetchControl = {
+                data: application,
+                isLoaded: !loading,
+                isFailed: errored,
+                error: error
+              }
+              return this.renderEditor(fetchControl)
             }
             }
           </Query>
@@ -183,16 +189,17 @@ class ApplicationCreationPage extends React.Component {
     )
   }
 
-  renderEditor() {
+  renderEditor(fetchControl) {
     const { locale } = this.context
+    const { controlData: cd, hasPermissions } = this.state
     const { mutateStatus, mutateErrorMsgs, updateFormState, savedFormData, history } = this.props
     const createControl = {
+      hasPermissions,
       createResource: this.handleCreate.bind(this),
       cancelCreate: this.handleCancel.bind(this),
       creationStatus: mutateStatus,
       creationMsg: mutateErrorMsgs
     }
-    const { controlData: cd, fetchControl, hasPermissions } = this.state
     return (
       <TemplateEditor
         type={'application'}
@@ -206,7 +213,6 @@ class ApplicationCreationPage extends React.Component {
         updateFormState={updateFormState}
         savedFormData={savedFormData}
         history={history}
-        hasPermissions={hasPermissions}
         />
     )
   }

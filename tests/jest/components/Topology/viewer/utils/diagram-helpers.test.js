@@ -47,10 +47,20 @@ const ansibleSuccess = {
         namespace: "default"
       },
       spec: {
-        ansibleJobResult: {
-          url: "http://ansible_url/job",
-          status: "successful"
-        }
+        conditions: [
+          {
+            ansibleResult: {},
+            message: "Success",
+            reason: "Successful"
+          },
+          {
+            ansibleJobResult: {},
+            url: "http://ansible_url/job",
+            message: "Done",
+            status: "successful",
+            reason: "successful"
+          }
+        ]
       }
     },
     ansiblejobModel: {
@@ -95,8 +105,11 @@ const ansibleError2 = {
       spec: {
         conditions: [
           {
-            type: "Failure",
-            message: "secret error"
+            ansibleResult: {
+              failures: 0
+            },
+            message: "Awaiting next reconciliation",
+            reason: "Failed"
           }
         ]
       }
@@ -2316,7 +2329,7 @@ describe("computeNodeStatus ", () => {
   };
 
   it("return Ansible error", () => {
-    expect(computeNodeStatus(ansibleError)).toEqual("red");
+    expect(computeNodeStatus(ansibleError)).toEqual("orange");
   });
   it("return Ansible error2", () => {
     expect(computeNodeStatus(ansibleError2)).toEqual("red");
@@ -2451,20 +2464,38 @@ describe("setResourceDeployStatus ansiblejob ", () => {
           namespace: "default"
         },
         spec: {
-          ansibleJobResult: {
-            url: "http://ansible_url/job",
-            status: "successful"
-          }
-        }
-      },
-      ansiblejobModel: {
-        "bigjoblaunch-local-cluster": {
-          label: "tower_job_id=999999999"
+          conditions: [
+            {
+              ansibleResult: {},
+              message: "Success",
+              reason: "Successful"
+            },
+            {
+              ansibleJobResult: {},
+              url: "http://ansible_url/job",
+              message: "Done",
+              status: "successful",
+              reason: "successful"
+            }
+          ]
         }
       }
     }
   };
   const result = [
+    { type: "spacer" },
+    {
+      labelValue: "Ansible Task status",
+      status: "checkmark",
+      value: "Successful: Success"
+    },
+    { type: "spacer" },
+    {
+      labelValue: "Ansible Tower Job status",
+      status: "pending",
+      value: "Ansible Tower job was not executed."
+    },
+    { type: "spacer" },
     { labelKey: "description.ansible.job.url", type: "label" },
     {
       indent: true,
@@ -2476,24 +2507,7 @@ describe("setResourceDeployStatus ansiblejob ", () => {
       }
     },
     { type: "spacer" },
-    {
-      labelValue: "Ansible Job status",
-      status: "checkmark",
-      value: "successful"
-    },
     { type: "spacer" },
-    {
-      indent: true,
-      type: "link",
-      value: {
-        data: {
-          action: "show_resource_yaml",
-          cluster: undefined,
-          selfLink: undefined
-        },
-        label: "View Resource YAML"
-      }
-    },
     { type: "spacer" }
   ];
   it("setResourceDeployStatus ansiblejob", () => {
@@ -2523,27 +2537,48 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
     }
   };
   const result = [
+    { type: "spacer" },
     {
-      labelValue: "Ansible Job status",
-      status: "failure",
+      labelValue: "Ansible Task status",
+      status: "pending",
       value:
-        "Ansible job was not executed. Check the Subscription YAML for status errors."
+        "Ansible task was not executed. Check the Subscription YAML for status errors."
+    },
+    { type: "spacer" },
+    {
+      labelValue: "Ansible Tower Job status",
+      status: "pending",
+      value: "Ansible Tower job was not executed."
     }
   ];
 
   const result1 = [
+    { type: "spacer" },
     {
-      labelValue: "Ansible Job status",
-      status: "failure",
+      labelValue: "Ansible Task status",
+      status: "pending",
       value:
-        "Ansible job was not executed. Check the Subscription YAML for status errors."
+        "Ansible task was not executed. Check the Subscription YAML for status errors."
+    },
+    { type: "spacer" },
+    {
+      labelValue: "Ansible Tower Job status",
+      status: "pending",
+      value: "Ansible Tower job was not executed."
     }
   ];
   const result2 = [
+    { type: "spacer" },
     {
-      labelValue: "Ansible Job status",
+      labelValue: "Ansible Task status",
       status: "failure",
-      value: "Execution error:secret error"
+      value: "Failed: Awaiting next reconciliation"
+    },
+    { type: "spacer" },
+    {
+      labelValue: "Ansible Tower Job status",
+      status: "pending",
+      value: "Ansible Tower job was not executed."
     },
     { type: "spacer" },
     {

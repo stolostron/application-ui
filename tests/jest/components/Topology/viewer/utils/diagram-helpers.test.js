@@ -47,18 +47,15 @@ const ansibleSuccess = {
         namespace: "default"
       },
       spec: {
+        ansibleJobResult: {
+          url: "http://ansible_url/job",
+          status: "successful"
+        },
         conditions: [
           {
             ansibleResult: {},
             message: "Success",
             reason: "Successful"
-          },
-          {
-            ansibleJobResult: {},
-            url: "http://ansible_url/job",
-            message: "Done",
-            status: "successful",
-            reason: "successful"
           }
         ]
       }
@@ -2464,18 +2461,15 @@ describe("setResourceDeployStatus ansiblejob ", () => {
           namespace: "default"
         },
         spec: {
+          ansibleJobResult: {
+            url: "http://ansible_url/job",
+            status: "successful"
+          },
           conditions: [
             {
               ansibleResult: {},
               message: "Success",
               reason: "Successful"
-            },
-            {
-              ansibleJobResult: {},
-              url: "http://ansible_url/job",
-              message: "Done",
-              status: "successful",
-              reason: "successful"
             }
           ]
         }

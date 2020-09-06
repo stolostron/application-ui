@@ -19,9 +19,9 @@ const ansibleJobSuccessStates = ['successful', 'running', 'new']
 const ansibleJobWarningStates = ['canceled']
 
 const ansibleStatusStr = 'specs.raw.spec.conditions'
+const ansibleJobStatusStr = 'specs.raw.spec.ansibleJobResult'
 
 const ansibleTaskResultStr = 'ansibleResult'
-const ansibleJobResultStr = 'ansibleJobResult'
 
 export const getInfoForAnsibleTask = ansibleConditions => {
   const ansibleTaskConditionIndex = _.findIndex(
@@ -56,18 +56,11 @@ export const getInfoForAnsibleTask = ansibleConditions => {
   }
 }
 
-export const getInfoForAnsibleJob = ansibleConditions => {
-  const ansibleJobConditionIndex = _.findIndex(ansibleConditions, condition => {
-    return _.get(condition, ansibleJobResultStr, '') !== ''
-  })
-  const jobStatus =
-    ansibleJobConditionIndex === -1
-      ? null
-      : ansibleConditions[ansibleJobConditionIndex]
+export const getInfoForAnsibleJob = jobStatus => {
   let reasonStatus = ''
   let jobStatusPulse = 'orange' //job is executed by the ansible task
   if (jobStatus) {
-    reasonStatus = _.get(jobStatus, 'reason', '')
+    reasonStatus = _.get(jobStatus, 'status', '')
     jobStatusPulse =
       _.indexOf(ansibleJobErrorStates, reasonStatus) >= 0
         ? 'red'
@@ -80,10 +73,7 @@ export const getInfoForAnsibleJob = ansibleConditions => {
 
   return {
     pulse: jobStatusPulse,
-    message:
-      jobStatus === null
-        ? null
-        : `${reasonStatus}: ${_.get(jobStatus, 'message', null)}`,
+    message: jobStatus === null ? null : reasonStatus,
     url: jobStatus === null ? null : _.get(jobStatus, 'url', null)
   }
 }
@@ -95,7 +85,8 @@ export const getPulseStatusForAnsibleNode = node => {
   }
 
   const taskStatusPulse = getInfoForAnsibleTask(ansibleConditions).pulse
-  const jobStatusPulse = getInfoForAnsibleJob(ansibleConditions).pulse
+  const jobStatusPulse = getInfoForAnsibleJob(_.get(node, ansibleJobStatusStr))
+    .pulse
   if (taskStatusPulse === 'red' || jobStatusPulse === 'red') {
     return 'red'
   }
@@ -152,7 +143,7 @@ export const showAnsibleJobDetails = (node, details) => {
     type: 'spacer'
   })
 
-  const jobStatus = getInfoForAnsibleJob(ansibleConditions)
+  const jobStatus = getInfoForAnsibleJob(_.get(node, ansibleJobStatusStr))
 
   details.push({
     labelValue: msgs.get('description.ansible.job.status'),

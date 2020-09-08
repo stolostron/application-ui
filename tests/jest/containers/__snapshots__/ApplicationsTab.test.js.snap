@@ -371,7 +371,9 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                   <span
                     className="bx--table-header-label"
                   >
-                    Name
+                    <div>
+                      Name
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -406,7 +408,9 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                   <span
                     className="bx--table-header-label"
                   >
-                    Namespace
+                    <div>
+                      Namespace
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -441,7 +445,51 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                   <span
                     className="bx--table-header-label"
                   >
-                    Clusters
+                    <div>
+                      Clusters
+                      <div
+                        className="bx--tooltip__trigger"
+                      >
+                        
+                        <div
+                          aria-expanded={false}
+                          aria-haspopup="true"
+                          id="__carbon-tooltip-trigger_i"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <svg
+                            alt="tooltip"
+                            aria-label="tooltip"
+                            fillRule="evenodd"
+                            height="16"
+                            name="icon--info--outline"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                          >
+                            <title>
+                              
+                            </title>
+                            <path
+                              d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                            />
+                            <path
+                              d="M9 13H7V7h2z"
+                            />
+                            <path
+                              d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -476,7 +524,51 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                   <span
                     className="bx--table-header-label"
                   >
-                    Resource
+                    <div>
+                      Resource
+                      <div
+                        className="bx--tooltip__trigger"
+                      >
+                        
+                        <div
+                          aria-expanded={false}
+                          aria-haspopup="true"
+                          id="__carbon-tooltip-trigger_i"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <svg
+                            alt="tooltip"
+                            aria-label="tooltip"
+                            fillRule="evenodd"
+                            height="16"
+                            name="icon--info--outline"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                          >
+                            <title>
+                              
+                            </title>
+                            <path
+                              d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                            />
+                            <path
+                              d="M9 13H7V7h2z"
+                            />
+                            <path
+                              d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -511,7 +603,51 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                   <span
                     className="bx--table-header-label"
                   >
-                    Time window
+                    <div>
+                      Time window
+                      <div
+                        className="bx--tooltip__trigger"
+                      >
+                        
+                        <div
+                          aria-expanded={false}
+                          aria-haspopup="true"
+                          id="__carbon-tooltip-trigger_i"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <svg
+                            alt="tooltip"
+                            aria-label="tooltip"
+                            fillRule="evenodd"
+                            height="16"
+                            name="icon--info--outline"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                          >
+                            <title>
+                              
+                            </title>
+                            <path
+                              d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                            />
+                            <path
+                              d="M9 13H7V7h2z"
+                            />
+                            <path
+                              d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -546,7 +682,9 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                   <span
                     className="bx--table-header-label"
                   >
-                    Created
+                    <div>
+                      Created
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -1317,7 +1455,9 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                   <span
                     className="bx--table-header-label"
                   >
-                    Name
+                    <div>
+                      Name
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -1352,7 +1492,9 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                   <span
                     className="bx--table-header-label"
                   >
-                    Namespace
+                    <div>
+                      Namespace
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -1387,7 +1529,51 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                   <span
                     className="bx--table-header-label"
                   >
-                    Clusters
+                    <div>
+                      Clusters
+                      <div
+                        className="bx--tooltip__trigger"
+                      >
+                        
+                        <div
+                          aria-expanded={false}
+                          aria-haspopup="true"
+                          id="__carbon-tooltip-trigger_i"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <svg
+                            alt="tooltip"
+                            aria-label="tooltip"
+                            fillRule="evenodd"
+                            height="16"
+                            name="icon--info--outline"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                          >
+                            <title>
+                              
+                            </title>
+                            <path
+                              d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                            />
+                            <path
+                              d="M9 13H7V7h2z"
+                            />
+                            <path
+                              d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -1422,7 +1608,51 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                   <span
                     className="bx--table-header-label"
                   >
-                    Resource
+                    <div>
+                      Resource
+                      <div
+                        className="bx--tooltip__trigger"
+                      >
+                        
+                        <div
+                          aria-expanded={false}
+                          aria-haspopup="true"
+                          id="__carbon-tooltip-trigger_i"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <svg
+                            alt="tooltip"
+                            aria-label="tooltip"
+                            fillRule="evenodd"
+                            height="16"
+                            name="icon--info--outline"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                          >
+                            <title>
+                              
+                            </title>
+                            <path
+                              d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                            />
+                            <path
+                              d="M9 13H7V7h2z"
+                            />
+                            <path
+                              d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -1457,7 +1687,51 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                   <span
                     className="bx--table-header-label"
                   >
-                    Time window
+                    <div>
+                      Time window
+                      <div
+                        className="bx--tooltip__trigger"
+                      >
+                        
+                        <div
+                          aria-expanded={false}
+                          aria-haspopup="true"
+                          id="__carbon-tooltip-trigger_i"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <svg
+                            alt="tooltip"
+                            aria-label="tooltip"
+                            fillRule="evenodd"
+                            height="16"
+                            name="icon--info--outline"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                          >
+                            <title>
+                              
+                            </title>
+                            <path
+                              d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                            />
+                            <path
+                              d="M9 13H7V7h2z"
+                            />
+                            <path
+                              d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"
@@ -1492,7 +1766,9 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                   <span
                     className="bx--table-header-label"
                   >
-                    Created
+                    <div>
+                      Created
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in descending order"

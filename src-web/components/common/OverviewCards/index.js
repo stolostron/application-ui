@@ -231,7 +231,6 @@ class OverviewCards extends React.Component {
                   className="details-item-link"
                   id="app-search-link"
                   href={getUrl + appOverviewCardsData.targetLink}
-                  target="_blank"
                 >
                   <div>
                     {msgs.get(

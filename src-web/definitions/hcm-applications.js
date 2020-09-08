@@ -37,16 +37,19 @@ export default {
     },
     {
       msgKey: 'table.header.clusters',
+      tooltipKey: 'table.header.clusters.tooltip',
       resourceKey: 'clusters',
       transformFunction: createClustersLink
     },
     {
       msgKey: 'table.header.resource',
+      tooltipKey: 'table.header.resource.tooltip',
       resourceKey: 'channels',
       transformFunction: getChannels
     },
     {
       msgKey: 'table.header.timeWindow',
+      tooltipKey: 'table.header.timeWindow.tooltip',
       resourceKey: 'hubSubscriptions',
       transformFunction: getTimeWindow
     },

@@ -128,37 +128,14 @@ export const showAnsibleJobDetails = (node, details) => {
   const ansibleConditions = _.get(node, ansibleStatusStr, [])
 
   const taskStatus = getInfoForAnsibleTask(ansibleConditions)
-
-  details.push({
-    type: 'spacer'
-  })
-  details.push({
-    labelValue: msgs.get('description.ansible.task.status'),
-    value: taskStatus.message
-      ? taskStatus.message
-      : msgs.get('description.ansible.job.status.empty.err'),
-    status: getStatusFromPulse(taskStatus.pulse)
-  })
-  details.push({
-    type: 'spacer'
-  })
-
   const jobStatus = getInfoForAnsibleJob(_.get(node, ansibleJobStatusStr))
 
   details.push({
-    labelValue: msgs.get('description.ansible.job.status'),
-    value: !jobStatus.status
-      ? msgs.get('description.ansible.job.status.empty')
-      : jobStatus.message,
-    status: getStatusFromPulse(jobStatus.status)
+    type: 'spacer'
   })
 
-  const jobUrl = jobStatus.url
+  const jobUrl = _.get(jobStatus, 'url')
   if (jobUrl) {
-    details.push({
-      type: 'spacer'
-    })
-
     details.push({
       type: 'label',
       labelKey: 'description.ansible.job.url'
@@ -180,5 +157,26 @@ export const showAnsibleJobDetails = (node, details) => {
       type: 'spacer'
     })
   }
+
+  details.push({
+    labelValue: msgs.get('description.ansible.task.status'),
+    value: taskStatus.message
+      ? taskStatus.message
+      : msgs.get('description.ansible.job.status.empty.err'),
+    status: getStatusFromPulse(taskStatus.pulse)
+  })
+  details.push({
+    type: 'spacer'
+  })
+
+  details.push({
+    labelValue: msgs.get('description.ansible.job.status'),
+    value:
+      _.get(jobStatus, 'message', '') === ''
+        ? msgs.get('description.ansible.job.status.empty')
+        : jobStatus.message,
+    status: getStatusFromPulse(jobStatus.pulse)
+  })
+
   return details
 }

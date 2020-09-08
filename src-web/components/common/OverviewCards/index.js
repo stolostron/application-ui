@@ -10,6 +10,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocale } from '../../../providers/LocaleProvider'
 import {
   Accordion,
   AccordionItem,
@@ -34,6 +35,7 @@ import {
   handleVisibilityChanged
 } from '../../../shared/utils/refetch'
 import ChannelLabels from '../ChannelLabels'
+import { getClusterCount } from '../../../../lib/client/resource-helper'
 
 /* eslint-disable react/prop-types */
 
@@ -112,10 +114,10 @@ class OverviewCards extends React.Component {
       QueryApplicationList,
       topology,
       selectedAppName,
-      selectedAppNS
+      selectedAppNS,
+      locale
     } = this.props
     const { nodeStatuses, showSubCards } = this.state
-    const { locale } = this.context
 
     let getUrl = window.location.href
     getUrl = getUrl.substring(0, getUrl.indexOf('/multicloud/applications/'))
@@ -131,22 +133,17 @@ class OverviewCards extends React.Component {
       selectedAppName,
       selectedAppNS,
       nodeStatuses,
-      targetLink
+      targetLink,
+      locale
     )
 
-    let clusterString = ''
-    if (appOverviewCardsData.localClusterDeploy) {
-      if (appOverviewCardsData.remoteClusterCount > 0) {
-        const tempString =
-          appOverviewCardsData.remoteClusterCount +
-          ' Remote, 1 Local deployment'
-        clusterString = tempString
-      } else {
-        clusterString = 'Local deployment'
-      }
-    } else {
-      clusterString = appOverviewCardsData.remoteClusterCount + ' Remote'
-    }
+    const clusterCount = getClusterCount(
+      locale,
+      appOverviewCardsData.remoteClusterCount,
+      appOverviewCardsData.localClusterDeploy,
+      selectedAppName,
+      selectedAppNS
+    )
 
     const disableBtn =
       appOverviewCardsData.subsList && appOverviewCardsData.subsList.length > 0
@@ -205,7 +202,7 @@ class OverviewCards extends React.Component {
                     appOverviewCardsData.localClusterDeploy
                       ? 0
                       : -1,
-                    clusterString,
+                    clusterCount,
                     '30%'
                   )}
                 </div>
@@ -433,4 +430,6 @@ class OverviewCards extends React.Component {
 
 OverviewCards.propTypes = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(OverviewCards)
+export default withLocale(
+  connect(mapStateToProps, mapDispatchToProps)(OverviewCards)
+)

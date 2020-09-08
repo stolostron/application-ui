@@ -13,7 +13,7 @@ import React from 'react'
 import { SkeletonText } from 'carbon-components-react'
 import { Module } from 'carbon-addons-cloud-react'
 import { UPDATE_ACTION_MODAL } from '../../../apollo-client/queries/StateQueries'
-import { getCreationDate } from '../../../../lib/client/resource-helper'
+import { getShortDateTime } from '../../../../lib/client/resource-helper'
 
 export const kindsToExcludeForDeployments = [
   'cluster',
@@ -196,26 +196,6 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
-export const getSearchLink = (params = {}) => {
-  const { properties, showRelated } = params
-  let textsearch = ''
-  _.entries(properties).forEach(([key, value]) => {
-    textsearch = `${textsearch}${textsearch ? ' ' : ''}${key}:${value}`
-  })
-  const queryParams = []
-  if (textsearch) {
-    queryParams.push(
-      `filters={"textsearch":"${encodeURIComponent(textsearch)}"}`
-    )
-  }
-  if (showRelated) {
-    queryParams.push(`showrelated=${showRelated}`)
-  }
-  return `/multicloud/search${queryParams.length ? '?' : ''}${queryParams.join(
-    '&'
-  )}`
-}
-
 const getRepoResourceData = (queryAppData, channelIdentifier) => {
   let resourceType = ''
   let resourcePath = ''
@@ -248,7 +228,8 @@ export const getAppOverviewCardsData = (
   appName,
   appNamespace,
   nodeStatuses,
-  targetLink
+  targetLink,
+  locale
 ) => {
   // Get app details only when topology data is properly loaded for the selected app
   const appData = _.get(topologyData, 'activeFilters.application')
@@ -272,8 +253,9 @@ export const getAppOverviewCardsData = (
         node.type === 'application' &&
         _.get(node, 'specs.raw.metadata.creationTimestamp')
       ) {
-        creationTimestamp = getCreationDate(
-          node.specs.raw.metadata.creationTimestamp
+        creationTimestamp = getShortDateTime(
+          node.specs.raw.metadata.creationTimestamp,
+          locale
         )
       } else if (node.type === 'cluster' && _.get(node, 'specs.clusterNames')) {
         // Get remote cluster count

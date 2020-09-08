@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getClusterCount returns a string that does not include 'local' when localDeployment is false, with link 1`] = `
+<a
+  href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp%20namespace%3Athenamespace%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+>
+  {0} Remote
+</a>
+`;
+
+exports[`getClusterCount returns a string that does not include 'remote' when there are no remote clusters, no link 1`] = `"Local"`;
+
+exports[`getClusterCount returns a string that includes both remote and local clusters when applicable, with link 1`] = `
+<a
+  href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp%20namespace%3Athenamespace%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+>
+  {0} Remote, 1 Local
+</a>
+`;
+
+exports[`getClusterCount returns empty when there are no remote or local clusters 1`] = `""`;

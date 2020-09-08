@@ -2478,18 +2478,6 @@ describe("setResourceDeployStatus ansiblejob ", () => {
   };
   const result = [
     { type: "spacer" },
-    {
-      labelValue: "Ansible Task status",
-      status: "checkmark",
-      value: "Successful: Success"
-    },
-    { type: "spacer" },
-    {
-      labelValue: "Ansible Tower Job status",
-      status: "pending",
-      value: "Ansible Tower job was not executed."
-    },
-    { type: "spacer" },
     { labelKey: "description.ansible.job.url", type: "label" },
     {
       indent: true,
@@ -2501,6 +2489,17 @@ describe("setResourceDeployStatus ansiblejob ", () => {
       }
     },
     { type: "spacer" },
+    {
+      labelValue: "Ansible Task status",
+      status: "checkmark",
+      value: "Successful: Success"
+    },
+    { type: "spacer" },
+    {
+      labelValue: "Ansible Tower Job status",
+      status: "checkmark",
+      value: "successful"
+    },
     { type: "spacer" },
     { type: "spacer" }
   ];

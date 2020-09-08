@@ -419,7 +419,7 @@ describe("getShortDateTime", () => {
 });
 
 describe("getClusterCount", () => {
-  it("returns empty when there are no remote or local clusters", () => {
+  it("returns 'None' when there are no remote or local clusters", () => {
     expect(
       getClusterCount("", 0, false, "app", "thenamespace")
     ).toMatchSnapshot();

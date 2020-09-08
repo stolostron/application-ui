@@ -927,7 +927,7 @@
   "table.header.claim": "Claim",
   "table.header.cluster": "Cluster",
   "table.header.clusters": "Clusters",
-  "table.header.clusters.tooltip": "Shows the number of remote and local clusters with resources related to the application. Click to search for related remote clusters.",
+  "table.header.clusters.tooltip": "Displays the number of remote and local clusters where resources for this application are deployed. Click to search the remote clusters.",
   "table.header.cluster.compliant": "Cluster compliant",
   "table.header.cluster.namespace": "Cluster name",
   "table.header.cluster.not.compliant": "Cluster non-compliant",

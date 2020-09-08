@@ -18,4 +18,4 @@ exports[`getClusterCount returns a string that includes both remote and local cl
 </a>
 `;
 
-exports[`getClusterCount returns empty when there are no remote or local clusters 1`] = `""`;
+exports[`getClusterCount returns empty when there are no remote or local clusters 1`] = `"None"`;

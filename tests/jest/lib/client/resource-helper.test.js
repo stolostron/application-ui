@@ -445,8 +445,8 @@ describe("getClusterCount", () => {
 });
 
 describe("getClusterCountString", () => {
-  it("returns empty when there are no remote or local clusters", () => {
-    expect(getClusterCountString("", 0, false)).toEqual("");
+  it("returns 'None' when there are no remote or local clusters", () => {
+    expect(getClusterCountString("", 0, false)).toEqual("None");
   });
 
   it("returns a string that does not include 'local' when localDeployment is false", () => {

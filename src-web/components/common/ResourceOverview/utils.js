@@ -278,7 +278,10 @@ export const getAppOverviewCardsData = (
       } else if (node.type === 'cluster' && _.get(node, 'specs.clusterNames')) {
         // Get remote cluster count
         remoteClusterCount = node.specs.clusterNames.length
-      } else if (node.type === 'subscription') {
+      } else if (
+        node.type === 'subscription' &&
+        _.get(node, 'specs.parent.parentType') !== 'cluster'
+      ) {
         // Check if subscription is remote or local deployment
         if (_.get(node, 'specs.raw.spec.placement.local')) {
           localClusterDeploy = true

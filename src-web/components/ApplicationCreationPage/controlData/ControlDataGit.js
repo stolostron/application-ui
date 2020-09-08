@@ -111,6 +111,14 @@ const githubChannelData = [
     validation: VALIDATE_ALPHANUMERIC,
     cacheUserValueKey: 'create.app.github.path'
   },
+  {
+    id: 'gitReconcileOption',
+    type: 'checkbox',
+    name: 'creation.app.github.reconcileOption',
+    tooltip: 'tooltip.creation.app.github.reconcileOption',
+    active: false,
+    available: []
+  },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  pre/post jobs  /////////////////////////////////////
   {

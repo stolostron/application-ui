@@ -25,7 +25,10 @@ import {
   updateChannelControls
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
 
-import { updatePrePostControls } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPrePostTasks";
+import {
+  updatePrePostControls,
+  setAvailableSecrets
+} from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPrePostTasks";
 
 const controlDataNS = [
   {
@@ -436,6 +439,84 @@ describe("setAvailableNSSpecs", () => {
 
   it("setAvailableNSSpecs no error", () => {
     expect(setAvailableNSSpecs(urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableSecrets", () => {
+  const urlControl = {
+    id: "namespace",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    data: {
+      items: [
+        {
+          metadata: {
+            name: "aa-ns"
+          }
+        }
+      ]
+    }
+  };
+  const result = {
+    active: "",
+    available: ["aa-ns"],
+    availableData: { "aa-ns": { metadata: { name: "aa-ns" } } },
+    availableMap: {},
+    id: "namespace",
+    isLoading: false
+  };
+
+  it("setAvailableSecrets no error", () => {
+    expect(setAvailableSecrets(urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableSecrets", () => {
+  const urlControl = {
+    id: "namespace",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    error: "error msg",
+    data: {}
+  };
+  const result = {
+    active: "",
+    available: [],
+    availableData: {},
+    availableMap: {},
+    id: "namespace",
+    isFailed: true,
+    isLoading: false
+  };
+  it("setAvailableSecrets error", () => {
+    expect(setAvailableSecrets(urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableSecrets", () => {
+  const urlControl = {
+    id: "namespace",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    loading: "loading message",
+    data: {}
+  };
+  const result = {
+    active: "",
+    available: [],
+    availableData: {},
+    availableMap: {},
+    id: "namespace",
+    isLoading: "loading message"
+  };
+  it("setAvailableSecrets loading", () => {
+    expect(setAvailableSecrets(urlControl, model)).toEqual(result);
   });
 });
 

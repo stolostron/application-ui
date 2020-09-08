@@ -12,7 +12,8 @@ import {
   getResourceType,
   getClusterCount,
   getClusterCountString,
-  getSearchLink
+  getSearchLink,
+  getShortDateTime
 } from "../../../../lib/client/resource-helper";
 
 describe("transform", () => {
@@ -388,6 +389,32 @@ describe("getAge", () => {
     const timestampKey = "unknown";
     const output = getAge(item, locale, timestampKey);
     expect(output).toEqual("-");
+  });
+});
+
+describe("getShortDateTime", () => {
+  const sampleDate = "2020-08-26T13:21:04Z";
+  const sameDay = sampleDate;
+  const sameYear = "2020-06-21T09:21:04Z";
+  const futureYear = "2021-12-13T23:21:04Z";
+  const locale = "en-US";
+
+  it("omits date and year for timestamps today", () => {
+    expect(getShortDateTime(sampleDate, locale, moment(sameDay))).toEqual(
+      "9:21 am"
+    );
+  });
+
+  it("omits year for timestamps from this year", () => {
+    expect(getShortDateTime(sampleDate, locale, moment(sameYear))).toEqual(
+      "Aug 26, 9:21 am"
+    );
+  });
+
+  it("includes all elements for timestamps from a different year", () => {
+    expect(getShortDateTime(sampleDate, locale, moment(futureYear))).toEqual(
+      "Aug 26 2020, 9:21 am"
+    );
   });
 });
 

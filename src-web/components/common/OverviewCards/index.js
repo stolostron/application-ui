@@ -146,7 +146,9 @@ class OverviewCards extends React.Component {
     )
 
     const disableBtn =
-      appOverviewCardsData.subsList && appOverviewCardsData.subsList.length > 0
+      appOverviewCardsData.subsList &&
+      appOverviewCardsData.subsList !== -1 &&
+      appOverviewCardsData.subsList.length > 0
         ? false
         : true
 
@@ -250,7 +252,7 @@ class OverviewCards extends React.Component {
         </Accordion>
 
         <div className="overview-cards-subs-section">
-          {showSubCards
+          {showSubCards && !disableBtn
             ? this.createSubsCards(appOverviewCardsData.subsList, locale)
             : ''}
           <Button

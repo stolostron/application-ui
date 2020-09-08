@@ -10,9 +10,9 @@ import R from 'ramda'
 import React from 'react'
 import {
   getCreationDate,
-  getClusterCountString
+  getClusterCount,
+  getSearchLink
 } from '../../lib/client/resource-helper'
-import { getSearchLink } from '../components/common/ResourceOverview/utils'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import { validator } from './validators/hcm-application-validator'
@@ -163,26 +163,13 @@ export function createClustersLink(item = {}, locale = '') {
   const localPlacement = (R.path(['hubSubscriptions'], item) || []).some(
     sub => sub.localPlacement
   )
-  const clusterCountString = getClusterCountString(
+  return getClusterCount(
     locale,
     clusterCount,
-    localPlacement
+    localPlacement,
+    item.name,
+    item.namespace
   )
-
-  if (clusterCount) {
-    const searchLink = getSearchLink({
-      properties: {
-        name: item.name,
-        namespace: item.namespace,
-        kind: 'application',
-        apigroup: 'app.k8s.io'
-      },
-      showRelated: 'cluster'
-    })
-    return <a href={searchLink}>{clusterCountString}</a>
-  } else {
-    return clusterCountString
-  }
 }
 
 export function getChannels(item = {}, locale = '') {

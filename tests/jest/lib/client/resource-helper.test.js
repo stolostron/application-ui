@@ -10,7 +10,9 @@ import {
   getTabs,
   getAge,
   getResourceType,
-  getClusterCountString
+  getClusterCount,
+  getClusterCountString,
+  getSearchLink
 } from "../../../../lib/client/resource-helper";
 
 describe("transform", () => {
@@ -389,6 +391,32 @@ describe("getAge", () => {
   });
 });
 
+describe("getClusterCount", () => {
+  it("returns empty when there are no remote or local clusters", () => {
+    expect(
+      getClusterCount("", 0, false, "app", "thenamespace")
+    ).toMatchSnapshot();
+  });
+
+  it("returns a string that does not include 'local' when localDeployment is false, with link", () => {
+    expect(
+      getClusterCount("", 5, false, "app", "thenamespace")
+    ).toMatchSnapshot();
+  });
+
+  it("returns a string that does not include 'remote' when there are no remote clusters, no link", () => {
+    expect(
+      getClusterCount("", 0, true, "app", "thenamespace")
+    ).toMatchSnapshot();
+  });
+
+  it("returns a string that includes both remote and local clusters when applicable, with link", () => {
+    expect(
+      getClusterCount("", 3, true, "app", "thenamespace")
+    ).toMatchSnapshot();
+  });
+});
+
 describe("getClusterCountString", () => {
   it("returns empty when there are no remote or local clusters", () => {
     expect(getClusterCountString("", 0, false)).toEqual("");
@@ -430,5 +458,30 @@ describe("getResourceType", () => {
   it("return value by resourceType ", () => {
     const output = getResourceType(item, locale);
     expect(output).toEqual("HCMApplication");
+  });
+});
+
+describe("getSearchLink", () => {
+  it("returns a bare link to search with no properties", () => {
+    expect(getSearchLink()).toEqual("/multicloud/search");
+  });
+
+  it("handles multiple properties", () => {
+    expect(
+      getSearchLink({ properties: { name: "testing", kind: "resource" } })
+    ).toEqual(
+      '/multicloud/search?filters={"textsearch":"name%3Atesting%20kind%3Aresource"}'
+    );
+  });
+
+  it("can include related resources", () => {
+    expect(
+      getSearchLink({
+        properties: { name: "testing" },
+        showRelated: "subscriptions"
+      })
+    ).toEqual(
+      '/multicloud/search?filters={"textsearch":"name%3Atesting"}&showrelated=subscriptions'
+    );
   });
 });

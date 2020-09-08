@@ -13,7 +13,7 @@ import {
 } from '@patternfly/react-core'
 import R from 'ramda'
 import LabelWithPopover from './LabelWithPopover'
-import { getSearchLink } from './ResourceOverview/utils'
+import { getSearchLink } from '../../../lib/client/resource-helper'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
 

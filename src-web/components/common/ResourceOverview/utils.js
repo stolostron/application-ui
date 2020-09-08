@@ -196,26 +196,6 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
-export const getSearchLink = (params = {}) => {
-  const { properties, showRelated } = params
-  let textsearch = ''
-  _.entries(properties).forEach(([key, value]) => {
-    textsearch = `${textsearch}${textsearch ? ' ' : ''}${key}:${value}`
-  })
-  const queryParams = []
-  if (textsearch) {
-    queryParams.push(
-      `filters={"textsearch":"${encodeURIComponent(textsearch)}"}`
-    )
-  }
-  if (showRelated) {
-    queryParams.push(`showrelated=${showRelated}`)
-  }
-  return `/multicloud/search${queryParams.length ? '?' : ''}${queryParams.join(
-    '&'
-  )}`
-}
-
 const getRepoResourceData = (queryAppData, channelIdentifier) => {
   let resourceType = ''
   let resourcePath = ''

@@ -30,6 +30,7 @@ import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 import { TemplateEditor } from '../TemplateEditor'
 import { controlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
+import { getApplicationResources } from './transformers/transform-data-to-resources'
 
 import _ from 'lodash'
 
@@ -170,7 +171,7 @@ class ApplicationCreationPage extends React.Component {
                 error.name = errorName
               }
               const fetchControl = {
-                data: application,
+                resources: getApplicationResources(application),
                 isLoaded: !loading,
                 isFailed: errored,
                 error: error

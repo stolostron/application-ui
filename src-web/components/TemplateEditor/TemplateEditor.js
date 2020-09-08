@@ -54,6 +54,7 @@ export default class TemplateEditor extends React.Component {
       creationMsg: PropTypes.array
     }).isRequired,
     fetchControl: PropTypes.shape({
+      resources: PropTypes.array,
       isLoaded: PropTypes.bool,
       isFailed: PropTypes.bool,
       fetchData: PropTypes.object
@@ -117,9 +118,9 @@ export default class TemplateEditor extends React.Component {
       }
       return { notifications }
     } else if (isLoaded) {
-      const { controlData: initialControlData } = props
+      const { controlData: initialControlData, fetchControl } = props
       const { isCustomName } = state
-      let { controlData, templateYAML, templateObject } = state
+      let { controlData, templateYAML, editResources, templateObject } = state
       const { template } = state
 
       // initialize controlData, templateYAML, templateObject
@@ -134,7 +135,7 @@ export default class TemplateEditor extends React.Component {
           template,
           controlData
         ))
-        return { controlData, templateYAML, templateObject }
+        return { controlData, templateYAML, templateObject, editResources: _.get(fetchControl, 'resources') }
       }
 
       // make sure an auto generated name is unique

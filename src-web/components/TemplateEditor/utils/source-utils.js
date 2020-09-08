@@ -21,8 +21,9 @@ export const ControlMode = Object.freeze({
 export const parseYAML = yaml => {
   let absLine = 0
   const parsed = {}
-  const yamls = yaml.split(/^---$/gm)
+  const resources=[]
   const exceptions = []
+  const yamls = yaml.split(/^---$/gm)
   // check for syntax errors
   try {
     yamls.forEach(snip => {
@@ -38,6 +39,7 @@ export const parseYAML = yaml => {
       $synced.$r = absLine
       $synced.$l = snip.split(/[\r\n]+/g).length
       values.push({ $raw: obj, $yml: snip, $synced })
+      resources.push(obj)
       absLine += $synced.$l
       if (post) {
         absLine++
@@ -53,7 +55,7 @@ export const parseYAML = yaml => {
       type: 'error'
     })
   }
-  return { parsed, exceptions }
+  return { parsed, resources, exceptions }
 }
 
 export const getInsideObject = (ikey, parsed) => {

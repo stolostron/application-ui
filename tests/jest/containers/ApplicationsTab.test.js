@@ -90,6 +90,11 @@ const resourceType = {
   list: "QueryApplicationList"
 };
 
+// mock the Math.random() value
+const mockMath = Object.create(global.Math);
+mockMath.random = () => 0.5;
+global.Math = mockMath;
+
 describe("ApplicationsTab", () => {
   it("ApplicationsTab renders correctly with data on single app, create app action", () => {
     const wrapper = mount(

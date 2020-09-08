@@ -34,6 +34,7 @@ import {
   handleVisibilityChanged
 } from '../../../shared/utils/refetch'
 import ChannelLabels from '../ChannelLabels'
+import { getClusterCount } from '../../../../lib/client/resource-helper'
 
 /* eslint-disable react/prop-types */
 
@@ -134,19 +135,13 @@ class OverviewCards extends React.Component {
       targetLink
     )
 
-    let clusterString = ''
-    if (appOverviewCardsData.localClusterDeploy) {
-      if (appOverviewCardsData.remoteClusterCount > 0) {
-        const tempString =
-          appOverviewCardsData.remoteClusterCount +
-          ' Remote, 1 Local deployment'
-        clusterString = tempString
-      } else {
-        clusterString = 'Local deployment'
-      }
-    } else {
-      clusterString = appOverviewCardsData.remoteClusterCount + ' Remote'
-    }
+    const clusterCount = getClusterCount(
+      locale,
+      appOverviewCardsData.remoteClusterCount,
+      appOverviewCardsData.localClusterDeploy,
+      selectedAppName,
+      selectedAppNS
+    )
 
     const disableBtn =
       appOverviewCardsData.subsList && appOverviewCardsData.subsList.length > 0
@@ -205,7 +200,7 @@ class OverviewCards extends React.Component {
                     appOverviewCardsData.localClusterDeploy
                       ? 0
                       : -1,
-                    clusterString,
+                    clusterCount,
                     '30%'
                   )}
                 </div>

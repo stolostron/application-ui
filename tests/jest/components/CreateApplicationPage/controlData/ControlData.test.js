@@ -25,6 +25,8 @@ import {
   updateChannelControls
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
 
+import { updatePrePostControls } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPrePostTasks";
+
 const controlDataNS = [
   {
     id: "namespace",
@@ -157,6 +159,68 @@ describe("updateChannelControls", () => {
   ];
   it("updateChannelControls valid url", () => {
     expect(updateChannelControls(data, controlDataNS)).toEqual(result);
+  });
+});
+
+describe("updatePrePostControls", () => {
+  const data = {
+    active: "secretName",
+    availableData: [],
+    groupControlData: [
+      {
+        id: "ansibleTowerHost",
+        type: "hidden",
+        active: ""
+      },
+      {
+        id: "ansibleTowerToken",
+        type: "hidden",
+        active: ""
+      }
+    ]
+  };
+
+  const result = {
+    active: "secretName",
+    availableData: [],
+    groupControlData: [
+      { active: "", id: "ansibleTowerHost", type: "text" },
+      { active: "", id: "ansibleTowerToken", type: "text" }
+    ]
+  };
+  it("updatePrePostControls new secret", () => {
+    expect(updatePrePostControls(data, controlDataNS)).toEqual(result);
+  });
+});
+
+describe("updatePrePostControls", () => {
+  const data = {
+    active: "secretName",
+    availableData: { secretName: {} },
+    groupControlData: [
+      {
+        id: "ansibleTowerHost",
+        type: "hidden",
+        active: ""
+      },
+      {
+        id: "ansibleTowerToken",
+        type: "hidden",
+        active: ""
+      }
+    ]
+  };
+
+  const result = {
+    active: "secretName",
+    availableData: { secretName: {} },
+    groupControlData: [
+      { active: "", id: "ansibleTowerHost", type: "hidden" },
+      { active: "", id: "ansibleTowerToken", type: "hidden" }
+    ]
+  };
+  it("updatePrePostControls existing secret", () => {
+    expect(updatePrePostControls(data, controlDataNS)).toEqual(result);
   });
 });
 

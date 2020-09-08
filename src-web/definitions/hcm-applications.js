@@ -9,7 +9,7 @@
 import R from 'ramda'
 import React from 'react'
 import {
-  getCreationDate,
+  getShortDateTime,
   getClusterCount,
   getSearchLink
 } from '../../lib/client/resource-helper'
@@ -190,7 +190,7 @@ export function getTimeWindow(item = {}, locale = '') {
     : ''
 }
 
-export function getCreated(item = {}) {
+export function getCreated(item = {}, locale = '') {
   const timestamp = R.path(['created'], item) || ''
-  return timestamp ? getCreationDate(timestamp) : '-'
+  return timestamp ? getShortDateTime(timestamp, locale) : '-'
 }

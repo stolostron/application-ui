@@ -10,6 +10,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocale } from '../../../providers/LocaleProvider'
 import {
   Accordion,
   AccordionItem,
@@ -113,10 +114,10 @@ class OverviewCards extends React.Component {
       QueryApplicationList,
       topology,
       selectedAppName,
-      selectedAppNS
+      selectedAppNS,
+      locale
     } = this.props
     const { nodeStatuses, showSubCards } = this.state
-    const { locale } = this.context
 
     let getUrl = window.location.href
     getUrl = getUrl.substring(0, getUrl.indexOf('/multicloud/applications/'))
@@ -132,7 +133,8 @@ class OverviewCards extends React.Component {
       selectedAppName,
       selectedAppNS,
       nodeStatuses,
-      targetLink
+      targetLink,
+      locale
     )
 
     const clusterCount = getClusterCount(
@@ -428,4 +430,6 @@ class OverviewCards extends React.Component {
 
 OverviewCards.propTypes = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(OverviewCards)
+export default withLocale(
+  connect(mapStateToProps, mapDispatchToProps)(OverviewCards)
+)

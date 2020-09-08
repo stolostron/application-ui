@@ -21,7 +21,7 @@ const query_data1 = {
   _uid: "local-cluster/e04141c7-4377-11ea-a84e-00000a100f99",
   dashboard:
     "localhost/grafana/dashboard/db/val-dashboard-via-federated-prometheus?namespace=default",
-  created: "2020-01-30T15:47:53Z",
+  created: "2018-01-30T15:47:53Z",
   remoteSubscriptionStatusCount: {
     Subscribed: 4,
     Failed: 5,
@@ -314,7 +314,7 @@ describe("getAppOverviewCardsData", () => {
     const result = {
       appName: "mortgage-app",
       appNamespace: "default",
-      creationTimestamp: "Aug 13 2020, 7:23 pm",
+      creationTimestamp: "Aug 13 2018, 3:23 pm",
       remoteClusterCount: 1,
       localClusterDeploy: false,
       nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 3 },
@@ -347,7 +347,7 @@ describe("getAppOverviewCardsData", () => {
     const result = {
       appName: "mortgage-app",
       appNamespace: "default",
-      creationTimestamp: "Aug 13 2020, 7:23 pm",
+      creationTimestamp: "Aug 13 2018, 3:23 pm",
       remoteClusterCount: 1,
       localClusterDeploy: true,
       nodeStatuses: { green: 2, yellow: 1, red: 0, orange: 0 },
@@ -463,7 +463,7 @@ const customTopologyData = {
           apiVersion: "app.k8s.io/v1beta1",
           kind: "Application",
           metadata: {
-            creationTimestamp: "2020-08-13T19:23:00Z",
+            creationTimestamp: "2018-08-13T19:23:00Z",
             generation: 2,
             name: "mortgage-app",
             namespace: "default",
@@ -515,7 +515,7 @@ const customTopologyData = {
           channels: [],
           kind: "Subscription",
           metadata: {
-            creationTimestamp: "2020-08-13T19:23:01Z",
+            creationTimestamp: "2018-08-13T19:23:01Z",
             generation: 2,
             name: "mortgage-app-subscription"
           },
@@ -532,7 +532,7 @@ const customTopologyData = {
             }
           },
           status: {
-            lastUpdateTime: "2020-08-15T09:11:11Z",
+            lastUpdateTime: "2018-08-15T09:11:11Z",
             phase: "Propagated"
           }
         },
@@ -578,7 +578,7 @@ const customTopologyData = {
           consoleURL:
             "https://console-openshift-console.apps.fxiang.dev06.red-chesterfield.com",
           metadata: {
-            creationTimestamp: "2020-08-13T18:17:34Z",
+            creationTimestamp: "2018-08-13T18:17:34Z",
             finalizers: Array(5),
             generation: 1,
             name: "fxiang"
@@ -601,7 +601,7 @@ const customTopologyData = {
             consoleURL:
               "https://console-openshift-console.apps.fxiang.dev06.red-chesterfield.com",
             metadata: {
-              creationTimestamp: "2020-08-13T18:17:34Z",
+              creationTimestamp: "2018-08-13T18:17:34Z",
               finalizers: Array(5),
               generation: 1,
               name: "fxiang"

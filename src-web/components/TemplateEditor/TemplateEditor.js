@@ -135,7 +135,7 @@ export default class TemplateEditor extends React.Component {
           template,
           controlData
         ))
-        return { controlData, templateYAML, templateObject, editResources: _.get(fetchControl, 'resources') }
+        return { controlData, templateYAML, firstTemplateYAML:templateYAML, templateObject, editResources: _.get(fetchControl, 'resources') }
       }
 
       // make sure an auto generated name is unique
@@ -192,13 +192,13 @@ export default class TemplateEditor extends React.Component {
     this.handleGroupChange = this.handleGroupChange.bind(this)
     const { type = 'unknown' } = this.props
     this.splitterSizeCookie = `TEMPLATE-EDITOR-SPLITTER-SIZE-${type.toUpperCase()}`
-    window.addEventListener(
-      'beforeunload',
-      (event => {
+    this.beforeUnloadFunc = (event => {
+      if (this.isDirty) {
         event.preventDefault()
-        event.returnValue = !this.isDirty ? 'saveOk' : ''
-      }).bind(this)
-    )
+        event.returnValue = this.isDirty
+      }
+    }).bind(this)
+    window.addEventListener('beforeunload', this.beforeUnloadFunc)
   }
 
   componentDidMount() {
@@ -223,6 +223,7 @@ export default class TemplateEditor extends React.Component {
     } else {
       savedFormData && updateFormState(null)
     }
+    window.removeEventListener('beforeunload', this.beforeUnloadFunc)
   }
 
   setSplitPaneRef = splitPane => (this.splitPane = splitPane);
@@ -357,6 +358,7 @@ export default class TemplateEditor extends React.Component {
       template,
       templateYAML,
       otherYAMLTabs,
+      firstTemplateYAML,
       isFinalValidate
     } = this.state
 
@@ -412,7 +414,7 @@ export default class TemplateEditor extends React.Component {
       exceptions: [],
       notifications
     })
-    this.isDirty = true
+    this.isDirty = firstTemplateYAML !==newYAML
     this.handleScrollAndCollapse(control, controlData, creationView)
   }
 
@@ -423,6 +425,7 @@ export default class TemplateEditor extends React.Component {
       template,
       templateYAML,
       otherYAMLTabs,
+      firstTemplateYAML,
       isFinalValidate
     } = this.state
     const { active, controlData: cd } = control
@@ -475,7 +478,7 @@ export default class TemplateEditor extends React.Component {
       templateYAML: newYAML,
       templateObject,
     })
-    this.isDirty = true
+    this.isDirty = firstTemplateYAML!==newYAML
   }
 
   handleNewEditorMode(control, controlData, creationView) {
@@ -883,6 +886,7 @@ export default class TemplateEditor extends React.Component {
       otherYAMLTabs,
       activeYAMLEditor,
       controlData,
+      firstTemplateYAML,
       isFinalValidate
     } = this.state
     let { templateYAML, notifications } = this.state
@@ -927,7 +931,8 @@ export default class TemplateEditor extends React.Component {
         })
       }
     }
-    this.isDirty = true
+
+    this.isDirty = firstTemplateYAML !== yaml
 
     // if typing on another tab that represents encoded yaml in the main tab,
     // update the main yaml--for now

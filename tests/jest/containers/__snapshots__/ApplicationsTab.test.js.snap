@@ -339,7 +339,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
               </div>
               <div
                 aria-label="You are not authorized to create applications"
-                className="bx--tooltip--definition__top"
+                className="bx--tooltip--definition__bottom"
                 id="definition-tooltip-4"
                 role="tooltip"
               >
@@ -1285,7 +1285,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
               </div>
               <div
                 aria-label="You are not authorized to create applications"
-                className="bx--tooltip--definition__top"
+                className="bx--tooltip--definition__bottom"
                 id="definition-tooltip-4"
                 role="tooltip"
               >

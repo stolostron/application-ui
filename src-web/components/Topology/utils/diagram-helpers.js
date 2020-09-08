@@ -34,7 +34,10 @@ const podWarningStates = ['pending', 'creating']
 
 const podSuccessStates = ['run']
 
-const ansibleJobStatus = 'specs.raw.spec.ansibleJobResult.status'
+import {
+  showAnsibleJobDetails,
+  getPulseStatusForAnsibleNode
+} from './ansible-task'
 
 /*
 * UI helpers to help with data transformations
@@ -358,10 +361,7 @@ const getPulseStatusForGenericNode = node => {
 
   //ansible job status
   if (_.get(node, 'type', '') === 'ansiblejob') {
-    const jobStatus = _.get(node, ansibleJobStatus)
-    if (!jobStatus || jobStatus === 'error') {
-      pulse = 'red' // ansible not executed
-    }
+    pulse = getPulseStatusForAnsibleNode(node)
   }
 
   return pulse
@@ -921,71 +921,6 @@ export const setupResourceModel = (
     })
   }
   return resourceMap
-}
-
-export const showAnsibleJobDetails = (node, details) => {
-  const jobUrl = _.get(node, 'specs.raw.spec.ansibleJobResult.url')
-
-  let statusKey = _.get(node, ansibleJobStatus)
-
-  if (!statusKey) {
-    //not executed, get error message
-    const conditions = _.get(node, 'specs.raw.spec.conditions', [])
-    const failIndex = _.findIndex(conditions, condition => {
-      return condition.type === 'Failure'
-    })
-    if (failIndex !== -1) {
-      statusKey = `${msgs.get(
-        'description.ansible.job.status.empty.err2'
-      )}${_.get(conditions[failIndex], 'message', '')}`
-    }
-  }
-
-  if (!statusKey) {
-    //use generic message
-    statusKey = `${msgs.get('description.ansible.job.status.empty')} ${msgs.get(
-      'description.ansible.job.status.empty.err'
-    )}`
-  }
-
-  const statusStr =
-    statusKey === 'successful'
-      ? 'checkmark'
-      : statusKey === 'error' || !_.get(node, ansibleJobStatus)
-        ? 'failure'
-        : 'pending'
-
-  if (jobUrl) {
-    details.push({
-      type: 'label',
-      labelKey: 'description.ansible.job.url'
-    })
-
-    details.push({
-      type: 'link',
-      value: {
-        label: jobUrl,
-        id: `${jobUrl}-location`,
-        data: {
-          action: 'open_link',
-          targetLink: jobUrl
-        }
-      },
-      indent: true
-    })
-
-    details.push({
-      type: 'spacer'
-    })
-  }
-
-  details.push({
-    labelValue: msgs.get('description.ansible.job.status'),
-    value: statusKey,
-    status: statusStr
-  })
-
-  return details
 }
 
 //show resource deployed status on the remote clusters

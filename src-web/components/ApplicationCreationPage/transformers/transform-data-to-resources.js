@@ -12,12 +12,15 @@
 import _ from 'lodash'
 
 
-// remove the system stuff
-const system = ['creationTimestamp', 'status', 'uid', 'annotations', 'livenessProbe', 'resourceVersion']
+// remove the kube stuff
+const kube = ['creationTimestamp', 'status', 'uid', 'deployables', 'livenessProbe', 'resourceVersion', 'generation']
 const keepKeys = ['apps.open-cluster-management.io/git']
 
 const isFiltered = (value, key, parentKey) => {
-  if (key==='generation') {
+  if (kube.includes(key)) {
+    return true
+  }
+  if (parentKey==='annotations' && !keepKeys.includes(key)) {
     return true
   }
   return false
@@ -43,22 +46,24 @@ const filterDeep = (obj, parentKey) => {
   return newObj
 }
 
-
-
-
 export const getApplicationResources = (application) => {
   if (application) {
-    const {app, subscriptions, channels, rules} = application
+    const {app, subscriptions} = _.cloneDeep(application)
     const resources = []
 
-
-    var ff = filterDeep(app)
-
-    resources.push(ff)
-
-
+    // application
+    resources.push(filterDeep(app))
+    
+    // for each subscriptions, do channel and rule
+    subscriptions.forEach(subscription=>{
+      const {channels, rules} = subscription
+      delete subscription.channels
+      delete subscription.rules
+      resources.push(filterDeep(channels[0]))
+      resources.push(filterDeep(subscription))
+      resources.push(filterDeep(rules[0]))
+    })
     return resources
-
   }
   return null
 }

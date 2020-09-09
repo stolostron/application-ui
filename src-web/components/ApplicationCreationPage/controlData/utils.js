@@ -9,7 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import { HCMChannelList, HCMSecretList } from '../../../../lib/client/queries'
+import { HCMChannelList, HCMSecretsList } from '../../../../lib/client/queries'
 
 import _ from 'lodash'
 
@@ -41,7 +41,7 @@ export const loadExistingSecrets = () => {
     }
   }
   return {
-    query: HCMSecretList,
+    query: HCMSecretsList,
     variables: getQueryVariables,
     loadingDesc: 'creation.app.loading.secrets',
     setAvailable: setAvailableSecrets.bind(null)

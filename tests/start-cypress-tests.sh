@@ -31,6 +31,12 @@ else
   fi
 fi
 
+echo "Logging into managed cluster"
+mkdir $PWD/import-kubeconfig
+export KUBECONFIG=$PWD/import-kubeconfig/kubeconfig
+oc login $CYPRESS_MANAGED_OCP_PASS -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS
+
+
 echo "Logging into Kube API server..."
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
 

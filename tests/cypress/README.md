@@ -26,6 +26,12 @@ The Cypress tests are stored inside the /tests/ directory, which has its own pac
    - `export CYPRESS_OC_CLUSTER_PASS=xxxxxxxxx`
 2. From the application-ui/tests directory, run `npx cypress open`
 
+#### Cleaning deployed app resources on target clusters
+
+You will need to provide the kubeconfig for the target clusters and place them under config/import-kubeconfig. If provided, the app resources will be cleaned on the target cluster.
+
+The default mode will not clean resources on any imported clusters, you will have to provide the kubeconfig if you want to clean the resources
+
 #### Running Cypress tests on a local environment
 
 The environment variables are similar to running on the live cluster, however in order to run Cypress tests on a local environment,

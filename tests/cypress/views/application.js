@@ -28,8 +28,6 @@ export const createApplication = (data, type) => {
   } else if (type === "local-cluster") {
     createLocal(config);
   }
-  // comment until the validation is done
-  // cy.get("#online-cluster-only-checkbox").click({ force: true });
   submitSave();
 };
 
@@ -40,12 +38,15 @@ export const gitTasks = (value, gitCss, key = 0) => {
     .get(`#git`)
     .click()
     .trigger("mouseover");
-  cy.get(gitUrl, { timeout: 20 * 1000 }).type(url).blur();
+  cy
+    .get(gitUrl, { timeout: 20 * 1000 })
+    .type(url)
+    .blur();
   if (username && token) {
     cy.get(gitUser).type(username);
     cy.get(gitKey).type(token);
   }
-  cy.wait(500).then(()=>{
+  cy.wait(500).then(() => {
     cy.get(gitBranch).then(input => {
       if (input.is("enabled")) {
         cy.get(gitBranch).type(branch);
@@ -55,7 +56,7 @@ export const gitTasks = (value, gitCss, key = 0) => {
       }
     });
   });
-  
+
   selectTimeWindow(timeWindow, key);
 };
 
@@ -151,14 +152,67 @@ export const submitSave = () => {
   cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
 };
 
-export const validateTopology = name => {
+export const validateTopology = (name, data, type) => {
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();
   cy
-    .get(".search-query-card-loading", { timeout: 20 * 1000 })
+    .get(".search-query-card-loading", { timeout: 100 * 1000 })
     .should("not.exist");
   cy.get(".overview-cards-container");
   cy.get("#topologySvgId", { timeout: 50 * 1000 });
+  cy.get(".layoutLoadingContainer").should("not.be.visible");
+  cy.get(".bx--loading", { timeout: 100 * 1000 }).should("not.be.visible", {
+    timeout: 100 * 1000
+  });
+  // application
+  cy.log("validate the application...");
+  cy.get(`g[type=${name}]`, { timeout: 100 * 1000 }).should("be.visible");
+
+  //subscription
+  cy.log("validate the subscription...");
+  cy
+    .get(`g[type="${name}-subscription-0"]`, { timeout: 100 * 1000 })
+    .should("be.visible");
+
+  //placementrule
+  cy.log("validate the placementrule...");
+  cy
+    .get(`g[type="${name}-placement-0"]`, { timeout: 100 * 1000 })
+    .should("be.visible");
+
+  data.config.forEach(data => {
+    const { path } = type == "git" ? data : data;
+    path == "helloworld" ? validateHelloWorld() : null;
+  });
+};
+
+export const validateHelloWorld = () => {
+  // validate route
+  cy.log("validate the route...");
+  cy.scrollTo("bottom");
+  cy
+    .get('g[type="helloworld-app-route"]', {
+      timeout: 100 * 1000
+    })
+    .should("be.visible")
+    .click();
+  cy
+    .get(".topologyDetails")
+    .children(".details-view-container")
+    .find(">div")
+    .first()
+    .within($div => {
+      cy
+        .get("#linkForNodeAction", { timeout: 200 * 1000 })
+        .contains("http://")
+        .invoke("text")
+        .then(urlLink => {
+          cy
+            .exec(`curl ${urlLink}`)
+            .its("stdout")
+            .should("contain", "Hello World!");
+        });
+    });
 };
 
 export const validateResourceTable = name => {

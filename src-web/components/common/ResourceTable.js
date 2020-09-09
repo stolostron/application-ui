@@ -21,7 +21,8 @@ import {
   OverflowMenu,
   OverflowMenuItem,
   Icon,
-  Checkbox
+  Checkbox,
+  Tooltip
 } from 'carbon-components-react'
 import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
@@ -358,7 +359,19 @@ class ResourceTable extends React.Component {
     })
     headers = headers.map(tableKey => ({
       key: tableKey.resourceKey,
-      header: tableKey.dropdown ? '' : msgs.get(tableKey.msgKey, locale)
+      header: tableKey.dropdown ? (
+        ''
+      ) : (
+        <div>
+          {`${msgs.get(tableKey.msgKey, locale)}`}
+          {tableKey.tooltipKey && (
+            <Tooltip triggerText="" iconName="icon--info--outline">{`${msgs.get(
+              tableKey.tooltipKey,
+              locale
+            )}`}</Tooltip>
+          )}
+        </div>
+      )
     }))
     tableActions &&
       !_.isEmpty(tableActions) &&

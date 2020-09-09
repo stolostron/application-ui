@@ -11,7 +11,25 @@
 
 .resource-table {
   .bx--overflow-menu__icon {
-    transform: rotate(180deg) !important;
+    transform: rotate(0deg);
+  }
+
+  .bx--overflow-menu {
+    float: right;
+    opacity: 1;
+  }
+
+  .bx--table-header-label {
+    div {
+      display: flex;
+    }
+
+    .bx--tooltip__trigger {
+      svg {
+        margin-left: 8px;
+        height: 16px;
+      }
+    }
   }
 
   .bx--form-item.bx--checkbox-wrapper {

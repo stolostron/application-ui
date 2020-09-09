@@ -10,7 +10,10 @@ import {
   getTabs,
   getAge,
   getResourceType,
-  getClusterCountString
+  getClusterCount,
+  getClusterCountString,
+  getSearchLink,
+  getShortDateTime
 } from "../../../../lib/client/resource-helper";
 
 describe("transform", () => {
@@ -389,9 +392,61 @@ describe("getAge", () => {
   });
 });
 
+describe("getShortDateTime", () => {
+  const sampleDate = "2020-08-26T13:21:04Z";
+  const sameDay = sampleDate;
+  const sameYear = "2020-06-21T09:21:04Z";
+  const futureYear = "2021-12-13T23:21:04Z";
+  const locale = "en-US";
+
+  it("omits date and year for timestamps today", () => {
+    expect(getShortDateTime(sampleDate, locale, moment(sameDay))).toEqual(
+      "9:21 am"
+    );
+  });
+
+  it("omits year for timestamps from this year", () => {
+    expect(getShortDateTime(sampleDate, locale, moment(sameYear))).toEqual(
+      "Aug 26, 9:21 am"
+    );
+  });
+
+  it("includes all elements for timestamps from a different year", () => {
+    expect(getShortDateTime(sampleDate, locale, moment(futureYear))).toEqual(
+      "Aug 26 2020, 9:21 am"
+    );
+  });
+});
+
+describe("getClusterCount", () => {
+  it("returns 'None' when there are no remote or local clusters", () => {
+    expect(
+      getClusterCount("", 0, false, "app", "thenamespace")
+    ).toMatchSnapshot();
+  });
+
+  it("returns a string that does not include 'local' when localDeployment is false, with link", () => {
+    expect(
+      getClusterCount("", 5, false, "app", "thenamespace")
+    ).toMatchSnapshot();
+  });
+
+  it("returns a string that does not include 'remote' when there are no remote clusters, no link", () => {
+    expect(
+      getClusterCount("", 0, true, "app", "thenamespace")
+    ).toMatchSnapshot();
+  });
+
+  it("returns a string that includes both remote and local clusters when applicable, with link", () => {
+    expect(
+      getClusterCount("", 3, true, "app", "thenamespace")
+    ).toMatchSnapshot();
+  });
+});
+
 describe("getClusterCountString", () => {
-  it("returns empty when there are no remote or local clusters", () => {
-    expect(getClusterCountString("", 0, false)).toEqual("");
+  it("returns 'None' when there are no remote or local clusters", () => {
+    expect(getClusterCountString("", 0, false)).toEqual("None");
   });
 
   it("returns a string that does not include 'local' when localDeployment is false", () => {
@@ -430,5 +485,30 @@ describe("getResourceType", () => {
   it("return value by resourceType ", () => {
     const output = getResourceType(item, locale);
     expect(output).toEqual("HCMApplication");
+  });
+});
+
+describe("getSearchLink", () => {
+  it("returns a bare link to search with no properties", () => {
+    expect(getSearchLink()).toEqual("/multicloud/search");
+  });
+
+  it("handles multiple properties", () => {
+    expect(
+      getSearchLink({ properties: { name: "testing", kind: "resource" } })
+    ).toEqual(
+      '/multicloud/search?filters={"textsearch":"name%3Atesting%20kind%3Aresource"}'
+    );
+  });
+
+  it("can include related resources", () => {
+    expect(
+      getSearchLink({
+        properties: { name: "testing" },
+        showRelated: "subscriptions"
+      })
+    ).toEqual(
+      '/multicloud/search?filters={"textsearch":"name%3Atesting"}&showrelated=subscriptions'
+    );
   });
 });

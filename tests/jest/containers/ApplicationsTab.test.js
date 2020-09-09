@@ -37,7 +37,7 @@ jest.mock("../../../lib/client/apollo-client", () => ({
                 __typename: "Subscription"
               }
             ],
-            created: "2020-02-18T23:57:04Z",
+            created: "2018-02-18T23:57:04Z",
             __typename: "Application"
           }
         }
@@ -89,6 +89,11 @@ const resourceType = {
   name: "QueryApplications",
   list: "QueryApplicationList"
 };
+
+// mock the Math.random() value
+const mockMath = Object.create(global.Math);
+mockMath.random = () => 0.5;
+global.Math = mockMath;
 
 describe("ApplicationsTab", () => {
   it("ApplicationsTab renders correctly with data on single app, create app action", () => {

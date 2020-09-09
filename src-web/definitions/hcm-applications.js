@@ -9,10 +9,10 @@
 import R from 'ramda'
 import React from 'react'
 import {
-  getCreationDate,
-  getClusterCountString
+  getShortDateTime,
+  getClusterCount,
+  getSearchLink
 } from '../../lib/client/resource-helper'
-import { getSearchLink } from '../components/common/ResourceOverview/utils'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import { validator } from './validators/hcm-application-validator'
@@ -37,16 +37,19 @@ export default {
     },
     {
       msgKey: 'table.header.clusters',
+      tooltipKey: 'table.header.clusters.tooltip',
       resourceKey: 'clusters',
       transformFunction: createClustersLink
     },
     {
       msgKey: 'table.header.resource',
+      tooltipKey: 'table.header.resource.tooltip',
       resourceKey: 'channels',
       transformFunction: getChannels
     },
     {
       msgKey: 'table.header.timeWindow',
+      tooltipKey: 'table.header.timeWindow.tooltip',
       resourceKey: 'hubSubscriptions',
       transformFunction: getTimeWindow
     },
@@ -163,26 +166,13 @@ export function createClustersLink(item = {}, locale = '') {
   const localPlacement = (R.path(['hubSubscriptions'], item) || []).some(
     sub => sub.localPlacement
   )
-  const clusterCountString = getClusterCountString(
+  return getClusterCount(
     locale,
     clusterCount,
-    localPlacement
+    localPlacement,
+    item.name,
+    item.namespace
   )
-
-  if (clusterCount) {
-    const searchLink = getSearchLink({
-      properties: {
-        name: item.name,
-        namespace: item.namespace,
-        kind: 'application',
-        apigroup: 'app.k8s.io'
-      },
-      showRelated: 'cluster'
-    })
-    return <a href={searchLink}>{clusterCountString}</a>
-  } else {
-    return clusterCountString
-  }
 }
 
 export function getChannels(item = {}, locale = '') {
@@ -203,7 +193,7 @@ export function getTimeWindow(item = {}, locale = '') {
     : ''
 }
 
-export function getCreated(item = {}) {
+export function getCreated(item = {}, locale = '') {
   const timestamp = R.path(['created'], item) || ''
-  return timestamp ? getCreationDate(timestamp) : '-'
+  return timestamp ? getShortDateTime(timestamp, locale) : '-'
 }

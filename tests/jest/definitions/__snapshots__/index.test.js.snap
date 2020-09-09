@@ -106,16 +106,19 @@ Object {
     Object {
       "msgKey": "table.header.clusters",
       "resourceKey": "clusters",
+      "tooltipKey": "table.header.clusters.tooltip",
       "transformFunction": [Function],
     },
     Object {
       "msgKey": "table.header.resource",
       "resourceKey": "channels",
+      "tooltipKey": "table.header.resource.tooltip",
       "transformFunction": [Function],
     },
     Object {
       "msgKey": "table.header.timeWindow",
       "resourceKey": "hubSubscriptions",
+      "tooltipKey": "table.header.timeWindow.tooltip",
       "transformFunction": [Function],
     },
     Object {
@@ -145,16 +148,19 @@ Array [
   Object {
     "msgKey": "table.header.clusters",
     "resourceKey": "clusters",
+    "tooltipKey": "table.header.clusters.tooltip",
     "transformFunction": [Function],
   },
   Object {
     "msgKey": "table.header.resource",
     "resourceKey": "channels",
+    "tooltipKey": "table.header.resource.tooltip",
     "transformFunction": [Function],
   },
   Object {
     "msgKey": "table.header.timeWindow",
     "resourceKey": "hubSubscriptions",
+    "tooltipKey": "table.header.timeWindow.tooltip",
     "transformFunction": [Function],
   },
   Object {

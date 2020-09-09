@@ -107,7 +107,9 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                   <span
                     className="bx--table-header-label"
                   >
-                    Application name
+                    <div>
+                      Application name
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in ascending order"
@@ -142,7 +144,9 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                   <span
                     className="bx--table-header-label"
                   >
-                    Namespace
+                    <div>
+                      Namespace
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in ascending order"
@@ -177,7 +181,9 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                   <span
                     className="bx--table-header-label"
                   >
-                    Managed clusters
+                    <div>
+                      Managed clusters
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in ascending order"
@@ -212,7 +218,9 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                   <span
                     className="bx--table-header-label"
                   >
-                    Subscriptions (On managed clusters)
+                    <div>
+                      Subscriptions (On managed clusters)
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in ascending order"
@@ -247,7 +255,9 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                   <span
                     className="bx--table-header-label"
                   >
-                    Created
+                    <div>
+                      Created
+                    </div>
                   </span>
                   <svg
                     alt="Sort rows by this header in ascending order"
@@ -291,7 +301,7 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                 -
               </td>
               <td>
-                2020-02-18T23:57:04Z
+                2018-02-18T23:57:04Z
               </td>
               <td>
                 <div
@@ -344,7 +354,7 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                 -
               </td>
               <td>
-                2020-02-19T01:43:43Z
+                2018-02-19T01:43:43Z
               </td>
               <td>
                 <div
@@ -450,7 +460,7 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                 -
               </td>
               <td>
-                2020-02-11T23:26:18Z
+                2019-02-11T23:26:18Z
               </td>
               <td>
                 <div
@@ -503,7 +513,7 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                 -
               </td>
               <td>
-                2020-02-11T23:26:18Z
+                2019-02-11T23:26:18Z
               </td>
               <td>
                 <div

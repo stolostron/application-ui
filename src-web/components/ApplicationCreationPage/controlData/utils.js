@@ -9,7 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import { HCMChannelList } from '../../../../lib/client/queries'
+import { HCMChannelList, HCMSecretList } from '../../../../lib/client/queries'
 
 import _ from 'lodash'
 
@@ -24,6 +24,27 @@ export const loadExistingChannels = type => {
     query: HCMChannelList,
     loadingDesc: 'creation.app.loading.channels',
     setAvailable: setAvailableChannelSpecs.bind(null, type)
+  }
+}
+
+export const loadExistingSecrets = () => {
+  const getQueryVariables = (control, globalControl) => {
+    const nsControl = globalControl.find(
+      ({ id: idCtrl }) => idCtrl === 'namespace'
+    )
+    if (nsControl.active) {
+      delete control.exception
+      return {namespace: nsControl.active}
+    } else {
+      control.exception = 'Namespace must be set first'
+      return {}
+    }
+  }
+  return {
+    query: HCMSecretList,
+    variables: getQueryVariables,
+    loadingDesc: 'creation.app.loading.secrets',
+    setAvailable: setAvailableSecrets.bind(null)
   }
 }
 
@@ -405,6 +426,29 @@ export const setAvailableChannelSpecs = (type, control, result) => {
         return p.toLowerCase().startsWith(type)
       }),
       'objectPath'
+    )
+    control.available = Object.keys(control.availableData).sort()
+  } else {
+    control.isLoading = loading
+  }
+
+  return control
+}
+
+export const setAvailableSecrets = (control, result) => {
+  const { loading } = result
+  const { data = {} } = result
+  const { secrets } = data
+  control.available = []
+  control.availableMap = {}
+  control.isLoading = false
+  const error = secrets ? null : result.error
+  if (error) {
+    control.isFailed = true
+  } else if (secrets) {
+    control.availableData = _.keyBy(
+      secrets,
+      'name'
     )
     control.available = Object.keys(control.availableData).sort()
   } else {

@@ -74,6 +74,7 @@ export const updateControlsForNS = (
         //existing namespace
         _.set(existingruleCheckbox, 'type', 'checkbox')
         _.set(existingruleCheckbox, 'active', false)
+        selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
 
         _.set(existingRuleControl, 'ns', active)
         _.set(existingRuleControl, 'type', 'hidden')

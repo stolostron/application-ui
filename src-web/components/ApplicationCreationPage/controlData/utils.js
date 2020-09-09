@@ -34,7 +34,7 @@ export const loadExistingSecrets = () => {
     )
     if (nsControl.active) {
       delete control.exception
-      return {namespace: nsControl.active}
+      return { namespace: nsControl.active }
     } else {
       control.exception = 'Namespace must be set first'
       return {}
@@ -48,7 +48,11 @@ export const loadExistingSecrets = () => {
   }
 }
 
-export const updateChannelControls = (urlControl, globalControl, setLoadingState) => {
+export const updateChannelControls = (
+  urlControl,
+  globalControl,
+  setLoadingState
+) => {
   getGitBranches(_.get(urlControl, 'groupControlData'), setLoadingState)
 
   //update existing placement rule section when user changes the namespace
@@ -213,21 +217,24 @@ export const getGitBranches = async (groupControlData, setLoadingState) => {
         const repoObj = github.getRepo(gitPath)
 
         setLoadingState(branchCtrl, true)
-        await repoObj.listBranches().then(result => {
-          branchCtrl.active = ''
-          branchCtrl.available = []
+        await repoObj.listBranches().then(
+          result => {
+            branchCtrl.active = ''
+            branchCtrl.available = []
 
-          if (result.data) {
-            result.data.forEach(branch => {
-              branchCtrl.available.push(branch.name)
-            })
+            if (result.data) {
+              result.data.forEach(branch => {
+                branchCtrl.available.push(branch.name)
+              })
+            }
+            setLoadingState(branchCtrl, false)
+          },
+          () => {
+            branchCtrl.active = ''
+            branchCtrl.available = ['master']
+            setLoadingState(branchCtrl, false)
           }
-          setLoadingState(branchCtrl, false)
-        }, ()=>{
-          branchCtrl.active = ''
-          branchCtrl.available = ['master']
-          setLoadingState(branchCtrl, false)
-        })
+        )
       }
     }
   } catch (err) {
@@ -264,6 +271,11 @@ export const setAvailableRules = (control, result) => {
       control.available = Object.keys(control.availableData).sort()
       if (Object.keys(control.availableData).length === 0) {
         _.set(control, 'type', 'hidden')
+        const groupControlData = _.get(control, 'groupControlData')
+        const existingRule = groupControlData.find(
+          ({ id }) => id === existingRuleCheckbox
+        )
+        existingRule && _.set(existingRule, 'type', 'hidden')
       }
     }
   } else {
@@ -403,8 +415,6 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
       { id: 0, labelName: '', labelValue: '', validValue: true }
     ]
     clusterSelectorControl.showData = []
-
-    clusterSelectorControl.showData = []
   }
 
   return control
@@ -446,10 +456,7 @@ export const setAvailableSecrets = (control, result) => {
   if (error) {
     control.isFailed = true
   } else if (secrets) {
-    control.availableData = _.keyBy(
-      secrets,
-      'name'
-    )
+    control.availableData = _.keyBy(secrets, 'name')
     control.available = Object.keys(control.availableData).sort()
   } else {
     control.isLoading = loading

@@ -10,7 +10,7 @@
 {{else}}
     placementRef:
       kind: PlacementRule
-{{#if selectedRuleName}} 
+{{#if selectedRuleName}}
       name: {{{selectedRuleName}}}
 {{else}}       
       name: {{{@root.name}}}-placement-{{@index}}
@@ -32,7 +32,7 @@
     {{/if}}
 {{/if}}
 
-{{#unless existingrule-checkbox}} 
+{{#unless selectedRuleName}} 
 {{#unless local-cluster-checkbox}}
 ---
 apiVersion: apps.open-cluster-management.io/v1

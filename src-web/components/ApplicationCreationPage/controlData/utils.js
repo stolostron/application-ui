@@ -271,6 +271,11 @@ export const setAvailableRules = (control, result) => {
       control.available = Object.keys(control.availableData).sort()
       if (Object.keys(control.availableData).length === 0) {
         _.set(control, 'type', 'hidden')
+        const groupControlData = _.get(control, 'groupControlData')
+        const existingRule = groupControlData.find(
+          ({ id }) => id === existingRuleCheckbox
+        )
+        _.set(existingRule, 'type', 'hidden')
       }
     }
   } else {

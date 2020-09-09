@@ -9,6 +9,7 @@
  *******************************************************************************/
 'use strict'
 
+import msgs from '../../../../nls/platform.properties'
 import { HCMChannelList, HCMSecretsList } from '../../../../lib/client/queries'
 
 import _ from 'lodash'
@@ -36,7 +37,7 @@ export const loadExistingSecrets = () => {
       delete control.exception
       return { namespace: nsControl.active }
     } else {
-      control.exception = 'Namespace must be set first'
+      control.exception = msgs.get('creation.app.loading.secrets.ns.err')
       return {}
     }
   }
@@ -462,5 +463,36 @@ export const setAvailableSecrets = (control, result) => {
     control.isLoading = loading
   }
 
+  updatePrePostControls(control)
+
   return control
+}
+
+export const updatePrePostControls = urlControl => {
+  const groupControlData = _.get(urlControl, 'groupControlData')
+
+  const { active, availableData } = urlControl
+
+  const selectedSecret = availableData && availableData[active]
+
+  const ansibleHost =
+    groupControlData &&
+    groupControlData.find(({ id }) => id === 'ansibleTowerHost')
+  const ansibleToken =
+    groupControlData &&
+    groupControlData.find(({ id }) => id === 'ansibleTowerToken')
+
+  if (!selectedSecret) {
+    //new secret, show host task info
+    _.set(ansibleHost, 'type', 'text')
+    _.set(ansibleToken, 'type', 'text')
+  } else {
+    //existing secret, hide and clean host and token
+    _.set(ansibleHost, 'type', 'hidden')
+    _.set(ansibleToken, 'type', 'hidden')
+    _.set(ansibleHost, 'active', '')
+    _.set(ansibleToken, 'active', '')
+  }
+
+  return urlControl
 }

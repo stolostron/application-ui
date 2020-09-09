@@ -26,50 +26,6 @@ export const targetResource = {
   }
 };
 
-export const removeTargetNamespaces = (kubeconfigs, config) => {
-  const nsList = [
-    "demo",
-    "helloworld",
-    "nginx",
-    "mortgage",
-    "gitops",
-    "acmtest",
-    "cassandra",
-    "deploy-git",
-    "ch-git-helm",
-    "gbapp-ch"
-  ];
-  kubeconfigs.forEach(kubeconfig => {
-    cy.log(`cluster - ${kubeconfig}`);
-    for (const [key, value] of Object.entries(config)) {
-      const { name } = value.data;
-      nsList.push(name);
-    }
-
-    nsList.forEach(ns =>
-      cy
-        .exec(
-          `oc --kubeconfig ${kubeconfig} get ns  |grep ${ns} | cut -d' ' -f1 | xargs -n1`,
-          {
-            timeout: 200 * 1000
-          }
-        )
-        .then(({ stdout }) => {
-          cy.log(stdout);
-          let stdarr = stdout.replace(/↵/g, "").split(/\s+/);
-          stdarr.length && stdarr[0] != ""
-            ? stdarr.forEach(std => {
-                cy
-                  .exec(`oc --kubeconfig ${kubeconfig} delete ns ${std} `)
-                  .its("stdout")
-                  .should("contain", "delete");
-              })
-            : cy.log(`no ns ${ns} left`);
-        })
-    );
-  });
-};
-
 export const apiResources = {
   action: (type, action, data) => {
     const name = data.name;

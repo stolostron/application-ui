@@ -14,6 +14,9 @@ describe("Cleanup resouces", () => {
       }'s channel, subscription and placementrule`, () => {
         apiResources.action(type, "delete", data);
       });
+      it(`resource should be deleted on the target cluster`, () => {
+        targetResource.action("delete", data);
+      });
     } else {
       it(`disable deletion on resource ${type}`, () => {
         cy.log(`skipping ${type} - ${data.name}`);

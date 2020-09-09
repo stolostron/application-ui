@@ -30,7 +30,7 @@ export const createApplication = (data, type) => {
   } else if (type === "helm") {
     createHelm(config);
   }
-  // submitSave();
+  submitSave();
 };
 
 export const gitTasks = (value, gitCss, key = 0) => {

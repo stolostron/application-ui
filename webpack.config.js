@@ -8,7 +8,7 @@
 
 let path = require("path"),
   webpack = require("webpack"),
-  ExtractTextPlugin = require("extract-text-webpack-plugin"),
+  MiniCssExtractPlugin = require("mini-css-extract-plugin"),
   UglifyJSPlugin = require("uglifyjs-webpack-plugin"),
   AssetsPlugin = require("assets-webpack-plugin"),
   WebpackMd5Hash = require("webpack-md5-hash"),
@@ -55,42 +55,47 @@ module.exports = {
         // Transpile React JSX to ES5
         test: [/\.jsx$/, /\.js$/],
         exclude: /node_modules|\.scss/,
-        loader: "babel-loader?cacheDirectory"
+        loader: "babel-loader?cacheDirectory",
+        query: {
+          presets: ["@babel/preset-env", "@babel/preset-react"],
+          plugins: ["@babel/plugin-proposal-class-properties"]
+        }
       },
       {
         test: [/\.s?css$/],
-        exclude: [path.resolve(__dirname, "./node_modules/monaco-editor"), /node_modules\/(?!(@patternfly)\/).*/],
-        loader: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: [
-            {
-              loader: "css-loader?sourceMap",
-              options: {
-                minimize: !!PRODUCTION
-              }
-            },
-            {
-              loader: "postcss-loader?sourceMap",
-              options: {
-                plugins() {
-                  return [require("autoprefixer")];
-                }
-              }
-            },
-            {
-              loader: "resolve-url-loader",
-              options: {
-                sourceMap: true
-              }
-            },
-            {
-              loader: "sass-loader?sourceMap",
-              options: {
-                data: `$font-path: "${config.get("contextPath")}/fonts";`
+        exclude: [
+          path.resolve(__dirname, "./node_modules/monaco-editor"),
+          /node_modules\/(?!(@patternfly)\/).*/
+        ],
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader?sourceMap",
+            options: {
+              minimize: !!PRODUCTION
+            }
+          },
+          {
+            loader: "postcss-loader?sourceMap",
+            options: {
+              plugins() {
+                return [require("autoprefixer")];
               }
             }
-          ]
-        })
+          },
+          {
+            loader: "resolve-url-loader",
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "sass-loader?sourceMap",
+            options: {
+              data: `$font-path: "${config.get("contextPath")}/fonts";`
+            }
+          }
+        ]
       },
       {
         test: /\.woff2?$/,
@@ -166,7 +171,7 @@ module.exports = {
       context: process.env.STORYBOOK ? path.join(__dirname, "..") : __dirname,
       manifest: require("./dll/vendorhcm-manifest.json")
     }),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: PRODUCTION ? "css/[name].[contenthash].css" : "css/[name].css",
       allChunks: true
     }),

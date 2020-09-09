@@ -52,14 +52,7 @@ const jestConfig = {
     '.+\\.(handlebars)$': 'jest-handlebars',
     '.+\\.(yaml)$': 'jest-yaml-transform'
   },
-  transformIgnorePatterns: [
-    '/node_modules/(?!monaco-editor).+\\.js$',
-    '/node_modules/(?!enzyme).+\\.js$',
-    '/node_modules/(?!enzyme-adapter-react-16).+\\.js$',
-    '/node_modules/(?!enzyme-adapter-utils).+\\.js$',
-    '/node_modules/(?!enzyme-shallow-equal).+\\.js$',
-    '/node_modules/(?!enzyme-to-json).+\\.js$'
-  ],
+  transformIgnorePatterns: ['/node_modules/(?!monaco-editor).+\\.js$'],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
   setupFiles: ['<rootDir>/tests/jest/config/setup.js'],
   moduleNameMapper: {

@@ -325,7 +325,9 @@ describe("getAppOverviewCardsData", () => {
           id: "member--subscription--default--mortgage-app-subscription",
           timeWindowType: "default",
           resourceType: "GitHub",
-          resourcePath: "https://github.com/fxiang1/app-samples.git"
+          resourcePath: "https://github.com/fxiang1/app-samples.git",
+          gitBranch: "master",
+          gitPath: "mortgage"
         }
       ]
     };
@@ -358,7 +360,9 @@ describe("getAppOverviewCardsData", () => {
           id: "member--subscription--default--mortgage-app-subscription",
           timeWindowType: "active",
           resourceType: "GitHub",
-          resourcePath: "https://github.com/fxiang1/app-samples.git"
+          resourcePath: "https://github.com/fxiang1/app-samples.git",
+          gitBranch: "Not selected",
+          gitPath: "Not selected"
         }
       ]
     };

@@ -176,15 +176,35 @@ export function createClustersLink(item = {}, locale = '') {
 }
 
 export function getChannels(item = {}, locale = '') {
-  return (
-    <ChannelLabels
-      channels={(R.path(['hubChannels'], item) || []).map(ch => ({
-        type: ch['ch.type'],
-        pathname: ch['ch.pathname']
-      }))}
-      locale={locale}
-    />
-  )
+  const channelLabelsData = []
+  const hubChannels = R.path(['hubChannels'], item)
+    ? R.path(['hubChannels'], item)
+    : []
+
+  hubChannels.map(ch => {
+    const tempChannelData = {}
+    Object.assign(tempChannelData, {
+      type: ch['ch.type'],
+      pathname: ch['ch.pathname']
+    })
+
+    if (tempChannelData.type.toLowerCase().includes('git')) {
+      let gitBranch = msgs.get('channel.type.label.noData', locale),
+          gitPath = msgs.get('channel.type.label.noData', locale)
+      if (ch['sub._gitbranch']) {
+        gitBranch = ch['sub._gitbranch']
+      }
+      if (ch['sub._gitpath']) {
+        gitPath = ch['sub._gitpath']
+      }
+      Object.assign(tempChannelData, {
+        gitBranch: gitBranch,
+        gitPath: gitPath
+      })
+    }
+    channelLabelsData.push(tempChannelData)
+  })
+  return <ChannelLabels channels={channelLabelsData} locale={locale} />
 }
 
 export function getTimeWindow(item = {}, locale = '') {

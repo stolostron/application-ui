@@ -83,6 +83,28 @@ const ChannelLabels = ({ channels, locale }) => {
                           </Split>
                         </a>
                       </StackItem>
+                      {chType === 'git' ? (
+                        <React.Fragment>
+                          <StackItem className="channel-type-git-branch">
+                            <Split>
+                              <SplitItem className="channel-type-title">
+                                {msgs.get('channel.type.label.branch')}
+                              </SplitItem>
+                              <SplitItem>{channel.gitBranch}</SplitItem>
+                            </Split>
+                          </StackItem>
+                          <StackItem className="channel-type-git-path">
+                            <Split>
+                              <SplitItem className="channel-type-title">
+                                {msgs.get('channel.type.label.path')}
+                              </SplitItem>
+                              <SplitItem>{channel.gitPath}</SplitItem>
+                            </Split>
+                          </StackItem>
+                        </React.Fragment>
+                      ) : (
+                        ''
+                      )}
                     </React.Fragment>
                   )
                 })}

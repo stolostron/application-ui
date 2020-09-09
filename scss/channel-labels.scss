@@ -2,22 +2,38 @@
 @import 'scss/variables';
 
 .channel-labels {
+  max-height: 355px;
+  overflow: scroll;
+
   .channel-type-label {
     font-size: 12px;
     --pf-l-split--m-gutter--MarginRight: 8px;
   }
-  
+
   .channel-type-icon {
     width: 11px;
     height: 11px;
   }
-  
+
   .channel-type-link {
     display: block;
     color: $color__blue-51;
-    fill:$color__blue-51;
+    fill: $color__blue-51;
     word-break: break-all;
     margin: 1rem;
     --pf-l-split--m-gutter--MarginRight: 8px;
+  }
+
+  .channel-type-git-branch {
+    padding: 0px 7% 3% 14%;
+  }
+
+  .channel-type-git-path {
+    padding: 0px 7% 7% 14%;
+  }
+
+  .channel-type-title {
+    font-weight: 600;
+    padding-right: 6px;
   }
 }

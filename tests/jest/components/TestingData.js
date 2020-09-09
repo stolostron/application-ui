@@ -1353,6 +1353,10 @@ export const topology = {
           channels: [],
           kind: "Subscription",
           metadata: {
+            annotations: {
+              "apps.open-cluster-management.io/github-branch": "master",
+              "apps.open-cluster-management.io/github-path": "mortgage"
+            },
             creationTimestamp: "2018-08-13T19:23:01Z",
             generation: 2,
             name: "mortgage-app-subscription"

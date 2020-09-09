@@ -14,6 +14,7 @@ import { SkeletonText } from 'carbon-components-react'
 import { Module } from 'carbon-addons-cloud-react'
 import { UPDATE_ACTION_MODAL } from '../../../apollo-client/queries/StateQueries'
 import { getShortDateTime } from '../../../../lib/client/resource-helper'
+import msgs from '../../../../nls/platform.properties'
 
 export const kindsToExcludeForDeployments = [
   'cluster',
@@ -222,6 +223,33 @@ const getRepoResourceData = (queryAppData, channelIdentifier) => {
   }
 }
 
+const getGitTypeData = (node, locale) => {
+  let gitBranch = msgs.get('channel.type.label.noData', locale),
+      gitPath = msgs.get('channel.type.label.noData', locale)
+  const nodeAnnotations = _.get(node, 'specs.raw.metadata.annotations')
+    ? _.get(node, 'specs.raw.metadata.annotations')
+    : []
+
+  Object.keys(nodeAnnotations).forEach(i => {
+    if (
+      i.toLowerCase().includes('git-branch') ||
+      i.toLowerCase().includes('github-branch')
+    ) {
+      gitBranch = nodeAnnotations[i]
+    } else if (
+      i.toLowerCase().includes('git-path') ||
+      i.toLowerCase().includes('github-path')
+    ) {
+      gitPath = nodeAnnotations[i]
+    }
+  })
+
+  return {
+    gitBranch: gitBranch,
+    gitPath: gitPath
+  }
+}
+
 export const getAppOverviewCardsData = (
   QueryApplicationList,
   topologyData,
@@ -273,10 +301,22 @@ export const getAppOverviewCardsData = (
         const channelIdentifier = _.get(node, 'specs.raw.spec.channel').split(
           '/'
         )
+        // Get repo resource type and URL
         const repoResourceData = getRepoResourceData(
           _.get(QueryApplicationList, 'items[0]'),
           channelIdentifier
         )
+
+        const subscriptionData = {}
+        // If Git repo type, get Git branch and path
+        if (repoResourceData.type.toLowerCase().includes('git')) {
+          const gitTypeData = getGitTypeData(node, locale)
+          // Add Git branch and path to subscription data
+          Object.assign(subscriptionData, {
+            gitBranch: gitTypeData.gitBranch,
+            gitPath: gitTypeData.gitPath
+          })
+        }
 
         // Get time window type
         const timeWindowData = _.get(node, 'specs.raw.spec.timewindow')
@@ -285,13 +325,16 @@ export const getAppOverviewCardsData = (
           timeWindowType = timeWindowData.windowtype
         }
 
-        subsList.push({
+        // Add all other values to subscription data
+        Object.assign(subscriptionData, {
           name: node.name,
           id: node.id,
           timeWindowType: timeWindowType,
           resourceType: repoResourceData.type,
           resourcePath: repoResourceData.path
         })
+
+        subsList.push(subscriptionData)
       } else if (
         node.type !== 'application' &&
         node.type !== 'cluster' &&

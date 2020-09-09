@@ -11,8 +11,18 @@ describe("ChannelLabels", () => {
     const component = renderer.create(
       <ChannelLabels
         channels={[
-          { type: "GitHub", pathname: "https://github.com/org/repo.git" },
-          { type: "git", pathname: "https://github.com/org/repo2.git" },
+          {
+            type: "GitHub",
+            pathname: "https://github.com/org/repo.git",
+            gitBranch: "master",
+            gitPath: "mortgage"
+          },
+          {
+            type: "git",
+            pathname: "https://github.com/org/repo2.git",
+            gitBranch: "Not selected",
+            gitPath: "Not selected"
+          },
           { type: "namespace", pathname: "sample-ns" }
         ]}
       />

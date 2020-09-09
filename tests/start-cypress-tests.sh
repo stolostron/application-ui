@@ -32,9 +32,10 @@ else
 fi
 
 echo "Logging into managed cluster"
-mkdir $PWD/import-kubeconfig
-export KUBECONFIG=$PWD/import-kubeconfig/kubeconfig
+mkdir ./cypress/import-kubeconfig
+export KUBECONFIG=./cypress/import-kubeconfig/kubeconfig
 oc login $CYPRESS_MANAGED_OCP_PASS -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS
+cp -r ./cypress/import-kubeconfig/* /import-kubeconfig
 
 
 echo "Logging into Kube API server..."

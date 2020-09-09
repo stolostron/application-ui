@@ -81,5 +81,21 @@
         }
       ]
     }
+  },
+  "helm": {
+    "data": {
+      "enable": true,
+      "name": "ui-create-app-helm",
+      "config": [
+        {
+          "url": "https://kubernetes-charts.storage.googleapis.com/",
+          "chartName": "nginx-ingress",
+          "timeWindow": {
+            "setting": true,
+            "type": "active"
+          }
+        }
+      ]
+    }
   }
 }

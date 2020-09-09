@@ -55,6 +55,10 @@ export const channels = (key, type, action, name, config) => {
     "local-cluster": {
       channelNs: "resource-ns",
       channelName: "resource"
+    },
+    helm: {
+      channelNs: "-chn-ns",
+      channelName: "-chn"
     }
   };
 

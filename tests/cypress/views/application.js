@@ -27,6 +27,8 @@ export const createApplication = (data, type) => {
     createObj(config);
   } else if (type === "local-cluster") {
     createLocal(config);
+  } else if (type === "helm") {
+    createHelm(config);
   }
   // submitSave();
 };
@@ -46,6 +48,7 @@ export const gitTasks = (value, gitCss, key = 0) => {
     cy.get(gitUser).type(username);
     cy.get(gitKey).type(token);
   }
+
   cy.wait(10 * 1000);
   cy
     .get(gitBranch)
@@ -60,6 +63,36 @@ export const gitTasks = (value, gitCss, key = 0) => {
     })
     .type(path, { force: true });
 
+  selectTimeWindow(timeWindow, key);
+};
+
+export const createHelm = configs => {
+  let helmCss = {
+    helmURL: "#helmURL",
+    helmChartName: "#helmChartName"
+  };
+  for (const [key, value] of Object.entries(configs)) {
+    key == 0
+      ? helmTasks(value, helmCss)
+      : multipleTemplate(value, helmCss, key, helmTasks);
+  }
+};
+
+export const helmTasks = (value, css, key = 0) => {
+  const { url, chartName, timeWindow } = value;
+  const { helmURL, helmChartName } = css;
+  cy
+    .get("#helm")
+    .click()
+    .trigger("mouseover");
+  cy
+    .get(helmURL, { timeout: 20 * 1000 })
+    .type(url)
+    .blur();
+  cy
+    .get(helmChartName, { timeout: 20 * 1000 })
+    .type(chartName)
+    .blur();
   selectTimeWindow(timeWindow, key);
 };
 

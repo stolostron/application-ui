@@ -22,7 +22,9 @@ import {
   setAvailableChannelSpecs,
   getGitBranches,
   updateNewRuleControlsData,
-  updateChannelControls
+  updateChannelControls,
+  updatePrePostControls,
+  setAvailableSecrets
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
 
 const controlDataNS = [
@@ -157,6 +159,68 @@ describe("updateChannelControls", () => {
   ];
   it("updateChannelControls valid url", () => {
     expect(updateChannelControls(data, controlDataNS)).toEqual(result);
+  });
+});
+
+describe("updatePrePostControls", () => {
+  const data = {
+    active: "secretName",
+    availableData: [],
+    groupControlData: [
+      {
+        id: "ansibleTowerHost",
+        type: "hidden",
+        active: ""
+      },
+      {
+        id: "ansibleTowerToken",
+        type: "hidden",
+        active: ""
+      }
+    ]
+  };
+
+  const result = {
+    active: "secretName",
+    availableData: [],
+    groupControlData: [
+      { active: "", id: "ansibleTowerHost", type: "text" },
+      { active: "", id: "ansibleTowerToken", type: "text" }
+    ]
+  };
+  it("updatePrePostControls new secret", () => {
+    expect(updatePrePostControls(data, controlDataNS)).toEqual(result);
+  });
+});
+
+describe("updatePrePostControls", () => {
+  const data = {
+    active: "secretName",
+    availableData: { secretName: {} },
+    groupControlData: [
+      {
+        id: "ansibleTowerHost",
+        type: "hidden",
+        active: ""
+      },
+      {
+        id: "ansibleTowerToken",
+        type: "hidden",
+        active: ""
+      }
+    ]
+  };
+
+  const result = {
+    active: "secretName",
+    availableData: { secretName: {} },
+    groupControlData: [
+      { active: "", id: "ansibleTowerHost", type: "hidden" },
+      { active: "", id: "ansibleTowerToken", type: "hidden" }
+    ]
+  };
+  it("updatePrePostControls existing secret", () => {
+    expect(updatePrePostControls(data, controlDataNS)).toEqual(result);
   });
 });
 
@@ -372,6 +436,84 @@ describe("setAvailableNSSpecs", () => {
 
   it("setAvailableNSSpecs no error", () => {
     expect(setAvailableNSSpecs(urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableSecrets", () => {
+  const urlControl = {
+    id: "namespace",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    data: {
+      secrets: [
+        {
+          metadata: {
+            name: "aa-ns"
+          }
+        }
+      ]
+    }
+  };
+  const result = {
+    active: true,
+    available: ["undefined"],
+    availableData: { undefined: { metadata: { name: "aa-ns" } } },
+    availableMap: {},
+    id: "namespace",
+    isLoading: false
+  };
+
+  it("setAvailableSecrets no error", () => {
+    expect(setAvailableSecrets(urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableSecrets", () => {
+  const urlControl = {
+    id: "namespace",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    error: "error msg",
+    data: {}
+  };
+  const result = {
+    active: true,
+    available: [],
+    availableData: {},
+    availableMap: {},
+    id: "namespace",
+    isFailed: true,
+    isLoading: false
+  };
+  it("setAvailableSecrets error", () => {
+    expect(setAvailableSecrets(urlControl, model)).toEqual(result);
+  });
+});
+
+describe("setAvailableSecrets", () => {
+  const urlControl = {
+    id: "namespace",
+    active: true,
+    availableData: {}
+  };
+  const model = {
+    loading: "loading message",
+    data: {}
+  };
+  const result = {
+    active: true,
+    available: [],
+    availableData: {},
+    availableMap: {},
+    id: "namespace",
+    isLoading: "loading message"
+  };
+  it("setAvailableSecrets loading", () => {
+    expect(setAvailableSecrets(urlControl, model)).toEqual(result);
   });
 });
 

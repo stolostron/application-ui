@@ -197,14 +197,20 @@ class ControlPanel extends React.Component {
     const { fetchAvailable } = control
     if (fetchAvailable) {
       const { query, setAvailable } = fetchAvailable
-      return (
-        <Query query={query} key={id}>
-          {result => {
-            setAvailable(control, result)
-            return this.renderControlWithPrompt(id, type, control, grpId)
-          }}
-        </Query>
-      )
+      let { variables } = fetchAvailable
+      if (typeof variables === 'function') {
+        variables = variables(control, this.props.controlData)
+      }
+      if (!control.exception) {
+        return (
+          <Query query={query} key={id} variables={variables}>
+            {result => {
+              setAvailable(control, result)
+              return this.renderControlWithPrompt(id, type, control, grpId)
+            }}
+          </Query>
+        )
+      }
     }
     return this.renderControlWithPrompt(id, type, control, grpId)
   }
@@ -257,8 +263,11 @@ class ControlPanel extends React.Component {
 
   renderControl(id, type, control, grpId) {
     const { controlData, locale, showEditor } = this.props
-    const {hidden} = control
-    if (typeof hidden === 'function' && hidden(control, controlData, showEditor)) {
+    const { hidden } = control
+    if (
+      typeof hidden === 'function' &&
+      hidden(control, controlData, showEditor)
+    ) {
       return null
     }
     const controlId = `${id}${grpId}`

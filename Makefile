@@ -73,7 +73,7 @@ run-test-image:
 .PHONY: run-test-image-pr
 run-test-image-pr:
 	docker run \
-	-v $(shell pwd)/import-kubeconfig: /usr/src/app/tests/cypress/config/import-kubeconfig/ \
+	-v $(shell pwd)/import-kubeconfig:/usr/src/app/tests/cypress/config/import-kubeconfig/ \
 	-v $(shell pwd)/results/:/results/ \
 	--network host \
 	-e BROWSER=$(BROWSER) \

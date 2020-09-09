@@ -31,15 +31,14 @@ else
   fi
 fi
 
+echo "Logging into Kube API server..."
+oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
+
 echo "Logging into managed cluster"
 mkdir ./cypress/import-kubeconfig
 export KUBECONFIG=./cypress/import-kubeconfig/kubeconfig
-oc login $CYPRESS_MANAGED_OCP_PASS -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS
+oc login $CYPRESS_MANAGED_OCP_PASS -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
 cp -r ./cypress/import-kubeconfig/* /import-kubeconfig
-
-
-echo "Logging into Kube API server..."
-oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
 
 # copy the test artifact files and append the job_id
 echo "Generating the YAML files to use the JOB_ID..."

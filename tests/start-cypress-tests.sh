@@ -37,7 +37,7 @@ oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRES
 echo "Logging into managed cluster"
 mkdir import-kubeconfig
 export KUBECONFIG=/import-kubeconfig/kubeconfig
-oc login $CYPRESS_MANAGED_OCP_PASS -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
+oc login $CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
 
 # copy the test artifact files and append the job_id
 echo "Generating the YAML files to use the JOB_ID..."

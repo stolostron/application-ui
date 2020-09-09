@@ -182,28 +182,14 @@ export function getChannels(item = {}, locale = '') {
     : []
 
   hubChannels.map(ch => {
-    const tempChannelData = {}
-    Object.assign(tempChannelData, {
+    channelLabelsData.push({
       type: ch['ch.type'],
-      pathname: ch['ch.pathname']
+      pathname: ch['ch.pathname'],
+      gitBranch: ch['sub._gitbranch'],
+      gitPath: ch['sub._gitpath']
     })
-
-    if (tempChannelData.type.toLowerCase().includes('git')) {
-      let gitBranch = msgs.get('channel.type.label.noData', locale),
-          gitPath = msgs.get('channel.type.label.noData', locale)
-      if (ch['sub._gitbranch']) {
-        gitBranch = ch['sub._gitbranch']
-      }
-      if (ch['sub._gitpath']) {
-        gitPath = ch['sub._gitpath']
-      }
-      Object.assign(tempChannelData, {
-        gitBranch: gitBranch,
-        gitPath: gitPath
-      })
-    }
-    channelLabelsData.push(tempChannelData)
   })
+
   return <ChannelLabels channels={channelLabelsData} locale={locale} />
 }
 

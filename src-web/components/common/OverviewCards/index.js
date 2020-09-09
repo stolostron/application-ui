@@ -328,16 +328,6 @@ class OverviewCards extends React.Component {
   createSubsCards = (subsList, locale) => {
     return subsList.map(sub => {
       if (sub.name) {
-        const channelLabelsData = {
-          type: sub.resourceType,
-          pathname: sub.resourcePath
-        }
-        if (sub.resourceType.toLowerCase().includes('git')) {
-          Object.assign(channelLabelsData, {
-            gitBranch: sub.gitBranch,
-            gitPath: sub.gitPath
-          })
-        }
         return (
           <React.Fragment key={sub.id}>
             <div className="sub-card-container">
@@ -374,7 +364,14 @@ class OverviewCards extends React.Component {
                     )}
                   </div>
                   <ChannelLabels
-                    channels={[channelLabelsData]}
+                    channels={[
+                      {
+                        type: sub.resourceType,
+                        pathname: sub.resourcePath,
+                        gitBranch: sub.gitBranch,
+                        gitPath: sub.gitPath
+                      }
+                    ]}
                     locale={locale}
                   />
                 </div>

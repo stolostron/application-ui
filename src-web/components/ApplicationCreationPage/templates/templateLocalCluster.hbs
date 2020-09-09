@@ -29,11 +29,10 @@ metadata:
   name: {{{@root.name}}}-subscription-{{@index}}
   namespace: {{{@root.namespace}}}
 spec:
-{{#if preJob}} 
-  prehook: {{{@root.namespace}}}/{{{preJob}}}
-{{/if}}
-{{#if postJob}} 
-  posthook: {{{@root.namespace}}}/{{{postJob}}}
+{{#if ansibleSecretName}} 
+  hooksecretref: 
+    name: {{{ansibleSecretName}}}
+    namespace: {{{@root.namespace}}}
 {{/if}}
 {{#if channelNamespace}}
   channel: {{{channelNamespace}}}/{{{channelName}}}

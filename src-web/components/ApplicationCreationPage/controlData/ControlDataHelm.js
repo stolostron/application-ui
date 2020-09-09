@@ -9,17 +9,11 @@
  *******************************************************************************/
 'use strict'
 
-import {
-  VALIDATE_ALPHANUMERIC,
-  VALIDATE_URL
-} from '../../TemplateEditor/utils/validation'
-import {
-  loadExistingChannels,
-  updateChannelControls
-} from './utils'
+import { VALIDATE_URL } from '../../TemplateEditor/utils/validation'
+import { loadExistingChannels, updateChannelControls } from './utils'
 
 import placementData from './ControlDataPlacement'
-
+import prePostTasks from './ControlDataPrePostTasks'
 
 const helmReleaseChannelData = [
   ///////////////////////  HelmRelease  /////////////////////////////////////
@@ -82,36 +76,8 @@ const helmReleaseChannelData = [
     active: '',
     placeholder: 'app.enter.helmrepo.package.version'
   },
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////  pre/post jobs  /////////////////////////////////////
-  {
-    id: 'perPostSection',
-    type: 'section',
-    title: 'creation.app.section.prePost',
-    overline: true,
-    collapsable: true,
-    collapsed: false
-  },
-  {
-    name: 'creation.app.pre.job',
-    tooltip: 'tooltip.creation.app.preJob',
-    id: 'preJob',
-    type: 'combobox',
-    active: '',
-    placeholder: 'app.enter.select.preJob',
-    validation: VALIDATE_ALPHANUMERIC,
-    available: []
-  },
-  {
-    name: 'creation.app.post.job',
-    tooltip: 'tooltip.creation.app.postJob',
-    id: 'postJob',
-    type: 'combobox',
-    active: '',
-    placeholder: 'app.enter.select.postJob',
-    validation: VALIDATE_ALPHANUMERIC,
-    available: []
-  },
+
+  ...prePostTasks,
 
   ...placementData
 ]

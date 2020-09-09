@@ -176,21 +176,17 @@ export function createClustersLink(item = {}, locale = '') {
 }
 
 export function getChannels(item = {}, locale = '') {
-  const channelLabelsData = []
-  const hubChannels = R.path(['hubChannels'], item)
-    ? R.path(['hubChannels'], item)
-    : []
-
-  hubChannels.map(ch => {
-    channelLabelsData.push({
-      type: ch['ch.type'],
-      pathname: ch['ch.pathname'],
-      gitBranch: ch['sub._gitbranch'],
-      gitPath: ch['sub._gitpath']
-    })
-  })
-
-  return <ChannelLabels channels={channelLabelsData} locale={locale} />
+  return (
+    <ChannelLabels
+      channels={(R.path(['hubChannels'], item) || []).map(ch => ({
+        type: ch['ch.type'],
+        pathname: ch['ch.pathname'],
+        gitBranch: ch['sub._gitbranch'],
+        gitPath: ch['sub._gitpath']
+      }))}
+      locale={locale}
+    />
+  )
 }
 
 export function getTimeWindow(item = {}, locale = '') {

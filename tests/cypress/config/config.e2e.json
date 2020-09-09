@@ -81,5 +81,21 @@
         }
       ]
     }
+  },
+  "helm": {
+    "data": {
+      "enable": false,
+      "name": "",
+      "config": [
+        {
+          "url": "",
+          "chartName": "",
+          "timeWindow": {
+            "setting": true,
+            "type": "active"
+          }
+        }
+      ]
+    }
   }
 }

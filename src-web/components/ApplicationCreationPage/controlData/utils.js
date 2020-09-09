@@ -9,6 +9,7 @@
  *******************************************************************************/
 'use strict'
 
+import msgs from '../../../../nls/platform.properties'
 import { HCMChannelList, HCMSecretsList } from '../../../../lib/client/queries'
 
 import _ from 'lodash'
@@ -34,9 +35,9 @@ export const loadExistingSecrets = () => {
     )
     if (nsControl.active) {
       delete control.exception
-      return {namespace: nsControl.active}
+      return { namespace: nsControl.active }
     } else {
-      control.exception = 'Namespace must be set first'
+      control.exception = msgs.get('creation.app.loading.secrets.ns.err')
       return {}
     }
   }
@@ -48,7 +49,11 @@ export const loadExistingSecrets = () => {
   }
 }
 
-export const updateChannelControls = (urlControl, globalControl, setLoadingState) => {
+export const updateChannelControls = (
+  urlControl,
+  globalControl,
+  setLoadingState
+) => {
   getGitBranches(_.get(urlControl, 'groupControlData'), setLoadingState)
 
   //update existing placement rule section when user changes the namespace
@@ -213,21 +218,24 @@ export const getGitBranches = async (groupControlData, setLoadingState) => {
         const repoObj = github.getRepo(gitPath)
 
         setLoadingState(branchCtrl, true)
-        await repoObj.listBranches().then(result => {
-          branchCtrl.active = ''
-          branchCtrl.available = []
+        await repoObj.listBranches().then(
+          result => {
+            branchCtrl.active = ''
+            branchCtrl.available = []
 
-          if (result.data) {
-            result.data.forEach(branch => {
-              branchCtrl.available.push(branch.name)
-            })
+            if (result.data) {
+              result.data.forEach(branch => {
+                branchCtrl.available.push(branch.name)
+              })
+            }
+            setLoadingState(branchCtrl, false)
+          },
+          () => {
+            branchCtrl.active = ''
+            branchCtrl.available = ['master']
+            setLoadingState(branchCtrl, false)
           }
-          setLoadingState(branchCtrl, false)
-        }, ()=>{
-          branchCtrl.active = ''
-          branchCtrl.available = ['master']
-          setLoadingState(branchCtrl, false)
-        })
+        )
       }
     }
   } catch (err) {
@@ -446,14 +454,42 @@ export const setAvailableSecrets = (control, result) => {
   if (error) {
     control.isFailed = true
   } else if (secrets) {
-    control.availableData = _.keyBy(
-      secrets,
-      'name'
-    )
+    control.availableData = _.keyBy(secrets, 'name')
     control.available = Object.keys(control.availableData).sort()
   } else {
     control.isLoading = loading
   }
 
+  updatePrePostControls(control)
+
   return control
+}
+
+export const updatePrePostControls = urlControl => {
+  const groupControlData = _.get(urlControl, 'groupControlData')
+
+  const { active, availableData } = urlControl
+
+  const selectedSecret = availableData && availableData[active]
+
+  const ansibleHost =
+    groupControlData &&
+    groupControlData.find(({ id }) => id === 'ansibleTowerHost')
+  const ansibleToken =
+    groupControlData &&
+    groupControlData.find(({ id }) => id === 'ansibleTowerToken')
+
+  if (!selectedSecret) {
+    //new secret, show host task info
+    _.set(ansibleHost, 'type', 'text')
+    _.set(ansibleToken, 'type', 'text')
+  } else {
+    //existing secret, hide and clean host and token
+    _.set(ansibleHost, 'type', 'hidden')
+    _.set(ansibleToken, 'type', 'hidden')
+    _.set(ansibleHost, 'active', '')
+    _.set(ansibleToken, 'active', '')
+  }
+
+  return urlControl
 }

@@ -109,7 +109,6 @@ export const objTasks = (value, css, key = 0) => {
 
 export const multipleTemplate = (value, css, key, func) => {
   Object.keys(css).forEach(k => (css[k] = css[k] + `grp${key}`));
-  console.log(css);
   cy.get("#add-channels").click();
   cy
     .get(".creation-view-group-container")

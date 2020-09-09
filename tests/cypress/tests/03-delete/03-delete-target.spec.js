@@ -19,5 +19,7 @@ describe("Cleanup resouces", () => {
       });
     }
   }
-  removeTargetNamespaces(kubeconfigs, config);
+  it(`remove resources on the target cluster`, () => {
+    removeTargetNamespaces(kubeconfigs, config);
+  });
 });

@@ -153,9 +153,9 @@ export const getDiagramElements = (
       value: false
     }
     topo_nodes.forEach(node => {
-      const { type } = node
+      const { id, type } = node
 
-      if (type === 'application') {
+      if (type === 'application' && id.startsWith('application')) {
         activeChannelInfo = _.get(
           node,
           'specs.activeChannel',

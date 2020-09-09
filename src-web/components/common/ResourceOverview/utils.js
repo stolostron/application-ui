@@ -222,6 +222,31 @@ const getRepoResourceData = (queryAppData, channelIdentifier) => {
   }
 }
 
+const getGitTypeData = node => {
+  const gitTypeData = {}
+  const nodeAnnotations = _.get(node, 'specs.raw.metadata.annotations')
+    ? _.get(node, 'specs.raw.metadata.annotations')
+    : []
+
+  nodeAnnotations['apps.open-cluster-management.io/git-branch']
+    ? Object.assign(gitTypeData, {
+      gitBranch: nodeAnnotations['apps.open-cluster-management.io/git-branch']
+    })
+    : Object.assign(gitTypeData, {
+      gitBranch:
+          nodeAnnotations['apps.open-cluster-management.io/github-branch']
+    })
+  nodeAnnotations['apps.open-cluster-management.io/git-path']
+    ? Object.assign(gitTypeData, {
+      gitPath: nodeAnnotations['apps.open-cluster-management.io/git-path']
+    })
+    : Object.assign(gitTypeData, {
+      gitPath: nodeAnnotations['apps.open-cluster-management.io/github-path']
+    })
+
+  return gitTypeData
+}
+
 export const getAppOverviewCardsData = (
   QueryApplicationList,
   topologyData,
@@ -273,10 +298,12 @@ export const getAppOverviewCardsData = (
         const channelIdentifier = _.get(node, 'specs.raw.spec.channel').split(
           '/'
         )
+        // Get repo resource type and URL
         const repoResourceData = getRepoResourceData(
           _.get(QueryApplicationList, 'items[0]'),
           channelIdentifier
         )
+        const gitTypeData = getGitTypeData(node)
 
         // Get time window type
         const timeWindowData = _.get(node, 'specs.raw.spec.timewindow')
@@ -290,7 +317,9 @@ export const getAppOverviewCardsData = (
           id: node.id,
           timeWindowType: timeWindowType,
           resourceType: repoResourceData.type,
-          resourcePath: repoResourceData.path
+          resourcePath: repoResourceData.path,
+          gitBranch: gitTypeData.gitBranch,
+          gitPath: gitTypeData.gitPath
         })
       } else if (
         node.type !== 'application' &&

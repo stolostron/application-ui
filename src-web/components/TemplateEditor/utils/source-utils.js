@@ -11,12 +11,25 @@
 
 import jsYaml from 'js-yaml'
 import YamlParser from '../components/YamlParser'
+import { generateSourceFromResources } from './refresh-source-from-resources'
+import { generateSourceFromTemplate } from './refresh-source-from-templates'
+
 import _ from 'lodash'
 
 export const ControlMode = Object.freeze({
   TABLE_ONLY: 'TABLE_ONLY',
   PROMPT_ONLY: 'PROMPT_ONLY'
 })
+
+
+export const generateSource = (template, editResources, controlData, otherYAMLTabs, isFinalGenerate)  => {
+  if (editResources) {
+    return generateSourceFromResources(editResources, controlData, otherYAMLTabs, isFinalGenerate)
+  } else {
+    return generateSourceFromTemplate(template, controlData, otherYAMLTabs, isFinalGenerate)
+  }
+}
+
 
 export const parseYAML = yaml => {
   let absLine = 0

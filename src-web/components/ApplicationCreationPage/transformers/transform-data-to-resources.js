@@ -13,8 +13,19 @@ import _ from 'lodash'
 
 
 // remove the kube stuff
-const kube = ['creationTimestamp', 'status', 'uid', 'deployables', 'livenessProbe', 'resourceVersion', 'generation']
-const keepKeys = ['apps.open-cluster-management.io/git']
+const kube = [
+  'creationTimestamp',
+  'status',
+  'uid',
+  'deployables',
+  'livenessProbe',
+  'resourceVersion',
+  'generation']
+
+const keepKeys = [
+  'apps.open-cluster-management.io/git-branch',
+  'apps.open-cluster-management.io/git-path'
+]
 
 const isFiltered = (value, key, parentKey) => {
   if (kube.includes(key)) {
@@ -53,7 +64,7 @@ export const getApplicationResources = (application) => {
 
     // application
     resources.push(filterDeep(app))
-    
+
     // for each subscriptions, do channel and rule
     subscriptions.forEach(subscription=>{
       const {channels, rules} = subscription
@@ -61,7 +72,9 @@ export const getApplicationResources = (application) => {
       delete subscription.rules
       resources.push(filterDeep(channels[0]))
       resources.push(filterDeep(subscription))
-      resources.push(filterDeep(rules[0]))
+      if (rules) {
+        resources.push(filterDeep(rules[0]))
+      }
     })
     return resources
   }

@@ -25,8 +25,7 @@ import {
 import { initializeControlData, cacheUserData } from './utils/initialize-control-data'
 //import { initializeControlSourcePaths } from './utils/initialize-control-source-paths'
 import { updateControls } from './utils/refresh-controls-from-source'
-import { generateSourceFromTemplate } from './utils/refresh-source-from-templates'
-import { getUniqueName } from './utils/source-utils'
+import { generateSource, getUniqueName } from './utils/source-utils'
 import {
   highlightChanges,
   highlightAllChanges,
@@ -128,14 +127,20 @@ export default class TemplateEditor extends React.Component {
         controlData = initializeControlData(
           _.cloneDeep(initialControlData),
           locale
-        );
+        )
         //initializeControlSourcePaths(template,
         //  controlData);
-        ({ templateYAML, templateObject } = generateSourceFromTemplate(
+
+        // editing an existing set of resources??
+        editResources = _.get(fetchControl, 'resources');
+
+        // generate source from template or existing resources
+        ({ templateYAML, templateObject } = generateSource(
           template,
+          editResources,
           controlData
         ))
-        return { controlData, templateYAML, firstTemplateYAML:templateYAML, templateObject, editResources: _.get(fetchControl, 'resources') }
+        return { controlData, templateYAML, firstTemplateYAML:templateYAML, templateObject, editResources }
       }
 
       // make sure an auto generated name is unique
@@ -146,8 +151,9 @@ export default class TemplateEditor extends React.Component {
           const uniqueName = getUniqueName(active, new Set(existing))
           if (uniqueName !== active) {
             name.active = uniqueName;
-            ({ templateYAML, templateObject } = generateSourceFromTemplate(
+            ({ templateYAML, templateObject } = generateSource(
               template,
+              editResources,
               controlData
             ))
             return { controlData, templateYAML, templateObject }
@@ -359,6 +365,7 @@ export default class TemplateEditor extends React.Component {
       templateYAML,
       otherYAMLTabs,
       firstTemplateYAML,
+      editResources,
       isFinalValidate
     } = this.state
 
@@ -383,8 +390,9 @@ export default class TemplateEditor extends React.Component {
       })
     }
 
-    const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
+    const { templateYAML: newYAML, templateObject } = generateSource(
       template,
+      editResources,
       controlData,
       otherYAMLTabs
     )
@@ -426,6 +434,7 @@ export default class TemplateEditor extends React.Component {
       templateYAML,
       otherYAMLTabs,
       firstTemplateYAML,
+      editResources,
       isFinalValidate
     } = this.state
     const { active, controlData: cd } = control
@@ -453,8 +462,9 @@ export default class TemplateEditor extends React.Component {
     } else {
       active.splice(inx, 1)
     }
-    const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
+    const { templateYAML: newYAML, templateObject } = generateSource(
       template,
+      editResources,
       controlData,
       otherYAMLTabs
     )
@@ -516,7 +526,7 @@ export default class TemplateEditor extends React.Component {
   changeEditorMode(control, controlData) {
     const { locale } = this.props
     let { template } = this.props
-    const { otherYAMLTabs } = this.state
+    const { editResources, otherYAMLTabs } = this.state
     let { templateYAML, templateObject } = this.state
     let newYAML = templateYAML
     let newYAMLTabs = otherYAMLTabs
@@ -563,8 +573,9 @@ export default class TemplateEditor extends React.Component {
       if (replaceTemplate) {
         template = replaceTemplate
         newYAMLTabs = newYAMLTabs || [];
-        ({ templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
+        ({ templateYAML: newYAML, templateObject } = generateSource(
           template,
+          editResources,
           controlData,
           newYAMLTabs
         ))
@@ -887,6 +898,7 @@ export default class TemplateEditor extends React.Component {
       activeYAMLEditor,
       controlData,
       firstTemplateYAML,
+      editResources,
       isFinalValidate
     } = this.state
     let { templateYAML, notifications } = this.state
@@ -938,8 +950,9 @@ export default class TemplateEditor extends React.Component {
     // update the main yaml--for now
     if (activeYAMLEditor !== 0) {
       const { template, templateYAML: oldYAML } = this.state
-      const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
+      const { templateYAML: newYAML, templateObject } = generateSource(
         template,
+        editResources,
         controlData,
         otherYAMLTabs
       )
@@ -960,10 +973,11 @@ export default class TemplateEditor extends React.Component {
 
   getResourceJSON() {
     const { locale } = this.context
-    const { template, controlData, otherYAMLTabs } = this.state
+    const { template, editResources, controlData, otherYAMLTabs } = this.state
     let canCreate = false
-    const { templateYAML } = generateSourceFromTemplate(
+    const { templateYAML } = generateSource(
       template,
+      editResources,
       controlData,
       otherYAMLTabs,
       true
@@ -1148,14 +1162,15 @@ export default class TemplateEditor extends React.Component {
 
   resetEditor() {
     const { template, controlData: initialControlData, locale } = this.props
-    const { resetInx } = this.state
+    const { editResources, resetInx } = this.state
     const controlData = initializeControlData(
       _.cloneDeep(initialControlData),
       locale
     )
     const otherYAMLTabs = []
-    const { templateYAML, templateObject } = generateSourceFromTemplate(
+    const { templateYAML, templateObject } = generateSource(
       template,
+      editResources,
       controlData,
       otherYAMLTabs
     )

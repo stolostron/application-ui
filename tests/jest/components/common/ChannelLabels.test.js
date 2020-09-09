@@ -20,8 +20,8 @@ describe("ChannelLabels", () => {
           {
             type: "git",
             pathname: "https://github.com/org/repo2.git",
-            gitBranch: "Not selected",
-            gitPath: "Not selected"
+            gitBranch: undefined,
+            gitPath: undefined
           },
           { type: "namespace", pathname: "sample-ns" }
         ]}

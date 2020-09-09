@@ -70,7 +70,7 @@ export const updateDisplayForPlacementControls = (
       _.set(localClusterControl, 'type', 'hidden')
     } else {
       _.set(existingRuleControl, 'type', 'hidden')
-      selectedRuleNameControl.active = ''
+      selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
 
       _.set(onlineControl, 'type', 'checkbox')
       _.set(clusterSelectorControl, 'type', 'custom')

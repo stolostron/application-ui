@@ -3,7 +3,11 @@
  * Copyright (c) 2020 Red Hat, Inc.
  ****************************************************************************** */
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
-import { apiResources, validateTimewindow } from "../../views/resources";
+import {
+  apiResources,
+  validateTimewindow,
+  targetResource
+} from "../../views/resources";
 
 describe("Application", () => {
   for (const type in config) {
@@ -16,6 +20,9 @@ describe("Application", () => {
       });
       it(`timewindow - should be validated - ${type}: ${data.name}`, () => {
         validateTimewindow(data.name, data.config);
+      });
+      it(`resource should be validated on the target cluster`, () => {
+        targetResource.action("get", data);
       });
     } else {
       it(`disable validation on resource ${type}`, () => {

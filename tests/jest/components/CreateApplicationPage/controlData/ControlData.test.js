@@ -22,13 +22,10 @@ import {
   setAvailableChannelSpecs,
   getGitBranches,
   updateNewRuleControlsData,
-  updateChannelControls
-} from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
-
-import {
+  updateChannelControls,
   updatePrePostControls,
   setAvailableSecrets
-} from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPrePostTasks";
+} from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
 
 const controlDataNS = [
   {
@@ -450,7 +447,7 @@ describe("setAvailableSecrets", () => {
   };
   const model = {
     data: {
-      items: [
+      secrets: [
         {
           metadata: {
             name: "aa-ns"
@@ -460,9 +457,9 @@ describe("setAvailableSecrets", () => {
     }
   };
   const result = {
-    active: "",
-    available: ["aa-ns"],
-    availableData: { "aa-ns": { metadata: { name: "aa-ns" } } },
+    active: true,
+    available: ["undefined"],
+    availableData: { undefined: { metadata: { name: "aa-ns" } } },
     availableMap: {},
     id: "namespace",
     isLoading: false
@@ -484,7 +481,7 @@ describe("setAvailableSecrets", () => {
     data: {}
   };
   const result = {
-    active: "",
+    active: true,
     available: [],
     availableData: {},
     availableMap: {},
@@ -508,7 +505,7 @@ describe("setAvailableSecrets", () => {
     data: {}
   };
   const result = {
-    active: "",
+    active: true,
     available: [],
     availableData: {},
     availableMap: {},

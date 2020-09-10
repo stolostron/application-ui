@@ -367,7 +367,9 @@ class OverviewCards extends React.Component {
                     channels={[
                       {
                         type: sub.resourceType,
-                        pathname: sub.resourcePath
+                        pathname: sub.resourcePath,
+                        gitBranch: sub.gitBranch,
+                        gitPath: sub.gitPath
                       }
                     ]}
                     locale={locale}

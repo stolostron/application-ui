@@ -53,7 +53,6 @@ spec:
 {{#if ansibleSecretName}} 
   hooksecretref: 
     name: {{{ansibleSecretName}}}
-    namespace: {{{@root.namespace}}}
 {{/if}}
 {{#if channelNamespace}}
   channel: {{{channelNamespace}}}/{{{channelName}}}

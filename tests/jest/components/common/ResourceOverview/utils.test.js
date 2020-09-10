@@ -325,7 +325,9 @@ describe("getAppOverviewCardsData", () => {
           id: "member--subscription--default--mortgage-app-subscription",
           timeWindowType: "default",
           resourceType: "GitHub",
-          resourcePath: "https://github.com/fxiang1/app-samples.git"
+          resourcePath: "https://github.com/fxiang1/app-samples.git",
+          gitBranch: "master",
+          gitPath: "mortgage"
         }
       ]
     };
@@ -358,7 +360,9 @@ describe("getAppOverviewCardsData", () => {
           id: "member--subscription--default--mortgage-app-subscription",
           timeWindowType: "active",
           resourceType: "GitHub",
-          resourcePath: "https://github.com/fxiang1/app-samples.git"
+          resourcePath: "https://github.com/fxiang1/app-samples.git",
+          gitBranch: undefined,
+          gitPath: undefined
         }
       ]
     };
@@ -463,6 +467,10 @@ const customTopologyData = {
           apiVersion: "app.k8s.io/v1beta1",
           kind: "Application",
           metadata: {
+            annotations: {
+              "apps.open-cluster-management.io/git-commit":
+                "0660bd66c02d09a4c8813d3ae2e711fc98b6426b"
+            },
             creationTimestamp: "2018-08-13T19:23:00Z",
             generation: 2,
             name: "mortgage-app",

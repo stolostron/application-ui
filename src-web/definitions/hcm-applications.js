@@ -180,7 +180,9 @@ export function getChannels(item = {}, locale = '') {
     <ChannelLabels
       channels={(R.path(['hubChannels'], item) || []).map(ch => ({
         type: ch['ch.type'],
-        pathname: ch['ch.pathname']
+        pathname: ch['ch.pathname'],
+        gitBranch: ch['sub._gitbranch'],
+        gitPath: ch['sub._gitpath']
       }))}
       locale={locale}
     />

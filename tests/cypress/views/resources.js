@@ -4,6 +4,28 @@
  ****************************************************************************** */
 
 /// <reference types="cypress" />
+
+export const targetResource = {
+  action: (action, data) => {
+    const name = data.name;
+    const config = data.config;
+    const kubeconfigs = Cypress.env("KUBE_CONFIG");
+    if (kubeconfigs) {
+      kubeconfigs.forEach(kubeconfig => {
+        cy.log(`cluster - ${kubeconfig}`);
+        for (const [key, value] of Object.entries(config)) {
+          cy.log(`instance-${key}`);
+          subscription(key, action, name, kubeconfig);
+        }
+      });
+    } else {
+      cy.log(
+        `skipping ${action} resource on managed cluster as no kubeconfig is provided`
+      );
+    }
+  }
+};
+
 export const apiResources = {
   action: (type, action, data) => {
     const name = data.name;
@@ -33,6 +55,10 @@ export const channels = (key, type, action, name, config) => {
     "local-cluster": {
       channelNs: "resource-ns",
       channelName: "resource"
+    },
+    helm: {
+      channelNs: "-chn-ns",
+      channelName: "-chn"
     }
   };
 
@@ -96,22 +122,58 @@ export const placementrule = (key, action, name) => {
   });
 };
 
-export const subscription = (key, action, name) => {
+export const subscription = (key, action, name, kubeconfig = "") => {
+  let managedCluster = "";
+  kubeconfig ? (managedCluster = `--kubeconfig ${kubeconfig}`) : managedCluster;
+
   cy.log(`${action} the subscription if it exists`);
-  cy.exec(`oc get subscription -n ${name}-ns`).then(({ stdout, stderr }) => {
-    cy.log(stdout || stderr);
-    if ((stdout || stderr).includes("No resource") === false) {
-      cy.log("There exists subscription");
+  cy
+    .exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`)
+    .then(({ stdout, stderr }) => {
+      if ((stdout || stderr).includes("No resource") === false) {
+        cy.log("There exists subscription");
+        if (!managedCluster) {
+          cy
+            .exec(
+              `oc ${action} subscription ${name}-subscription-${key} -n ${name}-ns`
+            )
+            .its("stdout")
+            .should("contain", `${name}`);
+        } else {
+          action == "get"
+            ? cy
+                .exec(
+                  `oc ${managedCluster}  ${action} subscription -n ${name}-ns | awk 'NR>1 {print $1}'`
+                )
+                .its("stdout")
+                .should("contain", `${name}`)
+            : (cy
+                .exec(
+                  `oc ${managedCluster} ${action} --all subscriptions -n ${name}-ns`,
+                  { timeout: 100 * 1000 }
+                )
+                .its("stdout")
+                .should("contain", `${action}`),
+              cy
+                .exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`)
+                .its("stderr")
+                .should("contain", "No resources"),
+              { timeout: 100 * 1000 });
+        }
+      } else {
+        cy.log(`The subscription in namespace:${name}-ns is empty`);
+      }
+    });
+  // namespace
+  cy.log(`${action} the namespace if it exists`);
+  cy.exec(`oc ${managedCluster} get ns -A`).then(({ stdout }) => {
+    if (stdout.includes(`${name}-ns`)) {
       cy
-        .exec(
-          `oc ${action} subscription ${name}-subscription-${key} -n ${name}-ns`
-        )
+        .exec(`oc  ${managedCluster}  ${action} ns ${name}-ns`)
         .its("stdout")
         .should("contain", `${name}`);
     } else {
-      cy.log(
-        `The subscription ${name}-subscription-${key} in namespace:${name}-ns is empty`
-      );
+      cy.log("no namespace left");
     }
   });
 };

@@ -17,6 +17,7 @@ test-report.xml
 tests/jest/config/platform-properties.json 
 tests/cypress/tests/test.js
 tests/cypress/test-artifacts/*
+tests/cypress/config/import-kubeconfig/*
 build-harness-extensions/
 build-harness/
 .build-harness-bootstrap

@@ -9,67 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import { HCMSecretList } from '../../../../lib/client/queries'
-import _ from 'lodash'
-
-export const loadExistingSecrets = () => {
-  return {
-    query: HCMSecretList,
-    loadingDesc: 'creation.app.loading.rules',
-    setAvailable: setAvailableSecrets.bind(null)
-  }
-}
-
-export const setAvailableSecrets = (control, result) => {
-  const { loading } = result
-  const { data = {} } = result
-  const { items } = data
-  control.available = []
-  control.availableMap = {}
-  control.isLoading = false
-  control.active = ''
-
-  const error = items ? null : result.error
-  if (error) {
-    control.isFailed = true
-  } else if (items) {
-    control.availableData = _.keyBy(items, 'metadata.name')
-    control.available = Object.keys(control.availableData).sort()
-  } else {
-    control.isLoading = loading
-  }
-
-  return control
-}
-
-export const updatePrePostControls = urlControl => {
-  const groupControlData = _.get(urlControl, 'groupControlData')
-
-  const { active, availableData } = urlControl
-
-  const selectedSecret = availableData && availableData[active]
-
-  const ansibleHost =
-    groupControlData &&
-    groupControlData.find(({ id }) => id === 'ansibleTowerHost')
-  const ansibleToken =
-    groupControlData &&
-    groupControlData.find(({ id }) => id === 'ansibleTowerToken')
-
-  if (!selectedSecret) {
-    //new secret, show host task info
-    _.set(ansibleHost, 'type', 'text')
-    _.set(ansibleToken, 'type', 'text')
-  } else {
-    //existing secret, hide and clean host and token
-    _.set(ansibleHost, 'type', 'hidden')
-    _.set(ansibleToken, 'type', 'hidden')
-    _.set(ansibleHost, 'active', '')
-    _.set(ansibleToken, 'active', '')
-  }
-
-  return urlControl
-}
+import { loadExistingSecrets, updatePrePostControls } from './utils'
 
 const prePostTasks = [
   ////////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +20,7 @@ const prePostTasks = [
     title: 'creation.app.section.prePost',
     overline: true,
     collapsable: true,
-    collapsed: true
+    collapsed: false
   },
   {
     name: 'creation.app.ansible.secret.name',
@@ -90,8 +30,8 @@ const prePostTasks = [
     active: '',
     placeholder: 'app.enter.select.ansibleSecretName',
     available: [],
-    //    fetchAvailable: loadExistingSecrets(),
-    //    onSelect: updatePrePostControls,
+    fetchAvailable: loadExistingSecrets(),
+    onSelect: updatePrePostControls,
     validation: {}
   },
   {

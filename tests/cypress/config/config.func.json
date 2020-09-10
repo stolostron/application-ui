@@ -1,36 +1,4 @@
 {
-  "git": {
-    "data": {
-      "enable": true,
-      "name": "ui-create-app-git",
-      "config": [
-        {
-          "url": "https://github.com/fxiang1/app-samples.git",
-          "username": "",
-          "token": "",
-          "branch": "master",
-          "path": "helloworld",
-          "timeWindow": {
-            "setting": true,
-            "type": "blockinterval",
-            "date": ["Monday", "Tuesday"]
-          }
-        },
-        {
-          "url": "https://github.com/fxiang1/app-samples.git",
-          "username": "",
-          "token": "",
-          "branch": "master",
-          "path": "nginx",
-          "timeWindow": {
-            "setting": true,
-            "type": "activeinterval",
-            "date": ["Thursday", "Friday"]
-          }
-        }
-      ]
-    }
-  },
   "objectstore": {
     "data": {
       "enable": true,
@@ -93,6 +61,38 @@
           "timeWindow": {
             "setting": true,
             "type": "active"
+          }
+        }
+      ]
+    }
+  },
+  "git": {
+    "data": {
+      "enable": true,
+      "name": "ui-create-app-git",
+      "config": [
+        {
+          "url": "https://github.com/fxiang1/app-samples.git",
+          "username": "",
+          "token": "",
+          "branch": "master",
+          "path": "helloworld",
+          "timeWindow": {
+            "setting": true,
+            "type": "blockinterval",
+            "date": ["Monday", "Tuesday"]
+          }
+        },
+        {
+          "url": "https://github.com/fxiang1/app-samples.git",
+          "username": "",
+          "token": "",
+          "branch": "master",
+          "path": "nginx",
+          "timeWindow": {
+            "setting": true,
+            "type": "activeinterval",
+            "date": ["Thursday", "Friday"]
           }
         }
       ]

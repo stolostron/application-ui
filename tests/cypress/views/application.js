@@ -218,7 +218,7 @@ export const validateTopology = (name, data, type) => {
   data.config.forEach(data => {
     const { path } = type == "git" ? data : data;
     // disable due to target issue
-    // path == "helloworld" ? validateHelloWorld() : null;
+    path == "helloworld" ? validateHelloWorld() : null;
   });
 };
 
@@ -246,7 +246,7 @@ export const validateHelloWorld = () => {
           cy
             .exec(`curl ${urlLink}`)
             .its("stdout")
-            .should("contain", "Hello World!");
+            .should("not.be", "empty");
         });
     });
 };

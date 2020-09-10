@@ -59,7 +59,7 @@
           "url": "",
           "chartName": "",
           "timeWindow": {
-            "setting": true,
+            "setting": false,
             "type": "active"
           }
         }

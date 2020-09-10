@@ -53,8 +53,8 @@ const initialControl = (control, controlData, forceUpdate) => {
       })
     }
 
-    if (typeof control.hidden ==='function') {
-      control.hidden = control.hidden.bind(null, control, controlData)
+    if (typeof control.isHidden ==='function') {
+      control.isHidden = control.isHidden.bind(null, control, controlData)
     }
 
     control.setActive = (value) =>{

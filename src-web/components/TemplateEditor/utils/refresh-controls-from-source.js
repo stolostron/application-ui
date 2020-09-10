@@ -250,8 +250,8 @@ const updateControl = (
   locale
 ) => {
   // if final validation before creating template, if this value is required, throw error
-  const { type, hidden } = control
-  if (typeof hidden === 'function' && hidden()) {
+  const { type, isHidden } = control
+  if (isHidden === true || isHidden==='true' || typeof isHidden === 'function' && isHidden()) {
     return
   }
   if ((isFinalValidate || type === 'number') && control.validation) {

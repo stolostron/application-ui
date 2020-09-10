@@ -263,10 +263,10 @@ class ControlPanel extends React.Component {
 
   renderControl(id, type, control, grpId) {
     const { controlData, locale, showEditor } = this.props
-    const { hidden } = control
+    const { isHidden } = control
     if (
-      hidden === true || hidden==='true' || typeof hidden === 'function' &&
-      hidden(showEditor)
+      isHidden === true || isHidden==='true' || typeof isHidden === 'function' &&
+      isHidden(showEditor)
     ) {
       return null
     }

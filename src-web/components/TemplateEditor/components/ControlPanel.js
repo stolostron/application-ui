@@ -27,6 +27,7 @@ import ControlPanelCards from './ControlPanelCards'
 import ControlPanelTable from './ControlPanelTable'
 import ControlPanelLabels from './ControlPanelLabels'
 import ControlPanelPrompt from './ControlPanelPrompt'
+import ControlPanelSkeleton from './ControlPanelSkeleton'
 import '../scss/control-panel.scss'
 import '../../../../graphics/diagramIcons.svg'
 import msgs from '../../../../nls/platform.properties'
@@ -39,6 +40,7 @@ class ControlPanel extends React.Component {
     handleGroupChange: PropTypes.func,
     handleNewEditorMode: PropTypes.func,
     isCustomName: PropTypes.bool,
+    isLoaded: PropTypes.bool,
     locale: PropTypes.string,
     notifications: PropTypes.array,
     originalControlData: PropTypes.array,
@@ -262,10 +264,20 @@ class ControlPanel extends React.Component {
   };
 
   renderControl(id, type, control, grpId) {
-    const { controlData, locale, showEditor } = this.props
+    const { controlData, locale, showEditor, isLoaded } = this.props
     const {hidden} = control
     if (typeof hidden === 'function' && hidden(control, controlData, showEditor)) {
       return null
+    }
+    if (!isLoaded && !['title', 'section', 'hidden'].includes(type)) {
+      return (
+        <ControlPanelSkeleton
+          key={controlId}
+          controlId={controlId}
+          control={control}
+          locale={locale}
+          />
+      )
     }
     const controlId = `${id}${grpId}`
     switch (type) {

@@ -17,7 +17,6 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import {
   Button,
-  Loading,
   Notification,
   InlineNotification,
   ToggleSmall
@@ -72,12 +71,11 @@ export default class TemplateEditor extends React.Component {
   };
 
   static getDerivedStateFromProps(props, state) {
-    const { fetchControl, createControl = {}, type, locale } = props
+    const { createControl = {}, type, locale } = props
 
     // update notifications
     let { notifications } = state
     const { hasFormExceptions } = state
-    const { isLoaded } = fetchControl || { isLoaded: true }
     const { creationStatus, creationMsg } = createControl
     if (creationStatus && !hasFormExceptions) {
       switch (creationStatus) {
@@ -116,59 +114,73 @@ export default class TemplateEditor extends React.Component {
         break
       }
       return { notifications }
-    } else if (isLoaded) {
-      const { controlData: initialControlData, fetchControl } = props
-      const { isCustomName } = state
-      let { controlData, templateYAML, editResources, templateObject } = state
-      const { template } = state
+    }
 
-      // initialize controlData, templateYAML, templateObject
-      if (!controlData) {
-        controlData = initializeControlData(
-          _.cloneDeep(initialControlData),
-          locale
-        )
-        //initializeControlSourcePaths(template,
-        //  controlData);
+    // is a resource loaded in editor?
+    const { fetchControl } = props
+    const { isLoaded, isFailed } = fetchControl || { isLoaded: true }
+    const showEditor = isLoaded && !!localStorage.getItem(TEMPLATE_EDITOR_OPEN_COOKIE)
+    let newState = {isLoaded, isFailed, showEditor}
 
-        // editing an existing set of resources??
-        editResources = _.get(fetchControl, 'resources');
+    // has control data been initialized?
+    const { controlData: initialControlData } = props
+    let { controlData, templateYAML, editResources, templateObject } = state
+    const { template } = state
+    if (!controlData) {
+      controlData = initializeControlData(
+        _.cloneDeep(initialControlData),
+        locale
+      )
 
-        // generate source from template or existing resources
-        ({ templateYAML, templateObject } = generateSource(
-          template,
-          editResources,
-          controlData
-        ))
-        return { controlData, templateYAML, firstTemplateYAML:templateYAML, templateObject, editResources }
-      }
+      //initializeControlSourcePaths(template,
+      //  controlData);
 
-      // make sure an auto generated name is unique
-      if (!isCustomName) {
-        const name = controlData.find(({ id }) => id === 'name')
-        if (name) {
-          const { active, existing } = name
-          const uniqueName = getUniqueName(active, new Set(existing))
-          if (uniqueName !== active) {
-            name.active = uniqueName;
-            ({ templateYAML, templateObject } = generateSource(
-              template,
-              editResources,
-              controlData
-            ))
-            return { controlData, templateYAML, templateObject }
-          }
+      newState = {...newState, controlData}
+    }
+
+    // has source been initialized?
+    if (isLoaded && !templateYAML) {
+
+      // editing an existing set of resources??
+      editResources = _.get(fetchControl, 'resources');
+
+      // generate source from template or existing resources
+      ({ templateYAML, templateObject } = generateSource(
+        template,
+        editResources,
+        controlData
+      ))
+
+      newState = {...newState, templateYAML, firstTemplateYAML:templateYAML, templateObject, editResources}
+    }
+
+
+    // make sure an auto generated name is unique
+    const { isCustomName } = state
+    if (!isCustomName) {
+      const name = controlData.find(({ id }) => id === 'name')
+      if (name) {
+        const { active, existing } = name
+        const uniqueName = getUniqueName(active, new Set(existing))
+        if (uniqueName !== active) {
+          name.active = uniqueName;
+          ({ templateYAML, templateObject } = generateSource(
+            template,
+            editResources,
+            controlData
+          ))
+          newState = {...newState, controlData, templateYAML, templateObject }
         }
       }
     }
-    return null
+
+    return newState
   }
 
   constructor(props) {
     super(props)
     this.state = {
       isCustomName: false,
-      showEditor: !!localStorage.getItem(TEMPLATE_EDITOR_OPEN_COOKIE),
       template: props.template,
       activeYAMLEditor: 0,
       exceptions: [],
@@ -261,17 +273,13 @@ export default class TemplateEditor extends React.Component {
   };
 
   render() {
-    const { fetchControl, locale } = this.props
-    const { isLoaded, isFailed } = fetchControl || { isLoaded: true }
-    const { showEditor, resetInx } = this.state
+    const { locale } = this.props
+    const { isLoaded, isFailed, showEditor, resetInx } = this.state
     if (!showEditor) {
       this.editors = []
     }
 
-    if (!isLoaded) {
-      return <Loading withOverlay={false} className="content-spinner" />
-    }
-    if (isFailed) {
+    if (isLoaded && isFailed) {
       return (
         <Notification
           title=""
@@ -294,15 +302,15 @@ export default class TemplateEditor extends React.Component {
         <Prompt
           when={this.isDirty}
           message={msgs.get('changes.maybe.lost', locale)} />
-        {this.renderEditButton()}
-        {this.renderCreateButton()}
+        {this.renderEditButton(isLoaded)}
+        {this.renderCreateButton(isLoaded)}
         {this.renderCancelButton()}
-        {this.renderSplitEditor()}
+        {this.renderSplitEditor(isLoaded)}
       </div>
     )
   }
 
-  renderSplitEditor() {
+  renderSplitEditor(isLoaded) {
     const { showEditor } = this.state
     const editorClasses = classNames({
       'creation-view-split-container': true,
@@ -324,17 +332,17 @@ export default class TemplateEditor extends React.Component {
             defaultSize={this.handleSplitterDefault()}
             onChange={this.handleSplitterChange}
           >
-            {this.renderControls()}
+            {this.renderControls(isLoaded)}
             {this.renderEditor()}
           </SplitPane>
         ) : (
-          this.renderControls()
+          this.renderControls(isLoaded)
         )}
       </div>
     )
   }
 
-  renderControls() {
+  renderControls(isLoaded) {
     const { controlData, showEditor, isCustomName, notifications } = this.state
     const {
       controlData: originalControlData,
@@ -347,12 +355,13 @@ export default class TemplateEditor extends React.Component {
         handleControlChange={this.handleControlChange}
         handleNewEditorMode={this.handleNewEditorMode}
         handleGroupChange={this.handleGroupChange}
-        controlData={controlData}
+        controlData={controlData||originalControlData}
         fetchData={fetchData}
         originalControlData={originalControlData}
         notifications={notifications}
         showEditor={showEditor}
         isCustomName={isCustomName}
+        isLoaded={isLoaded}
         locale={locale}
       />
     )
@@ -1057,10 +1066,10 @@ export default class TemplateEditor extends React.Component {
     }, 0)
   };
 
-  renderEditButton() {
+  renderEditButton(isLoaded) {
     const { portals = {}, locale } = this.props
     const { editBtn } = portals
-    if (editBtn) {
+    if (editBtn && isLoaded) {
       const portal = document.getElementById(editBtn)
       if (portal) {
         const { showEditor } = this.state
@@ -1096,10 +1105,10 @@ export default class TemplateEditor extends React.Component {
     return null
   }
 
-  renderCreateButton() {
+  renderCreateButton(isLoaded) {
     const { portals = {}, createControl, locale } = this.props
     const { createBtn } = portals
-    if (createControl && createBtn) {
+    if (createControl && createBtn && isLoaded) {
       const { hasPermissions = true } = createControl
       const titleText = !hasPermissions
         ? msgs.get('button.save.access.denied', locale)

@@ -251,7 +251,7 @@ const updateControl = (
 ) => {
   // if final validation before creating template, if this value is required, throw error
   const { type, hidden } = control
-  if (typeof hidden === 'function' && hidden(control, controlData)) {
+  if (typeof hidden === 'function' && hidden()) {
     return
   }
   if ((isFinalValidate || type === 'number') && control.validation) {

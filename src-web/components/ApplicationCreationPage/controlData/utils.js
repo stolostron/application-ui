@@ -459,6 +459,9 @@ export const setAvailableSecrets = (control, result) => {
   } else if (secrets) {
     control.availableData = _.keyBy(secrets, 'name')
     control.available = Object.keys(control.availableData).sort()
+    if (control.active && !control.available.includes(control.active)) {
+      control.setActive('')
+    }
   } else {
     control.isLoading = loading
   }

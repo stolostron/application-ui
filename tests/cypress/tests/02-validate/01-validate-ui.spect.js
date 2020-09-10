@@ -13,15 +13,15 @@ describe("Application", () => {
     const data = config[type].data;
 
     if (data.enable) {
-      it(`should be validated from the topology - ${type}: ${
-        data.name
-      }`, () => {
-        validateTopology(data.name);
-      });
       it(`should be validated from the resource table - ${type}: ${
         data.name
       }`, () => {
         validateResourceTable(data.name);
+      });
+      it(`should be validated from the topology - ${type}: ${
+        data.name
+      }`, () => {
+        validateTopology(data.name, data, type);
       });
     } else {
       it(`disable validation on resource ${type}`, () => {

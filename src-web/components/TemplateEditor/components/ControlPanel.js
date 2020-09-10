@@ -203,7 +203,7 @@ class ControlPanel extends React.Component {
       }
       if (!control.exception) {
         return (
-          <Query query={query} key={id} variables={variables} >
+          <Query query={query} key={id} variables={variables}>
             {result => {
               setAvailable(control, result)
               return this.renderControlWithPrompt(id, type, control, grpId)
@@ -263,8 +263,11 @@ class ControlPanel extends React.Component {
 
   renderControl(id, type, control, grpId) {
     const { controlData, locale, showEditor } = this.props
-    const {hidden} = control
-    if (typeof hidden === 'function' && hidden(control, controlData, showEditor)) {
+    const { hidden } = control
+    if (
+      typeof hidden === 'function' &&
+      hidden(control, controlData, showEditor)
+    ) {
       return null
     }
     const controlId = `${id}${grpId}`

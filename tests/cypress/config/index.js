@@ -31,3 +31,15 @@ exports.getConfig = () => {
 
   return JSON.stringify(config);
 };
+
+exports.getKubeConfig = () => {
+  const results = [];
+  const dir = path.join(__dirname, "./import-kubeconfig");
+  fs.readdirSync(dir).forEach(file => {
+    if (file[0] !== ".") {
+      file = `${dir}/${file}`;
+      results.push(file);
+    }
+  });
+  return results;
+};

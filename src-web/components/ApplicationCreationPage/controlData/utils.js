@@ -336,7 +336,6 @@ export const getExistingPRControlsSection = (initiatingControl, control) => {
 export const updateNewRuleControlsData = (selectedPR, control) => {
   const onlineControl = _.get(control, onlineClustersCheckbox)
   const clusterSelectorControl = _.get(control, 'clusterSelector')
-
   const localClusterControl = _.get(control, localClusterCheckbox)
 
   if (selectedPR) {
@@ -352,7 +351,10 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
     )
 
     onlineControl.active = localClusterData.length > 0
-    localClusterData.length > 0 && _.set(onlineControl, 'type', 'checkbox')
+    onlineControl.disabled = localClusterData.length > 0
+    localClusterData.length > 0
+      ? _.set(onlineControl, 'type', 'checkbox')
+      : _.set(onlineControl, 'type', 'hidden')
 
     const clusterSelectorData = _.get(
       selectedPR,
@@ -360,8 +362,9 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
       null
     )
 
-    clusterSelectorData !== null &&
-      _.set(clusterSelectorControl, 'type', 'custom')
+    clusterSelectorData !== null
+      ? _.set(clusterSelectorControl, 'type', 'custom')
+      : _.set(clusterSelectorControl, 'type', 'hidden')
 
     clusterSelectorControl.active.mode = clusterSelectorData !== null
 
@@ -409,6 +412,7 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
 
     _.set(onlineControl, 'type', 'checkbox')
     _.set(onlineControl, 'active', true)
+    _.set(onlineControl, 'disabled', false)
 
     _.set(clusterSelectorControl, 'type', 'custom')
     _.set(clusterSelectorControl, 'active.mode', false)

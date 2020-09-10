@@ -33,7 +33,7 @@ class ControlPanelCheckbox extends React.Component {
 
   render() {
     const { controlId, locale, control } = this.props
-    const { name, active } = control
+    const { name, active, disabled = false } = control
     return (
       <React.Fragment>
         <div
@@ -46,6 +46,7 @@ class ControlPanelCheckbox extends React.Component {
             hideLabel
             labelText=""
             checked={active}
+            disabled={disabled}
             onChange={this.handleChange.bind(this, control)}
           />
           <div style={{ height: '20px' }}>{name}</div>

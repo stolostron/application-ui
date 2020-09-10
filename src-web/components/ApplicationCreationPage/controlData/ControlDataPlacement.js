@@ -73,6 +73,7 @@ export const updateDisplayForPlacementControls = (
       selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
 
       _.set(onlineControl, 'type', 'checkbox')
+      _.set(onlineControl, 'disabled', false)
       _.set(clusterSelectorControl, 'type', 'custom')
       _.set(localClusterControl, 'type', 'checkbox')
     }
@@ -106,6 +107,7 @@ export const updatePlacementControls = placementControl => {
     clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'hidden')
   } else {
     onlineControl && _.set(onlineControl, 'type', 'checkbox')
+    onlineControl && _.set(onlineControl, 'disabled', false)
     clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'custom')
   }
 

@@ -31,12 +31,17 @@ else
   fi
 fi
 
-echo "Logging into managed cluster"
-mkdir ./cypress/import-kubeconfig
-export KUBECONFIG=./cypress/import-kubeconfig/kubeconfig
-oc login --server=$CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
-mkdir /import-kubeconfig
-cp ./cypress/import-kubeconfig/* /import-kubeconfig
+if [[ -z $CYPRESS_MANAGED_OCP_URL || -z $CYPRESS_MANAGED_OCP_USER || -z $CYPRESS_MANAGED_OCP_PASS ]]; then
+  echo 'one or more variables are undefined'
+  exit 1
+else
+  echo "Logging into managed cluster"
+  mkdir ./cypress/import-kubeconfig
+  export KUBECONFIG=./cypress/import-kubeconfig/kubeconfig
+  oc login --server=$CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
+  mkdir /import-kubeconfig
+  cp ./cypress/import-kubeconfig/* /import-kubeconfig
+fi
 
 echo "Logging into Kube API server..."
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify

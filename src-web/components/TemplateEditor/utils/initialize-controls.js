@@ -11,7 +11,6 @@
 
 import { initializeControlData } from './initialize-control-data'
 import { initializeControlFunctions } from './initialize-control-functions'
-//import { initializeControlSourcePaths } from './initialize-control-source-paths'
 
 export const initializeControls = (
   initialControlData,
@@ -33,11 +32,6 @@ export const initializeControls = (
     controlData,
     forceUpdate
   )
-
-
-  //initializeControlSourcePaths(template,
-  //  controlData);
-
 
   return controlData
 

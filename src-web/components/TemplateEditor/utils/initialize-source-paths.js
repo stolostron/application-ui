@@ -14,7 +14,7 @@ import { generateSourceFromTemplate } from './refresh-source-from-templates'
 import _ from 'lodash'
 
 
-export const initializeControlSourcePaths = (template, controlData) => {
+export const initializeSourcePaths = (template, controlData) => {
   setSectionSourcePaths(template, _.cloneDeep(controlData), _.keyBy(controlData, 'id'))
 }
 

@@ -22,6 +22,7 @@ import {
   ToggleSmall
 } from 'carbon-components-react'
 import { initializeControls, cacheUserData } from './utils/initialize-controls'
+import { initializeSourcePaths } from './utils/initialize-source-paths'
 import { updateControls } from './utils/refresh-controls-from-source'
 import { generateSource, getUniqueName } from './utils/source-utils'
 import {
@@ -131,7 +132,9 @@ export default class TemplateEditor extends React.Component {
         forceUpdate,
         locale
       )
-      newState = {...newState, controlData}
+      const sourcePathMap = initializeSourcePaths(template,
+        controlData)
+      newState = {...newState, controlData, sourcePathMap}
     }
 
     // has source been initialized?

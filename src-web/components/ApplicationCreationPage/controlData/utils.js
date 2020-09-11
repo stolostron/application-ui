@@ -228,11 +228,15 @@ export const getGitBranches = async (groupControlData, setLoadingState) => {
                 branchCtrl.available.push(branch.name)
               })
             }
+            delete branchCtrl.exception
             setLoadingState(branchCtrl, false)
           },
           () => {
             branchCtrl.active = ''
-            branchCtrl.available = ['master']
+            branchCtrl.available = []
+            branchCtrl.exception = msgs.get(
+              'creation.app.loading.branch.error'
+            )
             setLoadingState(branchCtrl, false)
           }
         )

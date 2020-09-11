@@ -113,51 +113,24 @@ export default class TemplateEditor extends React.Component {
         break
       }
       return { notifications }
-<<<<<<< HEAD
     }
-=======
-    } else if (isLoaded) {
-      const { controlData: initialControlData } = props
-      const { isCustomName } = state
-      let { controlData, templateYAML, templateObject } = state
-      const { forceUpdate, template } = state
->>>>>>> branch 'update_bug' of ssh://git@github.com/open-cluster-management/application-ui.git
 
-<<<<<<< HEAD
     // is a resource loaded in editor?
     const { fetchControl } = props
     const { isLoaded, isFailed } = fetchControl || { isLoaded: true }
     const showEditor = isLoaded && !!localStorage.getItem(TEMPLATE_EDITOR_OPEN_COOKIE)
     let newState = {isLoaded, isFailed, showEditor}
-=======
-      // initialize controlData, templateYAML, templateObject
-      if (!controlData) {
-        controlData = initializeControls(
-          _.cloneDeep(initialControlData),
-          forceUpdate,
-          locale
-        );
-        ({ templateYAML, templateObject } = generateSourceFromTemplate(
-          template,
-          controlData
-        ))
-        return { controlData, templateYAML, firstTemplateYAML:templateYAML, templateObject }
-      }
->>>>>>> branch 'update_bug' of ssh://git@github.com/open-cluster-management/application-ui.git
 
     // has control data been initialized?
     const { controlData: initialControlData } = props
     let { controlData, templateYAML, editResources, templateObject } = state
-    const { template } = state
+    const { forceUpdate, template } = state
     if (!controlData) {
-      controlData = initializeControlData(
+      controlData = initializeControls(
         _.cloneDeep(initialControlData),
+        forceUpdate,
         locale
       )
-
-      //initializeControlSourcePaths(template,
-      //  controlData);
-
       newState = {...newState, controlData}
     }
 
@@ -1133,7 +1106,7 @@ export default class TemplateEditor extends React.Component {
         ? msgs.get('button.save.access.denied', locale)
         : undefined
       let disableButton = true
-      if (this.state.isDirty && hasPermissions) {
+      if (this.isDirty && hasPermissions) {
         disableButton = false
       }
       const portal = document.getElementById(createBtn)

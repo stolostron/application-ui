@@ -22,7 +22,7 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
   }
 
   let kind = R.replace(/_/g, '')(type) //remove globally _ occurences
-  if (kind === 'rules') {
+  if (kind === 'placements') {
     kind = 'placementrule'
   }
 

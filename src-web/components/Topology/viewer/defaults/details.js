@@ -275,7 +275,7 @@ function addK8Details(node, details) {
     )
   )
 
-  if (type === 'rules') {
+  if (type === 'placements') {
     const specNbOfClustersTarget = R.pathOr(
       [],
       ['specs', 'raw', 'status', 'decisions']

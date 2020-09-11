@@ -208,7 +208,7 @@ export default class LinkHelper {
         .selectAll('text')
         .selectAll('textPath')
         .text(({ layout = {}, label }) => {
-          const isSwapped = layout.isSwapped ? `< ${label}` : `${label} >`
+          const isSwapped = layout.isSwapped ? `${label}` : `${label}`
           const isLoop = layout.isLoop ? label : isSwapped
           const isParallel = layout.isParallel ? '< both >' : isLoop
           return !label ? '' : isParallel

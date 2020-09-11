@@ -22,7 +22,11 @@ import {
 } from './utils'
 import _ from 'lodash'
 
-export const updateGitCredentials = urlControl => {
+export const updateGitCredentials = (
+  urlControl,
+  globalControl,
+  setLoadingState
+) => {
   const groupControlData = _.get(urlControl, 'groupControlData')
 
   const userCtrlData = _.get(
@@ -41,7 +45,7 @@ export const updateGitCredentials = urlControl => {
     (userCtrlData.length > 0 && tokenCtrlData.length > 0) ||
     (userCtrlData.length === 0 && tokenCtrlData.length === 0)
   ) {
-    getGitBranches(_.get(urlControl, 'groupControlData'))
+    getGitBranches(_.get(urlControl, 'groupControlData'), setLoadingState)
   }
   return groupControlData
 }

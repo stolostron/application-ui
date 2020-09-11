@@ -21,8 +21,7 @@ import {
   InlineNotification,
   ToggleSmall
 } from 'carbon-components-react'
-import { initializeControlData, cacheUserData } from './utils/initialize-control-data'
-//import { initializeControlSourcePaths } from './utils/initialize-control-source-paths'
+import { initializeControls, cacheUserData } from './utils/initialize-controls'
 import { updateControls } from './utils/refresh-controls-from-source'
 import { generateSource, getUniqueName } from './utils/source-utils'
 import {
@@ -114,13 +113,37 @@ export default class TemplateEditor extends React.Component {
         break
       }
       return { notifications }
+<<<<<<< HEAD
     }
+=======
+    } else if (isLoaded) {
+      const { controlData: initialControlData } = props
+      const { isCustomName } = state
+      let { controlData, templateYAML, templateObject } = state
+      const { forceUpdate, template } = state
+>>>>>>> branch 'update_bug' of ssh://git@github.com/open-cluster-management/application-ui.git
 
+<<<<<<< HEAD
     // is a resource loaded in editor?
     const { fetchControl } = props
     const { isLoaded, isFailed } = fetchControl || { isLoaded: true }
     const showEditor = isLoaded && !!localStorage.getItem(TEMPLATE_EDITOR_OPEN_COOKIE)
     let newState = {isLoaded, isFailed, showEditor}
+=======
+      // initialize controlData, templateYAML, templateObject
+      if (!controlData) {
+        controlData = initializeControls(
+          _.cloneDeep(initialControlData),
+          forceUpdate,
+          locale
+        );
+        ({ templateYAML, templateObject } = generateSourceFromTemplate(
+          template,
+          controlData
+        ))
+        return { controlData, templateYAML, firstTemplateYAML:templateYAML, templateObject }
+      }
+>>>>>>> branch 'update_bug' of ssh://git@github.com/open-cluster-management/application-ui.git
 
     // has control data been initialized?
     const { controlData: initialControlData } = props
@@ -193,7 +216,10 @@ export default class TemplateEditor extends React.Component {
       isFinalValidate: false,
       hasUndo: false,
       hasRedo: false,
-      resetInx: 0
+      resetInx: 0,
+      forceUpdate: (()=>{
+        this.forceUpdate()
+      }).bind(this)
     }
     this.selectedTab = 0
     this.isDirty = false
@@ -386,17 +412,7 @@ export default class TemplateEditor extends React.Component {
     // custom action when control is selected
     const { onSelect } = control
     if (typeof onSelect === 'function') {
-      onSelect(control, controlData, (ctrl, isLoading)=>{
-        if (isLoading) {
-          ctrl.isLoading = isLoading
-          this.forceUpdate()
-        } else {
-          setTimeout(() => {
-            ctrl.isLoading = isLoading
-            this.forceUpdate()
-          })
-        }
-      })
+      onSelect()
     }
 
     const { templateYAML: newYAML, templateObject } = generateSource(
@@ -439,6 +455,7 @@ export default class TemplateEditor extends React.Component {
     const { locale } = this.props
     const {
       showEditor,
+      forceUpdate,
       template,
       templateYAML,
       otherYAMLTabs,
@@ -450,8 +467,9 @@ export default class TemplateEditor extends React.Component {
     if (inx === undefined) {
       // add new group
       const { prompts: { nameId, baseName } } = control
-      const newGroup = initializeControlData(
+      const newGroup = initializeControls(
         cd,
+        forceUpdate,
         locale,
         active.length + 1,
         true
@@ -535,7 +553,7 @@ export default class TemplateEditor extends React.Component {
   changeEditorMode(control, controlData) {
     const { locale } = this.props
     let { template } = this.props
-    const { editResources, otherYAMLTabs } = this.state
+    const { editResources, otherYAMLTabs, forceUpdate } = this.state
     let { templateYAML, templateObject } = this.state
     let newYAML = templateYAML
     let newYAMLTabs = otherYAMLTabs
@@ -575,7 +593,7 @@ export default class TemplateEditor extends React.Component {
             cd.groupControlData = groupControlData
           })
         }
-        controlData = initializeControlData(controlData, locale)
+        controlData = initializeControls(controlData, forceUpdate, locale)
       }
 
       // replace template and regenerate templateYAML and highlight diffs
@@ -1007,7 +1025,7 @@ export default class TemplateEditor extends React.Component {
     let notifications = []
     if (hasSyntaxExceptions || hasValidationExceptions) {
       Object.values(templateExceptionMap).forEach(({ exceptions }) => {
-        exceptions.forEach(({ row, text, editor, tabInx, ref }) => {
+        exceptions.forEach(({ row, text, editor, tabInx, controlId, ref }) => {
           notifications.push({
             id: 'error',
             kind: 'error',
@@ -1015,6 +1033,7 @@ export default class TemplateEditor extends React.Component {
             row,
             editor,
             tabInx,
+            controlId,
             ref
           })
         })
@@ -1172,8 +1191,9 @@ export default class TemplateEditor extends React.Component {
   resetEditor() {
     const { template, controlData: initialControlData, locale } = this.props
     const { editResources, resetInx } = this.state
-    const controlData = initializeControlData(
+    const controlData = initializeControls(
       _.cloneDeep(initialControlData),
+      this.forceUpdate,
       locale
     )
     const otherYAMLTabs = []

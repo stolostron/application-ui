@@ -265,10 +265,10 @@ class ControlPanel extends React.Component {
 
   renderControl(id, type, control, grpId) {
     const { controlData, locale, showEditor, isLoaded } = this.props
-    const { hidden } = control
+    const { isHidden } = control
     if (
-      typeof hidden === 'function' &&
-      hidden(control, controlData, showEditor)
+      isHidden === true || isHidden==='true' || typeof isHidden === 'function' &&
+      isHidden(showEditor)
     ) {
       return null
     }
@@ -283,6 +283,7 @@ class ControlPanel extends React.Component {
       )
     }
     const controlId = `${id}${grpId}`
+    control.controlId = controlId
     switch (type) {
     case 'title':
     case 'section':
@@ -533,10 +534,13 @@ class ControlPanel extends React.Component {
     const { notifications = [] } = this.props
     if (notifications.length > 0) {
       return notifications.map(
-        ({ id, exception, kind = 'error', ref, tabInx = 0, editor, row }) => {
+        ({ id, controlId, exception, kind = 'error', ref, tabInx = 0, editor, row }) => {
           const handleClick = () => {
-            if (ref) {
-              ref.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            if (ref || controlId) {
+              ref = document.getElementById(controlId) || ref
+              if (ref) {
+                ref.scrollIntoView({ behavior: 'smooth', block: 'center' })
+              }
             } else if (editor && row) {
               const tabContainer = document.querySelector(
                 '.creation-view-yaml-header-tabs'

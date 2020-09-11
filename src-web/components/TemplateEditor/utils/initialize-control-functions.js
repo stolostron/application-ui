@@ -16,7 +16,7 @@
 export const initializeControlFunctions = (
   controlData,
   forceUpdate,
-  parentControlData
+  parentControlData=controlData
 ) => {
   controlData.forEach(control => {
     const { type, active=[] } = control
@@ -28,7 +28,7 @@ export const initializeControlFunctions = (
       break
     }
     default:
-      initialControl(control, parentControlData||controlData, forceUpdate)
+      initialControl(control, parentControlData, forceUpdate)
     }
   })
 }

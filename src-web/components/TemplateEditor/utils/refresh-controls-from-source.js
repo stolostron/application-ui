@@ -262,23 +262,26 @@ const updateControl = (
       ref
     } = control
     if (required && (!active || (type === 'cards' && active.length === 0))) {
+      let row = 0
       const msg =
         notification ? notification : 'creation.missing.input'
       control.exception = msgs.get(msg, [name], locale)
+      let { exceptions } = templateExceptionMap['<<main>>']
       const { sourcePath } = control
       if (sourcePath) {
-        const { tabId, path } = sourcePath
+        const { tabId, path } = sourcePath;
+        ({ exceptions } = templateExceptionMap[tabId])
         const parsed = templateObjectMap[tabId]
-        const { exceptions } = templateExceptionMap[tabId]
         const spath = splitPath(path)
-        exceptions.push({
-          row: getRow(spath, parsed),
-          column: 0,
-          text: control.exception,
-          type: 'error',
-          ref
-        })
+        row = getRow(spath, parsed)
       }
+      exceptions.push({
+        row,
+        column: 0,
+        text: control.exception,
+        type: 'error',
+        ref
+      })
       return
     }
   }

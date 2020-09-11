@@ -210,7 +210,7 @@ export const highlightAllChanges = (
       if (editorOnTab) {
         setTimeout(() => {
           editorOnTab.revealLineInCenter(
-            editorOnTab.errorLine || editorOnTab.changed
+            editorOnTab.errorLine || editorOnTab.changed || 1
           )
         }, 0)
       }

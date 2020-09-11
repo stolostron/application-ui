@@ -976,7 +976,7 @@ export default class TemplateEditor extends React.Component {
     let notifications = []
     if (hasSyntaxExceptions || hasValidationExceptions) {
       Object.values(templateExceptionMap).forEach(({ exceptions }) => {
-        exceptions.forEach(({ row, text, editor, tabInx, ref }) => {
+        exceptions.forEach(({ row, text, editor, tabInx, controlId, ref }) => {
           notifications.push({
             id: 'error',
             kind: 'error',
@@ -984,6 +984,7 @@ export default class TemplateEditor extends React.Component {
             row,
             editor,
             tabInx,
+            controlId,
             ref
           })
         })

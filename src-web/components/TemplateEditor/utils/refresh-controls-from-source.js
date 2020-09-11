@@ -259,6 +259,7 @@ const updateControl = (
       name,
       active,
       validation: { required, notification },
+      controlId,
       ref
     } = control
     if (required && (!active || (type === 'cards' && active.length === 0))) {
@@ -280,6 +281,7 @@ const updateControl = (
         column: 0,
         text: control.exception,
         type: 'error',
+        controlId,
         ref
       })
       return
@@ -382,6 +384,7 @@ const updateTextControl = (
     sourcePath: { tabId, path },
     validation: { contextTester, tester, notification },
     template,
+    controlId,
     ref
   } = control
   const parsed = templateObjectMap[tabId]
@@ -423,6 +426,7 @@ const updateTextControl = (
         column: 0,
         text: exception,
         type: 'error',
+        controlId,
         ref
       })
     }

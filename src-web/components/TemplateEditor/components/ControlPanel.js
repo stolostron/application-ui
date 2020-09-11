@@ -271,6 +271,7 @@ class ControlPanel extends React.Component {
       return null
     }
     const controlId = `${id}${grpId}`
+    control.controlId = controlId 
     switch (type) {
     case 'title':
     case 'section':
@@ -521,9 +522,10 @@ class ControlPanel extends React.Component {
     const { notifications = [] } = this.props
     if (notifications.length > 0) {
       return notifications.map(
-        ({ id, exception, kind = 'error', ref, tabInx = 0, editor, row }) => {
+        ({ id, controlId, exception, kind = 'error', ref, tabInx = 0, editor, row }) => {
           const handleClick = () => {
             if (ref) {
+              ref = document.getElementById(controlId) || ref             
               ref.scrollIntoView({ behavior: 'smooth', block: 'center' })
             } else if (editor && row) {
               const tabContainer = document.querySelector(

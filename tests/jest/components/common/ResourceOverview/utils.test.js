@@ -568,7 +568,7 @@ const customTopologyData = {
         row: 34
       },
       topology: null,
-      type: "rules",
+      type: "placements",
       uid: "member--rules--default--mortgage-app-placement--0",
       __typename: "Resource"
     },

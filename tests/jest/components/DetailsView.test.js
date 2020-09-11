@@ -272,7 +272,7 @@ const mockLaidoutNodes = {
       name: "mortgage-app-placement",
       cluster: null,
       clusterName: null,
-      type: "rules",
+      type: "placements",
       specs: {
         isDesign: true,
         row: 49,
@@ -288,7 +288,7 @@ const mockLaidoutNodes = {
       __typename: "Resource",
       layout: {
         uid: "member--rules--default--mortgage-app-placement--0",
-        type: "rules",
+        type: "placements",
         label: "mortgage-app-↵placement",
         compactLabel: "mortgage-app-↵placement",
         nodeIcons: {},
@@ -298,7 +298,7 @@ const mockLaidoutNodes = {
         description: "",
         tooltips: [
           {
-            name: "Rules",
+            name: "Placements",
             value: "mortgage-app-placement",
             href:
               "/multicloud/search?filters={'textsearch':'kind:placementrule name:mortgage-app-placement'}"
@@ -717,7 +717,7 @@ const mockData = {
       },
       deployable: { shape: "deployable", className: "design" },
       subscription: { shape: "subscription", className: "design" },
-      rules: { shape: "rules", className: "design" },
+      rules: { shape: "placements", className: "design" },
       clusters: { shape: "cluster", className: "container" },
       helmrelease: { shape: "chart", className: "container" },
       package: { shape: "chart", className: "container" },

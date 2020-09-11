@@ -20,7 +20,7 @@ const mockData = {
     },
     deployable: { shape: "deployable", className: "design" },
     subscription: { shape: "subscription", className: "design" },
-    rules: { shape: "rules", className: "design" },
+    rules: { shape: "placements", className: "design" },
     clusters: { shape: "cluster", className: "container" },
     helmrelease: { shape: "chart", className: "container" },
     package: { shape: "chart", className: "container" },

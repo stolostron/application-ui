@@ -112,7 +112,7 @@ const nodes = [
     name: "towhichcluster",
     cluster: null,
     clusterName: null,
-    type: "rules",
+    type: "placements",
     specs: {
       isDesign: true,
       raw: {
@@ -225,7 +225,7 @@ const options = {
 };
 
 const activeFilters = {
-  type: ["application", "rules", "subscription", "pod", "cluster"]
+  type: ["application", "placements", "subscription", "pod", "cluster"]
 };
 
 const locale = "en-US";
@@ -239,7 +239,7 @@ describe("getAllFilters", () => {
     application: { shape: "application", className: "design", nodeRadius: 30 },
     deployable: { shape: "deployable", className: "design" },
     subscription: { shape: "subscription", className: "design" },
-    rules: { shape: "rules", className: "design" },
+    rules: { shape: "placements", className: "design" },
     clusters: { shape: "cluster", className: "container" },
     helmrelease: { shape: "chart", className: "container" },
     package: { shape: "chart", className: "container" },
@@ -264,7 +264,7 @@ describe("getAllFilters", () => {
 
   const expectedResults = {
     activeFilters: {
-      type: ["application", "deployment", "rules", "subscription"]
+      type: ["application", "deployment", "placements", "subscription"]
     },
     availableFilters: {
       // clusterNames: {
@@ -288,7 +288,7 @@ describe("getAllFilters", () => {
         availableSet: new Set(["deployment"]),
         name: "Types"
       },
-      type: ["application", "deployment", "rules", "subscription"]
+      type: ["application", "deployment", "placements", "subscription"]
     },
     otherTypeFilters: []
   };
@@ -636,7 +636,7 @@ const expectedFilterNodeResult = [
       row: 35
     },
     topology: null,
-    type: "rules",
+    type: "placements",
     uid: "member--rules--ns-sub-1--towhichcluster--0"
   }
 ];
@@ -774,7 +774,7 @@ const expectedFilterAppWeaveNodeResult = [
       row: 35
     },
     topology: null,
-    type: "rules",
+    type: "placements",
     uid: "member--rules--ns-sub-1--towhichcluster--0"
   },
   {
@@ -944,10 +944,22 @@ describe("filterRelationshipNodes", () => {
     activeFilters: {
       resourceStatuses: new Set(["green"]),
       clusterNames: new Set(["braveman"]),
-      type: ["application", "deployment", "rules", "subscription", "replicaset"]
+      type: [
+        "application",
+        "deployment",
+        "placements",
+        "subscription",
+        "replicaset"
+      ]
     },
     availableFilters: {
-      type: ["application", "deployment", "rules", "subscription", "replicaset"]
+      type: [
+        "application",
+        "deployment",
+        "placements",
+        "subscription",
+        "replicaset"
+      ]
     },
     mode: "application"
   };

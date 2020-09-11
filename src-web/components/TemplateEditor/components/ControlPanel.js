@@ -271,7 +271,7 @@ class ControlPanel extends React.Component {
       return null
     }
     const controlId = `${id}${grpId}`
-    control.controlId = controlId 
+    control.controlId = controlId
     switch (type) {
     case 'title':
     case 'section':
@@ -524,9 +524,11 @@ class ControlPanel extends React.Component {
       return notifications.map(
         ({ id, controlId, exception, kind = 'error', ref, tabInx = 0, editor, row }) => {
           const handleClick = () => {
-            if (ref) {
-              ref = document.getElementById(controlId) || ref             
-              ref.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            if (ref || controlId) {
+              ref = document.getElementById(controlId) || ref
+              if (ref) {
+                ref.scrollIntoView({ behavior: 'smooth', block: 'center' })
+              }
             } else if (editor && row) {
               const tabContainer = document.querySelector(
                 '.creation-view-yaml-header-tabs'

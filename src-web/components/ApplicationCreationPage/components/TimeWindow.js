@@ -50,16 +50,7 @@ export class TimeWindow extends React.Component {
     this.props.control.validation = this.validation.bind(this)
   }
 
-  validation(exceptions) {
-    const {control:{active}} = this.props
-    if (active.days.length!=0) {
-      exceptions.push({
-        row: 1, //location of error in source
-        text: 'Days are selected',
-        type: 'error',
-        controlId: `mon-${this.props.control.controlId}`,
-      })
-    }
+  validation(){//exceptions) {
   }
 
   render() {

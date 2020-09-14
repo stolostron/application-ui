@@ -11,6 +11,8 @@
 import _ from 'lodash'
 import msgs from '../../../../nls/platform.properties'
 
+import { addDetails } from './diagram-helpers'
+
 const ansibleTaskErrorStates = ['Failed']
 const ansibleTaskSuccessStates = ['Successful', 'Running']
 
@@ -129,6 +131,17 @@ export const showAnsibleJobDetails = (node, details) => {
 
   const taskStatus = getInfoForAnsibleTask(ansibleConditions)
   const jobStatus = getInfoForAnsibleJob(_.get(node, ansibleJobStatusStr))
+
+  addDetails(details, [
+    {
+      labelKey: 'specs.k8sJob.templateName',
+      value: _.get(node, 'specs.raw.spec.k8sJob.env.templateName')
+    },
+    {
+      labelKey: 'specs.k8sJob.secretName',
+      value: _.get(node, 'specs.raw.spec.k8sJob.env.secretNamespacedName')
+    }
+  ])
 
   details.push({
     type: 'spacer'

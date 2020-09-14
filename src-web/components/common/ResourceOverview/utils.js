@@ -295,9 +295,11 @@ export const getAppOverviewCardsData = (
         }
 
         // Get name and namespace of channel to match with data from QueryAppList
-        const channelIdentifier = _.get(node, 'specs.raw.spec.channel').split(
-          '/'
-        )
+        const channelIdentifier = _.get(
+          node,
+          'specs.raw.spec.channel',
+          ''
+        ).split('/')
         // Get repo resource type and URL
         const repoResourceData = getRepoResourceData(
           _.get(QueryApplicationList, 'items[0]'),

@@ -128,7 +128,7 @@ export const objTasks = (value, css, key = 0) => {
   const { url, accessKey, secretKey, timeWindow } = value;
   const { objUrl, objAccess, objSecret } = css;
   cy
-    .get(`#objectstore`)
+    .get("#object-storage")
     .click()
     .trigger("mouseover");
   cy.get(objUrl, { timeout: 20 * 1000 }).type(url);
@@ -169,7 +169,7 @@ export const localTasks = (value, css, key = 0) => {
   const { repository, timeWindow } = value;
   const { channelName } = css;
   cy
-    .get(`#local-cluster`)
+    .get("#namespace")
     .click()
     .trigger("mouseover");
   repository

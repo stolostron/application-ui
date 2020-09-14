@@ -37,7 +37,7 @@ export const gitTasks = (value, gitCss, key = 0) => {
   const { url, username, token, branch, path, timeWindow } = value;
   const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
   cy
-    .get(`#git`)
+    .get(`#github`)
     .click()
     .trigger("mouseover");
   cy
@@ -82,7 +82,7 @@ export const helmTasks = (value, css, key = 0) => {
   const { url, chartName, timeWindow } = value;
   const { helmURL, helmChartName } = css;
   cy
-    .get("#helm")
+    .get("#helmrepo")
     .click()
     .trigger("mouseover");
   cy
@@ -128,7 +128,7 @@ export const objTasks = (value, css, key = 0) => {
   const { url, accessKey, secretKey, timeWindow } = value;
   const { objUrl, objAccess, objSecret } = css;
   cy
-    .get("#object-storage")
+    .get("#objectstore")
     .click()
     .trigger("mouseover");
   cy.get(objUrl, { timeout: 20 * 1000 }).type(url);
@@ -169,7 +169,7 @@ export const localTasks = (value, css, key = 0) => {
   const { repository, timeWindow } = value;
   const { channelName } = css;
   cy
-    .get("#namespace")
+    .get("#deployable")
     .click()
     .trigger("mouseover");
   repository

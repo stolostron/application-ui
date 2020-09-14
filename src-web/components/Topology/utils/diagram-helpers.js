@@ -407,6 +407,10 @@ export const getPulseForData = (
     return 'yellow'
   }
 
+  if (desired === 'NA' && available === 0) {
+    return 'red'
+  }
+
   return 'green'
 }
 

@@ -97,7 +97,7 @@ describe("getNodeTooltips placements", () => {
     {
       href:
         'https://localhost/multicloud/search?filters={"textsearch":"kind:placementrule name:barnode namespace:bar"}',
-      name: "placements",
+      name: "Placements",
       value: "barnode"
     },
     {

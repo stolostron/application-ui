@@ -50,7 +50,29 @@ export class TimeWindow extends React.Component {
     this.props.control.validation = this.validation.bind(this)
   }
 
-  validation(){//exceptions) {
+  validation(exceptions) {
+    const { control, locale } = this.props
+    // Mode is active/blocked
+    if (control.active.mode !== '') {
+      // Add exception if no days selected
+      if (control.active.days.length === 0) {
+        exceptions.push({
+          row: 1,
+          text: msgs.get('creation.missing.timeWindow.days', locale),
+          type: 'error',
+          controlId: 'timeWindow-config'
+        })
+      }
+      // Add exception if no timezone selected
+      if (control.active.timezone === '') {
+        exceptions.push({
+          row: 1,
+          text: msgs.get('creation.missing.timeWindow.timezone', locale),
+          type: 'error',
+          controlId: 'timeWindow-config'
+        })
+      }
+    }
   }
 
   render() {
@@ -128,7 +150,10 @@ export class TimeWindow extends React.Component {
                   locale
                 )}
               >
-                <div className="timeWindow-config-container">
+                <div
+                  className="timeWindow-config-container"
+                  id="timeWindow-config"
+                >
                   <div className="config-days-section">
                     <div className="config-title">
                       {msgs.get(

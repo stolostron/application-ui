@@ -717,6 +717,7 @@
   "resource.application": "Application",
   "resource.applications": "Applications",
   "resource.application.error": "Error",
+  "resource.placements": "Placements",
   "resource.channel": "Channel",
   "resource.cluster": "Cluster",
   "resource.clusters": "Clusters",

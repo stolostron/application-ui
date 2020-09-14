@@ -72,7 +72,7 @@ export const positionApplicationRows = (row, typeToShapeMap) => {
   // place these nodes based on other nodes
   placeLast.forEach(n => {
     const { node: { type } } = n.data()
-    if (type === 'rules') {
+    if (type === 'placements') {
       const subscriptions = n.incomers().nodes()
       let x, y
       subscriptions.forEach((subscription, idx) => {
@@ -220,7 +220,7 @@ export const positionRowsDown = (
     nextRow = nextRow.filter(n => {
       const { node } = n.data()
       const { type } = node
-      if (type === 'rules') {
+      if (type === 'placements') {
         placeLast.push(n)
         return false
       } else if (type === 'cluster') {

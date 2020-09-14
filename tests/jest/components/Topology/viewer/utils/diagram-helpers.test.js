@@ -143,7 +143,7 @@ const resourceList = [
         name: "pr",
         namespace: "default",
         cluster: "braveman",
-        kind: "rules"
+        kind: "placements"
       }
     ]
   },
@@ -938,7 +938,7 @@ describe("createResourceSearchLink for cluster", () => {
 
 describe("createResourceSearchLink for PR", () => {
   const node = {
-    type: "rules",
+    type: "placements",
     name: "rule1",
     namespace: "ns",
     specs: {
@@ -2262,7 +2262,7 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
-    type: "rules",
+    type: "placements",
     specs: {}
   };
 
@@ -2270,7 +2270,7 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy2",
     cluster: null,
     clusterName: null,
-    type: "rules",
+    type: "placements",
     specs: {
       raw: {
         status: {
@@ -2688,7 +2688,7 @@ describe("setResourceDeployStatus 3 ", () => {
 
 describe("setPlacementRuleDeployStatus 1 ", () => {
   const node = {
-    type: "rules",
+    type: "placements",
     name: "cassandra",
     namespace: "default",
     id:

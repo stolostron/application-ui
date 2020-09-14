@@ -40,8 +40,8 @@ import {
 } from './ansible-task'
 
 /*
-* UI helpers to help with data transformations
-* */
+ * UI helpers to help with data transformations
+ * */
 export const getAge = value => {
   if (value) {
     if (value.includes('T')) {
@@ -256,7 +256,7 @@ export const nodeMustHavePods = node => {
   if (
     !node ||
     !node.type ||
-    R.contains(node.type, ['application', 'rules', 'subscription'])
+    R.contains(node.type, ['application', 'placements', 'subscription'])
   ) {
     return false
   }
@@ -517,7 +517,7 @@ export const computeNodeStatus = node => {
       pulse = 'red'
     }
     break
-  case 'rules':
+  case 'placements':
     if (!_.get(node, 'specs.raw.status.decisions')) {
       pulse = 'red'
     }
@@ -540,7 +540,7 @@ export const createDeployableYamlLink = (node, details) => {
     node &&
     R.contains(_.get(node, 'type', ''), [
       'application',
-      'rules',
+      'placements',
       'subscription'
     ])
   ) {
@@ -724,7 +724,10 @@ export const createResourceSearchLink = node => {
             computedNS && computedNS.length > 0
               ? computedNS
               : R.pathOr('', ['specs', 'raw', 'metadata', 'namespace'])(node),
-          kind: nodeType === 'rules' ? 'placementrule' : _.get(node, 'type', '')
+          kind:
+            nodeType === 'placements'
+              ? 'placementrule'
+              : _.get(node, 'type', '')
         },
         indent: true
       }
@@ -930,7 +933,7 @@ export const setResourceDeployStatus = (node, details) => {
     nodeMustHavePods(node) ||
     R.contains(node.type, [
       'application',
-      'rules',
+      'placements',
       'cluster',
       'subscription',
       'package'
@@ -1262,7 +1265,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
 }
 
 export const setPlacementRuleDeployStatus = (node, details) => {
-  if (R.pathOr('', ['type'])(node) !== 'rules') {
+  if (R.pathOr('', ['type'])(node) !== 'placements') {
     return details
   }
 

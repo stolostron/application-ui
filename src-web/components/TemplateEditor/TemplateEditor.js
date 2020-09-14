@@ -22,8 +22,7 @@ import {
   InlineNotification,
   ToggleSmall
 } from 'carbon-components-react'
-import { initializeControlData, cacheUserData } from './utils/initialize-control-data'
-//import { initializeControlSourcePaths } from './utils/initialize-control-source-paths'
+import { initializeControls, cacheUserData } from './utils/initialize-controls'
 import { updateControls } from './utils/refresh-controls-from-source'
 import { generateSourceFromTemplate } from './utils/refresh-source-from-templates'
 import { getUniqueName } from './utils/source-utils'
@@ -120,16 +119,15 @@ export default class TemplateEditor extends React.Component {
       const { controlData: initialControlData } = props
       const { isCustomName } = state
       let { controlData, templateYAML, templateObject } = state
-      const { template } = state
+      const { forceUpdate, template } = state
 
       // initialize controlData, templateYAML, templateObject
       if (!controlData) {
-        controlData = initializeControlData(
+        controlData = initializeControls(
           _.cloneDeep(initialControlData),
+          forceUpdate,
           locale
         );
-        //initializeControlSourcePaths(template,
-        //  controlData);
         ({ templateYAML, templateObject } = generateSourceFromTemplate(
           template,
           controlData
@@ -174,7 +172,10 @@ export default class TemplateEditor extends React.Component {
       isFinalValidate: false,
       hasUndo: false,
       hasRedo: false,
-      resetInx: 0
+      resetInx: 0,
+      forceUpdate: (()=>{
+        this.forceUpdate()
+      }).bind(this)
     }
     this.selectedTab = 0
     this.isDirty = false
@@ -369,17 +370,7 @@ export default class TemplateEditor extends React.Component {
     // custom action when control is selected
     const { onSelect } = control
     if (typeof onSelect === 'function') {
-      onSelect(control, controlData, (ctrl, isLoading)=>{
-        if (isLoading) {
-          ctrl.isLoading = isLoading
-          this.forceUpdate()
-        } else {
-          setTimeout(() => {
-            ctrl.isLoading = isLoading
-            this.forceUpdate()
-          })
-        }
-      })
+      onSelect()
     }
 
     const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
@@ -421,6 +412,7 @@ export default class TemplateEditor extends React.Component {
     const { locale } = this.props
     const {
       showEditor,
+      forceUpdate,
       template,
       templateYAML,
       otherYAMLTabs,
@@ -431,8 +423,9 @@ export default class TemplateEditor extends React.Component {
     if (inx === undefined) {
       // add new group
       const { prompts: { nameId, baseName } } = control
-      const newGroup = initializeControlData(
+      const newGroup = initializeControls(
         cd,
+        forceUpdate,
         locale,
         active.length + 1,
         true
@@ -515,7 +508,7 @@ export default class TemplateEditor extends React.Component {
   changeEditorMode(control, controlData) {
     const { locale } = this.props
     let { template } = this.props
-    const { otherYAMLTabs } = this.state
+    const { otherYAMLTabs, forceUpdate } = this.state
     let { templateYAML, templateObject } = this.state
     let newYAML = templateYAML
     let newYAMLTabs = otherYAMLTabs
@@ -555,7 +548,7 @@ export default class TemplateEditor extends React.Component {
             cd.groupControlData = groupControlData
           })
         }
-        controlData = initializeControlData(controlData, locale)
+        controlData = initializeControls(controlData, forceUpdate, locale)
       }
 
       // replace template and regenerate templateYAML and highlight diffs
@@ -983,7 +976,7 @@ export default class TemplateEditor extends React.Component {
     let notifications = []
     if (hasSyntaxExceptions || hasValidationExceptions) {
       Object.values(templateExceptionMap).forEach(({ exceptions }) => {
-        exceptions.forEach(({ row, text, editor, tabInx, ref }) => {
+        exceptions.forEach(({ row, text, editor, tabInx, controlId, ref }) => {
           notifications.push({
             id: 'error',
             kind: 'error',
@@ -991,6 +984,7 @@ export default class TemplateEditor extends React.Component {
             row,
             editor,
             tabInx,
+            controlId,
             ref
           })
         })
@@ -1147,8 +1141,9 @@ export default class TemplateEditor extends React.Component {
   resetEditor() {
     const { template, controlData: initialControlData, locale } = this.props
     const { resetInx } = this.state
-    const controlData = initializeControlData(
+    const controlData = initializeControls(
       _.cloneDeep(initialControlData),
+      this.forceUpdate,
       locale
     )
     const otherYAMLTabs = []

@@ -138,7 +138,7 @@ class ControlPanelCards extends React.Component {
         return { collapsed: !prevState.collapsed }
       })
     }
-    this.props.handleChange(collapsed?null:id)
+    this.props.handleChange(collapsed ? null : id)
   }
 }
 
@@ -149,7 +149,7 @@ const ControlPanelCard = ({
   selected,
   locale
 }) => {
-  const { disabled, logo, title, tooltip, learnMore } = choice
+  const { id, disabled, logo, title, tooltip, learnMore } = choice
   const cardClasses = classNames({
     'mcx--create-cluster-page__provider-card': true,
     'mcx--create-cluster-page__provider-card-isSelected': selected,
@@ -166,7 +166,6 @@ const ControlPanelCard = ({
   const half = title.substring(0, title.length / 2).lastIndexOf(' ')
   const title1 = title.substring(0, half)
   const title2 = title.substring(half)
-  const id = title.replace(/\s+/g, '-').toLowerCase()
   return (
     <div
       className={wrapperClasses}

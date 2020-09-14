@@ -239,7 +239,7 @@ describe("getAllFilters", () => {
     application: { shape: "application", className: "design", nodeRadius: 30 },
     deployable: { shape: "deployable", className: "design" },
     subscription: { shape: "subscription", className: "design" },
-    rules: { shape: "placements", className: "design" },
+    placements: { shape: "placements", className: "design" },
     clusters: { shape: "cluster", className: "container" },
     helmrelease: { shape: "chart", className: "container" },
     package: { shape: "chart", className: "container" },
@@ -264,7 +264,7 @@ describe("getAllFilters", () => {
 
   const expectedResults = {
     activeFilters: {
-      type: ["application", "deployment", "placements", "subscription"]
+      type: ["application", "deployment", "subscription", "other"]
     },
     availableFilters: {
       // clusterNames: {

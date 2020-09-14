@@ -46,7 +46,7 @@ const ChannelLabels = ({ channels, locale }) => {
                 </Split>
               }
             >
-              <Stack className="channel-labels">
+              <Stack className="channel-labels channel-labels-popover-content">
                 {channelMap[chType].map((channel, index) => {
                   const pathname = channel.pathname
                   const link =

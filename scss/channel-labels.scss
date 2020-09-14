@@ -2,9 +2,6 @@
 @import 'scss/variables';
 
 .channel-labels {
-  max-height: 360px;
-  overflow: scroll;
-
   .channel-type-label {
     font-size: 12px;
     --pf-l-split--m-gutter--MarginRight: 8px;
@@ -36,4 +33,9 @@
     font-weight: 600;
     padding-right: 6px;
   }
+}
+
+.channel-labels-popover-content {
+  max-height: 360px;
+  overflow-y: auto;
 }

@@ -1023,7 +1023,7 @@ describe("getNodeDetails placement rules node with error", () => {
     name: "mortgage-rule",
     cluster: null,
     clusterName: null,
-    type: "rules",
+    type: "placements",
     specs: {
       raw: {
         apiVersion: "app.ibm.com/v1alpha1",
@@ -1054,7 +1054,7 @@ describe("getNodeDetails placement rules node with error", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "rules"
+      value: "placements"
     },
     {
       indent: undefined,
@@ -1108,7 +1108,7 @@ describe("getNodeDetails placement rules node with success", () => {
     name: "mortgage-rule",
     cluster: null,
     clusterName: null,
-    type: "rules",
+    type: "placements",
     specs: {
       raw: {
         apiVersion: "app.ibm.com/v1alpha1",
@@ -1142,7 +1142,7 @@ describe("getNodeDetails placement rules node with success", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "rules"
+      value: "placements"
     },
     {
       indent: undefined,

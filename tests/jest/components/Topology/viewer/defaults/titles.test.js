@@ -23,7 +23,7 @@ describe("getLegendTitle", () => {
     ["integrationplatform", "Integration platform"],
     ["persistentvolumeclaim", "Persistent Volume Claim"],
     ["application", "Application"],
-    ["rules", "Rules"],
+    ["placements", "Placements"],
     ["unknown", "Unknown"],
     ["", ""]
   ]);

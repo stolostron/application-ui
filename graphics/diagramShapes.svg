@@ -345,7 +345,7 @@
             </g>
         </g>
     </symbol>
-    <symbol viewBox="0 0 32 32" id="rules">
+    <symbol viewBox="0 0 32 32" id="placements">
         <g id="Topology" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
             <g id="Artboard" transform="translate(-1434.000000, -1091.000000)">
                 <g id="PlacementRule" transform="translate(1434.000000, 1091.000000)">

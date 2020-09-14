@@ -577,7 +577,7 @@ export const notDesignNode = nodeType => {
   return (
     nodeType !== 'application' &&
     nodeType !== 'subscription' &&
-    nodeType !== 'rules'
+    nodeType !== 'placements'
   )
 }
 

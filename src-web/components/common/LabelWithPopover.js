@@ -11,25 +11,41 @@ resources(() => {
 })
 
 const LabelWithPopover = ({ children, labelContent, labelIcon }) => {
+  const hoverDelay = 1500
   const [
-    { popoverOpen, popoverPinnedOpen, justClosed },
+    { popoverOpen, popoverPinnedOpen, justClosed, timeout },
     setPopoverState
   ] = useState({
     popoverOpen: false,
     popoverPinnedOpen: false,
-    justClosed: false
+    justClosed: false,
+    timeout: null
   })
 
   const closePopover = () => {
-    setPopoverState(prevState => ({ ...prevState, popoverOpen: false }))
+    const newTimeout = setTimeout(
+      () =>
+        setPopoverState(prevState => ({
+          ...prevState,
+          popoverOpen: false,
+          timeout: null
+        })),
+      hoverDelay
+    )
+    setPopoverState(prevState => ({ ...prevState, timeout: newTimeout }))
   }
 
   const openPopover = () => {
-    setPopoverState(prevState => ({ ...prevState, popoverOpen: true }))
+    setPopoverState(prevState => {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+      return { ...prevState, popoverOpen: true, timeout: null }
+    })
   }
 
   const shouldClose = () => {
-    const pinned = popoverOpen && !popoverPinnedOpen
+    const pinned = popoverOpen && !popoverPinnedOpen && !timeout
     setPopoverState({
       popoverOpen: pinned,
       popoverPinnedOpen: pinned,
@@ -56,6 +72,8 @@ const LabelWithPopover = ({ children, labelContent, labelIcon }) => {
         isVisible={popoverOpen || popoverPinnedOpen}
         shouldClose={shouldClose}
         shouldOpen={pinPopover}
+        onPointerEnter={openPopover}
+        onPointerLeave={closePopover}
         className="label-with-popover"
         enableFlip
         position="bottom"

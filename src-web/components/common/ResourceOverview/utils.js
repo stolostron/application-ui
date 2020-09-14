@@ -325,7 +325,7 @@ export const getAppOverviewCardsData = (
         node.type !== 'application' &&
         node.type !== 'cluster' &&
         node.type !== 'subscription' &&
-        node.type !== 'rules' &&
+        node.type !== 'placements' &&
         _.get(node, 'specs.pulse')
       ) {
         // Get cluster resource statuses

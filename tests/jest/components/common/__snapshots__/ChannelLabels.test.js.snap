@@ -76,7 +76,7 @@ exports[`ChannelLabels renders as expected 1`] = `
           <div
             className="pf-l-split__item"
           >
-            Local cluster
+            Namespace
           </div>
           <div
             className="pf-l-split__item"

@@ -74,7 +74,7 @@ export const processNodeData = (
 ) => {
   const { name, type } = node
 
-  if (R.contains(type, ['cluster', 'application', 'rules'])) {
+  if (R.contains(type, ['cluster', 'application', 'placements'])) {
     return //ignore these types
   }
 

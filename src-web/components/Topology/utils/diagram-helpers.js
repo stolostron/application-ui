@@ -1437,7 +1437,7 @@ export const addIngressNodeInfo = (node, details) => {
       )
     )
 
-    const rules = R.pathOr([], ['specs', 'raw', 'spec', 'placements'])(node)
+    const rules = R.pathOr([], ['specs', 'raw', 'spec', 'rules'])(node)
     rules.forEach(ruleInfo => {
       const hostName = R.pathOr('NA', ['host'])(ruleInfo)
       details.push({

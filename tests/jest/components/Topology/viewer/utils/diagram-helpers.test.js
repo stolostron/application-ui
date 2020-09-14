@@ -3479,7 +3479,7 @@ describe("addIngressNodeInfo 1", () => {
       raw: {
         kind: "Ingress",
         spec: {
-          placements: [
+          rules: [
             {
               host: "aaa",
               http: {

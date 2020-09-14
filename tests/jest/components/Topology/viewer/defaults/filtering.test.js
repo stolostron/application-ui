@@ -264,7 +264,7 @@ describe("getAllFilters", () => {
 
   const expectedResults = {
     activeFilters: {
-      type: ["application", "deployment", "subscription", "other"]
+      type: ["application", "deployment", "placements", "subscription"]
     },
     availableFilters: {
       // clusterNames: {

@@ -86,7 +86,7 @@ describe("getNodeTooltips PVC", () => {
   });
 });
 
-describe("getNodeTooltips rules", () => {
+describe("getNodeTooltips placements", () => {
   const rulesNode = {
     name: "barnode",
     namespace: "bar",

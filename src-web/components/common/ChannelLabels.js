@@ -39,6 +39,8 @@ const ChannelLabels = ({ channels, locale }) => {
                 <Split hasGutter className="channel-type-label">
                   <SplitItem>
                     {msgs.get(`channel.type.${chType}`, locale)}
+                    {channelMap[chType].length > 1 &&
+                      ` (${channelMap[chType].length})`}
                   </SplitItem>
                   <SplitItem>
                     <Icon className="channel-type-icon" name="icon--launch" />
@@ -60,7 +62,11 @@ const ChannelLabels = ({ channels, locale }) => {
                       })
                       : pathname
                   return (
-                    <React.Fragment key={chType}>
+                    <React.Fragment
+                      key={`${chType}-${channel.pathname}-${
+                        channel.gitBranch
+                      }-${channel.gitPath}`}
+                    >
                       {index > 0 && (
                         <StackItem>
                           <Divider />

@@ -301,3 +301,7 @@ body {
 .bx--tooltip--definition .bx--tooltip__trigger:hover {
   border-bottom: none;
 }
+
+.bx--tooltip--definition .bx--tooltip__trigger:hover + .bx--tooltip--definition__bottom {
+  min-width: 150px;
+}

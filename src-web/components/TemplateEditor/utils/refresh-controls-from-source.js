@@ -106,7 +106,7 @@ export function updateControls(
       setTimeout(() => {
         if (editor) {
           const decorationList = []
-          _exceptions.forEach(({ row, text }) => {
+          _exceptions.forEach(({ row=1, text }) => {
             decorationList.push({
               range: new editor.monaco.Range(row, 0, row, 132),
               options: {
@@ -117,7 +117,7 @@ export function updateControls(
               }
             })
           })
-          _exceptions.forEach(({ row, column }) => {
+          _exceptions.forEach(({ row=1, column=0 }) => {
             decorationList.push({
               range: new editor.monaco.Range(row, column - 6, row, column + 6),
               options: {
@@ -250,36 +250,46 @@ const updateControl = (
   locale
 ) => {
   // if final validation before creating template, if this value is required, throw error
-  const { type, hidden } = control
-  if (typeof hidden === 'function' && hidden(control, controlData)) {
+  const { type, isHidden } = control
+  if (isHidden === true || isHidden==='true' || typeof isHidden === 'function' && isHidden()) {
     return
   }
   if ((isFinalValidate || type === 'number') && control.validation) {
-    const {
-      name,
-      active,
-      validation: { required, notification },
-      ref
-    } = control
-    if (required && (!active || (type === 'cards' && active.length === 0))) {
-      const msg =
-        notification ? notification : 'creation.missing.input'
-      control.exception = msgs.get(msg, [name], locale)
-      const { sourcePath } = control
-      if (sourcePath) {
-        const { tabId, path } = sourcePath
-        const parsed = templateObjectMap[tabId]
-        const { exceptions } = templateExceptionMap[tabId]
-        const spath = splitPath(path)
+    let { exceptions } = templateExceptionMap['<<main>>']
+    if (type==='custom') {
+      control.validation(exceptions)
+      return
+    } else {
+      const {
+        name,
+        active,
+        validation: { required, notification },
+        controlId,
+        ref
+      } = control
+      if (required && (!active || (type === 'cards' && active.length === 0))) {
+        let row = 0
+        const msg =
+          notification ? notification : 'creation.missing.input'
+        control.exception = msgs.get(msg, [name], locale)
+        const { sourcePath } = control
+        if (sourcePath) {
+          const { tabId, path } = sourcePath;
+          ({ exceptions } = templateExceptionMap[tabId])
+          const parsed = templateObjectMap[tabId]
+          const spath = splitPath(path)
+          row = getRow(spath, parsed)
+        }
         exceptions.push({
-          row: getRow(spath, parsed),
+          row,
           column: 0,
           text: control.exception,
           type: 'error',
+          controlId,
           ref
         })
+        return
       }
-      return
     }
   }
 
@@ -379,6 +389,7 @@ const updateTextControl = (
     sourcePath: { tabId, path },
     validation: { contextTester, tester, notification },
     template,
+    controlId,
     ref
   } = control
   const parsed = templateObjectMap[tabId]
@@ -420,6 +431,7 @@ const updateTextControl = (
         column: 0,
         text: exception,
         type: 'error',
+        controlId,
         ref
       })
     }

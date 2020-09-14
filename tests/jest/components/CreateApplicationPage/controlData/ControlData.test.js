@@ -792,7 +792,7 @@ describe("updateNewRuleControlsData without controls", () => {
       },
       available: [],
       id: "clusterSelector",
-      type: "custom"
+      type: "hidden"
     },
     "local-cluster-checkbox": {
       active: true,
@@ -801,6 +801,7 @@ describe("updateNewRuleControlsData without controls", () => {
     },
     "online-cluster-only-checkbox": {
       active: true,
+      disabled: true,
       id: "online-cluster-only-checkbox",
       type: "checkbox"
     },
@@ -895,7 +896,7 @@ describe("updatePlacementControls with controls", () => {
   };
   const result = [
     { id: "local-cluster-checkbox", type: "checkbox" },
-    { id: "online-cluster-only-checkbox", type: "checkbox" },
+    { id: "online-cluster-only-checkbox", type: "checkbox", disabled: false },
     { id: "clusterSelector", type: "custom" }
   ];
   it("should return all data", () => {

@@ -47,6 +47,10 @@ export class TimeWindow extends React.Component {
       timeList: [{ id: 0, start: '', end: '', validTime: true }],
       timeListID: 1
     }
+    this.props.control.validation = this.validation.bind(this)
+  }
+
+  validation(){//exceptions) {
   }
 
   render() {

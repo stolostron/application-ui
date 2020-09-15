@@ -33,7 +33,7 @@ const LabelWithPopover = ({ children, labelContent, labelIcon }) => (
       position="bottom"
       flipBehavior={['bottom', 'top', 'right', 'left']}
       distance={10}
-      zIndex={500}
+      zIndex={6005}
     >
       <Label
         onClick={event => {

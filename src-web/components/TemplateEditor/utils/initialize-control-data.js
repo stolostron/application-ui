@@ -110,6 +110,23 @@ const initializeControlUserData = (control) => {
   }
 }
 
+//don't save user data until they create
+export const cacheUserData = controlData => {
+  controlData.forEach(control => {
+    if (
+      control.cacheUserValueKey &&
+      control.userData &&
+      control.userData.length > 0
+    ) {
+      const storageKey = `${control.cacheUserValueKey}--${
+        window.location.href
+      }`
+      sessionStorage.setItem(storageKey, JSON.stringify(control.userData))
+    }
+  })
+}
+
+
 const initializeMsgs = (control, locale, groupNum) => {
   const { type, controlData, available } = control
   const keys = [

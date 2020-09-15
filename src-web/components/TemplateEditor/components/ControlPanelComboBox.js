@@ -113,7 +113,7 @@ class ControlPanelComboBox extends React.Component {
             ) : null}
             <Tooltip control={control} locale={locale} />
           </div>
-          {isLoading ? (
+          {isLoading && !active ? (
             <div className="creation-view-controls-singleselect-loading">
               <DropdownSkeleton />
               <InlineLoading description={loadingMsg} />

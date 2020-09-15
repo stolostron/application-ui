@@ -16,7 +16,7 @@ exports[`ChannelLabels renders as expected 1`] = `
         href="#"
       >
         <div
-          className="pf-l-split pf-m-gutter channel-type-label"
+          className="pf-l-split pf-m-gutter channel-label"
         >
           <div
             className="pf-l-split__item"
@@ -30,7 +30,7 @@ exports[`ChannelLabels renders as expected 1`] = `
             <svg
               alt="Provide a description that will be used as the title"
               aria-label="Provide a description that will be used as the title"
-              className="channel-type-icon"
+              className="channel-entry-icon"
               fillRule="evenodd"
               height="16"
               name="icon--launch"
@@ -68,7 +68,7 @@ exports[`ChannelLabels renders as expected 1`] = `
         href="#"
       >
         <div
-          className="pf-l-split pf-m-gutter channel-type-label"
+          className="pf-l-split pf-m-gutter channel-label"
         >
           <div
             className="pf-l-split__item"
@@ -81,7 +81,7 @@ exports[`ChannelLabels renders as expected 1`] = `
             <svg
               alt="Provide a description that will be used as the title"
               aria-label="Provide a description that will be used as the title"
-              className="channel-type-icon"
+              className="channel-entry-icon"
               fillRule="evenodd"
               height="16"
               name="icon--launch"

@@ -3,7 +3,13 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Label, Popover } from '@patternfly/react-core'
+import {
+  Divider,
+  Label,
+  Popover,
+  Stack,
+  StackItem
+} from '@patternfly/react-core'
 import resources from '../../../lib/shared/resources'
 
 resources(() => {
@@ -13,7 +19,15 @@ resources(() => {
 const LabelWithPopover = ({ children, labelContent, labelIcon }) => (
   <div className="label-with-popover">
     <Popover
-      bodyContent={children}
+      bodyContent={
+        <Stack>
+          <StackItem className="close-button-spacer" />
+          <StackItem>
+            <Divider />
+          </StackItem>
+          <StackItem>{children}</StackItem>
+        </Stack>
+      }
       className="label-with-popover"
       enableFlip
       position="bottom"

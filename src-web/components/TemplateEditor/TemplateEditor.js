@@ -155,9 +155,7 @@ export default class TemplateEditor extends React.Component {
       // if editing an exisiting resource, load control active values from resources
       if (editResources) {
         refreshControls(
-          templateObject,
-          templateResources,
-          controlData,
+          controlData, templateObject, forceUpdate, locale          
         )
       }
       newState = {...newState, templateYAML, firstTemplateYAML:templateYAML, templateObject, editResources, templateResources}

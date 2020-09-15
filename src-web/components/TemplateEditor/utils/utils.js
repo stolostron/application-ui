@@ -46,25 +46,14 @@ export const initializeControls = (
 
 // refresh controls from template
 export function refreshControls(
-  templateObject,
-  templateResources,
-  controlData
+  controlData, templateObject, forceUpdate, locale
 ) {
   const refreshControl = control => {
     const {
-      type,
-      active=[],
       refresh
     } = control
     if (refresh) {
-      refresh(templateObject, templateResources)
-      if (type === 'group') {
-        active.forEach(group => {
-          group.forEach(gcontrol => {
-            refreshControl(gcontrol, templateObject, templateResources)
-          })
-        })
-      }
+      refresh(control, controlData, templateObject, forceUpdate, locale)
     }
   }
   controlData.forEach(control => {

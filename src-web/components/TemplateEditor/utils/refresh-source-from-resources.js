@@ -32,7 +32,7 @@ export const generateSourceFromResources = (editResources) => { //, controlData,
   let yaml,
       row = 0
   const resources=[]
-  const parsed = []
+  const parsed = {}
   const yamls = []
   editResources.forEach(resource => {
     const key = _.get(resource, 'kind', 'unknown')

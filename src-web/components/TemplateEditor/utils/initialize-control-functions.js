@@ -18,7 +18,6 @@ import _ from 'lodash'
 ///////////////////////////////////////////////////////////////////////////////
 export const initializeControlFunctions = (
   controlData,
-  templateObject,
   forceUpdate,
   parentControlData=controlData
 ) => {
@@ -27,12 +26,12 @@ export const initializeControlFunctions = (
     switch (type) {
     case 'group': {
       active.forEach(cd=>{
-        initializeControlFunctions(cd, templateObject, forceUpdate, parentControlData)
+        initializeControlFunctions(cd, forceUpdate, parentControlData)
       })
       break
     }
     default:
-      initialControl(control, templateObject, parentControlData, forceUpdate)
+      initialControl(control, parentControlData, forceUpdate)
     }
   })
 }
@@ -40,7 +39,7 @@ export const initializeControlFunctions = (
 ///////////////////////////////////////////////////////////////////////////////
 //initialze each control
 ///////////////////////////////////////////////////////////////////////////////
-const initialControl = (control, templateObject, controlData, forceUpdate) => {
+const initialControl = (control, controlData, forceUpdate) => {
   const { type, setActive, refresh } = control
   if (type!=='title' && type!=='section' && !setActive) {
     if (typeof control.onSelect ==='function') {
@@ -70,13 +69,16 @@ const initialControl = (control, templateObject, controlData, forceUpdate) => {
     }
 
     if (refresh) {
-
-      control.refresh = (templateObject)=>{
-        const active = _.get(templateObject, getSourcePath(refresh))
-        if (active) {
-          control.active = active.$v
-          control.row = active.$r
+      switch (typeof refresh) {
+      case 'string':
+        control.refresh = (control, controlData, templateObject)=>{
+          const active = _.get(templateObject, getSourcePath(refresh))
+          if (active) {
+            control.active = active.$v
+            control.row = active.$r
+          }
         }
+        break
       }
 
     }

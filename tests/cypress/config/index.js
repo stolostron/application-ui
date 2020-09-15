@@ -20,9 +20,13 @@ exports.getConfig = () => {
     for (const [key, value] of Object.entries(config)) {
       if (value.data.enable) {
         process.env.CYPRESS_JOB_ID
-          ? (value.data.name =
-              value.data.name + "-" + process.env.CYPRESS_JOB_ID)
+          ? process.env.CYPRESS_JOB_ID.length > 5
+            ? (value.data.name =
+                value.data.name + "-" + process.env.CYPRESS_JOB_ID.slice(-5))
+            : (value.data.name =
+                value.data.name + "-" + process.env.CYPRESS_JOB_ID)
           : value.data.name;
+        console.log(value.data.name);
       }
     }
   } catch (e) {

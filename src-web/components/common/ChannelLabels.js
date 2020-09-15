@@ -26,6 +26,12 @@ const ChannelLabels = ({ channels, locale }) => {
     return channelType === 'github' ? 'git' : channelType
   })
   const channelMap = groupByChannelType(channels || [])
+  // Create sorting function for channels
+  const channelSort = R.sortWith([
+    R.ascend(R.prop('pathname')),
+    R.ascend(R.prop('gitBranch')),
+    R.ascend(R.prop('gitPath'))
+  ])
   return (
     <div className="label-with-popover-container channel-labels">
       {['git', 'helmrepo', 'namespace', 'objectbucket']
@@ -48,7 +54,7 @@ const ChannelLabels = ({ channels, locale }) => {
               }
             >
               <Stack className="channel-labels channel-labels-popover-content">
-                {channelMap[chType].map((channel, index) => {
+                {channelSort(channelMap[chType]).map((channel, index) => {
                   const pathname = channel.pathname
                   const link =
                     chType === 'namespace'

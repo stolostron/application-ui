@@ -246,6 +246,7 @@ export const validateTopology = (name, data, type) => {
 
 export const validateHelloWorld = () => {
   // validate route
+  cy.wait(3 * 60 * 1000); // wait for a the route to be deployed
   cy.log("validate the route...");
   cy.scrollTo("bottom");
   cy

@@ -48,6 +48,7 @@ class RemoveResourceModal extends React.Component {
   componentWillMount() {
     if (this.props.data) {
       const { data } = this.props
+      this.getChildResources(data.name, data.namespace, data.clusterName)
       const kind = data.selfLink.split('/')
       const apiGroup = kind[1] === 'apis' ? kind[2] : ''
       canCallAction(
@@ -72,25 +73,52 @@ class RemoveResourceModal extends React.Component {
     }
   }
 
-  getChildResources(name, namespace, cluster) {
+  getChildResources(name, namespace) {
     const children = []
     const { resourceType } = this.props
     resourceType.name === 'HCMApplication'
-      ? apolloClient
-        .getResource(resourceType, { namespace, name, cluster })
-        .then(response => {
-          const resourceData = response.data.items[0]
-          if (resourceData) {
-            this.setState({
-              selected: children,
-              loading: false
+      ? apolloClient.getApplication({ name, namespace }).then(response => {
+        const subscriptions = _.get(
+          response,
+          'data.application.subscriptions',
+          []
+        )
+        if (subscriptions) {
+          // Create object specifying Application resources that can be deleted
+          _.map(subscriptions, (curr, idx) => {
+            children.push({
+              id: `${idx}-subscriptions-${curr.metadata.name}`,
+              selfLink: curr.metadata.selfLink,
+              label: `${curr.metadata.name} Subscription`,
+              selected: false
             })
-          } else {
-            this.setState({
-              loading: false
+          })
+          const appSubResources = [
+            { kind: 'channels', label: '[Channel]' },
+            { kind: 'rules', label: '[Rule]' }
+          ]
+          subscriptions.forEach(subscription => {
+            appSubResources.forEach(sub => {
+              _.map(_.get(subscription, sub.kind, []), (curr, idx) => {
+                children.push({
+                  id: `${idx}-${sub.kind}-${curr.metadata.name}`,
+                  selfLink: curr.metadata.selfLink,
+                  label: `${curr.metadata.name} ${sub.label}`,
+                  selected: false
+                })
+              })
             })
-          }
-        })
+          })
+          this.setState({
+            selected: _.uniqBy(children, 'id'),
+            loading: false
+          })
+        } else {
+          this.setState({
+            loading: false
+          })
+        }
+      })
       : this.setState({
         loading: false
       })
@@ -134,7 +162,7 @@ class RemoveResourceModal extends React.Component {
   }
 
   handleSubmit() {
-    const { selfLink, cluster } = this.state
+    const { selfLink, cluster, selected } = this.state
     this.setState({
       loading: true
     })
@@ -152,8 +180,11 @@ class RemoveResourceModal extends React.Component {
         errors: msgs.get('modal.errors.querying.resource', this.context.locale)
       })
     } else {
+      const selectedResources = selected.filter(
+        child => child.selected === true
+      )
       apolloClient
-        .remove({ cluster, selfLink, childResources: [] })
+        .remove({ cluster, selfLink, childResources: selectedResources || [] })
         .then(res => {
           if (res.errors) {
             this.setState({

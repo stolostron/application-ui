@@ -9,7 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import { parseYAML } from './source-utils'
+import { parseYAML } from './utils'
 import { Base64 } from 'js-base64'
 import _ from 'lodash'
 
@@ -66,9 +66,11 @@ export const generateSourceFromTemplate = (template, controlData, otherYAMLTabs,
   let yaml = template(templateData) || ''
   yaml = replaceSnippetMap(yaml, snippetMap)
 
+  const parsed = parseYAML(yaml)
   return {
     templateYAML: yaml,
-    templateObject: parseYAML(yaml).parsed
+    templateObject: parsed.parsed,
+    templateResources: parsed.resources
   }
 }
 

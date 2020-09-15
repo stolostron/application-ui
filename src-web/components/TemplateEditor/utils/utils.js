@@ -11,6 +11,8 @@
 
 import jsYaml from 'js-yaml'
 import YamlParser from '../components/YamlParser'
+import { initializeControlData } from './initialize-control-data'
+import { initializeControlFunctions } from './initialize-control-functions'
 import { generateSourceFromResources } from './refresh-source-from-resources'
 import { generateSourceFromTemplate } from './refresh-source-from-templates'
 
@@ -22,6 +24,56 @@ export const ControlMode = Object.freeze({
 })
 
 
+export const initializeControls = (
+  initialControlData,
+  forceUpdate,
+  locale,
+  groupNum,
+  inGroup
+) => {
+  const controlData = initializeControlData(
+    initialControlData,
+    locale,
+    groupNum,
+    inGroup
+  )
+  initializeControlFunctions(
+    controlData,
+    forceUpdate
+  )
+  return controlData
+}
+
+// refresh controls from template
+export function refreshControls(
+  templateObject,
+  templateResources,
+  controlData
+) {
+  const refreshControl = control => {
+    const {
+      type,
+      active=[],
+      refresh
+    } = control
+    if (refresh) {
+      refresh(templateObject, templateResources)
+      if (type === 'group') {
+        active.forEach(group => {
+          group.forEach(gcontrol => {
+            refreshControl(gcontrol, templateObject, templateResources)
+          })
+        })
+      }
+    }
+  }
+  controlData.forEach(control => {
+    refreshControl(control)
+  })
+}
+
+
+
 export const generateSource = (template, editResources, controlData, otherYAMLTabs, isFinalGenerate)  => {
   if (editResources) {
     return generateSourceFromResources(editResources, controlData, otherYAMLTabs, isFinalGenerate)
@@ -29,7 +81,6 @@ export const generateSource = (template, editResources, controlData, otherYAMLTa
     return generateSourceFromTemplate(template, controlData, otherYAMLTabs, isFinalGenerate)
   }
 }
-
 
 export const parseYAML = yaml => {
   let absLine = 0
@@ -82,6 +133,22 @@ export const getInsideObject = (ikey, parsed) => {
   return ret
 }
 
+//don't save user data until they create
+export const cacheUserData = controlData => {
+  controlData.forEach(control => {
+    if (
+      control.cacheUserValueKey &&
+    control.userData &&
+    control.userData.length > 0
+    ) {
+      const storageKey = `${control.cacheUserValueKey}--${
+        window.location.href
+      }`
+      sessionStorage.setItem(storageKey, JSON.stringify(control.userData))
+    }
+  })
+}
+
 export const getUniqueName = (name, nameSet) => {
   if (nameSet.has(name)) {
     let count = 1
@@ -92,4 +159,10 @@ export const getUniqueName = (name, nameSet) => {
     } while (nameSet.has(name))
   }
   return name
+}
+
+export const getSourcePath = (path) => {
+  const sourcePath = path.split('.')
+  const pathBase = sourcePath.shift() + '.$synced'
+  return sourcePath.length > 0 ? pathBase + `.${sourcePath.join('.$v.')}` : pathBase
 }

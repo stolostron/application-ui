@@ -38,16 +38,15 @@ export const generateSourceFromResources = (editResources) => { //, controlData,
     const key = _.get(resource, 'kind', 'unknown')
     yaml = jsYaml.safeDump(resource, { sortKeys, lineWidth: 200 })
     yaml = yaml.replaceAll(/'\d+':(\s|$)\s*/gm, '- ')
-    const synced = new YamlParser().parse(yaml, row)
-    synced.$r = row
-    synced.$yml = yaml
-    synced.$raw = resource
+    const $synced = new YamlParser().parse(yaml, row)
+    $synced.$r = row
+    $synced.$l = yaml.split(/[\r\n]+/g).length
     let values = parsed[key]
     if (!values) {
       values = parsed[key] = []
     }
-    values.push(synced)
-    resources.push(synced)
+    values.push({$raw: resource, $yml: yaml, $synced})
+    resources.push(resource)
     row += yaml.split('\n').length
     yamls.push(yaml)
   })

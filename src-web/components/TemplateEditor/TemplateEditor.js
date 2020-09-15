@@ -21,10 +21,13 @@ import {
   InlineNotification,
   ToggleSmall
 } from 'carbon-components-react'
-import { initializeControls, cacheUserData } from './utils/initialize-controls'
-import { initializeSourcePaths } from './utils/initialize-source-paths'
-import { updateControls } from './utils/refresh-controls-from-source'
-import { generateSource, getUniqueName } from './utils/source-utils'
+import {
+  initializeControls,
+  generateSource,
+  refreshControls,
+  getUniqueName,
+  cacheUserData } from './utils/utils'
+import { validateControls } from './utils/validate-controls'
 import {
   highlightChanges,
   highlightAllChanges,
@@ -124,17 +127,16 @@ export default class TemplateEditor extends React.Component {
 
     // has control data been initialized?
     const { controlData: initialControlData } = props
-    let { controlData, templateYAML, editResources, templateObject } = state
+    let { controlData, templateYAML, editResources, templateObject, templateResources } = state
     const { forceUpdate, template } = state
     if (!controlData) {
+      // initialize control data
       controlData = initializeControls(
         _.cloneDeep(initialControlData),
         forceUpdate,
         locale
       )
-      const sourcePathMap = initializeSourcePaths(template,
-        controlData)
-      newState = {...newState, controlData, sourcePathMap}
+      newState = {...newState, controlData}
     }
 
     // has source been initialized?
@@ -144,13 +146,21 @@ export default class TemplateEditor extends React.Component {
       editResources = _.get(fetchControl, 'resources');
 
       // generate source from template or existing resources
-      ({ templateYAML, templateObject } = generateSource(
+      ({ templateYAML, templateObject, templateResources } = generateSource(
         template,
         editResources,
         controlData
       ))
 
-      newState = {...newState, templateYAML, firstTemplateYAML:templateYAML, templateObject, editResources}
+      // if editing an exisiting resource, load control active values from resources
+      if (editResources) {
+        refreshControls(
+          templateObject,
+          templateResources,
+          controlData,
+        )
+      }
+      newState = {...newState, templateYAML, firstTemplateYAML:templateYAML, templateObject, editResources, templateResources}
     }
 
 
@@ -397,7 +407,7 @@ export default class TemplateEditor extends React.Component {
       controlData,
       otherYAMLTabs
     )
-    updateControls(
+    validateControls(
       this.editors,
       newYAML,
       otherYAMLTabs,
@@ -471,7 +481,7 @@ export default class TemplateEditor extends React.Component {
       controlData,
       otherYAMLTabs
     )
-    updateControls(
+    validateControls(
       this.editors,
       newYAML,
       otherYAMLTabs,
@@ -917,7 +927,7 @@ export default class TemplateEditor extends React.Component {
     }
 
     // update controls with values typed into yaml
-    const { templateExceptionMap, hasSyntaxExceptions } = updateControls(
+    const { templateExceptionMap, hasSyntaxExceptions } = validateControls(
       this.editors,
       templateYAML,
       otherYAMLTabs,
@@ -990,7 +1000,7 @@ export default class TemplateEditor extends React.Component {
       templateExceptionMap,
       hasSyntaxExceptions,
       hasValidationExceptions
-    } = updateControls(
+    } = validateControls(
       this.editors,
       templateYAML,
       otherYAMLTabs,

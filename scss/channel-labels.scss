@@ -33,7 +33,11 @@
     color: $color__blue-51;
     fill: $color__blue-51;
     word-break: break-all;
-    padding-bottom: var(--gutter);
+  }
+
+  .channel-entry-link + .channel-entry-attribute {
+    // extra padding for first attribute after link
+    padding-top: var(--gutter);
   }
 
   .channel-entry-attribute {

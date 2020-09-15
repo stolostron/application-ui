@@ -79,12 +79,8 @@ const ChannelLabels = ({ channels, locale }) => {
                       )}
                       <StackItem className="channel-entry">
                         <Stack hasGutter>
-                          <StackItem>
-                            <a
-                              href={link}
-                              target="_blank"
-                              className="channel-entry-link"
-                            >
+                          <StackItem className="channel-entry-link">
+                            <a href={link} target="_blank">
                               <Split hasGutter>
                                 <SplitItem>
                                   <Icon

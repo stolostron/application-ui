@@ -48,7 +48,7 @@ export const gitTasks = (value, gitCss, key = 0) => {
     cy.get(gitKey).type(token);
   }
 
-  cy.wait(10 * 1000);
+  cy.wait(20 * 1000);
   cy.get(gitBranch).type(branch, { force: true });
   cy.get(gitPath).type(path, { force: true });
 

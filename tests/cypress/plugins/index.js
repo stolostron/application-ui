@@ -50,7 +50,6 @@ module.exports = (on, config) => {
   on("task", {
     readFile(file) {
       let content = fs.readFileSync(dir + file, "utf8");
-      console.log(content);
       return content;
     }
   });
@@ -63,7 +62,6 @@ module.exports = (on, config) => {
           list.push(file);
         }
       });
-      console.log(list.sort());
       return list.sort();
     }
   });
@@ -74,9 +72,7 @@ module.exports = (on, config) => {
       var data = fs.readFileSync(dir + filename, "utf8");
       const meta = {};
       let file = yaml.safeLoadAll(data, "utf8");
-      console.log(data);
       file.forEach(el => {
-        console.log(el);
         if (kinds.indexOf(el.kind.toLowerCase()) > -1) {
           //In the array!
           meta.kind = el.kind;

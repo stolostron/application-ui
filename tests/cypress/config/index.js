@@ -25,7 +25,7 @@ exports.getConfig = () => {
             ? (name = name + "-" + process.env.CYPRESS_JOB_ID.slice(-5))
             : (name = name + "-" + process.env.CYPRESS_JOB_ID)
           : name;
-        console.log(name);
+        value.data.name = name;
       }
     }
   } catch (e) {

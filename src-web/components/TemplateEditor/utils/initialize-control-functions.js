@@ -18,15 +18,15 @@ import _ from 'lodash'
 ///////////////////////////////////////////////////////////////////////////////
 export const initializeControlFunctions = (
   controlData,
-  forceUpdate,
-  parentControlData=controlData
+  parentControlData,
+  forceUpdate
 ) => {
   controlData.forEach(control => {
     const { type, active=[] } = control
     switch (type) {
     case 'group': {
       active.forEach(cd=>{
-        initializeControlFunctions(cd, forceUpdate, parentControlData)
+        initializeControlFunctions(cd, parentControlData, forceUpdate)
       })
       break
     }
@@ -69,14 +69,26 @@ const initialControl = (control, controlData, forceUpdate) => {
     }
 
     if (reverse) {
-      switch (typeof reverse) {
-      case 'string':
+      switch (true) { // match any case that is true
+      case typeof reverse === 'string':
         control.reverse = (control, templateObject)=>{
           const active = _.get(templateObject, getSourcePath(reverse))
           if (active) {
             control.active = active.$v
             control.row = active.$r
           }
+        }
+        break
+
+      case Array.isArray(reverse):
+        control.reverse = (control, templateObject)=>{
+          reverse.forEach(path=>{
+            const active = _.get(templateObject, getSourcePath(path))
+            if (active) {
+              control.active = active.$v
+              control.obj = active
+            }
+          })
         }
         break
       }

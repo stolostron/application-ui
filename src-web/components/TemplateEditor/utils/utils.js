@@ -26,6 +26,7 @@ export const ControlMode = Object.freeze({
 
 export const initializeControls = (
   initialControlData,
+  parentControlData,
   forceUpdate,
   locale,
   groupNum,
@@ -39,6 +40,7 @@ export const initializeControls = (
   )
   initializeControlFunctions(
     controlData,
+    parentControlData,
     forceUpdate
   )
   return controlData
@@ -179,7 +181,12 @@ export const getUniqueName = (name, nameSet) => {
 }
 
 export const getSourcePath = (path) => {
-  const sourcePath = path.split('.')
-  const pathBase = sourcePath.shift() + '.$synced'
-  return sourcePath.length > 0 ? pathBase + `.${sourcePath.join('.$v.')}` : pathBase
+  const sourcePath1 = path.split('["')
+  const sourcePath2 = sourcePath1[0].split('.')
+  const pathBase = sourcePath2.shift() + '.$synced'
+  const sourcePath = sourcePath2.length > 0 ? pathBase + `.${sourcePath2.join('.$v.')}` : pathBase
+  if (sourcePath1.length>1) {
+    return `${sourcePath}.$v["${sourcePath1[1]}`
+  }
+  return sourcePath
 }

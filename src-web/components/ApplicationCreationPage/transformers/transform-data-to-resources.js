@@ -23,8 +23,10 @@ const kube = [
   'generation']
 
 const keepKeys = [
+  'apps.open-cluster-management.io/github-branch',
+  'apps.open-cluster-management.io/github-path',
   'apps.open-cluster-management.io/git-branch',
-  'apps.open-cluster-management.io/git-path'
+  'apps.open-cluster-management.io/git-path',
 ]
 
 const isFiltered = (value, key, parentKey) => {

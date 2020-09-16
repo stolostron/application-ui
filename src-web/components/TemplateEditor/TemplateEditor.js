@@ -132,8 +132,10 @@ export default class TemplateEditor extends React.Component {
     const { forceUpdate, template } = state
     if (!controlData) {
       // initialize control data
+      const cd = _.cloneDeep(initialControlData)
       controlData = initializeControls(
-        _.cloneDeep(initialControlData),
+        cd,
+        cd,
         forceUpdate,
         locale
       )
@@ -459,6 +461,7 @@ export default class TemplateEditor extends React.Component {
       const { prompts: { nameId, baseName } } = control
       const newGroup = initializeControls(
         cd,
+        controlData,
         forceUpdate,
         locale,
         active.length + 1,
@@ -583,7 +586,7 @@ export default class TemplateEditor extends React.Component {
             cd.groupControlData = groupControlData
           })
         }
-        controlData = initializeControls(controlData, forceUpdate, locale)
+        controlData = initializeControls(controlData, parentControlData, forceUpdate, locale)
       }
 
       // replace template and regenerate templateYAML and highlight diffs
@@ -1181,8 +1184,10 @@ export default class TemplateEditor extends React.Component {
   resetEditor() {
     const { template, controlData: initialControlData, locale } = this.props
     const { editResources, resetInx } = this.state
+    const cd = _.cloneDeep(initialControlData)
     const controlData = initializeControls(
-      _.cloneDeep(initialControlData),
+      cd,
+      cd,
       this.forceUpdate,
       locale
     )

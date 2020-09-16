@@ -52,7 +52,7 @@ class OverviewCards extends React.Component {
 
   componentWillMount() {
     //update cards every 3s
-    var intervalId = setInterval(this.reload.bind(this), 3000)
+    const intervalId = setInterval(this.reload.bind(this), 3000)
     this.setState({ intervalId: intervalId })
   }
 

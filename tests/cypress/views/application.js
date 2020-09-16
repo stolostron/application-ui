@@ -4,7 +4,6 @@
  ****************************************************************************** */
 
 /// <reference types="cypress" />
-const { wizards, timeWindows } = JSON.parse(Cypress.env("TEST_CONFIG"));
 
 import {
   pageLoader,
@@ -49,19 +48,9 @@ export const gitTasks = (value, gitCss, key = 0) => {
     cy.get(gitKey).type(token);
   }
 
-  cy.wait(10 * 1000);
-  cy
-    .get(gitBranch)
-    .then($el => {
-      console.log(Cypress.dom.isDetached($el)); // false
-    })
-    .type(branch, { force: true });
-  cy
-    .get(gitPath)
-    .then($el => {
-      console.log(Cypress.dom.isDetached($el)); // false
-    })
-    .type(path, { force: true });
+  cy.wait(20 * 1000);
+  cy.get(gitBranch).type(branch, { force: true });
+  cy.get(gitPath).type(path, { force: true });
 
   selectTimeWindow(timeWindow, key);
 };
@@ -187,43 +176,77 @@ export const submitSave = () => {
   cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
 };
 
+export const validateSubscriptionDetails = (name, data, type) => {
+  cy
+    .get(".toggle-subs-btn.bx--btn.bx--btn--primary", { timeout: 20 * 1000 })
+    .scrollIntoView()
+    .click({ timeout: 100 * 1000 });
+  for (const [key, value] of Object.entries(data.config)) {
+    const { timeWindow } = value;
+    const { setting, type } = timeWindow;
+    if (setting) {
+      const keywords = {
+        blockinterval: "Blocked",
+        activeinterval: "Active",
+        active: "Set time window"
+      };
+      cy
+        .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
+        .children()
+        .eq(key)
+        .within($subcards => {
+          type == "active"
+            ? cy.get(".set-time-window-link").contains(keywords[type])
+            : cy
+                .get(".sub-card-status-icon")
+                .contains(keywords[type].toLowerCase());
+        });
+    }
+  }
+};
+
 export const validateTopology = (name, data, type) => {
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();
   cy
     .get(".search-query-card-loading", { timeout: 100 * 1000 })
     .should("not.exist");
+  cy.get("#left-col").contains(name);
+  cy.get("#left-col").contains(`${name}-ns`);
+
+  validateSubscriptionDetails(name, data, type);
+
   cy.get(".overview-cards-container");
   cy.get("#topologySvgId", { timeout: 50 * 1000 });
   cy.get(".layoutLoadingContainer").should("not.be.visible");
-  cy.get(".bx--loading", { timeout: 100 * 1000 }).should("not.be.visible", {
+  cy.get(".bx--loading", { timeout: 50 * 1000 }).should("not.be.visible", {
     timeout: 100 * 1000
   });
   // application
   cy.log("validate the application...");
-  cy.get(`g[type=${name}]`, { timeout: 100 * 1000 }).should("be.visible");
+  cy.get(`g[type=${name}]`, { timeout: 25 * 1000 }).should("be.visible");
 
   //subscription
   cy.log("validate the subscription...");
   cy
-    .get(`g[type="${name}-subscription-0"]`, { timeout: 100 * 1000 })
+    .get(`g[type="${name}-subscription-0"]`, { timeout: 25 * 1000 })
     .should("be.visible");
 
   //placementrule
   cy.log("validate the placementrule...");
   cy
-    .get(`g[type="${name}-placement-0"]`, { timeout: 100 * 1000 })
+    .get(`g[type="${name}-placement-0"]`, { timeout: 25 * 1000 })
     .should("be.visible");
 
   data.config.forEach(data => {
     const { path } = type == "git" ? data : data;
-    // disable due to target issue
-    // path == "helloworld" ? validateHelloWorld() : null;
+    path == "helloworld" ? validateHelloWorld() : null;
   });
 };
 
 export const validateHelloWorld = () => {
   // validate route
+  cy.wait(3 * 60 * 1000); // wait for a the route to be deployed
   cy.log("validate the route...");
   cy.scrollTo("bottom");
   cy
@@ -246,7 +269,7 @@ export const validateHelloWorld = () => {
           cy
             .exec(`curl ${urlLink}`)
             .its("stdout")
-            .should("contain", "Hello World!");
+            .should("not.be", "empty");
         });
     });
 };

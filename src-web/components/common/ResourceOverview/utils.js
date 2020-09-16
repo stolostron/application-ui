@@ -258,6 +258,24 @@ export const getAppOverviewCardsData = (
 ) => {
   // Get app details only when topology data is properly loaded for the selected app
   const appData = _.get(topologyData, 'activeFilters.application')
+
+  if (
+    QueryApplicationList.status !== 'DONE' ||
+    topologyData.status !== 'DONE' ||
+    topologyData.detailsLoaded !== true
+  ) {
+    return {
+      appName: appName,
+      appNamespace: appNamespace,
+      creationTimestamp: -1,
+      remoteClusterCount: -1,
+      localClusterDeploy: false,
+      nodeStatuses: -1,
+      targetLink: targetLink,
+      subsList: -1
+    }
+  }
+
   if (
     typeof topologyData.loaded !== 'undefined' &&
     typeof topologyData.nodes !== 'undefined' &&

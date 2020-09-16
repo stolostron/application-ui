@@ -7,7 +7,6 @@ import moment from "moment";
 import {
   transform,
   getLabelsToList,
-  getTabs,
   getAge,
   getResourceType,
   getClusterCount,
@@ -245,36 +244,6 @@ describe("getLabelsToList", () => {
     const labelsKey = "annotations";
     const output = getLabelsToList(item, locale, labelsKey);
     expect(output).toEqual("-");
-  });
-});
-
-describe("getTabs", () => {
-  const match = { url: "/multicloud/applications" };
-  const getUrl = (tab, index) =>
-    index === 0 ? match.url : `${match.url}/${tab}`;
-
-  it("return no tab", () => {
-    const tabs = [];
-    const output = getTabs(tabs, getUrl);
-    expect(output).toEqual([]);
-  });
-
-  it("return tabs url", () => {
-    const tabs = ["overview", "resources"];
-    const output = getTabs(tabs, getUrl);
-    const result = [
-      {
-        id: "overview-tab",
-        label: "tabs.overview",
-        url: "/multicloud/applications"
-      },
-      {
-        id: "resources-tab",
-        label: "tabs.resources",
-        url: "/multicloud/applications/resources"
-      }
-    ];
-    expect(output).toEqual(result);
   });
 });
 

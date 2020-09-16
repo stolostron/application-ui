@@ -33,7 +33,7 @@ const WrappedResourceDetails = props => (
   <ResourceDetails
     resourceType={props.resourceType}
     staticResourceData={props.staticResourceData}
-    tabs={props.detailsTabs}
+    tabs={props.secondaryHeaderProps.tabs}
     routes={props.routes}
     getVisibleResources={props.getVisibleResources}
   >
@@ -58,7 +58,6 @@ const ResourcePageWithListAndDetails = props => (
 
 const typedResourcePageWithListAndDetails = (
   resourceType,
-  detailsTabs,
   buttons,
   routes,
   modules
@@ -77,7 +76,6 @@ const typedResourcePageWithListAndDetails = (
         <Page>
           <ResourcePageWithListAndDetails
             {...this.props}
-            detailsTabs={detailsTabs}
             routes={routes}
             resourceType={resourceType}
             staticResourceData={staticResourceData}
@@ -98,11 +96,11 @@ WrappedResourceList.propTypes = {
 }
 
 WrappedResourceDetails.propTypes = {
-  detailsTabs: PropTypes.array,
   getVisibleResources: PropTypes.func,
   modules: PropTypes.array,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
+  secondaryHeaderProps: PropTypes.object,
   staticResourceData: PropTypes.object
 }
 

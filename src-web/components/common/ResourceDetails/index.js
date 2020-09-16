@@ -11,7 +11,6 @@
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification } from 'carbon-components-react'
-import { getTabs } from '../../../../lib/client/resource-helper'
 import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -197,10 +196,7 @@ class ResourceDetails extends React.Component {
           params = match && match.params
     updateSecondaryHeaderFn(
       params.name,
-      getTabs(
-        tabs,
-        (tab, index) => (index === 0 ? match.url : `${match.url}/${tab}`)
-      ),
+      tabs,
       this.getBreadcrumb(),
       launch_links
     )
@@ -213,10 +209,7 @@ class ResourceDetails extends React.Component {
 
       updateSecondaryHeaderFn(
         params.name,
-        getTabs(
-          tabs,
-          (tab, index) => (index === 0 ? match.url : `${match.url}/${tab}`)
-        ),
+        tabs,
         this.getBreadcrumb(nextProps.location),
         launch_links
       )

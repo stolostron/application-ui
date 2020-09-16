@@ -18,7 +18,7 @@ describe("getNodeDetails no clusters or violation", () => {
     clusterName: null,
     type: "cluster",
     specs: {
-      clusterNames: ["c2"]
+      clusterNames: ["c2", "local-cluster"]
     },
     namespace: "",
     topology: null,

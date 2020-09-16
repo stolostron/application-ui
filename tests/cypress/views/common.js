@@ -98,7 +98,7 @@ export const modal = {
     cy.get(".bx--modal .bx--btn--danger--primary", { timeout: 20000 }).click(),
   clickPrimary: () =>
     cy
-      .get(".bx--btn.bx--btn--sm.bx--btn--primary", { timeout: 100 * 1000 })
+      .get(".bx--btn.bx--btn--sm.bx--btn--primary", { timeout: 20 * 1000 })
       .then($el => {
         Cypress.dom.isDetached($el); // false
       })

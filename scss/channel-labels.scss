@@ -2,36 +2,50 @@
 @import 'scss/variables';
 
 .channel-labels {
-  .channel-type-label {
+  --icon-size: 11px;
+  --gutter: 0.5rem;
+  --margin: 1rem;
+
+  .pf-l-split {
+    --pf-l-split--m-gutter--MarginRight: var(--gutter);
+  }
+
+  .pf-l-stack {
+    --pf-l-stack--m-gutter--MarginBottom: var(--gutter);
+  }
+
+  .channel-label {
     font-size: 12px;
     --pf-l-split--m-gutter--MarginRight: 8px;
   }
 
-  .channel-type-icon {
-    width: 11px;
-    height: 11px;
+  .channel-entry {
+    margin: var(--margin);
   }
 
-  .channel-type-link {
+  .channel-entry-icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+  }
+
+  .channel-entry-link {
     display: block;
     color: $color__blue-51;
     fill: $color__blue-51;
     word-break: break-all;
-    margin: 1rem;
-    --pf-l-split--m-gutter--MarginRight: 8px;
   }
 
-  .channel-type-git-branch {
-    padding: 0px 7% 3% 14%;
+  .channel-entry-link + .channel-entry-attribute {
+    // extra padding for first attribute after link
+    padding-top: var(--gutter);
   }
 
-  .channel-type-git-path {
-    padding: 0px 7% 6% 14%;
+  .channel-entry-attribute {
+    padding-left: calc(var(--icon-size) + var(--gutter));
   }
 
-  .channel-type-title {
+  .channel-entry-attribute-name {
     font-weight: 600;
-    padding-right: 6px;
   }
 }
 

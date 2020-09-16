@@ -12,7 +12,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ResourceDetails from './ResourceDetails'
 import ResourceList from './ResourceList'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import getResourceDefinitions from '../../definitions'
 import { makeGetVisibleTableItemsSelector } from '../../reducers/common'
 import Page from './Page'
@@ -49,9 +49,10 @@ const ResourcePageWithListAndDetails = props => (
       render={() => <WrappedResourceList {...props} />}
     />
     <Route
-      path={`${props.match.url}/:namespace/:name?`}
+      path={`${props.match.url}/:namespace/:name`}
       render={() => <WrappedResourceDetails {...props} />}
     />
+    <Route render={() => <Redirect to={props.match.url} />} />
   </Switch>
 )
 

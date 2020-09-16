@@ -14,13 +14,15 @@ import { StatusIcon } from '../constants.js'
 import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
 
+import { LOCAL_HUB_NAME } from '../../../../../lib/shared/constants'
+
 const HOURS = 1000 * 60 * 60
 
 const updateClusterNodeStatus = (node, locale, sizes, startedAts, now) => {
   // collect data that will determine size of cluster
   const { specs = {} } = node
   const { cluster, violations = [] } = specs || {}
-  if (cluster) {
+  if (cluster && _.get(cluster, 'metadata.name', '') !== LOCAL_HUB_NAME) {
     const { metadata = {}, usage, status } = cluster
     const { creationTimestamp } = metadata
 

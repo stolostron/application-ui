@@ -7,8 +7,6 @@ exports[`LabelWithPopover renders as expected 1`] = `
   <span
     className="pf-c-label"
     onClick={[Function]}
-    onPointerEnter={[Function]}
-    onPointerLeave={[Function]}
   >
     <a
       className="pf-c-label__content"

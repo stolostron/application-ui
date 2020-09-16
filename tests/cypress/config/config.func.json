@@ -1,40 +1,8 @@
 {
-  "git": {
-    "data": {
-      "enable": true,
-      "name": "ui-create-app-git",
-      "config": [
-        {
-          "url": "https://github.com/fxiang1/app-samples.git",
-          "username": "",
-          "token": "",
-          "branch": "master",
-          "path": "helloworld",
-          "timeWindow": {
-            "setting": true,
-            "type": "blockinterval",
-            "date": ["Monday", "Tuesday"]
-          }
-        },
-        {
-          "url": "https://github.com/fxiang1/app-samples.git",
-          "username": "",
-          "token": "",
-          "branch": "master",
-          "path": "nginx",
-          "timeWindow": {
-            "setting": true,
-            "type": "activeinterval",
-            "date": ["Thursday", "Friday"]
-          }
-        }
-      ]
-    }
-  },
   "objectstore": {
     "data": {
       "enable": true,
-      "name": "ui-create-app-objstore",
+      "name": "ui-obj",
       "config": [
         {
           "url": "http://ec2-dummy/dev1",
@@ -62,7 +30,7 @@
   "local-cluster": {
     "data": {
       "enable": true,
-      "name": "ui-create-app-local",
+      "name": "ui-local",
       "config": [
         {
           "repository": "ui-test",
@@ -85,7 +53,7 @@
   "helm": {
     "data": {
       "enable": true,
-      "name": "ui-create-app-helm",
+      "name": "ui-helm",
       "config": [
         {
           "url": "https://kubernetes-charts.storage.googleapis.com/",
@@ -93,6 +61,38 @@
           "timeWindow": {
             "setting": true,
             "type": "active"
+          }
+        }
+      ]
+    }
+  },
+  "git": {
+    "data": {
+      "enable": true,
+      "name": "ui-git",
+      "config": [
+        {
+          "url": "https://github.com/fxiang1/app-samples.git",
+          "username": "",
+          "token": "",
+          "branch": "master",
+          "path": "helloworld",
+          "timeWindow": {
+            "setting": true,
+            "type": "blockinterval",
+            "date": ["Monday", "Tuesday"]
+          }
+        },
+        {
+          "url": "https://github.com/fxiang1/app-samples.git",
+          "username": "",
+          "token": "",
+          "branch": "master",
+          "path": "nginx",
+          "timeWindow": {
+            "setting": true,
+            "type": "activeinterval",
+            "date": ["Thursday", "Friday"]
           }
         }
       ]

@@ -8,7 +8,6 @@
  *******************************************************************************/
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocale } from '../../../providers/LocaleProvider'
 import {
@@ -18,22 +17,13 @@ import {
   Icon,
   SkeletonText
 } from 'carbon-components-react'
-import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
-import { fetchResource } from '../../../actions/common'
 import resources from '../../../../lib/shared/resources'
-import { fetchTopology } from '../../../actions/topology'
 import msgs from '../../../../nls/platform.properties'
 import config from '../../../../lib/shared/config'
 import {
   getSearchLinkForOneApplication,
   getAppOverviewCardsData
 } from '../ResourceOverview/utils'
-import {
-  startPolling,
-  stopPolling,
-  handleRefreshPropertiesChanged,
-  handleVisibilityChanged
-} from '../../../shared/utils/refetch'
 import ChannelLabels from '../ChannelLabels'
 import TimeWindowLabels from '../TimeWindowLabels'
 import { getClusterCount } from '../../../../lib/client/resource-helper'
@@ -44,41 +34,15 @@ resources(() => {
   require('./style.scss')
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { selectedAppNS, selectedAppName } = ownProps
-  return {
-    fetchApplication: () =>
-      dispatch(
-        fetchResource(
-          RESOURCE_TYPES.QUERY_APPLICATIONS,
-          selectedAppNS,
-          selectedAppName
-        )
-      ),
-    fetchAppTopology: (fetchChannel, reloading) => {
-      const fetchFilters = {
-        application: { selectedAppName, selectedAppNS, channel: fetchChannel }
-      }
-      dispatch(
-        fetchTopology({ filter: { ...fetchFilters } }, fetchFilters, reloading)
-      )
-    }
-  }
-}
-
 const mapStateToProps = state => {
-  const { QueryApplicationList, topology } = state
+  const { HCMApplicationList, topology } = state
   return {
-    QueryApplicationList,
+    HCMApplicationList,
     topology
   }
 }
 
 class OverviewCards extends React.Component {
-  static propTypes = {
-    fetchAppTopology: PropTypes.func
-  };
-
   constructor(props) {
     super(props)
     this.state = {
@@ -87,32 +51,23 @@ class OverviewCards extends React.Component {
     }
   }
 
-  componentDidMount() {
-    const { fetchApplication, fetchAppTopology } = this.props
-    const activeChannel = '__ALL__/__ALL__//__ALL__/__ALL__'
-    fetchAppTopology(activeChannel, true)
-    fetchApplication()
+  componentWillMount() {
+    //update cards every 3s
+    const intervalId = setInterval(this.reload.bind(this), 3000)
+    this.setState({ intervalId: intervalId })
+  }
 
-    document.addEventListener('visibilitychange', this.onVisibilityChange)
-    startPolling(this, setInterval)
+  reload() {
+    this.setState({})
   }
 
   componentWillUnmount() {
-    stopPolling(this.state, clearInterval)
-    document.removeEventListener('visibilitychange', this.onVisibilityChange)
-  }
-
-  onVisibilityChange = () => {
-    handleVisibilityChanged(this, clearInterval, setInterval)
-  };
-
-  componentDidUpdate(prevProps) {
-    handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
+    clearInterval(this.state.intervalId)
   }
 
   render() {
     const {
-      QueryApplicationList,
+      HCMApplicationList,
       topology,
       selectedAppName,
       selectedAppNS,
@@ -129,7 +84,7 @@ class OverviewCards extends React.Component {
     })
 
     const appOverviewCardsData = getAppOverviewCardsData(
-      QueryApplicationList,
+      HCMApplicationList,
       topology,
       selectedAppName,
       selectedAppNS,
@@ -439,6 +394,4 @@ class OverviewCards extends React.Component {
 
 OverviewCards.propTypes = {}
 
-export default withLocale(
-  connect(mapStateToProps, mapDispatchToProps)(OverviewCards)
-)
+export default withLocale(connect(mapStateToProps)(OverviewCards))

@@ -1,41 +1,33 @@
 // Copyright (c) 2020 Red Hat, Inc.
-@import 'scss/variables';
-
-.channel-labels {
-  .channel-type-label {
-    font-size: 12px;
-    --pf-l-split--m-gutter--MarginRight: 8px;
-  }
-
-  .channel-type-icon {
-    width: 11px;
-    height: 11px;
-  }
-
-  .channel-type-link {
-    display: block;
-    color: $color__blue-51;
-    fill: $color__blue-51;
-    word-break: break-all;
-    margin: 1rem;
-    --pf-l-split--m-gutter--MarginRight: 8px;
-  }
-
-  .channel-type-git-branch {
-    padding: 0px 7% 3% 14%;
-  }
-
-  .channel-type-git-path {
-    padding: 0px 7% 6% 14%;
-  }
-
-  .channel-type-title {
-    font-weight: 600;
-    padding-right: 6px;
-  }
+.label-with-popover-container {
+  display: flex;
 }
 
-.channel-labels-popover-content {
-  max-height: 360px;
-  overflow-y: auto;
+.label-with-popover {
+  display: inline-block;
+  margin-right: 8px;
+  --pf-c-popover__content--Padding: 0px;
+  --pf-c-popover__button--Padding: 0px;
+  --pf-c-popover__button--Position: 0.4rem;
+  --pf-c-popover__arrow--Size: 0.6rem;
+  --pf-c-popover__arrow--Width: var(--pf-c-popover__arrow--Size);
+  --pf-c-popover__arrow--Height: var(--pf-c-popover__arrow--Size);
+  --pf-c-popover__content--PaddingTop: var(--pf-c-popover__content--Padding);
+  --pf-c-popover__content--PaddingLeft: var(--pf-c-popover__content--Padding);
+  --pf-c-popover__content--PaddingBottom: var(--pf-c-popover__content--Padding);
+  --pf-c-popover__content--PaddingRight: var(--pf-c-popover__content--Padding);
+  --pf-c-popover--c-button--sibling--PaddingRight: var(--pf-c-popover__content--Padding);
+
+  .pf-c-popover__content > .pf-c-button {
+    --pf-c-popover--c-button--Top: var(--pf-c-popover__button--Position);
+    --pf-c-popover--c-button--Right: var(--pf-c-popover__button--Position);
+    --pf-c-button--PaddingTop: var(--pf-c-popover__button--Padding);
+    --pf-c-button--PaddingLeft: var(--pf-c-popover__button--Padding);
+    --pf-c-button--PaddingBottom: var(--pf-c-popover__button--Padding);
+    --pf-c-button--PaddingRight: var(--pf-c-popover__button--Padding);
+  }
+
+  .close-button-spacer {
+    height: 2rem;
+  }
 }

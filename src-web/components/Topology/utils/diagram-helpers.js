@@ -14,6 +14,7 @@ import ReactDOMServer from 'react-dom/server'
 import _ from 'lodash'
 import moment from 'moment'
 import msgs from '../../../../nls/platform.properties'
+import { LOCAL_HUB_NAME } from '../../../../lib/shared/constants'
 
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
@@ -80,7 +81,7 @@ export const getClusterName = nodeId => {
   }
 
   //node must be deployed locally on hub, such as ansible jobs
-  return 'local-cluster'
+  return LOCAL_HUB_NAME
 }
 
 export const getWrappedNodeLabel = (label, width, rows = 3) => {
@@ -556,7 +557,7 @@ export const createDeployableYamlLink = (node, details) => {
           label: msgs.get(showLocalYaml),
           data: {
             action: showResourceYaml,
-            cluster: 'local-cluster',
+            cluster: LOCAL_HUB_NAME,
             selfLink: selfLink
           }
         }
@@ -628,6 +629,10 @@ export const setClusterStatus = (node, details) => {
       status
     } = c
     const { name, namespace, creationTimestamp } = metadata
+
+    if (name === LOCAL_HUB_NAME) {
+      return
+    }
     //void ({ labels } = metadata)
     const { nodes, cpu: cc, memory: cm } = capacity
     const { pods, cpu: ac, memory: am } = allocatable
@@ -1247,7 +1252,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
     })
     const ruleSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3A${
       node.namespace
-    }%20cluster%3Alocal-cluster"}`
+    }%20cluster%3A${LOCAL_HUB_NAME}"}`
     details.push({
       type: 'link',
       value: {
@@ -1313,7 +1318,7 @@ export const setApplicationDeployStatus = (node, details) => {
       value: msgs.get('resource.application.error.msg', [appNS]),
       status: 'failure'
     })
-    const subscrSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3Alocal-cluster"}`
+    const subscrSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
     details.push({
       type: 'link',
       value: {

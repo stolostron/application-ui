@@ -586,7 +586,7 @@ export default class TemplateEditor extends React.Component {
             cd.groupControlData = groupControlData
           })
         }
-        controlData = initializeControls(controlData, parentControlData, forceUpdate, locale)
+        controlData = initializeControls(controlData, controlData, forceUpdate, locale)
       }
 
       // replace template and regenerate templateYAML and highlight diffs

@@ -101,6 +101,7 @@ const discoverGroupsFromSource = (control, controlData, templateObject, forceUpd
       // add a group for every subscription
       const newGroup = initializeControls(
         groupData,
+        controlData,
         forceUpdate,
         locale,
         active.length + 1,
@@ -114,14 +115,14 @@ const discoverGroupsFromSource = (control, controlData, templateObject, forceUpd
       const cardsControl = newGroup.find(
         ({ id }) => id === 'channelType'
       )
-      discoverChannelFromSource(cardsControl, newGroup, templateObject, forceUpdate, locale)
+      discoverChannelFromSource(cardsControl, newGroup, controlData, templateObject, forceUpdate, times>1, locale)
       templateObject.Channel.shift()
     })
     control.active = active
   }
 }
 
-const discoverChannelFromSource = (cardsControl, groupControlData, templateObject, forceUpdate, locale) =>{
+const discoverChannelFromSource = (cardsControl, groupControlData, globalControl, templateObject, forceUpdate, multiple, locale) =>{
   // determine channel type
   let id
   switch (_.get(templateObject, 'Channel[0].$raw.spec.type')) {
@@ -156,7 +157,17 @@ const discoverChannelFromSource = (cardsControl, groupControlData, templateObjec
     groupControlData.forEach(cd => {
       cd.groupControlData = groupControlData
     })
-    initializeControls(groupControlData, forceUpdate, locale)
+    initializeControls(groupControlData, globalControl, forceUpdate, locale)
+
+    // if more then one group, collapse all groups
+    if (multiple) {
+      groupControlData.filter(
+        ({ type }) => type === 'section'
+      ).forEach(section=>{
+        section.collapsed = true
+      })
+    }
+
   }
 }
 

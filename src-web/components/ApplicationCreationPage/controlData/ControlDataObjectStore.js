@@ -36,6 +36,7 @@ const objectstoreChannelData = [
     available: [],
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('objectstore'),
+    reverse: 'Channel[0].spec.pathname',
     onSelect: updateChannelControls
   },
   {

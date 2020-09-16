@@ -32,12 +32,13 @@ const prePostTasks = [
     available: [],
     fetchAvailable: loadExistingSecrets(),
     onSelect: updatePrePostControls,
+    reverse: 'Subscription[0].spec.hooksecretref.name',
     validation: {}
   },
   {
     name: 'creation.app.ansible.secret.host',
     id: 'ansibleTowerHost',
-    type: 'text',
+    type: 'hidden',
     active: '',
     encode: true,
     placeholder: 'app.enter.select.ansibleTowerHost'
@@ -45,7 +46,7 @@ const prePostTasks = [
   {
     name: 'creation.app.ansible.secret.token',
     id: 'ansibleTowerToken',
-    type: 'text',
+    type: 'hidden',
     encode: true,
     active: '',
     placeholder: 'app.enter.select.ansibleTowerToken'

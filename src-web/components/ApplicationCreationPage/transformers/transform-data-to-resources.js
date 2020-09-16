@@ -74,7 +74,7 @@ export const getApplicationResources = (application) => {
       delete subscription.rules
       resources.push(filterDeep(channels[0]))
       resources.push(filterDeep(subscription))
-      if (rules) {
+      if (rules && rules.length) {
         resources.push(filterDeep(rules[0]))
       }
     })

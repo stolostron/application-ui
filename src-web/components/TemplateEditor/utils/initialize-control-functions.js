@@ -74,8 +74,8 @@ const initialControl = (control, controlData, forceUpdate) => {
         control.reverse = (control, templateObject)=>{
           const active = _.get(templateObject, getSourcePath(reverse))
           if (active) {
-            control.active = active.$v
-            control.row = active.$r
+            control.active = control.type==='checkbox' ? !!active.$v : active.$v
+            control.obj = active
           }
         }
         break

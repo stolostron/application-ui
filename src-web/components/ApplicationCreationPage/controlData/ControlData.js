@@ -109,7 +109,7 @@ const discoverGroupsFromSource = (control, controlData, templateObject, forceUpd
       active.push(newGroup)
       const nameControl = _.keyBy(newGroup, 'id')[nameId]
       nameControl.active = `${baseName}-${active.length - 1}`
-      
+
       // add a channel for every group
       const cardsControl = newGroup.find(
         ({ id }) => id === 'channelType'

@@ -1,33 +1,55 @@
 // Copyright (c) 2020 Red Hat, Inc.
-.label-with-popover-container {
-  display: flex;
-}
+@import 'scss/variables';
 
-.label-with-popover {
-  display: inline-block;
-  margin-right: 8px;
-  --pf-c-popover__content--Padding: 0px;
-  --pf-c-popover__button--Padding: 0px;
-  --pf-c-popover__button--Position: 0.4rem;
-  --pf-c-popover__arrow--Size: 0.6rem;
-  --pf-c-popover__arrow--Width: var(--pf-c-popover__arrow--Size);
-  --pf-c-popover__arrow--Height: var(--pf-c-popover__arrow--Size);
-  --pf-c-popover__content--PaddingTop: var(--pf-c-popover__content--Padding);
-  --pf-c-popover__content--PaddingLeft: var(--pf-c-popover__content--Padding);
-  --pf-c-popover__content--PaddingBottom: var(--pf-c-popover__content--Padding);
-  --pf-c-popover__content--PaddingRight: var(--pf-c-popover__content--Padding);
-  --pf-c-popover--c-button--sibling--PaddingRight: var(--pf-c-popover__content--Padding);
+.channel-labels {
+  --icon-size: 11px;
+  --gutter: 0.5rem;
+  --margin: 1rem;
 
-  .pf-c-popover__content > .pf-c-button {
-    --pf-c-popover--c-button--Top: var(--pf-c-popover__button--Position);
-    --pf-c-popover--c-button--Right: var(--pf-c-popover__button--Position);
-    --pf-c-button--PaddingTop: var(--pf-c-popover__button--Padding);
-    --pf-c-button--PaddingLeft: var(--pf-c-popover__button--Padding);
-    --pf-c-button--PaddingBottom: var(--pf-c-popover__button--Padding);
-    --pf-c-button--PaddingRight: var(--pf-c-popover__button--Padding);
+  .pf-l-split {
+    --pf-l-split--m-gutter--MarginRight: var(--gutter);
   }
 
-  .close-button-spacer {
-    height: 2rem;
+  .pf-l-stack {
+    --pf-l-stack--m-gutter--MarginBottom: var(--gutter);
+  }
+
+  .channel-label {
+    font-size: 12px;
+    --pf-l-split--m-gutter--MarginRight: 8px;
+  }
+
+  .channel-entry {
+    margin: var(--margin);
+  }
+
+  .channel-entry-icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+  }
+
+  .channel-entry-link {
+    display: block;
+    color: $color__blue-51;
+    fill: $color__blue-51;
+    word-break: break-all;
+  }
+
+  .channel-entry-link + .channel-entry-attribute {
+    // extra padding for first attribute after link
+    padding-top: var(--gutter);
+  }
+
+  .channel-entry-attribute {
+    padding-left: calc(var(--icon-size) + var(--gutter));
+  }
+
+  .channel-entry-attribute-name {
+    font-weight: 600;
   }
 }
+
+.channel-labels-popover-content {
+  max-height: 360px;
+  overflow-y: auto;
+} 

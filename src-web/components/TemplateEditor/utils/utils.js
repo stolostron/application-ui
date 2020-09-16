@@ -190,3 +190,22 @@ export const getSourcePath = (path) => {
   }
   return sourcePath
 }
+
+export const removeVs = (object) => {
+  if (object) {
+    let o
+    object = object.$v!==undefined ? object.$v : object
+    if (Array.isArray(object)) {
+      for (let i = 0; i < object.length; i++) {
+        o = object[i]
+        object[i] = o.$v!==undefined ? removeVs(o) : o
+      }
+    } else if (typeof object === 'object') {
+      for (const key in object) {
+        o = object[key]
+        object[key] = o.$v!==undefined ? removeVs(o) : o
+      }
+    }
+  }
+  return object
+}

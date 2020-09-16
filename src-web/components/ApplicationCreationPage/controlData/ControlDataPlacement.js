@@ -11,7 +11,7 @@
 
 import React from 'react'
 import { HCMPlacementRuleList } from '../../../../lib/client/queries'
-import TimeWindow from '../components/TimeWindow'
+import TimeWindow, {reverse as reverseTimeWindow} from '../components/TimeWindow'
 import ClusterSelector from '../components/ClusterSelector'
 import {
   setAvailableRules,
@@ -188,7 +188,8 @@ const placementData = [
     tooltip: 'creation.app.settings.timeWindow.tooltip',
     id: 'timeWindow',
     component: <TimeWindow />,
-    available: []
+    available: [],
+    reverse: reverseTimeWindow
   }
 ]
 

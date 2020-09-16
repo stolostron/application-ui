@@ -21,8 +21,13 @@ import {
   RadioButtonGroup,
   TimePicker
 } from 'carbon-components-react'
+import {
+  getSourcePath,
+  removeVs,
+} from '../../TemplateEditor/utils/utils'
 import Tooltip from '../../TemplateEditor/components/Tooltip'
 import msgs from '../../../../nls/platform.properties'
+import _ from 'lodash'
 
 resources(() => {
   require('./style.scss')
@@ -39,18 +44,16 @@ export class TimeWindow extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-    this.props.control.active = {
-      mode: '',
-      days: [],
-      timezone: '',
-      showTimeSection: false,
-      timeList: [{ id: 0, start: '', end: '', validTime: true }],
-      timeListID: 1
+    if (!this.props.control.active) {
+      this.props.control.active = {
+        mode: '',
+        days: [],
+        timezone: '',
+        showTimeSection: false,
+        timeList: [{ id: 0, start: '', end: '', validTime: true }],
+        timeListID: 1
+      }
     }
-    this.props.control.validation = this.validation.bind(this)
-  }
-
-  validation(){//exceptions) {
   }
 
   render() {
@@ -69,6 +72,14 @@ export class TimeWindow extends React.Component {
     const modeSelected = active && active.mode ? true : false
     const daysSelectorID = 'days-selector'
     const timezoneDropdownID = 'timezone-dropdown'
+    const {
+      mode,
+      days,
+      timezone,
+      showTimeSection,
+      timeList,
+      timeListID
+    } = this.props.control.active
 
     return (
       <React.Fragment>
@@ -146,6 +157,7 @@ export class TimeWindow extends React.Component {
                     <div className="config-days-selector">
                       <div className="first-col">
                         <Checkbox
+                          checked={days.includes('Monday')}
                           labelText="Monday"
                           name={daysSelectorID}
                           id={`mon-${controlId}`}
@@ -154,6 +166,7 @@ export class TimeWindow extends React.Component {
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
+                          checked={days.includes('Tuesday')}
                           labelText="Tuesday"
                           name={daysSelectorID}
                           id={`tue-${controlId}`}
@@ -162,6 +175,7 @@ export class TimeWindow extends React.Component {
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
+                          checked={days.includes('Wednesday')}
                           labelText="Wednesday"
                           name={daysSelectorID}
                           id={`wed-${controlId}`}
@@ -170,6 +184,7 @@ export class TimeWindow extends React.Component {
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
+                          checked={days.includes('Thursday')}
                           labelText="Thursday"
                           name={daysSelectorID}
                           id={`thu-${controlId}`}
@@ -178,6 +193,7 @@ export class TimeWindow extends React.Component {
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
+                          checked={days.includes('Friday')}
                           labelText="Friday"
                           name={daysSelectorID}
                           id={`fri-${controlId}`}
@@ -188,6 +204,7 @@ export class TimeWindow extends React.Component {
                       </div>
                       <div className="second-col">
                         <Checkbox
+                          checked={days.includes('Saturday')}
                           labelText="Saturday"
                           name={daysSelectorID}
                           id={`sat-${controlId}`}
@@ -196,6 +213,7 @@ export class TimeWindow extends React.Component {
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
+                          checked={days.includes('Sunday')}
                           labelText="Sunday"
                           name={daysSelectorID}
                           id={`sun-${controlId}`}
@@ -217,7 +235,7 @@ export class TimeWindow extends React.Component {
                     </div>
                     <DropdownV2
                       className="config-timezone-dropdown"
-                      label="Choose a location"
+                      label={timezone ||'Choose a location'}
                       items={[
                         {
                           label: 'America/Edmonton',
@@ -447,3 +465,29 @@ export class TimeWindow extends React.Component {
 }
 
 export default TimeWindow
+
+export const reverse = (control, templateObject) =>{
+  const timezone = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.location'))
+  const mode = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.windowtype'))
+  const weekdays = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.weekdays'))
+  //  placement:
+  //    local: true
+  //  timewindow:
+  //    hours:
+  //      - end: '09:09PM'
+  //        start: '08:09AM'
+  //    location: America/Toronto
+  //    weekdays:
+  //      - Sunday
+  //    windowtype: blocked
+  //
+
+  control.active = {
+    mode: mode && mode.$v,
+    days: removeVs(weekdays && weekdays.$v)||[],
+    timezone: timezone && timezone.$v,
+    showTimeSection: false,
+    timeList: [{ id: 0, start: '', end: '', validTime: true }],
+    timeListID: 1
+  }
+}

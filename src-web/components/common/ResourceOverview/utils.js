@@ -308,20 +308,19 @@ export const getAppOverviewCardsData = (
         const gitTypeData = getGitTypeData(node)
 
         // Get time window type
-        const timeWindowData = _.get(node, 'specs.raw.spec.timewindow')
-        let timeWindowType = 'default'
-        if (timeWindowData) {
-          timeWindowType = timeWindowData.windowtype
-        }
+        const timeWindowData = _.get(node, 'specs.raw.spec.timewindow', '')
 
         subsList.push({
           name: node.name,
           id: node.id,
-          timeWindowType: timeWindowType,
           resourceType: repoResourceData.type,
           resourcePath: repoResourceData.path,
           gitBranch: gitTypeData.gitBranch,
-          gitPath: gitTypeData.gitPath
+          gitPath: gitTypeData.gitPath,
+          timeWindowType: timeWindowData.windowtype,
+          timeWindowDays: timeWindowData.weekdays,
+          timeWindowTimezone: timeWindowData.location,
+          timeWindowRanges: timeWindowData.hours
         })
       } else if (
         node.type !== 'application' &&

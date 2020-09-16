@@ -10,7 +10,12 @@ resources(() => {
   require('../../../scss/label-with-popover.scss')
 })
 
-const LabelWithPopover = ({ children, labelContent, labelIcon }) => {
+const LabelWithPopover = ({
+  children,
+  labelContent,
+  labelIcon,
+  labelColor
+}) => {
   const hoverDelay = 1500
   const [
     { popoverOpen, popoverPinnedOpen, justClosed, timeout },
@@ -90,7 +95,7 @@ const LabelWithPopover = ({ children, labelContent, labelIcon }) => {
           }}
           onPointerEnter={openPopover}
           onPointerLeave={closePopover}
-          color="grey"
+          color={labelColor ? labelColor : 'grey'}
           href="#"
           icon={labelIcon}
         >
@@ -103,6 +108,7 @@ const LabelWithPopover = ({ children, labelContent, labelIcon }) => {
 
 LabelWithPopover.propTypes = {
   children: PropTypes.object,
+  labelColor: PropTypes.string,
   labelContent: PropTypes.object,
   labelIcon: PropTypes.object
 }

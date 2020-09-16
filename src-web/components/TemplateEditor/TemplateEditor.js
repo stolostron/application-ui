@@ -24,7 +24,8 @@ import {
 import {
   initializeControls,
   generateSource,
-  refreshControls,
+  discoverControls,
+  reverseTemplate,
   getUniqueName,
   cacheUserData } from './utils/utils'
 import { validateControls } from './utils/validate-controls'
@@ -154,8 +155,13 @@ export default class TemplateEditor extends React.Component {
 
       // if editing an exisiting resource, load control active values from resources
       if (editResources) {
-        refreshControls(
-          controlData, templateObject, forceUpdate, locale          
+        // determine the controls for this resource
+        discoverControls(
+          controlData, templateObject, forceUpdate, locale
+        )
+        // refresh the values from the template for these controls
+        reverseTemplate(
+          controlData, templateObject
         )
       }
       newState = {...newState, templateYAML, firstTemplateYAML:templateYAML, templateObject, editResources, templateResources}

@@ -9,7 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import { ControlMode, parseYAML, refreshControls } from './utils'
+import { ControlMode, parseYAML, reverseTemplate } from './utils'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -29,14 +29,14 @@ export function validateControls(
   // parse all yamls
   const results = parseYAML(templateYAML)
   let { parsed, exceptions } = results
-  const { resources } = results
 
   // update active values in controls
   if (exceptions.length===0) {
-    refreshControls(
-      parsed,
-      resources,
+    reverseTemplate(
       controlData,
+      parsed,
+      null,
+      locale
     )
   }
 

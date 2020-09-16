@@ -40,7 +40,7 @@ export const initializeControlFunctions = (
 //initialze each control
 ///////////////////////////////////////////////////////////////////////////////
 const initialControl = (control, controlData, forceUpdate) => {
-  const { type, setActive, refresh } = control
+  const { type, setActive, reverse } = control
   if (type!=='title' && type!=='section' && !setActive) {
     if (typeof control.onSelect ==='function') {
       control.onSelect = control.onSelect.bind(null, control, controlData, (ctrl, isLoading)=>{
@@ -68,11 +68,11 @@ const initialControl = (control, controlData, forceUpdate) => {
       }
     }
 
-    if (refresh) {
-      switch (typeof refresh) {
+    if (reverse) {
+      switch (typeof reverse) {
       case 'string':
-        control.refresh = (control, controlData, templateObject)=>{
-          const active = _.get(templateObject, getSourcePath(refresh))
+        control.reverse = (control, templateObject)=>{
+          const active = _.get(templateObject, getSourcePath(reverse))
           if (active) {
             control.active = active.$v
             control.row = active.$r

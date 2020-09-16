@@ -44,23 +44,51 @@ export const initializeControls = (
   return controlData
 }
 
-// refresh controls from template
-export function refreshControls(
+// from an edit resource, discover # of groups, card selections
+export function discoverControls(
   controlData, templateObject, forceUpdate, locale
 ) {
-  const refreshControl = control => {
+  templateObject = _.cloneDeep(templateObject)
+  const discoverControl = control => {
     const {
-      refresh
+      discover
     } = control
-    if (refresh) {
-      refresh(control, controlData, templateObject, forceUpdate, locale)
+    if (discover) {
+      discover(control, controlData, templateObject, forceUpdate, locale)
     }
   }
   controlData.forEach(control => {
-    refreshControl(control)
+    discoverControl(control)
   })
 }
 
+// reverse control active valuess from template
+export function reverseTemplate(
+  controlData,
+  templateObject
+) {
+  templateObject = _.cloneDeep(templateObject)
+  const reverseControl = control => {
+    const {
+      type,
+      active=[],
+      reverse
+    } = control
+    if (reverse) {
+      reverse(control, templateObject)
+    }
+    if (type === 'group') {
+      active.forEach(group => {
+        group.forEach(gcontrol => {
+          reverseControl(gcontrol, templateObject)
+        })
+      })
+    }
+  }
+  controlData.forEach(control => {
+    reverseControl(control)
+  })
+}
 
 
 export const generateSource = (template, editResources, controlData, otherYAMLTabs, isFinalGenerate)  => {

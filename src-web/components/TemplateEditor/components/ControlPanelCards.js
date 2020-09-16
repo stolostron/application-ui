@@ -28,8 +28,8 @@ class ControlPanelCards extends React.Component {
   constructor(props) {
     super(props)
     const { control } = props
-    const { collapsed } = control
-    this.state = { collapsed }
+    const { active, collapsed, collapseCardsControlOnSelect } = control
+    this.state = { collapsed: collapsed || (collapseCardsControlOnSelect && !!active) }
   }
 
   setControlRef = (control, ref) => {

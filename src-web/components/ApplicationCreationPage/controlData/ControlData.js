@@ -90,88 +90,75 @@ export const updateControlsForNS = (
   return globalControl
 }
 
-const getActiveGroupsFromSource = (control, controlData, templateObject, forceUpdate, locale) =>{
+const discoverGroupsFromSource = (control, controlData, templateObject, forceUpdate, locale) =>{
   const { controlData: groupData, prompts: { nameId, baseName } } = control
-  const active = []
   templateObject = _.cloneDeep(templateObject)
-  _.times(templateObject.Subscription.length, ()=>{
+  const times = _.get(templateObject, 'Subscription.length')
+  if (times) {
+    const active = []
+    _.times(times, ()=>{
 
-    // add a group for every subscription
-    const newGroup = initializeControls(
+      // add a group for every subscription
+      const newGroup = initializeControls(
         groupData,
-      forceUpdate,
-      locale,
-      active.length + 1,
-      true
-    )
-    active.push(newGroup)
-    const nameControl = _.keyBy(newGroup, 'id')[nameId]
-    nameControl.active = `${baseName}-${active.length - 1}`
+        forceUpdate,
+        locale,
+        active.length + 1,
+        true
+      )
+      active.push(newGroup)
+      const nameControl = _.keyBy(newGroup, 'id')[nameId]
+      nameControl.active = `${baseName}-${active.length - 1}`
       
-    // add a channel for every group
-    const cardsControl = groupData.find(
-      ({ id }) => id === 'channelType'
-    )
-    getActiveChannelFromSource(cardsControl, groupData, templateObject, forceUpdate, locale)
-  })
-  control.active = active
+      // add a channel for every group
+      const cardsControl = newGroup.find(
+        ({ id }) => id === 'channelType'
+      )
+      discoverChannelFromSource(cardsControl, newGroup, templateObject, forceUpdate, locale)
+      templateObject.Channel.shift()
+    })
+    control.active = active
+  }
 }
 
-const getActiveChannelFromSource = (cardsControl, parentControlData, templateObject, forceUpdate, locale) =>{
+const discoverChannelFromSource = (cardsControl, groupControlData, templateObject, forceUpdate, locale) =>{
   // determine channel type
-  const type = _.get(templateObject, 'Channel[0].$raw.spec.type')
-  const available = _.keyBy(cardsControl.available, 'id')
   let id
-  switch (type) {
+  switch (_.get(templateObject, 'Channel[0].$raw.spec.type')) {
   case 'Git':
   case 'GitHub':
     id = 'github'
-    break;
+    break
   case 'HelmRepo':
-    id = 'helmrepo'    
-    break;
+    id = 'helmrepo'
+    break
   case 'Namespace':
-    id = 'deployable'    
-    break;
-  case 'ObjectBucket':   
+    id = 'deployable'
+    break
+  case 'ObjectBucket':
     id = 'objectstore'
-    break;
+    break
   }
   cardsControl.active = id
-  
+
   // insert channel type control data in this group
-  const channelData = _.get(available[id], 'change.insertControlData')
-  if (channelData) {
-    
-    debugger
-    if (insertControlData) {
-      // splice control data with data from this card
-      parentControlData.splice(
-        insertInx + 1,
-        0,
-        ..._.cloneDeep(insertControlData)
-      )
-
-      // if this card control is in a group, tell each control
-      // what group control it belongs to
-      if (groupControlData) {
-        parentControlData.forEach(cd => {
-          cd.groupControlData = groupControlData
-        })
-      }
-      controlData = initializeControls(controlData, forceUpdate, locale)
-    }
-    
+  const insertControlData = _.get(cardsControl.availableMap[id], 'change.insertControlData')
+  if (insertControlData) {
+    const insertInx = groupControlData.findIndex(
+      ({ id }) => id === cardsControl.id
+    )
+    // splice control data with data from this card
+    groupControlData.splice(
+      insertInx + 1,
+      0,
+      ..._.cloneDeep(insertControlData)
+    )
+    groupControlData.forEach(cd => {
+      cd.groupControlData = groupControlData
+    })
+    initializeControls(groupControlData, forceUpdate, locale)
   }
-  
-  
-  
-  
-  delete templateObject.Channel.shift()
 }
-
-
-
 
 export const controlData = [
   {
@@ -189,7 +176,7 @@ export const controlData = [
       notification: 'import.form.invalid.dns.label',
       required: true
     },
-    refresh: 'Application[0].metadata.name'
+    reverse: 'Application[0].metadata.name'
   },
   {
     name: 'creation.app.namespace',
@@ -203,7 +190,7 @@ export const controlData = [
       notification: 'import.form.invalid.dns.label',
       required: true
     },
-    refresh: 'Application[0].metadata.namespace'
+    reverse: 'Application[0].metadata.namespace'
   },
   {
     id: 'userDefinedNamespace',
@@ -230,7 +217,7 @@ export const controlData = [
       addPrompt: 'creation.app.add.channel',
       deletePrompt: 'creation.app.delete.channel'
     },
-    refresh: getActiveGroupsFromSource,
+    discover: discoverGroupsFromSource,
     controlData: [
       {
         id: 'channel',

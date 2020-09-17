@@ -1,0 +1,33 @@
+// Copyright (c) 2020 Red Hat, Inc.
+@import 'scss/variables';
+
+.timeWindow-labels {
+  .timeWindow-status-icon {
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+}
+
+.timeWindow-labels-popover-content {
+  padding: 6% 7% 7%;
+
+  .timeWindow-title {
+    font-weight: 600;
+    padding-bottom: 8px;
+  }
+
+  .timeWindow-content {
+    padding-bottom: 20px;
+    line-height: 18px;
+  }
+
+  .edit-time-window-link {
+    color: #0066cc;
+    text-decoration: none;
+  }
+
+  .edit-time-window-btn-icon {
+    position: absolute;
+    margin-left: 8px;
+  }
+}

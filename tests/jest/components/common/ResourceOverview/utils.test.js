@@ -304,7 +304,7 @@ describe("getAppOverviewCardsData", () => {
     const targetLink =
       '/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
-      reduxStoreAppPipelineWithCEM.QueryApplicationList_singleApp,
+      reduxStoreAppPipelineWithCEM.HCMApplicationList,
       reduxStoreAppPipelineWithCEM.topology,
       "mortgage-app",
       "default",
@@ -323,11 +323,14 @@ describe("getAppOverviewCardsData", () => {
         {
           name: "mortgage-app-subscription",
           id: "member--subscription--default--mortgage-app-subscription",
-          timeWindowType: "default",
           resourceType: "GitHub",
           resourcePath: "https://github.com/fxiang1/app-samples.git",
           gitBranch: "master",
-          gitPath: "mortgage"
+          gitPath: "mortgage",
+          timeWindowType: undefined,
+          timeWindowDays: undefined,
+          timeWindowTimezone: undefined,
+          timeWindowRanges: undefined
         }
       ]
     };
@@ -339,7 +342,7 @@ describe("getAppOverviewCardsData", () => {
     const targetLink =
       '/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
-      reduxStoreAppPipelineWithCEM.QueryApplicationList_singleApp,
+      reduxStoreAppPipelineWithCEM.HCMApplicationList,
       customTopologyData,
       "mortgage-app",
       "default",
@@ -358,11 +361,14 @@ describe("getAppOverviewCardsData", () => {
         {
           name: "mortgage-app-subscription",
           id: "member--subscription--default--mortgage-app-subscription",
-          timeWindowType: "active",
           resourceType: "GitHub",
           resourcePath: "https://github.com/fxiang1/app-samples.git",
           gitBranch: undefined,
-          gitPath: undefined
+          gitPath: undefined,
+          timeWindowType: "active",
+          timeWindowDays: ["Monday", "Tuesday", "Wednesday"],
+          timeWindowTimezone: "America/Toronto",
+          timeWindowRanges: [{ end: "09:10PM", start: "8:00AM" }]
         }
       ]
     };

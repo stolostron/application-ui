@@ -198,7 +198,7 @@ export const validateSubscriptionDetails = (name, data, type) => {
           type == "active"
             ? cy.get(".set-time-window-link").contains(keywords[type])
             : cy
-                .get(".sub-card-status-icon")
+                .get(".timeWindow-status-icon")
                 .contains(keywords[type].toLowerCase());
         });
     }
@@ -237,11 +237,12 @@ export const validateTopology = (name, data, type) => {
   cy
     .get(`g[type="${name}-placement-0"]`, { timeout: 25 * 1000 })
     .should("be.visible");
-
+  /*
   data.config.forEach(data => {
     const { path } = type == "git" ? data : data;
     path == "helloworld" ? validateHelloWorld() : null;
   });
+  */
 };
 
 export const validateHelloWorld = () => {

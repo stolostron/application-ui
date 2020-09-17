@@ -115,8 +115,8 @@ export const defaultShapes = Object.freeze({
     shape: 'route',
     className: 'container'
   },
-  rules: {
-    shape: 'rules',
+  placements: {
+    shape: 'placements',
     className: 'design'
   },
   secret: {

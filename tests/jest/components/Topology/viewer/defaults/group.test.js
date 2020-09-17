@@ -6,7 +6,7 @@
 import { getNodeGroups } from "../../../../../../src-web/components/Topology/viewer/defaults/grouping";
 
 const activeFilters = {
-  type: ["application", "rules", "subscription"]
+  type: ["application", "placements", "subscription"]
 };
 
 describe("getNodeGroups cluster", () => {

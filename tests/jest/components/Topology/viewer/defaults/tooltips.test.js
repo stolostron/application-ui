@@ -86,18 +86,18 @@ describe("getNodeTooltips PVC", () => {
   });
 });
 
-describe("getNodeTooltips rules", () => {
+describe("getNodeTooltips placements", () => {
   const rulesNode = {
     name: "barnode",
     namespace: "bar",
-    type: "rules"
+    type: "placements"
   };
 
   const expectedResult = [
     {
       href:
         'https://localhost/multicloud/search?filters={"textsearch":"kind:placementrule name:barnode namespace:bar"}',
-      name: "Rules",
+      name: "Placements",
       value: "barnode"
     },
     {

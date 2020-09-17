@@ -143,7 +143,7 @@ const resourceList = [
         name: "pr",
         namespace: "default",
         cluster: "braveman",
-        kind: "rules"
+        kind: "placements"
       }
     ]
   },
@@ -426,7 +426,7 @@ describe("getPulseForNodeWithPodStatus no replica", () => {
   };
 
   it("getPulseForNodeWithPodStatus pulse no replica", () => {
-    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("yellow");
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("red");
   });
 });
 
@@ -938,7 +938,7 @@ describe("createResourceSearchLink for cluster", () => {
 
 describe("createResourceSearchLink for PR", () => {
   const node = {
-    type: "rules",
+    type: "placements",
     name: "rule1",
     namespace: "ns",
     specs: {
@@ -1632,6 +1632,11 @@ describe("computeNodeStatus ", () => {
     clusterName: null,
     type: "deployment",
     specs: {
+      raw: {
+        spec: {
+          replicas: 3
+        }
+      },
       deploymentModel: {
         "mortgage-app-deploy-feng": {
           ready: 2,
@@ -1694,6 +1699,11 @@ describe("computeNodeStatus ", () => {
     clusterName: null,
     type: "deployment",
     specs: {
+      raw: {
+        spec: {
+          replicas: 3
+        }
+      },
       deploymentModel: {
         "mortgage-app-deploy-feng": {
           ready: 3,
@@ -2262,7 +2272,7 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
-    type: "rules",
+    type: "placements",
     specs: {}
   };
 
@@ -2270,7 +2280,7 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy2",
     cluster: null,
     clusterName: null,
-    type: "rules",
+    type: "placements",
     specs: {
       raw: {
         status: {
@@ -2401,16 +2411,16 @@ describe("computeNodeStatus ", () => {
     expect(computeNodeStatus(ruleNodeGreen2)).toEqual("green");
   });
   it("return computeNodeStatus deploymentNodeYellow", () => {
-    expect(computeNodeStatus(deploymentNodeYellow)).toEqual("green");
+    expect(computeNodeStatus(deploymentNodeYellow)).toEqual("yellow");
   });
   it("return computeNodeStatus deploymentNodeRed", () => {
-    expect(computeNodeStatus(deploymentNodeRed)).toEqual("green");
+    expect(computeNodeStatus(deploymentNodeRed)).toEqual("red");
   });
   it("return computeNodeStatus deploymentNodeRed2", () => {
-    expect(computeNodeStatus(deploymentNodeRed2)).toEqual("green");
+    expect(computeNodeStatus(deploymentNodeRed2)).toEqual("red");
   });
   it("return computeNodeStatus deploymentNodeYellow2", () => {
-    expect(computeNodeStatus(deploymentNodeYellow2)).toEqual("green");
+    expect(computeNodeStatus(deploymentNodeYellow2)).toEqual("yellow");
   });
 
   it("return computeNodeStatus subscriptionGreenNotPlacedYellow", () => {
@@ -2688,7 +2698,7 @@ describe("setResourceDeployStatus 3 ", () => {
 
 describe("setPlacementRuleDeployStatus 1 ", () => {
   const node = {
-    type: "rules",
+    type: "placements",
     name: "cassandra",
     namespace: "default",
     id:

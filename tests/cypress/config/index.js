@@ -18,11 +18,14 @@ exports.getConfig = () => {
   try {
     config = jsYaml.safeLoad(config);
     for (const [key, value] of Object.entries(config)) {
-      if (value.data.enable) {
+      let { enable, name } = value.data;
+      if (enable) {
         process.env.CYPRESS_JOB_ID
-          ? (value.data.name =
-              value.data.name + "-" + process.env.CYPRESS_JOB_ID)
-          : value.data.name;
+          ? process.env.CYPRESS_JOB_ID.length > 5
+            ? (name = name + "-" + process.env.CYPRESS_JOB_ID.slice(-5))
+            : (name = name + "-" + process.env.CYPRESS_JOB_ID)
+          : name;
+        value.data.name = name;
       }
     }
   } catch (e) {

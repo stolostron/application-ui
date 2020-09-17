@@ -131,6 +131,7 @@ exports[`TimeWindow component renders as expected 1`] = `
         >
           <div
             className="timeWindow-config-container"
+            id="timeWindow-config"
           >
             <div
               className="config-days-section"

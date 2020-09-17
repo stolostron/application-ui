@@ -196,11 +196,11 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
-const getRepoResourceData = (queryAppData, channelIdentifier) => {
+const getRepoResourceData = (appData, channelIdentifier) => {
   let resourceType = ''
   let resourcePath = ''
-  if (queryAppData && queryAppData.related) {
-    queryAppData.related.forEach(resource => {
+  if (appData && appData.related) {
+    appData.related.forEach(resource => {
       if (resource.kind === 'channel' && resource.items) {
         resource.items.forEach(chn => {
           // Get resource type and path of corresponding channel
@@ -248,7 +248,7 @@ const getGitTypeData = node => {
 }
 
 export const getAppOverviewCardsData = (
-  QueryApplicationList,
+  selectedAppData,
   topologyData,
   appName,
   appNamespace,
@@ -258,6 +258,24 @@ export const getAppOverviewCardsData = (
 ) => {
   // Get app details only when topology data is properly loaded for the selected app
   const appData = _.get(topologyData, 'activeFilters.application')
+  if (
+    !selectedAppData ||
+    selectedAppData.status !== 'DONE' ||
+    topologyData.status !== 'DONE' ||
+    topologyData.detailsLoaded !== true
+  ) {
+    return {
+      appName: appName,
+      appNamespace: appNamespace,
+      creationTimestamp: -1,
+      remoteClusterCount: -1,
+      localClusterDeploy: false,
+      nodeStatuses: -1,
+      targetLink: targetLink,
+      subsList: -1
+    }
+  }
+
   if (
     typeof topologyData.loaded !== 'undefined' &&
     typeof topologyData.nodes !== 'undefined' &&
@@ -294,38 +312,39 @@ export const getAppOverviewCardsData = (
           localClusterDeploy = true
         }
 
-        // Get name and namespace of channel to match with data from QueryAppList
-        const channelIdentifier = _.get(node, 'specs.raw.spec.channel').split(
-          '/'
-        )
+        // Get name and namespace of channel to match with data from HCMAppList
+        const channelIdentifier = _.get(
+          node,
+          'specs.raw.spec.channel',
+          ''
+        ).split('/')
         // Get repo resource type and URL
         const repoResourceData = getRepoResourceData(
-          _.get(QueryApplicationList, 'items[0]'),
+          _.get(selectedAppData, 'items[0]'),
           channelIdentifier
         )
         const gitTypeData = getGitTypeData(node)
 
         // Get time window type
-        const timeWindowData = _.get(node, 'specs.raw.spec.timewindow')
-        let timeWindowType = 'default'
-        if (timeWindowData) {
-          timeWindowType = timeWindowData.windowtype
-        }
+        const timeWindowData = _.get(node, 'specs.raw.spec.timewindow', '')
 
         subsList.push({
           name: node.name,
           id: node.id,
-          timeWindowType: timeWindowType,
           resourceType: repoResourceData.type,
           resourcePath: repoResourceData.path,
           gitBranch: gitTypeData.gitBranch,
-          gitPath: gitTypeData.gitPath
+          gitPath: gitTypeData.gitPath,
+          timeWindowType: timeWindowData.windowtype,
+          timeWindowDays: timeWindowData.weekdays,
+          timeWindowTimezone: timeWindowData.location,
+          timeWindowRanges: timeWindowData.hours
         })
       } else if (
         node.type !== 'application' &&
         node.type !== 'cluster' &&
         node.type !== 'subscription' &&
-        node.type !== 'rules' &&
+        node.type !== 'placements' &&
         _.get(node, 'specs.pulse')
       ) {
         // Get cluster resource statuses

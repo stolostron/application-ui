@@ -58,7 +58,7 @@ const mockLaidoutNodes = {
       id: "member--rules--default--mortgage-app-placement--0",
       uid: "member--rules--default--mortgage-app-placement--0",
       name: "mortgage-app-placement",
-      type: "rules",
+      type: "placements",
       namespace: "default"
     },
     {

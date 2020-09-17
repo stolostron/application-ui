@@ -26,7 +26,12 @@ const ChannelLabels = ({ channels, locale }) => {
     return channelType === 'github' ? 'git' : channelType
   })
   const channelMap = groupByChannelType(channels || [])
-
+  // Create sorting function for channels
+  const channelSort = R.sortWith([
+    R.ascend(R.prop('pathname')),
+    R.ascend(R.prop('gitBranch')),
+    R.ascend(R.prop('gitPath'))
+  ])
   return (
     <div className="label-with-popover-container channel-labels">
       {['git', 'helmrepo', 'namespace', 'objectbucket']
@@ -36,18 +41,20 @@ const ChannelLabels = ({ channels, locale }) => {
             <LabelWithPopover
               key={`${chType}`}
               labelContent={
-                <Split hasGutter className="channel-type-label">
+                <Split hasGutter className="channel-label">
                   <SplitItem>
                     {msgs.get(`channel.type.${chType}`, locale)}
+                    {channelMap[chType].length > 1 &&
+                      ` (${channelMap[chType].length})`}
                   </SplitItem>
                   <SplitItem>
-                    <Icon className="channel-type-icon" name="icon--launch" />
+                    <Icon className="channel-entry-icon" name="icon--launch" />
                   </SplitItem>
                 </Split>
               }
             >
-              <Stack className="channel-labels">
-                {channelMap[chType].map((channel, index) => {
+              <Stack className="channel-labels channel-labels-popover-content">
+                {channelSort(channelMap[chType]).map((channel, index) => {
                   const pathname = channel.pathname
                   const link =
                     chType === 'namespace'
@@ -60,63 +67,61 @@ const ChannelLabels = ({ channels, locale }) => {
                       })
                       : pathname
                   return (
-                    <React.Fragment key={chType}>
+                    <React.Fragment
+                      key={`${chType}-${channel.pathname}-${
+                        channel.gitBranch
+                      }-${channel.gitPath}`}
+                    >
                       {index > 0 && (
                         <StackItem>
                           <Divider />
                         </StackItem>
                       )}
-                      <StackItem>
-                        <a
-                          href={link}
-                          target="_blank"
-                          className="channel-type-link"
-                        >
-                          <Split hasGutter>
-                            <SplitItem>
-                              <Icon
-                                className="channel-type-icon"
-                                name="icon--launch"
-                              />
-                            </SplitItem>
-                            <SplitItem>{pathname}</SplitItem>
-                          </Split>
-                        </a>
+                      <StackItem className="channel-entry">
+                        <Stack hasGutter>
+                          <StackItem className="channel-entry-link">
+                            <a href={link} target="_blank">
+                              <Split hasGutter>
+                                <SplitItem>
+                                  <Icon
+                                    className="channel-entry-icon"
+                                    name="icon--launch"
+                                  />
+                                </SplitItem>
+                                <SplitItem>{pathname}</SplitItem>
+                              </Split>
+                            </a>
+                          </StackItem>
+                          {chType === 'git' && (
+                            <React.Fragment>
+                              {['gitBranch', 'gitPath'].map(attrib => {
+                                return (
+                                  <StackItem
+                                    key={attrib}
+                                    className="channel-entry-attribute"
+                                  >
+                                    <Split hasGutter>
+                                      <SplitItem className="channel-entry-attribute-name">
+                                        {msgs.get(
+                                          `channel.type.label.${attrib}`
+                                        )}
+                                      </SplitItem>
+                                      <SplitItem>
+                                        {channel[attrib]
+                                          ? channel[attrib]
+                                          : msgs.get(
+                                            'channel.type.label.noData',
+                                            locale
+                                          )}
+                                      </SplitItem>
+                                    </Split>
+                                  </StackItem>
+                                )
+                              })}
+                            </React.Fragment>
+                          )}
+                        </Stack>
                       </StackItem>
-                      {chType === 'git' && (
-                        <React.Fragment>
-                          <StackItem className="channel-type-git-branch">
-                            <Split>
-                              <SplitItem className="channel-type-title">
-                                {msgs.get('channel.type.label.branch')}
-                              </SplitItem>
-                              <SplitItem>
-                                {channel.gitBranch
-                                  ? channel.gitBranch
-                                  : msgs.get(
-                                    'channel.type.label.noData',
-                                    locale
-                                  )}
-                              </SplitItem>
-                            </Split>
-                          </StackItem>
-                          <StackItem className="channel-type-git-path">
-                            <Split>
-                              <SplitItem className="channel-type-title">
-                                {msgs.get('channel.type.label.path')}
-                              </SplitItem>
-                              <SplitItem>
-                                {channel.gitPath
-                                  ? channel.gitPath
-                                  : msgs.get(
-                                    'channel.type.label.noData',
-                                    locale
-                                  )}
-                              </SplitItem>
-                            </Split>
-                          </StackItem>
-                        </React.Fragment>
-                      )}
                     </React.Fragment>
                   )
                 })}

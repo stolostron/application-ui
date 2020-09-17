@@ -323,11 +323,14 @@ describe("getAppOverviewCardsData", () => {
         {
           name: "mortgage-app-subscription",
           id: "member--subscription--default--mortgage-app-subscription",
-          timeWindowType: "default",
           resourceType: "GitHub",
           resourcePath: "https://github.com/fxiang1/app-samples.git",
           gitBranch: "master",
-          gitPath: "mortgage"
+          gitPath: "mortgage",
+          timeWindowType: undefined,
+          timeWindowDays: undefined,
+          timeWindowTimezone: undefined,
+          timeWindowRanges: undefined
         }
       ]
     };
@@ -358,11 +361,14 @@ describe("getAppOverviewCardsData", () => {
         {
           name: "mortgage-app-subscription",
           id: "member--subscription--default--mortgage-app-subscription",
-          timeWindowType: "active",
           resourceType: "GitHub",
           resourcePath: "https://github.com/fxiang1/app-samples.git",
           gitBranch: undefined,
-          gitPath: undefined
+          gitPath: undefined,
+          timeWindowType: "active",
+          timeWindowDays: ["Monday", "Tuesday", "Wednesday"],
+          timeWindowTimezone: "America/Toronto",
+          timeWindowRanges: [{ end: "09:10PM", start: "8:00AM" }]
         }
       ]
     };
@@ -568,7 +574,7 @@ const customTopologyData = {
         row: 34
       },
       topology: null,
-      type: "rules",
+      type: "placements",
       uid: "member--rules--default--mortgage-app-placement--0",
       __typename: "Resource"
     },

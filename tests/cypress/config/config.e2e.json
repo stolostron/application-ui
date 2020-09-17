@@ -1,36 +1,4 @@
 {
-  "git": {
-    "data": {
-      "enable": false,
-      "name": "",
-      "config": [
-        {
-          "url": "",
-          "username": "",
-          "token": "",
-          "branch": "",
-          "path": "",
-          "timeWindow": {
-            "setting": false,
-            "type": "",
-            "date": ["Monday", "Tuesday"]
-          }
-        },
-        {
-          "url": "",
-          "username": "",
-          "token": "",
-          "branch": "",
-          "path": "",
-          "timeWindow": {
-            "setting": false,
-            "type": "",
-            "date": ["Thursday", "Friday"]
-          }
-        }
-      ]
-    }
-  },
   "objectstore": {
     "data": {
       "enable": false,
@@ -91,8 +59,40 @@
           "url": "",
           "chartName": "",
           "timeWindow": {
-            "setting": true,
+            "setting": false,
             "type": "active"
+          }
+        }
+      ]
+    }
+  },
+  "git": {
+    "data": {
+      "enable": false,
+      "name": "",
+      "config": [
+        {
+          "url": "",
+          "username": "",
+          "token": "",
+          "branch": "",
+          "path": "",
+          "timeWindow": {
+            "setting": false,
+            "type": "",
+            "date": ["Monday", "Tuesday"]
+          }
+        },
+        {
+          "url": "",
+          "username": "",
+          "token": "",
+          "branch": "",
+          "path": "",
+          "timeWindow": {
+            "setting": false,
+            "type": "",
+            "date": ["Thursday", "Friday"]
           }
         }
       ]

@@ -230,33 +230,33 @@ class ApplicationDeploymentPipeline extends React.Component {
   }
 
   render() {
-    // wait for it
-    const {
-      HCMSubscriptionList,
-      HCMChannelList,
-      QueryApplicationList
-    } = this.props
-    if (
-      QueryApplicationList.status === Actions.REQUEST_STATUS.ERROR ||
-      HCMSubscriptionList.status === Actions.REQUEST_STATUS.ERROR ||
-      HCMChannelList.status === Actions.REQUEST_STATUS.ERROR
-    ) {
-      return (
-        <Notification
-          title=""
-          className="overview-notification"
-          kind="error"
-          subtitle={msgs.get('overview.error.default', locale)}
-        />
-      )
-    } else if (
-      (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
-        HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
-        HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) &&
-      !this.state.xhrPoll
-    ) {
-      return loadingComponent()
-    }
+    // // wait for it
+    // const {
+    //   HCMSubscriptionList,
+    //   HCMChannelList,
+    //   QueryApplicationList
+    // } = this.props
+    // if (
+    //   QueryApplicationList.status === Actions.REQUEST_STATUS.ERROR ||
+    //   HCMSubscriptionList.status === Actions.REQUEST_STATUS.ERROR ||
+    //   HCMChannelList.status === Actions.REQUEST_STATUS.ERROR
+    // ) {
+    //   return (
+    //     <Notification
+    //       title=""
+    //       className="overview-notification"
+    //       kind="error"
+    //       subtitle={msgs.get('overview.error.default', locale)}
+    //     />
+    //   )
+    // } else if (
+    //   (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
+    //     HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
+    //     HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) &&
+    //   !this.state.xhrPoll
+    // ) {
+    //   return loadingComponent()
+    // }
 
     const {
       selectedApp,
@@ -278,77 +278,69 @@ class ApplicationDeploymentPipeline extends React.Component {
       locale
     } = this.props
 
-    const { isLoaded = true, isReloading = false } = fetchChannels
-    const { timestamp = new Date().toString() } = this.state
+    // const { isLoaded = true, isReloading = false } = fetchChannels
+    // const { timestamp = new Date().toString() } = this.state
 
-    const applications = getApplicationsForSelection(
-      QueryApplicationList,
-      selectedApp,
-      AppDeployments
-    )
+    // const applications = getApplicationsForSelection(
+    //   QueryApplicationList,
+    //   selectedApp,
+    //   AppDeployments
+    // )
 
-    const bulkSubscriptionList =
-      (HCMSubscriptionList && HCMSubscriptionList.items) || []
+    // const bulkSubscriptionList =
+    //   (HCMSubscriptionList && HCMSubscriptionList.items) || []
 
-    const channels = getSubscribedChannels(
-      getChannelsList(HCMChannelList),
-      applications,
-      selectedApp,
-      AppDeployments
-    )
+    // const channels = getSubscribedChannels(
+    //   getChannelsList(HCMChannelList),
+    //   applications,
+    //   selectedApp,
+    //   AppDeployments
+    // )
 
-    const subscriptionModalHeader =
-      AppDeployments.subscriptionModalHeaderInfo &&
-      AppDeployments.subscriptionModalHeaderInfo.deployable
-    const subscriptionModalLabel =
-      AppDeployments.subscriptionModalHeaderInfo &&
-      AppDeployments.subscriptionModalHeaderInfo.application
+    // const subscriptionModalHeader =
+    //   AppDeployments.subscriptionModalHeaderInfo &&
+    //   AppDeployments.subscriptionModalHeaderInfo.deployable
+    // const subscriptionModalLabel =
+    //   AppDeployments.subscriptionModalHeaderInfo &&
+    //   AppDeployments.subscriptionModalHeaderInfo.application
 
-    // This will trigger the edit Channel Modal because openEditChannelModal
-    // is true AFTER the fetch of the channel data has been completed
-    if (AppDeployments.openEditChannelModal) {
-      showEditModalByType(
-        closeModal,
-        editResource,
-        RESOURCE_TYPES.HCM_CHANNELS,
-        AppDeployments.currentChannelInfo || {},
-        DOC_LINKS.CHANNELS
-      )
-    } else if (AppDeployments.openEditApplicationModal) {
-      showEditModalByType(
-        closeModal,
-        editResource,
-        RESOURCE_TYPES.HCM_APPLICATIONS,
-        AppDeployments.currentApplicationInfo || {},
-        DOC_LINKS.APPLICATIONS
-      )
-    } else if (AppDeployments.openEditSubscriptionModal) {
-      showEditModalByType(
-        closeModal,
-        editResource,
-        RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
-        AppDeployments.currentSubscriptionInfo || {},
-        DOC_LINKS.SUBSCRIPTIONS
-      )
-    } else if (AppDeployments.openEditPlacementRuleModal) {
-      showEditModalByType(
-        closeModal,
-        editResource,
-        RESOURCE_TYPES.HCM_PLACEMENT_RULES,
-        AppDeployments.currentPlacementRuleInfo || {},
-        DOC_LINKS.PLACEMENT_RULES
-      )
-    }
+    // // This will trigger the edit Channel Modal because openEditChannelModal
+    // // is true AFTER the fetch of the channel data has been completed
+    // if (AppDeployments.openEditChannelModal) {
+    //   showEditModalByType(
+    //     closeModal,
+    //     editResource,
+    //     RESOURCE_TYPES.HCM_CHANNELS,
+    //     AppDeployments.currentChannelInfo || {},
+    //     DOC_LINKS.CHANNELS
+    //   )
+    // } else if (AppDeployments.openEditApplicationModal) {
+    //   showEditModalByType(
+    //     closeModal,
+    //     editResource,
+    //     RESOURCE_TYPES.HCM_APPLICATIONS,
+    //     AppDeployments.currentApplicationInfo || {},
+    //     DOC_LINKS.APPLICATIONS
+    //   )
+    // } else if (AppDeployments.openEditSubscriptionModal) {
+    //   showEditModalByType(
+    //     closeModal,
+    //     editResource,
+    //     RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+    //     AppDeployments.currentSubscriptionInfo || {},
+    //     DOC_LINKS.SUBSCRIPTIONS
+    //   )
+    // } else if (AppDeployments.openEditPlacementRuleModal) {
+    //   showEditModalByType(
+    //     closeModal,
+    //     editResource,
+    //     RESOURCE_TYPES.HCM_PLACEMENT_RULES,
+    //     AppDeployments.currentPlacementRuleInfo || {},
+    //     DOC_LINKS.PLACEMENT_RULES
+    //   )
+    // }
     return (
       <div id="DeploymentPipeline">
-        {renderRefreshTime(
-          refetchIntervalUpdateDispatch,
-          isLoaded,
-          isReloading,
-          timestamp,
-          locale
-        )}
-        {loading && loadingComponent()}
         {deleteStatus === Actions.REQUEST_STATUS.DONE && (
           <Notification
             title={msgs.get('success.update.resource', locale)}
@@ -368,7 +360,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           />
         )}
         <ApplicationDeploymentHighlights />
-        <div className="searchAndButtonContainer">
+        {/* <div className="searchAndButtonContainer">
           <Search
             className="deploymentPipelineSearch"
             light
@@ -418,7 +410,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           }
           bulkSubscriptionList={bulkSubscriptionList}
           applications={QueryApplicationList}
-        />
+        /> */}
       </div>
     )
   }

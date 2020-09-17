@@ -9,12 +9,14 @@
 'use strict'
 
 import _ from 'lodash'
+import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import msgs from '../../../nls/platform.properties'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
+import { SEARCH_QUERY_RELATED } from '../../apollo-client/queries/SearchQueries'
 import {
   Checkbox,
   Modal,
@@ -26,7 +28,8 @@ import {
   forceResourceReload,
   receiveDelResource,
   delResourceSuccessFinished,
-  mutateResourceSuccessFinished
+  mutateResourceSuccessFinished,
+  getQueryStringForResource
 } from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
@@ -73,56 +76,82 @@ class RemoveResourceModal extends React.Component {
     }
   }
 
-  getChildResources(name, namespace) {
-    const children = []
+  getChildResources = (name, namespace) => {
     const { resourceType } = this.props
-    resourceType.name === 'HCMApplication'
-      ? apolloClient.getApplication({ name, namespace }).then(response => {
+    if (resourceType.name === 'HCMApplication') {
+      apolloClient.getApplication({ name, namespace }).then(response => {
+        const children = []
         const subscriptions = _.get(
           response,
           'data.application.subscriptions',
           []
         )
-        if (subscriptions) {
-          // Create object specifying Application resources that can be deleted
-          _.map(subscriptions, (curr, idx) => {
-            children.push({
-              id: `${idx}-subscriptions-${curr.metadata.name}`,
-              selfLink: curr.metadata.selfLink,
-              label: `${curr.metadata.name} Subscription`,
-              selected: false
-            })
-          })
-          const appSubResources = [
-            { kind: 'channels', label: '[Channel]' },
-            { kind: 'rules', label: '[Rule]' }
-          ]
-          subscriptions.forEach(subscription => {
-            appSubResources.forEach(sub => {
-              _.map(_.get(subscription, sub.kind, []), (curr, idx) => {
-                children.push({
-                  id: `${idx}-${sub.kind}-${curr.metadata.name}`,
-                  selfLink: curr.metadata.selfLink,
-                  label: `${curr.metadata.name} ${sub.label}`,
-                  selected: false
-                })
+        Promise.all(
+          subscriptions.map(async subscription => {
+            let idx = 0
+            const subName = subscription.metadata.name
+            const related = await this.fetchRelated(
+              RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+              subName,
+              subscription.metadata.namespace
+            )
+            if (this.removableSubscription(related, name)) {
+              children.push({
+                id: `${idx++}-subscriptions-${subName}`,
+                selfLink: subscription.metadata.selfLink,
+                label: `${subName} [Subscription]`,
+                selected: false
               })
-            })
+            }
           })
+        ).then(() => {
           this.setState({
             selected: _.uniqBy(children, 'id'),
             loading: false
           })
-        } else {
-          this.setState({
-            loading: false
-          })
-        }
+        })
+        // const appSubResources = [
+        //   { kind: 'channels', label: '[Channel]' },
+        //   { kind: 'rules', label: '[Rule]' }
+        // ]
+        // subscriptions.forEach(subscription => {
+        //   appSubResources.forEach(sub => {
+        //     _.map(_.get(subscription, sub.kind, []), (curr, idx) => {
+        //       children.push({
+        //         id: `${idx}-${sub.kind}-${curr.metadata.name}`,
+        //         selfLink: curr.metadata.selfLink,
+        //         label: `${curr.metadata.name} ${sub.label}`,
+        //         selected: false
+        //       })
+        //     })
+        //   })
+        // })
       })
-      : this.setState({
+    } else {
+      this.setState({
         loading: false
       })
-  }
+    }
+  };
+
+  fetchRelated = async (resourceType, name, namespace) => {
+    const query = getQueryStringForResource(resourceType.name, name, namespace)
+    const response = await apolloClient.search(SEARCH_QUERY_RELATED, {
+      input: [query]
+    })
+    return response.errors
+      ? []
+      : _.get(response, 'data.searchResult[0]', []).related
+  };
+
+  removableSubscription = (related, appName) => {
+    const isApp = n => n.kind.toLowerCase() === 'application'
+    const app = R.filter(isApp, related)
+    const items = app && app.length === 1 ? app[0].items : []
+    return items && items.length === 1 && items[0].name === appName
+      ? true
+      : false
+  };
 
   toggleSelected = (i, target) => {
     this.setState(prevState => {

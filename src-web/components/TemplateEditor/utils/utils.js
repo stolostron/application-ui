@@ -74,17 +74,18 @@ export function reverseTemplate(
     const {
       type,
       active=[],
-      reverse
+      reverse,
+      shift
     } = control
-    if (reverse) {
-      reverse(control, templateObject)
-    }
     if (type === 'group') {
       active.forEach(group => {
         group.forEach(gcontrol => {
           reverseControl(gcontrol, templateObject)
         })
+        shift(templateObject)
       })
+    } else if (reverse) {
+      reverse(control, templateObject)
     }
   }
   controlData.forEach(control => {

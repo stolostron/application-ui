@@ -75,10 +75,7 @@ export class TimeWindow extends React.Component {
     const {
       mode,
       days,
-      timezone,
-      showTimeSection,
-      timeList,
-      timeListID
+      timezone
     } = this.props.control.active
 
     return (
@@ -96,7 +93,7 @@ export class TimeWindow extends React.Component {
             <RadioButtonGroup
               className="timeWindow-mode-container"
               name={`timeWindow-mode-container-${controlId}`}
-              defaultSelected=""
+              defaultSelected={mode? `"${mode}"` : ''}
               id={controlId}
             >
               <RadioButton
@@ -306,36 +303,37 @@ export class TimeWindow extends React.Component {
     return (
       control.active &&
       control.active.timeList.map(item => {
+        const {id, start, end, validTime} = item
         // Don't show deleted time invertals
-        if (item.validTime) {
+        if (validTime) {
           return (
-            <React.Fragment key={item.id}>
+            <React.Fragment key={id}>
               <div className="config-time-container">
                 <div className="config-start-time">
                   <TimePicker
-                    id={`start-time-${item.id}`}
+                    id={`start-time-${id}`}
                     name="start-time"
-                    labelText={item.id === 0 ? 'Start Time' : ''}
+                    labelText={id === 0 ? 'Start Time' : ''}
                     type="time"
-                    value={this.state.startTime || ''}
+                    value={this.state.startTime || start || ''}
                     disabled={!modeSelected}
                     onChange={this.handleChange.bind(this)}
                   />
                 </div>
                 <div className="config-end-time">
                   <TimePicker
-                    id={`end-time-${item.id}`}
+                    id={`end-time-${id}`}
                     name="end-time"
-                    labelText={item.id === 0 ? 'End Time' : ''}
+                    labelText={id === 0 ? 'End Time' : ''}
                     type="time"
-                    value={this.state.endTime || ''}
+                    value={this.state.endTime || end || ''}
                     disabled={!modeSelected}
                     onChange={this.handleChange.bind(this)}
                   />
                 </div>
-                {item.id !== 0 ? ( // Option to remove added times
+                {id !== 0 ? ( // Option to remove added times
                   <div
-                    id={item.id}
+                    id={id}
                     className="remove-time-btn"
                     tabIndex="0"
                     role={'button'}
@@ -470,24 +468,42 @@ export const reverse = (control, templateObject) =>{
   const timezone = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.location'))
   const mode = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.windowtype'))
   const weekdays = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.weekdays'))
-  //  placement:
-  //    local: true
-  //  timewindow:
-  //    hours:
-  //      - end: '09:09PM'
-  //        start: '08:09AM'
-  //    location: America/Toronto
-  //    weekdays:
-  //      - Sunday
-  //    windowtype: blocked
-  //
-
+  let timeList = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.hours'))
+  if (timeList) {
+    timeList = removeVs(timeList).map(({start, end}, id)=>{
+      return {
+        id,
+        start: to24(start),
+        end: to24(end),
+        validTime: true
+      }
+    })
+  } else {
+    timeList = [{ id: 0, start: '', end: '', validTime: true }]
+  }
   control.active = {
     mode: mode && mode.$v,
     days: removeVs(weekdays && weekdays.$v)||[],
     timezone: timezone && timezone.$v,
     showTimeSection: false,
-    timeList: [{ id: 0, start: '', end: '', validTime: true }],
+    timeList,
     timeListID: 1
   }
+}
+
+// Convert 12-hour format to 24-hour format
+const to24 = (time) =>{
+  const match = /((1[0-2]|0?[1-9]):([0-5][0-9])([AP][M]))/.exec(time)
+  if (match) {
+    const [,,hour12,minute,period] = match
+    let hour = parseInt(hour12)
+    if (hour<12 && period==='PM') {
+      hour+=12
+    }
+    if (hour<10) {
+      hour = `0${hour}`
+    }
+    return `${hour}:${minute}`
+  }
+  return time
 }

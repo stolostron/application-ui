@@ -90,6 +90,8 @@ export const updateControlsForNS = (
   return globalControl
 }
 
+// only called when editing an existing application
+// examines resources to create the correct resource types that are being deployed
 const discoverGroupsFromSource = (control, controlData, templateObject, forceUpdate, locale) =>{
   const { controlData: groupData, prompts: { nameId, baseName } } = control
   templateObject = _.cloneDeep(templateObject)
@@ -171,6 +173,29 @@ const discoverChannelFromSource = (cardsControl, groupControlData, globalControl
   }
 }
 
+// called for each group when editor refreshes control active values from the template
+// reverse source path always points to first template resource (ex: Subscription[0])
+// so after one group has been processed, pop the top Subscription so that next pass
+// the Subscription[0] points to the next group
+const shiftTemplateObject = (templateObject) =>{
+
+  // pop the subscription off of all subscriptions
+  const subscription = templateObject.Subscription.shift()
+
+  // if this subscription pointed to a placement rule in this template
+  // remove that placement rule too
+  const name = _.get(subscription, '$synced.spec.$v.placement.$v.placementRef.$v.name.$v')
+  if (name) {
+    const inx = templateObject.PlacementRule.findIndex(rule=>{
+      return name === _.get(rule, '$synced.metadata.$v.name.$v')
+    })
+    if (inx!==-1) {
+      templateObject.PlacementRule.splice(inx,1)
+    }
+  }
+
+}
+
 export const controlData = [
   {
     id: 'main',
@@ -229,6 +254,7 @@ export const controlData = [
       deletePrompt: 'creation.app.delete.channel'
     },
     discover: discoverGroupsFromSource,
+    shift: shiftTemplateObject,
     controlData: [
       {
         id: 'channel',

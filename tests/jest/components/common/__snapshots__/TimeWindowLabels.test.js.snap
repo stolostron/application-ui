@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TimeWindowLabels renders as expected 1`] = `
+<div
+  className="label-with-popover-container timeWindow-labels"
+>
+  <div
+    className="label-with-popover"
+  >
+    <span
+      className="pf-c-label pf-m-green"
+      onClick={[Function]}
+    >
+      <a
+        className="pf-c-label__content"
+        href="#"
+      >
+        <div
+          className="timeWindow-status-icon"
+        >
+          active
+        </div>
+      </a>
+    </span>
+  </div>
+</div>
+`;

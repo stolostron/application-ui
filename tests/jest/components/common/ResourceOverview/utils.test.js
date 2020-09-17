@@ -304,7 +304,7 @@ describe("getAppOverviewCardsData", () => {
     const targetLink =
       '/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
-      reduxStoreAppPipelineWithCEM.QueryApplicationList_singleApp,
+      reduxStoreAppPipelineWithCEM.HCMApplicationList,
       reduxStoreAppPipelineWithCEM.topology,
       "mortgage-app",
       "default",
@@ -342,7 +342,7 @@ describe("getAppOverviewCardsData", () => {
     const targetLink =
       '/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
-      reduxStoreAppPipelineWithCEM.QueryApplicationList_singleApp,
+      reduxStoreAppPipelineWithCEM.HCMApplicationList,
       customTopologyData,
       "mortgage-app",
       "default",

@@ -38,13 +38,13 @@ export default {
     {
       msgKey: 'table.header.clusters',
       tooltipKey: 'table.header.clusters.tooltip',
-      resourceKey: 'clusters',
+      resourceKey: 'clusterCount',
       transformFunction: createClustersLink
     },
     {
       msgKey: 'table.header.resource',
       tooltipKey: 'table.header.resource.tooltip',
-      resourceKey: 'channels',
+      resourceKey: 'hubChannels',
       transformFunction: getChannels
     },
     {

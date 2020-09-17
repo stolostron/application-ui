@@ -8,8 +8,44 @@
 import { validator } from './validators/hcm-subscription-validator'
 
 export default {
-  defaultSortField: 'metadata.name',
-  primaryKey: 'metadata.name',
-  secondaryKey: 'cluster.metadata.name',
-  validator
+  defaultSortField: 'name',
+  primaryKey: 'name',
+  secondaryKey: 'namespace',
+  validator,
+  tableKeys: [
+    {
+      msgKey: 'table.header.name',
+      resourceKey: 'name',
+      //transformFunction: createApplicationLink
+    },
+    {
+      msgKey: 'table.header.namespace',
+      resourceKey: 'namespace'
+    },
+    {
+      msgKey: 'table.header.channel',
+      resourceKey: 'channel'
+    },
+    {
+      msgKey: 'table.header.applications',
+      resourceKey: 'appCount'
+    },
+    {
+      msgKey: 'table.header.clusters',
+      tooltipKey: 'table.header.clusters.tooltip',
+      resourceKey: 'clusterCount',
+      //transformFunction: createClustersLink
+    },
+    {
+      msgKey: 'table.header.timeWindow',
+      tooltipKey: 'table.header.timeWindow.tooltip',
+      resourceKey: 'timeWindow',
+      //transformFunction: getTimeWindow
+    },
+    {
+      msgKey: 'table.header.created',
+      resourceKey: 'created',
+      //transformFunction: getCreated
+    }
+  ],
 }

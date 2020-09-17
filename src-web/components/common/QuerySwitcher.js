@@ -7,6 +7,22 @@ import queryString from 'query-string'
 import PropTypes from 'prop-types'
 import { ToggleGroup, ToggleGroupItem } from '@patternfly/react-core'
 
+export const getSelectedId = ({
+  location,
+  options,
+  defaultOption,
+  query,
+  queryParam = 'resource',
+}) => {
+  if (!query) {
+    query = queryString.parse(location.search)
+  }
+  const validOptionIds = options.map(o => o.id)
+  return validOptionIds.includes(query[queryParam])
+    ? query[queryParam]
+    : defaultOption
+}
+
 const QuerySwitcher = ({
   options,
   defaultOption,
@@ -15,11 +31,8 @@ const QuerySwitcher = ({
   history
 }) => {
   const query = queryString.parse(location.search)
-  const validOptionIds = options.map(o => o.id)
-  const isSelected = id =>
-    validOptionIds.includes(query[queryParam])
-      ? query[queryParam] === id
-      : defaultOption === id
+  const selectedId = getSelectedId({query, options, defaultOption, queryParam})
+  const isSelected = id => id === selectedId
   const handleChange = (_, event) => {
     const id = event.currentTarget.id
     query[queryParam] = id

@@ -171,17 +171,35 @@ export const fetchGlobalAppsData = resourceType => {
 }
 
 export const fetchResources = resourceType => {
-  if (resourceType.name === 'QueryApplications') {
-    const resourceQuery = { list: 'ApplicationsList' }
+  let resourceQuery, dataKey
+  switch (resourceType.name) {
+  case 'QueryApplications':
+    resourceQuery = { list: 'ApplicationsList' }
+    dataKey = 'applications'
+    break
+  case 'QuerySubscriptions':
+    resourceQuery = { list: 'SubscriptionsList' }
+    dataKey = 'subscriptions'
+    break
+  case 'QueryPlacementRules':
+    resourceQuery = { list: 'PlacementRulesList' }
+    dataKey = 'placementRules'
+    break
+  case 'QueryChannels':
+    resourceQuery = { list: 'ChannelsList' }
+    dataKey = 'channels'
+    break
+  }
+  if (resourceQuery) {
     //use Query api to get the data, instead of the generic searchResource
     return dispatch => {
       apolloClient
         .get(resourceQuery)
         .then(result => {
-          if (result.data && result.data.applications) {
+          if (result.data && result.data[dataKey]) {
             return dispatch(
               receiveResourceSuccess(
-                { items: result.data.applications },
+                { items: result.data[dataKey] },
                 resourceType
               )
             )

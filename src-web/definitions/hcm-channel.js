@@ -8,8 +8,19 @@
 import { validator } from './validators/hcm-channel-validator'
 
 export default {
-  defaultSortField: 'metadata.name',
-  primaryKey: 'metadata.name',
-  secondaryKey: 'cluster.metadata.name',
-  validator
+  defaultSortField: 'name',
+  primaryKey: 'name',
+  secondaryKey: 'namespace',
+  validator,
+  tableKeys: [
+    {
+      msgKey: 'table.header.name',
+      resourceKey: 'name',
+      //transformFunction: createApplicationLink
+    },
+    {
+      msgKey: 'table.header.namespace',
+      resourceKey: 'namespace'
+    }
+  ]
 }

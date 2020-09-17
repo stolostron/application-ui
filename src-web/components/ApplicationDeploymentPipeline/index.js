@@ -282,7 +282,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       refetchIntervalUpdateDispatch,
       match,
       location,
-      locale
+      locale,
+      secondaryHeaderProps
     } = this.props
     // const { isLoaded = true, isReloading = false } = fetchChannels
     // const { timestamp = new Date().toString() } = this.state
@@ -366,7 +367,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           />
         )}
         <ApplicationDeploymentHighlights />
-        <AdvancedConfigurationLists />
+        <AdvancedConfigurationLists secondaryHeaderProps={secondaryHeaderProps} />
         {/* <div className="searchAndButtonContainer">
           <Search
             className="deploymentPipelineSearch"

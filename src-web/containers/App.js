@@ -24,8 +24,12 @@ export const ActionModalApollo = loadable(() =>
   import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo')
 )
 
-export const ApplicationsTab = loadable(() =>
-  import(/* webpackChunkName: "applications" */ './ApplicationsTab')
+export const ApplicationsListPage = loadable(() =>
+  import(/* webpackChunkName: "applications" */ '../components/ApplicationsListPage')
+)
+
+export const ApplicationDetailsPage = loadable(() =>
+  import(/* webpackChunkName: "applications" */ '../components/ApplicationDetailsPage')
 )
 
 export const ApplicationCreationPage = loadable(() =>
@@ -75,7 +79,7 @@ class App extends React.Component {
     const { locale, match } = this.props
 
     const BASE_PAGE_PATH = match.url.replace(/\/$/, '')
-    const tabs = [
+    const allApplicationsTabs = [
       {
         id: 'overview',
         label: 'description.title.overview',
@@ -88,27 +92,62 @@ class App extends React.Component {
       }
     ]
 
+    const getSingleApplicationTabs = params => {
+      const SINGLE_APP_BASE_PAGE_PATH = `${BASE_PAGE_PATH}/${
+        params.namespace
+      }/${params.name}`
+      return [
+        {
+          id: 'overview',
+          label: 'description.title.overview',
+          url: SINGLE_APP_BASE_PAGE_PATH
+        },
+        {
+          id: 'advanced',
+          label: 'description.title.yaml',
+          url: `${SINGLE_APP_BASE_PAGE_PATH}/yaml`
+        }
+      ]
+    }
+
     return (
       <div className="expand-vertically">
         <SecondaryHeader />
         <Switch>
           <Route
-            path={`${match.url}/advanced`}
             exact
+            path={`${BASE_PAGE_PATH}`}
+            render={params => (
+              <ApplicationsListPage
+                params={params}
+                serverProps={this.getServerProps()}
+                secondaryHeaderProps={{
+                  title: 'routes.applications',
+                  tabs: allApplicationsTabs
+                }}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={`${BASE_PAGE_PATH}/advanced`}
             render={params => (
               <div className="page-content-container">
                 <ApplicationDeploymentPipeline
                   params={params}
                   serverProps={serverProps}
-                  secondaryHeaderProps={{ title: 'routes.applications', tabs }}
+                  secondaryHeaderProps={{
+                    title: 'routes.applications',
+                    tabs: allApplicationsTabs
+                  }}
                   locale={locale}
                 />
               </div>
             )}
           />
           <Route
-            path={`${match.url}/create`}
             exact
+            path={`${BASE_PAGE_PATH}/create`}
             render={params => (
               <ApplicationCreationPage
                 params={params}
@@ -118,23 +157,30 @@ class App extends React.Component {
             )}
           />
           <Route
-            path={`${match.url}/:namespace/:name/yaml`}
             exact
+            path={`${BASE_PAGE_PATH}/:namespace/:name`}
             render={params => (
-              <ApplicationCreationPage
+              <ApplicationDetailsPage
                 params={params}
                 serverProps={this.getServerProps()}
-                secondaryHeaderProps={{ title: 'application.create.title' }}
+                secondaryHeaderProps={{
+                  title: 'routes.applications',
+                  tabs: getSingleApplicationTabs(params.match.params)
+                }}
               />
             )}
           />
           <Route
-            path={`${match.url}`}
+            exact
+            path={`${BASE_PAGE_PATH}/:namespace/:name/yaml`}
             render={params => (
-              <ApplicationsTab
+              <ApplicationCreationPage
                 params={params}
                 serverProps={this.getServerProps()}
-                secondaryHeaderProps={{ title: 'routes.applications', tabs }}
+                secondaryHeaderProps={{
+                  title: 'application.create.title',
+                  tabs: getSingleApplicationTabs(params.match.params)
+                }}
               />
             )}
           />

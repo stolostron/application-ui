@@ -89,6 +89,62 @@ const typedResourcePageWithListAndDetails = (
   }
 }
 
+const typedResourcePageList = (resourceType, buttons, routes, modules) => {
+  const staticResourceData = getResourceDefinitions(resourceType)
+  const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
+
+  // eslint-disable-next-line react/display-name
+  return class extends React.PureComponent {
+    constructor(props) {
+      super(props)
+    }
+
+    render() {
+      return (
+        <Page>
+          <WrappedResourceList
+            {...this.props}
+            routes={routes}
+            resourceType={resourceType}
+            staticResourceData={staticResourceData}
+            getVisibleResources={getVisibleResources}
+            buttons={buttons}
+            modules={modules}
+          />
+        </Page>
+      )
+    }
+  }
+}
+
+const typedResourcePageDetails = (resourceType, buttons, routes, modules) => {
+  const staticResourceData = getResourceDefinitions(resourceType)
+  const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
+
+  // eslint-disable-next-line react/display-name
+  return class extends React.PureComponent {
+    constructor(props) {
+      super(props)
+    }
+
+    render() {
+      return (
+        <Page>
+          <WrappedResourceDetails
+            {...this.props}
+            routes={routes}
+            resourceType={resourceType}
+            staticResourceData={staticResourceData}
+            getVisibleResources={getVisibleResources}
+            buttons={buttons}
+            modules={modules}
+          />
+        </Page>
+      )
+    }
+  }
+}
+
 WrappedResourceList.propTypes = {
   buttons: PropTypes.array,
   secondaryHeaderProps: PropTypes.object,
@@ -108,4 +164,8 @@ ResourcePageWithListAndDetails.propTypes = {
   match: PropTypes.object
 }
 
-export { typedResourcePageWithListAndDetails }
+export {
+  typedResourcePageWithListAndDetails,
+  typedResourcePageList,
+  typedResourcePageDetails
+}

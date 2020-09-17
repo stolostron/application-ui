@@ -43,7 +43,7 @@ class RemoveResourceModal extends React.Component {
       cluster: '',
       selfLink: '',
       errors: undefined,
-      loading: false,
+      loading: true,
       selected: []
     }
   }
@@ -81,6 +81,7 @@ class RemoveResourceModal extends React.Component {
     if (resourceType.name === 'HCMApplication') {
       apolloClient.getApplication({ name, namespace }).then(response => {
         const children = []
+        const removableSubs = []
         const subscriptions = _.get(
           response,
           'data.application.subscriptions',
@@ -96,6 +97,7 @@ class RemoveResourceModal extends React.Component {
               subscription.metadata.namespace
             )
             if (this.removableSubscription(related, name)) {
+              removableSubs.push(subscription)
               children.push({
                 id: `${idx++}-subscriptions-${subName}`,
                 selfLink: subscription.metadata.selfLink,
@@ -105,27 +107,27 @@ class RemoveResourceModal extends React.Component {
             }
           })
         ).then(() => {
+          const appSubResources = [
+            { kind: 'channels', label: '[Channel]' },
+            { kind: 'rules', label: '[Rule]' }
+          ]
+          removableSubs.forEach(subscription => {
+            appSubResources.forEach(sub => {
+              _.map(_.get(subscription, sub.kind, []), (curr, idx) => {
+                children.push({
+                  id: `${idx}-${sub.kind}-${curr.metadata.name}`,
+                  selfLink: curr.metadata.selfLink,
+                  label: `${curr.metadata.name} ${sub.label}`,
+                  selected: false
+                })
+              })
+            })
+          })
           this.setState({
             selected: _.uniqBy(children, 'id'),
             loading: false
           })
         })
-        // const appSubResources = [
-        //   { kind: 'channels', label: '[Channel]' },
-        //   { kind: 'rules', label: '[Rule]' }
-        // ]
-        // subscriptions.forEach(subscription => {
-        //   appSubResources.forEach(sub => {
-        //     _.map(_.get(subscription, sub.kind, []), (curr, idx) => {
-        //       children.push({
-        //         id: `${idx}-${sub.kind}-${curr.metadata.name}`,
-        //         selfLink: curr.metadata.selfLink,
-        //         label: `${curr.metadata.name} ${sub.label}`,
-        //         selected: false
-        //       })
-        //     })
-        //   })
-        // })
       })
     } else {
       this.setState({

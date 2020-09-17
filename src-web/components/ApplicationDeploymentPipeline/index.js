@@ -13,6 +13,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import resources from '../../../lib/shared/resources'
+import { typedResourceList } from '../common/ResourcePage'
+import ResourceTableModule from '../common/ResourceTableModuleFromProps'
 import { RESOURCE_TYPES, DOC_LINKS } from '../../../lib/shared/constants'
 import {
   fetchResources,
@@ -45,6 +47,8 @@ import {
 } from '../../components/common/ResourceOverview/utils'
 import apolloClient from '../../../lib/client/apollo-client'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
+import { withRouter } from 'react-router-dom'
+import queryString from 'query-string'
 
 import {
   renderRefreshTime,
@@ -53,6 +57,7 @@ import {
   handleVisibilityChanged,
   startPolling
 } from '../../shared/utils/refetch'
+import AdvancedConfigurationLists from '../AdvancedConfigurationLists'
 
 /* eslint-disable react/prop-types */
 
@@ -275,9 +280,10 @@ class ApplicationDeploymentPipeline extends React.Component {
       deleteStatus,
       deleteMsg,
       refetchIntervalUpdateDispatch,
+      match,
+      location,
       locale
     } = this.props
-
     // const { isLoaded = true, isReloading = false } = fetchChannels
     // const { timestamp = new Date().toString() } = this.state
 
@@ -360,6 +366,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           />
         )}
         <ApplicationDeploymentHighlights />
+        <AdvancedConfigurationLists />
         {/* <div className="searchAndButtonContainer">
           <Search
             className="deploymentPipelineSearch"
@@ -416,6 +423,6 @@ class ApplicationDeploymentPipeline extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  ApplicationDeploymentPipeline
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentPipeline)
 )

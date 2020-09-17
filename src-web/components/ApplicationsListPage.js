@@ -9,16 +9,13 @@
 
 import React from 'react'
 import ResourceTableModule from './common/ResourceTableModuleFromProps'
-import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageList } from './common/ResourcePage'
 import CreateApplicationButton from './common/CreateApplicationButton'
 
-export default withRouter(
-  typedResourcePageList(
-    RESOURCE_TYPES.QUERY_APPLICATIONS,
-    [<CreateApplicationButton key="create" />],
-    [],
-    [<ResourceTableModule key="deployments" definitionsKey="deploymentKeys" />]
-  )
+export default typedResourcePageList(
+  RESOURCE_TYPES.QUERY_APPLICATIONS,
+  [<CreateApplicationButton key="create" />],
+  [],
+  [<ResourceTableModule key="deployments" definitionsKey="deploymentKeys" />]
 )

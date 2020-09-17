@@ -19,8 +19,7 @@ import {
   fetchGlobalAppsData,
   updateModal,
   updateSecondaryHeader,
-  mutateResourceSuccessFinished,
-  delResourceSuccessFinished
+  clearSuccessFinished
 } from '../../actions/common'
 import { refetchIntervalUpdate } from '../../actions/refetch'
 import {
@@ -116,10 +115,7 @@ const mapDispatchToProps = dispatch => {
         )
       ),
     closeModal: () => dispatch(closeModals()),
-    mutateSuccessFinished: resourceType =>
-      dispatch(mutateResourceSuccessFinished(resourceType)),
-    deleteSuccessFinished: resourceType =>
-      dispatch(delResourceSuccessFinished(resourceType)),
+    clearSuccessFinished: () => clearSuccessFinished(dispatch),
     refetchIntervalUpdateDispatch: data =>
       dispatch(refetchIntervalUpdate(data)),
     updateSecondaryHeader: (title, tabs, links) =>
@@ -198,15 +194,11 @@ class ApplicationDeploymentPipeline extends React.Component {
   componentWillUnmount() {
     stopPolling(this.state, clearInterval)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
+    this.mutateFinished()
   }
 
   mutateFinished() {
-    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
-    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
-    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
-    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
-    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
-    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+    this.props.clearSuccessFinished()
   }
 
   onVisibilityChange = () => {

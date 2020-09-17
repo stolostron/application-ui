@@ -459,6 +459,18 @@ export const mutateResourceSuccessFinished = resourceType => ({
   resourceType
 })
 
+export const clearSuccessFinished = dispatch => {
+  [
+    RESOURCE_TYPES.QUERY_APPLICATIONS,
+    RESOURCE_TYPES.HCM_CHANNELS,
+    RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+    RESOURCE_TYPES.HCM_PLACEMENT_RULES
+  ].forEach(resourceType => {
+    dispatch(mutateResourceSuccessFinished(resourceType))
+    dispatch(delResourceSuccessFinished(resourceType))
+  })
+}
+
 export const createResources = (resourceType, resourceJson) => {
   if (resourceType === RESOURCE_TYPES.HCM_APPLICATIONS) {
     resourceType = RESOURCE_TYPES.QUERY_APPLICATIONS

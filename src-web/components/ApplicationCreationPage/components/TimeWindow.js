@@ -525,7 +525,7 @@ const to24 = (time) =>{
   const match = /((1[0-2]|0?[1-9]):([0-5][0-9])([AP][M]))/.exec(time)
   if (match) {
     const [,,hour12,minute,period] = match
-    let hour = parseInt(hour12)
+    let hour = parseInt(hour12, 10)
     if (hour<12 && period==='PM') {
       hour+=12
     }

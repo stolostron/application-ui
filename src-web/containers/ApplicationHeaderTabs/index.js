@@ -93,7 +93,9 @@ const ApplicationHeaderTabs = withLocale(
         url: [...segments, selectedAppNamespace, selectedAppName].join('/')
       })
     }
-    updateSecondary(selectedAppName || 'Applications', breadcrumbs)
+    setTimeout(() => {
+      updateSecondary(selectedAppName || 'Applications', breadcrumbs)
+    }, 0)
     selectedApp.breadcrumbs = breadcrumbs
 
     const noop = () => {

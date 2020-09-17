@@ -272,6 +272,8 @@ class ControlPanel extends React.Component {
     ) {
       return null
     }
+    const controlId = `${id}${grpId}`
+    control.controlId = controlId
     if (!isLoaded && !['title', 'section', 'hidden'].includes(type)) {
       return (
         <ControlPanelSkeleton
@@ -282,8 +284,6 @@ class ControlPanel extends React.Component {
           />
       )
     }
-    const controlId = `${id}${grpId}`
-    control.controlId = controlId
     switch (type) {
     case 'title':
     case 'section':

@@ -80,7 +80,7 @@ export function reverseTemplate(
     if (type === 'group') {
       active.forEach(group => {
         group.forEach(gcontrol => {
-          reverseControl(gcontrol, templateObject)
+          reverseControl(gcontrol)
         })
         shift(templateObject)
       })
@@ -201,10 +201,9 @@ export const removeVs = (object) => {
         object[i] = o.$v!==undefined ? removeVs(o) : o
       }
     } else if (typeof object === 'object') {
-      for (const key in object) {
-        o = object[key]
-        object[key] = o.$v!==undefined ? removeVs(o) : o
-      }
+      Object.entries(object).forEach(([k, o])=>{
+        object[k] = o.$v!==undefined ? removeVs(o) : o
+      })
     }
   }
   return object

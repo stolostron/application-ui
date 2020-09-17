@@ -48,14 +48,12 @@ const filter = (value, parentKey) => {
 
 const filterDeep = (obj, parentKey) => {
   const newObj = {}
-  let key
-  let value
-  for (key in obj) {
-    value = filter(obj[key], key)
-    if (!isFiltered(value, key, parentKey)) {
-      newObj[key] = value
+  Object.entries(obj).forEach(([k, v])=>{
+    const value = filter(v, k)
+    if (!isFiltered(value, k, parentKey)) {
+      newObj[k] = value
     }
-  }
+  })
   return newObj
 }
 

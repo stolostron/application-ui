@@ -118,7 +118,7 @@ const discoverGroupsFromSource = (control, controlData, templateObject, forceUpd
         ({ id }) => id === 'channelType'
       )
       discoverChannelFromSource(cardsControl, newGroup, controlData, templateObject, forceUpdate, times>1, locale)
-      templateObject.Channel.shift()
+      shiftTemplateObject(templateObject)
     })
     control.active = active
   }
@@ -127,6 +127,8 @@ const discoverGroupsFromSource = (control, controlData, templateObject, forceUpd
 const discoverChannelFromSource = (cardsControl, groupControlData, globalControl, templateObject, forceUpdate, multiple, locale) =>{
   // determine channel type
   let id
+
+  // try channel type first
   switch (_.get(templateObject, 'Channel[0].$raw.spec.type')) {
   case 'Git':
   case 'GitHub':
@@ -141,6 +143,25 @@ const discoverChannelFromSource = (cardsControl, groupControlData, globalControl
   case 'ObjectBucket':
     id = 'objectstore'
     break
+  }
+
+  // if that didn't work, try the subscription
+  if (!id) {
+    const subscription = _.get(templateObject, 'Subscription[0].$raw')
+    switch (true) {
+
+    // if it has a package filter assume helm
+    case !!_.get(subscription, 'spec.packageFilter.version'):
+      id = 'helmrepo'
+      break
+
+    default:
+      id = 'github'
+      break
+    }
+
+
+
   }
   cardsControl.active = id
 

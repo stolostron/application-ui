@@ -71,8 +71,17 @@ const initialControl = (control, controlData, forceUpdate) => {
     if (reverse) {
       const setActiveVal = (control, path, templateObject) => {
         let active = _.get(templateObject, getSourcePath(path))
-        if (control.type==='checkbox') {
-          active = active || {$v: false}
+        switch (control.type) {
+        case 'checkbox':
+          if (!active) {
+            active = {$v: false}
+          } else {
+            active.$v = !!active.$v
+          }
+          break
+
+        default:
+          break
         }
         if (active) {
           control.active = active.$v

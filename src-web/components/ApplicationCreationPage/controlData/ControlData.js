@@ -180,20 +180,22 @@ const discoverChannelFromSource = (cardsControl, groupControlData, globalControl
 const shiftTemplateObject = (templateObject) =>{
 
   // pop the subscription off of all subscriptions
-  const subscription = templateObject.Subscription.shift()
-
-  // if this subscription pointed to a placement rule in this template
-  // remove that placement rule too
-  const name = _.get(subscription, '$synced.spec.$v.placement.$v.placementRef.$v.name.$v')
-  if (name) {
-    const inx = templateObject.PlacementRule.findIndex(rule=>{
-      return name === _.get(rule, '$synced.metadata.$v.name.$v')
-    })
-    if (inx!==-1) {
-      templateObject.PlacementRule.splice(inx,1)
+  let subscription = _.get(templateObject, 'Subscription')
+  if (subscription) {
+    subscription = subscription.shift()
+    // if this subscription pointed to a placement rule in this template
+    // remove that placement rule too
+    const name = _.get(subscription, '$synced.spec.$v.placement.$v.placementRef.$v.name.$v')
+    if (name) {
+      const rules = templateObject.PlacementRules||[]
+      const inx = rules.findIndex(rule=>{
+        return name === _.get(rule, '$synced.metadata.$v.name.$v')
+      })
+      if (inx!==-1) {
+        templateObject.PlacementRule.splice(inx,1)
+      }
     }
   }
-
 }
 
 export const controlData = [

@@ -69,25 +69,27 @@ const initialControl = (control, controlData, forceUpdate) => {
     }
 
     if (reverse) {
+      const setActiveVal = (control, path, templateObject) => {
+        let active = _.get(templateObject, getSourcePath(path))
+        if (control.type==='checkbox') {
+          active = active || {$v: false}
+        }
+        if (active) {
+          control.active = active.$v
+          control.obj = active
+        }
+      }
       switch (true) { // match any case that is true
       case typeof reverse === 'string':
         control.reverse = (control, templateObject)=>{
-          const active = _.get(templateObject, getSourcePath(reverse))
-          if (active) {
-            control.active = control.type==='checkbox' ? !!active.$v : active.$v
-            control.obj = active
-          }
+          setActiveVal(control, reverse, templateObject)
         }
         break
 
       case Array.isArray(reverse):
         control.reverse = (control, templateObject)=>{
           reverse.forEach(path=>{
-            const active = _.get(templateObject, getSourcePath(path))
-            if (active) {
-              control.active = active.$v
-              control.obj = active
-            }
+            setActiveVal(control, path, templateObject)
           })
         }
         break

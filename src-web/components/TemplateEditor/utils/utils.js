@@ -181,14 +181,13 @@ export const getUniqueName = (name, nameSet) => {
   return name
 }
 
+// convert this: PlacementRule[0].spec.clusterConditions[0].type
+// to this:      PlacementRule[0].$synced.spec.$v.clusterConditions.$v[0].$v.type.$v
 export const getSourcePath = (path) => {
-  const sourcePath1 = path.split('["')
-  const sourcePath2 = sourcePath1[0].split('.')
-  const pathBase = sourcePath2.shift() + '.$synced'
-  const sourcePath = sourcePath2.length > 0 ? pathBase + `.${sourcePath2.join('.$v.')}` : pathBase
-  if (sourcePath1.length>1) {
-    return `${sourcePath}.$v["${sourcePath1[1]}`
-  }
+  let sourcePath = path.split(/\.(?=(?:[^"]*"[^"]*")*[^"]*$)/)
+  const pathBase = sourcePath.shift() + '.$synced'
+  sourcePath = sourcePath.map(seg=>{return seg.replace('[', '.$v[')})
+  sourcePath = sourcePath.length > 0 ? pathBase + `.${sourcePath.join('.$v.')}` : pathBase
   return sourcePath
 }
 

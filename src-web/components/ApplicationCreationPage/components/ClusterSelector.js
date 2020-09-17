@@ -18,6 +18,10 @@ import {
   Icon,
   TextInput
 } from 'carbon-components-react'
+import {
+  getSourcePath,
+  removeVs,
+} from '../../TemplateEditor/utils/utils'
 import Tooltip from '../../TemplateEditor/components/Tooltip'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -37,23 +41,25 @@ export class ClusterSelector extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-    if (
-      !this.props.control.showData ||
-      this.props.control.showData.length === 0
-    ) {
-      this.props.control.active = {
-        mode: false,
-        clusterLabelsList: [
-          { id: 0, labelName: '', labelValue: '', validValue: true }
-        ],
-        clusterLabelsListID: 1
-      }
-    } else {
-      //display existing placement rule
-      this.props.control.active = {
-        mode: true,
-        clusterLabelsList: this.props.control.showData,
-        clusterLabelsListID: this.props.control.showData.length
+    if (!this.props.control.active) {
+      if (
+        !this.props.control.showData ||
+        this.props.control.showData.length === 0
+      ) {
+        this.props.control.active = {
+          mode: false,
+          clusterLabelsList: [
+            { id: 0, labelName: '', labelValue: '', validValue: true }
+          ],
+          clusterLabelsListID: 1
+        }
+      } else {
+        //display existing placement rule
+        this.props.control.active = {
+          mode: true,
+          clusterLabelsList: this.props.control.showData,
+          clusterLabelsListID: this.props.control.showData.length
+        }
       }
     }
   }
@@ -279,3 +285,28 @@ export class ClusterSelector extends React.Component {
 }
 
 export default ClusterSelector
+
+
+export const reverse = (control, templateObject) =>{
+  let matchLabels = _.get(templateObject, getSourcePath('PlacementRule[0].spec.clusterSelector.matchLabels'))
+  if (matchLabels) {
+    matchLabels = removeVs(matchLabels)
+    if (matchLabels) {
+      const clusterLabelsList = Object.entries(matchLabels).map(([labelName, labelValue], id)=>{
+        return {
+          id,
+          labelName,
+          labelValue,
+          validValue: true
+        }
+
+      })
+      control.active = {
+        mode: true,
+        clusterLabelsList,
+        clusterLabelsListID: 1
+      }
+    }
+  }
+}
+

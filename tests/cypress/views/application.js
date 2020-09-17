@@ -198,7 +198,7 @@ export const validateSubscriptionDetails = (name, data, type) => {
           type == "active"
             ? cy.get(".set-time-window-link").contains(keywords[type])
             : cy
-                .get(".sub-card-status-icon")
+                .get(".timeWindow-status-icon")
                 .contains(keywords[type].toLowerCase());
         });
     }

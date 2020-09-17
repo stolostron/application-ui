@@ -16,7 +16,12 @@ resources(() => {
   require('../../../scss/label-with-popover.scss')
 })
 
-const LabelWithPopover = ({ children, labelContent, labelIcon }) => (
+const LabelWithPopover = ({
+  children,
+  labelContent,
+  labelIcon,
+  labelColor
+}) => (
   <div className="label-with-popover">
     <Popover
       bodyContent={
@@ -41,7 +46,7 @@ const LabelWithPopover = ({ children, labelContent, labelIcon }) => (
           event.nativeEvent.preventDefault()
           event.stopPropagation()
         }}
-        color="grey"
+        color={labelColor ? labelColor : 'grey'}
         href="#"
         icon={labelIcon}
       >
@@ -53,6 +58,7 @@ const LabelWithPopover = ({ children, labelContent, labelIcon }) => (
 
 LabelWithPopover.propTypes = {
   children: PropTypes.object,
+  labelColor: PropTypes.string,
   labelContent: PropTypes.object,
   labelIcon: PropTypes.object
 }

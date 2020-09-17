@@ -94,32 +94,30 @@ const ChannelLabels = ({ channels, locale }) => {
                           </StackItem>
                           {chType === 'git' && (
                             <React.Fragment>
-                              {['gitBranch', 'gitPath']
-                                .filter(attrib => channel[attrib])
-                                .map(attrib => {
-                                  return (
-                                    <StackItem
-                                      key={attrib}
-                                      className="channel-entry-attribute"
-                                    >
-                                      <Split hasGutter>
-                                        <SplitItem className="channel-entry-attribute-name">
-                                          {msgs.get(
-                                            `channel.type.label.${attrib}`
+                              {['gitBranch', 'gitPath'].map(attrib => {
+                                return (
+                                  <StackItem
+                                    key={attrib}
+                                    className="channel-entry-attribute"
+                                  >
+                                    <Split hasGutter>
+                                      <SplitItem className="channel-entry-attribute-name">
+                                        {msgs.get(
+                                          `channel.type.label.${attrib}`
+                                        )}
+                                      </SplitItem>
+                                      <SplitItem>
+                                        {channel[attrib]
+                                          ? channel[attrib]
+                                          : msgs.get(
+                                            'channel.type.label.noData',
+                                            locale
                                           )}
-                                        </SplitItem>
-                                        <SplitItem>
-                                          {channel[attrib]
-                                            ? channel[attrib]
-                                            : msgs.get(
-                                              'channel.type.label.noData',
-                                              locale
-                                            )}
-                                        </SplitItem>
-                                      </Split>
-                                    </StackItem>
-                                  )
-                                })}
+                                      </SplitItem>
+                                    </Split>
+                                  </StackItem>
+                                )
+                              })}
                             </React.Fragment>
                           )}
                         </Stack>

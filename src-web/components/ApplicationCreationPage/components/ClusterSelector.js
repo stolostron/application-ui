@@ -41,7 +41,7 @@ export class ClusterSelector extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-    if (!this.props.control.active) {
+    if (_.isEmpty(this.props.control.active)) {
       if (
         !this.props.control.showData ||
         this.props.control.showData.length === 0
@@ -289,6 +289,9 @@ export default ClusterSelector
 
 export const reverse = (control, templateObject) =>{
   let matchLabels = _.get(templateObject, getSourcePath('PlacementRule[0].spec.clusterSelector.matchLabels'))
+  if (!matchLabels) {
+    matchLabels = _.get(templateObject, getSourcePath('PlacementRule[0].spec.clusterLabels.matchLabels'))
+  }
   if (matchLabels) {
     matchLabels = removeVs(matchLabels)
     if (matchLabels) {

@@ -48,7 +48,7 @@ const filter = (value, parentKey) => {
 
 const filterDeep = (obj, parentKey) => {
   const newObj = {}
-  Object.entries(obj).forEach(([k, v])=>{
+  Object.entries(obj||{}).forEach(([k, v])=>{
     const value = filter(v, k)
     if (!isFiltered(value, k, parentKey)) {
       newObj[k] = value
@@ -66,16 +66,18 @@ export const getApplicationResources = (application) => {
     resources.push(filterDeep(app))
 
     // for each subscriptions, do channel and rule
-    subscriptions.forEach(subscription=>{
-      const {channels, rules} = subscription
-      delete subscription.channels
-      delete subscription.rules
-      resources.push(filterDeep(channels[0]))
-      resources.push(filterDeep(subscription))
-      if (rules && rules.length) {
-        resources.push(filterDeep(rules[0]))
-      }
-    })
+    if (Array.isArray(subscriptions)) {
+      subscriptions.forEach(subscription=>{
+        const {channels, rules} = subscription
+        delete subscription.channels
+        delete subscription.rules
+        resources.push(filterDeep(channels[0]))
+        resources.push(filterDeep(subscription))
+        if (rules && rules.length) {
+          resources.push(filterDeep(rules[0]))
+        }
+      })
+    }
     return resources
   }
   return null

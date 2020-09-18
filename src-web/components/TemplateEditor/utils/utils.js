@@ -200,7 +200,7 @@ export const removeVs = (object) => {
         o = object[i]
         object[i] = o.$v!==undefined ? removeVs(o) : o
       }
-    } else if (typeof object === 'object') {
+    } else if (!!object && typeof object === 'object') {
       Object.entries(object).forEach(([k, o])=>{
         object[k] = o.$v!==undefined ? removeVs(o) : o
       })

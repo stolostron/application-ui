@@ -93,137 +93,141 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
     <div
       id="ApplicationDeploymentHighlightsTerminology"
     >
-      <ul
-        className="bx--accordion"
+      <dl
+        aria-label=""
+        className="pf-c-accordion"
       >
-        <li
-          className="bx--accordion__item--active bx--accordion__item"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          open={true}
-          role="presentation"
-        >
+        <dt>
           <button
             aria-expanded={true}
-            className="bx--accordion__heading"
+            className="pf-c-accordion__toggle pf-m-expanded"
+            id="terminology-header"
             onClick={[Function]}
-            type="button"
           >
-            <svg
-              alt="Expand and collapse"
-              aria-label="Expand and collapse"
-              className="bx--accordion__arrow"
-              fillRule="evenodd"
-              height="12"
-              role={null}
-              viewBox="0 0 7 12"
-              width="7"
-            >
-              <title>
-                Expand and collapse
-              </title>
-              <path
-                d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
-              />
-            </svg>
-            <div
-              className="bx--accordion__title"
+            <span
+              className="pf-c-accordion__toggle-text"
             >
               Learn more about the terminology
-            </div>
+            </span>
+            <span
+              className="pf-c-accordion__toggle-icon"
+            >
+              <svg
+                aria-hidden={true}
+                aria-labelledby={null}
+                fill="currentColor"
+                height="1em"
+                role="img"
+                style={
+                  Object {
+                    "verticalAlign": "-0.125em",
+                  }
+                }
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                  transform=""
+                />
+              </svg>
+            </span>
           </button>
+        </dt>
+        <dd
+          aria-label=""
+          className="pf-c-accordion__expanded-content pf-m-expanded"
+          hidden={false}
+          id=""
+        >
           <div
-            className="bx--accordion__content"
+            className="pf-c-accordion__expanded-content-body"
           >
             <div
-              className="bx--tile"
+              className="terminology-item"
             >
-              <div
-                className="terminology-item"
+              <p
+                className="deployment-highlights-terminology-title"
               >
-                <p
-                  className="deployment-highlights-terminology-header"
-                >
-                  Subscriptions
-                </p>
-                <p
-                  className="deployment-highlights-terminology-content"
-                >
-                  Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
-                </p>
-              </div>
-              <div
-                className="terminology-item"
+                Subscriptions
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
               >
-                <p
-                  className="deployment-highlights-terminology-header"
-                >
-                  Placement rules
-                </p>
-                <p
-                  className="deployment-highlights-terminology-content"
-                >
-                  Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
-                </p>
-              </div>
-              <div
-                className="terminology-item"
+                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+              </p>
+            </div>
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-title"
               >
-                <p
-                  className="deployment-highlights-terminology-header"
-                >
-                  Channels
-                </p>
-                <p
-                  className="deployment-highlights-terminology-content"
-                >
-                  Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
-                </p>
-              </div>
-              <div
-                className="deployment-highlights-terminology-docs"
+                Placement rules
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
               >
-                <a
-                  href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+              </p>
+            </div>
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-title"
+              >
+                Channels
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+              </p>
+            </div>
+            <div
+              className="deployment-highlights-terminology-docs"
+            >
+              <a
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  className="deployment-highlights-terminology-docs-text"
                 >
-                  <span
-                    className="deployment-highlights-terminology-docs-text"
-                  >
-                    View documentation
-                  </span>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="deployment-highlights-terminology-docs-icon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--launch"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                    />
-                    <path
-                      d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                    />
-                    <path
-                      d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
-                    />
-                  </svg>
-                </a>
-              </div>
+                  View documentation
+                </span>
+                <svg
+                  alt=""
+                  aria-label=""
+                  className="deployment-highlights-terminology-docs-icon"
+                  fill="#0066CC"
+                  fillRule="evenodd"
+                  height="16"
+                  name="icon--launch"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    
+                  </title>
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                  />
+                </svg>
+              </a>
             </div>
           </div>
-        </li>
-      </ul>
+        </dd>
+      </dl>
     </div>
   </div>
   <div

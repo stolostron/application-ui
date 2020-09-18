@@ -8,11 +8,16 @@
  *******************************************************************************/
 
 import React from 'react'
-import { Accordion, AccordionItem, Tile, Icon } from 'carbon-components-react'
+import { Icon } from 'carbon-components-react'
+import {
+  Accordion,
+  AccordionItem,
+  AccordionContent,
+  AccordionToggle
+} from '@patternfly/react-core'
 import { DOC_LINKS } from '../../../../lib/shared/constants'
 import msgs from '../../../../nls/platform.properties'
 import resources from '../../../../lib/shared/resources'
-import PropTypes from 'prop-types'
 
 resources(() => {
   require('./style.scss')
@@ -21,32 +26,57 @@ resources(() => {
 const terminologyItem = (headerMsg, contentMsg) => {
   return (
     <div className="terminology-item">
-      <p className="deployment-highlights-terminology-header">{headerMsg}</p>
+      <p className="deployment-highlights-terminology-title">{headerMsg}</p>
       <p className="deployment-highlights-terminology-content">{contentMsg}</p>
     </div>
   )
 }
 
 export default class ApplicationDeploymentHighlightsTerminology extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showTerminology: localStorage.getItem('showTerminology')
+        ? localStorage.getItem('showTerminology')
+        : 'show'
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.showTerminology)
+  }
+
   render() {
-    const { open } = this.props
     const { locale } = this.context
+    const { showTerminology } = this.state
+
+    const onToggle = toggleStatus => {
+      if (toggleStatus === 'show') {
+        this.setState({ showTerminology: 'hide' })
+        localStorage.setItem('showTerminology', 'hide')
+      } else {
+        this.setState({ showTerminology: 'show' })
+        localStorage.setItem('showTerminology', 'show')
+      }
+    }
 
     return (
       <div id="ApplicationDeploymentHighlightsTerminology">
         <Accordion>
-          <AccordionItem
-            open={open}
-            title={msgs.get(
-              'description.title.deploymentHighlightsTerminology',
-              locale
-            )}
-            iconDescription={msgs.get(
-              'description.title.deploymentHighlightsTerminology.accordionDescription',
-              locale
-            )}
-          >
-            <Tile>
+          <AccordionItem>
+            <AccordionToggle
+              onClick={() => {
+                onToggle(showTerminology)
+              }}
+              isExpanded={showTerminology === 'show'}
+              id="terminology-header"
+            >
+              {msgs.get(
+                'description.title.deploymentHighlightsTerminology',
+                locale
+              )}
+            </AccordionToggle>
+            <AccordionContent isHidden={showTerminology === 'hide'}>
               {terminologyItem(
                 msgs.get(
                   'description.title.deploymentHighlightsTerminology.subscriptions'
@@ -71,6 +101,7 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
                   'description.title.deploymentHighlightsTerminology.channelsSummary'
                 )
               )}
+
               <div className="deployment-highlights-terminology-docs">
                 <a
                   href={DOC_LINKS.TERMINOLOGY}
@@ -85,20 +116,16 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
                   </span>
                   <Icon
                     name="icon--launch"
-                    fill="#6089bf"
+                    fill="#0066CC"
                     description=""
                     className="deployment-highlights-terminology-docs-icon"
                   />
                 </a>
               </div>
-            </Tile>
+            </AccordionContent>
           </AccordionItem>
         </Accordion>
       </div>
     )
   }
-}
-
-ApplicationDeploymentHighlightsTerminology.propTypes = {
-  open: PropTypes.bool
 }

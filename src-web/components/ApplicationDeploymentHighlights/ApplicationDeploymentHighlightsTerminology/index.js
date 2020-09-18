@@ -50,8 +50,8 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
     const { locale } = this.context
     const { showTerminology } = this.state
 
-    const onToggle = showTerminology => {
-      if (showTerminology === 'show') {
+    const onToggle = toggleStatus => {
+      if (toggleStatus === 'show') {
         this.setState({ showTerminology: 'hide' })
         localStorage.setItem('showTerminology', 'hide')
       } else {

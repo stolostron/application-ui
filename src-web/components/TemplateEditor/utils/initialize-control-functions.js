@@ -85,7 +85,7 @@ const initialControl = (control, controlData, forceUpdate) => {
         }
         if (active) {
           ctrl.active = active.$v
-          ctrl.obj = active
+          ctrl.sourcePath = active
         }
       }
       switch (true) { // match any case that is true

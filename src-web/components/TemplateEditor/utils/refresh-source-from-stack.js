@@ -21,8 +21,6 @@ import _ from 'lodash'
 export const generateSourceFromStack = (template, editStack, controlData, otherYAMLTabs, isFinalGenerate) => {
   if (editStack.length===1) {
     intializeEditStack(editStack, controlData)
-  } else {
-    mergeEditStack(editStack, controlData)
   }
   //return generateSourceFromResources(resources)
   return generateSourceFromTemplate(template, controlData, otherYAMLTabs, isFinalGenerate)
@@ -44,17 +42,8 @@ const intializeEditStack = (editStack, controlData) => {
 
   // put controls into editing mode (ex: disable name input)
   editingMode(controlData)
-
-
   editStack.length = 0
-
   return editResources
-}
-
-const mergeEditStack = (editStack) => {
-
-  return editStack[0]
-
 }
 
 const generateSourceFromResources = (editResources) => {

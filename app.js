@@ -82,6 +82,13 @@ if (process.env.NODE_ENV === 'production') {
   app.use('*', morgan('dev'))
 }
 
+app.use((req, res, next) => {
+  res.removeHeader('X-Frame-Options')
+  res.removeHeader('X-Content-Type-Options')
+  res.removeHeader('X-Xss-Protection')
+  next()
+})
+
 const csrfMiddleware = csurf({
   cookie: {
     httpOnly: false,

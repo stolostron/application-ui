@@ -14,7 +14,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
       className="bx--form-item bx--checkbox-wrapper"
     >
       <input
-        checked={false}
+        checked={true}
         className="bx--checkbox"
         disabled={false}
         id="clusterSelector-checkbox-undefined"
@@ -39,14 +39,14 @@ exports[`ClusterSelector component renders as expected 1`] = `
       className="bx--accordion"
     >
       <li
-        className="bx--accordion__item"
+        className="bx--accordion__item--active bx--accordion__item"
         onClick={[Function]}
         onKeyPress={[Function]}
-        open={false}
+        open={true}
         role="presentation"
       >
         <button
-          aria-expanded={false}
+          aria-expanded={true}
           className="bx--accordion__heading"
           onClick={[Function]}
           type="button"
@@ -112,7 +112,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                       onClick={[Function]}
                       placeholder="Label name"
                       type="text"
-                      value=""
+                      value="env"
                     />
                   </div>
                 </div>
@@ -137,11 +137,81 @@ exports[`ClusterSelector component renders as expected 1`] = `
                       onClick={[Function]}
                       placeholder="Label value"
                       type="text"
-                      value=""
+                      value="Dev"
                     />
                   </div>
                 </div>
                 
+              </div>
+              <div
+                className="matching-labels-container"
+              >
+                <div
+                  className="matching-labels-input"
+                >
+                  <div
+                    className="bx--form-item"
+                  >
+                    <input
+                      className="bx--text-input text-input"
+                      disabled={false}
+                      id="labelName-1"
+                      name="labelName"
+                      onChange={[Function]}
+                      onClick={[Function]}
+                      placeholder="Label name"
+                      type="text"
+                      value="cloud"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="matching-labels-input"
+                >
+                  <div
+                    className="bx--form-item"
+                  >
+                    <input
+                      className="bx--text-input text-input"
+                      disabled={false}
+                      id="labelValue-1"
+                      name="labelValue"
+                      onChange={[Function]}
+                      onClick={[Function]}
+                      placeholder="Label value"
+                      type="text"
+                      value="AWS"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="remove-label-btn"
+                  id={1}
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  <svg
+                    alt="Provide a description that will be used as the title"
+                    aria-label="Provide a description that will be used as the title"
+                    className="remove-label-btn-icon"
+                    fill="#3d70b2"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--close--glyph"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      Provide a description that will be used as the title
+                    </title>
+                    <path
+                      d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm3.5 10.1l-1.4 1.4L8 9.4l-2.1 2.1-1.4-1.4L6.6 8 4.5 5.9l1.4-1.4L8 6.6l2.1-2.1 1.4 1.4L9.4 8l2.1 2.1z"
+                    />
+                  </svg>
+                </div>
               </div>
               <div
                 className="add-label-btn "

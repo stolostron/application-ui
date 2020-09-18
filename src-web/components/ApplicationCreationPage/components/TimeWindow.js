@@ -44,7 +44,7 @@ export class TimeWindow extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-    if (!this.props.control.active) {
+    if (_.isEmpty(this.props.control.active)) {
       this.props.control.active = {
         mode: '',
         days: [],
@@ -100,7 +100,7 @@ export class TimeWindow extends React.Component {
     const timezoneDropdownID = 'timezone-dropdown'
     const {
       mode,
-      days,
+      days=[],
       timezone
     } = this.props.control.active
 

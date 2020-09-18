@@ -158,6 +158,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     className="bx--form-item bx--checkbox-wrapper"
                   >
                     <input
+                      checked={false}
                       className="bx--checkbox"
                       disabled={true}
                       id="mon-undefined"
@@ -183,6 +184,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     className="bx--form-item bx--checkbox-wrapper"
                   >
                     <input
+                      checked={false}
                       className="bx--checkbox"
                       disabled={true}
                       id="tue-undefined"
@@ -208,6 +210,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     className="bx--form-item bx--checkbox-wrapper"
                   >
                     <input
+                      checked={false}
                       className="bx--checkbox"
                       disabled={true}
                       id="wed-undefined"
@@ -233,6 +236,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     className="bx--form-item bx--checkbox-wrapper"
                   >
                     <input
+                      checked={false}
                       className="bx--checkbox"
                       disabled={true}
                       id="thu-undefined"
@@ -258,6 +262,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     className="bx--form-item bx--checkbox-wrapper"
                   >
                     <input
+                      checked={false}
                       className="bx--checkbox"
                       disabled={true}
                       id="fri-undefined"
@@ -287,6 +292,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     className="bx--form-item bx--checkbox-wrapper"
                   >
                     <input
+                      checked={false}
                       className="bx--checkbox"
                       disabled={true}
                       id="sat-undefined"
@@ -312,6 +318,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                     className="bx--form-item bx--checkbox-wrapper"
                   >
                     <input
+                      checked={false}
                       className="bx--checkbox"
                       disabled={true}
                       id="sun-undefined"

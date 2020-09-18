@@ -65,7 +65,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(
     helmet({
       // in production these headers are set by ingress.open-cluster-management.io
-      frameguard: true,
+      frameguard: false,
       noSniff: true,
       xssFilter: true
     })

@@ -25,6 +25,7 @@ import {
   getAppOverviewCardsData
 } from '../ResourceOverview/utils'
 import ChannelLabels from '../ChannelLabels'
+import TimeWindowLabels from '../TimeWindowLabels'
 import { getClusterCount } from '../../../../lib/client/resource-helper'
 
 /* eslint-disable react/prop-types */
@@ -34,9 +35,9 @@ resources(() => {
 })
 
 const mapStateToProps = state => {
-  const { QueryApplicationList, topology } = state
+  const { HCMApplicationList, topology } = state
   return {
-    QueryApplicationList,
+    HCMApplicationList,
     topology
   }
 }
@@ -66,7 +67,7 @@ class OverviewCards extends React.Component {
 
   render() {
     const {
-      QueryApplicationList,
+      HCMApplicationList,
       topology,
       selectedAppName,
       selectedAppNS,
@@ -83,7 +84,7 @@ class OverviewCards extends React.Component {
     })
 
     const appOverviewCardsData = getAppOverviewCardsData(
-      QueryApplicationList,
+      HCMApplicationList,
       topology,
       selectedAppName,
       selectedAppNS,
@@ -186,6 +187,7 @@ class OverviewCards extends React.Component {
                   className="details-item-link"
                   id="app-search-link"
                   href={getUrl + appOverviewCardsData.targetLink}
+                  target="_blank"
                 >
                   <div>
                     {msgs.get(
@@ -346,7 +348,7 @@ class OverviewCards extends React.Component {
                       locale
                     )}
                   </div>
-                  {sub.timeWindowType === 'default' ? (
+                  {!sub.timeWindowType ? (
                     <a
                       className="set-time-window-link"
                       href={
@@ -363,12 +365,16 @@ class OverviewCards extends React.Component {
                       )}
                     </a>
                   ) : (
-                    <div
-                      className="sub-card-status-icon"
-                      id={sub.timeWindowType + '-type-icon'}
-                    >
-                      {sub.timeWindowType}
-                    </div>
+                    <TimeWindowLabels
+                      timeWindow={{
+                        subName: sub.name,
+                        type: sub.timeWindowType,
+                        days: sub.timeWindowDays,
+                        timezone: sub.timeWindowTimezone,
+                        ranges: sub.timeWindowRanges
+                      }}
+                      locale={locale}
+                    />
                   )}
                 </div>
               </div>

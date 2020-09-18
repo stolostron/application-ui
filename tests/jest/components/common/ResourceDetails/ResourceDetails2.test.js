@@ -7,6 +7,16 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 jest.mock("../../../../../lib/client/apollo-client", () => ({
+  canCallAction: jest.fn(() => {
+    const data = {
+      data: {
+        userAccess: {
+          allowed: true
+        }
+      }
+    };
+    return Promise.resolve(data);
+  }),
   getClient: jest.fn(() => {
     return null;
   }),

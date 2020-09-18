@@ -1343,6 +1343,14 @@ export const addNodeOCPRouteLocationForCluster = (
   const clustersList = R.pathOr([], ['clusters', 'specs', 'clusters'])(node)
   let hostName = R.pathOr(undefined, ['specs', 'raw', 'spec', 'host'])(node)
 
+  if (clustersList.length === 0 && !hostName) {
+    // this is a local app deploy, check hostname in ingress
+    const ingress = R.pathOr([], ['specs', 'raw', 'spec', 'ingress'])(node)
+    if (ingress.length > 0) {
+      hostName = ingress[0].host
+    }
+  }
+
   if (hostName && typeObject) {
     return details // this info is in the main Location status since we have a spec host
   }

@@ -13,10 +13,6 @@ import { loadExistingChannels, updateChannelControls } from './utils'
 import placementData from './ControlDataPlacement'
 import prePostTasks from './ControlDataPrePostTasks'
 
-const reverseNamespace = () => {
-
-}
-
 const hubClusterChannelData = [
   ///////////////////////  Hub Cluster  /////////////////////////////////////
 
@@ -42,7 +38,6 @@ const hubClusterChannelData = [
     available: [],
     validation: [],
     fetchAvailable: loadExistingChannels('namespace'),
-    reverse: reverseNamespace,
     onSelect: updateChannelControls
   },
 

@@ -186,7 +186,9 @@ export const getUniqueName = (name, nameSet) => {
 export const getSourcePath = (path) => {
   let sourcePath = path.split(/\.(?=(?:[^"]*"[^"]*")*[^"]*$)/)
   const pathBase = sourcePath.shift() + '.$synced'
-  sourcePath = sourcePath.map(seg=>{return seg.replace('[', '.$v[')})
+  sourcePath = sourcePath.map(seg=>{
+    return seg.replace('[', '.$v[')
+  })
   sourcePath = sourcePath.length > 0 ? pathBase + `.${sourcePath.join('.$v.')}` : pathBase
   return sourcePath
 }
@@ -201,8 +203,8 @@ export const removeVs = (object) => {
         object[i] = o.$v!==undefined ? removeVs(o) : o
       }
     } else if (!!object && typeof object === 'object') {
-      Object.entries(object).forEach(([k, o])=>{
-        object[k] = o.$v!==undefined ? removeVs(o) : o
+      Object.entries(object).forEach(([k, oo])=>{
+        object[k] = oo.$v!==undefined ? removeVs(oo) : oo
       })
     }
   }

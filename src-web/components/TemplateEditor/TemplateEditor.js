@@ -128,7 +128,7 @@ export default class TemplateEditor extends React.Component {
 
     // has control data been initialized?
     const { controlData: initialControlData } = props
-    let { controlData, templateYAML, editResources, templateObject, templateResources } = state
+    let { controlData, templateYAML, editResources, templateObject } = state
     const { forceUpdate, template } = state
     if (!controlData) {
       // initialize control data
@@ -149,7 +149,7 @@ export default class TemplateEditor extends React.Component {
       editResources = _.get(fetchControl, 'resources');
 
       // generate source from template or existing resources
-      ({ templateYAML, templateObject, templateResources } = generateSource(
+      ({ templateYAML, templateObject } = generateSource(
         template,
         editResources,
         controlData
@@ -166,7 +166,7 @@ export default class TemplateEditor extends React.Component {
           controlData, templateObject
         )
       }
-      newState = {...newState, templateYAML, firstTemplateYAML:templateYAML, templateObject, editResources, templateResources}
+      newState = {...newState, templateYAML, firstTemplateYAML:templateYAML, templateObject, editResources}
     }
 
 

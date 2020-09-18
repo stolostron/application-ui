@@ -69,9 +69,9 @@ const initialControl = (control, controlData, forceUpdate) => {
     }
 
     if (reverse) {
-      const setActiveVal = (control, path, templateObject) => {
+      const setActiveVal = (ctrl, path, templateObject) => {
         let active = _.get(templateObject, getSourcePath(path))
-        switch (control.type) {
+        switch (ctrl.type) {
         case 'checkbox':
           if (!active) {
             active = {$v: false}
@@ -84,8 +84,8 @@ const initialControl = (control, controlData, forceUpdate) => {
           break
         }
         if (active) {
-          control.active = active.$v
-          control.obj = active
+          ctrl.active = active.$v
+          ctrl.obj = active
         }
       }
       switch (true) { // match any case that is true

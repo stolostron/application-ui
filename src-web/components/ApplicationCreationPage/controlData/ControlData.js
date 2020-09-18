@@ -92,7 +92,7 @@ export const updateControlsForNS = (
 
 // only called when editing an existing application
 // examines resources to create the correct resource types that are being deployed
-const discoverGroupsFromSource = (control, controlData, templateObject, forceUpdate, locale) =>{
+const discoverGroupsFromSource = (control, cd, templateObject, forceUpdate, locale) =>{
   const { controlData: groupData, prompts: { nameId, baseName } } = control
   templateObject = _.cloneDeep(templateObject)
   const times = _.get(templateObject, 'Subscription.length')
@@ -103,7 +103,7 @@ const discoverGroupsFromSource = (control, controlData, templateObject, forceUpd
       // add a group for every subscription
       const newGroup = initializeControls(
         groupData,
-        controlData,
+        cd,
         forceUpdate,
         locale,
         active.length + 1,
@@ -117,7 +117,7 @@ const discoverGroupsFromSource = (control, controlData, templateObject, forceUpd
       const cardsControl = newGroup.find(
         ({ id }) => id === 'channelType'
       )
-      discoverChannelFromSource(cardsControl, newGroup, controlData, templateObject, forceUpdate, times>1, locale)
+      discoverChannelFromSource(cardsControl, newGroup, cd, templateObject, forceUpdate, times>1, locale)
       shiftTemplateObject(templateObject)
     })
     control.active = active
@@ -169,7 +169,7 @@ const discoverChannelFromSource = (cardsControl, groupControlData, globalControl
   const insertControlData = _.get(cardsControl.availableMap[id], 'change.insertControlData')
   if (insertControlData) {
     const insertInx = groupControlData.findIndex(
-      ({ id }) => id === cardsControl.id
+      ({ id:_id }) => _id === cardsControl.id
     )
     // splice control data with data from this card
     groupControlData.splice(

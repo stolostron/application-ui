@@ -47,11 +47,11 @@ class ControlPanelComboBox extends React.Component {
       exception,
       validation,
       hasReplacements,
+      isFailed,
       fetchAvailable
     } = control
     let {
-      isLoading,
-      isFailed
+      isLoading
     } = control
     const { controlData } = this.props
     let { active, available, placeholder = '' } = control
@@ -105,7 +105,6 @@ class ControlPanelComboBox extends React.Component {
         available.push(placeholder)
       }
       isLoading=false
-      isFailed=false
     }
 
     // comboboxes need an array of {label, id}

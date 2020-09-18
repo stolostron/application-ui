@@ -44,7 +44,8 @@ class RemoveResourceModal extends React.Component {
       selfLink: '',
       errors: undefined,
       loading: true,
-      selected: []
+      selected: [],
+      removeAppResources: false
     }
   }
 
@@ -85,11 +86,8 @@ class RemoveResourceModal extends React.Component {
         const removableSubs = []
         const removableSubNames = []
         const subResources = []
-        const subscriptions = _.get(
-          response,
-          'data.application.subscriptions',
-          []
-        )
+        const subscriptions =
+          _.get(response, 'data.application.subscriptions', []) || []
         Promise.all(
           subscriptions.map(async subscription => {
             const subName = subscription.metadata.name
@@ -203,6 +201,11 @@ class RemoveResourceModal extends React.Component {
     })
   };
 
+  toggleRemoveAppResources = () => {
+    const checked = this.state.removeAppResources
+    this.setState({ removeAppResources: !checked })
+  };
+
   handleClose() {
     const { type } = this.props
     if (this.client) {
@@ -232,7 +235,7 @@ class RemoveResourceModal extends React.Component {
   }
 
   handleSubmit() {
-    const { selfLink, cluster, selected } = this.state
+    const { selfLink, cluster, selected, removeAppResources } = this.state
     this.setState({
       loading: true
     })
@@ -250,11 +253,12 @@ class RemoveResourceModal extends React.Component {
         errors: msgs.get('modal.errors.querying.resource', this.context.locale)
       })
     } else {
-      const selectedResources = selected.filter(
-        child => child.selected === true
-      )
       apolloClient
-        .remove({ cluster, selfLink, childResources: selectedResources || [] })
+        .remove({
+          cluster,
+          selfLink,
+          childResources: removeAppResources ? selected : []
+        })
         .then(res => {
           if (res.errors) {
             this.setState({
@@ -278,16 +282,26 @@ class RemoveResourceModal extends React.Component {
           <div className="remove-app-modal-content-text">
             {msgs.get('modal.remove.application.confirm', [name], locale)}
           </div>
+          <div className="remove-app-modal-content-data">
+            <Checkbox
+              id={'remove-app-resources'}
+              checked={this.state.removeAppResources}
+              onChange={this.toggleRemoveAppResources}
+              labelText={msgs.get(
+                'modal.remove.application.resources',
+                [name],
+                locale
+              )}
+              />
+          </div>
           <div>
             {this.state.selected.map(child => {
               return (
                 <div className="remove-app-modal-content-data" key={child.id}>
                   <Checkbox
                     id={child.id}
-                    checked={this.state.selected.some(i => {
-                      return i.id === child.id && child.selected === true
-                    })}
-                    onChange={this.toggleSelected}
+                    checked={this.state.removeAppResources}
+                    disabled={true}
                     labelText={child.label}
                     aria-label={child.id}
                     />

@@ -469,10 +469,7 @@ class ResourceTable extends React.Component {
               {filteredActions.map(action => (
                 <OverflowMenuItem
                   data-table-action={action.key}
-                  isDelete={
-                    action.key === 'table.actions.remove' ||
-                    action.key === 'table.actions.applications.remove'
-                  }
+                  isDelete={action.delete}
                   onClick={() => {
                     this.handleActionClick(action, resourceType, item, history)
                   }}

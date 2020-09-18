@@ -9,7 +9,7 @@
 import R from 'ramda'
 import React from 'react'
 import {
-  getShortDateTime,
+  getAge,
   getClusterCount,
   getSearchLink
 } from '../../lib/client/resource-helper'
@@ -37,26 +37,26 @@ export default {
     },
     {
       msgKey: 'table.header.clusters',
-      tooltipKey: 'table.header.clusters.tooltip',
+      tooltipKey: 'table.header.application.clusters.tooltip',
       resourceKey: 'clusterCount',
       transformFunction: createClustersLink
     },
     {
       msgKey: 'table.header.resource',
-      tooltipKey: 'table.header.resource.tooltip',
+      tooltipKey: 'table.header.application.resource.tooltip',
       resourceKey: 'hubChannels',
       transformFunction: getChannels
     },
     {
       msgKey: 'table.header.timeWindow',
-      tooltipKey: 'table.header.timeWindow.tooltip',
+      tooltipKey: 'table.header.application.timeWindow.tooltip',
       resourceKey: 'hubSubscriptions',
       transformFunction: getTimeWindow
     },
     {
       msgKey: 'table.header.created',
       resourceKey: 'created',
-      transformFunction: getCreated
+      transformFunction: getAge
     }
   ],
   tableActions: [
@@ -94,7 +94,8 @@ export default {
     },
     {
       key: 'table.actions.applications.remove',
-      modal: true
+      modal: true,
+      delete: true
     }
   ],
   detailKeys: {
@@ -131,7 +132,7 @@ export default {
           },
           {
             resourceKey: 'created',
-            transformFunction: getCreated
+            transformFunction: getAge
           }
         ]
       },
@@ -166,13 +167,15 @@ export function createClustersLink(item = {}, locale = '') {
   const localPlacement = (R.path(['hubSubscriptions'], item) || []).some(
     sub => sub.localPlacement
   )
-  return getClusterCount(
+  return getClusterCount({
     locale,
-    clusterCount,
+    remoteCount: clusterCount,
     localPlacement,
-    item.name,
-    item.namespace
-  )
+    name: item.name,
+    namespace: item.namespace,
+    kind: 'application',
+    apigroup: 'app.k8s.io'
+  })
 }
 
 export function getChannels(item = {}, locale = '') {
@@ -191,11 +194,6 @@ export function getChannels(item = {}, locale = '') {
 
 export function getTimeWindow(item = {}, locale = '') {
   return (R.path(['hubSubscriptions'], item) || []).some(sub => sub.timeWindow)
-    ? msgs.get('table.cell.yes', locale)
+    ? msgs.get('table.cell.timewindow.yes', locale)
     : ''
-}
-
-export function getCreated(item = {}, locale = '') {
-  const timestamp = R.path(['created'], item) || ''
-  return timestamp ? getShortDateTime(timestamp, locale) : '-'
 }

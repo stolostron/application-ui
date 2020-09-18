@@ -13,7 +13,7 @@ import React from 'react'
 import { SkeletonText } from 'carbon-components-react'
 import { Module } from 'carbon-addons-cloud-react'
 import { UPDATE_ACTION_MODAL } from '../../../apollo-client/queries/StateQueries'
-import { getShortDateTime } from '../../../../lib/client/resource-helper'
+import { getAge } from '../../../../lib/client/resource-helper'
 
 export const kindsToExcludeForDeployments = [
   'cluster',
@@ -292,14 +292,8 @@ export const getAppOverviewCardsData = (
 
     topologyData.nodes.map(node => {
       // Get date and time of app creation
-      if (
-        node.type === 'application' &&
-        _.get(node, 'specs.raw.metadata.creationTimestamp')
-      ) {
-        creationTimestamp = getShortDateTime(
-          node.specs.raw.metadata.creationTimestamp,
-          locale
-        )
+      if (node.type === 'application') {
+        creationTimestamp = getAge(node, locale, 'specs.raw.metadata.creationTimestamp')
       } else if (node.type === 'cluster' && _.get(node, 'specs.clusterNames')) {
         // Get remote cluster count
         remoteClusterCount = node.specs.clusterNames.length

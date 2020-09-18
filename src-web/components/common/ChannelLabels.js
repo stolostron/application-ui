@@ -20,7 +20,7 @@ import resources from '../../../lib/shared/resources'
 resources(() => {
   require('../../../scss/channel-labels.scss')
 })
-const ChannelLabels = ({ channels, locale }) => {
+const ChannelLabels = ({ channels, locale, showSubscriptionAttributes=true }) => {
   const groupByChannelType = R.groupBy(ch => {
     const channelType = (ch.type && ch.type.toLowerCase()) || ''
     return channelType === 'github' ? 'git' : channelType
@@ -92,7 +92,7 @@ const ChannelLabels = ({ channels, locale }) => {
                               </Split>
                             </a>
                           </StackItem>
-                          {chType === 'git' && (
+                          {showSubscriptionAttributes && chType === 'git' && (
                             <React.Fragment>
                               {['gitBranch', 'gitPath'].map(attrib => {
                                 return (
@@ -135,7 +135,8 @@ const ChannelLabels = ({ channels, locale }) => {
 
 ChannelLabels.propTypes = {
   channels: PropTypes.arrayOf(PropTypes.object),
-  locale: PropTypes.string
+  locale: PropTypes.string,
+  showSubscriptionAttributes: PropTypes.bool
 }
 
 export default ChannelLabels

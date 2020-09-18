@@ -173,10 +173,10 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   componentDidMount() {
     const {
-      fetchChannels,
-      fetchSubscriptions,
-      fetchApplications,
-      fetchApplicationsGlobalData,
+      // fetchChannels,
+      // fetchSubscriptions,
+      // fetchApplications,
+      // fetchApplicationsGlobalData,
       secondaryHeaderProps,
       updateSecondaryHeader,
       locale
@@ -187,18 +187,18 @@ class ApplicationDeploymentPipeline extends React.Component {
       secondaryHeaderProps.tabs,
       secondaryHeaderProps.links
     )
-    fetchApplications()
-    fetchChannels()
-    fetchSubscriptions()
-    fetchApplicationsGlobalData()
+    // fetchApplications()
+    // fetchChannels()
+    // fetchSubscriptions()
+    // fetchApplicationsGlobalData()
 
-    document.addEventListener('visibilitychange', this.onVisibilityChange)
-    startPolling(this, setInterval)
+    // document.addEventListener('visibilitychange', this.onVisibilityChange)
+    // startPolling(this, setInterval)
   }
 
   componentWillUnmount() {
-    stopPolling(this.state, clearInterval)
-    document.removeEventListener('visibilitychange', this.onVisibilityChange)
+    // stopPolling(this.state, clearInterval)
+    // document.removeEventListener('visibilitychange', this.onVisibilityChange)
     this.mutateFinished()
   }
 
@@ -206,33 +206,33 @@ class ApplicationDeploymentPipeline extends React.Component {
     this.props.clearSuccessFinished()
   }
 
-  onVisibilityChange = () => {
-    handleVisibilityChanged(this, clearInterval, setInterval)
-  };
+  // onVisibilityChange = () => {
+  //   handleVisibilityChanged(this, clearInterval, setInterval)
+  // };
 
-  componentDidUpdate(prevProps) {
-    handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
-  }
+  // componentDidUpdate(prevProps) {
+  //   handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
+  // }
 
-  reload() {
-    const {
-      selectedApp,
-      fetchApplications,
-      fetchApplicationsGlobalData,
-      fetchSubscriptions,
-      fetchChannels
-    } = this.props
+  // reload() {
+  //   const {
+  //     selectedApp,
+  //     fetchApplications,
+  //     fetchApplicationsGlobalData,
+  //     fetchSubscriptions,
+  //     fetchChannels
+  //   } = this.props
 
-    // only reload data if there are nothing being fetched and no modals are open
-    this.setState({ xhrPoll: true })
-    if (!selectedApp) {
-      // reload all the applications
-      fetchApplications()
-      fetchApplicationsGlobalData()
-      fetchSubscriptions()
-    }
-    fetchChannels()
-  }
+  //   // only reload data if there are nothing being fetched and no modals are open
+  //   this.setState({ xhrPoll: true })
+  //   if (!selectedApp) {
+  //     // reload all the applications
+  //     fetchApplications()
+  //     fetchApplicationsGlobalData()
+  //     fetchSubscriptions()
+  //   }
+  //   fetchChannels()
+  // }
 
   render() {
     // // wait for it

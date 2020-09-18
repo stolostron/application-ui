@@ -24,8 +24,6 @@ export const createApplication = (data, type) => {
     createGit(config);
   } else if (type === "objectstore") {
     createObj(config);
-  } else if (type === "local-cluster") {
-    createLocal(config);
   } else if (type === "helm") {
     createHelm(config);
   }
@@ -141,30 +139,6 @@ export const multipleTemplate = (value, css, key, func) => {
     .within($content => {
       func(value, css, key);
     });
-};
-
-export const createLocal = configs => {
-  let localCss = {
-    channelName: "#namespaceChannelName"
-  };
-  for (const [key, value] of Object.entries(configs)) {
-    key == 0
-      ? localTasks(value, localCss)
-      : multipleTemplate(value, localCss, key, localTasks);
-  }
-};
-
-export const localTasks = (value, css, key = 0) => {
-  const { repository, timeWindow } = value;
-  const { channelName } = css;
-  cy
-    .get("#deployable")
-    .click()
-    .trigger("mouseover");
-  repository
-    ? cy.get(channelName, { timeout: 20 * 1000 }).type(repository)
-    : cy.log("skip repository name as it is not provided");
-  selectTimeWindow(timeWindow, key);
 };
 
 export const submitSave = () => {

@@ -230,6 +230,7 @@ export const controlData = [
     tooltip: 'tooltip.creation.app.name',
     id: 'name',
     type: 'text',
+    disabledWhenEditingExistingResouce: true,
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
@@ -243,6 +244,7 @@ export const controlData = [
     id: 'namespace',
     type: 'combobox',
     fetchAvailable: loadExistingNamespaces(),
+    disabledWhenEditingExistingResouce: true,
     onSelect: updateNSControls,
     validation: {
       constraint: VALID_DNS_LABEL,

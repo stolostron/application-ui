@@ -13,7 +13,7 @@ import jsYaml from 'js-yaml'
 import YamlParser from '../components/YamlParser'
 import { initializeControlData } from './initialize-control-data'
 import { initializeControlFunctions } from './initialize-control-functions'
-import { generateSourceFromResources } from './refresh-source-from-resources'
+import { generateSourceFromStack } from './refresh-source-from-stack'
 import { generateSourceFromTemplate } from './refresh-source-from-templates'
 
 import _ from 'lodash'
@@ -64,7 +64,8 @@ export function discoverControls(
   })
 }
 
-// reverse control active valuess from template
+
+//reverse control active valuess from template
 export function reverseTemplate(
   controlData,
   templateObject
@@ -93,10 +94,35 @@ export function reverseTemplate(
   })
 }
 
+// reverse control active valuess from template
+export function editingMode(
+  controlData
+) {
+  const editMode = control => {
+    const {
+      type,
+      active,
+      disabledWhenEditingExistingResouce
+    } = control
+    if (type === 'group') {
+      active.forEach(group => {
+        group.forEach(gcontrol => {
+          editMode(gcontrol)
+        })
+      })
+    } else if (disabledWhenEditingExistingResouce) {
+      control.disabled = disabledWhenEditingExistingResouce
+    }
+  }
+  controlData.forEach(control => {
+    editMode(control)
+  })
+}
 
-export const generateSource = (template, editResources, controlData, otherYAMLTabs, isFinalGenerate)  => {
-  if (editResources) {
-    return generateSourceFromResources(editResources, controlData, otherYAMLTabs, isFinalGenerate)
+
+export const generateSource = (template, editStack, controlData, otherYAMLTabs, isFinalGenerate)  => {
+  if (!_.isEmpty(editStack)) {
+    return generateSourceFromStack(template, editStack, controlData, otherYAMLTabs, isFinalGenerate)
   } else {
     return generateSourceFromTemplate(template, controlData, otherYAMLTabs, isFinalGenerate)
   }

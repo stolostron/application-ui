@@ -514,7 +514,7 @@ export const reverse = (control, templateObject) =>{
     })
     showTimeSection = true
   } else {
-    timeList = [{ id: 0, start: '', end: '', validTime: false }]
+    timeList = [{ id: 0, start: '', end: '', validTime: true }]
   }
   control.active = {
     mode: mode && mode.$v,

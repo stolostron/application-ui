@@ -48,6 +48,7 @@ class ControlPanelComboBox extends React.Component {
       validation,
       hasReplacements,
       isFailed,
+      disabled,
       fetchAvailable
     } = control
     let {
@@ -141,6 +142,7 @@ class ControlPanelComboBox extends React.Component {
               initialSelectedItem={initialSelectedItem}
               selecteditem={active}
               spellCheck={false}
+              disabled={disabled}
               ref={ref => {
                 if (ref) {
                   const input = _.get(ref, 'textInput.current')

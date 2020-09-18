@@ -79,9 +79,11 @@ class RemoveResourceModal extends React.Component {
   getChildResources = (name, namespace) => {
     const { resourceType } = this.props
     if (resourceType.name === 'HCMApplication') {
+      // Get application resources
       apolloClient.getApplication({ name, namespace }).then(response => {
         const children = []
         const removableSubs = []
+        const removableSubNames = []
         const subResources = []
         const subscriptions = _.get(
           response,
@@ -92,13 +94,16 @@ class RemoveResourceModal extends React.Component {
           subscriptions.map(async subscription => {
             const subName = subscription.metadata.name
             const subNamespace = subscription.metadata.namespace
+            // For each subscription, get related applications
             const related = await this.fetchRelated(
               RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
               subName,
-              subscription.metadata.namespace
+              subNamespace
             )
-            if (this.removableSubscription(related, name)) {
+            // If subscription is used only by this application, it is removable
+            if (!this.usedByOtherApps(related)) {
               removableSubs.push(subscription)
+              removableSubNames.push(subName)
               children.push({
                 id: `subscriptions-${subNamespace}-${subName}`,
                 selfLink: subscription.metadata.selfLink,
@@ -111,19 +116,20 @@ class RemoveResourceModal extends React.Component {
             { kind: 'channels', label: '[Channel]' },
             { kind: 'rules', label: '[Rule]' }
           ]
+          // For each removable subscription, go through its channels and rules
           removableSubs.forEach(subscription => {
-            resourceKinds.forEach(sub => {
-              _.map(_.get(subscription, sub.kind, []), curr => {
+            resourceKinds.forEach(res => {
+              _.map(_.get(subscription, res.kind, []), curr => {
+                const currName = curr.metadata.name
+                const currNamespace = curr.metadata.namespace
                 subResources.push({
-                  id: `${sub.kind}-${curr.metadata.namespace}-${
-                    curr.metadata.name
-                  }`,
-                  name: curr.metadata.name,
-                  namespace: curr.metadata.namespace,
+                  id: `${res.kind}-${currNamespace}-${currName}`,
+                  name: currName,
+                  namespace: currNamespace,
                   selfLink: curr.metadata.selfLink,
-                  label: `${curr.metadata.name} ${sub.label}`,
+                  label: `${currName} ${res.label}`,
                   type:
-                    sub.kind === 'rules'
+                    res.kind === 'rules'
                       ? RESOURCE_TYPES.HCM_PLACEMENT_RULES
                       : RESOURCE_TYPES.HCM_CHANNELS
                 })
@@ -132,12 +138,16 @@ class RemoveResourceModal extends React.Component {
           })
           Promise.all(
             _.uniqBy(subResources, 'id').map(async resource => {
+              // For each channel or rule, get related subscriptions
               const related = await this.fetchRelated(
                 resource.type,
                 resource.name,
                 resource.namespace
               )
-              if (related) {
+              // Channel or rule is removable if it's used only by removable subscriptions
+              if (
+                !this.usedByOtherSubs(related, removableSubNames, namespace)
+              ) {
                 children.push(resource)
               }
             })
@@ -166,13 +176,22 @@ class RemoveResourceModal extends React.Component {
       : _.get(response, 'data.searchResult[0]', []).related
   };
 
-  removableSubscription = (related, appName) => {
+  usedByOtherApps = related => {
     const isApp = n => n.kind.toLowerCase() === 'application'
-    const app = R.filter(isApp, related)
-    const items = app && app.length === 1 ? app[0].items : []
-    return items && items.length === 1 && items[0].name === appName
-      ? true
-      : false
+    const apps = R.filter(isApp, related)
+    const items = apps && apps.length === 1 ? apps[0].items : []
+    return items && items.length === 1 ? false : true
+  };
+
+  usedByOtherSubs = (related, removableSubNames, appNamespace) => {
+    const isSub = n => n.kind.toLowerCase() === 'subscription'
+    const subs = R.filter(isSub, related)
+    const items = subs && subs.length === 1 ? subs[0].items : []
+    return items.filter(item => item._hubClusterResource).some(sub => {
+      return (
+        sub.namespace !== appNamespace || !removableSubNames.includes(sub.name)
+      )
+    })
   };
 
   toggleSelected = (i, target) => {

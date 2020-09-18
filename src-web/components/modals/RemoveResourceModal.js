@@ -82,6 +82,7 @@ class RemoveResourceModal extends React.Component {
       apolloClient.getApplication({ name, namespace }).then(response => {
         const children = []
         const removableSubs = []
+        const subResources = []
         const subscriptions = _.get(
           response,
           'data.application.subscriptions',
@@ -89,8 +90,8 @@ class RemoveResourceModal extends React.Component {
         )
         Promise.all(
           subscriptions.map(async subscription => {
-            let idx = 0
             const subName = subscription.metadata.name
+            const subNamespace = subscription.metadata.namespace
             const related = await this.fetchRelated(
               RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
               subName,
@@ -99,33 +100,52 @@ class RemoveResourceModal extends React.Component {
             if (this.removableSubscription(related, name)) {
               removableSubs.push(subscription)
               children.push({
-                id: `${idx++}-subscriptions-${subName}`,
+                id: `subscriptions-${subNamespace}-${subName}`,
                 selfLink: subscription.metadata.selfLink,
-                label: `${subName} [Subscription]`,
-                selected: false
+                label: `${subName} [Subscription]`
               })
             }
           })
         ).then(() => {
-          const appSubResources = [
+          const resourceKinds = [
             { kind: 'channels', label: '[Channel]' },
             { kind: 'rules', label: '[Rule]' }
           ]
           removableSubs.forEach(subscription => {
-            appSubResources.forEach(sub => {
-              _.map(_.get(subscription, sub.kind, []), (curr, idx) => {
-                children.push({
-                  id: `${idx}-${sub.kind}-${curr.metadata.name}`,
+            resourceKinds.forEach(sub => {
+              _.map(_.get(subscription, sub.kind, []), curr => {
+                subResources.push({
+                  id: `${sub.kind}-${curr.metadata.namespace}-${
+                    curr.metadata.name
+                  }`,
+                  name: curr.metadata.name,
+                  namespace: curr.metadata.namespace,
                   selfLink: curr.metadata.selfLink,
                   label: `${curr.metadata.name} ${sub.label}`,
-                  selected: false
+                  type:
+                    sub.kind === 'rules'
+                      ? RESOURCE_TYPES.HCM_PLACEMENT_RULES
+                      : RESOURCE_TYPES.HCM_CHANNELS
                 })
               })
             })
           })
-          this.setState({
-            selected: _.uniqBy(children, 'id'),
-            loading: false
+          Promise.all(
+            _.uniqBy(subResources, 'id').map(async resource => {
+              const related = await this.fetchRelated(
+                resource.type,
+                resource.name,
+                resource.namespace
+              )
+              if (related) {
+                children.push(resource)
+              }
+            })
+          ).then(() => {
+            this.setState({
+              selected: children,
+              loading: false
+            })
           })
         })
       })

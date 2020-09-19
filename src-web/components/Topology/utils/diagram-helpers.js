@@ -1028,7 +1028,7 @@ export const setResourceDeployStatus = (node, details) => {
 }
 
 //show resource deployed status for resources producing pods
-export const setPodDeployStatus = (node, details) => {
+export const setPodDeployStatus = (node, updatedNode, details) => {
   if (!nodeMustHavePods(node)) {
     return details //process only resources with pods
   }
@@ -1042,7 +1042,7 @@ export const setPodDeployStatus = (node, details) => {
   })
 
   const podModel = _.get(node, 'specs.podModel', {})
-  const podStatusModel = _.get(node, 'podStatusMap', {})
+  const podStatusModel = _.get(updatedNode, 'podStatusMap', {})
   const podDataPerCluster = {} //pod details list for each cluster name
 
   const clusterNames = R.split(',', getClusterName(node.id))

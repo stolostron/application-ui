@@ -61,6 +61,7 @@ describe("DetailsView no components", () => {
         selectedNodeId={mockData.selectedNodeId}
         getViewContainer={mockData.getViewContainer}
         processActionLink={mockData.processActionLink}
+        nodes={mockLaidoutNodes.laidoutNodes}
       />
     );
     expect(component.toJSON()).toMatchSnapshot();
@@ -775,6 +776,7 @@ describe("DetailsView 1 pod details", () => {
         selectedNodeId={clusterSelectedNodeId}
         getViewContainer={viewContainer2}
         processActionLink={mockData.processActionLink}
+        nodes={mockLaidoutNodes.laidoutNodes}
       />
     );
     expect(component.toJSON()).toMatchSnapshot();
@@ -790,6 +792,7 @@ describe("DetailsView 1 pod details", () => {
         selectedNodeId={mockData.selectedNodeId}
         getViewContainer={viewContainer2}
         processActionLink={mockData.processActionLink}
+        nodes={mockLaidoutNodes.laidoutNodes}
       />
     );
     const payload = {

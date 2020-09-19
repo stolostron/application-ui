@@ -29,6 +29,19 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
   search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
 }));
 
+jest.mock("../../../../../lib/client/access-helper.js", () => ({
+  canCallAction: jest.fn(() => {
+    const data = {
+      data: {
+        userAccess: {
+          allowed: true
+        }
+      }
+    };
+    return Promise.resolve(data);
+  })
+}));
+
 const React = require("../../../../../node_modules/react");
 
 import ResourceDetails from "../../../../../src-web/components/common/ResourceDetails";

@@ -18,7 +18,8 @@ import prePostTasks from './ControlDataPrePostTasks'
 import {
   getGitBranches,
   loadExistingChannels,
-  updateChannelControls
+  updateChannelControls,
+  updateGitBranchFolders
 } from './utils'
 import _ from 'lodash'
 
@@ -103,6 +104,7 @@ const githubChannelData = [
     placeholder: 'app.enter.select.branch',
     available: [],
     validation: VALIDATE_ALPHANUMERIC,
+    onSelect: updateGitBranchFolders,
     cacheUserValueKey: 'create.app.github.branch'
   },
   {

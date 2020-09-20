@@ -161,11 +161,17 @@ export const updateControlsForNS = (
   return globalControl
 }
 
-export const getGitBranches = async (groupControlData, setLoadingState) => {
+const retrieveGitDetails = async (
+  branchName,
+  groupControlData,
+  setLoadingState
+) => {
   try {
     const gitControl = groupControlData.find(({ id }) => id === 'githubURL')
     const branchCtrl = groupControlData.find(({ id }) => id === 'githubBranch')
-
+    const githubPathCtrl = groupControlData.find(
+      ({ id }) => id === 'githubPath'
+    )
     const userCtrl = groupControlData.find(({ id }) => id === 'githubUser')
 
     const tokenCtrl = groupControlData.find(
@@ -179,7 +185,6 @@ export const getGitBranches = async (groupControlData, setLoadingState) => {
       branchCtrl.active = ''
       branchCtrl.available = []
     }
-
     if (gitPath.length > 0) {
       let github = new GitHub()
 
@@ -209,7 +214,6 @@ export const getGitBranches = async (groupControlData, setLoadingState) => {
       }
 
       const gitUrl = new URL(gitPath)
-
       if (gitUrl.host === 'github.com' && existingPrivateChannel === false) {
         //check only github repos; and only new private channels since we don't have the channel secret info for existing channels
         //get the url path, then remove first / and .git
@@ -217,29 +221,59 @@ export const getGitBranches = async (groupControlData, setLoadingState) => {
 
         const repoObj = github.getRepo(gitPath)
 
-        setLoadingState(branchCtrl, true)
-        await repoObj.listBranches().then(
-          result => {
-            branchCtrl.active = ''
-            branchCtrl.available = []
+        if (branchName) {
+          githubPathCtrl.active = ''
+          githubPathCtrl.available = []
 
-            if (result.data) {
-              result.data.forEach(branch => {
-                branchCtrl.available.push(branch.name)
-              })
+          let filteredResult = []
+          //get folders for branch
+          await repoObj.getContents(branchName, '', false).then(
+            result => {
+              if (result.data) {
+                filteredResult = result.data.filter(
+                  item => item.type === 'dir'
+                )
+              }
+            },
+            () => {
+              //on error
             }
-            delete branchCtrl.exception
-            setLoadingState(branchCtrl, false)
-          },
-          () => {
-            branchCtrl.active = ''
-            branchCtrl.available = []
-            branchCtrl.exception = msgs.get(
-              'creation.app.loading.branch.error'
-            )
-            setLoadingState(branchCtrl, false)
-          }
-        )
+          )
+
+          filteredResult.forEach(folder => {
+            githubPathCtrl.available.push(folder.name)
+          })
+        } else {
+          githubPathCtrl.active = ''
+          githubPathCtrl.available = []
+
+          //get branches
+          setLoadingState(branchCtrl, true)
+
+          await repoObj.listBranches().then(
+            result => {
+              branchCtrl.active = ''
+              branchCtrl.available = []
+
+              if (result.data) {
+                result.data.forEach(branch => {
+                  branchCtrl.available.push(branch.name)
+                })
+              }
+              delete branchCtrl.exception
+              setLoadingState(branchCtrl, false)
+            },
+            () => {
+              //on error
+              branchCtrl.active = ''
+              branchCtrl.available = []
+              branchCtrl.exception = msgs.get(
+                'creation.app.loading.branch.error'
+              )
+              setLoadingState(branchCtrl, false)
+            }
+          )
+        }
       }
     }
   } catch (err) {
@@ -247,6 +281,19 @@ export const getGitBranches = async (groupControlData, setLoadingState) => {
   }
 
   return groupControlData
+}
+
+export const updateGitBranchFolders = async (
+  branchControl,
+  setLoadingState
+) => {
+  const groupControlData = _.get(branchControl, 'groupControlData', [])
+  const branchName = _.get(branchControl, 'active', '')
+  retrieveGitDetails(branchName, groupControlData, setLoadingState)
+}
+
+export const getGitBranches = async (groupControlData, setLoadingState) => {
+  return retrieveGitDetails(null, groupControlData, setLoadingState)
 }
 
 export const setAvailableRules = (control, result) => {
@@ -467,8 +514,11 @@ export const setAvailableSecrets = (control, result) => {
   } else if (secrets) {
     control.availableData = _.keyBy(secrets, 'name')
     control.available = Object.keys(control.availableData).sort()
-    if (control.active && !control.available.includes(control.active) &&
-        typeof control.setActive === 'function') {
+    if (
+      control.active &&
+      !control.available.includes(control.active) &&
+      typeof control.setActive === 'function'
+    ) {
       control.setActive('')
     }
   } else {

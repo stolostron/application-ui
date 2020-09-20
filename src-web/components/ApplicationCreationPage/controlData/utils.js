@@ -276,8 +276,6 @@ const retrieveGitDetails = async (
   } catch (err) {
     //return err
   }
-
-  return
 }
 
 export const updateGitBranchFolders = async (

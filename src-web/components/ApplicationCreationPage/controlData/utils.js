@@ -185,96 +185,93 @@ const retrieveGitDetails = async (
       branchCtrl.active = ''
       branchCtrl.available = []
     }
-    if (gitPath.length > 0) {
-      let github = new GitHub()
+    if (gitPath.length === 0) {
+      return groupControlData
+    }
 
+    let github = new GitHub()
+
+    if (
+      _.get(userCtrl, 'active', '').length > 0 &&
+      _.get(tokenCtrl, 'active', '').length > 0
+    ) {
+      //use authentication
+      github = new GitHub({
+        username: userCtrl.active,
+        password: tokenCtrl.active,
+        auth: 'basic'
+      })
+    } else {
+      //check if this is an existing private channel
+      const selectedChannel = _.get(
+        _.get(gitControl, 'availableData', {}),
+        gitPath
+      )
       if (
-        _.get(userCtrl, 'active', '').length > 0 &&
-        _.get(tokenCtrl, 'active', '').length > 0
+        selectedChannel &&
+        _.get(selectedChannel, 'raw.spec.secretRef.name')
       ) {
-        //use authentication
-        github = new GitHub({
-          username: userCtrl.active,
-          password: tokenCtrl.active,
-          auth: 'basic'
-        })
-      } else {
-        //check if this is an existing private channel
-        const selectedChannel = _.get(
-          _.get(gitControl, 'availableData', {}),
-          gitPath
-        )
-        if (
-          selectedChannel &&
-          _.get(selectedChannel, 'raw.spec.secretRef.name')
-        ) {
-          //this is a private channel, don't try to retreive the branches
-          existingPrivateChannel = true
-        }
+        //this is a private channel, don't try to retreive the branches
+        existingPrivateChannel = true
       }
+    }
 
-      const gitUrl = new URL(gitPath)
-      if (gitUrl.host === 'github.com' && existingPrivateChannel === false) {
-        //check only github repos; and only new private channels since we don't have the channel secret info for existing channels
-        //get the url path, then remove first / and .git
-        gitPath = gitUrl.pathname.substring(1).replace('.git', '')
+    //check only github repos; and only new private channels since we don't have the channel secret info for existing channels
+    const gitUrl = new URL(gitPath)
+    if (!(gitUrl.host === 'github.com' && existingPrivateChannel === false)) {
+      return groupControlData
+    }
 
-        const repoObj = github.getRepo(gitPath)
+    //get the url path, then remove first / and .git
+    gitPath = gitUrl.pathname.substring(1).replace('.git', '')
+    const repoObj = github.getRepo(gitPath)
 
-        if (branchName) {
-          githubPathCtrl.active = ''
-          githubPathCtrl.available = []
+    githubPathCtrl.active = ''
+    githubPathCtrl.available = []
 
-          let filteredResult = []
-          //get folders for branch
-          await repoObj.getContents(branchName, '', false).then(
-            result => {
-              if (result.data) {
-                filteredResult = result.data.filter(
-                  item => item.type === 'dir'
-                )
-              }
-            },
-            () => {
-              //on error
-            }
-          )
+    if (branchName) {
+      //get folders for branch
+      await repoObj.getContents(branchName, '', false).then(
+        result => {
+          if (result.data) {
+            const filteredResult = result.data.filter(
+              item => item.type === 'dir'
+            )
 
-          filteredResult.forEach(folder => {
-            githubPathCtrl.available.push(folder.name)
-          })
-        } else {
-          githubPathCtrl.active = ''
-          githubPathCtrl.available = []
-
-          //get branches
-          setLoadingState(branchCtrl, true)
-
-          await repoObj.listBranches().then(
-            result => {
-              branchCtrl.active = ''
-              branchCtrl.available = []
-
-              if (result.data) {
-                result.data.forEach(branch => {
-                  branchCtrl.available.push(branch.name)
-                })
-              }
-              delete branchCtrl.exception
-              setLoadingState(branchCtrl, false)
-            },
-            () => {
-              //on error
-              branchCtrl.active = ''
-              branchCtrl.available = []
-              branchCtrl.exception = msgs.get(
-                'creation.app.loading.branch.error'
-              )
-              setLoadingState(branchCtrl, false)
-            }
-          )
+            filteredResult.forEach(folder => {
+              githubPathCtrl.available.push(folder.name)
+            })
+          }
+        },
+        () => {
+          //on error
         }
-      }
+      )
+    } else {
+      //get branches
+      setLoadingState(branchCtrl, true)
+
+      await repoObj.listBranches().then(
+        result => {
+          branchCtrl.active = ''
+          branchCtrl.available = []
+
+          if (result.data) {
+            result.data.forEach(branch => {
+              branchCtrl.available.push(branch.name)
+            })
+          }
+          delete branchCtrl.exception
+          setLoadingState(branchCtrl, false)
+        },
+        () => {
+          //on error
+          branchCtrl.active = ''
+          branchCtrl.available = []
+          branchCtrl.exception = msgs.get('creation.app.loading.branch.error')
+          setLoadingState(branchCtrl, false)
+        }
+      )
     }
   } catch (err) {
     //return err

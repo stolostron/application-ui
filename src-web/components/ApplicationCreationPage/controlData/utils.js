@@ -186,7 +186,7 @@ const retrieveGitDetails = async (
       branchCtrl.available = []
     }
     if (gitPath.length === 0) {
-      return groupControlData
+      return
     }
 
     let github = new GitHub()
@@ -219,7 +219,7 @@ const retrieveGitDetails = async (
     //check only github repos; and only new private channels since we don't have the channel secret info for existing channels
     const gitUrl = new URL(gitPath)
     if (!(gitUrl.host === 'github.com' && existingPrivateChannel === false)) {
-      return groupControlData
+      return
     }
 
     //get the url path, then remove first / and .git
@@ -277,7 +277,7 @@ const retrieveGitDetails = async (
     //return err
   }
 
-  return groupControlData
+  return
 }
 
 export const updateGitBranchFolders = async (
@@ -290,7 +290,7 @@ export const updateGitBranchFolders = async (
 }
 
 export const getGitBranches = async (groupControlData, setLoadingState) => {
-  return retrieveGitDetails(null, groupControlData, setLoadingState)
+  retrieveGitDetails(null, groupControlData, setLoadingState)
 }
 
 export const setAvailableRules = (control, result) => {

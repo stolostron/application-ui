@@ -272,7 +272,7 @@ export class SecondaryHeader extends React.Component {
 SecondaryHeader.propTypes = {
   actions: PropTypes.array,
   breadcrumbItems: PropTypes.array,
-  history: PropTypes.array,
+  history: PropTypes.object,
   links: PropTypes.array,
   location: PropTypes.object,
   tabs: PropTypes.array,

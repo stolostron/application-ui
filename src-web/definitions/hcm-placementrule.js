@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -17,7 +18,7 @@ export default {
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'name',
+      resourceKey: 'name'
       //transformFunction: createApplicationLink
     },
     {
@@ -45,8 +46,7 @@ export default {
     {
       key: 'table.actions.placementrules.edit',
       link: {
-        url: item =>
-          `/multicloud/details/local-cluster/${item.selfLink}`
+        url: item => `/multicloud/details/local-cluster/${item.selfLink}`
       }
     },
     {
@@ -59,7 +59,6 @@ export default {
 
 export function createClustersLink(item, locale) {
   const clusterCount = R.path(['clusterCount'], item) || 0
-  //const localPlacement = R.path(['localPlacement'], item) || false
   return getClusterCount({
     locale,
     remoteCount: clusterCount,

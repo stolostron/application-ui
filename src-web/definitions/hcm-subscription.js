@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -8,7 +9,11 @@
 import React from 'react'
 import R from 'ramda'
 import { validator } from './validators/hcm-subscription-validator'
-import { getAge, getClusterCount, getSearchLink } from '../../lib/client/resource-helper'
+import {
+  getAge,
+  getClusterCount,
+  getSearchLink
+} from '../../lib/client/resource-helper'
 import msgs from '../../nls/platform.properties'
 
 export default {
@@ -30,7 +35,7 @@ export default {
       msgKey: 'table.header.channel',
       resourceKey: 'channel',
       transformFunction: createChannelLink,
-      tooltipKey: 'table.header.subscriptions.channel.tooltip',
+      tooltipKey: 'table.header.subscriptions.channel.tooltip'
     },
     {
       msgKey: 'table.header.applications',
@@ -60,8 +65,7 @@ export default {
     {
       key: 'table.actions.subscriptions.edit',
       link: {
-        url: item =>
-          `/multicloud/details/local-cluster/${item.selfLink}`
+        url: item => `/multicloud/details/local-cluster/${item.selfLink}`
       }
     },
     {
@@ -73,13 +77,12 @@ export default {
 }
 
 export function createSubscriptionLink(item) {
-  // TODO: replace with link
   return item.name
 }
 
 export function createChannelLink(item) {
   if (item.channel) {
-    const [ namespace, name ] = item.channel.split('/')
+    const [namespace, name] = item.channel.split('/')
     const channelLink = getSearchLink({
       properties: {
         name,

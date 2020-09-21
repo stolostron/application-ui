@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -8,7 +9,11 @@
 import React from 'react'
 import R from 'ramda'
 import { validator } from './validators/hcm-channel-validator'
-import { getAge, getClusterCount, getSearchLink } from '../../lib/client/resource-helper'
+import {
+  getAge,
+  getClusterCount,
+  getSearchLink
+} from '../../lib/client/resource-helper'
 import ChannelLabels from '../components/common/ChannelLabels'
 
 export default {
@@ -19,7 +24,7 @@ export default {
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'name',
+      resourceKey: 'name'
       //transformFunction: createApplicationLink
     },
     {
@@ -54,8 +59,7 @@ export default {
     {
       key: 'table.actions.channels.edit',
       link: {
-        url: item =>
-          `/multicloud/details/local-cluster/${item.selfLink}`
+        url: item => `/multicloud/details/local-cluster/${item.selfLink}`
       }
     },
     {
@@ -97,10 +101,12 @@ export function createClustersLink(item, locale) {
 export function getChannels(item = {}, locale = '') {
   return (
     <ChannelLabels
-      channels={[{
-        type: item.type,
-        pathname: item.pathname,
-      }]}
+      channels={[
+        {
+          type: item.type,
+          pathname: item.pathname
+        }
+      ]}
       locale={locale}
       showSubscriptionAttributes={false}
     />

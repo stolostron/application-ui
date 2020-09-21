@@ -10,7 +10,7 @@
 import React from 'react'
 import msgs from '../../../nls/platform.properties'
 import { connect } from 'react-redux'
-import * as Actions from '../../actions'
+import { REQUEST_STATUS } from '../../actions'
 import resources from '../../../lib/shared/resources'
 import {
   updateSecondaryHeader,
@@ -32,7 +32,7 @@ resources(() => {
 const mapDispatchToProps = dispatch => {
   return {
     clearSuccessFinished: () => clearSuccessFinished(dispatch),
-    updateSecondaryHeader: (title, tabs, links) =>
+    updateSecondaryHeaderFn: (title, tabs, links) =>
       dispatch(updateSecondaryHeader(title, tabs, null, links))
   }
 }
@@ -70,9 +70,13 @@ const mapStateToProps = state => {
 
 class AdvancedConfigurationPage extends React.Component {
   componentDidMount() {
-    const { secondaryHeaderProps, updateSecondaryHeader, locale } = this.props
+    const {
+      secondaryHeaderProps,
+      updateSecondaryHeaderFn,
+      locale
+    } = this.props
 
-    updateSecondaryHeader(
+    updateSecondaryHeaderFn(
       msgs.get(secondaryHeaderProps.title, locale),
       secondaryHeaderProps.tabs,
       secondaryHeaderProps.links
@@ -98,7 +102,7 @@ class AdvancedConfigurationPage extends React.Component {
 
     return (
       <div id="DeploymentPipeline">
-        {deleteStatus === Actions.REQUEST_STATUS.DONE && (
+        {deleteStatus === REQUEST_STATUS.DONE && (
           <Notification
             title={msgs.get('success.update.resource', locale)}
             subtitle={msgs.get(
@@ -109,7 +113,7 @@ class AdvancedConfigurationPage extends React.Component {
             kind="success"
           />
         )}
-        {mutateStatus === Actions.REQUEST_STATUS.DONE && (
+        {mutateStatus === REQUEST_STATUS.DONE && (
           <Notification
             title=""
             subtitle={msgs.get('success.create.description', locale)}

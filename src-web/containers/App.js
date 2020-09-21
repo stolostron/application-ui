@@ -110,6 +110,8 @@ class App extends React.Component {
       ]
     }
 
+    const applicationsTitle = 'routes.applications'
+
     return (
       <div className="expand-vertically">
         <SecondaryHeader />
@@ -122,7 +124,7 @@ class App extends React.Component {
                 params={params}
                 serverProps={this.getServerProps()}
                 secondaryHeaderProps={{
-                  title: 'routes.applications',
+                  title: applicationsTitle,
                   tabs: allApplicationsTabs
                 }}
               />
@@ -137,7 +139,7 @@ class App extends React.Component {
                   params={params}
                   serverProps={serverProps}
                   secondaryHeaderProps={{
-                    title: 'routes.applications',
+                    title: applicationsTitle,
                     tabs: allApplicationsTabs
                   }}
                   locale={locale}
@@ -164,7 +166,7 @@ class App extends React.Component {
                 params={params}
                 serverProps={this.getServerProps()}
                 secondaryHeaderProps={{
-                  title: 'routes.applications',
+                  title: applicationsTitle,
                   tabs: getSingleApplicationTabs(params.match.params)
                 }}
               />

@@ -12,7 +12,7 @@ export const getSelectedId = ({
   options,
   defaultOption,
   query,
-  queryParam = 'resource',
+  queryParam = 'resource'
 }) => {
   if (!query) {
     query = queryString.parse(location.search)
@@ -31,16 +31,20 @@ const QuerySwitcher = ({
   history
 }) => {
   const query = queryString.parse(location.search)
-  const selectedId = getSelectedId({query, options, defaultOption, queryParam})
+  const selectedId = getSelectedId({
+    query,
+    options,
+    defaultOption,
+    queryParam
+  })
   const isSelected = id => id === selectedId
   const handleChange = (_, event) => {
     const id = event.currentTarget.id
     query[queryParam] = id
     const newQueryString = queryString.stringify(query)
+    const optionalNewQueryString = newQueryString && `?${newQueryString}`
     history.replace(
-      `${location.pathname}${newQueryString && `?${newQueryString}`}${
-        location.hash
-      }`,
+      `${location.pathname}${optionalNewQueryString}${location.hash}`,
       { noScrollToTop: true }
     )
   }

@@ -1100,7 +1100,6 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
     { labelKey: "resource.subscription.local", value: "true" },
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { type: "spacer" },
     { labelValue: "local", status: "failure", value: "Failed" },
     {
       indent: true,
@@ -1114,6 +1113,7 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
         label: "View Resource YAML"
       }
     },
+    { type: "spacer" },
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with local hub subscription error", () => {
@@ -1139,7 +1139,6 @@ describe("setSubscriptionDeployStatus with hub error", () => {
   const response = [
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { type: "spacer" },
     { labelValue: "local", status: "failure", value: "Failed" },
     {
       indent: true,
@@ -1153,6 +1152,7 @@ describe("setSubscriptionDeployStatus with hub error", () => {
         label: "View Resource YAML"
       }
     },
+    { type: "spacer" },
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with hub error", () => {
@@ -1227,7 +1227,6 @@ describe("setSubscriptionDeployStatus with error", () => {
   const response = [
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { type: "spacer" },
     { labelValue: "local", status: "failure", value: "Failed" },
     {
       indent: true,
@@ -1241,6 +1240,7 @@ describe("setSubscriptionDeployStatus with error", () => {
         label: "View Resource YAML"
       }
     },
+    { type: "spacer" },
     { type: "spacer" },
     { type: "spacer" }
   ];
@@ -1266,7 +1266,6 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
   const response = [
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { type: "spacer" },
     {
       labelValue: "local",
       status: "warning",
@@ -1285,6 +1284,7 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
         label: "View Resource YAML"
       }
     },
+    { type: "spacer" },
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with hub no status", () => {
@@ -1314,7 +1314,6 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
     { type: "spacer" },
-    { type: "spacer" },
     {
       labelValue: "remote1",
       status: "warning",
@@ -1333,6 +1332,7 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
         label: "View Resource YAML"
       }
     },
+    { type: "spacer" },
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with remote no status", () => {
@@ -1357,7 +1357,6 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
   const response = [
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { type: "spacer" },
     { labelValue: "local", status: "checkmark", value: "Propagated" },
     {
       indent: true,
@@ -1371,6 +1370,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
         label: "View Resource YAML"
       }
     },
+    { type: "spacer" },
     {
       labelValue: "Remote subscriptions",
       status: "failure",
@@ -1406,6 +1406,11 @@ describe("setSubscriptionDeployStatus for node type different then subscription 
         sub1: {
           cluster: "local",
           status: "Failed"
+        },
+        sub2: {
+          cluster: "local-cluster",
+          status: "Failed",
+          name: "sub2-local"
         }
       }
     }

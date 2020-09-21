@@ -629,10 +629,6 @@ export const setClusterStatus = (node, details) => {
       status
     } = c
     const { name, namespace, creationTimestamp } = metadata
-
-    if (name === LOCAL_HUB_NAME) {
-      return
-    }
     //void ({ labels } = metadata)
     const { nodes, cpu: cc, memory: cm } = capacity
     const { pods, cpu: ac, memory: am } = allocatable
@@ -915,12 +911,21 @@ export const setupResourceModel = (
           isHelmRelease
         )
 
-        const name = computeResourceName(
+        let name = computeResourceName(
           relatedKind,
           deployableName,
           nameWithoutChartRelease,
           isClusterGrouped
         )
+
+        if (
+          kind == 'subscription' &&
+          _.get(relatedKind, 'cluster', '') === LOCAL_HUB_NAME &&
+          _.get(relatedKind, 'localPlacement', '') === 'true'
+        ) {
+          //match local hub subscription after removing -local suffix
+          name = _.replace(name, '-local', '')
+        }
 
         if (resourceMap[name]) {
           const kindModel = _.get(resourceMap[name], `specs.${kind}Model`, {})
@@ -1186,18 +1191,18 @@ export const setSubscriptionDeployStatus = (node, details) => {
   let localSubscriptionFailed = false
   const resourceMap = _.get(node, 'specs.subscriptionModel', {})
   Object.values(resourceMap).forEach(subscription => {
-    details.push({
-      type: 'spacer'
-    })
-
     const isLocalFailedSubscription =
       subscription._hubClusterResource &&
       R.contains('Fail', R.pathOr('Fail', ['status'])(subscription))
     if (isLocalFailedSubscription) {
       localSubscriptionFailed = true
     }
-    if (
+    const isLinkedLocalPlacementSubs =
       isLocalPlacementSubs ||
+      (_.get(subscription, 'localPlacement', '') === 'true' &&
+        _.get(subscription, 'cluster', '') === LOCAL_HUB_NAME)
+    if (
+      isLinkedLocalPlacementSubs ||
       !subscription._hubClusterResource ||
       isLocalFailedSubscription
     ) {
@@ -1222,20 +1227,31 @@ export const setSubscriptionDeployStatus = (node, details) => {
         labelValue: subscription.cluster,
         value: subscriptionStatus,
         status: subscriptionPulse
-      }) &&
+      })
+      !isLocalPlacementSubs &&
+        isLinkedLocalPlacementSubs &&
         details.push({
-          type: 'link',
-          value: {
-            label: msgs.get(specsPropsYaml),
-            data: {
-              action: showResourceYaml,
-              cluster: subscription.cluster,
-              selfLink: subscription.selfLink
-            }
-          },
-          indent: true
+          labelKey: 'resource.subscription.local',
+          value: 'true'
         })
+
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get(specsPropsYaml),
+          data: {
+            action: showResourceYaml,
+            cluster: subscription.cluster,
+            selfLink: subscription.selfLink
+          }
+        },
+        indent: true
+      })
     }
+
+    details.push({
+      type: 'spacer'
+    })
   })
 
   //show missing remote placement error only if local subscription is successful and is not local placement

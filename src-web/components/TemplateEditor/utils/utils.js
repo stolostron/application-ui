@@ -102,7 +102,9 @@ export function editingMode(
     const {
       type,
       active,
-      disabledWhenEditingExistingResouce
+      isHidden,
+      disabledWhenEditingExistingResouce,
+      isHiddenWhenEditingExistingResouce
     } = control
     if (type === 'group') {
       active.forEach(group => {
@@ -112,6 +114,12 @@ export function editingMode(
       })
     } else if (disabledWhenEditingExistingResouce) {
       control.disabled = disabledWhenEditingExistingResouce
+    } else if (isHiddenWhenEditingExistingResouce) {
+      if (isHidden) {
+        control.isHidden = true
+      } else {
+        control.type = 'hidden'
+      }
     }
   }
   controlData.forEach(control => {

@@ -38,7 +38,8 @@ const prePostTasks = [
   {
     name: 'creation.app.ansible.secret.host',
     id: 'ansibleTowerHost',
-    type: 'hidden',
+    type: 'text',
+    isHiddenWhenEditingExistingResouce: true,
     active: '',
     encode: true,
     placeholder: 'app.enter.select.ansibleTowerHost'
@@ -46,7 +47,8 @@ const prePostTasks = [
   {
     name: 'creation.app.ansible.secret.token',
     id: 'ansibleTowerToken',
-    type: 'hidden',
+    type: 'text',
+    isHiddenWhenEditingExistingResouce: true,
     encode: true,
     active: '',
     placeholder: 'app.enter.select.ansibleTowerToken'

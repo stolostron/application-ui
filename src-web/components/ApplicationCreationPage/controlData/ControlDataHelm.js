@@ -44,7 +44,8 @@ const helmReleaseChannelData = [
     name: 'creation.app.helmrepo.user',
     tooltip: 'tooltip.creation.app.helmrepo.user',
     id: 'helmUser',
-    type: 'hidden',
+    type: 'text',
+    isHiddenWhenEditingExistingResouce: true,
     active: '',
     encode: true,
     placeholder: 'app.enter.helmrepo.username'
@@ -53,7 +54,8 @@ const helmReleaseChannelData = [
     name: 'creation.app.helmrepo.password',
     tooltip: 'tooltip.creation.app.helmrepo.password',
     id: 'helmPassword',
-    type: 'hidden',
+    type: 'text',
+    isHiddenWhenEditingExistingResouce: true,
     encode: true,
     active: '',
     placeholder: 'app.enter.helmrepo.password'

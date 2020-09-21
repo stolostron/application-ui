@@ -43,7 +43,8 @@ const objectstoreChannelData = [
     name: 'creation.app.objectstore.accesskey',
     tooltip: 'tooltip.creation.app.objectstore.accesskey',
     id: 'accessKey',
-    type: 'hidden',
+    type: 'text',
+    isHiddenWhenEditingExistingResouce: true,
     active: '',
     encode: true,
     placeholder: 'app.enter.accesskey'
@@ -52,7 +53,8 @@ const objectstoreChannelData = [
     name: 'creation.app.objectstore.secretkey',
     tooltip: 'tooltip.creation.app.objectstore.secretkey',
     id: 'secretKey',
-    type: 'hidden',
+    type: 'text',
+    isHiddenWhenEditingExistingResouce: true,
     encode: true,
     active: '',
     placeholder: 'app.enter.secretkey'

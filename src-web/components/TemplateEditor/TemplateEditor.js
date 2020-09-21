@@ -11,7 +11,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Prompt} from 'react-router-dom'
+import { Prompt } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
@@ -28,7 +28,7 @@ import { generateSourceFromTemplate } from './utils/refresh-source-from-template
 import { getUniqueName } from './utils/source-utils'
 import {
   highlightChanges,
-  highlightAllChanges,
+  highlightAllChanges
 } from './utils/refresh-source-highlighting'
 import ControlPanel from './components/ControlPanel'
 import EditorHeader from './components/EditorHeader'
@@ -132,7 +132,12 @@ export default class TemplateEditor extends React.Component {
           template,
           controlData
         ))
-        return { controlData, templateYAML, firstTemplateYAML:templateYAML, templateObject }
+        return {
+          controlData,
+          templateYAML,
+          firstTemplateYAML: templateYAML,
+          templateObject
+        }
       }
 
       // make sure an auto generated name is unique
@@ -173,7 +178,7 @@ export default class TemplateEditor extends React.Component {
       hasUndo: false,
       hasRedo: false,
       resetInx: 0,
-      forceUpdate: (()=>{
+      forceUpdate: (() => {
         this.forceUpdate()
       }).bind(this)
     }
@@ -287,7 +292,8 @@ export default class TemplateEditor extends React.Component {
       >
         <Prompt
           when={this.isDirty}
-          message={msgs.get('changes.maybe.lost', locale)} />
+          message={msgs.get('changes.maybe.lost', locale)}
+        />
         {this.renderEditButton()}
         {this.renderCreateButton()}
         {this.renderCancelButton()}
@@ -373,11 +379,10 @@ export default class TemplateEditor extends React.Component {
       onSelect()
     }
 
-    const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
-      template,
-      controlData,
-      otherYAMLTabs
-    )
+    const {
+      templateYAML: newYAML,
+      templateObject
+    } = generateSourceFromTemplate(template, controlData, otherYAMLTabs)
     updateControls(
       this.editors,
       newYAML,
@@ -404,7 +409,7 @@ export default class TemplateEditor extends React.Component {
       exceptions: [],
       notifications
     })
-    this.isDirty = firstTemplateYAML !==newYAML
+    this.isDirty = firstTemplateYAML !== newYAML
     this.handleScrollAndCollapse(control, controlData, creationView)
   }
 
@@ -445,11 +450,10 @@ export default class TemplateEditor extends React.Component {
     } else {
       active.splice(inx, 1)
     }
-    const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
-      template,
-      controlData,
-      otherYAMLTabs
-    )
+    const {
+      templateYAML: newYAML,
+      templateObject
+    } = generateSourceFromTemplate(template, controlData, otherYAMLTabs)
     updateControls(
       this.editors,
       newYAML,
@@ -468,9 +472,9 @@ export default class TemplateEditor extends React.Component {
     this.setState({
       controlData,
       templateYAML: newYAML,
-      templateObject,
+      templateObject
     })
-    this.isDirty = firstTemplateYAML!==newYAML
+    this.isDirty = firstTemplateYAML !== newYAML
   }
 
   handleNewEditorMode(control, controlData, creationView) {
@@ -521,10 +525,7 @@ export default class TemplateEditor extends React.Component {
     )
     const deleteLen = parentControlData.length - insertInx - 1
     if (deleteLen) {
-      parentControlData.splice(
-        insertInx + 1,
-        deleteLen
-      )
+      parentControlData.splice(insertInx + 1, deleteLen)
     }
 
     // add new controls and template
@@ -930,11 +931,10 @@ export default class TemplateEditor extends React.Component {
     // update the main yaml--for now
     if (activeYAMLEditor !== 0) {
       const { template, templateYAML: oldYAML } = this.state
-      const { templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
-        template,
-        controlData,
-        otherYAMLTabs
-      )
+      const {
+        templateYAML: newYAML,
+        templateObject
+      } = generateSourceFromTemplate(template, controlData, otherYAMLTabs)
       highlightChanges(this.editors[0], oldYAML, newYAML)
       this.setState({
         controlData,
@@ -1076,7 +1076,12 @@ export default class TemplateEditor extends React.Component {
   }
 
   renderCreateButton() {
-    const { portals = {}, createControl, hasPermissions=true, locale } = this.props
+    const {
+      portals = {},
+      createControl,
+      hasPermissions = true,
+      locale
+    } = this.props
     const { createBtn } = portals
     let disableButton = true
     if (this.isDirty && hasPermissions) {
@@ -1100,7 +1105,10 @@ export default class TemplateEditor extends React.Component {
       if (portal) {
         return !hasPermissions
           ? ReactDOM.createPortal(
-            <TooltipContainer tooltip={titleText} isDisabled={!hasPermissions}>
+            <TooltipContainer
+              tooltip={titleText}
+              isDisabled={!hasPermissions}
+              >
               {button}
             </TooltipContainer>,
             portal

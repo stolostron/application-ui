@@ -51,8 +51,7 @@ stages:
 
 before_script:
   - make init
-  - chmod +x canary-scripts/keep_alive.sh
-  - ./canary-scripts/keep_alive.sh
+  - ./keep_alive.sh
 
 jobs:
   include:

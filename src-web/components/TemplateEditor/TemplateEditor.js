@@ -11,7 +11,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Prompt} from 'react-router-dom'
+import { Prompt } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
@@ -29,7 +29,7 @@ import {
 import { validateControls } from './utils/validate-controls'
 import {
   highlightChanges,
-  highlightAllChanges,
+  highlightAllChanges
 } from './utils/refresh-source-highlighting'
 import ControlPanel from './components/ControlPanel'
 import EditorHeader from './components/EditorHeader'
@@ -200,7 +200,7 @@ export default class TemplateEditor extends React.Component {
       hasUndo: false,
       hasRedo: false,
       resetInx: 0,
-      forceUpdate: (()=>{
+      forceUpdate: (() => {
         this.forceUpdate()
       }).bind(this)
     }
@@ -430,7 +430,7 @@ export default class TemplateEditor extends React.Component {
       exceptions: [],
       notifications
     })
-    this.isDirty = firstTemplateYAML !==newYAML
+    this.isDirty = firstTemplateYAML !== newYAML
     this.handleScrollAndCollapse(control, controlData, creationView)
   }
 
@@ -497,9 +497,9 @@ export default class TemplateEditor extends React.Component {
     this.setState({
       controlData,
       templateYAML: newYAML,
-      templateObject,
+      templateObject
     })
-    this.isDirty = firstTemplateYAML!==newYAML
+    this.isDirty = firstTemplateYAML !== newYAML
   }
 
   handleNewEditorMode(control, controlData, creationView) {
@@ -550,10 +550,7 @@ export default class TemplateEditor extends React.Component {
     )
     const deleteLen = parentControlData.length - insertInx - 1
     if (deleteLen) {
-      parentControlData.splice(
-        insertInx + 1,
-        deleteLen
-      )
+      parentControlData.splice(insertInx + 1, deleteLen)
     }
 
     // add new controls and template
@@ -1137,7 +1134,10 @@ export default class TemplateEditor extends React.Component {
       if (portal) {
         return !hasPermissions
           ? ReactDOM.createPortal(
-            <TooltipContainer tooltip={titleText} isDisabled={!hasPermissions}>
+            <TooltipContainer
+              tooltip={titleText}
+              isDisabled={!hasPermissions}
+              >
               {button}
             </TooltipContainer>,
             portal

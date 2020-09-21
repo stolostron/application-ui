@@ -12,7 +12,6 @@
 import { HCMNamespaceList } from '../../../../lib/client/queries'
 import gitChannelData from './ControlDataGit'
 import helmReleaseChannelData from './ControlDataHelm'
-import hubClusterChannelData from './ControlDataLocalCluster'
 import objectstoreChannelData from './ControlDataObjectStore'
 import {
   setAvailableNSSpecs,
@@ -311,15 +310,6 @@ export const controlData = [
             tooltip: 'tooltip.creation.app.channel.git',
             change: {
               insertControlData: gitChannelData
-            }
-          },
-          {
-            id: 'deployable',
-            logo: 'namespace-repo.svg',
-            title: 'channel.type.namespace',
-            tooltip: 'tooltip.creation.app.channel.namespace',
-            change: {
-              insertControlData: hubClusterChannelData
             }
           },
           {

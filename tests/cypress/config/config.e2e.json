@@ -11,7 +11,10 @@
           "timeWindow": {
             "setting": false,
             "type": "activeinterval",
-            "date": ["Sunday", "Monday"]
+            "date": [
+              "Sunday",
+              "Monday"
+            ]
           }
         },
         {
@@ -21,30 +24,9 @@
           "timeWindow": {
             "setting": false,
             "type": "activeinterval",
-            "date": ["Tuesday"]
-          }
-        }
-      ]
-    }
-  },
-  "local-cluster": {
-    "data": {
-      "enable": false,
-      "name": "",
-      "config": [
-        {
-          "repository": "",
-          "timeWindow": {
-            "setting": false,
-            "type": "active"
-          }
-        },
-        {
-          "repository": "",
-          "timeWindow": {
-            "setting": false,
-            "type": "activeinterval",
-            "date": ["Wednesday", "Saturday", "Sunday"]
+            "date": [
+              "Tuesday"
+            ]
           }
         }
       ]
@@ -80,7 +62,10 @@
           "timeWindow": {
             "setting": false,
             "type": "",
-            "date": ["Monday", "Tuesday"]
+            "date": [
+              "Monday",
+              "Tuesday"
+            ]
           }
         },
         {
@@ -92,7 +77,10 @@
           "timeWindow": {
             "setting": false,
             "type": "",
-            "date": ["Thursday", "Friday"]
+            "date": [
+              "Thursday",
+              "Friday"
+            ]
           }
         }
       ]

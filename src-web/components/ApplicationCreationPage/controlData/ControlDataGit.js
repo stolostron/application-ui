@@ -11,6 +11,7 @@
 
 import {
   VALIDATE_ALPHANUMERIC,
+  VALID_REPOPATH,
   VALIDATE_URL
 } from '../../TemplateEditor/utils/validation'
 import placementData from './ControlDataPlacement'
@@ -122,7 +123,7 @@ const githubChannelData = [
     active: '',
     placeholder: 'app.enter.select.path',
     available: [],
-    validation: VALIDATE_ALPHANUMERIC,
+    validation: VALID_REPOPATH,
     reverse: [
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/github-path"]',
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/git-path"]',

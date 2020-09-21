@@ -20,6 +20,7 @@ import { connect } from 'react-redux'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import {
   createApplication,
+  updateApplication,
   clearCreateStatus
 } from '../../actions/application'
 import {
@@ -50,6 +51,7 @@ class ApplicationCreationPage extends React.Component {
     deleteSuccessFinished: PropTypes.func,
     editApplication: PropTypes.object,
     handleCreateApplication: PropTypes.func,
+    handleUpdateApplication: PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object,
     mutateErrorMsgs: PropTypes.array,
@@ -220,8 +222,12 @@ class ApplicationCreationPage extends React.Component {
 
   handleCreate = resourceJSON => {
     if (resourceJSON) {
-      const { handleCreateApplication } = this.props
-      handleCreateApplication(resourceJSON)
+      const { editApplication, handleCreateApplication, handleUpdateApplication } = this.props
+      if (editApplication) {
+        handleUpdateApplication(resourceJSON)
+      } else {
+        handleCreateApplication(resourceJSON)
+      }
       const map = _.keyBy(resourceJSON, 'kind')
       this.applicationNamespace = _.get(map, 'Application.metadata.namespace')
       this.applicationName = _.get(map, 'Application.metadata.name')
@@ -243,6 +249,7 @@ const mapDispatchToProps = dispatch => {
     deleteSuccessFinished: resourceType =>
       dispatch(delResourceSuccessFinished(resourceType)),
     handleCreateApplication: json => dispatch(createApplication(json)),
+    handleUpdateApplication: json => dispatch(updateApplication(json)),
     updateSecondaryHeader: (
       title,
       tabs,

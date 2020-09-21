@@ -161,11 +161,17 @@ export const updateControlsForNS = (
   return globalControl
 }
 
-export const getGitBranches = async (groupControlData, setLoadingState) => {
+const retrieveGitDetails = async (
+  branchName,
+  groupControlData,
+  setLoadingState
+) => {
   try {
     const gitControl = groupControlData.find(({ id }) => id === 'githubURL')
     const branchCtrl = groupControlData.find(({ id }) => id === 'githubBranch')
-
+    const githubPathCtrl = groupControlData.find(
+      ({ id }) => id === 'githubPath'
+    )
     const userCtrl = groupControlData.find(({ id }) => id === 'githubUser')
 
     const tokenCtrl = groupControlData.find(
@@ -179,74 +185,110 @@ export const getGitBranches = async (groupControlData, setLoadingState) => {
       branchCtrl.active = ''
       branchCtrl.available = []
     }
+    if (gitPath.length === 0) {
+      return
+    }
 
-    if (gitPath.length > 0) {
-      let github = new GitHub()
+    let github = new GitHub()
 
+    if (
+      _.get(userCtrl, 'active', '').length > 0 &&
+      _.get(tokenCtrl, 'active', '').length > 0
+    ) {
+      //use authentication
+      github = new GitHub({
+        username: userCtrl.active,
+        password: tokenCtrl.active,
+        auth: 'basic'
+      })
+    } else {
+      //check if this is an existing private channel
+      const selectedChannel = _.get(
+        _.get(gitControl, 'availableData', {}),
+        gitPath
+      )
       if (
-        _.get(userCtrl, 'active', '').length > 0 &&
-        _.get(tokenCtrl, 'active', '').length > 0
+        selectedChannel &&
+        _.get(selectedChannel, 'raw.spec.secretRef.name')
       ) {
-        //use authentication
-        github = new GitHub({
-          username: userCtrl.active,
-          password: tokenCtrl.active,
-          auth: 'basic'
-        })
-      } else {
-        //check if this is an existing private channel
-        const selectedChannel = _.get(
-          _.get(gitControl, 'availableData', {}),
-          gitPath
-        )
-        if (
-          selectedChannel &&
-          _.get(selectedChannel, 'raw.spec.secretRef.name')
-        ) {
-          //this is a private channel, don't try to retreive the branches
-          existingPrivateChannel = true
-        }
+        //this is a private channel, don't try to retreive the branches
+        existingPrivateChannel = true
       }
+    }
 
-      const gitUrl = new URL(gitPath)
+    //check only github repos; and only new private channels since we don't have the channel secret info for existing channels
+    const gitUrl = new URL(gitPath)
+    if (!(gitUrl.host === 'github.com' && existingPrivateChannel === false)) {
+      return
+    }
 
-      if (gitUrl.host === 'github.com' && existingPrivateChannel === false) {
-        //check only github repos; and only new private channels since we don't have the channel secret info for existing channels
-        //get the url path, then remove first / and .git
-        gitPath = gitUrl.pathname.substring(1).replace('.git', '')
+    //get the url path, then remove first / and .git
+    gitPath = gitUrl.pathname.substring(1).replace('.git', '')
+    const repoObj = github.getRepo(gitPath)
 
-        const repoObj = github.getRepo(gitPath)
+    githubPathCtrl.active = ''
+    githubPathCtrl.available = []
 
-        setLoadingState(branchCtrl, true)
-        await repoObj.listBranches().then(
-          result => {
-            branchCtrl.active = ''
-            branchCtrl.available = []
-
-            if (result.data) {
-              result.data.forEach(branch => {
-                branchCtrl.available.push(branch.name)
-              })
-            }
-            delete branchCtrl.exception
-            setLoadingState(branchCtrl, false)
-          },
-          () => {
-            branchCtrl.active = ''
-            branchCtrl.available = []
-            branchCtrl.exception = msgs.get(
-              'creation.app.loading.branch.error'
+    if (branchName) {
+      //get folders for branch
+      await repoObj.getContents(branchName, '', false).then(
+        result => {
+          if (result.data) {
+            const filteredResult = result.data.filter(
+              item => item.type === 'dir'
             )
-            setLoadingState(branchCtrl, false)
+
+            filteredResult.forEach(folder => {
+              githubPathCtrl.available.push(folder.name)
+            })
           }
-        )
-      }
+        },
+        () => {
+          //on error
+        }
+      )
+    } else {
+      //get branches
+      setLoadingState(branchCtrl, true)
+
+      await repoObj.listBranches().then(
+        result => {
+          branchCtrl.active = ''
+          branchCtrl.available = []
+
+          if (result.data) {
+            result.data.forEach(branch => {
+              branchCtrl.available.push(branch.name)
+            })
+          }
+          delete branchCtrl.exception
+          setLoadingState(branchCtrl, false)
+        },
+        () => {
+          //on error
+          branchCtrl.active = ''
+          branchCtrl.available = []
+          branchCtrl.exception = msgs.get('creation.app.loading.branch.error')
+          setLoadingState(branchCtrl, false)
+        }
+      )
     }
   } catch (err) {
     //return err
   }
+}
 
-  return groupControlData
+export const updateGitBranchFolders = async (
+  branchControl,
+  setLoadingState
+) => {
+  const groupControlData = _.get(branchControl, 'groupControlData', [])
+  const branchName = _.get(branchControl, 'active', '')
+  retrieveGitDetails(branchName, groupControlData, setLoadingState)
+}
+
+export const getGitBranches = async (groupControlData, setLoadingState) => {
+  retrieveGitDetails(null, groupControlData, setLoadingState)
 }
 
 export const setAvailableRules = (control, result) => {
@@ -467,8 +509,11 @@ export const setAvailableSecrets = (control, result) => {
   } else if (secrets) {
     control.availableData = _.keyBy(secrets, 'name')
     control.available = Object.keys(control.availableData).sort()
-    if (control.active && !control.available.includes(control.active) &&
-        typeof control.setActive === 'function') {
+    if (
+      control.active &&
+      !control.available.includes(control.active) &&
+      typeof control.setActive === 'function'
+    ) {
       control.setActive('')
     }
   } else {

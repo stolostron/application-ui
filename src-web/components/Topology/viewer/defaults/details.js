@@ -29,7 +29,7 @@ import msgs from '../../../../../nls/platform.properties'
 
 const resName = 'resource.name'
 
-export const getNodeDetails = node => {
+export const getNodeDetails = (node, updatedNode) => {
   const details = []
   if (node) {
     const { type, specs } = node
@@ -83,7 +83,7 @@ export const getNodeDetails = node => {
       break
 
     default:
-      addK8Details(node, details)
+      addK8Details(node, updatedNode, details)
       break
     }
 
@@ -102,7 +102,7 @@ export const getNodeDetails = node => {
   return details
 }
 
-function addK8Details(node, details) {
+function addK8Details(node, updatedNode, details) {
   const { clusterName, type, layout = {} } = node
   const { type: ltype } = layout
 
@@ -328,7 +328,7 @@ function addK8Details(node, details) {
   setResourceDeployStatus(node, details)
 
   // kube model details
-  setPodDeployStatus(node, details)
+  setPodDeployStatus(node, updatedNode, details)
 
   return details
 }

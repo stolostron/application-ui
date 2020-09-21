@@ -1028,7 +1028,7 @@ export const setResourceDeployStatus = (node, details) => {
 }
 
 //show resource deployed status for resources producing pods
-export const setPodDeployStatus = (node, details) => {
+export const setPodDeployStatus = (node, updatedNode, details) => {
   if (!nodeMustHavePods(node)) {
     return details //process only resources with pods
   }
@@ -1042,7 +1042,7 @@ export const setPodDeployStatus = (node, details) => {
   })
 
   const podModel = _.get(node, 'specs.podModel', {})
-  const podStatusModel = _.get(node, 'podStatusMap', {})
+  const podStatusModel = _.get(updatedNode, 'podStatusMap', {})
   const podDataPerCluster = {} //pod details list for each cluster name
 
   const clusterNames = R.split(',', getClusterName(node.id))
@@ -1342,6 +1342,14 @@ export const addNodeOCPRouteLocationForCluster = (
 ) => {
   const clustersList = R.pathOr([], ['clusters', 'specs', 'clusters'])(node)
   let hostName = R.pathOr(undefined, ['specs', 'raw', 'spec', 'host'])(node)
+
+  if (clustersList.length === 0 && !hostName) {
+    // this is a local app deploy, check hostname in ingress
+    const ingress = R.pathOr([], ['specs', 'raw', 'spec', 'ingress'])(node)
+    if (ingress.length > 0) {
+      hostName = ingress[0].host
+    }
+  }
 
   if (hostName && typeObject) {
     return details // this info is in the main Location status since we have a spec host

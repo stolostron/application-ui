@@ -8,25 +8,43 @@
  *******************************************************************************/
 
 #ApplicationDeploymentHighlightsTerminology {
-  .bx--tile {
-    border: 0;
-    box-shadow: none;
-    overflow: auto;
+  // Remove default blues and greys
+  .pf-c-accordion {
+    --pf-c-accordion__toggle--m-expanded--before--BackgroundColor: none;
+    --pf-c-accordion__toggle--hover__toggle-text--Color: none;
+    --pf-c-accordion__toggle--active__toggle-text--Color: none;
+    --pf-c-accordion__toggle--focus__toggle-text--Color: none;
+    --pf-c-accordion__toggle--m-expanded__toggle-text--Color: none;
+    --pf-c-accordion__expanded-content--m-expanded__expanded-content-body--before--BackgroundColor: none;
+    --pf-c-accordion__toggle--hover--BackgroundColor: white;
+    --pf-c-accordion__toggle--focus--BackgroundColor: white;
+    --pf-c-accordion__toggle--active--BackgroundColor: white;
   }
 
-  .bx--tile:first-child {
-    border-left: 5px solid #dee3e6;
-    border-right: 5px solid #dee3e6;
+  // Bold Terminology header
+  .pf-c-accordion__toggle-text {
+    font-weight: 600;
   }
 
-  .bx--tile .terminology-item {
+  .pf-c-accordion__expanded-content-body {
+    height: 100%;
+    padding: 1.5rem 0.5rem 0.5rem;
+  }
+
+  #terminology-header {
+    height: 57px;
+    padding: 10px calc(10px + 1rem);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .terminology-item {
     width: 33%;
     padding-left: 1.5em;
     padding-right: 1.5em;
     float: left;
   }
 
-  .bx--tile .deployment-highlights-terminology-header {
+  .deployment-highlights-terminology-title {
     color: #5a6872;
     font-size: 16px;
     font-weight: 600;
@@ -34,39 +52,25 @@
     margin-bottom: 10px;
   }
 
-  .bx--tile .deployment-highlights-terminology-content {
+  .deployment-highlights-terminology-content {
     color: #5a6872;
     font-size: 12px;
     line-height: 20px;
   }
 
-  .bx--accordion__content {
-    padding-left: 0;
-    padding-right: 0;
-
-    .bx--tile {
-      padding: 1.5rem 0.5rem 0.5rem;
-    }
-  }
-
-  .bx--accordion__title {
-    color: #4676b5;
-  }
-
   .deployment-highlights-terminology-docs {
     text-align: right;
-    padding-left: 1em;
-    padding-right: 1em;
+    display: inline-block;
+    padding: 1rem 1rem 0.75rem;
     width: 100%;
   }
 
   .deployment-highlights-terminology-docs-text {
     cursor: pointer;
     display: inline-block;
-    padding: 30px 10px 10px;
-    font-weight: bold;
+    padding: 0px 10px;
     font-size: 14px;
-    color: #3d70b2;
+    color: #0066cc;
   }
 
   .deployment-highlights-terminology-docs-icon {

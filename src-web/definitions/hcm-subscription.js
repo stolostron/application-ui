@@ -105,7 +105,7 @@ export function createApplicationsLink(item) {
         kind: 'subscription',
         apigroup: 'apps.open-cluster-management.io'
       },
-      showRelated: 'cluster'
+      showRelated: 'application'
     })
     return <a href={channelLink}>{item.appCount}</a>
   }

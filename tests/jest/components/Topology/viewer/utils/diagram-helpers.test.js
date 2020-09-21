@@ -2877,7 +2877,7 @@ describe("setPodDeployStatus  node does not have pods", () => {
     }
   };
   it("setPodDeployStatus node does not have pods", () => {
-    expect(setPodDeployStatus(node, [])).toEqual([]);
+    expect(setPodDeployStatus(node, node, [])).toEqual([]);
   });
 });
 
@@ -2968,7 +2968,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod less then desired ", () => {
-    expect(setPodDeployStatus(node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [])).toEqual(result);
   });
 });
 
@@ -2999,7 +2999,7 @@ describe("setPodDeployStatus  with pod but no pod model and no podStatusMap", ()
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod but no pod podStatusMap ", () => {
-    expect(setPodDeployStatus(node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [])).toEqual(result);
   });
 });
 
@@ -3145,7 +3145,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod as desired", () => {
-    expect(setPodDeployStatus(node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [])).toEqual(result);
   });
 });
 
@@ -3187,7 +3187,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod as desired but no matched cluster", () => {
-    expect(setPodDeployStatus(node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [])).toEqual(result);
   });
 });
 

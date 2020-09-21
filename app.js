@@ -65,7 +65,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(
     helmet({
       // in production these headers are set by ingress.open-cluster-management.io
-      frameguard: true,
+      frameguard: false,
       noSniff: true,
       xssFilter: true
     })
@@ -81,6 +81,13 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet())
   app.use('*', morgan('dev'))
 }
+
+app.use((req, res, next) => {
+  res.removeHeader('X-Frame-Options')
+  res.removeHeader('X-Content-Type-Options')
+  res.removeHeader('X-Xss-Protection')
+  next()
+})
 
 const csrfMiddleware = csurf({
   cookie: {

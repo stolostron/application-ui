@@ -18,7 +18,8 @@ import prePostTasks from './ControlDataPrePostTasks'
 import {
   getGitBranches,
   loadExistingChannels,
-  updateChannelControls
+  updateChannelControls,
+  updateGitBranchFolders
 } from './utils'
 import _ from 'lodash'
 
@@ -108,6 +109,7 @@ const githubChannelData = [
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/github-branch"]',
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/git-branch"]',
     ],
+    onSelect: updateGitBranchFolders,
     cacheUserValueKey: 'create.app.github.branch'
   },
   {

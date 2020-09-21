@@ -60,7 +60,7 @@ export class TimeWindow extends React.Component {
   validation(exceptions) {
     const { control, locale } = this.props
     // Mode is active/blocked
-    if (control.active.mode !== '') {
+    if (control.active.mode) {
       // Add exception if no days selected
       if (control.active.days.length === 0) {
         exceptions.push({

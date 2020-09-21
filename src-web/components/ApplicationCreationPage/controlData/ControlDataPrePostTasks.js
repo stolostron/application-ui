@@ -20,7 +20,8 @@ const prePostTasks = [
     title: 'creation.app.section.prePost',
     overline: true,
     collapsable: true,
-    collapsed: false
+    collapsed: false,
+    editing: {collapsed: true} // if editing existing app, collapse this field initially
   },
   {
     name: 'creation.app.ansible.secret.name',
@@ -39,7 +40,7 @@ const prePostTasks = [
     name: 'creation.app.ansible.secret.host',
     id: 'ansibleTowerHost',
     type: 'text',
-    isHiddenWhenEditingExistingResouce: true,
+    editing: {hidden: true}, // if editing existing app, hide this field initially
     active: '',
     encode: true,
     placeholder: 'app.enter.select.ansibleTowerHost'
@@ -48,7 +49,7 @@ const prePostTasks = [
     name: 'creation.app.ansible.secret.token',
     id: 'ansibleTowerToken',
     type: 'text',
-    isHiddenWhenEditingExistingResouce: true,
+    editing: {hidden: true}, // if editing existing app, hide this field initially
     encode: true,
     active: '',
     placeholder: 'app.enter.select.ansibleTowerToken'

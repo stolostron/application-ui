@@ -77,7 +77,7 @@ export default class TemplateEditor extends React.Component {
 
     // update notifications
     let { notifications } = state
-    const { hasFormExceptions } = state
+    const { hasFormExceptions, isEditing } = state
     const { creationStatus, creationMsg } = createControl
     if (creationStatus && !hasFormExceptions) {
       switch (creationStatus) {
@@ -88,7 +88,7 @@ export default class TemplateEditor extends React.Component {
             kind: 'info',
             exception: Array.isArray(creationMsg)
               ? creationMsg[0]
-              : msgs.get('success.create.creating', [type], locale)
+              : msgs.get(isEditing?'success.create.updating':'success.create.creating', [type], locale)
           }
         ]
         break
@@ -100,7 +100,7 @@ export default class TemplateEditor extends React.Component {
             kind: 'success',
             exception: Array.isArray(creationMsg)
               ? creationMsg[0]
-              : msgs.get('success.create.created', [type], locale)
+              : msgs.get(isEditing?'success.create.updated':'success.create.created', [type], locale)
           }
         ]
         break
@@ -156,7 +156,8 @@ export default class TemplateEditor extends React.Component {
         controlData
       ))
 
-      newState = {...newState, templateYAML, firstTemplateYAML:templateYAML, templateObject, editStack}
+      newState = {...newState, templateYAML, firstTemplateYAML:templateYAML,
+        templateObject, editStack, isEditing: !!editResources}
     }
 
 
@@ -1108,6 +1109,7 @@ export default class TemplateEditor extends React.Component {
   }
 
   renderCreateButton(isLoaded) {
+    const { isEditing } = this.state
     const { portals = {}, createControl, locale } = this.props
     const { createBtn } = portals
     if (createControl && createBtn && isLoaded) {
@@ -1120,6 +1122,8 @@ export default class TemplateEditor extends React.Component {
         disableButton = false
       }
       const portal = document.getElementById(createBtn)
+      const label = isEditing ? msgs.get('button.update', locale) :
+        msgs.get('button.create', locale)
       const button = (
         <Button
           id={createBtn}
@@ -1127,7 +1131,7 @@ export default class TemplateEditor extends React.Component {
           kind={'primary'}
           disabled={disableButton}
         >
-          {msgs.get('button.create', locale)}
+          {label}
         </Button>
       )
       if (portal) {

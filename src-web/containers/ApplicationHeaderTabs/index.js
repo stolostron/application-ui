@@ -54,8 +54,7 @@ const ApplicationHeaderTabs = withLocale(
     locale,
     serverProps,
     mutateSuccessFinished,
-    deleteSuccessFinished,
-    updateSecondary
+    deleteSuccessFinished
   }) => {
     // process restful api into which tab to show
     const { history, location } = params || {}
@@ -93,9 +92,6 @@ const ApplicationHeaderTabs = withLocale(
         url: [...segments, selectedAppNamespace, selectedAppName].join('/')
       })
     }
-    setTimeout(() => {
-      updateSecondary(selectedAppName || 'Applications', breadcrumbs)
-    }, 0)
     selectedApp.breadcrumbs = breadcrumbs
 
     const noop = () => {

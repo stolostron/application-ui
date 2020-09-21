@@ -44,7 +44,7 @@ const objectstoreChannelData = [
     tooltip: 'tooltip.creation.app.objectstore.accesskey',
     id: 'accessKey',
     type: 'text',
-    isHiddenWhenEditingExistingResouce: true,
+    editing: {hidden: true}, // if editing existing app, hide this field initially
     active: '',
     encode: true,
     placeholder: 'app.enter.accesskey'
@@ -54,7 +54,7 @@ const objectstoreChannelData = [
     tooltip: 'tooltip.creation.app.objectstore.secretkey',
     id: 'secretKey',
     type: 'text',
-    isHiddenWhenEditingExistingResouce: true,
+    editing: {hidden: true}, // if editing existing app, hide this field initially
     encode: true,
     active: '',
     placeholder: 'app.enter.secretkey'

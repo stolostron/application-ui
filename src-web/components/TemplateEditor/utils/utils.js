@@ -103,8 +103,7 @@ export function editingMode(
       type,
       active,
       isHidden,
-      disabledWhenEditingExistingResouce,
-      isHiddenWhenEditingExistingResouce
+      editing
     } = control
     if (type === 'group') {
       active.forEach(group => {
@@ -112,13 +111,23 @@ export function editingMode(
           editMode(gcontrol)
         })
       })
-    } else if (disabledWhenEditingExistingResouce) {
-      control.disabled = disabledWhenEditingExistingResouce
-    } else if (isHiddenWhenEditingExistingResouce) {
-      if (isHidden) {
-        control.isHidden = true
-      } else {
-        control.type = 'hidden'
+    } else if (editing) {
+      const {hidden, disabled, collapsed} = editing
+      // if editing existing app, hide this field initially
+      if (hidden) {
+        if (isHidden) {
+          control.isHidden = true
+        } else {
+          control.type = 'hidden'
+        }
+      }
+      // if editing existing app, disable this field
+      if (disabled) {
+        control.disabled = true
+      }
+      // if editing existing app, disable this field
+      if (collapsed) {
+        control.collapsed = true
       }
     }
   }

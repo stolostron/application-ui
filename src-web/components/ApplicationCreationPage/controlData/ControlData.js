@@ -230,7 +230,7 @@ export const controlData = [
     tooltip: 'tooltip.creation.app.name',
     id: 'name',
     type: 'text',
-    disabledWhenEditingExistingResouce: true,
+    editing: {disabled: true}, // if editing existing app, disable this field
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
@@ -244,7 +244,7 @@ export const controlData = [
     id: 'namespace',
     type: 'combobox',
     fetchAvailable: loadExistingNamespaces(),
-    disabledWhenEditingExistingResouce: true,
+    editing: {disabled: true}, // if editing existing app, disable this field
     onSelect: updateNSControls,
     validation: {
       constraint: VALID_DNS_LABEL,

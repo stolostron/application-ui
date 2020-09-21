@@ -81,7 +81,7 @@ const githubChannelData = [
     tooltip: 'tooltip.creation.app.github.user',
     id: 'githubUser',
     type: 'text',
-    isHiddenWhenEditingExistingResouce: true,
+    editing: {hidden: true}, // if editing existing app, hide this field initially
     active: '',
     encode: true,
     placeholder: 'app.enter.select.username',
@@ -92,7 +92,7 @@ const githubChannelData = [
     tooltip: 'tooltip.creation.app.github.accessid',
     id: 'githubAccessId',
     type: 'text',
-    isHiddenWhenEditingExistingResouce: true,
+    editing: {hidden: true}, // if editing existing app, hide this field initially
     encode: true,
     active: '',
     placeholder: 'app.enter.access.token',

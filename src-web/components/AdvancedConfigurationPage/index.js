@@ -101,7 +101,7 @@ class AdvancedConfigurationPage extends React.Component {
     } = this.props
 
     return (
-      <div id="DeploymentPipeline">
+      <React.Fragment>
         {deleteStatus === REQUEST_STATUS.DONE && (
           <Notification
             title={msgs.get('success.update.resource', locale)}
@@ -124,7 +124,7 @@ class AdvancedConfigurationPage extends React.Component {
         <AdvancedConfigurationLists
           secondaryHeaderProps={secondaryHeaderProps}
         />
-      </div>
+      </React.Fragment>
     )
   }
 }

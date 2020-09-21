@@ -82,7 +82,7 @@ class ApplicationCreationPage extends React.Component {
     return [
       {
         label: msgs.get('resource.applications', this.context.locale),
-        url: urlSegments.slice(0, urlSegments.length - 1).join('/')
+        url: urlSegments.slice(0, Math.min(3, urlSegments.length)).join('/')
       }
     ]
   }
@@ -126,6 +126,7 @@ class ApplicationCreationPage extends React.Component {
       secondaryHeaderProps.tabs,
       breadcrumbs,
       portals,
+      null,
       tooltip
     )
 

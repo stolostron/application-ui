@@ -919,7 +919,7 @@ export const setupResourceModel = (
         )
 
         if (
-          kind == 'subscription' &&
+          kind === 'subscription' &&
           _.get(relatedKind, 'cluster', '') === LOCAL_HUB_NAME &&
           _.get(relatedKind, 'localPlacement', '') === 'true'
         ) {

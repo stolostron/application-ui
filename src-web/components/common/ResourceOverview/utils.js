@@ -196,6 +196,15 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
+const checkDupClusters = (clusterList, cluster) => {
+  // Add cluster to cluster list if it's not a duplicate
+  if (!_.find(clusterList, cluster)) {
+    clusterList = clusterList.concat(cluster)
+  }
+
+  return clusterList
+}
+
 const getClusterCount = appData => {
   let remoteClusterList = []
   let remoteClusterCount = 0
@@ -210,15 +219,13 @@ const getClusterCount = appData => {
               localClusterDeploy = true
             } else {
               const remoteCluster = { cluster: sub.cluster }
-              const isDupRemote = _.find(remoteClusterList, remoteCluster)
-              if (!isDupRemote) {
-                remoteClusterList = remoteClusterList.concat(remoteCluster)
-              }
+              remoteClusterList = checkDupClusters(
+                remoteClusterList,
+                remoteCluster
+              )
             }
-          } else {
-            if (sub.localPlacement) {
-              localClusterDeploy = true
-            }
+          } else if (sub.localPlacement) {
+            localClusterDeploy = true
           }
         })
         remoteClusterCount = remoteClusterList.length

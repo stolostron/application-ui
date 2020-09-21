@@ -90,15 +90,15 @@ const initialControl = (control, controlData, forceUpdate) => {
       }
       switch (true) { // match any case that is true
       case typeof reverse === 'string':
-        control.reverse = (control, templateObject)=>{
-          setActiveVal(control, reverse, templateObject)
+        control.reverse = (ctrl, templateObject)=>{
+          setActiveVal(ctrl, reverse, templateObject)
         }
         break
 
       case Array.isArray(reverse):
-        control.reverse = (control, templateObject)=>{
+        control.reverse = (ctrl, templateObject)=>{
           reverse.forEach(path=>{
-            setActiveVal(control, path, templateObject)
+            setActiveVal(ctrl, path, templateObject)
           })
         }
         break

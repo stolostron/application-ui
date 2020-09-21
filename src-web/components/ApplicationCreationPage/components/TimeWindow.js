@@ -498,7 +498,10 @@ export const reverse = (control, templateObject) =>{
   const timezone = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.location'))
   const mode = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.windowtype'))
   let weekdays = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.weekdays'))
-  weekdays = (removeVs(weekdays && weekdays.$v)||[]).map(day=>{return `"${day}"`})
+  weekdays = (removeVs(weekdays && weekdays.$v)||[])
+    .map(day=>{
+      return `"${day}"`
+    })
   let timeList = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.hours'))
   if (timeList) {
     timeList = removeVs(timeList)

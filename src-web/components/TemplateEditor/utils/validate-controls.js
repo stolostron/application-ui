@@ -307,7 +307,7 @@ const validateControl = (
     }
   }
 
-  if (shouldValidateControl(control, templateObjectMap)) {
+  if (shouldValidateControl(control)) {
     switch (control.type) {
     case 'text':
     case 'textarea':

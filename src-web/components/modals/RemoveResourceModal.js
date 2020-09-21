@@ -169,9 +169,11 @@ class RemoveResourceModal extends React.Component {
     const response = await apolloClient.search(SEARCH_QUERY_RELATED, {
       input: [query]
     })
-    return response.errors
+    const resource = response.errors
       ? []
-      : _.get(response, 'data.searchResult[0]', []).related
+      : _.get(response, 'data.searchResult[0]', [])
+
+    return resource && resource.related ? resource.related : []
   };
 
   usedByOtherApps = related => {

@@ -24,9 +24,6 @@ resources(() => {
 })
 
 export class SecondaryHeader extends React.Component {
-  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-  /* eslint-disable react/prop-types, react/jsx-no-bind */
-
   constructor(props) {
     super(props)
     this.renderBreadCrumb = this.renderBreadCrumb.bind(this)
@@ -259,9 +256,10 @@ export class SecondaryHeader extends React.Component {
         return tab
       })
       .filter((tab, index) => {
-        if (index !== 0) {
-          return location.pathname.startsWith(tab.url)
+        if (index === 0) {
+          return false
         }
+        return location.pathname.startsWith(tab.url)
       })
     return selectedTab[0] && selectedTab[0].index
   }
@@ -269,6 +267,17 @@ export class SecondaryHeader extends React.Component {
   clickTab(url) {
     this.props.history.replace(url)
   }
+}
+
+SecondaryHeader.propTypes = {
+  actions: PropTypes.array,
+  breadcrumbItems: PropTypes.array,
+  history: PropTypes.array,
+  links: PropTypes.array,
+  location: PropTypes.object,
+  tabs: PropTypes.array,
+  title: PropTypes.string,
+  tooltip: PropTypes.string
 }
 
 SecondaryHeader.contextTypes = {

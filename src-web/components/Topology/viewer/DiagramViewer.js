@@ -245,7 +245,8 @@ class DiagramViewer extends React.Component {
       channelControl,
       showChannelsControl,
       showLegendView,
-      handleLegendClose
+      handleLegendClose,
+      nodes
     } = this.props
 
     const { selectedNodeId, showDetailsView } = this.state
@@ -296,6 +297,7 @@ class DiagramViewer extends React.Component {
             selectedNodeId={selectedNodeId}
             getViewContainer={this.getViewContainer}
             processActionLink={processActionLink}
+            nodes={nodes}
           />
         )}
         {showLegendView && (

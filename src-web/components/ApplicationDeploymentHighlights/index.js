@@ -31,7 +31,7 @@ class ApplicationDeploymentHighlights extends React.Component {
   render() {
     return (
       <div id="DeploymentHighlights">
-        <ApplicationDeploymentHighlightsTerminology open={true} />
+        <ApplicationDeploymentHighlightsTerminology />
       </div>
     )
   }

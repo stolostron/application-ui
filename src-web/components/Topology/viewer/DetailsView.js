@@ -72,16 +72,18 @@ class DetailsView extends React.Component {
       onClose,
       getLayoutNodes,
       staticResourceData,
-      selectedNodeId
+      selectedNodeId,
+      nodes
     } = this.props
     const { typeToShapeMap, getNodeDetails } = staticResourceData
+    const currentUpdatedNode = nodes.find(n => n.uid === selectedNodeId)
     const currentNode =
       getLayoutNodes().find(n => n.uid === selectedNodeId) || {}
     const { layout = {} } = currentNode
     const resourceType = layout.type || currentNode.type
     const { shape = 'other', className = 'default' } =
       typeToShapeMap[resourceType] || {}
-    const details = getNodeDetails(currentNode, locale)
+    const details = getNodeDetails(currentNode, currentUpdatedNode, locale)
     const name = currentNode.type === 'cluster' ? '' : currentNode.name
 
     const searchLink = createResourceSearchLink(currentNode)
@@ -343,6 +345,7 @@ DetailsView.propTypes = {
   getLayoutNodes: PropTypes.func,
   getViewContainer: PropTypes.func,
   locale: PropTypes.string,
+  nodes: PropTypes.array,
   onClose: PropTypes.func,
   processActionLink: PropTypes.func,
   selectedNodeId: PropTypes.string,

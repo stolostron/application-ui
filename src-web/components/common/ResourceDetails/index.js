@@ -28,6 +28,8 @@ import {
   handleVisibilityChanged
 } from '../../../shared/utils/refetch'
 import { loadingComponent } from '../ResourceOverview/utils'
+import { canCallAction } from '../../../../lib/client/access-helper'
+import _ from 'lodash'
 
 resources(() => {
   require('./style.scss')
@@ -69,7 +71,8 @@ const withResource = Component => {
       constructor(props) {
         super(props)
         this.state = {
-          xhrPoll: false
+          xhrPoll: false,
+          errors: undefined
         }
       }
 
@@ -106,6 +109,17 @@ const withResource = Component => {
         )
       }
 
+      componentWillMount() {
+        const { params } = this.props
+        canCallAction('view', params.namespace).then(response => {
+          const allowed = _.get(response, 'data.userAccess.allowed')
+          this.setState({
+            errors: allowed,
+            showError: allowed == false ? true : false
+          })
+        })
+      }
+
       reload() {
         const { status } = this.props
         let { retry = 0, showError = false } = this.state
@@ -128,7 +142,7 @@ const withResource = Component => {
       }
 
       render() {
-        const { status, statusCode } = this.props
+        const { status } = this.props
         const { showError = false, retry = 0 } = this.state
         if (
           status !== Actions.REQUEST_STATUS.DONE &&
@@ -137,6 +151,7 @@ const withResource = Component => {
         ) {
           return loadingComponent()
         }
+
         return (
           <React.Fragment>
             {showError && (
@@ -145,9 +160,7 @@ const withResource = Component => {
                 className="persistent"
                 subtitle={msgs.get(
                   `error.${
-                    statusCode === 401 || statusCode === 403
-                      ? 'unauthorized'
-                      : 'default'
+                    this.state.errors == false ? 'unauthorized' : 'default'
                   }.description`,
                   this.context.locale
                 )}

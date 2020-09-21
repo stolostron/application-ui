@@ -1,3 +1,4 @@
+# Copyright (c) 2020 Red Hat, Inc.
 #!/bin/bash
 
 # keep_alive.sh

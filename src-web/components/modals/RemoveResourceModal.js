@@ -78,86 +78,92 @@ class RemoveResourceModal extends React.Component {
   }
 
   getChildResources = (name, namespace) => {
-    const { resourceType } = this.props
-    if (resourceType.name === 'HCMApplication') {
-      // Get application resources
-      apolloClient.getApplication({ name, namespace }).then(response => {
-        const children = []
-        const removableSubs = []
-        const removableSubNames = []
-        const subResources = []
-        const subscriptions =
-          _.get(response, 'data.application.subscriptions', []) || []
-        Promise.all(
-          subscriptions.map(async subscription => {
-            const subName = subscription.metadata.name
-            const subNamespace = subscription.metadata.namespace
-            // For each subscription, get related applications
-            const related = await this.fetchRelated(
-              RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
-              subName,
-              subNamespace
-            )
-            // If subscription is used only by this application, it is removable
-            if (!this.usedByOtherApps(related)) {
-              removableSubs.push(subscription)
-              removableSubNames.push(subName)
-              children.push({
-                id: `subscriptions-${subNamespace}-${subName}`,
-                selfLink: subscription.metadata.selfLink,
-                label: `${subName} [Subscription]`
-              })
-            }
-          })
-        ).then(() => {
-          const resourceKinds = [
-            { kind: 'channels', label: '[Channel]' },
-            { kind: 'rules', label: '[Rule]' }
-          ]
-          // For each removable subscription, go through its channels and rules
-          removableSubs.forEach(subscription => {
-            resourceKinds.forEach(res => {
-              _.map(_.get(subscription, res.kind, []), curr => {
-                const currName = curr.metadata.name
-                const currNamespace = curr.metadata.namespace
-                subResources.push({
-                  id: `${res.kind}-${currNamespace}-${currName}`,
-                  name: currName,
-                  namespace: currNamespace,
-                  selfLink: curr.metadata.selfLink,
-                  label: `${currName} ${res.label}`,
-                  type:
-                    res.kind === 'rules'
-                      ? RESOURCE_TYPES.HCM_PLACEMENT_RULES
-                      : RESOURCE_TYPES.HCM_CHANNELS
-                })
-              })
-            })
-          })
+    try {
+      const { resourceType } = this.props
+      if (resourceType.name === 'HCMApplication') {
+        // Get application resources
+        apolloClient.getApplication({ name, namespace }).then(response => {
+          const children = []
+          const removableSubs = []
+          const removableSubNames = []
+          const subResources = []
+          const subscriptions =
+            _.get(response, 'data.application.subscriptions', []) || []
           Promise.all(
-            _.uniqBy(subResources, 'id').map(async resource => {
-              // For each channel or rule, get related subscriptions
+            subscriptions.map(async subscription => {
+              const subName = subscription.metadata.name
+              const subNamespace = subscription.metadata.namespace
+              // For each subscription, get related applications
               const related = await this.fetchRelated(
-                resource.type,
-                resource.name,
-                resource.namespace
+                RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+                subName,
+                subNamespace
               )
-              // Channel or rule is removable if it's used only by removable subscriptions
-              if (
-                !this.usedByOtherSubs(related, removableSubNames, namespace)
-              ) {
-                children.push(resource)
+              // If subscription is used only by this application, it is removable
+              if (!this.usedByOtherApps(related)) {
+                removableSubs.push(subscription)
+                removableSubNames.push(subName)
+                children.push({
+                  id: `subscriptions-${subNamespace}-${subName}`,
+                  selfLink: subscription.metadata.selfLink,
+                  label: `${subName} [Subscription]`
+                })
               }
             })
           ).then(() => {
-            this.setState({
-              selected: children,
-              loading: false
+            const resourceKinds = [
+              { kind: 'channels', label: '[Channel]' },
+              { kind: 'rules', label: '[Rule]' }
+            ]
+            // For each removable subscription, go through its channels and rules
+            removableSubs.forEach(subscription => {
+              resourceKinds.forEach(res => {
+                _.map(_.get(subscription, res.kind, []), curr => {
+                  const currName = curr.metadata.name
+                  const currNamespace = curr.metadata.namespace
+                  subResources.push({
+                    id: `${res.kind}-${currNamespace}-${currName}`,
+                    name: currName,
+                    namespace: currNamespace,
+                    selfLink: curr.metadata.selfLink,
+                    label: `${currName} ${res.label}`,
+                    type:
+                      res.kind === 'rules'
+                        ? RESOURCE_TYPES.HCM_PLACEMENT_RULES
+                        : RESOURCE_TYPES.HCM_CHANNELS
+                  })
+                })
+              })
+            })
+            Promise.all(
+              _.uniqBy(subResources, 'id').map(async resource => {
+                // For each channel or rule, get related subscriptions
+                const related = await this.fetchRelated(
+                  resource.type,
+                  resource.name,
+                  resource.namespace
+                )
+                // Channel or rule is removable if it's used only by removable subscriptions
+                if (
+                  !this.usedByOtherSubs(related, removableSubNames, namespace)
+                ) {
+                  children.push(resource)
+                }
+              })
+            ).then(() => {
+              this.setState({
+                selected: children,
+                loading: false
+              })
             })
           })
         })
-      })
-    } else {
+      } else {
+        this.setState({
+          loading: false
+        })
+      }
+    } catch (err) {
       this.setState({
         loading: false
       })
@@ -165,15 +171,23 @@ class RemoveResourceModal extends React.Component {
   };
 
   fetchRelated = async (resourceType, name, namespace) => {
-    const query = getQueryStringForResource(resourceType.name, name, namespace)
-    const response = await apolloClient.search(SEARCH_QUERY_RELATED, {
-      input: [query]
-    })
-    const resource = response.errors
-      ? []
-      : _.get(response, 'data.searchResult[0]', [])
+    try {
+      const query = getQueryStringForResource(
+        resourceType.name,
+        name,
+        namespace
+      )
+      const response = await apolloClient.search(SEARCH_QUERY_RELATED, {
+        input: [query]
+      })
+      const resource = response.errors
+        ? []
+        : _.get(response, 'data.searchResult[0]', [])
 
-    return resource && resource.related ? resource.related : []
+      return resource && resource.related ? resource.related : []
+    } catch (err) {
+      return []
+    }
   };
 
   usedByOtherApps = related => {

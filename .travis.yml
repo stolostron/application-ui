@@ -51,6 +51,7 @@ stages:
 
 before_script:
   - make init
+  - chmod +x keep_alive.sh
   - ./keep_alive.sh
 
 jobs:

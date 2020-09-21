@@ -13,15 +13,13 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import resources from '../../../lib/shared/resources'
-import { typedResourceList } from '../common/ResourcePage'
-import ResourceTableModule from '../common/ResourceTableModuleFromProps'
 import { RESOURCE_TYPES, DOC_LINKS } from '../../../lib/shared/constants'
 import {
   fetchResources,
   fetchGlobalAppsData,
   updateModal,
-  updateSecondaryHeader,
-  clearSuccessFinished
+  mutateResourceSuccessFinished,
+  delResourceSuccessFinished
 } from '../../actions/common'
 import { refetchIntervalUpdate } from '../../actions/refetch'
 import {
@@ -47,8 +45,6 @@ import {
 } from '../../components/common/ResourceOverview/utils'
 import apolloClient from '../../../lib/client/apollo-client'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
-import { withRouter } from 'react-router-dom'
-import queryString from 'query-string'
 
 import {
   renderRefreshTime,
@@ -57,7 +53,6 @@ import {
   handleVisibilityChanged,
   startPolling
 } from '../../shared/utils/refetch'
-import AdvancedConfigurationLists from '../AdvancedConfigurationLists'
 
 /* eslint-disable react/prop-types */
 
@@ -120,11 +115,11 @@ const mapDispatchToProps = dispatch => {
         )
       ),
     closeModal: () => dispatch(closeModals()),
-    clearSuccessFinished: () => clearSuccessFinished(dispatch),
-    refetchIntervalUpdateDispatch: data =>
-      dispatch(refetchIntervalUpdate(data)),
-    updateSecondaryHeader: (title, tabs, links) =>
-      dispatch(updateSecondaryHeader(title, tabs, null, links))
+    mutateSuccessFinished: resourceType =>
+      dispatch(mutateResourceSuccessFinished(resourceType)),
+    deleteSuccessFinished: resourceType =>
+      dispatch(delResourceSuccessFinished(resourceType)),
+    refetchIntervalUpdateDispatch: data => dispatch(refetchIntervalUpdate(data))
   }
 }
 
@@ -173,95 +168,91 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   componentDidMount() {
     const {
-      // fetchChannels,
-      // fetchSubscriptions,
-      // fetchApplications,
-      // fetchApplicationsGlobalData,
-      secondaryHeaderProps,
-      updateSecondaryHeader,
-      locale
+      fetchChannels,
+      fetchSubscriptions,
+      fetchApplications,
+      fetchApplicationsGlobalData
     } = this.props
 
-    updateSecondaryHeader(
-      msgs.get(secondaryHeaderProps.title, locale),
-      secondaryHeaderProps.tabs,
-      secondaryHeaderProps.links
-    )
-    // fetchApplications()
-    // fetchChannels()
-    // fetchSubscriptions()
-    // fetchApplicationsGlobalData()
+    fetchApplications()
+    fetchChannels()
+    fetchSubscriptions()
+    fetchApplicationsGlobalData()
 
-    // document.addEventListener('visibilitychange', this.onVisibilityChange)
-    // startPolling(this, setInterval)
+    document.addEventListener('visibilitychange', this.onVisibilityChange)
+    startPolling(this, setInterval)
   }
 
   componentWillUnmount() {
-    // stopPolling(this.state, clearInterval)
-    // document.removeEventListener('visibilitychange', this.onVisibilityChange)
-    this.mutateFinished()
+    stopPolling(this.state, clearInterval)
+    document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
   mutateFinished() {
-    this.props.clearSuccessFinished()
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
   }
 
-  // onVisibilityChange = () => {
-  //   handleVisibilityChanged(this, clearInterval, setInterval)
-  // };
+  onVisibilityChange = () => {
+    handleVisibilityChanged(this, clearInterval, setInterval)
+  };
 
-  // componentDidUpdate(prevProps) {
-  //   handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
-  // }
+  componentDidUpdate(prevProps) {
+    handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
+  }
 
-  // reload() {
-  //   const {
-  //     selectedApp,
-  //     fetchApplications,
-  //     fetchApplicationsGlobalData,
-  //     fetchSubscriptions,
-  //     fetchChannels
-  //   } = this.props
+  reload() {
+    const {
+      selectedApp,
+      fetchApplications,
+      fetchApplicationsGlobalData,
+      fetchSubscriptions,
+      fetchChannels
+    } = this.props
 
-  //   // only reload data if there are nothing being fetched and no modals are open
-  //   this.setState({ xhrPoll: true })
-  //   if (!selectedApp) {
-  //     // reload all the applications
-  //     fetchApplications()
-  //     fetchApplicationsGlobalData()
-  //     fetchSubscriptions()
-  //   }
-  //   fetchChannels()
-  // }
+    // only reload data if there are nothing being fetched and no modals are open
+    this.setState({ xhrPoll: true })
+    if (!selectedApp) {
+      // reload all the applications
+      fetchApplications()
+      fetchApplicationsGlobalData()
+      fetchSubscriptions()
+    }
+    fetchChannels()
+  }
 
   render() {
-    // // wait for it
-    // const {
-    //   HCMSubscriptionList,
-    //   HCMChannelList,
-    //   QueryApplicationList
-    // } = this.props
-    // if (
-    //   QueryApplicationList.status === Actions.REQUEST_STATUS.ERROR ||
-    //   HCMSubscriptionList.status === Actions.REQUEST_STATUS.ERROR ||
-    //   HCMChannelList.status === Actions.REQUEST_STATUS.ERROR
-    // ) {
-    //   return (
-    //     <Notification
-    //       title=""
-    //       className="overview-notification"
-    //       kind="error"
-    //       subtitle={msgs.get('overview.error.default', locale)}
-    //     />
-    //   )
-    // } else if (
-    //   (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
-    //     HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
-    //     HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) &&
-    //   !this.state.xhrPoll
-    // ) {
-    //   return loadingComponent()
-    // }
+    // wait for it
+    const {
+      HCMSubscriptionList,
+      HCMChannelList,
+      QueryApplicationList
+    } = this.props
+    if (
+      QueryApplicationList.status === Actions.REQUEST_STATUS.ERROR ||
+      HCMSubscriptionList.status === Actions.REQUEST_STATUS.ERROR ||
+      HCMChannelList.status === Actions.REQUEST_STATUS.ERROR
+    ) {
+      return (
+        <Notification
+          title=""
+          className="overview-notification"
+          kind="error"
+          subtitle={msgs.get('overview.error.default', locale)}
+        />
+      )
+    } else if (
+      (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
+        HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
+        HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) &&
+      !this.state.xhrPoll
+    ) {
+      return loadingComponent()
+    }
 
     const {
       selectedApp,
@@ -280,74 +271,80 @@ class ApplicationDeploymentPipeline extends React.Component {
       deleteStatus,
       deleteMsg,
       refetchIntervalUpdateDispatch,
-      match,
-      location,
-      locale,
-      secondaryHeaderProps
+      locale
     } = this.props
-    // const { isLoaded = true, isReloading = false } = fetchChannels
-    // const { timestamp = new Date().toString() } = this.state
 
-    // const applications = getApplicationsForSelection(
-    //   QueryApplicationList,
-    //   selectedApp,
-    //   AppDeployments
-    // )
+    const { isLoaded = true, isReloading = false } = fetchChannels
+    const { timestamp = new Date().toString() } = this.state
 
-    // const bulkSubscriptionList =
-    //   (HCMSubscriptionList && HCMSubscriptionList.items) || []
+    const applications = getApplicationsForSelection(
+      QueryApplicationList,
+      selectedApp,
+      AppDeployments
+    )
 
-    // const channels = getSubscribedChannels(
-    //   getChannelsList(HCMChannelList),
-    //   applications,
-    //   selectedApp,
-    //   AppDeployments
-    // )
+    const bulkSubscriptionList =
+      (HCMSubscriptionList && HCMSubscriptionList.items) || []
 
-    // const subscriptionModalHeader =
-    //   AppDeployments.subscriptionModalHeaderInfo &&
-    //   AppDeployments.subscriptionModalHeaderInfo.deployable
-    // const subscriptionModalLabel =
-    //   AppDeployments.subscriptionModalHeaderInfo &&
-    //   AppDeployments.subscriptionModalHeaderInfo.application
+    const channels = getSubscribedChannels(
+      getChannelsList(HCMChannelList),
+      applications,
+      selectedApp,
+      AppDeployments
+    )
 
-    // // This will trigger the edit Channel Modal because openEditChannelModal
-    // // is true AFTER the fetch of the channel data has been completed
-    // if (AppDeployments.openEditChannelModal) {
-    //   showEditModalByType(
-    //     closeModal,
-    //     editResource,
-    //     RESOURCE_TYPES.HCM_CHANNELS,
-    //     AppDeployments.currentChannelInfo || {},
-    //     DOC_LINKS.CHANNELS
-    //   )
-    // } else if (AppDeployments.openEditApplicationModal) {
-    //   showEditModalByType(
-    //     closeModal,
-    //     editResource,
-    //     RESOURCE_TYPES.HCM_APPLICATIONS,
-    //     AppDeployments.currentApplicationInfo || {},
-    //     DOC_LINKS.APPLICATIONS
-    //   )
-    // } else if (AppDeployments.openEditSubscriptionModal) {
-    //   showEditModalByType(
-    //     closeModal,
-    //     editResource,
-    //     RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
-    //     AppDeployments.currentSubscriptionInfo || {},
-    //     DOC_LINKS.SUBSCRIPTIONS
-    //   )
-    // } else if (AppDeployments.openEditPlacementRuleModal) {
-    //   showEditModalByType(
-    //     closeModal,
-    //     editResource,
-    //     RESOURCE_TYPES.HCM_PLACEMENT_RULES,
-    //     AppDeployments.currentPlacementRuleInfo || {},
-    //     DOC_LINKS.PLACEMENT_RULES
-    //   )
-    // }
+    const subscriptionModalHeader =
+      AppDeployments.subscriptionModalHeaderInfo &&
+      AppDeployments.subscriptionModalHeaderInfo.deployable
+    const subscriptionModalLabel =
+      AppDeployments.subscriptionModalHeaderInfo &&
+      AppDeployments.subscriptionModalHeaderInfo.application
+
+    // This will trigger the edit Channel Modal because openEditChannelModal
+    // is true AFTER the fetch of the channel data has been completed
+    if (AppDeployments.openEditChannelModal) {
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_CHANNELS,
+        AppDeployments.currentChannelInfo || {},
+        DOC_LINKS.CHANNELS
+      )
+    } else if (AppDeployments.openEditApplicationModal) {
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_APPLICATIONS,
+        AppDeployments.currentApplicationInfo || {},
+        DOC_LINKS.APPLICATIONS
+      )
+    } else if (AppDeployments.openEditSubscriptionModal) {
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+        AppDeployments.currentSubscriptionInfo || {},
+        DOC_LINKS.SUBSCRIPTIONS
+      )
+    } else if (AppDeployments.openEditPlacementRuleModal) {
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_PLACEMENT_RULES,
+        AppDeployments.currentPlacementRuleInfo || {},
+        DOC_LINKS.PLACEMENT_RULES
+      )
+    }
     return (
       <div id="DeploymentPipeline">
+        {renderRefreshTime(
+          refetchIntervalUpdateDispatch,
+          isLoaded,
+          isReloading,
+          timestamp,
+          locale
+        )}
+        {loading && loadingComponent()}
         {deleteStatus === Actions.REQUEST_STATUS.DONE && (
           <Notification
             title={msgs.get('success.update.resource', locale)}
@@ -367,8 +364,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           />
         )}
         <ApplicationDeploymentHighlights />
-        <AdvancedConfigurationLists secondaryHeaderProps={secondaryHeaderProps} />
-        {/* <div className="searchAndButtonContainer">
+        <div className="searchAndButtonContainer">
           <Search
             className="deploymentPipelineSearch"
             light
@@ -418,12 +414,12 @@ class ApplicationDeploymentPipeline extends React.Component {
           }
           bulkSubscriptionList={bulkSubscriptionList}
           applications={QueryApplicationList}
-        /> */}
+        />
       </div>
     )
   }
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentPipeline)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ApplicationDeploymentPipeline
 )

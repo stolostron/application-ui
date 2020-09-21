@@ -154,7 +154,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -168,7 +168,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -182,7 +182,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -870,7 +870,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -884,7 +884,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -898,7 +898,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -2098,7 +2098,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -2112,7 +2112,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -2126,7 +2126,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -3326,7 +3326,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -3340,7 +3340,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -3354,7 +3354,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -4042,7 +4042,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -4056,7 +4056,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -4070,7 +4070,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -5270,7 +5270,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -5284,7 +5284,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -5298,7 +5298,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -6498,7 +6498,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -6512,7 +6512,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -6526,7 +6526,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -7726,7 +7726,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -7740,7 +7740,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -7754,7 +7754,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -8954,7 +8954,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -8968,7 +8968,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -8982,7 +8982,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div

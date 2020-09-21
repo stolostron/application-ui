@@ -194,6 +194,6 @@ export function getChannels(item = {}, locale = '') {
 
 export function getTimeWindow(item = {}, locale = '') {
   return (R.path(['hubSubscriptions'], item) || []).some(sub => sub.timeWindow)
-    ? msgs.get('table.cell.timewindow.yes', locale)
+    ? msgs.get('table.cell.timeWindow.yes', locale)
     : ''
 }

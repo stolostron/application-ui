@@ -36,8 +36,8 @@ export const ApplicationCreationPage = loadable(() =>
   import(/* webpackChunkName: "applicationcreatepage" */ '../components/ApplicationCreationPage/ApplicationCreationPage')
 )
 
-export const ApplicationDeploymentPipeline = loadable(() =>
-  import(/* webpackChunkName: "applicationdeploymentpipeline" */ '../components/ApplicationDeploymentPipeline')
+export const AdvancedConfigurationPage = loadable(() =>
+  import(/* webpackChunkName: "advancedconfigurationpage" */ '../components/AdvancedConfigurationPage')
 )
 
 resources(() => {
@@ -133,7 +133,7 @@ class App extends React.Component {
             path={`${BASE_PAGE_PATH}/advanced`}
             render={params => (
               <div className="page-content-container">
-                <ApplicationDeploymentPipeline
+                <AdvancedConfigurationPage
                   params={params}
                   serverProps={serverProps}
                   secondaryHeaderProps={{

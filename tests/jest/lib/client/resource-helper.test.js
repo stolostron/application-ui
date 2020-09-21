@@ -390,25 +390,57 @@ describe("getShortDateTime", () => {
 describe("getClusterCount", () => {
   it("returns 'None' when there are no remote or local clusters", () => {
     expect(
-      getClusterCount("", 0, false, "app", "thenamespace")
+      getClusterCount({
+        locale: "",
+        remoteCount: 0,
+        localPlacement: false,
+        name: "app",
+        namespace: "thenamespace",
+        kind: "application",
+        apigroup: "app.k8s.io"
+      })
     ).toMatchSnapshot();
   });
 
   it("returns a string that does not include 'local' when localDeployment is false, with link", () => {
     expect(
-      getClusterCount("", 5, false, "app", "thenamespace")
+      getClusterCount({
+        locale: "",
+        remoteCount: 5,
+        localPlacement: false,
+        name: "app",
+        namespace: "thenamespace",
+        kind: "application",
+        apigroup: "app.k8s.io"
+      })
     ).toMatchSnapshot();
   });
 
   it("returns a string that does not include 'remote' when there are no remote clusters, no link", () => {
     expect(
-      getClusterCount("", 0, true, "app", "thenamespace")
+      getClusterCount({
+        locale: "",
+        remoteCount: 0,
+        localPlacement: true,
+        name: "app",
+        namespace: "thenamespace",
+        kind: "application",
+        apigroup: "app.k8s.io"
+      })
     ).toMatchSnapshot();
   });
 
   it("returns a string that includes both remote and local clusters when applicable, with link", () => {
     expect(
-      getClusterCount("", 3, true, "app", "thenamespace")
+      getClusterCount({
+        locale: "",
+        remoteCount: 3,
+        localPlacement: true,
+        name: "app",
+        namespace: "thenamespace",
+        kind: "application",
+        apigroup: "app.k8s.io"
+      })
     ).toMatchSnapshot();
   });
 });

@@ -210,7 +210,7 @@ const getClusterCount = appData => {
               localClusterDeploy = true
             } else {
               const remoteCluster = { cluster: sub.cluster }
-              var isDupRemote = _.find(remoteClusterList, remoteCluster)
+              const isDupRemote = _.find(remoteClusterList, remoteCluster)
               if (!isDupRemote) {
                 remoteClusterList = remoteClusterList.concat(remoteCluster)
               }

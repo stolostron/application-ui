@@ -10,8 +10,10 @@ import React from 'react'
 import R from 'ramda'
 import { validator } from './validators/hcm-subscription-validator'
 import {
+  createEditLink,
   getAge,
   getClusterCount,
+  getEditLink,
   getSearchLink
 } from '../../lib/client/resource-helper'
 import msgs from '../../nls/platform.properties'
@@ -25,7 +27,7 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'name',
-      transformFunction: createSubscriptionLink
+      transformFunction: createEditLink
     },
     {
       msgKey: 'table.header.namespace',
@@ -65,7 +67,21 @@ export default {
     {
       key: 'table.actions.subscriptions.edit',
       link: {
-        url: item => `/multicloud/details/local-cluster/${item.selfLink}`
+        url: getEditLink
+      }
+    },
+    {
+      key: 'table.actions.subscriptions.search',
+      link: {
+        url: item =>
+          getSearchLink({
+            properties: {
+              name: item.name,
+              namespace: item.namespace,
+              kind: 'subscription',
+              apigroup: 'apps.open-cluster-management.io'
+            }
+          })
       }
     },
     {
@@ -77,7 +93,7 @@ export default {
 }
 
 export function createSubscriptionLink(item) {
-  return item.name
+  return <a href={getEditLink(item)}>{item.name}</a>
 }
 
 export function createChannelLink(item) {

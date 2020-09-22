@@ -8,36 +8,38 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'scss/variables';
 
-.creation-view {
-  &.showEditor {
-    margin: -25px 0 -3.125rem 0;
-  }
-
-  .creation-view-split-container {
+.page-content-container {
+  .creation-view {
     &.showEditor {
-      height: calc(100vh - 220px);
+      margin: -56px 0 -3.125rem 0;
+    }
 
-      .creation-view-controls-container {
-        padding-top: 1.0rem;
-        height: calc(100vh - 250px);
+    .creation-view-split-container {
+      &.showEditor {
+        height: calc(100vh - 169px);
+
+        .creation-view-controls-container {
+          padding-top: 1.0rem;
+          height: calc(100vh - 174px);
+        }
       }
     }
   }
 }
 
-.tab-content {
+.secondary-header-wrapper.with-tabs.with-breadcrumbs ~ .page-content-container {
   .creation-view {
     &.showEditor {
-      margin: -55px 0 -9.125rem 0;
+      margin: -17px 0 -9.125rem 0;
     }
-  
+
     .creation-view-split-container {
       &.showEditor {
-        height: calc(100vh - 260px);
-  
+        height: calc(100vh - 208px);
+
         .creation-view-controls-container {
           padding-top: 1.0rem;
-          height: calc(100vh - 265px);
+          height: calc(100vh - 213px);
         }
       }
     }

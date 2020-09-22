@@ -7,6 +7,9 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
+// seems to be an issue with this rule and redux
+/* eslint-disable import/no-named-as-default */
+
 import { compose, setDisplayName } from 'recompose'
 import React from 'react'
 import PropTypes from 'prop-types'

@@ -17,7 +17,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
-import lodash from 'lodash'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
 import ResourceOverview from '../ResourceOverview'
@@ -297,7 +296,7 @@ class ResourceDetails extends React.Component {
 
     // The base path, calculated by the current location minus params
     let paramsLength = 0
-    lodash.forOwn(match.params, value => {
+    _.forOwn(match.params, value => {
       if (value) {
         paramsLength++
       }

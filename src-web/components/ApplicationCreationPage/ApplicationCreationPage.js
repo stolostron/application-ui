@@ -102,7 +102,7 @@ class ApplicationCreationPage extends React.Component {
 
   componentDidMount() {
     const { secondaryHeaderProps = {}, cleanReqStatus } = this.props
-    const { selectedAppName } = this.getEditApplication()
+    const { selectedAppName } = this.getEditApplication() || {}
     const { locale } = this.context
     if (cleanReqStatus) {
       this.props.cleanReqStatus()

@@ -176,13 +176,27 @@
 .secondary-header-wrapper {
   position: relative;
   width: 100%;
-  height: $secondary-header-max-height;
   z-index: 1000;
 }
 
 .secondary-header-wrapper-min {
   @extend .secondary-header-wrapper;
-  height: $secondary-header-min-height;
+  height: $secondary-header-min-wrapper;
+}
+
+.secondary-header-wrapper.with-breadcrumbs {
+  @extend .secondary-header-wrapper;
+  height:  $secondary-header-min-wrapper;
+}
+
+.secondary-header-wrapper.with-tabs {
+  @extend .secondary-header-wrapper;
+  height: $secondary-header-med-wrapper;
+}
+
+.secondary-header-wrapper.with-tabs.with-breadcrumbs {
+  @extend .secondary-header-wrapper;
+  height: $secondary-header-max-wrapper;
 }
 
 .secondary-header-tooltip-icon {

@@ -8,10 +8,11 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'scss/variables';
 
+// On app create page
 .page-content-container {
   .creation-view {
     &.showEditor {
-      margin: -56px 0 -3.125rem 0;
+      margin: -24px 0 -3.125rem 0;
     }
 
     .creation-view-split-container {
@@ -27,10 +28,11 @@
   }
 }
 
+// On app edit page
 .secondary-header-wrapper.with-tabs.with-breadcrumbs ~ .page-content-container {
   .creation-view {
     &.showEditor {
-      margin: -17px 0 -9.125rem 0;
+      margin: -21px 0 -9.125rem 0;
     }
 
     .creation-view-split-container {

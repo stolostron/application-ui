@@ -42,7 +42,7 @@ export const appNormalizedItems = {
       namespace: "default",
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
-      clusterCount: 1,
+      clusterCount: { remoteCount: 1 },
       remoteSubscriptionStatusCount: {
         Subscribed: 1
       },
@@ -66,7 +66,7 @@ export const appNormalizedItems = {
       namespace: "sample",
       dashboard:
         "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
-      clusterCount: 1,
+      clusterCount: { remoteCount: 1 },
       remoteSubscriptionStatusCount: {
         Subscribed: 1
       },
@@ -89,7 +89,7 @@ export const appNormalizedItems = {
       name: "stocktrader-app",
       namespace: "stock-trader",
       dashboard: null,
-      clusterCount: 0,
+      clusterCount: { remoteCount: 0, localCount: 0 },
       remoteSubscriptionStatusCount: {},
       podStatusCount: {},
       hubSubscriptions: [],
@@ -101,7 +101,7 @@ export const appNormalizedItems = {
       name: "subscribed-guestbook-application",
       namespace: "kube-system",
       dashboard: null,
-      clusterCount: 2,
+      clusterCount: { remoteCount: 2, localCount: 1 },
       remoteSubscriptionStatusCount: {
         Failed: 1,
         Subscribed: 1
@@ -139,7 +139,7 @@ export const QueryApplicationList = {
       namespace: "default",
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
-      clusterCount: 1,
+      clusterCount: { remoteCount: 1 },
       remoteSubscriptionStatusCount: {
         Subscribed: 1,
         null: 3,
@@ -165,7 +165,7 @@ export const QueryApplicationList = {
       namespace: "sample",
       dashboard:
         "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
-      clusterCount: 1,
+      clusterCount: { remoteCount: 1 },
       remoteSubscriptionStatusCount: {
         Subscribed: 1
       },
@@ -188,7 +188,7 @@ export const QueryApplicationList = {
       name: "stocktrader-app",
       namespace: "stock-trader",
       dashboard: null,
-      clusterCount: 0,
+      clusterCount: { remoteCount: 0, localCount: 0 },
       remoteSubscriptionStatusCount: {},
       podStatusCount: {},
       hubSubscriptions: [],
@@ -200,7 +200,7 @@ export const QueryApplicationList = {
       name: "subscribed-guestbook-application",
       namespace: "kube-system",
       dashboard: null,
-      clusterCount: 2,
+      clusterCount: { remoteCount: 2, localCount: 1 },
       remoteSubscriptionStatusCount: {
         Failed: 1,
         Subscribed: 1
@@ -224,7 +224,7 @@ export const QueryApplicationList = {
       name: "app-no-channel",
       namespace: "default",
       dashboard: null,
-      clusterCount: 0,
+      clusterCount: { remoteCount: 0, localCount: 0 },
       created: "2019-02-11T23:26:18Z",
       __typename: "Application",
       hubSubscriptions: []

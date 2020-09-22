@@ -1172,8 +1172,9 @@ export const setSubscriptionDeployStatus = (node, details) => {
     return details
   }
   const timeWindow = _.get(node, 'specs.raw.spec.timewindow.windowtype')
+  const timezone = _.get(node, 'specs.raw.spec.timewindow.location', 'NA')
   const timeWindowDays = _.get(node, 'specs.raw.spec.timewindow.weekdays')
-  const timeWindowHours = _.get(node, 'specs.raw.spec.timewindow.hours')
+  const timeWindowHours = _.get(node, 'specs.raw.spec.timewindow.hours', [])
 
   if (timeWindow) {
     details.push({
@@ -1195,11 +1196,19 @@ export const setSubscriptionDeployStatus = (node, details) => {
         labelKey: 'spec.subscr.timeWindow.days',
         value: R.toString(timeWindowDays)
       })
-    timeWindowHours &&
-      details.push({
-        labelKey: 'spec.subscr.timeWindow.hours',
-        value: R.toString(timeWindowHours)
+
+    if (timeWindowHours) {
+      timeWindowHours.forEach(timeH => {
+        details.push({
+          labelKey: 'spec.subscr.timeWindow.hours',
+          value: `${_.get(timeH, 'start', 'NA')}-${_.get(timeH, 'end', 'NA')}`
+        })
       })
+    }
+    details.push({
+      labelKey: 'spec.subscr.timeWindow.timezone',
+      value: timezone
+    })
   }
 
   const isLocalPlacementSubs = _.get(node, 'specs.raw.spec.placement.local')

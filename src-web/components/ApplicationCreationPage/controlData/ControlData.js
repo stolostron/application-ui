@@ -178,6 +178,12 @@ const discoverChannelFromSource = (
   }
   cardsControl.active = id
 
+  // if editing an existing app that doesn't have a standard channel type
+  // show the other channel type
+  if (id==='other') {
+    delete cardsControl.availableMap[id].hidden
+  }
+
   // insert channel type control data in this group
   const insertControlData = _.get(
     cardsControl.availableMap[id],
@@ -372,6 +378,7 @@ export const controlData = [
             logo: 'resource-deployable-icon.svg',
             title: 'channel.type.other',
             tooltip: 'tooltip.channel.type.other',
+            hidden: true, // only show this if editing existing app
             change: {
               insertControlData: otherChannelData
             }

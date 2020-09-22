@@ -121,6 +121,20 @@ function addK8Details(node, updatedNode, details) {
     })
   }
 
+  const nodeAnnotations = _.get(node, 'specs.raw.metadata.annotations')
+    ? _.get(node, 'specs.raw.metadata.annotations')
+    : {}
+  const gitBranch_path = nodeAnnotations[
+    'apps.open-cluster-management.io/git-branch'
+  ]
+    ? 'apps.open-cluster-management.io/git-branch'
+    : 'apps.open-cluster-management.io/github-branch'
+  const gitPath_path = nodeAnnotations[
+    'apps.open-cluster-management.io/git-path'
+  ]
+    ? 'apps.open-cluster-management.io/git-path'
+    : 'apps.open-cluster-management.io/github-path'
+
   // the main stuff
   const mainDetails = [
     {
@@ -236,6 +250,24 @@ function addK8Details(node, updatedNode, details) {
       node,
       ['specs', 'raw', 'spec', 'placement', 'placementRef'],
       'raw.spec.placementRef'
+    )
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'metadata', 'annotations', gitBranch_path],
+      'spec.subscr.annotations.gitBranch'
+    )
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'metadata', 'annotations', gitPath_path],
+      'spec.subscr.annotations.gitPath'
     )
   )
 

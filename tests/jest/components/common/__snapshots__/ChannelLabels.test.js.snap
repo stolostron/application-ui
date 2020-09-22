@@ -72,9 +72,7 @@ exports[`ChannelLabels renders as expected 1`] = `
         >
           <div
             className="pf-l-split__item"
-          >
-            Namespace
-          </div>
+          />
           <div
             className="pf-l-split__item"
           >

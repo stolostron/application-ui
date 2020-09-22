@@ -196,6 +196,49 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
+const checkDupClusters = (clusterList, cluster) => {
+  // Add cluster to cluster list if it's not a duplicate
+  if (!_.find(clusterList, cluster)) {
+    clusterList = clusterList.concat(cluster)
+  }
+
+  return clusterList
+}
+
+const getClusterCount = appData => {
+  let remoteClusterList = []
+  let remoteClusterCount = 0
+  let localClusterDeploy = false
+
+  if (appData && appData.related) {
+    appData.related.forEach(resource => {
+      if (resource.kind === 'subscription' && resource.items) {
+        resource.items.forEach(sub => {
+          if (sub._hostingSubscription) {
+            if (sub.cluster === 'local-cluster') {
+              localClusterDeploy = true
+            } else {
+              const remoteCluster = { cluster: sub.cluster }
+              remoteClusterList = checkDupClusters(
+                remoteClusterList,
+                remoteCluster
+              )
+            }
+          } else if (sub.localPlacement) {
+            localClusterDeploy = true
+          }
+        })
+        remoteClusterCount = remoteClusterList.length
+      }
+    })
+  }
+
+  return {
+    remoteCount: remoteClusterCount,
+    isLocal: localClusterDeploy
+  }
+}
+
 const getRepoResourceData = (appData, channelIdentifier) => {
   let resourceType = ''
   let resourcePath = ''
@@ -284,11 +327,12 @@ export const getAppOverviewCardsData = (
     appData.namespace === appNamespace
   ) {
     let creationTimestamp = ''
-    let remoteClusterCount = 0
-    let localClusterDeploy = false
-    const tempNodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
     let statusLoaded = false
+    const tempNodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
     const subsList = []
+
+    const selectedAppDataItem = _.get(selectedAppData, 'items[0]', '')
+    const clusterData = getClusterCount(selectedAppDataItem)
 
     topologyData.nodes.map(node => {
       // Get date and time of app creation
@@ -297,18 +341,10 @@ export const getAppOverviewCardsData = (
           node.specs.raw.metadata.creationTimestamp,
           locale
         )
-      } else if (node.type === 'cluster' && _.get(node, 'specs.clusterNames')) {
-        // Get remote cluster count
-        remoteClusterCount = node.specs.clusterNames.length
       } else if (
         node.type === 'subscription' &&
         _.get(node, 'specs.parent.parentType') !== 'cluster'
       ) {
-        // Check if subscription is remote or local deployment
-        if (_.get(node, 'specs.raw.spec.placement.local')) {
-          localClusterDeploy = true
-        }
-
         // Get name and namespace of channel to match with data from HCMAppList
         const channelIdentifier = _.get(
           node,
@@ -317,7 +353,7 @@ export const getAppOverviewCardsData = (
         ).split('/')
         // Get repo resource type and URL
         const repoResourceData = getRepoResourceData(
-          _.get(selectedAppData, 'items[0]'),
+          selectedAppDataItem,
           channelIdentifier
         )
         const gitTypeData = getGitTypeData(node)
@@ -361,8 +397,8 @@ export const getAppOverviewCardsData = (
       appName: appName,
       appNamespace: appNamespace,
       creationTimestamp: creationTimestamp,
-      remoteClusterCount: remoteClusterCount,
-      localClusterDeploy: localClusterDeploy,
+      remoteClusterCount: clusterData.remoteCount,
+      localClusterDeploy: clusterData.isLocal,
       nodeStatuses: nodeStatuses,
       targetLink: targetLink,
       subsList: subsList

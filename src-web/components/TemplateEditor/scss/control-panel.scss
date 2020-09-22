@@ -512,7 +512,7 @@
       }
     }
 
-    &-textbox, &-multiselect, &-singleselect, &-treeselect, &-select, &-textarea, &-number, &-cards {
+    &-textbox, &-multiselect, &-singleselect, &-treeselect, &-select, &-textarea, &-number, &-cards, &-skeleton {
       padding: 0 0.3125rem 1.5625rem 2px;
 
       &-title {
@@ -536,6 +536,10 @@
         .bx--number__controls {
           top: 1.1rem;
         }
+      }
+      
+      .bx--skeleton__text {
+        height: 2.4rem;
       }
 
       .bx--list-box__field, .bx--text-input, .bx--list-box {

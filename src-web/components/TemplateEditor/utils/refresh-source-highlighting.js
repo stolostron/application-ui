@@ -10,7 +10,7 @@
 'use strict'
 
 import { diff } from 'deep-diff'
-import { parseYAML, getInsideObject } from './source-utils'
+import { parseYAML, getInsideObject } from './utils'
 import _ from 'lodash'
 import { Base64 } from 'js-base64'
 

@@ -19,6 +19,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   createApplication,
+  updateApplication,
   clearCreateStatus
 } from '../../actions/application'
 import { updateSecondaryHeader } from '../../actions/common'
@@ -26,6 +27,7 @@ import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 import { TemplateEditor } from '../TemplateEditor'
 import { controlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
+import { getApplicationResources } from './transformers/transform-data-to-resources'
 
 import _ from 'lodash'
 
@@ -44,6 +46,7 @@ class ApplicationCreationPage extends React.Component {
     cleanReqStatus: PropTypes.func,
     editApplication: PropTypes.object,
     handleCreateApplication: PropTypes.func,
+    handleUpdateApplication: PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object,
     match: PropTypes.object,
@@ -175,7 +178,7 @@ class ApplicationCreationPage extends React.Component {
               const { loading } = result
               const { data = {} } = result
               const { application } = data
-              //const errored = application ? false : true
+              const errored = application ? false : true
               const error = application ? null : result.error
               if (!loading && error) {
                 const errorName = result.error.graphQLErrors[0].name
@@ -183,7 +186,13 @@ class ApplicationCreationPage extends React.Component {
                   : error.name
                 error.name = errorName
               }
-              return this.renderEditor()
+              const fetchControl = {
+                resources: getApplicationResources(application),
+                isLoaded: !loading,
+                isFailed: errored,
+                error: error
+              }
+              return this.renderEditor(fetchControl)
             }}
           </Query>
         </Page>
@@ -192,8 +201,9 @@ class ApplicationCreationPage extends React.Component {
     return <Page>{this.renderEditor()}</Page>
   }
 
-  renderEditor() {
+  renderEditor(fetchControl) {
     const { locale } = this.context
+    const { controlData: cd, hasPermissions } = this.state
     const {
       mutateStatus,
       mutateErrorMsgs,
@@ -202,12 +212,12 @@ class ApplicationCreationPage extends React.Component {
       history
     } = this.props
     const createControl = {
+      hasPermissions,
       createResource: this.handleCreate.bind(this),
       cancelCreate: this.handleCancel.bind(this),
       creationStatus: mutateStatus,
       creationMsg: mutateErrorMsgs
     }
-    const { controlData: cd, fetchControl, hasPermissions } = this.state
     return (
       <TemplateEditor
         type={'application'}
@@ -221,15 +231,22 @@ class ApplicationCreationPage extends React.Component {
         updateFormState={updateFormState}
         savedFormData={savedFormData}
         history={history}
-        hasPermissions={hasPermissions}
       />
     )
   }
 
   handleCreate = resourceJSON => {
     if (resourceJSON) {
-      const { handleCreateApplication } = this.props
-      handleCreateApplication(resourceJSON)
+      const {
+        editApplication,
+        handleCreateApplication,
+        handleUpdateApplication
+      } = this.props
+      if (editApplication) {
+        handleUpdateApplication(resourceJSON)
+      } else {
+        handleCreateApplication(resourceJSON)
+      }
       const map = _.keyBy(resourceJSON, 'kind')
       this.applicationNamespace = _.get(map, 'Application.metadata.namespace')
       this.applicationName = _.get(map, 'Application.metadata.name')
@@ -249,6 +266,7 @@ const mapDispatchToProps = dispatch => {
   return {
     cleanReqStatus: () => dispatch(clearCreateStatus()),
     handleCreateApplication: json => dispatch(createApplication(json)),
+    handleUpdateApplication: json => dispatch(updateApplication(json)),
     updateSecondaryHeader: (
       title,
       tabs,

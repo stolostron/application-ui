@@ -283,6 +283,17 @@ export class ClusterSelector extends React.Component {
 
 export default ClusterSelector
 
+export const summarize = (active, summary) => {
+  const {clusterLabelsList} = active
+  if (clusterLabelsList) {
+    clusterLabelsList.forEach(({labelName, labelValue})=>{
+      if (labelName && labelValue) {
+        summary.push(`${labelName}=${labelValue}`)
+      }
+    })
+  }
+}
+
 export const reverse = (control, templateObject) => {
   let matchLabels = _.get(
     templateObject,

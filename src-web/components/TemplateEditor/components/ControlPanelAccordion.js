@@ -169,70 +169,75 @@ class ControlPanelAccordion extends React.Component {
         type,
         hasValueDescription,
         summaryKey: key,
+        summarize,
         active,
         initial,
         available,
         availableMap
       }) => {
-        switch (type) {
-        case 'title':
-        case 'section':
-        case 'hidden':
-          break
-        case 'checkbox':
-          summary.push(
-            available ? available[!active ? 0 : 1] : active.toString()
-          )
-          break
-        case 'number':
-          summary.push(active || initial)
-          break
-        case 'table':
-          active.forEach(a => {
-            summary.push(a[key])
-          })
-          break
-        case 'labels':
-          active.forEach(({ key: k, value }) => {
-            summary.push(`${k}=${value}`)
-          })
-          break
-        default:
-          if (hasValueDescription && availableMap) {
-            summary.push(availableMap[active] || active)
-          } else if (Array.isArray(active)) {
-            if (availableMap && active.length === 1) {
-              const { title = '' } = availableMap[active[0]]||{}
-              summary.push(title)
-            } else if (typeof active[0] === 'string') {
-              summary.push(...active)
+        if (!summarize) {
+          switch (type) {
+          case 'title':
+          case 'section':
+          case 'hidden':
+            break
+          case 'checkbox':
+            summary.push(
+              available ? available[!active ? 0 : 1] : active.toString()
+            )
+            break
+          case 'number':
+            summary.push(active || initial)
+            break
+          case 'table':
+            active.forEach(a => {
+              summary.push(a[key])
+            })
+            break
+          case 'labels':
+            active.forEach(({ key: k, value }) => {
+              summary.push(`${k}=${value}`)
+            })
+            break
+          default:
+            if (hasValueDescription && availableMap) {
+              summary.push(availableMap[active] || active)
+            } else if (Array.isArray(active)) {
+              if (availableMap && active.length === 1) {
+                const { title = '' } = availableMap[active[0]]||{}
+                summary.push(title)
+              } else if (typeof active[0] === 'string') {
+                summary.push(...active)
+              } else {
+                this.getSummary(active[0], summary, true)
+              }
             } else {
-              this.getSummary(active[0], summary, true)
-            }
-          } else {
-            switch (typeof active) {
-            case 'string':
-              if (active.length > 24) {
-                if (id.indexOf('ssh') !== -1) {
-                  active = 'ssh'
-                } else if (id.indexOf('secret') !== -1) {
-                  active = 'secret'
-                } else {
-                  active = `${active.substr(0, 12)}...${active.substr(
-                    -12
-                  )}`
+              switch (typeof active) {
+              case 'string':
+                if (active.length > 24) {
+                  if (id.indexOf('ssh') !== -1) {
+                    active = 'ssh'
+                  } else if (id.indexOf('secret') !== -1) {
+                    active = 'secret'
+                  } else {
+                    active = `${active.substr(0, 12)}...${active.substr(
+                      -12
+                    )}`
+                  }
                 }
+                summary.push(active)
+                break
+              default:
+                if (!ignoreEmpty) {
+                  summary.push('')
+                }
+                break
               }
-              summary.push(active)
-              break
-            default:
-              if (!ignoreEmpty) {
-                summary.push('')
-              }
-              break
             }
+            break
           }
-          break
+        } else if (active) {
+          summarize(active, summary)
         }
       }
     )

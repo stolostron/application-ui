@@ -54,7 +54,7 @@ const helmReleaseChannelData = [
     name: 'creation.app.helmrepo.password',
     tooltip: 'tooltip.creation.app.helmrepo.password',
     id: 'helmPassword',
-    type: 'text',
+    type: 'password',
     editing: { hidden: true }, // if editing existing app, hide this field initially
     encode: true,
     active: '',

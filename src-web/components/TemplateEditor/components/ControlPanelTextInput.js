@@ -36,6 +36,7 @@ class ControlPanelTextInput extends React.Component {
     const { controlId, locale, control } = this.props
     const {
       name,
+      type,
       active: value,
       exception,
       validation = {},
@@ -73,6 +74,7 @@ class ControlPanelTextInput extends React.Component {
             hideLabel
             spellCheck={false}
             disabled={disabled}
+            type={type}
             autoComplete={'new-password'}
             labelText=""
             invalid={!!exception}

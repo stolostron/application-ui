@@ -9,6 +9,9 @@
  *******************************************************************************/
 'use strict'
 
+// seems to be an issue with this rule and redux
+/* eslint-disable import/no-named-as-default */
+
 import React from 'react'
 import { HCMPlacementRuleList } from '../../../../lib/client/queries'
 import TimeWindow, {

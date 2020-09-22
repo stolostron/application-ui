@@ -8,7 +8,13 @@
  *******************************************************************************/
 import R from 'ramda'
 import { validator } from './validators/hcm-placementrule-validator'
-import { getAge, getClusterCount } from '../../lib/client/resource-helper'
+import {
+  createEditLink,
+  getAge,
+  getEditLink,
+  getSearchLink,
+  getClusterCount
+} from '../../lib/client/resource-helper'
 
 export default {
   defaultSortField: 'name',
@@ -18,8 +24,8 @@ export default {
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'name'
-      //transformFunction: createApplicationLink
+      resourceKey: 'name',
+      transformFunction: createEditLink
     },
     {
       msgKey: 'table.header.namespace',
@@ -46,7 +52,21 @@ export default {
     {
       key: 'table.actions.placementrules.edit',
       link: {
-        url: item => `/multicloud/details/local-cluster/${item.selfLink}`
+        url: getEditLink
+      }
+    },
+    {
+      key: 'table.actions.placementrules.search',
+      link: {
+        url: item =>
+          getSearchLink({
+            properties: {
+              name: item.name,
+              namespace: item.namespace,
+              kind: 'placementrule',
+              apigroup: 'apps.open-cluster-management.io'
+            }
+          })
       }
     },
     {

@@ -41,8 +41,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
     };
     return Promise.resolve(data);
   }),
-  getApplication: jest.fn(app => {
-    console.log("jest.fn()", app.name, app.namespace);
+  getApplication: jest.fn(() => {
     const data = {
       data: {
         application: {

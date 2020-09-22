@@ -13,14 +13,23 @@ import { parseYAML } from './utils'
 import { Base64 } from 'js-base64'
 import _ from 'lodash'
 
-export const generateSourceFromTemplate = (template, controlData, otherYAMLTabs, isFinalGenerate) => {
-
+export const generateSourceFromTemplate = (
+  template,
+  controlData,
+  otherYAMLTabs,
+  isFinalGenerate
+) => {
   /////////////////////////////////////////////////////////
   // generate a map of id:values that can be passed to the handlerbars template
   /////////////////////////////////////////////////////////
   const replacements = []
   const controlMap = {}
-  const templateData = generateTemplateData(controlData, replacements, controlMap, isFinalGenerate)
+  const templateData = generateTemplateData(
+    controlData,
+    replacements,
+    controlMap,
+    isFinalGenerate
+  )
 
   /////////////////////////////////////////////////////////
   // add replacements to templateData
@@ -28,7 +37,11 @@ export const generateSourceFromTemplate = (template, controlData, otherYAMLTabs,
   // replacements are snippets of code instead of single values
   // ex: when you select a card, it inserts a snippet of code into
   //     the template instead of a text value
-  const {snippetMap, tabInfo} = addCodeSnippetsTemplateData(templateData, replacements, controlMap)
+  const { snippetMap, tabInfo } = addCodeSnippetsTemplateData(
+    templateData,
+    replacements,
+    controlMap
+  )
 
   /////////////////////////////////////////////////////////
   // if there are multiple tabs, update the yaml that belongs on each
@@ -53,7 +66,7 @@ export const generateSourceFromTemplate = (template, controlData, otherYAMLTabs,
         otherYAMLTabs.push({
           id,
           control,
-          templateYAML,
+          templateYAML
         })
       }
     })
@@ -74,9 +87,14 @@ export const generateSourceFromTemplate = (template, controlData, otherYAMLTabs,
   }
 }
 
-const generateTemplateData = (controlData, replacements, controlMap, isFinalGenerate) => {
-//convert controlData active into templateData
-//do replacements second in case it depends on previous templateData
+const generateTemplateData = (
+  controlData,
+  replacements,
+  controlMap,
+  isFinalGenerate
+) => {
+  //convert controlData active into templateData
+  //do replacements second in case it depends on previous templateData
   let templateData = {}
   const getTemplateData = control => {
     const {
@@ -150,9 +168,9 @@ const generateTemplateData = (controlData, replacements, controlMap, isFinalGene
         ret = lines
       } else if (
         !multiselect &&
-     type !== 'table' &&
-     type !== 'labels' &&
-     Array.isArray(active)
+        type !== 'table' &&
+        type !== 'labels' &&
+        Array.isArray(active)
       ) {
         ret = active[0]
       } else if (_template) {
@@ -180,8 +198,11 @@ const generateTemplateData = (controlData, replacements, controlMap, isFinalGene
   return templateData
 }
 
-const addCodeSnippetsTemplateData = (templateData, replacements, controlMap) => {
-
+const addCodeSnippetsTemplateData = (
+  templateData,
+  replacements,
+  controlMap
+) => {
   // if replacement updates a hidden control that user can't change
   // reset that control's active state and let replacement fill from scratch
   replacements.forEach(control => {
@@ -309,7 +330,7 @@ const addCodeSnippetsTemplateData = (templateData, replacements, controlMap) => 
     }
   })
 
-  return {snippetMap, tabInfo}
+  return { snippetMap, tabInfo }
 }
 
 const replaceSnippetMap = (yaml, snippetMap) => {
@@ -334,5 +355,3 @@ const replaceSnippetMap = (yaml, snippetMap) => {
   }
   return yaml
 }
-
-

@@ -219,7 +219,7 @@ exports[`ResourceTableModuleFromProps ResourceTableModuleFromProps renders corre
                     className="bx--table-header-label"
                   >
                     <div>
-                      Subscriptions (On managed clusters)
+                      Subscriptions
                     </div>
                   </span>
                   <svg

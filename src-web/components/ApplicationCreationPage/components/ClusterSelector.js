@@ -18,10 +18,7 @@ import {
   Icon,
   TextInput
 } from 'carbon-components-react'
-import {
-  getSourcePath,
-  removeVs,
-} from '../../TemplateEditor/utils/utils'
+import { getSourcePath, removeVs } from '../../TemplateEditor/utils/utils'
 import Tooltip from '../../TemplateEditor/components/Tooltip'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -286,24 +283,30 @@ export class ClusterSelector extends React.Component {
 
 export default ClusterSelector
 
-
-export const reverse = (control, templateObject) =>{
-  let matchLabels = _.get(templateObject, getSourcePath('PlacementRule[0].spec.clusterSelector.matchLabels'))
+export const reverse = (control, templateObject) => {
+  let matchLabels = _.get(
+    templateObject,
+    getSourcePath('PlacementRule[0].spec.clusterSelector.matchLabels')
+  )
   if (!matchLabels) {
-    matchLabels = _.get(templateObject, getSourcePath('PlacementRule[0].spec.clusterLabels.matchLabels'))
+    matchLabels = _.get(
+      templateObject,
+      getSourcePath('PlacementRule[0].spec.clusterLabels.matchLabels')
+    )
   }
   if (matchLabels) {
     matchLabels = removeVs(matchLabels)
     if (matchLabels) {
-      const clusterLabelsList = Object.entries(matchLabels).map(([labelName, labelValue], id)=>{
-        return {
-          id,
-          labelName,
-          labelValue,
-          validValue: true
+      const clusterLabelsList = Object.entries(matchLabels).map(
+        ([labelName, labelValue], id) => {
+          return {
+            id,
+            labelName,
+            labelValue,
+            validValue: true
+          }
         }
-
-      })
+      )
       control.active = {
         mode: true,
         clusterLabelsList,
@@ -312,4 +315,3 @@ export const reverse = (control, templateObject) =>{
     }
   }
 }
-

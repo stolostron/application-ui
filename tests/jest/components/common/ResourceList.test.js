@@ -222,7 +222,6 @@ const props = {
   },
   history: { length: 16, action: "PUSH", location: {} },
   staticContext: undefined,
-  detailsTabs: [],
   routes: [],
   resourceType: { name: "QueryApplications", list: "QueryApplicationList" },
   staticResourceData: {

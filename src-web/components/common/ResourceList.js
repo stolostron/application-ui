@@ -69,6 +69,7 @@ class ResourceList extends React.Component {
   componentWillUnmount() {
     stopPolling(this.state, clearInterval)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
+    this.mutateFinished()
   }
 
   mutateFinished() {

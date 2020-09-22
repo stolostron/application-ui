@@ -13,7 +13,6 @@ import { ControlMode, parseYAML, reverseTemplate } from './utils'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
-
 ///////////////////////////////////////////////////////////////////////////////
 // validate control/source values
 ///////////////////////////////////////////////////////////////////////////////
@@ -31,13 +30,8 @@ export function validateControls(
   let { parsed, exceptions } = results
 
   // update active values in controls
-  if (exceptions.length===0) {
-    reverseTemplate(
-      controlData,
-      parsed,
-      null,
-      locale
-    )
+  if (exceptions.length === 0) {
+    reverseTemplate(controlData, parsed, null, locale)
   }
 
   const templateObjectMap = { '<<main>>': parsed }
@@ -123,7 +117,7 @@ export function validateControls(
       setTimeout(() => {
         if (editor) {
           const decorationList = []
-          _exceptions.forEach(({ row=1, text }) => {
+          _exceptions.forEach(({ row = 1, text }) => {
             decorationList.push({
               range: new editor.monaco.Range(row, 0, row, 132),
               options: {
@@ -134,7 +128,7 @@ export function validateControls(
               }
             })
           })
-          _exceptions.forEach(({ row=1, column=0 }) => {
+          _exceptions.forEach(({ row = 1, column = 0 }) => {
             decorationList.push({
               range: new editor.monaco.Range(row, column - 6, row, column + 6),
               options: {
@@ -268,12 +262,16 @@ const validateControl = (
 ) => {
   // if final validation before creating template, if this value is required, throw error
   const { type, isHidden } = control
-  if (isHidden === true || isHidden==='true' || typeof isHidden === 'function' && isHidden()) {
+  if (
+    isHidden === true ||
+    isHidden === 'true' ||
+    (typeof isHidden === 'function' && isHidden())
+  ) {
     return
   }
   if ((isFinalValidate || type === 'number') && control.validation) {
     const { exceptions } = templateExceptionMap['<<main>>']
-    if (type==='custom') {
+    if (type === 'custom') {
       control.validation(exceptions)
       return
     } else {
@@ -286,8 +284,7 @@ const validateControl = (
       } = control
       if (required && (!active || (type === 'cards' && active.length === 0))) {
         let row = 0
-        const msg =
-          notification ? notification : 'creation.missing.input'
+        const msg = notification ? notification : 'creation.missing.input'
         control.exception = msgs.get(msg, [name], locale)
         const { sourcePath } = control
         if (sourcePath) {
@@ -375,7 +372,7 @@ const attachEditorToExceptions = (exceptions, editors, inx) => {
   })
 }
 
-const shouldValidateControl = (control) => {
+const shouldValidateControl = control => {
   let required = false
   const { sourcePath, validation, active } = control
   if (sourcePath && validation) {
@@ -566,7 +563,7 @@ const validateMultiSelectLabelControl = (
   templateExceptionMap,
   locale
 ) => {
-  const {active, sourcePath} = control
+  const { active, sourcePath } = control
   const { exceptions } = templateExceptionMap['<<main>>']
   if (!active) {
     addException(sourcePath, exceptions, locale)
@@ -579,7 +576,7 @@ const validateMultiSelectReplacementControl = (
   templateExceptionMap,
   locale
 ) => {
-  const {active, sourcePath} = control
+  const { active, sourcePath } = control
   const { exceptions } = templateExceptionMap['<<main>>']
   if (!active) {
     addException(sourcePath, exceptions, locale)
@@ -603,6 +600,6 @@ const getKey = path => {
     .replace(/\.\$v/g, '')
 }
 
-const getRow = (sourcePath) => {
+const getRow = sourcePath => {
   return _.get(sourcePath, '$r', 0) + 1
 }

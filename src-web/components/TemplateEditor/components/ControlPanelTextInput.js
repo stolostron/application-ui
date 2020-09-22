@@ -34,7 +34,14 @@ class ControlPanelTextInput extends React.Component {
 
   render() {
     const { controlId, locale, control } = this.props
-    const { name, type, active: value, exception, validation = {}, disabled } = control
+    const {
+      name,
+      type,
+      active: value,
+      exception,
+      validation = {},
+      disabled
+    } = control
 
     // if placeholder missing, create one
     let { placeholder } = control

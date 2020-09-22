@@ -485,7 +485,10 @@ class ControlPanelTable extends React.Component {
       Object.keys(value).forEach(
         key => value[key] === null && delete value[key]
       )
-      active.push({ ...this.getDefaults(active, actives, controlData), ...value })
+      active.push({
+        ...this.getDefaults(active, actives, controlData),
+        ...value
+      })
     })
   }
 
@@ -493,7 +496,8 @@ class ControlPanelTable extends React.Component {
     const defaults = {}
     controlData.forEach(({ id: _id, active: _active }) => {
       if (_active) {
-        defaults[_id] = typeof _active==='function' ? _active(active) : _active
+        defaults[_id] =
+          typeof _active === 'function' ? _active(active) : _active
       }
     })
     return defaults

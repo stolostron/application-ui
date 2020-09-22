@@ -21,10 +21,7 @@ import {
   RadioButtonGroup,
   TimePicker
 } from 'carbon-components-react'
-import {
-  getSourcePath,
-  removeVs,
-} from '../../TemplateEditor/utils/utils'
+import { getSourcePath, removeVs } from '../../TemplateEditor/utils/utils'
 import Tooltip from '../../TemplateEditor/components/Tooltip'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -98,11 +95,7 @@ export class TimeWindow extends React.Component {
     const modeSelected = active && active.mode ? true : false
     const daysSelectorID = 'days-selector'
     const timezoneDropdownID = 'timezone-dropdown'
-    const {
-      mode,
-      days=[],
-      timezone
-    } = this.props.control.active
+    const { mode, days = [], timezone } = this.props.control.active
 
     return (
       <React.Fragment>
@@ -119,7 +112,7 @@ export class TimeWindow extends React.Component {
             <RadioButtonGroup
               className="timeWindow-mode-container"
               name={`timeWindow-mode-container-${controlId}`}
-              defaultSelected={mode? `"${mode}"` : ''}
+              defaultSelected={mode ? `"${mode}"` : ''}
               id={controlId}
             >
               <RadioButton
@@ -261,7 +254,7 @@ export class TimeWindow extends React.Component {
                     </div>
                     <DropdownV2
                       className="config-timezone-dropdown"
-                      label={timezone ||'Choose a location'}
+                      label={timezone || 'Choose a location'}
                       items={[
                         {
                           label: 'America/Edmonton',
@@ -332,7 +325,7 @@ export class TimeWindow extends React.Component {
     return (
       control.active &&
       control.active.timeList.map(item => {
-        const {id, start, end, validTime} = item
+        const { id, start, end, validTime } = item
         // Don't show deleted time invertals
         if (validTime) {
           return (
@@ -493,21 +486,32 @@ export class TimeWindow extends React.Component {
 
 export default TimeWindow
 
-export const reverse = (control, templateObject) =>{
+export const reverse = (control, templateObject) => {
   let showTimeSection = false
-  const timezone = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.location'))
-  const mode = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.windowtype'))
-  let weekdays = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.weekdays'))
-  weekdays = (removeVs(weekdays && weekdays.$v)||[])
-    .map(day=>{
-      return `"${day}"`
-    })
-  let timeList = _.get(templateObject, getSourcePath('Subscription[0].spec.timewindow.hours'))
+  const timezone = _.get(
+    templateObject,
+    getSourcePath('Subscription[0].spec.timewindow.location')
+  )
+  const mode = _.get(
+    templateObject,
+    getSourcePath('Subscription[0].spec.timewindow.windowtype')
+  )
+  let weekdays = _.get(
+    templateObject,
+    getSourcePath('Subscription[0].spec.timewindow.weekdays')
+  )
+  weekdays = (removeVs(weekdays && weekdays.$v) || []).map(day => {
+    return `"${day}"`
+  })
+  let timeList = _.get(
+    templateObject,
+    getSourcePath('Subscription[0].spec.timewindow.hours')
+  )
   if (timeList) {
     timeList = removeVs(timeList)
   }
   if (timeList) {
-    timeList = timeList.map(({start, end}, id)=>{
+    timeList = timeList.map(({ start, end }, id) => {
       return {
         id,
         start,
@@ -530,15 +534,15 @@ export const reverse = (control, templateObject) =>{
 }
 
 // Convert 12-hour format to 24-hour format
-const to24 = (time) =>{
+const to24 = time => {
   const match = /((1[0-2]|0?[1-9]):([0-5][0-9])([AP][M]))/.exec(time)
   if (match) {
-    const [,,hour12,minute,period] = match
+    const [, , hour12, minute, period] = match
     let hour = parseInt(hour12, 10)
-    if (hour<12 && period==='PM') {
-      hour+=12
+    if (hour < 12 && period === 'PM') {
+      hour += 12
     }
-    if (hour<10) {
+    if (hour < 10) {
       hour = `0${hour}`
     }
     return `${hour}:${minute}`

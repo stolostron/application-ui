@@ -285,7 +285,9 @@ export const secondaryHeader = (
       title: action.title,
       tabs: action.tabs,
       breadcrumbItems: action.breadcrumbItems,
-      links: action.links
+      links: action.links,
+      actions: action.actions,
+      tooltip: action.tooltip
     })
   default:
     return state

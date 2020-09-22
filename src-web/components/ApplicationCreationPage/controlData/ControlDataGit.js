@@ -82,7 +82,7 @@ const githubChannelData = [
     tooltip: 'tooltip.creation.app.github.user',
     id: 'githubUser',
     type: 'text',
-    editing: {hidden: true}, // if editing existing app, hide this field initially
+    editing: { hidden: true }, // if editing existing app, hide this field initially
     active: '',
     encode: true,
     placeholder: 'app.enter.select.username',
@@ -93,7 +93,7 @@ const githubChannelData = [
     tooltip: 'tooltip.creation.app.github.accessid',
     id: 'githubAccessId',
     type: 'password',
-    editing: {hidden: true}, // if editing existing app, hide this field initially
+    editing: { hidden: true }, // if editing existing app, hide this field initially
     encode: true,
     active: '',
     placeholder: 'app.enter.access.token',
@@ -110,7 +110,7 @@ const githubChannelData = [
     validation: VALIDATE_ALPHANUMERIC,
     reverse: [
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/github-branch"]',
-      'Subscription[0].metadata.annotations["apps.open-cluster-management.io/git-branch"]',
+      'Subscription[0].metadata.annotations["apps.open-cluster-management.io/git-branch"]'
     ],
     onSelect: updateGitBranchFolders,
     cacheUserValueKey: 'create.app.github.branch'
@@ -126,7 +126,7 @@ const githubChannelData = [
     validation: VALID_REPOPATH,
     reverse: [
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/github-path"]',
-      'Subscription[0].metadata.annotations["apps.open-cluster-management.io/git-path"]',
+      'Subscription[0].metadata.annotations["apps.open-cluster-management.io/git-path"]'
     ],
     cacheUserValueKey: 'create.app.github.path'
   },
@@ -137,7 +137,8 @@ const githubChannelData = [
     tooltip: 'tooltip.creation.app.github.reconcileOption',
     active: false,
     available: [],
-    reverse: 'Subscription[0].metadata.annotations["apps.open-cluster-management.io/reconcile-option"]'
+    reverse:
+      'Subscription[0].metadata.annotations["apps.open-cluster-management.io/reconcile-option"]'
   },
 
   ...prePostTasks,

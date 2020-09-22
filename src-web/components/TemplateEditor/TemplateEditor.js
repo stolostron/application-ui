@@ -25,7 +25,8 @@ import {
   initializeControls,
   generateSource,
   getUniqueName,
-  cacheUserData } from './utils/utils'
+  cacheUserData
+} from './utils/utils'
 import { validateControls } from './utils/validate-controls'
 import {
   highlightChanges,
@@ -88,7 +89,13 @@ export default class TemplateEditor extends React.Component {
             kind: 'info',
             exception: Array.isArray(creationMsg)
               ? creationMsg[0]
-              : msgs.get(isEditing?'success.create.updating':'success.create.creating', [type], locale)
+              : msgs.get(
+                isEditing
+                  ? 'success.create.updating'
+                  : 'success.create.creating',
+                [type],
+                locale
+              )
           }
         ]
         break
@@ -100,7 +107,13 @@ export default class TemplateEditor extends React.Component {
             kind: 'success',
             exception: Array.isArray(creationMsg)
               ? creationMsg[0]
-              : msgs.get(isEditing?'success.create.updated':'success.create.created', [type], locale)
+              : msgs.get(
+                isEditing
+                  ? 'success.create.updated'
+                  : 'success.create.created',
+                [type],
+                locale
+              )
           }
         ]
         break
@@ -121,8 +134,9 @@ export default class TemplateEditor extends React.Component {
     // is a resource loaded in editor?
     const { fetchControl } = props
     const { isLoaded, isFailed } = fetchControl || { isLoaded: true }
-    const showEditor = isLoaded && !!localStorage.getItem(TEMPLATE_EDITOR_OPEN_COOKIE)
-    let newState = {isLoaded, isFailed, showEditor}
+    const showEditor =
+      isLoaded && !!localStorage.getItem(TEMPLATE_EDITOR_OPEN_COOKIE)
+    let newState = { isLoaded, isFailed, showEditor }
 
     // has control data been initialized?
     const { controlData: initialControlData } = props
@@ -131,22 +145,16 @@ export default class TemplateEditor extends React.Component {
     if (!controlData) {
       // initialize control data
       const cd = _.cloneDeep(initialControlData)
-      controlData = initializeControls(
-        cd,
-        cd,
-        forceUpdate,
-        locale
-      )
-      newState = {...newState, controlData}
+      controlData = initializeControls(cd, cd, forceUpdate, locale)
+      newState = { ...newState, controlData }
     }
 
     // has source been initialized?
     if (isLoaded && !templateYAML) {
-
       // editing an existing set of resources??
       const editResources = _.get(fetchControl, 'resources')
       if (editResources) {
-        editStack = [{editResources, forceUpdate, locale}]
+        editStack = [{ editResources, forceUpdate, locale }]
       }
 
       // generate source from template or stack of resources
@@ -156,10 +164,15 @@ export default class TemplateEditor extends React.Component {
         controlData
       ))
 
-      newState = {...newState, templateYAML, firstTemplateYAML:templateYAML,
-        templateObject, editStack, isEditing: !!editResources}
+      newState = {
+        ...newState,
+        templateYAML,
+        firstTemplateYAML: templateYAML,
+        templateObject,
+        editStack,
+        isEditing: !!editResources
+      }
     }
-
 
     // make sure an auto generated name is unique
     const { isCustomName } = state
@@ -175,7 +188,7 @@ export default class TemplateEditor extends React.Component {
             editStack,
             controlData
           ))
-          newState = {...newState, controlData, templateYAML, templateObject }
+          newState = { ...newState, controlData, templateYAML, templateObject }
         }
       }
     }
@@ -310,7 +323,8 @@ export default class TemplateEditor extends React.Component {
       >
         <Prompt
           when={this.isDirty}
-          message={msgs.get('changes.maybe.lost', locale)} />
+          message={msgs.get('changes.maybe.lost', locale)}
+        />
         {this.renderEditButton(isLoaded)}
         {this.renderCreateButton(isLoaded)}
         {this.renderCancelButton()}
@@ -364,7 +378,7 @@ export default class TemplateEditor extends React.Component {
         handleControlChange={this.handleControlChange}
         handleNewEditorMode={this.handleNewEditorMode}
         handleGroupChange={this.handleGroupChange}
-        controlData={controlData||originalControlData}
+        controlData={controlData || originalControlData}
         fetchData={fetchData}
         originalControlData={originalControlData}
         notifications={notifications}
@@ -574,7 +588,12 @@ export default class TemplateEditor extends React.Component {
             cd.groupControlData = groupControlData
           })
         }
-        controlData = initializeControls(controlData, controlData, forceUpdate, locale)
+        controlData = initializeControls(
+          controlData,
+          controlData,
+          forceUpdate,
+          locale
+        )
       }
 
       // replace template and regenerate templateYAML and highlight diffs
@@ -1119,8 +1138,9 @@ export default class TemplateEditor extends React.Component {
         disableButton = false
       }
       const portal = document.getElementById(createBtn)
-      const label = isEditing ? msgs.get('button.update', locale) :
-        msgs.get('button.create', locale)
+      const label = isEditing
+        ? msgs.get('button.update', locale)
+        : msgs.get('button.create', locale)
       const button = (
         <Button
           id={createBtn}
@@ -1179,12 +1199,7 @@ export default class TemplateEditor extends React.Component {
     const { template, controlData: initialControlData, locale } = this.props
     const { editStack, resetInx } = this.state
     const cd = _.cloneDeep(initialControlData)
-    const controlData = initializeControls(
-      cd,
-      cd,
-      this.forceUpdate,
-      locale
-    )
+    const controlData = initializeControls(cd, cd, this.forceUpdate, locale)
     const otherYAMLTabs = []
     const { templateYAML, templateObject } = generateSource(
       template,

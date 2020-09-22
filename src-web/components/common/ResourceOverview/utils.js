@@ -336,10 +336,7 @@ export const getAppOverviewCardsData = (
 
     topologyData.nodes.map(node => {
       // Get date and time of app creation
-      if (
-        node.type === 'application' &&
-        _.get(node, 'specs.raw.metadata.creationTimestamp')
-      ) {
+      if (node.type === 'application') {
         creationTimestamp = getShortDateTime(
           node.specs.raw.metadata.creationTimestamp,
           locale

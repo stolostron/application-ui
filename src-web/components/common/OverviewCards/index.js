@@ -93,13 +93,15 @@ class OverviewCards extends React.Component {
       locale
     )
 
-    const clusterCount = getClusterCount(
+    const clusterCount = getClusterCount({
       locale,
-      appOverviewCardsData.remoteClusterCount,
-      appOverviewCardsData.localClusterDeploy,
-      selectedAppName,
-      selectedAppNS
-    )
+      remoteCount: appOverviewCardsData.remoteClusterCount,
+      localPlacement: appOverviewCardsData.localClusterDeploy,
+      name: selectedAppName,
+      namespace: selectedAppNS,
+      kind: 'application',
+      apigroup: 'app.k8s.io'
+    })
 
     const disableBtn =
       appOverviewCardsData.subsList &&

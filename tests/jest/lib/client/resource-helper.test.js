@@ -6,11 +6,13 @@ import lodash from "lodash";
 import moment from "moment";
 import {
   transform,
+  createEditLink,
   getLabelsToList,
   getAge,
   getResourceType,
   getClusterCount,
   getClusterCountString,
+  getEditLink,
   getSearchLink,
   getShortDateTime
 } from "../../../../lib/client/resource-helper";
@@ -511,5 +513,21 @@ describe("getSearchLink", () => {
     ).toEqual(
       '/multicloud/search?filters={"textsearch":"name%3Atesting"}&showrelated=subscriptions'
     );
+  });
+});
+
+describe("getEditLink", () => {
+  it("returns an edit link using the item.selfLink", () => {
+    expect(getEditLink({ selfLink: "/api/foo" })).toEqual(
+      "/multicloud/details/local-cluster/api/foo"
+    );
+  });
+});
+
+describe("createEditLink", () => {
+  it("returns an a tag using the item.name and item.selfLink", () => {
+    expect(
+      createEditLink({ name: "foo", selfLink: "/api/bar" })
+    ).toMatchSnapshot();
   });
 });

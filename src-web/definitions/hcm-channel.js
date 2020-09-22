@@ -10,8 +10,10 @@ import React from 'react'
 import R from 'ramda'
 import { validator } from './validators/hcm-channel-validator'
 import {
+  createEditLink,
   getAge,
   getClusterCount,
+  getEditLink,
   getSearchLink
 } from '../../lib/client/resource-helper'
 import ChannelLabels from '../components/common/ChannelLabels'
@@ -24,8 +26,8 @@ export default {
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'name'
-      //transformFunction: createApplicationLink
+      resourceKey: 'name',
+      transformFunction: createEditLink
     },
     {
       msgKey: 'table.header.namespace',
@@ -59,7 +61,21 @@ export default {
     {
       key: 'table.actions.channels.edit',
       link: {
-        url: item => `/multicloud/details/local-cluster/${item.selfLink}`
+        url: getEditLink
+      }
+    },
+    {
+      key: 'table.actions.channels.search',
+      link: {
+        url: item =>
+          getSearchLink({
+            properties: {
+              name: item.name,
+              namespace: item.namespace,
+              kind: 'channel',
+              apigroup: 'apps.open-cluster-management.io'
+            }
+          })
       }
     },
     {

@@ -298,6 +298,7 @@ class ControlPanel extends React.Component {
           />
       )
     case 'text':
+    case 'password':
       return (
         <ControlPanelTextInput
           key={controlId}

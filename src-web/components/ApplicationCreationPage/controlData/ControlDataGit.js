@@ -92,7 +92,7 @@ const githubChannelData = [
     name: 'creation.app.github.accessid',
     tooltip: 'tooltip.creation.app.github.accessid',
     id: 'githubAccessId',
-    type: 'text',
+    type: 'password',
     editing: {hidden: true}, // if editing existing app, hide this field initially
     encode: true,
     active: '',

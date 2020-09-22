@@ -53,7 +53,7 @@ const objectstoreChannelData = [
     name: 'creation.app.objectstore.secretkey',
     tooltip: 'tooltip.creation.app.objectstore.secretkey',
     id: 'secretKey',
-    type: 'text',
+    type: 'password',
     editing: {hidden: true}, // if editing existing app, hide this field initially
     encode: true,
     active: '',

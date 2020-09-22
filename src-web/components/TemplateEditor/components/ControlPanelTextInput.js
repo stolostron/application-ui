@@ -34,7 +34,7 @@ class ControlPanelTextInput extends React.Component {
 
   render() {
     const { controlId, locale, control } = this.props
-    const { name, active: value, exception, validation = {}, disabled } = control
+    const { name, type, active: value, exception, validation = {}, disabled } = control
 
     // if placeholder missing, create one
     let { placeholder } = control
@@ -67,6 +67,7 @@ class ControlPanelTextInput extends React.Component {
             hideLabel
             spellCheck={false}
             disabled={disabled}
+            type={type}
             autoComplete={'new-password'}
             labelText=""
             invalid={!!exception}

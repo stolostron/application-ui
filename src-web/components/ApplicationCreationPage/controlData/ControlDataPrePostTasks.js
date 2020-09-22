@@ -48,7 +48,7 @@ const prePostTasks = [
   {
     name: 'creation.app.ansible.secret.token',
     id: 'ansibleTowerToken',
-    type: 'text',
+    type: 'password',
     editing: {hidden: true}, // if editing existing app, hide this field initially
     encode: true,
     active: '',

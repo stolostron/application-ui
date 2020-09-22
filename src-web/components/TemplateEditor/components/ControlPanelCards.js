@@ -28,8 +28,11 @@ class ControlPanelCards extends React.Component {
   constructor(props) {
     super(props)
     const { control } = props
-    const { collapsed } = control
-    this.state = { collapsed }
+    const { active, collapsed, collapseCardsControlOnSelect } = control
+
+    // if active was preset by loading an existing resource
+    // collapse cards on that selection
+    this.state = { collapsed: collapsed || (collapseCardsControlOnSelect && !!active) }
   }
 
   setControlRef = (control, ref) => {

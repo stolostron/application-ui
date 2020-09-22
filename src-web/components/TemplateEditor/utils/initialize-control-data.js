@@ -110,6 +110,7 @@ const initializeControlUserData = (control) => {
   }
 }
 
+
 const initializeMsgs = (control, locale, groupNum) => {
   const { type, controlData, available } = control
   const keys = [

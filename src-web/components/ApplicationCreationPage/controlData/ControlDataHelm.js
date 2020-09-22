@@ -37,6 +37,7 @@ const helmReleaseChannelData = [
     available: [],
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('helmrepo'),
+    reverse: 'Channel[0].spec.pathname',
     onSelect: updateChannelControls
   },
   {
@@ -44,6 +45,7 @@ const helmReleaseChannelData = [
     tooltip: 'tooltip.creation.app.helmrepo.user',
     id: 'helmUser',
     type: 'text',
+    editing: {hidden: true}, // if editing existing app, hide this field initially
     active: '',
     encode: true,
     placeholder: 'app.enter.helmrepo.username'
@@ -53,6 +55,7 @@ const helmReleaseChannelData = [
     tooltip: 'tooltip.creation.app.helmrepo.password',
     id: 'helmPassword',
     type: 'text',
+    editing: {hidden: true}, // if editing existing app, hide this field initially
     encode: true,
     active: '',
     placeholder: 'app.enter.helmrepo.password'
@@ -66,7 +69,8 @@ const helmReleaseChannelData = [
     placeholder: 'app.enter.helmrepo.chart.name',
     validation: {
       required: true
-    }
+    },
+    reverse: 'Subscription[0].spec.name'
   },
   {
     name: 'creation.app.helmrepo.package.version',
@@ -74,7 +78,8 @@ const helmReleaseChannelData = [
     id: 'helmPackageVersion',
     type: 'text',
     active: '',
-    placeholder: 'app.enter.helmrepo.package.version'
+    placeholder: 'app.enter.helmrepo.package.version',
+    reverse: 'Subscription[0].spec.packageFilter.version'
   },
 
   ...prePostTasks,

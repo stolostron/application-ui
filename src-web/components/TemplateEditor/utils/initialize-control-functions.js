@@ -9,21 +9,24 @@
  *******************************************************************************/
 'use strict'
 
+import { getSourcePath } from './utils'
+import _ from 'lodash'
+
 
 ///////////////////////////////////////////////////////////////////////////////
-// intialize controls and groups
+//intialize controls and groups
 ///////////////////////////////////////////////////////////////////////////////
 export const initializeControlFunctions = (
   controlData,
-  forceUpdate,
-  parentControlData=controlData
+  parentControlData,
+  forceUpdate
 ) => {
   controlData.forEach(control => {
     const { type, active=[] } = control
     switch (type) {
     case 'group': {
       active.forEach(cd=>{
-        initializeControlFunctions(cd, forceUpdate, parentControlData)
+        initializeControlFunctions(cd, parentControlData, forceUpdate)
       })
       break
     }
@@ -34,10 +37,10 @@ export const initializeControlFunctions = (
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// initialze each control
+//initialze each control
 ///////////////////////////////////////////////////////////////////////////////
 const initialControl = (control, controlData, forceUpdate) => {
-  const { type, setActive } = control
+  const { type, setActive, reverse } = control
   if (type!=='title' && type!=='section' && !setActive) {
     if (typeof control.onSelect ==='function') {
       control.onSelect = control.onSelect.bind(null, control, controlData, (ctrl, isLoading)=>{
@@ -64,5 +67,44 @@ const initialControl = (control, controlData, forceUpdate) => {
         forceUpdate()
       }
     }
+
+    if (reverse) {
+      const setActiveVal = (ctrl, path, templateObject) => {
+        let active = _.get(templateObject, getSourcePath(path))
+        switch (ctrl.type) {
+        case 'checkbox':
+          if (!active) {
+            active = {$v: false}
+          } else {
+            active.$v = !!active.$v
+          }
+          break
+
+        default:
+          break
+        }
+        if (active) {
+          ctrl.active = active.$v
+          ctrl.sourcePath = active
+        }
+      }
+      switch (true) { // match any case that is true
+      case typeof reverse === 'string':
+        control.reverse = (ctrl, templateObject)=>{
+          setActiveVal(ctrl, reverse, templateObject)
+        }
+        break
+
+      case Array.isArray(reverse):
+        control.reverse = (ctrl, templateObject)=>{
+          reverse.forEach(path=>{
+            setActiveVal(ctrl, path, templateObject)
+          })
+        }
+        break
+      }
+
+    }
   }
 }
+

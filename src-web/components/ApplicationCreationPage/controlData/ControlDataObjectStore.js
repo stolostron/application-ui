@@ -36,6 +36,7 @@ const objectstoreChannelData = [
     available: [],
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('objectstore'),
+    reverse: 'Channel[0].spec.pathname',
     onSelect: updateChannelControls
   },
   {
@@ -43,6 +44,7 @@ const objectstoreChannelData = [
     tooltip: 'tooltip.creation.app.objectstore.accesskey',
     id: 'accessKey',
     type: 'text',
+    editing: { hidden: true }, // if editing existing app, hide this field initially
     active: '',
     encode: true,
     placeholder: 'app.enter.accesskey'
@@ -51,7 +53,8 @@ const objectstoreChannelData = [
     name: 'creation.app.objectstore.secretkey',
     tooltip: 'tooltip.creation.app.objectstore.secretkey',
     id: 'secretKey',
-    type: 'text',
+    type: 'password',
+    editing: { hidden: true }, // if editing existing app, hide this field initially
     encode: true,
     active: '',
     placeholder: 'app.enter.secretkey'

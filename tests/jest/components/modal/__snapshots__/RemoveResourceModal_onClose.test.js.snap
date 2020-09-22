@@ -151,6 +151,31 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
         type="actionModal"
       >
         <div>
+          <Loading
+            active={true}
+            small={false}
+            withOverlay={true}
+          >
+            <div
+              className="bx--loading-overlay"
+            >
+              <div
+                aria-live="assertive"
+                className="bx--loading"
+              >
+                <svg
+                  className="bx--loading__svg"
+                  viewBox="-75 -75 150 150"
+                >
+                  <circle
+                    cx="0"
+                    cy="0"
+                    r="37.5"
+                  />
+                </svg>
+              </div>
+            </div>
+          </Loading>
           <Modal
             aria-label="Delete application"
             danger={true}
@@ -492,6 +517,31 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
         type="actionModal"
       >
         <div>
+          <Loading
+            active={true}
+            small={false}
+            withOverlay={true}
+          >
+            <div
+              className="bx--loading-overlay"
+            >
+              <div
+                aria-live="assertive"
+                className="bx--loading"
+              >
+                <svg
+                  className="bx--loading__svg"
+                  viewBox="-75 -75 150 150"
+                >
+                  <circle
+                    cx="0"
+                    cy="0"
+                    r="37.5"
+                  />
+                </svg>
+              </div>
+            </div>
+          </Loading>
           <Modal
             aria-label="Delete application"
             danger={true}

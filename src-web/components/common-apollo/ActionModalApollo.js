@@ -47,6 +47,9 @@ class ActionModalApollo extends React.PureComponent {
       )
     }
     case 'table.actions.applications.remove':
+    case 'table.actions.subscriptions.remove':
+    case 'table.actions.placementrules.remove':
+    case 'table.actions.channels.remove':
     case 'table.actions.remove': {
       return (
         open &&

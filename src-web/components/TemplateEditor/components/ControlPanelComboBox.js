@@ -47,10 +47,11 @@ class ControlPanelComboBox extends React.Component {
       exception,
       validation,
       hasReplacements,
-      isLoading,
       isFailed,
+      disabled,
       fetchAvailable
     } = control
+    let { isLoading } = control
     const { controlData } = this.props
     let { active, available, placeholder = '' } = control
     let loadingMsg
@@ -93,7 +94,19 @@ class ControlPanelComboBox extends React.Component {
       active = map[active] || active
     }
 
-    // combo prefers id's
+    // if active was preset by loading an existing resource
+    // initialize combobox to that value
+    if (active && available.length === 0) {
+      available.push(active)
+      if (isLoading) {
+        available.push(loadingMsg)
+      } else if (isFailed) {
+        available.push(placeholder)
+      }
+      isLoading = false
+    }
+
+    // comboboxes need an array of {label, id}
     const items = available.map((label, inx) => {
       return { label, id: inx }
     })
@@ -113,7 +126,7 @@ class ControlPanelComboBox extends React.Component {
             ) : null}
             <Tooltip control={control} locale={locale} />
           </div>
-          {isLoading ? (
+          {isLoading && !active ? (
             <div className="creation-view-controls-singleselect-loading">
               <DropdownSkeleton />
               <InlineLoading description={loadingMsg} />
@@ -127,6 +140,7 @@ class ControlPanelComboBox extends React.Component {
               initialSelectedItem={initialSelectedItem}
               selecteditem={active}
               spellCheck={false}
+              disabled={disabled}
               ref={ref => {
                 if (ref) {
                   const input = _.get(ref, 'textInput.current')

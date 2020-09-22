@@ -9,10 +9,17 @@
  *******************************************************************************/
 'use strict'
 
+// seems to be an issue with this rule and redux
+/* eslint-disable import/no-named-as-default */
+
 import React from 'react'
 import { HCMPlacementRuleList } from '../../../../lib/client/queries'
-import TimeWindow from '../components/TimeWindow'
-import ClusterSelector from '../components/ClusterSelector'
+import TimeWindow, {
+  reverse as reverseTimeWindow
+} from '../components/TimeWindow'
+import ClusterSelector, {
+  reverse as reverseClusterSelector
+} from '../components/ClusterSelector'
 import {
   setAvailableRules,
   getExistingPRControlsSection,
@@ -156,7 +163,8 @@ const placementData = [
     tooltip: 'tooltip.creation.app.settings.localClusters',
     onSelect: updatePlacementControls,
     active: false,
-    available: []
+    available: [],
+    reverse: 'Subscription[0].spec.placement.local'
   },
   {
     id: 'online-cluster-only-checkbox',
@@ -164,13 +172,15 @@ const placementData = [
     name: 'creation.app.settings.onlineClusters',
     tooltip: 'tooltip.creation.app.settings.onlineClusters',
     active: true,
-    available: []
+    available: [],
+    reverse: 'PlacementRule[0].spec.clusterConditions[0].type'
   },
   {
     type: 'custom',
     id: 'clusterSelector',
     component: <ClusterSelector />,
-    available: []
+    available: [],
+    reverse: reverseClusterSelector
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  settings  /////////////////////////////////////
@@ -188,7 +198,8 @@ const placementData = [
     tooltip: 'creation.app.settings.timeWindow.tooltip',
     id: 'timeWindow',
     component: <TimeWindow />,
-    available: []
+    available: [],
+    reverse: reverseTimeWindow
   }
 ]
 

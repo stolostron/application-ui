@@ -28,47 +28,47 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
     };
     return Promise.resolve(data);
   }),
-  getResource: jest.fn(() => {
+  getApplication: jest.fn(() => {
     const data = {
       data: {
-        items: [
-          {
+        application: {
+          metadata: {
+            labels: null,
+            name: "nginx-placement",
+            namespace: "a--ns",
+            selfLink:
+              "/apis/app.k8s.io/v1beta1/namespaces/a--ns/applications/nginx-placement",
+            uid: "959af3d2-fd39-4d05-ab37-8f117d4d4d6f",
+            __typename: "Metadata"
+          },
+          name: "nginx-placement",
+          namespace: "a--ns",
+          app: {
+            apiVersion: "app.k8s.io/v1beta1",
+            kind: "Application",
             metadata: {
-              creationTimestamp: "2020-04-06T22:27:05Z",
-              generation: 2,
-              name: "guestbook-app",
-              namespace: "default",
-              resourceVersion: "840144",
+              name: "nginx-placement",
+              namespace: "a--ns",
               selfLink:
-                "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
-              uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
+                "/apis/app.k8s.io/v1beta1/namespaces/a--ns/applications/nginx-placement",
+              uid: "959af3d2-fd39-4d05-ab37-8f117d4d4d6f"
             },
-            deployables: [
-              {
-                metadata: {
-                  name: "dep1",
-                  selfLink: "dep1SelfLink",
-                  id: "id"
+            spec: {
+              componentKinds: [
+                {
+                  group: "app.ibm.com/v1alpha1",
+                  kind: "Subscription"
                 }
-              }
-            ],
-            raw: {
-              apiVersion: "app.k8s.io/v1beta1",
-              kind: "Application",
-              metadata: {
-                creationTimestamp: "2020-04-06T22:27:05Z",
-                generation: 2,
-                name: "guestbook-app",
-                namespace: "default",
-                resourceVersion: "840144",
-                selfLink:
-                  "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
-                uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
-              }
+              ]
             }
-          }
-        ]
-      }
+          },
+          subscriptions: null,
+          __typename: "Application"
+        }
+      },
+      loading: false,
+      networkStatus: 7,
+      stale: false
     };
 
     return Promise.resolve(data);

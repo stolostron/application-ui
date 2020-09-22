@@ -52,3 +52,18 @@ export const createApplication = resourceJson => {
     })
   }
 }
+
+export const updateApplication = resourceJson => {
+  return dispatch => {
+    dispatch(createApplicationInProgress())
+    return apolloClient.updateApplication(resourceJson).then(result => {
+      const errors = _.get(result, 'data.updateApplication.errors')
+      if (errors && errors.length > 0) {
+        dispatch(createApplicationFailure(errors))
+      } else {
+        dispatch(createApplicationSuccess())
+      }
+      return result
+    })
+  }
+}

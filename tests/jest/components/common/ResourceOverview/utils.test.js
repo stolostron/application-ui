@@ -354,7 +354,7 @@ describe("getAppOverviewCardsData", () => {
       appNamespace: "default",
       creationTimestamp: "Aug 13 2018, 3:23 pm",
       remoteClusterCount: 1,
-      localClusterDeploy: true,
+      localClusterDeploy: false,
       nodeStatuses: { green: 2, yellow: 1, red: 0, orange: 0 },
       targetLink: targetLink,
       subsList: [

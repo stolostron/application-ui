@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app. 1`] = `
+exports[`ApplicationsListPage ApplicationsListPage renders correctly with data on all app. 1`] = `
 <div
   className="page-content-container"
   role="main"
@@ -438,7 +438,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 <button
                   className="bx--table-sort-v2 bx--table-sort-v2--ascending"
                   data-default-key="name"
-                  data-key="clusters"
+                  data-key="clusterCount"
                   onClick={[Function]}
                   title="Sort rows by this header in descending order"
                 >
@@ -517,7 +517,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 <button
                   className="bx--table-sort-v2 bx--table-sort-v2--ascending"
                   data-default-key="name"
-                  data-key="channels"
+                  data-key="hubChannels"
                   onClick={[Function]}
                   title="Sort rows by this header in descending order"
                 >
@@ -742,7 +742,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 
               </td>
               <td>
-                Feb 18 2018, 6:57 pm
+                3 years ago
               </td>
               <td>
                 <div
@@ -809,7 +809,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 
               </td>
               <td>
-                Feb 18 2018, 8:43 pm
+                3 years ago
               </td>
               <td>
                 <div
@@ -876,7 +876,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 
               </td>
               <td>
-                Feb 11 2019, 6:26 pm
+                2 years ago
               </td>
               <td>
                 <div
@@ -1084,7 +1084,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
 </div>
 `;
 
-exports[`ApplicationsTab ApplicationsTab renders correctly with data on single app. 1`] = `
+exports[`ApplicationsListPage ApplicationsListPage renders correctly with data on single app. 1`] = `
 <div
   className="page-content-container"
   role="main"
@@ -1522,7 +1522,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 <button
                   className="bx--table-sort-v2 bx--table-sort-v2--ascending"
                   data-default-key="name"
-                  data-key="clusters"
+                  data-key="clusterCount"
                   onClick={[Function]}
                   title="Sort rows by this header in descending order"
                 >
@@ -1601,7 +1601,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 <button
                   className="bx--table-sort-v2 bx--table-sort-v2--ascending"
                   data-default-key="name"
-                  data-key="channels"
+                  data-key="hubChannels"
                   onClick={[Function]}
                   title="Sort rows by this header in descending order"
                 >
@@ -1826,7 +1826,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 
               </td>
               <td>
-                Feb 18 2018, 6:57 pm
+                3 years ago
               </td>
               <td>
                 <div
@@ -1893,7 +1893,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 
               </td>
               <td>
-                Feb 18 2018, 8:43 pm
+                3 years ago
               </td>
               <td>
                 <div
@@ -1960,7 +1960,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 
               </td>
               <td>
-                Feb 11 2019, 6:26 pm
+                2 years ago
               </td>
               <td>
                 <div

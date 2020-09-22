@@ -467,6 +467,31 @@ export const HCMApplicationList = {
               apigroup: "apps.open-cluster-management.io",
               apiversion: "v1",
               channel: "mortgage-ch/mortgage-channel",
+              cluster: "kcormier-cluster",
+              created: "2020-09-18T21:20:00Z",
+              kind: "subscription",
+              label:
+                "app=mortgage-app-mortgage; hosting-deployable-name=mortgage-app-subscription-deployable; subscription-pause=false",
+              localPlacement: "true",
+              name: "mortgage-app-subscription",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgage-app-subscription",
+              status: "Failed",
+              _clusterNamespace: "kcormier-cluster",
+              _gitbranch: "master",
+              _gitpath: "mortgage",
+              _hostingDeployable:
+                "kcormier-cluster/mortgage-app-subscription-deployable-w2qpd",
+              _hostingSubscription: "default/mortgage-app-subscription",
+              _rbac:
+                "kcormier-cluster_apps.open-cluster-management.io_subscriptions",
+              _uid: "kcormier-cluster/727109c7-0742-44b2-bc19-37eccc63508b"
+            },
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              channel: "mortgage-ch/mortgage-channel",
               cluster: "local-cluster",
               created: "2018-08-13T19:23:01Z",
               kind: "subscription",

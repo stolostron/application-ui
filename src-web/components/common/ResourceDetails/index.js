@@ -11,13 +11,11 @@
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification } from 'carbon-components-react'
-import { getTabs } from '../../../../lib/client/resource-helper'
 import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
-import lodash from 'lodash'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
 import ResourceOverview from '../ResourceOverview'
@@ -197,10 +195,7 @@ class ResourceDetails extends React.Component {
           params = match && match.params
     updateSecondaryHeaderFn(
       params.name,
-      getTabs(
-        tabs,
-        (tab, index) => (index === 0 ? match.url : `${match.url}/${tab}`)
-      ),
+      tabs,
       this.getBreadcrumb(),
       launch_links
     )
@@ -213,10 +208,7 @@ class ResourceDetails extends React.Component {
 
       updateSecondaryHeaderFn(
         params.name,
-        getTabs(
-          tabs,
-          (tab, index) => (index === 0 ? match.url : `${match.url}/${tab}`)
-        ),
+        tabs,
         this.getBreadcrumb(nextProps.location),
         launch_links
       )
@@ -287,35 +279,17 @@ class ResourceDetails extends React.Component {
   }
 
   getBreadcrumb(location) {
-    const breadcrumbItems = []
     location = location || this.props.location
-    const { tabs, match, resourceType } = this.props,
+    const { resourceType } = this.props,
           { locale } = this.context,
-          urlSegments = location.pathname.replace(/\/$/, '').split('/'),
-          lastSegment = urlSegments[urlSegments.length - 1],
-          currentTab = tabs.find(tab => tab === lastSegment)
+          urlSegments = location.pathname.replace(/\/$/, '').split('/')
 
-    // The base path, calculated by the current location minus params
-    let paramsLength = 0
-    lodash.forOwn(match.params, value => {
-      if (value) {
-        paramsLength++
+    return [
+      {
+        label: msgs.get(`tabs.${resourceType.name.toLowerCase()}`, locale),
+        url: urlSegments.slice(0, Math.min(3, urlSegments.length)).join('/')
       }
-    })
-
-    breadcrumbItems.push({
-      label: msgs.get(`tabs.${resourceType.name.toLowerCase()}`, locale),
-      url: urlSegments
-        .slice(0, urlSegments.length - (paramsLength + (currentTab ? 1 : 0)))
-        .join('/')
-    })
-    breadcrumbItems.push({
-      label: match.params.name,
-      url: currentTab
-        ? location.pathname.replace(`/${currentTab}`, '')
-        : location.pathname
-    })
-    return breadcrumbItems
+    ]
   }
 }
 

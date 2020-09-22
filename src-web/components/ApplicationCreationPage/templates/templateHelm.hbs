@@ -19,7 +19,7 @@ metadata:
 spec:
   type: HelmRepo
 {{#if helmURL}}
-  pathname: '{{{helmURL}}}'  ##channels.{{@index}}.helmURL
+  pathname: '{{{helmURL}}}'
 {{/if}}
 {{#if helmUser}}
   secretRef:
@@ -54,7 +54,7 @@ spec:
   channel: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}/{{{@root.name}}}-{{{channelName}}}-{{@index}}
 {{/if}}
 {{#if helmChartName}}
-  name: {{{helmChartName}}} ##channels.{{@index}}.helmChartName
+  name: {{{helmChartName}}}
 {{/if}}
 {{#if helmPackageVersion}}
   packageFilter:

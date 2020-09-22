@@ -36,6 +36,7 @@ import constants from '../../../lib/shared/constants'
 import { filterTableAction } from '../../../lib/client/access-helper'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
+import config from '../../../lib/shared/config'
 
 resources(() => {
   require('../../../scss/table.scss')
@@ -390,7 +391,12 @@ class ResourceTable extends React.Component {
     const namespace = _.get(item, 'namespace', '')
     if (action.link) {
       const url = action.link.url(item)
-      history.push(url)
+      if (url && !url.startsWith(config.contextPath)) {
+        // external to this SPA
+        window.location = url
+      } else {
+        history.push(url)
+      }
     } else if (action.modal) {
       client.mutate({
         mutation: UPDATE_ACTION_MODAL,
@@ -469,10 +475,7 @@ class ResourceTable extends React.Component {
               {filteredActions.map(action => (
                 <OverflowMenuItem
                   data-table-action={action.key}
-                  isDelete={
-                    action.key === 'table.actions.remove' ||
-                    action.key === 'table.actions.applications.remove'
-                  }
+                  isDelete={action.delete}
                   onClick={() => {
                     this.handleActionClick(action, resourceType, item, history)
                   }}

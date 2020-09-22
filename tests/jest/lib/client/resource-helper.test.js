@@ -6,12 +6,13 @@ import lodash from "lodash";
 import moment from "moment";
 import {
   transform,
+  createEditLink,
   getLabelsToList,
-  getTabs,
   getAge,
   getResourceType,
   getClusterCount,
   getClusterCountString,
+  getEditLink,
   getSearchLink,
   getShortDateTime
 } from "../../../../lib/client/resource-helper";
@@ -248,36 +249,6 @@ describe("getLabelsToList", () => {
   });
 });
 
-describe("getTabs", () => {
-  const match = { url: "/multicloud/applications" };
-  const getUrl = (tab, index) =>
-    index === 0 ? match.url : `${match.url}/${tab}`;
-
-  it("return no tab", () => {
-    const tabs = [];
-    const output = getTabs(tabs, getUrl);
-    expect(output).toEqual([]);
-  });
-
-  it("return tabs url", () => {
-    const tabs = ["overview", "resources"];
-    const output = getTabs(tabs, getUrl);
-    const result = [
-      {
-        id: "overview-tab",
-        label: "tabs.overview",
-        url: "/multicloud/applications"
-      },
-      {
-        id: "resources-tab",
-        label: "tabs.resources",
-        url: "/multicloud/applications/resources"
-      }
-    ];
-    expect(output).toEqual(result);
-  });
-});
-
 describe("getAge", () => {
   const item = {
     name: "guestbook-app",
@@ -421,25 +392,57 @@ describe("getShortDateTime", () => {
 describe("getClusterCount", () => {
   it("returns 'None' when there are no remote or local clusters", () => {
     expect(
-      getClusterCount("", 0, false, "app", "thenamespace")
+      getClusterCount({
+        locale: "",
+        remoteCount: 0,
+        localPlacement: false,
+        name: "app",
+        namespace: "thenamespace",
+        kind: "application",
+        apigroup: "app.k8s.io"
+      })
     ).toMatchSnapshot();
   });
 
   it("returns a string that does not include 'local' when localDeployment is false, with link", () => {
     expect(
-      getClusterCount("", 5, false, "app", "thenamespace")
+      getClusterCount({
+        locale: "",
+        remoteCount: 5,
+        localPlacement: false,
+        name: "app",
+        namespace: "thenamespace",
+        kind: "application",
+        apigroup: "app.k8s.io"
+      })
     ).toMatchSnapshot();
   });
 
   it("returns a string that does not include 'remote' when there are no remote clusters, no link", () => {
     expect(
-      getClusterCount("", 0, true, "app", "thenamespace")
+      getClusterCount({
+        locale: "",
+        remoteCount: 0,
+        localPlacement: true,
+        name: "app",
+        namespace: "thenamespace",
+        kind: "application",
+        apigroup: "app.k8s.io"
+      })
     ).toMatchSnapshot();
   });
 
   it("returns a string that includes both remote and local clusters when applicable, with link", () => {
     expect(
-      getClusterCount("", 3, true, "app", "thenamespace")
+      getClusterCount({
+        locale: "",
+        remoteCount: 3,
+        localPlacement: true,
+        name: "app",
+        namespace: "thenamespace",
+        kind: "application",
+        apigroup: "app.k8s.io"
+      })
     ).toMatchSnapshot();
   });
 });
@@ -510,5 +513,21 @@ describe("getSearchLink", () => {
     ).toEqual(
       '/multicloud/search?filters={"textsearch":"name%3Atesting"}&showrelated=subscriptions'
     );
+  });
+});
+
+describe("getEditLink", () => {
+  it("returns an edit link using the item.selfLink", () => {
+    expect(getEditLink({ selfLink: "/api/foo" })).toEqual(
+      "/multicloud/details/local-cluster/api/foo"
+    );
+  });
+});
+
+describe("createEditLink", () => {
+  it("returns an a tag using the item.name and item.selfLink", () => {
+    expect(
+      createEditLink({ name: "foo", selfLink: "/api/bar" })
+    ).toMatchSnapshot();
   });
 });

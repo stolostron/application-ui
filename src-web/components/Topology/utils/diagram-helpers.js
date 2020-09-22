@@ -921,10 +921,11 @@ export const setupResourceModel = (
         if (
           kind === 'subscription' &&
           _.get(relatedKind, 'cluster', '') === LOCAL_HUB_NAME &&
-          _.get(relatedKind, 'localPlacement', '') === 'true'
+          _.get(relatedKind, 'localPlacement', '') === 'true' &&
+          _.endsWith(name, '-local')
         ) {
           //match local hub subscription after removing -local suffix
-          name = _.replace(name, '-local', '')
+          name = _.trimEnd(name, '-local')
         }
 
         if (resourceMap[name]) {

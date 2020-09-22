@@ -21,7 +21,7 @@ exports[`SecondaryHeader component 1 renders as expected 1`] = `
 exports[`SecondaryHeader component 2 renders as expected 1`] = `
 <div
   aria-label="hello world"
-  className="secondary-header-wrapper"
+  className="secondary-header-wrapper with-tabs"
   role="region"
 >
   <div
@@ -158,7 +158,7 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
 exports[`SecondaryHeader component 3 renders as expected 1`] = `
 <div
   aria-label="hello world"
-  className="secondary-header-wrapper"
+  className="secondary-header-wrapper with-tabs"
   role="region"
 >
   <div

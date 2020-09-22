@@ -154,14 +154,14 @@
     min-height: 40px;
 
     &.cluster-tabs {
-      top: unset;
+      top: 65px;
       background-color: $color__white;
       height: 40px;
       width: auto;
 
       &--long {
         @extend .cluster-tabs;
-        top: unset;
+        top: 90px;
       }
     }
   }
@@ -181,7 +181,22 @@
 
 .secondary-header-wrapper-min {
   @extend .secondary-header-wrapper;
-  height: $secondary-header-min-height;
+  height: $secondary-header-min-wrapper;
+}
+
+.secondary-header-wrapper.with-breadcrumbs {
+  @extend .secondary-header-wrapper;
+  height:  $secondary-header-min-wrapper;
+}
+
+.secondary-header-wrapper.with-tabs {
+  @extend .secondary-header-wrapper;
+  height: $secondary-header-med-wrapper;
+}
+
+.secondary-header-wrapper.with-tabs.with-breadcrumbs {
+  @extend .secondary-header-wrapper;
+  height: $secondary-header-max-wrapper;
 }
 
 .secondary-header-tooltip-icon {

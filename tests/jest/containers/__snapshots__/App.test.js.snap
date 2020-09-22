@@ -8,7 +8,7 @@ exports[`App App renders correctly with data on single app. 1`] = `
     className="expand-vertically"
   >
     <div
-      className="secondary-header-wrapper"
+      className="secondary-header-wrapper with-breadcrumbs"
       role="region"
     >
       <div

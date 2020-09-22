@@ -13,7 +13,7 @@ import {
   notification
 } from "./common";
 
-export const createApplication = (data, type) => {
+export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
   const { name, config } = data;
   modal.clickPrimary();
@@ -21,17 +21,17 @@ export const createApplication = (data, type) => {
   cy.get("#name").type(name);
   cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`);
   if (type === "git") {
-    createGit(config);
+    createGit(clusterName, config);
   } else if (type === "objectstore") {
-    createObj(config);
+    createObj(clusterName, config);
   } else if (type === "helm") {
-    createHelm(config);
+    createHelm(clusterName, config);
   }
   submitSave();
 };
 
-export const gitTasks = (value, gitCss, key = 0) => {
-  const { url, username, token, branch, path, timeWindow } = value;
+export const gitTasks = (clusterName, value, gitCss, key = 0) => {
+  const { url, username, token, branch, path, timeWindow, deployment } = value;
   const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
   cy
     .get(`#github`)
@@ -39,7 +39,7 @@ export const gitTasks = (value, gitCss, key = 0) => {
     .trigger("mouseover");
   cy
     .get(gitUrl, { timeout: 20 * 1000 })
-    .type(url)
+    .type(url, { timeout: 30 * 1000 })
     .blur();
   if (username && token) {
     cy.get(gitUser).type(username);
@@ -50,23 +50,24 @@ export const gitTasks = (value, gitCss, key = 0) => {
   cy.get(gitBranch).type(branch, { force: true });
   cy.get(gitPath).type(path, { force: true });
 
+  selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
 
-export const createHelm = configs => {
+export const createHelm = (clusterName, configs) => {
   let helmCss = {
     helmURL: "#helmURL",
     helmChartName: "#helmChartName"
   };
   for (const [key, value] of Object.entries(configs)) {
     key == 0
-      ? helmTasks(value, helmCss)
-      : multipleTemplate(value, helmCss, key, helmTasks);
+      ? helmTasks(clusterName, value, helmCss)
+      : multipleTemplate(clusterName, value, helmCss, key, helmTasks);
   }
 };
 
-export const helmTasks = (value, css, key = 0) => {
-  const { url, chartName, timeWindow } = value;
+export const helmTasks = (clusterName, value, css, key = 0) => {
+  const { url, chartName, timeWindow, deployment } = value;
   const { helmURL, helmChartName } = css;
   cy
     .get("#helmrepo")
@@ -80,10 +81,11 @@ export const helmTasks = (value, css, key = 0) => {
     .get(helmChartName, { timeout: 20 * 1000 })
     .type(chartName)
     .blur();
+  selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
 
-export const createGit = configs => {
+export const createGit = (clusterName, configs) => {
   let gitCss = {
     gitUrl: "#githubURL",
     gitUser: "#githubUser",
@@ -93,12 +95,12 @@ export const createGit = configs => {
   };
   for (const [key, value] of Object.entries(configs)) {
     key == 0
-      ? gitTasks(value, gitCss)
-      : multipleTemplate(value, gitCss, key, gitTasks);
+      ? gitTasks(clusterName, value, gitCss)
+      : multipleTemplate(clusterName, value, gitCss, key, gitTasks);
   }
 };
 
-export const createObj = configs => {
+export const createObj = (clusterName, configs) => {
   let objCss = {
     objUrl: "#objectstoreURL",
     objAccess: "#accessKey",
@@ -106,13 +108,13 @@ export const createObj = configs => {
   };
   for (const [key, value] of Object.entries(configs)) {
     key == 0
-      ? objTasks(value, objCss)
-      : multipleTemplate(value, objCss, key, objTasks);
+      ? objTasks(clusterName, value, objCss)
+      : multipleTemplate(clusterName, value, objCss, key, objTasks);
   }
 };
 
-export const objTasks = (value, css, key = 0) => {
-  const { url, accessKey, secretKey, timeWindow } = value;
+export const objTasks = (clusterName, value, css, key = 0) => {
+  const { url, accessKey, secretKey, timeWindow, deployment } = value;
   const { objUrl, objAccess, objSecret } = css;
   cy
     .get("#objectstore")
@@ -127,17 +129,18 @@ export const objTasks = (value, css, key = 0) => {
       cy.log(`credentials have not been saved...`);
     }
   });
+  selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
 
-export const multipleTemplate = (value, css, key, func) => {
+export const multipleTemplate = (clusterName, value, css, key, func) => {
   Object.keys(css).forEach(k => (css[k] = css[k] + `grp${key}`));
   cy.get("#add-channels").click();
   cy
     .get(".creation-view-group-container")
     .eq(key)
     .within($content => {
-      func(value, css, key);
+      func(clusterName, value, css, key);
     });
 };
 
@@ -207,21 +210,27 @@ export const validateTopology = (name, data, type) => {
     .should("be.visible");
 
   //placementrule
-  cy.log("validate the placementrule...");
-  cy
-    .get(`g[type="${name}-placement-0"]`, { timeout: 25 * 1000 })
-    .should("be.visible");
-  /*
+  for (const [key, value] of Object.entries(data.config)) {
+    const { deployment } = value;
+    const { local } = deployment;
+    !local
+      ? (cy.log("validate the placementrule..."),
+        cy
+          .get(`g[type="${name}-placement-0"]`, { timeout: 25 * 1000 })
+          .should("be.visible"))
+      : cy.log(
+          "placement will not be created as the application is deployed to local"
+        );
+  }
+
   data.config.forEach(data => {
     const { path } = type == "git" ? data : data;
     path == "helloworld" ? validateHelloWorld() : null;
   });
-  */
 };
 
 export const validateHelloWorld = () => {
   // validate route
-  cy.wait(3 * 60 * 1000); // wait for a the route to be deployed
   cy.log("validate the route...");
   cy.scrollTo("bottom");
   cy
@@ -274,10 +283,59 @@ export const deleteApplicationUI = name => {
 
     // after deleting the app, it should not exist in the app table
     resourceTable.rowShouldNotExist(name, 300 * 1000);
-    // disable for now letting the canary pass until #4677 is fixed
-    // notification.shouldExist("success");
   } else {
     cy.log("No apps to delete...");
+  }
+};
+
+export const selectClusterDeployment = (deployment, clusterName, key) => {
+  if (deployment) {
+    const { local, online, matchingLabel } = deployment;
+    const cluster = clusterName.split("/")[1];
+    let clusterDeploymentCss = {
+      localClusterID: "#local-cluster-checkbox",
+      onlineClusterID: "#online-cluster-only-checkbox",
+      uniqueClusterID: "#clusterSelector-checkbox-clusterSelector"
+    };
+    key == 0
+      ? clusterDeploymentCss
+      : Object.keys(clusterDeploymentCss).forEach(
+          k => (clusterDeploymentCss[k] = clusterDeploymentCss[k] + `grp${key}`)
+        );
+
+    const {
+      localClusterID,
+      onlineClusterID,
+      uniqueClusterID
+    } = clusterDeploymentCss;
+
+    !local
+      ? cy.log("do not select `Deploy on local cluster`")
+      : cy
+          .get(localClusterID)
+          .click({ force: true })
+          .trigger("mouseover", { force: true });
+    !online
+      ? local
+        ? cy.log("local deployment has been set")
+        : cy
+            .get(onlineClusterID, { timeout: 50 * 1000 })
+            .click({ force: true })
+            .trigger("mouseover", { force: true })
+      : cy.log("select `Deploy to all online clusters` by default");
+
+    !matchingLabel
+      ? cy.log(
+          "do not select `Deploy application resources only on clusters matching specified labels`"
+        )
+      : (cy.get(uniqueClusterID).click({ force: true }),
+        cy.log(`deploying app to cluster-${cluster}`),
+        cy.get("#labelName-0").type("name"),
+        cy.get("#labelValue-0").type(cluster));
+  } else {
+    throw new Error(
+      "no available imported OCP clusters to deploy applications"
+    );
   }
 };
 

@@ -32,10 +32,16 @@ export const apiResources = {
     const config = data.config;
 
     for (const [key, value] of Object.entries(config)) {
+      const { deployment } = value;
+      const { local } = deployment;
       cy.log(`instance-${key}`);
       channels(key, type, action, name, value);
       subscription(key, action, name);
-      placementrule(key, action, name);
+      !local
+        ? placementrule(key, action, name)
+        : cy.log(
+            "placement will not be created as the application is deployed to local"
+          );
     }
   }
 };
@@ -52,25 +58,11 @@ export const channels = (key, type, action, name, config) => {
       channelNs: `dev${objChannelKey}-chn-ns`,
       channelName: `dev${objChannelKey}-chn`
     },
-    "local-cluster": {
-      channelNs: "resource-ns",
-      channelName: "resource"
-    },
     helm: {
       channelNs: "-chn-ns",
       channelName: "-chn"
     }
   };
-
-  if (type === "local-cluster") {
-    if (repository) {
-      let newValue = {
-        channelNs: `${repository}-chn-ns`,
-        channelName: `${repository}-chn`
-      };
-      channelDict[type] = newValue;
-    }
-  }
 
   const { channelNs, channelName } = channelDict[type];
   cy.log(`${action} the ${type} channel if it exists`);
@@ -212,4 +204,30 @@ export const validateTimewindow = (name, config) => {
       }
     });
   }
+};
+
+export const getManagedClusterName = () => {
+  cy.exec(`oc get managedcluster -oname`).then(({ stdout }) => {
+    let managedClusters = stdout.split("\n");
+    const substrings = [
+      "vendor: OpenShift",
+      'status: "True"',
+      "type: ManagedClusterJoined"
+    ];
+    managedClusters.forEach((cluster, index) =>
+      cy.exec(`oc get ${cluster} -o yaml`).then(({ stdout }) => {
+        let isReady = false;
+        substrings.forEach(substring => {
+          stdout.includes(substring) ? (isReady = true) : isReady;
+          isReady == false ? managedClusters.splice(index, 1) : managedClusters;
+        });
+      })
+    );
+    cy.log(managedClusters).then(() => {
+      managedClusters
+        ? (Cypress.env("managedCluster", managedClusters[0]),
+          cy.log(`managed cluster is ${managedClusters[0]}`))
+        : cy.log(managedClusters);
+    });
+  });
 };

@@ -96,11 +96,11 @@ export const updateChannelControls = (
   const type = !pathData ? 'text' : 'hidden'
   const setType = (cid, isPasswordField) => {
     control = groupControlData.find(({ id }) => id === cid)
-    let setType = type
+    let setCtrlType = type
     if (isPasswordField) {
-      setType = type === 'hidden' ? type : 'password'
+      setCtrlType = type === 'hidden' ? type : 'password'
     }
-    _.set(control, 'type', setType)
+    _.set(control, 'type', setCtrlType)
     if (type === 'hidden') {
       _.set(control, 'active', '')
     }

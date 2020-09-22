@@ -18,6 +18,8 @@ import {
 } from '../../lib/client/resource-helper'
 import msgs from '../../nls/platform.properties'
 
+const apigroup = 'apps.open-cluster-management.io'
+
 export default {
   defaultSortField: 'name',
   primaryKey: 'name',
@@ -79,7 +81,7 @@ export default {
               name: item.name,
               namespace: item.namespace,
               kind: 'subscription',
-              apigroup: 'apps.open-cluster-management.io'
+              apigroup
             }
           })
       }
@@ -104,7 +106,7 @@ export function createChannelLink(item) {
         name,
         namespace,
         kind: 'channel',
-        apigroup: 'apps.open-cluster-management.io'
+        apigroup
       }
     })
     return <a href={channelLink}>{name}</a>
@@ -119,7 +121,7 @@ export function createApplicationsLink(item) {
         name: item.name,
         namespace: item.namespace,
         kind: 'subscription',
-        apigroup: 'apps.open-cluster-management.io'
+        apigroup
       },
       showRelated: 'application'
     })

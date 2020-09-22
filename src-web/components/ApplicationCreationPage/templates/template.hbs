@@ -146,5 +146,36 @@ spec:
 
 {{/case}}
 
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==========================Other channel ================== }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{#case 'other'}}
+
+{{>templateOther
+  channelName=../channelName 
+  channelNamespace=../channelNamespace 
+  namespaceChannelName=../namespaceChannelName
+}}
+
+{{>templatePlacement 
+  timeWindow=../timeWindow
+  selectedRuleName=../selectedRuleName
+  existingrule-checkbox=../existingrule-checkbox
+  local-cluster-checkbox=../local-cluster-checkbox
+  clusterSelector=../clusterSelector
+  online-cluster-only-checkbox=../online-cluster-only-checkbox
+}}
+
+{{>templatePrePostTasks 
+  ansibleSecretName=../ansibleSecretName
+  ansibleTowerHost=../ansibleTowerHost
+  ansibleTowerToken=../ansibleTowerToken  
+}}
+
+{{/case}}
+
+
 {{/switch}}
 {{/each}}

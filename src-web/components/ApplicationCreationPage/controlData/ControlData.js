@@ -13,6 +13,7 @@ import { HCMNamespaceList } from '../../../../lib/client/queries'
 import gitChannelData from './ControlDataGit'
 import helmReleaseChannelData from './ControlDataHelm'
 import objectstoreChannelData from './ControlDataObjectStore'
+import otherChannelData from './ControlDataOther'
 import {
   setAvailableNSSpecs,
   getExistingPRControlsSection,
@@ -153,11 +154,11 @@ const discoverChannelFromSource = (
   case 'HelmRepo':
     id = 'helmrepo'
     break
-  case 'Namespace':
-    id = 'deployable'
-    break
   case 'ObjectBucket':
     id = 'objectstore'
+    break
+  case 'Namespace':
+    id = 'other'
     break
   }
 
@@ -171,7 +172,7 @@ const discoverChannelFromSource = (
       break
 
     default:
-      id = 'github'
+      id = 'other'
       break
     }
   }
@@ -217,9 +218,28 @@ const shiftTemplateObject = templateObject => {
   let subscription = _.get(templateObject, 'Subscription')
   if (subscription) {
     subscription = subscription.shift()
+
+    // if this subscription pointed to a channel in this template
+    // remove that channel too
+    let name = _.get(
+      subscription,
+      '$synced.spec.$v.channel.$v'
+    )
+    if (name) {
+      const [ns, n] = name.split('/')
+      const channels = templateObject.Channel || []
+      const inx = channels.findIndex(rule => {
+        return n === _.get(rule, '$synced.metadata.$v.name.$v')
+         && ns === _.get(rule, '$synced.metadata.$v.namespace.$v')
+      })
+      if (inx !== -1) {
+        templateObject.Channel.splice(inx, 1)
+      }
+    }
+
     // if this subscription pointed to a placement rule in this template
     // remove that placement rule too
-    const name = _.get(
+    name = _.get(
       subscription,
       '$synced.spec.$v.placement.$v.placementRef.$v.name.$v'
     )
@@ -345,6 +365,15 @@ export const controlData = [
             tooltip: 'tooltip.channel.type.objectbucket',
             change: {
               insertControlData: objectstoreChannelData
+            }
+          },
+          {
+            id: 'other',
+            logo: 'resource-deployable-icon.svg',
+            title: 'channel.type.other',
+            tooltip: 'tooltip.channel.type.other',
+            change: {
+              insertControlData: otherChannelData
             }
           }
         ],

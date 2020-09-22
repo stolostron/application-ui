@@ -78,11 +78,11 @@ export default {
 }
 
 export function createClustersLink(item, locale) {
-  const clusterCount = R.path(['clusterCount'], item) || 0
+  const clusterCount = R.path(['clusterCount'], item) || {}
   return getClusterCount({
     locale,
-    remoteCount: clusterCount,
-    localPlacement: false,
+    remoteCount: clusterCount.remoteCount,
+    localPlacement: clusterCount.localCount,
     name: item.name,
     namespace: item.namespace,
     kind: 'placementrule'

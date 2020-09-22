@@ -864,7 +864,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 <a
                   href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asubscribed-guestbook-application%20namespace%3Akube-system%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
                 >
-                  {0} Remote
+                  {0} Remote, 1 Local
                 </a>
               </td>
               <td>
@@ -1948,7 +1948,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 <a
                   href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asubscribed-guestbook-application%20namespace%3Akube-system%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
                 >
-                  {0} Remote
+                  {0} Remote, 1 Local
                 </a>
               </td>
               <td>

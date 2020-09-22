@@ -163,14 +163,14 @@ export function createApplicationLink(item = {}, ...param) {
 }
 
 export function createClustersLink(item = {}, locale = '') {
-  const clusterCount = R.path(['clusterCount'], item) || 0
+  const clusterCount = R.path(['clusterCount'], item) || {}
   const localPlacement = (R.path(['hubSubscriptions'], item) || []).some(
     sub => sub.localPlacement
   )
   return getClusterCount({
     locale,
-    remoteCount: clusterCount,
-    localPlacement,
+    remoteCount: clusterCount.remoteCount,
+    localPlacement: localPlacement || clusterCount.localCount,
     name: item.name,
     namespace: item.namespace,
     kind: 'application',

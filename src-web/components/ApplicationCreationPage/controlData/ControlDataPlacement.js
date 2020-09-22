@@ -123,6 +123,15 @@ export const updatePlacementControls = placementControl => {
   return groupControlData
 }
 
+export const summarizeOnline = (control, globalControlData, summary) => {
+  const localClusterCheckboxControl = control.groupControlData.find(
+    ({ id }) => id === localClusterCheckbox
+  )
+  if (!_.get(localClusterCheckboxControl, 'active')) {
+    summary.push('Online clusters')
+  }
+}
+
 const placementData = [
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
@@ -167,7 +176,7 @@ const placementData = [
     active: false,
     available: [],
     reverse: 'Subscription[0].spec.placement.local',
-    summarize: (active) => {return active ? 'Local cluster':''}
+    summarize: (control, controlData, summary) => {summary.push(control.active ? 'Local cluster':'')}
   },
   {
     id: 'online-cluster-only-checkbox',
@@ -177,7 +186,7 @@ const placementData = [
     active: true,
     available: [],
     reverse: 'PlacementRule[0].spec.clusterConditions[0].type',
-    summarize: (active) => {return active ? 'Online clusters':''}
+    summarize: summarizeOnline.bind(null)
   },
   {
     type: 'custom',

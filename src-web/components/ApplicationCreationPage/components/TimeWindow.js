@@ -534,8 +534,8 @@ export const reverse = (control, templateObject) => {
 }
 
 
-export const summarize = (active, summary) => {
-  const {mode, timezone, timeList, days} = active
+export const summarize = (control, controlData, summary) => {
+  const {mode, timezone, timeList, days} = control.active||{}
   if (mode) {
     summary.push(mode)
     timeList.forEach(({start, end})=>{

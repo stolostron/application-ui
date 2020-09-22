@@ -36,6 +36,7 @@ import constants from '../../../lib/shared/constants'
 import { filterTableAction } from '../../../lib/client/access-helper'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
+import config from '../../../lib/shared/config'
 
 resources(() => {
   require('../../../scss/table.scss')
@@ -390,7 +391,7 @@ class ResourceTable extends React.Component {
     const namespace = _.get(item, 'namespace', '')
     if (action.link) {
       const url = action.link.url(item)
-      if (url && !url.startsWith('/multicloud/applications')) {
+      if (url && !url.startsWith(config.contextPath)) {
         // external to this SPA
         window.location = url
       } else {

@@ -52,7 +52,7 @@ class RemoveResourceModal extends React.Component {
   componentWillMount() {
     if (this.props.data) {
       const { data } = this.props
-      this.getChildResources(data.name, data.namespace, data.clusterName)
+      this.getChildResources(data.name, data.namespace)
       const kind = data.selfLink.split('/')
       const apiGroup = kind[1] === 'apis' ? kind[2] : ''
       canCallAction(

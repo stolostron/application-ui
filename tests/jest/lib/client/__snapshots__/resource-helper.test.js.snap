@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`createEditLink returns an a tag using the item.name and item.selfLink 1`] = `
+<a
+  href="/multicloud/details/local-cluster/api/bar"
+>
+  foo
+</a>
+`;
+
 exports[`getClusterCount returns 'None' when there are no remote or local clusters 1`] = `"None"`;
 
 exports[`getClusterCount returns a string that does not include 'local' when localDeployment is false, with link 1`] = `

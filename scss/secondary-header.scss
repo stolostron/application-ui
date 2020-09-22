@@ -154,14 +154,14 @@
     min-height: 40px;
 
     &.cluster-tabs {
-      top: unset;
+      top: 65px;
       background-color: $color__white;
       height: 40px;
       width: auto;
 
       &--long {
         @extend .cluster-tabs;
-        top: unset;
+        top: 90px;
       }
     }
   }
@@ -176,6 +176,7 @@
 .secondary-header-wrapper {
   position: relative;
   width: 100%;
+  height: $secondary-header-max-height;
   z-index: 1000;
 }
 

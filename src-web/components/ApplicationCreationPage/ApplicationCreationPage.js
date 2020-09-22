@@ -44,7 +44,6 @@ resources(() => {
 class ApplicationCreationPage extends React.Component {
   static propTypes = {
     cleanReqStatus: PropTypes.func,
-    editApplication: PropTypes.object,
     handleCreateApplication: PropTypes.func,
     handleUpdateApplication: PropTypes.func,
     history: PropTypes.object,
@@ -79,6 +78,17 @@ class ApplicationCreationPage extends React.Component {
     this.getBreadcrumbs = this.getBreadcrumbs.bind(this)
   }
 
+  getEditApplication() {
+    const { match: { params } } = this.props
+    if (params.name && params.namespace) {
+      return {
+        selectedAppName: params.name,
+        selectedAppNamespace: params.namespace
+      }
+    }
+    return null
+  }
+
   getBreadcrumbs() {
     const { location } = this.props,
           urlSegments = location.pathname.split('/')
@@ -91,17 +101,8 @@ class ApplicationCreationPage extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      secondaryHeaderProps = {},
-      editApplication = {},
-      cleanReqStatus,
-      match
-    } = this.props
-    const name = match && match.params && match.params.name
-    const {
-      selectedAppName = name,
-      breadcrumbs = this.getBreadcrumbs()
-    } = editApplication
+    const { secondaryHeaderProps = {}, cleanReqStatus } = this.props
+    const { selectedAppName } = this.getEditApplication()
     const { locale } = this.context
     if (cleanReqStatus) {
       this.props.cleanReqStatus()
@@ -127,7 +128,7 @@ class ApplicationCreationPage extends React.Component {
     this.props.updateSecondaryHeader(
       title,
       secondaryHeaderProps.tabs,
-      breadcrumbs,
+      this.getBreadcrumbs(),
       portals,
       null,
       tooltip
@@ -161,7 +162,7 @@ class ApplicationCreationPage extends React.Component {
   }
 
   render() {
-    const { editApplication } = this.props
+    const editApplication = this.getEditApplication()
     if (editApplication) {
       // if editing an existing app, grab it first
       const { selectedAppName, selectedAppNamespace } = editApplication
@@ -237,11 +238,8 @@ class ApplicationCreationPage extends React.Component {
 
   handleCreate = resourceJSON => {
     if (resourceJSON) {
-      const {
-        editApplication,
-        handleCreateApplication,
-        handleUpdateApplication
-      } = this.props
+      const { handleCreateApplication, handleUpdateApplication } = this.props
+      const editApplication = this.getEditApplication()
       if (editApplication) {
         handleUpdateApplication(resourceJSON)
       } else {

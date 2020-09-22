@@ -94,9 +94,13 @@ export const updateChannelControls = (
   let control
   // if existing channel, hide user/token controls
   const type = !pathData ? 'text' : 'hidden'
-  const setType = cid => {
+  const setType = (cid, isPasswordField) => {
     control = groupControlData.find(({ id }) => id === cid)
-    _.set(control, 'type', type)
+    let setCtrlType = type
+    if (isPasswordField) {
+      setCtrlType = type === 'hidden' ? type : 'password'
+    }
+    _.set(control, 'type', setCtrlType)
     if (type === 'hidden') {
       _.set(control, 'active', '')
     }
@@ -105,15 +109,15 @@ export const updateChannelControls = (
   switch (id) {
   case 'githubURL':
     setType('githubUser')
-    setType('githubAccessId')
+    setType('githubAccessId', true)
     break
   case 'objectstoreURL':
     setType('accessKey')
-    setType('secretKey')
+    setType('secretKey', true)
     break
   case 'helmURL':
     setType('helmUser')
-    setType('helmPassword')
+    setType('helmPassword', true)
     break
   }
 

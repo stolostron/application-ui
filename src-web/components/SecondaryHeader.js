@@ -18,6 +18,7 @@ import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
 import SecondaryHeaderTooltip from './SecondaryHeaderTooltip'
+import classNames from 'classnames'
 
 resources(() => {
   require('../../scss/secondary-header.scss')
@@ -61,7 +62,11 @@ export class SecondaryHeader extends React.Component {
     ) {
       return (
         <div
-          className="secondary-header-wrapper"
+          className={classNames({
+            'secondary-header-wrapper': true,
+            'with-tabs': tabs && tabs.length > 0,
+            'with-breadcrumbs': breadcrumbItems && breadcrumbItems.length > 0
+          })}
           role="region"
           aria-label={title}
         >

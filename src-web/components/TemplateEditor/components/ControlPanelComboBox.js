@@ -51,9 +51,7 @@ class ControlPanelComboBox extends React.Component {
       disabled,
       fetchAvailable
     } = control
-    let {
-      isLoading
-    } = control
+    let { isLoading } = control
     const { controlData } = this.props
     let { active, available, placeholder = '' } = control
     let loadingMsg
@@ -98,14 +96,14 @@ class ControlPanelComboBox extends React.Component {
 
     // if active was preset by loading an existing resource
     // initialize combobox to that value
-    if (active && available.length===0) {
+    if (active && available.length === 0) {
       available.push(active)
       if (isLoading) {
         available.push(loadingMsg)
       } else if (isFailed) {
         available.push(placeholder)
       }
-      isLoading=false
+      isLoading = false
     }
 
     // comboboxes need an array of {label, id}

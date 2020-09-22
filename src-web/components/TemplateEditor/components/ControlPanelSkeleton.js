@@ -29,18 +29,14 @@ class ControlPanelSkeleton extends React.Component {
 
     return (
       <React.Fragment>
-        <div
-          className="creation-view-controls-skeleton"
-        >
+        <div className="creation-view-controls-skeleton">
           <label
             className="creation-view-controls-textbox-title"
             htmlFor={controlId}
           >
             {name}
           </label>
-          <SkeletonText
-            id={controlId}
-          />
+          <SkeletonText id={controlId} />
         </div>
       </React.Fragment>
     )

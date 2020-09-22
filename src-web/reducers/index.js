@@ -60,6 +60,21 @@ export const QueryApplicationList = createResourceReducer(
   predicate.bind(null, RESOURCE_TYPES.QUERY_APPLICATIONS)
 )
 
+export const QuerySubscriptionList = createResourceReducer(
+  resourceReducerFunction,
+  predicate.bind(null, RESOURCE_TYPES.QUERY_SUBSCRIPTIONS)
+)
+
+export const QueryPlacementRuleList = createResourceReducer(
+  resourceReducerFunction,
+  predicate.bind(null, RESOURCE_TYPES.QUERY_PLACEMENTRULES)
+)
+
+export const QueryChannelList = createResourceReducer(
+  resourceReducerFunction,
+  predicate.bind(null, RESOURCE_TYPES.QUERY_CHANNELS)
+)
+
 // the exported function name must match the resourceType value
 export const GlobalApplicationDataList = createResourceReducer(
   resourceReducerFunction,

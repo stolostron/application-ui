@@ -12,7 +12,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ResourceDetails from './ResourceDetails'
 import ResourceList from './ResourceList'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import getResourceDefinitions from '../../definitions'
 import { makeGetVisibleTableItemsSelector } from '../../reducers/common'
 import Page from './Page'
@@ -33,7 +33,7 @@ const WrappedResourceDetails = props => (
   <ResourceDetails
     resourceType={props.resourceType}
     staticResourceData={props.staticResourceData}
-    tabs={props.detailsTabs}
+    tabs={props.secondaryHeaderProps.tabs}
     routes={props.routes}
     getVisibleResources={props.getVisibleResources}
   >
@@ -49,15 +49,15 @@ const ResourcePageWithListAndDetails = props => (
       render={() => <WrappedResourceList {...props} />}
     />
     <Route
-      path={`${props.match.url}/:namespace/:name?`}
+      path={`${props.match.url}/:namespace/:name`}
       render={() => <WrappedResourceDetails {...props} />}
     />
+    <Route render={() => <Redirect to={props.match.url} />} />
   </Switch>
 )
 
 const typedResourcePageWithListAndDetails = (
   resourceType,
-  detailsTabs,
   buttons,
   routes,
   modules
@@ -76,7 +76,62 @@ const typedResourcePageWithListAndDetails = (
         <Page>
           <ResourcePageWithListAndDetails
             {...this.props}
-            detailsTabs={detailsTabs}
+            routes={routes}
+            resourceType={resourceType}
+            staticResourceData={staticResourceData}
+            getVisibleResources={getVisibleResources}
+            buttons={buttons}
+            modules={modules}
+          />
+        </Page>
+      )
+    }
+  }
+}
+
+const typedResourcePageList = (resourceType, buttons, routes, modules) => {
+  const staticResourceData = getResourceDefinitions(resourceType)
+  const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
+
+  // eslint-disable-next-line react/display-name
+  return class extends React.PureComponent {
+    constructor(props) {
+      super(props)
+    }
+
+    render() {
+      return (
+        <Page>
+          <WrappedResourceList
+            {...this.props}
+            routes={routes}
+            resourceType={resourceType}
+            staticResourceData={staticResourceData}
+            getVisibleResources={getVisibleResources}
+            buttons={buttons}
+            modules={modules}
+          />
+        </Page>
+      )
+    }
+  }
+}
+
+const typedResourcePageDetails = (resourceType, buttons, routes, modules) => {
+  const staticResourceData = getResourceDefinitions(resourceType)
+  const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
+
+  // eslint-disable-next-line react/display-name
+  return class extends React.PureComponent {
+    constructor(props) {
+      super(props)
+    }
+
+    render() {
+      return (
+        <Page>
+          <WrappedResourceDetails
+            {...this.props}
             routes={routes}
             resourceType={resourceType}
             staticResourceData={staticResourceData}
@@ -97,11 +152,11 @@ WrappedResourceList.propTypes = {
 }
 
 WrappedResourceDetails.propTypes = {
-  detailsTabs: PropTypes.array,
   getVisibleResources: PropTypes.func,
   modules: PropTypes.array,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
+  secondaryHeaderProps: PropTypes.object,
   staticResourceData: PropTypes.object
 }
 
@@ -109,4 +164,8 @@ ResourcePageWithListAndDetails.propTypes = {
   match: PropTypes.object
 }
 
-export { typedResourcePageWithListAndDetails }
+export {
+  typedResourcePageWithListAndDetails,
+  typedResourcePageList,
+  typedResourcePageDetails
+}

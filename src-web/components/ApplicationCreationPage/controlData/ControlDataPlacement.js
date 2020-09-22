@@ -11,8 +11,12 @@
 
 import React from 'react'
 import { HCMPlacementRuleList } from '../../../../lib/client/queries'
-import TimeWindow, {reverse as reverseTimeWindow} from '../components/TimeWindow'
-import ClusterSelector, {reverse as reverseClusterSelector} from '../components/ClusterSelector'
+import TimeWindow, {
+  reverse as reverseTimeWindow
+} from '../components/TimeWindow'
+import ClusterSelector, {
+  reverse as reverseClusterSelector
+} from '../components/ClusterSelector'
 import {
   setAvailableRules,
   getExistingPRControlsSection,

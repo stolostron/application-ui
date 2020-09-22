@@ -171,17 +171,35 @@ export const fetchGlobalAppsData = resourceType => {
 }
 
 export const fetchResources = resourceType => {
-  if (resourceType.name === 'QueryApplications') {
-    const resourceQuery = { list: 'ApplicationsList' }
+  let resourceQuery, dataKey
+  switch (resourceType.name) {
+  case 'QueryApplications':
+    resourceQuery = { list: 'ApplicationsList' }
+    dataKey = 'applications'
+    break
+  case 'QuerySubscriptions':
+    resourceQuery = { list: 'SubscriptionsList' }
+    dataKey = 'subscriptions'
+    break
+  case 'QueryPlacementRules':
+    resourceQuery = { list: 'PlacementRulesList' }
+    dataKey = 'placementRules'
+    break
+  case 'QueryChannels':
+    resourceQuery = { list: 'ChannelsList' }
+    dataKey = 'channels'
+    break
+  }
+  if (resourceQuery) {
     //use Query api to get the data, instead of the generic searchResource
     return dispatch => {
       apolloClient
         .get(resourceQuery)
         .then(result => {
-          if (result.data && result.data.applications) {
+          if (result.data && result.data[dataKey]) {
             return dispatch(
               receiveResourceSuccess(
-                { items: result.data.applications },
+                { items: result.data[dataKey] },
                 resourceType
               )
             )
@@ -339,12 +357,21 @@ export const editResource = (
     })
 }
 
-export const updateSecondaryHeader = (title, tabs, breadcrumbItems, links) => ({
+export const updateSecondaryHeader = (
+  title,
+  tabs,
+  breadcrumbItems,
+  links,
+  actions,
+  tooltip
+) => ({
   type: Actions.SECONDARY_HEADER_UPDATE,
   title,
   tabs,
   breadcrumbItems,
-  links
+  links,
+  actions,
+  tooltip
 })
 
 export const updateModal = data => ({
@@ -449,6 +476,18 @@ export const mutateResourceSuccessFinished = resourceType => ({
   type: Actions.RESOURCE_MUTATE_FINISHED,
   resourceType
 })
+
+export const clearSuccessFinished = dispatch => {
+  [
+    RESOURCE_TYPES.QUERY_APPLICATIONS,
+    RESOURCE_TYPES.HCM_CHANNELS,
+    RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+    RESOURCE_TYPES.HCM_PLACEMENT_RULES
+  ].forEach(resourceType => {
+    dispatch(mutateResourceSuccessFinished(resourceType))
+    dispatch(delResourceSuccessFinished(resourceType))
+  })
+}
 
 export const createResources = (resourceType, resourceJson) => {
   if (resourceType === RESOURCE_TYPES.HCM_APPLICATIONS) {

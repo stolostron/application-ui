@@ -267,8 +267,9 @@ class ControlPanel extends React.Component {
     const { controlData, locale, showEditor, isLoaded } = this.props
     const { isHidden } = control
     if (
-      isHidden === true || isHidden==='true' || typeof isHidden === 'function' &&
-      isHidden(showEditor)
+      isHidden === true ||
+      isHidden === 'true' ||
+      (typeof isHidden === 'function' && isHidden(showEditor))
     ) {
       return null
     }
@@ -281,7 +282,7 @@ class ControlPanel extends React.Component {
           controlId={controlId}
           control={control}
           locale={locale}
-          />
+        />
       )
     }
     switch (type) {
@@ -534,7 +535,16 @@ class ControlPanel extends React.Component {
     const { notifications = [] } = this.props
     if (notifications.length > 0) {
       return notifications.map(
-        ({ id, controlId, exception, kind = 'error', ref, tabInx = 0, editor, row }) => {
+        ({
+          id,
+          controlId,
+          exception,
+          kind = 'error',
+          ref,
+          tabInx = 0,
+          editor,
+          row
+        }) => {
           const handleClick = () => {
             if (ref || controlId) {
               ref = document.getElementById(controlId) || ref

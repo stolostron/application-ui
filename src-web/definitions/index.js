@@ -22,7 +22,10 @@ const resourceData = {
   [RESOURCE_TYPES.HCM_CHANNELS.name]: hcmchannels,
   [RESOURCE_TYPES.HCM_SUBSCRIPTIONS.name]: hcmsubscriptions,
   [RESOURCE_TYPES.HCM_PLACEMENT_RULES.name]: hcmplacementrules,
-  [RESOURCE_TYPES.QUERY_APPLICATIONS.name]: hcmapplications
+  [RESOURCE_TYPES.QUERY_APPLICATIONS.name]: hcmapplications,
+  [RESOURCE_TYPES.QUERY_SUBSCRIPTIONS.name]: hcmsubscriptions,
+  [RESOURCE_TYPES.QUERY_PLACEMENTRULES.name]: hcmplacementrules,
+  [RESOURCE_TYPES.QUERY_CHANNELS.name]: hcmchannels
 }
 
 function getResourceData(resourceType) {

@@ -11,7 +11,6 @@
 
 import _ from 'lodash'
 
-
 // remove the kube stuff
 const kube = [
   'creationTimestamp',
@@ -20,27 +19,28 @@ const kube = [
   'deployables',
   'livenessProbe',
   'resourceVersion',
-  'generation']
+  'generation'
+]
 
 const keepKeys = [
   'apps.open-cluster-management.io/github-branch',
   'apps.open-cluster-management.io/github-path',
   'apps.open-cluster-management.io/git-branch',
-  'apps.open-cluster-management.io/git-path',
+  'apps.open-cluster-management.io/git-path'
 ]
 
 const isFiltered = (value, key, parentKey) => {
   if (kube.includes(key)) {
     return true
   }
-  if (parentKey==='annotations' && !keepKeys.includes(key)) {
+  if (parentKey === 'annotations' && !keepKeys.includes(key)) {
     return true
   }
   return false
 }
 
 const filter = (value, parentKey) => {
-  if (typeof value==='object') {
+  if (typeof value === 'object') {
     return filterDeep(value, parentKey)
   }
   return value
@@ -48,7 +48,7 @@ const filter = (value, parentKey) => {
 
 const filterDeep = (obj, parentKey) => {
   const newObj = {}
-  Object.entries(obj||{}).forEach(([k, v])=>{
+  Object.entries(obj || {}).forEach(([k, v]) => {
     const value = filter(v, k)
     if (!isFiltered(value, k, parentKey)) {
       newObj[k] = value
@@ -57,9 +57,9 @@ const filterDeep = (obj, parentKey) => {
   return newObj
 }
 
-export const getApplicationResources = (application) => {
+export const getApplicationResources = application => {
   if (application) {
-    const {app, subscriptions} = _.cloneDeep(application)
+    const { app, subscriptions } = _.cloneDeep(application)
     const resources = []
 
     // application
@@ -67,8 +67,8 @@ export const getApplicationResources = (application) => {
 
     // for each subscriptions, do channel and rule
     if (Array.isArray(subscriptions)) {
-      subscriptions.forEach(subscription=>{
-        const {channels, rules} = subscription
+      subscriptions.forEach(subscription => {
+        const { channels, rules } = subscription
         delete subscription.channels
         delete subscription.rules
         resources.push(filterDeep(channels[0]))

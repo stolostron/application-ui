@@ -18,9 +18,7 @@ import {
   getExistingPRControlsSection,
   updateNewRuleControlsData
 } from './utils'
-import {
-  initializeControls,
-} from '../../TemplateEditor/utils/utils'
+import { initializeControls } from '../../TemplateEditor/utils/utils'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
@@ -91,14 +89,19 @@ export const updateControlsForNS = (
 
 // only called when editing an existing application
 // examines resources to create the correct resource types that are being deployed
-const discoverGroupsFromSource = (control, cd, templateObject, forceUpdate, locale) =>{
+const discoverGroupsFromSource = (
+  control,
+  cd,
+  templateObject,
+  forceUpdate,
+  locale
+) => {
   const { controlData: groupData, prompts: { nameId, baseName } } = control
   templateObject = _.cloneDeep(templateObject)
   const times = _.get(templateObject, 'Subscription.length')
   if (times) {
     const active = []
-    _.times(times, ()=>{
-
+    _.times(times, () => {
       // add a group for every subscription
       const newGroup = initializeControls(
         groupData,
@@ -113,17 +116,31 @@ const discoverGroupsFromSource = (control, cd, templateObject, forceUpdate, loca
       nameControl.active = `${baseName}-${active.length - 1}`
 
       // add a channel for every group
-      const cardsControl = newGroup.find(
-        ({ id }) => id === 'channelType'
+      const cardsControl = newGroup.find(({ id }) => id === 'channelType')
+      discoverChannelFromSource(
+        cardsControl,
+        newGroup,
+        cd,
+        templateObject,
+        forceUpdate,
+        times > 1,
+        locale
       )
-      discoverChannelFromSource(cardsControl, newGroup, cd, templateObject, forceUpdate, times>1, locale)
       shiftTemplateObject(templateObject)
     })
     control.active = active
   }
 }
 
-const discoverChannelFromSource = (cardsControl, groupControlData, globalControl, templateObject, forceUpdate, multiple, locale) =>{
+const discoverChannelFromSource = (
+  cardsControl,
+  groupControlData,
+  globalControl,
+  templateObject,
+  forceUpdate,
+  multiple,
+  locale
+) => {
   // determine channel type
   let id
 
@@ -148,7 +165,6 @@ const discoverChannelFromSource = (cardsControl, groupControlData, globalControl
   if (!id) {
     const subscription = _.get(templateObject, 'Subscription[0].$raw')
     switch (true) {
-
     // if it has a package filter assume helm
     case !!_.get(subscription, 'spec.packageFilter.version'):
       id = 'helmrepo'
@@ -158,17 +174,17 @@ const discoverChannelFromSource = (cardsControl, groupControlData, globalControl
       id = 'github'
       break
     }
-
-
-
   }
   cardsControl.active = id
 
   // insert channel type control data in this group
-  const insertControlData = _.get(cardsControl.availableMap[id], 'change.insertControlData')
+  const insertControlData = _.get(
+    cardsControl.availableMap[id],
+    'change.insertControlData'
+  )
   if (insertControlData) {
     const insertInx = groupControlData.findIndex(
-      ({ id:_id }) => _id === cardsControl.id
+      ({ id: _id }) => _id === cardsControl.id
     )
     // splice control data with data from this card
     groupControlData.splice(
@@ -183,13 +199,12 @@ const discoverChannelFromSource = (cardsControl, groupControlData, globalControl
 
     // if more then one group, collapse all groups
     if (multiple) {
-      groupControlData.filter(
-        ({ type }) => type === 'section'
-      ).forEach(section=>{
-        section.collapsed = true
-      })
+      groupControlData
+        .filter(({ type }) => type === 'section')
+        .forEach(section => {
+          section.collapsed = true
+        })
     }
-
   }
 }
 
@@ -197,22 +212,24 @@ const discoverChannelFromSource = (cardsControl, groupControlData, globalControl
 // reverse source path always points to first template resource (ex: Subscription[0])
 // so after one group has been processed, pop the top Subscription so that next pass
 // the Subscription[0] points to the next group
-const shiftTemplateObject = (templateObject) =>{
-
+const shiftTemplateObject = templateObject => {
   // pop the subscription off of all subscriptions
   let subscription = _.get(templateObject, 'Subscription')
   if (subscription) {
     subscription = subscription.shift()
     // if this subscription pointed to a placement rule in this template
     // remove that placement rule too
-    const name = _.get(subscription, '$synced.spec.$v.placement.$v.placementRef.$v.name.$v')
+    const name = _.get(
+      subscription,
+      '$synced.spec.$v.placement.$v.placementRef.$v.name.$v'
+    )
     if (name) {
-      const rules = templateObject.PlacementRules||[]
-      const inx = rules.findIndex(rule=>{
+      const rules = templateObject.PlacementRules || []
+      const inx = rules.findIndex(rule => {
         return name === _.get(rule, '$synced.metadata.$v.name.$v')
       })
-      if (inx!==-1) {
-        templateObject.PlacementRule.splice(inx,1)
+      if (inx !== -1) {
+        templateObject.PlacementRule.splice(inx, 1)
       }
     }
   }
@@ -229,7 +246,7 @@ export const controlData = [
     tooltip: 'tooltip.creation.app.name',
     id: 'name',
     type: 'text',
-    editing: {disabled: true}, // if editing existing app, disable this field
+    editing: { disabled: true }, // if editing existing app, disable this field
     validation: {
       constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
@@ -243,7 +260,7 @@ export const controlData = [
     id: 'namespace',
     type: 'combobox',
     fetchAvailable: loadExistingNamespaces(),
-    editing: {disabled: true}, // if editing existing app, disable this field
+    editing: { disabled: true }, // if editing existing app, disable this field
     onSelect: updateNSControls,
     validation: {
       constraint: VALID_DNS_LABEL,

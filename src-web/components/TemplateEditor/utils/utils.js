@@ -23,7 +23,6 @@ export const ControlMode = Object.freeze({
   PROMPT_ONLY: 'PROMPT_ONLY'
 })
 
-
 export const initializeControls = (
   initialControlData,
   parentControlData,
@@ -38,23 +37,20 @@ export const initializeControls = (
     groupNum,
     inGroup
   )
-  initializeControlFunctions(
-    controlData,
-    parentControlData,
-    forceUpdate
-  )
+  initializeControlFunctions(controlData, parentControlData, forceUpdate)
   return controlData
 }
 
 // from an edit resource, discover # of groups, card selections
 export function discoverControls(
-  controlData, templateObject, forceUpdate, locale
+  controlData,
+  templateObject,
+  forceUpdate,
+  locale
 ) {
   templateObject = _.cloneDeep(templateObject)
   const discoverControl = control => {
-    const {
-      discover
-    } = control
+    const { discover } = control
     if (discover) {
       discover(control, controlData, templateObject, forceUpdate, locale)
     }
@@ -64,20 +60,11 @@ export function discoverControls(
   })
 }
 
-
 //reverse control active valuess from template
-export function reverseTemplate(
-  controlData,
-  templateObject
-) {
+export function reverseTemplate(controlData, templateObject) {
   templateObject = _.cloneDeep(templateObject)
   const reverseControl = control => {
-    const {
-      type,
-      active=[],
-      reverse,
-      shift
-    } = control
+    const { type, active = [], reverse, shift } = control
     if (type === 'group') {
       active.forEach(group => {
         group.forEach(gcontrol => {
@@ -95,16 +82,9 @@ export function reverseTemplate(
 }
 
 // reverse control active valuess from template
-export function editingMode(
-  controlData
-) {
+export function editingMode(controlData) {
   const editMode = control => {
-    const {
-      type,
-      active,
-      isHidden,
-      editing
-    } = control
+    const { type, active, isHidden, editing } = control
     if (type === 'group') {
       active.forEach(group => {
         group.forEach(gcontrol => {
@@ -112,7 +92,7 @@ export function editingMode(
         })
       })
     } else if (editing) {
-      const {hidden, disabled, collapsed} = editing
+      const { hidden, disabled, collapsed } = editing
       // if editing existing app, hide this field initially
       if (hidden) {
         if (isHidden) {
@@ -136,19 +116,35 @@ export function editingMode(
   })
 }
 
-
-export const generateSource = (template, editStack, controlData, otherYAMLTabs, isFinalGenerate)  => {
+export const generateSource = (
+  template,
+  editStack,
+  controlData,
+  otherYAMLTabs,
+  isFinalGenerate
+) => {
   if (!_.isEmpty(editStack)) {
-    return generateSourceFromStack(template, editStack, controlData, otherYAMLTabs, isFinalGenerate)
+    return generateSourceFromStack(
+      template,
+      editStack,
+      controlData,
+      otherYAMLTabs,
+      isFinalGenerate
+    )
   } else {
-    return generateSourceFromTemplate(template, controlData, otherYAMLTabs, isFinalGenerate)
+    return generateSourceFromTemplate(
+      template,
+      controlData,
+      otherYAMLTabs,
+      isFinalGenerate
+    )
   }
 }
 
 export const parseYAML = yaml => {
   let absLine = 0
   const parsed = {}
-  const resources=[]
+  const resources = []
   const exceptions = []
   const yamls = yaml.split(/^---$/gm)
   // check for syntax errors
@@ -201,8 +197,8 @@ export const cacheUserData = controlData => {
   controlData.forEach(control => {
     if (
       control.cacheUserValueKey &&
-    control.userData &&
-    control.userData.length > 0
+      control.userData &&
+      control.userData.length > 0
     ) {
       const storageKey = `${control.cacheUserValueKey}--${
         window.location.href
@@ -226,28 +222,29 @@ export const getUniqueName = (name, nameSet) => {
 
 // convert this: PlacementRule[0].spec.clusterConditions[0].type
 // to this:      PlacementRule[0].$synced.spec.$v.clusterConditions.$v[0].$v.type.$v
-export const getSourcePath = (path) => {
+export const getSourcePath = path => {
   let sourcePath = path.split(/\.(?=(?:[^"]*"[^"]*")*[^"]*$)/)
   const pathBase = sourcePath.shift() + '.$synced'
-  sourcePath = sourcePath.map(seg=>{
+  sourcePath = sourcePath.map(seg => {
     return seg.replace('[', '.$v[')
   })
-  sourcePath = sourcePath.length > 0 ? pathBase + `.${sourcePath.join('.$v.')}` : pathBase
+  sourcePath =
+    sourcePath.length > 0 ? pathBase + `.${sourcePath.join('.$v.')}` : pathBase
   return sourcePath
 }
 
-export const removeVs = (object) => {
+export const removeVs = object => {
   if (object) {
     let o
-    object = object.$v!==undefined ? object.$v : object
+    object = object.$v !== undefined ? object.$v : object
     if (Array.isArray(object)) {
       for (let i = 0; i < object.length; i++) {
         o = object[i]
-        object[i] = o.$v!==undefined ? removeVs(o) : o
+        object[i] = o.$v !== undefined ? removeVs(o) : o
       }
     } else if (!!object && typeof object === 'object') {
-      Object.entries(object).forEach(([k, oo])=>{
-        object[k] = oo.$v!==undefined ? removeVs(oo) : oo
+      Object.entries(object).forEach(([k, oo]) => {
+        object[k] = oo.$v !== undefined ? removeVs(oo) : oo
       })
     }
   }

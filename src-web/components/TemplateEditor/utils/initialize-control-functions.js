@@ -12,7 +12,6 @@
 import { getSourcePath } from './utils'
 import _ from 'lodash'
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //intialize controls and groups
 ///////////////////////////////////////////////////////////////////////////////
@@ -22,10 +21,10 @@ export const initializeControlFunctions = (
   forceUpdate
 ) => {
   controlData.forEach(control => {
-    const { type, active=[] } = control
+    const { type, active = [] } = control
     switch (type) {
     case 'group': {
-      active.forEach(cd=>{
+      active.forEach(cd => {
         initializeControlFunctions(cd, parentControlData, forceUpdate)
       })
       break
@@ -41,28 +40,33 @@ export const initializeControlFunctions = (
 ///////////////////////////////////////////////////////////////////////////////
 const initialControl = (control, controlData, forceUpdate) => {
   const { type, setActive, reverse } = control
-  if (type!=='title' && type!=='section' && !setActive) {
-    if (typeof control.onSelect ==='function') {
-      control.onSelect = control.onSelect.bind(null, control, controlData, (ctrl, isLoading)=>{
-        if (isLoading) {
-          ctrl.isLoading = isLoading
-          forceUpdate()
-        } else {
-          setTimeout(() => {
+  if (type !== 'title' && type !== 'section' && !setActive) {
+    if (typeof control.onSelect === 'function') {
+      control.onSelect = control.onSelect.bind(
+        null,
+        control,
+        controlData,
+        (ctrl, isLoading) => {
+          if (isLoading) {
             ctrl.isLoading = isLoading
             forceUpdate()
-          })
+          } else {
+            setTimeout(() => {
+              ctrl.isLoading = isLoading
+              forceUpdate()
+            })
+          }
         }
-      })
+      )
     }
 
-    if (typeof control.isHidden ==='function') {
+    if (typeof control.isHidden === 'function') {
       control.isHidden = control.isHidden.bind(null, control, controlData)
     }
 
-    control.setActive = (value) =>{
+    control.setActive = value => {
       control.active = value
-      if (typeof control.onSelect ==='function') {
+      if (typeof control.onSelect === 'function') {
         control.onSelect()
         forceUpdate()
       }
@@ -74,7 +78,7 @@ const initialControl = (control, controlData, forceUpdate) => {
         switch (ctrl.type) {
         case 'checkbox':
           if (!active) {
-            active = {$v: false}
+            active = { $v: false }
           } else {
             active.$v = !!active.$v
           }
@@ -90,21 +94,19 @@ const initialControl = (control, controlData, forceUpdate) => {
       }
       switch (true) { // match any case that is true
       case typeof reverse === 'string':
-        control.reverse = (ctrl, templateObject)=>{
+        control.reverse = (ctrl, templateObject) => {
           setActiveVal(ctrl, reverse, templateObject)
         }
         break
 
       case Array.isArray(reverse):
-        control.reverse = (ctrl, templateObject)=>{
-          reverse.forEach(path=>{
+        control.reverse = (ctrl, templateObject) => {
+          reverse.forEach(path => {
             setActiveVal(ctrl, path, templateObject)
           })
         }
         break
       }
-
     }
   }
 }
-

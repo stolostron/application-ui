@@ -533,6 +533,23 @@ export const reverse = (control, templateObject) => {
   }
 }
 
+
+export const summarize = (control, controlData, summary) => {
+  const {mode, timezone, timeList, days} = control.active||{}
+  if (mode) {
+    summary.push(mode)
+    timeList.forEach(({start, end})=>{
+      if (start) {
+        summary.push(`${start}-${end}`)
+      }
+    })
+    summary.push(timezone)
+    summary.push(days.join(','))
+  } else {
+    summary.push('No time window')
+  }
+}
+
 // Convert 12-hour format to 24-hour format
 const to24 = time => {
   const match = /((1[0-2]|0?[1-9]):([0-5][0-9])([AP][M]))/.exec(time)

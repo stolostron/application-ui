@@ -64,6 +64,10 @@ const initialControl = (control, controlData, forceUpdate) => {
       control.isHidden = control.isHidden.bind(null, control, controlData)
     }
 
+    if (typeof control.summarize === 'function') {
+      control.summarize = control.summarize.bind(null, control, controlData)
+    }
+
     control.setActive = value => {
       control.active = value
       if (typeof control.onSelect === 'function') {

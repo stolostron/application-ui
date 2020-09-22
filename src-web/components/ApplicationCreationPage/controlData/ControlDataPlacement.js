@@ -15,10 +15,12 @@
 import React from 'react'
 import { HCMPlacementRuleList } from '../../../../lib/client/queries'
 import TimeWindow, {
-  reverse as reverseTimeWindow
+  reverse as reverseTimeWindow,
+  summarize as summarizeTimeWindow
 } from '../components/TimeWindow'
 import ClusterSelector, {
-  reverse as reverseClusterSelector
+  reverse as reverseClusterSelector,
+  summarize as summarizeClusterSelector
 } from '../components/ClusterSelector'
 import {
   setAvailableRules,
@@ -121,6 +123,15 @@ export const updatePlacementControls = placementControl => {
   return groupControlData
 }
 
+export const summarizeOnline = (control, globalControlData, summary) => {
+  const localClusterCheckboxControl = control.groupControlData.find(
+    ({ id }) => id === localClusterCheckbox
+  )
+  if (!_.get(localClusterCheckboxControl, 'active')) {
+    summary.push('Online clusters')
+  }
+}
+
 const placementData = [
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
@@ -164,7 +175,8 @@ const placementData = [
     onSelect: updatePlacementControls,
     active: false,
     available: [],
-    reverse: 'Subscription[0].spec.placement.local'
+    reverse: 'Subscription[0].spec.placement.local',
+    summarize: (control, controlData, summary) => {summary.push(control.active ? 'Local cluster':'')}
   },
   {
     id: 'online-cluster-only-checkbox',
@@ -173,14 +185,16 @@ const placementData = [
     tooltip: 'tooltip.creation.app.settings.onlineClusters',
     active: true,
     available: [],
-    reverse: 'PlacementRule[0].spec.clusterConditions[0].type'
+    reverse: 'PlacementRule[0].spec.clusterConditions[0].type',
+    summarize: summarizeOnline.bind(null)
   },
   {
     type: 'custom',
     id: 'clusterSelector',
     component: <ClusterSelector />,
     available: [],
-    reverse: reverseClusterSelector
+    reverse: reverseClusterSelector,
+    summarize: summarizeClusterSelector
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  settings  /////////////////////////////////////
@@ -199,7 +213,8 @@ const placementData = [
     id: 'timeWindow',
     component: <TimeWindow />,
     available: [],
-    reverse: reverseTimeWindow
+    reverse: reverseTimeWindow,
+    summarize: summarizeTimeWindow
   }
 ]
 

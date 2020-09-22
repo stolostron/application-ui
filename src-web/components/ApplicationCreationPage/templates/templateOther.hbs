@@ -1,0 +1,36 @@
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Other channel ========================= }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+
+{{#unless channelNamespace}}
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: {{{@root.name}}}-{{{channelName}}}-{{@index}}
+  namespace: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}
+spec:
+  type: Namespace
+  pathname: {{{namespaceChannelName}}}
+{{/unless}} 
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  labels:
+    app: {{{@root.name}}}
+  name: {{{@root.name}}}-subscription-{{@index}}
+  namespace: {{{@root.namespace}}}
+spec:
+{{#if ansibleSecretName}} 
+  hooksecretref: 
+    name: {{{ansibleSecretName}}}
+{{/if}}
+{{#if channelNamespace}}
+  channel: {{{channelNamespace}}}/{{{channelName}}}
+{{else}}
+  channel: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}/{{{@root.name}}}-{{{channelName}}}-{{@index}}
+{{/if}}
+

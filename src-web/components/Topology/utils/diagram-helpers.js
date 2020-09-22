@@ -1171,9 +1171,42 @@ export const setSubscriptionDeployStatus = (node, details) => {
   if (R.pathOr('', ['type'])(node) !== 'subscription') {
     return details
   }
+  const timeWindow = _.get(node, 'specs.raw.spec.timewindow.windowtype')
+  const timeWindowDays = _.get(node, 'specs.raw.spec.timewindow.weekdays')
+  const timeWindowHours = _.get(node, 'specs.raw.spec.timewindow.hours')
+
+  if (timeWindow) {
+    details.push({
+      type: 'label',
+      labelKey: 'spec.subscr.timeWindow.title'
+    })
+    const windowStatus = _.get(node, 'specs.raw.status.message')
+
+    details.push({
+      labelKey: 'spec.subscr.timeWindow',
+      value: windowStatus
+    })
+    details.push({
+      labelKey: 'spec.subscr.timeWindow.type',
+      value: timeWindow
+    })
+    timeWindowDays &&
+      details.push({
+        labelKey: 'spec.subscr.timeWindow.days',
+        value: R.toString(timeWindowDays)
+      })
+    timeWindowHours &&
+      details.push({
+        labelKey: 'spec.subscr.timeWindow.hours',
+        value: R.toString(timeWindowHours)
+      })
+  }
 
   const isLocalPlacementSubs = _.get(node, 'specs.raw.spec.placement.local')
   if (isLocalPlacementSubs) {
+    details.push({
+      type: 'spacer'
+    })
     details.push({
       labelKey: 'resource.subscription.local',
       value: 'true'

@@ -390,7 +390,12 @@ class ResourceTable extends React.Component {
     const namespace = _.get(item, 'namespace', '')
     if (action.link) {
       const url = action.link.url(item)
-      history.push(url)
+      if (url && !url.startsWith('/multicloud/applications')) {
+        // external to this SPA
+        window.location = url
+      } else {
+        history.push(url)
+      }
     } else if (action.modal) {
       client.mutate({
         mutation: UPDATE_ACTION_MODAL,

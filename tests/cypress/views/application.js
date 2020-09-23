@@ -159,8 +159,7 @@ export const validateSubscriptionDetails = (name, data, type) => {
     .scrollIntoView()
     .click({ timeout: 100 * 1000 });
   for (const [key, value] of Object.entries(data.config)) {
-    const { timeWindow } = value;
-    const { setting, type } = timeWindow;
+    const { setting, type } = value.timeWindow;
     if (setting) {
       const keywords = {
         blockinterval: "Blocked",
@@ -211,8 +210,7 @@ export const validateTopology = (name, data, type) => {
 
   //placementrule
   for (const [key, value] of Object.entries(data.config)) {
-    const { deployment } = value;
-    const { local } = deployment;
+    const { local } = value.deployment;
     !local
       ? (cy.log("validate the placementrule..."),
         cy

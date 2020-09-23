@@ -32,8 +32,7 @@ export const apiResources = {
     const config = data.config;
 
     for (const [key, value] of Object.entries(config)) {
-      const { deployment } = value;
-      const { local } = deployment;
+      const { local } = value.deployment;
       cy.log(`instance-${key}`);
       channels(key, type, action, name, value);
       subscription(key, action, name);

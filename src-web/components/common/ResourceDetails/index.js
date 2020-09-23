@@ -191,13 +191,20 @@ class ResourceDetails extends React.Component {
   }
 
   componentWillMount() {
-    const { updateSecondaryHeaderFn, tabs, launch_links, match } = this.props,
+    const {
+            updateSecondaryHeaderFn,
+            tabs,
+            launch_links,
+            mainButton,
+            match
+          } = this.props,
           params = match && match.params
     updateSecondaryHeaderFn(
       params.name,
       tabs,
       this.getBreadcrumb(),
-      launch_links
+      launch_links,
+      mainButton
     )
   }
 
@@ -302,6 +309,7 @@ ResourceDetails.propTypes = {
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   launch_links: PropTypes.object,
   location: PropTypes.object,
+  mainButton: PropTypes.object,
   match: PropTypes.object,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
@@ -315,8 +323,24 @@ ResourceDetails.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
-    updateSecondaryHeaderFn: (title, tabs, breadcrumbItems, links) =>
-      dispatch(updateSecondaryHeader(title, tabs, breadcrumbItems, links))
+    updateSecondaryHeaderFn: (
+      title,
+      tabs,
+      breadcrumbItems,
+      links,
+      mainButton
+    ) =>
+      dispatch(
+        updateSecondaryHeader(
+          title,
+          tabs,
+          breadcrumbItems,
+          links,
+          null,
+          null,
+          mainButton
+        )
+      )
   }
 }
 

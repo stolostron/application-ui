@@ -15,11 +15,18 @@ import ResourceTableModule from './common/ResourceTableModuleFromProps'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import getResourceDefinitions from '../definitions'
 import { makeGetVisibleTableItemsSelector } from '../reducers/common'
-import {  getSelectedId, default as QuerySwitcher } from './common/QuerySwitcher'
+import {
+  getSelectedId,
+  default as QuerySwitcher
+} from './common/QuerySwitcher'
 import msgs from '../../nls/platform.properties'
 import { withLocale } from '../providers/LocaleProvider'
 
-const AdvancedConfigurationLists = ({ secondaryHeaderProps, location, locale }) => {
+const AdvancedConfigurationLists = ({
+  secondaryHeaderProps,
+  location,
+  locale
+}) => {
   const defaultOption = 'subscriptions'
   const options = [
     { id: 'subscriptions', resourceType: RESOURCE_TYPES.QUERY_SUBSCRIPTIONS },
@@ -38,25 +45,27 @@ const AdvancedConfigurationLists = ({ secondaryHeaderProps, location, locale }) 
       key={selectedId}
       tabs={secondaryHeaderProps.tabs}
       title={secondaryHeaderProps.title}
+      mainButton={secondaryHeaderProps.mainButton}
       resourceType={resourceType}
       staticResourceData={staticResourceData}
       getVisibleResources={getVisibleResources}
-      modules={[<ResourceTableModule key="deployments" definitionsKey="deploymentKeys" />]}
+      modules={[
+        <ResourceTableModule
+          key="deployments"
+          definitionsKey="deploymentKeys"
+        />
+      ]}
     >
-      {
-        [
-          <QuerySwitcher
-            key='switcher'
-            options={options.map(({id}) => (
-              {
-                id,
-                contents: msgs.get(`resource.${id}`, locale)
-              }
-            ))}
-            defaultOption={defaultOption}
-          />
-        ]
-      }
+      {[
+        <QuerySwitcher
+          key="switcher"
+          options={options.map(({ id }) => ({
+            id,
+            contents: msgs.get(`resource.${id}`, locale)
+          }))}
+          defaultOption={defaultOption}
+        />
+      ]}
     </ResourceList>
   )
 }

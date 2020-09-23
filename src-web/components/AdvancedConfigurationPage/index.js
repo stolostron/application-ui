@@ -20,7 +20,6 @@ import { Notification } from 'carbon-components-react'
 
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import { withRouter } from 'react-router-dom'
-
 import AdvancedConfigurationLists from '../AdvancedConfigurationLists'
 
 /* eslint-disable react/prop-types */
@@ -32,8 +31,10 @@ resources(() => {
 const mapDispatchToProps = dispatch => {
   return {
     clearSuccessFinished: () => clearSuccessFinished(dispatch),
-    updateSecondaryHeaderFn: (title, tabs, links) =>
-      dispatch(updateSecondaryHeader(title, tabs, null, links))
+    updateSecondaryHeaderFn: (title, tabs, mainButton) =>
+      dispatch(
+        updateSecondaryHeader(title, tabs, null, null, null, null, mainButton)
+      )
   }
 }
 
@@ -79,7 +80,7 @@ class AdvancedConfigurationPage extends React.Component {
     updateSecondaryHeaderFn(
       msgs.get(secondaryHeaderProps.title, locale),
       secondaryHeaderProps.tabs,
-      secondaryHeaderProps.links
+      secondaryHeaderProps.mainButton
     )
   }
 

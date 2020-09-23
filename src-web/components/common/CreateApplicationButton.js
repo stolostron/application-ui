@@ -11,7 +11,7 @@
 
 import React, { Component } from 'react'
 import msgs from '../../../nls/platform.properties'
-import { Button } from 'carbon-components-react'
+import { Button } from '@patternfly/react-core'
 import TooltipContainer from '../TemplateEditor/components/TooltipContainer'
 import { Link } from 'react-router-dom'
 import config from '../../../lib/shared/config'
@@ -45,14 +45,14 @@ class CreateApplicationButton extends Component {
       : undefined
     return (
       <TooltipContainer tooltip={titleText} isDisabled={canDisable}>
-        <Link to={path} key="create-application">
-          <Button
-            disabled={canDisable}
-            small
-            icon={'add--glyph'}
-            iconDescription="Add icon"
-            kind="primary"
-      >
+        <Link
+          to={{
+            pathname: path,
+            state: { cancelBack: true }
+          }}
+          key="create-application"
+        >
+          <Button variant="primary" isSmall isDisabled={canDisable}>
             {msgs.get('actions.create.application', locale)}
           </Button>
         </Link>

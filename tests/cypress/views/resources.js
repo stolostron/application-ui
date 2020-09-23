@@ -121,7 +121,6 @@ export const subscription = (key, action, name, kubeconfig = "") => {
   kubeconfig ? (managedCluster = `--kubeconfig ${kubeconfig}`) : managedCluster;
 
   cy.log(`${action} the subscription if it exists`);
-  console.log(managedCluster);
   cy
     .exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`)
     .then(({ stdout, stderr }) => {

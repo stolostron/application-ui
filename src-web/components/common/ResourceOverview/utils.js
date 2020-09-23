@@ -340,7 +340,7 @@ export const getAppOverviewCardsData = (
           locale
         )
       } else if (
-        node.type.includes('subscription') &&
+        node.type === 'subscription' &&
         _.get(node, 'specs.parent.parentType') !== 'cluster'
       ) {
         // Get name and namespace of channel to match with data from HCMAppList

@@ -365,16 +365,18 @@ export const updateSecondaryHeader = (
   actions,
   tooltip,
   mainButton
-) => ({
-  type: Actions.SECONDARY_HEADER_UPDATE,
-  title,
-  tabs,
-  breadcrumbItems,
-  links,
-  actions,
-  tooltip,
-  mainButton
-})
+) => {
+  return {
+    type: Actions.SECONDARY_HEADER_UPDATE,
+    title,
+    tabs,
+    breadcrumbItems,
+    links,
+    actions,
+    tooltip,
+    mainButton
+  }
+}
 
 export const updateModal = data => ({
   type: Actions.MODAL_UPDATE,

@@ -395,7 +395,7 @@ class ResourceTable extends React.Component {
         // external to this SPA
         window.location = url
       } else {
-        history.push(url)
+        history.push(url, action.link.state)
       }
     } else if (action.modal) {
       client.mutate({

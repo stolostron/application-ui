@@ -28,6 +28,7 @@ import { TemplateEditor } from '../TemplateEditor'
 import { controlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
 import { getApplicationResources } from './transformers/transform-data-to-resources'
+import config from '../../../lib/shared/config'
 
 import _ from 'lodash'
 
@@ -151,7 +152,7 @@ class ApplicationCreationPage extends React.Component {
         }
         // redirect to cluster details pages
         history.push(
-          `/multicloud/applications/${this.applicationNamespace}/${
+          `${config.contextPath}/${this.applicationNamespace}/${
             this.applicationName
           }`
         )
@@ -253,10 +254,21 @@ class ApplicationCreationPage extends React.Component {
 
   handleCancel = () => {
     const { location, history } = this.props
+    const editApplication = this.getEditApplication()
     if (location.state && location.state.cancelBack) {
+      // Came from the "Create application" button, or "Edit application" table action; go back
       history.goBack()
+    } else if (editApplication && location.state && location.state.tabChange) {
+      // Came from changing tabs from "Overview" to "YAML" or clicking "Edit application" button; change tabs back
+      const { selectedAppName, selectedAppNamespace } = editApplication
+      history.replace(
+        `${config.contextPath}/${encodeURIComponent(
+          selectedAppNamespace
+        )}/${encodeURIComponent(selectedAppName)}`
+      )
     } else {
-      history.push('/multicloud/applications')
+      // Otherwise, navigate to applications
+      history.push(config.contextPath)
     }
   };
 }

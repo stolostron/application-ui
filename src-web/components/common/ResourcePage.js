@@ -35,6 +35,7 @@ const WrappedResourceDetails = props => (
     resourceType={props.resourceType}
     staticResourceData={props.staticResourceData}
     tabs={props.secondaryHeaderProps.tabs}
+    mainButton={props.secondaryHeaderProps.mainButton}
     routes={props.routes}
     getVisibleResources={props.getVisibleResources}
   >

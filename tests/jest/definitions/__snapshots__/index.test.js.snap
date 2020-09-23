@@ -79,6 +79,9 @@ Object {
     Object {
       "key": "table.actions.applications.edit",
       "link": Object {
+        "state": Object {
+          "cancelBack": true,
+        },
         "url": [Function],
       },
     },

@@ -290,7 +290,7 @@ export class SecondaryHeader extends React.Component {
   }
 
   clickTab(url) {
-    this.props.history.replace(url)
+    this.props.history.replace(url, { tabChange: true })
   }
 }
 

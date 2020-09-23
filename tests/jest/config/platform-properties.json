@@ -11,6 +11,7 @@
   "actions.create.application": "Create application",
   "actions.create.application.access.denied": "You are not authorized to create applications",
   "actions.delete.search": "Delete",
+  "actions.edit.application": "Edit application",
   "actions.edit.search": "Edit name and description",
   "actions.share.search": "Share",
   "actions.add.channel": "Create a channel",

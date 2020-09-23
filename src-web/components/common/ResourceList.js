@@ -136,16 +136,6 @@ class ResourceList extends React.Component {
     }
 
     if (status === REQUEST_STATUS.ERROR && !this.state.xhrPoll) {
-      if (err && err.data && err.data.Code === 1) {
-        return (
-          <NoResource
-            title={msgs.get('no-cluster.title', locale)}
-            detail={msgs.get('no-cluster.detail', locale)}
-          >
-            {actions}
-          </NoResource>
-        )
-      }
       //eslint-disable-next-line no-console
       console.error(err)
       return (

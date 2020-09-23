@@ -267,9 +267,7 @@ const getRepoResourceData = (appData, channelIdentifier) => {
 
 const getGitTypeData = node => {
   const gitTypeData = {}
-  const nodeAnnotations = _.get(node, 'specs.raw.metadata.annotations')
-    ? _.get(node, 'specs.raw.metadata.annotations')
-    : []
+  const nodeAnnotations = _.get(node, 'specs.raw.metadata.annotations', [])
 
   nodeAnnotations['apps.open-cluster-management.io/git-branch']
     ? Object.assign(gitTypeData, {
@@ -342,7 +340,7 @@ export const getAppOverviewCardsData = (
           locale
         )
       } else if (
-        node.type === 'subscription' &&
+        node.type.includes('subscription') &&
         _.get(node, 'specs.parent.parentType') !== 'cluster'
       ) {
         // Get name and namespace of channel to match with data from HCMAppList

@@ -134,9 +134,6 @@ const withResource = Component => {
           showError = null
         }
         this.setState({ xhrPoll: true, retry, showError })
-        if (status !== Actions.REQUEST_STATUS.DONE) {
-          this.props.fetchResource()
-        }
       }
 
       render() {

@@ -26,6 +26,7 @@ import '../../../../graphics/diagramShapes.svg'
 import '../../../../graphics/diagramIcons.svg'
 import msgs from '../../../../nls/platform.properties'
 import { createResourceSearchLink } from '../utils/diagram-helpers'
+import { getLegendTitle } from './defaults/titles'
 
 const DetailsViewDecorator = ({ shape, className }) => {
   return (
@@ -85,6 +86,7 @@ class DetailsView extends React.Component {
       typeToShapeMap[resourceType] || {}
     const details = getNodeDetails(currentNode, currentUpdatedNode, locale)
     const name = currentNode.type === 'cluster' ? '' : currentNode.name
+    const legend = getLegendTitle(resourceType, locale)
 
     const searchLink = createResourceSearchLink(currentNode)
     return (
@@ -93,7 +95,7 @@ class DetailsView extends React.Component {
           <DetailsViewDecorator shape={shape} className={className} />
           <div>
             <div className="sectionContent">
-              <span className="label">{_.capitalize(resourceType)}</span>
+              <span className="label">{legend}</span>
             </div>
             <div className="sectionContent">
               <span className="titleNameText">{name}</span>

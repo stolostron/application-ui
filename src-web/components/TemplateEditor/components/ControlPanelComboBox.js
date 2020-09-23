@@ -212,6 +212,7 @@ class ControlPanelComboBox extends React.Component {
       })
       control.typing = evt
     } else {
+      delete control.typing
       control.active = evt
       this.handleComboboxChange(control, userData, controlData)
     }

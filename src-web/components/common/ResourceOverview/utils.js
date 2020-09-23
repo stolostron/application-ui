@@ -267,9 +267,7 @@ const getRepoResourceData = (appData, channelIdentifier) => {
 
 const getGitTypeData = node => {
   const gitTypeData = {}
-  const nodeAnnotations = _.get(node, 'specs.raw.metadata.annotations')
-    ? _.get(node, 'specs.raw.metadata.annotations')
-    : []
+  const nodeAnnotations = _.get(node, 'specs.raw.metadata.annotations', [])
 
   nodeAnnotations['apps.open-cluster-management.io/git-branch']
     ? Object.assign(gitTypeData, {

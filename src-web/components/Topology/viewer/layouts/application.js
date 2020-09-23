@@ -106,7 +106,8 @@ export const processPos = (
 ) => {
   let posName, deploymentPos
   switch (type) {
-  case 'subscription' || 'subscriptionblocked':
+  case 'subscription':
+  case 'subscriptionblocked':
     key.value = `subscription/${name}`
     if (hadRule.value) {
       x += NODE_SIZE * 3

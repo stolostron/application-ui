@@ -532,7 +532,8 @@ export const computeNodeStatus = node => {
       pulse = 'red'
     }
     break
-  case 'subscription' || 'subscriptionblocked':
+  case 'subscription':
+  case 'subscriptionblocked':
     pulse = getPulseStatusForSubscription(node)
     break
   default:

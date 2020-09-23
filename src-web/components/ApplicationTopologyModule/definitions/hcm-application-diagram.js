@@ -23,6 +23,7 @@ import { REQUEST_STATUS } from '../../../actions'
 import _ from 'lodash'
 import R from 'ramda'
 
+const subscriptionTypes = ['subscription', 'subscriptionblocked']
 // remove the system stuff
 const system = [
   'creationTimestamp',
@@ -83,7 +84,7 @@ export const processNodeData = (
 
   let podsKeyForThisNode = null
   const clusterName = getClusterName(node.id)
-  if (type === 'subscription') {
+  if (_.includes(subscriptionTypes, type)) {
     //don't use cluster name when grouping subscriptions
     topoResourceMap[name] = node
     const topoAnnotation =

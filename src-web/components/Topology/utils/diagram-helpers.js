@@ -257,7 +257,12 @@ export const nodeMustHavePods = node => {
   if (
     !node ||
     !node.type ||
-    R.contains(node.type, ['application', 'placements', 'subscription'])
+    R.contains(node.type, [
+      'application',
+      'placements',
+      'subscription',
+      'subscriptionblocked'
+    ])
   ) {
     return false
   }
@@ -527,7 +532,7 @@ export const computeNodeStatus = node => {
       pulse = 'red'
     }
     break
-  case 'subscription':
+  case 'subscription' || 'subscriptionblocked':
     pulse = getPulseStatusForSubscription(node)
     break
   default:
@@ -546,7 +551,8 @@ export const createDeployableYamlLink = (node, details) => {
     R.contains(_.get(node, 'type', ''), [
       'application',
       'placements',
-      'subscription'
+      'subscription',
+      'subscriptionblocked'
     ])
   ) {
     const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
@@ -951,6 +957,7 @@ export const setResourceDeployStatus = (node, details) => {
       'placements',
       'cluster',
       'subscription',
+      'subscriptionblocked',
       'package'
     ])
   ) {
@@ -1169,7 +1176,12 @@ export const setPodDeployStatus = (node, updatedNode, details) => {
 }
 
 export const setSubscriptionDeployStatus = (node, details) => {
-  if (R.pathOr('', ['type'])(node) !== 'subscription') {
+  if (
+    !_.includes(
+      ['subscriptionblocked', 'subscription'],
+      _.get(node, 'type', '')
+    )
+  ) {
     return details
   }
   const timeWindow = _.get(node, 'specs.raw.spec.timewindow.windowtype')

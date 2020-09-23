@@ -13,6 +13,8 @@ import { NODE_SIZE } from '../constants.js'
 import { getClusterName } from '../../utils/diagram-helpers'
 import _ from 'lodash'
 
+const subscriptionTypes = ['subscription', 'subscriptionblocked']
+
 export const getConnectedApplicationLayoutOptions = (
   typeToShapeMap,
   { elements }
@@ -104,7 +106,7 @@ export const processPos = (
 ) => {
   let posName, deploymentPos
   switch (type) {
-  case 'subscription':
+  case 'subscription' || 'subscriptionblocked':
     key.value = `subscription/${name}`
     if (hadRule.value) {
       x += NODE_SIZE * 3
@@ -198,7 +200,10 @@ export const positionRowsDown = (
         .sort((a, b) => {
           a = a.data().node
           b = b.data().node
-          if (a.type === 'subscription' && b.type === 'subscription') {
+          if (
+            _.includes(subscriptionTypes, a.type) ||
+            _.includes(subscriptionTypes, b.type)
+          ) {
             if (a.specs.isPlaced && !b.specs.isPlaced) {
               return -1
             } else if (!a.specs.isPlaced && b.specs.isPlaced) {

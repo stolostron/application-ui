@@ -252,7 +252,12 @@ class ApplicationCreationPage extends React.Component {
   };
 
   handleCancel = () => {
-    this.props.history.push('/multicloud/applications')
+    const { location, history } = this.props
+    if (location.state && location.state.cancelBack) {
+      history.goBack()
+    } else {
+      history.push('/multicloud/applications')
+    }
   };
 }
 

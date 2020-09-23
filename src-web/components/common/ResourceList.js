@@ -9,6 +9,7 @@
 
 'use strict'
 
+import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import ResourceTable from './ResourceTable'
@@ -167,7 +168,13 @@ class ResourceList extends React.Component {
       }
       return React.cloneElement(action, { resourceType })
     })
-    if (items || searchValue || clientSideFilters) {
+
+    let showTable = items
+    if (resourceType.name === 'QueryApplications' && R.isEmpty(items)) {
+      showTable = false
+    }
+
+    if (showTable || searchValue || clientSideFilters) {
       if (
         searchValue !== clientSideFilters &&
         clientSideFilters &&

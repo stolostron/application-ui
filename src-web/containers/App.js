@@ -28,19 +28,27 @@ export const ActionModalApollo = loadable(() =>
 )
 
 export const ApplicationsListPage = loadable(() =>
-  import(/* webpackChunkName: "applications" */ '../components/ApplicationsListPage')
+  import(/* webpackChunkName: "applicationsListPage" */ '../components/ApplicationsListPage')
 )
 
 export const ApplicationDetailsPage = loadable(() =>
-  import(/* webpackChunkName: "applications" */ '../components/ApplicationDetailsPage')
+  import(/* webpackChunkName: "applicationDetailsPage" */ '../components/ApplicationDetailsPage')
 )
 
 export const ApplicationCreationPage = loadable(() =>
-  import(/* webpackChunkName: "applicationcreatepage" */ '../components/ApplicationCreationPage/ApplicationCreationPage')
+  import(/* webpackChunkName: "applicationCreatePage" */ '../components/ApplicationCreationPage/ApplicationCreationPage')
 )
 
 export const AdvancedConfigurationPage = loadable(() =>
-  import(/* webpackChunkName: "advancedconfigurationpage" */ '../components/AdvancedConfigurationPage')
+  import(/* webpackChunkName: "advancedConfigurationPage" */ '../components/AdvancedConfigurationPage')
+)
+
+export const CreateApplicationButton = loadable(() =>
+  import(/* webpackChunkName: "createApplicationButton" */ '../components/common/CreateApplicationButton')
+)
+
+export const EditApplicationButton = loadable(() =>
+  import(/* webpackChunkName: "editApplicationButton" */ '../components/common/EditApplicationButton')
 )
 
 resources(() => {
@@ -95,10 +103,14 @@ class App extends React.Component {
       }
     ]
 
+    const createApplicationButton = <CreateApplicationButton key="create" />
+
+    const getSingleApplicationBasePath = params => {
+      return `${BASE_PAGE_PATH}/${params.namespace}/${params.name}`
+    }
+
     const getSingleApplicationTabs = params => {
-      const SINGLE_APP_BASE_PAGE_PATH = `${BASE_PAGE_PATH}/${
-        params.namespace
-      }/${params.name}`
+      const SINGLE_APP_BASE_PAGE_PATH = getSingleApplicationBasePath(params)
       return [
         {
           id: 'overview',
@@ -111,6 +123,11 @@ class App extends React.Component {
           url: `${SINGLE_APP_BASE_PAGE_PATH}/yaml`
         }
       ]
+    }
+
+    const getEditApplicationButton = params => {
+      const path = `${getSingleApplicationBasePath(params)}/yaml`
+      return <EditApplicationButton path={path} key="edit" />
     }
 
     const applicationsTitle = 'routes.applications'
@@ -128,7 +145,8 @@ class App extends React.Component {
                 serverProps={this.getServerProps()}
                 secondaryHeaderProps={{
                   title: applicationsTitle,
-                  tabs: allApplicationsTabs
+                  tabs: allApplicationsTabs,
+                  mainButton: createApplicationButton
                 }}
               />
             )}
@@ -143,7 +161,8 @@ class App extends React.Component {
                   serverProps={serverProps}
                   secondaryHeaderProps={{
                     title: applicationsTitle,
-                    tabs: allApplicationsTabs
+                    tabs: allApplicationsTabs,
+                    mainButton: createApplicationButton
                   }}
                   locale={locale}
                 />
@@ -170,7 +189,8 @@ class App extends React.Component {
                 serverProps={this.getServerProps()}
                 secondaryHeaderProps={{
                   title: applicationsTitle,
-                  tabs: getSingleApplicationTabs(params.match.params)
+                  tabs: getSingleApplicationTabs(params.match.params),
+                  mainButton: getEditApplicationButton(params.match.params)
                 }}
               />
             )}

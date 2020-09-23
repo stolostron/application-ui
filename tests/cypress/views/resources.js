@@ -13,7 +13,7 @@ export const targetResource = {
     if (kubeconfigs) {
       kubeconfigs.forEach(kubeconfig => {
         cy.log(`cluster - ${kubeconfig}`);
-        for (const [key, value] of Object.entries(config)) {
+        for (const [key] of Object.entries(config)) {
           cy.log(`instance-${key}`);
           subscription(key, action, name, kubeconfig);
         }
@@ -34,7 +34,7 @@ export const apiResources = {
     for (const [key, value] of Object.entries(config)) {
       const { local } = value.deployment;
       cy.log(`instance-${key}`);
-      channels(key, type, action, name, value);
+      channels(key, type, action, name);
       subscription(key, action, name);
       !local
         ? placementrule(key, action, name)
@@ -45,8 +45,7 @@ export const apiResources = {
   }
 };
 
-export const channels = (key, type, action, name, config) => {
-  const { repository } = config;
+export const channels = (key, type, action, name) => {
   const objChannelKey = parseInt(key) + 1;
   const channelDict = {
     git: {
@@ -63,30 +62,34 @@ export const channels = (key, type, action, name, config) => {
     }
   };
 
-  const { channelNs, channelName } = channelDict[type];
-  cy.log(`${action} the ${type} channel if it exists`);
-  cy
-    .exec(`oc get channels -n ${name}-${channelNs}-${key}`)
-    .then(({ stdout, stderr }) => {
-      cy.log(stdout || stderr);
-      if ((stdout || stderr).includes("No resource") === false) {
-        cy.log("There exist channel");
-        cy
-          .exec(
-            `oc ${action} channel ${name}-${channelName}-${key} -n ${name}-${channelNs}-${key}`
-          )
-          .its("stdout")
-          .should("contain", name);
-        cy
-          .exec(`oc ${action} ns ${name}-${channelNs}-${key}`)
-          .its("stdout")
-          .should("contain", `${name}`);
-      } else {
-        cy.log(
-          `The channel ${name}-${channelName}-${key} in namespace:${name}-${channelNs}-ns-${key} is empty`
-        );
-      }
-    });
+  if (action != "ui") {
+    const { channelNs, channelName } = channelDict[type];
+    cy.log(`${action} the ${type} channel if it exists`);
+    cy
+      .exec(`oc get channels -n ${name}-${channelNs}-${key}`)
+      .then(({ stdout, stderr }) => {
+        cy.log(stdout || stderr);
+        if ((stdout || stderr).includes("No resource") === false) {
+          cy.log("There exist channel");
+          cy
+            .exec(
+              `oc ${action} channel ${name}-${channelName}-${key} -n ${name}-${channelNs}-${key}`
+            )
+            .its("stdout")
+            .should("contain", name);
+          cy
+            .exec(`oc ${action} ns ${name}-${channelNs}-${key}`)
+            .its("stdout")
+            .should("contain", `${name}`);
+        } else {
+          cy.log(
+            `The channel ${name}-${channelName}-${key} in namespace:${name}-${channelNs}-ns-${key} is empty`
+          );
+        }
+      });
+  } else {
+    return objChannelKey, channelDict;
+  }
 };
 
 export const placementrule = (key, action, name) => {
@@ -118,6 +121,7 @@ export const subscription = (key, action, name, kubeconfig = "") => {
   kubeconfig ? (managedCluster = `--kubeconfig ${kubeconfig}`) : managedCluster;
 
   cy.log(`${action} the subscription if it exists`);
+  console.log(managedCluster);
   cy
     .exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`)
     .then(({ stdout, stderr }) => {
@@ -226,7 +230,7 @@ export const getManagedClusterName = () => {
       managedClusters
         ? (Cypress.env("managedCluster", managedClusters[0]),
           cy.log(`managed cluster is ${managedClusters[0]}`))
-        : cy.log(managedClusters);
+        : cy.log("Managed cluster is undefined!");
     });
   });
 };

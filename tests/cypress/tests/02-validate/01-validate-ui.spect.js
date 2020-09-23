@@ -5,7 +5,8 @@
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import {
   validateTopology,
-  validateResourceTable
+  validateResourceTable,
+  validateAdvancedTables
 } from "../../views/application";
 
 describe("Application", () => {
@@ -22,6 +23,11 @@ describe("Application", () => {
         data.name
       }`, () => {
         validateTopology(data.name, data, type);
+      });
+      it(`should be validated from the Advanced configuration tables - ${type}: ${
+        data.name
+      }`, () => {
+        validateAdvancedTables(data.name, data, type);
       });
     } else {
       it(`disable validation on resource ${type}`, () => {

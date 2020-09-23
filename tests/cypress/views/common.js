@@ -94,6 +94,8 @@ export const modal = {
     cy.get(".bx--modal-container", { timeout: 20000 }).should("be.visible"),
   shouldNotBeVisible: () =>
     cy.get(".bx--modal-container", { timeout: 20000 }).should("not.be.visible"),
+  clickResources: () =>
+    cy.get("#remove-app-resources", { timeout: 20000 }).click({ force: true }),
   clickDanger: () =>
     cy.get(".bx--modal .bx--btn--danger--primary", { timeout: 20000 }).click(),
   clickPrimary: () =>

@@ -13,6 +13,8 @@ import {
   notification
 } from "./common";
 
+import { channels } from "./resources.js";
+
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
   const { name, config } = data;
@@ -181,6 +183,53 @@ export const validateSubscriptionDetails = (name, data, type) => {
   }
 };
 
+export const validateAdvancedTables = (name, data, type) => {
+  for (const [key, value] of Object.entries(data.config)) {
+    const { local } = value.deployment;
+    const { channelName } = channels(key, type, "ui", name)[type];
+    let resourceTypes = {
+      subscriptions: `${name}-subscription-${key}`,
+      placementrules: `${name}-placement-${key}`,
+      channels: `${name}-${channelName}-${key}`
+    };
+    cy.log(`instance-${key}`);
+    Object.keys(resourceTypes).map(function(key) {
+      if (!local || key != "placementrules") {
+        cy.log(`validating ${key} on Advanced Tables`);
+        cy.visit(`/multicloud/applications/advanced?resource=${key}`);
+        cy.get("#undefined-search").type(name);
+        resourceTable.rowShouldExist(resourceTypes[key], 600 * 1000);
+      } else {
+        cy.log(
+          `no placementrules for app - ${name} because it has been deployed locally`
+        );
+      }
+    });
+  }
+};
+
+export const validateSubscriptions = (key, name) => {
+  cy.log("validating subscriptions on Advanced Tables");
+  cy.visit("/multicloud/applications/advanced?resource=subscriptions");
+  cy.get("#undefined-search").type(name);
+  resourceTable.rowShouldExist(`${name}-subscription-${key}`, 600 * 1000);
+};
+
+export const validatePlacementrules = (key, name) => {
+  cy.log("validating placementrules on Advanced Tables");
+  cy.visit("/multicloud/applications/advanced?resource=placementrules");
+  cy.get("#undefined-search").type(name);
+  resourceTable.rowShouldExist(`${name}-placement-${key}`, 600 * 1000);
+};
+
+export const validateChannels = (key, name, type) => {
+  cy.log("validating channels on Advanced Tables");
+  cy.visit("/multicloud/applications/advanced?resource=channels");
+  cy.get("#undefined-search").type(name);
+  const { channelName } = channels(key, type, "ui", name)[type];
+  resourceTable.rowShouldExist(`${name}-${channelName}-${key}`, 600 * 1000);
+};
+
 export const validateTopology = (name, data, type) => {
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();
@@ -275,7 +324,7 @@ export const deleteApplicationUI = name => {
     resourceTable.openRowMenu(name);
     resourceTable.menuClickDelete();
     modal.shouldBeOpen();
-    // delete confirmation
+    modal.clickResources();
     modal.clickDanger();
     modal.shouldNotBeVisible();
 

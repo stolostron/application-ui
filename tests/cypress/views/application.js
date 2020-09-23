@@ -208,28 +208,6 @@ export const validateAdvancedTables = (name, data, type) => {
   }
 };
 
-export const validateSubscriptions = (key, name) => {
-  cy.log("validating subscriptions on Advanced Tables");
-  cy.visit("/multicloud/applications/advanced?resource=subscriptions");
-  cy.get("#undefined-search").type(name);
-  resourceTable.rowShouldExist(`${name}-subscription-${key}`, 600 * 1000);
-};
-
-export const validatePlacementrules = (key, name) => {
-  cy.log("validating placementrules on Advanced Tables");
-  cy.visit("/multicloud/applications/advanced?resource=placementrules");
-  cy.get("#undefined-search").type(name);
-  resourceTable.rowShouldExist(`${name}-placement-${key}`, 600 * 1000);
-};
-
-export const validateChannels = (key, name, type) => {
-  cy.log("validating channels on Advanced Tables");
-  cy.visit("/multicloud/applications/advanced?resource=channels");
-  cy.get("#undefined-search").type(name);
-  const { channelName } = channels(key, type, "ui", name)[type];
-  resourceTable.rowShouldExist(`${name}-${channelName}-${key}`, 600 * 1000);
-};
-
 export const validateTopology = (name, data, type) => {
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();

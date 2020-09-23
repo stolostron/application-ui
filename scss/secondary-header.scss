@@ -145,7 +145,7 @@
     bottom: 0;
 
     &.bx--tabs__nav--hidden {
-      padding-left: 5%;
+      padding-left: calc(5vw);
       margin-left: unset;
     }
   }
@@ -157,10 +157,27 @@
       top: 65px;
       background-color: $color__white;
       height: 40px;
-      width: auto;
+      width: 100%;
 
       &--long {
         @extend .cluster-tabs;
+        top: 90px;
+      }
+    }
+  }
+
+  .tab-container {
+    display: flex;
+
+    .main-button-container {
+      top: 65px;
+      background-color: #fff;
+      vertical-align: bottom;
+      padding-top: 3px;
+      padding-right: calc(5vw);
+      position: relative;
+
+      &.with-breadcrumbs {
         top: 90px;
       }
     }
@@ -186,7 +203,7 @@
 
 .secondary-header-wrapper.with-breadcrumbs {
   @extend .secondary-header-wrapper;
-  height:  $secondary-header-min-wrapper;
+  height: $secondary-header-min-wrapper;
 }
 
 .secondary-header-wrapper.with-tabs {

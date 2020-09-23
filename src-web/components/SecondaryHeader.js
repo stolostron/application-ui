@@ -54,7 +54,14 @@ export class SecondaryHeader extends React.Component {
   };
 
   render() {
-    const { tabs, title, breadcrumbItems, links, actions } = this.props
+    const {
+      tabs,
+      title,
+      breadcrumbItems,
+      links,
+      mainButton,
+      actions
+    } = this.props
     const { locale } = this.context
     if (
       (tabs && tabs.length > 0) ||
@@ -100,15 +107,28 @@ export class SecondaryHeader extends React.Component {
               )}
               {tabs &&
                 tabs.length > 0 && (
-                  <Tabs
-                    className={
-                      breadcrumbItems ? 'cluster-tabs--long' : 'cluster-tabs'
-                    }
-                    selected={this.getSelectedTab() || 0}
-                    aria-label={`${title} ${msgs.get('tabs.label', locale)}`}
-                  >
-                    {this.renderTabs()}
-                  </Tabs>
+                  <div className="tab-container">
+                    <Tabs
+                      className={classNames({
+                        'cluster-tabs--long': breadcrumbItems,
+                        'cluster-tabs': !breadcrumbItems
+                      })}
+                      selected={this.getSelectedTab() || 0}
+                      aria-label={`${title} ${msgs.get('tabs.label', locale)}`}
+                    >
+                      {this.renderTabs()}
+                    </Tabs>
+                    {mainButton && (
+                      <div
+                        className={classNames({
+                          'main-button-container': true,
+                          'with-breadcrumbs': breadcrumbItems
+                        })}
+                      >
+                        {mainButton}
+                      </div>
+                    )}
+                  </div>
               )}
             </React.Fragment>
             {actions && this.renderActions()}
@@ -280,6 +300,7 @@ SecondaryHeader.propTypes = {
   history: PropTypes.object,
   links: PropTypes.array,
   location: PropTypes.object,
+  mainButton: PropTypes.object,
   tabs: PropTypes.array,
   title: PropTypes.string,
   tooltip: PropTypes.string
@@ -294,6 +315,7 @@ const mapStateToProps = state => {
     title: state.secondaryHeader.title,
     tabs: state.secondaryHeader.tabs,
     actions: state.secondaryHeader.actions,
+    mainButton: state.secondaryHeader.mainButton,
     breadcrumbItems: state.secondaryHeader.breadcrumbItems,
     links: state.secondaryHeader.links,
     tooltip: state.secondaryHeader.tooltip,

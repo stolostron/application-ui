@@ -363,7 +363,8 @@ export const updateSecondaryHeader = (
   breadcrumbItems,
   links,
   actions,
-  tooltip
+  tooltip,
+  mainButton
 ) => ({
   type: Actions.SECONDARY_HEADER_UPDATE,
   title,
@@ -371,7 +372,8 @@ export const updateSecondaryHeader = (
   breadcrumbItems,
   links,
   actions,
-  tooltip
+  tooltip,
+  mainButton
 })
 
 export const updateModal = data => ({

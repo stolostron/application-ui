@@ -11,11 +11,10 @@ import React from 'react'
 import ResourceTableModule from './common/ResourceTableModuleFromProps'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageList } from './common/ResourcePage'
-import CreateApplicationButton from './common/CreateApplicationButton'
 
 export default typedResourcePageList(
   RESOURCE_TYPES.QUERY_APPLICATIONS,
-  [<CreateApplicationButton key="create" />],
+  [],
   [],
   [<ResourceTableModule key="deployments" definitionsKey="deploymentKeys" />]
 )

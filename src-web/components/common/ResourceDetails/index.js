@@ -113,8 +113,6 @@ const withResource = Component => {
             showError: !allowed
           })
         })
-
-        this.setState({ xhrPoll: true })
       }
 
       render() {

@@ -11,7 +11,7 @@
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification } from 'carbon-components-react'
-import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
+import { updateSecondaryHeader } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -34,12 +34,9 @@ resources(() => {
 })
 
 const withResource = Component => {
-  const mapDispatchToProps = (dispatch, ownProps) => {
-    const { resourceType, params } = ownProps
+  const mapDispatchToProps = dispatch => {
     return {
-      actions: bindActionCreators(Actions, dispatch),
-      fetchResource: () =>
-        dispatch(fetchResource(resourceType, params.namespace, params.name))
+      actions: bindActionCreators(Actions, dispatch)
     }
   }
 
@@ -59,7 +56,6 @@ const withResource = Component => {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
         actions: PropTypes.object,
-        fetchResource: PropTypes.func,
         params: PropTypes.object,
         refetch: PropTypes.object,
         status: PropTypes.string,
@@ -134,9 +130,6 @@ const withResource = Component => {
           showError = null
         }
         this.setState({ xhrPoll: true, retry, showError })
-        if (status !== Actions.REQUEST_STATUS.DONE) {
-          this.props.fetchResource()
-        }
       }
 
       render() {

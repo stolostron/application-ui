@@ -48,6 +48,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
 
   cy.wait(20 * 1000);
   cy.get(gitBranch).type(branch, { force: true });
+  cy.wait(20 * 1000);
   cy.get(gitPath).type(path, { force: true });
 
   selectClusterDeployment(deployment, clusterName, key);
@@ -289,6 +290,8 @@ export const deleteApplicationUI = name => {
 export const selectClusterDeployment = (deployment, clusterName, key) => {
   if (deployment) {
     const { local, online, matchingLabel } = deployment;
+    console.log("cluster name "+clusterName);
+
     const cluster = clusterName.split("/")[1];
     let clusterDeploymentCss = {
       localClusterID: "#local-cluster-checkbox",

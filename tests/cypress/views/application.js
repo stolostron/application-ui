@@ -13,6 +13,8 @@ import {
   notification
 } from "./common";
 
+import { channelsInformation } from "./resources.js";
+
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
   const { name, config } = data;
@@ -75,7 +77,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .trigger("mouseover");
   cy
     .get(helmURL, { timeout: 20 * 1000 })
-    .type(url)
+    .type(url, { timeout: 30 * 1000 })
     .blur();
   cy
     .get(helmChartName, { timeout: 20 * 1000 })
@@ -120,7 +122,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
     .get("#objectstore")
     .click()
     .trigger("mouseover");
-  cy.get(objUrl, { timeout: 20 * 1000 }).type(url);
+  cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
   cy.get(objAccess).then(input => {
     if (input.is("enabled")) {
       cy.get(objAccess).type(accessKey);
@@ -181,6 +183,31 @@ export const validateSubscriptionDetails = (name, data, type) => {
   }
 };
 
+export const validateAdvancedTables = (name, data, type) => {
+  for (const [key, value] of Object.entries(data.config)) {
+    const { local } = value.deployment;
+    const { channelName } = channelsInformation(key)[type];
+    let resourceTypes = {
+      subscriptions: `${name}-subscription-${key}`,
+      placementrules: `${name}-placement-${key}`,
+      channels: `${name}-${channelName}-${key}`
+    };
+    cy.log(`instance-${key}`);
+    Object.keys(resourceTypes).map(function(key) {
+      if (local && key == "placementrules") {
+        cy.log(
+          `no placementrules for app - ${name} because it has been deployed locally`
+        );
+      } else {
+        cy.log(`validating ${key} on Advanced Tables`);
+        cy.visit(`/multicloud/applications/advanced?resource=${key}`);
+        cy.get("#undefined-search").type(name);
+        resourceTable.rowShouldExist(resourceTypes[key], 600 * 1000);
+      }
+    });
+  }
+};
+
 export const validateTopology = (name, data, type) => {
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();
@@ -217,7 +244,7 @@ export const validateTopology = (name, data, type) => {
           .get(`g[type="${name}-placement-0"]`, { timeout: 25 * 1000 })
           .should("be.visible"))
       : cy.log(
-          "placement will not be created as the application is deployed to local"
+          "placement will not be created as the application is deployed locally"
         );
   }
 
@@ -275,7 +302,7 @@ export const deleteApplicationUI = name => {
     resourceTable.openRowMenu(name);
     resourceTable.menuClickDelete();
     modal.shouldBeOpen();
-    // delete confirmation
+    modal.clickResources();
     modal.clickDanger();
     modal.shouldNotBeVisible();
 

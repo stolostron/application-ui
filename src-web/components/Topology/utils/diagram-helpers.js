@@ -23,6 +23,7 @@ const notDeployedNSStr = msgs.get('spec.deploy.not.deployed.ns')
 const deployedStr = msgs.get('spec.deploy.deployed')
 const deployedNSStr = msgs.get('spec.deploy.deployed.ns')
 const specPulse = 'specs.pulse'
+const specShapeType = 'specs.shapeType'
 const specsPropsYaml = 'props.show.yaml'
 const showLocalYaml = 'props.show.local.yaml'
 const showResourceYaml = 'show_resource_yaml'
@@ -507,12 +508,24 @@ export const getPulseForNodeWithPodStatus = node => {
   return pulse
 }
 
+export const getShapeTypeForSubscription = node => {
+  const blocked = _.get(node, 'specs.raw.spec.timewindow') &&
+    _.get(node, 'specs.raw.status.message', '') === 'Blocked'
+  if (blocked) {
+    return 'subscriptionblocked'
+  } else {
+    return 'subscription'
+  }
+}
+
 export const computeNodeStatus = node => {
   let pulse = 'green'
+  let shapeType = node.type
 
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
     _.set(node, specPulse, pulse)
+    _.set(node, specShapeType, shapeType)
     return pulse
   }
 
@@ -529,12 +542,14 @@ export const computeNodeStatus = node => {
     break
   case 'subscription':
     pulse = getPulseStatusForSubscription(node)
+    shapeType = getShapeTypeForSubscription(node)
     break
   default:
     pulse = getPulseStatusForGenericNode(node)
   }
 
   _.set(node, specPulse, pulse)
+  _.set(node, specShapeType, shapeType)
   return pulse
 }
 

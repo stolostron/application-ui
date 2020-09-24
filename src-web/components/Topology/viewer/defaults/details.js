@@ -121,9 +121,7 @@ function addK8Details(node, updatedNode, details) {
     })
   }
 
-  const nodeAnnotations = _.get(node, 'specs.raw.metadata.annotations')
-    ? _.get(node, 'specs.raw.metadata.annotations')
-    : {}
+  const nodeAnnotations = _.get(node, 'specs.raw.metadata.annotations', {})
   const gitBranchAnnotation = nodeAnnotations[
     'apps.open-cluster-management.io/git-branch'
   ]

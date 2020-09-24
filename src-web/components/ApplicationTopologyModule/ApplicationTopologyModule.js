@@ -145,7 +145,7 @@ class ApplicationTopologyModule extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState(prevState => {
-      const { locale } = this.context
+      const { locale } = this.props
       const links = _.cloneDeep(nextProps.links || [])
       const nodes = _.cloneDeep(nextProps.nodes || [])
       const clusters = _.cloneDeep(nextProps.clusters || [])

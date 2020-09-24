@@ -8,6 +8,35 @@
 
 import { mapSingleApplication } from "../../../../src-web/reducers/data-mappers/mapApplicationsSingle";
 
+describe("data-mappers testing for mapSingleApplication no items", () => {
+  it("should mold the data properly with no items", () => {
+    const application = {
+      items: [],
+      related: []
+    };
+
+    const result = [
+      {
+        _hubClusterResource: "",
+        _rbac: "",
+        _uid: "",
+        apigroup: "",
+        cluster: "",
+        created: "",
+        dashboard: "",
+        kind: "",
+        label: "",
+        name: "",
+        namespace: "",
+        related: [],
+        selfLink: ""
+      }
+    ];
+
+    expect(mapSingleApplication(application)).toEqual(result);
+  });
+});
+
 describe("data-mappers testing for mapSingleApplication", () => {
   it("should mold the data properly", () => {
     const application = {

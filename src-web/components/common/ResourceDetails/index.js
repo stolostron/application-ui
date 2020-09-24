@@ -19,14 +19,6 @@ import * as Actions from '../../../actions'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
 import ResourceOverview from '../ResourceOverview'
-import {
-  startPolling,
-  stopPolling,
-  handleRefreshPropertiesChanged,
-  handleVisibilityChanged
-} from '../../../shared/utils/refetch'
-import { canCallAction } from '../../../../lib/client/access-helper'
-import _ from 'lodash'
 
 resources(() => {
   require('./style.scss')
@@ -42,11 +34,9 @@ const withResource = Component => {
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
-    const { refetch } = state
     return {
       status: state[typeListName].status,
-      statusCode: error && error.response && error.response.status,
-      refetch
+      statusCode: error && error.response && error.response.status
     }
   }
 
@@ -56,7 +46,6 @@ const withResource = Component => {
       static propTypes = {
         actions: PropTypes.object,
         params: PropTypes.object,
-        refetch: PropTypes.object,
         status: PropTypes.string,
         statusCode: PropTypes.object
       };
@@ -75,46 +64,7 @@ const withResource = Component => {
         actions.clearAppDropDownList()
         // Then add it back so only one will be displaying
         actions.updateAppDropDownList(params.name)
-        this.reload()
-
-        document.addEventListener('visibilitychange', this.onVisibilityChange)
-        startPolling(this, setInterval)
       }
-
-      componentWillUnmount() {
-        stopPolling(this.state, clearInterval)
-        document.removeEventListener(
-          'visibilitychange',
-          this.onVisibilityChange
-        )
-      }
-
-      onVisibilityChange = () => {
-        handleVisibilityChanged(this, clearInterval, setInterval)
-      };
-
-      componentDidUpdate(prevProps) {
-        handleRefreshPropertiesChanged(
-          prevProps,
-          this,
-          clearInterval,
-          setInterval
-        )
-      }
-
-      reload() {
-        const { params } = this.props
-        canCallAction('view', params.namespace).then(response => {
-          const allowed = _.get(response, 'data.userAccess.allowed')
-          this.setState({
-            errors: allowed
-              ? undefined
-              : msgs.get('error.unauthorized.description', this.context.locale),
-            showError: !allowed
-          })
-        })
-      }
-
       render() {
         const { showError, errors } = this.state
 

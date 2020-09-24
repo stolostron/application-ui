@@ -7,9 +7,11 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
+import _ from 'lodash'
+
 // @flow
 export const mapSingleApplication = application => {
-  if (application && application.items && application.related) {
+  if (_.get(application, 'items', []).length > 0) {
     const items = application.items[0]
     return [
       {

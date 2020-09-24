@@ -26,7 +26,8 @@ import '../../../graphics/diagramIcons.svg'
 import {
   TOPOLOGY_SET_ACTIVE_FILTERS,
   DIAGRAM_RESTORE_FILTERS,
-  DIAGRAM_SAVE_FILTERS
+  DIAGRAM_SAVE_FILTERS,
+  REQUEST_STATUS
 } from '../../actions'
 import resources from '../../../lib/shared/resources'
 import { Topology } from '../Topology'
@@ -64,6 +65,7 @@ const options = {
 
 class ApplicationTopologyModule extends React.Component {
   static propTypes = {
+    HCMApplicationList: PropTypes.object,
     activeChannel: PropTypes.string,
     channels: PropTypes.array,
     clusters: PropTypes.array,
@@ -201,7 +203,11 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (_.get(nextProps, 'HCMApplicationList.status', '') === 'DONE') {
+    if (
+      _.get(nextProps, 'HCMApplicationList.status', '') ===
+        REQUEST_STATUS.DONE ||
+      _.get(nextProps, 'HCMApplicationList.status', '') === REQUEST_STATUS.ERROR
+    ) {
       return true //always update when search is done
     }
     if (
@@ -267,7 +273,12 @@ class ApplicationTopologyModule extends React.Component {
   handleUpdateMessageClosed = () => this.setState({ updateMessage: '' });
 
   render() {
-    const { channels, refetchIntervalUpdateDispatch, locale } = this.props
+    const {
+      channels,
+      refetchIntervalUpdateDispatch,
+      locale,
+      HCMApplicationList
+    } = this.props
     const {
       nodes,
       links,
@@ -280,6 +291,8 @@ class ApplicationTopologyModule extends React.Component {
 
     const diagramTitle = msgs.get('application.diagram', locale)
 
+    const isLoadError =
+      topologyLoadError || HCMApplicationList.status === REQUEST_STATUS.ERROR
     const diagramClasses = classNames({
       resourceDiagramSourceContainer: true,
       showExpandedTopology: false
@@ -287,7 +300,7 @@ class ApplicationTopologyModule extends React.Component {
     const renderTopology = () => {
       const fetchControl = {
         isLoaded: topologyLoaded,
-        isFailed: topologyLoadError,
+        isFailed: isLoadError,
         isReloading: showSpinner,
         refetch: this.refetch
       }
@@ -346,42 +359,44 @@ class ApplicationTopologyModule extends React.Component {
             </div>
           </React.Fragment>
           <div className="resourceDiagramControlsContainer">
-            <div className="diagram-title">
-              {diagramTitle}
-              <svg className="diagram-title-divider">
-                <rect />
-              </svg>
-              <span
-                className="how-to-read-text"
-                tabIndex="0"
-                onClick={() => {
-                  this.setState({ showLegendView: true })
-                }}
-                onKeyPress={() => {
-                  // noop function
-                }}
-                role="button"
-              >
-                {msgs.get(
-                  'application.diagram.how.to.read',
-                  this.context.locale
-                )}
-                <svg className="how-to-read-icon">
-                  <use href={'#diagramIcons_sidecar'} />
+            {!isLoadError && (
+              <div className="diagram-title">
+                {diagramTitle}
+                <svg className="diagram-title-divider">
+                  <rect />
                 </svg>
-              </span>
-            </div>
-            {topologyLoadError && (
-              <InlineNotification
-                kind={'error'}
-                title={msgs.get('error.load.resource', this.context.locale)}
-                iconDescription=""
-                subtitle={msgs.get('error.load.topology', this.context.locale)}
-                onCloseButtonClick={this.handleTopologyErrorClosed}
-              />
+                <span
+                  className="how-to-read-text"
+                  tabIndex="0"
+                  onClick={() => {
+                    this.setState({ showLegendView: true })
+                  }}
+                  onKeyPress={() => {
+                    // noop function
+                  }}
+                  role="button"
+                >
+                  {msgs.get(
+                    'application.diagram.how.to.read',
+                    this.context.locale
+                  )}
+                  <svg className="how-to-read-icon">
+                    <use href={'#diagramIcons_sidecar'} />
+                  </svg>
+                </span>
+              </div>
             )}
-            <React.Fragment>{renderTopology()}</React.Fragment>
+            <React.Fragment>{!isLoadError && renderTopology()}</React.Fragment>
           </div>
+          {isLoadError && (
+            <InlineNotification
+              kind={'error'}
+              title={msgs.get('error.load.resource', this.context.locale)}
+              iconDescription=""
+              subtitle={msgs.get('error.load.topology', this.context.locale)}
+              onCloseButtonClick={this.handleTopologyErrorClosed}
+            />
+          )}
         </React.Fragment>
       )
     }

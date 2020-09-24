@@ -260,9 +260,9 @@ export const makeGetVisibleTableItemsSelector = resourceType => {
   const pk = ResourceDefinitions.getPrimaryKey(resourceType)
   const sk = ResourceDefinitions.getSecondaryKey(resourceType)
   return createSelector([makeGetPagedItemsSelector(resourceType)], result => {
-    const normalizedItems = normalize(result.items, [
-      createResourcesSchema(pk, sk)
-    ]).entities.items
+    const normalizedItems =
+      normalize(result.items, [createResourcesSchema(pk, sk)]).entities.items ||
+      {}
     return Object.assign(result, {
       normalizedItems: normalizedItems,
       items: result.items.map(

@@ -20,6 +20,7 @@ import { mapBulkChannels } from '../reducers/data-mappers/mapChannelsBulk'
 import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsBulk'
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import msgs from '../../nls/platform.properties'
 
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
@@ -280,6 +281,21 @@ export const fetchResource = (resourceType, namespace, name) => {
           return dispatch(
             receiveResourceError(response.errors[0], resourceType)
           )
+        }
+        const searchResult = lodash.get(response, 'data.searchResult', [])
+        if (
+          searchResult.length === 0 ||
+          lodash.get(searchResult[0], 'items', []).length === 0
+        ) {
+          //app not found
+          const err = {
+            message: msgs.get(
+              'load.app.error',
+              [`${namespace}/${name}`],
+              'en-US'
+            )
+          }
+          return dispatch(receiveResourceError(err, resourceType))
         }
         return dispatch(
           receiveResourceSuccess(

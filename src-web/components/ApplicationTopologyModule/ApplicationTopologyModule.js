@@ -143,7 +143,7 @@ class ApplicationTopologyModule extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState(prevState => {
-      const { locale } = this.context
+      const { locale } = this.props
       const links = _.cloneDeep(nextProps.links || [])
       const nodes = _.cloneDeep(nextProps.nodes || [])
       const clusters = _.cloneDeep(nextProps.clusters || [])
@@ -177,12 +177,7 @@ class ApplicationTopologyModule extends React.Component {
         (!showSpinner && prevState.showSpinner) ||
         (!lastTimeUpdate && nextProps.topologyLoaded)
       ) {
-        let time
-        try {
-          time = new Date().toLocaleTimeString(locale)
-        } catch (e) {
-          time = new Date().toLocaleTimeString('en-US')
-        }
+        const time = new Date().toLocaleTimeString(locale)
         lastTimeUpdate = msgs.get(
           'application.diagram.view.last.time',
           [time],
@@ -367,10 +362,7 @@ class ApplicationTopologyModule extends React.Component {
                 }}
                 role="button"
               >
-                {msgs.get(
-                  'application.diagram.how.to.read',
-                  this.context.locale
-                )}
+                {msgs.get('application.diagram.how.to.read', locale)}
                 <svg className="how-to-read-icon">
                   <use href={'#diagramIcons_sidecar'} />
                 </svg>
@@ -379,9 +371,9 @@ class ApplicationTopologyModule extends React.Component {
             {topologyLoadError && (
               <InlineNotification
                 kind={'error'}
-                title={msgs.get('error.load.resource', this.context.locale)}
+                title={msgs.get('error.load.resource', locale)}
                 iconDescription=""
-                subtitle={msgs.get('error.load.topology', this.context.locale)}
+                subtitle={msgs.get('error.load.topology', locale)}
                 onCloseButtonClick={this.handleTopologyErrorClosed}
               />
             )}

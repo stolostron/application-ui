@@ -177,7 +177,12 @@ class ApplicationTopologyModule extends React.Component {
         (!showSpinner && prevState.showSpinner) ||
         (!lastTimeUpdate && nextProps.topologyLoaded)
       ) {
-        const time = new Date().toLocaleTimeString(locale)
+        let time
+        try {
+          time = new Date().toLocaleTimeString(locale)
+        } catch (e) {
+          time = new Date().toLocaleTimeString('en-US')
+        }
         lastTimeUpdate = msgs.get(
           'application.diagram.view.last.time',
           [time],

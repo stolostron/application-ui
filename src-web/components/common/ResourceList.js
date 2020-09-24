@@ -9,6 +9,7 @@
 
 'use strict'
 
+import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import ResourceTable from './ResourceTable'
@@ -139,16 +140,6 @@ class ResourceList extends React.Component {
     }
 
     if (status === REQUEST_STATUS.ERROR && !this.state.xhrPoll) {
-      if (err && err.data && err.data.Code === 1) {
-        return (
-          <NoResource
-            title={msgs.get('no-cluster.title', locale)}
-            detail={msgs.get('no-cluster.detail', locale)}
-          >
-            {actions}
-          </NoResource>
-        )
-      }
       //eslint-disable-next-line no-console
       console.error(err)
       return (
@@ -171,7 +162,13 @@ class ResourceList extends React.Component {
       }
       return React.cloneElement(action, { resourceType })
     })
-    if (items || searchValue || clientSideFilters) {
+
+    let showTable = items
+    if (resourceType.name === 'QueryApplications' && R.isEmpty(items)) {
+      showTable = false
+    }
+
+    if (showTable || searchValue || clientSideFilters) {
       if (
         searchValue !== clientSideFilters &&
         clientSideFilters &&

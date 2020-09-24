@@ -224,13 +224,13 @@ export default class NodeHelper {
     nodes
       .append('use')
       .attrs(d => {
-        const { layout } = d
-        const { type } = layout
-        const shape = this.typeToShapeMap[type]
-          ? this.typeToShapeMap[type].shape
+        const { layout, specs } = d
+        const shapeType = specs.shapeType || layout.type
+        const shape = this.typeToShapeMap[shapeType]
+          ? this.typeToShapeMap[shapeType].shape
           : 'other'
-        const classType = this.typeToShapeMap[type]
-          ? this.typeToShapeMap[type].className
+        const classType = this.typeToShapeMap[shapeType]
+          ? this.typeToShapeMap[shapeType].className
           : 'default'
         return {
           'xlink:href': `#diagramShapes_${shape}`,

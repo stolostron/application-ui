@@ -24,7 +24,7 @@ describe("Application", () => {
       }`, () => {
         validateTopology(data.name, data, type);
       });
-      it(`should be validated from the Advanced configuration tables - ${type}: ${
+      it(`should be validated from the advanced configuration tables - ${type}: ${
         data.name
       }`, () => {
         validateAdvancedTables(data.name, data, type);

@@ -83,7 +83,6 @@ export const getLegendTitle = (type, locale) => {
   case 'inmemorychannel':
   case 'integrationplatform':
   case 'persistentvolumeclaim':
-  case 'subscriptionblocked':
     return msgs.get(`topology.legend.title.${type}`, locale)
 
   default:

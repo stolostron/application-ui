@@ -292,7 +292,7 @@ export const fetchResource = (resourceType, namespace, name) => {
         const searchResult = lodash.get(response, 'data.searchResult', [])
         if (
           searchResult.length === 0 ||
-          lodash.get(searchResult[0], 'items', []).length >= 0
+          lodash.get(searchResult[0], 'items', []).length === 0
         ) {
           //app not found
           const err = {

@@ -509,7 +509,8 @@ export const getPulseForNodeWithPodStatus = node => {
 }
 
 export const getShapeTypeForSubscription = node => {
-  const blocked = _.get(node, 'specs.raw.spec.timewindow') &&
+  const blocked =
+    _.get(node, 'specs.raw.spec.timewindow') &&
     _.get(node, 'specs.raw.status.message', '') === 'Blocked'
   if (blocked) {
     return 'subscriptionblocked'
@@ -1638,11 +1639,18 @@ export const getType = (type, locale) => {
 }
 
 export const getClusterHost = consoleURL => {
-  const ocpIdx = consoleURL
+  let ocpIdx = consoleURL
     ? consoleURL.indexOf('https://console-openshift-console.')
     : -1
+  let strLen = 34
+  if (ocpIdx < 0) {
+    ocpIdx = consoleURL ? consoleURL.indexOf('https://console.') : -1
+    if (ocpIdx > -1) {
+      strLen = 16
+    }
+  }
   if (ocpIdx < 0) {
     return ''
   }
-  return consoleURL.substr(ocpIdx + 34)
+  return consoleURL.substr(ocpIdx + strLen)
 }

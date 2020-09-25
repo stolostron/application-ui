@@ -57,6 +57,13 @@ export const receiveResourceError = (err, resourceType) => ({
   resourceType
 })
 
+export const receiveResourceNotFound = (err, resourceType) => ({
+  type: Actions.RESOURCE_RECEIVE_NOT_FOUND,
+  status: Actions.REQUEST_STATUS.NOT_FOUND,
+  err,
+  resourceType
+})
+
 export const requestResource = resourceType => ({
   type: Actions.RESOURCE_REQUEST,
   status: Actions.REQUEST_STATUS.IN_PROGRESS,
@@ -285,17 +292,17 @@ export const fetchResource = (resourceType, namespace, name) => {
         const searchResult = lodash.get(response, 'data.searchResult', [])
         if (
           searchResult.length === 0 ||
-          lodash.get(searchResult[0], 'items', []).length === 0
+          lodash.get(searchResult[0], 'items', []).length >= 0
         ) {
           //app not found
           const err = {
-            message: msgs.get(
-              'load.app.error',
+            err: msgs.get(
+              'load.app.info.notfound',
               [`${namespace}/${name}`],
               'en-US'
             )
           }
-          return dispatch(receiveResourceError(err, resourceType))
+          return dispatch(receiveResourceNotFound(err, resourceType))
         }
         return dispatch(
           receiveResourceSuccess(

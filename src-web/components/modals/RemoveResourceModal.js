@@ -316,19 +316,18 @@ class RemoveResourceModal extends React.Component {
               />
           </div>
           <div>
-            {this.state.selected.map(child => {
-              return (
-                <div className="remove-app-modal-content-data" key={child.id}>
-                  <Checkbox
-                    id={child.id}
-                    checked={this.state.removeAppResources}
-                    disabled={true}
-                    labelText={child.label}
-                    aria-label={child.id}
-                    />
-                </div>
-              )
-            })}
+            <ul>
+              {this.state.selected.map(child => {
+                return (
+                  <div
+                    className="remove-app-modal-content-data"
+                    key={child.id}
+                    >
+                    <li>{child.label}</li>
+                  </div>
+                )
+              })}
+            </ul>
           </div>
         </div>
       ) : (

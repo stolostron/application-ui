@@ -1639,18 +1639,10 @@ export const getType = (type, locale) => {
 }
 
 export const getClusterHost = consoleURL => {
-  let ocpIdx = consoleURL
-    ? consoleURL.indexOf('https://console-openshift-console.')
-    : -1
-  let strLen = 34
-  if (ocpIdx < 0) {
-    ocpIdx = consoleURL ? consoleURL.indexOf('https://console.') : -1
-    if (ocpIdx > -1) {
-      strLen = 16
-    }
-  }
+  const consoleURLInstance = new URL(consoleURL)
+  const ocpIdx = consoleURL ? consoleURLInstance.host.indexOf('.') : -1
   if (ocpIdx < 0) {
     return ''
   }
-  return consoleURL.substr(ocpIdx + strLen)
+  return consoleURLInstance.host.substr(ocpIdx + 1)
 }

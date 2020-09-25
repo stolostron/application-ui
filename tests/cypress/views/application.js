@@ -410,3 +410,21 @@ export const selectDate = (date, key) => {
           .click({ force: true });
   });
 };
+
+export const editApplication = name => {
+  cy.visit("/multicloud/applications");
+  resourceTable.rowShouldExist(name, 600 * 1000);
+  resourceTable.openRowMenu(name);
+  resourceTable.menuClickEdit();
+  cy.get("#edit-yaml").click({ force: true });
+  cy.get(".creation-view-yaml");
+  cy.get("#name").invoke("val");
+  cy
+    .get(".bx--text-input.bx--text__input")
+    .invoke("val")
+    .should("eq", name);
+  cy
+    .get("#namespace")
+    .invoke("val")
+    .should("eq", `${name}-ns`);
+};

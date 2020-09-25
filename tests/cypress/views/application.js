@@ -416,7 +416,8 @@ export const editApplication = name => {
   resourceTable.rowShouldExist(name, 600 * 1000);
   resourceTable.openRowMenu(name);
   resourceTable.menuClickEdit();
-  cy.get("#edit-yaml").click({ force: true });
+  cy.get(".bx--detail-page-header-title-container");
+  cy.get("#edit-yaml", { timeout: 30 * 1000 }).click({ force: true });
   cy.get(".creation-view-yaml");
   cy.get("#name").invoke("val");
   cy

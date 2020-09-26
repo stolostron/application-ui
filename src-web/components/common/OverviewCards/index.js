@@ -92,6 +92,21 @@ class OverviewCards extends React.Component {
         />
       )
     }
+    if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
+      const infoMessage = _.get(
+        HCMApplicationList,
+        'err.err',
+        msgs.get('load.app.info.notfound', [selectedAppName])
+      )
+      return (
+        <Notification
+          title=""
+          className="overview-notification"
+          kind="info"
+          subtitle={infoMessage}
+        />
+      )
+    }
 
     let getUrl = window.location.href
     getUrl = getUrl.substring(0, getUrl.indexOf('/multicloud/applications/'))

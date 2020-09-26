@@ -1274,5 +1274,5 @@
   "spec.subscr.timeWindow.timezone": "Time zone",
   "spec.subscr.annotations.gitBranch": "Git branch",
   "spec.subscr.annotations.gitPath": "Git path",
-  "load.app.error": "Application {0} not found. Ensure the application exists and that you are assigned a role with viewing access."
+  "load.app.info.notfound": "Application {0} not found. If the application was just created wait for the operation to complete, otherwise ensure the application exists and that you are assigned a role with viewing access."
 }

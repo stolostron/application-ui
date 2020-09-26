@@ -341,6 +341,11 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
       status: Actions.REQUEST_STATUS.ERROR,
       err: action.err
     })
+  case Actions.RESOURCE_RECEIVE_NOT_FOUND:
+    return Object.assign({}, state, {
+      status: Actions.REQUEST_STATUS.NOT_FOUND,
+      err: action.err
+    })
   case Actions.POST_REQUEST:
     return Object.assign({}, state, {
       postStatus: Actions.REQUEST_STATUS.IN_PROGRESS

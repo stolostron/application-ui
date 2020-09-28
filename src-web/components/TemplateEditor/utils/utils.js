@@ -25,8 +25,7 @@ export const ControlMode = Object.freeze({
 
 export const initializeControls = (
   initialControlData,
-  parentControlData,
-  forceUpdate,
+  editor,
   locale,
   groupNum,
   inGroup
@@ -37,7 +36,7 @@ export const initializeControls = (
     groupNum,
     inGroup
   )
-  initializeControlFunctions(controlData, parentControlData, forceUpdate)
+  initializeControlFunctions(controlData, editor)
   return controlData
 }
 
@@ -45,14 +44,14 @@ export const initializeControls = (
 export function discoverControls(
   controlData,
   templateObject,
-  forceUpdate,
+  editor,
   locale
 ) {
   templateObject = _.cloneDeep(templateObject)
   const discoverControl = control => {
     const { discover } = control
     if (discover) {
-      discover(control, controlData, templateObject, forceUpdate, locale)
+      discover(control, controlData, templateObject, editor, locale)
     }
   }
   controlData.forEach(control => {

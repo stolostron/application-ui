@@ -106,7 +106,6 @@ const discoverGroupsFromSource = (
       // add a group for every subscription
       const newGroup = initializeControls(
         groupData,
-        cd,
         forceUpdate,
         locale,
         active.length + 1,
@@ -202,7 +201,7 @@ const discoverChannelFromSource = (
     groupControlData.forEach(cd => {
       cd.groupControlData = groupControlData
     })
-    initializeControls(groupControlData, globalControl, forceUpdate, locale)
+    initializeControls(groupControlData, forceUpdate, locale)
 
     // if more then one group, collapse all groups
     if (multiple) {

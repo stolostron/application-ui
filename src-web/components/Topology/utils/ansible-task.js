@@ -147,8 +147,12 @@ export const showAnsibleJobDetails = (node, details) => {
     type: 'spacer'
   })
 
-  const jobUrl = _.get(jobStatus, 'url')
+  let jobUrl = _.get(jobStatus, 'url')
   if (jobUrl) {
+    if (!_.startsWith(jobUrl, 'http')) {
+      jobUrl = `https://${jobUrl}`
+    }
+
     details.push({
       type: 'label',
       labelKey: 'description.ansible.job.url'

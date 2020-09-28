@@ -72,7 +72,7 @@ import {
   reduxStoreAppPipeline,
   reduxStoreAllAppsPipeline,
   serverProps
-} from "../components/TestingData";
+} from "./TestingData";
 
 const middleware = [thunkMiddleware];
 const mockStore = configureMockStore(middleware);

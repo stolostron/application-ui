@@ -18,19 +18,19 @@ import _ from 'lodash'
 export const initializeControlFunctions = (
   controlData,
   parentControlData,
-  forceUpdate
+  editor
 ) => {
   controlData.forEach(control => {
     const { type, active = [] } = control
     switch (type) {
     case 'group': {
       active.forEach(cd => {
-        initializeControlFunctions(cd, parentControlData, forceUpdate)
+        initializeControlFunctions(cd, editor)
       })
       break
     }
     default:
-      initialControl(control, parentControlData, forceUpdate)
+      initialControl(control, editor)
     }
   })
 }
@@ -38,22 +38,37 @@ export const initializeControlFunctions = (
 ///////////////////////////////////////////////////////////////////////////////
 //initialze each control
 ///////////////////////////////////////////////////////////////////////////////
-const initialControl = (control, controlData, forceUpdate) => {
+const initialControl = (control, editor) => {
   const { type, setActive, reverse } = control
+
+  // use the latest controlData in editor
+  const handler = {
+    get: (obj, prop) => {
+      const target = editor.currentData()
+      let ret = Reflect.get(target, prop)
+      if (typeof ret === 'function') {
+        ret = ret.bind(target)
+      }
+      return ret
+    }
+  }
+  const lastestData = new Proxy({}, handler)
+
+
   if (type !== 'title' && type !== 'section' && !setActive) {
     if (typeof control.onSelect === 'function') {
       control.onSelect = control.onSelect.bind(
         null,
         control,
-        controlData,
+        lastestData,
         (ctrl, isLoading) => {
           if (isLoading) {
             ctrl.isLoading = isLoading
-            forceUpdate()
+            editor.forceUpdate()
           } else {
             setTimeout(() => {
               ctrl.isLoading = isLoading
-              forceUpdate()
+              editor.forceUpdate()
             })
           }
         }
@@ -61,18 +76,18 @@ const initialControl = (control, controlData, forceUpdate) => {
     }
 
     if (typeof control.isHidden === 'function') {
-      control.isHidden = control.isHidden.bind(null, control, controlData)
+      control.isHidden = control.isHidden.bind(null, control, lastestData)
     }
 
     if (typeof control.summarize === 'function') {
-      control.summarize = control.summarize.bind(null, control, controlData)
+      control.summarize = control.summarize.bind(null, control, lastestData)
     }
 
     control.setActive = value => {
       control.active = value
       if (typeof control.onSelect === 'function') {
         control.onSelect()
-        forceUpdate()
+        editor.forceUpdate()
       }
     }
 

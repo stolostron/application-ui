@@ -20,6 +20,7 @@ import { mapBulkChannels } from '../reducers/data-mappers/mapChannelsBulk'
 import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsBulk'
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import msgs from '../../nls/platform.properties'
 
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
@@ -52,6 +53,13 @@ export const receiveResourceSuccess = (response, resourceType) => ({
 export const receiveResourceError = (err, resourceType) => ({
   type: Actions.RESOURCE_RECEIVE_FAILURE,
   status: Actions.REQUEST_STATUS.ERROR,
+  err,
+  resourceType
+})
+
+export const receiveResourceNotFound = (err, resourceType) => ({
+  type: Actions.RESOURCE_RECEIVE_NOT_FOUND,
+  status: Actions.REQUEST_STATUS.NOT_FOUND,
   err,
   resourceType
 })
@@ -280,6 +288,21 @@ export const fetchResource = (resourceType, namespace, name) => {
           return dispatch(
             receiveResourceError(response.errors[0], resourceType)
           )
+        }
+        const searchResult = lodash.get(response, 'data.searchResult', [])
+        if (
+          searchResult.length === 0 ||
+          lodash.get(searchResult[0], 'items', []).length === 0
+        ) {
+          //app not found
+          const err = {
+            err: msgs.get(
+              'load.app.info.notfound',
+              [`${namespace}/${name}`],
+              'en-US'
+            )
+          }
+          return dispatch(receiveResourceNotFound(err, resourceType))
         }
         return dispatch(
           receiveResourceSuccess(

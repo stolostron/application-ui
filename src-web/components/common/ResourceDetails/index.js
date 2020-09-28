@@ -11,7 +11,7 @@
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification } from 'carbon-components-react'
-import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
+import { updateSecondaryHeader } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -19,38 +19,24 @@ import * as Actions from '../../../actions'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
 import ResourceOverview from '../ResourceOverview'
-import {
-  startPolling,
-  stopPolling,
-  handleRefreshPropertiesChanged,
-  handleVisibilityChanged
-} from '../../../shared/utils/refetch'
-import { loadingComponent } from '../ResourceOverview/utils'
-import { canCallAction } from '../../../../lib/client/access-helper'
-import _ from 'lodash'
 
 resources(() => {
   require('./style.scss')
 })
 
 const withResource = Component => {
-  const mapDispatchToProps = (dispatch, ownProps) => {
-    const { resourceType, params } = ownProps
+  const mapDispatchToProps = dispatch => {
     return {
-      actions: bindActionCreators(Actions, dispatch),
-      fetchResource: () =>
-        dispatch(fetchResource(resourceType, params.namespace, params.name))
+      actions: bindActionCreators(Actions, dispatch)
     }
   }
 
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
-    const { refetch } = state
     return {
       status: state[typeListName].status,
-      statusCode: error && error.response && error.response.status,
-      refetch
+      statusCode: error && error.response && error.response.status
     }
   }
 
@@ -59,9 +45,7 @@ const withResource = Component => {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
         actions: PropTypes.object,
-        fetchResource: PropTypes.func,
         params: PropTypes.object,
-        refetch: PropTypes.object,
         status: PropTypes.string,
         statusCode: PropTypes.object
       };
@@ -80,75 +64,9 @@ const withResource = Component => {
         actions.clearAppDropDownList()
         // Then add it back so only one will be displaying
         actions.updateAppDropDownList(params.name)
-        this.reload()
-
-        document.addEventListener('visibilitychange', this.onVisibilityChange)
-        startPolling(this, setInterval)
       }
-
-      componentWillUnmount() {
-        stopPolling(this.state, clearInterval)
-        document.removeEventListener(
-          'visibilitychange',
-          this.onVisibilityChange
-        )
-      }
-
-      onVisibilityChange = () => {
-        handleVisibilityChanged(this, clearInterval, setInterval)
-      };
-
-      componentDidUpdate(prevProps) {
-        handleRefreshPropertiesChanged(
-          prevProps,
-          this,
-          clearInterval,
-          setInterval
-        )
-      }
-
-      componentWillMount() {
-        const { params } = this.props
-        canCallAction('view', params.namespace).then(response => {
-          const allowed = _.get(response, 'data.userAccess.allowed')
-          this.setState({
-            errors: allowed,
-            showError: allowed == false ? true : false
-          })
-        })
-      }
-
-      reload() {
-        const { status } = this.props
-        let { retry = 0, showError = false } = this.state
-        // if there's an error give it 3 more times before we show it
-        if (status === Actions.REQUEST_STATUS.ERROR) {
-          if (!showError) {
-            retry++
-            if (retry > 3) {
-              showError = true
-            }
-          }
-        } else {
-          retry = null
-          showError = null
-        }
-        this.setState({ xhrPoll: true, retry, showError })
-        if (status !== Actions.REQUEST_STATUS.DONE) {
-          this.props.fetchResource()
-        }
-      }
-
       render() {
-        const { status } = this.props
-        const { showError = false, retry = 0 } = this.state
-        if (
-          status !== Actions.REQUEST_STATUS.DONE &&
-          !this.state.xhrPoll &&
-          retry === 0
-        ) {
-          return loadingComponent()
-        }
+        const { showError, errors } = this.state
 
         return (
           <React.Fragment>
@@ -156,12 +74,7 @@ const withResource = Component => {
               <Notification
                 title=""
                 className="persistent"
-                subtitle={msgs.get(
-                  `error.${
-                    this.state.errors == false ? 'unauthorized' : 'default'
-                  }.description`,
-                  this.context.locale
-                )}
+                subtitle={errors}
                 kind="error"
               />
             )}

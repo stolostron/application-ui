@@ -1481,6 +1481,7 @@ export const reduxStoreAppPipelineWithCEM_Inception = {
     selectedFilters: {}
   },
   secondaryHeader: secondaryHeader,
+  HCMApplicationList: HCMApplicationList,
   QueryApplicationList: QueryApplicationList_INCEPTION,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,

@@ -15,7 +15,8 @@ import {
   AccordionItem,
   Button,
   Icon,
-  SkeletonText
+  SkeletonText,
+  Notification
 } from 'carbon-components-react'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
@@ -27,6 +28,8 @@ import {
 import ChannelLabels from '../ChannelLabels'
 import TimeWindowLabels from '../TimeWindowLabels'
 import { getClusterCount } from '../../../../lib/client/resource-helper'
+import { REQUEST_STATUS } from '../../../actions'
+import _ from 'lodash'
 
 /* eslint-disable react/prop-types */
 
@@ -74,6 +77,36 @@ class OverviewCards extends React.Component {
       locale
     } = this.props
     const { nodeStatuses, showSubCards } = this.state
+    if (HCMApplicationList.status === REQUEST_STATUS.ERROR) {
+      const errMessage = _.get(
+        HCMApplicationList,
+        'err.message',
+        msgs.get('resource.error')
+      )
+      return (
+        <Notification
+          title=""
+          className="overview-notification"
+          kind="error"
+          subtitle={errMessage}
+        />
+      )
+    }
+    if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
+      const infoMessage = _.get(
+        HCMApplicationList,
+        'err.err',
+        msgs.get('load.app.info.notfound', [selectedAppName])
+      )
+      return (
+        <Notification
+          title=""
+          className="overview-notification"
+          kind="info"
+          subtitle={infoMessage}
+        />
+      )
+    }
 
     let getUrl = window.location.href
     getUrl = getUrl.substring(0, getUrl.indexOf('/multicloud/applications/'))

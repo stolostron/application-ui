@@ -296,7 +296,13 @@ class RemoveResourceModal extends React.Component {
       return this.state.selected.length > 0 ? (
         <div className="remove-app-modal-content">
           <div className="remove-app-modal-content-text">
-            {msgs.get('modal.remove.application.confirm', [name], locale)}
+            {msgs.get('modal.remove.application.confirm.one', [name], locale)}
+            <span>&nbsp;</span>
+            <span style={{ fontStyle: 'italic' }}>
+              {msgs.get('modal.remove.application.resources', locale)}
+            </span>
+            <span>&nbsp;</span>
+            {msgs.get('modal.remove.application.confirm.two', [name], locale)}
           </div>
           <div className="remove-app-modal-content-data">
             <Checkbox
@@ -305,25 +311,23 @@ class RemoveResourceModal extends React.Component {
               onChange={this.toggleRemoveAppResources}
               labelText={msgs.get(
                 'modal.remove.application.resources',
-                [name],
                 locale
               )}
               />
           </div>
           <div>
-            {this.state.selected.map(child => {
-              return (
-                <div className="remove-app-modal-content-data" key={child.id}>
-                  <Checkbox
-                    id={child.id}
-                    checked={this.state.removeAppResources}
-                    disabled={true}
-                    labelText={child.label}
-                    aria-label={child.id}
-                    />
-                </div>
-              )
-            })}
+            <ul>
+              {this.state.selected.map(child => {
+                return (
+                  <div
+                    className="remove-app-modal-content-data"
+                    key={child.id}
+                    >
+                    <li>{child.label}</li>
+                  </div>
+                )
+              })}
+            </ul>
           </div>
         </div>
       ) : (

@@ -565,7 +565,8 @@
   "modal.remove-hcmpod.label": "Pod",
   "modal.remove-kuberesource.heading": "Remove resource",
   "modal.remove-kuberesource.label": "Kubernetes resource",
-  "modal.remove.application.confirm": "Removing {0} is irreversible. Choose Remove application related resources option below to delete all application resources in addition to {0}.",
+  "modal.remove.application.confirm.one": "Removing {0} is irreversible. Choose",
+  "modal.remove.application.confirm.two": "to delete {0} and all related resources.",
   "modal.remove.application.resources": "Remove application related resources",
   "modal.remove.confirm": "Removing {0} is irreversible. Are you sure that you want to continue?",
   "modal.undeploy-hcmapplication.confirm": "Are you sure that you want to remove deployment of the application {0}?",
@@ -1272,5 +1273,6 @@
   "spec.subscr.timeWindow.type": "Time Window type",
   "spec.subscr.timeWindow.timezone": "Time zone",
   "spec.subscr.annotations.gitBranch": "Git branch",
-  "spec.subscr.annotations.gitPath": "Git path"
+  "spec.subscr.annotations.gitPath": "Git path",
+  "load.app.info.notfound": "Application {0} not found. If the application was just created wait for the operation to complete, otherwise ensure the application exists and that you are assigned a role with viewing access."
 }

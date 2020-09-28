@@ -16,8 +16,7 @@ import _ from 'lodash'
 export const generateSourceFromTemplate = (
   template,
   controlData,
-  otherYAMLTabs,
-  isFinalGenerate
+  otherYAMLTabs
 ) => {
   /////////////////////////////////////////////////////////
   // generate a map of id:values that can be passed to the handlerbars template
@@ -27,8 +26,7 @@ export const generateSourceFromTemplate = (
   const templateData = generateTemplateData(
     controlData,
     replacements,
-    controlMap,
-    isFinalGenerate
+    controlMap
   )
 
   /////////////////////////////////////////////////////////
@@ -90,8 +88,7 @@ export const generateSourceFromTemplate = (
 const generateTemplateData = (
   controlData,
   replacements,
-  controlMap,
-  isFinalGenerate
+  controlMap
 ) => {
   //convert controlData active into templateData
   //do replacements second in case it depends on previous templateData
@@ -109,7 +106,6 @@ const generateTemplateData = (
       hasValueDescription,
       hasReplacements,
       encode,
-      trueOnCreate,
       template: _template
     } = control
     let { availableMap } = control
@@ -137,8 +133,6 @@ const generateTemplateData = (
         ret = map
       } else if (hasValueDescription) {
         ret = availableMap[active] || active
-      } else if (trueOnCreate && isFinalGenerate) {
-        ret = true
       } else if (type === 'group') {
         ret = active.map(group => {
           const map = {}

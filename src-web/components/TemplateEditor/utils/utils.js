@@ -119,23 +119,20 @@ export const generateSource = (
   template,
   editStack,
   controlData,
-  otherYAMLTabs,
-  isFinalGenerate
+  otherYAMLTabs
 ) => {
   if (!_.isEmpty(editStack)) {
     return generateSourceFromStack(
       template,
       editStack,
       controlData,
-      otherYAMLTabs,
-      isFinalGenerate
+      otherYAMLTabs
     )
   } else {
     return generateSourceFromTemplate(
       template,
       controlData,
-      otherYAMLTabs,
-      isFinalGenerate
+      otherYAMLTabs
     )
   }
 }

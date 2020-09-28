@@ -145,7 +145,7 @@ export default class TemplateEditor extends React.Component {
     if (!controlData) {
       // initialize control data
       const cd = _.cloneDeep(initialControlData)
-      controlData = initializeControls(cd, cd, editor, locale)
+      controlData = initializeControls(cd, editor, locale)
       newState = { ...newState, controlData }
     }
 
@@ -472,7 +472,6 @@ export default class TemplateEditor extends React.Component {
       const { prompts: { nameId, baseName } } = control
       const newGroup = initializeControls(
         cd,
-        controlData,
         editor,
         locale,
         active.length + 1,
@@ -595,7 +594,6 @@ export default class TemplateEditor extends React.Component {
           })
         }
         controlData = initializeControls(
-          controlData,
           controlData,
           editor,
           locale
@@ -1205,7 +1203,7 @@ export default class TemplateEditor extends React.Component {
     const { template, controlData: initialControlData, locale } = this.props
     const { editStack, resetInx, editor } = this.state
     const cd = _.cloneDeep(initialControlData)
-    const controlData = initializeControls(cd, cd, editor, locale)
+    const controlData = initializeControls(cd, editor, locale)
     const otherYAMLTabs = []
     const { templateYAML, templateObject } = generateSource(
       template,

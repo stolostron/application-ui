@@ -17,7 +17,6 @@ import _ from 'lodash'
 ///////////////////////////////////////////////////////////////////////////////
 export const initializeControlFunctions = (
   controlData,
-  parentControlData,
   editor
 ) => {
   controlData.forEach(control => {

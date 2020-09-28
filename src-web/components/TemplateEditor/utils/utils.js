@@ -25,7 +25,6 @@ export const ControlMode = Object.freeze({
 
 export const initializeControls = (
   initialControlData,
-  parentControlData,
   editor,
   locale,
   groupNum,
@@ -37,7 +36,7 @@ export const initializeControls = (
     groupNum,
     inGroup
   )
-  initializeControlFunctions(controlData, parentControlData, editor)
+  initializeControlFunctions(controlData, editor)
   return controlData
 }
 

@@ -417,17 +417,4 @@ export const editApplication = name => {
   resourceTable.openRowMenu(name);
   resourceTable.menuClickEdit();
   cy.url().should("include", `/${name}`);
-  cy.reload();
-  cy.get(".bx--detail-page-header-title-container");
-  cy.get("#edit-yaml", { timeout: 30 * 1000 }).click({ force: true });
-  cy.get(".creation-view-yaml");
-  cy.get("#name").invoke("val");
-  cy
-    .get(".bx--text-input.bx--text__input")
-    .invoke("val")
-    .should("eq", name);
-  cy
-    .get("#namespace")
-    .invoke("val")
-    .should("eq", `${name}-ns`);
 };

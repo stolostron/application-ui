@@ -317,8 +317,6 @@ export const deleteApplicationUI = name => {
 export const selectClusterDeployment = (deployment, clusterName, key) => {
   if (deployment) {
     const { local, online, matchingLabel } = deployment;
-    console.log("cluster name "+clusterName);
-
     const cluster = clusterName.split("/")[1];
     let clusterDeploymentCss = {
       localClusterID: "#local-cluster-checkbox",

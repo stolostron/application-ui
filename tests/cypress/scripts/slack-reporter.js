@@ -53,6 +53,7 @@ async function slackReporter() {
 async function reportFailure(report, slackData, prData, videoDir, videos) {
   try {
     const testReport = require(`../../test-output/cypress/json/${report}`);
+    console.log(testReport.stats.failures);
     if (testReport.stats.failures > 0) {
       console.log("Test failures reported, attempting to send videos...");
       const testFailureData = getTestFailureData(testReport);

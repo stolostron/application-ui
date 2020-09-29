@@ -410,3 +410,11 @@ export const selectDate = (date, key) => {
           .click({ force: true });
   });
 };
+
+export const editApplication = name => {
+  cy.visit("/multicloud/applications");
+  resourceTable.rowShouldExist(name, 600 * 1000);
+  resourceTable.openRowMenu(name);
+  resourceTable.menuClickEdit();
+  cy.url().should("include", `/${name}`);
+};

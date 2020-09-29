@@ -1,7 +1,7 @@
 {
   "retries": {
-    "runMode": 3,
-    "openMode": 3
+    "runMode": 1,
+    "openMode": 1
   },
   "integrationFolder": "cypress/tests",
   "fixturesFolder": "cypress/fixtures",

@@ -1,0 +1,3681 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
+Array [
+  <div
+    id="DeploymentHighlights"
+  >
+    <div
+      id="ApplicationDeploymentHighlightsTerminology"
+    >
+      <dl
+        aria-label=""
+        class="pf-c-accordion"
+      >
+        <dt>
+          <button
+            aria-expanded="true"
+            class="pf-c-accordion__toggle pf-m-expanded"
+            id="terminology-header"
+          >
+            <span
+              class="pf-c-accordion__toggle-text"
+            >
+              Learn more about the terminology
+            </span>
+            <span
+              class="pf-c-accordion__toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                style="vertical-align: -0.125em;"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                  transform=""
+                />
+              </svg>
+            </span>
+          </button>
+        </dt>
+        <dd
+          aria-label=""
+          class="pf-c-accordion__expanded-content pf-m-expanded"
+          id=""
+        >
+          <div
+            class="pf-c-accordion__expanded-content-body"
+          >
+            <div
+              class="terminology-item"
+            >
+              <p
+                class="deployment-highlights-terminology-title"
+              >
+                Subscriptions
+              </p>
+              <p
+                class="deployment-highlights-terminology-content"
+              >
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
+              </p>
+            </div>
+            <div
+              class="terminology-item"
+            >
+              <p
+                class="deployment-highlights-terminology-title"
+              >
+                Placement rules
+              </p>
+              <p
+                class="deployment-highlights-terminology-content"
+              >
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
+              </p>
+            </div>
+            <div
+              class="terminology-item"
+            >
+              <p
+                class="deployment-highlights-terminology-title"
+              >
+                Channels
+              </p>
+              <p
+                class="deployment-highlights-terminology-content"
+              >
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
+              </p>
+            </div>
+            <div
+              class="deployment-highlights-terminology-docs"
+            >
+              <a
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="deployment-highlights-terminology-docs-text"
+                >
+                  View documentation
+                </span>
+                <svg
+                  alt=""
+                  aria-label=""
+                  class="deployment-highlights-terminology-docs-icon"
+                  fill="#0066CC"
+                  fill-rule="evenodd"
+                  height="16"
+                  name="icon--launch"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title />
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>,
+  <div
+    id="resource-list"
+  >
+    <div
+      class="bx--inline-notification bx--inline-notification--success"
+      kind="success"
+      role="alert"
+    >
+      <div
+        class="bx--inline-notification__details"
+      >
+        <svg
+          alt="closes notification"
+          aria-label="closes notification"
+          class="bx--inline-notification__icon"
+          fill-rule="evenodd"
+          height="16"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
+        >
+          <title>
+            closes notification
+          </title>
+          <path
+            d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
+          />
+        </svg>
+        <div
+          class="bx--inline-notification__text-wrapper"
+        >
+          <p
+            class="bx--inline-notification__title"
+          >
+            Success:
+          </p>
+          <div
+            class="bx--inline-notification__subtitle"
+          >
+            Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+          </div>
+        </div>
+      </div>
+      <button
+        class="bx--inline-notification__close-button"
+        type="button"
+      >
+        <svg
+          alt="close icon"
+          aria-label="close icon"
+          class="bx--inline-notification__close-icon"
+          fill-rule="evenodd"
+          height="10"
+          role="img"
+          viewBox="0 0 10 10"
+          width="10"
+        >
+          <title>
+            close icon
+          </title>
+          <path
+            d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="bx--inline-notification bx--inline-notification--success"
+      kind="success"
+      role="alert"
+    >
+      <div
+        class="bx--inline-notification__details"
+      >
+        <svg
+          alt="closes notification"
+          aria-label="closes notification"
+          class="bx--inline-notification__icon"
+          fill-rule="evenodd"
+          height="16"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
+        >
+          <title>
+            closes notification
+          </title>
+          <path
+            d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
+          />
+        </svg>
+        <div
+          class="bx--inline-notification__text-wrapper"
+        >
+          <p
+            class="bx--inline-notification__title"
+          />
+          <div
+            class="bx--inline-notification__subtitle"
+          >
+            Create resource was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+          </div>
+        </div>
+      </div>
+      <button
+        class="bx--inline-notification__close-button"
+        type="button"
+      >
+        <svg
+          alt="close icon"
+          aria-label="close icon"
+          class="bx--inline-notification__close-icon"
+          fill-rule="evenodd"
+          height="10"
+          role="img"
+          viewBox="0 0 10 10"
+          width="10"
+        >
+          <title>
+            close icon
+          </title>
+          <path
+            d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="refresh-time-div"
+    >
+      <div
+        class="refresh-time-container"
+      >
+        <div
+          class="refresh-time-selection"
+        >
+          <div
+            aria-label="Refresh"
+            class="button"
+            id="refreshButton"
+            role="button"
+            tabindex="0"
+            title="Refresh"
+          >
+            <svg
+              class="button-icon"
+            >
+              <use
+                href="#diagramIcons_autoRefresh"
+              />
+            </svg>
+          </div>
+          <div
+            aria-label="Choose refresh"
+            class="bx--dropdown selection bx--list-box"
+            role="listbox"
+            tabindex="0"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-label="open menu"
+              class="bx--list-box__field"
+              data-toggle="true"
+              role="button"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="bx--list-box__label"
+                for="refreshDropdown-input"
+              >
+                Disable refresh
+              </span>
+              <div
+                class="bx--list-box__menu-icon"
+              >
+                <svg
+                  alt="Open menu"
+                  aria-label="Open menu"
+                  fill-rule="evenodd"
+                  height="5"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Open menu
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          Last update: {0}
+        </div>
+      </div>
+    </div>
+    <div
+      class="bx--data-table-v2-container"
+      id="undefined-table-container"
+    >
+      <section
+        aria-label="undefined-search"
+        class="bx--table-toolbar"
+        role="region"
+      >
+        <div
+          class="bx--toolbar-search-container"
+        >
+          <div
+            aria-labelledby="undefined-search-label"
+            class="bx--search bx--search--sm bx--search--light"
+            role="search"
+          >
+            <svg
+              alt="Filter table"
+              aria-label="Filter table"
+              class="bx--search-magnifier"
+              fill-rule="evenodd"
+              height="16"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Filter table
+              </title>
+              <path
+                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm4.936-1.27l4.563 4.557-.707.708-4.563-4.558a6.5 6.5 0 1 1 .707-.707z"
+              />
+            </svg>
+            <label
+              class="bx--label"
+              for="undefined-search"
+              id="undefined-search-label"
+            >
+              Filter table
+            </label>
+            <input
+              aria-label="undefined-search"
+              class="bx--search-input"
+              id="undefined-search"
+              placeholder="Find resources"
+              type="text"
+              value="aa"
+            />
+            <button
+              class="bx--search-close"
+              type="button"
+            >
+              <svg
+                alt="Provide a description that will be used as the title"
+                aria-label="Provide a description that will be used as the title"
+                fill-rule="evenodd"
+                height="16"
+                role="img"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <title>
+                  Provide a description that will be used as the title
+                </title>
+                <path
+                  d="M8 6.586L5.879 4.464 4.464 5.88 6.586 8l-2.122 2.121 1.415 1.415L8 9.414l2.121 2.122 1.415-1.415L9.414 8l2.122-2.121-1.415-1.415L8 6.586zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="bx--toolbar-content"
+        >
+          <div
+            class="pf-c-toggle-group"
+            role="group"
+          >
+            <div
+              class="pf-c-toggle-group__item"
+            >
+              <button
+                aria-pressed="false"
+                class="pf-c-toggle-group__button pf-m-light"
+                id="subscriptions"
+              >
+                <span
+                  class="pf-c-toggle-group__text"
+                >
+                  Subscriptions
+                </span>
+              </button>
+            </div>
+            <div
+              class="pf-c-divider pf-m-vertical"
+              role="separator"
+            />
+            <div
+              class="pf-c-toggle-group__item"
+            >
+              <button
+                aria-pressed="false"
+                class="pf-c-toggle-group__button pf-m-light"
+                id="placementrules"
+              >
+                <span
+                  class="pf-c-toggle-group__text"
+                >
+                  Placement rules
+                </span>
+              </button>
+            </div>
+            <div
+              class="pf-c-divider pf-m-vertical"
+              role="separator"
+            />
+            <div
+              class="pf-c-toggle-group__item"
+            >
+              <button
+                aria-pressed="true"
+                class="pf-c-toggle-group__button pf-m-light pf-m-selected"
+                id="channels"
+              >
+                <span
+                  class="pf-c-toggle-group__text"
+                >
+                  Channels
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <table
+        class="bx--data-table-v2 resource-table"
+      >
+        <thead>
+          <tr>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending bx--table-sort-v2--active"
+                data-default-key="name"
+                data-key="name"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Name
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="namespace"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Namespace
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="type"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Type
+                    <div
+                      class="bx--tooltip__trigger"
+                    >
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        id="__carbon-tooltip-trigger_i"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <svg
+                          alt="tooltip"
+                          aria-label="tooltip"
+                          fill-rule="evenodd"
+                          height="16"
+                          name="icon--info--outline"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                        >
+                          <title />
+                          <path
+                            d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                          />
+                          <path
+                            d="M9 13H7V7h2z"
+                          />
+                          <path
+                            d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="subscriptionCount"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Subscriptions
+                    <div
+                      class="bx--tooltip__trigger"
+                    >
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        id="__carbon-tooltip-trigger_i"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <svg
+                          alt="tooltip"
+                          aria-label="tooltip"
+                          fill-rule="evenodd"
+                          height="16"
+                          name="icon--info--outline"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                        >
+                          <title />
+                          <path
+                            d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                          />
+                          <path
+                            d="M9 13H7V7h2z"
+                          />
+                          <path
+                            d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="clusterCount"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Clusters
+                    <div
+                      class="bx--tooltip__trigger"
+                    >
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        id="__carbon-tooltip-trigger_i"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <svg
+                          alt="tooltip"
+                          aria-label="tooltip"
+                          fill-rule="evenodd"
+                          height="16"
+                          name="icon--info--outline"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                        >
+                          <title />
+                          <path
+                            d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                          />
+                          <path
+                            d="M9 13H7V7h2z"
+                          />
+                          <path
+                            d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="created"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Created
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            />
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            data-row-name="cassandra-channel"
+          >
+            <td>
+              <a
+                href="/multicloud/details/local-cluster/apis/apps.open-cluster-management.io/v1/namespaces/cassandra-ch/channels/cassandra-channel"
+              >
+                cassandra-channel
+              </a>
+            </td>
+            <td>
+              cassandra-ch
+            </td>
+            <td>
+              <div
+                class="label-with-popover-container channel-labels"
+              >
+                <div
+                  class="label-with-popover"
+                >
+                  <span
+                    class="pf-c-label"
+                  >
+                    <a
+                      class="pf-c-label__content"
+                      href="#"
+                    >
+                      <div
+                        class="pf-l-split pf-m-gutter channel-label"
+                      >
+                        <div
+                          class="pf-l-split__item"
+                        >
+                          Git
+                        </div>
+                        <div
+                          class="pf-l-split__item"
+                        >
+                          <svg
+                            alt="Provide a description that will be used as the title"
+                            aria-label="Provide a description that will be used as the title"
+                            class="channel-entry-icon"
+                            fill-rule="evenodd"
+                            height="16"
+                            name="icon--launch"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                          >
+                            <title>
+                              Provide a description that will be used as the title
+                            </title>
+                            <path
+                              d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                            />
+                            <path
+                              d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                            />
+                            <path
+                              d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Acassandra-channel%20namespace%3Acassandra-ch%20kind%3Achannel\\"}&showrelated=subscription"
+              >
+                1
+              </a>
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Acassandra-channel%20namespace%3Acassandra-ch%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
+              >
+                {0} Remote
+              </a>
+            </td>
+            <td>
+              a year ago
+            </td>
+            <td>
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Overflow-menu"
+                class="bx--overflow-menu"
+                role="button"
+                tabindex="0"
+              >
+                <svg
+                  alt="Open and close list of options"
+                  aria-label="Open and close list of options"
+                  class="bx--overflow-menu__icon"
+                  fill-rule="evenodd"
+                  focusable="false"
+                  height="15"
+                  role="img"
+                  viewBox="0 0 3 15"
+                  width="3"
+                >
+                  <title>
+                    Open and close list of options
+                  </title>
+                  <path
+                    d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                  />
+                </svg>
+              </div>
+            </td>
+          </tr>
+          <tr
+            data-row-name="gbchn"
+          >
+            <td>
+              <a
+                href="/multicloud/details/local-cluster/apis/apps.open-cluster-management.io/v1/namespaces/gbchn/channels/gbchn"
+              >
+                gbchn
+              </a>
+            </td>
+            <td>
+              gbchn
+            </td>
+            <td>
+              <div
+                class="label-with-popover-container channel-labels"
+              >
+                <div
+                  class="label-with-popover"
+                >
+                  <span
+                    class="pf-c-label"
+                  >
+                    <a
+                      class="pf-c-label__content"
+                      href="#"
+                    >
+                      <div
+                        class="pf-l-split pf-m-gutter channel-label"
+                      >
+                        <div
+                          class="pf-l-split__item"
+                        >
+                          Namespace
+                        </div>
+                        <div
+                          class="pf-l-split__item"
+                        >
+                          <svg
+                            alt="Provide a description that will be used as the title"
+                            aria-label="Provide a description that will be used as the title"
+                            class="channel-entry-icon"
+                            fill-rule="evenodd"
+                            height="16"
+                            name="icon--launch"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                          >
+                            <title>
+                              Provide a description that will be used as the title
+                            </title>
+                            <path
+                              d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                            />
+                            <path
+                              d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                            />
+                            <path
+                              d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Agbchn%20namespace%3Agbchn%20kind%3Achannel\\"}&showrelated=subscription"
+              >
+                1
+              </a>
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Agbchn%20namespace%3Agbchn%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
+              >
+                {0} Remote
+              </a>
+            </td>
+            <td>
+              a year ago
+            </td>
+            <td>
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Overflow-menu"
+                class="bx--overflow-menu"
+                role="button"
+                tabindex="0"
+              >
+                <svg
+                  alt="Open and close list of options"
+                  aria-label="Open and close list of options"
+                  class="bx--overflow-menu__icon"
+                  fill-rule="evenodd"
+                  focusable="false"
+                  height="15"
+                  role="img"
+                  viewBox="0 0 3 15"
+                  width="3"
+                >
+                  <title>
+                    Open and close list of options
+                  </title>
+                  <path
+                    d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                  />
+                </svg>
+              </div>
+            </td>
+          </tr>
+          <tr
+            data-row-name="git"
+          >
+            <td>
+              <a
+                href="/multicloud/details/local-cluster/apis/apps.open-cluster-management.io/v1/namespaces/ansible/channels/git"
+              >
+                git
+              </a>
+            </td>
+            <td>
+              ansible
+            </td>
+            <td>
+              <div
+                class="label-with-popover-container channel-labels"
+              >
+                <div
+                  class="label-with-popover"
+                >
+                  <span
+                    class="pf-c-label"
+                  >
+                    <a
+                      class="pf-c-label__content"
+                      href="#"
+                    >
+                      <div
+                        class="pf-l-split pf-m-gutter channel-label"
+                      >
+                        <div
+                          class="pf-l-split__item"
+                        >
+                          Git
+                        </div>
+                        <div
+                          class="pf-l-split__item"
+                        >
+                          <svg
+                            alt="Provide a description that will be used as the title"
+                            aria-label="Provide a description that will be used as the title"
+                            class="channel-entry-icon"
+                            fill-rule="evenodd"
+                            height="16"
+                            name="icon--launch"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                          >
+                            <title>
+                              Provide a description that will be used as the title
+                            </title>
+                            <path
+                              d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                            />
+                            <path
+                              d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                            />
+                            <path
+                              d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Agit%20namespace%3Aansible%20kind%3Achannel\\"}&showrelated=subscription"
+              >
+                1
+              </a>
+            </td>
+            <td>
+              None
+            </td>
+            <td>
+              a year ago
+            </td>
+            <td>
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Overflow-menu"
+                class="bx--overflow-menu"
+                role="button"
+                tabindex="0"
+              >
+                <svg
+                  alt="Open and close list of options"
+                  aria-label="Open and close list of options"
+                  class="bx--overflow-menu__icon"
+                  fill-rule="evenodd"
+                  focusable="false"
+                  height="15"
+                  role="img"
+                  viewBox="0 0 3 15"
+                  width="3"
+                >
+                  <title>
+                    Open and close list of options
+                  </title>
+                  <path
+                    d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                  />
+                </svg>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="bx--pagination"
+      disabled=""
+    >
+      <div
+        class="bx--pagination__left"
+      >
+        <span
+          class="bx--pagination__text"
+        >
+          items per page
+        </span>
+        <div
+          class="bx--form-item"
+        >
+          <div
+            class="bx--select bx--select--inline"
+          >
+            <label
+              class="bx--label bx--visually-hidden"
+              for="bx-pagination-select-resource-table-pagination"
+            >
+              items per page
+            </label>
+            <select
+              class="bx--select-input"
+              id="bx-pagination-select-resource-table-pagination"
+            >
+              <option
+                class="bx--select-option"
+                value="5"
+              >
+                5
+              </option>
+              <option
+                class="bx--select-option"
+                value="10"
+              >
+                10
+              </option>
+              <option
+                class="bx--select-option"
+                value="20"
+              >
+                20
+              </option>
+              <option
+                class="bx--select-option"
+                value="50"
+              >
+                50
+              </option>
+              <option
+                class="bx--select-option"
+                value="75"
+              >
+                75
+              </option>
+              <option
+                class="bx--select-option"
+                value="100"
+              >
+                100
+              </option>
+            </select>
+            <svg
+              alt="open list of options"
+              aria-label="open list of options"
+              class="bx--select__arrow"
+              fill-rule="evenodd"
+              height="5"
+              role="img"
+              viewBox="0 0 10 5"
+              width="10"
+            >
+              <title>
+                open list of options
+              </title>
+              <path
+                d="M0 0l5 4.998L10 0z"
+              />
+            </svg>
+          </div>
+        </div>
+        <span
+          class="bx--pagination__text"
+        >
+           |  {0}-{1} of {0} items
+        </span>
+      </div>
+      <div
+        class="bx--pagination__right bx--pagination--inline"
+      >
+        <span
+          class="bx--pagination__text"
+        >
+          {0} of {1} pages
+        </span>
+        <button
+          aria-label="Backward"
+          class="bx--pagination__button bx--pagination__button--backward bx--pagination__button--no-index"
+          disabled=""
+        >
+          <svg
+            alt="Backward"
+            aria-label="Backward"
+            class="bx--pagination__button-icon"
+            fill-rule="evenodd"
+            height="12"
+            role="img"
+            viewBox="0 0 7 12"
+            width="7"
+          >
+            <title>
+              Backward
+            </title>
+            <path
+              d="M1.45 6.002L7 11.27l-.685.726L0 6.003 6.315 0 7 .726z"
+            />
+          </svg>
+        </button>
+        <button
+          aria-label="Forward"
+          class="bx--pagination__button bx--pagination__button--forward"
+          disabled=""
+        >
+          <svg
+            alt="Forward"
+            aria-label="Forward"
+            class="bx--pagination__button-icon"
+            fill-rule="evenodd"
+            height="12"
+            role="img"
+            viewBox="0 0 7 12"
+            width="7"
+          >
+            <title>
+              Forward
+            </title>
+            <path
+              d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1`] = `
+Array [
+  <div
+    id="DeploymentHighlights"
+  >
+    <div
+      id="ApplicationDeploymentHighlightsTerminology"
+    >
+      <dl
+        aria-label=""
+        class="pf-c-accordion"
+      >
+        <dt>
+          <button
+            aria-expanded="true"
+            class="pf-c-accordion__toggle pf-m-expanded"
+            id="terminology-header"
+          >
+            <span
+              class="pf-c-accordion__toggle-text"
+            >
+              Learn more about the terminology
+            </span>
+            <span
+              class="pf-c-accordion__toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                style="vertical-align: -0.125em;"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                  transform=""
+                />
+              </svg>
+            </span>
+          </button>
+        </dt>
+        <dd
+          aria-label=""
+          class="pf-c-accordion__expanded-content pf-m-expanded"
+          id=""
+        >
+          <div
+            class="pf-c-accordion__expanded-content-body"
+          >
+            <div
+              class="terminology-item"
+            >
+              <p
+                class="deployment-highlights-terminology-title"
+              >
+                Subscriptions
+              </p>
+              <p
+                class="deployment-highlights-terminology-content"
+              >
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
+              </p>
+            </div>
+            <div
+              class="terminology-item"
+            >
+              <p
+                class="deployment-highlights-terminology-title"
+              >
+                Placement rules
+              </p>
+              <p
+                class="deployment-highlights-terminology-content"
+              >
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
+              </p>
+            </div>
+            <div
+              class="terminology-item"
+            >
+              <p
+                class="deployment-highlights-terminology-title"
+              >
+                Channels
+              </p>
+              <p
+                class="deployment-highlights-terminology-content"
+              >
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
+              </p>
+            </div>
+            <div
+              class="deployment-highlights-terminology-docs"
+            >
+              <a
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="deployment-highlights-terminology-docs-text"
+                >
+                  View documentation
+                </span>
+                <svg
+                  alt=""
+                  aria-label=""
+                  class="deployment-highlights-terminology-docs-icon"
+                  fill="#0066CC"
+                  fill-rule="evenodd"
+                  height="16"
+                  name="icon--launch"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title />
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>,
+  <div
+    id="resource-list"
+  >
+    <div
+      class="bx--inline-notification bx--inline-notification--success"
+      kind="success"
+      role="alert"
+    >
+      <div
+        class="bx--inline-notification__details"
+      >
+        <svg
+          alt="closes notification"
+          aria-label="closes notification"
+          class="bx--inline-notification__icon"
+          fill-rule="evenodd"
+          height="16"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
+        >
+          <title>
+            closes notification
+          </title>
+          <path
+            d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
+          />
+        </svg>
+        <div
+          class="bx--inline-notification__text-wrapper"
+        >
+          <p
+            class="bx--inline-notification__title"
+          >
+            Success:
+          </p>
+          <div
+            class="bx--inline-notification__subtitle"
+          >
+            Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+          </div>
+        </div>
+      </div>
+      <button
+        class="bx--inline-notification__close-button"
+        type="button"
+      >
+        <svg
+          alt="close icon"
+          aria-label="close icon"
+          class="bx--inline-notification__close-icon"
+          fill-rule="evenodd"
+          height="10"
+          role="img"
+          viewBox="0 0 10 10"
+          width="10"
+        >
+          <title>
+            close icon
+          </title>
+          <path
+            d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="bx--inline-notification bx--inline-notification--success"
+      kind="success"
+      role="alert"
+    >
+      <div
+        class="bx--inline-notification__details"
+      >
+        <svg
+          alt="closes notification"
+          aria-label="closes notification"
+          class="bx--inline-notification__icon"
+          fill-rule="evenodd"
+          height="16"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
+        >
+          <title>
+            closes notification
+          </title>
+          <path
+            d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
+          />
+        </svg>
+        <div
+          class="bx--inline-notification__text-wrapper"
+        >
+          <p
+            class="bx--inline-notification__title"
+          />
+          <div
+            class="bx--inline-notification__subtitle"
+          >
+            Create resource was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+          </div>
+        </div>
+      </div>
+      <button
+        class="bx--inline-notification__close-button"
+        type="button"
+      >
+        <svg
+          alt="close icon"
+          aria-label="close icon"
+          class="bx--inline-notification__close-icon"
+          fill-rule="evenodd"
+          height="10"
+          role="img"
+          viewBox="0 0 10 10"
+          width="10"
+        >
+          <title>
+            close icon
+          </title>
+          <path
+            d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="refresh-time-div"
+    >
+      <div
+        class="refresh-time-container"
+      >
+        <div
+          class="refresh-time-selection"
+        >
+          <div
+            aria-label="Refresh"
+            class="button"
+            id="refreshButton"
+            role="button"
+            tabindex="0"
+            title="Refresh"
+          >
+            <svg
+              class="button-icon"
+            >
+              <use
+                href="#diagramIcons_autoRefresh"
+              />
+            </svg>
+          </div>
+          <div
+            aria-label="Choose refresh"
+            class="bx--dropdown selection bx--list-box"
+            role="listbox"
+            tabindex="0"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-label="open menu"
+              class="bx--list-box__field"
+              data-toggle="true"
+              role="button"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="bx--list-box__label"
+                for="refreshDropdown-input"
+              >
+                Disable refresh
+              </span>
+              <div
+                class="bx--list-box__menu-icon"
+              >
+                <svg
+                  alt="Open menu"
+                  aria-label="Open menu"
+                  fill-rule="evenodd"
+                  height="5"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Open menu
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          Last update: {0}
+        </div>
+      </div>
+    </div>
+    <div
+      class="bx--data-table-v2-container"
+      id="undefined-table-container"
+    >
+      <section
+        aria-label="undefined-search"
+        class="bx--table-toolbar"
+        role="region"
+      >
+        <div
+          class="bx--toolbar-search-container"
+        >
+          <div
+            aria-labelledby="undefined-search-label"
+            class="bx--search bx--search--sm bx--search--light"
+            role="search"
+          >
+            <svg
+              alt="Filter table"
+              aria-label="Filter table"
+              class="bx--search-magnifier"
+              fill-rule="evenodd"
+              height="16"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Filter table
+              </title>
+              <path
+                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm4.936-1.27l4.563 4.557-.707.708-4.563-4.558a6.5 6.5 0 1 1 .707-.707z"
+              />
+            </svg>
+            <label
+              class="bx--label"
+              for="undefined-search"
+              id="undefined-search-label"
+            >
+              Filter table
+            </label>
+            <input
+              aria-label="undefined-search"
+              class="bx--search-input"
+              id="undefined-search"
+              placeholder="Find resources"
+              type="text"
+              value="aa"
+            />
+            <button
+              class="bx--search-close"
+              type="button"
+            >
+              <svg
+                alt="Provide a description that will be used as the title"
+                aria-label="Provide a description that will be used as the title"
+                fill-rule="evenodd"
+                height="16"
+                role="img"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <title>
+                  Provide a description that will be used as the title
+                </title>
+                <path
+                  d="M8 6.586L5.879 4.464 4.464 5.88 6.586 8l-2.122 2.121 1.415 1.415L8 9.414l2.121 2.122 1.415-1.415L9.414 8l2.122-2.121-1.415-1.415L8 6.586zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="bx--toolbar-content"
+        >
+          <div
+            class="pf-c-toggle-group"
+            role="group"
+          >
+            <div
+              class="pf-c-toggle-group__item"
+            >
+              <button
+                aria-pressed="false"
+                class="pf-c-toggle-group__button pf-m-light"
+                id="subscriptions"
+              >
+                <span
+                  class="pf-c-toggle-group__text"
+                >
+                  Subscriptions
+                </span>
+              </button>
+            </div>
+            <div
+              class="pf-c-divider pf-m-vertical"
+              role="separator"
+            />
+            <div
+              class="pf-c-toggle-group__item"
+            >
+              <button
+                aria-pressed="true"
+                class="pf-c-toggle-group__button pf-m-light pf-m-selected"
+                id="placementrules"
+              >
+                <span
+                  class="pf-c-toggle-group__text"
+                >
+                  Placement rules
+                </span>
+              </button>
+            </div>
+            <div
+              class="pf-c-divider pf-m-vertical"
+              role="separator"
+            />
+            <div
+              class="pf-c-toggle-group__item"
+            >
+              <button
+                aria-pressed="false"
+                class="pf-c-toggle-group__button pf-m-light"
+                id="channels"
+              >
+                <span
+                  class="pf-c-toggle-group__text"
+                >
+                  Channels
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <table
+        class="bx--data-table-v2 resource-table"
+      >
+        <thead>
+          <tr>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending bx--table-sort-v2--active"
+                data-default-key="name"
+                data-key="name"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Name
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="namespace"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Namespace
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="clusterCount"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Clusters
+                    <div
+                      class="bx--tooltip__trigger"
+                    >
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        id="__carbon-tooltip-trigger_i"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <svg
+                          alt="tooltip"
+                          aria-label="tooltip"
+                          fill-rule="evenodd"
+                          height="16"
+                          name="icon--info--outline"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                        >
+                          <title />
+                          <path
+                            d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                          />
+                          <path
+                            d="M9 13H7V7h2z"
+                          />
+                          <path
+                            d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="replicas"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Replicas
+                    <div
+                      class="bx--tooltip__trigger"
+                    >
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        id="__carbon-tooltip-trigger_i"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <svg
+                          alt="tooltip"
+                          aria-label="tooltip"
+                          fill-rule="evenodd"
+                          height="16"
+                          name="icon--info--outline"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                        >
+                          <title />
+                          <path
+                            d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                          />
+                          <path
+                            d="M9 13H7V7h2z"
+                          />
+                          <path
+                            d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="created"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Created
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            />
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            data-row-name="app123-placement-0"
+          >
+            <td>
+              <a
+                href="/multicloud/details/local-cluster/apis/apps.open-cluster-management.io/v1/namespaces/ansible/placementrules/app123-placement-0"
+              >
+                app123-placement-0
+              </a>
+            </td>
+            <td>
+              ansible
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp123-placement-0%20namespace%3Aansible%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
+              >
+                {0} Remote
+              </a>
+            </td>
+            <td>
+              -
+            </td>
+            <td>
+              a year ago
+            </td>
+            <td>
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Overflow-menu"
+                class="bx--overflow-menu"
+                role="button"
+                tabindex="0"
+              >
+                <svg
+                  alt="Open and close list of options"
+                  aria-label="Open and close list of options"
+                  class="bx--overflow-menu__icon"
+                  fill-rule="evenodd"
+                  focusable="false"
+                  height="15"
+                  role="img"
+                  viewBox="0 0 3 15"
+                  width="3"
+                >
+                  <title>
+                    Open and close list of options
+                  </title>
+                  <path
+                    d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                  />
+                </svg>
+              </div>
+            </td>
+          </tr>
+          <tr
+            data-row-name="app123-placement-0"
+          >
+            <td>
+              <a
+                href="/multicloud/details/local-cluster/apis/apps.open-cluster-management.io/v1/namespaces/ns-sub-1/placementrules/app123-placement-0"
+              >
+                app123-placement-0
+              </a>
+            </td>
+            <td>
+              ns-sub-1
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp123-placement-0%20namespace%3Ans-sub-1%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
+              >
+                {0} Remote
+              </a>
+            </td>
+            <td>
+              -
+            </td>
+            <td>
+              a year ago
+            </td>
+            <td>
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Overflow-menu"
+                class="bx--overflow-menu"
+                role="button"
+                tabindex="0"
+              >
+                <svg
+                  alt="Open and close list of options"
+                  aria-label="Open and close list of options"
+                  class="bx--overflow-menu__icon"
+                  fill-rule="evenodd"
+                  focusable="false"
+                  height="15"
+                  role="img"
+                  viewBox="0 0 3 15"
+                  width="3"
+                >
+                  <title>
+                    Open and close list of options
+                  </title>
+                  <path
+                    d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                  />
+                </svg>
+              </div>
+            </td>
+          </tr>
+          <tr
+            data-row-name="cassandra-app-placement"
+          >
+            <td>
+              <a
+                href="/multicloud/details/local-cluster/apis/apps.open-cluster-management.io/v1/namespaces/cassandra-app-ns/placementrules/cassandra-app-placement"
+              >
+                cassandra-app-placement
+              </a>
+            </td>
+            <td>
+              cassandra-app-ns
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Acassandra-app-placement%20namespace%3Acassandra-app-ns%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
+              >
+                {0} Remote
+              </a>
+            </td>
+            <td>
+              2
+            </td>
+            <td>
+              a year ago
+            </td>
+            <td>
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Overflow-menu"
+                class="bx--overflow-menu"
+                role="button"
+                tabindex="0"
+              >
+                <svg
+                  alt="Open and close list of options"
+                  aria-label="Open and close list of options"
+                  class="bx--overflow-menu__icon"
+                  fill-rule="evenodd"
+                  focusable="false"
+                  height="15"
+                  role="img"
+                  viewBox="0 0 3 15"
+                  width="3"
+                >
+                  <title>
+                    Open and close list of options
+                  </title>
+                  <path
+                    d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                  />
+                </svg>
+              </div>
+            </td>
+          </tr>
+          <tr
+            data-row-name="demo-saude-digital"
+          >
+            <td>
+              <a
+                href="/multicloud/details/local-cluster/apis/apps.open-cluster-management.io/v1/namespaces/demo-saude-digital/placementrules/demo-saude-digital"
+              >
+                demo-saude-digital
+              </a>
+            </td>
+            <td>
+              demo-saude-digital
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Ademo-saude-digital%20namespace%3Ademo-saude-digital%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
+              >
+                {0} Remote
+              </a>
+            </td>
+            <td>
+              2
+            </td>
+            <td>
+              a year ago
+            </td>
+            <td>
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Overflow-menu"
+                class="bx--overflow-menu"
+                role="button"
+                tabindex="0"
+              >
+                <svg
+                  alt="Open and close list of options"
+                  aria-label="Open and close list of options"
+                  class="bx--overflow-menu__icon"
+                  fill-rule="evenodd"
+                  focusable="false"
+                  height="15"
+                  role="img"
+                  viewBox="0 0 3 15"
+                  width="3"
+                >
+                  <title>
+                    Open and close list of options
+                  </title>
+                  <path
+                    d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                  />
+                </svg>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="bx--pagination"
+      disabled=""
+    >
+      <div
+        class="bx--pagination__left"
+      >
+        <span
+          class="bx--pagination__text"
+        >
+          items per page
+        </span>
+        <div
+          class="bx--form-item"
+        >
+          <div
+            class="bx--select bx--select--inline"
+          >
+            <label
+              class="bx--label bx--visually-hidden"
+              for="bx-pagination-select-resource-table-pagination"
+            >
+              items per page
+            </label>
+            <select
+              class="bx--select-input"
+              id="bx-pagination-select-resource-table-pagination"
+            >
+              <option
+                class="bx--select-option"
+                value="5"
+              >
+                5
+              </option>
+              <option
+                class="bx--select-option"
+                value="10"
+              >
+                10
+              </option>
+              <option
+                class="bx--select-option"
+                value="20"
+              >
+                20
+              </option>
+              <option
+                class="bx--select-option"
+                value="50"
+              >
+                50
+              </option>
+              <option
+                class="bx--select-option"
+                value="75"
+              >
+                75
+              </option>
+              <option
+                class="bx--select-option"
+                value="100"
+              >
+                100
+              </option>
+            </select>
+            <svg
+              alt="open list of options"
+              aria-label="open list of options"
+              class="bx--select__arrow"
+              fill-rule="evenodd"
+              height="5"
+              role="img"
+              viewBox="0 0 10 5"
+              width="10"
+            >
+              <title>
+                open list of options
+              </title>
+              <path
+                d="M0 0l5 4.998L10 0z"
+              />
+            </svg>
+          </div>
+        </div>
+        <span
+          class="bx--pagination__text"
+        >
+           |  {0}-{1} of {0} items
+        </span>
+      </div>
+      <div
+        class="bx--pagination__right bx--pagination--inline"
+      >
+        <span
+          class="bx--pagination__text"
+        >
+          {0} of {1} pages
+        </span>
+        <button
+          aria-label="Backward"
+          class="bx--pagination__button bx--pagination__button--backward bx--pagination__button--no-index"
+          disabled=""
+        >
+          <svg
+            alt="Backward"
+            aria-label="Backward"
+            class="bx--pagination__button-icon"
+            fill-rule="evenodd"
+            height="12"
+            role="img"
+            viewBox="0 0 7 12"
+            width="7"
+          >
+            <title>
+              Backward
+            </title>
+            <path
+              d="M1.45 6.002L7 11.27l-.685.726L0 6.003 6.315 0 7 .726z"
+            />
+          </svg>
+        </button>
+        <button
+          aria-label="Forward"
+          class="bx--pagination__button bx--pagination__button--forward"
+          disabled=""
+        >
+          <svg
+            alt="Forward"
+            aria-label="Forward"
+            class="bx--pagination__button-icon"
+            fill-rule="evenodd"
+            height="12"
+            role="img"
+            viewBox="0 0 7 12"
+            width="7"
+          >
+            <title>
+              Forward
+            </title>
+            <path
+              d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`] = `
+Array [
+  <div
+    id="DeploymentHighlights"
+  >
+    <div
+      id="ApplicationDeploymentHighlightsTerminology"
+    >
+      <dl
+        aria-label=""
+        class="pf-c-accordion"
+      >
+        <dt>
+          <button
+            aria-expanded="true"
+            class="pf-c-accordion__toggle pf-m-expanded"
+            id="terminology-header"
+          >
+            <span
+              class="pf-c-accordion__toggle-text"
+            >
+              Learn more about the terminology
+            </span>
+            <span
+              class="pf-c-accordion__toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                style="vertical-align: -0.125em;"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                  transform=""
+                />
+              </svg>
+            </span>
+          </button>
+        </dt>
+        <dd
+          aria-label=""
+          class="pf-c-accordion__expanded-content pf-m-expanded"
+          id=""
+        >
+          <div
+            class="pf-c-accordion__expanded-content-body"
+          >
+            <div
+              class="terminology-item"
+            >
+              <p
+                class="deployment-highlights-terminology-title"
+              >
+                Subscriptions
+              </p>
+              <p
+                class="deployment-highlights-terminology-content"
+              >
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
+              </p>
+            </div>
+            <div
+              class="terminology-item"
+            >
+              <p
+                class="deployment-highlights-terminology-title"
+              >
+                Placement rules
+              </p>
+              <p
+                class="deployment-highlights-terminology-content"
+              >
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
+              </p>
+            </div>
+            <div
+              class="terminology-item"
+            >
+              <p
+                class="deployment-highlights-terminology-title"
+              >
+                Channels
+              </p>
+              <p
+                class="deployment-highlights-terminology-content"
+              >
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
+              </p>
+            </div>
+            <div
+              class="deployment-highlights-terminology-docs"
+            >
+              <a
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="deployment-highlights-terminology-docs-text"
+                >
+                  View documentation
+                </span>
+                <svg
+                  alt=""
+                  aria-label=""
+                  class="deployment-highlights-terminology-docs-icon"
+                  fill="#0066CC"
+                  fill-rule="evenodd"
+                  height="16"
+                  name="icon--launch"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title />
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>,
+  <div
+    id="resource-list"
+  >
+    <div
+      class="bx--inline-notification bx--inline-notification--success"
+      kind="success"
+      role="alert"
+    >
+      <div
+        class="bx--inline-notification__details"
+      >
+        <svg
+          alt="closes notification"
+          aria-label="closes notification"
+          class="bx--inline-notification__icon"
+          fill-rule="evenodd"
+          height="16"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
+        >
+          <title>
+            closes notification
+          </title>
+          <path
+            d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
+          />
+        </svg>
+        <div
+          class="bx--inline-notification__text-wrapper"
+        >
+          <p
+            class="bx--inline-notification__title"
+          >
+            Success:
+          </p>
+          <div
+            class="bx--inline-notification__subtitle"
+          >
+            Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+          </div>
+        </div>
+      </div>
+      <button
+        class="bx--inline-notification__close-button"
+        type="button"
+      >
+        <svg
+          alt="close icon"
+          aria-label="close icon"
+          class="bx--inline-notification__close-icon"
+          fill-rule="evenodd"
+          height="10"
+          role="img"
+          viewBox="0 0 10 10"
+          width="10"
+        >
+          <title>
+            close icon
+          </title>
+          <path
+            d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="bx--inline-notification bx--inline-notification--success"
+      kind="success"
+      role="alert"
+    >
+      <div
+        class="bx--inline-notification__details"
+      >
+        <svg
+          alt="closes notification"
+          aria-label="closes notification"
+          class="bx--inline-notification__icon"
+          fill-rule="evenodd"
+          height="16"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
+        >
+          <title>
+            closes notification
+          </title>
+          <path
+            d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
+          />
+        </svg>
+        <div
+          class="bx--inline-notification__text-wrapper"
+        >
+          <p
+            class="bx--inline-notification__title"
+          />
+          <div
+            class="bx--inline-notification__subtitle"
+          >
+            Create resource was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+          </div>
+        </div>
+      </div>
+      <button
+        class="bx--inline-notification__close-button"
+        type="button"
+      >
+        <svg
+          alt="close icon"
+          aria-label="close icon"
+          class="bx--inline-notification__close-icon"
+          fill-rule="evenodd"
+          height="10"
+          role="img"
+          viewBox="0 0 10 10"
+          width="10"
+        >
+          <title>
+            close icon
+          </title>
+          <path
+            d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="refresh-time-div"
+    >
+      <div
+        class="refresh-time-container"
+      >
+        <div
+          class="refresh-time-selection"
+        >
+          <div
+            aria-label="Refresh"
+            class="button"
+            id="refreshButton"
+            role="button"
+            tabindex="0"
+            title="Refresh"
+          >
+            <svg
+              class="button-icon"
+            >
+              <use
+                href="#diagramIcons_autoRefresh"
+              />
+            </svg>
+          </div>
+          <div
+            aria-label="Choose refresh"
+            class="bx--dropdown selection bx--list-box"
+            role="listbox"
+            tabindex="0"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-label="open menu"
+              class="bx--list-box__field"
+              data-toggle="true"
+              role="button"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="bx--list-box__label"
+                for="refreshDropdown-input"
+              >
+                Disable refresh
+              </span>
+              <div
+                class="bx--list-box__menu-icon"
+              >
+                <svg
+                  alt="Open menu"
+                  aria-label="Open menu"
+                  fill-rule="evenodd"
+                  height="5"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Open menu
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          Last update: {0}
+        </div>
+      </div>
+    </div>
+    <div
+      class="bx--data-table-v2-container"
+      id="undefined-table-container"
+    >
+      <section
+        aria-label="undefined-search"
+        class="bx--table-toolbar"
+        role="region"
+      >
+        <div
+          class="bx--toolbar-search-container"
+        >
+          <div
+            aria-labelledby="undefined-search-label"
+            class="bx--search bx--search--sm bx--search--light"
+            role="search"
+          >
+            <svg
+              alt="Filter table"
+              aria-label="Filter table"
+              class="bx--search-magnifier"
+              fill-rule="evenodd"
+              height="16"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+            >
+              <title>
+                Filter table
+              </title>
+              <path
+                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm4.936-1.27l4.563 4.557-.707.708-4.563-4.558a6.5 6.5 0 1 1 .707-.707z"
+              />
+            </svg>
+            <label
+              class="bx--label"
+              for="undefined-search"
+              id="undefined-search-label"
+            >
+              Filter table
+            </label>
+            <input
+              aria-label="undefined-search"
+              class="bx--search-input"
+              id="undefined-search"
+              placeholder="Find resources"
+              type="text"
+              value="aa"
+            />
+            <button
+              class="bx--search-close"
+              type="button"
+            >
+              <svg
+                alt="Provide a description that will be used as the title"
+                aria-label="Provide a description that will be used as the title"
+                fill-rule="evenodd"
+                height="16"
+                role="img"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <title>
+                  Provide a description that will be used as the title
+                </title>
+                <path
+                  d="M8 6.586L5.879 4.464 4.464 5.88 6.586 8l-2.122 2.121 1.415 1.415L8 9.414l2.121 2.122 1.415-1.415L9.414 8l2.122-2.121-1.415-1.415L8 6.586zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="bx--toolbar-content"
+        >
+          <div
+            class="pf-c-toggle-group"
+            role="group"
+          >
+            <div
+              class="pf-c-toggle-group__item"
+            >
+              <button
+                aria-pressed="true"
+                class="pf-c-toggle-group__button pf-m-light pf-m-selected"
+                id="subscriptions"
+              >
+                <span
+                  class="pf-c-toggle-group__text"
+                >
+                  Subscriptions
+                </span>
+              </button>
+            </div>
+            <div
+              class="pf-c-divider pf-m-vertical"
+              role="separator"
+            />
+            <div
+              class="pf-c-toggle-group__item"
+            >
+              <button
+                aria-pressed="false"
+                class="pf-c-toggle-group__button pf-m-light"
+                id="placementrules"
+              >
+                <span
+                  class="pf-c-toggle-group__text"
+                >
+                  Placement rules
+                </span>
+              </button>
+            </div>
+            <div
+              class="pf-c-divider pf-m-vertical"
+              role="separator"
+            />
+            <div
+              class="pf-c-toggle-group__item"
+            >
+              <button
+                aria-pressed="false"
+                class="pf-c-toggle-group__button pf-m-light"
+                id="channels"
+              >
+                <span
+                  class="pf-c-toggle-group__text"
+                >
+                  Channels
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <table
+        class="bx--data-table-v2 resource-table"
+      >
+        <thead>
+          <tr>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending bx--table-sort-v2--active"
+                data-default-key="name"
+                data-key="name"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Name
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="namespace"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Namespace
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="channel"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Channel
+                    <div
+                      class="bx--tooltip__trigger"
+                    >
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        id="__carbon-tooltip-trigger_i"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <svg
+                          alt="tooltip"
+                          aria-label="tooltip"
+                          fill-rule="evenodd"
+                          height="16"
+                          name="icon--info--outline"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                        >
+                          <title />
+                          <path
+                            d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                          />
+                          <path
+                            d="M9 13H7V7h2z"
+                          />
+                          <path
+                            d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="appCount"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Applications
+                    <div
+                      class="bx--tooltip__trigger"
+                    >
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        id="__carbon-tooltip-trigger_i"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <svg
+                          alt="tooltip"
+                          aria-label="tooltip"
+                          fill-rule="evenodd"
+                          height="16"
+                          name="icon--info--outline"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                        >
+                          <title />
+                          <path
+                            d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                          />
+                          <path
+                            d="M9 13H7V7h2z"
+                          />
+                          <path
+                            d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="clusterCount"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Clusters
+                    <div
+                      class="bx--tooltip__trigger"
+                    >
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        id="__carbon-tooltip-trigger_i"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <svg
+                          alt="tooltip"
+                          aria-label="tooltip"
+                          fill-rule="evenodd"
+                          height="16"
+                          name="icon--info--outline"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                        >
+                          <title />
+                          <path
+                            d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                          />
+                          <path
+                            d="M9 13H7V7h2z"
+                          />
+                          <path
+                            d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="timeWindow"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Time window
+                    <div
+                      class="bx--tooltip__trigger"
+                    >
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        id="__carbon-tooltip-trigger_i"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <svg
+                          alt="tooltip"
+                          aria-label="tooltip"
+                          fill-rule="evenodd"
+                          height="16"
+                          name="icon--info--outline"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                        >
+                          <title />
+                          <path
+                            d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                          />
+                          <path
+                            d="M9 13H7V7h2z"
+                          />
+                          <path
+                            d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            >
+              <button
+                class="bx--table-sort-v2 bx--table-sort-v2--ascending"
+                data-default-key="name"
+                data-key="created"
+                title="Sort rows by this header in descending order"
+              >
+                <span
+                  class="bx--table-header-label"
+                >
+                  <div>
+                    Created
+                  </div>
+                </span>
+                <svg
+                  alt="Sort rows by this header in descending order"
+                  aria-label="Sort rows by this header in descending order"
+                  class="bx--table-sort-v2__icon"
+                  fill-rule="evenodd"
+                  height="5"
+                  name="caret--down"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Sort rows by this header in descending order
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </button>
+            </th>
+            <th
+              scope="col"
+            />
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            data-row-name="ansible-hook"
+          >
+            <td>
+              <a
+                href="/multicloud/details/local-cluster/apis/apps.open-cluster-management.io/v1/namespaces/ansible/subscriptions/ansible-hook"
+              >
+                ansible-hook
+              </a>
+            </td>
+            <td>
+              ansible
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Agit%20namespace%3Aansible%20kind%3Achannel%20apigroup%3Aapps.open-cluster-management.io\\"}"
+              >
+                git
+              </a>
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aansible-hook%20namespace%3Aansible%20kind%3Asubscription%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=application"
+              >
+                1
+              </a>
+            </td>
+            <td>
+              None
+            </td>
+            <td />
+            <td>
+              a year ago
+            </td>
+            <td>
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Overflow-menu"
+                class="bx--overflow-menu"
+                role="button"
+                tabindex="0"
+              >
+                <svg
+                  alt="Open and close list of options"
+                  aria-label="Open and close list of options"
+                  class="bx--overflow-menu__icon"
+                  fill-rule="evenodd"
+                  focusable="false"
+                  height="15"
+                  role="img"
+                  viewBox="0 0 3 15"
+                  width="3"
+                >
+                  <title>
+                    Open and close list of options
+                  </title>
+                  <path
+                    d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                  />
+                </svg>
+              </div>
+            </td>
+          </tr>
+          <tr
+            data-row-name="app123-subscription-0"
+          >
+            <td>
+              <a
+                href="/multicloud/details/local-cluster/apis/apps.open-cluster-management.io/v1/namespaces/ansible/subscriptions/app123-subscription-0"
+              >
+                app123-subscription-0
+              </a>
+            </td>
+            <td>
+              ansible
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aval-test-create-resource-0%20namespace%3Aval-test-create-resource-ns-0%20kind%3Achannel%20apigroup%3Aapps.open-cluster-management.io\\"}"
+              >
+                val-test-create-resource-0
+              </a>
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp123-subscription-0%20namespace%3Aansible%20kind%3Asubscription%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=application"
+              >
+                1
+              </a>
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp123-subscription-0%20namespace%3Aansible%20kind%3Asubscription%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
+              >
+                {0} Remote
+              </a>
+            </td>
+            <td />
+            <td>
+              a year ago
+            </td>
+            <td>
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Overflow-menu"
+                class="bx--overflow-menu"
+                role="button"
+                tabindex="0"
+              >
+                <svg
+                  alt="Open and close list of options"
+                  aria-label="Open and close list of options"
+                  class="bx--overflow-menu__icon"
+                  fill-rule="evenodd"
+                  focusable="false"
+                  height="15"
+                  role="img"
+                  viewBox="0 0 3 15"
+                  width="3"
+                >
+                  <title>
+                    Open and close list of options
+                  </title>
+                  <path
+                    d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                  />
+                </svg>
+              </div>
+            </td>
+          </tr>
+          <tr
+            data-row-name="app123-subscription-0"
+          >
+            <td>
+              <a
+                href="/multicloud/details/local-cluster/apis/apps.open-cluster-management.io/v1/namespaces/ns-sub-1/subscriptions/app123-subscription-0"
+              >
+                app123-subscription-0
+              </a>
+            </td>
+            <td>
+              ns-sub-1
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aval-test-create-resource-0%20namespace%3Aval-test-create-resource-ns-0%20kind%3Achannel%20apigroup%3Aapps.open-cluster-management.io\\"}"
+              >
+                val-test-create-resource-0
+              </a>
+            </td>
+            <td>
+              0
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp123-subscription-0%20namespace%3Ans-sub-1%20kind%3Asubscription%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
+              >
+                {0} Remote
+              </a>
+            </td>
+            <td />
+            <td>
+              a year ago
+            </td>
+            <td>
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Overflow-menu"
+                class="bx--overflow-menu"
+                role="button"
+                tabindex="0"
+              >
+                <svg
+                  alt="Open and close list of options"
+                  aria-label="Open and close list of options"
+                  class="bx--overflow-menu__icon"
+                  fill-rule="evenodd"
+                  focusable="false"
+                  height="15"
+                  role="img"
+                  viewBox="0 0 3 15"
+                  width="3"
+                >
+                  <title>
+                    Open and close list of options
+                  </title>
+                  <path
+                    d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                  />
+                </svg>
+              </div>
+            </td>
+          </tr>
+          <tr
+            data-row-name="application-chart-sub"
+          >
+            <td>
+              <a
+                href="/multicloud/details/local-cluster/apis/apps.open-cluster-management.io/v1/namespaces/open-cluster-management/subscriptions/application-chart-sub"
+              >
+                application-chart-sub
+              </a>
+            </td>
+            <td>
+              open-cluster-management
+            </td>
+            <td>
+              <a
+                href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Acharts-v1%20namespace%3Aopen-cluster-management%20kind%3Achannel%20apigroup%3Aapps.open-cluster-management.io\\"}"
+              >
+                charts-v1
+              </a>
+            </td>
+            <td>
+              0
+            </td>
+            <td>
+              Local
+            </td>
+            <td />
+            <td>
+              a year ago
+            </td>
+            <td>
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Overflow-menu"
+                class="bx--overflow-menu"
+                role="button"
+                tabindex="0"
+              >
+                <svg
+                  alt="Open and close list of options"
+                  aria-label="Open and close list of options"
+                  class="bx--overflow-menu__icon"
+                  fill-rule="evenodd"
+                  focusable="false"
+                  height="15"
+                  role="img"
+                  viewBox="0 0 3 15"
+                  width="3"
+                >
+                  <title>
+                    Open and close list of options
+                  </title>
+                  <path
+                    d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                  />
+                </svg>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="bx--pagination"
+      disabled=""
+    >
+      <div
+        class="bx--pagination__left"
+      >
+        <span
+          class="bx--pagination__text"
+        >
+          items per page
+        </span>
+        <div
+          class="bx--form-item"
+        >
+          <div
+            class="bx--select bx--select--inline"
+          >
+            <label
+              class="bx--label bx--visually-hidden"
+              for="bx-pagination-select-resource-table-pagination"
+            >
+              items per page
+            </label>
+            <select
+              class="bx--select-input"
+              id="bx-pagination-select-resource-table-pagination"
+            >
+              <option
+                class="bx--select-option"
+                value="5"
+              >
+                5
+              </option>
+              <option
+                class="bx--select-option"
+                value="10"
+              >
+                10
+              </option>
+              <option
+                class="bx--select-option"
+                value="20"
+              >
+                20
+              </option>
+              <option
+                class="bx--select-option"
+                value="50"
+              >
+                50
+              </option>
+              <option
+                class="bx--select-option"
+                value="75"
+              >
+                75
+              </option>
+              <option
+                class="bx--select-option"
+                value="100"
+              >
+                100
+              </option>
+            </select>
+            <svg
+              alt="open list of options"
+              aria-label="open list of options"
+              class="bx--select__arrow"
+              fill-rule="evenodd"
+              height="5"
+              role="img"
+              viewBox="0 0 10 5"
+              width="10"
+            >
+              <title>
+                open list of options
+              </title>
+              <path
+                d="M0 0l5 4.998L10 0z"
+              />
+            </svg>
+          </div>
+        </div>
+        <span
+          class="bx--pagination__text"
+        >
+           |  {0}-{1} of {0} items
+        </span>
+      </div>
+      <div
+        class="bx--pagination__right bx--pagination--inline"
+      >
+        <span
+          class="bx--pagination__text"
+        >
+          {0} of {1} pages
+        </span>
+        <button
+          aria-label="Backward"
+          class="bx--pagination__button bx--pagination__button--backward bx--pagination__button--no-index"
+          disabled=""
+        >
+          <svg
+            alt="Backward"
+            aria-label="Backward"
+            class="bx--pagination__button-icon"
+            fill-rule="evenodd"
+            height="12"
+            role="img"
+            viewBox="0 0 7 12"
+            width="7"
+          >
+            <title>
+              Backward
+            </title>
+            <path
+              d="M1.45 6.002L7 11.27l-.685.726L0 6.003 6.315 0 7 .726z"
+            />
+          </svg>
+        </button>
+        <button
+          aria-label="Forward"
+          class="bx--pagination__button bx--pagination__button--forward"
+          disabled=""
+        >
+          <svg
+            alt="Forward"
+            aria-label="Forward"
+            class="bx--pagination__button-icon"
+            fill-rule="evenodd"
+            height="12"
+            role="img"
+            viewBox="0 0 7 12"
+            width="7"
+          >
+            <title>
+              Forward
+            </title>
+            <path
+              d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>,
+]
+`;

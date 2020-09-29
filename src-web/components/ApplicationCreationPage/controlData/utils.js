@@ -235,7 +235,7 @@ const retrieveGitDetails = async (
 
     if (branchName) {
       //get folders for branch
-      //setLoadingState(githubPathCtrl, true)
+      setLoadingState(githubPathCtrl, true)
       await repoObj.getContents(branchName, '', false).then(
         result => {
           if (result.data) {
@@ -247,11 +247,11 @@ const retrieveGitDetails = async (
               githubPathCtrl.available.push(folder.name)
             })
           }
-          //setLoadingState(githubPathCtrl, false)
+          setLoadingState(githubPathCtrl, false)
         },
         () => {
           //on error
-          //setLoadingState(githubPathCtrl, false)
+          setLoadingState(githubPathCtrl, false)
         }
       )
     } else {

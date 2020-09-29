@@ -93,7 +93,7 @@ export const appNormalizedItems = {
       remoteSubscriptionStatusCount: {},
       podStatusCount: {},
       hubSubscriptions: [],
-      created: "2020-02-11T17:33:04Z",
+      created: "2019-02-11T17:33:04Z",
       __typename: "Application"
     },
     "subscribed-guestbook-application-kube-system": {
@@ -192,7 +192,7 @@ export const QueryApplicationList = {
       remoteSubscriptionStatusCount: {},
       podStatusCount: {},
       hubSubscriptions: [],
-      created: "2020-02-11T17:33:04Z",
+      created: "2019-02-11T17:33:04Z",
       __typename: "Application"
     },
     {
@@ -232,6 +232,209 @@ export const QueryApplicationList = {
   ]
 };
 
+export const QuerySubscriptionList = {
+  status: "DONE",
+  itemsPerPage: 20,
+  page: 1,
+  search: "aa",
+  sortDirection: "asc",
+  sortColumn: "name",
+  mutateStatus: "DONE",
+  deleteStatus: "DONE",
+  deleteMsg: "app123",
+  items: [
+    {
+      _uid: "local-cluster/91bc6cd2-eb00-4104-9f2a-a53fa32ef72e",
+      name: "ansible-hook",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/ansible/subscriptions/ansible-hook",
+      namespace: "ansible",
+      appCount: 1,
+      clusterCount: { localCount: 0, remoteCount: 0 },
+      localPlacement: false,
+      timeWindow: null,
+      status: "Propagated",
+      channel: "ansible/git",
+      created: "2019-09-24T21:06:23Z",
+      __typename: "Subscription"
+    },
+    {
+      _uid: "local-cluster/7bfcf0d6-9ecf-4910-89e3-93dc904c7745",
+      name: "app123-subscription-0",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/ansible/subscriptions/app123-subscription-0",
+      namespace: "ansible",
+      appCount: 1,
+      clusterCount: { localCount: 0, remoteCount: 2 },
+      localPlacement: false,
+      timeWindow: null,
+      status: "Propagated",
+      channel: "val-test-create-resource-ns-0/val-test-create-resource-0",
+      created: "2019-09-28T20:03:59Z",
+      __typename: "Subscription"
+    },
+    {
+      _uid: "local-cluster/8c115e07-3440-4152-bb72-25909b470537",
+      name: "app123-subscription-0",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/ns-sub-1/subscriptions/app123-subscription-0",
+      namespace: "ns-sub-1",
+      appCount: 0,
+      clusterCount: { localCount: 0, remoteCount: 2 },
+      localPlacement: false,
+      timeWindow: null,
+      status: "Propagated",
+      channel: "val-test-create-resource-ns-0/val-test-create-resource-0",
+      created: "2019-09-28T16:31:51Z",
+      __typename: "Subscription"
+    },
+    {
+      _uid: "local-cluster/4808d505-1edf-478a-bc96-dd1621ccc810",
+      name: "application-chart-sub",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/open-cluster-management/subscriptions/application-chart-sub",
+      namespace: "open-cluster-management",
+      appCount: 0,
+      clusterCount: { localCount: 1, remoteCount: 0 },
+      localPlacement: true,
+      timeWindow: null,
+      status: "Subscribed",
+      channel: "open-cluster-management/charts-v1",
+      created: "2019-09-24T02:11:39Z",
+      __typename: "Subscription"
+    }
+  ]
+};
+
+export const QueryPlacementRuleList = {
+  status: "DONE",
+  itemsPerPage: 20,
+  page: 1,
+  search: "aa",
+  sortDirection: "asc",
+  sortColumn: "name",
+  mutateStatus: "DONE",
+  deleteStatus: "DONE",
+  deleteMsg: "app123",
+  items: [
+    {
+      _uid: "local-cluster/29bd08d9-c33f-4bd1-a820-f399020f66d5",
+      name: "app123-placement-0",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/ansible/placementrules/app123-placement-0",
+      namespace: "ansible",
+      clusterCount: { localCount: 0, remoteCount: 2 },
+      replicas: null,
+      created: "2019-09-28T20:03:59Z",
+      __typename: "PlacementRule"
+    },
+    {
+      _uid: "local-cluster/6c133c4c-749d-4649-8208-442f07309649",
+      name: "app123-placement-0",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/ns-sub-1/placementrules/app123-placement-0",
+      namespace: "ns-sub-1",
+      clusterCount: { localCount: 0, remoteCount: 2 },
+      replicas: null,
+      created: "2019-09-28T16:31:51Z",
+      __typename: "PlacementRule"
+    },
+    {
+      _uid: "local-cluster/e10c41ac-3d0f-43f9-8187-ea864b0fcdbf",
+      name: "cassandra-app-placement",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/cassandra-app-ns/placementrules/cassandra-app-placement",
+      namespace: "cassandra-app-ns",
+      clusterCount: { localCount: 0, remoteCount: 2 },
+      replicas: 2,
+      created: "2019-09-24T21:34:33Z",
+      __typename: "PlacementRule"
+    },
+    {
+      _uid: "local-cluster/31cc3d22-18ce-43c9-9b47-056a0a16e1b1",
+      name: "demo-saude-digital",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/demo-saude-digital/placementrules/demo-saude-digital",
+      namespace: "demo-saude-digital",
+      clusterCount: { localCount: 0, remoteCount: 2 },
+      replicas: 2,
+      created: "2019-09-24T21:34:35Z",
+      __typename: "PlacementRule"
+    }
+  ]
+};
+
+export const QueryChannelList = {
+  status: "DONE",
+  itemsPerPage: 20,
+  page: 1,
+  search: "aa",
+  sortDirection: "asc",
+  sortColumn: "name",
+  mutateStatus: "DONE",
+  deleteStatus: "DONE",
+  deleteMsg: "app123",
+  items: [
+    {
+      _uid: "local-cluster/9891b8d3-8d2f-4533-bf07-26e1b918fb55",
+      name: "cassandra-channel",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/cassandra-ch/channels/cassandra-channel",
+      namespace: "cassandra-ch",
+      subscriptionCount: 1,
+      clusterCount: { localCount: 0, remoteCount: 2 },
+      type: "GitHub",
+      pathname: "https://github.com/kubernetes/examples.git",
+      localPlacement: false,
+      created: "2019-09-24T21:34:33Z",
+      __typename: "Channel"
+    },
+    {
+      _uid: "local-cluster/41828117-d4e1-44c9-b3b3-ce0e628b1c6d",
+      name: "charts-v1",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/open-cluster-management/channels/charts-v1",
+      namespace: "open-cluster-management",
+      subscriptionCount: 11,
+      clusterCount: { localCount: 1, remoteCount: 0 },
+      type: "HelmRepo",
+      pathname:
+        "http://multiclusterhub-repo.open-cluster-management.svc.cluster.local:3000/charts",
+      localPlacement: true,
+      created: "2019-09-24T02:11:07Z",
+      __typename: "Channel"
+    },
+    {
+      _uid: "local-cluster/d47103af-8717-4b55-864c-78365b160e3d",
+      name: "gbchn",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/gbchn/channels/gbchn",
+      namespace: "gbchn",
+      subscriptionCount: 1,
+      clusterCount: { localCount: 0, remoteCount: 2 },
+      type: "Namespace",
+      pathname: "gbchn",
+      localPlacement: false,
+      created: "2019-09-24T21:34:36Z",
+      __typename: "Channel"
+    },
+    {
+      _uid: "local-cluster/e3a1dc76-0864-4c97-929b-c01a0477a83b",
+      name: "git",
+      selfLink:
+        "/apis/apps.open-cluster-management.io/v1/namespaces/ansible/channels/git",
+      namespace: "ansible",
+      subscriptionCount: 1,
+      clusterCount: { localCount: 0, remoteCount: 0 },
+      type: "git",
+      pathname: "https://github.com/ianzhang366/acm-applifecycle-samples.git",
+      localPlacement: false,
+      created: "2019-09-24T19:26:11Z",
+      __typename: "Channel"
+    }
+  ]
+};
+
 export const QueryApplicationList_INCEPTION = {
   status: "INCEPTION",
   itemsPerPage: 20,
@@ -250,7 +453,7 @@ export const HCMChannelList = {
       namespace: "default",
       selfLink:
         "/apis/app.ibm.com/v1alpha1/namespaces/default/channels/mortgage-channel",
-      created: "2020-02-18T23:56:15Z",
+      created: "2019-02-18T23:56:15Z",
       cluster: "local-cluster",
       apigroup: "app.ibm.com",
       apiversion: "v1alpha1",
@@ -315,7 +518,7 @@ export const HCMChannelList = {
       namespace: "default",
       selfLink:
         "/apis/app.ibm.com/v1alpha1/namespaces/default/channels/hub-local-helm-repo",
-      created: "2020-02-19T01:38:29Z",
+      created: "2019-02-19T01:38:29Z",
       cluster: "local-cluster",
       apigroup: "app.ibm.com",
       apiversion: "v1alpha1",
@@ -335,7 +538,7 @@ export const HCMChannelList = {
               status: "Propagated",
               selfLink:
                 "/apis/app.ibm.com/v1alpha1/namespaces/kube-system/subscriptions/guestbook-subscription",
-              created: "2020-02-19T01:38:58Z",
+              created: "2019-02-19T01:38:58Z",
               cluster: "local-cluster",
               channel: "default/hub-local-helm-repo",
               apigroup: "app.ibm.com",
@@ -358,7 +561,7 @@ export const HCMChannelList = {
       namespace: "gbook-ch",
       selfLink:
         "/apis/app.ibm.com/v1alpha1/namespaces/gbook-ch/channels/guestbook",
-      created: "2020-02-19T01:43:38Z",
+      created: "2019-02-19T01:43:38Z",
       cluster: "local-cluster",
       apigroup: "app.ibm.com",
       apiversion: "v1alpha1",
@@ -468,7 +671,7 @@ export const HCMApplicationList = {
               apiversion: "v1",
               channel: "mortgage-ch/mortgage-channel",
               cluster: "kcormier-cluster",
-              created: "2020-09-18T21:20:00Z",
+              created: "2019-09-18T21:20:00Z",
               kind: "subscription",
               label:
                 "app=mortgage-app-mortgage; hosting-deployable-name=mortgage-app-subscription-deployable; subscription-pause=false",
@@ -516,7 +719,7 @@ export const HCMApplicationList = {
               apigroup: "apps.open-cluster-management.io",
               apiversion: "v1",
               cluster: "local-cluster",
-              created: "2020-08-15T09:11:11Z",
+              created: "2019-08-15T09:11:11Z",
               kind: "deployable",
               label:
                 "apps.open-cluster-management.io/channel-type=GitHub; apps.open-cluster-management.io/channel=mortgage-channel; apps.open-cluster-management.io/subscription=default-mortgage-app-subscription",
@@ -533,7 +736,7 @@ export const HCMApplicationList = {
               apigroup: "apps.open-cluster-management.io",
               apiversion: "v1",
               cluster: "local-cluster",
-              created: "2020-08-15T09:11:11Z",
+              created: "2019-08-15T09:11:11Z",
               kind: "deployable",
               label:
                 "apps.open-cluster-management.io/channel-type=GitHub; apps.open-cluster-management.io/channel=mortgage-channel; apps.open-cluster-management.io/subscription=default-mortgage-app-subscription",
@@ -663,7 +866,7 @@ export const HCMSubscriptionList = {
               namespace: "kube-system",
               selfLink:
                 "/apis/app.ibm.com/v1alpha1/namespaces/kube-system/placementrules/guestbook-placementrule",
-              created: "2020-02-11T23:26:17Z",
+              created: "2019-02-11T23:26:17Z",
               cluster: "local-cluster",
               apigroup: "app.ibm.com",
               apiversion: "v1alpha1",
@@ -817,7 +1020,7 @@ export const HCMSubscriptionList = {
       status: "Propagated",
       selfLink:
         "/apis/app.ibm.com/v1alpha1/namespaces/kube-system/subscriptions/guestbook-subscription",
-      created: "2020-02-19T01:38:58Z",
+      created: "2019-02-19T01:38:58Z",
       cluster: "local-cluster",
       channel: "default/hub-local-helm-repo",
       apigroup: "app.ibm.com",
@@ -839,7 +1042,7 @@ export const HCMSubscriptionList = {
               status: "Propagated",
               selfLink:
                 "/apis/app.ibm.com/v1alpha1/namespaces/kube-system/deployables/guestbook-subscription-deployable",
-              created: "2020-02-19T01:38:58Z",
+              created: "2019-02-19T01:38:58Z",
               cluster: "local-cluster",
               apigroup: "app.ibm.com",
               apiversion: "v1alpha1",
@@ -859,7 +1062,7 @@ export const HCMSubscriptionList = {
               namespace: "kube-system",
               selfLink:
                 "/apis/app.ibm.com/v1alpha1/namespaces/kube-system/placementrules/guestbook-placementrule",
-              created: "2020-02-11T23:26:17Z",
+              created: "2019-02-11T23:26:17Z",
               cluster: "local-cluster",
               apigroup: "app.ibm.com",
               apiversion: "v1alpha1",
@@ -1074,7 +1277,7 @@ export const topology = {
           },
           spec: { channel: "mortgage-ch/mortgage-channel" },
           status: {
-            lastUpdateTime: "2020-08-15T09:11:11Z",
+            lastUpdateTime: "2019-08-15T09:11:11Z",
             phase: "Propagated"
           }
         },
@@ -1120,7 +1323,7 @@ export const topology = {
           consoleURL:
             "https://console-openshift-console.apps.fxiang.dev06.red-chesterfield.com",
           metadata: {
-            creationTimestamp: "2020-08-13T18:17:34Z",
+            creationTimestamp: "2019-08-13T18:17:34Z",
             finalizers: Array(5),
             generation: 1,
             name: "fxiang"
@@ -1143,7 +1346,7 @@ export const topology = {
             consoleURL:
               "https://console-openshift-console.apps.fxiang.dev06.red-chesterfield.com",
             metadata: {
-              creationTimestamp: "2020-08-13T18:17:34Z",
+              creationTimestamp: "2019-08-13T18:17:34Z",
               finalizers: Array(5),
               generation: 1,
               name: "fxiang"
@@ -1257,13 +1460,13 @@ export const channelObjectForEdit = {
       {
         metadata: {
           resourceVersion: "1487949",
-          creationTimestamp: "2020-03-18T20:06:46Z",
+          creationTimestamp: "2019-03-18T20:06:46Z",
           kind: "channel",
           name: "mortgage-channel",
           namespace: "default",
           selfLink:
             "/apis/app.ibm.com/v1alpha1/namespaces/default/channels/mortgage-channel",
-          created: "2020-02-18T23:56:15Z",
+          created: "2019-02-18T23:56:15Z",
           cluster: "local-cluster",
           apigroup: "app.ibm.com",
           apiversion: "v1alpha1",
@@ -1287,13 +1490,13 @@ export const subscriptionObjectForEdit = {
       {
         metadata: {
           resourceVersion: "1487949",
-          creationTimestamp: "2020-03-18T20:06:46Z",
+          creationTimestamp: "2019-03-18T20:06:46Z",
           kind: "subscription",
           name: "mortgage-channel-subscr",
           namespace: "default",
           selfLink:
             "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-subscr",
-          created: "2020-02-18T23:56:15Z",
+          created: "2019-02-18T23:56:15Z",
           cluster: "local-cluster",
           apigroup: "app.ibm.com",
           apiversion: "v1alpha1",
@@ -1316,13 +1519,13 @@ export const appObjectForEdit = {
       {
         metadata: {
           resourceVersion: "1487949",
-          creationTimestamp: "2020-03-18T20:06:46Z",
+          creationTimestamp: "2019-03-18T20:06:46Z",
           kind: "application",
           name: "mortgage-channel-subscr",
           namespace: "default",
           selfLink:
             "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-subscr",
-          created: "2020-02-18T23:56:15Z",
+          created: "2019-02-18T23:56:15Z",
           cluster: "local-cluster",
           apigroup: "app.ibm.com",
           apiversion: "v1alpha1",
@@ -1345,13 +1548,13 @@ export const prObjectForEdit = {
       {
         metadata: {
           resourceVersion: "1487949",
-          creationTimestamp: "2020-03-18T20:06:46Z",
+          creationTimestamp: "2019-03-18T20:06:46Z",
           kind: "placementrule",
           name: "mortgage-channel-subscr",
           namespace: "default",
           selfLink:
             "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-subscr",
-          created: "2020-02-18T23:56:15Z",
+          created: "2019-02-18T23:56:15Z",
           cluster: "local-cluster",
           apigroup: "app.ibm.com",
           apiversion: "v1alpha1",
@@ -1442,6 +1645,9 @@ export const reduxStoreAppPipeline = {
   },
   secondaryHeader: secondaryHeader,
   QueryApplicationList: QueryApplicationList,
+  QuerySubscriptionList: QuerySubscriptionList,
+  QueryPlacementRuleList: QueryPlacementRuleList,
+  QueryChannelList: QueryChannelList,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
@@ -1503,6 +1709,9 @@ export const reduxStoreAllAppsPipeline = {
   },
   secondaryHeader: secondaryHeaderAllApps,
   QueryApplicationList: QueryApplicationList,
+  QuerySubscriptionList: QuerySubscriptionList,
+  QueryPlacementRuleList: QueryPlacementRuleList,
+  QueryChannelList: QueryChannelList,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,

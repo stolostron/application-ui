@@ -19,7 +19,7 @@ import {
   getExistingPRControlsSection,
   updateNewRuleControlsData
 } from './utils'
-import { initializeControls } from '../../TemplateEditor/utils/utils'
+import { initializeControls, getSourcePath } from '../../TemplateEditor/utils/utils'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
@@ -202,6 +202,19 @@ const discoverChannelFromSource = (
       cd.groupControlData = groupControlData
     })
     initializeControls(groupControlData, forceUpdate, locale)
+
+    // initialize channel namespace
+    const path = 'Subscription[0].spec.channel'
+    const channel = _.get(templateObject, getSourcePath(path))
+    if (channel) {
+      const [ns] = channel.$v.split('/')
+      if (ns) {
+        const channelNamespace = groupControlData.find(
+          ({ id: _id }) => _id === 'channelNamespace'
+        )
+        channelNamespace.active = ns
+      }
+    }
 
     // if more then one group, collapse all groups
     if (multiple) {

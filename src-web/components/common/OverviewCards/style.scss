@@ -130,6 +130,7 @@
 
   // Search resource link
   .details-item-link {
+    display: inline-block;
     color: #0066cc;
     text-decoration: none;
   }
@@ -185,8 +186,10 @@
   }
 
   .set-time-window-link {
+    display: inline-block;
     color: #0066cc;
     text-decoration: none;
+    cursor: pointer;
   }
 }
 

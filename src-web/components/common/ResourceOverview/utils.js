@@ -293,7 +293,6 @@ export const getAppOverviewCardsData = (
   topologyData,
   appName,
   appNamespace,
-  nodeStatuses,
   targetLink,
   locale
 ) => {
@@ -325,8 +324,7 @@ export const getAppOverviewCardsData = (
     appData.namespace === appNamespace
   ) {
     let creationTimestamp = ''
-    let statusLoaded = false
-    const tempNodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
+    const nodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
     const subsList = []
 
     const selectedAppDataItem = _.get(selectedAppData, 'items[0]', '')
@@ -372,24 +370,15 @@ export const getAppOverviewCardsData = (
           timeWindowRanges: timeWindowData.hours
         })
       } else if (
-        node.type !== 'application' &&
         node.type !== 'cluster' &&
         node.type !== 'subscription' &&
         node.type !== 'placements' &&
         _.get(node, 'specs.pulse')
       ) {
         // Get cluster resource statuses
-        statusLoaded = true
-        tempNodeStatuses[node.specs.pulse]++
+        nodeStatuses[node.specs.pulse]++
       }
     })
-
-    // Update the node status list if the statuses have changed
-    if (statusLoaded && !_.isEqual(nodeStatuses, tempNodeStatuses)) {
-      Object.keys(nodeStatuses).forEach(pulse => {
-        nodeStatuses[pulse] = tempNodeStatuses[pulse]
-      })
-    }
 
     return {
       appName: appName,

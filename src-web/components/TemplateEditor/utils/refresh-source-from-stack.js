@@ -19,8 +19,7 @@ export const generateSourceFromStack = (
   template,
   editStack,
   controlData,
-  otherYAMLTabs,
-  isFinalGenerate
+  otherYAMLTabs
 ) => {
   if (editStack.length === 1) {
     intializeEditStack(editStack, controlData)
@@ -29,8 +28,7 @@ export const generateSourceFromStack = (
   return generateSourceFromTemplate(
     template,
     controlData,
-    otherYAMLTabs,
-    isFinalGenerate
+    otherYAMLTabs
   )
 }
 

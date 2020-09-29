@@ -2,7 +2,6 @@
 "use strict";
 
 import React from "react";
-import { Icon } from "carbon-components-react";
 import ChannelLabels from "../../../../src-web/components/common/ChannelLabels";
 import renderer from "react-test-renderer";
 

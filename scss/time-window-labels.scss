@@ -22,12 +22,13 @@
   }
 
   .edit-time-window-link {
+    display: inline-block;
     color: #0066cc;
     text-decoration: none;
+    cursor: pointer;
   }
 
   .edit-time-window-btn-icon {
-    position: absolute;
     margin-left: 8px;
   }
 }

@@ -47,12 +47,19 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     cy.get(gitUser).type(username);
     cy.get(gitKey).type(token);
   }
-
-  cy.wait(20 * 1000);
-  cy.get(gitBranch).type(branch, { force: true });
-  cy.wait(20 * 1000);
-  cy.get(gitPath).type(path, { force: true });
-
+  
+  // wait for form to remove the users
+  cy.wait(1000);
+  // type in branch and path
+  cy
+    .get(gitBranch, { timeout: 20 * 1000 })
+    .type(branch, { timeout: 30 * 1000 })
+    .blur();
+  cy.wait(1000);
+  cy
+    .get(gitPath, { timeout: 20 * 1000 })
+    .type(path, { timeout: 30 * 1000 })
+    .blur();
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };

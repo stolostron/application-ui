@@ -183,13 +183,13 @@ export const getManagedClusterName = () => {
 
 export const deleteNamespaceHub = (data, name, type) => {
   cy
-    .exec(`oc delete ns ${name}-ns`)
+    .exec(`oc delete ns ${name}-ns`, { timeout: 100 * 1000 })
     .its("stdout")
     .should("contain", `${name}-ns`);
   for (const [key] of Object.entries(data.config)) {
     const { channelNs } = channelsInformation(key)[type];
     cy
-      .exec(`oc delete ns ${name}-${channelNs}-${key}`)
+      .exec(`oc delete ns ${name}-${channelNs}-${key}`, { timeout: 100 * 1000 })
       .its("stdout")
       .should("contain", `${name}-${channelNs}-${key}`);
   }

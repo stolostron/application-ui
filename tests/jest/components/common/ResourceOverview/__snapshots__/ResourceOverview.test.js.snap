@@ -62,7 +62,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
           >
             <div
               className="details-col"
-              id="left-col"
+              id="add-right-border"
             >
               <div
                 className="details-item"
@@ -116,7 +116,6 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
             </div>
             <div
               className="details-col"
-              id="right-col"
             >
               <div
                 className="details-item"
@@ -582,7 +581,7 @@ exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
           >
             <div
               className="details-col"
-              id="left-col"
+              id="add-right-border"
             >
               <div
                 className="details-item"
@@ -632,7 +631,6 @@ exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
             </div>
             <div
               className="details-col"
-              id="right-col"
             >
               <div
                 className="details-item"

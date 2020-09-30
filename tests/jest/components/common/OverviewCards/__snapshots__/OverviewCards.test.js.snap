@@ -48,7 +48,7 @@ exports[`OverviewCards OverviewCards renders correctly with data. 1`] = `
       >
         <div
           className="details-col"
-          id="left-col"
+          id="add-right-border"
         >
           <div
             className="details-item"
@@ -102,7 +102,6 @@ exports[`OverviewCards OverviewCards renders correctly with data. 1`] = `
         </div>
         <div
           className="details-col"
-          id="right-col"
         >
           <div
             className="details-item"

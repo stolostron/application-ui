@@ -58,13 +58,8 @@
     padding: calc(10px + 1rem);
   }
 
-  #left-col {
-    grid-column-start: 1;
+  #add-right-border {
     border-right: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  #right-col {
-    grid-column-start: 2;
   }
 
   // The 3 rows of data for each side

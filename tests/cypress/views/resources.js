@@ -48,7 +48,7 @@ export const channelsInformation = (name, key) => {
     .exec(
       `oc -n ${name}-ns get subscription ${name}-subscription-key -o=jsonpath='{.spec.channel}'`
     )
-    .stdout.split("/");
+    .then(({ stdout }) => stdout.split("/"));
   return {
     channelNs,
     channelName

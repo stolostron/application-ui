@@ -28,7 +28,7 @@ const createTimeRanges = ranges => {
 }
 
 const toggleEditorTab = () => {
-  document.getElementById('advanced').click()
+  document.getElementById('editor').click()
 }
 
 const TimeWindowLabels = ({ timeWindow, locale }) => {

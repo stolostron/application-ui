@@ -150,7 +150,7 @@ class OverviewCards extends React.Component {
             title={msgs.get('dashboard.card.overview.cards.title', locale)}
             className="overview-cards-details-section"
           >
-            <div className="details-col" id="add-right-border">
+            <div className="details-col  add-right-border" id="left-col">
               <div className="details-item">
                 <div className="details-item-title left-item">
                   {msgs.get('dashboard.card.overview.cards.name', locale)}
@@ -317,7 +317,7 @@ class OverviewCards extends React.Component {
         return (
           <React.Fragment key={sub.id}>
             <div className="sub-card-container">
-              <div className="sub-card-column" id="add-right-border">
+              <div className="sub-card-column add-right-border">
                 <img
                   className="subs-icon"
                   alt="subscription-card-sub-name"
@@ -334,7 +334,7 @@ class OverviewCards extends React.Component {
                 </div>
               </div>
 
-              <div className="sub-card-column" id="add-right-border">
+              <div className="sub-card-column add-right-border">
                 <img
                   className="subs-icon"
                   alt="subscription-card-repo-folder"

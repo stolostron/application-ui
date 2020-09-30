@@ -64,8 +64,8 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
               className="bx--accordion__content"
             >
               <div
-                className="details-col"
-                id="add-right-border"
+                className="details-col  add-right-border"
+                id="left-col"
               >
                 <div
                   className="details-item"

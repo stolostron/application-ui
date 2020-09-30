@@ -222,8 +222,8 @@ export const validateTopology = (name, data, type) => {
   cy
     .get(".search-query-card-loading", { timeout: 100 * 1000 })
     .should("not.exist");
-  cy.get("#add-right-border").contains(name);
-  cy.get("#add-right-border").contains(`${name}-ns`);
+  cy.get("#left-col").contains(name);
+  cy.get("#left-col").contains(`${name}-ns`);
 
   validateSubscriptionDetails(name, data, type);
 

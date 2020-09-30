@@ -47,8 +47,8 @@ exports[`OverviewCards OverviewCards renders correctly with data. 1`] = `
         className="bx--accordion__content"
       >
         <div
-          className="details-col"
-          id="add-right-border"
+          className="details-col  add-right-border"
+          id="left-col"
         >
           <div
             className="details-item"

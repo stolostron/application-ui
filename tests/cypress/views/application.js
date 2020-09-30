@@ -191,17 +191,17 @@ export const validateSubscriptionDetails = (name, data, type) => {
   }
 };
 
-export const validateAdvancedTables = (name, data, type) => {
+export const validateAdvancedTables = async (name, data, type) => {
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
-    const { channelName } = channelsInformation(name, key);
+    const { channelName } = await channelsInformation(name, key);
     let resourceTypes = {
       subscriptions: `${name}-subscription-${key}`,
       placementrules: `${name}-placement-${key}`,
       channels: channelName
     };
     cy.log(`instance-${key}`);
-    Object.keys(resourceTypes).map(function(key, value) {
+    Object.keys(resourceTypes).map(function(key) {
       if (local && key == "placementrules") {
         cy.log(
           `no placementrules for app - ${name} because it has been deployed locally`
@@ -209,7 +209,7 @@ export const validateAdvancedTables = (name, data, type) => {
       } else {
         cy.log(`validating ${key} on Advanced Tables`);
         cy.visit(`/multicloud/applications/advanced?resource=${key}`);
-        cy.get("#undefined-search").type(value);
+        cy.get("#undefined-search").type(resourceTypes[key]);
         resourceTable.rowShouldExist(resourceTypes[key], 600 * 1000);
       }
     });

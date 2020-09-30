@@ -42,21 +42,22 @@ export const apiResources = (type, data) => {
   }
 };
 
-export const channelsInformation = (name, key) => {
+export const channelsInformation = async (name, key) => {
   // Find channel name from subscription
-  const [channelNs, channelName] = cy
-    .exec(
-      `oc -n ${name}-ns get subscription ${name}-subscription-key -o=jsonpath='{.spec.channel}'`
-    )
-    .then(({ stdout }) => stdout.split("/"));
+  const execResult = await cy.exec(
+    `oc -n ${name}-ns get subscription ${name}-subscription-${key} -o=jsonpath='{.spec.channel}'`
+  );
+
+  const { stdout } = execResult;
+  const [channelNs, channelName] = stdout.split("/");
   return {
     channelNs,
     channelName
   };
 };
 
-export const channels = (key, type, name) => {
-  const { channelNs, channelName } = channelsInformation(name, key);
+export const channels = async (key, type, name) => {
+  const { channelNs, channelName } = await channelsInformation(name, key);
   cy.log(`validate the ${type} channel`);
   cy
     .exec(`oc get channel ${channelName} -n ${channelNs}`)
@@ -171,17 +172,17 @@ export const getManagedClusterName = () => {
   });
 };
 
-export const deleteNamespaceHub = (data, name, type) => {
+export const deleteNamespaceHub = async (data, name, type) => {
   cy
     .exec(`oc delete ns ${name}-ns`, { timeout: 100 * 1000 })
     .its("stdout")
     .should("contain", `${name}-ns`);
   for (const [key] of Object.entries(data.config)) {
-    const { channelNs } = channelsInformation(key)[type];
+    const { channelNs } = await channelsInformation(name, key);
     cy
-      .exec(`oc delete ns ${name}-${channelNs}-${key}`, { timeout: 100 * 1000 })
+      .exec(`oc delete ns ${channelNs}`, { timeout: 100 * 1000 })
       .its("stdout")
-      .should("contain", `${name}-${channelNs}-${key}`);
+      .should("contain", channelNs);
   }
 };
 

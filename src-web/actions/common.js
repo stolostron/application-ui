@@ -178,7 +178,7 @@ export const fetchGlobalAppsData = resourceType => {
   }
 }
 
-export const fetchResources = resourceType => {
+const getResourceQuery = resourceType => {
   let resourceQuery, dataKey, filter
   switch (resourceType.name) {
   case 'QueryApplications':
@@ -231,6 +231,16 @@ export const fetchResources = resourceType => {
           return dispatch(receiveResourceError(error, resourceType))
         })
     }
+  } else {
+    return null
+  }
+}
+
+export const fetchResources = resourceType => {
+  // Perform custom search query for certain resource types
+  const resourceQuery = getResourceQuery(resourceType)
+  if (resourceQuery) {
+    return resourceQuery
   }
   const query = getQueryStringForResources(resourceType.name)
   return dispatch => {

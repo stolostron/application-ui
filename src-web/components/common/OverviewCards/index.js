@@ -49,7 +49,6 @@ class OverviewCards extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 0 },
       showSubCards: false
     }
   }
@@ -76,7 +75,8 @@ class OverviewCards extends React.Component {
       selectedAppNS,
       locale
     } = this.props
-    const { nodeStatuses, showSubCards } = this.state
+    const { showSubCards } = this.state
+
     if (HCMApplicationList.status === REQUEST_STATUS.ERROR) {
       const errMessage = _.get(
         HCMApplicationList,
@@ -121,7 +121,6 @@ class OverviewCards extends React.Component {
       topology,
       selectedAppName,
       selectedAppNS,
-      nodeStatuses,
       targetLink,
       locale
     )
@@ -384,21 +383,18 @@ class OverviewCards extends React.Component {
                     )}
                   </div>
                   {!sub.timeWindowType ? (
-                    <a
+                    <div
                       className="set-time-window-link"
-                      href={
-                        window.location.href +
-                        (window.location.href.slice(-1) === '/'
-                          ? 'yaml'
-                          : '/yaml')
-                      }
-                      target="_blank"
+                      tabIndex="0"
+                      role={'button'}
+                      onClick={this.toggleEditorTab.bind(this)}
+                      onKeyPress={this.toggleEditorTab.bind(this)}
                     >
                       {msgs.get(
                         'dashboard.card.overview.cards.timeWindow.set.label',
                         locale
                       )}
-                    </a>
+                    </div>
                   ) : (
                     <TimeWindowLabels
                       timeWindow={{
@@ -419,6 +415,10 @@ class OverviewCards extends React.Component {
       }
       return ''
     })
+  };
+
+  toggleEditorTab = () => {
+    document.getElementById('advanced').click()
   };
 
   toggleSubsBtn = showSubCards => {

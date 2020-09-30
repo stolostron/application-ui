@@ -47,7 +47,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     cy.get(gitUser).type(username);
     cy.get(gitKey).type(token);
   }
-  
+
   // wait for form to remove the users
   cy.wait(1000);
   // type in branch and path
@@ -222,8 +222,8 @@ export const validateTopology = (name, data, type) => {
   cy
     .get(".search-query-card-loading", { timeout: 100 * 1000 })
     .should("not.exist");
-  cy.get("#left-col").contains(name);
-  cy.get("#left-col").contains(`${name}-ns`);
+  cy.get("#add-right-border").contains(name);
+  cy.get("#add-right-border").contains(`${name}-ns`);
 
   validateSubscriptionDetails(name, data, type);
 

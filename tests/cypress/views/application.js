@@ -47,7 +47,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     cy.get(gitUser).type(username);
     cy.get(gitKey).type(token);
   }
-  
+
   // wait for form to remove the users
   cy.wait(1000);
   // type in branch and path
@@ -194,14 +194,14 @@ export const validateSubscriptionDetails = (name, data, type) => {
 export const validateAdvancedTables = (name, data, type) => {
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
-    const { channelName } = channelsInformation(key)[type];
+    const { channelName } = channelsInformation(name, key);
     let resourceTypes = {
       subscriptions: `${name}-subscription-${key}`,
       placementrules: `${name}-placement-${key}`,
-      channels: `${name}-${channelName}-${key}`
+      channels: channelName
     };
     cy.log(`instance-${key}`);
-    Object.keys(resourceTypes).map(function(key) {
+    Object.keys(resourceTypes).map(function(key, value) {
       if (local && key == "placementrules") {
         cy.log(
           `no placementrules for app - ${name} because it has been deployed locally`
@@ -209,7 +209,7 @@ export const validateAdvancedTables = (name, data, type) => {
       } else {
         cy.log(`validating ${key} on Advanced Tables`);
         cy.visit(`/multicloud/applications/advanced?resource=${key}`);
-        cy.get("#undefined-search").type(name);
+        cy.get("#undefined-search").type(value);
         resourceTable.rowShouldExist(resourceTypes[key], 600 * 1000);
       }
     });
@@ -297,6 +297,7 @@ export const validateResourceTable = name => {
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
+  cy.get("#undefined-search").type(name);
   resourceTable.rowShouldExist(name, 600 * 1000);
   resourceTable.rowNameClick(name);
   cy.reload(); // status isn't updating after unknown failure

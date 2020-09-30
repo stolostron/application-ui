@@ -42,37 +42,28 @@ export const apiResources = (type, data) => {
   }
 };
 
-export const channelsInformation = key => {
-  const objChannelKey = parseInt(key) + 1;
-  const channelDict = {
-    git: {
-      channelNs: "app-samples-chn-ns",
-      channelName: "app-samples-chn"
-    },
-    objectstore: {
-      channelNs: `dev${objChannelKey}-chn-ns`,
-      channelName: `dev${objChannelKey}-chn`
-    },
-    helm: {
-      channelNs: "-chn-ns",
-      channelName: "-chn"
-    }
+export const channelsInformation = (name, key) => {
+  // Find channel name from subscription
+  const [channelNs, channelName] = cy
+    .exec(
+      `oc -n ${name}-ns get subscription ${name}-subscription-key -o=jsonpath='{.spec.channel}'`
+    )
+    .stdout.split("/");
+  return {
+    channelNs,
+    channelName
   };
-  return channelDict;
 };
 
 export const channels = (key, type, name) => {
-  const channelDict = channelsInformation(key);
-  const { channelNs, channelName } = channelDict[type];
+  const { channelNs, channelName } = channelsInformation(name, key);
   cy.log(`validate the ${type} channel`);
   cy
-    .exec(
-      `oc get channel ${name}-${channelName}-${key} -n ${name}-${channelNs}-${key}`
-    )
+    .exec(`oc get channel ${channelName} -n ${channelNs}`)
     .its("stdout")
     .should("contain", name);
   cy
-    .exec(`oc get ns ${name}-${channelNs}-${key}`)
+    .exec(`oc get ns ${channelNs}`)
     .its("stdout")
     .should("contain", `${name}`);
 };
@@ -92,8 +83,7 @@ export const placementrule = (key, name) => {
 };
 
 export const subscription = (key, name, kubeconfig = "") => {
-  let managedCluster = "";
-  kubeconfig ? (managedCluster = `--kubeconfig ${kubeconfig}`) : managedCluster;
+  let managedCluster = kubeconfig ? `--kubeconfig ${kubeconfig}` : "";
 
   cy.log(`validate the subscription`);
   cy.exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`).then(() => {

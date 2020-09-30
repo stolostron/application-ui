@@ -35,7 +35,7 @@ const objectstoreChannelData = [
     placeholder: 'app.enter.select.objectstore.url',
     available: [],
     validation: VALIDATE_URL,
-    fetchAvailable: loadExistingChannels('objectstore'),
+    fetchAvailable: loadExistingChannels('objectbucket'),
     reverse: 'Channel[0].spec.pathname',
     onSelect: updateChannelControls
   },

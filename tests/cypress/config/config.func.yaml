@@ -22,7 +22,7 @@ objectstore:
         secretKey: dummy22
         timeWindow:
           setting: true
-          type: activeinterval
+          type: blockinterval
           date:
             - Tuesday
         deployment:

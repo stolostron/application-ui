@@ -4,18 +4,35 @@
 import React from "react";
 import { Icon } from "carbon-components-react";
 import LabelWithPopover from "../../../../src-web/components/common/LabelWithPopover";
-import renderer from "react-test-renderer";
+import { mount } from "enzyme";
 
 describe("LabelWithPopover", () => {
   it("renders as expected", () => {
-    const component = renderer.create(
+    const component = mount(
       <LabelWithPopover
         labelIcon={<Icon name="icon--launch" />}
         labelContent="TheLabel"
       >
-        ThePopoverContent
+        <p>ThePopoverContent</p>
       </LabelWithPopover>
     );
-    expect(component.toJSON()).toMatchSnapshot();
+    component
+      .find(".pf-c-label__content")
+      .at(0)
+      .simulate("click", { nativeEvent: { preventDefault: () => undefined } });
+    expect(component.render()).toMatchSnapshot();
+  });
+
+  it("renders as expected in red", () => {
+    const component = mount(
+      <LabelWithPopover
+        labelIcon={<Icon name="icon--launch" />}
+        labelContent="TheLabel"
+        labelColor="red"
+      >
+        <p>ThePopoverContent</p>
+      </LabelWithPopover>
+    );
+    expect(component.render()).toMatchSnapshot();
   });
 });

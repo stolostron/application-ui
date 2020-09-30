@@ -334,7 +334,12 @@ export const getPulseStatusForSubscription = node => {
 }
 
 const getPulseStatusForGenericNode = node => {
+  //ansible job status
+  if (_.get(node, 'type', '') === 'ansiblejob') {
+    return getPulseStatusForAnsibleNode(node)
+  }
   let pulse = _.get(node, specPulse, 'green')
+
   if (pulse === 'red') {
     return pulse //no need to check anything else, return red
   }
@@ -360,11 +365,6 @@ const getPulseStatusForGenericNode = node => {
       pulse = 'yellow'
     }
   })
-
-  //ansible job status
-  if (_.get(node, 'type', '') === 'ansiblejob') {
-    pulse = getPulseStatusForAnsibleNode(node)
-  }
 
   return pulse
 }

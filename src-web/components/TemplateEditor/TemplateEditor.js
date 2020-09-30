@@ -141,11 +141,11 @@ export default class TemplateEditor extends React.Component {
     // has control data been initialized?
     const { controlData: initialControlData } = props
     let { controlData, templateYAML, templateObject, editStack } = state
-    const { forceUpdate, template } = state
+    const { editor, template } = state
     if (!controlData) {
       // initialize control data
       const cd = _.cloneDeep(initialControlData)
-      controlData = initializeControls(cd, cd, forceUpdate, locale)
+      controlData = initializeControls(cd, editor, locale)
       newState = { ...newState, controlData }
     }
 
@@ -154,7 +154,7 @@ export default class TemplateEditor extends React.Component {
       // editing an existing set of resources??
       const editResources = _.get(fetchControl, 'resources')
       if (editResources) {
-        editStack = [{ editResources, forceUpdate, locale }]
+        editStack = [{ editResources, editor, locale }]
       }
 
       // generate source from template or stack of resources
@@ -213,9 +213,15 @@ export default class TemplateEditor extends React.Component {
       hasUndo: false,
       hasRedo: false,
       resetInx: 0,
-      forceUpdate: (() => {
-        this.forceUpdate()
-      }).bind(this)
+      editor: {
+        forceUpdate: (() => {
+          this.forceUpdate()
+        }).bind(this),
+        currentData: (() => {
+          return this.state.controlData
+        }).bind(this)
+
+      }
     }
     this.selectedTab = 0
     this.isDirty = false
@@ -452,7 +458,7 @@ export default class TemplateEditor extends React.Component {
     const { locale } = this.props
     const {
       showEditor,
-      forceUpdate,
+      editor,
       template,
       templateYAML,
       otherYAMLTabs,
@@ -466,8 +472,7 @@ export default class TemplateEditor extends React.Component {
       const { prompts: { nameId, baseName } } = control
       const newGroup = initializeControls(
         cd,
-        controlData,
-        forceUpdate,
+        editor,
         locale,
         active.length + 1,
         true
@@ -551,7 +556,7 @@ export default class TemplateEditor extends React.Component {
   changeEditorMode(control, controlData) {
     const { locale } = this.props
     let { template } = this.props
-    const { editStack, otherYAMLTabs, forceUpdate } = this.state
+    const { editStack, otherYAMLTabs, editor } = this.state
     let { templateYAML, templateObject } = this.state
     let newYAML = templateYAML
     let newYAMLTabs = otherYAMLTabs
@@ -590,8 +595,7 @@ export default class TemplateEditor extends React.Component {
         }
         controlData = initializeControls(
           controlData,
-          controlData,
-          forceUpdate,
+          editor,
           locale
         )
       }
@@ -1000,15 +1004,8 @@ export default class TemplateEditor extends React.Component {
 
   getResourceJSON() {
     const { locale } = this.context
-    const { template, editStack, controlData, otherYAMLTabs } = this.state
+    const { templateYAML, controlData, otherYAMLTabs } = this.state
     let canCreate = false
-    const { templateYAML } = generateSource(
-      template,
-      editStack,
-      controlData,
-      otherYAMLTabs,
-      true
-    )
     const {
       templateObjectMap,
       templateExceptionMap,
@@ -1197,9 +1194,9 @@ export default class TemplateEditor extends React.Component {
 
   resetEditor() {
     const { template, controlData: initialControlData, locale } = this.props
-    const { editStack, resetInx } = this.state
+    const { editStack, resetInx, editor } = this.state
     const cd = _.cloneDeep(initialControlData)
-    const controlData = initializeControls(cd, cd, this.forceUpdate, locale)
+    const controlData = initializeControls(cd, editor, locale)
     const otherYAMLTabs = []
     const { templateYAML, templateObject } = generateSource(
       template,

@@ -58,7 +58,7 @@ export const resourceTable = {
       .get('button[data-table-action="table.actions.applications.edit"]', {
         timeout: 20 * 1000
       })
-      .click(),
+      .click({ force: true }),
   menuClickDelete: () =>
     cy
       .get('button[data-table-action="table.actions.applications.remove"]', {

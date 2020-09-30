@@ -144,21 +144,30 @@ export const updateControlsForNS = (
       if (availableData[active] === undefined) {
         //user defined namespace
         _.set(existingruleCheckbox, 'type', 'hidden')
-        _.set(existingRuleControl, 'type', 'hidden')
-
         _.set(existingRuleControl, 'ns', '')
-        selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
-        _.set(existingruleCheckbox, 'active', false)
       } else {
         //existing namespace
         _.set(existingruleCheckbox, 'type', 'checkbox')
-        _.set(existingruleCheckbox, 'active', false)
-
         _.set(existingRuleControl, 'ns', active)
-        _.set(existingRuleControl, 'type', 'hidden')
       }
+      _.set(existingruleCheckbox, 'active', false)
       _.set(existingRuleControl, 'active', '')
+      _.set(existingRuleControl, 'type', 'hidden')
+      selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
+
       updateNewRuleControlsData('', control)
+    }
+
+    //update ansible secret controls
+    const ansibleSecretName = _.get(control, 'ansibleSecretName')
+    const ansibleTowerHost = _.get(control, 'ansibleTowerHost')
+    const ansibleTowerToken = _.get(control, 'ansibleTowerToken')
+    if (ansibleSecretName && ansibleTowerHost && ansibleTowerToken) {
+      _.set(ansibleSecretName, 'active', '')
+      _.set(ansibleTowerHost, 'active', '')
+      _.set(ansibleTowerToken, 'active', '')
+      _.set(ansibleTowerHost, 'type', 'text')
+      _.set(ansibleTowerToken, 'type', 'text')
     }
   })
 
@@ -235,6 +244,7 @@ const retrieveGitDetails = async (
 
     if (branchName) {
       //get folders for branch
+      setLoadingState(githubPathCtrl, true)
       await repoObj.getContents(branchName, '', false).then(
         result => {
           if (result.data) {
@@ -246,9 +256,11 @@ const retrieveGitDetails = async (
               githubPathCtrl.available.push(folder.name)
             })
           }
+          setLoadingState(githubPathCtrl, false)
         },
         () => {
           //on error
+          setLoadingState(githubPathCtrl, false)
         }
       )
     } else {
@@ -284,6 +296,7 @@ const retrieveGitDetails = async (
 
 export const updateGitBranchFolders = async (
   branchControl,
+  globalControls,
   setLoadingState
 ) => {
   const groupControlData = _.get(branchControl, 'groupControlData', [])
@@ -358,7 +371,7 @@ export const setAvailableNSSpecs = (control, result) => {
 
 export const getExistingPRControlsSection = (initiatingControl, control) => {
   //returns the existing placement rule options for the channel selection
-  let result = []
+  const result = []
 
   if (_.get(initiatingControl, 'groupControlData')) {
     //the update happened on a single channel, get that channel only PRs
@@ -376,7 +389,13 @@ export const getExistingPRControlsSection = (initiatingControl, control) => {
     const channelsControl = control.find(({ id }) => id === 'channels')
 
     if (channelsControl) {
-      result = _.get(channelsControl, 'controlMapArr', [])
+      (_.get(channelsControl, 'active') || []).forEach(channelControls => {
+        const channelInfo = {}
+        channelControls.forEach(controlDataObject => {
+          channelInfo[controlDataObject.id] = controlDataObject
+        })
+        result.push(channelInfo)
+      })
     }
   }
 
@@ -513,13 +532,6 @@ export const setAvailableSecrets = (control, result) => {
   } else if (secrets) {
     control.availableData = _.keyBy(secrets, 'name')
     control.available = Object.keys(control.availableData).sort()
-    if (
-      control.active &&
-      !control.available.includes(control.active) &&
-      typeof control.setActive === 'function'
-    ) {
-      control.setActive('')
-    }
   } else {
     control.isLoading = loading
   }

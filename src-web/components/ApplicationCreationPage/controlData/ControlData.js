@@ -14,16 +14,14 @@ import gitChannelData from './ControlDataGit'
 import helmReleaseChannelData from './ControlDataHelm'
 import objectstoreChannelData from './ControlDataObjectStore'
 import otherChannelData from './ControlDataOther'
+import { setAvailableNSSpecs, updateControlsForNS } from './utils'
 import {
-  setAvailableNSSpecs,
-  getExistingPRControlsSection,
-  updateNewRuleControlsData
-} from './utils'
-import { initializeControls } from '../../TemplateEditor/utils/utils'
+  initializeControls,
+  getSourcePath
+} from '../../TemplateEditor/utils/utils'
 import _ from 'lodash'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
-const existingRuleCheckbox = 'existingrule-checkbox'
 
 export const loadExistingNamespaces = () => {
   return {
@@ -46,48 +44,6 @@ export const updateNSControls = (nsControl, globalControl) => {
   return updateControlsForNS(nsControl, nsControl, globalControl)
 }
 
-export const updateControlsForNS = (
-  initiatingControl,
-  nsControl,
-  globalControl
-) => {
-  const { active, availableData = {} } = nsControl
-
-  const controlList = getExistingPRControlsSection(
-    initiatingControl,
-    globalControl
-  )
-  controlList.forEach(control => {
-    const existingRuleControl = _.get(control, 'placementrulecombo')
-    const existingruleCheckbox = _.get(control, existingRuleCheckbox)
-    const selectedRuleNameControl = _.get(control, 'selectedRuleName')
-    //update placement rule controls
-    if (existingRuleControl && existingruleCheckbox) {
-      if (availableData[active] === undefined) {
-        //user defined namespace
-        _.set(existingruleCheckbox, 'type', 'hidden')
-        _.set(existingRuleControl, 'type', 'hidden')
-
-        _.set(existingRuleControl, 'ns', '')
-        selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
-        _.set(existingruleCheckbox, 'active', false)
-      } else {
-        //existing namespace
-        _.set(existingruleCheckbox, 'type', 'checkbox')
-        _.set(existingruleCheckbox, 'active', false)
-        selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
-
-        _.set(existingRuleControl, 'ns', active)
-        _.set(existingRuleControl, 'type', 'hidden')
-      }
-      _.set(existingRuleControl, 'active', '')
-      updateNewRuleControlsData('', control)
-    }
-  })
-
-  return globalControl
-}
-
 // only called when editing an existing application
 // examines resources to create the correct resource types that are being deployed
 const discoverGroupsFromSource = (
@@ -106,7 +62,6 @@ const discoverGroupsFromSource = (
       // add a group for every subscription
       const newGroup = initializeControls(
         groupData,
-        cd,
         forceUpdate,
         locale,
         active.length + 1,
@@ -180,7 +135,7 @@ const discoverChannelFromSource = (
 
   // if editing an existing app that doesn't have a standard channel type
   // show the other channel type
-  if (id==='other') {
+  if (id === 'other') {
     delete cardsControl.availableMap[id].hidden
   }
 
@@ -202,7 +157,20 @@ const discoverChannelFromSource = (
     groupControlData.forEach(cd => {
       cd.groupControlData = groupControlData
     })
-    initializeControls(groupControlData, globalControl, forceUpdate, locale)
+    initializeControls(groupControlData, forceUpdate, locale)
+
+    // initialize channel namespace
+    const path = 'Subscription[0].spec.channel'
+    const channel = _.get(templateObject, getSourcePath(path))
+    if (channel) {
+      const [ns] = channel.$v.split('/')
+      if (ns) {
+        const channelNamespace = groupControlData.find(
+          ({ id: _id }) => _id === 'channelNamespace'
+        )
+        channelNamespace.active = ns
+      }
+    }
 
     // if more then one group, collapse all groups
     if (multiple) {
@@ -227,16 +195,15 @@ const shiftTemplateObject = templateObject => {
 
     // if this subscription pointed to a channel in this template
     // remove that channel too
-    let name = _.get(
-      subscription,
-      '$synced.spec.$v.channel.$v'
-    )
+    let name = _.get(subscription, '$synced.spec.$v.channel.$v')
     if (name) {
       const [ns, n] = name.split('/')
       const channels = templateObject.Channel || []
       const inx = channels.findIndex(rule => {
-        return n === _.get(rule, '$synced.metadata.$v.name.$v')
-         && ns === _.get(rule, '$synced.metadata.$v.namespace.$v')
+        return (
+          n === _.get(rule, '$synced.metadata.$v.name.$v') &&
+          ns === _.get(rule, '$synced.metadata.$v.namespace.$v')
+        )
       })
       if (inx !== -1) {
         templateObject.Channel.splice(inx, 1)

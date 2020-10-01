@@ -5,7 +5,8 @@
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import {
   deleteNamespaceHub,
-  deleteNamespaceTarget
+  deleteNamespaceTarget,
+  deleteUnusedChannelNamespaces
 } from "../../views/resources";
 
 describe("Cleanup resouces", () => {
@@ -13,6 +14,9 @@ describe("Cleanup resouces", () => {
   for (const type in config) {
     const data = config[type].data;
     if (data.enable) {
+      it("delete unused channel namespaces on hub cluster", () => {
+        deleteUnusedChannelNamespaces();
+      });
       it(`delete namepsace ${data.name}-ns on hub cluster`, () => {
         deleteNamespaceHub(data, data.name, type);
       });

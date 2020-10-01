@@ -42,31 +42,33 @@ export const apiResources = (type, data) => {
   }
 };
 
-export const channelsInformation = async (name, key) => {
+export const channelsInformation = (name, key) => {
   // Find channel name from subscription
-  const execResult = await cy.exec(
-    `oc -n ${name}-ns get subscription ${name}-subscription-${key} -o=jsonpath='{.spec.channel}'`
-  );
-
-  const { stdout } = execResult;
-  const [channelNs, channelName] = stdout.split("/");
-  return {
-    channelNs,
-    channelName
-  };
+  return cy
+    .exec(
+      `oc -n ${name}-ns get subscription ${name}-subscription-${key} -o=jsonpath='{.spec.channel}'`
+    )
+    .then(({ stdout }) => {
+      const [channelNs, channelName] = stdout.split("/");
+      return {
+        channelNs,
+        channelName
+      };
+    });
 };
 
 export const channels = async (key, type, name) => {
-  const { channelNs, channelName } = await channelsInformation(name, key);
-  cy.log(`validate the ${type} channel`);
-  cy
-    .exec(`oc get channel ${channelName} -n ${channelNs}`)
-    .its("stdout")
-    .should("contain", name);
-  cy
-    .exec(`oc get ns ${channelNs}`)
-    .its("stdout")
-    .should("contain", `${name}`);
+  channelsInformation(name, key).then(({ channelNs, channelName }) => {
+    cy.log(`validate the ${type} channel`);
+    cy
+      .exec(`oc get channel ${channelName} -n ${channelNs}`)
+      .its("stdout")
+      .should("contain", name);
+    cy
+      .exec(`oc get ns ${channelNs}`)
+      .its("stdout")
+      .should("contain", `${name}`);
+  });
 };
 
 export const placementrule = (key, name) => {
@@ -172,18 +174,19 @@ export const getManagedClusterName = () => {
   });
 };
 
-export const deleteNamespaceHub = async (data, name, type) => {
+export const deleteNamespaceHub = (data, name, type) => {
+  cy.wrap(data.config).each((_, i) => {
+    channelsInformation(name, i).then(({ channelNs }) => {
+      cy.exec(`oc delete ns ${channelNs}`, {
+        failOnNonZeroExit: false,
+        timeout: 100 * 1000
+      });
+    });
+  });
   cy
     .exec(`oc delete ns ${name}-ns`, { timeout: 100 * 1000 })
     .its("stdout")
     .should("contain", `${name}-ns`);
-  for (const [key] of Object.entries(data.config)) {
-    const { channelNs } = await channelsInformation(name, key);
-    cy
-      .exec(`oc delete ns ${channelNs}`, { timeout: 100 * 1000 })
-      .its("stdout")
-      .should("contain", channelNs);
-  }
 };
 
 export const deleteNamespaceTarget = (name, kubeconfig) => {

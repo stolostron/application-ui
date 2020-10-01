@@ -75,7 +75,7 @@ export default {
         url: item =>
           `/multicloud/applications/${encodeURIComponent(
             item.namespace
-          )}/${encodeURIComponent(item.name)}/yaml`,
+          )}/${encodeURIComponent(item.name)}/edit`,
         state: { cancelBack: true }
       }
     },

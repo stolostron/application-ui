@@ -27,6 +27,10 @@ const createTimeRanges = ranges => {
   return timeRanges
 }
 
+const toggleEditorTab = () => {
+  document.getElementById('advanced').click()
+}
+
 const TimeWindowLabels = ({ timeWindow, locale }) => {
   const notSelectedLabel = msgs.get('timeWindow.label.noData', locale)
 
@@ -63,13 +67,12 @@ const TimeWindowLabels = ({ timeWindow, locale }) => {
               : notSelectedLabel}
           </div>
 
-          <a
+          <div
             className="edit-time-window-link"
-            href={
-              window.location.href +
-              (window.location.href.slice(-1) === '/' ? 'yaml' : '/yaml')
-            }
-            target="_blank"
+            tabIndex="0"
+            role={'button'}
+            onClick={toggleEditorTab.bind(this)}
+            onKeyPress={toggleEditorTab.bind(this)}
           >
             {msgs.get(
               'dashboard.card.overview.cards.timeWindow.edit.label',
@@ -81,7 +84,7 @@ const TimeWindowLabels = ({ timeWindow, locale }) => {
               description=""
               className="edit-time-window-btn-icon"
             />
-          </a>
+          </div>
         </div>
       </LabelWithPopover>
     </div>

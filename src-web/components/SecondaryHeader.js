@@ -1,23 +1,24 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
+ * (c) Copyright IBM Corporation 2017, 2018. All Rights Reserved.
  *
- * US Government Users Restricted Rights - Use, duplication or disclosure
- * restricted by GSA ADP Schedule Contract with IBM Corp.
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
 'use strict'
 
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as Actions from '../actions'
 import { Breadcrumb, Tabs, Tab, Button } from 'carbon-components-react'
 import { DetailPageHeader } from 'carbon-addons-cloud-react'
 import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
+import SecondaryHeaderTooltip from './SecondaryHeaderTooltip'
+import classNames from 'classnames'
 
 resources(() => {
   require('../../scss/secondary-header.scss')
@@ -30,6 +31,7 @@ export class SecondaryHeader extends React.Component {
     this.renderTabs = this.renderTabs.bind(this)
     this.renderTooltip = this.renderTooltip.bind(this)
     this.renderLinks = this.renderLinks.bind(this)
+
     this.state = {
       shadowPresent: false
     }
@@ -52,98 +54,104 @@ export class SecondaryHeader extends React.Component {
   };
 
   render() {
-    const { tabs, title, breadcrumbItems, links } = this.props
+    const {
+      tabs,
+      title,
+      breadcrumbItems,
+      links,
+      mainButton,
+      actions
+    } = this.props
     const { locale } = this.context
     if (
       (tabs && tabs.length > 0) ||
       (breadcrumbItems && breadcrumbItems.length > 0)
     ) {
       return (
-        <div id="ApplicationSecondaryHeader">
+        <div
+          className={classNames({
+            'secondary-header-wrapper': true,
+            'with-tabs': tabs && tabs.length > 0,
+            'with-breadcrumbs': breadcrumbItems && breadcrumbItems.length > 0
+          })}
+          role="region"
+          aria-label={title}
+        >
           <div
-            className="secondary-header-wrapper"
-            role="region"
-            aria-label={title}
+            className={`secondary-header ${
+              actions && !tabs ? 'detailed-header-override' : ''
+            }`}
           >
-            <div
-              className={`secondary-header simple-header${
-                this.state.shadowPresent ? '-with-shadow' : ''
-              }`}
-            >
-              <header aria-label={`Heading: ${title}`}>
-                <div className="bx--detail-page-header-content">
-                  {tabs && tabs.length > 0 ? (
-                    <DetailPageHeader
-                      hasTabs={true}
-                      title={decodeURIComponent(title)}
-                      aria-label={`${title} ${msgs.get(
-                        'secondaryHeader',
-                        locale
-                      )}`}
-                    >
-                      <Breadcrumb>
-                        {breadcrumbItems && this.renderBreadCrumb()}
-                      </Breadcrumb>
-                      <Tabs
-                        selected={this.getSelectedTab() || 0}
-                        aria-label={`${title} ${msgs.get(
-                          'tabs.label',
-                          locale
-                        )}`}
-                      >
-                        {this.renderTabs()}
-                      </Tabs>
-                    </DetailPageHeader>
-                  ) : (
-                    <DetailPageHeader
-                      hasTabs={false}
-                      title={decodeURIComponent(title)}
-                      statusText={null}
-                      statusContent={this.renderTooltip()}
-                      aria-label={`${title} ${msgs.get(
-                        'secondaryHeader',
-                        locale
-                      )}`}
-                    >
-                      <Breadcrumb>{this.renderBreadCrumb()}</Breadcrumb>
-                    </DetailPageHeader>
-                  )}
-                </div>
-                {links &&
-                  links.length > 0 && (
-                    <div className="secondary-header-links">
-                      {this.renderLinks()}
-                    </div>
+            <React.Fragment>
+              <DetailPageHeader
+                hasTabs={true}
+                title={decodeURIComponent(title)}
+                statusText={null}
+                statusContent={this.renderTooltip()}
+                aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
+              >
+                {breadcrumbItems && (
+                  <Breadcrumb>{this.renderBreadCrumb()}</Breadcrumb>
                 )}
-              </header>
-            </div>
+              </DetailPageHeader>
+              {this.state.shadowPresent && (
+                <React.Fragment>
+                  <div
+                    className={
+                      breadcrumbItems
+                        ? 'header-box-shadow--tall'
+                        : 'header-box-shadow'
+                    }
+                  />
+                </React.Fragment>
+              )}
+              {tabs &&
+                tabs.length > 0 && (
+                  <div className="tab-container">
+                    <Tabs
+                      className={classNames({
+                        'cluster-tabs--long': breadcrumbItems,
+                        'cluster-tabs': !breadcrumbItems
+                      })}
+                      selected={this.getSelectedTab() || 0}
+                      aria-label={`${title} ${msgs.get('tabs.label', locale)}`}
+                    >
+                      {this.renderTabs()}
+                    </Tabs>
+                    {mainButton && (
+                      <div
+                        className={classNames({
+                          'main-button-container': true,
+                          'with-breadcrumbs': breadcrumbItems
+                        })}
+                      >
+                        {mainButton}
+                      </div>
+                    )}
+                  </div>
+              )}
+            </React.Fragment>
+            {actions && this.renderActions()}
           </div>
+          {links &&
+            links.length > 0 && (
+              <div className="secondary-header-links">{this.renderLinks()}</div>
+          )}
         </div>
       )
     } else {
       return (
-        <div id="ApplicationSecondaryHeader">
-          <div
-            className="secondary-header-wrapper-min"
-            role="region"
-            aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
-          >
-            <div
-              className={`secondary-header simple-header${
-                this.state.shadowPresent ? '-with-shadow' : ''
-              }`}
-            >
-              <h1 className="bx--detail-page-header-title">
-                {decodeURIComponent(title)}
-              </h1>
-            </div>
+        <div
+          className="secondary-header-wrapper-min"
+          role="region"
+          aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
+        >
+          <div className="secondary-header simple-header">
+            <h1 className="bx--detail-page-header-title">
+              {decodeURIComponent(title)}
+            </h1>
+            {this.renderTooltip()}
           </div>
-          {links &&
-            links.length > 0 && (
-              <div className="secondary-header-links">
-                {this.renderTooltip()}
-              </div>
-          )}
         </div>
       )
     }
@@ -156,27 +164,16 @@ export class SecondaryHeader extends React.Component {
       breadcrumbItems.map((breadcrumb, index) => {
         const key = `${breadcrumb}-${index}`
         return (
-          <div
-            key={key}
-            className="bx--breadcrumb-item"
-            title={decodeURIComponent(breadcrumb.label)}
-          >
-            {index === 0 ? (
-              <Link
-                to={breadcrumb.url}
-                className="bx--link"
-                onClick={() => {
-                  this.props.actions.setSelectedAppTab(0)
-                }}
-              >
-                {decodeURIComponent(breadcrumb.label)}
-              </Link>
-            ) : (
+          <React.Fragment key={key}>
+            <div
+              className="bx--breadcrumb-item"
+              title={decodeURIComponent(breadcrumb.label)}
+            >
               <Link to={breadcrumb.url} className="bx--link">
                 {decodeURIComponent(breadcrumb.label)}
               </Link>
-            )}
-          </div>
+            </div>
+          </React.Fragment>
         )
       })
     )
@@ -250,9 +247,18 @@ export class SecondaryHeader extends React.Component {
   }
 
   renderTooltip() {
+    const { tooltip } = this.props
+    const { locale } = this.context
     const { links = [] } = this.props
     return (
       <React.Fragment>
+        {tooltip && (
+          <SecondaryHeaderTooltip
+            text={tooltip.text}
+            link={tooltip.link}
+            linkText={msgs.get('tooltip.link', locale)}
+          />
+        )}
         {links &&
           links.map(link => {
             const { id, kind, title } = link
@@ -274,43 +280,47 @@ export class SecondaryHeader extends React.Component {
         tab.index = index
         return tab
       })
-      .filter(
-        (tab, index) => index !== 0 && location.pathname.startsWith(tab.url)
-      )
+      .filter((tab, index) => {
+        if (index === 0) {
+          return false
+        }
+        return location.pathname.startsWith(tab.url)
+      })
     return selectedTab[0] && selectedTab[0].index
   }
 
   clickTab(url) {
-    this.props.history.push(url)
+    this.props.history.replace(url, { tabChange: true })
   }
 }
 
 SecondaryHeader.propTypes = {
-  actions: PropTypes.object,
+  actions: PropTypes.array,
   breadcrumbItems: PropTypes.array,
   history: PropTypes.object,
   links: PropTypes.array,
   location: PropTypes.object,
+  mainButton: PropTypes.object,
   tabs: PropTypes.array,
-  title: PropTypes.string
+  title: PropTypes.string,
+  tooltip: PropTypes.string
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  }
+SecondaryHeader.contextTypes = {
+  locale: PropTypes.string
 }
 
 const mapStateToProps = state => {
   return {
     title: state.secondaryHeader.title,
     tabs: state.secondaryHeader.tabs,
+    actions: state.secondaryHeader.actions,
+    mainButton: state.secondaryHeader.mainButton,
     breadcrumbItems: state.secondaryHeader.breadcrumbItems,
     links: state.secondaryHeader.links,
+    tooltip: state.secondaryHeader.tooltip,
     role: state.role && state.role.role
   }
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SecondaryHeader)
-)
+export default withRouter(connect(mapStateToProps)(SecondaryHeader))

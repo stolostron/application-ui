@@ -56,10 +56,10 @@ jest.mock("../../../lib/client/apollo-client", () => ({
   })
 }));
 
-const React = require("../../../node_modules/react");
+const React = require("react");
 import thunkMiddleware from "redux-thunk";
 
-import ApplicationsTab from "../../../src-web/containers/ApplicationsTab";
+import ApplicationsListPage from "../../../src-web/components/ApplicationsListPage";
 
 import { mount } from "enzyme";
 import renderer from "react-test-renderer";
@@ -72,7 +72,7 @@ import {
   reduxStoreAppPipeline,
   reduxStoreAllAppsPipeline,
   serverProps
-} from "../components/TestingData";
+} from "./TestingData";
 
 const middleware = [thunkMiddleware];
 const mockStore = configureMockStore(middleware);
@@ -95,12 +95,12 @@ const mockMath = Object.create(global.Math);
 mockMath.random = () => 0.5;
 global.Math = mockMath;
 
-describe("ApplicationsTab", () => {
-  it("ApplicationsTab renders correctly with data on single app, create app action", () => {
+describe("ApplicationsListPage", () => {
+  it("ApplicationsListPage renders correctly with data on single app, create app action", () => {
     const wrapper = mount(
       <BrowserRouter>
         <Provider store={storeAllApps}>
-          <ApplicationsTab
+          <ApplicationsListPage
             serverProps={serverProps}
             secondaryHeaderProps={secondaryHeaderProps}
             resourceType={resourceType}
@@ -118,12 +118,12 @@ describe("ApplicationsTab", () => {
     wrapper.find(".bx--select-input").simulate("change");
   });
 
-  it("ApplicationsTab renders correctly with data on single app.", () => {
+  it("ApplicationsListPage renders correctly with data on single app.", () => {
     const tree = renderer
       .create(
         <BrowserRouter>
           <Provider store={storeApp}>
-            <ApplicationsTab
+            <ApplicationsListPage
               serverProps={serverProps}
               secondaryHeaderProps={secondaryHeaderProps}
               resourceType={resourceType}
@@ -136,12 +136,12 @@ describe("ApplicationsTab", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it("ApplicationsTab renders correctly with data on all app.", () => {
+  it("ApplicationsListPage renders correctly with data on all app.", () => {
     const tree = renderer
       .create(
         <BrowserRouter>
           <Provider store={storeAllApps}>
-            <ApplicationsTab
+            <ApplicationsListPage
               serverProps={serverProps}
               secondaryHeaderProps={secondaryHeaderProps}
               resourceType={resourceType}

@@ -8,17 +8,15 @@
 'use strict'
 
 import React from 'react'
-import ResourceTableModule from '../components/common/ResourceTableModuleFromProps'
+import ResourceTableModule from './common/ResourceTableModuleFromProps'
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
-import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
-import CreateApplicationButton from '../components/common/CreateApplicationButton'
+import { typedResourcePageDetails } from './common/ResourcePage'
 
 export default withRouter(
-  typedResourcePageWithListAndDetails(
+  typedResourcePageDetails(
     RESOURCE_TYPES.QUERY_APPLICATIONS,
     [],
-    [<CreateApplicationButton key="create" />],
     [],
     [<ResourceTableModule key="deployments" definitionsKey="deploymentKeys" />]
   )

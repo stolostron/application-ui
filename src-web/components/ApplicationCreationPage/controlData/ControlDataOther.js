@@ -9,12 +9,10 @@
  *******************************************************************************/
 'use strict'
 
-import { loadExistingChannels, updateChannelControls } from './utils'
 import placementData from './ControlDataPlacement'
 import prePostTasks from './ControlDataPrePostTasks'
 
-const hubClusterChannelData = [
-  ///////////////////////  Hub Cluster  /////////////////////////////////////
+const otherChannelData = [
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
@@ -32,17 +30,14 @@ const hubClusterChannelData = [
     name: 'creation.app.namespace.name',
     tooltip: 'tooltip.creation.app.namespace.name',
     id: 'namespaceChannelName',
-    type: 'combobox',
+    type: 'text',
     active: '',
     placeholder: 'app.enter.select.namespace.name',
     available: [],
-    validation: [],
-    fetchAvailable: loadExistingChannels('namespace'),
-    onSelect: updateChannelControls
+    reverse: 'Channel[0].spec.pathname'
   },
-
   ...prePostTasks,
   ...placementData
 ]
 
-export default hubClusterChannelData
+export default otherChannelData

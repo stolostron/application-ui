@@ -21,7 +21,7 @@ import {
   Icon
 } from 'carbon-components-react'
 import msgs from '../../../../nls/platform.properties'
-import { ControlMode } from '../../TemplateEditor/utils/source-utils'
+import { ControlMode } from '../../TemplateEditor/utils/utils'
 import '../../../../graphics/diagramIcons.svg'
 import _ from 'lodash'
 
@@ -485,7 +485,10 @@ class ControlPanelTable extends React.Component {
       Object.keys(value).forEach(
         key => value[key] === null && delete value[key]
       )
-      active.push({ ...this.getDefaults(active, actives, controlData), ...value })
+      active.push({
+        ...this.getDefaults(active, actives, controlData),
+        ...value
+      })
     })
   }
 
@@ -493,7 +496,8 @@ class ControlPanelTable extends React.Component {
     const defaults = {}
     controlData.forEach(({ id: _id, active: _active }) => {
       if (_active) {
-        defaults[_id] = typeof _active==='function' ? _active(active) : _active
+        defaults[_id] =
+          typeof _active === 'function' ? _active(active) : _active
       }
     })
     return defaults

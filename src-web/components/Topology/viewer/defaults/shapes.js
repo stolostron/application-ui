@@ -139,6 +139,10 @@ export const defaultShapes = Object.freeze({
     shape: 'subscription',
     className: 'design'
   },
+  subscriptionblocked: {
+    shape: 'subscriptionblocked',
+    className: 'design'
+  },
   spare1: {
     shape: 'star4',
     className: 'daemonset'

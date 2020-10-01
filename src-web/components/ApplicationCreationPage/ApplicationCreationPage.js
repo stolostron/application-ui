@@ -17,19 +17,18 @@ import PropTypes from 'prop-types'
 import Page from '../common/Page'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import {
   createApplication,
+  updateApplication,
   clearCreateStatus
 } from '../../actions/application'
-import {
-  updateSecondaryHeader,
-  delResourceSuccessFinished
-} from '../../actions/common'
+import { updateSecondaryHeader } from '../../actions/common'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 import { TemplateEditor } from '../TemplateEditor'
 import { controlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
+import { getApplicationResources } from './transformers/transform-data-to-resources'
+import config from '../../../lib/shared/config'
 
 import _ from 'lodash'
 
@@ -46,11 +45,11 @@ resources(() => {
 class ApplicationCreationPage extends React.Component {
   static propTypes = {
     cleanReqStatus: PropTypes.func,
-    deleteSuccessFinished: PropTypes.func,
-    editApplication: PropTypes.object,
     handleCreateApplication: PropTypes.func,
+    handleUpdateApplication: PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object,
+    match: PropTypes.object,
     mutateErrorMsgs: PropTypes.array,
     mutateStatus: PropTypes.string,
     savedFormData: PropTypes.oneOfType([
@@ -80,25 +79,35 @@ class ApplicationCreationPage extends React.Component {
     this.getBreadcrumbs = this.getBreadcrumbs.bind(this)
   }
 
+  getEditApplication() {
+    const { match: { params } } = this.props
+    if (params.name && params.namespace) {
+      return {
+        selectedAppName: params.name,
+        selectedAppNamespace: params.namespace
+      }
+    }
+    return null
+  }
+
   getBreadcrumbs() {
     const { location } = this.props,
           urlSegments = location.pathname.split('/')
     return [
       {
         label: msgs.get('resource.applications', this.context.locale),
-        url: urlSegments.slice(0, urlSegments.length - 1).join('/')
+        url: urlSegments.slice(0, Math.min(3, urlSegments.length)).join('/')
       }
     ]
   }
 
-  componentDidMount(){
-    const { secondaryHeaderProps={}, editApplication={}, cleanReqStatus } = this.props
-    const {selectedAppName, breadcrumbs= this.getBreadcrumbs()} = editApplication
+  componentDidMount() {
+    const { secondaryHeaderProps = {}, cleanReqStatus } = this.props
+    const { selectedAppName } = this.getEditApplication() || {}
     const { locale } = this.context
     if (cleanReqStatus) {
       this.props.cleanReqStatus()
     }
-    this.props.deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
     const portals = [
       {
         id: 'edit-button-portal-id',
@@ -115,12 +124,14 @@ class ApplicationCreationPage extends React.Component {
       }
     ]
     const tooltip = '' //{ text: msgs.get('tooltip.text.createCluster', locale), link: TOOLTIP_LINKS.CREATE_CLUSTER }
-    const title = selectedAppName || msgs.get(secondaryHeaderProps.title, locale)
+    const title =
+      selectedAppName || msgs.get(secondaryHeaderProps.title, locale)
     this.props.updateSecondaryHeader(
       title,
       secondaryHeaderProps.tabs,
-      breadcrumbs,
+      this.getBreadcrumbs(),
       portals,
+      null,
       tooltip
     )
 
@@ -141,7 +152,7 @@ class ApplicationCreationPage extends React.Component {
         }
         // redirect to cluster details pages
         history.push(
-          `/multicloud/applications/${this.applicationNamespace}/${
+          `${config.contextPath}/${this.applicationNamespace}/${
             this.applicationName
           }`
         )
@@ -152,47 +163,63 @@ class ApplicationCreationPage extends React.Component {
   }
 
   render() {
-    const { editApplication } = this.props
+    const editApplication = this.getEditApplication()
     if (editApplication) {
       // if editing an existing app, grab it first
-      const {selectedAppName, selectedAppNamespace} = editApplication
+      const { selectedAppName, selectedAppNamespace } = editApplication
       return (
         <Page>
-          <Query query={getApplication} variables={{name: selectedAppName, namespace: selectedAppNamespace}} >
-            {( result ) => {
+          <Query
+            query={getApplication}
+            variables={{
+              name: selectedAppName,
+              namespace: selectedAppNamespace
+            }}
+          >
+            {result => {
               const { loading } = result
-              const { data={} } = result
+              const { data = {} } = result
               const { application } = data
-              //const errored = application ? false : true
+              const errored = application ? false : true
               const error = application ? null : result.error
               if (!loading && error) {
-                const errorName = result.error.graphQLErrors[0].name ? result.error.graphQLErrors[0].name : error.name
+                const errorName = result.error.graphQLErrors[0].name
+                  ? result.error.graphQLErrors[0].name
+                  : error.name
                 error.name = errorName
               }
-              return this.renderEditor()
-            }
-            }
+              const fetchControl = {
+                resources: getApplicationResources(application),
+                isLoaded: !loading,
+                isFailed: errored,
+                error: error
+              }
+              return this.renderEditor(fetchControl)
+            }}
           </Query>
         </Page>
       )
     }
-    return (
-      <Page>
-        {this.renderEditor()}
-      </Page>
-    )
+    return <Page>{this.renderEditor()}</Page>
   }
 
-  renderEditor() {
+  renderEditor(fetchControl) {
     const { locale } = this.context
-    const { mutateStatus, mutateErrorMsgs, updateFormState, savedFormData, history } = this.props
+    const { controlData: cd, hasPermissions } = this.state
+    const {
+      mutateStatus,
+      mutateErrorMsgs,
+      updateFormState,
+      savedFormData,
+      history
+    } = this.props
     const createControl = {
+      hasPermissions,
       createResource: this.handleCreate.bind(this),
       cancelCreate: this.handleCancel.bind(this),
       creationStatus: mutateStatus,
       creationMsg: mutateErrorMsgs
     }
-    const { controlData: cd, fetchControl, hasPermissions } = this.state
     return (
       <TemplateEditor
         type={'application'}
@@ -206,15 +233,19 @@ class ApplicationCreationPage extends React.Component {
         updateFormState={updateFormState}
         savedFormData={savedFormData}
         history={history}
-        hasPermissions={hasPermissions}
-        />
+      />
     )
   }
 
   handleCreate = resourceJSON => {
     if (resourceJSON) {
-      const { handleCreateApplication } = this.props
-      handleCreateApplication(resourceJSON)
+      const { handleCreateApplication, handleUpdateApplication } = this.props
+      const editApplication = this.getEditApplication()
+      if (editApplication) {
+        handleUpdateApplication(resourceJSON)
+      } else {
+        handleCreateApplication(resourceJSON)
+      }
       const map = _.keyBy(resourceJSON, 'kind')
       this.applicationNamespace = _.get(map, 'Application.metadata.namespace')
       this.applicationName = _.get(map, 'Application.metadata.name')
@@ -222,7 +253,23 @@ class ApplicationCreationPage extends React.Component {
   };
 
   handleCancel = () => {
-    this.props.history.push('/multicloud/applications')
+    const { location, history } = this.props
+    const editApplication = this.getEditApplication()
+    if (location.state && location.state.cancelBack) {
+      // Came from the "Create application" button, or "Edit application" table action; go back
+      history.goBack()
+    } else if (editApplication && location.state && location.state.tabChange) {
+      // Came from changing tabs from "Overview" to "YAML" or clicking "Edit application" button; change tabs back
+      const { selectedAppName, selectedAppNamespace } = editApplication
+      history.replace(
+        `${config.contextPath}/${encodeURIComponent(
+          selectedAppNamespace
+        )}/${encodeURIComponent(selectedAppName)}`
+      )
+    } else {
+      // Otherwise, navigate to applications
+      history.push(config.contextPath)
+    }
   };
 }
 
@@ -233,9 +280,8 @@ ApplicationCreationPage.contextTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     cleanReqStatus: () => dispatch(clearCreateStatus()),
-    deleteSuccessFinished: resourceType =>
-      dispatch(delResourceSuccessFinished(resourceType)),
     handleCreateApplication: json => dispatch(createApplication(json)),
+    handleUpdateApplication: json => dispatch(updateApplication(json)),
     updateSecondaryHeader: (
       title,
       tabs,

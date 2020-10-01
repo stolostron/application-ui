@@ -9,12 +9,14 @@
 'use strict'
 
 import _ from 'lodash'
+import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import msgs from '../../../nls/platform.properties'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
+import { SEARCH_QUERY_RELATED } from '../../apollo-client/queries/SearchQueries'
 import {
   Checkbox,
   Modal,
@@ -26,7 +28,8 @@ import {
   forceResourceReload,
   receiveDelResource,
   delResourceSuccessFinished,
-  mutateResourceSuccessFinished
+  mutateResourceSuccessFinished,
+  getQueryStringForResource
 } from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
@@ -40,14 +43,16 @@ class RemoveResourceModal extends React.Component {
       cluster: '',
       selfLink: '',
       errors: undefined,
-      loading: false,
-      selected: []
+      loading: true,
+      selected: [],
+      removeAppResources: false
     }
   }
 
   componentWillMount() {
     if (this.props.data) {
       const { data } = this.props
+      this.getChildResources(data.name, data.namespace)
       const kind = data.selfLink.split('/')
       const apiGroup = kind[1] === 'apis' ? kind[2] : ''
       canCallAction(
@@ -72,29 +77,136 @@ class RemoveResourceModal extends React.Component {
     }
   }
 
-  getChildResources(name, namespace, cluster) {
-    const children = []
-    const { resourceType } = this.props
-    resourceType.name === 'HCMApplication'
-      ? apolloClient
-        .getResource(resourceType, { namespace, name, cluster })
-        .then(response => {
-          const resourceData = response.data.items[0]
-          if (resourceData) {
-            this.setState({
-              selected: children,
-              loading: false
+  getChildResources = (name, namespace) => {
+    try {
+      const { resourceType } = this.props
+      if (resourceType.name === 'HCMApplication') {
+        // Get application resources
+        apolloClient.getApplication({ name, namespace }).then(response => {
+          const children = []
+          const removableSubs = []
+          const removableSubNames = []
+          const subResources = []
+          const subscriptions =
+            _.get(response, 'data.application.subscriptions', []) || []
+          Promise.all(
+            subscriptions.map(async subscription => {
+              const subName = subscription.metadata.name
+              const subNamespace = subscription.metadata.namespace
+              // For each subscription, get related applications
+              const related = await this.fetchRelated(
+                RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+                subName,
+                subNamespace
+              )
+              // If subscription is used only by this application, it is removable
+              if (!this.usedByOtherApps(related)) {
+                removableSubs.push(subscription)
+                removableSubNames.push(subName)
+                children.push({
+                  id: `subscriptions-${subNamespace}-${subName}`,
+                  selfLink: subscription.metadata.selfLink,
+                  label: `${subName} [Subscription]`
+                })
+              }
             })
-          } else {
-            this.setState({
-              loading: false
+          ).then(() => {
+            const resourceKinds = [
+              { kind: 'channels', label: '[Channel]' },
+              { kind: 'rules', label: '[Rule]' }
+            ]
+            // For each removable subscription, go through its channels and rules
+            removableSubs.forEach(subscription => {
+              resourceKinds.forEach(res => {
+                _.map(_.get(subscription, res.kind, []), curr => {
+                  const currName = curr.metadata.name
+                  const currNamespace = curr.metadata.namespace
+                  subResources.push({
+                    id: `${res.kind}-${currNamespace}-${currName}`,
+                    name: currName,
+                    namespace: currNamespace,
+                    selfLink: curr.metadata.selfLink,
+                    label: `${currName} ${res.label}`,
+                    type:
+                      res.kind === 'rules'
+                        ? RESOURCE_TYPES.HCM_PLACEMENT_RULES
+                        : RESOURCE_TYPES.HCM_CHANNELS
+                  })
+                })
+              })
             })
-          }
+            Promise.all(
+              _.uniqBy(subResources, 'id').map(async resource => {
+                // For each channel or rule, get related subscriptions
+                const related = await this.fetchRelated(
+                  resource.type,
+                  resource.name,
+                  resource.namespace
+                )
+                // Channel or rule is removable if it's used only by removable subscriptions
+                if (
+                  !this.usedByOtherSubs(related, removableSubNames, namespace)
+                ) {
+                  children.push(resource)
+                }
+              })
+            ).then(() => {
+              this.setState({
+                selected: children,
+                loading: false
+              })
+            })
+          })
         })
-      : this.setState({
+      } else {
+        this.setState({
+          loading: false
+        })
+      }
+    } catch (err) {
+      this.setState({
         loading: false
       })
-  }
+    }
+  };
+
+  fetchRelated = async (resourceType, name, namespace) => {
+    try {
+      const query = getQueryStringForResource(
+        resourceType.name,
+        name,
+        namespace
+      )
+      const response = await apolloClient.search(SEARCH_QUERY_RELATED, {
+        input: [query]
+      })
+      const resource = response.errors
+        ? []
+        : _.get(response, 'data.searchResult[0]', [])
+
+      return resource && resource.related ? resource.related : []
+    } catch (err) {
+      return []
+    }
+  };
+
+  usedByOtherApps = related => {
+    const isApp = n => n.kind.toLowerCase() === 'application'
+    const apps = R.filter(isApp, related)
+    const items = apps && apps.length === 1 ? apps[0].items : []
+    return items && items.length === 1 ? false : true
+  };
+
+  usedByOtherSubs = (related, removableSubNames, appNamespace) => {
+    const isSub = n => n.kind.toLowerCase() === 'subscription'
+    const subs = R.filter(isSub, related)
+    const items = subs && subs.length === 1 ? subs[0].items : []
+    return items.filter(item => item._hubClusterResource).some(sub => {
+      return (
+        sub.namespace !== appNamespace || !removableSubNames.includes(sub.name)
+      )
+    })
+  };
 
   toggleSelected = (i, target) => {
     this.setState(prevState => {
@@ -103,6 +215,11 @@ class RemoveResourceModal extends React.Component {
       currState[index].selected = !currState[index].selected
       return currState
     })
+  };
+
+  toggleRemoveAppResources = () => {
+    const checked = this.state.removeAppResources
+    this.setState({ removeAppResources: !checked })
   };
 
   handleClose() {
@@ -134,7 +251,7 @@ class RemoveResourceModal extends React.Component {
   }
 
   handleSubmit() {
-    const { selfLink, cluster } = this.state
+    const { selfLink, cluster, selected, removeAppResources } = this.state
     this.setState({
       loading: true
     })
@@ -153,7 +270,11 @@ class RemoveResourceModal extends React.Component {
       })
     } else {
       apolloClient
-        .remove({ cluster, selfLink, childResources: [] })
+        .remove({
+          cluster,
+          selfLink,
+          childResources: removeAppResources ? selected : []
+        })
         .then(res => {
           if (res.errors) {
             this.setState({
@@ -175,24 +296,38 @@ class RemoveResourceModal extends React.Component {
       return this.state.selected.length > 0 ? (
         <div className="remove-app-modal-content">
           <div className="remove-app-modal-content-text">
-            {msgs.get('modal.remove.application.confirm', [name], locale)}
+            {msgs.get('modal.remove.application.confirm.one', [name], locale)}
+            <span>&nbsp;</span>
+            <span style={{ fontStyle: 'italic' }}>
+              {msgs.get('modal.remove.application.resources', locale)}
+            </span>
+            <span>&nbsp;</span>
+            {msgs.get('modal.remove.application.confirm.two', [name], locale)}
+          </div>
+          <div className="remove-app-modal-content-data">
+            <Checkbox
+              id={'remove-app-resources'}
+              checked={this.state.removeAppResources}
+              onChange={this.toggleRemoveAppResources}
+              labelText={msgs.get(
+                'modal.remove.application.resources',
+                locale
+              )}
+              />
           </div>
           <div>
-            {this.state.selected.map(child => {
-              return (
-                <div className="remove-app-modal-content-data" key={child.id}>
-                  <Checkbox
-                    id={child.id}
-                    checked={this.state.selected.some(i => {
-                      return i.id === child.id && child.selected === true
-                    })}
-                    onChange={this.toggleSelected}
-                    labelText={child.label}
-                    aria-label={child.id}
-                    />
-                </div>
-              )
-            })}
+            <ul>
+              {this.state.selected.map(child => {
+                return (
+                  <div
+                    className="remove-app-modal-content-data"
+                    key={child.id}
+                    >
+                    <li>{child.label}</li>
+                  </div>
+                )
+              })}
+            </ul>
           </div>
         </div>
       ) : (

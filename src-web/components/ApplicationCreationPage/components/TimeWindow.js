@@ -21,8 +21,10 @@ import {
   RadioButtonGroup,
   TimePicker
 } from 'carbon-components-react'
+import { getSourcePath, removeVs } from '../../TemplateEditor/utils/utils'
 import Tooltip from '../../TemplateEditor/components/Tooltip'
 import msgs from '../../../../nls/platform.properties'
+import _ from 'lodash'
 
 resources(() => {
   require('./style.scss')
@@ -39,13 +41,15 @@ export class TimeWindow extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-    this.props.control.active = {
-      mode: '',
-      days: [],
-      timezone: '',
-      showTimeSection: false,
-      timeList: [{ id: 0, start: '', end: '', validTime: true }],
-      timeListID: 1
+    if (_.isEmpty(this.props.control.active)) {
+      this.props.control.active = {
+        mode: '',
+        days: [],
+        timezone: '',
+        showTimeSection: false,
+        timeList: [{ id: 0, start: '', end: '', validTime: true }],
+        timeListID: 1
+      }
     }
     this.props.control.validation = this.validation.bind(this)
   }
@@ -53,7 +57,7 @@ export class TimeWindow extends React.Component {
   validation(exceptions) {
     const { control, locale } = this.props
     // Mode is active/blocked
-    if (control.active.mode !== '') {
+    if (control.active.mode) {
       // Add exception if no days selected
       if (control.active.days.length === 0) {
         exceptions.push({
@@ -91,6 +95,7 @@ export class TimeWindow extends React.Component {
     const modeSelected = active && active.mode ? true : false
     const daysSelectorID = 'days-selector'
     const timezoneDropdownID = 'timezone-dropdown'
+    const { mode, days = [], timezone } = this.props.control.active
 
     return (
       <React.Fragment>
@@ -107,7 +112,7 @@ export class TimeWindow extends React.Component {
             <RadioButtonGroup
               className="timeWindow-mode-container"
               name={`timeWindow-mode-container-${controlId}`}
-              defaultSelected=""
+              defaultSelected={mode ? `"${mode}"` : ''}
               id={controlId}
             >
               <RadioButton
@@ -171,6 +176,7 @@ export class TimeWindow extends React.Component {
                     <div className="config-days-selector">
                       <div className="first-col">
                         <Checkbox
+                          checked={days.includes('"Monday"')}
                           labelText="Monday"
                           name={daysSelectorID}
                           id={`mon-${controlId}`}
@@ -179,6 +185,7 @@ export class TimeWindow extends React.Component {
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
+                          checked={days.includes('"Tuesday"')}
                           labelText="Tuesday"
                           name={daysSelectorID}
                           id={`tue-${controlId}`}
@@ -187,6 +194,7 @@ export class TimeWindow extends React.Component {
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
+                          checked={days.includes('"Wednesday"')}
                           labelText="Wednesday"
                           name={daysSelectorID}
                           id={`wed-${controlId}`}
@@ -195,6 +203,7 @@ export class TimeWindow extends React.Component {
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
+                          checked={days.includes('"Thursday"')}
                           labelText="Thursday"
                           name={daysSelectorID}
                           id={`thu-${controlId}`}
@@ -203,6 +212,7 @@ export class TimeWindow extends React.Component {
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
+                          checked={days.includes('"Friday"')}
                           labelText="Friday"
                           name={daysSelectorID}
                           id={`fri-${controlId}`}
@@ -213,6 +223,7 @@ export class TimeWindow extends React.Component {
                       </div>
                       <div className="second-col">
                         <Checkbox
+                          checked={days.includes('"Saturday"')}
                           labelText="Saturday"
                           name={daysSelectorID}
                           id={`sat-${controlId}`}
@@ -221,6 +232,7 @@ export class TimeWindow extends React.Component {
                           onClick={this.handleChange.bind(this)}
                         />
                         <Checkbox
+                          checked={days.includes('"Sunday"')}
                           labelText="Sunday"
                           name={daysSelectorID}
                           id={`sun-${controlId}`}
@@ -242,7 +254,7 @@ export class TimeWindow extends React.Component {
                     </div>
                     <DropdownV2
                       className="config-timezone-dropdown"
-                      label="Choose a location"
+                      label={timezone || 'Choose a location'}
                       items={[
                         {
                           label: 'America/Edmonton',
@@ -313,36 +325,37 @@ export class TimeWindow extends React.Component {
     return (
       control.active &&
       control.active.timeList.map(item => {
+        const { id, start, end, validTime } = item
         // Don't show deleted time invertals
-        if (item.validTime) {
+        if (validTime) {
           return (
-            <React.Fragment key={item.id}>
+            <React.Fragment key={id}>
               <div className="config-time-container">
                 <div className="config-start-time">
                   <TimePicker
-                    id={`start-time-${item.id}`}
+                    id={`start-time-${id}`}
                     name="start-time"
-                    labelText={item.id === 0 ? 'Start Time' : ''}
+                    labelText={id === 0 ? 'Start Time' : ''}
                     type="time"
-                    value={this.state.startTime || ''}
+                    value={this.state.startTime || to24(start) || ''}
                     disabled={!modeSelected}
                     onChange={this.handleChange.bind(this)}
                   />
                 </div>
                 <div className="config-end-time">
                   <TimePicker
-                    id={`end-time-${item.id}`}
+                    id={`end-time-${id}`}
                     name="end-time"
-                    labelText={item.id === 0 ? 'End Time' : ''}
+                    labelText={id === 0 ? 'End Time' : ''}
                     type="time"
-                    value={this.state.endTime || ''}
+                    value={this.state.endTime || to24(end) || ''}
                     disabled={!modeSelected}
                     onChange={this.handleChange.bind(this)}
                   />
                 </div>
-                {item.id !== 0 ? ( // Option to remove added times
+                {id !== 0 ? ( // Option to remove added times
                   <div
-                    id={item.id}
+                    id={id}
                     className="remove-time-btn"
                     tabIndex="0"
                     role={'button'}
@@ -472,3 +485,84 @@ export class TimeWindow extends React.Component {
 }
 
 export default TimeWindow
+
+export const reverse = (control, templateObject) => {
+  let showTimeSection = false
+  const timezone = _.get(
+    templateObject,
+    getSourcePath('Subscription[0].spec.timewindow.location')
+  )
+  const mode = _.get(
+    templateObject,
+    getSourcePath('Subscription[0].spec.timewindow.windowtype')
+  )
+  let weekdays = _.get(
+    templateObject,
+    getSourcePath('Subscription[0].spec.timewindow.weekdays')
+  )
+  weekdays = (removeVs(weekdays && weekdays.$v) || []).map(day => {
+    return `"${day}"`
+  })
+  let timeList = _.get(
+    templateObject,
+    getSourcePath('Subscription[0].spec.timewindow.hours')
+  )
+  if (timeList) {
+    timeList = removeVs(timeList)
+  }
+  if (timeList) {
+    timeList = timeList.map(({ start, end }, id) => {
+      return {
+        id,
+        start,
+        end,
+        validTime: true
+      }
+    })
+    showTimeSection = true
+  } else {
+    timeList = [{ id: 0, start: '', end: '', validTime: true }]
+  }
+  control.active = {
+    mode: mode && mode.$v,
+    days: weekdays,
+    timezone: timezone && timezone.$v,
+    showTimeSection,
+    timeList,
+    timeListID: 1
+  }
+}
+
+
+export const summarize = (control, controlData, summary) => {
+  const {mode, timezone, timeList, days} = control.active||{}
+  if (mode) {
+    summary.push(mode)
+    timeList.forEach(({start, end})=>{
+      if (start) {
+        summary.push(`${start}-${end}`)
+      }
+    })
+    summary.push(timezone)
+    summary.push(days.join(','))
+  } else {
+    summary.push('No time window')
+  }
+}
+
+// Convert 12-hour format to 24-hour format
+const to24 = time => {
+  const match = /((1[0-2]|0?[1-9]):([0-5][0-9])([AP][M]))/.exec(time)
+  if (match) {
+    const [, , hour12, minute, period] = match
+    let hour = parseInt(hour12, 10)
+    if (hour < 12 && period === 'PM') {
+      hour += 12
+    }
+    if (hour < 10) {
+      hour = `0${hour}`
+    }
+    return `${hour}:${minute}`
+  }
+  return time
+}

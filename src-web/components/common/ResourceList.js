@@ -9,6 +9,7 @@
 
 'use strict'
 
+import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import ResourceTable from './ResourceTable'
@@ -56,8 +57,12 @@ class ResourceList extends React.Component {
   }
 
   componentDidMount() {
-    const { updateSecondaryHeaderFn, tabs, title } = this.props
-    updateSecondaryHeaderFn(msgs.get(title, this.context.locale), tabs)
+    const { updateSecondaryHeaderFn, tabs, title, mainButton } = this.props
+    updateSecondaryHeaderFn(
+      msgs.get(title, this.context.locale),
+      tabs,
+      mainButton
+    )
 
     const { fetchTableResources, selectedFilters = [] } = this.props
     fetchTableResources(selectedFilters)
@@ -69,6 +74,7 @@ class ResourceList extends React.Component {
   componentWillUnmount() {
     stopPolling(this.state, clearInterval)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
+    this.mutateFinished()
   }
 
   mutateFinished() {
@@ -134,16 +140,6 @@ class ResourceList extends React.Component {
     }
 
     if (status === REQUEST_STATUS.ERROR && !this.state.xhrPoll) {
-      if (err && err.data && err.data.Code === 1) {
-        return (
-          <NoResource
-            title={msgs.get('no-cluster.title', locale)}
-            detail={msgs.get('no-cluster.detail', locale)}
-          >
-            {actions}
-          </NoResource>
-        )
-      }
       //eslint-disable-next-line no-console
       console.error(err)
       return (
@@ -166,7 +162,13 @@ class ResourceList extends React.Component {
       }
       return React.cloneElement(action, { resourceType })
     })
-    if (items || searchValue || clientSideFilters) {
+
+    let showTable = items
+    if (resourceType.name === 'QueryApplications' && R.isEmpty(items)) {
+      showTable = false
+    }
+
+    if (showTable || searchValue || clientSideFilters) {
       if (
         searchValue !== clientSideFilters &&
         clientSideFilters &&
@@ -328,8 +330,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     sortTableFn: (sortDirection, sortColumn) =>
       dispatch(sortTable(sortDirection, sortColumn, resourceType)),
-    updateSecondaryHeaderFn: (title, tabs) =>
-      dispatch(updateSecondaryHeader(title, tabs)),
+    updateSecondaryHeaderFn: (title, tabs, mainButton) =>
+      dispatch(
+        updateSecondaryHeader(title, tabs, null, null, null, null, mainButton)
+      ),
     onSelectedFilterChange: selectedFilters => {
       updateBrowserURL && updateBrowserURL(selectedFilters)
       dispatch(updateResourceFilters(resourceType, selectedFilters))
@@ -353,6 +357,7 @@ ResourceList.propTypes = {
   fetchTableResources: PropTypes.func,
   itemIds: PropTypes.array,
   items: PropTypes.object,
+  mainButton: PropTypes.object,
   mutateStatus: PropTypes.string,
   mutateSuccessFinished: PropTypes.func,
   onSelectedFilterChange: PropTypes.func,

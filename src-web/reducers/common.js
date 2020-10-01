@@ -260,9 +260,9 @@ export const makeGetVisibleTableItemsSelector = resourceType => {
   const pk = ResourceDefinitions.getPrimaryKey(resourceType)
   const sk = ResourceDefinitions.getSecondaryKey(resourceType)
   return createSelector([makeGetPagedItemsSelector(resourceType)], result => {
-    const normalizedItems = normalize(result.items, [
-      createResourcesSchema(pk, sk)
-    ]).entities.items
+    const normalizedItems =
+      normalize(result.items, [createResourcesSchema(pk, sk)]).entities.items ||
+      {}
     return Object.assign(result, {
       normalizedItems: normalizedItems,
       items: result.items.map(
@@ -285,7 +285,10 @@ export const secondaryHeader = (
       title: action.title,
       tabs: action.tabs,
       breadcrumbItems: action.breadcrumbItems,
-      links: action.links
+      links: action.links,
+      actions: action.actions,
+      tooltip: action.tooltip,
+      mainButton: action.mainButton
     })
   default:
     return state
@@ -336,6 +339,11 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
   case Actions.RESOURCE_RECEIVE_FAILURE:
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.ERROR,
+      err: action.err
+    })
+  case Actions.RESOURCE_RECEIVE_NOT_FOUND:
+    return Object.assign({}, state, {
+      status: Actions.REQUEST_STATUS.NOT_FOUND,
       err: action.err
     })
   case Actions.POST_REQUEST:

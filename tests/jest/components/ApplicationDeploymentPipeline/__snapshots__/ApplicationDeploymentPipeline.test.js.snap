@@ -154,7 +154,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -168,7 +168,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -182,14 +182,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
               className="deployment-highlights-terminology-docs"
             >
               <a
-                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -336,7 +336,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           className="deployment-highlights-terminology-docs"
         >
           <a
-            href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#creating-and-managing-channels"
+            href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications#creating-and-managing-channels"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -870,7 +870,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -884,7 +884,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -898,14 +898,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
               className="deployment-highlights-terminology-docs"
             >
               <a
-                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -1168,8 +1168,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -1181,7 +1181,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -1226,8 +1226,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -1239,7 +1239,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -1284,8 +1284,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -1297,7 +1297,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -1410,8 +1410,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -1423,7 +1423,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -2098,7 +2098,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -2112,7 +2112,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -2126,14 +2126,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
               className="deployment-highlights-terminology-docs"
             >
               <a
-                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -2396,8 +2396,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -2409,7 +2409,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -2454,8 +2454,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -2467,7 +2467,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -2512,8 +2512,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -2525,7 +2525,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -2638,8 +2638,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -2651,7 +2651,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -3326,7 +3326,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -3340,7 +3340,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -3354,14 +3354,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
               className="deployment-highlights-terminology-docs"
             >
               <a
-                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -3508,7 +3508,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           className="deployment-highlights-terminology-docs"
         >
           <a
-            href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#creating-and-managing-channels"
+            href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications#creating-and-managing-channels"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -4042,7 +4042,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -4056,7 +4056,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -4070,14 +4070,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
               className="deployment-highlights-terminology-docs"
             >
               <a
-                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -4340,8 +4340,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -4353,7 +4353,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -4398,8 +4398,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -4411,7 +4411,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -4456,8 +4456,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -4469,7 +4469,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -4582,8 +4582,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -4595,7 +4595,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -5270,7 +5270,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -5284,7 +5284,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -5298,14 +5298,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
               className="deployment-highlights-terminology-docs"
             >
               <a
-                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -5568,8 +5568,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -5581,7 +5581,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -5626,8 +5626,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -5639,7 +5639,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -5684,8 +5684,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -5697,7 +5697,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -5810,8 +5810,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -5823,7 +5823,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -6498,7 +6498,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -6512,7 +6512,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -6526,14 +6526,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
               className="deployment-highlights-terminology-docs"
             >
               <a
-                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -6796,8 +6796,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -6809,7 +6809,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -6854,8 +6854,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -6867,7 +6867,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -6912,8 +6912,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -6925,7 +6925,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -7038,8 +7038,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -7051,7 +7051,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -7726,7 +7726,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -7740,7 +7740,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -7754,14 +7754,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
               className="deployment-highlights-terminology-docs"
             >
               <a
-                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -8024,8 +8024,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -8037,7 +8037,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -8082,8 +8082,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -8095,7 +8095,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -8140,8 +8140,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -8153,7 +8153,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -8266,8 +8266,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -8279,7 +8279,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -8954,7 +8954,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources on the target clusters.
+                Subscriptions identify Kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes resources on the target clusters.
               </p>
             </div>
             <div
@@ -8968,7 +8968,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s), or cluster resource label(s).
               </p>
             </div>
             <div
@@ -8982,14 +8982,14 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or ObjectStore repositories, or Namespaces on the hub cluster. Channels support multiple subscriptions from multiple targets.
+                Channels point to repositories where Kubernetes resources are stored, such as Git, Helm chart, or object storage repositories, or Namespaces on the local cluster. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
               className="deployment-highlights-terminology-docs"
             >
               <a
-                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/manage_applications/managing-applications#application-model-and-definitions"
+                href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -9252,8 +9252,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -9265,7 +9265,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -9310,8 +9310,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -9323,7 +9323,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -9368,8 +9368,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -9381,7 +9381,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -9494,8 +9494,8 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     tabIndex={0}
                   >
                     <svg
-                      alt="Open and close list of options"
-                      aria-label="Open and close list of options"
+                      alt="Actions"
+                      aria-label="Actions"
                       className="bx--overflow-menu__icon"
                       fillRule="evenodd"
                       focusable="false"
@@ -9507,7 +9507,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       width="3"
                     >
                       <title>
-                        Open and close list of options
+                        Actions
                       </title>
                       <path
                         d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"

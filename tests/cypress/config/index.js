@@ -10,9 +10,9 @@ const jsYaml = require("js-yaml");
 exports.getConfig = () => {
   let config;
   if (process.env.CYPRESS_TEST_MODE === "e2e") {
-    config = fs.readFileSync(path.join(__dirname, "config.e2e.json"));
+    config = fs.readFileSync(path.join(__dirname, "config.e2e.yaml"));
   } else {
-    config = fs.readFileSync(path.join(__dirname, "config.func.json"));
+    config = fs.readFileSync(path.join(__dirname, "config.func.yaml"));
   }
 
   try {
@@ -31,7 +31,6 @@ exports.getConfig = () => {
   } catch (e) {
     throw new Error(e);
   }
-
   return JSON.stringify(config);
 };
 

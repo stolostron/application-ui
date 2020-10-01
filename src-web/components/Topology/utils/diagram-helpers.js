@@ -23,6 +23,7 @@ const notDeployedNSStr = msgs.get('spec.deploy.not.deployed.ns')
 const deployedStr = msgs.get('spec.deploy.deployed')
 const deployedNSStr = msgs.get('spec.deploy.deployed.ns')
 const specPulse = 'specs.pulse'
+const specShapeType = 'specs.shapeType'
 const specsPropsYaml = 'props.show.yaml'
 const showLocalYaml = 'props.show.local.yaml'
 const showResourceYaml = 'show_resource_yaml'
@@ -333,7 +334,12 @@ export const getPulseStatusForSubscription = node => {
 }
 
 const getPulseStatusForGenericNode = node => {
+  //ansible job status
+  if (_.get(node, 'type', '') === 'ansiblejob') {
+    return getPulseStatusForAnsibleNode(node)
+  }
   let pulse = _.get(node, specPulse, 'green')
+
   if (pulse === 'red') {
     return pulse //no need to check anything else, return red
   }
@@ -359,11 +365,6 @@ const getPulseStatusForGenericNode = node => {
       pulse = 'yellow'
     }
   })
-
-  //ansible job status
-  if (_.get(node, 'type', '') === 'ansiblejob') {
-    pulse = getPulseStatusForAnsibleNode(node)
-  }
 
   return pulse
 }
@@ -507,12 +508,25 @@ export const getPulseForNodeWithPodStatus = node => {
   return pulse
 }
 
+export const getShapeTypeForSubscription = node => {
+  const blocked =
+    _.get(node, 'specs.raw.spec.timewindow') &&
+    _.get(node, 'specs.raw.status.message', '') === 'Blocked'
+  if (blocked) {
+    return 'subscriptionblocked'
+  } else {
+    return 'subscription'
+  }
+}
+
 export const computeNodeStatus = node => {
   let pulse = 'green'
+  let shapeType = node.type
 
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
     _.set(node, specPulse, pulse)
+    _.set(node, specShapeType, shapeType)
     return pulse
   }
 
@@ -529,12 +543,14 @@ export const computeNodeStatus = node => {
     break
   case 'subscription':
     pulse = getPulseStatusForSubscription(node)
+    shapeType = getShapeTypeForSubscription(node)
     break
   default:
     pulse = getPulseStatusForGenericNode(node)
   }
 
   _.set(node, specPulse, pulse)
+  _.set(node, specShapeType, shapeType)
   return pulse
 }
 
@@ -921,10 +937,11 @@ export const setupResourceModel = (
         if (
           kind === 'subscription' &&
           _.get(relatedKind, 'cluster', '') === LOCAL_HUB_NAME &&
-          _.get(relatedKind, 'localPlacement', '') === 'true'
+          _.get(relatedKind, 'localPlacement', '') === 'true' &&
+          _.endsWith(name, '-local')
         ) {
           //match local hub subscription after removing -local suffix
-          name = _.replace(name, '-local', '')
+          name = _.trimEnd(name, '-local')
         }
 
         if (resourceMap[name]) {
@@ -1171,9 +1188,51 @@ export const setSubscriptionDeployStatus = (node, details) => {
   if (R.pathOr('', ['type'])(node) !== 'subscription') {
     return details
   }
+  const timeWindow = _.get(node, 'specs.raw.spec.timewindow.windowtype')
+  const timezone = _.get(node, 'specs.raw.spec.timewindow.location', 'NA')
+  const timeWindowDays = _.get(node, 'specs.raw.spec.timewindow.weekdays')
+  const timeWindowHours = _.get(node, 'specs.raw.spec.timewindow.hours', [])
+
+  if (timeWindow) {
+    details.push({
+      type: 'label',
+      labelKey: 'spec.subscr.timeWindow.title'
+    })
+    const windowStatus = _.get(node, 'specs.raw.status.message')
+
+    details.push({
+      labelKey: 'spec.subscr.timeWindow',
+      value: windowStatus
+    })
+    details.push({
+      labelKey: 'spec.subscr.timeWindow.type',
+      value: timeWindow
+    })
+    timeWindowDays &&
+      details.push({
+        labelKey: 'spec.subscr.timeWindow.days',
+        value: R.toString(timeWindowDays)
+      })
+
+    if (timeWindowHours) {
+      timeWindowHours.forEach(timeH => {
+        details.push({
+          labelKey: 'spec.subscr.timeWindow.hours',
+          value: `${_.get(timeH, 'start', 'NA')}-${_.get(timeH, 'end', 'NA')}`
+        })
+      })
+    }
+    details.push({
+      labelKey: 'spec.subscr.timeWindow.timezone',
+      value: timezone
+    })
+  }
 
   const isLocalPlacementSubs = _.get(node, 'specs.raw.spec.placement.local')
   if (isLocalPlacementSubs) {
+    details.push({
+      type: 'spacer'
+    })
     details.push({
       labelKey: 'resource.subscription.local',
       value: 'true'
@@ -1580,11 +1639,10 @@ export const getType = (type, locale) => {
 }
 
 export const getClusterHost = consoleURL => {
-  const ocpIdx = consoleURL
-    ? consoleURL.indexOf('https://console-openshift-console.')
-    : -1
+  const consoleURLInstance = new URL(consoleURL)
+  const ocpIdx = consoleURL ? consoleURLInstance.host.indexOf('.') : -1
   if (ocpIdx < 0) {
     return ''
   }
-  return consoleURL.substr(ocpIdx + 34)
+  return consoleURLInstance.host.substr(ocpIdx + 1)
 }

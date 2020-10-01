@@ -308,7 +308,6 @@ describe("getAppOverviewCardsData", () => {
       reduxStoreAppPipelineWithCEM.topology,
       "mortgage-app",
       "default",
-      { green: 0, yellow: 0, red: 0, orange: 0 },
       targetLink
     );
     const result = {
@@ -346,7 +345,6 @@ describe("getAppOverviewCardsData", () => {
       customTopologyData,
       "mortgage-app",
       "default",
-      { green: 0, yellow: 0, red: 0, orange: 0 },
       targetLink
     );
     const result = {
@@ -354,7 +352,7 @@ describe("getAppOverviewCardsData", () => {
       appNamespace: "default",
       creationTimestamp: "Aug 13 2018, 3:23 pm",
       remoteClusterCount: 1,
-      localClusterDeploy: true,
+      localClusterDeploy: false,
       nodeStatuses: { green: 2, yellow: 1, red: 0, orange: 0 },
       targetLink: targetLink,
       subsList: [
@@ -384,7 +382,6 @@ describe("getAppOverviewCardsData", () => {
       emptyData,
       "mortgage-app",
       "default",
-      { green: 0, yellow: 0, red: 0, orange: 0 },
       targetLink
     );
     const result = {

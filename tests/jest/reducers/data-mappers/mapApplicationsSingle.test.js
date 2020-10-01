@@ -1,12 +1,42 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 import { mapSingleApplication } from "../../../../src-web/reducers/data-mappers/mapApplicationsSingle";
+
+describe("data-mappers testing for mapSingleApplication no items", () => {
+  it("should mold the data properly with no items", () => {
+    const application = {
+      items: [],
+      related: []
+    };
+
+    const result = [
+      {
+        _hubClusterResource: "",
+        _rbac: "",
+        _uid: "",
+        apigroup: "",
+        cluster: "",
+        created: "",
+        dashboard: "",
+        kind: "",
+        label: "",
+        name: "",
+        namespace: "",
+        related: [],
+        selfLink: ""
+      }
+    ];
+
+    expect(mapSingleApplication(application)).toEqual(result);
+  });
+});
 
 describe("data-mappers testing for mapSingleApplication", () => {
   it("should mold the data properly", () => {

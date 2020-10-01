@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app. 1`] = `
+exports[`ApplicationsListPage ApplicationsListPage renders correctly with data on all app. 1`] = `
 <div
   className="page-content-container"
   role="main"
@@ -296,62 +296,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
           </div>
           <div
             className="bx--toolbar-content"
-          >
-            <div
-              align="center"
-              className="bx--tooltip--definition"
-            >
-              <div
-                aria-describedby="definition-tooltip-4"
-                className="bx--tooltip__trigger"
-              >
-                <a
-                  href="undefined/create"
-                  onClick={[Function]}
-                >
-                  <button
-                    className="bx--btn bx--btn--sm bx--btn--primary"
-                    disabled={true}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    Create application
-                    <svg
-                      alt="Add icon"
-                      aria-label="Add icon"
-                      className="bx--btn__icon"
-                      fillRule="evenodd"
-                      height="16"
-                      name="add--glyph"
-                      role="img"
-                      viewBox="0 0 16 16"
-                      width="16"
-                    >
-                      <title>
-                        Add icon
-                      </title>
-                      <path
-                        d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-                      />
-                    </svg>
-                  </button>
-                </a>
-              </div>
-              <div
-                aria-label="You are not authorized to create applications"
-                className="bx--tooltip--definition__bottom"
-                id="definition-tooltip-4"
-                role="tooltip"
-              >
-                <span
-                  className="bx--tooltip__caret"
-                />
-                <p>
-                  You are not authorized to create applications
-                </p>
-              </div>
-            </div>
-          </div>
+          />
         </section>
         <table
           className="bx--data-table-v2 resource-table"
@@ -438,7 +383,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 <button
                   className="bx--table-sort-v2 bx--table-sort-v2--ascending"
                   data-default-key="name"
-                  data-key="clusters"
+                  data-key="clusterCount"
                   onClick={[Function]}
                   title="Sort rows by this header in descending order"
                 >
@@ -517,7 +462,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 <button
                   className="bx--table-sort-v2 bx--table-sort-v2--ascending"
                   data-default-key="name"
-                  data-key="channels"
+                  data-key="hubChannels"
                   onClick={[Function]}
                   title="Sort rows by this header in descending order"
                 >
@@ -742,7 +687,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 
               </td>
               <td>
-                Feb 18 2018, 6:57 pm
+                3 years ago
               </td>
               <td>
                 <div
@@ -757,8 +702,8 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                   tabIndex={0}
                 >
                   <svg
-                    alt="Open and close list of options"
-                    aria-label="Open and close list of options"
+                    alt="Actions"
+                    aria-label="Actions"
                     className="bx--overflow-menu__icon"
                     fillRule="evenodd"
                     focusable="false"
@@ -770,7 +715,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                     width="3"
                   >
                     <title>
-                      Open and close list of options
+                      Actions
                     </title>
                     <path
                       d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -809,7 +754,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 
               </td>
               <td>
-                Feb 18 2018, 8:43 pm
+                3 years ago
               </td>
               <td>
                 <div
@@ -824,8 +769,8 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                   tabIndex={0}
                 >
                   <svg
-                    alt="Open and close list of options"
-                    aria-label="Open and close list of options"
+                    alt="Actions"
+                    aria-label="Actions"
                     className="bx--overflow-menu__icon"
                     fillRule="evenodd"
                     focusable="false"
@@ -837,7 +782,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                     width="3"
                   >
                     <title>
-                      Open and close list of options
+                      Actions
                     </title>
                     <path
                       d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -864,7 +809,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 <a
                   href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asubscribed-guestbook-application%20namespace%3Akube-system%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
                 >
-                  {0} Remote
+                  {0} Remote, 1 Local
                 </a>
               </td>
               <td>
@@ -876,7 +821,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                 
               </td>
               <td>
-                Feb 11 2019, 6:26 pm
+                2 years ago
               </td>
               <td>
                 <div
@@ -891,8 +836,8 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                   tabIndex={0}
                 >
                   <svg
-                    alt="Open and close list of options"
-                    aria-label="Open and close list of options"
+                    alt="Actions"
+                    aria-label="Actions"
                     className="bx--overflow-menu__icon"
                     fillRule="evenodd"
                     focusable="false"
@@ -904,7 +849,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
                     width="3"
                   >
                     <title>
-                      Open and close list of options
+                      Actions
                     </title>
                     <path
                       d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -1084,7 +1029,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
 </div>
 `;
 
-exports[`ApplicationsTab ApplicationsTab renders correctly with data on single app. 1`] = `
+exports[`ApplicationsListPage ApplicationsListPage renders correctly with data on single app. 1`] = `
 <div
   className="page-content-container"
   role="main"
@@ -1380,62 +1325,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
           </div>
           <div
             className="bx--toolbar-content"
-          >
-            <div
-              align="center"
-              className="bx--tooltip--definition"
-            >
-              <div
-                aria-describedby="definition-tooltip-4"
-                className="bx--tooltip__trigger"
-              >
-                <a
-                  href="undefined/create"
-                  onClick={[Function]}
-                >
-                  <button
-                    className="bx--btn bx--btn--sm bx--btn--primary"
-                    disabled={true}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    Create application
-                    <svg
-                      alt="Add icon"
-                      aria-label="Add icon"
-                      className="bx--btn__icon"
-                      fillRule="evenodd"
-                      height="16"
-                      name="add--glyph"
-                      role="img"
-                      viewBox="0 0 16 16"
-                      width="16"
-                    >
-                      <title>
-                        Add icon
-                      </title>
-                      <path
-                        d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
-                      />
-                    </svg>
-                  </button>
-                </a>
-              </div>
-              <div
-                aria-label="You are not authorized to create applications"
-                className="bx--tooltip--definition__bottom"
-                id="definition-tooltip-4"
-                role="tooltip"
-              >
-                <span
-                  className="bx--tooltip__caret"
-                />
-                <p>
-                  You are not authorized to create applications
-                </p>
-              </div>
-            </div>
-          </div>
+          />
         </section>
         <table
           className="bx--data-table-v2 resource-table"
@@ -1522,7 +1412,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 <button
                   className="bx--table-sort-v2 bx--table-sort-v2--ascending"
                   data-default-key="name"
-                  data-key="clusters"
+                  data-key="clusterCount"
                   onClick={[Function]}
                   title="Sort rows by this header in descending order"
                 >
@@ -1601,7 +1491,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 <button
                   className="bx--table-sort-v2 bx--table-sort-v2--ascending"
                   data-default-key="name"
-                  data-key="channels"
+                  data-key="hubChannels"
                   onClick={[Function]}
                   title="Sort rows by this header in descending order"
                 >
@@ -1826,7 +1716,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 
               </td>
               <td>
-                Feb 18 2018, 6:57 pm
+                3 years ago
               </td>
               <td>
                 <div
@@ -1841,8 +1731,8 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                   tabIndex={0}
                 >
                   <svg
-                    alt="Open and close list of options"
-                    aria-label="Open and close list of options"
+                    alt="Actions"
+                    aria-label="Actions"
                     className="bx--overflow-menu__icon"
                     fillRule="evenodd"
                     focusable="false"
@@ -1854,7 +1744,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                     width="3"
                   >
                     <title>
-                      Open and close list of options
+                      Actions
                     </title>
                     <path
                       d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -1893,7 +1783,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 
               </td>
               <td>
-                Feb 18 2018, 8:43 pm
+                3 years ago
               </td>
               <td>
                 <div
@@ -1908,8 +1798,8 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                   tabIndex={0}
                 >
                   <svg
-                    alt="Open and close list of options"
-                    aria-label="Open and close list of options"
+                    alt="Actions"
+                    aria-label="Actions"
                     className="bx--overflow-menu__icon"
                     fillRule="evenodd"
                     focusable="false"
@@ -1921,7 +1811,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                     width="3"
                   >
                     <title>
-                      Open and close list of options
+                      Actions
                     </title>
                     <path
                       d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
@@ -1948,7 +1838,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 <a
                   href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asubscribed-guestbook-application%20namespace%3Akube-system%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
                 >
-                  {0} Remote
+                  {0} Remote, 1 Local
                 </a>
               </td>
               <td>
@@ -1960,7 +1850,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                 
               </td>
               <td>
-                Feb 11 2019, 6:26 pm
+                2 years ago
               </td>
               <td>
                 <div
@@ -1975,8 +1865,8 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                   tabIndex={0}
                 >
                   <svg
-                    alt="Open and close list of options"
-                    aria-label="Open and close list of options"
+                    alt="Actions"
+                    aria-label="Actions"
                     className="bx--overflow-menu__icon"
                     fillRule="evenodd"
                     focusable="false"
@@ -1988,7 +1878,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
                     width="3"
                   >
                     <title>
-                      Open and close list of options
+                      Actions
                     </title>
                     <path
                       d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"

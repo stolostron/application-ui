@@ -5,177 +5,110 @@
 
 /// <reference types="cypress" />
 
-export const targetResource = {
-  action: (action, data) => {
-    const name = data.name;
-    const config = data.config;
-    const kubeconfigs = Cypress.env("KUBE_CONFIG");
-    if (kubeconfigs) {
-      kubeconfigs.forEach(kubeconfig => {
-        cy.log(`cluster - ${kubeconfig}`);
-        for (const [key, value] of Object.entries(config)) {
-          cy.log(`instance-${key}`);
-          subscription(key, action, name, kubeconfig);
-        }
-      });
-    } else {
-      cy.log(
-        `skipping ${action} resource on managed cluster as no kubeconfig is provided`
-      );
-    }
+export const targetResource = data => {
+  const name = data.name;
+  const config = data.config;
+  const kubeconfigs = Cypress.env("KUBE_CONFIG");
+  if (kubeconfigs) {
+    kubeconfigs.forEach(kubeconfig => {
+      cy.log(`cluster - ${kubeconfig}`);
+      for (const [key, value] of Object.entries(config)) {
+        cy.log(`instance-${key}`);
+        !value.deployment.local
+          ? subscription(key, name, kubeconfig)
+          : cy.log(`${name} has been deployed locally`);
+      }
+    });
+  } else {
+    cy.log(
+      `skipping validating resource on managed cluster as no kubeconfig is provided`
+    );
   }
 };
 
-export const apiResources = {
-  action: (type, action, data) => {
-    const name = data.name;
-    const config = data.config;
+export const apiResources = (type, data) => {
+  const name = data.name;
+  const config = data.config;
 
-    for (const [key, value] of Object.entries(config)) {
-      cy.log(`instance-${key}`);
-      channels(key, type, action, name, value);
-      subscription(key, action, name);
-      placementrule(key, action, name);
-    }
-  }
-};
-
-export const channels = (key, type, action, name, config) => {
-  const { repository } = config;
-  const objChannelKey = parseInt(key) + 1;
-  const channelDict = {
-    git: {
-      channelNs: "app-samples-chn-ns",
-      channelName: "app-samples-chn"
-    },
-    objectstore: {
-      channelNs: `dev${objChannelKey}-chn-ns`,
-      channelName: `dev${objChannelKey}-chn`
-    },
-    "local-cluster": {
-      channelNs: "resource-ns",
-      channelName: "resource"
-    },
-    helm: {
-      channelNs: "-chn-ns",
-      channelName: "-chn"
-    }
-  };
-
-  if (type === "local-cluster") {
-    if (repository) {
-      let newValue = {
-        channelNs: `${repository}-chn-ns`,
-        channelName: `${repository}-chn`
-      };
-      channelDict[type] = newValue;
-    }
-  }
-
-  const { channelNs, channelName } = channelDict[type];
-  cy.log(`${action} the ${type} channel if it exists`);
-  cy
-    .exec(`oc get channels -n ${name}-${channelNs}-${key}`)
-    .then(({ stdout, stderr }) => {
-      cy.log(stdout || stderr);
-      if ((stdout || stderr).includes("No resource") === false) {
-        cy.log("There exist channel");
-        cy
-          .exec(
-            `oc ${action} channel ${name}-${channelName}-${key} -n ${name}-${channelNs}-${key}`
-          )
-          .its("stdout")
-          .should("contain", name);
-        cy
-          .exec(`oc ${action} ns ${name}-${channelNs}-${key}`)
-          .its("stdout")
-          .should("contain", `${name}`);
-      } else {
-        cy.log(
-          `The channel ${name}-${channelName}-${key} in namespace:${name}-${channelNs}-ns-${key} is empty`
+  for (const [key, value] of Object.entries(config)) {
+    cy.log(`instance-${key}`);
+    channels(key, type, name);
+    subscription(key, name);
+    !value.deployment.local
+      ? placementrule(key, name)
+      : cy.log(
+          "placement will not be created as the application is deployed locally"
         );
-      }
+  }
+};
+
+export const channelsInformation = (name, key) => {
+  // Return a Cypress chain with channel name/namespace from subscription
+  return cy
+    .exec(
+      `oc -n ${name}-ns get subscription ${name}-subscription-${key} -o=jsonpath='{.spec.channel}'`
+    )
+    .then(({ stdout }) => {
+      const [channelNs, channelName] = stdout.split("/");
+      return {
+        channelNs,
+        channelName
+      };
     });
 };
 
-export const placementrule = (key, action, name) => {
-  cy.log(`${action} the placementrule if it exists`);
+export const unusedChannelNamespaces = () => {
+  // Return a Cypress chain with an array of unused channel namespaces
+  // with names beginning with "ui-"
+  return cy
+    .exec("oc get channels -A -o=jsonpath='{.items[*].metadata.namespace}'")
+    .then(({ stdout }) => {
+      const channelNamespaces = new Set(stdout.split(" "));
+      return cy
+        .exec("oc get subscriptions -A -o=jsonpath='{.items[*].spec.channel}'")
+        .then(({ stdout }) => {
+          const usedChannelNamespaces = new Set(
+            stdout.split(" ").map(channel => channel.split("/")[0])
+          );
+          return Array.from(channelNamespaces)
+            .filter(channel => channel.startsWith("ui-"))
+            .filter(channel => usedChannelNamespaces.has(channel));
+        });
+    });
+};
+
+export const channels = async (key, type, name) => {
+  channelsInformation(name, key).then(({ channelNs, channelName }) => {
+    cy.log(`validate the ${type} channel`);
+    cy.exec(`oc get channel ${channelName} -n ${channelNs}`);
+    cy.exec(`oc get ns ${channelNs}`);
+  });
+};
+
+export const placementrule = (key, name) => {
+  cy.log(`validate the placementrule`);
   cy.exec(`oc get placementrule -n ${name}-ns`).then(({ stdout, stderr }) => {
-    cy.log(stdout || stderr);
-    if ((stdout || stderr).includes("No resource") === false) {
-      cy.log("There exist subscription");
-      cy
-        .exec(
-          `oc ${action} placementrule ${name}-placement-${key} -n ${name}-ns`
-        )
-        .its("stdout")
-        .should("contain", `${name}`);
-      cy
-        .exec(`oc ${action} ns ${name}-ns`)
-        .its("stdout")
-        .should("contain", `${name}`);
+    cy.exec(`oc get placementrule ${name}-placement-${key} -n ${name}-ns`);
+    cy.exec(`oc get ns ${name}-ns`);
+  });
+};
+
+export const subscription = (key, name, kubeconfig = "") => {
+  let managedCluster = kubeconfig ? `--kubeconfig ${kubeconfig}` : "";
+
+  cy.log(`validate the subscription`);
+  cy.exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`).then(() => {
+    if (!managedCluster) {
+      cy.exec(`oc get subscription ${name}-subscription-${key} -n ${name}-ns`);
     } else {
-      cy.log(
-        `The placementrule ${name}-placement-${key} in namespace:${name}-ns is empty`
+      cy.exec(
+        `oc ${managedCluster} get subscription -n ${name}-ns | awk 'NR>1 {print $1}'`
       );
     }
   });
-};
-
-export const subscription = (key, action, name, kubeconfig = "") => {
-  let managedCluster = "";
-  kubeconfig ? (managedCluster = `--kubeconfig ${kubeconfig}`) : managedCluster;
-
-  cy.log(`${action} the subscription if it exists`);
-  cy
-    .exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`)
-    .then(({ stdout, stderr }) => {
-      if ((stdout || stderr).includes("No resource") === false) {
-        cy.log("There exists subscription");
-        if (!managedCluster) {
-          cy
-            .exec(
-              `oc ${action} subscription ${name}-subscription-${key} -n ${name}-ns`
-            )
-            .its("stdout")
-            .should("contain", `${name}`);
-        } else {
-          action == "get"
-            ? cy
-                .exec(
-                  `oc ${managedCluster}  ${action} subscription -n ${name}-ns | awk 'NR>1 {print $1}'`
-                )
-                .its("stdout")
-                .should("contain", `${name}`)
-            : (cy
-                .exec(
-                  `oc ${managedCluster} ${action} --all subscriptions -n ${name}-ns`,
-                  { timeout: 100 * 1000 }
-                )
-                .its("stdout")
-                .should("contain", `${action}`),
-              cy
-                .exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`)
-                .its("stderr")
-                .should("contain", "No resources"),
-              { timeout: 100 * 1000 });
-        }
-      } else {
-        cy.log(`The subscription in namespace:${name}-ns is empty`);
-      }
-    });
   // namespace
-  cy.log(`${action} the namespace if it exists`);
-  cy.exec(`oc ${managedCluster} get ns -A`).then(({ stdout }) => {
-    if (stdout.includes(`${name}-ns`)) {
-      cy
-        .exec(`oc  ${managedCluster}  ${action} ns ${name}-ns`)
-        .its("stdout")
-        .should("contain", `${name}`);
-    } else {
-      cy.log("no namespace left");
-    }
-  });
+  cy.log(`validate the namespace`);
+  cy.exec(`oc  ${managedCluster} get ns ${name}-ns`);
 };
 
 export const validateTimewindow = (name, config) => {
@@ -211,5 +144,70 @@ export const validateTimewindow = (name, config) => {
           .should("not.contain", "timewindow");
       }
     });
+  }
+};
+
+export const getManagedClusterName = () => {
+  cy.exec(`oc get managedcluster -oname`).then(({ stdout }) => {
+    let managedClusters = stdout.split("\n");
+    const substrings = [
+      "vendor: OpenShift",
+      'status: "True"',
+      "type: ManagedClusterJoined"
+    ];
+    managedClusters.forEach((cluster, index) =>
+      cy.exec(`oc get ${cluster} -o yaml`).then(({ stdout }) => {
+        let isReady = false;
+        substrings.forEach(substring => {
+          stdout.includes(substring) ? (isReady = true) : isReady;
+          isReady == false ? managedClusters.splice(index, 1) : managedClusters;
+        });
+      })
+    );
+    cy.log(managedClusters).then(() => {
+      managedClusters
+        ? (Cypress.env("managedCluster", managedClusters[0]),
+          cy.log(`managed cluster is ${managedClusters[0]}`))
+        : cy.log("Managed cluster is undefined!");
+    });
+  });
+};
+
+export const deleteUnusedChannelNamespaces = () => {
+  unusedChannelNamespaces().each(namespace => {
+    cy.exec(`oc delete ns ${name}-ns`, {
+      failOnNonZeroExit: false,
+      timeout: 100 * 1000
+    });
+  });
+};
+
+export const deleteNamespaceHub = (data, name, type) => {
+  cy.exec(`oc delete ns ${name}-ns`, {
+    failOnNonZeroExit: type !== "helm", // helm namespaces in particular get stuck
+    timeout: 100 * 1000
+  });
+};
+
+export const deleteNamespaceTarget = (name, kubeconfig) => {
+  let managedCluster = "";
+  if (kubeconfig) {
+    (managedCluster = `--kubeconfig ${kubeconfig}`),
+      cy
+        .exec(`oc ${managedCluster} get ns ${name}-ns`, {
+          failOnNonZeroExit: false
+        })
+        .then(({ stdout, stderr }) => {
+          if ((stdout || stderr).includes("not found") === false) {
+            cy
+              .exec(
+                `oc ${managedCluster} ${managedCluster} delete ns ${name}-ns`
+              )
+              .its("stdout")
+              .should("contain", `${name}-ns`);
+          } else {
+            cy.log(`namespace - ${name}-ns does not exist`);
+          }
+        });
   }
 };

@@ -7,12 +7,16 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
+// seems to be an issue with this rule and redux
+/* eslint-disable import/no-named-as-default */
+
 import { compose, setDisplayName } from 'recompose'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SecondaryHeader from '../components/SecondaryHeader'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import { withLocale } from '../providers/LocaleProvider'
 import resources from '../../lib/shared/resources'
 import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
@@ -22,8 +26,25 @@ import Modal from '../components/common/Modal'
 export const ActionModalApollo = loadable(() =>
   import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo')
 )
-export const ApplicationHeaderTabs = loadable(() =>
-  import(/* webpackChunkName: "applicationHeaderTabs" */ './ApplicationHeaderTabs')
+
+export const ApplicationsListPage = loadable(() =>
+  import(/* webpackChunkName: "applicationsListPage" */ '../components/ApplicationsListPage')
+)
+
+export const ApplicationDetailsPage = loadable(() =>
+  import(/* webpackChunkName: "applicationDetailsPage" */ '../components/ApplicationDetailsPage')
+)
+
+export const ApplicationCreationPage = loadable(() =>
+  import(/* webpackChunkName: "applicationCreatePage" */ '../components/ApplicationCreationPage/ApplicationCreationPage')
+)
+
+export const AdvancedConfigurationPage = loadable(() =>
+  import(/* webpackChunkName: "advancedConfigurationPage" */ '../components/AdvancedConfigurationPage')
+)
+
+export const CreateApplicationButton = loadable(() =>
+  import(/* webpackChunkName: "createApplicationButton" */ '../components/common/CreateApplicationButton')
 )
 
 resources(() => {
@@ -62,23 +83,119 @@ class App extends React.Component {
 
   render() {
     const serverProps = this.getServerProps()
-    const { match, location } = this.props
-    const showSecondaryHeader =
-      location.pathname &&
-      !location.pathname.startsWith('/multicloud/welcome') &&
-      !location.pathname.startsWith('/multicloud/overview') &&
-      !location.pathname.startsWith('/multicloud/search')
+    const { locale, match } = this.props
+
+    const BASE_PAGE_PATH = match.url.replace(/\/$/, '')
+    const allApplicationsTabs = [
+      {
+        id: 'overview',
+        label: 'description.title.overview',
+        url: BASE_PAGE_PATH
+      },
+      {
+        id: 'advanced',
+        label: 'description.title.advancedConfiguration',
+        url: `${BASE_PAGE_PATH}/advanced`
+      }
+    ]
+
+    const createApplicationButton = <CreateApplicationButton key="create" />
+
+    const getSingleApplicationBasePath = params => {
+      return `${BASE_PAGE_PATH}/${params.namespace}/${params.name}`
+    }
+
+    const getSingleApplicationTabs = params => {
+      const SINGLE_APP_BASE_PAGE_PATH = getSingleApplicationBasePath(params)
+      return [
+        {
+          id: 'overview',
+          label: 'description.title.overview',
+          url: SINGLE_APP_BASE_PAGE_PATH
+        },
+        {
+          id: 'editor',
+          label: 'description.title.editor',
+          url: `${SINGLE_APP_BASE_PAGE_PATH}/edit`
+        }
+      ]
+    }
+
+    const applicationsTitle = 'routes.applications'
 
     return (
       <div className="expand-vertically">
-        {showSecondaryHeader && <SecondaryHeader />}
+        <SecondaryHeader />
         <Switch>
           <Route
-            path={`${match.url}`}
+            exact
+            path={`${BASE_PAGE_PATH}`}
             render={params => (
-              <ApplicationHeaderTabs
+              <ApplicationsListPage
                 params={params}
                 serverProps={this.getServerProps()}
+                secondaryHeaderProps={{
+                  title: applicationsTitle,
+                  tabs: allApplicationsTabs,
+                  mainButton: createApplicationButton
+                }}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={`${BASE_PAGE_PATH}/advanced`}
+            render={params => (
+              <div className="page-content-container">
+                <AdvancedConfigurationPage
+                  params={params}
+                  serverProps={serverProps}
+                  secondaryHeaderProps={{
+                    title: applicationsTitle,
+                    tabs: allApplicationsTabs,
+                    mainButton: createApplicationButton
+                  }}
+                  locale={locale}
+                />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path={`${BASE_PAGE_PATH}/create`}
+            render={params => (
+              <ApplicationCreationPage
+                params={params}
+                serverProps={this.getServerProps()}
+                secondaryHeaderProps={{ title: 'application.create.title' }}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={`${BASE_PAGE_PATH}/:namespace/:name`}
+            render={params => (
+              <ApplicationDetailsPage
+                params={params}
+                serverProps={this.getServerProps()}
+                secondaryHeaderProps={{
+                  title: applicationsTitle,
+                  tabs: getSingleApplicationTabs(params.match.params)
+                }}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={`${BASE_PAGE_PATH}/:namespace/:name/edit`}
+            render={params => (
+              <ApplicationCreationPage
+                params={params}
+                serverProps={this.getServerProps()}
+                secondaryHeaderProps={{
+                  title: 'application.create.title',
+                  tabs: getSingleApplicationTabs(params.match.params)
+                }}
               />
             )}
           />
@@ -98,7 +215,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  location: PropTypes.object,
+  locale: PropTypes.object,
   match: PropTypes.object,
   serverProps: PropTypes.object,
   staticContext: PropTypes.object
@@ -114,7 +231,8 @@ const mapStateToProps = state => {
   }
 }
 
-const Container = Component => withRouter(connect(mapStateToProps)(Component))
+const Container = Component =>
+  withRouter(withLocale(connect(mapStateToProps)(Component)))
 const AppContainer = Container(App)
 
 export default compose(setDisplayName('AppComponent'))(props => (

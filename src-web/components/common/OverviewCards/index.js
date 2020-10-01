@@ -15,7 +15,8 @@ import {
   AccordionItem,
   Button,
   Icon,
-  SkeletonText
+  SkeletonText,
+  Notification
 } from 'carbon-components-react'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
@@ -27,6 +28,8 @@ import {
 import ChannelLabels from '../ChannelLabels'
 import TimeWindowLabels from '../TimeWindowLabels'
 import { getClusterCount } from '../../../../lib/client/resource-helper'
+import { REQUEST_STATUS } from '../../../actions'
+import _ from 'lodash'
 
 /* eslint-disable react/prop-types */
 
@@ -46,7 +49,6 @@ class OverviewCards extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 0 },
       showSubCards: false
     }
   }
@@ -73,7 +75,38 @@ class OverviewCards extends React.Component {
       selectedAppNS,
       locale
     } = this.props
-    const { nodeStatuses, showSubCards } = this.state
+    const { showSubCards } = this.state
+
+    if (HCMApplicationList.status === REQUEST_STATUS.ERROR) {
+      const errMessage = _.get(
+        HCMApplicationList,
+        'err.message',
+        msgs.get('resource.error')
+      )
+      return (
+        <Notification
+          title=""
+          className="overview-notification"
+          kind="error"
+          subtitle={errMessage}
+        />
+      )
+    }
+    if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
+      const infoMessage = _.get(
+        HCMApplicationList,
+        'err.err',
+        msgs.get('load.app.info.notfound', [selectedAppName])
+      )
+      return (
+        <Notification
+          title=""
+          className="overview-notification"
+          kind="info"
+          subtitle={infoMessage}
+        />
+      )
+    }
 
     let getUrl = window.location.href
     getUrl = getUrl.substring(0, getUrl.indexOf('/multicloud/applications/'))
@@ -88,18 +121,19 @@ class OverviewCards extends React.Component {
       topology,
       selectedAppName,
       selectedAppNS,
-      nodeStatuses,
       targetLink,
       locale
     )
 
-    const clusterCount = getClusterCount(
+    const clusterCount = getClusterCount({
       locale,
-      appOverviewCardsData.remoteClusterCount,
-      appOverviewCardsData.localClusterDeploy,
-      selectedAppName,
-      selectedAppNS
-    )
+      remoteCount: appOverviewCardsData.remoteClusterCount,
+      localPlacement: appOverviewCardsData.localClusterDeploy,
+      name: selectedAppName,
+      namespace: selectedAppNS,
+      kind: 'application',
+      apigroup: 'app.k8s.io'
+    })
 
     const disableBtn =
       appOverviewCardsData.subsList &&
@@ -349,21 +383,18 @@ class OverviewCards extends React.Component {
                     )}
                   </div>
                   {!sub.timeWindowType ? (
-                    <a
+                    <div
                       className="set-time-window-link"
-                      href={
-                        window.location.href +
-                        (window.location.href.slice(-1) === '/'
-                          ? 'yaml'
-                          : '/yaml')
-                      }
-                      target="_blank"
+                      tabIndex="0"
+                      role={'button'}
+                      onClick={this.toggleEditorTab.bind(this)}
+                      onKeyPress={this.toggleEditorTab.bind(this)}
                     >
                       {msgs.get(
                         'dashboard.card.overview.cards.timeWindow.set.label',
                         locale
                       )}
-                    </a>
+                    </div>
                   ) : (
                     <TimeWindowLabels
                       timeWindow={{
@@ -384,6 +415,10 @@ class OverviewCards extends React.Component {
       }
       return ''
     })
+  };
+
+  toggleEditorTab = () => {
+    document.getElementById('advanced').click()
   };
 
   toggleSubsBtn = showSubCards => {

@@ -58,7 +58,7 @@ export const resourceTable = {
       .get('button[data-table-action="table.actions.applications.edit"]', {
         timeout: 20 * 1000
       })
-      .click(),
+      .click({ force: true }),
   menuClickDelete: () =>
     cy
       .get('button[data-table-action="table.actions.applications.remove"]', {
@@ -94,11 +94,15 @@ export const modal = {
     cy.get(".bx--modal-container", { timeout: 20000 }).should("be.visible"),
   shouldNotBeVisible: () =>
     cy.get(".bx--modal-container", { timeout: 20000 }).should("not.be.visible"),
+  clickResources: () =>
+    cy.get("#remove-app-resources", { timeout: 20000 }).click({ force: true }),
   clickDanger: () =>
     cy.get(".bx--modal .bx--btn--danger--primary", { timeout: 20000 }).click(),
   clickPrimary: () =>
     cy
-      .get(".bx--btn.bx--btn--sm.bx--btn--primary", { timeout: 20 * 1000 })
+      .get(".bx--btn.bx--btn--sm.bx--btn--primary, .pf-c-button.pf-m-primary", {
+        timeout: 20 * 1000
+      })
       .then($el => {
         Cypress.dom.isDetached($el); // false
       })

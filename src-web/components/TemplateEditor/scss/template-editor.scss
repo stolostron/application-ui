@@ -10,24 +10,22 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
-
 .template-page-content {
-    display: flex;
-    flex-direction: column;
-    padding: 30px 5% 54px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 5% 54px;
 }
 
 .creation-view {
   display: flex;
   position: relative;
   margin-top: -10px;
-      
+
   &.showEditor {
     margin: -50px 0 -3.125rem 0;
   }
 
   .creation-view-split-container {
-
     &.showEditor {
       height: calc(100vh - 200px);
 
@@ -35,7 +33,7 @@
         height: calc(100vh - 200px);
         position: relative;
         padding-top: 40px;
-        
+
         &-blurr {
           position: absolute;
           z-index: 1;
@@ -43,17 +41,16 @@
           left: 0;
           pointer-events: none;
           height: 1em;
-          margin-right: 16px;
-          
+
           &.top {
             top: 0;
-            background-image: linear-gradient(to top, rgba(244,247,251,0), rgba(240, 240, 240, 1) 90%);
+            background-image: linear-gradient(to top, rgba(244, 247, 251, 0), rgba(240, 240, 240, 1) 90%);
             display: none;
           }
-        
+
           &.bottom {
             bottom: 0;
-            background-image: linear-gradient(to bottom, rgba(244,247,251,0), rgba(240, 240, 240, 1) 90%);
+            background-image: linear-gradient(to bottom, rgba(244, 247, 251, 0), rgba(240, 240, 240, 1) 90%);
           }
         }
       }
@@ -61,7 +58,7 @@
       .creation-view-yaml {
         height: calc(100% - 10px);
         position: relative;
-        
+
         &.hasTabs {
           height: calc(100% - 30px);
         }
@@ -101,21 +98,21 @@
     margin: 0 5px;
   }
 
-   .Resizer:hover {
+  .Resizer:hover {
     -webkit-transition: all .2s ease;
     transition: all .2s ease;
   }
 
   .Resizer.vertical:hover {
-      background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
   }
-
 }
 
 .edit-button {
   cursor: pointer;
   margin-left: 30px;
   font-size: 12px;
+
   .icon {
     margin: 0 6px;
     width: 9px;
@@ -151,13 +148,13 @@
     margin-left: 8px;
     font-size: 12px;
   }
-
 }
 
 .monaco-editor .monaco-editor-hover {
   color: #cccccc;
   padding: 6px 10px;
   margin-left: 24px;
+
   p {
     font-size: 14px;
     font-family: RedHatText;
@@ -170,7 +167,7 @@
   width: 14px !important;
   cursor: pointer;
   z-index: 1000;
-  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='14' height='14'><g fill='red'><circle cx='8' cy='8' r='8' fill='white' fill-opacity='1'/><path d='M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM5.1 13.3L3.5 12 11 2.6l1.5 1.2-7.4 9.5z'/> </g></svg>");  
+  background: url("data:image/svg+xml;utf8, <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='14' height='14'><g fill='red'><circle cx='8' cy='8' r='8' fill='white' fill-opacity='1'/><path d='M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM5.1 13.3L3.5 12 11 2.6l1.5 1.2-7.4 9.5z'/> </g></svg>");
 }
 
 .insertedLineDecoration {

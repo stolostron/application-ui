@@ -272,7 +272,7 @@ describe("getAllFilters", () => {
       //   name: "Cluster name"
       // },
       namespaces: {
-        availableSet: new Set(["<none>", "ns-sub-1", "default"]),
+        availableSet: new Set(["cluster-scoped", "ns-sub-1", "default"]),
         name: "Namespaces"
       },
       resourceStatuses: {
@@ -354,7 +354,7 @@ describe("getAvailableFilters weave", () => {
   it("should get available filters", () => {
     const expectedResult = {
       namespaces: {
-        availableSet: new Set(["<none>", "ns-sub-1"]),
+        availableSet: new Set(["cluster-scoped", "ns-sub-1"]),
         name: "Namespaces"
       }
     };
@@ -404,7 +404,7 @@ describe("getAvailableFilters application", () => {
     //   name: "Cluster name"
     // },
     namespaces: {
-      availableSet: new Set(["<none>"]),
+      availableSet: new Set(["cluster-scoped"]),
       name: "Namespaces"
     },
     resourceStatuses: {

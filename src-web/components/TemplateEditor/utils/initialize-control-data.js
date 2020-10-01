@@ -96,13 +96,11 @@ const initializeControlActive = (type, control) => {
   }
 }
 
-const initializeControlUserData = (control) => {
+const initializeControlUserData = control => {
   //if user data was cached, apply now
   //save custom user input for session??
   if (control.cacheUserValueKey) {
-    const storageKey = `${control.cacheUserValueKey}--${
-      window.location.href
-    }`
+    const storageKey = `${control.cacheUserValueKey}--${window.location.href}`
     const sessionObject = JSON.parse(sessionStorage.getItem(storageKey))
     if (sessionObject) {
       control.userData = sessionObject
@@ -180,8 +178,8 @@ const initializeAvailableChoices = (type, control) => {
 
   if (
     type !== 'table' &&
-   type !== 'treeselect' &&
-   typeof _.get(control, 'available[0]') === 'object'
+    type !== 'treeselect' &&
+    typeof _.get(control, 'available[0]') === 'object'
   ) {
     const { sort = true } = control
     availableMap = control.availableMap = {}
@@ -218,7 +216,7 @@ const initializeAvailableChoices = (type, control) => {
           choice.replacements = replaces
         }
         control.newEditorMode =
-         change.insertControlData && type === 'cards' && !multiselect
+          change.insertControlData && type === 'cards' && !multiselect
       }
       control.availableMap[availableKey] = choice
       return availableKey
@@ -247,7 +245,7 @@ const initializeAvailableChoices = (type, control) => {
 }
 
 const initializeValidation = (type, control) => {
-//connect controls to source for updates/validation
+  //connect controls to source for updates/validation
   const { validation, multiline } = control
   if (validation) {
     let { constraint } = validation
@@ -277,4 +275,3 @@ const initializeValidation = (type, control) => {
     }
   }
 }
-

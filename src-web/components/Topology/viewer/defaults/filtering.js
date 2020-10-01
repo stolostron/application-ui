@@ -404,7 +404,8 @@ export const addAvailableRelationshipFilters = (
       !ignoreNodeTypes.has(type) &&
       (activeTypes.has(type) || activeTypes.has('other'))
     ) {
-      namespace = namespace && namespace.length > 0 ? namespace : '<none>'
+      namespace =
+        namespace && namespace.length > 0 ? namespace : 'cluster-scoped'
 
       // filter filters
       const podStatus = _.get(node, 'specs.podModel')
@@ -643,7 +644,7 @@ export const filterRelationshipNodes = (nodes, activeFilters) => {
 
     // filter namespaces
     const hasNamespace =
-      namespaces.size === 0 || namespaces.has(namespace || '<none>')
+      namespaces.size === 0 || namespaces.has(namespace || 'cluster-scoped')
 
     // filter by cluster name
     let hasClustername = true

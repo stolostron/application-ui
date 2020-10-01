@@ -20,6 +20,7 @@ import { mapBulkChannels } from '../reducers/data-mappers/mapChannelsBulk'
 import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsBulk'
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import msgs from '../../nls/platform.properties'
 
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
@@ -52,6 +53,13 @@ export const receiveResourceSuccess = (response, resourceType) => ({
 export const receiveResourceError = (err, resourceType) => ({
   type: Actions.RESOURCE_RECEIVE_FAILURE,
   status: Actions.REQUEST_STATUS.ERROR,
+  err,
+  resourceType
+})
+
+export const receiveResourceNotFound = (err, resourceType) => ({
+  type: Actions.RESOURCE_RECEIVE_NOT_FOUND,
+  status: Actions.REQUEST_STATUS.NOT_FOUND,
   err,
   resourceType
 })
@@ -170,20 +178,42 @@ export const fetchGlobalAppsData = resourceType => {
   }
 }
 
-export const fetchResources = resourceType => {
-  if (resourceType.name === 'QueryApplications') {
-    const resourceQuery = { list: 'ApplicationsList' }
+const getResourceQuery = resourceType => {
+  let resourceQuery, dataKey, filter
+  switch (resourceType.name) {
+  case 'QueryApplications':
+    resourceQuery = { list: 'ApplicationsList' }
+    dataKey = 'applications'
+    break
+  case 'QuerySubscriptions':
+    resourceQuery = { list: 'SubscriptionsList' }
+    dataKey = 'subscriptions'
+    filter = item => item.channel !== 'open-cluster-management/charts-v1'
+    break
+  case 'QueryPlacementRules':
+    resourceQuery = { list: 'PlacementRulesList' }
+    dataKey = 'placementRules'
+    break
+  case 'QueryChannels':
+    resourceQuery = { list: 'ChannelsList' }
+    dataKey = 'channels'
+    filter = item =>
+      item.namespace !== 'open-cluster-management' ||
+        item.name !== 'charts-v1'
+    break
+  }
+  if (resourceQuery) {
     //use Query api to get the data, instead of the generic searchResource
     return dispatch => {
       apolloClient
         .get(resourceQuery)
         .then(result => {
-          if (result.data && result.data.applications) {
+          if (result.data && result.data[dataKey]) {
+            const filteredItems = filter
+              ? result.data[dataKey].filter(filter)
+              : result.data[dataKey]
             return dispatch(
-              receiveResourceSuccess(
-                { items: result.data.applications },
-                resourceType
-              )
+              receiveResourceSuccess({ items: filteredItems }, resourceType)
             )
           }
           if (result.error) {
@@ -201,6 +231,16 @@ export const fetchResources = resourceType => {
           return dispatch(receiveResourceError(error, resourceType))
         })
     }
+  } else {
+    return null
+  }
+}
+
+export const fetchResources = resourceType => {
+  // Perform custom search query for certain resource types
+  const resourceQuery = getResourceQuery(resourceType)
+  if (resourceQuery) {
+    return resourceQuery
   }
   const query = getQueryStringForResources(resourceType.name)
   return dispatch => {
@@ -262,6 +302,21 @@ export const fetchResource = (resourceType, namespace, name) => {
           return dispatch(
             receiveResourceError(response.errors[0], resourceType)
           )
+        }
+        const searchResult = lodash.get(response, 'data.searchResult', [])
+        if (
+          searchResult.length === 0 ||
+          lodash.get(searchResult[0], 'items', []).length === 0
+        ) {
+          //app not found
+          const err = {
+            err: msgs.get(
+              'load.app.info.notfound',
+              [`${namespace}/${name}`],
+              'en-US'
+            )
+          }
+          return dispatch(receiveResourceNotFound(err, resourceType))
         }
         return dispatch(
           receiveResourceSuccess(
@@ -339,13 +394,26 @@ export const editResource = (
     })
 }
 
-export const updateSecondaryHeader = (title, tabs, breadcrumbItems, links) => ({
-  type: Actions.SECONDARY_HEADER_UPDATE,
+export const updateSecondaryHeader = (
   title,
   tabs,
   breadcrumbItems,
-  links
-})
+  links,
+  actions,
+  tooltip,
+  mainButton
+) => {
+  return {
+    type: Actions.SECONDARY_HEADER_UPDATE,
+    title,
+    tabs,
+    breadcrumbItems,
+    links,
+    actions,
+    tooltip,
+    mainButton
+  }
+}
 
 export const updateModal = data => ({
   type: Actions.MODAL_UPDATE,
@@ -449,6 +517,18 @@ export const mutateResourceSuccessFinished = resourceType => ({
   type: Actions.RESOURCE_MUTATE_FINISHED,
   resourceType
 })
+
+export const clearSuccessFinished = dispatch => {
+  [
+    RESOURCE_TYPES.QUERY_APPLICATIONS,
+    RESOURCE_TYPES.HCM_CHANNELS,
+    RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+    RESOURCE_TYPES.HCM_PLACEMENT_RULES
+  ].forEach(resourceType => {
+    dispatch(mutateResourceSuccessFinished(resourceType))
+    dispatch(delResourceSuccessFinished(resourceType))
+  })
+}
 
 export const createResources = (resourceType, resourceJson) => {
   if (resourceType === RESOURCE_TYPES.HCM_APPLICATIONS) {

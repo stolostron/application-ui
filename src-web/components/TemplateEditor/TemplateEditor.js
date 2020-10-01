@@ -17,15 +17,17 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import {
   Button,
-  Loading,
   Notification,
   InlineNotification,
   ToggleSmall
 } from 'carbon-components-react'
-import { initializeControls, cacheUserData } from './utils/initialize-controls'
-import { updateControls } from './utils/refresh-controls-from-source'
-import { generateSourceFromTemplate } from './utils/refresh-source-from-templates'
-import { getUniqueName } from './utils/source-utils'
+import {
+  initializeControls,
+  generateSource,
+  getUniqueName,
+  cacheUserData
+} from './utils/utils'
+import { validateControls } from './utils/validate-controls'
 import {
   highlightChanges,
   highlightAllChanges
@@ -46,17 +48,18 @@ export default class TemplateEditor extends React.Component {
   static propTypes = {
     controlData: PropTypes.array.isRequired,
     createControl: PropTypes.shape({
+      hasPermissions: PropTypes.bool,
       createResource: PropTypes.func,
       cancelCreate: PropTypes.func,
       creationStatus: PropTypes.string,
       creationMsg: PropTypes.array
     }).isRequired,
     fetchControl: PropTypes.shape({
+      resources: PropTypes.array,
       isLoaded: PropTypes.bool,
       isFailed: PropTypes.bool,
       fetchData: PropTypes.object
     }),
-    hasPermissions: PropTypes.bool,
     history: PropTypes.object,
     locale: PropTypes.string,
     portals: PropTypes.object.isRequired,
@@ -71,12 +74,11 @@ export default class TemplateEditor extends React.Component {
   };
 
   static getDerivedStateFromProps(props, state) {
-    const { fetchControl, createControl = {}, type, locale } = props
+    const { createControl = {}, type, locale } = props
 
     // update notifications
     let { notifications } = state
-    const { hasFormExceptions } = state
-    const { isLoaded } = fetchControl || { isLoaded: true }
+    const { hasFormExceptions, isEditing } = state
     const { creationStatus, creationMsg } = createControl
     if (creationStatus && !hasFormExceptions) {
       switch (creationStatus) {
@@ -87,7 +89,13 @@ export default class TemplateEditor extends React.Component {
             kind: 'info',
             exception: Array.isArray(creationMsg)
               ? creationMsg[0]
-              : msgs.get('success.create.creating', [type], locale)
+              : msgs.get(
+                isEditing
+                  ? 'success.create.updating'
+                  : 'success.create.creating',
+                [type],
+                locale
+              )
           }
         ]
         break
@@ -99,7 +107,13 @@ export default class TemplateEditor extends React.Component {
             kind: 'success',
             exception: Array.isArray(creationMsg)
               ? creationMsg[0]
-              : msgs.get('success.create.created', [type], locale)
+              : msgs.get(
+                isEditing
+                  ? 'success.create.updated'
+                  : 'success.create.created',
+                [type],
+                locale
+              )
           }
         ]
         break
@@ -115,56 +129,77 @@ export default class TemplateEditor extends React.Component {
         break
       }
       return { notifications }
-    } else if (isLoaded) {
-      const { controlData: initialControlData } = props
-      const { isCustomName } = state
-      let { controlData, templateYAML, templateObject } = state
-      const { forceUpdate, template } = state
+    }
 
-      // initialize controlData, templateYAML, templateObject
-      if (!controlData) {
-        controlData = initializeControls(
-          _.cloneDeep(initialControlData),
-          forceUpdate,
-          locale
-        );
-        ({ templateYAML, templateObject } = generateSourceFromTemplate(
-          template,
-          controlData
-        ))
-        return {
-          controlData,
-          templateYAML,
-          firstTemplateYAML: templateYAML,
-          templateObject
-        }
+    // is a resource loaded in editor?
+    const { fetchControl } = props
+    const { isLoaded, isFailed } = fetchControl || { isLoaded: true }
+    const showEditor =
+      isLoaded && !!localStorage.getItem(TEMPLATE_EDITOR_OPEN_COOKIE)
+    let newState = { isLoaded, isFailed, showEditor }
+
+    // has control data been initialized?
+    const { controlData: initialControlData } = props
+    let { controlData, templateYAML, templateObject, editStack } = state
+    const { editor, template } = state
+    if (!controlData) {
+      // initialize control data
+      const cd = _.cloneDeep(initialControlData)
+      controlData = initializeControls(cd, editor, locale)
+      newState = { ...newState, controlData }
+    }
+
+    // has source been initialized?
+    if (isLoaded && !templateYAML) {
+      // editing an existing set of resources??
+      const editResources = _.get(fetchControl, 'resources')
+      if (editResources) {
+        editStack = [{ editResources, editor, locale }]
       }
 
-      // make sure an auto generated name is unique
-      if (!isCustomName) {
-        const name = controlData.find(({ id }) => id === 'name')
-        if (name) {
-          const { active, existing } = name
-          const uniqueName = getUniqueName(active, new Set(existing))
-          if (uniqueName !== active) {
-            name.active = uniqueName;
-            ({ templateYAML, templateObject } = generateSourceFromTemplate(
-              template,
-              controlData
-            ))
-            return { controlData, templateYAML, templateObject }
-          }
+      // generate source from template or stack of resources
+      ({ templateYAML, templateObject } = generateSource(
+        template,
+        editStack,
+        controlData
+      ))
+
+      newState = {
+        ...newState,
+        templateYAML,
+        firstTemplateYAML: templateYAML,
+        templateObject,
+        editStack,
+        isEditing: !!editResources
+      }
+    }
+
+    // make sure an auto generated name is unique
+    const { isCustomName } = state
+    if (!isCustomName) {
+      const name = controlData.find(({ id }) => id === 'name')
+      if (name) {
+        const { active, existing } = name
+        const uniqueName = getUniqueName(active, new Set(existing))
+        if (uniqueName !== active) {
+          name.active = uniqueName;
+          ({ templateYAML, templateObject } = generateSource(
+            template,
+            editStack,
+            controlData
+          ))
+          newState = { ...newState, controlData, templateYAML, templateObject }
         }
       }
     }
-    return null
+
+    return newState
   }
 
   constructor(props) {
     super(props)
     this.state = {
       isCustomName: false,
-      showEditor: !!localStorage.getItem(TEMPLATE_EDITOR_OPEN_COOKIE),
       template: props.template,
       activeYAMLEditor: 0,
       exceptions: [],
@@ -178,9 +213,15 @@ export default class TemplateEditor extends React.Component {
       hasUndo: false,
       hasRedo: false,
       resetInx: 0,
-      forceUpdate: (() => {
-        this.forceUpdate()
-      }).bind(this)
+      editor: {
+        forceUpdate: (() => {
+          this.forceUpdate()
+        }).bind(this),
+        currentData: (() => {
+          return this.state.controlData
+        }).bind(this)
+
+      }
     }
     this.selectedTab = 0
     this.isDirty = false
@@ -260,17 +301,13 @@ export default class TemplateEditor extends React.Component {
   };
 
   render() {
-    const { fetchControl, locale } = this.props
-    const { isLoaded, isFailed } = fetchControl || { isLoaded: true }
-    const { showEditor, resetInx } = this.state
+    const { locale } = this.props
+    const { isLoaded, isFailed, showEditor, resetInx } = this.state
     if (!showEditor) {
       this.editors = []
     }
 
-    if (!isLoaded) {
-      return <Loading withOverlay={false} className="content-spinner" />
-    }
-    if (isFailed) {
+    if (isLoaded && isFailed) {
       return (
         <Notification
           title=""
@@ -294,15 +331,15 @@ export default class TemplateEditor extends React.Component {
           when={this.isDirty}
           message={msgs.get('changes.maybe.lost', locale)}
         />
-        {this.renderEditButton()}
-        {this.renderCreateButton()}
+        {this.renderEditButton(isLoaded)}
+        {this.renderCreateButton(isLoaded)}
         {this.renderCancelButton()}
-        {this.renderSplitEditor()}
+        {this.renderSplitEditor(isLoaded)}
       </div>
     )
   }
 
-  renderSplitEditor() {
+  renderSplitEditor(isLoaded) {
     const { showEditor } = this.state
     const editorClasses = classNames({
       'creation-view-split-container': true,
@@ -324,17 +361,17 @@ export default class TemplateEditor extends React.Component {
             defaultSize={this.handleSplitterDefault()}
             onChange={this.handleSplitterChange}
           >
-            {this.renderControls()}
+            {this.renderControls(isLoaded)}
             {this.renderEditor()}
           </SplitPane>
         ) : (
-          this.renderControls()
+          this.renderControls(isLoaded)
         )}
       </div>
     )
   }
 
-  renderControls() {
+  renderControls(isLoaded) {
     const { controlData, showEditor, isCustomName, notifications } = this.state
     const {
       controlData: originalControlData,
@@ -347,12 +384,13 @@ export default class TemplateEditor extends React.Component {
         handleControlChange={this.handleControlChange}
         handleNewEditorMode={this.handleNewEditorMode}
         handleGroupChange={this.handleGroupChange}
-        controlData={controlData}
+        controlData={controlData || originalControlData}
         fetchData={fetchData}
         originalControlData={originalControlData}
         notifications={notifications}
         showEditor={showEditor}
         isCustomName={isCustomName}
+        isLoaded={isLoaded}
         locale={locale}
       />
     )
@@ -365,6 +403,7 @@ export default class TemplateEditor extends React.Component {
       templateYAML,
       otherYAMLTabs,
       firstTemplateYAML,
+      editStack,
       isFinalValidate
     } = this.state
 
@@ -379,11 +418,13 @@ export default class TemplateEditor extends React.Component {
       onSelect()
     }
 
-    const {
-      templateYAML: newYAML,
-      templateObject
-    } = generateSourceFromTemplate(template, controlData, otherYAMLTabs)
-    updateControls(
+    const { templateYAML: newYAML, templateObject } = generateSource(
+      template,
+      editStack,
+      controlData,
+      otherYAMLTabs
+    )
+    validateControls(
       this.editors,
       newYAML,
       otherYAMLTabs,
@@ -417,11 +458,12 @@ export default class TemplateEditor extends React.Component {
     const { locale } = this.props
     const {
       showEditor,
-      forceUpdate,
+      editor,
       template,
       templateYAML,
       otherYAMLTabs,
       firstTemplateYAML,
+      editStack,
       isFinalValidate
     } = this.state
     const { active, controlData: cd } = control
@@ -430,7 +472,7 @@ export default class TemplateEditor extends React.Component {
       const { prompts: { nameId, baseName } } = control
       const newGroup = initializeControls(
         cd,
-        forceUpdate,
+        editor,
         locale,
         active.length + 1,
         true
@@ -450,11 +492,13 @@ export default class TemplateEditor extends React.Component {
     } else {
       active.splice(inx, 1)
     }
-    const {
-      templateYAML: newYAML,
-      templateObject
-    } = generateSourceFromTemplate(template, controlData, otherYAMLTabs)
-    updateControls(
+    const { templateYAML: newYAML, templateObject } = generateSource(
+      template,
+      editStack,
+      controlData,
+      otherYAMLTabs
+    )
+    validateControls(
       this.editors,
       newYAML,
       otherYAMLTabs,
@@ -512,7 +556,7 @@ export default class TemplateEditor extends React.Component {
   changeEditorMode(control, controlData) {
     const { locale } = this.props
     let { template } = this.props
-    const { otherYAMLTabs, forceUpdate } = this.state
+    const { editStack, otherYAMLTabs, editor } = this.state
     let { templateYAML, templateObject } = this.state
     let newYAML = templateYAML
     let newYAMLTabs = otherYAMLTabs
@@ -549,15 +593,20 @@ export default class TemplateEditor extends React.Component {
             cd.groupControlData = groupControlData
           })
         }
-        controlData = initializeControls(controlData, forceUpdate, locale)
+        controlData = initializeControls(
+          controlData,
+          editor,
+          locale
+        )
       }
 
       // replace template and regenerate templateYAML and highlight diffs
       if (replaceTemplate) {
         template = replaceTemplate
         newYAMLTabs = newYAMLTabs || [];
-        ({ templateYAML: newYAML, templateObject } = generateSourceFromTemplate(
+        ({ templateYAML: newYAML, templateObject } = generateSource(
           template,
+          editStack,
           controlData,
           newYAMLTabs
         ))
@@ -880,6 +929,7 @@ export default class TemplateEditor extends React.Component {
       activeYAMLEditor,
       controlData,
       firstTemplateYAML,
+      editStack,
       isFinalValidate
     } = this.state
     let { templateYAML, notifications } = this.state
@@ -895,7 +945,7 @@ export default class TemplateEditor extends React.Component {
     }
 
     // update controls with values typed into yaml
-    const { templateExceptionMap, hasSyntaxExceptions } = updateControls(
+    const { templateExceptionMap, hasSyntaxExceptions } = validateControls(
       this.editors,
       templateYAML,
       otherYAMLTabs,
@@ -931,10 +981,12 @@ export default class TemplateEditor extends React.Component {
     // update the main yaml--for now
     if (activeYAMLEditor !== 0) {
       const { template, templateYAML: oldYAML } = this.state
-      const {
-        templateYAML: newYAML,
-        templateObject
-      } = generateSourceFromTemplate(template, controlData, otherYAMLTabs)
+      const { templateYAML: newYAML, templateObject } = generateSource(
+        template,
+        editStack,
+        controlData,
+        otherYAMLTabs
+      )
       highlightChanges(this.editors[0], oldYAML, newYAML)
       this.setState({
         controlData,
@@ -952,20 +1004,14 @@ export default class TemplateEditor extends React.Component {
 
   getResourceJSON() {
     const { locale } = this.context
-    const { template, controlData, otherYAMLTabs } = this.state
+    const { templateYAML, controlData, otherYAMLTabs } = this.state
     let canCreate = false
-    const { templateYAML } = generateSourceFromTemplate(
-      template,
-      controlData,
-      otherYAMLTabs,
-      true
-    )
     const {
       templateObjectMap,
       templateExceptionMap,
       hasSyntaxExceptions,
       hasValidationExceptions
-    } = updateControls(
+    } = validateControls(
       this.editors,
       templateYAML,
       otherYAMLTabs,
@@ -1036,10 +1082,10 @@ export default class TemplateEditor extends React.Component {
     }, 0)
   };
 
-  renderEditButton() {
+  renderEditButton(isLoaded) {
     const { portals = {}, locale } = this.props
     const { editBtn } = portals
-    if (editBtn) {
+    if (editBtn && isLoaded) {
       const portal = document.getElementById(editBtn)
       if (portal) {
         const { showEditor } = this.state
@@ -1075,23 +1121,23 @@ export default class TemplateEditor extends React.Component {
     return null
   }
 
-  renderCreateButton() {
-    const {
-      portals = {},
-      createControl,
-      hasPermissions = true,
-      locale
-    } = this.props
+  renderCreateButton(isLoaded) {
+    const { isEditing } = this.state
+    const { portals = {}, createControl, locale } = this.props
     const { createBtn } = portals
-    let disableButton = true
-    if (this.isDirty && hasPermissions) {
-      disableButton = false
-    }
-    const titleText = !hasPermissions
-      ? msgs.get('button.save.access.denied', locale)
-      : undefined
-    if (createControl && createBtn) {
+    if (createControl && createBtn && isLoaded) {
+      const { hasPermissions = true } = createControl
+      const titleText = !hasPermissions
+        ? msgs.get('button.save.access.denied', locale)
+        : undefined
+      let disableButton = true
+      if (this.isDirty && hasPermissions) {
+        disableButton = false
+      }
       const portal = document.getElementById(createBtn)
+      const label = isEditing
+        ? msgs.get('button.update', locale)
+        : msgs.get('button.create', locale)
       const button = (
         <Button
           id={createBtn}
@@ -1099,7 +1145,7 @@ export default class TemplateEditor extends React.Component {
           kind={'primary'}
           disabled={disableButton}
         >
-          {msgs.get('button.create', locale)}
+          {label}
         </Button>
       )
       if (portal) {
@@ -1148,15 +1194,13 @@ export default class TemplateEditor extends React.Component {
 
   resetEditor() {
     const { template, controlData: initialControlData, locale } = this.props
-    const { resetInx } = this.state
-    const controlData = initializeControls(
-      _.cloneDeep(initialControlData),
-      this.forceUpdate,
-      locale
-    )
+    const { editStack, resetInx, editor } = this.state
+    const cd = _.cloneDeep(initialControlData)
+    const controlData = initializeControls(cd, editor, locale)
     const otherYAMLTabs = []
-    const { templateYAML, templateObject } = generateSourceFromTemplate(
+    const { templateYAML, templateObject } = generateSource(
       template,
+      editStack,
       controlData,
       otherYAMLTabs
     )

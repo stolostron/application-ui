@@ -9,7 +9,7 @@
 import R from 'ramda'
 import React from 'react'
 import {
-  getShortDateTime,
+  getAge,
   getClusterCount,
   getSearchLink
 } from '../../lib/client/resource-helper'
@@ -37,26 +37,26 @@ export default {
     },
     {
       msgKey: 'table.header.clusters',
-      tooltipKey: 'table.header.clusters.tooltip',
-      resourceKey: 'clusters',
+      tooltipKey: 'table.header.application.clusters.tooltip',
+      resourceKey: 'clusterCount',
       transformFunction: createClustersLink
     },
     {
       msgKey: 'table.header.resource',
-      tooltipKey: 'table.header.resource.tooltip',
-      resourceKey: 'channels',
+      tooltipKey: 'table.header.application.resource.tooltip',
+      resourceKey: 'hubChannels',
       transformFunction: getChannels
     },
     {
       msgKey: 'table.header.timeWindow',
-      tooltipKey: 'table.header.timeWindow.tooltip',
+      tooltipKey: 'table.header.application.timeWindow.tooltip',
       resourceKey: 'hubSubscriptions',
       transformFunction: getTimeWindow
     },
     {
       msgKey: 'table.header.created',
       resourceKey: 'created',
-      transformFunction: getCreated
+      transformFunction: getAge
     }
   ],
   tableActions: [
@@ -75,7 +75,8 @@ export default {
         url: item =>
           `/multicloud/applications/${encodeURIComponent(
             item.namespace
-          )}/${encodeURIComponent(item.name)}/yaml`
+          )}/${encodeURIComponent(item.name)}/edit`,
+        state: { cancelBack: true }
       }
     },
     {
@@ -94,7 +95,8 @@ export default {
     },
     {
       key: 'table.actions.applications.remove',
-      modal: true
+      modal: true,
+      delete: true
     }
   ],
   detailKeys: {
@@ -131,7 +133,7 @@ export default {
           },
           {
             resourceKey: 'created',
-            transformFunction: getCreated
+            transformFunction: getAge
           }
         ]
       },
@@ -162,17 +164,19 @@ export function createApplicationLink(item = {}, ...param) {
 }
 
 export function createClustersLink(item = {}, locale = '') {
-  const clusterCount = R.path(['clusterCount'], item) || 0
+  const clusterCount = R.path(['clusterCount'], item) || {}
   const localPlacement = (R.path(['hubSubscriptions'], item) || []).some(
     sub => sub.localPlacement
   )
-  return getClusterCount(
+  return getClusterCount({
     locale,
-    clusterCount,
-    localPlacement,
-    item.name,
-    item.namespace
-  )
+    remoteCount: clusterCount.remoteCount,
+    localPlacement: localPlacement || clusterCount.localCount,
+    name: item.name,
+    namespace: item.namespace,
+    kind: 'application',
+    apigroup: 'app.k8s.io'
+  })
 }
 
 export function getChannels(item = {}, locale = '') {
@@ -191,11 +195,6 @@ export function getChannels(item = {}, locale = '') {
 
 export function getTimeWindow(item = {}, locale = '') {
   return (R.path(['hubSubscriptions'], item) || []).some(sub => sub.timeWindow)
-    ? msgs.get('table.cell.yes', locale)
+    ? msgs.get('table.cell.timeWindow.yes', locale)
     : ''
-}
-
-export function getCreated(item = {}, locale = '') {
-  const timestamp = R.path(['created'], item) || ''
-  return timestamp ? getShortDateTime(timestamp, locale) : '-'
 }

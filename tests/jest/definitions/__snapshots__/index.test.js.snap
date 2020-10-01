@@ -79,6 +79,9 @@ Object {
     Object {
       "key": "table.actions.applications.edit",
       "link": Object {
+        "state": Object {
+          "cancelBack": true,
+        },
         "url": [Function],
       },
     },
@@ -89,6 +92,7 @@ Object {
       },
     },
     Object {
+      "delete": true,
       "key": "table.actions.applications.remove",
       "modal": true,
     },
@@ -105,20 +109,20 @@ Object {
     },
     Object {
       "msgKey": "table.header.clusters",
-      "resourceKey": "clusters",
-      "tooltipKey": "table.header.clusters.tooltip",
+      "resourceKey": "clusterCount",
+      "tooltipKey": "table.header.application.clusters.tooltip",
       "transformFunction": [Function],
     },
     Object {
       "msgKey": "table.header.resource",
-      "resourceKey": "channels",
-      "tooltipKey": "table.header.resource.tooltip",
+      "resourceKey": "hubChannels",
+      "tooltipKey": "table.header.application.resource.tooltip",
       "transformFunction": [Function],
     },
     Object {
       "msgKey": "table.header.timeWindow",
       "resourceKey": "hubSubscriptions",
-      "tooltipKey": "table.header.timeWindow.tooltip",
+      "tooltipKey": "table.header.application.timeWindow.tooltip",
       "transformFunction": [Function],
     },
     Object {
@@ -147,20 +151,20 @@ Array [
   },
   Object {
     "msgKey": "table.header.clusters",
-    "resourceKey": "clusters",
-    "tooltipKey": "table.header.clusters.tooltip",
+    "resourceKey": "clusterCount",
+    "tooltipKey": "table.header.application.clusters.tooltip",
     "transformFunction": [Function],
   },
   Object {
     "msgKey": "table.header.resource",
-    "resourceKey": "channels",
-    "tooltipKey": "table.header.resource.tooltip",
+    "resourceKey": "hubChannels",
+    "tooltipKey": "table.header.application.resource.tooltip",
     "transformFunction": [Function],
   },
   Object {
     "msgKey": "table.header.timeWindow",
     "resourceKey": "hubSubscriptions",
-    "tooltipKey": "table.header.timeWindow.tooltip",
+    "tooltipKey": "table.header.application.timeWindow.tooltip",
     "transformFunction": [Function],
   },
   Object {

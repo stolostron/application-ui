@@ -80,28 +80,16 @@ export const unusedChannelNamespaces = () => {
 export const channels = async (key, type, name) => {
   channelsInformation(name, key).then(({ channelNs, channelName }) => {
     cy.log(`validate the ${type} channel`);
-    cy
-      .exec(`oc get channel ${channelName} -n ${channelNs}`)
-      .its("stdout")
-      .should("contain", name);
-    cy
-      .exec(`oc get ns ${channelNs}`)
-      .its("stdout")
-      .should("contain", `${name}`);
+    cy.exec(`oc get channel ${channelName} -n ${channelNs}`);
+    cy.exec(`oc get ns ${channelNs}`);
   });
 };
 
 export const placementrule = (key, name) => {
   cy.log(`validate the placementrule`);
   cy.exec(`oc get placementrule -n ${name}-ns`).then(({ stdout, stderr }) => {
-    cy
-      .exec(`oc get placementrule ${name}-placement-${key} -n ${name}-ns`)
-      .its("stdout")
-      .should("contain", `${name}`);
-    cy
-      .exec(`oc get ns ${name}-ns`)
-      .its("stdout")
-      .should("contain", `${name}`);
+    cy.exec(`oc get placementrule ${name}-placement-${key} -n ${name}-ns`);
+    cy.exec(`oc get ns ${name}-ns`);
   });
 };
 
@@ -111,25 +99,16 @@ export const subscription = (key, name, kubeconfig = "") => {
   cy.log(`validate the subscription`);
   cy.exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`).then(() => {
     if (!managedCluster) {
-      cy
-        .exec(`oc get subscription ${name}-subscription-${key} -n ${name}-ns`)
-        .its("stdout")
-        .should("contain", `${name}`);
+      cy.exec(`oc get subscription ${name}-subscription-${key} -n ${name}-ns`);
     } else {
-      cy
-        .exec(
-          `oc ${managedCluster} get subscription -n ${name}-ns | awk 'NR>1 {print $1}'`
-        )
-        .its("stdout")
-        .should("contain", `${name}`);
+      cy.exec(
+        `oc ${managedCluster} get subscription -n ${name}-ns | awk 'NR>1 {print $1}'`
+      );
     }
   });
   // namespace
   cy.log(`validate the namespace`);
-  cy
-    .exec(`oc  ${managedCluster} get ns ${name}-ns`)
-    .its("stdout")
-    .should("contain", `${name}`);
+  cy.exec(`oc  ${managedCluster} get ns ${name}-ns`);
 };
 
 export const validateTimewindow = (name, config) => {

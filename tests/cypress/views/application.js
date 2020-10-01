@@ -164,10 +164,11 @@ export const submitSave = () => {
 };
 
 export const validateSubscriptionDetails = (name, data, type) => {
+  cy.wait(50 * 1000);
   cy
-    .get(".toggle-subs-btn.bx--btn.bx--btn--primary", { timeout: 20 * 1000 })
+    .get(".toggle-subs-btn.bx--btn.bx--btn--primary", { timeout: 100 * 1000 })
     .scrollIntoView()
-    .click({ force: true, timeout: 100 * 1000 });
+    .click();
   for (const [key, value] of Object.entries(data.config)) {
     const { setting, type } = value.timeWindow;
     if (setting) {
@@ -182,9 +183,11 @@ export const validateSubscriptionDetails = (name, data, type) => {
         .eq(key)
         .within($subcards => {
           type == "active"
-            ? cy.get(".set-time-window-link").contains(keywords[type])
+            ? cy
+                .get(".set-time-window-link", { timeout: 20 * 1000 })
+                .contains(keywords[type])
             : cy
-                .get(".timeWindow-status-icon")
+                .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
                 .contains(keywords[type].toLowerCase());
         });
     }

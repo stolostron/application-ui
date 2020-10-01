@@ -10,13 +10,14 @@ import {
 } from "../../views/resources";
 
 describe("Cleanup resouces", () => {
+  it("delete unused channel namespaces on hub cluster", () => {
+    deleteUnusedChannelNamespaces();
+  });
+
   const kubeconfigs = Cypress.env("KUBE_CONFIG");
   for (const type in config) {
     const data = config[type].data;
     if (data.enable) {
-      it("delete unused channel namespaces on hub cluster", () => {
-        deleteUnusedChannelNamespaces();
-      });
       it(`delete namepsace ${data.name}-ns on hub cluster`, () => {
         deleteNamespaceHub(data, data.name, type);
       });

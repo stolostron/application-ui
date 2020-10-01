@@ -178,8 +178,8 @@ export const fetchGlobalAppsData = resourceType => {
   }
 }
 
-export const fetchResources = resourceType => {
-  let resourceQuery, dataKey
+const getResourceQuery = resourceType => {
+  let resourceQuery, dataKey, filter
   switch (resourceType.name) {
   case 'QueryApplications':
     resourceQuery = { list: 'ApplicationsList' }
@@ -188,6 +188,7 @@ export const fetchResources = resourceType => {
   case 'QuerySubscriptions':
     resourceQuery = { list: 'SubscriptionsList' }
     dataKey = 'subscriptions'
+    filter = item => item.channel !== 'open-cluster-management/charts-v1'
     break
   case 'QueryPlacementRules':
     resourceQuery = { list: 'PlacementRulesList' }
@@ -196,6 +197,9 @@ export const fetchResources = resourceType => {
   case 'QueryChannels':
     resourceQuery = { list: 'ChannelsList' }
     dataKey = 'channels'
+    filter = item =>
+      item.namespace !== 'open-cluster-management' ||
+        item.name !== 'charts-v1'
     break
   }
   if (resourceQuery) {
@@ -205,11 +209,11 @@ export const fetchResources = resourceType => {
         .get(resourceQuery)
         .then(result => {
           if (result.data && result.data[dataKey]) {
+            const filteredItems = filter
+              ? result.data[dataKey].filter(filter)
+              : result.data[dataKey]
             return dispatch(
-              receiveResourceSuccess(
-                { items: result.data[dataKey] },
-                resourceType
-              )
+              receiveResourceSuccess({ items: filteredItems }, resourceType)
             )
           }
           if (result.error) {
@@ -227,6 +231,16 @@ export const fetchResources = resourceType => {
           return dispatch(receiveResourceError(error, resourceType))
         })
     }
+  } else {
+    return null
+  }
+}
+
+export const fetchResources = resourceType => {
+  // Perform custom search query for certain resource types
+  const resourceQuery = getResourceQuery(resourceType)
+  if (resourceQuery) {
+    return resourceQuery
   }
   const query = getQueryStringForResources(resourceType.name)
   return dispatch => {

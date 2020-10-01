@@ -47,7 +47,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     cy.get(gitUser).type(username);
     cy.get(gitKey).type(token);
   }
-  
+
   // wait for form to remove the users
   cy.wait(1000);
   // type in branch and path
@@ -164,10 +164,11 @@ export const submitSave = () => {
 };
 
 export const validateSubscriptionDetails = (name, data, type) => {
+  cy.wait(50 * 1000);
   cy
-    .get(".toggle-subs-btn.bx--btn.bx--btn--primary", { timeout: 20 * 1000 })
+    .get(".toggle-subs-btn.bx--btn.bx--btn--primary", { timeout: 100 * 1000 })
     .scrollIntoView()
-    .click({ timeout: 100 * 1000 });
+    .click();
   for (const [key, value] of Object.entries(data.config)) {
     const { setting, type } = value.timeWindow;
     if (setting) {
@@ -182,9 +183,11 @@ export const validateSubscriptionDetails = (name, data, type) => {
         .eq(key)
         .within($subcards => {
           type == "active"
-            ? cy.get(".set-time-window-link").contains(keywords[type])
+            ? cy
+                .get(".set-time-window-link", { timeout: 20 * 1000 })
+                .contains(keywords[type])
             : cy
-                .get(".timeWindow-status-icon")
+                .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
                 .contains(keywords[type].toLowerCase());
         });
     }
@@ -194,24 +197,25 @@ export const validateSubscriptionDetails = (name, data, type) => {
 export const validateAdvancedTables = (name, data, type) => {
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
-    const { channelName } = channelsInformation(key)[type];
-    let resourceTypes = {
-      subscriptions: `${name}-subscription-${key}`,
-      placementrules: `${name}-placement-${key}`,
-      channels: `${name}-${channelName}-${key}`
-    };
-    cy.log(`instance-${key}`);
-    Object.keys(resourceTypes).map(function(key) {
-      if (local && key == "placementrules") {
-        cy.log(
-          `no placementrules for app - ${name} because it has been deployed locally`
-        );
-      } else {
-        cy.log(`validating ${key} on Advanced Tables`);
-        cy.visit(`/multicloud/applications/advanced?resource=${key}`);
-        cy.get("#undefined-search").type(name);
-        resourceTable.rowShouldExist(resourceTypes[key], 600 * 1000);
-      }
+    channelsInformation(name, key).then(({ channelName }) => {
+      let resourceTypes = {
+        subscriptions: `${name}-subscription-${key}`,
+        placementrules: `${name}-placement-${key}`,
+        channels: channelName
+      };
+      cy.log(`instance-${key}`);
+      Object.keys(resourceTypes).map(function(key) {
+        if (local && key == "placementrules") {
+          cy.log(
+            `no placementrules for app - ${name} because it has been deployed locally`
+          );
+        } else {
+          cy.log(`validating ${key} on Advanced Tables`);
+          cy.visit(`/multicloud/applications/advanced?resource=${key}`);
+          cy.get("#undefined-search").type(resourceTypes[key]);
+          resourceTable.rowShouldExist(resourceTypes[key], 600 * 1000);
+        }
+      });
     });
   }
 };
@@ -297,6 +301,7 @@ export const validateResourceTable = name => {
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
+  cy.get("#undefined-search").type(name);
   resourceTable.rowShouldExist(name, 600 * 1000);
   resourceTable.rowNameClick(name);
   cy.reload(); // status isn't updating after unknown failure

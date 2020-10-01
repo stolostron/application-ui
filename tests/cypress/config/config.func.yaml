@@ -35,7 +35,7 @@ helm:
     name: ui-helm
     config:
       - url: https://kubernetes-charts.storage.googleapis.com/
-        chartName: nginx-ingress
+        chartName: airflow
         timeWindow:
           setting: true
           type: active

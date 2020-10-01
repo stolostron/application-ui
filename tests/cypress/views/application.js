@@ -167,7 +167,7 @@ export const validateSubscriptionDetails = (name, data, type) => {
   cy
     .get(".toggle-subs-btn.bx--btn.bx--btn--primary", { timeout: 20 * 1000 })
     .scrollIntoView()
-    .click({ timeout: 100 * 1000 });
+    .click({ force: true, timeout: 100 * 1000 });
   for (const [key, value] of Object.entries(data.config)) {
     const { setting, type } = value.timeWindow;
     if (setting) {

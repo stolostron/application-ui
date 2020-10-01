@@ -175,14 +175,17 @@ export const getManagedClusterName = () => {
 };
 
 export const deleteNamespaceHub = (data, name, type) => {
-  cy.wrap(data.config).each((_, i) => {
-    channelsInformation(name, i).then(({ channelNs }) => {
-      cy.exec(`oc delete ns ${channelNs}`, {
-        failOnNonZeroExit: false,
-        timeout: 100 * 1000
-      });
-    });
-  });
+  // TODO: subscription has already been deleted, and channel could be shared;
+  // need to clean up only unused channel namespaces
+
+  // cy.wrap(data.config).each((_, i) => {
+  //   channelsInformation(name, i).then(({ channelNs }) => {
+  //     cy.exec(`oc delete ns ${channelNs}`, {
+  //       failOnNonZeroExit: false,
+  //       timeout: 100 * 1000
+  //     });
+  //   });
+  // });
   cy
     .exec(`oc delete ns ${name}-ns`, { timeout: 100 * 1000 })
     .its("stdout")

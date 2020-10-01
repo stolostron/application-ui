@@ -1256,7 +1256,7 @@ describe("setSubscriptionDeployStatus with no sub error", () => {
             '/multicloud/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3Ans%20cluster%3Alocal-cluster"}'
         },
         id: "undefined-subscrSearch",
-        label: "View all rules in {0} namespace"
+        label: "View all placement rules in {0} namespace"
       }
     },
     { type: "spacer" }
@@ -1447,7 +1447,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
             '/multicloud/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3Ans%20cluster%3Alocal-cluster"}'
         },
         id: "undefined-subscrSearch",
-        label: "View all rules in {0} namespace"
+        label: "View all placement rules in {0} namespace"
       }
     },
     { type: "spacer" }

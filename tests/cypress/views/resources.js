@@ -205,7 +205,10 @@ export const deleteUnusedChannelNamespaces = () => {
 
 export const deleteNamespaceHub = (data, name, type) => {
   cy
-    .exec(`oc delete ns ${name}-ns`, { imeout: 100 * 1000 })
+    .exec(`oc delete ns ${name}-ns`, {
+      failOnNonZeroExit: type !== "helm", // helm namespaces in particular get stuck
+      timeout: 100 * 1000
+    })
     .its("stdout")
     .should("contain", `${name}-ns`);
 };

@@ -5,10 +5,15 @@
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import {
   deleteNamespaceHub,
-  deleteNamespaceTarget
+  deleteNamespaceTarget,
+  deleteUnusedChannelNamespaces
 } from "../../views/resources";
 
 describe("Cleanup resouces", () => {
+  it("delete unused channel namespaces on hub cluster", () => {
+    deleteUnusedChannelNamespaces();
+  });
+
   const kubeconfigs = Cypress.env("KUBE_CONFIG");
   for (const type in config) {
     const data = config[type].data;

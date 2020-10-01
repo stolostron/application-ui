@@ -5,8 +5,6 @@
 
 /// <reference types="cypress" />
 
-import { namespaces } from "d3";
-
 export const targetResource = data => {
   const name = data.name;
   const config = data.config;

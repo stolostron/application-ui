@@ -261,8 +261,8 @@ export const validateTopology = (name, data, type) => {
   }
 
   data.config.forEach(data => {
-    const { path } = type == "git" ? data : data;
-    path == "helloworld" ? validateHelloWorld() : null;
+    //const { path } = type == "git" ? data : data;
+    //path == "helloworld" ? validateHelloWorld() : null;
   });
 };
 

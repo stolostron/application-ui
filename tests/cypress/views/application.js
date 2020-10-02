@@ -213,7 +213,7 @@ export const validateAdvancedTables = (name, data, type) => {
           cy.log(`validating ${key} on Advanced Tables`);
           cy.visit(`/multicloud/applications/advanced?resource=${key}`);
           cy
-            .get("#undefined-search", { timeout: 100 * 1000 })
+            .get("#undefined-search", { timeout: 500 * 1000 })
             .type(resourceTypes[key]);
           resourceTable.rowShouldExist(resourceTypes[key], 600 * 1000);
         }
@@ -303,7 +303,7 @@ export const validateResourceTable = name => {
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
-  cy.get("#undefined-search", { timeout: 100 * 100 }).type(name);
+  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
   resourceTable.rowShouldExist(name, 600 * 1000);
   resourceTable.rowNameClick(name);
   cy.reload(); // status isn't updating after unknown failure

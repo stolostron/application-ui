@@ -47,7 +47,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     cy.get(gitUser).type(username);
     cy.get(gitKey).type(token);
   }
-  
+
   // wait for form to remove the users
   cy.wait(1000);
   // type in branch and path
@@ -394,7 +394,7 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
     selectDate(date, key);
 
     cy
-      .get(".bx--dropdown.config-timezone-dropdown.bx--list-box")
+      .get(".bx--combo-box.config-timezone-combo-box.bx--list-box")
       .within($timezone => {
         cy.get("[type='button']").click();
         cy

@@ -558,7 +558,7 @@ export const updatePrePostControls = urlControl => {
   if (!selectedSecret) {
     //new secret, show host task info
     _.set(ansibleHost, 'type', 'text')
-    _.set(ansibleToken, 'type', 'text')
+    _.set(ansibleToken, 'type', 'password')
   } else {
     //existing secret, hide and clean host and token
     _.set(ansibleHost, 'type', 'hidden')

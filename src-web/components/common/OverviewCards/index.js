@@ -53,20 +53,6 @@ class OverviewCards extends React.Component {
     }
   }
 
-  componentWillMount() {
-    //update cards every 3s
-    const intervalId = setInterval(this.reload.bind(this), 3000)
-    this.setState({ intervalId: intervalId })
-  }
-
-  reload() {
-    this.setState({})
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.state.intervalId)
-  }
-
   render() {
     const {
       HCMApplicationList,
@@ -415,7 +401,6 @@ class OverviewCards extends React.Component {
 
   toggleSubsBtn = showSubCards => {
     this.setState({ showSubCards: !showSubCards })
-    this.forceUpdate()
   };
 }
 

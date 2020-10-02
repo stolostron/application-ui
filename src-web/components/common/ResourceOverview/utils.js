@@ -365,7 +365,7 @@ export const getAppOverviewCardsData = (
           gitBranch: gitTypeData.gitBranch,
           gitPath: gitTypeData.gitPath,
           timeWindowType: timeWindowData.windowtype,
-          timeWindowDays: timeWindowData.weekdays,
+          timeWindowDays: timeWindowData.daysofweek,
           timeWindowTimezone: timeWindowData.location,
           timeWindowRanges: timeWindowData.hours
         })

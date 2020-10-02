@@ -538,7 +538,7 @@ export const reverse = (control, templateObject) => {
   )
   let weekdays = _.get(
     templateObject,
-    getSourcePath('Subscription[0].spec.timewindow.weekdays')
+    getSourcePath('Subscription[0].spec.timewindow.daysofweek')
   )
   weekdays = (removeVs(weekdays && weekdays.$v) || []).map(day => {
     return `"${day}"`

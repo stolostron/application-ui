@@ -1190,7 +1190,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
   }
   const timeWindow = _.get(node, 'specs.raw.spec.timewindow.windowtype')
   const timezone = _.get(node, 'specs.raw.spec.timewindow.location', 'NA')
-  const timeWindowDays = _.get(node, 'specs.raw.spec.timewindow.weekdays')
+  const timeWindowDays = _.get(node, 'specs.raw.spec.timewindow.daysofweek')
   const timeWindowHours = _.get(node, 'specs.raw.spec.timewindow.hours', [])
 
   if (timeWindow) {

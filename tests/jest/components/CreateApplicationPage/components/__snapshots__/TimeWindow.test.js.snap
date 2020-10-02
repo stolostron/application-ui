@@ -355,7 +355,7 @@ exports[`TimeWindow component renders as expected 1`] = `
               </div>
               <div
                 aria-label="Choose an item"
-                className="bx--dropdown config-timezone-dropdown bx--list-box bx--list-box--disabled"
+                className="bx--combo-box config-timezone-combo-box bx--list-box bx--list-box--disabled"
                 onClick={[Function]}
                 onKeyDown={[Function]}
                 role="listbox"
@@ -372,12 +372,21 @@ exports[`TimeWindow component renders as expected 1`] = `
                   tabIndex="0"
                   type="button"
                 >
-                  <span
-                    className="bx--list-box__label"
-                    htmlFor="downshift-0-input"
-                  >
-                    Choose a location
-                  </span>
+                  <input
+                    aria-activedescendant={null}
+                    aria-autocomplete="list"
+                    aria-expanded={false}
+                    aria-label="timezoneComboBox"
+                    autoComplete="off"
+                    className="bx--text-input"
+                    disabled={true}
+                    id="downshift-0-input"
+                    label="Time zone combo box menu options"
+                    placeholder="Choose a location"
+                    role="combobox"
+                    value=""
+                  />
+                  
                   <div
                     className="bx--list-box__menu-icon"
                   >

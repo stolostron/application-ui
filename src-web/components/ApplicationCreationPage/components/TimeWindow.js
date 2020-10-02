@@ -15,7 +15,7 @@ import {
   Accordion,
   AccordionItem,
   Checkbox,
-  DropdownV2,
+  ComboBox,
   Icon,
   RadioButton,
   RadioButtonGroup,
@@ -26,6 +26,7 @@ import Tooltip from '../../TemplateEditor/components/Tooltip'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
+const moment = require('moment-timezone')
 resources(() => {
   require('./style.scss')
 })
@@ -40,7 +41,9 @@ export class TimeWindow extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      timezoneCache: { isSelected: false, tz: '' }
+    }
     if (_.isEmpty(this.props.control.active)) {
       this.props.control.active = {
         mode: '',
@@ -68,7 +71,7 @@ export class TimeWindow extends React.Component {
         })
       }
       // Add exception if no timezone selected
-      if (control.active.timezone === '') {
+      if (!control.active.timezone) {
         exceptions.push({
           row: 1,
           text: msgs.get('creation.missing.timeWindow.timezone', locale),
@@ -96,6 +99,9 @@ export class TimeWindow extends React.Component {
     const daysSelectorID = 'days-selector'
     const timezoneDropdownID = 'timezone-dropdown'
     const { mode, days = [], timezone } = this.props.control.active
+
+    const timezoneList = moment.tz.names()
+    const localTimezone = moment.tz.guess(true)
 
     return (
       <React.Fragment>
@@ -252,37 +258,32 @@ export class TimeWindow extends React.Component {
                       )}{' '}
                       *
                     </div>
-                    <DropdownV2
-                      className="config-timezone-dropdown"
-                      label={timezone || 'Choose a location'}
-                      items={[
-                        {
-                          label: 'America/Edmonton',
-                          name: timezoneDropdownID,
-                          value: '"America/Edmonton"'
-                        },
-                        {
-                          label: 'America/Halifax',
-                          name: timezoneDropdownID,
-                          value: '"America/Halifax"'
-                        },
-                        {
-                          label: 'America/Toronto',
-                          name: timezoneDropdownID,
-                          value: '"America/Toronto"'
-                        },
-                        {
-                          label: 'America/Vancouver',
-                          name: timezoneDropdownID,
-                          value: '"America/Vancouver"'
-                        },
-                        {
-                          label: 'America/Winnipeg',
-                          name: timezoneDropdownID,
-                          value: '"America/Winnipeg"'
-                        }
-                      ]}
+                    <ComboBox
+                      ariaLabel="timezoneComboBox"
+                      label={msgs.get(
+                        'timeWindow.label.timezone.label',
+                        locale
+                      )}
+                      className="config-timezone-combo-box"
+                      placeholder={msgs.get(
+                        'timeWindow.label.timezone.placeholder',
+                        locale
+                      )}
+                      initialSelectedItem={timezone || ''}
+                      items={this.renderTimezones(
+                        timezoneList,
+                        localTimezone,
+                        timezoneDropdownID
+                      )}
                       disabled={!modeSelected}
+                      shouldFilterItem={({ inputValue, item }) => {
+                        return (
+                          inputValue.length === 0 ||
+                          item.label
+                            .toLowerCase()
+                            .indexOf(inputValue.toLowerCase()) !== -1
+                        )
+                      }}
                       onChange={this.handleChange.bind(this)}
                     />
                   </div>
@@ -320,6 +321,28 @@ export class TimeWindow extends React.Component {
       </React.Fragment>
     )
   }
+
+  renderTimezones = (timezoneList, localTimezone, id) => {
+    const timezoneObjList = [
+      {
+        label: localTimezone,
+        name: id,
+        value: `"${localTimezone}"`
+      }
+    ]
+
+    timezoneList = timezoneList.filter(e => e !== localTimezone)
+
+    timezoneList.forEach(tz => {
+      timezoneObjList.push({
+        label: tz,
+        name: id,
+        value: `"${tz}"`
+      })
+    })
+
+    return timezoneObjList
+  };
 
   renderTimes = (control, modeSelected) => {
     return (
@@ -432,6 +455,8 @@ export class TimeWindow extends React.Component {
 
   handleChange(event) {
     const { control, handleChange } = this.props
+    const { timezoneCache } = this.state
+
     let targetName = ''
     try {
       targetName = event.target.name
@@ -441,6 +466,14 @@ export class TimeWindow extends React.Component {
 
     if (targetName) {
       if (targetName.startsWith('timeWindow-mode-container')) {
+        // When switching from "default" to "active/blocked" repopulate yaml if timezone was previously selected
+        if (
+          !control.active.mode &&
+          event.target.value &&
+          timezoneCache.isSelected
+        ) {
+          control.active.timezone = timezoneCache.tz
+        }
         control.active.mode = event.target.value
       } else {
         switch (targetName) {
@@ -477,7 +510,15 @@ export class TimeWindow extends React.Component {
       event.selectedItem &&
       event.selectedItem.name === 'timezone-dropdown'
     ) {
+      // Set timezone on select and set cached tz for repopulating yaml
       control.active.timezone = event.selectedItem.value
+      this.setState({
+        timezoneCache: { isSelected: true, tz: event.selectedItem.value }
+      })
+    } else if (!event.selectedItem) {
+      // Reset timezone and reset cached tz
+      control.active.timezone = ''
+      this.setState({ timezoneCache: { isSelected: false, tz: '' } })
     }
 
     handleChange(control)
@@ -533,12 +574,11 @@ export const reverse = (control, templateObject) => {
   }
 }
 
-
 export const summarize = (control, controlData, summary) => {
-  const {mode, timezone, timeList, days} = control.active||{}
+  const { mode, timezone, timeList, days } = control.active || {}
   if (mode) {
     summary.push(mode)
-    timeList.forEach(({start, end})=>{
+    timeList.forEach(({ start, end }) => {
       if (start) {
         summary.push(`${start}-${end}`)
       }

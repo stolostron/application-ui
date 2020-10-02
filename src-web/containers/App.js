@@ -47,10 +47,6 @@ export const CreateApplicationButton = loadable(() =>
   import(/* webpackChunkName: "createApplicationButton" */ '../components/common/CreateApplicationButton')
 )
 
-export const EditApplicationButton = loadable(() =>
-  import(/* webpackChunkName: "editApplicationButton" */ '../components/common/EditApplicationButton')
-)
-
 resources(() => {
   require('../../scss/common.scss')
 })
@@ -118,16 +114,11 @@ class App extends React.Component {
           url: SINGLE_APP_BASE_PAGE_PATH
         },
         {
-          id: 'advanced',
-          label: 'description.title.yaml',
-          url: `${SINGLE_APP_BASE_PAGE_PATH}/yaml`
+          id: 'editor',
+          label: 'description.title.editor',
+          url: `${SINGLE_APP_BASE_PAGE_PATH}/edit`
         }
       ]
-    }
-
-    const getEditApplicationButton = params => {
-      const path = `${getSingleApplicationBasePath(params)}/yaml`
-      return <EditApplicationButton path={path} key="edit" />
     }
 
     const applicationsTitle = 'routes.applications'
@@ -189,15 +180,14 @@ class App extends React.Component {
                 serverProps={this.getServerProps()}
                 secondaryHeaderProps={{
                   title: applicationsTitle,
-                  tabs: getSingleApplicationTabs(params.match.params),
-                  mainButton: getEditApplicationButton(params.match.params)
+                  tabs: getSingleApplicationTabs(params.match.params)
                 }}
               />
             )}
           />
           <Route
             exact
-            path={`${BASE_PAGE_PATH}/:namespace/:name/yaml`}
+            path={`${BASE_PAGE_PATH}/:namespace/:name/edit`}
             render={params => (
               <ApplicationCreationPage
                 params={params}

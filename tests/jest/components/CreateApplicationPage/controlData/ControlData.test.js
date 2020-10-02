@@ -185,7 +185,7 @@ describe("updatePrePostControls", () => {
     availableData: [],
     groupControlData: [
       { active: "", id: "ansibleTowerHost", type: "text" },
-      { active: "", id: "ansibleTowerToken", type: "text" }
+      { active: "", id: "ansibleTowerToken", type: "password" }
     ]
   };
   it("updatePrePostControls new secret", () => {

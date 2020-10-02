@@ -42,81 +42,97 @@ export const apiResources = (type, data) => {
   }
 };
 
-export const channelsInformation = key => {
-  const objChannelKey = parseInt(key) + 1;
-  const channelDict = {
-    git: {
-      channelNs: "app-samples-chn-ns",
-      channelName: "app-samples-chn"
-    },
-    objectstore: {
-      channelNs: `dev${objChannelKey}-chn-ns`,
-      channelName: `dev${objChannelKey}-chn`
-    },
-    helm: {
-      channelNs: "-chn-ns",
-      channelName: "-chn"
-    }
-  };
-  return channelDict;
+export const channelsInformation = (name, key) => {
+  // Return a Cypress chain with channel name/namespace from subscription
+  return cy
+    .exec(
+      `oc -n ${name}-ns get subscription ${name}-subscription-${key} -o=jsonpath='{.spec.channel}'`
+    )
+    .then(({ stdout }) => {
+      const [channelNs, channelName] = stdout.split("/");
+      return {
+        channelNs,
+        channelName
+      };
+    });
 };
 
-export const channels = (key, type, name) => {
-  const channelDict = channelsInformation(key);
-  const { channelNs, channelName } = channelDict[type];
-  cy.log(`validate the ${type} channel`);
-  cy
-    .exec(
-      `oc get channel ${name}-${channelName}-${key} -n ${name}-${channelNs}-${key}`
-    )
-    .its("stdout")
-    .should("contain", name);
-  cy
-    .exec(`oc get ns ${name}-${channelNs}-${key}`)
-    .its("stdout")
-    .should("contain", `${name}`);
+const CHANNEL_NAMESPACE_PATTERN = /ui-.*-chn-ns-\d/;
+
+export const unusedChannelNamespaces = () => {
+  // Return a Cypress chain with an array of unused channel namespaces
+  return cy
+    .exec("oc get channels -A -o=jsonpath='{.items[*].metadata.namespace}'")
+    .then(({ stdout }) => {
+      const channelNamespaces = new Set(
+        stdout
+          .split(" ")
+          .filter(channel => CHANNEL_NAMESPACE_PATTERN.test(channel))
+      );
+      return cy
+        .exec("oc get subscriptions -A -o=jsonpath='{.items[*].spec.channel}'")
+        .then(({ stdout }) => {
+          const usedChannelNamespaces = new Set(
+            stdout.split(" ").map(channel => channel.split("/")[0])
+          );
+          return Array.from(channelNamespaces).filter(channel =>
+            usedChannelNamespaces.has(channel)
+          );
+        });
+    });
+};
+
+export const emptyChannelNamespaces = () => {
+  // Return a Cypress chain with an array of empty channel namespaces
+  return cy
+    .exec("oc get channels -A -o=jsonpath='{.items[*].metadata.namespace}'")
+    .then(({ stdout }) => {
+      const channelNamespaces = new Set(stdout.split(" "));
+      return cy
+        .exec("oc get namespaces -A -o=jsonpath='{.items[*].metadata.name}'")
+        .then(({ stdout }) => {
+          const potentialChannelNamespaces = stdout
+            .split(" ")
+            .filter(channel => CHANNEL_NAMESPACE_PATTERN.test(channel));
+          return potentialChannelNamespaces.filter(
+            channel => !channelNamespaces.has(channel)
+          );
+        });
+    });
+};
+
+export const channels = async (key, type, name) => {
+  channelsInformation(name, key).then(({ channelNs, channelName }) => {
+    cy.log(`validate the ${type} channel`);
+    cy.exec(`oc get channel ${channelName} -n ${channelNs}`);
+    cy.exec(`oc get ns ${channelNs}`);
+  });
 };
 
 export const placementrule = (key, name) => {
   cy.log(`validate the placementrule`);
   cy.exec(`oc get placementrule -n ${name}-ns`).then(({ stdout, stderr }) => {
-    cy
-      .exec(`oc get placementrule ${name}-placement-${key} -n ${name}-ns`)
-      .its("stdout")
-      .should("contain", `${name}`);
-    cy
-      .exec(`oc get ns ${name}-ns`)
-      .its("stdout")
-      .should("contain", `${name}`);
+    cy.exec(`oc get placementrule ${name}-placement-${key} -n ${name}-ns`);
+    cy.exec(`oc get ns ${name}-ns`);
   });
 };
 
 export const subscription = (key, name, kubeconfig = "") => {
-  let managedCluster = "";
-  kubeconfig ? (managedCluster = `--kubeconfig ${kubeconfig}`) : managedCluster;
+  let managedCluster = kubeconfig ? `--kubeconfig ${kubeconfig}` : "";
 
   cy.log(`validate the subscription`);
   cy.exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`).then(() => {
     if (!managedCluster) {
-      cy
-        .exec(`oc get subscription ${name}-subscription-${key} -n ${name}-ns`)
-        .its("stdout")
-        .should("contain", `${name}`);
+      cy.exec(`oc get subscription ${name}-subscription-${key} -n ${name}-ns`);
     } else {
-      cy
-        .exec(
-          `oc ${managedCluster} get subscription -n ${name}-ns | awk 'NR>1 {print $1}'`
-        )
-        .its("stdout")
-        .should("contain", `${name}`);
+      cy.exec(
+        `oc ${managedCluster} get subscription -n ${name}-ns | awk 'NR>1 {print $1}'`
+      );
     }
   });
   // namespace
   cy.log(`validate the namespace`);
-  cy
-    .exec(`oc  ${managedCluster} get ns ${name}-ns`)
-    .its("stdout")
-    .should("contain", `${name}`);
+  cy.exec(`oc  ${managedCluster} get ns ${name}-ns`);
 };
 
 export const validateTimewindow = (name, config) => {
@@ -181,18 +197,21 @@ export const getManagedClusterName = () => {
   });
 };
 
+export const deleteUnusedChannelNamespaces = () => {
+  const attemptNamespaceDeletion = namespace => {
+    cy.exec(`oc delete ns ${namespace}`, {
+      failOnNonZeroExit: false
+    });
+  };
+  unusedChannelNamespaces().each(attemptNamespaceDeletion);
+  emptyChannelNamespaces().each(attemptNamespaceDeletion);
+};
+
 export const deleteNamespaceHub = (data, name, type) => {
-  cy
-    .exec(`oc delete ns ${name}-ns`)
-    .its("stdout")
-    .should("contain", `${name}-ns`);
-  for (const [key] of Object.entries(data.config)) {
-    const { channelNs } = channelsInformation(key)[type];
-    cy
-      .exec(`oc delete ns ${name}-${channelNs}-${key}`)
-      .its("stdout")
-      .should("contain", `${name}-${channelNs}-${key}`);
-  }
+  cy.exec(`oc delete ns ${name}-ns`, {
+    failOnNonZeroExit: type !== "helm", // helm namespaces in particular get stuck
+    timeout: 100 * 1000
+  });
 };
 
 export const deleteNamespaceTarget = (name, kubeconfig) => {

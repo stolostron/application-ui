@@ -152,9 +152,9 @@ export default class TemplateEditor extends React.Component {
     // has source been initialized?
     if (isLoaded && !templateYAML) {
       // editing an existing set of resources??
-      const editResources = _.get(fetchControl, 'resources')
-      if (editResources) {
-        editStack = [{ editResources, editor, locale }]
+      const customResources = _.get(fetchControl, 'resources')
+      if (customResources) {
+        editStack = { customResources, editor, locale }
       }
 
       // generate source from template or stack of resources
@@ -170,7 +170,7 @@ export default class TemplateEditor extends React.Component {
         firstTemplateYAML: templateYAML,
         templateObject,
         editStack,
-        isEditing: !!editResources
+        isEditing: !!customResources
       }
     }
 

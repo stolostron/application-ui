@@ -6,8 +6,8 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import 'variables';
+@import "node_modules/carbon-components/scss/globals/scss/_colors";
+@import "variables";
 
 .resource-toolbar {
   //position: relative;
@@ -25,9 +25,9 @@
   }
 
   .resource-toolbar-container {
-    position: absolute;
+    position: relative;
     top: 0px;
-    right: 0;
+    left: 0;
     display: flex;
     //min-height: $secondary-header-min-height;
     flex-direction: column;
@@ -40,7 +40,7 @@
     }
 
     .resource-toolbar-buttons {
-      height: 20px;
+      height: 0;
       margin: 0px 0px 3px 0px;
 
       > div {
@@ -81,8 +81,8 @@
         margin-left: 10px;
         background-color: $mcm_view_filter;
         color: $color__blue-90;
-        font-size: .9rem;
-        padding: .8rem;
+        font-size: 0.9rem;
+        padding: 0.8rem;
         line-height: 20px;
         white-space: nowrap;
 

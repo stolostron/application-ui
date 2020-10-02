@@ -112,6 +112,7 @@
     "mime-types": "^2.1.18",
     "minimist": "^1.2.5",
     "moment": "^2.22.1",
+    "moment-timezone": "^0.5.31",
     "monaco-languageclient": "^0.13.0",
     "morgan": "^1.10.0",
     "nconf": "^0.10.0",

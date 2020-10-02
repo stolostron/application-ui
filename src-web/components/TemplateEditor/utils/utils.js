@@ -81,7 +81,7 @@ export function reverseTemplate(controlData, templateObject) {
 }
 
 // reverse control active valuess from template
-export function editingMode(controlData) {
+export function setEditingMode(controlData) {
   const editMode = control => {
     const { type, active, isHidden, editing } = control
     if (type === 'group') {

@@ -104,7 +104,7 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
 
               <div className="deployment-highlights-terminology-docs">
                 <a
-                  href={DOC_LINKS.TERMINOLOGY}
+                  href={DOC_LINKS.HOME}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -14,6 +14,7 @@ import _ from 'lodash'
 // remove the kube stuff
 const kube = [
   'creationTimestamp',
+  'selfLink',
   'status',
   'uid',
   'deployables',
@@ -51,6 +52,12 @@ const filterDeep = (obj, parentKey) => {
   Object.entries(obj || {}).forEach(([k, v]) => {
     const value = filter(v, k)
     if (!isFiltered(value, k, parentKey)) {
+      if (k==='apps.open-cluster-management.io/github-branch') {
+        k = 'apps.open-cluster-management.io/git-branch'
+      }
+      if (k==='apps.open-cluster-management.io/github-path') {
+        k = 'apps.open-cluster-management.io/git-path'
+      }
       newObj[k] = value
     }
   })
@@ -82,3 +89,4 @@ export const getApplicationResources = application => {
   }
   return null
 }
+

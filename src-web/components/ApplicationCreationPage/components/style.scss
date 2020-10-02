@@ -173,13 +173,22 @@
     margin-bottom: 40px;
   }
 
-  .config-timezone-dropdown {
-    width: 180px;
+  .config-timezone-combo-box {
+    width: 290px;
     background-color: $acm_background_color;
+  }
+
+  .bx--text-input:disabled {
+    cursor: not-allowed !important;
   }
 
   .bx--list-box__label {
     color: #3d70b2;
+  }
+
+  // Add bottom border to differenciate user's local timezone from the list
+  .bx--list-box__menu-item:first-of-type {
+    border-bottom: 1px solid #dfe3e6;
   }
 
   // Time window config - Start/End time section

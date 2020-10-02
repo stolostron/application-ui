@@ -399,7 +399,7 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
     selectDate(date, key);
 
     cy
-      .get(".bx--dropdown.config-timezone-dropdown.bx--list-box")
+      .get(".bx--combo-box.config-timezone-combo-box.bx--list-box")
       .within($timezone => {
         cy.get("[type='button']").click();
         cy

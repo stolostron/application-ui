@@ -14,10 +14,10 @@ import {
   Accordion,
   AccordionItem,
   Button,
-  Icon,
   SkeletonText,
   Notification
 } from 'carbon-components-react'
+import { ArrowRightIcon } from '@patternfly/react-icons'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
 import config from '../../../../lib/shared/config'
@@ -150,7 +150,7 @@ class OverviewCards extends React.Component {
             title={msgs.get('dashboard.card.overview.cards.title', locale)}
             className="overview-cards-details-section"
           >
-            <div className="details-col" id="left-col">
+            <div className="details-col  add-right-border" id="left-col">
               <div className="details-item">
                 <div className="details-item-title left-item">
                   {msgs.get('dashboard.card.overview.cards.name', locale)}
@@ -183,7 +183,7 @@ class OverviewCards extends React.Component {
               </div>
             </div>
 
-            <div className="details-col" id="right-col">
+            <div className="details-col">
               <div className="details-item">
                 <div className="details-item-title right-item">
                   {msgs.get('dashboard.card.overview.cards.clusters', locale)}
@@ -228,12 +228,7 @@ class OverviewCards extends React.Component {
                       'dashboard.card.overview.cards.search.resource',
                       locale
                     )}
-                    <Icon
-                      name="icon--arrow--right"
-                      fill="#0066CC"
-                      description=""
-                      className="details-item-link-icon"
-                    />
+                    <ArrowRightIcon className="details-item-link-icon" />
                   </div>
                 </a>
               </div>
@@ -322,12 +317,11 @@ class OverviewCards extends React.Component {
         return (
           <React.Fragment key={sub.id}>
             <div className="sub-card-container">
-              <div className="sub-card-column">
-                <Icon
-                  name="icon--filter--glyph"
-                  fill="#5c5c5c"
-                  description=""
+              <div className="sub-card-column add-right-border">
+                <img
                   className="subs-icon"
+                  alt="subscription-card-sub-name"
+                  src={`${config.contextPath}/graphics/subCardSubName.svg`}
                 />
                 <div className="sub-card-content">
                   <div className="sub-card-title">
@@ -340,12 +334,11 @@ class OverviewCards extends React.Component {
                 </div>
               </div>
 
-              <div className="sub-card-column">
-                <Icon
-                  name="icon--folder"
-                  fill="#5c5c5c"
-                  description=""
+              <div className="sub-card-column add-right-border">
+                <img
                   className="subs-icon"
+                  alt="subscription-card-repo-folder"
+                  src={`${config.contextPath}/graphics/subCardRepoFolder.svg`}
                 />
                 <div className="sub-card-content">
                   <div className="sub-card-title">
@@ -369,11 +362,10 @@ class OverviewCards extends React.Component {
               </div>
 
               <div className="sub-card-column">
-                <Icon
-                  name="icon--terminal"
-                  fill="#5c5c5c"
-                  description=""
+                <img
                   className="subs-icon"
+                  alt="subscription-card-time-window"
+                  src={`${config.contextPath}/graphics/subCardTimeWindow.svg`}
                 />
                 <div className="sub-card-content">
                   <div className="sub-card-title">
@@ -418,7 +410,7 @@ class OverviewCards extends React.Component {
   };
 
   toggleEditorTab = () => {
-    document.getElementById('advanced').click()
+    document.getElementById('editor').click()
   };
 
   toggleSubsBtn = showSubCards => {

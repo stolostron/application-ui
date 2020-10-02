@@ -64,7 +64,7 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
               className="bx--accordion__content"
             >
               <div
-                className="details-col"
+                className="details-col  add-right-border"
                 id="left-col"
               >
                 <div
@@ -115,7 +115,6 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
               </div>
               <div
                 className="details-col"
-                id="right-col"
               >
                 <div
                   className="details-item"
@@ -171,22 +170,23 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                     <div>
                       Search resource
                       <svg
-                        alt=""
-                        aria-label=""
+                        aria-hidden={true}
+                        aria-labelledby={null}
                         className="details-item-link-icon"
-                        fill="#0066CC"
-                        fillRule="evenodd"
-                        height="14"
-                        name="icon--arrow--right"
+                        fill="currentColor"
+                        height="1em"
                         role="img"
-                        viewBox="0 0 16 14"
-                        width="16"
+                        style={
+                          Object {
+                            "verticalAlign": "-0.125em",
+                          }
+                        }
+                        viewBox="0 0 448 512"
+                        width="1em"
                       >
-                        <title>
-                          
-                        </title>
                         <path
-                          d="M11.95 5.997L7.86 2.092 9.233.639l6.763 6.356-6.763 6.366L7.86 11.91l4.092-3.912H-.003v-2h11.952z"
+                          d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"
+                          transform=""
                         />
                       </svg>
                     </div>

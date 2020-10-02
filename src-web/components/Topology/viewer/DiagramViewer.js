@@ -250,6 +250,10 @@ class DiagramViewer extends React.Component {
     } = this.props
 
     const { selectedNodeId, showDetailsView } = this.state
+    const currentNode = nodes.find(n => n.uid === selectedNodeId) || {}
+    const { layout = {} } = currentNode
+    const selectedResourceType = layout.type || currentNode.type
+    const validNodeSelected = selectedResourceType && showDetailsView
     return (
       <div className="diagramViewerDiagram" ref={this.setContainerRef}>
         {title && <div className="diagramTitle">{title}</div>}
@@ -288,7 +292,7 @@ class DiagramViewer extends React.Component {
             getViewContainer={this.getViewContainer}
           />
         </span>
-        {showDetailsView && (
+        {validNodeSelected && (
           <DetailsView
             locale={locale}
             onClose={this.handleDetailsClose}

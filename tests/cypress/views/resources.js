@@ -57,22 +57,46 @@ export const channelsInformation = (name, key) => {
     });
 };
 
+const CHANNEL_NAMESPACE_PATTERN = /ui-.*-chn-ns-\d/;
+
 export const unusedChannelNamespaces = () => {
   // Return a Cypress chain with an array of unused channel namespaces
-  // with names beginning with "ui-"
   return cy
     .exec("oc get channels -A -o=jsonpath='{.items[*].metadata.namespace}'")
     .then(({ stdout }) => {
-      const channelNamespaces = new Set(stdout.split(" "));
+      const channelNamespaces = new Set(
+        stdout
+          .split(" ")
+          .filter(channel => CHANNEL_NAMESPACE_PATTERN.test(channel))
+      );
       return cy
         .exec("oc get subscriptions -A -o=jsonpath='{.items[*].spec.channel}'")
         .then(({ stdout }) => {
           const usedChannelNamespaces = new Set(
             stdout.split(" ").map(channel => channel.split("/")[0])
           );
-          return Array.from(channelNamespaces)
-            .filter(channel => channel.startsWith("ui-"))
-            .filter(channel => usedChannelNamespaces.has(channel));
+          return Array.from(channelNamespaces).filter(channel =>
+            usedChannelNamespaces.has(channel)
+          );
+        });
+    });
+};
+
+export const emptyChannelNamespaces = () => {
+  // Return a Cypress chain with an array of empty channel namespaces
+  return cy
+    .exec("oc get channels -A -o=jsonpath='{.items[*].metadata.namespace}'")
+    .then(({ stdout }) => {
+      const channelNamespaces = new Set(stdout.split(" "));
+      return cy
+        .exec("oc get namespaces -A -o=jsonpath='{.items[*].metadata.name}'")
+        .then(({ stdout }) => {
+          const potentialChannelNamespaces = stdout
+            .split(" ")
+            .filter(channel => CHANNEL_NAMESPACE_PATTERN.test(channel));
+          return potentialChannelNamespaces.filter(
+            channel => !channelNamespaces.has(channel)
+          );
         });
     });
 };
@@ -174,12 +198,13 @@ export const getManagedClusterName = () => {
 };
 
 export const deleteUnusedChannelNamespaces = () => {
-  unusedChannelNamespaces().each(namespace => {
-    cy.exec(`oc delete ns ${name}-ns`, {
-      failOnNonZeroExit: false,
-      timeout: 100 * 1000
+  const attemptNamespaceDeletion = namespace => {
+    cy.exec(`oc delete ns ${namespace}`, {
+      failOnNonZeroExit: false
     });
-  });
+  };
+  unusedChannelNamespaces().each(attemptNamespaceDeletion);
+  emptyChannelNamespaces().each(attemptNamespaceDeletion);
 };
 
 export const deleteNamespaceHub = (data, name, type) => {

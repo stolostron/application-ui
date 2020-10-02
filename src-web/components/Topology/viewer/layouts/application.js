@@ -19,7 +19,13 @@ export const getConnectedApplicationLayoutOptions = (
 ) => {
   // pre position elements to try to keep webcola from random layouts
   const nodes = elements.nodes()
-  const roots = nodes.roots().toArray()
+  const roots = nodes
+    .roots(n => {
+      // only have the application node as root
+      const ndata = n.data()
+      return ndata.node.type === 'application'
+    })
+    .toArray()
   const leaves = nodes.leaves()
   positionApplicationRows(roots, typeToShapeMap)
   if (nodes.length < 40 && roots.length === 1 && leaves.length > 2) {
@@ -74,18 +80,50 @@ export const positionApplicationRows = (row, typeToShapeMap) => {
     const { node: { type } } = n.data()
     if (type === 'placements') {
       const subscriptions = n.incomers().nodes()
-      let x, y
+      let x,
+          y,
+          hooksExists = false,
+          direction = 2
       subscriptions.forEach((subscription, idx) => {
         const pos = subscription.point()
         // place rules next to first subscription that uses it
         if (idx === 0) {
           x = pos.x
           y = pos.y
+          const subOutgoers = subscription.outgoers().nodes()
+          const subIncomers = subscription
+            .incomers(node => {
+              const nodeData = node.data()
+              return nodeData.node
+                ? nodeData.node.type === 'application'
+                : false
+            })
+            .nodes()
+          const appNode = subIncomers[0]
+          const appPos = appNode.point()
+          const appOutgoers = appNode.outgoers().nodes()
+          let subPos = 0
+          for (; subPos < appOutgoers.length; subPos++) {
+            const nodeData = appOutgoers[subPos].data()
+            if (
+              nodeData.node &&
+              nodeData.node.uid === subscription.data().node.uid
+            ) {
+              break
+            }
+          }
+          if (appOutgoers.length > 1 && pos.x < appPos.x) {
+            direction = -2
+          }
+          if (subOutgoers.length > 2 || subPos > 0) {
+            hooksExists = true
+          }
         } else if (pos.x < x) {
           x = pos.x
         }
       })
-      x += NODE_SIZE * 3
+      x += hooksExists ? NODE_SIZE * 3 / direction : NODE_SIZE * 3
+      y += hooksExists ? NODE_SIZE * 3 / 2 : 0
       n.position({ x, y })
     }
   })
@@ -100,13 +138,14 @@ export const processPos = (
   id,
   hadRule,
   key,
-  x
+  x,
+  hasHooks
 ) => {
   let posName, deploymentPos
   switch (type) {
   case 'subscription':
     key.value = `subscription/${name}`
-    if (hadRule.value) {
+    if (hadRule.value && !hasHooks) {
       x += NODE_SIZE * 3
       pos.x = x
     }
@@ -179,8 +218,23 @@ export const positionRowsDown = (
       const key = {
         value: type
       }
+      let hasHooks = false
+      if (type === 'subscription') {
+        hasHooks = n.outgoers().nodes().length > 2
+      }
 
-      processPos(positionMap, pos, type, name, specs, id, hadRule, key, x)
+      processPos(
+        positionMap,
+        pos,
+        type,
+        name,
+        specs,
+        id,
+        hadRule,
+        key,
+        x,
+        hasHooks
+      )
       positionMap[key.value] = pos
       n.position(pos)
       x += NODE_SIZE * 3
@@ -215,6 +269,32 @@ export const positionRowsDown = (
       return n.id()
     })
 
+    // check for pre/post hooks on subscription nodes
+    const rowWithHooks = []
+    if (nextRow.length > 0 && nextRow[0].data().node.type === 'subscription') {
+      nextRow.forEach(nr => {
+        const preHook = nr
+          .incomers(n => {
+            const nodeData = n.data()
+            return nodeData.node ? nodeData.node.type === 'ansiblejob' : false
+          })
+          .nodes()
+        Array.prototype.push.apply(rowWithHooks, preHook)
+        rowWithHooks.push(nr)
+        const postHook = nr
+          .outgoers(n => {
+            const nodeData = n.data()
+            return nodeData.node ? nodeData.node.type === 'ansiblejob' : false
+          })
+          .nodes()
+        Array.prototype.push.apply(rowWithHooks, postHook)
+      })
+    }
+
+    if (rowWithHooks.length > 0) {
+      nextRow.length = 0
+      Array.prototype.push.apply(nextRow, rowWithHooks)
+    }
     // don't put clusters and deployables on same row
     let clusterList = []
     nextRow = nextRow.filter(n => {

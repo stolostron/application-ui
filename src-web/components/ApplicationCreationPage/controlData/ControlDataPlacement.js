@@ -180,6 +180,24 @@ const placementData = [
     active: ''
   },
   {
+    type: 'custom',
+    id: 'clusterSelector',
+    component: <ClusterSelector />,
+    available: [],
+    reverse: reverseClusterSelector,
+    summarize: summarizeClusterSelector
+  },
+  {
+    id: 'online-cluster-only-checkbox',
+    type: 'checkbox',
+    name: 'creation.app.settings.onlineClusters',
+    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    active: true,
+    available: [],
+    reverse: 'PlacementRule[0].spec.clusterConditions[0].type',
+    summarize: summarizeOnline.bind(null)
+  },
+  {
     id: localClusterCheckbox,
     type: 'checkbox',
     name: 'creation.app.settings.localClusters',
@@ -193,24 +211,6 @@ const placementData = [
         summary.push(msgs.get('edit.app.localCluster.summary'))
       }
     }
-  },
-  {
-    id: 'online-cluster-only-checkbox',
-    type: 'checkbox',
-    name: 'creation.app.settings.onlineClusters',
-    tooltip: 'tooltip.creation.app.settings.onlineClusters',
-    active: true,
-    available: [],
-    reverse: 'PlacementRule[0].spec.clusterConditions[0].type',
-    summarize: summarizeOnline.bind(null)
-  },
-  {
-    type: 'custom',
-    id: 'clusterSelector',
-    component: <ClusterSelector />,
-    available: [],
-    reverse: reverseClusterSelector,
-    summarize: summarizeClusterSelector
   },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  settings  /////////////////////////////////////

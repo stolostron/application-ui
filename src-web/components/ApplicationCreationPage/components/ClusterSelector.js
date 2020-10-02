@@ -44,9 +44,9 @@ export class ClusterSelector extends React.Component {
         this.props.control.showData.length === 0
       ) {
         this.props.control.active = {
-          mode: false,
+          mode: true,
           clusterLabelsList: [
-            { id: 0, labelName: '', labelValue: '', validValue: true }
+            { id: 0, labelName: '', labelValue: '', validValue: false }
           ],
           clusterLabelsListID: 1
         }
@@ -64,9 +64,9 @@ export class ClusterSelector extends React.Component {
   render() {
     if (!this.props.control.active) {
       this.props.control.active = {
-        mode: '',
+        mode: true,
         clusterLabelsList: [
-          { id: 0, labelName: '', labelValue: '', validValue: true }
+          { id: 0, labelName: '', labelValue: '', validValue: false }
         ],
         clusterLabelsListID: 1
       }
@@ -79,7 +79,7 @@ export class ClusterSelector extends React.Component {
     return (
       <React.Fragment>
         <div className="creation-view-controls-labels">
-          <div className="creation-view-controls-textarea-title">
+          <div>
             {name}
             {validation.required ? (
               <div className="creation-view-controls-required">*</div>
@@ -152,18 +152,18 @@ export class ClusterSelector extends React.Component {
     return (
       control.active &&
       control.active.clusterLabelsList.map(item => {
-        // Don't show deleted time invertals
-        if (item.validValue) {
+        const { id, labelName, labelValue, validValue } = item
+        if (validValue || id === 0) {
           return (
-            <React.Fragment key={item.id}>
+            <React.Fragment key={id}>
               <div className="matching-labels-container">
                 <div className="matching-labels-input">
                   <TextInput
-                    id={`labelName-${item.id}`}
+                    id={`labelName-${id}`}
                     name="labelName"
                     className="text-input"
-                    labelText={item.id === 0 ? 'Label' : ''}
-                    value={item.labelName === '' ? '' : item.labelName}
+                    labelText={id === 0 ? 'Label' : ''}
+                    value={labelName === '' ? '' : labelName}
                     placeholder="Label name"
                     disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}
@@ -171,20 +171,20 @@ export class ClusterSelector extends React.Component {
                 </div>
                 <div className="matching-labels-input">
                   <TextInput
-                    id={`labelValue-${item.id}`}
+                    id={`labelValue-${id}`}
                     name="labelValue"
                     className="text-input"
-                    labelText={item.id === 0 ? 'Value' : ''}
-                    value={item.labelValue === '' ? '' : item.labelValue}
+                    labelText={id === 0 ? 'Value' : ''}
+                    value={labelValue === '' ? '' : labelValue}
                     placeholder="Label value"
                     disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}
                   />
                 </div>
 
-                {item.id !== 0 ? ( // Option to remove added labels
+                {id !== 0 ? ( // Option to remove added labels
                   <div
-                    id={item.id}
+                    id={id}
                     className="remove-label-btn"
                     tabIndex="0"
                     role={'button'}
@@ -265,6 +265,7 @@ export class ClusterSelector extends React.Component {
           const labelNameID = parseInt(event.target.id.split('-')[1], 0)
           control.active.clusterLabelsList[labelNameID].labelName =
               event.target.value
+          control.active.clusterLabelsList[labelNameID].validValue = true
         }
         break
       case 'labelValue':
@@ -272,6 +273,7 @@ export class ClusterSelector extends React.Component {
           const labelValueID = parseInt(event.target.id.split('-')[1], 0)
           control.active.clusterLabelsList[labelValueID].labelValue =
               event.target.value
+          control.active.clusterLabelsList[labelValueID].validValue = true
         }
         break
       }

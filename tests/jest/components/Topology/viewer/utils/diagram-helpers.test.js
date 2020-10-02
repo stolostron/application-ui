@@ -1096,7 +1096,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
             location: "America/Toronto",
             windowtype: "blocked",
             hours: [{ end: "09:18PM", start: "09:18AM" }],
-            weekdays: ["Monday", "Tuesday"]
+            daysofweek: ["Monday", "Tuesday"]
           }
         }
       }

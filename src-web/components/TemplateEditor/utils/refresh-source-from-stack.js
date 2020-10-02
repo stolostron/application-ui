@@ -50,38 +50,42 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
   const { customResources: resources, templateResourceStack } = editStack
 
   // get the next iteration of template changes
-  const { templateResources: iteration } = generateSourceFromTemplate(template, controlData, otherYAMLTabs)
+  const { templateResources: iteration } = generateSourceFromTemplate(
+    template,
+    controlData,
+    otherYAMLTabs
+  )
   templateResourceStack.push(iteration)
 
   let customResources = _.cloneDeep(resources)
-  templateResourceStack.forEach((templateResources, stackInx)=>{
+  templateResourceStack.forEach((templateResources, stackInx) => {
     templateResources = _.cloneDeep(templateResources)
-    const nextTemplateResources = _.cloneDeep(templateResourceStack[stackInx+1])
-    customResources = customResources.filter(resource=>{
-
+    const nextTemplateResources = _.cloneDeep(
+      templateResourceStack[stackInx + 1]
+    )
+    customResources = customResources.filter(resource => {
       // filter out custom resource that isn't in next version of template
       const kind = _.get(resource, 'kind', 'unknown')
-      const resourceInx = templateResources.findIndex(res=>{
+      const resourceInx = templateResources.findIndex(res => {
         return kind === _.get(res, 'kind')
       })
-      if (resourceInx===-1) {
+      if (resourceInx === -1) {
         return false
       }
 
       if (nextTemplateResources) {
-
         // filter out custom resource that not in next version of template
-        const nextInx = nextTemplateResources.findIndex(res=>{
+        const nextInx = nextTemplateResources.findIndex(res => {
           return kind === _.get(res, 'kind')
         })
-        if (nextInx===-1) {
+        if (nextInx === -1) {
           return false
         }
 
         // compare the difference, and add them to edit the custom resource
         let val, idx
-        const oldResource = templateResources.splice(resourceInx,1)[0]
-        const newResource = nextTemplateResources.splice(nextInx,1)[0]
+        const oldResource = templateResources.splice(resourceInx, 1)[0]
+        const newResource = nextTemplateResources.splice(nextInx, 1)[0]
         const diffs = diff(oldResource, newResource)
         if (diffs) {
           diffs.forEach(({ kind, path, rhs, item }) => {
@@ -91,14 +95,19 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
               switch (item.kind) {
               case 'N':
                 val = _.get(resource, path, [])
-                val.push(item.rhs)
-                _.set(resource, path, val)
+                if (Array.isArray(val)) {
+                  val.push(item.rhs)
+                  _.set(resource, path, val)
+                } else {
+                  val[Object.keys(val).length] = item.rhs
+                  _.set(resource, path, Object.values(val))
+                }
                 break
               case 'D':
                 val = _.get(resource, path, [])
                 idx = val.indexOf(item.lhs)
-                if (idx!==-1) {
-                  val.splice(idx,1)
+                if (idx !== -1) {
+                  val.splice(idx, 1)
                 }
                 break
               }
@@ -108,7 +117,7 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
               idx = path.pop()
               val = _.get(resource, path)
               if (Array.isArray(val)) {
-                val.splice(idx,1,rhs)
+                val.splice(idx, 1, rhs)
               } else {
                 path.push(idx)
                 _.set(resource, path, rhs)
@@ -147,14 +156,14 @@ const generateSourceFromResources = resources => {
   const sortKeys = (a, b) => {
     const ai = order.indexOf(a)
     const bi = order.indexOf(b)
-    if (ai<0 && bi>=0) {
+    if (ai < 0 && bi >= 0) {
       return 1
-    } else if (ai>=0 && bi<0) {
+    } else if (ai >= 0 && bi < 0) {
       return -1
-    } else if (ai<0 && bi<0) {
+    } else if (ai < 0 && bi < 0) {
       return a.localeCompare(b)
     } else {
-      return ai<bi
+      return ai < bi
     }
   }
 
@@ -165,7 +174,7 @@ const generateSourceFromResources = resources => {
   resources.forEach(resource => {
     if (!_.isEmpty(resource)) {
       const key = _.get(resource, 'kind', 'unknown')
-      yaml = jsYaml.safeDump(resource, { sortKeys, lineWidth: 200})
+      yaml = jsYaml.safeDump(resource, { sortKeys, lineWidth: 200 })
       yaml = yaml.replaceAll(/'\d+':(\s|$)\s*/gm, '- ')
       yaml = yaml.replaceAll(/:\s*null$/gm, ':')
       const $synced = new YamlParser().parse(yaml, row)

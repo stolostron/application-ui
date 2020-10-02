@@ -538,7 +538,7 @@ const customTopologyData = {
             timewindow: {
               hours: [{ end: "09:10PM", start: "8:00AM" }],
               location: "America/Toronto",
-              weekdays: ["Monday", "Tuesday", "Wednesday"],
+              daysofweek: ["Monday", "Tuesday", "Wednesday"],
               windowtype: "active"
             }
           },

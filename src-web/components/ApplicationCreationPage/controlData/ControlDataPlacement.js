@@ -28,6 +28,7 @@ import {
   updateNewRuleControlsData
 } from './utils'
 import _ from 'lodash'
+import msgs from '../../../../nls/platform.properties'
 
 const existingRuleCheckbox = 'existingrule-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
@@ -127,8 +128,19 @@ export const summarizeOnline = (control, globalControlData, summary) => {
   const localClusterCheckboxControl = control.groupControlData.find(
     ({ id }) => id === localClusterCheckbox
   )
-  if (!_.get(localClusterCheckboxControl, 'active')) {
-    summary.push('Online clusters')
+  const onlineClusterCheckboxControl = control.groupControlData.find(
+    ({ id }) => id === 'online-cluster-only-checkbox'
+  )
+  const clusterSelectorControl = control.groupControlData.find(
+    ({ id }) => id === 'clusterSelector'
+  )
+
+  if (_.get(localClusterCheckboxControl, 'active', false) === true) {
+    msgs.get('edit.app.localCluster.summary')
+  } else if (_.get(onlineClusterCheckboxControl, 'active', false) === true) {
+    summary.push(msgs.get('edit.app.onlineClusters.summary'))
+  } else if (_.get(clusterSelectorControl, 'active.mode', false) === true) {
+    summary.push(msgs.get('edit.app.labelClusters.summary'))
   }
 }
 
@@ -176,7 +188,11 @@ const placementData = [
     active: false,
     available: [],
     reverse: 'Subscription[0].spec.placement.local',
-    summarize: (control, controlData, summary) => {summary.push(control.active ? 'Local cluster':'')}
+    summarize: (control, controlData, summary) => {
+      if (control.active) {
+        summary.push(msgs.get('edit.app.localCluster.summary'))
+      }
+    }
   },
   {
     id: 'online-cluster-only-checkbox',

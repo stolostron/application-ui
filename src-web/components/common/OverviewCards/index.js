@@ -54,8 +54,10 @@ class OverviewCards extends React.Component {
   }
 
   componentWillMount() {
-    //update cards every 3s
-    const intervalId = setInterval(this.reload.bind(this), 3000)
+    // update cards every 1s to pick up side-effect in
+    // redux state (calculation of node statuses) created by
+    // topology code
+    const intervalId = setInterval(this.reload.bind(this), 1000)
     this.setState({ intervalId: intervalId })
   }
 
@@ -65,6 +67,17 @@ class OverviewCards extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId)
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (
+      _.get(nextProps, 'topology.status', '') === REQUEST_STATUS.IN_PROGRESS ||
+      _.get(nextProps, 'HCMApplicationList.status', '') ===
+        REQUEST_STATUS.IN_PROGRESS
+    ) {
+      return false
+    }
+    return true
   }
 
   render() {

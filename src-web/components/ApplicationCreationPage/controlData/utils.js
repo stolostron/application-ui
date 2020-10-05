@@ -49,6 +49,81 @@ export const loadExistingSecrets = () => {
   }
 }
 
+export const getUniqueChannelName = (channelPath, groupControlData) => {
+  //create a unique name for a new channel, based on path and type
+  if (!channelPath || !groupControlData) {
+    return ''
+  }
+
+  //get the channel type and append to url to make sure different type of channels are unique, yet using the same url
+  const channelTypeSection = groupControlData.find(
+    ({ id }) => id === 'channelType'
+  )
+
+  let channelTypeStr
+  let channelType
+  if (channelTypeSection) {
+    channelTypeStr = _.get(channelTypeSection, 'active', [''])[0]
+  }
+
+  switch (channelTypeStr) {
+  case 'github':
+    channelType = 'git'
+    break
+  case 'helmrepo':
+    channelType = 'helm'
+    break
+  case 'objectstore':
+    channelType = 'obj'
+    break
+  default:
+    channelType = 'ns'
+  }
+
+  let channelName = _.trim(channelPath)
+  if (_.startsWith(channelName, 'https://')) {
+    channelName = _.trimStart(channelName, 'https://')
+  }
+  if (_.startsWith(channelName, 'http://')) {
+    channelName = _.trimStart(channelName, 'http://')
+  }
+  if (_.endsWith(channelName, '.git')) {
+    channelName = _.trimEnd(channelName, '.git')
+  }
+
+  channelName = _.replace(channelName, /\./g, '-')
+  channelName = _.replace(channelName, /:/g, '-')
+  channelName = _.replace(channelName, /\//g, '-')
+  channelName = `${channelName}-${channelType}`
+  return channelName
+}
+
+//check if this is a channel already defined by the current app
+export const isUsingSameChannel = (urlControl, globalControl, channelName) => {
+  let usingSameChannel = false
+  const channelsControl = globalControl.find(
+    ({ id: idCtrl }) => idCtrl === 'channels'
+  )
+  if (channelsControl) {
+    //get all active channels and see if this channel name was created prior to this; reuse it if found
+    const activeDataChannels = _.get(channelsControl, 'active', [])
+    activeDataChannels.forEach(channelInfo => {
+      const channelNameInfo = channelInfo.find(
+        ({ id: idChannelInfo }) => idChannelInfo === 'channelName'
+      )
+      if (
+        channelNameInfo &&
+        _.get(channelNameInfo, 'active', '') === channelName &&
+        _.get(urlControl, 'groupControlData') !== channelInfo
+      ) {
+        usingSameChannel = true
+      }
+    })
+  }
+
+  return usingSameChannel
+}
+
 export const updateChannelControls = (
   urlControl,
   globalControl,
@@ -66,34 +141,59 @@ export const updateChannelControls = (
   const pathData = availableData[active]
 
   const nameControl = groupControlData.find(
-    ({ id: idCtrl }) => idCtrl === 'channelName'
+    ({ id: idCtrlCHName }) => idCtrlCHName === 'channelName'
   )
   const namespaceControl = groupControlData.find(
-    ({ id }) => id === 'channelNamespace'
+    ({ id: idChannelNS }) => idChannelNS === 'channelNamespace'
   )
+  //use this to record if the namespace for the channel used already exists
+  //this could happen when using an existing channel OR a new channel and the ns was created before but not deleted
+  const namespaceControlExists = groupControlData.find(
+    ({ id: idCtrlNSExists }) => idCtrlNSExists === 'channelNamespaceExists'
+  )
+  let existingChannel = false
+  let usingSameChannel = false
   // change channel name and namespace to reflect repository path
   if (active) {
-    const a = document.createElement('a')
-    a.href = active
-
     // if existing channel, reuse channel name and namespace
     if (pathData && pathData.metadata) {
       nameControl.active = pathData.metadata.name
       namespaceControl.active = pathData.metadata.namespace
+      existingChannel = true
     } else {
-      let name = a.pathname.split('/').pop()
-      name = name.split('.').shift()
-      nameControl.active = `${name}-chn`
-      namespaceControl.active = ''
+      //generate a unique name for this channel
+      const channelName = getUniqueChannelName(active, groupControlData)
+      const channelNS = `${channelName}-ns`
+
+      usingSameChannel = isUsingSameChannel(
+        nsControl,
+        globalControl,
+        channelName
+      )
+
+      if (usingSameChannel) {
+        // if existing channel, reuse channel name and namespace
+        nameControl.active = channelName
+        namespaceControl.active = channelNS
+        namespaceControlExists.active = true
+      } else {
+        nameControl.active = channelName
+        namespaceControl.active = ''
+        namespaceControlExists.active =
+          _.get(nsControl, 'availableData', {})[channelNS] === undefined
+            ? false
+            : true
+      }
     }
   } else {
-    nameControl.active = 'resource'
+    nameControl.active = ''
     namespaceControl.active = ''
+    namespaceControlExists.active = false
   }
 
   let control
-  // if existing channel, hide user/token controls
-  const type = !pathData ? 'text' : 'hidden'
+  // if existing channel, hide user/token controls; show it when using the same channel in the same app
+  const type = !existingChannel || usingSameChannel ? 'text' : 'hidden'
   const setType = (cid, isPasswordField) => {
     control = groupControlData.find(({ id }) => id === cid)
     let setCtrlType = type

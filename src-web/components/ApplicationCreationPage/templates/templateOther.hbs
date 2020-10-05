@@ -9,8 +9,8 @@
 apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:
-  name: {{{@root.name}}}-{{{channelName}}}-{{@index}}
-  namespace: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}
+  name: {{{channelName}}}
+  namespace: {{{channelName}}}-ns
 spec:
   type: Namespace
   pathname: {{{namespaceChannelName}}}
@@ -31,6 +31,6 @@ spec:
 {{#if channelNamespace}}
   channel: {{{channelNamespace}}}/{{{channelName}}}
 {{else}}
-  channel: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}/{{{@root.name}}}-{{{channelName}}}-{{@index}}
+  channel: {{{channelName}}}-ns/{{{channelName}}}
 {{/if}}
 

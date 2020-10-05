@@ -24,7 +24,8 @@ import {
   updateNewRuleControlsData,
   updateChannelControls,
   updatePrePostControls,
-  setAvailableSecrets
+  setAvailableSecrets,
+  getUniqueChannelName
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
 
 const controlDataNS = [
@@ -79,6 +80,22 @@ const controlDataNS = [
   }
 ];
 
+describe("getUniqueChannelName", () => {
+  const channelUrl =
+    "https://github.com/ianzhang366/ac11m-applifecycle-samples";
+  const groupControlData = [
+    {
+      id: "channelType",
+      active: ["github"]
+    }
+  ];
+
+  const result = "github-com-ianzhang366-ac11m-applifecycle-samples-git";
+  it("getUniqueChannelName", () => {
+    expect(getUniqueChannelName(channelUrl, groupControlData)).toEqual(result);
+  });
+});
+
 describe("updateChannelControls", () => {
   const data = {
     active: "",
@@ -93,6 +110,11 @@ describe("updateChannelControls", () => {
         id: "channelNamespace",
         type: "hidden",
         active: ""
+      },
+      {
+        id: "channelNamespaceExists",
+        type: "hidden",
+        active: true
       },
       {
         id: "githubURL",

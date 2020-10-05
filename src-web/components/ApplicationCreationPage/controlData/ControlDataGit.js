@@ -55,9 +55,14 @@ export const updateGitCredentials = (
 const githubChannelData = [
   ///////////////////////  github  /////////////////////////////////////
   {
+    id: 'channelNamespaceExists',
+    type: 'hidden',
+    active: true
+  },
+  {
     id: 'channelName',
     type: 'hidden',
-    active: 'resource'
+    active: ''
   },
   {
     id: 'channelNamespace',

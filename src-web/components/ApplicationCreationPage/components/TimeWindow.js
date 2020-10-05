@@ -98,7 +98,7 @@ export class TimeWindow extends React.Component {
     const modeSelected = active && active.mode ? true : false
     const daysSelectorID = 'days-selector'
     const timezoneDropdownID = 'timezone-dropdown'
-    const { mode, days = [] } = this.props.control.active
+    const { mode, days = [], timezone } = this.props.control.active
 
     const timezoneList = moment.tz.names()
     const localTimezone = moment.tz.guess(true)
@@ -269,6 +269,7 @@ export class TimeWindow extends React.Component {
                         'timeWindow.label.timezone.placeholder',
                         locale
                       )}
+                      initialSelectedItem={timezone || ''}
                       items={this.renderTimezones(
                         timezoneList,
                         localTimezone,
@@ -538,7 +539,7 @@ export const reverse = (control, templateObject) => {
   )
   let weekdays = _.get(
     templateObject,
-    getSourcePath('Subscription[0].spec.timewindow.weekdays')
+    getSourcePath('Subscription[0].spec.timewindow.daysofweek')
   )
   weekdays = (removeVs(weekdays && weekdays.$v) || []).map(day => {
     return `"${day}"`

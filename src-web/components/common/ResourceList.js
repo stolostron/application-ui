@@ -43,6 +43,7 @@ import {
 } from '../../shared/utils/refetch'
 import { refetchIntervalUpdate } from '../../actions/refetch'
 import { loadingComponent } from '../common/ResourceOverview/utils'
+import { withLocale } from '../../providers/LocaleProvider'
 
 resources(() => {
   require('../../../scss/resource-list.scss')
@@ -57,12 +58,14 @@ class ResourceList extends React.Component {
   }
 
   componentDidMount() {
-    const { updateSecondaryHeaderFn, tabs, title, mainButton } = this.props
-    updateSecondaryHeaderFn(
-      msgs.get(title, this.context.locale),
+    const {
+      updateSecondaryHeaderFn,
       tabs,
-      mainButton
-    )
+      title,
+      mainButton,
+      locale
+    } = this.props
+    updateSecondaryHeaderFn(msgs.get(title, locale), tabs, mainButton)
 
     const { fetchTableResources, selectedFilters = [] } = this.props
     fetchTableResources(selectedFilters)
@@ -103,6 +106,7 @@ class ResourceList extends React.Component {
       userRole,
       items,
       itemIds,
+      locale,
       mutateStatus,
       deleteStatus,
       deleteMsg,
@@ -131,13 +135,6 @@ class ResourceList extends React.Component {
 
     const { isLoaded = true, isReloading = false } = fetchTableResources
     const { timestamp = new Date().toString() } = this.state
-
-    let locale = 'en-US'
-    try {
-      locale = this.context()
-    } catch (e) {
-      locale = 'en-US'
-    }
 
     if (status === REQUEST_STATUS.ERROR && !this.state.xhrPoll) {
       //eslint-disable-next-line no-console
@@ -357,6 +354,7 @@ ResourceList.propTypes = {
   fetchTableResources: PropTypes.func,
   itemIds: PropTypes.array,
   items: PropTypes.object,
+  locale: PropTypes.string,
   mainButton: PropTypes.object,
   mutateStatus: PropTypes.string,
   mutateSuccessFinished: PropTypes.func,
@@ -382,6 +380,6 @@ ResourceList.propTypes = {
   userRole: PropTypes.string
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ResourceList)
+export default withLocale(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(ResourceList))
 )

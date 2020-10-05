@@ -14,16 +14,13 @@ import gitChannelData from './ControlDataGit'
 import helmReleaseChannelData from './ControlDataHelm'
 import objectstoreChannelData from './ControlDataObjectStore'
 import otherChannelData from './ControlDataOther'
+import { setAvailableNSSpecs, updateControlsForNS } from './utils'
 import {
-  setAvailableNSSpecs,
-  getExistingPRControlsSection,
-  updateNewRuleControlsData
-} from './utils'
-import { discoverGroupsFromSource, shiftTemplateObject } from '../transformers/transform-resources-to-controls'
-import _ from 'lodash'
+  discoverGroupsFromSource,
+  shiftTemplateObject
+} from '../transformers/transform-resources-to-controls'
 
 const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
-const existingRuleCheckbox = 'existingrule-checkbox'
 
 export const loadExistingNamespaces = () => {
   return {
@@ -44,48 +41,6 @@ export const updateNSControls = (nsControl, globalControl) => {
     availableData[active] === undefined ? active : ''
 
   return updateControlsForNS(nsControl, nsControl, globalControl)
-}
-
-export const updateControlsForNS = (
-  initiatingControl,
-  nsControl,
-  globalControl
-) => {
-  const { active, availableData = {} } = nsControl
-
-  const controlList = getExistingPRControlsSection(
-    initiatingControl,
-    globalControl
-  )
-  controlList.forEach(control => {
-    const existingRuleControl = _.get(control, 'placementrulecombo')
-    const existingruleCheckbox = _.get(control, existingRuleCheckbox)
-    const selectedRuleNameControl = _.get(control, 'selectedRuleName')
-    //update placement rule controls
-    if (existingRuleControl && existingruleCheckbox) {
-      if (availableData[active] === undefined) {
-        //user defined namespace
-        _.set(existingruleCheckbox, 'type', 'hidden')
-        _.set(existingRuleControl, 'type', 'hidden')
-
-        _.set(existingRuleControl, 'ns', '')
-        selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
-        _.set(existingruleCheckbox, 'active', false)
-      } else {
-        //existing namespace
-        _.set(existingruleCheckbox, 'type', 'checkbox')
-        _.set(existingruleCheckbox, 'active', false)
-        selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
-
-        _.set(existingRuleControl, 'ns', active)
-        _.set(existingRuleControl, 'type', 'hidden')
-      }
-      _.set(existingRuleControl, 'active', '')
-      updateNewRuleControlsData('', control)
-    }
-  })
-
-  return globalControl
 }
 
 export const controlData = [

@@ -180,7 +180,7 @@ class ControlPanel extends React.Component {
             <React.Fragment key={`${controlData[0].id}Group${inx}`}>
               <div className="creation-view-group-container">
                 {prompts &&
-                  inx > 0 &&
+                  active.length > 1 &&
                   this.renderDeleteGroupButton(control, inx)}
                 {this.renderControlSections(controlData, groupId)}
               </div>

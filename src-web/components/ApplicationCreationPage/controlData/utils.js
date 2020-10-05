@@ -98,6 +98,32 @@ export const getUniqueChannelName = (channelPath, groupControlData) => {
   return channelName
 }
 
+//check if this is a channel already defined by the current app
+export const isUsingSameChannel = (urlControl, globalControl, channelName) => {
+  let usingSameChannel = false
+  const channelsControl = globalControl.find(
+    ({ id: idCtrl }) => idCtrl === 'channels'
+  )
+  if (channelsControl) {
+    //get all active channels and see if this channel name was created prior to this; reuse it if found
+    const activeDataChannels = _.get(channelsControl, 'active', [])
+    activeDataChannels.forEach(channelInfo => {
+      const channelNameInfo = channelInfo.find(
+        ({ id: idChannelInfo }) => idChannelInfo === 'channelName'
+      )
+      if (
+        channelNameInfo &&
+        _.get(channelNameInfo, 'active', '') === channelName &&
+        _.get(urlControl, 'groupControlData') !== channelInfo
+      ) {
+        usingSameChannel = true
+      }
+    })
+  }
+
+  return usingSameChannel
+}
+
 export const updateChannelControls = (
   urlControl,
   globalControl,
@@ -139,27 +165,13 @@ export const updateChannelControls = (
       const channelName = getUniqueChannelName(active, groupControlData)
       const channelNS = `${channelName}-ns`
 
-      const channelsControl = globalControl.find(
-        ({ id: idCtrl }) => idCtrl === 'channels'
+      usingSameChannel = isUsingSameChannel(
+        nsControl,
+        globalControl,
+        channelName
       )
-      if (channelsControl) {
-        //get all active channels and see if this channel name was created prior to this; reuse it if found
-        const activeDataChannels = _.get(channelsControl, 'active', [])
-        activeDataChannels.forEach(channelInfo => {
-          const channelNameInfo = channelInfo.find(
-            ({ id: idChannelInfo }) => idChannelInfo === 'channelName'
-          )
-          if (
-            channelNameInfo &&
-            _.get(channelNameInfo, 'active', '') === channelName &&
-            _.get(urlControl, 'groupControlData') !== channelInfo
-          ) {
-            existingChannel = true
-            usingSameChannel = true
-          }
-        })
-      }
-      if (existingChannel) {
+
+      if (usingSameChannel) {
         // if existing channel, reuse channel name and namespace
         nameControl.active = channelName
         namespaceControl.active = channelNS

@@ -37,6 +37,10 @@ class CreateApplicationButton extends Component {
     )
   }
 
+  disableClick(e) {
+    e.preventDefault()
+  }
+
   render() {
     const { locale } = this.context
     const { canDisable } = this.state
@@ -51,6 +55,7 @@ class CreateApplicationButton extends Component {
             state: { cancelBack: true }
           }}
           key="create-application"
+          onClick={canDisable ? this.disableClick : undefined}
         >
           <Button variant="primary" isSmall isDisabled={canDisable}>
             {msgs.get('actions.create.application', locale)}

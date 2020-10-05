@@ -284,9 +284,13 @@ export class ClusterSelector extends React.Component {
 export default ClusterSelector
 
 export const summarize = (control, controlData, summary) => {
-  const {clusterLabelsList} = control.active||{}
-  if (clusterLabelsList) {
-    clusterLabelsList.forEach(({labelName, labelValue})=>{
+  const { clusterLabelsList } = control.active || {}
+  if (
+    clusterLabelsList &&
+    _.get(control, 'type', '') !== 'hidden' &&
+    _.get(control, 'active.mode')
+  ) {
+    clusterLabelsList.forEach(({ labelName, labelValue }) => {
       if (labelName && labelValue) {
         summary.push(`${labelName}=${labelValue}`)
       }

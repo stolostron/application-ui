@@ -115,9 +115,11 @@ export const updatePlacementControlsForLocal = placementControl => {
     onlineControl && _.set(onlineControl, 'type', 'hidden')
     clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'hidden')
   } else {
-    onlineControl && _.set(onlineControl, 'type', 'checkbox')
-    onlineControl && _.set(onlineControl, 'disabled', false)
-    onlineControl && _.set(onlineControl, 'active', false)
+    if (onlineControl) {
+      _.set(onlineControl, 'type', 'checkbox')
+      _.set(onlineControl, 'disabled', false)
+      _.set(onlineControl, 'active', false)
+    }
     if (clusterSelectorControl) {
       _.set(clusterSelectorControl, 'type', 'custom')
       clusterSelectorControl.active &&

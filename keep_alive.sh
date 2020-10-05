@@ -6,4 +6,4 @@
 #   5 minutes.  
 #
 
-while sleep 5m; do echo "\n=====[ $SECONDS seconds, still building (don't die travis, don't die)... ]=====\n"; done &
+while sleep 5m; do echo "=====[ $SECONDS seconds, still building (don't die travis, don't die)... ]====="; done &

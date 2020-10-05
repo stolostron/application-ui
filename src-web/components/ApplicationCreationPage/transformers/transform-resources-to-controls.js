@@ -187,7 +187,7 @@ export const shiftTemplateObject = templateObject => {
       '$synced.spec.$v.placement.$v.placementRef.$v.name.$v'
     )
     if (name) {
-      const rules = templateObject.PlacementRules || []
+      const rules = templateObject.PlacementRule || []
       const inx = rules.findIndex(rule => {
         return name === _.get(rule, '$synced.metadata.$v.name.$v')
       })

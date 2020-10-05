@@ -298,12 +298,7 @@ export const getAppOverviewCardsData = (
 ) => {
   // Get app details only when topology data is properly loaded for the selected app
   const appData = _.get(topologyData, 'activeFilters.application')
-  if (
-    !selectedAppData ||
-    selectedAppData.status !== 'DONE' ||
-    topologyData.status !== 'DONE' ||
-    topologyData.detailsLoaded !== true
-  ) {
+  if (!(selectedAppData && topologyData && topologyData.detailsLoaded)) {
     return {
       appName: appName,
       appNamespace: appNamespace,
@@ -365,7 +360,7 @@ export const getAppOverviewCardsData = (
           gitBranch: gitTypeData.gitBranch,
           gitPath: gitTypeData.gitPath,
           timeWindowType: timeWindowData.windowtype,
-          timeWindowDays: timeWindowData.weekdays,
+          timeWindowDays: timeWindowData.daysofweek,
           timeWindowTimezone: timeWindowData.location,
           timeWindowRanges: timeWindowData.hours
         })

@@ -126,6 +126,7 @@ export const updateChannelControls = (
     ({ id }) => id === 'channelNamespaceExists'
   )
   let existingChannel = false
+  let usingSameChannel = false
   // change channel name and namespace to reflect repository path
   if (active) {
     // if existing channel, reuse channel name and namespace
@@ -154,6 +155,7 @@ export const updateChannelControls = (
             _.get(urlControl, 'groupControlData') !== channelInfo
           ) {
             existingChannel = true
+            usingSameChannel = true
           }
         })
       }
@@ -178,8 +180,8 @@ export const updateChannelControls = (
   }
 
   let control
-  // if existing channel, hide user/token controls
-  const type = !existingChannel ? 'text' : 'hidden'
+  // if existing channel, hide user/token controls; show it when using the same channel in the same app
+  const type = !existingChannel || usingSameChannel ? 'text' : 'hidden'
   const setType = (cid, isPasswordField) => {
     control = groupControlData.find(({ id }) => id === cid)
     let setCtrlType = type

@@ -44,7 +44,8 @@ class ControlPanelAccordion extends React.Component {
       numbered,
       collapsable,
       collapsed = false,
-      content = []
+      content = [],
+      techPreview
     } = control
     let { info } = control
     if (typeof info === 'function') {
@@ -135,6 +136,11 @@ class ControlPanelAccordion extends React.Component {
               <div className="creation-view-controls-title-main-name">
                 {title || subtitle}
                 {!info && <Tooltip control={control} locale={locale} />}
+                {techPreview && (
+                  <div variant="primary" className="techPreviewTag">
+                    {msgs.get('creation.app.section.techPreview', locale)}
+                  </div>
+                )}
                 <span className="creation-view-controls-title-main-summary">
                   {summary.map((tag, inx) => {
                     return (
@@ -204,7 +210,7 @@ class ControlPanelAccordion extends React.Component {
               summary.push(availableMap[active] || active)
             } else if (Array.isArray(active)) {
               if (availableMap && active.length === 1) {
-                const { title = '' } = availableMap[active[0]]||{}
+                const { title = '' } = availableMap[active[0]] || {}
                 summary.push(title)
               } else if (typeof active[0] === 'string') {
                 summary.push(...active)

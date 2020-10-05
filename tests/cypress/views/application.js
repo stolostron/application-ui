@@ -250,12 +250,11 @@ export const validateTopology = (name, data, type) => {
     .should("be.visible");
 
   // cluster and placement
-  getManagedClusterName();
-  const clusterName = Cypress.env("managedCluster");
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
     !local
-      ? (validateClusterNode(clusterName), validatePlacementNode(name, key))
+      ? (validateClusterNode(Cypress.env("managedCluster")),
+        validatePlacementNode(name, key))
       : cy.log(
           "cluster and placement nodes will not be created as the application is deployed locally"
         );

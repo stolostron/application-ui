@@ -95,7 +95,8 @@ class ControlPanelAccordion extends React.Component {
     let summary = []
     this.getSummary(content, summary)
     summary = summary.filter(s => !!s)
-    let id = `${controlId}-${title || subtitle || ''}`
+    const label = title || subtitle
+    let id = `${controlId}-${label || ''}`
     id = id.replace(/\s+/g, '-').toLowerCase()
     return (
       <React.Fragment>
@@ -115,7 +116,7 @@ class ControlPanelAccordion extends React.Component {
               {msgs.get(note, locale)}
             </div>
           )}
-          {(title || subtitle) && (
+          {label && (
             <div className={mainTitleClasses}>
               {collapsable && (
                 <div
@@ -134,7 +135,7 @@ class ControlPanelAccordion extends React.Component {
                 </div>
               )}
               <div className="creation-view-controls-title-main-name">
-                {title || subtitle}
+                {label}
                 {!info && <Tooltip control={control} locale={locale} />}
                 {techPreview && (
                   <div variant="primary" className="techPreviewTag">

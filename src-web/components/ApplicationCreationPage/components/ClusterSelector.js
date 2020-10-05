@@ -256,26 +256,18 @@ export class ClusterSelector extends React.Component {
     }
 
     if (targetName) {
-      switch (targetName) {
-      case 'clusterSelector-checkbox':
-        control.active.mode = event.target.checked
-        break
-      case 'labelName':
-        {
-          const labelNameID = parseInt(event.target.id.split('-')[1], 0)
-          control.active.clusterLabelsList[labelNameID].labelName =
-              event.target.value
-          control.active.clusterLabelsList[labelNameID].validValue = true
+      const { active } = control
+      if (targetName === 'clusterSelector-checkbox') {
+        active.mode = event.target.checked
+      } else {
+        const { clusterLabelsList } = active
+        const labelID = parseInt(event.target.id.split('-')[1], 0)
+        if (targetName === 'labelName') {
+          clusterLabelsList[labelID].labelName = event.target.value
+        } else if (targetName === 'labelValue') {
+          clusterLabelsList[labelID].labelValue = event.target.value
         }
-        break
-      case 'labelValue':
-        {
-          const labelValueID = parseInt(event.target.id.split('-')[1], 0)
-          control.active.clusterLabelsList[labelValueID].labelValue =
-              event.target.value
-          control.active.clusterLabelsList[labelValueID].validValue = true
-        }
-        break
+        clusterLabelsList[labelID].validValue = true
       }
     }
 

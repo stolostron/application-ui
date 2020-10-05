@@ -419,11 +419,13 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
         _.get(rule, 'type', '') === 'ManagedClusterConditionAvailable'
     )
 
-    onlineControl.active = localClusterData.length > 0
-    onlineControl.disabled = localClusterData.length > 0
-    localClusterData.length > 0
-      ? _.set(onlineControl, 'type', 'checkbox')
-      : _.set(onlineControl, 'type', 'hidden')
+    if (localClusterData.length > 0) {
+      _.set(onlineControl, 'type', 'checkbox')
+      _.set(onlineControl, 'disabled', true)
+      _.set(onlineControl, 'active', true)
+    } else {
+      _.set(onlineControl, 'type', 'hidden')
+    }
 
     const clusterSelectorData = _.get(
       selectedPR,
@@ -463,7 +465,7 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
           id: 0,
           labelName: '',
           labelValue: '',
-          validValue: true
+          validValue: false
         })
       }
 
@@ -480,13 +482,13 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
     _.set(localClusterControl, 'type', 'checkbox')
 
     _.set(onlineControl, 'type', 'checkbox')
-    _.set(onlineControl, 'active', true)
+    _.set(onlineControl, 'active', false)
     _.set(onlineControl, 'disabled', false)
 
     _.set(clusterSelectorControl, 'type', 'custom')
-    _.set(clusterSelectorControl, 'active.mode', false)
+    _.set(clusterSelectorControl, 'active.mode', true)
     clusterSelectorControl.active.clusterLabelsList = [
-      { id: 0, labelName: '', labelValue: '', validValue: true }
+      { id: 0, labelName: '', labelValue: '', validValue: false }
     ]
     clusterSelectorControl.showData = []
   }

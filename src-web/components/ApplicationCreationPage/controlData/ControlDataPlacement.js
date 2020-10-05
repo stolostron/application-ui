@@ -90,19 +90,18 @@ export const updateDisplayForPlacementControls = (
 
     //reset all values
     _.set(localClusterControl, 'active', false)
-    _.set(onlineControl, 'active', true)
+    _.set(onlineControl, 'active', false)
     clusterSelectorControl.active.clusterLabelsListID = 1
     delete clusterSelectorControl.active.clusterLabelsList
     clusterSelectorControl.active.clusterLabelsList = [
-      { id: 0, labelName: '', labelValue: '', validValue: true }
+      { id: 0, labelName: '', labelValue: '', validValue: false }
     ]
-    clusterSelectorControl.active.mode = false
+    clusterSelectorControl.active.mode = true
     delete clusterSelectorControl.showData
   })
 }
 
-export const updatePlacementControls = placementControl => {
-  //update PR controls on channel or ns change
+export const updatePlacementControlsForLocal = placementControl => {
   const { active, groupControlData } = placementControl
 
   const onlineControl = groupControlData.find(
@@ -118,7 +117,44 @@ export const updatePlacementControls = placementControl => {
   } else {
     onlineControl && _.set(onlineControl, 'type', 'checkbox')
     onlineControl && _.set(onlineControl, 'disabled', false)
-    clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'custom')
+    onlineControl && _.set(onlineControl, 'active', false)
+    if (clusterSelectorControl) {
+      _.set(clusterSelectorControl, 'type', 'custom')
+      clusterSelectorControl.active &&
+        _.set(clusterSelectorControl.active, 'mode', true)
+    }
+  }
+
+  return groupControlData
+}
+
+export const updatePlacementControlsForCustom = placementControl => {
+  const { active, groupControlData } = placementControl
+
+  const onlineControl = groupControlData.find(
+    ({ id }) => id === 'online-cluster-only-checkbox'
+  )
+
+  if (active && active.mode) {
+    onlineControl && _.set(onlineControl, 'active', false)
+  } else {
+    onlineControl && _.set(onlineControl, 'active', true)
+  }
+
+  return groupControlData
+}
+
+export const updatePlacementControlsForAllOnline = placementControl => {
+  const { active, groupControlData } = placementControl
+
+  const clusterSelectorControl = groupControlData.find(
+    ({ id }) => id === 'clusterSelector'
+  )
+
+  if (clusterSelectorControl && clusterSelectorControl.active) {
+    active
+      ? _.set(clusterSelectorControl.active, 'mode', false)
+      : _.set(clusterSelectorControl.active, 'mode', true)
   }
 
   return groupControlData
@@ -184,6 +220,7 @@ const placementData = [
     id: 'clusterSelector',
     component: <ClusterSelector />,
     available: [],
+    onSelect: updatePlacementControlsForCustom,
     reverse: reverseClusterSelector,
     summarize: summarizeClusterSelector
   },
@@ -192,8 +229,9 @@ const placementData = [
     type: 'checkbox',
     name: 'creation.app.settings.onlineClusters',
     tooltip: 'tooltip.creation.app.settings.onlineClusters',
-    active: true,
+    active: false,
     available: [],
+    onSelect: updatePlacementControlsForAllOnline,
     reverse: 'PlacementRule[0].spec.clusterConditions[0].type',
     summarize: summarizeOnline.bind(null)
   },
@@ -202,7 +240,7 @@ const placementData = [
     type: 'checkbox',
     name: 'creation.app.settings.localClusters',
     tooltip: 'tooltip.creation.app.settings.localClusters',
-    onSelect: updatePlacementControls,
+    onSelect: updatePlacementControlsForLocal,
     active: false,
     available: [],
     reverse: 'Subscription[0].spec.placement.local',

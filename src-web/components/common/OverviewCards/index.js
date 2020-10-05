@@ -62,15 +62,16 @@ class OverviewCards extends React.Component {
   }
 
   reload() {
-    this.setState({})
+    this.setState(prevState => ({ pollToggle: !prevState.pollToggle }))
   }
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId)
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (
+      nextState.pollToggle === this.state.pollToggle ||
       _.get(nextProps, 'topology.status', '') === REQUEST_STATUS.IN_PROGRESS ||
       _.get(nextProps, 'HCMApplicationList.status', '') ===
         REQUEST_STATUS.IN_PROGRESS

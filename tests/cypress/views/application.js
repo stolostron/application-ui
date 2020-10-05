@@ -249,11 +249,9 @@ export const validateTopology = (name, data, type) => {
     .get(`g[type="${name}-subscription-0"]`, { timeout: 25 * 1000 })
     .should("be.visible");
 
-  // cluster
+  // cluster and placement
   getManagedClusterName();
   const clusterName = Cypress.env("managedCluster");
-
-  // placementrule
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
     !local

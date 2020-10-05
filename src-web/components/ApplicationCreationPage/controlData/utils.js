@@ -115,15 +115,15 @@ export const updateChannelControls = (
   const pathData = availableData[active]
 
   const nameControl = groupControlData.find(
-    ({ id: idCtrl }) => idCtrl === 'channelName'
+    ({ id: idCtrlCHName }) => idCtrlCHName === 'channelName'
   )
   const namespaceControl = groupControlData.find(
-    ({ id }) => id === 'channelNamespace'
+    ({ id: idChannelNS }) => idChannelNS === 'channelNamespace'
   )
   //use this to record if the namespace for the channel used already exists
   //this could happen when using an existing channel OR a new channel and the ns was created before but not deleted
   const namespaceControlExists = groupControlData.find(
-    ({ id }) => id === 'channelNamespaceExists'
+    ({ id: idCtrlNSExists }) => idCtrlNSExists === 'channelNamespaceExists'
   )
   let existingChannel = false
   let usingSameChannel = false
@@ -147,7 +147,7 @@ export const updateChannelControls = (
         const activeDataChannels = _.get(channelsControl, 'active', [])
         activeDataChannels.forEach(channelInfo => {
           const channelNameInfo = channelInfo.find(
-            ({ id }) => id === 'channelName'
+            ({ id: idChannelInfo }) => idChannelInfo === 'channelName'
           )
           if (
             channelNameInfo &&

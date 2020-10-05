@@ -12,7 +12,7 @@
 
 import { updateNSControls } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
 
-import { updatePlacementControls } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
+import { updatePlacementControlsForLocal } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
 
 import { updateGitCredentials } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataGit";
 
@@ -893,7 +893,7 @@ describe("updatePlacementControls without controls", () => {
     { selectedRuleName: { active: "result-pr", id: "selectedRuleName" } }
   ];
   it("should return same data", () => {
-    expect(updatePlacementControls(placementControl)).toEqual(result);
+    expect(updatePlacementControlsForLocal(placementControl)).toEqual(result);
   });
 });
 
@@ -918,11 +918,16 @@ describe("updatePlacementControls with controls", () => {
   };
   const result = [
     { id: "local-cluster-checkbox", type: "checkbox" },
-    { id: "online-cluster-only-checkbox", type: "checkbox", disabled: false },
+    {
+      id: "online-cluster-only-checkbox",
+      type: "checkbox",
+      disabled: false,
+      active: false
+    },
     { id: "clusterSelector", type: "custom" }
   ];
   it("should return all data", () => {
-    expect(updatePlacementControls(placementControl)).toEqual(result);
+    expect(updatePlacementControlsForLocal(placementControl)).toEqual(result);
   });
 });
 
@@ -952,6 +957,6 @@ describe("updatePlacementControls with controls", () => {
     { id: "clusterSelector", type: "hidden" }
   ];
   it("should return local only", () => {
-    expect(updatePlacementControls(placementControl)).toEqual(result);
+    expect(updatePlacementControlsForLocal(placementControl)).toEqual(result);
   });
 });

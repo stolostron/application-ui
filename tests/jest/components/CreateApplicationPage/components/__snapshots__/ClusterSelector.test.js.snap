@@ -4,9 +4,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
 <div
   className="creation-view-controls-labels"
 >
-  <div
-    className="creation-view-controls-textarea-title"
-  />
+  <div />
   <div
     className="clusterSelector-container"
   >

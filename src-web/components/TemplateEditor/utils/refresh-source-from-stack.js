@@ -111,7 +111,7 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
                     val.splice(idx, 1)
                   }
                 } else {
-                  val = _.omitBy(val, e => e == item.lhs)
+                  val = _.omitBy(val, e => e === item.lhs)
                   _.set(resource, path, Object.values(val))
                 }
                 break

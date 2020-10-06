@@ -53,6 +53,34 @@ class OverviewCards extends React.Component {
     }
   }
 
+  componentWillMount() {
+    // update cards every 1s to pick up side-effect in
+    // redux state (calculation of node statuses) created by
+    // topology code
+    const intervalId = setInterval(this.reload.bind(this), 1000)
+    this.setState({ intervalId: intervalId })
+  }
+
+  reload() {
+    this.setState(prevState => ({ pollToggle: !prevState.pollToggle }))
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId)
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      nextState.pollToggle === this.state.pollToggle ||
+      _.get(nextProps, 'topology.status', '') === REQUEST_STATUS.IN_PROGRESS ||
+      _.get(nextProps, 'HCMApplicationList.status', '') ===
+        REQUEST_STATUS.IN_PROGRESS
+    ) {
+      return false
+    }
+    return true
+  }
+
   render() {
     const {
       HCMApplicationList,
@@ -401,6 +429,7 @@ class OverviewCards extends React.Component {
 
   toggleSubsBtn = showSubCards => {
     this.setState({ showSubCards: !showSubCards })
+    this.forceUpdate()
   };
 }
 

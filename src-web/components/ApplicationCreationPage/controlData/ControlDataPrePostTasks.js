@@ -21,7 +21,8 @@ const prePostTasks = [
     overline: true,
     collapsable: true,
     collapsed: false,
-    editing: { collapsed: true } // if editing existing app, collapse this field initially
+    editing: { collapsed: true }, // if editing existing app, collapse this field initially
+    techPreview: true
   },
   {
     name: 'creation.app.ansible.secret.name',

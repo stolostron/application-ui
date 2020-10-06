@@ -5,17 +5,25 @@
 {{! ========================================================== }}
 
 {{#unless channelNamespace}}
+{{#unless channelNamespaceExists}}
 ---
 apiVersion: v1                      
 kind: Namespace
 metadata:
-  name: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}
+  name: {{{channelName}}}-ns
+{{/unless}}
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:
   name: {{{@root.name}}}-{{{channelName}}}-{{@index}}
   namespace: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}
+  {{#if selfLinks}}
+  selfLink: {{{selfLinks.Channel}}}
+  {{/if}}
+=======
+  name: {{{channelName}}}
+  namespace: {{{channelName}}}-ns
   {{#if selfLinks}}
   selfLink: {{{selfLinks.Channel}}}
   {{/if}}
@@ -26,13 +34,13 @@ spec:
 {{/if}}
 {{#if githubUser}}
   secretRef:
-    name: {{{@root.name}}}-git-authentication-{{@index}}
+    name: {{{channelName}}}-auth
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{{@root.name}}}-git-authentication-{{@index}}
-  namespace: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}
+  name: {{{channelName}}}-auth
+  namespace: {{{channelName}}}-ns
 data:
   user: {{{githubUser}}}
   accessToken: {{{githubAccessId}}}
@@ -63,5 +71,5 @@ spec:
 {{#if channelNamespace}}
   channel: {{{channelNamespace}}}/{{{channelName}}}
 {{else}}
-  channel: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}/{{{@root.name}}}-{{{channelName}}}-{{@index}}
+  channel: {{{channelName}}}-ns/{{{channelName}}}
 {{/if}}

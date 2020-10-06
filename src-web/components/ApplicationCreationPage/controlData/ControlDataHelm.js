@@ -18,9 +18,14 @@ import prePostTasks from './ControlDataPrePostTasks'
 const helmReleaseChannelData = [
   ///////////////////////  HelmRelease  /////////////////////////////////////
   {
+    id: 'channelNamespaceExists',
+    type: 'hidden',
+    active: true
+  },
+  {
     id: 'channelName',
     type: 'hidden',
-    active: 'resource'
+    active: ''
   },
   {
     id: 'channelNamespace',

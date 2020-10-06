@@ -210,9 +210,9 @@ class ControlPanelComboBox extends React.Component {
           item.style.display = ''
         }
       })
-      control.typing = evt
+      control.typing = evt.trim()
     } else {
-      control.active = evt
+      control.active = evt.trim()
       this.handleComboboxChange(control, userData, controlData)
     }
   }

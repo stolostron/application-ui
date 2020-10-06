@@ -2566,7 +2566,7 @@ describe("setResourceDeployStatus ansiblejob ", () => {
     },
     { type: "spacer" },
     {
-      labelValue: "Ansible Task status",
+      labelValue: "AnsibleJob Initialization status",
       status: "checkmark",
       value: "Successful: Success"
     },
@@ -2608,7 +2608,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
   const result = [
     { type: "spacer" },
     {
-      labelValue: "Ansible Task status",
+      labelValue: "AnsibleJob Initialization status",
       status: "pending",
       value:
         "Ansible task was not executed. Check the Subscription YAML for status errors."
@@ -2624,7 +2624,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
   const result1 = [
     { type: "spacer" },
     {
-      labelValue: "Ansible Task status",
+      labelValue: "AnsibleJob Initialization status",
       status: "pending",
       value:
         "Ansible task was not executed. Check the Subscription YAML for status errors."
@@ -2639,7 +2639,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
   const result2 = [
     { type: "spacer" },
     {
-      labelValue: "Ansible Task status",
+      labelValue: "AnsibleJob Initialization status",
       status: "failure",
       value: "Failed: Awaiting next reconciliation"
     },

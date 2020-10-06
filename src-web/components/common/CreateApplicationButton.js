@@ -49,14 +49,12 @@ class CreateApplicationButton extends Component {
       : undefined
     return (
       <TooltipContainer tooltip={titleText} isDisabled={canDisable}>
-        {/* Disable click for the link */}
         <Link
           to={{
             pathname: path,
             state: { cancelBack: true }
           }}
           key="create-application"
-          onClick={canDisable ? this.disableClick : undefined}
         >
           <Button variant="primary" isSmall isDisabled={canDisable}>
             {msgs.get('actions.create.application', locale)}

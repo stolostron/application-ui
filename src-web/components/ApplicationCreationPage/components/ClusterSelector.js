@@ -319,7 +319,7 @@ export const reverse = (control, templateObject) => {
       control.active = {
         mode: true,
         clusterLabelsList,
-        clusterLabelsListID: 1
+        clusterLabelsListID: clusterLabelsList.length
       }
     }
   }

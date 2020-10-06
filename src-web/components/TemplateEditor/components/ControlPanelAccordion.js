@@ -44,7 +44,8 @@ class ControlPanelAccordion extends React.Component {
       numbered,
       collapsable,
       collapsed = false,
-      content = []
+      content = [],
+      techPreview
     } = control
     let { info } = control
     if (typeof info === 'function') {
@@ -94,7 +95,8 @@ class ControlPanelAccordion extends React.Component {
     let summary = []
     this.getSummary(content, summary)
     summary = summary.filter(s => !!s)
-    let id = `${controlId}-${title || subtitle || ''}`
+    const label = title || subtitle
+    let id = `${controlId}-${label || ''}`
     id = id.replace(/\s+/g, '-').toLowerCase()
     return (
       <React.Fragment>
@@ -114,7 +116,7 @@ class ControlPanelAccordion extends React.Component {
               {msgs.get(note, locale)}
             </div>
           )}
-          {(title || subtitle) && (
+          {label && (
             <div className={mainTitleClasses}>
               {collapsable && (
                 <div
@@ -133,8 +135,13 @@ class ControlPanelAccordion extends React.Component {
                 </div>
               )}
               <div className="creation-view-controls-title-main-name">
-                {title || subtitle}
+                {label}
                 {!info && <Tooltip control={control} locale={locale} />}
+                {techPreview && (
+                  <div variant="primary" className="techPreviewTag">
+                    {msgs.get('creation.app.section.techPreview', locale)}
+                  </div>
+                )}
                 <span className="creation-view-controls-title-main-summary">
                   {summary.map((tag, inx) => {
                     return (
@@ -204,7 +211,7 @@ class ControlPanelAccordion extends React.Component {
               summary.push(availableMap[active] || active)
             } else if (Array.isArray(active)) {
               if (availableMap && active.length === 1) {
-                const { title = '' } = availableMap[active[0]]||{}
+                const { title = '' } = availableMap[active[0]] || {}
                 summary.push(title)
               } else if (typeof active[0] === 'string') {
                 summary.push(...active)

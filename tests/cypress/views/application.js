@@ -13,7 +13,7 @@ import {
   notification
 } from "./common";
 
-import { channelsInformation } from "./resources.js";
+import { channelsInformation, getManagedClusterName } from "./resources.js";
 
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
@@ -249,16 +249,14 @@ export const validateTopology = (name, data, type) => {
     .get(`g[type="${name}-subscription-0"]`, { timeout: 25 * 1000 })
     .should("be.visible");
 
-  //placementrule
+  // cluster and placement
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
     !local
-      ? (cy.log("validate the placementrule..."),
-        cy
-          .get(`g[type="${name}-placement-0"]`, { timeout: 25 * 1000 })
-          .should("be.visible"))
+      ? (validateClusterNode(Cypress.env("managedCluster")),
+        validatePlacementNode(name, key))
       : cy.log(
-          "placement will not be created as the application is deployed locally"
+          "cluster and placement nodes will not be created as the application is deployed locally"
         );
   }
 
@@ -266,6 +264,19 @@ export const validateTopology = (name, data, type) => {
     //const { path } = type == "git" ? data : data;
     //path == "helloworld" ? validateHelloWorld() : null;
   });
+};
+
+export const validateClusterNode = clusterName => {
+  const cluster = clusterName.split("/")[1];
+  cy.log("validating the cluster...");
+  cy.get(`g[type="${cluster}"]`, { timeout: 25 * 1000 }).should("be.visible");
+};
+
+export const validatePlacementNode = (name, key) => {
+  cy.log("validate the placementrule..."),
+    cy
+      .get(`g[type="${name}-placement-${key}"]`, { timeout: 25 * 1000 })
+      .should("be.visible");
 };
 
 export const validateHelloWorld = () => {

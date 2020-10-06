@@ -12,7 +12,7 @@
 
 import { updateNSControls } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
 
-import { updatePlacementControls } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
+import { updatePlacementControlsForLocal } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
 
 import { updateGitCredentials } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataGit";
 
@@ -24,7 +24,8 @@ import {
   updateNewRuleControlsData,
   updateChannelControls,
   updatePrePostControls,
-  setAvailableSecrets
+  setAvailableSecrets,
+  getUniqueChannelName
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
 
 const controlDataNS = [
@@ -79,6 +80,22 @@ const controlDataNS = [
   }
 ];
 
+describe("getUniqueChannelName", () => {
+  const channelUrl =
+    "https://github.com/ianzhang366/ac11m-applifecycle-samples";
+  const groupControlData = [
+    {
+      id: "channelType",
+      active: ["github"]
+    }
+  ];
+
+  const result = "github-com-ianzhang366-ac11m-applifecycle-samples-git";
+  it("getUniqueChannelName", () => {
+    expect(getUniqueChannelName(channelUrl, groupControlData)).toEqual(result);
+  });
+});
+
 describe("updateChannelControls", () => {
   const data = {
     active: "",
@@ -93,6 +110,11 @@ describe("updateChannelControls", () => {
         id: "channelNamespace",
         type: "hidden",
         active: ""
+      },
+      {
+        id: "channelNamespaceExists",
+        type: "hidden",
+        active: true
       },
       {
         id: "githubURL",
@@ -871,7 +893,7 @@ describe("updatePlacementControls without controls", () => {
     { selectedRuleName: { active: "result-pr", id: "selectedRuleName" } }
   ];
   it("should return same data", () => {
-    expect(updatePlacementControls(placementControl)).toEqual(result);
+    expect(updatePlacementControlsForLocal(placementControl)).toEqual(result);
   });
 });
 
@@ -896,11 +918,16 @@ describe("updatePlacementControls with controls", () => {
   };
   const result = [
     { id: "local-cluster-checkbox", type: "checkbox" },
-    { id: "online-cluster-only-checkbox", type: "checkbox", disabled: false },
+    {
+      id: "online-cluster-only-checkbox",
+      type: "checkbox",
+      disabled: false,
+      active: false
+    },
     { id: "clusterSelector", type: "custom" }
   ];
   it("should return all data", () => {
-    expect(updatePlacementControls(placementControl)).toEqual(result);
+    expect(updatePlacementControlsForLocal(placementControl)).toEqual(result);
   });
 });
 
@@ -930,6 +957,6 @@ describe("updatePlacementControls with controls", () => {
     { id: "clusterSelector", type: "hidden" }
   ];
   it("should return local only", () => {
-    expect(updatePlacementControls(placementControl)).toEqual(result);
+    expect(updatePlacementControlsForLocal(placementControl)).toEqual(result);
   });
 });

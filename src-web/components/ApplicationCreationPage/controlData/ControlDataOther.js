@@ -13,13 +13,17 @@ import placementData from './ControlDataPlacement'
 import prePostTasks from './ControlDataPrePostTasks'
 
 const otherChannelData = [
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
   {
+    id: 'channelNamespaceExists',
+    type: 'hidden',
+    active: true
+  },
+  {
     id: 'channelName',
     type: 'hidden',
-    active: 'resource'
+    active: ''
   },
   {
     id: 'channelNamespace',

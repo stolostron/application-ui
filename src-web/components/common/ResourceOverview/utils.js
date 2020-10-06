@@ -298,7 +298,12 @@ export const getAppOverviewCardsData = (
 ) => {
   // Get app details only when topology data is properly loaded for the selected app
   const appData = _.get(topologyData, 'activeFilters.application')
-  if (!(selectedAppData && topologyData && topologyData.detailsLoaded)) {
+  if (
+    !selectedAppData ||
+    selectedAppData.status !== 'DONE' ||
+    topologyData.status !== 'DONE' ||
+    topologyData.detailsLoaded !== true
+  ) {
     return {
       appName: appName,
       appNamespace: appNamespace,

@@ -13,7 +13,7 @@ import {
   notification
 } from "./common";
 
-import { channelsInformation, getManagedClusterName } from "./resources.js";
+import { channelsInformation } from "./resources.js";
 
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
@@ -253,8 +253,7 @@ export const validateTopology = (name, data, type) => {
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
     !local
-      ? (validateClusterNode(Cypress.env("managedCluster")),
-        validatePlacementNode(name, key))
+      ? validatePlacementNode(name, key)
       : cy.log(
           "cluster and placement nodes will not be created as the application is deployed locally"
         );

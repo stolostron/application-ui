@@ -32,7 +32,6 @@ import '../scss/topology-link.scss'
 import '../scss/topology-node.scss'
 import '../scss/topology-icons.scss'
 import _ from 'lodash'
-
 // to fix event issue with d3
 import { event as currentEvent } from 'd3-selection'
 
@@ -376,7 +375,10 @@ class DiagramViewer extends React.Component {
       this.svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted on top.
       this.svg.append('g').attr('class', 'nodes')
       this.svg.on('click', this.handleNodeClick)
-      this.svg.call(this.zoomHelper.canvasZoom())
+      this.svg.on('click', () => {
+        this.svg.call(this.zoomHelper.canvasZoom())
+      })
+
       defineLinkMarkers(this.svg)
     }
 

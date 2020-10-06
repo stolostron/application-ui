@@ -105,9 +105,14 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
                 break
               case 'D':
                 val = _.get(resource, path, [])
-                idx = val.indexOf(item.lhs)
-                if (idx !== -1) {
-                  val.splice(idx, 1)
+                if (Array.isArray(val)) {
+                  idx = val.indexOf(item.lhs)
+                  if (idx !== -1) {
+                    val.splice(idx, 1)
+                  }
+                } else {
+                  val = _.omitBy(val, e => e == item.lhs)
+                  _.set(resource, path, Object.values(val))
                 }
                 break
               }

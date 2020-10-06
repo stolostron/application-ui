@@ -106,8 +106,8 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
               case 'D':
                 val = _.get(resource, path, [])
                 if (Array.isArray(val)) {
-                  idx =
-                        val.indexOf(item.lhs)(idx !== -1) && val.splice(idx, 1)
+                  val.indexOf(item.lhs) !== -1 &&
+                        val.splice(val.indexOf(item.lhs), 1)
                 } else {
                   val = _.omitBy(val, e => e === item.lhs)
                   _.set(resource, path, Object.values(val))

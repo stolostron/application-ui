@@ -13,6 +13,8 @@ import {
   notification
 } from "./common";
 
+import { channelsInformation } from "./resources.js";
+
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
   const { name, config } = data;

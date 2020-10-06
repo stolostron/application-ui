@@ -15,6 +15,9 @@ kind: Application
 metadata:
   name: {{{name}}}
   namespace: {{{namespace}}}
+  {{#if selfLink}}
+  selfLink: {{{selfLink}}}
+  {{/if}}
 spec:
   componentKinds:
   - group: apps.open-cluster-management.io
@@ -56,6 +59,7 @@ spec:
   githubPath=../githubPath
   gitReconcileOption=../gitReconcileOption  
   ansibleSecretName=../ansibleSecretName
+  selfLinks=../selfLinks
 }}
 
 {{>templatePlacement 
@@ -65,6 +69,7 @@ spec:
   local-cluster-checkbox=../local-cluster-checkbox
   clusterSelector=../clusterSelector
   online-cluster-only-checkbox=../online-cluster-only-checkbox
+  selfLinks=../selfLinks
 }}
 
 {{>templatePrePostTasks 
@@ -92,6 +97,7 @@ spec:
   helmChartName=../helmChartName
   helmPackageVersion=../helmPackageVersion
   ansibleSecretName=../ansibleSecretName
+  selfLinks=../selfLinks
 }}
 
 
@@ -102,6 +108,7 @@ spec:
   local-cluster-checkbox=../local-cluster-checkbox
   clusterSelector=../clusterSelector
   online-cluster-only-checkbox=../online-cluster-only-checkbox
+  selfLinks=../selfLinks
 }}
 
 {{>templatePrePostTasks 
@@ -127,6 +134,7 @@ spec:
   accessKey=../accessKey
   secretKey=../secretKey
   ansibleSecretName=../ansibleSecretName
+  selfLinks=../selfLinks
 }}
 
 {{>templatePlacement 
@@ -136,6 +144,7 @@ spec:
   local-cluster-checkbox=../local-cluster-checkbox
   clusterSelector=../clusterSelector
   online-cluster-only-checkbox=../online-cluster-only-checkbox
+  selfLinks=../selfLinks
 }}
 
 {{>templatePrePostTasks 
@@ -157,6 +166,7 @@ spec:
   channelName=../channelName 
   channelNamespace=../channelNamespace 
   namespaceChannelName=../namespaceChannelName
+  selfLinks=../selfLinks
 }}
 
 {{>templatePlacement 
@@ -166,6 +176,7 @@ spec:
   local-cluster-checkbox=../local-cluster-checkbox
   clusterSelector=../clusterSelector
   online-cluster-only-checkbox=../online-cluster-only-checkbox
+  selfLinks=../selfLinks
 }}
 
 {{>templatePrePostTasks 

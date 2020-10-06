@@ -16,6 +16,9 @@ kind: Channel
 metadata:
   name: {{{@root.name}}}-{{{channelName}}}-{{@index}}
   namespace: {{{@root.name}}}-{{{channelName}}}-ns-{{@index}}
+  {{#if selfLinks}}
+  selfLink: {{{selfLinks.Channel}}}
+  {{/if}}
 spec:
   type: HelmRepo
 {{#if helmURL}}
@@ -43,6 +46,9 @@ metadata:
     app: {{{@root.name}}}
   name: {{{@root.name}}}-subscription-{{@index}}
   namespace: {{{@root.namespace}}}
+  {{#if selfLinks}}
+  selfLink: {{{selfLinks.Subscription}}}
+  {{/if}}
 spec:
 {{#if ansibleSecretName}} 
   hooksecretref: 

@@ -42,6 +42,9 @@ metadata:
     app: {{{@root.name}}}
   name: {{{@root.name}}}-placement-{{@index}}
   namespace: {{{@root.namespace}}}
+  {{#if selfLinks}}
+  selfLink: {{{selfLinks.PlacementRule}}}
+  {{/if}}
 {{#if clusterSelector.mode}}  
 spec:
   clusterSelector:

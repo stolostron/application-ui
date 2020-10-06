@@ -14,7 +14,6 @@ import _ from 'lodash'
 // remove the kube stuff
 const kube = [
   'creationTimestamp',
-  'selfLink',
   'status',
   'uid',
   'deployables',

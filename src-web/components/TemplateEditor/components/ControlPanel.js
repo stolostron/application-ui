@@ -98,6 +98,7 @@ class ControlPanel extends React.Component {
           <div className="content">
             {this.renderControlSections(controlData)}
           </div>
+          {this.renderNotifications()}
         </div>
         <div
           className="creation-view-controls-container-blurr bottom"

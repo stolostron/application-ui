@@ -1068,7 +1068,9 @@ export default class TemplateEditor extends React.Component {
       // if this was an edit of existing resources, and user deleted a resource, what selflink(s) should we delete
       if (editStack) {
         const {deletedLinks} = editStack
-        payload.push({deleteLinks: [...deletedLinks]})
+        if (deletedLinks.size>0) {
+          payload.push({deleteLinks: [...deletedLinks]})
+        }
       }
       return payload
     }

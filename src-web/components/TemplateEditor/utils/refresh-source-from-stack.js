@@ -65,11 +65,13 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
       templateResourceStack[stackInx + 1]
     )
 
-    if (customResources.length !== templateResources.length ||
-        (nextTemplateResources && templateResources.length !== nextTemplateResources.length)) {
+    if (stackInx===0 || nextTemplateResources) {
       customResources = customResources.filter(resource => {
         // filter out custom resource that isn't in next version of template
         const selfLink = _.get(resource, 'metadata.selfLink')
+        if (!selfLink) {
+          return false
+        }
         const resourceInx = templateResources.findIndex(res => {
           return selfLink === _.get(res, 'metadata.selfLink')
         })
@@ -96,8 +98,8 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
       if (nextTemplateResources && nextTemplateResources.length) {
         customResources.push(...nextTemplateResources)
       }
-
     }
+
     if (nextTemplateResources) {
       customResources.forEach(resource => {
 
@@ -105,69 +107,71 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
         let val, idx
 
         const selfLink = _.get(resource, 'metadata.selfLink')
-        const resourceInx = templateResources.findIndex(res => {
-          return selfLink === _.get(res, 'metadata.selfLink')
-        })
-        const nextInx = templateResourceStack[stackInx + 1].findIndex(res => {
-          return selfLink === _.get(res, 'metadata.selfLink')
-        })
+        if (selfLink) {
+          const resourceInx = templateResources.findIndex(res => {
+            return selfLink === _.get(res, 'metadata.selfLink')
+          })
+          const nextInx = templateResourceStack[stackInx + 1].findIndex(res => {
+            return selfLink === _.get(res, 'metadata.selfLink')
+          })
 
-        if (resourceInx!==-1 && nextInx!==-1) {
-          const oldResource = templateResources[resourceInx]
-          const newResource = templateResourceStack[stackInx + 1][nextInx]
-          const diffs = diff(oldResource, newResource)
-          if (diffs) {
-            diffs.forEach(({ kind, path, rhs, item }) => {
-              if (['namespace', 'name'].indexOf(path[path.length - 1]) === -1) {
-                switch (kind) {
-                // array modification
-                case 'A': {
-                  switch (item.kind) {
-                  case 'N':
-                    val = _.get(resource, path, [])
-                    if (Array.isArray(val)) {
-                      val.push(item.rhs)
-                      _.set(resource, path, val)
-                    } else {
-                      val[Object.keys(val).length] = item.rhs
-                      _.set(resource, path, Object.values(val))
-                    }
-                    break
-                  case 'D':
-                    val = _.get(resource, path, [])
-                    if (Array.isArray(val)) {
-                      val.indexOf(item.lhs) !== -1 &&
-                      val.splice(val.indexOf(item.lhs), 1)
-                    } else {
-                      val = _.omitBy(val, e => e === item.lhs)
-                      _.set(resource, path, Object.values(val))
+          if (resourceInx!==-1 && nextInx!==-1) {
+            const oldResource = templateResources[resourceInx]
+            const newResource = templateResourceStack[stackInx + 1][nextInx]
+            const diffs = diff(oldResource, newResource)
+            if (diffs) {
+              diffs.forEach(({ kind, path, rhs, item }) => {
+                if (['namespace', 'name'].indexOf(path[path.length - 1]) === -1) {
+                  switch (kind) {
+                  // array modification
+                  case 'A': {
+                    switch (item.kind) {
+                    case 'N':
+                      val = _.get(resource, path, [])
+                      if (Array.isArray(val)) {
+                        val.push(item.rhs)
+                        _.set(resource, path, val)
+                      } else {
+                        val[Object.keys(val).length] = item.rhs
+                        _.set(resource, path, Object.values(val))
+                      }
+                      break
+                    case 'D':
+                      val = _.get(resource, path, [])
+                      if (Array.isArray(val)) {
+                        val.indexOf(item.lhs) !== -1 &&
+                        val.splice(val.indexOf(item.lhs), 1)
+                      } else {
+                        val = _.omitBy(val, e => e === item.lhs)
+                        _.set(resource, path, Object.values(val))
+                      }
+                      break
                     }
                     break
                   }
-                  break
-                }
-                case 'E': {
-                  idx = path.pop()
-                  val = _.get(resource, path)
-                  if (Array.isArray(val)) {
-                    val.splice(idx, 1, rhs)
-                  } else {
-                    path.push(idx)
+                  case 'E': {
+                    idx = path.pop()
+                    val = _.get(resource, path)
+                    if (Array.isArray(val)) {
+                      val.splice(idx, 1, rhs)
+                    } else {
+                      path.push(idx)
+                      _.set(resource, path, rhs)
+                    }
+                    break
+                  }
+                  case 'N': {
                     _.set(resource, path, rhs)
+                    break
                   }
-                  break
+                  case 'D': {
+                    _.unset(resource, path)
+                    break
+                  }
+                  }
                 }
-                case 'N': {
-                  _.set(resource, path, rhs)
-                  break
-                }
-                case 'D': {
-                  _.unset(resource, path)
-                  break
-                }
-                }
-              }
-            })
+              })
+            }
           }
         }
       })

@@ -374,8 +374,7 @@ class DiagramViewer extends React.Component {
       this.svg.append('g').attr('class', 'titles')
       this.svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted on top.
       this.svg.append('g').attr('class', 'nodes')
-      this.svg.on('click', this.handleNodeClick)
-      this.svg.on('click', () => {
+      this.svg.on('click', this.handleNodeClick, () => {
         this.svg.call(this.zoomHelper.canvasZoom())
       })
 

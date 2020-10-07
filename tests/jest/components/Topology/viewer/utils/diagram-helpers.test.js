@@ -723,33 +723,6 @@ describe("getNameWithoutChartRelease node with the pod name same as the release 
   });
 });
 
-describe("getNameWithoutChartRelease node with app.kubernetes.io/name label", () => {
-  const node = {
-    apiversion: "v1",
-    cluster: "sharingpenguin",
-    container: "slave",
-    created: "2020-05-26T19:18:21Z",
-    kind: "pod",
-    label:
-      "app.kubernetes.io/name=controller; app=nginx-ingress; chart=nginx-ingress-1.36.3; component=default-backend; heritage=Helm; release=nginx-ingress-edafb",
-    name: "nginx-ingress-edafb",
-    namespace: "app-guestbook-git-ns",
-    restarts: 0,
-    selfLink:
-      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
-    startedAt: "2020-05-26T19:18:21Z",
-    status: "Running"
-  };
-
-  it("getNameWithoutChartRelease for pod with app.kubernetes.io/name label", () => {
-    expect(
-      getNameWithoutChartRelease(node, "nginx-ingress-edafb-aaa-controller", {
-        value: true
-      })
-    ).toEqual("controller");
-  });
-});
-
 describe("getNameWithoutChartRelease node with release name plus pod name", () => {
   const node = {
     apiversion: "v1",

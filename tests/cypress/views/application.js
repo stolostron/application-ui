@@ -381,8 +381,8 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
         )
       : (cy.get(uniqueClusterID).click({ force: true }),
         cy.log(`deploying app to cluster-${cluster}`),
-        cy.get("#labelName-0").type("name"),
-        cy.get("#labelValue-0").type(cluster));
+        cy.get("#labelName-0-clusterSelector").type("name"),
+        cy.get("#labelValue-0-clusterSelector").type(cluster));
   } else {
     throw new Error(
       "no available imported OCP clusters to deploy applications"

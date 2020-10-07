@@ -439,12 +439,12 @@ export const selectDate = (date, key) => {
 };
 
 export const editApplication = name => {
-  cy.visit("/multicloud/applications");
-  resourceTable.rowShouldExist(name, 600 * 1000);
-  resourceTable.openRowMenu(name);
-  resourceTable.menuClickEdit();
-  cy.url().should("include", `/${name}`);
-  cy.reload();
+  cy.visit(`/multicloud/applications/${name}-ns/${name}/edit`);
+  // resourceTable.rowShouldExist(name, 600 * 1000);
+  // resourceTable.openRowMenu(name);
+  // resourceTable.menuClickEdit();
+  // cy.url().should("include", `/${name}`);
+  // cy.reload();
   cy.get(".bx--detail-page-header-title-container", { timeout: 20 * 1000 });
   cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });

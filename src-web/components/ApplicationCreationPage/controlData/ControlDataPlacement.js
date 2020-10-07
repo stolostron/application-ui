@@ -27,6 +27,7 @@ import {
   getExistingPRControlsSection,
   updateNewRuleControlsData
 } from './utils'
+import { getSourcePath } from '../../TemplateEditor/utils/utils'
 import _ from 'lodash'
 import msgs from '../../../../nls/platform.properties'
 
@@ -162,6 +163,16 @@ export const updatePlacementControlsForAllOnline = placementControl => {
   return groupControlData
 }
 
+export const reverseOnline = (control, templateObject) => {
+  const active = _.get(
+    templateObject,
+    getSourcePath('PlacementRule[0].spec.clusterConditions[0].type')
+  )
+  if (active) {
+    control.active = !_.isEmpty(active)
+  }
+}
+
 export const summarizeOnline = (control, globalControlData, summary) => {
   const localClusterCheckboxControl = control.groupControlData.find(
     ({ id }) => id === localClusterCheckbox
@@ -234,7 +245,7 @@ const placementData = [
     active: false,
     available: [],
     onSelect: updatePlacementControlsForAllOnline,
-    reverse: 'PlacementRule[0].spec.clusterConditions[0].type',
+    reverse: reverseOnline,
     summarize: summarizeOnline.bind(null)
   },
   {

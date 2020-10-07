@@ -48,7 +48,11 @@ const intializeControls = (editStack, controlData) => {
 }
 
 const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
-  const { customResources: resources, templateResourceStack, deletedLinks } = editStack
+  const {
+    customResources: resources,
+    templateResourceStack,
+    deletedLinks
+  } = editStack
 
   // get the next iteration of template changes
   const { templateResources: iteration } = generateSourceFromTemplate(
@@ -65,7 +69,7 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
       templateResourceStack[stackInx + 1]
     )
 
-    if (stackInx===0 || nextTemplateResources) {
+    if (stackInx === 0 || nextTemplateResources) {
       customResources = customResources.filter(resource => {
         // filter out custom resource that isn't in next version of template
         const selfLink = _.get(resource, 'metadata.selfLink')
@@ -88,7 +92,7 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
             deletedLinks.add(selfLink)
             return false
           } else {
-            nextTemplateResources.splice(nextInx,1)
+            nextTemplateResources.splice(nextInx, 1)
           }
         }
         return true
@@ -102,7 +106,6 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
 
     if (nextTemplateResources) {
       customResources.forEach(resource => {
-
         // compare the difference, and add them to edit the custom resource
         let val, idx
 
@@ -115,13 +118,15 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
             return selfLink === _.get(res, 'metadata.selfLink')
           })
 
-          if (resourceInx!==-1 && nextInx!==-1) {
+          if (resourceInx !== -1 && nextInx !== -1) {
             const oldResource = templateResources[resourceInx]
             const newResource = templateResourceStack[stackInx + 1][nextInx]
             const diffs = diff(oldResource, newResource)
             if (diffs) {
               diffs.forEach(({ kind, path, rhs, item }) => {
-                if (['namespace', 'name'].indexOf(path[path.length - 1]) === -1) {
+                if (
+                  ['namespace', 'name'].indexOf(path[path.length - 1]) === -1
+                ) {
                   switch (kind) {
                   // array modification
                   case 'A': {
@@ -140,7 +145,7 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
                       val = _.get(resource, path, [])
                       if (Array.isArray(val)) {
                         val.indexOf(item.lhs) !== -1 &&
-                        val.splice(val.indexOf(item.lhs), 1)
+                              val.splice(val.indexOf(item.lhs), 1)
                       } else {
                         val = _.omitBy(val, e => e === item.lhs)
                         _.set(resource, path, Object.values(val))

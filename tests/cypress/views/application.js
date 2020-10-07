@@ -17,6 +17,7 @@ import { channelsInformation } from "./resources.js";
 
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
+  cy.wait(10000);
   const { name, config } = data;
   modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");

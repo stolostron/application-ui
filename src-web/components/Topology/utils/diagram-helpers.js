@@ -780,7 +780,13 @@ export const getNameWithoutChartRelease = (
   const labels = _.split(labelAttr, ';')
   let foundReleaseLabel = false
   labels.forEach(label => {
-    const splitLabelContent = _.split(label, '=')
+    const splitLabelContent = _.split(label, '=', _.trim(splitLabelContent[0]))
+    if (
+      splitLabelContent.length === 2 &&
+      _.trim(splitLabelContent[0]) === 'app.kubernetes.io/name'
+    ) {
+      name = splitLabelContent[1] //use app.kubernetes.io/name as name if set
+    }
     if (
       splitLabelContent.length === 2 &&
       _.trim(splitLabelContent[0]) === 'release'

@@ -323,6 +323,15 @@ export const reverse = (control, templateObject) => {
           clusterLabelsListID: clusterLabelsList.length
         }
       }
+    } else {
+      const clusterLabelsList = [
+        { id: 0, labelName: '', labelValue: '', validValue: false }
+      ]
+      control.active = {
+        mode: false,
+        clusterLabelsList,
+        clusterLabelsListID: 1
+      }
     }
   }
 }

@@ -293,33 +293,35 @@ export const summarize = (control, controlData, summary) => {
 }
 
 export const reverse = (control, templateObject) => {
-  let matchLabels = _.get(
-    templateObject,
-    getSourcePath('PlacementRule[0].spec.clusterSelector.matchLabels')
-  )
-  if (!matchLabels) {
-    matchLabels = _.get(
+  if (!control.active) {
+    let matchLabels = _.get(
       templateObject,
-      getSourcePath('PlacementRule[0].spec.clusterLabels.matchLabels')
+      getSourcePath('PlacementRule[0].spec.clusterSelector.matchLabels')
     )
-  }
-  if (matchLabels) {
-    matchLabels = removeVs(matchLabels)
-    if (matchLabels) {
-      const clusterLabelsList = Object.entries(matchLabels).map(
-        ([labelName, labelValue], id) => {
-          return {
-            id,
-            labelName,
-            labelValue,
-            validValue: true
-          }
-        }
+    if (!matchLabels) {
+      matchLabels = _.get(
+        templateObject,
+        getSourcePath('PlacementRule[0].spec.clusterLabels.matchLabels')
       )
-      control.active = {
-        mode: true,
-        clusterLabelsList,
-        clusterLabelsListID: clusterLabelsList.length
+    }
+    if (matchLabels) {
+      matchLabels = removeVs(matchLabels)
+      if (matchLabels) {
+        const clusterLabelsList = Object.entries(matchLabels).map(
+          ([labelName, labelValue], id) => {
+            return {
+              id,
+              labelName,
+              labelValue,
+              validValue: true
+            }
+          }
+        )
+        control.active = {
+          mode: true,
+          clusterLabelsList,
+          clusterLabelsListID: clusterLabelsList.length
+        }
       }
     }
   }

@@ -258,7 +258,7 @@ export class ClusterSelector extends React.Component {
     if (targetName) {
       const { active } = control
       if (targetName === 'clusterSelector-checkbox') {
-        active.mode = event.target.checked
+        active.mode = event.target.checked ? true : false
       } else {
         const { clusterLabelsList } = active
         const labelID = parseInt(event.target.id.split('-')[1], 0)

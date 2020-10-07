@@ -783,12 +783,6 @@ export const getNameWithoutChartRelease = (
     const splitLabelContent = _.split(label, '=')
     if (
       splitLabelContent.length === 2 &&
-      _.trim(splitLabelContent[0]) === 'app.kubernetes.io/name'
-    ) {
-      name = splitLabelContent[1] //use app.kubernetes.io/name as name if set
-    }
-    if (
-      splitLabelContent.length === 2 &&
       _.trim(splitLabelContent[0]) === 'release'
     ) {
       //get label for release name

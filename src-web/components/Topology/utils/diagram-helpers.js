@@ -1185,6 +1185,17 @@ export const setPodDeployStatus = (node, updatedNode, details) => {
   return details
 }
 
+const setClusterWindowStatus = (windowStatusArray, subscription, details) => {
+  windowStatusArray.forEach(wstatus => {
+    if (_.startsWith(_.trimStart(wstatus), `${subscription.cluster}:`)) {
+      details.push({
+        labelKey: 'spec.subscr.timeWindow',
+        value: _.split(wstatus, ':')[1]
+      })
+    }
+  })
+}
+
 export const setSubscriptionDeployStatus = (node, details) => {
   if (R.pathOr('', ['type'])(node) !== 'subscription') {
     return details
@@ -1296,14 +1307,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
           value: 'true'
         })
 
-      windowStatusArray.forEach(wstatus => {
-        if (_.startsWith(_.trimStart(wstatus), `${subscription.cluster}:`)) {
-          details.push({
-            labelKey: 'spec.subscr.timeWindow',
-            value: _.split(wstatus, ':')[1]
-          })
-        }
-      })
+      setClusterWindowStatus(windowStatusArray, subscription, details)
 
       details.push({
         type: 'link',

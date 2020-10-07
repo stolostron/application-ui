@@ -9,9 +9,11 @@
  *******************************************************************************/
 'use strict'
 
-import { initializeControls, getSourcePath } from '../../TemplateEditor/utils/utils'
+import {
+  initializeControls,
+  getSourcePath
+} from '../../TemplateEditor/utils/utils'
 import _ from 'lodash'
-
 
 //only called when editing an existing application
 //examines resources to create the correct resource types that are being deployed
@@ -66,11 +68,12 @@ const discoverChannelFromSource = (
   multiple,
   locale
 ) => {
-// determine channel type
+  // determine channel type
   let id
 
   // try channel type first
   switch (_.get(templateObject, 'Channel[0].$raw.spec.type')) {
+  case 'git':
   case 'Git':
   case 'GitHub':
     id = 'github'
@@ -104,7 +107,7 @@ const discoverChannelFromSource = (
 
   // if editing an existing app that doesn't have a standard channel type
   // show the other channel type
-  if (id==='other') {
+  if (id === 'other') {
     delete cardsControl.availableMap[id].hidden
   }
 
@@ -157,23 +160,22 @@ const discoverChannelFromSource = (
 //so after one group has been processed, pop the top Subscription so that next pass
 //the Subscription[0] points to the next group
 export const shiftTemplateObject = templateObject => {
-// pop the subscription off of all subscriptions
+  // pop the subscription off of all subscriptions
   let subscription = _.get(templateObject, 'Subscription')
   if (subscription) {
     subscription = subscription.shift()
 
     // if this subscription pointed to a channel in this template
     // remove that channel too
-    let name = _.get(
-      subscription,
-      '$synced.spec.$v.channel.$v'
-    )
+    let name = _.get(subscription, '$synced.spec.$v.channel.$v')
     if (name) {
       const [ns, n] = name.split('/')
       const channels = templateObject.Channel || []
       const inx = channels.findIndex(rule => {
-        return n === _.get(rule, '$synced.metadata.$v.name.$v')
-      && ns === _.get(rule, '$synced.metadata.$v.namespace.$v')
+        return (
+          n === _.get(rule, '$synced.metadata.$v.name.$v') &&
+          ns === _.get(rule, '$synced.metadata.$v.namespace.$v')
+        )
       })
       if (inx !== -1) {
         templateObject.Channel.splice(inx, 1)

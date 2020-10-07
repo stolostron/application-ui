@@ -135,8 +135,6 @@ export const updateChannelControls = (
   const nsControl = globalControl.find(
     ({ id: idCtrl }) => idCtrl === 'namespace'
   )
-  updateControlsForNS(urlControl, nsControl, globalControl)
-
   const { active, availableData, groupControlData } = urlControl
   const pathData = availableData[active]
 
@@ -417,30 +415,16 @@ export const setAvailableRules = (control, result) => {
   control.isLoading = false
   control.active = ''
 
-  const selectedNS = control.ns
   const error = placementrules ? null : result.error
 
   if (error) {
     control.isFailed = true
   } else if (placementrules) {
-    if (_.get(control, 'ns', '') === '') {
-      control.available = [] // no app namespace selected so no rule to show
-    } else {
-      control.availableData = _.keyBy(
-        placementrules.filter(
-          rule => _.get(rule, 'metadata.namespace', '') === selectedNS
-        ),
-        'metadata.name'
-      )
+    if (placementrules.length > 0) {
+      control.availableData = _.keyBy(placementrules, 'metadata.name')
       control.available = Object.keys(control.availableData).sort()
-      if (Object.keys(control.availableData).length === 0) {
-        _.set(control, 'type', 'hidden')
-        const groupControlData = _.get(control, 'groupControlData')
-        const existingRule = groupControlData.find(
-          ({ id }) => id === existingRuleCheckbox
-        )
-        existingRule && _.set(existingRule, 'type', 'hidden')
-      }
+    } else {
+      control.availableData = []
     }
   } else {
     control.isLoading = loading

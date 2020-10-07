@@ -35,8 +35,20 @@ const existingRuleCheckbox = 'existingrule-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
 
 export const loadExistingPlacementRules = () => {
+  const getQueryVariables = (control, globalControl) => {
+    const nsControl = globalControl.find(
+      ({ id: idCtrl }) => idCtrl === 'namespace'
+    )
+    if (nsControl.active) {
+      delete control.exception
+      return { namespace: nsControl.active }
+    } else {
+      return { namespace: '_undefined_' }
+    }
+  }
   return {
     query: HCMPlacementRuleList,
+    variables: getQueryVariables,
     loadingDesc: 'creation.app.loading.rules',
     setAvailable: setAvailableRules.bind(null)
   }
@@ -206,7 +218,7 @@ const placementData = [
   },
   {
     id: existingRuleCheckbox,
-    type: 'hidden',
+    type: 'checkbox',
     name: 'creation.app.settings.existingRule',
     tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: updateDisplayForPlacementControls,

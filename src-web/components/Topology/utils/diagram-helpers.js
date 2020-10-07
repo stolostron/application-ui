@@ -509,9 +509,10 @@ export const getPulseForNodeWithPodStatus = node => {
 }
 
 export const getShapeTypeForSubscription = node => {
-  const blocked =
-    _.get(node, 'specs.raw.spec.timewindow') &&
-    _.get(node, 'specs.raw.status.message', '') === 'Blocked'
+  const blocked = _.includes(
+    _.get(node, 'specs.raw.status.message', ''),
+    'Blocked'
+  )
   if (blocked) {
     return 'subscriptionblocked'
   } else {
@@ -1193,16 +1194,17 @@ export const setSubscriptionDeployStatus = (node, details) => {
   const timeWindowDays = _.get(node, 'specs.raw.spec.timewindow.daysofweek')
   const timeWindowHours = _.get(node, 'specs.raw.spec.timewindow.hours', [])
 
+  let windowStatusArray = []
+
   if (timeWindow) {
+    windowStatusArray = _.split(
+      _.get(node, 'specs.raw.status.message', ''),
+      ','
+    )
+
     details.push({
       type: 'label',
       labelKey: 'spec.subscr.timeWindow.title'
-    })
-    const windowStatus = _.get(node, 'specs.raw.status.message')
-
-    details.push({
-      labelKey: 'spec.subscr.timeWindow',
-      value: windowStatus
     })
     details.push({
       labelKey: 'spec.subscr.timeWindow.type',
@@ -1293,6 +1295,15 @@ export const setSubscriptionDeployStatus = (node, details) => {
           labelKey: 'resource.subscription.local',
           value: 'true'
         })
+
+      windowStatusArray.forEach(wstatus => {
+        if (_.startsWith(_.trimStart(wstatus), `${subscription.cluster}:`)) {
+          details.push({
+            labelKey: 'spec.subscr.timeWindow',
+            value: _.split(wstatus, ':')[1]
+          })
+        }
+      })
 
       details.push({
         type: 'link',

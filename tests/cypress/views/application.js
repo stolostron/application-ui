@@ -254,7 +254,8 @@ export const validateTopology = (name, data, type) => {
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
     !local
-      ? validatePlacementNode(name, key)
+      ? (validatePlacementNode(name, key),
+        validateClusterNode(Cypress.env("managedCluster")))
       : cy.log(
           "cluster and placement nodes will not be created as the application is deployed locally"
         );
@@ -443,4 +444,19 @@ export const editApplication = name => {
   resourceTable.openRowMenu(name);
   resourceTable.menuClickEdit();
   cy.url().should("include", `/${name}`);
+  cy.get(".bx--detail-page-header-title-container", { timeout: 20 * 1000 });
+  cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
+  cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
+  cy
+    .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
+    .should("be.disabled");
+  cy
+    .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
+    .invoke("val")
+    .should("eq", name);
+  cy.get("#namespace", { timeout: 20 * 1000 }).should("be.disabled");
+  cy
+    .get("#namespace", { timeout: 20 * 1000 })
+    .invoke("val")
+    .should("eq", `${name}-ns`);
 };

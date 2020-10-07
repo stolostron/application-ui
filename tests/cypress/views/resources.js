@@ -181,11 +181,16 @@ export const getManagedClusterName = () => {
     ];
     managedClusters.forEach((cluster, index) =>
       cy.exec(`oc get ${cluster} -o yaml`).then(({ stdout }) => {
-        let isReady = false;
+        let { isReady, isLocal } = [false, false];
+        // check if the cluster is ready
         substrings.forEach(substring => {
           stdout.includes(substring) ? (isReady = true) : isReady;
-          isReady == false ? managedClusters.splice(index, 1) : managedClusters;
+          !isReady ? managedClusters.splice(index, 1) : managedClusters;
         });
+        // check if the cluster is local-cluster
+        const localString = 'local-cluster: "true"';
+        stdout.includes(localString) ? (isLocal = true) : isLocal;
+        !isLocal ? managedClusters : managedClusters.splice(index, 1);
       })
     );
     cy.log(managedClusters).then(() => {

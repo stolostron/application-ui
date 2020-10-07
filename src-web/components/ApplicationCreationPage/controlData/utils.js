@@ -227,8 +227,6 @@ export const updateControlsForNS = (
   nsControl,
   globalControl
 ) => {
-  const { active, availableData = {} } = nsControl
-
   const controlList = getExistingPRControlsSection(
     initiatingControl,
     globalControl
@@ -239,15 +237,6 @@ export const updateControlsForNS = (
     const selectedRuleNameControl = _.get(control, 'selectedRuleName')
     //update placement rule controls
     if (existingRuleControl && existingruleCheckbox) {
-      if (availableData[active] === undefined) {
-        //user defined namespace
-        _.set(existingruleCheckbox, 'type', 'hidden')
-        _.set(existingRuleControl, 'ns', '')
-      } else {
-        //existing namespace
-        _.set(existingruleCheckbox, 'type', 'checkbox')
-        _.set(existingRuleControl, 'ns', active)
-      }
       _.set(existingruleCheckbox, 'active', false)
       _.set(existingRuleControl, 'active', '')
       _.set(existingRuleControl, 'type', 'hidden')

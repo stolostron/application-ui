@@ -11,7 +11,7 @@ describe("Edit application", () => {
     const data = config[type].data;
     if (data.enable) {
       it(`${data.name} should be editable`, () => {
-        editApplication(data.name);
+        editApplication(data.name, data);
       });
     } else {
       it(`disable modification on resource ${type}`, () => {

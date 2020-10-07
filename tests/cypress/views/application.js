@@ -156,10 +156,8 @@ export const multipleTemplate = (clusterName, value, css, key, func) => {
 };
 
 export const submitSave = () => {
-  cy
-    .get("#create-button-portal-id", { timeout: 20 * 1000 })
-    .should("not.be.disabled")
-    .click();
+  modal.shouldNotBeDisabled();
+  modal.clickSubmit();
   notification.shouldExist("success", { timeout: 60 * 1000 });
   cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
 };
@@ -438,8 +436,11 @@ export const selectDate = (date, key) => {
   });
 };
 
-export const editApplication = name => {
+export const editApplication = (name, data) => {
+  cy.server();
+  cy.route("multicloud/applications/*").as("application");
   cy.visit(`/multicloud/applications/${name}-ns/${name}/edit`);
+  cy.wait("@application", { timeout: 100 * 1000 });
   // resourceTable.rowShouldExist(name, 600 * 1000);
   // resourceTable.openRowMenu(name);
   // resourceTable.menuClickEdit();
@@ -460,4 +461,26 @@ export const editApplication = name => {
     .get("#namespace", { timeout: 20 * 1000 })
     .invoke("val")
     .should("eq", `${name}-ns`);
+  modal.shouldBeDisabled();
+
+  deleteFirstSubscription(name, data);
+};
+
+export const deleteFirstSubscription = (name, data) => {
+  if (data.config.length > 1) {
+    cy.log(`${name} has multiple subscriptions`);
+    cy.get(".creation-view-controls-section").within($section => {
+      cy
+        .get(".creation-view-group-container")
+        .first()
+        .within($div => {
+          cy.get(".creation-view-controls-delete-button").click();
+        });
+    });
+    modal.shouldNotBeDisabled();
+    modal.clickSubmit();
+    notification.shouldExist("success", { timeout: 60 * 1000 });
+  } else {
+    cy.log(`skipping ${name} since it's a single application...`);
+  }
 };

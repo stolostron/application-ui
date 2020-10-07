@@ -11,6 +11,9 @@ kind: Channel
 metadata:
   name: {{{channelName}}}
   namespace: {{{channelName}}}-ns
+  {{#if selfLinks}}
+  selfLink: {{{selfLinks.Channel}}}
+  {{/if}}
 spec:
   type: Namespace
   pathname: {{{namespaceChannelName}}}
@@ -23,6 +26,9 @@ metadata:
     app: {{{@root.name}}}
   name: {{{@root.name}}}-subscription-{{@index}}
   namespace: {{{@root.namespace}}}
+  {{#if selfLinks}}
+  selfLink: {{{selfLinks.Subscription}}}
+  {{/if}}
 spec:
 {{#if ansibleSecretName}} 
   hooksecretref: 

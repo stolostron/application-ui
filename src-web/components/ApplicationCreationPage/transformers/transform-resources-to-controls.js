@@ -24,6 +24,15 @@ export const discoverGroupsFromSource = (
   editor,
   locale
 ) => {
+  // get application selflink
+  const selfLinkControl = cd.find(({ id }) => id === 'selfLink')
+  const selfLink = _.get(
+    templateObject,
+    'Application[0].$raw.metadata.selfLink'
+  )
+  selfLinkControl.active = selfLink
+
+  // find groups
   const { controlData: groupData, prompts: { nameId, baseName } } = control
   templateObject = _.cloneDeep(templateObject)
   const times = _.get(templateObject, 'Subscription.length')
@@ -53,7 +62,9 @@ export const discoverGroupsFromSource = (
         times > 1,
         locale
       )
-      shiftTemplateObject(templateObject)
+
+      const selfLinksControl = newGroup.find(({ id }) => id === 'selfLinks')
+      shiftTemplateObject(templateObject, selfLinksControl)
     })
     control.active = active
   }
@@ -74,6 +85,7 @@ const discoverChannelFromSource = (
   // try channel type first
   switch (_.get(templateObject, 'Channel[0].$raw.spec.type')) {
   case 'git':
+  case 'github':
   case 'Git':
   case 'GitHub':
     id = 'github'
@@ -159,11 +171,16 @@ const discoverChannelFromSource = (
 //reverse source path always points to first template resource (ex: Subscription[0])
 //so after one group has been processed, pop the top Subscription so that next pass
 //the Subscription[0] points to the next group
-export const shiftTemplateObject = templateObject => {
+export const shiftTemplateObject = (templateObject, selfLinksControl) => {
   // pop the subscription off of all subscriptions
   let subscription = _.get(templateObject, 'Subscription')
   if (subscription) {
+    let selfLink
     subscription = subscription.shift()
+    if (selfLinksControl) {
+      selfLink = _.get(subscription, '$raw.metadata.selfLink')
+      _.set(selfLinksControl, 'active.Subscription', selfLink)
+    }
 
     // if this subscription pointed to a channel in this template
     // remove that channel too
@@ -178,7 +195,11 @@ export const shiftTemplateObject = templateObject => {
         )
       })
       if (inx !== -1) {
-        templateObject.Channel.splice(inx, 1)
+        const channel = templateObject.Channel.splice(inx, 1)[0]
+        if (selfLinksControl) {
+          selfLink = _.get(channel, '$raw.metadata.selfLink')
+          _.set(selfLinksControl, 'active.Channel', selfLink)
+        }
       }
     }
 
@@ -194,7 +215,11 @@ export const shiftTemplateObject = templateObject => {
         return name === _.get(rule, '$synced.metadata.$v.name.$v')
       })
       if (inx !== -1) {
-        templateObject.PlacementRule.splice(inx, 1)
+        const rule = templateObject.PlacementRule.splice(inx, 1)[0]
+        if (selfLinksControl) {
+          selfLink = _.get(rule, '$raw.metadata.selfLink')
+          _.set(selfLinksControl, 'active.PlacementRule', selfLink)
+        }
       }
     }
   }

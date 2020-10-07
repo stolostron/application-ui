@@ -43,11 +43,12 @@ const intializeControls = (editStack, controlData) => {
 
   // keep track of template changes
   editStack.templateResourceStack = []
+  editStack.deletedLinks = new Set()
   editStack.initialized = true
 }
 
 const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
-  const { customResources: resources, templateResourceStack } = editStack
+  const { customResources: resources, templateResourceStack, deletedLinks } = editStack
 
   // get the next iteration of template changes
   const { templateResources: iteration } = generateSourceFromTemplate(
@@ -63,86 +64,117 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
     const nextTemplateResources = _.cloneDeep(
       templateResourceStack[stackInx + 1]
     )
-    customResources = customResources.filter(resource => {
-      // filter out custom resource that isn't in next version of template
-      const kind = _.get(resource, 'kind', 'unknown')
-      const resourceInx = templateResources.findIndex(res => {
-        return kind === _.get(res, 'kind')
-      })
-      if (resourceInx === -1) {
-        return false
-      }
 
-      if (nextTemplateResources) {
-        // filter out custom resource that not in next version of template
-        const nextInx = nextTemplateResources.findIndex(res => {
-          return kind === _.get(res, 'kind')
+    if (stackInx===0 || nextTemplateResources) {
+      customResources = customResources.filter(resource => {
+        // filter out custom resource that isn't in next version of template
+        const selfLink = _.get(resource, 'metadata.selfLink')
+        if (!selfLink) {
+          return false
+        }
+        const resourceInx = templateResources.findIndex(res => {
+          return selfLink === _.get(res, 'metadata.selfLink')
         })
-        if (nextInx === -1) {
+        if (resourceInx === -1) {
           return false
         }
 
+        if (nextTemplateResources) {
+          // filter out custom resource that not in next version of template
+          const nextInx = nextTemplateResources.findIndex(res => {
+            return selfLink === _.get(res, 'metadata.selfLink')
+          })
+          if (nextInx === -1) {
+            deletedLinks.add(selfLink)
+            return false
+          } else {
+            nextTemplateResources.splice(nextInx,1)
+          }
+        }
+        return true
+      })
+
+      // something added?
+      if (nextTemplateResources && nextTemplateResources.length) {
+        customResources.push(...nextTemplateResources)
+      }
+    }
+
+    if (nextTemplateResources) {
+      customResources.forEach(resource => {
+
         // compare the difference, and add them to edit the custom resource
         let val, idx
-        const oldResource = templateResources.splice(resourceInx, 1)[0]
-        const newResource = nextTemplateResources.splice(nextInx, 1)[0]
-        const diffs = diff(oldResource, newResource)
-        if (diffs) {
-          diffs.forEach(({ kind, path, rhs, item }) => {
-            switch (kind) {
-            // array modification
-            case 'A': {
-              switch (item.kind) {
-              case 'N':
-                val = _.get(resource, path, [])
-                if (Array.isArray(val)) {
-                  val.push(item.rhs)
-                  _.set(resource, path, val)
-                } else {
-                  val[Object.keys(val).length] = item.rhs
-                  _.set(resource, path, Object.values(val))
-                }
-                break
-              case 'D':
-                val = _.get(resource, path, [])
-                if (Array.isArray(val)) {
-                  val.indexOf(item.lhs) !== -1 &&
-                        val.splice(val.indexOf(item.lhs), 1)
-                } else {
-                  val = _.omitBy(val, e => e === item.lhs)
-                  _.set(resource, path, Object.values(val))
-                }
-                break
-              }
-              break
-            }
-            case 'E': {
-              idx = path.pop()
-              val = _.get(resource, path)
-              if (Array.isArray(val)) {
-                val.splice(idx, 1, rhs)
-              } else {
-                path.push(idx)
-                _.set(resource, path, rhs)
-              }
-              break
-            }
-            case 'N': {
-              _.set(resource, path, rhs)
-              break
-            }
-            case 'D': {
-              _.unset(resource, path)
-              break
-            }
-            }
+
+        const selfLink = _.get(resource, 'metadata.selfLink')
+        if (selfLink) {
+          const resourceInx = templateResources.findIndex(res => {
+            return selfLink === _.get(res, 'metadata.selfLink')
           })
+          const nextInx = templateResourceStack[stackInx + 1].findIndex(res => {
+            return selfLink === _.get(res, 'metadata.selfLink')
+          })
+
+          if (resourceInx!==-1 && nextInx!==-1) {
+            const oldResource = templateResources[resourceInx]
+            const newResource = templateResourceStack[stackInx + 1][nextInx]
+            const diffs = diff(oldResource, newResource)
+            if (diffs) {
+              diffs.forEach(({ kind, path, rhs, item }) => {
+                if (['namespace', 'name'].indexOf(path[path.length - 1]) === -1) {
+                  switch (kind) {
+                  // array modification
+                  case 'A': {
+                    switch (item.kind) {
+                    case 'N':
+                      val = _.get(resource, path, [])
+                      if (Array.isArray(val)) {
+                        val.push(item.rhs)
+                        _.set(resource, path, val)
+                      } else {
+                        val[Object.keys(val).length] = item.rhs
+                        _.set(resource, path, Object.values(val))
+                      }
+                      break
+                    case 'D':
+                      val = _.get(resource, path, [])
+                      if (Array.isArray(val)) {
+                        val.indexOf(item.lhs) !== -1 &&
+                        val.splice(val.indexOf(item.lhs), 1)
+                      } else {
+                        val = _.omitBy(val, e => e === item.lhs)
+                        _.set(resource, path, Object.values(val))
+                      }
+                      break
+                    }
+                    break
+                  }
+                  case 'E': {
+                    idx = path.pop()
+                    val = _.get(resource, path)
+                    if (Array.isArray(val)) {
+                      val.splice(idx, 1, rhs)
+                    } else {
+                      path.push(idx)
+                      _.set(resource, path, rhs)
+                    }
+                    break
+                  }
+                  case 'N': {
+                    _.set(resource, path, rhs)
+                    break
+                  }
+                  case 'D': {
+                    _.unset(resource, path)
+                    break
+                  }
+                  }
+                }
+              })
+            }
+          }
         }
-      }
-      return true
-    })
-    if (nextTemplateResources && nextTemplateResources.length) {
-      customResources.push(...nextTemplateResources)
+      })
     }
   })
 

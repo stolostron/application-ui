@@ -151,8 +151,7 @@ export class ClusterSelector extends React.Component {
 
   validation(exceptions) {
     const { control, locale, controlId } = this.props
-
-    if (control.active) {
+    if (_.get(control, 'active.mode', false)) {
       if (Object.keys(control.active.clusterLabelsList).length === 0) {
         //no cluster labels set
         exceptions.push({

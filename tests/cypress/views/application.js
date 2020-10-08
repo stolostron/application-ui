@@ -437,16 +437,23 @@ export const selectDate = (date, key) => {
 };
 
 export const editApplication = (name, data) => {
-  cy.server();
-  cy.route("multicloud/applications/*").as("application");
-  cy.visit(`/multicloud/applications/${name}-ns/${name}/edit`);
-  cy.wait("@application", { timeout: 100 * 1000 });
-  // resourceTable.rowShouldExist(name, 600 * 1000);
-  // resourceTable.openRowMenu(name);
-  // resourceTable.menuClickEdit();
-  // cy.url().should("include", `/${name}`);
-  // cy.reload();
-  cy.get(".bx--detail-page-header-title-container", { timeout: 20 * 1000 });
+  cy
+    .server()
+    .route({
+      method: "POST", // Route all GET requests
+      url: `/multicloud/applications/graphql`
+    })
+    .as("graphql");
+  cy.visit("/multicloud/applications");
+  resourceTable.rowShouldExist(name, 600 * 1000);
+  resourceTable.openRowMenu(name);
+  resourceTable.menuClickEdit();
+  cy.url().should("include", `/${name}`);
+
+  cy.wait(["@graphql", "@graphql"], {
+    timeout: 50 * 1000
+  });
+  cy.get(".bx--detail-page-header-title-container", { timeout: 100 * 1000 });
   cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
   cy

@@ -68,13 +68,13 @@ export const getUniqueChannelName = (channelPath, groupControlData) => {
 
   switch (channelTypeStr) {
   case 'github':
-    channelType = 'git'
+    channelType = 'g'
     break
   case 'helmrepo':
-    channelType = 'helm'
+    channelType = 'h'
     break
   case 'objectstore':
-    channelType = 'obj'
+    channelType = 'o'
     break
   default:
     channelType = 'ns'
@@ -91,10 +91,18 @@ export const getUniqueChannelName = (channelPath, groupControlData) => {
     channelName = _.trimEnd(channelName, '.git')
   }
 
-  channelName = _.replace(channelName, /\./g, '-')
-  channelName = _.replace(channelName, /:/g, '-')
+  channelName = _.replace(channelName, /\./g, '')
+  channelName = _.replace(channelName, /:/g, '')
   channelName = _.replace(channelName, /\//g, '-')
-  channelName = `${channelName}-${channelType}`
+
+  //max name for ns or resources is 63 chars
+  // trim channel name to max 58 char to allow a max of 63 char length
+  //for the channel authentication (which is channelName-auth) object and channel ns (channelName-ns)
+  if (channelName.length > 58) {
+    channelName = channelName.substring(channelName.length - 56)
+  }
+  channelName = `${channelType}${channelName}`
+
   return channelName
 }
 

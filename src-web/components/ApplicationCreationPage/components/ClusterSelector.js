@@ -59,6 +59,7 @@ export class ClusterSelector extends React.Component {
         }
       }
     }
+    this.props.control.validation = this.validation.bind(this)
   }
 
   render() {
@@ -111,7 +112,10 @@ export class ClusterSelector extends React.Component {
                     )}
                   </div>
 
-                  <div className="labels-section">
+                  <div
+                    className="labels-section"
+                    id={`clusterSelector-labels-section-${controlId}`}
+                  >
                     {this.renderClusterLabels(control, isReadOnly)}
                     <div
                       className={`add-label-btn ${
@@ -145,6 +149,46 @@ export class ClusterSelector extends React.Component {
     )
   }
 
+  validation(exceptions) {
+    const { control, locale, controlId } = this.props
+
+    if (control.active) {
+      if (Object.keys(control.active.clusterLabelsList) === 0) {
+        //no cluster labels set
+        exceptions.push({
+          row: 1,
+          text: msgs.get('creation.missing.clusterSelector.value', locale),
+          type: 'error',
+          controlId: `clusterSelector-labels-section-${controlId}`
+        })
+      }
+
+      control.active.clusterLabelsList.map(item => {
+        const { id, labelName, labelValue } = item
+        const invalidLabel = !labelName || labelName.length === 0
+        const invalidValue = !labelValue || labelValue.length === 0
+
+        // Add exception if no input for labels or values
+        if (invalidLabel) {
+          exceptions.push({
+            row: 1,
+            text: msgs.get('creation.missing.clusterSelector.label', locale),
+            type: 'error',
+            controlId: `labelName-${id}`
+          })
+        }
+        if (invalidValue) {
+          exceptions.push({
+            row: 1,
+            text: msgs.get('creation.missing.clusterSelector.value', locale),
+            type: 'error',
+            controlId: `labelName-${id}`
+          })
+        }
+      })
+    }
+  }
+
   renderClusterLabels = (control, isReadOnly) => {
     if (!_.get(control, 'active.clusterLabelsList')) {
       return ''
@@ -153,6 +197,15 @@ export class ClusterSelector extends React.Component {
       control.active &&
       control.active.clusterLabelsList.map(item => {
         const { id, labelName, labelValue, validValue } = item
+        const invalidLabel = !labelName || labelName.length === 0
+        const exceptionLabel = msgs.get(
+          'creation.missing.clusterSelector.label.field'
+        )
+        const invalidValue = !labelValue || labelValue.length === 0
+        const exceptionValue = msgs.get(
+          'creation.missing.clusterSelector.value.field'
+        )
+
         if (validValue || id === 0) {
           return (
             <React.Fragment key={id}>
@@ -160,23 +213,35 @@ export class ClusterSelector extends React.Component {
                 <div className="matching-labels-input">
                   <TextInput
                     id={`labelName-${id}`}
+                    invalid={invalidLabel}
+                    invalidText={exceptionLabel}
                     name="labelName"
                     className="text-input"
-                    labelText={id === 0 ? 'Label' : ''}
+                    labelText={
+                      id === 0
+                        ? `${msgs.get('clusterSelector.label.field.ui')}*`
+                        : ''
+                    }
                     value={labelName === '' ? '' : labelName}
-                    placeholder="Label name"
+                    placeholder={msgs.get('clusterSelector.label.field')}
                     disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}
                   />
                 </div>
                 <div className="matching-labels-input">
                   <TextInput
+                    invalid={invalidValue}
+                    invalidText={exceptionValue}
                     id={`labelValue-${id}`}
                     name="labelValue"
                     className="text-input"
-                    labelText={id === 0 ? 'Value' : ''}
+                    labelText={
+                      id === 0
+                        ? `${msgs.get('clusterSelector.value.field.ui')}*`
+                        : ''
+                    }
                     value={labelValue === '' ? '' : labelValue}
-                    placeholder="Label value"
+                    placeholder={msgs.get('clusterSelector.label.field')}
                     disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}
                   />

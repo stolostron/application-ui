@@ -112,7 +112,7 @@ export class ClusterSelector extends React.Component {
                   </div>
 
                   <div className="labels-section">
-                    {this.renderClusterLabels(control, isReadOnly)}
+                    {this.renderClusterLabels(control, isReadOnly, controlId)}
                     <div
                       className={`add-label-btn ${
                         isReadOnly ? 'btn-disabled' : ''
@@ -145,7 +145,7 @@ export class ClusterSelector extends React.Component {
     )
   }
 
-  renderClusterLabels = (control, isReadOnly) => {
+  renderClusterLabels = (control, isReadOnly, controlId) => {
     if (!_.get(control, 'active.clusterLabelsList')) {
       return ''
     }
@@ -159,7 +159,7 @@ export class ClusterSelector extends React.Component {
               <div className="matching-labels-container">
                 <div className="matching-labels-input">
                   <TextInput
-                    id={`labelName-${id}`}
+                    id={`labelName-${id}-${controlId}`}
                     name="labelName"
                     className="text-input"
                     labelText={id === 0 ? 'Label' : ''}
@@ -171,7 +171,7 @@ export class ClusterSelector extends React.Component {
                 </div>
                 <div className="matching-labels-input">
                   <TextInput
-                    id={`labelValue-${id}`}
+                    id={`labelValue-${id}-${controlId}`}
                     name="labelValue"
                     className="text-input"
                     labelText={id === 0 ? 'Value' : ''}

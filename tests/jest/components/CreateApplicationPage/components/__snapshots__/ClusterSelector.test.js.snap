@@ -97,14 +97,14 @@ exports[`ClusterSelector component renders as expected 1`] = `
                   >
                     <label
                       className="bx--label"
-                      htmlFor="labelName-0"
+                      htmlFor="labelName-0-undefined"
                     >
                       Label
                     </label>
                     <input
                       className="bx--text-input text-input"
                       disabled={false}
-                      id="labelName-0"
+                      id="labelName-0-undefined"
                       name="labelName"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -122,14 +122,14 @@ exports[`ClusterSelector component renders as expected 1`] = `
                   >
                     <label
                       className="bx--label"
-                      htmlFor="labelValue-0"
+                      htmlFor="labelValue-0-undefined"
                     >
                       Value
                     </label>
                     <input
                       className="bx--text-input text-input"
                       disabled={false}
-                      id="labelValue-0"
+                      id="labelValue-0-undefined"
                       name="labelValue"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -153,7 +153,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                     <input
                       className="bx--text-input text-input"
                       disabled={false}
-                      id="labelName-1"
+                      id="labelName-1-undefined"
                       name="labelName"
                       onChange={[Function]}
                       onClick={[Function]}
@@ -172,7 +172,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                     <input
                       className="bx--text-input text-input"
                       disabled={false}
-                      id="labelValue-1"
+                      id="labelValue-1-undefined"
                       name="labelValue"
                       onChange={[Function]}
                       onClick={[Function]}

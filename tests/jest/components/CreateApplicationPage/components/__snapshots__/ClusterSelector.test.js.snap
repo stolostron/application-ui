@@ -85,6 +85,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
             </div>
             <div
               className="labels-section"
+              id="clusterSelector-labels-section-undefined"
             >
               <div
                 className="matching-labels-container"
@@ -99,7 +100,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                       className="bx--label"
                       htmlFor="labelName-0"
                     >
-                      Label
+                      Label*
                     </label>
                     <input
                       className="bx--text-input text-input"
@@ -124,7 +125,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                       className="bx--label"
                       htmlFor="labelValue-0"
                     >
-                      Value
+                      Value*
                     </label>
                     <input
                       className="bx--text-input text-input"
@@ -133,7 +134,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                       name="labelValue"
                       onChange={[Function]}
                       onClick={[Function]}
-                      placeholder="Label value"
+                      placeholder="Label name"
                       type="text"
                       value="Dev"
                     />
@@ -176,7 +177,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                       name="labelValue"
                       onChange={[Function]}
                       onClick={[Function]}
-                      placeholder="Label value"
+                      placeholder="Label name"
                       type="text"
                       value="AWS"
                     />

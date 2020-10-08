@@ -107,7 +107,7 @@ describe("getUniqueChannelName", () => {
   ];
 
   const result = "gle-samples-with-path-longer-than-60-characters-test-long";
-  it("getUniqueChannelName too long", () => {
+  it("getUniqueChannelName shortens long URLs", () => {
     expect(getUniqueChannelName(channelUrl, groupControlData)).toEqual(result);
   });
 });

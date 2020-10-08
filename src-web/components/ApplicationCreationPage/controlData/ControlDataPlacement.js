@@ -149,9 +149,13 @@ export const updatePlacementControlsForCustom = placementControl => {
   const onlineControl = groupControlData.find(
     ({ id }) => id === 'online-cluster-only-checkbox'
   )
+  const localControl = groupControlData.find(
+    ({ id }) => id === localClusterCheckbox
+  )
 
   if (active && active.mode) {
     onlineControl && _.set(onlineControl, 'active', false)
+    localControl && _.set(localControl, 'active', false)
   } else {
     onlineControl && _.set(onlineControl, 'active', true)
   }
@@ -165,11 +169,17 @@ export const updatePlacementControlsForAllOnline = placementControl => {
   const clusterSelectorControl = groupControlData.find(
     ({ id }) => id === 'clusterSelector'
   )
+  const localControl = groupControlData.find(
+    ({ id }) => id === localClusterCheckbox
+  )
 
   if (clusterSelectorControl && clusterSelectorControl.active) {
-    active
-      ? _.set(clusterSelectorControl.active, 'mode', false)
-      : _.set(clusterSelectorControl.active, 'mode', true)
+    if (active) {
+      _.set(clusterSelectorControl.active, 'mode', false)
+      localControl && _.set(localControl, 'active', false)
+    } else {
+      _.set(clusterSelectorControl.active, 'mode', true)
+    }
   }
 
   return groupControlData

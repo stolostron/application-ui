@@ -381,13 +381,28 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
         )
       : (cy.get(uniqueClusterID).click({ force: true }),
         cy.log(`deploying app to cluster-${cluster}`),
-        cy.get("#labelName-0").type("name"),
-        cy.get("#labelValue-0").type(cluster));
+        selectMatchingLabel(cluster, key));
   } else {
     throw new Error(
       "no available imported OCP clusters to deploy applications"
     );
   }
+};
+
+export const selectMatchingLabel = (cluster, key) => {
+  let matchingLabelCSS = {
+    labelName: "#labelName-0-clusterSelector",
+    labelValue: "#labelValue-0-clusterSelector"
+  };
+
+  key == 0
+    ? matchingLabelCSS
+    : Object.keys(matchingLabelCSS).forEach(
+        k => (matchingLabelCSS[k] = matchingLabelCSS[k] + `grp${key}`)
+      );
+  const { labelName, labelValue } = matchingLabelCSS;
+  cy.get(labelName).type("name");
+  cy.get(labelValue).type(cluster);
 };
 
 export const selectTimeWindow = (timeWindow, key = 0) => {

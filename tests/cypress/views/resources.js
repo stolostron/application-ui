@@ -133,8 +133,7 @@ export const getManagedClusterName = () => {
       `oc get managedclusters -o custom-columns='name:.metadata.name,available:.status.conditions[?(@.type=="ManagedClusterConditionAvailable")].status,vendor:.metadata.labels.vendor' --no-headers`
     )
     .then(({ stdout }) => {
-      const splits = stdout.replace(/[^a-zA-Z0-9 -]/g, " ").split(/\ +/);
-      const clusters = splitArr(splits, 3);
+      const clusters = stdout.split("\n").map(cluster => cluster.split(/ +/));
       let filteredClusters = clusters.filter(function(item) {
         return (
           item[0] !== "local-cluster" &&
@@ -147,15 +146,6 @@ export const getManagedClusterName = () => {
           cy.log(`managed cluster is ${Cypress.env("managedCluster")}`))
         : cy.log("Managed cluster is undefined!");
     });
-};
-
-export const splitArr = (array, n) => {
-  let [...arr] = array;
-  var res = [];
-  while (arr.length) {
-    res.push(arr.splice(0, n));
-  }
-  return res;
 };
 
 export const deleteNamespaceHub = (data, name, type) => {

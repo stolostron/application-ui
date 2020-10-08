@@ -82,6 +82,11 @@ export const controlData = [
     type: 'hidden',
     active: ''
   },
+  {
+    id: 'selfLink',
+    type: 'hidden',
+    active: ''
+  },
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  channels  /////////////////////////////////////
   {
@@ -115,6 +120,11 @@ export const controlData = [
       ///////////////////////  channel name  /////////////////////////////////////
       {
         id: 'channelPrompt',
+        type: 'hidden',
+        active: ''
+      },
+      {
+        id: 'selfLinks',
         type: 'hidden',
         active: ''
       },

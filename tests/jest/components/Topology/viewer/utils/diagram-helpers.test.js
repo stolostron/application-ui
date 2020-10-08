@@ -1088,6 +1088,9 @@ describe("setSubscriptionDeployStatus with time window ", () => {
         }
       },
       raw: {
+        status: {
+          message: " local:Blocked, other: Active"
+        },
         spec: {
           placement: {
             local: true
@@ -1104,7 +1107,6 @@ describe("setSubscriptionDeployStatus with time window ", () => {
   };
   const response = [
     { labelKey: "spec.subscr.timeWindow.title", type: "label" },
-    { labelKey: "spec.subscr.timeWindow", value: undefined },
     { labelKey: "spec.subscr.timeWindow.type", value: "blocked" },
     { labelKey: "spec.subscr.timeWindow.days", value: '["Monday", "Tuesday"]' },
     { labelKey: "spec.subscr.timeWindow.hours", value: "09:18AM-09:18PM" },
@@ -1114,6 +1116,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
     { labelValue: "local", status: "failure", value: "Failed" },
+    { labelKey: "spec.subscr.timeWindow", value: "Blocked" },
     {
       indent: true,
       type: "link",

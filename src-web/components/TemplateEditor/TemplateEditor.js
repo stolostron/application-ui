@@ -220,7 +220,6 @@ export default class TemplateEditor extends React.Component {
         currentData: (() => {
           return this.state.controlData
         }).bind(this)
-
       }
     }
     this.selectedTab = 0
@@ -593,11 +592,7 @@ export default class TemplateEditor extends React.Component {
             cd.groupControlData = groupControlData
           })
         }
-        controlData = initializeControls(
-          controlData,
-          editor,
-          locale
-        )
+        controlData = initializeControls(controlData, editor, locale)
       }
 
       // replace template and regenerate templateYAML and highlight diffs
@@ -1004,7 +999,7 @@ export default class TemplateEditor extends React.Component {
 
   getResourceJSON() {
     const { locale } = this.context
-    const { templateYAML, controlData, otherYAMLTabs } = this.state
+    const { templateYAML, controlData, otherYAMLTabs, editStack } = this.state
     let canCreate = false
     const {
       templateObjectMap,
@@ -1064,6 +1059,12 @@ export default class TemplateEditor extends React.Component {
           }
         })
       })
+
+      // if this was an edit of existing resources, and user deleted a resource, what selflink(s) should we delete
+      if (editStack) {
+        const { deletedLinks } = editStack
+        payload.push({ deleteLinks: [...deletedLinks] })
+      }
       return payload
     }
     return null

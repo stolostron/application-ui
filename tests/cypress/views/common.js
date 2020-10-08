@@ -91,10 +91,10 @@ export const modal = {
   shouldBeClosed: () =>
     cy.get(".bx--modal", { timeout: 20000 }).should("not.exist"),
   shouldBeVisible: () =>
-    cy.get(".create-button-portal-id", { timeout: 20000 }).should("be.visible"),
+    cy.get("#create-button-portal-id", { timeout: 20000 }).should("be.visible"),
   shouldNotBeVisible: () =>
     cy
-      .get(".create-button-portal-id", { timeout: 20000 })
+      .get("#create-button-portal-id", { timeout: 20000 })
       .should("not.be.visible"),
   shouldNotBeDisabled: () =>
     cy

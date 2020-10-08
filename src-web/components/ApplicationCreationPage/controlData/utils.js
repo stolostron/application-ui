@@ -95,6 +95,8 @@ export const getUniqueChannelName = (channelPath, groupControlData) => {
   channelName = _.replace(channelName, /:/g, '')
   channelName = _.replace(channelName, /\//g, '-')
 
+  channelName = _.trimEnd(channelName, '-')
+
   //max name for ns or resources is 63 chars
   // trim channel name to max 58 char to allow a max of 63 char length
   //for the channel authentication (which is channelName-auth) object and channel ns (channelName-ns)

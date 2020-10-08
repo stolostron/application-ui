@@ -68,13 +68,13 @@ export const getUniqueChannelName = (channelPath, groupControlData) => {
 
   switch (channelTypeStr) {
   case 'github':
-    channelType = 'git'
+    channelType = 'g'
     break
   case 'helmrepo':
-    channelType = 'helm'
+    channelType = 'h'
     break
   case 'objectstore':
-    channelType = 'obj'
+    channelType = 'o'
     break
   default:
     channelType = 'ns'
@@ -91,10 +91,15 @@ export const getUniqueChannelName = (channelPath, groupControlData) => {
     channelName = _.trimEnd(channelName, '.git')
   }
 
-  channelName = _.replace(channelName, /\./g, '-')
-  channelName = _.replace(channelName, /:/g, '-')
+  channelName = _.replace(channelName, /\./g, '')
+  channelName = _.replace(channelName, /:/g, '')
   channelName = _.replace(channelName, /\//g, '-')
-  channelName = `${channelName}-${channelType}`
+
+  if (channelName.length > 58) {
+    channelName = channelName.substring(channelName.length - 56)
+  }
+  channelName = `${channelType}${channelName}`
+
   return channelName
 }
 

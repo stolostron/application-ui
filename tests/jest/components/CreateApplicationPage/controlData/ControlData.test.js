@@ -90,8 +90,24 @@ describe("getUniqueChannelName", () => {
     }
   ];
 
-  const result = "github-com-ianzhang366-ac11m-applifecycle-samples-git";
+  const result = "ggithubcom-ianzhang366-ac11m-applifecycle-samples";
   it("getUniqueChannelName", () => {
+    expect(getUniqueChannelName(channelUrl, groupControlData)).toEqual(result);
+  });
+});
+
+describe("getUniqueChannelName", () => {
+  const channelUrl =
+    "https://github.com/ianzhang366/ac11m-applifecycle-samples/with/path/longer/than/60/characters/test/long";
+  const groupControlData = [
+    {
+      id: "channelType",
+      active: ["github"]
+    }
+  ];
+
+  const result = "gle-samples-with-path-longer-than-60-characters-test-long";
+  it("getUniqueChannelName too long", () => {
     expect(getUniqueChannelName(channelUrl, groupControlData)).toEqual(result);
   });
 });

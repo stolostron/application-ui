@@ -128,34 +128,34 @@ export const validateTimewindow = (name, config) => {
 };
 
 export const getManagedClusterName = () => {
-  cy.exec(`oc get managedcluster -oname`).then(({ stdout }) => {
-    let managedClusters = stdout.split("\n");
-    const substrings = [
-      "vendor: OpenShift",
-      'status: "True"',
-      "type: ManagedClusterJoined"
-    ];
-    managedClusters.forEach((cluster, index) =>
-      cy.exec(`oc get ${cluster} -o yaml`).then(({ stdout }) => {
-        let { isReady, isLocal } = [false, false];
-        // check if the cluster is ready
-        substrings.forEach(substring => {
-          stdout.includes(substring) ? (isReady = true) : isReady;
-          !isReady ? managedClusters.splice(index, 1) : managedClusters;
-        });
-        // check if the cluster is local-cluster
-        const localString = 'local-cluster: "true"';
-        stdout.includes(localString) ? (isLocal = true) : isLocal;
-        !isLocal ? managedClusters : managedClusters.splice(index, 1);
-      })
-    );
-    cy.log(managedClusters).then(() => {
-      managedClusters
-        ? (Cypress.env("managedCluster", managedClusters[0]),
-          cy.log(`managed cluster is ${managedClusters[0]}`))
+  cy
+    .exec(
+      `oc get managedclusters -o custom-columns='name:.metadata.name,available:.status.conditions[?(@.type=="ManagedClusterConditionAvailable")].status,vendor:.metadata.labels.vendor' --no-headers`
+    )
+    .then(({ stdout }) => {
+      const splits = stdout.replace(/[^a-zA-Z0-9 -]/g, " ").split(/\ +/);
+      const clusters = splitArr(splits, 3);
+      let filteredClusters = clusters.filter(function(item) {
+        return (
+          item[0] !== "local-cluster" &&
+          item[1] == "True" &&
+          item[2] == "OpenShift"
+        );
+      });
+      filteredClusters
+        ? (Cypress.env("managedCluster", filteredClusters[0][0]),
+          cy.log(`managed cluster is ${Cypress.env("managedCluster")}`))
         : cy.log("Managed cluster is undefined!");
     });
-  });
+};
+
+export const splitArr = (array, n) => {
+  let [...arr] = array;
+  var res = [];
+  while (arr.length) {
+    res.push(arr.splice(0, n));
+  }
+  return res;
 };
 
 export const deleteNamespaceHub = (data, name, type) => {

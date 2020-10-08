@@ -34,7 +34,7 @@ helm:
     enable: true
     name: ui-helm
     config:
-      - url: https://kubernetes-charts.storage.googleapis.com/
+      - url: https://kubernetes-charts.storage.googleapis.com
         chartName: airflow
         timeWindow:
           setting: true

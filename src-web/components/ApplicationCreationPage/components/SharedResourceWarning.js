@@ -97,14 +97,14 @@ const SharedResourceWarning = ({ resourceType, control, locale }) => {
         .then(response => {
           const relatedItems =
             _.get(response, 'data.searchResult[0].related') || []
-          const relatedApplications = _.get(
+          const relatedApps = _.get(
             relatedItems.find(r => r.kind === 'application'),
             'items',
             []
           )
-          if (relatedApplications) {
+          if (relatedApps) {
             setRelatedApplications(
-              relatedApplications
+              relatedApps
                 .filter(
                   r =>
                     r.name !== applicationName ||

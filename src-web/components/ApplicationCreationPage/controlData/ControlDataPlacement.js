@@ -22,15 +22,15 @@ import ClusterSelector, {
   reverse as reverseClusterSelector,
   summarize as summarizeClusterSelector
 } from '../components/ClusterSelector'
-import SharedResourceWarning from '../components/SharedResourceWarning'
 import {
   setAvailableRules,
   getExistingPRControlsSection,
-  updateNewRuleControlsData
+  updateNewRuleControlsData,
+  getSharedPlacementRuleWarning,
+  getSharedSubscriptionWarning
 } from './utils'
 import { getSourcePath } from '../../TemplateEditor/utils/utils'
 import _ from 'lodash'
-import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import msgs from '../../../../nls/platform.properties'
 
 const existingRuleCheckbox = 'existingrule-checkbox'
@@ -217,13 +217,6 @@ export const summarizeOnline = (control, globalControlData, summary) => {
   }
 }
 
-const getSharedResourceWarning = control => (
-  <SharedResourceWarning
-    resourceType={RESOURCE_TYPES.HCM_PLACEMENT_RULES}
-    control={control}
-  />
-)
-
 const placementData = [
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
@@ -234,7 +227,7 @@ const placementData = [
     overline: true,
     collapsable: true,
     collapsed: false,
-    info: getSharedResourceWarning,
+    info: getSharedPlacementRuleWarning,
     editing: { editMode: true }
   },
   {
@@ -304,7 +297,9 @@ const placementData = [
     title: 'creation.app.section.settings',
     overline: true,
     collapsable: true,
-    collapsed: false
+    collapsed: false,
+    info: getSharedSubscriptionWarning,
+    editing: { editMode: true }
   },
   {
     type: 'custom',

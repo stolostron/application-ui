@@ -89,37 +89,45 @@ const SharedResourceWarning = ({ resourceType, control, locale }) => {
 
   useEffect(
     () => {
-      const query = getQuery(resourceType, resourceName, resourceNamespace)
-      apolloClient
-        .search(SEARCH_QUERY_RELATED, {
-          input: [query]
-        })
-        .then(response => {
-          const relatedItems =
-            _.get(response, 'data.searchResult[0].related') || []
-          const relatedApps = _.get(
-            relatedItems.find(r => r.kind === 'application'),
-            'items',
-            []
-          )
-          if (relatedApps) {
-            setRelatedApplications(
-              relatedApps
-                .filter(
-                  r =>
-                    r.name !== applicationName ||
-                    r.namespace !== applicationNamespace
-                )
-                .map(r => r.name)
-                .sort()
+      if (control.editMode) {
+        const query = getQuery(resourceType, resourceName, resourceNamespace)
+        apolloClient
+          .search(SEARCH_QUERY_RELATED, {
+            input: [query]
+          })
+          .then(response => {
+            const relatedItems =
+              _.get(response, 'data.searchResult[0].related') || []
+            const relatedApps = _.get(
+              relatedItems.find(r => r.kind === 'application'),
+              'items',
+              []
             )
-          }
-        })
+            if (relatedApps) {
+              setRelatedApplications(
+                relatedApps
+                  .filter(
+                    r =>
+                      r.name !== applicationName ||
+                      r.namespace !== applicationNamespace
+                  )
+                  .map(r => r.name)
+                  .sort()
+              )
+            }
+          })
+      }
     },
-    [resourceNamespace, resourceName, applicationName, applicationNamespace]
+    [
+      control.editMode,
+      resourceNamespace,
+      resourceName,
+      applicationName,
+      applicationNamespace
+    ]
   )
 
-  return control.editMode && relatedApplications.length ? (
+  return relatedApplications.length ? (
     <div className="shared-resource-warning">
       <div>
         <ExclamationTriangleIcon />

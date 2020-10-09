@@ -9,15 +9,17 @@
  *******************************************************************************/
 'use strict'
 
-import React from 'react'
 import { HCMNamespaceList } from '../../../../lib/client/queries'
 import gitChannelData from './ControlDataGit'
 import helmReleaseChannelData from './ControlDataHelm'
 import objectstoreChannelData from './ControlDataObjectStore'
 import otherChannelData from './ControlDataOther'
-import { setAvailableNSSpecs, updateControlsForNS } from './utils'
-import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
-import SharedResourceWarning from '../components/SharedResourceWarning'
+import {
+  setAvailableNSSpecs,
+  updateControlsForNS,
+  getSharedSubscriptionWarning
+} from './utils'
+
 import {
   discoverGroupsFromSource,
   shiftTemplateObject
@@ -45,13 +47,6 @@ export const updateNSControls = (nsControl, globalControl) => {
 
   return updateControlsForNS(nsControl, nsControl, globalControl)
 }
-
-const getSharedResourceWarning = control => (
-  <SharedResourceWarning
-    resourceType={RESOURCE_TYPES.HCM_SUBSCRIPTIONS}
-    control={control}
-  />
-)
 
 export const controlData = [
   {
@@ -126,7 +121,7 @@ export const controlData = [
         title: 'creation.app.channel.title',
         collapsable: true,
         collapsed: false,
-        info: getSharedResourceWarning,
+        info: getSharedSubscriptionWarning,
         editing: { editMode: true }
       },
       ///////////////////////  channel name  /////////////////////////////////////

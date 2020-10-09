@@ -9,8 +9,11 @@
  *******************************************************************************/
 'use strict'
 
+import React from 'react'
 import msgs from '../../../../nls/platform.properties'
 import { HCMChannelList, HCMSecretsList } from '../../../../lib/client/queries'
+import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
+import SharedResourceWarning from '../components/SharedResourceWarning'
 
 import _ from 'lodash'
 
@@ -654,3 +657,17 @@ export const updatePrePostControls = urlControl => {
 
   return urlControl
 }
+
+export const getSharedPlacementRuleWarning = control => (
+  <SharedResourceWarning
+    resourceType={RESOURCE_TYPES.HCM_PLACEMENT_RULES}
+    control={control}
+  />
+)
+
+export const getSharedSubscriptionWarning = control => (
+  <SharedResourceWarning
+    resourceType={RESOURCE_TYPES.HCM_SUBSCRIPTIONS}
+    control={control}
+  />
+)

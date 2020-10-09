@@ -14,7 +14,12 @@ import gitChannelData from './ControlDataGit'
 import helmReleaseChannelData from './ControlDataHelm'
 import objectstoreChannelData from './ControlDataObjectStore'
 import otherChannelData from './ControlDataOther'
-import { setAvailableNSSpecs, updateControlsForNS } from './utils'
+import {
+  setAvailableNSSpecs,
+  updateControlsForNS,
+  getSharedSubscriptionWarning
+} from './utils'
+
 import {
   discoverGroupsFromSource,
   shiftTemplateObject
@@ -115,7 +120,9 @@ export const controlData = [
         type: 'section',
         title: 'creation.app.channel.title',
         collapsable: true,
-        collapsed: false
+        collapsed: false,
+        info: getSharedSubscriptionWarning,
+        editing: { editMode: true }
       },
       ///////////////////////  channel name  /////////////////////////////////////
       {

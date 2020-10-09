@@ -41,12 +41,7 @@ export const initializeControls = (
 }
 
 // from an edit resource, discover # of groups, card selections
-export function discoverControls(
-  controlData,
-  templateObject,
-  editor,
-  locale
-) {
+export function discoverControls(controlData, templateObject, editor, locale) {
   templateObject = _.cloneDeep(templateObject)
   const discoverControl = control => {
     const { discover } = control
@@ -82,16 +77,16 @@ export function reverseTemplate(controlData, templateObject) {
 
 // reverse control active valuess from template
 export function setEditingMode(controlData) {
-  const editMode = control => {
+  const setEditMode = control => {
     const { type, active, isHidden, editing } = control
     if (type === 'group') {
       active.forEach(group => {
         group.forEach(gcontrol => {
-          editMode(gcontrol)
+          setEditMode(gcontrol)
         })
       })
     } else if (editing) {
-      const { hidden, disabled, collapsed } = editing
+      const { hidden, disabled, collapsed, editMode } = editing
       // if editing existing app, hide this field initially
       if (hidden) {
         if (isHidden) {
@@ -108,10 +103,14 @@ export function setEditingMode(controlData) {
       if (collapsed) {
         control.collapsed = true
       }
+      // if editing existing app, set editMode
+      if (editMode) {
+        control.editMode = true
+      }
     }
   }
   controlData.forEach(control => {
-    editMode(control)
+    setEditMode(control)
   })
 }
 
@@ -129,11 +128,7 @@ export const generateSource = (
       otherYAMLTabs
     )
   } else {
-    return generateSourceFromTemplate(
-      template,
-      controlData,
-      otherYAMLTabs
-    )
+    return generateSourceFromTemplate(template, controlData, otherYAMLTabs)
   }
 }
 

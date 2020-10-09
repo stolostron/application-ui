@@ -1199,6 +1199,9 @@ export default class TemplateEditor extends React.Component {
     const cd = _.cloneDeep(initialControlData)
     const controlData = initializeControls(cd, editor, locale)
     const otherYAMLTabs = []
+    if (editStack.initialized) {
+      delete editStack.initialized
+    }
     const { templateYAML, templateObject } = generateSource(
       template,
       editStack,

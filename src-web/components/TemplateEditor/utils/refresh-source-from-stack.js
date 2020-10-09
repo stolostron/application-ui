@@ -124,9 +124,7 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
             const diffs = diff(oldResource, newResource)
             if (diffs) {
               diffs.forEach(({ kind, path, rhs, item }) => {
-                if (
-                  ['namespace', 'name'].indexOf(path[path.length - 1]) === -1
-                ) {
+                if (!isProtectedNameNamespace(path)) {
                   switch (kind) {
                   // array modification
                   case 'A': {
@@ -188,6 +186,15 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
 
   // then generate the source from those resources
   return generateSourceFromResources(customResources)
+}
+
+const isProtectedNameNamespace = path => {
+  if (path.length>=2) {
+    const [key, value] = path.slice(Math.max(path.length - 2, 0))
+    return ((key==='metadata' || key.endsWith('Ref')) &&
+        ['name', 'namespace'].indexOf(value) !== -1)
+  }
+  return false
 }
 
 const generateSourceFromResources = resources => {

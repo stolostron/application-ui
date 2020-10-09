@@ -358,15 +358,22 @@ export const summarize = (control, controlData, summary) => {
 
 export const reverse = (control, templateObject) => {
   if (!control.active) {
-    let matchLabels = _.get(
+    let matchLabels
+    const local = _.get(
       templateObject,
-      getSourcePath('PlacementRule[0].spec.clusterSelector.matchLabels')
+      getSourcePath('Subscription[0].spec.placement.local')
     )
-    if (!matchLabels) {
+    if (!local) {
       matchLabels = _.get(
         templateObject,
-        getSourcePath('PlacementRule[0].spec.clusterLabels.matchLabels')
+        getSourcePath('PlacementRule[0].spec.clusterSelector.matchLabels')
       )
+      if (!matchLabels) {
+        matchLabels = _.get(
+          templateObject,
+          getSourcePath('PlacementRule[0].spec.clusterLabels.matchLabels')
+        )
+      }
     }
     if (matchLabels) {
       matchLabels = removeVs(matchLabels)

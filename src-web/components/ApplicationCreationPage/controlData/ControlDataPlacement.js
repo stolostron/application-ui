@@ -22,6 +22,7 @@ import ClusterSelector, {
   reverse as reverseClusterSelector,
   summarize as summarizeClusterSelector
 } from '../components/ClusterSelector'
+import SharedResourceWarning from '../components/SharedResourceWarning'
 import {
   setAvailableRules,
   getExistingPRControlsSection,
@@ -29,6 +30,7 @@ import {
 } from './utils'
 import { getSourcePath } from '../../TemplateEditor/utils/utils'
 import _ from 'lodash'
+import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import msgs from '../../../../nls/platform.properties'
 
 const existingRuleCheckbox = 'existingrule-checkbox'
@@ -215,6 +217,13 @@ export const summarizeOnline = (control, globalControlData, summary) => {
   }
 }
 
+const getSharedResourceWarning = control => (
+  <SharedResourceWarning
+    resourceType={RESOURCE_TYPES.HCM_PLACEMENT_RULES}
+    control={control}
+  />
+)
+
 const placementData = [
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
@@ -224,7 +233,9 @@ const placementData = [
     title: 'creation.app.placement.rule',
     overline: true,
     collapsable: true,
-    collapsed: false
+    collapsed: false,
+    info: getSharedResourceWarning,
+    editing: { editMode: true }
   },
   {
     id: existingRuleCheckbox,

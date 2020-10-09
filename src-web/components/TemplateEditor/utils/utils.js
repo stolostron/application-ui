@@ -41,12 +41,7 @@ export const initializeControls = (
 }
 
 // from an edit resource, discover # of groups, card selections
-export function discoverControls(
-  controlData,
-  templateObject,
-  editor,
-  locale
-) {
+export function discoverControls(controlData, templateObject, editor, locale) {
   templateObject = _.cloneDeep(templateObject)
   const discoverControl = control => {
     const { discover } = control
@@ -91,7 +86,7 @@ export function setEditingMode(controlData) {
         })
       })
     } else if (editing) {
-      const { hidden, disabled, collapsed } = editing
+      const { hidden, disabled, collapsed, editMode } = editing
       // if editing existing app, hide this field initially
       if (hidden) {
         if (isHidden) {
@@ -107,6 +102,10 @@ export function setEditingMode(controlData) {
       // if editing existing app, disable this field
       if (collapsed) {
         control.collapsed = true
+      }
+      // if editing existing app, set editMode
+      if (editMode) {
+        control.editMode = true
       }
     }
   }
@@ -129,11 +128,7 @@ export const generateSource = (
       otherYAMLTabs
     )
   } else {
-    return generateSourceFromTemplate(
-      template,
-      controlData,
-      otherYAMLTabs
-    )
+    return generateSourceFromTemplate(template, controlData, otherYAMLTabs)
   }
 }
 

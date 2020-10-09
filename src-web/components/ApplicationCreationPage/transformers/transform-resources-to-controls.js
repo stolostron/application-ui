@@ -64,6 +64,9 @@ export const discoverGroupsFromSource = (
       )
 
       const selfLinksControl = newGroup.find(({ id }) => id === 'selfLinks')
+      if (selfLinksControl) {
+        _.set(selfLinksControl, 'active.Application', selfLink)
+      }
       shiftTemplateObject(templateObject, selfLinksControl)
     })
     control.active = active

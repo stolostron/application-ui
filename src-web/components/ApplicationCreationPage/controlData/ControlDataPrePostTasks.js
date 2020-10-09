@@ -24,7 +24,7 @@ const prePostTasks = [
     title: 'creation.app.section.prePost',
     overline: true,
     collapsable: true,
-    collapsed: false,
+    collapsed: true,
     info: getSharedSubscriptionWarning,
     editing: { collapsed: true, editMode: true }, // if editing existing app, collapse this field initially
     techPreview: true

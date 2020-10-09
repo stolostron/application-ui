@@ -13,7 +13,6 @@ import { VALIDATE_URL } from '../../TemplateEditor/utils/validation'
 import { loadExistingChannels, updateChannelControls } from './utils'
 
 import placementData from './ControlDataPlacement'
-import prePostTasks from './ControlDataPrePostTasks'
 
 const helmReleaseChannelData = [
   ///////////////////////  HelmRelease  /////////////////////////////////////
@@ -86,8 +85,6 @@ const helmReleaseChannelData = [
     placeholder: 'app.enter.helmrepo.package.version',
     reverse: 'Subscription[0].spec.packageFilter.version'
   },
-
-  ...prePostTasks,
 
   ...placementData
 ]

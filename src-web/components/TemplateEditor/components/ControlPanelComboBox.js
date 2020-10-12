@@ -145,7 +145,7 @@ class ControlPanelComboBox extends React.Component {
                 if (ref) {
                   const input = _.get(ref, 'textInput.current')
                   if (input) {
-                    input.autocomplete = 'new-password'
+                    input.autocomplete = 'off'
                     input.addEventListener('keyup', e => {
                       if (e.key === 'Enter' && control.typing) {
                         this.handleComboboxChange(

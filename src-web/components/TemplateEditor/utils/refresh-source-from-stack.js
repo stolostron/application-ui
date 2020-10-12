@@ -222,8 +222,8 @@ const generateSourceFromResources = resources => {
     if (!_.isEmpty(resource)) {
       const key = _.get(resource, 'kind', 'unknown')
       yaml = jsYaml.safeDump(resource, { sortKeys, lineWidth: 200 })
-      yaml = yaml.replaceAll(/'\d+':(\s|$)\s*/gm, '- ')
-      yaml = yaml.replaceAll(/:\s*null$/gm, ':')
+      yaml = yaml.replace(/'\d+':(\s|$)\s*/gm, '- ')
+      yaml = yaml.replace(/:\s*null$/gm, ':')
       const $synced = new YamlParser().parse(yaml, row)
       $synced.$r = row
       $synced.$l = yaml.split(/[\r\n]+/g).length

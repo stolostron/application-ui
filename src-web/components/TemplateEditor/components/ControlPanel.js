@@ -523,7 +523,10 @@ class ControlPanel extends React.Component {
         isCustomName
       )
     } else {
-      control.active = [selection]
+      control.active = []
+      if (selection) {
+        control.active.push(selection)
+      }
       this.props.handleNewEditorMode(control, controlData, this.creationView)
     }
   }

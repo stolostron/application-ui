@@ -15,6 +15,7 @@ import classNames from 'classnames'
 import Tooltip from './Tooltip'
 import '../../../../graphics/diagramIcons.svg'
 import config from '../../../../lib/shared/config'
+import _ from 'lodash'
 
 class ControlPanelCards extends React.Component {
   static propTypes = {
@@ -51,6 +52,7 @@ class ControlPanelCards extends React.Component {
         control.active = []
       }
     }
+    this.setState({ collapsed: !_.isEmpty(control.active) })
   }
 
   render() {

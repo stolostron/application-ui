@@ -211,7 +211,7 @@
   "tooltip.creation.app.exitingRuleCombo": "Use placement rules already created in the application namespace",
   "resource.none": "No resources found",
   "creation.app.settings.selectorClusters.prop.add": "Add another label",
-  "creation.app.settings.selectorClusters.config": "Optional: Enter one or more matching labels to select the clusters to deploy to",
+  "creation.app.settings.selectorClusters.config": "Enter one or more matching labels to select the clusters to deploy to",
   "creation.app.settings.selectorClusters.labels.title": "Cluster labels",
   "creation.app.settings.keepResourcesWhenDeletedFromApp": "Keep resources when deleted from this application",
   "creation.app.settings.disableResourceReconciliation": "Disable forced resource reconciliation",

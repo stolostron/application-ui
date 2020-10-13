@@ -91,9 +91,21 @@ export const modal = {
   shouldBeClosed: () =>
     cy.get(".bx--modal", { timeout: 20000 }).should("not.exist"),
   shouldBeVisible: () =>
-    cy.get(".bx--modal-container", { timeout: 20000 }).should("be.visible"),
+    cy.get("#create-button-portal-id", { timeout: 20000 }).should("be.visible"),
   shouldNotBeVisible: () =>
-    cy.get(".bx--modal-container", { timeout: 20000 }).should("not.be.visible"),
+    cy
+      .get("#create-button-portal-id", { timeout: 20000 })
+      .should("not.be.visible"),
+  shouldNotBeDisabled: () =>
+    cy
+      .get(".bx--btn.bx--btn--primary", { timeout: 20000 })
+      .should("not.be.disabled"),
+  shouldBeDisabled: () =>
+    cy
+      .get(".bx--btn.bx--btn--primary", { timeout: 20000 })
+      .should("be.disabled"),
+  clickSubmit: () =>
+    cy.get(".bx--btn.bx--btn--primary", { timeout: 20000 }).click(),
   clickResources: () =>
     cy.get("#remove-app-resources", { timeout: 20000 }).click({ force: true }),
   clickDanger: () =>

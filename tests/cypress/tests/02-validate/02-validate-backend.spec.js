@@ -4,7 +4,6 @@
  ****************************************************************************** */
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import {
-  subscription,
   apiResources,
   targetResource,
   validateTimewindow

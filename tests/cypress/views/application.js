@@ -156,10 +156,8 @@ export const multipleTemplate = (clusterName, value, css, key, func) => {
 };
 
 export const submitSave = () => {
-  cy
-    .get("#create-button-portal-id", { timeout: 20 * 1000 })
-    .should("not.be.disabled")
-    .click();
+  modal.shouldNotBeDisabled();
+  modal.clickSubmit();
   notification.shouldExist("success", { timeout: 60 * 1000 });
   cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
 };
@@ -254,7 +252,8 @@ export const validateTopology = (name, data, type) => {
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
     !local
-      ? validatePlacementNode(name, key)
+      ? (validatePlacementNode(name, key),
+        validateClusterNode(Cypress.env("managedCluster")))
       : cy.log(
           "cluster and placement nodes will not be created as the application is deployed locally"
         );
@@ -267,9 +266,10 @@ export const validateTopology = (name, data, type) => {
 };
 
 export const validateClusterNode = clusterName => {
-  const cluster = clusterName.split("/")[1];
   cy.log("validating the cluster...");
-  cy.get(`g[type="${cluster}"]`, { timeout: 25 * 1000 }).should("be.visible");
+  cy
+    .get(`g[type="${clusterName}"]`, { timeout: 25 * 1000 })
+    .should("be.visible");
 };
 
 export const validatePlacementNode = (name, key) => {
@@ -342,7 +342,6 @@ export const deleteApplicationUI = name => {
 export const selectClusterDeployment = (deployment, clusterName, key) => {
   if (deployment) {
     const { local, online, matchingLabel } = deployment;
-    const cluster = clusterName.split("/")[1];
     let clusterDeploymentCss = {
       localClusterID: "#local-cluster-checkbox",
       onlineClusterID: "#online-cluster-only-checkbox",
@@ -380,8 +379,8 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
           "do not select `Deploy application resources only on clusters matching specified labels`"
         )
       : (cy.get(uniqueClusterID).click({ force: true }),
-        cy.log(`deploying app to cluster-${cluster}`),
-        selectMatchingLabel(cluster, key));
+        cy.log(`deploying app to cluster-${clusterName}`),
+        selectMatchingLabel(clusterName, key));
   } else {
     throw new Error(
       "no available imported OCP clusters to deploy applications"
@@ -451,10 +450,74 @@ export const selectDate = (date, key) => {
   });
 };
 
-export const editApplication = name => {
+export const edit = name => {
+  cy
+    .server()
+    .route({
+      method: "POST", // Route all POST requests
+      url: `/multicloud/applications/graphql`
+    })
+    .as("graphql");
   cy.visit("/multicloud/applications");
   resourceTable.rowShouldExist(name, 600 * 1000);
   resourceTable.openRowMenu(name);
   resourceTable.menuClickEdit();
   cy.url().should("include", `/${name}`);
+  cy.wait(30 * 1000);
+  cy.wait(["@graphql", "@graphql"], {
+    timeout: 50 * 1000
+  });
+};
+
+export const editApplication = (name, data) => {
+  edit(name);
+  cy.get(".bx--detail-page-header-title-container", { timeout: 100 * 1000 });
+  cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
+  cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
+  cy
+    .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
+    .should("be.disabled");
+  cy
+    .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
+    .invoke("val")
+    .should("eq", name);
+  cy.get("#namespace", { timeout: 20 * 1000 }).should("be.disabled");
+  cy
+    .get("#namespace", { timeout: 20 * 1000 })
+    .invoke("val")
+    .should("eq", `${name}-ns`);
+  modal.shouldBeDisabled();
+
+  deleteFirstSubscription(name, data);
+};
+
+export const deleteFirstSubscription = (name, data) => {
+  if (data.config.length > 1) {
+    cy.log(`${name} has multiple subscriptions`);
+    cy.get(".creation-view-controls-section").within($section => {
+      cy
+        .get(".creation-view-group-container")
+        .first()
+        .within($div => {
+          cy.get(".creation-view-controls-delete-button").click();
+        });
+    });
+    modal.shouldNotBeDisabled();
+    modal.clickSubmit();
+    notification.shouldExist("success", { timeout: 60 * 1000 });
+  } else {
+    cy.log(`skipping ${name} since it's a single application...`);
+  }
+};
+
+export const verifyEdit = (name, data) => {
+  if (data.config.length > 1) {
+    edit(name);
+    cy.log(`${name} has multiple subscriptions`);
+    cy.get(".creation-view-controls-section").within($section => {
+      cy
+        .get(".creation-view-group-container")
+        .should("have.length", data.config.length - 1);
+    });
+  }
 };

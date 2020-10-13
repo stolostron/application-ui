@@ -128,29 +128,25 @@ export const validateTimewindow = (name, config) => {
 };
 
 export const getManagedClusterName = () => {
-  cy.exec(`oc get managedcluster -oname`).then(({ stdout }) => {
-    let managedClusters = stdout.split("\n");
-    const substrings = [
-      "vendor: OpenShift",
-      'status: "True"',
-      "type: ManagedClusterJoined"
-    ];
-    managedClusters.forEach((cluster, index) =>
-      cy.exec(`oc get ${cluster} -o yaml`).then(({ stdout }) => {
-        let isReady = false;
-        substrings.forEach(substring => {
-          stdout.includes(substring) ? (isReady = true) : isReady;
-          isReady == false ? managedClusters.splice(index, 1) : managedClusters;
-        });
-      })
-    );
-    cy.log(managedClusters).then(() => {
-      managedClusters
-        ? (Cypress.env("managedCluster", managedClusters[0]),
-          cy.log(`managed cluster is ${managedClusters[0]}`))
-        : cy.log("Managed cluster is undefined!");
+  cy
+    .exec(
+      `oc get managedclusters -o custom-columns='name:.metadata.name,available:.status.conditions[?(@.type=="ManagedClusterConditionAvailable")].status,vendor:.metadata.labels.vendor' --no-headers`,
+      { failOnNonZeroExit: false }
+    )
+    .then(({ stdout }) => {
+      const clusters = stdout.split("\n").map(cluster => cluster.split(/ +/));
+      let filteredClusters = clusters.filter(function(item) {
+        return (
+          item[0] !== "local-cluster" &&
+          item[1] == "True" &&
+          item[2] == "OpenShift"
+        );
+      });
+      if (filteredClusters[0] !== undefined) {
+        Cypress.env("managedCluster", filteredClusters[0][0]);
+        cy.log(`managed cluster name is ${Cypress.env("managedCluster")}`);
+      }
     });
-  });
 };
 
 export const deleteNamespaceHub = (data, name, type) => {

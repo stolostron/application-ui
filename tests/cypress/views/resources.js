@@ -130,7 +130,8 @@ export const validateTimewindow = (name, config) => {
 export const getManagedClusterName = () => {
   cy
     .exec(
-      `oc get managedclusters -o custom-columns='name:.metadata.name,available:.status.conditions[?(@.type=="ManagedClusterConditionAvailable")].status,vendor:.metadata.labels.vendor' --no-headers`
+      `oc get managedclusters -o custom-columns='name:.metadata.name,available:.status.conditions[?(@.type=="ManagedClusterConditionAvailable")].status,vendor:.metadata.labels.vendor' --no-headers`,
+      { failOnNonZeroExit: false }
     )
     .then(({ stdout }) => {
       const clusters = stdout.split("\n").map(cluster => cluster.split(/ +/));
@@ -141,10 +142,10 @@ export const getManagedClusterName = () => {
           item[2] == "OpenShift"
         );
       });
-      filteredClusters
-        ? (Cypress.env("managedCluster", filteredClusters[0][0]),
-          cy.log(`managed cluster is ${Cypress.env("managedCluster")}`))
-        : cy.log("Managed cluster is undefined!");
+      if (filteredClusters[0]) {
+        Cypress.env("managedCluster", filteredClusters[0][0]);
+        cy.log(`managed cluster name is ${Cypress.env("managedCluster")}`);
+      }
     });
 };
 

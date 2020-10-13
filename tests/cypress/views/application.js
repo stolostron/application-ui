@@ -266,9 +266,10 @@ export const validateTopology = (name, data, type) => {
 };
 
 export const validateClusterNode = clusterName => {
-  const cluster = clusterName.split("/")[1];
   cy.log("validating the cluster...");
-  cy.get(`g[type="${cluster}"]`, { timeout: 25 * 1000 }).should("be.visible");
+  cy
+    .get(`g[type="${clusterName}"]`, { timeout: 25 * 1000 })
+    .should("be.visible");
 };
 
 export const validatePlacementNode = (name, key) => {
@@ -453,7 +454,7 @@ export const editApplication = (name, data) => {
   cy
     .server()
     .route({
-      method: "POST", // Route all GET requests
+      method: "POST", // Route all POST requests
       url: `/multicloud/applications/graphql`
     })
     .as("graphql");
@@ -462,10 +463,28 @@ export const editApplication = (name, data) => {
   resourceTable.openRowMenu(name);
   resourceTable.menuClickEdit();
   cy.url().should("include", `/${name}`);
-  cy.wait(100 * 1000);
+  cy.wait(30 * 1000);
   cy.wait(["@graphql", "@graphql"], {
     timeout: 50 * 1000
   });
+  cy.get(".bx--detail-page-header-title-container", { timeout: 100 * 1000 });
+  cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
+  cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
+  cy
+    .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
+    .should("be.disabled");
+  cy
+    .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
+    .invoke("val")
+    .should("eq", name);
+  cy.get("#namespace", { timeout: 20 * 1000 }).should("be.disabled");
+  cy
+    .get("#namespace", { timeout: 20 * 1000 })
+    .invoke("val")
+    .should("eq", `${name}-ns`);
+  modal.shouldBeDisabled();
+
+  deleteFirstSubscription(name, data);
 };
 
 export const deleteFirstSubscription = (name, data) => {

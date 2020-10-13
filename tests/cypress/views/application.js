@@ -341,7 +341,6 @@ export const deleteApplicationUI = name => {
 export const selectClusterDeployment = (deployment, clusterName, key) => {
   if (deployment) {
     const { local, online, matchingLabel } = deployment;
-    const cluster = clusterName.split("/")[1];
     let clusterDeploymentCss = {
       localClusterID: "#local-cluster-checkbox",
       onlineClusterID: "#online-cluster-only-checkbox",
@@ -379,8 +378,8 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
           "do not select `Deploy application resources only on clusters matching specified labels`"
         )
       : (cy.get(uniqueClusterID).click({ force: true }),
-        cy.log(`deploying app to cluster-${cluster}`),
-        selectMatchingLabel(cluster, key));
+        cy.log(`deploying app to cluster-${clusterName}`),
+        selectMatchingLabel(clusterName, key));
   } else {
     throw new Error(
       "no available imported OCP clusters to deploy applications"
@@ -463,7 +462,7 @@ export const editApplication = (name, data) => {
   resourceTable.openRowMenu(name);
   resourceTable.menuClickEdit();
   cy.url().should("include", `/${name}`);
-
+  cy.wait(100 * 1000);
   cy.wait(["@graphql", "@graphql"], {
     timeout: 50 * 1000
   });

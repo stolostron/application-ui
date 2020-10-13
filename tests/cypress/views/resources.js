@@ -142,7 +142,7 @@ export const getManagedClusterName = () => {
           item[2] == "OpenShift"
         );
       });
-      if (filteredClusters[0]) {
+      if (filteredClusters[0] !== undefined) {
         Cypress.env("managedCluster", filteredClusters[0][0]);
         cy.log(`managed cluster name is ${Cypress.env("managedCluster")}`);
       }

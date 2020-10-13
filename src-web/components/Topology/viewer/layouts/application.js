@@ -115,7 +115,7 @@ export const positionApplicationRows = (row, typeToShapeMap) => {
           if (appOutgoers.length > 1 && pos.x < appPos.x) {
             direction = -2
           }
-          if (subOutgoers.length > 2 || subPos > 0) {
+          if (subOutgoers.length > 2 || pos.x > appPos.x) {
             hooksExists = true
           }
         } else if (pos.x < x) {

@@ -12,7 +12,6 @@
 import { VALIDATE_URL } from '../../TemplateEditor/utils/validation'
 import { loadExistingChannels, updateChannelControls } from './utils'
 import placementData from './ControlDataPlacement'
-import prePostTasks from './ControlDataPrePostTasks'
 
 const objectstoreChannelData = [
   ///////////////////////  Objectstore  /////////////////////////////////////
@@ -65,7 +64,6 @@ const objectstoreChannelData = [
     placeholder: 'app.enter.secretkey'
   },
 
-  ...prePostTasks,
   ...placementData
 ]
 

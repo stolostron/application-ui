@@ -49,7 +49,7 @@ class ControlPanelAccordion extends React.Component {
     } = control
     let { info } = control
     if (typeof info === 'function') {
-      info = info(controlData, this.context.locale)
+      info = info(control, controlData, this.context.locale)
     }
 
     const handleCollapse = () => {

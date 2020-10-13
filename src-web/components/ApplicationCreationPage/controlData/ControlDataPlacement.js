@@ -25,7 +25,9 @@ import ClusterSelector, {
 import {
   setAvailableRules,
   getExistingPRControlsSection,
-  updateNewRuleControlsData
+  updateNewRuleControlsData,
+  getSharedPlacementRuleWarning,
+  getSharedSubscriptionWarning
 } from './utils'
 import { getSourcePath } from '../../TemplateEditor/utils/utils'
 import _ from 'lodash'
@@ -224,7 +226,9 @@ const placementData = [
     title: 'creation.app.placement.rule',
     overline: true,
     collapsable: true,
-    collapsed: false
+    collapsed: false,
+    info: getSharedPlacementRuleWarning,
+    editing: { editMode: true }
   },
   {
     id: existingRuleCheckbox,
@@ -293,7 +297,9 @@ const placementData = [
     title: 'creation.app.section.settings',
     overline: true,
     collapsable: true,
-    collapsed: false
+    collapsed: false,
+    info: getSharedSubscriptionWarning,
+    editing: { editMode: true }
   },
   {
     type: 'custom',

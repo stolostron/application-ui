@@ -9,7 +9,11 @@
  *******************************************************************************/
 'use strict'
 
-import { loadExistingSecrets, updatePrePostControls } from './utils'
+import {
+  loadExistingSecrets,
+  updatePrePostControls,
+  getSharedSubscriptionWarning
+} from './utils'
 
 const prePostTasks = [
   ////////////////////////////////////////////////////////////////////////////////////
@@ -20,8 +24,9 @@ const prePostTasks = [
     title: 'creation.app.section.prePost',
     overline: true,
     collapsable: true,
-    collapsed: false,
-    editing: { collapsed: true }, // if editing existing app, collapse this field initially
+    collapsed: true,
+    info: getSharedSubscriptionWarning,
+    editing: { collapsed: true, editMode: true }, // if editing existing app, collapse this field initially
     techPreview: true
   },
   {

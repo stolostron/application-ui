@@ -10,7 +10,6 @@
 'use strict'
 
 import placementData from './ControlDataPlacement'
-import prePostTasks from './ControlDataPrePostTasks'
 
 const otherChannelData = [
   ////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +39,6 @@ const otherChannelData = [
     available: [],
     reverse: 'Channel[0].spec.pathname'
   },
-  ...prePostTasks,
   ...placementData
 ]
 

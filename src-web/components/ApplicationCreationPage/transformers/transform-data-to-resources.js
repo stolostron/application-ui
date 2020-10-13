@@ -13,6 +13,7 @@ import _ from 'lodash'
 
 // remove the kube stuff
 const kube = [
+  'managedFields',
   'creationTimestamp',
   'status',
   'uid',

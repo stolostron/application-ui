@@ -450,7 +450,7 @@ export const selectDate = (date, key) => {
   });
 };
 
-export const editApplication = (name, data) => {
+export const edit = name => {
   cy
     .server()
     .route({
@@ -467,6 +467,10 @@ export const editApplication = (name, data) => {
   cy.wait(["@graphql", "@graphql"], {
     timeout: 50 * 1000
   });
+};
+
+export const editApplication = (name, data) => {
+  edit(name);
   cy.get(".bx--detail-page-header-title-container", { timeout: 100 * 1000 });
   cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
@@ -503,5 +507,17 @@ export const deleteFirstSubscription = (name, data) => {
     notification.shouldExist("success", { timeout: 60 * 1000 });
   } else {
     cy.log(`skipping ${name} since it's a single application...`);
+  }
+};
+
+export const verifyEdit = (name, data) => {
+  if (data.config.length > 1) {
+    edit(name);
+    cy.log(`${name} has multiple subscriptions`);
+    cy.get(".creation-view-controls-section").within($section => {
+      cy
+        .get(".creation-view-group-container")
+        .should("have.length", data.config.length - 1);
+    });
   }
 };

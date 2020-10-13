@@ -297,6 +297,14 @@ class OverviewCards extends React.Component {
           />
           <div className="status-count">{nodeStatuses.green}</div>
         </div>
+        <div className="status-icon-container orange-status">
+          <img
+            className="status-icon"
+            alt="node-status-pending"
+            src={`${config.contextPath}/graphics/nodeStatusPending.svg`}
+          />
+          <div className="status-count">{nodeStatuses.orange}</div>
+        </div>
         <div className="status-icon-container yellow-status">
           <img
             className="status-icon"
@@ -312,14 +320,6 @@ class OverviewCards extends React.Component {
             src={`${config.contextPath}/graphics/nodeStatusFailure.svg`}
           />
           <div className="status-count">{nodeStatuses.red}</div>
-        </div>
-        <div className="status-icon-container orange-status">
-          <img
-            className="status-icon"
-            alt="node-status-pending"
-            src={`${config.contextPath}/graphics/nodeStatusPending.svg`}
-          />
-          <div className="status-count">{nodeStatuses.orange}</div>
         </div>
       </React.Fragment>
     )

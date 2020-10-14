@@ -130,9 +130,8 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
                   case 'A': {
                     switch (item.kind) {
                     case 'N':
-                      val = _.get(resource, path, [])
+                      val = _.get(newResource, path, [])
                       if (Array.isArray(val)) {
-                        val.push(item.rhs)
                         _.set(resource, path, val)
                       } else {
                         val[Object.keys(val).length] = item.rhs
@@ -140,10 +139,9 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
                       }
                       break
                     case 'D':
-                      val = _.get(resource, path, [])
+                      val = _.get(newResource, path, [])
                       if (Array.isArray(val)) {
-                        val.indexOf(item.lhs) !== -1 &&
-                              val.splice(val.indexOf(item.lhs), 1)
+                        _.set(resource, path, val)
                       } else {
                         val = _.omitBy(val, e => e === item.lhs)
                         _.set(resource, path, Object.values(val))
@@ -189,10 +187,13 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
 }
 
 const isProtectedNameNamespace = path => {
-  if (path.length>=2) {
+  if (path.length >= 2) {
     const [key, value] = path.slice(Math.max(path.length - 2, 0))
-    return ((typeof key==='string' && (key==='metadata' || key.endsWith('Ref'))) &&
-        ['name', 'namespace'].indexOf(value) !== -1)
+    return (
+      typeof key === 'string' &&
+      (key === 'metadata' || key.endsWith('Ref')) &&
+      ['name', 'namespace'].indexOf(value) !== -1
+    )
   }
   return false
 }
@@ -221,7 +222,11 @@ const generateSourceFromResources = resources => {
   resources.forEach(resource => {
     if (!_.isEmpty(resource)) {
       const key = _.get(resource, 'kind', 'unknown')
-      yaml = jsYaml.safeDump(resource, { sortKeys, noRefs:true, lineWidth: 200 })
+      yaml = jsYaml.safeDump(resource, {
+        sortKeys,
+        noRefs: true,
+        lineWidth: 200
+      })
       yaml = yaml.replace(/'\d+':(\s|$)\s*/gm, '- ')
       yaml = yaml.replace(/:\s*null$/gm, ':')
       const $synced = new YamlParser().parse(yaml, row)

@@ -191,7 +191,7 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
 const isProtectedNameNamespace = path => {
   if (path.length>=2) {
     const [key, value] = path.slice(Math.max(path.length - 2, 0))
-    return ((key==='metadata' || key.endsWith('Ref')) &&
+    return ((typeof key==='string' && (key==='metadata' || key.endsWith('Ref'))) &&
         ['name', 'namespace'].indexOf(value) !== -1)
   }
   return false
@@ -221,7 +221,7 @@ const generateSourceFromResources = resources => {
   resources.forEach(resource => {
     if (!_.isEmpty(resource)) {
       const key = _.get(resource, 'kind', 'unknown')
-      yaml = jsYaml.safeDump(resource, { sortKeys, lineWidth: 200 })
+      yaml = jsYaml.safeDump(resource, { sortKeys, noRefs:true, lineWidth: 200 })
       yaml = yaml.replace(/'\d+':(\s|$)\s*/gm, '- ')
       yaml = yaml.replace(/:\s*null$/gm, ':')
       const $synced = new YamlParser().parse(yaml, row)

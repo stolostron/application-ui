@@ -89,7 +89,7 @@ const SharedResourceWarning = ({ resourceType, control, locale }) => {
 
   useEffect(
     () => {
-      if (control.editMode) {
+      if (control.editMode && resourceName && resourceNamespace) {
         const query = getQuery(resourceType, resourceName, resourceNamespace)
         apolloClient
           .search(SEARCH_QUERY_RELATED, {

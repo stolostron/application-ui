@@ -213,13 +213,13 @@ class DiagramViewer extends React.Component {
       this.containerRef = ref
       this.handleMouseFunc = this.handleMouse.bind(this)
       this.containerRef.parentNode.addEventListener(
-        'mousewheel',
+        'wheel',
         this.handleMouseFunc,
         true
       )
     } else if (this.containerRef) {
       this.containerRef.parentNode.removeEventListener(
-        'mousewheel',
+        'wheel',
         this.handleMouseFunc,
         true
       )
@@ -374,9 +374,8 @@ class DiagramViewer extends React.Component {
       this.svg.append('g').attr('class', 'titles')
       this.svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted on top.
       this.svg.append('g').attr('class', 'nodes')
-      this.svg.on('click', this.handleNodeClick, () => {
-        this.svg.call(this.zoomHelper.canvasZoom())
-      })
+      this.svg.on('click', this.handleNodeClick)
+      this.svg.call(this.zoomHelper.canvasZoom())
 
       defineLinkMarkers(this.svg)
     }

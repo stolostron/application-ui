@@ -528,49 +528,51 @@ export class TimeWindow extends React.Component {
 export default TimeWindow
 
 export const reverse = (control, templateObject) => {
-  let showTimeSection = false
-  const timezone = _.get(
-    templateObject,
-    getSourcePath('Subscription[0].spec.timewindow.location')
-  )
-  const mode = _.get(
-    templateObject,
-    getSourcePath('Subscription[0].spec.timewindow.windowtype')
-  )
-  let weekdays = _.get(
-    templateObject,
-    getSourcePath('Subscription[0].spec.timewindow.daysofweek')
-  )
-  weekdays = (removeVs(weekdays && weekdays.$v) || []).map(day => {
-    return `"${day}"`
-  })
-  let timeList = _.get(
-    templateObject,
-    getSourcePath('Subscription[0].spec.timewindow.hours')
-  )
-  if (timeList) {
-    timeList = removeVs(timeList)
-  }
-  if (timeList) {
-    timeList = timeList.map(({ start, end }, id) => {
-      return {
-        id,
-        start,
-        end,
-        validTime: true
-      }
+  if (!control.active) {
+    let showTimeSection = false
+    const timezone = _.get(
+      templateObject,
+      getSourcePath('Subscription[0].spec.timewindow.location')
+    )
+    const mode = _.get(
+      templateObject,
+      getSourcePath('Subscription[0].spec.timewindow.windowtype')
+    )
+    let weekdays = _.get(
+      templateObject,
+      getSourcePath('Subscription[0].spec.timewindow.daysofweek')
+    )
+    weekdays = (removeVs(weekdays && weekdays.$v) || []).map(day => {
+      return `"${day}"`
     })
-    showTimeSection = true
-  } else {
-    timeList = [{ id: 0, start: '', end: '', validTime: true }]
-  }
-  control.active = {
-    mode: mode && mode.$v,
-    days: weekdays,
-    timezone: timezone && timezone.$v,
-    showTimeSection,
-    timeList,
-    timeListID: 1
+    let timeList = _.get(
+      templateObject,
+      getSourcePath('Subscription[0].spec.timewindow.hours')
+    )
+    if (timeList) {
+      timeList = removeVs(timeList)
+    }
+    if (timeList) {
+      timeList = timeList.map(({ start, end }, id) => {
+        return {
+          id,
+          start,
+          end,
+          validTime: true
+        }
+      })
+      showTimeSection = true
+    } else {
+      timeList = [{ id: 0, start: '', end: '', validTime: true }]
+    }
+    control.active = {
+      mode: mode && mode.$v,
+      days: weekdays,
+      timezone: timezone && timezone.$v,
+      showTimeSection,
+      timeList,
+      timeListID: 1
+    }
   }
 }
 

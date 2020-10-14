@@ -25,7 +25,8 @@ describe("getLegendTitle", () => {
     ["application", "Application"],
     ["placements", "Placements"],
     ["unknown", "Unknown"],
-    ["", ""]
+    ["", ""],
+    [undefined, ""]
   ]);
 
   it("should get the correct title", () => {

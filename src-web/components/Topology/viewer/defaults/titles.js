@@ -68,6 +68,9 @@ export const getSectionTitles = (clusters, types, environs, locale) => {
 }
 
 export const getLegendTitle = (type, locale) => {
+  if (type === undefined) {
+    return ''
+  }
   switch (type) {
   case 'deploymentconfig':
   case 'replicationcontroller':

@@ -81,7 +81,8 @@ class DetailsView extends React.Component {
     const currentNode =
       getLayoutNodes().find(n => n.uid === selectedNodeId) || {}
     const { layout = {} } = currentNode
-    const resourceType = layout.type || currentNode.type
+    const resourceType =
+      layout.type || currentNode.type || currentUpdatedNode.type
     const { shape = 'other', className = 'default' } =
       typeToShapeMap[resourceType] || {}
     const details = getNodeDetails(currentNode, currentUpdatedNode, locale)

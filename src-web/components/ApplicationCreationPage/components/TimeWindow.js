@@ -515,7 +515,7 @@ export class TimeWindow extends React.Component {
       this.setState({
         timezoneCache: { isSelected: true, tz: event.selectedItem.value }
       })
-    } else if (!event.selectedItem) {
+    } else if (event.selectedItem === null) {
       // Reset timezone and reset cached tz
       control.active.timezone = ''
       this.setState({ timezoneCache: { isSelected: false, tz: '' } })

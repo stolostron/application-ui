@@ -130,20 +130,18 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
                   case 'A': {
                     switch (item.kind) {
                     case 'N':
-                      val = _.get(resource, path, [])
+                      val = _.get(newResource, path, [])
                       if (Array.isArray(val)) {
-                        val.push(item.rhs)
-                        _.set(resource, path, _.uniq(val, _.isEqual))
+                        _.set(resource, path, val)
                       } else {
                         val[Object.keys(val).length] = item.rhs
                         _.set(resource, path, Object.values(val))
                       }
                       break
                     case 'D':
-                      val = _.get(resource, path, [])
+                      val = _.get(newResource, path, [])
                       if (Array.isArray(val)) {
-                        val.indexOf(item.lhs) !== -1 &&
-                              val.splice(val.indexOf(item.lhs), 1)
+                        _.set(resource, path, val)
                       } else {
                         val = _.omitBy(val, e => e === item.lhs)
                         _.set(resource, path, Object.values(val))

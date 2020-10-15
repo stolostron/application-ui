@@ -42,158 +42,179 @@ const intializeControls = (editStack, controlData) => {
   setEditingMode(controlData)
 
   // keep track of template changes
-  editStack.templateResourceStack = []
+  editStack.baseTemplateResources = null
   editStack.deletedLinks = new Set()
   editStack.initialized = true
 }
 
 const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
   const {
-    customResources: resources,
-    templateResourceStack,
+    customResources,
     deletedLinks
   } = editStack
 
   // get the next iteration of template changes
-  const { templateResources: iteration } = generateSourceFromTemplate(
+  const { templateResources } = generateSourceFromTemplate(
     template,
     controlData,
     otherYAMLTabs
   )
-  templateResourceStack.push(iteration)
 
-  let customResources = _.cloneDeep(resources)
-  templateResourceStack.forEach((templateResources, stackInx) => {
-    templateResources = _.cloneDeep(templateResources)
-    const nextTemplateResources = _.cloneDeep(
-      templateResourceStack[stackInx + 1]
-    )
-
-    if (stackInx === 0 || nextTemplateResources) {
-      customResources = customResources.filter(resource => {
-        // filter out custom resource that isn't in next version of template
-        const selfLink = _.get(resource, 'metadata.selfLink')
-        if (!selfLink) {
-          return false
-        }
-        const resourceInx = templateResources.findIndex(res => {
-          return selfLink === _.get(res, 'metadata.selfLink')
-        })
-        if (resourceInx === -1) {
-          return false
-        }
-
-        if (nextTemplateResources) {
-          // filter out custom resource that not in next version of template
-          const nextInx = nextTemplateResources.findIndex(res => {
-            return selfLink === _.get(res, 'metadata.selfLink')
-          })
-          if (nextInx === -1) {
-            deletedLinks.add(selfLink)
-            return false
-          } else {
-            nextTemplateResources.splice(nextInx, 1)
-          }
-        }
-        return true
-      })
-
-      // something added?
-      if (nextTemplateResources && nextTemplateResources.length) {
-        customResources.push(...nextTemplateResources)
-      }
-    }
-
-    if (nextTemplateResources) {
-      customResources.forEach(resource => {
-        // compare the difference, and add them to edit the custom resource
-        let val, idx
-
-        const selfLink = _.get(resource, 'metadata.selfLink')
-        if (selfLink) {
-          const resourceInx = templateResources.findIndex(res => {
-            return selfLink === _.get(res, 'metadata.selfLink')
-          })
-          const nextInx = templateResourceStack[stackInx + 1].findIndex(res => {
-            return selfLink === _.get(res, 'metadata.selfLink')
-          })
-
-          if (resourceInx !== -1 && nextInx !== -1) {
-            const oldResource = templateResources[resourceInx]
-            const newResource = templateResourceStack[stackInx + 1][nextInx]
-            const diffs = diff(oldResource, newResource)
-            if (diffs) {
-              diffs.forEach(({ kind, path, rhs, item }) => {
-                if (!isProtectedNameNamespace(path)) {
-                  switch (kind) {
-                  // array modification
-                  case 'A': {
-                    switch (item.kind) {
-                    case 'N':
-                      val = _.get(newResource, path, [])
-                      if (Array.isArray(val)) {
-                        _.set(resource, path, val)
-                      } else {
-                        val[Object.keys(val).length] = item.rhs
-                        _.set(resource, path, Object.values(val))
-                      }
-                      break
-                    case 'D':
-                      val = _.get(newResource, path, [])
-                      if (Array.isArray(val)) {
-                        _.set(resource, path, val)
-                      } else {
-                        val = _.omitBy(val, e => e === item.lhs)
-                        _.set(resource, path, Object.values(val))
-                      }
-                      break
-                    }
-                    break
-                  }
-                  case 'E': {
-                    idx = path.pop()
-                    val = _.get(resource, path)
-                    if (Array.isArray(val)) {
-                      val.splice(idx, 1, rhs)
-                    } else {
-                      path.push(idx)
-                      _.set(resource, path, rhs)
-                    }
-                    break
-                  }
-                  case 'N': {
-                    _.set(resource, path, rhs)
-                    break
-                  }
-                  case 'D': {
-                    _.unset(resource, path)
-                    break
-                  }
-                  }
-                }
-              })
-            }
-          }
-        }
-      })
-    }
-  })
+  // first time thru, we just have the base template to compare against
+  let currentTemplateResources
+  let {baseTemplateResources} = editStack
+  if (!baseTemplateResources) {
+    editStack.baseTemplateResources = templateResources
+    baseTemplateResources = templateResources
+  } else {
+    // next time we merge base and current templates into custom
+    currentTemplateResources = templateResources
+  }
+  let resources = mergeSource(customResources, baseTemplateResources, currentTemplateResources, deletedLinks)
 
   // make sure there's no duplicates
-  customResources = _.uniqWith(customResources, _.isEqual)
+  resources = _.uniqWith(resources, _.isEqual)
 
   // then generate the source from those resources
-  return generateSourceFromResources(customResources)
+  return generateSourceFromResources(resources)
+}
+
+const mergeSource = (resources, baseTemplateResources, currentTemplateResources, deletedLinks) => {
+
+  let customResources = _.cloneDeep(resources)
+  const clonedCurrentTemplateResources = currentTemplateResources && _.cloneDeep(currentTemplateResources)
+
+  ////////////////////////////////////////////////
+  ///////////  DELETE ////////////////////////////
+  ////////////////////////////////////////////////
+  // filter out the custom resources that don't exist in the current template using selfLinks
+  customResources = customResources.filter(resource => {
+    // filter out custom resource that isn't in next version of template
+    const selfLink = _.get(resource, 'metadata.selfLink')
+    if (!selfLink) {
+      return false
+    }
+    // if base template doesn't have this resource, the template never liked it
+    // (ex: predefined app channel)
+    let inx = baseTemplateResources.findIndex(res => {
+      return selfLink === _.get(res, 'metadata.selfLink')
+    })
+    if (inx === -1) {
+      return false
+    }
+
+    // if user has added something with the forms
+    if (currentTemplateResources) {
+      inx = clonedCurrentTemplateResources.findIndex(res => {
+        return selfLink === _.get(res, 'metadata.selfLink')
+      })
+      if (inx === -1) {
+        // if editor got rid of it, add to the selfLinks we will be deleting
+        // when updating editor to server
+        deletedLinks.add(selfLink)
+        return false
+      } else {
+        // else remove from currentTemplateResources such that
+        // anything left is considered new and should be added to custom resources
+        clonedCurrentTemplateResources.splice(inx, 1)
+      }
+    }
+    return true
+  })
+  if (clonedCurrentTemplateResources) {
+    ////////////////////////////////////////////////
+    ///////////  ADD ////////////////////////////
+    ////////////////////////////////////////////////
+    // anything left in currentTemplateResources was added by editor
+    if (clonedCurrentTemplateResources.length) {
+      customResources.push(...clonedCurrentTemplateResources)
+    }
+
+    ////////////////////////////////////////////////
+    ///////////  MODIFY ////////////////////////////
+    ////////////////////////////////////////////////
+
+    customResources.forEach(resource => {
+      // compare the difference, and add them to edit the custom resource
+      let val, idx
+
+      const selfLink = _.get(resource, 'metadata.selfLink')
+      if (selfLink) {
+        const baseInx = baseTemplateResources.findIndex(res => {
+          return selfLink === _.get(res, 'metadata.selfLink')
+        })
+        const currentInx = currentTemplateResources.findIndex(res => {
+          return selfLink === _.get(res, 'metadata.selfLink')
+        })
+
+        if (baseInx !== -1 && currentInx !== -1) {
+          const oldResource = baseTemplateResources[baseInx]
+          const newResource = currentTemplateResources[currentInx]
+          const diffs = diff(oldResource, newResource)
+          if (diffs) {
+            diffs.forEach(({ kind, path, rhs, item }) => {
+              if (!isProtectedNameNamespace(path)) {
+                switch (kind) {
+                // array modification
+                case 'A': {
+                  switch (item.kind) {
+                  case 'N':
+                    val = _.get(newResource, path, [])
+                    if (Array.isArray(val)) {
+                      _.set(resource, path, val)
+                    } else {
+                      val[Object.keys(val).length] = item.rhs
+                      _.set(resource, path, Object.values(val))
+                    }
+                    break
+                  case 'D':
+                    val = _.get(newResource, path, [])
+                    if (Array.isArray(val)) {
+                      _.set(resource, path, val)
+                    } else {
+                      val = _.omitBy(val, e => e === item.lhs)
+                      _.set(resource, path, Object.values(val))
+                    }
+                    break
+                  }
+                  break
+                }
+                case 'E': {
+                  idx = path.pop()
+                  val = _.get(resource, path)
+                  if (Array.isArray(val)) {
+                    val.splice(idx, 1, rhs)
+                  } else {
+                    path.push(idx)
+                    _.set(resource, path, rhs)
+                  }
+                  break
+                }
+                case 'N': {
+                  _.set(resource, path, rhs)
+                  break
+                }
+                case 'D': {
+                  _.unset(resource, path)
+                  break
+                }
+                }
+              }
+            })
+          }
+        }
+      }
+    })
+  }
+
+  return customResources
 }
 
 const isProtectedNameNamespace = path => {
-  if (path.length >= 2) {
+  if (path.length>=2) {
     const [key, value] = path.slice(Math.max(path.length - 2, 0))
-    return (
-      typeof key === 'string' &&
-      (key === 'metadata' || key.endsWith('Ref')) &&
-      ['name', 'namespace'].indexOf(value) !== -1
-    )
+    return ((typeof key==='string' && (key==='metadata' || key.endsWith('Ref'))) &&
+        ['name', 'namespace'].indexOf(value) !== -1)
   }
   return false
 }

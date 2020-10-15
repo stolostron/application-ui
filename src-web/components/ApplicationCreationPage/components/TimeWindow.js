@@ -571,7 +571,7 @@ export const reverse = (control, templateObject) => {
       timezone: timezone && timezone.$v,
       showTimeSection,
       timeList,
-      timeListID: 1
+      timeListID: timeList.length
     }
   }
 }

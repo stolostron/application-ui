@@ -975,7 +975,7 @@ export const setupResourceModel = (
                 _.get(
                   resourceMapForObject,
                   'clusters.specs.sortedClusterNames',
-                  []
+                  [LOCAL_HUB_NAME] // if no cluster found for this resource, this could be a local deployment
                 ),
                 _.get(relatedKind, 'cluster')
               )

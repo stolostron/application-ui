@@ -194,7 +194,10 @@ export function getChannels(item = {}, locale = '') {
 }
 
 export function getTimeWindow(item = {}, locale = '') {
-  return (R.path(['hubSubscriptions'], item) || []).some(sub => sub.timeWindow)
+  // Check for 'active' or 'blocked' subscription, ignoring 'none'
+  return (R.path(['hubSubscriptions'], item) || []).some(sub =>
+    ['active', 'blocked'].includes(sub.timeWindow)
+  )
     ? msgs.get('table.cell.timeWindow.yes', locale)
     : ''
 }

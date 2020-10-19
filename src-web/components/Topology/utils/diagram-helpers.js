@@ -892,6 +892,18 @@ export const getNameWithoutPodHash = relatedKind => {
   return { nameNoHash, deployableName }
 }
 
+//add deployed object to the matching resource in the map
+const addResourceToModel = (
+  resourceMapObject,
+  kind,
+  relatedKind,
+  nameWithoutChartRelease
+) => {
+  const kindModel = _.get(resourceMapObject, `specs.${kind}Model`, {})
+  kindModel[`${nameWithoutChartRelease}-${relatedKind.cluster}`] = relatedKind
+  _.set(resourceMapObject, `specs.${kind}Model`, kindModel)
+}
+
 //creates a map with all related kinds for this app, not only pod types
 export const setupResourceModel = (
   list,
@@ -945,12 +957,37 @@ export const setupResourceModel = (
           name = _.trimEnd(name, '-local')
         }
 
-        if (resourceMap[name]) {
-          const kindModel = _.get(resourceMap[name], `specs.${kind}Model`, {})
-          kindModel[
-            `${nameWithoutChartRelease}-${relatedKind.cluster}`
-          ] = relatedKind
-          _.set(resourceMap[name], `specs.${kind}Model`, kindModel)
+        let resourceMapForObject = resourceMap[name]
+        if (resourceMapForObject) {
+          addResourceToModel(
+            resourceMapForObject,
+            kind,
+            relatedKind,
+            nameWithoutChartRelease
+          )
+        } else {
+          //get resource by looking at the cluster grouping
+          Object.keys(resourceMap).forEach(key => {
+            resourceMapForObject = resourceMap[key]
+            if (
+              _.startsWith(key, name) &&
+              _.includes(
+                _.get(
+                  resourceMapForObject,
+                  'clusters.specs.sortedClusterNames',
+                  []
+                ),
+                _.get(relatedKind, 'cluster')
+              )
+            ) {
+              addResourceToModel(
+                resourceMapForObject,
+                kind,
+                relatedKind,
+                nameWithoutChartRelease
+              )
+            }
+          })
         }
       })
     })

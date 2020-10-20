@@ -176,3 +176,11 @@
   margin-left: 12px;
 }
 
+.deletedLineDecoration {
+  margin-left: 10px;
+  height: 14px !important;
+  width: 14px !important;
+  cursor: pointer;
+  z-index: 1000;
+  background: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 24" width="14" height="14"><g fill="cyan"><path d="M4 0h8v2H4zM0 3v4h1v17h14V7h1V3H0zm13 18H3V8h10v13z"/><path d="M5 10h2v9H5zm4 0h2v9H9z"/></g></svg>');
+}

@@ -25,6 +25,7 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
   const newParse = parseYAML(newYAML)
   const oldRaw = getInsideObject('$raw', oldParse.parsed)
   const newRaw = getInsideObject('$raw', newParse.parsed)
+  const oldSynced = getInsideObject('$synced', oldParse.parsed)
   const newSynced = getInsideObject('$synced', newParse.parsed)
   let firstModRow = undefined
   let firstNewRow = undefined
@@ -32,12 +33,13 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
   normalize(oldRaw, newRaw)
   const diffs = diff(oldRaw, newRaw)
   if (diffs) {
-    diffs.forEach(({ kind, path, index, item }) => {
+    diffs.forEach(({ kind, path, index, item, lhs, rhs }) => {
       let pathBase = path.shift()
       pathBase = `${pathBase}[${path.length > 0 ? path.shift() : 0}]`
       let newPath =
         path.length > 0 ? pathBase + `.${path.join('.$v.')}` : pathBase
-      let obj = _.get(newSynced, newPath)
+      const synced = (kind==='D' || kind==='E') && lhs && !rhs ? oldSynced : newSynced
+      let obj = _.get(synced, newPath)
       if (obj) {
         if (obj.$v || obj.$v === false) {
           // convert A's and E's into 'N's
@@ -115,6 +117,17 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
             if (!firstModRow && !isEncoded) {
               firstModRow = obj.$r
             }
+          } else if (rhs===null) {
+            firstNewRow = obj.$r
+            decorationList.push({
+              range: new editor.monaco.Range(obj.$r, 0, obj.$r, 0),
+              options: {
+                isWholeLine: true,
+                glyphMarginClassName: 'deletedLineDecoration',
+                glyphMarginHoverMessage: { value: `Deleted ${lhs.kind}` },
+                minimap: { color: 'red', position: 1 }
+              }
+            })
           }
           break
         }
@@ -152,14 +165,29 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
 const normalize = (oldRaw, newRaw) => {
   Object.keys(oldRaw).forEach(key => {
     if (newRaw[key] && oldRaw[key].length !== newRaw[key].length) {
-      const oldKeys = _.keyBy(oldRaw[key], 'metadata.name')
-      Object.keys(_.keyBy(newRaw[key], 'metadata.name')).forEach((k, inx) => {
+      const oldKeys = _.keyBy(oldRaw[key], getResourceID)
+      const newKeys = _.keyBy(newRaw[key], getResourceID)
+
+      // if an element added to array, compare it with an empty object
+      Object.keys(newKeys).forEach((k, inx) => {
         if (!oldKeys[k]) {
           oldRaw[key].splice(inx, 0, {})
         }
       })
+
+      // if an element was deleted, compare it with nothing
+      Object.keys(oldKeys).forEach((k, inx) => {
+        if (!newKeys[k]) {
+          newRaw[key].splice(inx, 0, null)
+        }
+      })
     }
   })
+}
+
+const getResourceID = resource => {
+  return _.get(resource, 'metadata.selfLink') ||
+    `${_.get(resource, 'metadata.namespace')}/${_.get(resource, 'metadata.name')}`
 }
 
 export const highlightAllChanges = (

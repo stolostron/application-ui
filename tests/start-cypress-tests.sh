@@ -34,6 +34,7 @@ fi
 
 echo "Logging into managed cluster"
 mkdir /import-kubeconfig
+touch /import-kubeconfig/import-kubeconfig
 export KUBECONFIG=/import-kubeconfig/import-kubeconfig
 oc login --server=$CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
 

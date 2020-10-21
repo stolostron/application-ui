@@ -94,18 +94,18 @@ export const processNodeData = (
         : undefined
     isHelmRelease.value =
       topoAnnotation !== undefined && topoAnnotation.indexOf('helmchart/') > -1
-  } else if (clusterName.indexOf(', ') > -1) {
-    topoResourceMap[`${type}-${keyName}`] = node
-    podsKeyForThisNode = `pod-${keyName}`
-    isClusterGrouped.value = true
   } else {
     topoResourceMap[`${type}-${keyName}-${clusterName}`] = node
     podsKeyForThisNode = `pod-${keyName}-${clusterName}`
+
+    if (clusterName.indexOf(', ') > -1) {
+      isClusterGrouped.value = true
+    }
   }
-  if (type === 'route') {
-    //keep clusters info to create route host
-    node['clusters'] = R.find(R.propEq('type', 'cluster'))(topology.nodes)
-  }
+  //keep clusters info to create route host and to match nodes to grouped clusters
+  node['clusters'] = R.find(R.propEq('id', `member--clusters--${clusterName}`))(
+    topology.nodes
+  )
 
   if (nodeMustHavePods(node)) {
     //keep a map with the nodes names that could have pods

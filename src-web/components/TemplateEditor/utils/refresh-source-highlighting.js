@@ -10,7 +10,7 @@
 'use strict'
 
 import { diff } from 'deep-diff'
-import { parseYAML, getInsideObject } from './utils'
+import { parseYAML, getInsideObject, getResourceID } from './utils'
 import _ from 'lodash'
 import { Base64 } from 'js-base64'
 
@@ -187,11 +187,6 @@ const normalize = (oldRaw, newRaw) => {
       })
     }
   })
-}
-
-const getResourceID = resource => {
-  return _.get(resource, 'metadata.selfLink') ||
-    `${_.get(resource, 'metadata.namespace')}/${_.get(resource, 'metadata.name')}`
 }
 
 export const highlightAllChanges = (

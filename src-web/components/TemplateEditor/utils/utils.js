@@ -199,6 +199,11 @@ export const cacheUserData = controlData => {
   })
 }
 
+export const getResourceID = resource => {
+  return _.get(resource, 'metadata.selfLink') ||
+    `${resource.kind}/${_.get(resource, 'metadata.namespace')}/${_.get(resource, 'metadata.name')}`
+}
+
 export const getUniqueName = (name, nameSet) => {
   if (nameSet.has(name)) {
     let count = 1

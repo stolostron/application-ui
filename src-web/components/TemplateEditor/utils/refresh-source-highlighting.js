@@ -118,16 +118,7 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
               firstModRow = obj.$r
             }
           } else if (rhs===null) {
-            firstNewRow = obj.$r
-            decorationList.push({
-              range: new editor.monaco.Range(obj.$r, 0, obj.$r, 0),
-              options: {
-                isWholeLine: true,
-                glyphMarginClassName: 'deletedLineDecoration',
-                glyphMarginHoverMessage: { value: `Deleted ${lhs.kind}` },
-                minimap: { color: 'red', position: 1 }
-              }
-            })
+            kind='D'
           }
           break
         }
@@ -144,6 +135,19 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
             firstNewRow = obj.$r
           }
           break
+        }
+        if (kind==='D') {
+          if (!firstModRow || firstModRow > obj.$r) {
+            firstModRow = obj.$r
+          }
+          decorationList.push({
+            range: new editor.monaco.Range(obj.$r, 0, obj.$r+1, 0),
+            options: {
+              isWholeLine: true,
+              linesDecorationsClassName: 'deletedLineDecoration',
+              minimap: { color: '#f3afb5', position: 2 }
+            }
+          })
         }
       }
     })

@@ -33,14 +33,14 @@ else
 fi
 
 echo "Logging into the managed cluster..."
-mkdir /import-kubeconfig
-touch /import-kubeconfig/kubeconfig
-export KUBECONFIG=/import-kubeconfig/kubeconfig
+mkdir $(shell pwd)/import-kubeconfig/import-kubeconfig
+touch $(shell pwd)/import-kubeconfig/kubeconfig
+export KUBECONFIG=$(shell pwd)/import-kubeconfig/kubeconfig
 oc login --server=$CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
 ls /import-kubeconfig
 echo "debugging value KUBECONFIG..."
 echo "$KUBECONFIG"
-var=$(cat /import-kubeconfig/kubeconfig)
+var=$(cat $(shell pwd)/import-kubeconfig/kubeconfig)
 echo "debugging the content of kubeconfig"
 echo "$var"
 unset KUBECONFIG

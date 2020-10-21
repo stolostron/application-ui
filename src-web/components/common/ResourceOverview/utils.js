@@ -224,7 +224,7 @@ const getClusterCount = appData => {
                 remoteCluster
               )
             }
-          } else if (sub.localPlacement) {
+          } else if (sub.localPlacement === 'true') {
             localClusterDeploy = true
           }
         })

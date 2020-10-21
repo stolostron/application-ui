@@ -72,6 +72,7 @@ run-test-image:
 
 .PHONY: run-test-image-pr
 run-test-image-pr:
+	ls $pwd/import-kubeconfig
 	docker run \
 	-v $(shell pwd)/import-kubeconfig/:/usr/src/app/tests/cypress/config/import-kubeconfig/ \
 	-v $(shell pwd)/results/:/results/ \

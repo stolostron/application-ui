@@ -41,6 +41,8 @@ ls /import-kubeconfig
 echo "debugging value KUBECONFIG..."
 echo "$KUBECONFIG"
 var=$(cat /import-kubeconfig/kubeconfig)
+echo "debugging the content of kubeconfig"
+echo "$var"
 unset KUBECONFIG
 
 echo "Logging into Kube API server..."

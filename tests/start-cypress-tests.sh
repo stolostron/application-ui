@@ -32,13 +32,15 @@ else
   fi
 fi
 
-echo "Logging into managed cluster"
+echo "Logging into the managed cluster..."
 mkdir /import-kubeconfig
 touch /import-kubeconfig/import-kubeconfig
 export KUBECONFIG=/import-kubeconfig/import-kubeconfig
-echo "url: $CYPRESS_MANAGED_OCP_URL"
-echo "username: $CYPRESS_MANAGED_OCP_USER"
+echo "debugging kubeconfig..."
+var=$(cat /import-kubeconfig/import-kubeconfig)
+echo "$var"
 oc login --server=$CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
+
 
 echo "Logging into Kube API server..."
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify

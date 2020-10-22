@@ -21,7 +21,6 @@ describe("Application", () => {
       it(`timewindow - should be validated - ${type}: ${data.name}`, () => {
         validateTimewindow(data.name, data.config);
       });
-      it(`This is kubeconfig: ${Cypress.env("KUBE_CONFIG")}`);
       it(`resource should be validated on the target cluster`, () => {
         targetResource(data);
       });

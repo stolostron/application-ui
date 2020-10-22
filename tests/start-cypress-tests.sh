@@ -36,18 +36,9 @@ echo "Logging into the managed cluster..."
 mkdir $(shell pwd)/import-kubeconfig && touch $(shell pwd)/import-kubeconfig/kubeconfig
 export KUBECONFIG=$(shell pwd)/import-kubeconfig/kubeconfig
 oc login --server=$CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
-echo "debugging value KUBECONFIG..."
-echo "$KUBECONFIG"
-var=$(cat $(shell pwd)/import-kubeconfig/kubeconfig)
-echo "debugging the content of kubeconfig"
-echo "$var"
 unset KUBECONFIG
-ls $(shell pwd)/import-kubeconfig
+echo "Copying managed cluster kubeconfig to ./cypress/config/import-kubeconfig ..."
 cp $(shell pwd)/import-kubeconfig/* ./cypress/config/import-kubeconfig
-echo "listing cypress directory"
-ls ./cypress/config
-echo "listing import-kubeconfig directory"
-ls ./cypress/config/import-kubeconfig
 
 
 echo "Logging into Kube API server..."

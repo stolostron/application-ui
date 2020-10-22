@@ -44,6 +44,10 @@ var=$(cat $(shell pwd)/import-kubeconfig/kubeconfig)
 echo "debugging the content of kubeconfig"
 echo "$var"
 unset KUBECONFIG
+ls $(shell pwd)/import-kubeconfig
+cp $(shell pwd)/import-kubeconfig/import-kubeconfig/* /usr/src/app/tests/cypress/config/import-kubeconfig/
+ls /usr/src/app/tests/cypress/config/import-kubeconfig/
+
 
 echo "Logging into Kube API server..."
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify

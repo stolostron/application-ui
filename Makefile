@@ -73,7 +73,6 @@ run-test-image:
 .PHONY: run-test-image-pr
 run-test-image-pr:
 	docker run \
-	-v $(shell pwd)/import-kubeconfig/:/usr/src/app/tests/cypress/config/import-kubeconfig/ \
 	-v $(shell pwd)/results/:/results/ \
 	--network host \
 	-e BROWSER=$(BROWSER) \
@@ -90,6 +89,9 @@ run-test-image-pr:
 	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \
 	-e CYPRESS_OC_CLUSTER_PASS=$(OC_CLUSTER_PASS) \
 	-e CYPRESS_OC_IDP=$(CYPRESS_OC_IDP) \
+    -e CYPRESS_MANAGED_OCP_URL=$(CYPRESS_MANAGED_OCP_URL) \
+	-e CYPRESS_MANAGED_OCP_USER=$(CYPRESS_MANAGED_OCP_USER) \
+	-e CYPRESS_MANAGED_OCP_PASS=$(CYPRESS_MANAGED_OCP_PASS) \
 	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
 
 .PHONY: push-test-image

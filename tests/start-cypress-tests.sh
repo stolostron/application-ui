@@ -44,11 +44,11 @@ echo "debugging the content of kubeconfig"
 echo "$var"
 unset KUBECONFIG
 ls $(shell pwd)/import-kubeconfig
-cp $(shell pwd)/import-kubeconfig/* /usr/src/app/tests/cypress/config/import-kubeconfig
+cp $(shell pwd)/import-kubeconfig/* ./cypress/config/config/import-kubeconfig
 echo "listing cypress directory"
-ls /usr/src/app/tests/cypress
+ls ./cypress/config
 echo "listing import-kubeconfig directory"
-ls /usr/src/app/tests/cypress/config/import-kubeconfig
+ls ./cypress/config/import-kubeconfig
 
 
 echo "Logging into Kube API server..."

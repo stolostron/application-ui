@@ -42,6 +42,7 @@ else
   unset KUBECONFIG
   echo "Copying managed cluster kubeconfig to ./cypress/config/import-kubeconfig ..."
   cp $(shell pwd)/import-kubeconfig/* ./cypress/config/import-kubeconfig
+fi
 
 echo "Logging into Kube API server..."
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify

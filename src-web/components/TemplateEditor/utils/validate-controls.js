@@ -27,7 +27,7 @@ export function validateControls(
 ) {
   // parse all yamls
   const results = parseYAML(templateYAML)
-  let { parsed, exceptions } = results
+  let { parsed, resources, exceptions } = results
 
   // update active values in controls
   if (exceptions.length === 0) {
@@ -152,6 +152,7 @@ export function validateControls(
   return {
     templateObjectMap,
     templateExceptionMap,
+    parsedResources: resources,
     hasSyntaxExceptions,
     hasValidationExceptions
   }

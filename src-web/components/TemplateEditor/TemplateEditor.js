@@ -28,6 +28,7 @@ import {
   cacheUserData
 } from './utils/utils'
 import { validateControls } from './utils/validate-controls'
+import { updateEditStack } from './utils/refresh-source-from-stack'
 import {
   highlightChanges,
   highlightAllChanges
@@ -140,7 +141,7 @@ export default class TemplateEditor extends React.Component {
 
     // has control data been initialized?
     const { controlData: initialControlData } = props
-    let { controlData, templateYAML, templateObject, editStack } = state
+    let { controlData, templateYAML, templateObject, templateResources, editStack } = state
     const { editor, template } = state
     if (!controlData) {
       // initialize control data
@@ -158,7 +159,7 @@ export default class TemplateEditor extends React.Component {
       }
 
       // generate source from template or stack of resources
-      ({ templateYAML, templateObject } = generateSource(
+      ({ templateYAML, templateObject, templateResources } = generateSource(
         template,
         editStack,
         controlData
@@ -169,6 +170,7 @@ export default class TemplateEditor extends React.Component {
         templateYAML,
         firstTemplateYAML: templateYAML,
         templateObject,
+        templateResources,
         editStack,
         isEditing: !!customResources
       }
@@ -183,12 +185,12 @@ export default class TemplateEditor extends React.Component {
         const uniqueName = getUniqueName(active, new Set(existing))
         if (uniqueName !== active) {
           name.active = uniqueName;
-          ({ templateYAML, templateObject } = generateSource(
+          ({ templateYAML, templateObject, templateResources } = generateSource(
             template,
             editStack,
             controlData
           ))
-          newState = { ...newState, controlData, templateYAML, templateObject }
+          newState = { ...newState, controlData, templateYAML, templateObject, templateResources }
         }
       }
     }
@@ -417,7 +419,7 @@ export default class TemplateEditor extends React.Component {
       onSelect()
     }
 
-    const { templateYAML: newYAML, templateObject } = generateSource(
+    const { templateYAML: newYAML, templateObject, templateResources } = generateSource(
       template,
       editStack,
       controlData,
@@ -446,6 +448,7 @@ export default class TemplateEditor extends React.Component {
       isCustomName,
       templateYAML: newYAML,
       templateObject,
+      templateResources,
       exceptions: [],
       notifications
     })
@@ -491,7 +494,7 @@ export default class TemplateEditor extends React.Component {
     } else {
       active.splice(inx, 1)
     }
-    const { templateYAML: newYAML, templateObject } = generateSource(
+    const { templateYAML: newYAML, templateObject, templateResources } = generateSource(
       template,
       editStack,
       controlData,
@@ -515,7 +518,8 @@ export default class TemplateEditor extends React.Component {
     this.setState({
       controlData,
       templateYAML: newYAML,
-      templateObject
+      templateObject,
+      templateResources
     })
     this.isDirty = firstTemplateYAML !== newYAML
   }
@@ -527,6 +531,7 @@ export default class TemplateEditor extends React.Component {
       template,
       templateYAML,
       templateObject,
+      templateResources,
       otherYAMLTabs
     } = this.changeEditorMode(control, controlData)
     controlData = newControlData
@@ -543,6 +548,7 @@ export default class TemplateEditor extends React.Component {
       template,
       templateYAML,
       templateObject,
+      templateResources,
       notifications,
       exceptions: [],
       otherYAMLTabs
@@ -556,7 +562,7 @@ export default class TemplateEditor extends React.Component {
     const { locale } = this.props
     let { template } = this.props
     const { editStack, otherYAMLTabs, editor } = this.state
-    let { templateYAML, templateObject } = this.state
+    let { templateYAML, templateObject, templateResources } = this.state
     let newYAML = templateYAML
     let newYAMLTabs = otherYAMLTabs
 
@@ -599,7 +605,7 @@ export default class TemplateEditor extends React.Component {
       if (replaceTemplate) {
         template = replaceTemplate
         newYAMLTabs = newYAMLTabs || [];
-        ({ templateYAML: newYAML, templateObject } = generateSource(
+        ({ templateYAML: newYAML, templateObject, templateResources } = generateSource(
           template,
           editStack,
           controlData,
@@ -620,6 +626,7 @@ export default class TemplateEditor extends React.Component {
       template,
       templateYAML,
       templateObject,
+      templateResources,
       otherYAMLTabs
     }
   }
@@ -923,11 +930,12 @@ export default class TemplateEditor extends React.Component {
       otherYAMLTabs,
       activeYAMLEditor,
       controlData,
+      templateObject,
+      templateResources,
       firstTemplateYAML,
-      editStack,
       isFinalValidate
     } = this.state
-    let { templateYAML, notifications } = this.state
+    let { editStack, templateYAML, notifications } = this.state
 
     if (activeYAMLEditor === 0) {
       templateYAML = yaml
@@ -940,7 +948,7 @@ export default class TemplateEditor extends React.Component {
     }
 
     // update controls with values typed into yaml
-    const { templateExceptionMap, hasSyntaxExceptions } = validateControls(
+    const { parsedResources, templateExceptionMap, hasSyntaxExceptions } = validateControls(
       this.editors,
       templateYAML,
       otherYAMLTabs,
@@ -971,12 +979,16 @@ export default class TemplateEditor extends React.Component {
     }
 
     this.isDirty = firstTemplateYAML !== yaml
+    
+    // update edit stack so that when the user changes something in the form
+    // it doesn't wipe out what they just typed
+    editStack = updateEditStack(editStack, templateResources, parsedResources)
 
     // if typing on another tab that represents encoded yaml in the main tab,
     // update the main yaml--for now
     if (activeYAMLEditor !== 0) {
       const { template, templateYAML: oldYAML } = this.state
-      const { templateYAML: newYAML, templateObject } = generateSource(
+      const { templateYAML: newYAML, templateObject, templateResources } = generateSource(
         template,
         editStack,
         controlData,
@@ -987,11 +999,14 @@ export default class TemplateEditor extends React.Component {
         controlData,
         notifications,
         templateYAML: newYAML,
-        templateObject
+        templateObject,
+        templateResources,
+        editStack
       })
     } else {
-      this.setState({ controlData, notifications, templateYAML })
+      this.setState({ controlData, notifications, templateYAML, editStack })
     }
+    
     return templateYAML // for jest test
   };
 
@@ -1202,7 +1217,7 @@ export default class TemplateEditor extends React.Component {
     if (editStack.initialized) {
       delete editStack.initialized
     }
-    const { templateYAML, templateObject } = generateSource(
+    const { templateYAML, templateObject, templateResources } = generateSource(
       template,
       editStack,
       controlData,
@@ -1223,6 +1238,7 @@ export default class TemplateEditor extends React.Component {
       isFinalValidate: false,
       templateYAML,
       templateObject,
+      templateResources,
       resetInx: resetInx + 1
     })
     this.isDirty = false

@@ -979,7 +979,7 @@ export default class TemplateEditor extends React.Component {
     }
 
     this.isDirty = firstTemplateYAML !== yaml
-    
+
     // update edit stack so that when the user changes something in the form
     // it doesn't wipe out what they just typed
     editStack = updateEditStack(editStack, templateResources, parsedResources)
@@ -1006,7 +1006,7 @@ export default class TemplateEditor extends React.Component {
     } else {
       this.setState({ controlData, notifications, templateYAML, editStack })
     }
-    
+
     return templateYAML // for jest test
   };
 

@@ -13,7 +13,7 @@ import { shallow } from "enzyme";
 import FilterModal from "../../../../src-web/components/modals/FilterModal";
 import { availableFilters } from "./ModalsTestingData";
 
-describe("CreateResourceModal modal", () => {
+describe("FilterModal modal", () => {
   const handleModalClose = jest.fn();
   const handleModalSubmit = jest.fn();
   it("renders as expected", () => {

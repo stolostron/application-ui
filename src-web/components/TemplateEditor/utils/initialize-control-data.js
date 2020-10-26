@@ -49,6 +49,11 @@ export const initializeControlData = (
         c.groupControlData = parentControlData
       }
     })
+    parentControlData.unshift({
+      id: 'uniqueGroupID',
+      type: 'hidden',
+      active: Math.random().toString(36).slice(2)
+    })
   }
   return parentControlData
 }

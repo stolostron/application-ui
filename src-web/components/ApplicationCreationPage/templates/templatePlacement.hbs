@@ -13,7 +13,7 @@
 {{#if selectedRuleName}}
       name: {{{selectedRuleName}}}
 {{else}}       
-      name: {{{@root.name}}}-placement-{{@index}}
+      name: {{{@root.name}}}-placement-{{uniqueGroupID}}
 {{/if}}       
 {{/if}}
 {{#if timeWindow.mode}}
@@ -40,7 +40,7 @@ kind: PlacementRule
 metadata:
   labels:
     app: {{{@root.name}}}
-  name: {{{@root.name}}}-placement-{{@index}}
+  name: {{{@root.name}}}-placement-{{uniqueGroupID}}
   namespace: {{{@root.namespace}}}
   {{#if selfLinks}}
   selfLink: {{{selfLinks.PlacementRule}}}

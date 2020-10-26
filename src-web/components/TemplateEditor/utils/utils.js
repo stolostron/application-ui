@@ -201,7 +201,8 @@ export const cacheUserData = controlData => {
 
 export const getResourceID = resource => {
   return _.get(resource, 'metadata.selfLink') ||
-    `${resource.kind}/${_.get(resource, 'metadata.namespace')}/${_.get(resource, 'metadata.name')}`
+    (`/namespaces/${_.get(resource, 'metadata.namespace', 'none') || ''}/`+
+    `${resource.kind}s/${_.get(resource, 'metadata.name')||''}`).toLowerCase()
 }
 
 export const getUniqueName = (name, nameSet) => {

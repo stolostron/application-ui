@@ -14,9 +14,7 @@ export const targetResource = data => {
       cy.log(`cluster - ${kubeconfig}`);
       for (const [key, value] of Object.entries(config)) {
         cy.log(`instance-${key}`);
-        !value.deployment.local
-          ? subscription(key, name, kubeconfig)
-          : cy.log(`${name} has been deployed locally`);
+        subscription(key, name, kubeconfig);
       }
     });
   } else {
@@ -34,11 +32,7 @@ export const apiResources = (type, data) => {
     cy.log(`instance-${key}`);
     channels(key, type, name);
     subscription(key, name);
-    !value.deployment.local
-      ? placementrule(key, name)
-      : cy.log(
-          "placement will not be created as the application is deployed locally"
-        );
+    placementrule(key, name);
   }
 };
 

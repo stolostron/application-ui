@@ -12,12 +12,11 @@
 import React from 'react'
 import msgs from '../../../../nls/platform.properties'
 import { HCMChannelList, HCMSecretsList } from '../../../../lib/client/queries'
+import apolloClient from '../../../../lib/client/apollo-client'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import SharedResourceWarning from '../components/SharedResourceWarning'
 
 import _ from 'lodash'
-
-const GitHub = require('github-api')
 
 const onlineClustersCheckbox = 'online-cluster-only-checkbox'
 const existingRuleCheckbox = 'existingrule-checkbox'
@@ -292,53 +291,31 @@ const retrieveGitDetails = async (
       ({ id }) => id === 'githubAccessId'
     )
 
-    let gitPath = _.get(gitControl, 'active', '')
-    let existingPrivateChannel = false
-
-    if (gitPath.length === 0) {
+    const gitUrl = _.get(gitControl, 'active', '')
+    if (!gitUrl) {
       branchCtrl.active = ''
       branchCtrl.available = []
-    }
-    if (gitPath.length === 0) {
       return
     }
 
-    let github = new GitHub()
-
-    if (
-      _.get(userCtrl, 'active', '').length > 0 &&
-      _.get(tokenCtrl, 'active', '').length > 0
-    ) {
-      //use authentication
-      github = new GitHub({
-        username: userCtrl.active,
-        password: tokenCtrl.active,
-        auth: 'basic'
-      })
-    } else {
-      //check if this is an existing private channel
-      const selectedChannel = _.get(
-        _.get(gitControl, 'availableData', {}),
-        gitPath
-      )
-      if (
-        selectedChannel &&
-        _.get(selectedChannel, 'raw.spec.secretRef.name')
-      ) {
-        //this is a private channel, don't try to retreive the branches
-        existingPrivateChannel = true
-      }
-    }
-
-    //check only github repos; and only new private channels since we don't have the channel secret info for existing channels
-    const gitUrl = new URL(gitPath)
-    if (!(gitUrl.host === 'github.com' && existingPrivateChannel === false)) {
+    //check only github repos
+    const url = new URL(gitUrl)
+    if (url.host !== 'github.com') {
       return
     }
 
-    //get the url path, then remove first / and .git
-    gitPath = gitUrl.pathname.substring(1).replace('.git', '')
-    const repoObj = github.getRepo(gitPath)
+    // Check for existing channel
+    const selectedChannel = _.get(
+      _.get(gitControl, 'availableData', {}),
+      gitUrl
+    )
+    const queryVariables = {
+      gitUrl,
+      namespace: _.get(selectedChannel, 'metadata.namespace', ''),
+      secretRef: _.get(selectedChannel, 'secretRef', ''),
+      user: _.get(userCtrl, 'active'),
+      accessToken: _.get(tokenCtrl, 'active')
+    }
 
     githubPathCtrl.active = ''
     githubPathCtrl.available = []
@@ -346,17 +323,16 @@ const retrieveGitDetails = async (
     if (branchName) {
       //get folders for branch
       setLoadingState(githubPathCtrl, true)
-      await repoObj.getContents(branchName, '', false).then(
+      const pathQueryVariables = {
+        ...queryVariables,
+        branch: branchName
+      }
+      apolloClient.getGitChannelPaths(pathQueryVariables).then(
         result => {
-          if (result.data) {
-            const filteredResult = result.data.filter(
-              item => item.type === 'dir'
-            )
-
-            filteredResult.forEach(folder => {
-              githubPathCtrl.available.push(folder.name)
-            })
-          }
+          const items = _.get(result, 'data.items', []) || []
+          items.forEach(path => {
+            githubPathCtrl.available.push(path)
+          })
           setLoadingState(githubPathCtrl, false)
         },
         () => {
@@ -368,16 +344,15 @@ const retrieveGitDetails = async (
       //get branches
       setLoadingState(branchCtrl, true)
 
-      await repoObj.listBranches().then(
+      apolloClient.getGitChannelBranches(queryVariables).then(
         result => {
           branchCtrl.active = ''
           branchCtrl.available = []
 
-          if (result.data) {
-            result.data.forEach(branch => {
-              branchCtrl.available.push(branch.name)
-            })
-          }
+          const items = _.get(result, 'data.items', []) || []
+          items.forEach(branch => {
+            branchCtrl.available.push(branch)
+          })
           delete branchCtrl.exception
           setLoadingState(branchCtrl, false)
         },

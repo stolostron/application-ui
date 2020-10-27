@@ -282,7 +282,7 @@ const placementData = [
     onSelect: updatePlacementControlsForLocal,
     active: false,
     available: [],
-    reverse: 'Subscription[0].spec.placement.local',
+    reverse: 'PlacementRule[0].spec.clusterSelector.matchLabels.local-cluster',
     summarize: (control, controlData, summary) => {
       if (control.active) {
         summary.push(msgs.get('edit.app.localCluster.summary'))

@@ -2506,7 +2506,37 @@ describe("setResourceDeployStatus 1 ", () => {
     namespace: "default",
     id:
       "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
-    specs: {}
+    specs: {},
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "braveman"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "sharingpenguin"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "relievedox"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    }
   };
   const result = [
     { type: "spacer" },
@@ -2686,7 +2716,18 @@ describe("setResourceDeployStatus 2 ", () => {
     namespace: "default",
     id:
       "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
-
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     specs: {
       raw: {
         metadata: {
@@ -2738,6 +2779,36 @@ describe("setResourceDeployStatus 3 ", () => {
     namespace: "default",
     id:
       "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "braveman"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "sharingpenguin"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "relievedox"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     specs: {
       serviceModel: {
         service1: {
@@ -2957,6 +3028,18 @@ describe("setPodDeployStatus  with pod less then desired", () => {
     namespace: "default",
     id:
       "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     podStatusMap: {
       possiblereptile: {
         ready: 1,
@@ -3048,6 +3131,18 @@ describe("setPodDeployStatus  with pod but no pod model and no podStatusMap", ()
     namespace: "default",
     id:
       "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     specs: {
       raw: {
         spec: {
@@ -3079,6 +3174,18 @@ describe("setPodDeployStatus  with pod as desired", () => {
     namespace: "default",
     id:
       "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     podStatusMap: {
       possiblereptile: {
         ready: 3,
@@ -3225,6 +3332,18 @@ describe("setPodDeployStatus  with pod as desired", () => {
     namespace: "default",
     id:
       "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     podStatusMap: {
       possiblereptile: {
         ready: 1,

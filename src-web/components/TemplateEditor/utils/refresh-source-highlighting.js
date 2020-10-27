@@ -10,6 +10,7 @@
 'use strict'
 
 import { diff } from 'deep-diff'
+import jsYaml from 'js-yaml'
 import { parseYAML, getInsideObject, getResourceID } from './utils'
 import _ from 'lodash'
 import { Base64 } from 'js-base64'
@@ -136,18 +137,31 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
           }
           break
         }
-        if (kind==='D') {
+        if (kind==='D' && lhs) {
           if (!firstModRow || firstModRow > obj.$r) {
             firstModRow = obj.$r
           }
+          lhs = path.length ?  _.set({}, path, lhs) : lhs
           decorationList.push({
-            range: new editor.monaco.Range(obj.$r, 0, obj.$r+1, 0),
+            range: new editor.monaco.Range(obj.$r, 0, obj.$r, 0),
             options: {
               isWholeLine: true,
               linesDecorationsClassName: 'deletedLineDecoration',
               minimap: { color: '#f3afb5', position: 2 }
             }
           })
+          try {
+            const tooltip = jsYaml.safeDump(lhs)
+            decorationList.push({
+              range: new monaco.Range(obj.$r, 0, obj.$r, 0),
+              options: {
+                isWholeLine: true,
+                glyphMarginClassName: 'deletedDecoration',
+                glyphMarginHoverMessage: { value: `**_removed_**\n\n${tooltip}` }
+              }
+            })
+          } catch (e) {
+          }
         }
       }
     })

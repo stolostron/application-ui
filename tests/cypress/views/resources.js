@@ -14,7 +14,9 @@ export const targetResource = data => {
       cy.log(`cluster - ${kubeconfig}`);
       for (const [key, value] of Object.entries(config)) {
         cy.log(`instance-${key}`);
-        subscription(key, name, kubeconfig);
+        !value.deployment.local
+          ? subscription(key, name, kubeconfig)
+          : cy.log(`${name} has been deployed locally`);
       }
     });
   } else {

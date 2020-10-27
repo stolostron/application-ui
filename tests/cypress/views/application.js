@@ -251,12 +251,10 @@ export const validateTopology = (name, data, type) => {
   // cluster and placement
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
-    !local
-      ? (validatePlacementNode(name, key),
-        validateClusterNode(Cypress.env("managedCluster")))
-      : cy.log(
-          "cluster and placement nodes will not be created as the application is deployed locally"
-        );
+    validatePlacementNode(name, key);
+    validateClusterNode(
+      local ? "local-cluster" : Cypress.env("managedCluster")
+    );
   }
 
   data.config.forEach(data => {

@@ -930,7 +930,6 @@ export default class TemplateEditor extends React.Component {
       otherYAMLTabs,
       activeYAMLEditor,
       controlData,
-      templateObject,
       templateResources,
       firstTemplateYAML,
       isFinalValidate

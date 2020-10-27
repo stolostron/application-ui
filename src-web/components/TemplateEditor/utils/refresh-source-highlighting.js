@@ -138,29 +138,31 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
           break
         }
         if (kind==='D' && lhs) {
-          if (!firstModRow || firstModRow > obj.$r) {
-            firstModRow = obj.$r
+          let row = 1
+          let minimap
+          let linesDecorationsClassName
+          if (path.length) {
+            minimap = { color: '#f3afb5', position: 2 }
+            lhs = _.set({}, path, lhs)
+            row = obj.$r
           }
-          lhs = path.length ?  _.set({}, path, lhs) : lhs
-          decorationList.push({
-            range: new editor.monaco.Range(obj.$r, 0, obj.$r, 0),
-            options: {
-              isWholeLine: true,
-              linesDecorationsClassName: 'deletedLineDecoration',
-              minimap: { color: '#f3afb5', position: 2 }
-            }
-          })
+          if (!firstModRow || firstModRow > row) {
+            firstModRow = row
+          }
           try {
             const tooltip = jsYaml.safeDump(lhs)
             decorationList.push({
-              range: new monaco.Range(obj.$r, 0, obj.$r, 0),
+              range: new editor.monaco.Range(row, 0, row, 0),
               options: {
                 isWholeLine: true,
+                glyphMarginHoverMessage: { value: `**_removed_**\n>${tooltip}` },
                 glyphMarginClassName: 'deletedDecoration',
-                glyphMarginHoverMessage: { value: `**_removed_**\n\n${tooltip}` }
+                linesDecorationsClassName,
+                minimap
               }
             })
           } catch (e) {
+            // nothing
           }
         }
       }

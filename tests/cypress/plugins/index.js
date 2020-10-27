@@ -31,6 +31,7 @@ const yaml = require("js-yaml");
 const dir = "./cypress/test-artifacts/";
 const testConfig = require("../config").getConfig();
 const kubeConfig = require("../config").getKubeConfig();
+const getUsers = require("../config").getUsers();
 
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
@@ -84,8 +85,18 @@ module.exports = (on, config) => {
     }
   });
 
+  on("task",{
+    readFileMaybe (filename) {
+      if (fs.existsSync(filename)) {
+        return fs.readFileSync(filename, 'utf8')
+      }
+      return false
+    }
+  });
+
   config.env.TEST_CONFIG = testConfig;
   config.env.KUBE_CONFIG = kubeConfig;
+  config.env.USER_CONFIG = getUsers;
 
   return config;
 };

@@ -47,3 +47,15 @@ exports.getKubeConfig = () => {
   });
   return results;
 };
+
+exports.getUsers = () => { 
+  // returns the userlist oject with username,
+  // IDP corresponding role
+    let userData;
+    userData = jsYaml.safeLoad(fs.readFileSync(path.join(__dirname, "users.yaml")));
+    const userList =  {
+              users: userData.users,
+              idp: userData.idp    
+          }
+    return userList
+  }

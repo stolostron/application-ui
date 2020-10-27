@@ -27,4 +27,8 @@ rm -rf ./oc-unpacked ./oc.tar.gz
 # oc get secret helm-tiller-secret -n kube-system -o json | jq -r .data.key | base64 --decode > ~/.helm/key.pem
 
 # helm version --tls
+
+# Install htpasswd utility 
+apt-get update && apt-get install -y apache2-utils
+
 echo 'set up complete'

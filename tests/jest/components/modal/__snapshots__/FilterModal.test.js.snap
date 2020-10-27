@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CreateResourceModal modal convertFilterArray as expected 1`] = `
+exports[`FilterModal modal convertFilterArray as expected 1`] = `
 Array [
   Object {
     "key": "standards",
@@ -55,7 +55,7 @@ Array [
 ]
 `;
 
-exports[`CreateResourceModal modal convertFilterArray as expected 2`] = `
+exports[`FilterModal modal convertFilterArray as expected 2`] = `
 <NestedTable
   availableItems={
     Array [
@@ -121,13 +121,13 @@ exports[`CreateResourceModal modal convertFilterArray as expected 2`] = `
 />
 `;
 
-exports[`CreateResourceModal modal handleSubmitClick as expected 1`] = `
+exports[`FilterModal modal handleSubmitClick as expected 1`] = `
 Object {
   "tags": Array [],
 }
 `;
 
-exports[`CreateResourceModal modal renders as expected 1`] = `
+exports[`FilterModal modal renders as expected 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <FilterModal
@@ -318,7 +318,7 @@ ShallowWrapper {
 }
 `;
 
-exports[`CreateResourceModal modal selectionChanged as expected 1`] = `
+exports[`FilterModal modal selectionChanged as expected 1`] = `
 Object {
   "tags": Array [
     "testSelectionChanged1",

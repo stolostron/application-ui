@@ -15,10 +15,7 @@ import _ from 'lodash'
 ///////////////////////////////////////////////////////////////////////////////
 //intialize controls and groups
 ///////////////////////////////////////////////////////////////////////////////
-export const initializeControlFunctions = (
-  controlData,
-  editor
-) => {
+export const initializeControlFunctions = (controlData, editor) => {
   controlData.forEach(control => {
     const { type, active = [] } = control
     switch (type) {
@@ -52,7 +49,6 @@ const initialControl = (control, editor) => {
     }
   }
   const lastestData = new Proxy({}, handler)
-
 
   if (type !== 'title' && type !== 'section' && !setActive) {
     if (typeof control.onSelect === 'function') {
@@ -97,6 +93,8 @@ const initialControl = (control, editor) => {
         case 'checkbox':
           if (!active) {
             active = { $v: false }
+          } else if (active.$v === undefined) {
+            active = { $v: !!active }
           } else {
             active.$v = !!active.$v
           }

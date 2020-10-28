@@ -31,7 +31,8 @@ import {
   getPodState,
   getNameWithoutChartRelease,
   removeReleaseGeneratedSuffix,
-  getClusterHost
+  getClusterHost,
+  getPulseStatusForCluster
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const ansibleSuccess = {
@@ -4098,5 +4099,49 @@ describe("getClusterHost", () => {
     expect(getClusterHost("https://console-openshift-console.222")).toEqual(
       "222"
     );
+  });
+});
+
+describe("getPulseStatusForCluster all ok", () => {
+  const clusterNode = {
+    specs: {
+      clusters: [{ status: "ok" }, { status: "ok" }]
+    }
+  };
+  it("should process cluster node", () => {
+    expect(getPulseStatusForCluster(clusterNode)).toEqual("green");
+  });
+});
+
+describe("getPulseStatusForCluster all some offline", () => {
+  const clusterNode = {
+    specs: {
+      clusters: [{ status: "ok" }, { status: "offline" }]
+    }
+  };
+  it("should process cluster node", () => {
+    expect(getPulseStatusForCluster(clusterNode)).toEqual("red");
+  });
+});
+
+describe("getPulseStatusForCluster all pending", () => {
+  const clusterNode = {
+    specs: {
+      clusters: [{ status: "pendingimport" }, { status: "pendingimport" }]
+    }
+  };
+  it("should process cluster node", () => {
+    expect(getPulseStatusForCluster(clusterNode)).toEqual("orange");
+  });
+});
+
+describe("getPulseStatusForCluster all some ok", () => {
+  const clusterNode = {
+    specs: {
+      clusters: [{ status: "ok" }, { status: "pending" }]
+    }
+  };
+  it("should process cluster node", () => {
+    expect(getPulseStatusForCluster(clusterNode)).toEqual("yellow");
   });
 });

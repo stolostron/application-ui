@@ -338,12 +338,7 @@ export const getPulseStatusForCluster = node => {
   let okCount = 0,
       pendingCount = 0,
       offlineCount = 0
-  // Go through clusters checking for status = ok
-  // all ok = green
-  // some ok = yellow
-  // all not ok = red
-  // all pending = not deployed
-  // some pending = yellow
+
   clusters.forEach(cluster => {
     if (cluster.status === 'ok') {
       okCount++
@@ -1056,23 +1051,7 @@ export const setResourceDeployStatus = (node, details) => {
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
   const clusterObjs = _.get(node, 'clusters.specs.clusters', [])
-  const onlineClusters = []
-
-  clusterNames.forEach(clsName => {
-    if (clsName.trim() === LOCAL_HUB_NAME) {
-      onlineClusters.push(clsName)
-      return
-    }
-    for (let i = 0; i < clusterObjs.length; i++) {
-      const clusterObjName = _.get(clusterObjs[i], 'metadata.name')
-      if (clusterObjName === clsName.trim()) {
-        if (clusterObjs[i].status === 'ok') {
-          onlineClusters.push(clsName)
-        }
-        break
-      }
-    }
-  })
+  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
   if (_.get(node, 'type', '') === 'ansiblejob') {
     showAnsibleJobDetails(node, details)
@@ -1142,6 +1121,28 @@ export const setResourceDeployStatus = (node, details) => {
   return details
 }
 
+export const getOnlineClusters = (clusterNames, clusterObjs) => {
+  const onlineClusters = []
+
+  clusterNames.forEach(clsName => {
+    if (clsName.trim() === LOCAL_HUB_NAME) {
+      onlineClusters.push(clsName)
+      return
+    }
+    for (let i = 0; i < clusterObjs.length; i++) {
+      const clusterObjName = _.get(clusterObjs[i], 'metadata.name')
+      if (clusterObjName === clsName.trim()) {
+        if (clusterObjs[i].status === 'ok') {
+          onlineClusters.push(clsName)
+        }
+        break
+      }
+    }
+  })
+
+  return onlineClusters
+}
+
 //show resource deployed status for resources producing pods
 export const setPodDeployStatus = (node, updatedNode, details) => {
   if (!nodeMustHavePods(node)) {
@@ -1162,23 +1163,7 @@ export const setPodDeployStatus = (node, updatedNode, details) => {
 
   const clusterNames = R.split(',', getClusterName(node.id))
   const clusterObjs = _.get(node, 'clusters.specs.clusters', [])
-  const onlineClusters = []
-
-  clusterNames.forEach(clsName => {
-    if (clsName.trim() === LOCAL_HUB_NAME) {
-      onlineClusters.push(clsName)
-      return
-    }
-    for (let i = 0; i < clusterObjs.length; i++) {
-      const clusterObjName = _.get(clusterObjs[i], 'metadata.name')
-      if (clusterObjName === clsName.trim()) {
-        if (clusterObjs[i].status === 'ok') {
-          onlineClusters.push(clsName)
-        }
-        break
-      }
-    }
-  })
+  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
   onlineClusters.forEach(clusterName => {
     clusterName = R.trim(clusterName)

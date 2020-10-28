@@ -29,7 +29,7 @@ import {
 import { connect } from 'react-redux'
 import { REQUEST_STATUS } from '../../actions/index'
 import msgs from '../../../nls/platform.properties'
-import { toString, saveLoad } from '../../../lib/client/design-helper'
+import { getString, saveLoad } from '../../../lib/client/design-helper'
 import YamlEditor from '../common/YamlEditor'
 
 resources(() => {
@@ -44,7 +44,7 @@ class ResourceModal extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      data: toString(props.data),
+      data: getString(props.data),
       dirty: false
     }
   }
@@ -102,7 +102,7 @@ class ResourceModal extends React.PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.data && this.props.data !== nextProps.data) {
-      this.setState({ data: toString(this.props.data) })
+      this.setState({ data: getString(this.props.data) })
     }
     if (nextProps.reqStatus && nextProps.reqStatus === REQUEST_STATUS.ERROR) {
       this.setState(preState => {

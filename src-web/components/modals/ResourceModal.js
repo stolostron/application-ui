@@ -25,7 +25,7 @@ import resources from '../../../lib/shared/resources'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import msgs from '../../../nls/platform.properties'
-import { toString, saveLoad } from '../../../lib/client/design-helper'
+import { getString, saveLoad } from '../../../lib/client/design-helper'
 import YamlEditor from '../common/YamlEditor'
 
 resources(() => {
@@ -148,7 +148,7 @@ class ResourceModal extends React.PureComponent {
       .getResource(resourceType, { namespace, name, clusterName })
       .then(response => {
         this.setState({
-          data: toString(response.data.items[0]),
+          data: getString(response.data.items[0]),
           loading: false
         })
       })

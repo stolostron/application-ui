@@ -74,6 +74,11 @@ git:
           date:
             - Thursday
             - Friday
+          hours:
+            - start: "09:00"
+              end: "12:00"
+            - start: "15:00"
+              end: "18:00"
         deployment:
           local: false
           online: false

@@ -142,6 +142,7 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
           let minimap
           let linesDecorationsClassName
           if (path.length) {
+            linesDecorationsClassName = 'deletedLineDecoration'
             minimap = { color: '#f3afb5', position: 2 }
             lhs = _.set({}, path, lhs)
             row = obj.$r

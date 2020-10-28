@@ -159,15 +159,6 @@
     font-size: 14px;
     font-family: RedHatText;
   }
-
-  blockquote {
-    border-left: 10px solid #ec9175ab;
-    padding: 0 10px;
-    margin: 0;
-    color: white;
-    white-space: pre;
-  }
-
 }
 
 .errorDecoration {
@@ -183,19 +174,4 @@
   background: #87d4ecab;
   width: 6px !important;
   margin-left: 12px;
-}
-
-.deletedLineDecoration {
-  background: #ec9175ab;
-  width: 6px !important;
-  margin-left: 12px;
-}
-
-.deletedDecoration {
-  margin-left: 6px;
-  height: 12px !important;
-  width: 12px !important;
-  cursor: pointer;
-  z-index: 1000;
-  background: url("data:image/svg+xml;utf8, <svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'><g fill='blue'><circle cx='12' cy='12' r='12' fill='white' fill-opacity='1'/><path d='M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 18h-2v-8h2v8zm-1-12.25c.69 0 1.25.56 1.25 1.25s-.56 1.25-1.25 1.25-1.25-.56-1.25-1.25.56-1.25 1.25-1.25z'/></g></svg>");
 }

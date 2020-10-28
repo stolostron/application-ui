@@ -27,7 +27,8 @@ const keepKeys = [
   'apps.open-cluster-management.io/github-branch',
   'apps.open-cluster-management.io/github-path',
   'apps.open-cluster-management.io/git-branch',
-  'apps.open-cluster-management.io/git-path'
+  'apps.open-cluster-management.io/git-path',
+  'apps.open-cluster-management.io/reconcile-option'
 ]
 
 const isFiltered = (value, key, parentKey) => {

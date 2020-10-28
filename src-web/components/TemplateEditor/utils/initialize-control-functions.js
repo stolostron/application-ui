@@ -97,6 +97,8 @@ const initialControl = (control, editor) => {
         case 'checkbox':
           if (!active) {
             active = { $v: false }
+          } else if (active.$v===undefined) {
+            active = { $v: !!active }
           } else {
             active.$v = !!active.$v
           }

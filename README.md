@@ -8,12 +8,13 @@ The UI Platform is developed as an isomorphic react application.  The following 
 * NodeJS
 * Express
 * React
-* Dust
+* Handlebars
 * Redux
-* Webpack 3
+* Webpack
 * Babel
 * Apollo/GraphQL
-* Bluemix Carbon
+* IBM Carbon Design System
+* Red Hat PatternFly
 * Jest
 * Nightwatch
 

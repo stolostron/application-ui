@@ -36,6 +36,8 @@ const stalker = watchr.open(
 )
 
 var express = require('express'),
+    exphbs = require('express-handlebars'),
+    handlebarsHelpers = require('./lib/shared/handlebarsHelpers'),
     path = require('path'),
     appConfig = require('./config'),
     appUtil = require('./lib/server/app-util')
@@ -53,10 +55,6 @@ var bodyParser = require('body-parser'),
     csurf = require('csurf'),
     requestLogger = require('./middleware/request-logger'),
     controllers = require('./controllers')
-
-var consolidate = require('consolidate')
-
-require('./lib/shared/dust-helpers')
 
 var app = express()
 var morgan = require('morgan')
@@ -201,10 +199,20 @@ if (process.env.NODE_ENV === 'development') {
   )
 }
 
-app.engine('dust', consolidate.dust)
+const hbs = exphbs.create({
+  // Specify helpers which are only registered on this instance.
+  helpers: {
+    properties: handlebarsHelpers,
+    json: function(context) {
+      return JSON.stringify(context)
+    }
+  }
+})
+
+app.engine('handlebars', hbs.engine)
 app.set('env', 'production')
 app.set('views', __dirname + '/views')
-app.set('view engine', 'dust')
+app.set('view engine', 'handlebars')
 app.set('view cache', true)
 
 appUtil.app(app)

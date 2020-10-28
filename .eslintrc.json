@@ -28,9 +28,6 @@
         "jsx-a11y"
     ],
     "settings": {
-        "html/html-extensions": [
-            ".dust"
-        ]
     },
     "rules": {
         "indent": [

@@ -31,6 +31,7 @@ import ControlPanelSkeleton from './ControlPanelSkeleton'
 import '../scss/control-panel.scss'
 import '../../../../graphics/diagramIcons.svg'
 import msgs from '../../../../nls/platform.properties'
+import _ from 'lodash'
 
 class ControlPanel extends React.Component {
   static propTypes = {
@@ -175,7 +176,11 @@ class ControlPanel extends React.Component {
     return (
       <React.Fragment key={id}>
         {active.map((controlData, inx) => {
-          const groupId = inx > 0 ? `${grpId}grp${inx}` : ''
+          const groupId = _.get(
+            controlData.find(({ id }) => id === 'uniqueGroupID'),
+            'active',
+            `${grpId}grp${inx}`
+          )
           return (
             /* eslint-disable-next-line react/no-array-index-key */
             <React.Fragment key={`${controlData[0].id}Group${inx}`}>

@@ -24,7 +24,9 @@ The Cypress tests are stored inside the /tests/ directory, which has its own pac
    - `export CYPRESS_BASE_URL=https://multicloud-console.apps.{clusterName}.dev06.red-chesterfield.com` (URL of a working cluster)
    - `export CYPRESS_OC_CLUSTER_USER=kubeadmin`
    - `export CYPRESS_OC_CLUSTER_PASS=xxxxxxxxx`
-2. From the application-ui/tests directory, run `npx cypress open`
+2. Login to the hub cluster:
+   - oc login -u CYPRESS_OC_CLUSTER_USER -p CYPRESS_OC_CLUSTER_PASS --server=CYPRESS_BASE_URL
+3. From the application-ui/tests directory, run `npx cypress open`
 
 #### Cleaning deployed app resources on target clusters
 

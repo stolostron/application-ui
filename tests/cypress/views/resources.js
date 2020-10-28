@@ -34,11 +34,7 @@ export const apiResources = (type, data) => {
     cy.log(`instance-${key}`);
     channels(key, type, name);
     subscription(key, name);
-    !value.deployment.local
-      ? placementrule(key, name)
-      : cy.log(
-          "placement will not be created as the application is deployed locally"
-        );
+    placementrule(key, name);
   }
 };
 

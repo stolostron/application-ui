@@ -177,7 +177,7 @@ class ControlPanel extends React.Component {
       <React.Fragment key={id}>
         {active.map((controlData, inx) => {
           const groupId = _.get(
-            controlData.find(({ id }) => id === 'uniqueGroupID'),
+            controlData.find(({ id:_id }) => _id === 'uniqueGroupID'),
             'active',
             `${grpId}grp${inx}`
           )

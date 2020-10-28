@@ -151,7 +151,7 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
             firstModRow = row
           }
           try {
-            const tooltip = jsYaml.safeDump(lhs)
+            const tooltip = jsYaml.safeDump(lhs).replace(/^-/g, '  ')
             decorationList.push({
               range: new editor.monaco.Range(row, 0, row, 0),
               options: {

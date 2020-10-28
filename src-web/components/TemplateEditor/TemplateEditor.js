@@ -987,7 +987,7 @@ export default class TemplateEditor extends React.Component {
     // update the main yaml--for now
     if (activeYAMLEditor !== 0) {
       const { template, templateYAML: oldYAML } = this.state
-      const { templateYAML: newYAML, templateObject, templateResources } = generateSource(
+      const { templateYAML: newYAML, templateObject, templateResources:tr } = generateSource(
         template,
         editStack,
         controlData,
@@ -999,7 +999,7 @@ export default class TemplateEditor extends React.Component {
         notifications,
         templateYAML: newYAML,
         templateObject,
-        templateResources,
+        templateResources:tr,
         editStack
       })
     } else {
@@ -1209,7 +1209,7 @@ export default class TemplateEditor extends React.Component {
 
   resetEditor() {
     const { template, controlData: initialControlData, locale } = this.props
-    const { editStack, resetInx, editor } = this.state
+    const { editStack={}, resetInx, editor } = this.state
     const cd = _.cloneDeep(initialControlData)
     const controlData = initializeControls(cd, editor, locale)
     const otherYAMLTabs = []
@@ -1238,6 +1238,7 @@ export default class TemplateEditor extends React.Component {
       templateYAML,
       templateObject,
       templateResources,
+      editStack,
       resetInx: resetInx + 1
     })
     this.isDirty = false

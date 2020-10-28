@@ -34,6 +34,11 @@ Cypress.Cookies.defaults({
   preserve: ["acm-access-token-cookie", "_oauth_proxy", "XSRF-TOKEN", "_csrf"]
 });
 
+Cypress.Commands.add('idStartsWith', (prefix) => {
+  prefix = prefix.replace(/^#/, '')
+  return cy.get(`[id^=${prefix}]`).first()
+})
+
 before(() => {
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.exec("oc whoami -t").then(res => {

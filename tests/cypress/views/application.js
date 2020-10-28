@@ -17,11 +17,11 @@ import { channelsInformation } from "./resources.js";
 
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
-  cy.wait(10000);
+  // wait for create button to be enabled
+  cy.get('[data-test-create-application=true]', { timeout: 50 * 1000 }).click()
   const { name, config } = data;
-  modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");
-  cy.get("#name").type(name);
+  cy.get("#name", { timeout: 50 * 1000 }).type(name);
   cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`);
   if (type === "git") {
     createGit(clusterName, config);
@@ -37,28 +37,28 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   const { url, username, token, branch, path, timeWindow, deployment } = value;
   const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
   cy
-    .get(`#github`)
+    .idStartsWith(`#github`)
     .click()
     .trigger("mouseover");
   cy
-    .get(gitUrl, { timeout: 20 * 1000 })
+    .idStartsWith(gitUrl, { timeout: 20 * 1000 })
     .type(url, { timeout: 30 * 1000 })
     .blur();
   if (username && token) {
-    cy.get(gitUser).type(username);
-    cy.get(gitKey).type(token);
+    cy.idStartsWith(gitUser).type(username);
+    cy.idStartsWith(gitKey).type(token);
   }
 
   // wait for form to remove the users
   cy.wait(1000);
   // type in branch and path
   cy
-    .get(gitBranch, { timeout: 20 * 1000 })
+    .idStartsWith(gitBranch, { timeout: 20 * 1000 })
     .type(branch, { timeout: 30 * 1000 })
     .blur();
   cy.wait(1000);
   cy
-    .get(gitPath, { timeout: 20 * 1000 })
+    .idStartsWith(gitPath, { timeout: 20 * 1000 })
     .type(path, { timeout: 30 * 1000 })
     .blur();
   selectClusterDeployment(deployment, clusterName, key);
@@ -81,15 +81,15 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
   const { url, chartName, timeWindow, deployment } = value;
   const { helmURL, helmChartName } = css;
   cy
-    .get("#helmrepo")
+    .idStartsWith("#helmrepo")
     .click()
     .trigger("mouseover");
   cy
-    .get(helmURL, { timeout: 20 * 1000 })
+    .idStartsWith(helmURL, { timeout: 20 * 1000 })
     .type(url, { timeout: 30 * 1000 })
     .blur();
   cy
-    .get(helmChartName, { timeout: 20 * 1000 })
+    .idStartsWith(helmChartName, { timeout: 20 * 1000 })
     .type(chartName)
     .blur();
   selectClusterDeployment(deployment, clusterName, key);
@@ -128,11 +128,11 @@ export const objTasks = (clusterName, value, css, key = 0) => {
   const { url, accessKey, secretKey, timeWindow, deployment } = value;
   const { objUrl, objAccess, objSecret } = css;
   cy
-    .get("#objectstore")
+    .idStartsWith("#objectstore")
     .click()
     .trigger("mouseover");
-  cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
-  cy.get(objAccess).then(input => {
+  cy.idStartsWith(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
+  cy.idStartsWith(objAccess).then(input => {
     if (input.is("enabled")) {
       cy.get(objAccess).type(accessKey);
       cy.get(objSecret).type(secretKey);
@@ -145,8 +145,8 @@ export const objTasks = (clusterName, value, css, key = 0) => {
 };
 
 export const multipleTemplate = (clusterName, value, css, key, func) => {
-  Object.keys(css).forEach(k => (css[k] = css[k] + `grp${key}`));
-  cy.get("#add-channels").click();
+  Object.keys(css).forEach(k => (css[k] = css[k] + `${key}`));
+  cy.idStartsWith("#add-channels").click();
   cy
     .get(".creation-view-group-container")
     .eq(key)
@@ -350,7 +350,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     key == 0
       ? clusterDeploymentCss
       : Object.keys(clusterDeploymentCss).forEach(
-          k => (clusterDeploymentCss[k] = clusterDeploymentCss[k] + `grp${key}`)
+          k => (clusterDeploymentCss[k] = clusterDeploymentCss[k] + `${key}`)
         );
 
     const {
@@ -362,14 +362,14 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     !local
       ? cy.log("do not select `Deploy on local cluster`")
       : cy
-          .get(localClusterID)
+          .idStartsWith(localClusterID)
           .click({ force: true })
           .trigger("mouseover", { force: true });
     !online
       ? local
         ? cy.log("local deployment has been set")
         : cy
-            .get(onlineClusterID, { timeout: 50 * 1000 })
+            .idStartsWith(onlineClusterID, { timeout: 50 * 1000 })
             .click({ force: true })
             .trigger("mouseover", { force: true })
       : cy.log("select `Deploy to all online clusters` by default");
@@ -378,7 +378,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       ? cy.log(
           "do not select `Deploy application resources only on clusters matching specified labels`"
         )
-      : (cy.get(uniqueClusterID).click({ force: true }),
+      : (cy.idStartsWith(uniqueClusterID).click({ force: true }),
         cy.log(`deploying app to cluster-${clusterName}`),
         selectMatchingLabel(clusterName, key));
   } else {
@@ -388,7 +388,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
   }
 };
 
-export const selectMatchingLabel = (cluster, key) => {
+export const selectMatchingLabel = (cluster='test', key) => {
   let matchingLabelCSS = {
     labelName: "#labelName-0-clusterSelector",
     labelValue: "#labelValue-0-clusterSelector"
@@ -397,10 +397,10 @@ export const selectMatchingLabel = (cluster, key) => {
   key == 0
     ? matchingLabelCSS
     : Object.keys(matchingLabelCSS).forEach(
-        k => (matchingLabelCSS[k] = matchingLabelCSS[k] + `grp${key}`)
+        k => (matchingLabelCSS[k] = matchingLabelCSS[k] + `${key}`)
       );
   const { labelName, labelValue } = matchingLabelCSS;
-  cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
+  cy.idStartsWith(labelName).type("name"), cy.idStartsWith(labelValue).type(cluster);
 };
 
 export const selectTimeWindow = (timeWindow, key = 0) => {
@@ -415,11 +415,11 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
             : "#active-mode-timeWindow")
       : (typeID =
           type === "blockinterval"
-            ? `#blocked-mode-timeWindowgrp${key}`
-            : `#active-mode-timeWindowgrp${key}`);
+            ? `#blocked-mode-timeWindow${key}`
+            : `#active-mode-timeWindow${key}`);
 
     cy
-      .get(typeID)
+      .idStartsWith(typeID)
       .scrollIntoView()
       .click({ force: true });
     selectDate(date, key);
@@ -443,9 +443,9 @@ export const selectDate = (date, key) => {
   date.forEach(d => {
     const dateId = d.toLowerCase().substring(0, 3) + "-timeWindow";
     key == 0
-      ? cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
+      ? cy.idStartsWith(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
       : cy
-          .get(`#${dateId}grp${key}`, { timeout: 20 * 1000 })
+          .idStartsWith(`#${dateId}${key}`, { timeout: 20 * 1000 })
           .click({ force: true });
   });
 };

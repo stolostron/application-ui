@@ -206,13 +206,15 @@ exports[`ResourceModal test renders as expected without mocked data, to cover th
                   >
                     <a
                       href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications#managing-application-resources"
-                      target="_blank" rel="noreferrer"
+                      rel="noreferrer"
+                      target="_blank"
                     >
                       View doc
                     </a>
                     <a
                       href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications#managing-application-resources"
-                      target="_blank" rel="noreferrer"
+                      rel="noreferrer"
+                      target="_blank"
                     >
                       <Icon
                         className="helpLinkIcon"
@@ -646,13 +648,15 @@ exports[`ResourceModal test renders as expected without mocked data, to cover th
                   >
                     <a
                       href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications#managing-application-resources"
-                      target="_blank" rel="noreferrer"
+                      rel="noreferrer"
+                      target="_blank"
                     >
                       View doc
                     </a>
                     <a
                       href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications#managing-application-resources"
-                      target="_blank" rel="noreferrer"
+                      rel="noreferrer"
+                      target="_blank"
                     >
                       <Icon
                         className="helpLinkIcon"

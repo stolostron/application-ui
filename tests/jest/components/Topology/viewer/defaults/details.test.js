@@ -551,6 +551,30 @@ describe("getNodeDetails deployment node", () => {
     cluster: null,
     clusterName: null,
     type: "deployment",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     specs: {
       deploymentModel: {
         "mortgage-app-deploy-feng": {

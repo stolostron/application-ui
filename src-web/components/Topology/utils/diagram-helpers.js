@@ -333,6 +333,35 @@ export const getPulseStatusForSubscription = node => {
   return pulse
 }
 
+export const getPulseStatusForCluster = node => {
+  const clusters = _.get(node, 'specs.clusters')
+  let okCount = 0,
+      pendingCount = 0,
+      offlineCount = 0
+
+  clusters.forEach(cluster => {
+    if (cluster.status === 'ok') {
+      okCount++
+    } else if (cluster.status === 'pendingimport') {
+      pendingCount++
+    } else if (cluster.status === 'offline') {
+      offlineCount++
+    }
+  })
+
+  if (offlineCount > 0) {
+    return 'red'
+  }
+  if (pendingCount === clusters.length) {
+    return 'orange'
+  }
+  if (okCount < clusters.length) {
+    return 'yellow'
+  }
+
+  return 'green'
+}
+
 const getPulseStatusForGenericNode = node => {
   //ansible job status
   if (_.get(node, 'type', '') === 'ansiblejob') {
@@ -545,6 +574,9 @@ export const computeNodeStatus = node => {
   case 'subscription':
     pulse = getPulseStatusForSubscription(node)
     shapeType = getShapeTypeForSubscription(node)
+    break
+  case 'cluster':
+    pulse = getPulseStatusForCluster(node)
     break
   default:
     pulse = getPulseStatusForGenericNode(node)
@@ -1018,6 +1050,8 @@ export const setResourceDeployStatus = (node, details) => {
 
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
+  const clusterObjs = _.get(node, 'clusters.specs.clusters', [])
+  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
   if (_.get(node, 'type', '') === 'ansiblejob') {
     showAnsibleJobDetails(node, details)
@@ -1035,7 +1069,7 @@ export const setResourceDeployStatus = (node, details) => {
     })
   }
 
-  clusterNames.forEach(clusterName => {
+  onlineClusters.forEach(clusterName => {
     details.push({
       type: 'spacer'
     })
@@ -1087,6 +1121,28 @@ export const setResourceDeployStatus = (node, details) => {
   return details
 }
 
+export const getOnlineClusters = (clusterNames, clusterObjs) => {
+  const onlineClusters = []
+
+  clusterNames.forEach(clsName => {
+    if (clsName.trim() === LOCAL_HUB_NAME) {
+      onlineClusters.push(clsName)
+      return
+    }
+    for (let i = 0; i < clusterObjs.length; i++) {
+      const clusterObjName = _.get(clusterObjs[i], 'metadata.name')
+      if (clusterObjName === clsName.trim()) {
+        if (clusterObjs[i].status === 'ok') {
+          onlineClusters.push(clsName)
+        }
+        break
+      }
+    }
+  })
+
+  return onlineClusters
+}
+
 //show resource deployed status for resources producing pods
 export const setPodDeployStatus = (node, updatedNode, details) => {
   if (!nodeMustHavePods(node)) {
@@ -1106,7 +1162,10 @@ export const setPodDeployStatus = (node, updatedNode, details) => {
   const podDataPerCluster = {} //pod details list for each cluster name
 
   const clusterNames = R.split(',', getClusterName(node.id))
-  clusterNames.forEach(clusterName => {
+  const clusterObjs = _.get(node, 'clusters.specs.clusters', [])
+  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
+
+  onlineClusters.forEach(clusterName => {
     clusterName = R.trim(clusterName)
     const res = podStatusModel[clusterName]
     let pulse = 'orange'

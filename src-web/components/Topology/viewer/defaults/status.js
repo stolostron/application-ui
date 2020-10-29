@@ -9,7 +9,6 @@
  *******************************************************************************/
 'use strict'
 
-import R from 'ramda'
 import { StatusIcon } from '../constants.js'
 import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -182,25 +181,23 @@ export const updateNodeIcons = nodes => {
       }
     }
 
-    if (!R.contains(node.type, ['cluster'])) {
-      const pulse = _.get(node, 'specs.pulse', '')
+    const pulse = _.get(node, 'specs.pulse', '')
 
-      switch (pulse) {
-      case 'red':
-        nodeIcons['status'] = Object.assign({}, StatusIcon.error)
-        break
-      case 'yellow':
-        nodeIcons['status'] = Object.assign({}, StatusIcon.warning)
-        break
-      case 'orange':
-        nodeIcons['status'] = Object.assign({}, StatusIcon.pending)
-        break
-      case 'green':
-        nodeIcons['status'] = Object.assign({}, StatusIcon.success)
-        break
-      default:
-        break
-      }
+    switch (pulse) {
+    case 'red':
+      nodeIcons['status'] = Object.assign({}, StatusIcon.error)
+      break
+    case 'yellow':
+      nodeIcons['status'] = Object.assign({}, StatusIcon.warning)
+      break
+    case 'orange':
+      nodeIcons['status'] = Object.assign({}, StatusIcon.pending)
+      break
+    case 'green':
+      nodeIcons['status'] = Object.assign({}, StatusIcon.success)
+      break
+    default:
+      break
     }
 
     layout.nodeIcons = Object.assign(layout.nodeIcons || {}, nodeIcons)

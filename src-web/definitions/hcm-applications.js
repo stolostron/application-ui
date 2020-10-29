@@ -15,7 +15,6 @@ import {
 } from '../../lib/client/resource-helper'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
-import { validator } from './validators/hcm-application-validator'
 import msgs from '../../nls/platform.properties'
 import ChannelLabels from '../components/common/ChannelLabels'
 
@@ -24,7 +23,6 @@ export default {
   uriKey: 'name',
   primaryKey: 'name',
   secondaryKey: 'namespace',
-  validator,
   tableKeys: [
     {
       msgKey: 'table.header.name',

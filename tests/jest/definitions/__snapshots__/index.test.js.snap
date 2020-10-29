@@ -132,7 +132,6 @@ Object {
     },
   ],
   "uriKey": "name",
-  "validator": [Function],
 }
 `;
 

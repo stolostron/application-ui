@@ -8,7 +8,6 @@
  *******************************************************************************/
 import React from 'react'
 import R from 'ramda'
-import { validator } from './validators/hcm-channel-validator'
 import {
   createEditLink,
   getAge,
@@ -22,7 +21,6 @@ export default {
   defaultSortField: 'name',
   primaryKey: 'name',
   secondaryKey: 'namespace',
-  validator,
   tableKeys: [
     {
       msgKey: 'table.header.name',

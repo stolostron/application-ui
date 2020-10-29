@@ -116,6 +116,7 @@ export class TimeWindow extends React.Component {
 
           <div className="timeWindow-container">
             <RadioButtonGroup
+              key={`mode${mode}`}
               className="timeWindow-mode-container"
               name={`timeWindow-mode-container-${controlId}`}
               defaultSelected={mode ? `"${mode}"` : ''}
@@ -474,7 +475,7 @@ export class TimeWindow extends React.Component {
         ) {
           control.active.timezone = timezoneCache.tz
         }
-        control.active.mode = event.target.value
+        control.active.mode = (event.target.value||'').replace(/"/g,'')
       } else {
         switch (targetName) {
         case 'days-selector':

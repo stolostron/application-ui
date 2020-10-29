@@ -71,7 +71,9 @@ export const createHelm = (clusterName, configs) => {
     helmChartName: "#helmChartName"
   };
   for (const [key, value] of Object.entries(configs)) {
-     multipleTemplate(clusterName, value, {...helmCss}, key, helmTasks);
+    key == 0
+      ? helmTasks(clusterName, value, helmCss)
+      : multipleTemplate(clusterName, value, helmCss, key, helmTasks);
   }
 };
 
@@ -103,7 +105,9 @@ export const createGit = (clusterName, configs) => {
     gitPath: "#githubPath"
   };
   for (const [key, value] of Object.entries(configs)) {
-     multipleTemplate(clusterName, value, {...gitCss}, key, gitTasks);
+    key == 0
+      ? gitTasks(clusterName, value, gitCss)
+      : multipleTemplate(clusterName, value, gitCss, key, gitTasks);
   }
 };
 
@@ -114,7 +118,9 @@ export const createObj = (clusterName, configs) => {
     objSecret: "#secretKey"
   };
   for (const [key, value] of Object.entries(configs)) {
-     multipleTemplate(clusterName, value, {...objCss}, key, objTasks);
+    key == 0
+      ? objTasks(clusterName, value, objCss)
+      : multipleTemplate(clusterName, value, objCss, key, objTasks);
   }
 };
 
@@ -139,7 +145,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
 };
 
 export const multipleTemplate = (clusterName, value, css, key, func) => {
-  Object.keys(css).forEach(k => (css[k] = css[k] + `grp${parseInt(key)+1}`));
+  Object.keys(css).forEach(k => (css[k] = css[k] + `grp${key}`));
   cy.get("#add-channels").click();
   cy
     .get(".creation-view-group-container")
@@ -339,8 +345,10 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       onlineClusterID: "#online-cluster-only-checkbox",
       uniqueClusterID: "#clusterSelector-checkbox-clusterSelector"
     };
-    Object.keys(clusterDeploymentCss).forEach(
-      k => (clusterDeploymentCss[k] = clusterDeploymentCss[k] + `grp${parseInt(key)+1}`)
+    key == 0
+      ? clusterDeploymentCss
+      : Object.keys(clusterDeploymentCss).forEach(
+          k => (clusterDeploymentCss[k] = clusterDeploymentCss[k] + `grp${key}`)
     );
 
     const {
@@ -384,8 +392,10 @@ export const selectMatchingLabel = (cluster='magchen-ocp', key) => {
     labelValue: "#labelValue-0-clusterSelector"
   };
 
-  Object.keys(matchingLabelCSS).forEach(
-    k => (matchingLabelCSS[k] = matchingLabelCSS[k] + `grp${parseInt(key)+1}`)
+  key == 0
+    ? matchingLabelCSS
+    : Object.keys(matchingLabelCSS).forEach(
+        k => (matchingLabelCSS[k] = matchingLabelCSS[k] + `grp${key}`)
   );
   const { labelName, labelValue } = matchingLabelCSS;
   cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
@@ -396,10 +406,15 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
   if (setting && date) {
     cy.log(`Select TimeWindow - ${type}...`);
     let typeID;
-    (typeID =
+    key == 0
+      ? (typeID =
       type === "blockinterval"
-        ? `#blocked-mode-timeWindowgrp${parseInt(key)+1}`
-        : `#active-mode-timeWindowgrp${parseInt(key)+1}`);
+            ? "#blocked-mode-timeWindow"
+            : "#active-mode-timeWindow")
+      : (typeID =
+          type === "blockinterval"
+            ? `#blocked-mode-timeWindowgrp${key}`
+            : `#active-mode-timeWindowgrp${key}`);
 
     cy
       .get(typeID)
@@ -436,8 +451,10 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
 export const selectDate = (date, key) => {
   date.forEach(d => {
     const dateId = d.toLowerCase().substring(0, 3) + "-timeWindow";
-     cy
-        .get(`#${dateId}grp${parseInt(key)+1}`, { timeout: 20 * 1000 })
+    key == 0
+      ? cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
+      : cy
+          .get(`#${dateId}grp${key}`, { timeout: 20 * 1000 })
         .click({ force: true });
   });
 };

@@ -53,7 +53,6 @@ const withResource = Component => {
       constructor(props) {
         super(props)
         this.state = {
-          xhrPoll: false,
           errors: undefined
         }
       }
@@ -103,7 +102,7 @@ class ResourceDetails extends React.Component {
     })
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
             updateSecondaryHeaderFn,
             tabs,
@@ -121,7 +120,7 @@ class ResourceDetails extends React.Component {
     )
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       const { updateSecondaryHeaderFn, tabs, launch_links, match } = this.props,
             params = match && match.params

@@ -100,7 +100,7 @@ class ResourceModal extends React.PureComponent {
     this.setState({ data: value, dirty: true })
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.data && this.props.data !== nextProps.data) {
       this.setState({ data: getParsedString(this.props.data) })
     }
@@ -194,11 +194,11 @@ class ResourceModal extends React.PureComponent {
 
             {helpLink && (
               <div className="help-link-edit">
-                <a href={helpLink} target="_blank">
+                <a href={helpLink} target="_blank" rel="noreferrer">
                   {msgs.get('link.help.writing', this.context.locale)}
                 </a>
 
-                <a href={helpLink} target="_blank">
+                <a href={helpLink} target="_blank" rel="noreferrer">
                   <Icon
                     name="icon--launch"
                     fill="#6089bf"

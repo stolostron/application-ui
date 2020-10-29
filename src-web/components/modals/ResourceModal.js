@@ -142,7 +142,7 @@ class ResourceModal extends React.PureComponent {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { resourceType, data: { namespace, name, clusterName } } = this.props
     apolloClient
       .getResource(resourceType, { namespace, name, clusterName })
@@ -211,11 +211,11 @@ class ResourceModal extends React.PureComponent {
           <ModalBody>
             {helpLink && (
               <div className="help-link-edit">
-                <a href={helpLink} target="_blank">
+                <a href={helpLink} target="_blank" rel="noreferrer">
                   {msgs.get('link.help.writing', this.context.locale)}
                 </a>
 
-                <a href={helpLink} target="_blank">
+                <a href={helpLink} target="_blank" rel="noreferrer">
                   <Icon
                     name="icon--launch"
                     fill="#6089bf"

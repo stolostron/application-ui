@@ -53,7 +53,7 @@ class OverviewCards extends React.Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // update cards every 1s to pick up side-effect in
     // redux state (calculation of node statuses) created by
     // topology code
@@ -236,6 +236,7 @@ class OverviewCards extends React.Component {
                   id="app-search-link"
                   href={getUrl + appOverviewCardsData.targetLink}
                   target="_blank"
+                  rel="noreferrer"
                 >
                   <div>
                     {msgs.get(

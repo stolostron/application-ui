@@ -102,7 +102,7 @@ exports[`ApplicationDeploymentHighlightsTerminology ApplicationDeploymentHighlig
           <a
             href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.1/html/manage_applications/managing-applications"
             rel="noopener noreferrer"
-            target="_blank"
+            target="_blank" rel="noreferrer"
           >
             <span
               className="deployment-highlights-terminology-docs-text"

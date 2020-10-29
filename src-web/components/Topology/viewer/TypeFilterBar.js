@@ -123,7 +123,7 @@ class TypeFilterBar extends React.Component {
     })
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
       activeFilters: _.cloneDeep(nextProps.activeFilters || [])
     })

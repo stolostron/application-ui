@@ -59,12 +59,6 @@ export const resourceTable = {
         timeout: 20 * 1000
       })
       .click({ force: true }),
-  menuClickSearch: () =>
-    cy
-      .get('button[data-table-action="table.actions.applications.search"]', {
-        timeout: 20 * 1000
-      })
-      .click({ force: true }),
   menuClickEdit: () =>
     cy
       .get('button[data-table-action="table.actions.applications.edit"]', {

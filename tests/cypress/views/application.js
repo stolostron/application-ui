@@ -316,6 +316,64 @@ export const validateHelloWorld = () => {
     });
 };
 
+export const validateAppTableMenu = (name, resourceTable) => {
+  //validate SEARCH menu
+  resourceTable.openRowMenu(name);
+  cy
+    .get('button[data-table-action="table.actions.applications.search"]', {
+      timeout: 20 * 1000
+    })
+    .click();
+  cy
+    .url()
+    .should(
+      "include",
+      `multicloud/search?filters={%22textsearch%22:%22name%3A${name}%20namespace%3A${name}-ns%20kind%3Aapplication%20apigroup%3Aapp.k8s.io%22}`
+    );
+
+  //get back to app page
+  cy.visit(`/multicloud/applications`);
+  cy.get(".search-query-card-loading").should("not.exist", {
+    timeout: 60 * 1000
+  });
+  pageLoader.shouldNotExist();
+  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
+  resourceTable.rowShouldExist(name, 600 * 1000);
+  //END SEARCH menu validation
+
+  //validate Edit menu
+  resourceTable.openRowMenu(name);
+  resourceTable.menuClickEdit();
+  cy.get(".bx--detail-page-header-title").should("exist", {
+    timeout: 60 * 1000
+  });
+  //get back to app page
+  cy.visit(`/multicloud/applications`);
+  cy.get(".search-query-card-loading").should("not.exist", {
+    timeout: 60 * 1000
+  });
+  pageLoader.shouldNotExist();
+  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
+  resourceTable.rowShouldExist(name, 600 * 1000);
+  //END Edit menu validation
+
+  //validate View menu
+  resourceTable.openRowMenu(name);
+  resourceTable.menuClickView();
+  cy.get(".resourceDiagramSourceContainer").should("exist", {
+    timeout: 60 * 1000
+  });
+  //get back to app page
+  cy.visit(`/multicloud/applications`);
+  cy.get(".search-query-card-loading").should("not.exist", {
+    timeout: 60 * 1000
+  });
+  pageLoader.shouldNotExist();
+  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
+  resourceTable.rowShouldExist(name, 600 * 1000);
+  //END View menu validation
+};
+
 export const validateResourceTable = (name, data) => {
   cy.visit(`/multicloud/applications`);
   cy.get(".search-query-card-loading").should("not.exist", {
@@ -398,53 +456,8 @@ export const validateResourceTable = (name, data) => {
     .invoke("text")
     .should("eq", hasWindow);
 
-  //validate SEARCH menu
-  resourceTable.openRowMenu(name);
-  resourceTable.menuClickSearch();
-  cy.get(".search--input-area").should("exist", {
-    timeout: 60 * 1000
-  });
-  //get back to app page
-  cy.visit(`/multicloud/applications`);
-  cy.get(".search-query-card-loading").should("not.exist", {
-    timeout: 60 * 1000
-  });
-  pageLoader.shouldNotExist();
-  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
-  resourceTable.rowShouldExist(name, 600 * 1000);
-  //END SEARCH menu validation
-
-  //validate Edit menu
-  resourceTable.openRowMenu(name);
-  resourceTable.menuClickEdit();
-  cy.get(".bx--detail-page-header-title").should("exist", {
-    timeout: 60 * 1000
-  });
-  //get back to app page
-  cy.visit(`/multicloud/applications`);
-  cy.get(".search-query-card-loading").should("not.exist", {
-    timeout: 60 * 1000
-  });
-  pageLoader.shouldNotExist();
-  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
-  resourceTable.rowShouldExist(name, 600 * 1000);
-  //END Edit menu validation
-
-  //validate View menu
-  resourceTable.openRowMenu(name);
-  resourceTable.menuClickView();
-  cy.get(".resourceDiagramSourceContainer").should("exist", {
-    timeout: 60 * 1000
-  });
-  //get back to app page
-  cy.visit(`/multicloud/applications`);
-  cy.get(".search-query-card-loading").should("not.exist", {
-    timeout: 60 * 1000
-  });
-  pageLoader.shouldNotExist();
-  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
-  resourceTable.rowShouldExist(name, 600 * 1000);
-  //END View menu validation
+  cy.log("Validate popup actions");
+  validateAppTableMenu(name, resourceTable);
 
   //click on app name to go to the single app View
   resourceTable.openRowMenu(name);

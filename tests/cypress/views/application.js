@@ -402,7 +402,7 @@ export const selectMatchingLabel = (cluster, key) => {
 };
 
 export const selectTimeWindow = (timeWindow, key = 0) => {
-  const { setting, type, date } = timeWindow;
+  const { setting, type, date, hours } = timeWindow;
   if (setting && date) {
     cy.log(`Select TimeWindow - ${type}...`);
     let typeID;
@@ -432,6 +432,17 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
           })
           .click();
       });
+
+    if (hours) {
+      hours.forEach((interval, idx) => {
+        cy.get(`#start-time-${idx}`).type(interval.start);
+        cy.get(`#end-time-${idx}`).type(interval.end);
+
+        if (idx < hours.length - 1) {
+          cy.get(".add-time-btn", { timeout: 10 * 1000 }).click();
+        }
+      });
+    }
   } else {
     cy.log("leave default `active`");
   }

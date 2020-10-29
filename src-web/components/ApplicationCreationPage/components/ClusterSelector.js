@@ -361,7 +361,9 @@ export const reverse = (control, templateObject) => {
     let matchLabels
     const local = _.get(
       templateObject,
-      getSourcePath('Subscription[0].spec.placement.local')
+      getSourcePath(
+        'PlacementRule[0].spec.clusterSelector.matchLabels.local-cluster'
+      )
     )
     if (!local) {
       matchLabels = _.get(

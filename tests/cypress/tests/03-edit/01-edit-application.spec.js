@@ -6,14 +6,14 @@
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { editApplication, verifyEdit } from "../../views/application";
 
-describe("Edit application", () => {
+describe("Edit application Test", () => {
   for (const type in config) {
     const data = config[type].data;
     if (data.enable) {
-      it(`${data.name} should be editable`, () => {
+      it(`Verify that ${data.name} is editable`, () => {
         editApplication(data.name, data);
       });
-      it(`${data.name} should be verified after edit`, () => {
+      it(`Verify that ${data.name} is valid after edit`, () => {
         verifyEdit(data.name, data);
       });
     } else {

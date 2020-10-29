@@ -169,31 +169,39 @@ export const validateSubscriptionDetails = (name, data, type) => {
     .scrollIntoView()
     .click();
   for (const [key, value] of Object.entries(data.config)) {
-    const { setting, type } = value.timeWindow;
-    if (setting) {
-      const keywords = {
-        blockinterval: "Blocked",
-        activeinterval: "Active",
-        active: "Set time window"
-      };
-      cy
-        .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
-        .children()
-        .eq(key)
-        .within($subcards => {
-          type == "active"
-            ? cy
-                .get(".set-time-window-link", { timeout: 20 * 1000 })
-                .contains(keywords[type])
-            : cy
-                .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
-                .contains(keywords[type].toLowerCase());
-        });
+    if (value.timeWindow) {
+      // some subscriptions might not have time window
+      const { setting, type } = value.timeWindow;
+      if (setting) {
+        const keywords = {
+          blockinterval: "Blocked",
+          activeinterval: "Active",
+          active: "Set time window"
+        };
+        cy
+          .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
+          .children()
+          .eq(key)
+          .within($subcards => {
+            type == "active"
+              ? cy
+                  .get(".set-time-window-link", { timeout: 20 * 1000 })
+                  .contains(keywords[type])
+              : cy
+                  .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
+                  .contains(keywords[type].toLowerCase());
+          });
+      }
     }
   }
 };
 
 export const validateAdvancedTables = (name, data, type) => {
+  cy.log(
+    `Execute validateAdvancedTables for name=${name}, data.config=${
+      data.config
+    }`
+  );
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
     channelsInformation(name, key).then(({ channelName }) => {
@@ -251,15 +259,17 @@ export const validateTopology = (name, data, type) => {
   // cluster and placement
   for (const [key, value] of Object.entries(data.config)) {
     const { local } = value.deployment;
-    validatePlacementNode(name, key);
-    validateClusterNode(
-      local ? "local-cluster" : Cypress.env("managedCluster")
-    );
+    !local
+      ? (validatePlacementNode(name, key),
+        validateClusterNode(Cypress.env("managedCluster")))
+      : cy.log(
+          "cluster and placement nodes will not be created as the application is deployed locally"
+        );
   }
 
   data.config.forEach(data => {
-    //const { path } = type == "git" ? data : data;
-    //path == "helloworld" ? validateHelloWorld() : null;
+    const { path } = type == "git" ? data : data;
+    path == "helloworld" ? validateHelloWorld() : null;
   });
 };
 
@@ -306,7 +316,7 @@ export const validateHelloWorld = () => {
     });
 };
 
-export const validateResourceTable = name => {
+export const validateResourceTable = (name, data) => {
   cy.visit(`/multicloud/applications`);
   cy.get(".search-query-card-loading").should("not.exist", {
     timeout: 60 * 1000
@@ -314,6 +324,130 @@ export const validateResourceTable = name => {
   pageLoader.shouldNotExist();
   cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
   resourceTable.rowShouldExist(name, 600 * 1000);
+
+  //validate content
+  cy
+    .get(".resource-table")
+    .get(`tr[data-row-name="${name}"]`)
+    .get("td")
+    .eq(0)
+    .invoke("text")
+    .should("eq", name);
+  cy
+    .get(".resource-table")
+    .get(`tr[data-row-name="${name}"]`)
+    .get("td")
+    .eq(1)
+    .invoke("text")
+    .should("eq", `${name}-ns`);
+
+  cy.log("Validate Cluster column");
+  let localDeploy = false;
+  let remoteDeploy = false;
+  const subscriptionLength = data.config.length;
+  let hasWindow = "";
+  data.config.forEach(item => {
+    if (item.timeWindow) {
+      hasWindow = "Yes"; // at list one window set
+    }
+    const { local, matchingLabel } = item.deployment;
+    remoteDeploy = matchingLabel ? true : remoteDeploy;
+    localDeploy = local ? true : localDeploy;
+  });
+
+  let clusterText = "None";
+  if (remoteDeploy && localDeploy) {
+    clusterText = "1 Remote, 1 Local";
+  } else if (localDeploy) {
+    clusterText = "Local";
+  } else if (remoteDeploy) {
+    clusterText = "1 Remote";
+  }
+  cy
+    .get(".resource-table")
+    .get(`tr[data-row-name="${name}"]`)
+    .get("td")
+    .eq(2)
+    .invoke("text")
+    .should("eq", clusterText);
+
+  let repositoryText =
+    data.type === "objectstore"
+      ? "Object storage"
+      : data.type === "helm" ? "Helm" : "Git";
+  repositoryText =
+    subscriptionLength > 1
+      ? `${repositoryText} (${subscriptionLength})`
+      : repositoryText;
+  repositoryText = `${repositoryText}Provide a description that will be used as the title`;
+  cy.log("Validate Repository column");
+  cy
+    .get(".resource-table")
+    .get(`tr[data-row-name="${name}"]`)
+    .get("td")
+    .eq(3)
+    .invoke("text")
+    .should("eq", repositoryText);
+
+  cy.log("Validate Window column");
+  cy
+    .get(".resource-table")
+    .get(`tr[data-row-name="${name}"]`)
+    .get("td")
+    .eq(4)
+    .invoke("text")
+    .should("eq", hasWindow);
+
+  //validate SEARCH menu
+  resourceTable.openRowMenu(name);
+  resourceTable.menuClickSearch();
+  cy.get(".search--input-area").should("exist", {
+    timeout: 60 * 1000
+  });
+  //get back to app page
+  cy.visit(`/multicloud/applications`);
+  cy.get(".search-query-card-loading").should("not.exist", {
+    timeout: 60 * 1000
+  });
+  pageLoader.shouldNotExist();
+  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
+  resourceTable.rowShouldExist(name, 600 * 1000);
+  //END SEARCH menu validation
+
+  //validate Edit menu
+  resourceTable.openRowMenu(name);
+  resourceTable.menuClickEdit();
+  cy.get(".bx--detail-page-header-title").should("exist", {
+    timeout: 60 * 1000
+  });
+  //get back to app page
+  cy.visit(`/multicloud/applications`);
+  cy.get(".search-query-card-loading").should("not.exist", {
+    timeout: 60 * 1000
+  });
+  pageLoader.shouldNotExist();
+  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
+  resourceTable.rowShouldExist(name, 600 * 1000);
+  //END Edit menu validation
+
+  //validate View menu
+  resourceTable.openRowMenu(name);
+  resourceTable.menuClickView();
+  cy.get(".resourceDiagramSourceContainer").should("exist", {
+    timeout: 60 * 1000
+  });
+  //get back to app page
+  cy.visit(`/multicloud/applications`);
+  cy.get(".search-query-card-loading").should("not.exist", {
+    timeout: 60 * 1000
+  });
+  pageLoader.shouldNotExist();
+  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
+  resourceTable.rowShouldExist(name, 600 * 1000);
+  //END View menu validation
+
+  //click on app name to go to the single app View
+  resourceTable.openRowMenu(name);
   resourceTable.rowNameClick(name);
   cy.reload(); // status isn't updating after unknown failure
   cy.get(".bx--detail-page-header-title");
@@ -338,8 +472,14 @@ export const deleteApplicationUI = name => {
 };
 
 export const selectClusterDeployment = (deployment, clusterName, key) => {
+  cy.log(
+    `Execute selectClusterDeployment with options clusterName=${clusterName} deployment=${deployment} and key=${key}`
+  );
   if (deployment) {
     const { local, online, matchingLabel } = deployment;
+    cy.log(
+      `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel}`
+    );
     let clusterDeploymentCss = {
       localClusterID: "#local-cluster-checkbox",
       onlineClusterID: "#online-cluster-only-checkbox",
@@ -402,6 +542,10 @@ export const selectMatchingLabel = (cluster, key) => {
 };
 
 export const selectTimeWindow = (timeWindow, key = 0) => {
+  if (!timeWindow) {
+    cy.log("timeWindow info not available, ignore this section");
+    return;
+  }
   const { setting, type, date, hours } = timeWindow;
   if (setting && date) {
     cy.log(`Select TimeWindow - ${type}...`);
@@ -502,7 +646,7 @@ export const editApplication = (name, data) => {
 
 export const deleteFirstSubscription = (name, data) => {
   if (data.config.length > 1) {
-    cy.log(`${name} has multiple subscriptions`);
+    cy.log(`Verified that ${name} has ${data.config.length} subscriptions`);
     cy.get(".creation-view-controls-section").within($section => {
       cy
         .get(".creation-view-group-container")

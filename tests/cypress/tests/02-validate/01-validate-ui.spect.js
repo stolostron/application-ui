@@ -11,7 +11,7 @@ import {
 
 import { getManagedClusterName } from "../../views/resources";
 
-describe("Application", () => {
+describe("Application Validation Test for tables, topology and advanced configuration tables", () => {
   it(`get the name of the managed OCP cluster`, () => {
     getManagedClusterName();
   });
@@ -19,17 +19,17 @@ describe("Application", () => {
     const data = config[type].data;
 
     if (data.enable) {
-      it(`should be validated from the resource table - ${type}: ${
+      it(`Verify application info from applications table - ${type}: ${
         data.name
       }`, () => {
-        validateResourceTable(data.name);
+        validateResourceTable(data.name, data);
       });
-      it(`should be validated from the topology - ${type}: ${
+      it(`Verify application content from the single application topology - ${type}: ${
         data.name
       }`, () => {
         validateTopology(data.name, data, type);
       });
-      it(`should be validated from the advanced configuration tables - ${type}: ${
+      it(`Verify application channel, subscription, placement rule info from the advanced configuration tables - ${type}: ${
         data.name
       }`, () => {
         validateAdvancedTables(data.name, data, type);

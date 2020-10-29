@@ -174,15 +174,15 @@ const discoverChannelFromSource = (
   }
 
   // get trailing digit so we can create a unique name
-  let subscription
+  let subscriptionDigit
   const subscriptionName = _.get(templateObject, getSourcePath('Subscription[0].metadata.name')+'.$v')
   if (subscriptionName) {
     const match = subscriptionName.match(/-(\d+)$/)
     if (match && match[1]) {
-      subscription = parseInt(match[1], 10)
+      subscriptionDigit = parseInt(match[1], 10)
     }
   }
-  return subscription
+  return subscriptionDigit
 }
 
 //called for each group when editor refreshes control active values from the template

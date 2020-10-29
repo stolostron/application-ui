@@ -117,8 +117,6 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
             if (!firstModRow && !isEncoded) {
               firstModRow = obj.$r
             }
-          } else if (rhs===null) {
-            kind='D'
           }
           break
         }

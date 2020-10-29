@@ -5,9 +5,6 @@
 {{! ========================================================== }}
 
   placement:
-{{#if local-cluster-checkbox}} 
-    local: true
-{{else}}
     placementRef:
       kind: PlacementRule
 {{#if selectedRuleName}}
@@ -15,7 +12,6 @@
 {{else}}       
       name: {{{@root.name}}}-placement-{{uniqueGroupID}}
 {{/if}}       
-{{/if}}
 {{#if timeWindow.mode}}
   timewindow:
     windowtype: {{{timeWindow.mode}}}
@@ -33,7 +29,6 @@
 {{/if}}
 
 {{#unless selectedRuleName}} 
-{{#unless local-cluster-checkbox}}
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
@@ -49,11 +44,15 @@ metadata:
 spec:
   clusterSelector:
     matchLabels:
+      {{#if local-cluster-checkbox}}
+      'local-cluster': 'true'
+      {{else}}
       {{#each clusterSelector.clusterLabelsList}}
       {{#if validValue}}
       '{{{labelName}}}': '{{{labelValue}}}'
       {{/if}}
       {{/each}} 
+      {{/if}}
   {{#if online-cluster-only-checkbox}}
   clusterConditions:
     - type: ManagedClusterConditionAvailable
@@ -67,6 +66,5 @@ spec:
       status: "True"
   {{/if}}
 {{/if}}
-{{/unless}}
 {{/unless}}
 

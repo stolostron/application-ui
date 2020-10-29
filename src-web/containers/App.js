@@ -10,7 +10,6 @@
 // seems to be an issue with this rule and redux
 /* eslint-disable import/no-named-as-default */
 
-import { compose, setDisplayName } from 'recompose'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -235,7 +234,7 @@ const Container = Component =>
   withRouter(withLocale(connect(mapStateToProps)(Component)))
 const AppContainer = Container(App)
 
-export default compose(setDisplayName('AppComponent'))(props => (
+const AppComponent = props => (
   <div className="expand-vertically">
     <Route
       path={config.contextPath}
@@ -243,4 +242,6 @@ export default compose(setDisplayName('AppComponent'))(props => (
       render={() => <AppContainer {...props} />}
     />
   </div>
-))
+)
+AppComponent.displayName = 'AppComponent'
+export default AppComponent

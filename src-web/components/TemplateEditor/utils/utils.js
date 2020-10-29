@@ -27,13 +27,13 @@ export const initializeControls = (
   initialControlData,
   editor,
   locale,
-  groupNum,
+  uniqueGroupID,
   inGroup
 ) => {
   const controlData = initializeControlData(
     initialControlData,
     locale,
-    groupNum,
+    uniqueGroupID,
     inGroup
   )
   initializeControlFunctions(controlData, editor)

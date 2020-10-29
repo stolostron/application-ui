@@ -476,9 +476,10 @@ export default class TemplateEditor extends React.Component {
         cd,
         editor,
         locale,
-        active.length + 1,
+        control.nextUniqueGroupID,
         true
       )
+      control.nextUniqueGroupID++
       active.push(newGroup)
       const nameControl = _.keyBy(newGroup, 'id')[nameId]
       nameControl.active = `${baseName}-${active.length - 1}`
@@ -637,7 +638,7 @@ export default class TemplateEditor extends React.Component {
     const {
       id,
       ref,
-      groupNum = 0,
+      uniqueGroupID = 0,
       scrollViewAfterSelection,
       collapseAboveAfterSelection,
       scrollViewToTopOnSelect
@@ -648,7 +649,7 @@ export default class TemplateEditor extends React.Component {
       scrollViewToTopOnSelect
     ) {
       const wasPreviouslySelected = previouslySelectedCards.includes(
-        id + groupNum
+        id + uniqueGroupID
       )
       if (!wasPreviouslySelected) {
         const scrollView = showEditor ? creationView : window
@@ -694,7 +695,7 @@ export default class TemplateEditor extends React.Component {
             break
           }
         }, 100)
-        previouslySelectedCards.push(id + groupNum)
+        previouslySelectedCards.push(id + uniqueGroupID)
       }
     }
     this.setState({ previouslySelectedCards })

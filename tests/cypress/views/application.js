@@ -37,28 +37,28 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   const { url, username, token, branch, path, timeWindow, deployment } = value;
   const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
   cy
-    .idStartsWith(`#github`)
+    .get(`#github`)
     .click()
     .trigger("mouseover");
   cy
-    .idStartsWith(gitUrl, { timeout: 20 * 1000 })
+    .get(gitUrl, { timeout: 20 * 1000 })
     .type(url, { timeout: 30 * 1000 })
     .blur();
   if (username && token) {
-    cy.idStartsWith(gitUser).type(username);
-    cy.idStartsWith(gitKey).type(token);
+    cy.get(gitUser).type(username);
+    cy.get(gitKey).type(token);
   }
 
   // wait for form to remove the users
   cy.wait(1000);
   // type in branch and path
   cy
-    .idStartsWith(gitBranch, { timeout: 20 * 1000 })
+    .get(gitBranch, { timeout: 20 * 1000 })
     .type(branch, { timeout: 30 * 1000 })
     .blur();
   cy.wait(1000);
   cy
-    .idStartsWith(gitPath, { timeout: 20 * 1000 })
+    .get(gitPath, { timeout: 20 * 1000 })
     .type(path, { timeout: 30 * 1000 })
     .blur();
   selectClusterDeployment(deployment, clusterName, key);
@@ -71,9 +71,7 @@ export const createHelm = (clusterName, configs) => {
     helmChartName: "#helmChartName"
   };
   for (const [key, value] of Object.entries(configs)) {
-    key == 0
-      ? helmTasks(clusterName, value, helmCss)
-      : multipleTemplate(clusterName, value, helmCss, key, helmTasks);
+     multipleTemplate(clusterName, value, {...helmCss}, key, helmTasks);
   }
 };
 
@@ -81,15 +79,15 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
   const { url, chartName, timeWindow, deployment } = value;
   const { helmURL, helmChartName } = css;
   cy
-    .idStartsWith("#helmrepo")
+    .get("#helmrepo")
     .click()
     .trigger("mouseover");
   cy
-    .idStartsWith(helmURL, { timeout: 20 * 1000 })
+    .get(helmURL, { timeout: 20 * 1000 })
     .type(url, { timeout: 30 * 1000 })
     .blur();
   cy
-    .idStartsWith(helmChartName, { timeout: 20 * 1000 })
+    .get(helmChartName, { timeout: 20 * 1000 })
     .type(chartName)
     .blur();
   selectClusterDeployment(deployment, clusterName, key);
@@ -105,9 +103,7 @@ export const createGit = (clusterName, configs) => {
     gitPath: "#githubPath"
   };
   for (const [key, value] of Object.entries(configs)) {
-    key == 0
-      ? gitTasks(clusterName, value, gitCss)
-      : multipleTemplate(clusterName, value, gitCss, key, gitTasks);
+     multipleTemplate(clusterName, value, {...gitCss}, key, gitTasks);
   }
 };
 
@@ -118,9 +114,7 @@ export const createObj = (clusterName, configs) => {
     objSecret: "#secretKey"
   };
   for (const [key, value] of Object.entries(configs)) {
-    key == 0
-      ? objTasks(clusterName, value, objCss)
-      : multipleTemplate(clusterName, value, objCss, key, objTasks);
+     multipleTemplate(clusterName, value, {...objCss}, key, objTasks);
   }
 };
 
@@ -128,11 +122,11 @@ export const objTasks = (clusterName, value, css, key = 0) => {
   const { url, accessKey, secretKey, timeWindow, deployment } = value;
   const { objUrl, objAccess, objSecret } = css;
   cy
-    .idStartsWith("#objectstore")
+    .get("#objectstore")
     .click()
     .trigger("mouseover");
-  cy.idStartsWith(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
-  cy.idStartsWith(objAccess).then(input => {
+  cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
+  cy.get(objAccess).then(input => {
     if (input.is("enabled")) {
       cy.get(objAccess).type(accessKey);
       cy.get(objSecret).type(secretKey);
@@ -145,8 +139,8 @@ export const objTasks = (clusterName, value, css, key = 0) => {
 };
 
 export const multipleTemplate = (clusterName, value, css, key, func) => {
-  Object.keys(css).forEach(k => (css[k] = css[k] + `${key}`));
-  cy.idStartsWith("#add-channels").click();
+  Object.keys(css).forEach(k => (css[k] = css[k] + `grp${parseInt(key)+1}`));
+  cy.get("#add-channels").click();
   cy
     .get(".creation-view-group-container")
     .eq(key)
@@ -163,11 +157,11 @@ export const submitSave = () => {
 };
 
 export const validateSubscriptionDetails = (name, data, type) => {
-  cy.wait(50 * 1000);
+  // as soon as details button is enabled we can proceed
   cy
-    .get(".toggle-subs-btn.bx--btn.bx--btn--primary", { timeout: 100 * 1000 })
+    .get('[data-test-subscription-details=true]', { timeout: 50 * 1000 })
     .scrollIntoView()
-    .click();
+    .click()
   for (const [key, value] of Object.entries(data.config)) {
     const { setting, type } = value.timeWindow;
     if (setting) {
@@ -198,8 +192,8 @@ export const validateAdvancedTables = (name, data, type) => {
     const { local } = value.deployment;
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
-        subscriptions: `${name}-subscription-${key}`,
-        placementrules: `${name}-placement-${key}`,
+        subscriptions: `${name}-subscription-${parseInt(key)+1}`,
+        placementrules: `${name}-placement-${parseInt(key)+1}`,
         channels: channelName
       };
       cy.log(`instance-${key}`);
@@ -245,7 +239,7 @@ export const validateTopology = (name, data, type) => {
   //subscription
   cy.log("validate the subscription...");
   cy
-    .get(`g[type="${name}-subscription-0"]`, { timeout: 25 * 1000 })
+    .get(`g[type="${name}-subscription-1"]`, { timeout: 25 * 1000 })
     .should("be.visible");
 
   // cluster and placement
@@ -265,7 +259,7 @@ export const validateTopology = (name, data, type) => {
   });
 };
 
-export const validateClusterNode = clusterName => {
+export const validateClusterNode = (clusterName='magchen-ocp') => {
   cy.log("validating the cluster...");
   cy
     .get(`g[type="${clusterName}"]`, { timeout: 25 * 1000 })
@@ -275,7 +269,7 @@ export const validateClusterNode = clusterName => {
 export const validatePlacementNode = (name, key) => {
   cy.log("validate the placementrule..."),
     cy
-      .get(`g[type="${name}-placement-${key}"]`, { timeout: 25 * 1000 })
+      .get(`g[type="${name}-placement-${parseInt(key)+1}"]`, { timeout: 25 * 1000 })
       .should("be.visible");
 };
 
@@ -347,11 +341,9 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       onlineClusterID: "#online-cluster-only-checkbox",
       uniqueClusterID: "#clusterSelector-checkbox-clusterSelector"
     };
-    key == 0
-      ? clusterDeploymentCss
-      : Object.keys(clusterDeploymentCss).forEach(
-          k => (clusterDeploymentCss[k] = clusterDeploymentCss[k] + `${key}`)
-        );
+    Object.keys(clusterDeploymentCss).forEach(
+      k => (clusterDeploymentCss[k] = clusterDeploymentCss[k] + `grp${parseInt(key)+1}`)
+    );
 
     const {
       localClusterID,
@@ -362,14 +354,14 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     !local
       ? cy.log("do not select `Deploy on local cluster`")
       : cy
-          .idStartsWith(localClusterID)
+          .get(localClusterID)
           .click({ force: true })
           .trigger("mouseover", { force: true });
     !online
       ? local
         ? cy.log("local deployment has been set")
         : cy
-            .idStartsWith(onlineClusterID, { timeout: 50 * 1000 })
+            .get(onlineClusterID, { timeout: 50 * 1000 })
             .click({ force: true })
             .trigger("mouseover", { force: true })
       : cy.log("select `Deploy to all online clusters` by default");
@@ -378,7 +370,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       ? cy.log(
           "do not select `Deploy application resources only on clusters matching specified labels`"
         )
-      : (cy.idStartsWith(uniqueClusterID).click({ force: true }),
+      : (cy.get(uniqueClusterID).click({ force: true }),
         cy.log(`deploying app to cluster-${clusterName}`),
         selectMatchingLabel(clusterName, key));
   } else {
@@ -388,19 +380,17 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
   }
 };
 
-export const selectMatchingLabel = (cluster='test', key) => {
+export const selectMatchingLabel = (cluster='magchen-ocp', key) => {
   let matchingLabelCSS = {
     labelName: "#labelName-0-clusterSelector",
     labelValue: "#labelValue-0-clusterSelector"
   };
 
-  key == 0
-    ? matchingLabelCSS
-    : Object.keys(matchingLabelCSS).forEach(
-        k => (matchingLabelCSS[k] = matchingLabelCSS[k] + `${key}`)
-      );
+  Object.keys(matchingLabelCSS).forEach(
+    k => (matchingLabelCSS[k] = matchingLabelCSS[k] + `grp${parseInt(key)+1}`)
+  );
   const { labelName, labelValue } = matchingLabelCSS;
-  cy.idStartsWith(labelName).type("name"), cy.idStartsWith(labelValue).type(cluster);
+  cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
 };
 
 export const selectTimeWindow = (timeWindow, key = 0) => {
@@ -408,18 +398,13 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
   if (setting && date) {
     cy.log(`Select TimeWindow - ${type}...`);
     let typeID;
-    key == 0
-      ? (typeID =
-          type === "blockinterval"
-            ? "#blocked-mode-timeWindow"
-            : "#active-mode-timeWindow")
-      : (typeID =
-          type === "blockinterval"
-            ? `#blocked-mode-timeWindow${key}`
-            : `#active-mode-timeWindow${key}`);
+    (typeID =
+      type === "blockinterval"
+        ? `#blocked-mode-timeWindowgrp${parseInt(key)+1}`
+        : `#active-mode-timeWindowgrp${parseInt(key)+1}`);
 
     cy
-      .idStartsWith(typeID)
+      .get(typeID)
       .scrollIntoView()
       .click({ force: true });
     selectDate(date, key);
@@ -442,11 +427,9 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
 export const selectDate = (date, key) => {
   date.forEach(d => {
     const dateId = d.toLowerCase().substring(0, 3) + "-timeWindow";
-    key == 0
-      ? cy.idStartsWith(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
-      : cy
-          .idStartsWith(`#${dateId}${key}`, { timeout: 20 * 1000 })
-          .click({ force: true });
+     cy
+        .get(`#${dateId}grp${parseInt(key)+1}`, { timeout: 20 * 1000 })
+        .click({ force: true });
   });
 };
 
@@ -463,7 +446,8 @@ export const edit = name => {
   resourceTable.openRowMenu(name);
   resourceTable.menuClickEdit();
   cy.url().should("include", `/${name}`);
-  cy.wait(30 * 1000);
+  // as soon as edit button is shown we can proceed
+  cy.get("#edit-yaml", { timeout: 100 * 1000 });
   cy.wait(["@graphql", "@graphql"], {
     timeout: 50 * 1000
   });

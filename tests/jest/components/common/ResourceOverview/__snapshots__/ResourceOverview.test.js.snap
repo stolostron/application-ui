@@ -203,6 +203,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
         
         <button
           className="toggle-subs-btn bx--btn bx--btn--primary"
+          data-test-subscription-details={false}
           disabled={true}
           onClick={[Function]}
           tabIndex={0}
@@ -718,6 +719,7 @@ exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
         
         <button
           className="toggle-subs-btn bx--btn bx--btn--primary"
+          data-test-subscription-details={false}
           disabled={true}
           onClick={[Function]}
           tabIndex={0}

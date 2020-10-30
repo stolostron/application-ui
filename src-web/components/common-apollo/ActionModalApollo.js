@@ -17,7 +17,6 @@ import { Query } from 'react-apollo'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 let RemoveResourceModal
-let ResourceModal
 
 class ActionModalApollo extends React.PureComponent {
   getMatchedModal = ({ type, resourceType, open, data }) => {
@@ -28,24 +27,6 @@ class ActionModalApollo extends React.PureComponent {
     resourceType = { name: resourceType.name, list: resourceType.list }
 
     switch (type) {
-    case 'table.actions.edit': {
-      return (
-        open &&
-          this.getResourceModal({
-            open: true,
-            type: 'resource-edit',
-            action: 'put',
-            resourceType,
-            editorMode: 'json',
-            label: {
-              primaryBtn: 'modal.button.submit',
-              label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
-              heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
-            },
-            data: data
-          })
-      )
-    }
     case 'table.actions.applications.remove':
     case 'table.actions.subscriptions.remove':
     case 'table.actions.placementrules.remove':
@@ -70,16 +51,6 @@ class ActionModalApollo extends React.PureComponent {
     default:
       return null
     }
-  };
-
-  getResourceModal = props => {
-    ResourceModal =
-      ResourceModal === undefined
-        ? loadable(() =>
-            import(/* webpackChunkName: "edit-resource-modal" */ '../modals/ResourceModal')
-        )
-        : ResourceModal
-    return this.getModal(ResourceModal, props)
   };
 
   getRemoveResourceModal = props => {

@@ -9,19 +9,19 @@ import {
   validateTimewindow
 } from "../../views/resources";
 
-describe("Application", () => {
+describe("Application backend Test", () => {
   for (const type in config) {
     const data = config[type].data;
     if (data.enable) {
-      it(`channels, subscription and placementrule - should be validated - ${type}: ${
+      it(`Verify that channels, subscription and placementrule are valid - ${type}: ${
         data.name
       }`, () => {
         apiResources(type, data);
       });
-      it(`timewindow - should be validated - ${type}: ${data.name}`, () => {
+      it(`Validate timewindow - ${type}: ${data.name}`, () => {
         validateTimewindow(data.name, data.config);
       });
-      it(`resource should be validated on the target cluster`, () => {
+      it(`Validate resources created on the target cluster`, () => {
         targetResource(data);
       });
     } else {

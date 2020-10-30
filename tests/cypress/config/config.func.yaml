@@ -1,8 +1,44 @@
 ---
+git:
+  data:
+    enable: true
+    name: ui-git
+    type: git
+    config:    
+      - url: https://github.com/fxiang1/app-samples.git
+        username: ""
+        token: ""
+        branch: master
+        path: nginx
+        timeWindow:
+          setting: true
+          type: activeinterval
+          date:
+            - Thursday
+            - Friday
+          hours:
+            - start: "09:00"
+              end: "12:00"
+            - start: "15:00"
+              end: "18:00"
+        deployment:
+          local: false
+          online: false
+          matchingLabel: true 
+      - url: https://github.com/fxiang1/app-samples.git
+        username: ""
+        token: ""
+        branch: master
+        path: helloworld
+        deployment:
+          local: false
+          online: false
+          matchingLabel: true                   
 objectstore:
   data:
     enable: true
     name: ui-obj
+    type: objectstore
     config:
       - url: http://ec2-dummy/dev1
         accessKey: dummy1
@@ -11,8 +47,18 @@ objectstore:
           setting: true
           type: activeinterval
           date:
-            - Sunday
             - Monday
+            - Tuesday
+            - Wednesday
+            - Thursday
+            - Friday
+          hours:
+            - start: "08:00"
+              end: "12:00"
+            - start: "14:00"
+              end: "16:00"
+            - start: "18:00"
+              end: "22:00"
         deployment:
           local: false
           online: false
@@ -36,66 +82,11 @@ helm:
   data:
     enable: true
     name: ui-helm
+    type: helm
     config:
       - url: https://kubernetes-charts.storage.googleapis.com
         chartName: airflow
-        timeWindow:
-          setting: true
-          type: activeinterval
-          date:
-            - Monday
-            - Tuesday
-            - Wednesday
-            - Thursday
-            - Friday
-          hours:
-            - start: "08:00"
-              end: "12:00"
-            - start: "14:00"
-              end: "16:00"
-            - start: "18:00"
-              end: "22:00"
         deployment:
           local: true
           online: false
           matchingLabel: false
-git:
-  data:
-    enable: true
-    name: ui-git
-    config:
-      - url: https://github.com/fxiang1/app-samples.git
-        username: ""
-        token: ""
-        branch: master
-        path: helloworld
-        timeWindow:
-          setting: true
-          type: blockinterval
-          date:
-            - Monday
-            - Tuesday
-        deployment:
-          local: false
-          online: false
-          matchingLabel: true
-      - url: https://github.com/fxiang1/app-samples.git
-        username: ""
-        token: ""
-        branch: master
-        path: nginx
-        timeWindow:
-          setting: true
-          type: activeinterval
-          date:
-            - Thursday
-            - Friday
-          hours:
-            - start: "09:00"
-              end: "12:00"
-            - start: "15:00"
-              end: "18:00"
-        deployment:
-          local: false
-          online: false
-          matchingLabel: true

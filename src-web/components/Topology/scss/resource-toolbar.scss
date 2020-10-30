@@ -1,68 +1,90 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  * Copyright (c) 2020 Red Hat, Inc.
- *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import 'variables';
+@import "node_modules/carbon-components/scss/globals/scss/_colors";
+@import "variables";
 
-.topology-controls {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0rem 1rem 5px 0rem;
-  justify-content: space-between;
+.resource-toolbar {
+  //position: relative;
+  top: $secondary-header-top;
+  margin-bottom: 8px;
+  //right: 25px;
+  //z-index: 1001;
+  //display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  //height: $secondary-header-min-height;
 
-  .topology-control-container {
+  &.hide {
+    display: none;
+  }
+
+  .resource-toolbar-container {
+    position: relative;
+    top: 0px;
+    left: 0;
     display: flex;
-    align-items: center;
+    //min-height: $secondary-header-min-height;
+    flex-direction: column;
+    justify-content: center;
 
     > div {
-      width: 90vw;
-      margin-right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
     }
 
-    > * {
-      input::placeholder {
-        color: $ibm-colors__gray--40;
-      }
+    .resource-toolbar-buttons {
+      height: 0;
+      margin: 0px 0px 3px 0px;
 
-      .bx--list-box__menu {
-        max-height: 25rem;
-      }
+      > div {
+        color: $color__blue-51;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        outline: none;
+        display: flex;
+        align-items: center;
+        height: 26px;
 
-      .bx--text-input,
-      .bx--search-input,
-      .bx--list-box__field {
-        background-color: #fff;
-      }
-    }
+        .button-icon {
+          width: 12px;
+          height: 12px;
+          fill: $color__blue-51;
+          stroke: none;
+        }
 
-    .clear-filters {
-      .bx--tag.bx--tag--custom {
-        margin-left: 10px;
-        background-color: #edc0c0;
-        color: $color__blue-90;
-        font-size: .9rem;
-        padding: .8rem;
-        line-height: 20px;
-        white-space: nowrap;
-
-        .closeIcon {
-          fill: $color__blue-90;
-          cursor: pointer;
-          margin-left: 5px;
+        .button-label {
+          padding: 0 8px;
+          white-space: nowrap;
         }
       }
+
+      > div:not(:last-child) {
+        padding-right: 20px;
+        border-right: 2px solid $color__gray-1;
+      }
+
+      > div:last-child {
+        padding-left: 20px;
+      }
+    }
+
+    .resource-filter-bar {
+      .pf-c-chip-group.pf-m-category {
+        background-color: $color__white;
+      }
+
+      .pf-c-chip-group__label {
+        padding: 10px;
+      }
     }
   }
-
-  .topology-type-filter-bar {
-    display: flex;
-    align-items: flex-end;
-    height: 100%;
-  }
 }
+ 

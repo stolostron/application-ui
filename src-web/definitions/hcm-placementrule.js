@@ -7,7 +7,6 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 import R from 'ramda'
-import { validator } from './validators/hcm-placementrule-validator'
 import {
   createEditLink,
   getAge,
@@ -20,7 +19,6 @@ export default {
   defaultSortField: 'name',
   primaryKey: 'name',
   secondaryKey: 'namespace',
-  validator,
   tableKeys: [
     {
       msgKey: 'table.header.name',

@@ -391,6 +391,7 @@ export const setAvailableRules = (control, result) => {
   control.available = []
   control.availableMap = {}
   control.isLoading = false
+  control.active = ''
 
   const error = placementrules ? null : result.error
 

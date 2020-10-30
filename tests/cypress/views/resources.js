@@ -46,13 +46,13 @@ export const channelsInformation = (name, key) => {
   // Return a Cypress chain with channel name/namespace from subscription
   return cy
     .exec(
-      `oc -n ${name}-ns get subscription ${name}-subscription-${key} -o=jsonpath='{.spec.channel}'`
+      `oc -n ${name}-ns get subscription ${name}-subscription-${parseInt(key)+1} -o=jsonpath='{.spec.channel}'`
     )
     .then(({ stdout }) => {
       const [channelNs, channelName] = stdout.split("/");
       return {
-        channelNs,
-        channelName
+        channelNs: channelNs.replace(/'/g, ''),    // since this is the response to a cli
+        channelName: channelName.replace(/'/g, '') // the cli ocasionally throws in  '
       };
     });
 };
@@ -68,7 +68,7 @@ export const channels = async (key, type, name) => {
 export const placementrule = (key, name) => {
   cy.log(`validate the placementrule`);
   cy.exec(`oc get placementrule -n ${name}-ns`).then(({ stdout, stderr }) => {
-    cy.exec(`oc get placementrule ${name}-placement-${key} -n ${name}-ns`);
+    cy.exec(`oc get placementrule ${name}-placement-${parseInt(key)+1} -n ${name}-ns`);
     cy.exec(`oc get ns ${name}-ns`);
   });
 };
@@ -79,7 +79,7 @@ export const subscription = (key, name, kubeconfig = "") => {
   cy.log(`validate the subscription`);
   cy.exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`).then(() => {
     if (!managedCluster) {
-      cy.exec(`oc get subscription ${name}-subscription-${key} -n ${name}-ns`);
+      cy.exec(`oc get subscription ${name}-subscription-${parseInt(key)+1} -n ${name}-ns`);
     } else {
       cy.exec(
         `oc ${managedCluster} get subscription -n ${name}-ns | awk 'NR>1 {print $1}'`
@@ -110,7 +110,7 @@ export const validateTimewindow = (name, config) => {
         const searchText = windowType[timeWindow.type];
         cy
           .exec(
-            `oc get subscription ${name}-subscription-${key} -n ${name}-ns -o yaml`
+            `oc get subscription ${name}-subscription-${parseInt(key)+1} -n ${name}-ns -o yaml`
           )
           .its("stdout")
           .should("contain", "timewindow")
@@ -119,7 +119,7 @@ export const validateTimewindow = (name, config) => {
         cy.log("active selected... checking the default type");
         cy
           .exec(
-            `oc get subscription ${name}-subscription-${key} -n ${name}-ns -o yaml`
+            `oc get subscription ${name}-subscription-${parseInt(key)+1} -n ${name}-ns -o yaml`
           )
           .its("stdout")
           .should("not.contain", "timewindow");

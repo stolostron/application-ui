@@ -58,7 +58,7 @@ class CreateApplicationButton extends Component {
           key="create-application"
           onClick={canDisable ? this.disableClick : undefined}
         >
-          <Button variant="primary" isSmall isDisabled={canDisable}>
+          <Button variant="primary" isSmall isDisabled={canDisable} data-test-create-application={!canDisable}>
             {msgs.get('actions.create.application', locale)}
           </Button>
         </Link>

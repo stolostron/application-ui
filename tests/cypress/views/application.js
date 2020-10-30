@@ -17,12 +17,12 @@ import { channelsInformation } from "./resources.js";
 
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
-  cy.wait(5000);
+  // wait for create button to be enabled
+  cy.get('[data-test-create-application=true]', { timeout: 50 * 1000 }).click()
   cy.log(`Test create application ${name}`);
   const { name, config } = data;
-  modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");
-  cy.get("#name").type(name);
+  cy.get("#name", { timeout: 50 * 1000 }).type(name);
   cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`);
   if (type === "git") {
     createGit(clusterName, config);
@@ -164,11 +164,11 @@ export const submitSave = () => {
 };
 
 export const validateSubscriptionDetails = (name, data, type) => {
-  cy.wait(5000);
+  // as soon as details button is enabled we can proceed
   cy
-    .get(".toggle-subs-btn.bx--btn.bx--btn--primary", { timeout: 100 * 1000 })
+    .get('[data-test-subscription-details=true]', { timeout: 50 * 1000 })
     .scrollIntoView()
-    .click();
+    .click()
   for (const [key, value] of Object.entries(data.config)) {
     if (value.timeWindow) {
       // some subscriptions might not have time window
@@ -207,8 +207,8 @@ export const validateAdvancedTables = (name, data, type) => {
     const { local } = value.deployment;
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
-        subscriptions: `${name}-subscription-${key}`,
-        placementrules: `${name}-placement-${key}`,
+        subscriptions: `${name}-subscription-${parseInt(key)+1}`,
+        placementrules: `${name}-placement-${parseInt(key)+1}`,
         channels: channelName
       };
       cy.log(`instance-${key}`);
@@ -254,7 +254,7 @@ export const validateTopology = (name, data, type) => {
   //subscription
   cy.log("validate the subscription...");
   cy
-    .get(`g[type="${name}-subscription-0"]`, { timeout: 25 * 1000 })
+    .get(`g[type="${name}-subscription-1"]`, { timeout: 25 * 1000 })
     .should("be.visible");
 
   // cluster and placement
@@ -274,7 +274,7 @@ export const validateTopology = (name, data, type) => {
   });
 };
 
-export const validateClusterNode = clusterName => {
+export const validateClusterNode = (clusterName='magchen-ocp') => {
   cy.log("validating the cluster...");
   cy
     .get(`g[type="${clusterName}"]`, { timeout: 25 * 1000 })
@@ -284,7 +284,7 @@ export const validateClusterNode = clusterName => {
 export const validatePlacementNode = (name, key) => {
   cy.log("validate the placementrule..."),
     cy
-      .get(`g[type="${name}-placement-${key}"]`, { timeout: 25 * 1000 })
+      .get(`g[type="${name}-placement-${parseInt(key)+1}"]`, { timeout: 25 * 1000 })
       .should("be.visible");
 };
 
@@ -538,7 +538,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       ? clusterDeploymentCss
       : Object.keys(clusterDeploymentCss).forEach(
           k => (clusterDeploymentCss[k] = clusterDeploymentCss[k] + `grp${key}`)
-        );
+    );
 
     const {
       localClusterID,
@@ -575,7 +575,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
   }
 };
 
-export const selectMatchingLabel = (cluster, key) => {
+export const selectMatchingLabel = (cluster='magchen-ocp', key) => {
   let matchingLabelCSS = {
     labelName: "#labelName-0-clusterSelector",
     labelValue: "#labelValue-0-clusterSelector"
@@ -585,7 +585,7 @@ export const selectMatchingLabel = (cluster, key) => {
     ? matchingLabelCSS
     : Object.keys(matchingLabelCSS).forEach(
         k => (matchingLabelCSS[k] = matchingLabelCSS[k] + `grp${key}`)
-      );
+  );
   const { labelName, labelValue } = matchingLabelCSS;
   cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
 };
@@ -601,7 +601,7 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
     let typeID;
     key == 0
       ? (typeID =
-          type === "blockinterval"
+      type === "blockinterval"
             ? "#blocked-mode-timeWindow"
             : "#active-mode-timeWindow")
       : (typeID =
@@ -648,7 +648,7 @@ export const selectDate = (date, key) => {
       ? cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
       : cy
           .get(`#${dateId}grp${key}`, { timeout: 20 * 1000 })
-          .click({ force: true });
+        .click({ force: true });
   });
 };
 
@@ -665,7 +665,11 @@ export const edit = name => {
   resourceTable.openRowMenu(name);
   resourceTable.menuClickEdit();
   cy.url().should("include", `/${name}`);
-  cy.wait(5000);
+  // as soon as edit button is shown we can proceed
+  cy.get("#edit-yaml", { timeout: 100 * 1000 });
+  cy.wait(["@graphql", "@graphql"], {
+    timeout: 50 * 1000
+  });
 };
 
 export const editApplication = (name, data) => {

@@ -404,6 +404,9 @@ export const validateResourceTable = (name, data) => {
   let remoteDeploy = false;
   const subscriptionLength = data.config.length;
   let hasWindow = "";
+  let repositoryDetails = "";
+  const popupDefaultText =
+    "Provide a description that will be used as the title";
   data.config.forEach(item => {
     if (item.timeWindow) {
       hasWindow = "Yes"; // at list one window set
@@ -411,6 +414,15 @@ export const validateResourceTable = (name, data) => {
     const { local, matchingLabel } = item.deployment;
     remoteDeploy = matchingLabel ? true : remoteDeploy;
     localDeploy = local ? true : localDeploy;
+
+    let repoInfo = `${popupDefaultText}${item.url}`;
+    if (item.branch && item.branch.length > 0) {
+      repoInfo = `${repoInfo}Branch:${item.branch}`;
+    }
+    if (item.path && item.path.length > 0) {
+      repoInfo = `${repoInfo}Path:${item.path}`;
+    }
+    repositoryDetails = `${repositoryDetails}${repoInfo}`;
   });
 
   let clusterText = "None";
@@ -437,7 +449,7 @@ export const validateResourceTable = (name, data) => {
     subscriptionLength > 1
       ? `${repositoryText} (${subscriptionLength})`
       : repositoryText;
-  repositoryText = `${repositoryText}Provide a description that will be used as the title`;
+  repositoryText = `${repositoryText}${popupDefaultText}`;
   cy.log("Validate Repository column");
   cy
     .get(".resource-table")
@@ -446,6 +458,29 @@ export const validateResourceTable = (name, data) => {
     .eq(3)
     .invoke("text")
     .should("eq", repositoryText);
+
+  cy.log("Validate Repository popup");
+  cy
+    .get(".resource-table")
+    .get(`tr[data-row-name="${name}"]`)
+    .get("td")
+    .eq(3)
+    .click();
+
+  data.config.forEach(item => {
+    let repoInfo = `${popupDefaultText}${item.url}`;
+    if (item.branch && item.branch.length > 0) {
+      repoInfo = `${repoInfo}Branch:${item.branch}`;
+    }
+    if (item.path && item.path.length > 0) {
+      repoInfo = `${repoInfo}Path:${item.path}`;
+    }
+
+    cy
+      .get(".pf-l-split__item")
+      .invoke("text")
+      .should("include", repoInfo);
+  });
 
   cy.log("Validate Window column");
   cy

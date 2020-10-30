@@ -323,7 +323,7 @@ export const validateAppTableMenu = (name, resourceTable) => {
     .get('button[data-table-action="table.actions.applications.search"]', {
       timeout: 20 * 1000
     })
-    .click();
+    .click({ force: true });
   cy
     .url()
     .should(
@@ -672,6 +672,7 @@ export const edit = name => {
 
 export const editApplication = (name, data) => {
   edit(name);
+  cy.log("Verify name and namespace fields are disabled");
   cy.get(".bx--detail-page-header-title-container", { timeout: 100 * 1000 });
   cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
@@ -687,6 +688,7 @@ export const editApplication = (name, data) => {
     .get("#namespace", { timeout: 20 * 1000 })
     .invoke("val")
     .should("eq", `${name}-ns`);
+  cy.log("Verify Update button is disabled");
   modal.shouldBeDisabled();
 
   deleteFirstSubscription(name, data);
@@ -695,6 +697,10 @@ export const editApplication = (name, data) => {
 export const deleteFirstSubscription = (name, data) => {
   if (data.config.length > 1) {
     cy.log(`Verified that ${name} has ${data.config.length} subscriptions`);
+    cy.log(
+      `Verify that the first subscription can be deleted for ${name} application`
+    );
+
     cy.get(".creation-view-controls-section").within($section => {
       cy
         .get(".creation-view-group-container")
@@ -714,7 +720,9 @@ export const deleteFirstSubscription = (name, data) => {
 export const verifyEdit = (name, data) => {
   if (data.config.length > 1) {
     edit(name);
-    cy.log(`${name} has multiple subscriptions`);
+    cy.log(
+      `Verify that after edit, ${name} application has one less subscription`
+    );
     cy.get(".creation-view-controls-section").within($section => {
       cy
         .get(".creation-view-group-container")

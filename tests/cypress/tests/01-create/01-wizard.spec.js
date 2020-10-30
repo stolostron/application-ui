@@ -11,17 +11,20 @@ describe("Application Creation Test", () => {
     getManagedClusterName();
   });
   for (const type in config) {
-    const data = config[type].data;
-
-    if (data.enable) {
-      it(`Verify application can be created from resource type ${type} using template editor`, () => {
-        const clusterName = Cypress.env("managedCluster");
-        createApplication(clusterName, data, type);
-      });
-    } else {
-      it(`disable creation on resource ${type}`, () => {
-        cy.log(`skipping wizard: ${type} - ${data.name}`);
-      });
-    }
+    const apps = config[type].data;
+    apps.forEach(data => {
+      if (data.enable) {
+        it(`Verify application ${
+          data.name
+        } can be created from resource type ${type} using template editor`, () => {
+          const clusterName = Cypress.env("managedCluster");
+          createApplication(clusterName, data, type);
+        });
+      } else {
+        it(`disable creation on resource ${data.name} ${type}`, () => {
+          cy.log(`skipping wizard: ${type} - ${data.name}`);
+        });
+      }
+    });
   }
 });

@@ -34,7 +34,11 @@ export const apiResources = (type, data) => {
     cy.log(`instance-${key}`);
     channels(key, type, name);
     subscription(key, name);
-    placementrule(key, name);
+    !value.deployment.local
+      ? placementrule(key, name)
+      : cy.log(
+          "placement will not be created as the application is deployed locally"
+        );
   }
 };
 
@@ -99,8 +103,9 @@ export const validateTimewindow = (name, config) => {
       cy.log(stdout || stderr);
       cy.log("the subscription is not empty");
       if (
-        timeWindow.type === "activeinterval" ||
-        timeWindow.type === "blockinterval"
+        timeWindow &&
+        (timeWindow.type === "activeinterval" ||
+          timeWindow.type === "blockinterval")
       ) {
         const searchText = windowType[timeWindow.type];
         cy

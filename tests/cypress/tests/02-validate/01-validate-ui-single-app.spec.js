@@ -4,8 +4,12 @@
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { validateTopology } from "../../views/application";
+import { getManagedClusterName } from "../../views/resources";
 
 describe("Application Validation Test for single application page, topology ", () => {
+  it(`get the name of the managed OCP cluster`, () => {
+    getManagedClusterName();
+  });
   for (const type in config) {
     const data = config[type].data;
 

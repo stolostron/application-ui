@@ -17,7 +17,8 @@ import { channelsInformation } from "./resources.js";
 
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
-  cy.wait(10000);
+  cy.wait(5000);
+  cy.log(`Test create application ${name}`);
   const { name, config } = data;
   modal.clickPrimary();
   cy.get(".bx--detail-page-header-title-container").should("exist");
@@ -163,7 +164,7 @@ export const submitSave = () => {
 };
 
 export const validateSubscriptionDetails = (name, data, type) => {
-  cy.wait(50 * 1000);
+  cy.wait(5000);
   cy
     .get(".toggle-subs-btn.bx--btn.bx--btn--primary", { timeout: 100 * 1000 })
     .scrollIntoView()
@@ -664,10 +665,7 @@ export const edit = name => {
   resourceTable.openRowMenu(name);
   resourceTable.menuClickEdit();
   cy.url().should("include", `/${name}`);
-  cy.wait(30 * 1000);
-  cy.wait(["@graphql", "@graphql"], {
-    timeout: 50 * 1000
-  });
+  cy.wait(5000);
 };
 
 export const editApplication = (name, data) => {

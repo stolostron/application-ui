@@ -13,7 +13,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
-import { Checkbox, Icon, Tag } from 'carbon-components-react'
+import { Checkbox, Icon } from 'carbon-components-react'
+import { Chip, ChipGroup } from '@patternfly/react-core'
 import { Scrollbars } from 'react-custom-scrollbars'
 import '../scss/resource-filter-view.scss'
 import '../../../../graphics/diagramIcons.svg'
@@ -337,43 +338,45 @@ ResourceFilterView.propTypes = {
   updateFilters: PropTypes.func
 }
 
-const ResourceUnfilterBar = ({ boundFilters = [], locale }) => {
-  let filterCounter = 0
+const clearFilterList = (activeFilters, updateActiveFilters) => {
+  Object.keys(activeFilters).forEach(key => {
+    if (key !== 'type') {
+      activeFilters[key].clear()
+      updateActiveFilters(activeFilters)
+    }
+  })
+}
+
+const ResourceUnfilterBar = ({
+  activeFilters,
+  boundFilters = [],
+  updateActiveFilters,
+  locale
+}) => {
   return (
     <div className="resource-filter-bar">
-      {boundFilters.map(({ name, onClick }) => {
-        filterCounter++
-        return (
-          <React.Fragment key={name}>
-            {filterCounter < 9 && (
-              <React.Fragment>
-                <Tag key={name} type="custom">
-                  {name}
-                  <Icon
-                    className="closeIcon"
-                    description={msgs.get('filter.remove.tag', locale)}
-                    name="icon--close"
-                    onClick={onClick}
-                  />
-                </Tag>
-              </React.Fragment>
-            )}
-            {filterCounter === 9 && (
-              <React.Fragment>
-                <Tag key={name} type="custom">
-                  ...
-                </Tag>
-              </React.Fragment>
-            )}
-          </React.Fragment>
-        )
-      })}
+      <ChipGroup
+        categoryName={msgs.get('filter.remove.label', locale)}
+        numChips={8}
+        isClosable
+        onClick={() =>
+          clearFilterList(_.cloneDeep(activeFilters || {}), updateActiveFilters)
+        }
+      >
+        {boundFilters.map(({ name, onClick }) => (
+          <Chip key={name} onClick={onClick}>
+            {name}
+          </Chip>
+        ))}
+      </ChipGroup>
     </div>
   )
 }
 ResourceUnfilterBar.propTypes = {
+  activeFilters: PropTypes.object,
   boundFilters: PropTypes.array,
-  locale: PropTypes.string
+  locale: PropTypes.string,
+  updateActiveFilters: PropTypes.func
 }
 
 class ResourceFilterModule extends React.Component {
@@ -441,14 +444,24 @@ class ResourceFilterModule extends React.Component {
   }
 
   renderResourceUnfilterBar() {
-    const { portals = {}, locale } = this.props
+    const {
+      activeFilters,
+      portals = {},
+      updateActiveFilters,
+      locale
+    } = this.props
     const { assortedFilterCloseBtns } = portals
     if (assortedFilterCloseBtns) {
       const portal = document.getElementById(assortedFilterCloseBtns)
       if (portal) {
         const boundFilters = this.getBoundFilters(locale)
         return ReactDOM.createPortal(
-          <ResourceUnfilterBar boundFilters={boundFilters} locale={locale} />,
+          <ResourceUnfilterBar
+            activeFilters={activeFilters}
+            boundFilters={boundFilters}
+            updateActiveFilters={updateActiveFilters}
+            locale={locale}
+          />,
           portal
         )
       }

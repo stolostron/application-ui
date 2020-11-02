@@ -84,6 +84,10 @@
       .pf-c-chip-group__label {
         padding: 10px;
       }
+
+      .pf-c-chip__text {
+        overflow: visible;
+      }
     }
   }
 }

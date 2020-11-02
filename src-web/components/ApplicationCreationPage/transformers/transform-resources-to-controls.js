@@ -35,6 +35,7 @@ export const discoverGroupsFromSource = (
   // find groups
   const { controlData: groupData, prompts: { nameId, baseName } } = control
   templateObject = _.cloneDeep(templateObject)
+  control.nextUniqueGroupID = 1
   const times = _.get(templateObject, 'Subscription.length')
   if (times) {
     const active = []
@@ -53,7 +54,7 @@ export const discoverGroupsFromSource = (
 
       // add a channel for every group
       const cardsControl = newGroup.find(({ id }) => id === 'channelType')
-      discoverChannelFromSource(
+      const subscriptionDigit = discoverChannelFromSource(
         cardsControl,
         newGroup,
         cd,
@@ -62,6 +63,9 @@ export const discoverGroupsFromSource = (
         times > 1,
         locale
       )
+      if (subscriptionDigit >= control.nextUniqueGroupID) {
+        control.nextUniqueGroupID = subscriptionDigit + 1
+      }
 
       const selfLinksControl = newGroup.find(({ id }) => id === 'selfLinks')
       if (selfLinksControl) {
@@ -168,6 +172,20 @@ const discoverChannelFromSource = (
         })
     }
   }
+
+  // get trailing digit so we can create a unique name
+  let subscriptionDigit
+  const subscriptionName = _.get(
+    templateObject,
+    getSourcePath('Subscription[0].metadata.name') + '.$v'
+  )
+  if (subscriptionName) {
+    const match = subscriptionName.match(/-(\d+)$/)
+    if (match && match[1]) {
+      subscriptionDigit = parseInt(match[1], 10)
+    }
+  }
+  return subscriptionDigit
 }
 
 //called for each group when editor refreshes control active values from the template

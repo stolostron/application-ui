@@ -203,6 +203,7 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
           
           <button
             className="toggle-subs-btn bx--btn bx--btn--primary"
+            data-test-subscription-details={false}
             disabled={true}
             onClick={[Function]}
             tabIndex={0}

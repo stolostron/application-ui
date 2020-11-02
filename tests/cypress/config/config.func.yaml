@@ -1,101 +1,109 @@
 ---
-objectstore:
-  data:
-    enable: true
-    name: ui-obj
-    config:
-      - url: http://ec2-dummy/dev1
-        accessKey: dummy1
-        secretKey: dummy2
-        timeWindow:
-          setting: true
-          type: activeinterval
-          date:
-            - Sunday
-            - Monday
-        deployment:
-          local: false
-          online: false
-          matchingLabel: true
-      - url: http://ec2-dummy/dev2
-        accessKey: dummy11
-        secretKey: dummy22
-        timeWindow:
-          setting: true
-          type: blockinterval
-          date:
-            - Tuesday
-          hours:
-            - start: "18:30"
-              end: "21:00"
-        deployment:
-          local: false
-          online: false
-          matchingLabel: true
-helm:
-  data:
-    enable: true
-    name: ui-helm
-    config:
-      - url: https://kubernetes-charts.storage.googleapis.com
-        chartName: airflow
-        timeWindow:
-          setting: true
-          type: activeinterval
-          date:
-            - Monday
-            - Tuesday
-            - Wednesday
-            - Thursday
-            - Friday
-          hours:
-            - start: "08:00"
-              end: "12:00"
-            - start: "14:00"
-              end: "16:00"
-            - start: "18:00"
-              end: "22:00"
-        deployment:
-          local: true
-          online: false
-          matchingLabel: false
 git:
   data:
-    enable: true
-    name: ui-git
-    config:
-      - url: https://github.com/fxiang1/app-samples.git
-        username: ""
-        token: ""
-        branch: master
-        path: helloworld
-        timeWindow:
-          setting: true
-          type: blockinterval
-          date:
-            - Monday
-            - Tuesday
-        deployment:
-          local: false
-          online: false
-          matchingLabel: true
-      - url: https://github.com/fxiang1/app-samples.git
-        username: ""
-        token: ""
-        branch: master
-        path: nginx
-        timeWindow:
-          setting: true
-          type: activeinterval
-          date:
-            - Thursday
-            - Friday
-          hours:
-            - start: "09:00"
-              end: "12:00"
-            - start: "15:00"
-              end: "18:00"
-        deployment:
-          local: false
-          online: false
-          matchingLabel: true
+    - enable: true
+      name: ui-git
+      type: git
+      config:    
+        - url: https://github.com/fxiang1/app-samples.git
+          username: ""
+          token: ""
+          branch: master
+          path: nginx
+          timeWindow:
+            setting: true
+            type: activeinterval
+            date:
+              - Thursday
+              - Friday
+            hours:
+              - start: "09:00"
+                end: "12:00"
+              - start: "15:00"
+                end: "18:00"
+          deployment:
+            local: false
+            online: true
+            matchingLabel: false 
+        - url: https://github.com/fxiang1/app-samples.git
+          username: ""
+          token: ""
+          branch: master
+          path: helloworld
+          deployment:
+            local: false
+            online: false
+            matchingLabel: true 
+objectstore:
+  data:
+    - enable: true
+      name: ui-obj
+      type: objectstore
+      config:
+        - url: http://ec2-dummy/dev1
+          accessKey: dummy1
+          secretKey: dummy2
+          timeWindow:
+            setting: true
+            type: activeinterval
+            date:
+              - Monday
+              - Tuesday
+              - Wednesday
+              - Thursday
+              - Friday
+            hours:
+              - start: "08:00"
+                end: "12:00"
+              - start: "14:00"
+                end: "16:00"
+              - start: "18:00"
+                end: "22:00"
+          deployment:
+            local: false
+            online: false
+            matchingLabel: true
+        - url: http://ec2-dummy/dev2
+          accessKey: dummy11
+          secretKey: dummy22
+          timeWindow:
+            setting: true
+            type: blockinterval
+            date:
+              - Tuesday
+            hours:
+              - start: "18:30"
+                end: "21:00"
+          deployment:
+            local: false
+            online: false
+            matchingLabel: true
+helm:
+  data:
+    - enable: true
+      name: ui-helm
+      type: helm
+      config:
+        - url: https://kubernetes-charts.storage.googleapis.com
+          chartName: airflow
+          deployment:
+            local: true
+            online: false
+            matchingLabel: false
+        - url: https://kubernetes-charts.storage.googleapis.com
+          chartName: airstrike
+          deployment:
+            local: false
+            online: false
+            matchingLabel: true
+    - enable: true
+      name: ui-helm2
+      type: helm
+      config:
+        - url: https://kubernetes-charts.storage.googleapis.com
+          chartName: airstrike
+          deployment:
+            local: false
+            online: true
+            matchingLabel: false            
+                  

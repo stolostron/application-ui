@@ -14,7 +14,7 @@ import {
   AccordionContent,
   AccordionToggle
 } from '@patternfly/react-core'
-import { ArrowIcon } from '@patternfly/react-icons'
+import { ExternalLinkAltIcon } from '@patternfly/react-icons'
 import { DOC_LINKS } from '../../../../lib/shared/constants'
 import msgs from '../../../../nls/platform.properties'
 import resources from '../../../../lib/shared/resources'
@@ -114,7 +114,7 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
                       locale
                     )}
                   </span>
-                  <ArrowIcon className="details-item-link-icon" />
+                  <ExternalLinkAltIcon className="details-item-link-icon" />
                 </a>
               </div>
             </AccordionContent>

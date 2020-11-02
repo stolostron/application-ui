@@ -10,7 +10,8 @@ import {
   resourceTable,
   modal,
   noResource,
-  notification
+  notification,
+  validateSubscriptionTable
 } from "./common";
 
 import { channelsInformation } from "./resources.js";
@@ -197,33 +198,45 @@ export const validateSubscriptionDetails = (name, data, type) => {
   }
 };
 
-export const validateAdvancedTables = (name, data, type) => {
+export const validateAdvancedTables = (
+  name,
+  data,
+  type,
+  numberOfRemoteClusters
+) => {
   cy.log(
     `Execute validateAdvancedTables for name=${name}, data.config=${
       data.config
     }`
   );
-  for (const [key, value] of Object.entries(data.config)) {
-    const { local } = value.deployment;
+  for (const [key, subscriptionItem] of Object.entries(data.config)) {
+    const { local, online, matchingLabel } = subscriptionItem.deployment;
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
         subscriptions: `${name}-subscription-${parseInt(key) + 1}`,
         placementrules: `${name}-placement-${parseInt(key) + 1}`,
         channels: channelName
       };
-      cy.log(`instance-${key}`);
-      Object.keys(resourceTypes).map(function(key) {
-        if (local && key == "placementrules") {
+      cy.log(`Validate instance-${key} with channel name ${channelName}`);
+      Object.keys(resourceTypes).map(function(tableType) {
+        cy.log(`Validating now the ${tableType} table for app ${name}`);
+        if (local && tableType == "placementrules") {
           cy.log(
             `no placementrules for app - ${name} because it has been deployed locally`
           );
         } else {
-          cy.log(`validating ${key} on Advanced Tables`);
-          cy.visit(`/multicloud/applications/advanced?resource=${key}`);
+          cy.log(`Validating ${tableType} on Advanced Tables`);
+          cy.visit(`/multicloud/applications/advanced?resource=${tableType}`);
           cy
             .get("#undefined-search", { timeout: 500 * 1000 })
-            .type(resourceTypes[key]);
-          resourceTable.rowShouldExist(resourceTypes[key], 600 * 1000);
+            .type(resourceTypes[tableType]);
+          resourceTable.rowShouldExist(resourceTypes[tableType], 600 * 1000);
+          validateSubscriptionTable(
+            resourceTypes[tableType],
+            tableType,
+            subscriptionItem,
+            numberOfRemoteClusters
+          );
         }
       });
     });
@@ -555,13 +568,13 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     if (online) {
       cy.log("Select to deploy to all online clusters including local cluster");
       cy
-        .get(uniqueClusterID, { timeout: 50 * 1000 })
+        .get(onlineClusterID, { timeout: 50 * 1000 })
         .click({ force: true })
         .trigger("mouseover", { force: true });
     } else if (local) {
       cy.log("Select to deploy to local cluster only");
       cy
-        .get(onlineClusterID, { timeout: 50 * 1000 })
+        .get(localClusterID, { timeout: 50 * 1000 })
         .click({ force: true })
         .trigger("mouseover", { force: true });
     } else {

@@ -18,7 +18,7 @@ import { channelsInformation } from "./resources.js";
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
-  cy.get('[data-test-create-application=true]', { timeout: 50 * 1000 }).click()
+  cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
   cy.log(`Test create application ${name}`);
   const { name, config } = data;
   cy.get(".bx--detail-page-header-title-container").should("exist");
@@ -166,9 +166,9 @@ export const submitSave = () => {
 export const validateSubscriptionDetails = (name, data, type) => {
   // as soon as details button is enabled we can proceed
   cy
-    .get('[data-test-subscription-details=true]', { timeout: 50 * 1000 })
+    .get("[data-test-subscription-details=true]", { timeout: 50 * 1000 })
     .scrollIntoView()
-    .click()
+    .click();
   for (const [key, value] of Object.entries(data.config)) {
     if (value.timeWindow) {
       // some subscriptions might not have time window
@@ -207,8 +207,8 @@ export const validateAdvancedTables = (name, data, type) => {
     const { local } = value.deployment;
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
-        subscriptions: `${name}-subscription-${parseInt(key)+1}`,
-        placementrules: `${name}-placement-${parseInt(key)+1}`,
+        subscriptions: `${name}-subscription-${parseInt(key) + 1}`,
+        placementrules: `${name}-placement-${parseInt(key) + 1}`,
         channels: channelName
       };
       cy.log(`instance-${key}`);
@@ -259,10 +259,10 @@ export const validateTopology = (name, data, type) => {
 
   // cluster and placement
   for (const [key, value] of Object.entries(data.config)) {
-    const { local } = value.deployment;
+    const { local, online } = value.deployment;
     !local
       ? (validatePlacementNode(name, key),
-        validateClusterNode(Cypress.env("managedCluster")))
+        !online && validateClusterNode(Cypress.env("managedCluster"))) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
       : cy.log(
           "cluster and placement nodes will not be created as the application is deployed locally"
         );
@@ -274,7 +274,7 @@ export const validateTopology = (name, data, type) => {
   });
 };
 
-export const validateClusterNode = (clusterName='magchen-ocp') => {
+export const validateClusterNode = (clusterName = "magchen-ocp") => {
   cy.log("validating the cluster...");
   cy
     .get(`g[type="${clusterName}"]`, { timeout: 25 * 1000 })
@@ -284,7 +284,9 @@ export const validateClusterNode = (clusterName='magchen-ocp') => {
 export const validatePlacementNode = (name, key) => {
   cy.log("validate the placementrule..."),
     cy
-      .get(`g[type="${name}-placement-${parseInt(key)+1}"]`, { timeout: 25 * 1000 })
+      .get(`g[type="${name}-placement-${parseInt(key) + 1}"]`, {
+        timeout: 25 * 1000
+      })
       .should("be.visible");
 };
 
@@ -375,7 +377,7 @@ export const validateAppTableMenu = (name, resourceTable) => {
   //END View menu validation
 };
 
-export const validateResourceTable = (name, data) => {
+export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
   cy.visit(`/multicloud/applications`);
   cy.get(".search-query-card-loading").should("not.exist", {
     timeout: 60 * 1000
@@ -401,6 +403,7 @@ export const validateResourceTable = (name, data) => {
     .should("eq", `${name}-ns`);
 
   cy.log("Validate Cluster column");
+  let onlineDeploy = false; //deploy to all online clusters including local
   let localDeploy = false;
   let remoteDeploy = false;
   const subscriptionLength = data.config.length;
@@ -412,7 +415,8 @@ export const validateResourceTable = (name, data) => {
     if (item.timeWindow) {
       hasWindow = "Yes"; // at list one window set
     }
-    const { local, matchingLabel } = item.deployment;
+    const { local, online, matchingLabel } = item.deployment;
+    onlineDeploy = onlineDeploy || online ? true : false; // if any subscription was set to online option, use that over anything else
     remoteDeploy = matchingLabel ? true : remoteDeploy;
     localDeploy = local ? true : localDeploy;
 
@@ -427,7 +431,9 @@ export const validateResourceTable = (name, data) => {
   });
 
   let clusterText = "None";
-  if (remoteDeploy && localDeploy) {
+  if (onlineDeploy) {
+    clusterText = `${numberOfRemoteClusters} Remote, 1 Local`;
+  } else if (remoteDeploy && localDeploy) {
     clusterText = "1 Remote, 1 Local";
   } else if (localDeploy) {
     clusterText = "Local";
@@ -493,7 +499,7 @@ export const validateResourceTable = (name, data) => {
     .should("eq", hasWindow);
 
   cy.log("Validate popup actions");
-  validateAppTableMenu(name, resourceTable);
+  validateAppTableMenu(name, resourceTable, numberOfRemoteClusters);
 
   //click on app name to go to the single app View
   resourceTable.openRowMenu(name);
@@ -538,7 +544,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       ? clusterDeploymentCss
       : Object.keys(clusterDeploymentCss).forEach(
           k => (clusterDeploymentCss[k] = clusterDeploymentCss[k] + `grp${key}`)
-    );
+        );
 
     const {
       localClusterID,
@@ -546,28 +552,25 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       uniqueClusterID
     } = clusterDeploymentCss;
 
-    !local
-      ? cy.log("do not select `Deploy on local cluster`")
-      : cy
-          .get(localClusterID)
-          .click({ force: true })
-          .trigger("mouseover", { force: true });
-    !online
-      ? local
-        ? cy.log("local deployment has been set")
-        : cy
-            .get(onlineClusterID, { timeout: 50 * 1000 })
-            .click({ force: true })
-            .trigger("mouseover", { force: true })
-      : cy.log("select `Deploy to all online clusters` by default");
-
-    !matchingLabel
-      ? cy.log(
-          "do not select `Deploy application resources only on clusters matching specified labels`"
-        )
-      : (cy.get(uniqueClusterID).click({ force: true }),
-        cy.log(`deploying app to cluster-${clusterName}`),
-        selectMatchingLabel(clusterName, key));
+    if (online) {
+      cy.log("Select to deploy to all online clusters including local cluster");
+      cy
+        .get(uniqueClusterID, { timeout: 50 * 1000 })
+        .click({ force: true })
+        .trigger("mouseover", { force: true });
+    } else if (local) {
+      cy.log("Select to deploy to local cluster only");
+      cy
+        .get(onlineClusterID, { timeout: 50 * 1000 })
+        .click({ force: true })
+        .trigger("mouseover", { force: true });
+    } else {
+      cy.log(
+        "Select Deploy application resources only on clusters matching specified labels, which is the default"
+      );
+      cy.log(`deploying app to cluster-${clusterName}`),
+        selectMatchingLabel(clusterName, key);
+    }
   } else {
     throw new Error(
       "no available imported OCP clusters to deploy applications"
@@ -575,7 +578,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
   }
 };
 
-export const selectMatchingLabel = (cluster='magchen-ocp', key) => {
+export const selectMatchingLabel = (cluster = "magchen-ocp", key) => {
   let matchingLabelCSS = {
     labelName: "#labelName-0-clusterSelector",
     labelValue: "#labelValue-0-clusterSelector"
@@ -585,7 +588,7 @@ export const selectMatchingLabel = (cluster='magchen-ocp', key) => {
     ? matchingLabelCSS
     : Object.keys(matchingLabelCSS).forEach(
         k => (matchingLabelCSS[k] = matchingLabelCSS[k] + `grp${key}`)
-  );
+      );
   const { labelName, labelValue } = matchingLabelCSS;
   cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
 };
@@ -601,7 +604,7 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
     let typeID;
     key == 0
       ? (typeID =
-      type === "blockinterval"
+          type === "blockinterval"
             ? "#blocked-mode-timeWindow"
             : "#active-mode-timeWindow")
       : (typeID =
@@ -648,7 +651,7 @@ export const selectDate = (date, key) => {
       ? cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
       : cy
           .get(`#${dateId}grp${key}`, { timeout: 20 * 1000 })
-        .click({ force: true });
+          .click({ force: true });
   });
 };
 

@@ -4,8 +4,12 @@
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { validateResourceTable } from "../../views/application";
+import { getNumberOfManagedClusters } from "../../views/resources";
 
 describe("Application Validation Test for applications table", () => {
+  it(`get the number of the managed OCP clusters`, () => {
+    getNumberOfManagedClusters();
+  });
   for (const type in config) {
     const apps = config[type].data;
     apps.forEach(data => {
@@ -13,7 +17,8 @@ describe("Application Validation Test for applications table", () => {
         it(`Verify application ${
           data.name
         } info from applications table - ${type}: ${data.name}`, () => {
-          validateResourceTable(data.name, data);
+          const numberOfRemoteClusters = Cypress.env("numberOfManagedClusters");
+          validateResourceTable(data.name, data, numberOfRemoteClusters);
         });
       } else {
         it(`disable validation on resource ${type}`, () => {

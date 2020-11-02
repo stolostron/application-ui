@@ -113,28 +113,23 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
                 View documentation
               </span>
               <svg
-                alt=""
-                aria-label=""
-                className="deployment-highlights-terminology-docs-icon"
-                fill="#0066CC"
-                fillRule="evenodd"
-                height="16"
-                name="icon--launch"
+                aria-hidden={true}
+                aria-labelledby={null}
+                className="details-item-link-icon"
+                fill="currentColor"
+                height="1em"
                 role="img"
-                viewBox="0 0 16 16"
-                width="16"
+                style={
+                  Object {
+                    "verticalAlign": "-0.125em",
+                  }
+                }
+                viewBox="0 64 1097 1024"
+                width="1em"
               >
-                <title>
-                  
-                </title>
                 <path
-                  d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                />
-                <path
-                  d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                />
-                <path
-                  d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                  d="M921.6-73.143h-885.029c-21.943 0-36.571 14.629-36.571 36.571v804.571c0 21.943 14.629 36.571 36.571 36.571h292.571l-109.714-146.286h-73.143v-585.143h658.286v73.143l146.286 146.286v-329.143c0-21.943-14.629-36.571-29.257-36.571v0zM665.6 731.428c-219.429 0-394.971-131.657-373.029-351.086 14.629-138.971 87.771-160.914 146.286-204.8-58.514 124.343 36.571 321.829 263.314 336.457 7.314 0 21.943 0 29.257 0v-219.429l365.714 329.143-365.714 329.143v-219.429c0 0-65.829 0-65.829 0z"
+                  transform="rotate(180 0 512) scale(-1 1)"
                 />
               </svg>
             </a>
@@ -259,28 +254,23 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
                 View documentation
               </span>
               <svg
-                alt=""
-                aria-label=""
-                className="deployment-highlights-terminology-docs-icon"
-                fill="#0066CC"
-                fillRule="evenodd"
-                height="16"
-                name="icon--launch"
+                aria-hidden={true}
+                aria-labelledby={null}
+                className="details-item-link-icon"
+                fill="currentColor"
+                height="1em"
                 role="img"
-                viewBox="0 0 16 16"
-                width="16"
+                style={
+                  Object {
+                    "verticalAlign": "-0.125em",
+                  }
+                }
+                viewBox="0 64 1097 1024"
+                width="1em"
               >
-                <title>
-                  
-                </title>
                 <path
-                  d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                />
-                <path
-                  d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                />
-                <path
-                  d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                  d="M921.6-73.143h-885.029c-21.943 0-36.571 14.629-36.571 36.571v804.571c0 21.943 14.629 36.571 36.571 36.571h292.571l-109.714-146.286h-73.143v-585.143h658.286v73.143l146.286 146.286v-329.143c0-21.943-14.629-36.571-29.257-36.571v0zM665.6 731.428c-219.429 0-394.971-131.657-373.029-351.086 14.629-138.971 87.771-160.914 146.286-204.8-58.514 124.343 36.571 321.829 263.314 336.457 7.314 0 21.943 0 29.257 0v-219.429l365.714 329.143-365.714 329.143v-219.429c0 0-65.829 0-65.829 0z"
+                  transform="rotate(180 0 512) scale(-1 1)"
                 />
               </svg>
             </a>
@@ -405,28 +395,23 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
                 View documentation
               </span>
               <svg
-                alt=""
-                aria-label=""
-                className="deployment-highlights-terminology-docs-icon"
-                fill="#0066CC"
-                fillRule="evenodd"
-                height="16"
-                name="icon--launch"
+                aria-hidden={true}
+                aria-labelledby={null}
+                className="details-item-link-icon"
+                fill="currentColor"
+                height="1em"
                 role="img"
-                viewBox="0 0 16 16"
-                width="16"
+                style={
+                  Object {
+                    "verticalAlign": "-0.125em",
+                  }
+                }
+                viewBox="0 64 1097 1024"
+                width="1em"
               >
-                <title>
-                  
-                </title>
                 <path
-                  d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                />
-                <path
-                  d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                />
-                <path
-                  d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                  d="M921.6-73.143h-885.029c-21.943 0-36.571 14.629-36.571 36.571v804.571c0 21.943 14.629 36.571 36.571 36.571h292.571l-109.714-146.286h-73.143v-585.143h658.286v73.143l146.286 146.286v-329.143c0-21.943-14.629-36.571-29.257-36.571v0zM665.6 731.428c-219.429 0-394.971-131.657-373.029-351.086 14.629-138.971 87.771-160.914 146.286-204.8-58.514 124.343 36.571 321.829 263.314 336.457 7.314 0 21.943 0 29.257 0v-219.429l365.714 329.143-365.714 329.143v-219.429c0 0-65.829 0-65.829 0z"
+                  transform="rotate(180 0 512) scale(-1 1)"
                 />
               </svg>
             </a>

@@ -23,8 +23,8 @@ git:
                 end: "18:00"
           deployment:
             local: false
-            online: false
-            matchingLabel: true 
+            online: true
+            matchingLabel: false 
         - url: https://github.com/fxiang1/app-samples.git
           username: ""
           token: ""
@@ -33,7 +33,7 @@ git:
           deployment:
             local: false
             online: false
-            matchingLabel: true                   
+            matchingLabel: true 
 objectstore:
   data:
     - enable: true
@@ -96,7 +96,6 @@ helm:
             local: false
             online: false
             matchingLabel: true
-
     - enable: true
       name: ui-helm2
       type: helm
@@ -105,5 +104,6 @@ helm:
           chartName: airstrike
           deployment:
             local: false
-            online: false
-            matchingLabel: true            
+            online: true
+            matchingLabel: false            
+                  

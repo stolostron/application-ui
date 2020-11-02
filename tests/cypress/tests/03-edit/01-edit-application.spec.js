@@ -11,7 +11,9 @@ describe("Edit application Test", () => {
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`Verify that ${data.name} is editable`, () => {
+        it(`Verify that ${
+          data.name
+        } is editable and can delete first subscription when multiple set`, () => {
           editApplication(data.name, data);
         });
         it(`Verify that ${data.name} is valid after edit`, () => {

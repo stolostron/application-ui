@@ -8,13 +8,13 @@
  *******************************************************************************/
 
 import React from 'react'
-import { Icon } from 'carbon-components-react'
 import {
   Accordion,
   AccordionItem,
   AccordionContent,
   AccordionToggle
 } from '@patternfly/react-core'
+import { ExternalLinkAltIcon } from '@patternfly/react-icons'
 import { DOC_LINKS } from '../../../../lib/shared/constants'
 import msgs from '../../../../nls/platform.properties'
 import resources from '../../../../lib/shared/resources'
@@ -114,12 +114,7 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
                       locale
                     )}
                   </span>
-                  <Icon
-                    name="icon--launch"
-                    fill="#0066CC"
-                    description=""
-                    className="deployment-highlights-terminology-docs-icon"
-                  />
+                  <ExternalLinkAltIcon className="details-item-link-icon" />
                 </a>
               </div>
             </AccordionContent>

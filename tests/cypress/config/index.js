@@ -29,7 +29,6 @@ exports.getConfig = () => {
           data.name = name;
         }
       });
-      console.log(value);
     }
   } catch (e) {
     throw new Error(e);

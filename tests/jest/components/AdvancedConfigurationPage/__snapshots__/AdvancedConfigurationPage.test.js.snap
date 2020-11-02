@@ -107,26 +107,18 @@ Array [
                   View documentation
                 </span>
                 <svg
-                  alt=""
-                  aria-label=""
-                  class="deployment-highlights-terminology-docs-icon"
-                  fill="#0066CC"
-                  fill-rule="evenodd"
-                  height="16"
-                  name="icon--launch"
+                  aria-hidden="true"
+                  class="details-item-link-icon"
+                  fill="currentColor"
+                  height="1em"
                   role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
+                  style="vertical-align: -0.125em;"
+                  viewBox="0 0 512 512"
+                  width="1em"
                 >
-                  <title />
                   <path
-                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                  />
-                  <path
-                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                  />
-                  <path
-                    d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                    d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"
+                    transform=""
                   />
                 </svg>
               </a>
@@ -1403,26 +1395,18 @@ Array [
                   View documentation
                 </span>
                 <svg
-                  alt=""
-                  aria-label=""
-                  class="deployment-highlights-terminology-docs-icon"
-                  fill="#0066CC"
-                  fill-rule="evenodd"
-                  height="16"
-                  name="icon--launch"
+                  aria-hidden="true"
+                  class="details-item-link-icon"
+                  fill="currentColor"
+                  height="1em"
                   role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
+                  style="vertical-align: -0.125em;"
+                  viewBox="0 0 512 512"
+                  width="1em"
                 >
-                  <title />
                   <path
-                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                  />
-                  <path
-                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                  />
-                  <path
-                    d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                    d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"
+                    transform=""
                   />
                 </svg>
               </a>
@@ -2510,26 +2494,18 @@ Array [
                   View documentation
                 </span>
                 <svg
-                  alt=""
-                  aria-label=""
-                  class="deployment-highlights-terminology-docs-icon"
-                  fill="#0066CC"
-                  fill-rule="evenodd"
-                  height="16"
-                  name="icon--launch"
+                  aria-hidden="true"
+                  class="details-item-link-icon"
+                  fill="currentColor"
+                  height="1em"
                   role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
+                  style="vertical-align: -0.125em;"
+                  viewBox="0 0 512 512"
+                  width="1em"
                 >
-                  <title />
                   <path
-                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                  />
-                  <path
-                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                  />
-                  <path
-                    d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                    d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"
+                    transform=""
                   />
                 </svg>
               </a>

@@ -27,13 +27,13 @@ export const initializeControls = (
   initialControlData,
   editor,
   locale,
-  groupNum,
+  uniqueGroupID,
   inGroup
 ) => {
   const controlData = initializeControlData(
     initialControlData,
     locale,
-    groupNum,
+    uniqueGroupID,
     inGroup
   )
   initializeControlFunctions(controlData, editor)
@@ -197,6 +197,12 @@ export const cacheUserData = controlData => {
       sessionStorage.setItem(storageKey, JSON.stringify(control.userData))
     }
   })
+}
+
+export const getResourceID = resource => {
+  return _.get(resource, 'metadata.selfLink') ||
+    (`/namespaces/${_.get(resource, 'metadata.namespace', 'none') || ''}/`+
+    `${resource.kind}s/${_.get(resource, 'metadata.name')||''}`).toLowerCase()
 }
 
 export const getUniqueName = (name, nameSet) => {

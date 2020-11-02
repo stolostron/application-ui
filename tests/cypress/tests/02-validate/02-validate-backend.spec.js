@@ -9,25 +9,33 @@ import {
   validateTimewindow
 } from "../../views/resources";
 
-describe("Application", () => {
+describe("Application backend Test", () => {
   for (const type in config) {
-    const data = config[type].data;
-    if (data.enable) {
-      it(`channels, subscription and placementrule - should be validated - ${type}: ${
-        data.name
-      }`, () => {
-        apiResources(type, data);
-      });
-      it(`timewindow - should be validated - ${type}: ${data.name}`, () => {
-        validateTimewindow(data.name, data.config);
-      });
-      it(`resource should be validated on the target cluster`, () => {
-        targetResource(data);
-      });
-    } else {
-      it(`disable validation on resource ${type}`, () => {
-        cy.log(`skipping ${type} - ${data.name}`);
-      });
-    }
+    const apps = config[type].data;
+    apps.forEach(data => {
+      if (data.enable) {
+        it(`Verify that the apps ${
+          data.name
+        } channels, subscription and placementrule are valid - ${type}: ${
+          data.name
+        }`, () => {
+          apiResources(type, data);
+        });
+        it(`Validate apps ${data.name} timewindow - ${type}: ${
+          data.name
+        }`, () => {
+          validateTimewindow(data.name, data.config);
+        });
+        it(`Validate apps ${
+          data.name
+        } resources created on the target cluster`, () => {
+          targetResource(data);
+        });
+      } else {
+        it(`disable validation on resource ${type}`, () => {
+          cy.log(`skipping ${type} - ${data.name}`);
+        });
+      }
+    });
   }
 });

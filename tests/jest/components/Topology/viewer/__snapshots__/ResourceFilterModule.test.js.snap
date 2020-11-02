@@ -1,0 +1,445 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResourceFilterModule renders as expected 1`] = `
+<div
+  className="resource-filter-button"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="button"
+  tabIndex="0"
+>
+  <svg
+    className="button-icon"
+  >
+    <use
+      href="#diagramIcons_filter"
+    />
+  </svg>
+  <div
+    className="button-label"
+  >
+    Filter
+  </div>
+</div>
+`;
+
+exports[`ResourceFilterView renders as expected 1`] = `
+<div
+  className="resource-filter-view"
+  style={
+    Object {
+      "height": 771,
+    }
+  }
+>
+  <h3
+    className="filterHeader"
+  >
+    <svg
+      className="titleIcon"
+    >
+      <use
+        href="#diagramIcons_filter"
+      />
+    </svg>
+    <div
+      className="titleText"
+    >
+      Filters
+    </div>
+    <svg
+      alt="Close filter view"
+      aria-label="Close filter view"
+      className="closeIcon"
+      fillRule="evenodd"
+      height="10"
+      name="icon--close"
+      onClick={[Function]}
+      role="img"
+      viewBox="0 0 10 10"
+      width="10"
+    >
+      <title>
+        Close filter view
+      </title>
+      <path
+        d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+      />
+    </svg>
+  </h3>
+  <div
+    className="filter-sections-container"
+    style={
+      Object {
+        "height": 708,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": 260,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "WebkitOverflowScrolling": "touch",
+          "bottom": 0,
+          "left": 0,
+          "marginBottom": 0,
+          "marginRight": 0,
+          "overflow": "scroll",
+          "overflowX": "hidden",
+          "overflowY": "scroll",
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    >
+      <div
+        className="filter-section"
+      >
+        <div
+          className="filter-section-title"
+        >
+          Namespaces
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={true}
+            className="bx--checkbox"
+            id="namespacesall"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="namespacesall"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              All
+            </span>
+          </label>
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={false}
+            className="bx--checkbox"
+            id="namespacescassandra-ns"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="namespacescassandra-ns"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              cassandra-ns
+            </span>
+          </label>
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={false}
+            className="bx--checkbox"
+            id="namespacescluster-scoped"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="namespacescluster-scoped"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              cluster-scoped
+            </span>
+          </label>
+        </div>
+      </div>
+      <div
+        className="filter-section"
+      >
+        <div
+          className="filter-section-title"
+        >
+          Resource status
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={false}
+            className="bx--checkbox"
+            id="resourceStatusesall"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="resourceStatusesall"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              All
+            </span>
+          </label>
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={true}
+            className="bx--checkbox"
+            id="resourceStatusesred"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="resourceStatusesred"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              Error
+            </span>
+          </label>
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={true}
+            className="bx--checkbox"
+            id="resourceStatusesorange"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="resourceStatusesorange"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              Pending
+            </span>
+          </label>
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={false}
+            className="bx--checkbox"
+            id="resourceStatusesgreen"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="resourceStatusesgreen"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              Success
+            </span>
+          </label>
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={true}
+            className="bx--checkbox"
+            id="resourceStatusesyellow"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="resourceStatusesyellow"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              Warning
+            </span>
+          </label>
+        </div>
+      </div>
+      <div
+        className="filter-section"
+      >
+        <div
+          className="filter-section-title"
+        >
+          Types
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={true}
+            className="bx--checkbox"
+            id="resourceTypesall"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="resourceTypesall"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              All
+            </span>
+          </label>
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={false}
+            className="bx--checkbox"
+            id="resourceTypesservice"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="resourceTypesservice"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              service
+            </span>
+          </label>
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={false}
+            className="bx--checkbox"
+            id="resourceTypesstatefulset"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="resourceTypesstatefulset"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              statefulset
+            </span>
+          </label>
+        </div>
+        <div
+          className="bx--form-item bx--checkbox-wrapper"
+        >
+          <input
+            checked={false}
+            className="bx--checkbox"
+            id="resourceTypesstorageclass"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="bx--checkbox-label filter-section-checkbox"
+            htmlFor="resourceTypesstorageclass"
+            title={null}
+          >
+            <span
+              className=""
+            >
+              storageclass
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "height": 6,
+          "left": 2,
+          "position": "absolute",
+          "right": 2,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "height": "100%",
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+          "width": 6,
+        }
+      }
+    >
+      <div
+        className="filter-sections-scrollbar"
+        style={
+          Object {
+            "backgroundColor": "rgba(255,255,255,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

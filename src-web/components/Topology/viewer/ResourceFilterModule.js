@@ -198,9 +198,10 @@ export class ResourceFilterView extends React.Component {
       document.documentElement.clientHeight,
       window.innerHeight || 0
     )
-    const rect = document
-      .getElementById('header-container')
-      .getBoundingClientRect()
+    const rectElement = document.getElementById('header-container')
+    const rect = rectElement
+      ? rectElement.getBoundingClientRect()
+      : { height: 0 }
     const scrollHeight = height - rect.height
     const containerWidth = 260 // based on resource-filter-view width of 300px
     return (
@@ -379,7 +380,7 @@ ResourceUnfilterBar.propTypes = {
   updateActiveFilters: PropTypes.func
 }
 
-class ResourceFilterModule extends React.Component {
+export class ResourceFilterModule extends React.Component {
   constructor(props) {
     super(props)
     this.state = {

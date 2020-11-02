@@ -124,6 +124,24 @@ exports[`LegendView no nodes renders as expected 1`] = `
             <div>
               <svg
                 className="statusSvg"
+                fill="#878D96"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_pending"
+                />
+              </svg>
+            </div>
+            <div>
+              None of the resources in this group deployed.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
                 fill="#F0AB00"
               >
                 <use
@@ -152,24 +170,6 @@ exports[`LegendView no nodes renders as expected 1`] = `
             </div>
             <div>
               Some resources in this group are in error state.
-            </div>
-          </div>
-          <div
-            className="bodyText"
-          >
-            <div>
-              <svg
-                className="statusSvg"
-                fill="#878D96"
-              >
-                <use
-                  className="label-icon"
-                  href="#diagramIcons_pending"
-                />
-              </svg>
-            </div>
-            <div>
-              None of the resources in this group deployed.
             </div>
           </div>
           <div
@@ -360,6 +360,24 @@ exports[`LegendView with nodes render as expected 1`] = `
             <div>
               <svg
                 className="statusSvg"
+                fill="#878D96"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_pending"
+                />
+              </svg>
+            </div>
+            <div>
+              None of the resources in this group deployed.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
                 fill="#F0AB00"
               >
                 <use
@@ -388,24 +406,6 @@ exports[`LegendView with nodes render as expected 1`] = `
             </div>
             <div>
               Some resources in this group are in error state.
-            </div>
-          </div>
-          <div
-            className="bodyText"
-          >
-            <div>
-              <svg
-                className="statusSvg"
-                fill="#878D96"
-              >
-                <use
-                  className="label-icon"
-                  href="#diagramIcons_pending"
-                />
-              </svg>
-            </div>
-            <div>
-              None of the resources in this group deployed.
             </div>
           </div>
           <div

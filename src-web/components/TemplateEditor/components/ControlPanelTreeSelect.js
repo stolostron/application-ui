@@ -146,6 +146,7 @@ class ControlPanelTreeSelect extends React.Component {
         handleTreeChange({ selectedItem: active })
         currentAvailable = []
         indexes = []
+        searchText=null
         isOpen = false
       }
     }
@@ -380,7 +381,10 @@ class ControlPanelTreeSelect extends React.Component {
     }
   }
 
-  clickToggle() {
+  clickToggle(e) {
+    if (e) {
+      e.stopPropagation()
+    }
     const { searchText: st } = this.state
     if (!st) {
       this.setState(preState => {
@@ -420,13 +424,13 @@ class ControlPanelTreeSelect extends React.Component {
   }
 
   pressClear(inx, e) {
-    if (e.key === 'Enter') {
+    if (e && e.key === 'Enter') {
       this.clickClear()
     }
   }
 
   clickClear() {
-    this.setState({ searchText: null })
+    this.setState({ searchText: '' })
   }
 }
 

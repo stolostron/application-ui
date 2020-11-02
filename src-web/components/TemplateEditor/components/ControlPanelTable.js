@@ -53,6 +53,7 @@ const PAGE_SIZES = {
 class ControlPanelTable extends React.Component {
   static propTypes = {
     control: PropTypes.object,
+    fetchData: PropTypes.object,
     handleChange: PropTypes.func,
     locale: PropTypes.string
   };
@@ -68,6 +69,15 @@ class ControlPanelTable extends React.Component {
     return null
   }
 
+  componentDidUpdate(prevProps) {
+    const { fetchData } = this.props
+    if (!prevProps.control.isLoading && !this.props.control.isLoading && !this.loaded) {
+      this.loaded = true
+      const requestedUIDs = _.get(fetchData, 'requestedUIDs', [])
+      requestedUIDs.forEach(uid => this.handleSelect(uid))
+    }
+  }
+
   constructor(props) {
     super(props)
     const { control: { id, controlData } } = props
@@ -79,6 +89,8 @@ class ControlPanelTable extends React.Component {
       searchValue: ''
     }
     this.headerMap = _.keyBy(controlData, 'id')
+    this.handleSelect = this.handleSelect.bind(this)
+    this.loaded = false
   }
 
   getHeaders() {
@@ -458,11 +470,12 @@ class ControlPanelTable extends React.Component {
   handleSelect = id => {
     const { control } = this.props
     const { available, controlData } = control
+
     let { active } = control
     const availableMap = _.keyBy(available, 'id')
     if (id) {
-      // add to active
-      if (document.getElementById(id).checked) {
+      if (!active.find(item => item.id === id)) {
+        // add to active
         this.addActives(active, [availableMap[id]], controlData)
       } else {
         // remove from active

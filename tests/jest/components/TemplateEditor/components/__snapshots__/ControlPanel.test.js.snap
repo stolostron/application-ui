@@ -9,6 +9,9 @@ exports[`ControlPanel component renders as expected 1`] = `
     onScroll={[Function]}
   >
     <div
+      id="notifications"
+    />
+    <div
       className="content"
     >
       <div

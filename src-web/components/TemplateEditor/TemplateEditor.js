@@ -44,6 +44,7 @@ import '../../../graphics/diagramIcons.svg'
 import _ from 'lodash'
 
 const TEMPLATE_EDITOR_OPEN_COOKIE = 'template-editor-open-cookie'
+const TEMPLATE_EDITOR_SHOW_SECRETS_COOKIE = 'template-editor-show-secrets-cookie'
 
 export default class TemplateEditor extends React.Component {
   static propTypes = {
@@ -142,12 +143,19 @@ export default class TemplateEditor extends React.Component {
     // has control data been initialized?
     const { controlData: initialControlData } = props
     let { controlData, templateYAML, templateObject, templateResources, editStack } = state
-    const { editor, template } = state
+    const { editor, template, showSecrets } = state
     if (!controlData) {
       // initialize control data
       const cd = _.cloneDeep(initialControlData)
       controlData = initializeControls(cd, editor, locale)
       newState = { ...newState, controlData }
+
+      const showControl = controlData.find(
+        ({ id: idCtrl }) => idCtrl === 'showSecrets'
+      )
+      if (showControl) {
+        showControl.active = showSecrets
+      }
     }
 
     // has source been initialized?
@@ -202,6 +210,8 @@ export default class TemplateEditor extends React.Component {
     super(props)
     this.state = {
       isCustomName: false,
+      showEditor: !!localStorage.getItem(TEMPLATE_EDITOR_OPEN_COOKIE),
+      showSecrets: !!localStorage.getItem(TEMPLATE_EDITOR_SHOW_SECRETS_COOKIE),
       template: props.template,
       activeYAMLEditor: 0,
       exceptions: [],
@@ -709,13 +719,16 @@ export default class TemplateEditor extends React.Component {
       exceptions,
       updateMessage,
       updateMsgKind,
-      otherYAMLTabs
+      otherYAMLTabs,
+      showSecrets
     } = this.state
     return (
       <div className="creation-view-yaml">
         <EditorHeader
           otherYAMLTabs={otherYAMLTabs}
           handleTabChange={this.handleTabChange}
+          handleShowSecretChange={this.handleShowSecrets.bind(this)}
+          showSecrets={showSecrets}
           type={type}
           locale={locale}
         >
@@ -879,6 +892,23 @@ export default class TemplateEditor extends React.Component {
   closeEdit() {
     localStorage.removeItem(TEMPLATE_EDITOR_OPEN_COOKIE)
     this.setState({ showEditor: false })
+  }
+
+  handleShowSecrets() {
+    const { showSecrets, controlData } = this.state
+    if (showSecrets) {
+      localStorage.removeItem(TEMPLATE_EDITOR_SHOW_SECRETS_COOKIE)
+    } else {
+      localStorage.setItem(TEMPLATE_EDITOR_SHOW_SECRETS_COOKIE, 'true')
+    }
+    const showControl = controlData.find(
+      ({ id: idCtrl }) => idCtrl === 'showSecrets'
+    )
+    if (showControl) {
+      showControl.active = !showSecrets
+      this.setState({ showSecrets: !showSecrets })
+      this.handleControlChange(showControl, controlData)
+    }
   }
 
   handleSearchChange(searchName) {
@@ -1074,6 +1104,7 @@ export default class TemplateEditor extends React.Component {
           }
         })
       })
+      this.replaceSecrets(payload)
 
       // if this was an edit of existing resources, and user deleted a resource, what selflink(s) should we delete
       if (editStack) {
@@ -1083,6 +1114,23 @@ export default class TemplateEditor extends React.Component {
       return payload
     }
     return null
+  }
+
+  replaceSecrets = (payload) => {
+    const { templateObject } = this.state
+    const secretsMap = _.keyBy(templateObject.Secret, ({$raw})=>{
+      const {metadata: {name, namespace}} = $raw
+      return `${namespace}/${name}`
+    })
+    payload.forEach(resource=>{
+      const {kind, metadata: {name, namespace}} = resource
+      if (kind==='Secret') {
+        const secret = secretsMap[`${namespace}/${name}`]
+        if (secret) {
+          _.merge(resource, secret.$raw)
+        }
+      }
+    })
   }
 
   scrollControlPaneToTop = () => {

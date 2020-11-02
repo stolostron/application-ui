@@ -3,10 +3,10 @@
  *******************************************************************************/
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
-import { createApplication } from "../../views/application";
+import { validateTopology } from "../../views/application";
 import { getManagedClusterName } from "../../views/resources";
 
-describe("Application Creation Test", () => {
+describe("Application Validation Test for single application page, topology ", () => {
   it(`get the name of the managed OCP cluster`, () => {
     getManagedClusterName();
   });
@@ -16,13 +16,14 @@ describe("Application Creation Test", () => {
       if (data.enable) {
         it(`Verify application ${
           data.name
-        } can be created from resource type ${type} using template editor`, () => {
-          const clusterName = Cypress.env("managedCluster");
-          createApplication(clusterName, data, type);
+        } content from the single application topology - ${type}: ${
+          data.name
+        }`, () => {
+          validateTopology(data.name, data, type);
         });
       } else {
-        it(`disable creation on resource ${data.name} ${type}`, () => {
-          cy.log(`skipping wizard: ${type} - ${data.name}`);
+        it(`disable validation on resource ${type}`, () => {
+          cy.log(`skipping ${type} - ${data.name}`);
         });
       }
     });

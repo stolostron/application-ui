@@ -257,6 +257,7 @@ class OverviewCards extends React.Component {
           <Button
             className="toggle-subs-btn"
             disabled={disableBtn}
+            data-test-subscription-details={!disableBtn}
             onClick={() => this.toggleSubsBtn(showSubCards)}
           >
             {this.renderData(

@@ -1,60 +1,60 @@
 ---
 objectstore:
   data:
-    enable: false
-    name: ui-obj
-    config:
-    - url: ''
-      accessKey: '' 
-      secretKey: ''
-      timeWindow:
-        setting: false
-        type: activeinterval
-        date:
-        - Sunday
-        - Monday
-    - url: ''
-      accessKey: ''
-      secretKey: ''
-      timeWindow:
-        setting: false
-        type: activeinterval
-        date:
-        - Tuesday
+    - enable: false
+      name: ui-obj
+      config:
+      - url: ''
+        accessKey: '' 
+        secretKey: ''
+        timeWindow:
+          setting: false
+          type: activeinterval
+          date:
+          - Sunday
+          - Monday
+      - url: ''
+        accessKey: ''
+        secretKey: ''
+        timeWindow:
+          setting: false
+          type: activeinterval
+          date:
+          - Tuesday
 helm:
   data:
-    enable: false
-    name: ui-helm
-    config:
-    - url: ''
-      chartName: ''
-      timeWindow:
-        setting: false
-        type: active
+    - enable: false
+      name: ui-helm
+      config:
+      - url: ''
+        chartName: ''
+        timeWindow:
+          setting: false
+          type: active
 git:
   data:
-    enable: false
-    name: ui-git
-    config:
-    - url: ''
-      username: ''
-      token: ''
-      branch: master
-      path: helloworld
-      timeWindow:
-        setting: false
-        type: blockinterval
-        date:
-        - Monday
-        - Tuesday
-    - url: 
-      username: ''
-      token: ''
-      branch: ''
-      path: ''
-      timeWindow:
-        setting: false
-        type: activeinterval
-        date:
-        - Thursday
-        - Friday
+    - enable: false
+      name: ui-git
+      config:
+      - url: ''
+        username: ''
+        token: ''
+        branch: master
+        path: helloworld
+        timeWindow:
+          setting: false
+          type: blockinterval
+          date:
+          - Monday
+          - Tuesday
+      - url: 
+        username: ''
+        token: ''
+        branch: ''
+        path: ''
+        timeWindow:
+          setting: false
+          type: activeinterval
+          date:
+          - Thursday
+          - Friday

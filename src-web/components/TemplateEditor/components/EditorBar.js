@@ -119,46 +119,15 @@ class EditorBar extends React.Component {
     const searchTitle = msgs.get('find.label', locale)
     return (
       <div className='editor-bar'>
-        <div className='editor-bar-title'>
-          {title}
+        <div className='editor-bar-group'>
+          <div className='editor-bar-title'>
+            {title}
+          </div>
         </div>
-        <div className='editor-bar-toolbar'>
-          <div className='editor-bar-section'>
-            {resetButtons.map((button) => {
-              const {command} = button
-              return (
-                <EditorButton
-                  key={command}
-                  command={command}
-                  button={button}
-                  handleClick={this.handleClick}
-                />
-              )
-            })}
-          </div>
-          <div className='editor-bar-section'>
-            {undoButtons.map((button) => {
-              const {command} = button
-              return (
-                <EditorButton
-                  key={command}
-                  command={command}
-                  button={button}
-                  handleClick={this.handleClick}
-                />
-              )
-            })}
-          </div>
-          <div className='editor-bar-section'>
-            <div className='editor-bar-search' role='region' aria-label={searchTitle} id={searchTitle}>
-              <Search
-                id={`template-editor-search-${type}`}
-                labelText=''
-                aria-label={searchTitle}
-                placeHolderText={searchTitle}
-                small={true} onChange={this.handleSearch}
-              />
-              {nextButtons.map((button) => {
+        <div className='editor-bar-group'>
+          <div className='editor-bar-toolbar'>
+            <div className='editor-bar-section'>
+              {resetButtons.map((button) => {
                 const {command} = button
                 return (
                   <EditorButton
@@ -166,11 +135,48 @@ class EditorBar extends React.Component {
                     command={command}
                     button={button}
                     handleClick={this.handleClick}
-                  />
+                />
                 )
               })}
             </div>
+            <div className='editor-bar-section'>
+              {undoButtons.map((button) => {
+                const {command} = button
+                return (
+                  <EditorButton
+                    key={command}
+                    command={command}
+                    button={button}
+                    handleClick={this.handleClick}
+                />
+                )
+              })}
+            </div>
+            <div className='editor-bar-section'>
+              <div className='editor-bar-search' role='region' aria-label={searchTitle} id={searchTitle}>
+                <Search
+                  id={`template-editor-search-${type}`}
+                  labelText=''
+                  aria-label={searchTitle}
+                  placeHolderText={searchTitle}
+                  small={true} onChange={this.handleSearch}
+              />
+                {nextButtons.map((button) => {
+                  const {command} = button
+                  return (
+                    <EditorButton
+                      key={command}
+                      command={command}
+                      button={button}
+                      handleClick={this.handleClick}
+                  />
+                  )
+                })}
+              </div>
+            </div>
           </div>
+        </div>
+        <div className='editor-bar-close'>
           <div className='editor-bar-section'>
             {closeButtons.map((button) => {
               const {command} = button

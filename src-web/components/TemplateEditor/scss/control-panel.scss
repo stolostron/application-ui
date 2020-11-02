@@ -444,8 +444,30 @@
     }
 
     &-table {
-      .bx--btn {
+      .bx--toolbar-content > div {
+        & > .bx--btn {
         margin-left: 10px;
+          border-radius: 3px;
+          height: 24px;
+          font-size: 16px;
+          font-weight: 400;
+          padding: 16px;
+          display: inline-flex;
+        }
+  
+        & > .bx--btn--primary {
+          background-color: $color__white;
+          color: $color__blue-51;
+          border-color: $color__blue-51;
+          border-width: 1px;
+          margin: 2px;
+          margin-right: 12px;
+          &:hover, &:active, &:focus {
+            background-color: unset;
+            color: $color__blue-51;
+            box-shadow: 0 0 0 2px $color__blue-51;
+          }
+        }
       }
 
       &-singleselect {

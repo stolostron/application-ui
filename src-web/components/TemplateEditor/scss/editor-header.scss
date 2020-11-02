@@ -24,7 +24,23 @@
       display: flex;
       align-items: center;
       border-bottom: 1px solid #55585C;
+      height: 100%;
+    }
+
+    &-secrets {
+      display: flex;
+      align-items: center;
       height: 48px;
+      margin: 0 10px;
+      
+      .bx--form-item.bx--checkbox-wrapper:first-of-type {
+        margin: 0;
+      }
+      
+      > div {
+        white-space: nowrap;
+        font-weight: normal;
+      }
     }
 
     &-tabs {

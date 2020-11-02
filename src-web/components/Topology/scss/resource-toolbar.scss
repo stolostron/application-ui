@@ -12,9 +12,9 @@
 .resource-toolbar {
   //position: relative;
   top: $secondary-header-top;
+  margin-bottom: 8px;
   //right: 25px;
   //z-index: 1001;
-  background-color: $color__white;
   //display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -77,21 +77,18 @@
     }
 
     .resource-filter-bar {
-      .bx--tag.bx--tag--custom {
-        margin-left: 10px;
-        background-color: $mcm_view_filter;
-        color: $color__blue-90;
-        font-size: 0.9rem;
-        padding: 0.8rem;
-        line-height: 20px;
-        white-space: nowrap;
+      .pf-c-chip-group.pf-m-category {
+        background-color: $color__white;
+      }
 
-        .closeIcon {
-          fill: $color__blue-90;
-          cursor: pointer;
-          margin-left: 5px;
-        }
+      .pf-c-chip-group__label {
+        padding: 10px;
+      }
+
+      .pf-c-chip__text {
+        overflow: visible;
       }
     }
   }
 }
+ 

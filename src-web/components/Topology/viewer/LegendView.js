@@ -66,18 +66,18 @@ class LegendView extends React.Component {
 
   renderStatusDescriptions = () => {
     const { locale } = this.props
-    const statusList = ['success', 'warning', 'failure', 'pending']
+    const statusList = ['success', 'pending', 'warning', 'failure']
     const iconColorMap = new Map([
       ['success', '#3E8635'],
+      ['pending', '#878D96'],
       ['warning', '#F0AB00'],
-      ['failure', '#C9190B'],
-      ['pending', '#878D96']
+      ['failure', '#C9190B']
     ])
     const descriptionMap = new Map([
       ['success', 'topology.legend.body.text.success'],
+      ['pending', 'topology.legend.body.text.pending'],
       ['warning', 'topology.legend.body.text.warning'],
-      ['failure', 'topology.legend.body.text.failure'],
-      ['pending', 'topology.legend.body.text.pending']
+      ['failure', 'topology.legend.body.text.failure']
     ])
     return statusList.map(status => {
       return (

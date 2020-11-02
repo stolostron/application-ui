@@ -166,6 +166,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                   className="details-item-link"
                   href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Aapplication%20name%3Asamplebook-gbapp%20namespace%3Asample\\"}"
                   id="app-search-link"
+                  rel="noreferrer"
                   target="_blank"
                 >
                   <div>
@@ -682,6 +683,7 @@ exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
                   className="details-item-link"
                   href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Aapplication%20name%3Aundefined%20namespace%3Aundefined\\"}"
                   id="app-search-link"
+                  rel="noreferrer"
                   target="_blank"
                 >
                   <div>

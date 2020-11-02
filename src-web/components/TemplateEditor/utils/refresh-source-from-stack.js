@@ -11,7 +11,12 @@
 
 import { diff } from 'deep-diff'
 import jsYaml from 'js-yaml'
-import { discoverControls, setEditingMode, reverseTemplate, getResourceID} from './utils'
+import {
+  discoverControls,
+  setEditingMode,
+  reverseTemplate,
+  getResourceID
+} from './utils'
 import { generateSourceFromTemplate } from './refresh-source-from-templates'
 import YamlParser from '../components/YamlParser'
 import _ from 'lodash'
@@ -31,11 +36,10 @@ export const generateSourceFromStack = (
 // update edit stack after the user types something into the editor
 // and then uses the form it doesn't wipe out what they just typed
 export const updateEditStack = (
-  editStack={},
+  editStack = {},
   templateResources,
   parsedResources
 ) => {
-
   const { initialized } = editStack
   if (!initialized) {
     editStack.customIdMap = {}
@@ -55,17 +59,17 @@ export const updateEditStack = (
   return editStack
 }
 
-const updateCustomIdMap = (editStack) => {
+const updateCustomIdMap = editStack => {
   const { customResources, baseTemplateResources, customIdMap } = editStack
   const clonedTemplateResources = _.cloneDeep(baseTemplateResources)
   const customIdSet = new Set()
-  customResources.forEach(resource=>{
+  customResources.forEach(resource => {
     const resourceID = getResourceID(resource)
     if (resourceID) {
       customIdSet.add(resourceID)
     }
   })
-  customResources.forEach(resource=>{
+  customResources.forEach(resource => {
     let resourceID = getResourceID(resource)
     if (resourceID) {
       if (customIdMap[resourceID]) {
@@ -78,12 +82,14 @@ const updateCustomIdMap = (editStack) => {
         const res = clonedTemplateResources.splice(inx, 1)[0]
         customIdMap[resourceID] = getResourceID(res)
       } else {
-        clonedTemplateResources.filter(res=>res.kind===resource.kind).forEach(res=>{
-          const templateID = getResourceID(res)
-          if (!customIdSet.has(templateID)) {
-            customIdMap[resourceID] = templateID
-          }
-        })
+        clonedTemplateResources
+          .filter(res => res.kind === resource.kind)
+          .forEach(res => {
+            const templateID = getResourceID(res)
+            if (!customIdSet.has(templateID)) {
+              customIdMap[resourceID] = templateID
+            }
+          })
         inx = clonedTemplateResources.findIndex(res => {
           return customIdMap[resourceID] === getResourceID(res)
         })
@@ -113,15 +119,10 @@ const intializeControls = (editStack, controlData) => {
   editStack.deletedLinks = new Set()
   editStack.customIdMap = {}
   editStack.initialized = true
-
 }
 
 const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
-  const {
-    customResources,
-    deletedLinks,
-    customIdMap
-  } = editStack
+  const { customResources, deletedLinks, customIdMap } = editStack
 
   // get the next iteration of template changes
   const { templateResources } = generateSourceFromTemplate(
@@ -132,7 +133,7 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
 
   // first time thru, we just have the base template to compare against
   let currentTemplateResources
-  let {baseTemplateResources} = editStack
+  let { baseTemplateResources } = editStack
   if (!baseTemplateResources) {
     editStack.baseTemplateResources = templateResources
     baseTemplateResources = templateResources
@@ -141,19 +142,31 @@ const generateSource = (editStack, controlData, template, otherYAMLTabs) => {
     currentTemplateResources = templateResources
   }
 
-  let resources = mergeSource(customResources, baseTemplateResources, currentTemplateResources, customIdMap, deletedLinks)
+  let resources = mergeSource(
+    customResources,
+    baseTemplateResources,
+    currentTemplateResources,
+    customIdMap,
+    deletedLinks
+  )
 
   // make sure there's no duplicates
   resources = _.uniqWith(resources, _.isEqual)
 
   // then generate the source from those resources
-  return {...generateSourceFromResources(resources), templateResources}
+  return { ...generateSourceFromResources(resources), templateResources }
 }
 
-const mergeSource = (resources, baseTemplateResources, currentTemplateResources, customIdMap, deletedLinks) => {
-
+const mergeSource = (
+  resources,
+  baseTemplateResources,
+  currentTemplateResources,
+  customIdMap,
+  deletedLinks
+) => {
   let customResources = _.cloneDeep(resources)
-  const clonedCurrentTemplateResources = currentTemplateResources && _.cloneDeep(currentTemplateResources)
+  const clonedCurrentTemplateResources =
+    currentTemplateResources && _.cloneDeep(currentTemplateResources)
 
   ////////////////////////////////////////////////
   ///////////  DELETE ////////////////////////////
@@ -291,10 +304,13 @@ const mergeSource = (resources, baseTemplateResources, currentTemplateResources,
 }
 
 const isProtectedNameNamespace = path => {
-  if (path.length>=2) {
+  if (path.length >= 2) {
     const [key, value] = path.slice(Math.max(path.length - 2, 0))
-    return ((typeof key==='string' && (key==='metadata' || key.endsWith('Ref'))) &&
-        ['name', 'namespace'].indexOf(value) !== -1)
+    return (
+      typeof key === 'string' &&
+      (key === 'metadata' || key.endsWith('Ref')) &&
+      ['name', 'namespace'].indexOf(value) !== -1
+    )
   }
   return false
 }

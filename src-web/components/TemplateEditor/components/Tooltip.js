@@ -47,7 +47,12 @@ class Tooltip extends React.PureComponent {
         <p id="tooltip-body">{tooltip}</p>
         {learnMore && (
           <div className="bx--tooltip__footer">
-            <a className="bx--link" href={learnMore} target="_blank">
+            <a
+              className="bx--link"
+              href={learnMore}
+              target="_blank"
+              rel="noreferrer"
+            >
               {msgs.get('tooltip.link', locale)}
             </a>
           </div>

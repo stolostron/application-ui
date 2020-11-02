@@ -44,7 +44,8 @@ import '../../../graphics/diagramIcons.svg'
 import _ from 'lodash'
 
 const TEMPLATE_EDITOR_OPEN_COOKIE = 'template-editor-open-cookie'
-const TEMPLATE_EDITOR_SHOW_SECRETS_COOKIE = 'template-editor-show-secrets-cookie'
+const TEMPLATE_EDITOR_SHOW_SECRETS_COOKIE =
+  'template-editor-show-secrets-cookie'
 
 export default class TemplateEditor extends React.Component {
   static propTypes = {
@@ -142,7 +143,13 @@ export default class TemplateEditor extends React.Component {
 
     // has control data been initialized?
     const { controlData: initialControlData } = props
-    let { controlData, templateYAML, templateObject, templateResources, editStack } = state
+    let {
+      controlData,
+      templateYAML,
+      templateObject,
+      templateResources,
+      editStack
+    } = state
     const { editor, template, showSecrets } = state
     if (!controlData) {
       // initialize control data
@@ -198,7 +205,13 @@ export default class TemplateEditor extends React.Component {
             editStack,
             controlData
           ))
-          newState = { ...newState, controlData, templateYAML, templateObject, templateResources }
+          newState = {
+            ...newState,
+            controlData,
+            templateYAML,
+            templateObject,
+            templateResources
+          }
         }
       }
     }
@@ -429,12 +442,11 @@ export default class TemplateEditor extends React.Component {
       onSelect()
     }
 
-    const { templateYAML: newYAML, templateObject, templateResources } = generateSource(
-      template,
-      editStack,
-      controlData,
-      otherYAMLTabs
-    )
+    const {
+      templateYAML: newYAML,
+      templateObject,
+      templateResources
+    } = generateSource(template, editStack, controlData, otherYAMLTabs)
     validateControls(
       this.editors,
       newYAML,
@@ -505,12 +517,11 @@ export default class TemplateEditor extends React.Component {
     } else {
       active.splice(inx, 1)
     }
-    const { templateYAML: newYAML, templateObject, templateResources } = generateSource(
-      template,
-      editStack,
-      controlData,
-      otherYAMLTabs
-    )
+    const {
+      templateYAML: newYAML,
+      templateObject,
+      templateResources
+    } = generateSource(template, editStack, controlData, otherYAMLTabs)
     validateControls(
       this.editors,
       newYAML,
@@ -616,12 +627,11 @@ export default class TemplateEditor extends React.Component {
       if (replaceTemplate) {
         template = replaceTemplate
         newYAMLTabs = newYAMLTabs || [];
-        ({ templateYAML: newYAML, templateObject, templateResources } = generateSource(
-          template,
-          editStack,
-          controlData,
-          newYAMLTabs
-        ))
+        ({
+          templateYAML: newYAML,
+          templateObject,
+          templateResources
+        } = generateSource(template, editStack, controlData, newYAMLTabs))
         highlightAllChanges(
           this.editors,
           templateYAML,
@@ -978,7 +988,11 @@ export default class TemplateEditor extends React.Component {
     }
 
     // update controls with values typed into yaml
-    const { parsedResources, templateExceptionMap, hasSyntaxExceptions } = validateControls(
+    const {
+      parsedResources,
+      templateExceptionMap,
+      hasSyntaxExceptions
+    } = validateControls(
       this.editors,
       templateYAML,
       otherYAMLTabs,
@@ -1018,19 +1032,18 @@ export default class TemplateEditor extends React.Component {
     // update the main yaml--for now
     if (activeYAMLEditor !== 0) {
       const { template, templateYAML: oldYAML } = this.state
-      const { templateYAML: newYAML, templateObject, templateResources:tr } = generateSource(
-        template,
-        editStack,
-        controlData,
-        otherYAMLTabs
-      )
+      const {
+        templateYAML: newYAML,
+        templateObject,
+        templateResources: tr
+      } = generateSource(template, editStack, controlData, otherYAMLTabs)
       highlightChanges(this.editors[0], oldYAML, newYAML)
       this.setState({
         controlData,
         notifications,
         templateYAML: newYAML,
         templateObject,
-        templateResources:tr,
+        templateResources: tr,
         editStack
       })
     } else {
@@ -1116,22 +1129,22 @@ export default class TemplateEditor extends React.Component {
     return null
   }
 
-  replaceSecrets = (payload) => {
+  replaceSecrets = payload => {
     const { templateObject } = this.state
-    const secretsMap = _.keyBy(templateObject.Secret, ({$raw})=>{
-      const {metadata: {name, namespace}} = $raw
+    const secretsMap = _.keyBy(templateObject.Secret, ({ $raw }) => {
+      const { metadata: { name, namespace } } = $raw
       return `${namespace}/${name}`
     })
-    payload.forEach(resource=>{
-      const {kind, metadata: {name, namespace}} = resource
-      if (kind==='Secret') {
+    payload.forEach(resource => {
+      const { kind, metadata: { name, namespace } } = resource
+      if (kind === 'Secret') {
         const secret = secretsMap[`${namespace}/${name}`]
         if (secret) {
           _.merge(resource, secret.$raw)
         }
       }
     })
-  }
+  };
 
   scrollControlPaneToTop = () => {
     setTimeout(() => {
@@ -1258,7 +1271,7 @@ export default class TemplateEditor extends React.Component {
 
   resetEditor() {
     const { template, controlData: initialControlData, locale } = this.props
-    const { editStack={}, resetInx, editor } = this.state
+    const { editStack = {}, resetInx, editor } = this.state
     const cd = _.cloneDeep(initialControlData)
     const controlData = initializeControls(cd, editor, locale)
     const otherYAMLTabs = []

@@ -28,9 +28,9 @@
         "jsx-a11y"
     ],
     "settings": {
-        "html/html-extensions": [
-            ".dust"
-        ]
+        "react" : {
+            "version": "detect"
+        }
     },
     "rules": {
         "indent": [

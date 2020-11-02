@@ -43,7 +43,7 @@ export default class RefreshTimeSelect extends React.Component {
     refetchIntervalUpdate({ doRefetch: false, interval: pollInterval })
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { refreshValues, locale } = this.props
     if (refreshValues && refreshValues.length > 0) {
       this.autoRefreshChoices = refreshValues.map(pollInterval => {
@@ -106,7 +106,7 @@ export default class RefreshTimeSelect extends React.Component {
     refetchIntervalUpdate({ doRefetch: false, interval: pollInterval })
   };
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     this.setState(() => {
       return { doRefetch: false, interval: getPollInterval() }
     })

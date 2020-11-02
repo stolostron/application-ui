@@ -71,7 +71,11 @@ class ControlPanelTable extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { fetchData } = this.props
-    if (!prevProps.control.isLoading && !this.props.control.isLoading && !this.loaded) {
+    if (
+      !prevProps.control.isLoading &&
+      !this.props.control.isLoading &&
+      !this.loaded
+    ) {
       this.loaded = true
       const requestedUIDs = _.get(fetchData, 'requestedUIDs', [])
       requestedUIDs.forEach(uid => this.handleSelect(uid))

@@ -49,7 +49,7 @@ class RemoveResourceModal extends React.Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.data) {
       const { data } = this.props
       this.getChildResources(data.name, data.namespace)
@@ -380,7 +380,8 @@ RemoveResourceModal.propTypes = {
   forceRefresh: PropTypes.func,
   label: PropTypes.shape({
     heading: PropTypes.string,
-    label: PropTypes.string
+    label: PropTypes.string,
+    primaryBtn: PropTypes.string
   }),
   locale: PropTypes.string,
   mutateSuccessFinished: PropTypes.func,

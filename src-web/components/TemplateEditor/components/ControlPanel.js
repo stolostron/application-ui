@@ -579,7 +579,7 @@ class ControlPanel extends React.Component {
           }
           return (
             <div
-              id='notifications'
+              id="notifications"
               key={exception}
               role="button"
               onClick={handleClick}
@@ -599,7 +599,7 @@ class ControlPanel extends React.Component {
         }
       )
     }
-    return <div id='notifications' />
+    return <div id="notifications" />
   }
 
   renderDeleteGroupButton(control, inx) {

@@ -200,9 +200,13 @@ export const cacheUserData = controlData => {
 }
 
 export const getResourceID = resource => {
-  return _.get(resource, 'metadata.selfLink') ||
-    (`/namespaces/${_.get(resource, 'metadata.namespace', 'none') || ''}/`+
-    `${resource.kind}s/${_.get(resource, 'metadata.name')||''}`).toLowerCase()
+  return (
+    _.get(resource, 'metadata.selfLink') ||
+    (
+      `/namespaces/${_.get(resource, 'metadata.namespace', 'none') || ''}/` +
+      `${resource.kind}s/${_.get(resource, 'metadata.name') || ''}`
+    ).toLowerCase()
+  )
 }
 
 export const getUniqueName = (name, nameSet) => {

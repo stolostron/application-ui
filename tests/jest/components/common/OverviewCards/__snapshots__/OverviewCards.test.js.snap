@@ -152,6 +152,7 @@ exports[`OverviewCards OverviewCards renders correctly with data. 1`] = `
               className="details-item-link"
               href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Aapplication%20name%3Aapp1%20namespace%3Adefault\\"}"
               id="app-search-link"
+              rel="noreferrer"
               target="_blank"
             >
               <div>

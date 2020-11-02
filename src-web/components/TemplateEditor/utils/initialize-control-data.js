@@ -34,7 +34,12 @@ export const initializeControlData = (
       }
       while (active.length < groupCnt) {
         active.push(
-          initializeControlData(controlData, locale, control.nextUniqueGroupID, true)
+          initializeControlData(
+            controlData,
+            locale,
+            control.nextUniqueGroupID,
+            true
+          )
         )
         control.nextUniqueGroupID++
       }

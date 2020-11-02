@@ -42,7 +42,7 @@ class ControlPanelCards extends React.Component {
     this.multiSelect = control.ref = ref
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { control } = this.props
     if (typeof control.active === 'function') {
       const activeID = control.active(control, this.props.fetchData)

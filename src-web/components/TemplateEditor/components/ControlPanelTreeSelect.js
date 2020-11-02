@@ -146,7 +146,7 @@ class ControlPanelTreeSelect extends React.Component {
         handleTreeChange({ selectedItem: active })
         currentAvailable = []
         indexes = []
-        searchText=null
+        searchText = null
         isOpen = false
       }
     }

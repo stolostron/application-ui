@@ -38,7 +38,8 @@ export const highlightChanges = (editor, oldYAML, newYAML) => {
       pathBase = `${pathBase}[${path.length > 0 ? path.shift() : 0}]`
       let newPath =
         path.length > 0 ? pathBase + `.${path.join('.$v.')}` : pathBase
-      const synced = (kind==='D' || kind==='E') && lhs && !rhs ? oldSynced : newSynced
+      const synced =
+        (kind === 'D' || kind === 'E') && lhs && !rhs ? oldSynced : newSynced
       let obj = _.get(synced, newPath)
       if (obj) {
         if (obj.$v || obj.$v === false) {

@@ -475,7 +475,7 @@ export class TimeWindow extends React.Component {
         ) {
           control.active.timezone = timezoneCache.tz
         }
-        control.active.mode = (event.target.value||'').replace(/"/g,'')
+        control.active.mode = (event.target.value || '').replace(/"/g, '')
       } else {
         switch (targetName) {
         case 'days-selector':

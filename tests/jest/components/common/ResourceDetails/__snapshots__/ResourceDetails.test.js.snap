@@ -165,6 +165,7 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                     className="details-item-link"
                     href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Aapplication%20name%3Aundefined%20namespace%3Aundefined\\"}"
                     id="app-search-link"
+                    rel="noreferrer"
                     target="_blank"
                   >
                     <div>

@@ -98,7 +98,6 @@ class ControlPanel extends React.Component {
           <div className="content">
             {this.renderControlSections(controlData)}
           </div>
-          {this.renderNotifications()}
         </div>
         <div
           className="creation-view-controls-container-blurr bottom"
@@ -580,6 +579,7 @@ class ControlPanel extends React.Component {
           }
           return (
             <div
+              id="notifications"
               key={exception}
               role="button"
               onClick={handleClick}
@@ -599,7 +599,7 @@ class ControlPanel extends React.Component {
         }
       )
     }
-    return null
+    return <div id="notifications" />
   }
 
   renderDeleteGroupButton(control, inx) {

@@ -1,70 +1,61 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
+ * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import 'variables';
 
+// animation
+$animation__ease-in: cubic-bezier(0.25, 0, 1, 1) !default;
+$animation__ease-out: cubic-bezier(0, 0, 0.25, 1) !default;
+$animation__standard: cubic-bezier(0.5, 0, 0.1, 1) !default;
 
-.creation-view-yaml {
+// secondary header
+$secondary-header-top: 3.082rem !default;
+$secondary-header-min-height: 4.125rem !default;
+$secondary-header-max-height: 8.5rem !default;
+$control-max-width-with-editor: 600px !default; /* card width must be multiple of this */
+$control-max-width-without-editor: 600px !default; /* card width must be multiple of this */
 
-  &-header {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    color: white;
-    background-color: #25282C;
+//These are grc own colors not in carbon
+$grc__color__gray: #6f7878 !default;
+$grc__color__critical: #e0182d !default;
+$grc_view_filter: #dfebf1 !default;
+$grc_color_blue: #3f71ec !default;
+$grc_color_light_gray: #cccccc !default;
+$grc_color_dark_blue: #30588c !default;
+$grc_color_radar_blue: #0082c1 !default;
+$grc_color_radar_green: #13b9b9 !default;
+$grc_color_radar_legend: #50565b !default;
+$grc_color_finding_high: #e62325 !default;
+$grc_color_finding_medium: #fec233 !default;
+$grc_color_finding_low: #a0a0a0 !default;
+$grc_highlight_background: rgba(85, 150, 230, 0.1) !default;
+$grc_highlight_background_2: rgba(85, 150, 230, 0.02) !default;
+$grc_focus_shaldow_color: #7cc7ff !default;
+$grc_focus_shaldow_width: 3px;
 
-    &-toolbar {
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #55585C;
-      height: 48px;
-    }
+//Custom coloring for label forms and modals. Not in Carbon Colors.
+$tag_background_blue: #e2eaf4 !default;
 
-    &-tabs {
-      display: flex;
-      align-items: center;
-      font-weight: bold;
-      font-size: 0.875rem;
-
-      .bx--tabs {
-        min-height: 16px;
-        a:focus {
-          box-shadow: none;
-        }
-
-        .bx--tabs__nav-item {
-          width: 140px;
-          padding: 0 0 6px 0;
-          margin-left: 0;
-          
-          &:not(.bx--tabs__nav-item--selected) {
-            opacity: .4;
-            border-bottom: 2px solid white;
-          }
-        }
-      
-        .bx--tabs__nav-link {
-          padding-left: 30px;
-          color: white;
-          font-weight: 100;
-          opacity: .7;
-        }
-                   
-        .bx--tabs__nav-item--selected .bx--tabs__nav-link  {
-          font-weight: bold;
-          opacity: 1;
-        }
-      
-      }
-      border-bottom: 1px solid #55585C;
-      height: 30px;
-    }
-  }
-}
+//These are carbon colors in previous version but will not in latest carbon 10
+$ibm-colors__gray--40: #a4a4a4 !default;
+$color__blue-51: #0066cc !default;
+$color__gray-1: #dfe3e6 !default;
+$color__navy-gray-8: #dfe6eb !default;
+$color__green-40: #5aa700 !default;
+$color__white: #ffffff !default;
+$color__red-50: #e71d32 !default;
+$color__blue-50: #4178be !default;
+$color__blue-30: #5aaafa !default;
+$color__yellow-30: #efc100 !default;
+$color__blue-40: #5596e6 !default;
+$color__teal-20: #6eedd8 !default;
+$color__blue-90: #152935 !default;
+$color__navy-gray-6: #5a6872 !default;
+$color__navy-gray-7: #8c9ba5 !default;
+$color__white: #fff !default;

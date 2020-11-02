@@ -159,6 +159,9 @@ export const multipleTemplate = (clusterName, value, css, key, func) => {
 export const submitSave = () => {
   modal.shouldNotBeDisabled();
   modal.clickSubmit();
+  cy
+    .get("#notifications", { timeout: 50 * 1000 })
+    .scrollIntoView({ offset: { top: -500, left: 0 } });
   notification.shouldExist("success", { timeout: 60 * 1000 });
   cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
 };

@@ -173,11 +173,11 @@ export const validateSubscriptionTable = (
       clustersColumnIndex = 2;
       break;
     case "channels":
+      // will not check channel table since we can't get the aggregated number
       clustersColumnIndex = -1;
       repositoryColumnIndex = 2;
       break;
     default:
-      // will not check channel table since we can't get the aggregated number
       clustersColumnIndex = -1;
   }
   cy.log(
@@ -191,10 +191,10 @@ export const validateSubscriptionTable = (
     .invoke("text")
     .should("eq", name);
 
+  let hasWindow = "";
   if (timeWindowColumnIndex > 0) {
     //validate time window for subscriptions
     cy.log("Validate Window column");
-    let hasWindow = "";
 
     if (data.timeWindow && data.timeWindow.type) {
       if (data.timeWindow.type == "activeinterval") {
@@ -212,7 +212,8 @@ export const validateSubscriptionTable = (
       .should("eq", hasWindow);
   }
 
-  if (clustersColumnIndex > 0) {
+  if (clustersColumnIndex > 0 && hasWindow.length == 0) {
+    //don't validate cluster count if time window is set since it might be blocked
     //validate remote cluster value
     cy.log("Validate remote cluster values");
 
@@ -268,4 +269,42 @@ export const validateSubscriptionTable = (
   cy.get(`button[data-table-action="table.actions.${tableType}.remove"]`, {
     timeout: 20 * 1000
   });
+};
+
+/*
+Return remote clusters info and time wndow for a single app as it shows in single app table
+*/
+export const getSingleAppClusterTimeDetails = (
+  data,
+  numberOfRemoteClusters
+) => {
+  let onlineDeploy = false; //deploy to all online clusters including local
+  let localDeploy = false;
+  let remoteDeploy = false;
+  let hasWindow = "";
+  data.config.forEach(item => {
+    if (item.timeWindow) {
+      hasWindow = "Yes"; // at list one window set
+    }
+    const { local, online, matchingLabel } = item.deployment;
+    onlineDeploy = onlineDeploy || online ? true : false; // if any subscription was set to online option, use that over anything else
+    remoteDeploy = matchingLabel ? true : remoteDeploy;
+    localDeploy = local ? true : localDeploy;
+  });
+
+  let clusterText = "None";
+  if (onlineDeploy) {
+    clusterText = `${numberOfRemoteClusters} Remote, 1 Local`;
+  } else if (remoteDeploy && localDeploy) {
+    clusterText = "1 Remote, 1 Local";
+  } else if (localDeploy) {
+    clusterText = "Local";
+  } else if (remoteDeploy) {
+    clusterText = "1 Remote";
+  }
+
+  return {
+    clusterData: clusterText,
+    timeWindowData: hasWindow
+  };
 };

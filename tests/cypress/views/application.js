@@ -11,7 +11,8 @@ import {
   modal,
   noResource,
   notification,
-  validateSubscriptionTable
+  validateSubscriptionTable,
+  getSingleAppClusterTimeDetails
 } from "./common";
 
 import { channelsInformation } from "./resources.js";
@@ -174,30 +175,63 @@ export const validateSubscriptionDetails = (name, data, type) => {
     .scrollIntoView()
     .click();
   for (const [key, value] of Object.entries(data.config)) {
-    if (value.timeWindow) {
-      // some subscriptions might not have time window
-      const { setting, type } = value.timeWindow;
-      if (setting) {
-        const keywords = {
-          blockinterval: "Blocked",
-          activeinterval: "Active",
-          active: "Set time window"
-        };
+    // some subscriptions might not have time window
+    const type = value.timeWindow ? value.timeWindow.type : "active"; //if not defined is always active
+    cy.log(`Validate subscriptions cards for ${name} key=${key}`);
+    const keywords = {
+      blockinterval: "Blocked",
+      activeinterval: "Active",
+      active: "Set time window"
+    };
+    cy
+      .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
+      .children()
+      .eq(key)
+      .within($subcards => {
+        cy.log(`Validate time window for subscription is ${keywords[type]}`);
+        type == "active"
+          ? cy
+              .get(".set-time-window-link", { timeout: 20 * 1000 })
+              .contains(keywords[type])
+          : cy
+              .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
+              .contains(keywords[type].toLowerCase());
+
+        cy.log("Validate subscription repository info");
+        let repositoryText =
+          data.type === "objectstore"
+            ? "Object storage"
+            : data.type === "helm" ? "Helm" : "Git";
         cy
-          .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
-          .children()
-          .eq(key)
-          .within($subcards => {
-            type == "active"
-              ? cy
-                  .get(".set-time-window-link", { timeout: 20 * 1000 })
-                  .contains(keywords[type])
-              : cy
-                  .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
-                  .contains(keywords[type].toLowerCase());
-          });
-      }
-    }
+          .get(".pf-c-label__content")
+          .first()
+          .invoke("text")
+          .should("include", repositoryText);
+
+        cy.log("Validate Repository popup");
+        let repoInfo = value.url;
+        if (value.branch && value.branch.length > 0) {
+          repoInfo = `${repoInfo}Branch:${value.branch}`;
+        }
+        if (value.path && value.path.length > 0) {
+          repoInfo = `${repoInfo}Path:${value.path}`;
+        }
+        cy
+          .get(".pf-c-label")
+          .first()
+          .click();
+        //TODO: validate git path and repo info here
+        /*         
+            cy
+            .get(".channel-entry-attribute")
+            .invoke("text")
+            .should("include", repoInfo);
+            */
+        cy
+          .get(".subs-icon")
+          .first()
+          .click(); //close any popups
+      });
   }
 };
 
@@ -246,7 +280,7 @@ export const validateAdvancedTables = (
   }
 };
 
-export const validateTopology = (name, data, type) => {
+export const validateTopology = (name, data, type, numberOfRemoteClusters) => {
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();
   cy
@@ -254,6 +288,12 @@ export const validateTopology = (name, data, type) => {
     .should("not.exist");
   cy.get("#left-col").contains(name);
   cy.get("#left-col").contains(`${name}-ns`);
+
+  const appDetails = getSingleAppClusterTimeDetails(
+    data,
+    numberOfRemoteClusters
+  );
+  cy.get(".overview-cards-details-section").contains(appDetails.clusterData);
 
   validateSubscriptionDetails(name, data, type);
 
@@ -337,6 +377,11 @@ export const validateHelloWorld = () => {
 
 export const validateAppTableMenu = (name, resourceTable) => {
   //validate SEARCH menu
+
+  if (name != "ui-git") {
+    // check popup actions on one app only, that's sufficient
+    return;
+  }
   resourceTable.openRowMenu(name);
   cy
     .get('button[data-table-action="table.actions.applications.search"]', {
@@ -418,52 +463,22 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     .invoke("text")
     .should("eq", `${name}-ns`);
 
+  const appDetails = getSingleAppClusterTimeDetails(
+    data,
+    numberOfRemoteClusters
+  );
   cy.log("Validate Cluster column");
-  let onlineDeploy = false; //deploy to all online clusters including local
-  let localDeploy = false;
-  let remoteDeploy = false;
-  const subscriptionLength = data.config.length;
-  let hasWindow = "";
-  let repositoryDetails = "";
-  const popupDefaultText =
-    "Provide a description that will be used as the title";
-  data.config.forEach(item => {
-    if (item.timeWindow) {
-      hasWindow = "Yes"; // at list one window set
-    }
-    const { local, online, matchingLabel } = item.deployment;
-    onlineDeploy = onlineDeploy || online ? true : false; // if any subscription was set to online option, use that over anything else
-    remoteDeploy = matchingLabel ? true : remoteDeploy;
-    localDeploy = local ? true : localDeploy;
-
-    let repoInfo = `${popupDefaultText}${item.url}`;
-    if (item.branch && item.branch.length > 0) {
-      repoInfo = `${repoInfo}Branch:${item.branch}`;
-    }
-    if (item.path && item.path.length > 0) {
-      repoInfo = `${repoInfo}Path:${item.path}`;
-    }
-    repositoryDetails = `${repositoryDetails}${repoInfo}`;
-  });
-
-  let clusterText = "None";
-  if (onlineDeploy) {
-    clusterText = `${numberOfRemoteClusters} Remote, 1 Local`;
-  } else if (remoteDeploy && localDeploy) {
-    clusterText = "1 Remote, 1 Local";
-  } else if (localDeploy) {
-    clusterText = "Local";
-  } else if (remoteDeploy) {
-    clusterText = "1 Remote";
-  }
   cy
     .get(".resource-table")
     .get(`tr[data-row-name="${name}"]`)
     .get("td")
     .eq(2)
     .invoke("text")
-    .should("eq", clusterText);
+    .should("eq", appDetails.clusterData);
 
+  const popupDefaultText =
+    "Provide a description that will be used as the title";
+  const subscriptionLength = data.config.length;
   let repositoryText =
     data.type === "objectstore"
       ? "Object storage"
@@ -512,7 +527,7 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     .get("td")
     .eq(4)
     .invoke("text")
-    .should("eq", hasWindow);
+    .should("eq", appDetails.timeWindowData);
 
   cy.log("Validate popup actions");
   validateAppTableMenu(name, resourceTable, numberOfRemoteClusters);

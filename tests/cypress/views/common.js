@@ -65,9 +65,9 @@ export const resourceTable = {
         timeout: 20 * 1000
       })
       .click({ force: true }),
-  menuClickDelete: () =>
+  menuClickDelete: type =>
     cy
-      .get('button[data-table-action="table.actions.applications.remove"]', {
+      .get(`button[data-table-action="table.actions.${type}.remove"]`, {
         timeout: 20 * 1000
       })
       .click(),

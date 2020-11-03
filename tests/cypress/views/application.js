@@ -539,21 +539,62 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
   cy.get(".bx--detail-page-header-title");
 };
 
+//delete application resources from advanced tables
+export const deleteResourceUI = (name, type) => {
+  cy.visit(`/multicloud/applications/advanced?resource=${type}`);
+
+  let resourceTypes = {
+    subscriptions: `${name}-subscription-1`,
+    placementrules: `${name}-placement-1`,
+    channels: "hkubernetes-chartsstoragegoogleapiscom"
+  };
+  cy.log(
+    `Verify that resource ${resourceTypes[type]} can be deleted for app ${name}`
+  );
+
+  cy
+    .get("#undefined-search", { timeout: 500 * 1000 })
+    .type(resourceTypes[type]);
+  resourceTable.rowShouldExist(resourceTypes[type], 600 * 1000);
+
+  resourceTable.openRowMenu(resourceTypes[type]);
+  resourceTable.menuClickDelete(type);
+  modal.shouldBeOpen();
+
+  modal.clickDanger();
+  modal.shouldNotBeVisible();
+
+  // after deleting the app, it should not exist in the app table
+  resourceTable.rowShouldNotExist(resourceTypes[type], 300 * 1000);
+};
+
 export const deleteApplicationUI = name => {
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
     resourceTable.rowShouldExist(name, 600 * 1000);
-    resourceTable.openRowMenu(name);
-    resourceTable.menuClickDelete();
-    modal.shouldBeOpen();
-    modal.clickResources();
-    modal.clickDanger();
-    modal.shouldNotBeVisible();
 
+    resourceTable.openRowMenu(name);
+    resourceTable.menuClickDelete("applications");
+    modal.shouldBeOpen();
+
+    if (name != "ui-helm2") {
+      //delete all resources
+      cy.log(`Verify that the app and all resources are deleted for ${name}`);
+      modal.clickResources();
+    }
+    modal.clickDanger();
     // after deleting the app, it should not exist in the app table
+    modal.shouldNotBeVisible();
     resourceTable.rowShouldNotExist(name, 300 * 1000);
   } else {
     cy.log("No apps to delete...");
+  }
+
+  if (name == "ui-helm2") {
+    //delete all resources from advanced table
+    deleteResourceUI(name, "subscriptions");
+    deleteResourceUI(name, "placementrules");
+    deleteResourceUI(name, "channels");
   }
 };
 

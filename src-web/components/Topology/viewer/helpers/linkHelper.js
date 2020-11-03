@@ -530,7 +530,10 @@ export const counterZoomLinks = (svg, currentZoom, showLineLabels) => {
     if (showLineLabels) {
       const fontSize = counterZoom(currentZoom.k, 0.2, 0.85, 10, 20)
       const labels = svg.select('g.links').selectAll('g.label')
-      labels.selectAll('text.linkText').style('font-size', fontSize + 'px')
+      labels
+        .selectAll('text.linkText')
+        .style('font-size', fontSize + 'px')
+        .attr('dy', -2)
     }
   }
 }

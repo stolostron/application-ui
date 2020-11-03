@@ -377,6 +377,11 @@ export const validateHelloWorld = () => {
 
 export const validateAppTableMenu = (name, resourceTable) => {
   //validate SEARCH menu
+
+  if (name != "ui-git") {
+    // check popup actions on one app only, that's sufficient
+    return;
+  }
   resourceTable.openRowMenu(name);
   cy
     .get('button[data-table-action="table.actions.applications.search"]', {

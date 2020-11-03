@@ -173,11 +173,11 @@ export const validateSubscriptionTable = (
       clustersColumnIndex = 2;
       break;
     case "channels":
+      // will not check channel table since we can't get the aggregated number
       clustersColumnIndex = -1;
       repositoryColumnIndex = 2;
       break;
     default:
-      // will not check channel table since we can't get the aggregated number
       clustersColumnIndex = -1;
   }
   cy.log(
@@ -191,10 +191,10 @@ export const validateSubscriptionTable = (
     .invoke("text")
     .should("eq", name);
 
+  let hasWindow = "";
   if (timeWindowColumnIndex > 0) {
     //validate time window for subscriptions
     cy.log("Validate Window column");
-    let hasWindow = "";
 
     if (data.timeWindow && data.timeWindow.type) {
       if (data.timeWindow.type == "activeinterval") {
@@ -212,7 +212,8 @@ export const validateSubscriptionTable = (
       .should("eq", hasWindow);
   }
 
-  if (clustersColumnIndex > 0) {
+  if (clustersColumnIndex > 0 && hasWindow.length == 0) {
+    //don't validate cluster count if time window is set since it might be blocked
     //validate remote cluster value
     cy.log("Validate remote cluster values");
 

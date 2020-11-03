@@ -269,3 +269,41 @@ export const validateSubscriptionTable = (
     timeout: 20 * 1000
   });
 };
+
+/*
+Return remote clusters info and time wndow for a single app as it shows in single app table
+*/
+export const getSingleAppClusterTimeDetails = (
+  data,
+  numberOfRemoteClusters
+) => {
+  let onlineDeploy = false; //deploy to all online clusters including local
+  let localDeploy = false;
+  let remoteDeploy = false;
+  let hasWindow = "";
+  data.config.forEach(item => {
+    if (item.timeWindow) {
+      hasWindow = "Yes"; // at list one window set
+    }
+    const { local, online, matchingLabel } = item.deployment;
+    onlineDeploy = onlineDeploy || online ? true : false; // if any subscription was set to online option, use that over anything else
+    remoteDeploy = matchingLabel ? true : remoteDeploy;
+    localDeploy = local ? true : localDeploy;
+  });
+
+  let clusterText = "None";
+  if (onlineDeploy) {
+    clusterText = `${numberOfRemoteClusters} Remote, 1 Local`;
+  } else if (remoteDeploy && localDeploy) {
+    clusterText = "1 Remote, 1 Local";
+  } else if (localDeploy) {
+    clusterText = "Local";
+  } else if (remoteDeploy) {
+    clusterText = "1 Remote";
+  }
+
+  return {
+    clusterData: clusterText,
+    timeWindowData: hasWindow
+  };
+};

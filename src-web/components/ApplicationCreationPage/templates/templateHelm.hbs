@@ -64,6 +64,13 @@ spec:
 {{#if helmChartName}}
   name: {{{helmChartName}}}
 {{/if}}
+  packageOverrides:
+  - packageName: {{{helmChartName}}}
+{{#if helmPackageAlias}}
+    packageAlias: {{{helmPackageAlias}}}
+{{else}}
+    packageAlias: {{{helmChartName}}}
+{{/if}}
 {{#if helmPackageVersion}}
   packageFilter:
     version: "{{{helmPackageVersion}}}"

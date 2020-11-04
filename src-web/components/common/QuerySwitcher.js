@@ -57,9 +57,8 @@ const QuerySwitcher = ({
           buttonId={id}
           isSelected={isSelected(id)}
           onChange={handleChange}
-        >
-          {contents}
-        </ToggleGroupItem>
+          text={contents}
+        />
       ))}
     </ToggleGroup>
   )

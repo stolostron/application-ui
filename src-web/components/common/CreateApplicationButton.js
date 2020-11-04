@@ -11,7 +11,7 @@
 
 import React, { Component } from 'react'
 import msgs from '../../../nls/platform.properties'
-import { Button } from '@patternfly/react-core'
+import { AcmButton } from '@open-cluster-management/ui-components'
 import TooltipContainer from '../TemplateEditor/components/TooltipContainer'
 import { Link } from 'react-router-dom'
 import config from '../../../lib/shared/config'
@@ -58,14 +58,14 @@ class CreateApplicationButton extends Component {
           key="create-application"
           onClick={canDisable ? this.disableClick : undefined}
         >
-          <Button
+          <AcmButton
             variant="primary"
             isSmall
             isDisabled={canDisable}
             data-test-create-application={!canDisable}
           >
             {msgs.get('actions.create.application', locale)}
-          </Button>
+          </AcmButton>
         </Link>
       </TooltipContainer>
     )

@@ -1,0 +1,59 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: test-cluster-manager-admin-clusterrolebinding
+subjects:
+- kind: User
+  name: test-cluster-manager-admin
+roleRef:
+  kind: ClusterRole
+  name: open-cluster-management:cluster-manager-admin
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: test-cluster-admin-clusterrolebinding
+subjects:
+- kind: User
+  name: test-cluster-admin
+roleRef:
+  kind: ClusterRole
+  name: admin
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: test-edit-clusterrolebinding
+subjects:
+- kind: User
+  name: test-edit
+roleRef:
+  kind: ClusterRole
+  name: edit
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: test-view-clusterrolebinding
+subjects:
+- kind: User
+  name: test-view
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: test-subscripion-admin-clusterrolebinding
+subjects:
+- kind: User
+  name: test-subscripion-admin
+roleRef:
+  kind: ClusterRole
+  name: open-cluster-management:subscription-admin
+  apiGroup: rbac.authorization.k8s.io

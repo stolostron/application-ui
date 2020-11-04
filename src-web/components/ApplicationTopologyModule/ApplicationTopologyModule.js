@@ -107,7 +107,7 @@ class ApplicationTopologyModule extends React.Component {
     this.reload = this.reload.bind(this)
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { restoreSavedDiagramFilters, resetFilters, params } = this.props
     restoreSavedDiagramFilters()
     resetFilters()
@@ -143,7 +143,7 @@ class ApplicationTopologyModule extends React.Component {
     fetchAppTopology(activeChannel, true)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState(prevState => {
       const { locale } = this.props
       const links = _.cloneDeep(nextProps.links || [])

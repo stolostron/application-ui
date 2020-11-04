@@ -53,15 +53,21 @@ export const resourceTable = {
         timeout: 20 * 10000
       })
       .click(),
+  menuClickView: () =>
+    cy
+      .get('button[data-table-action="table.actions.applications.view"]', {
+        timeout: 20 * 1000
+      })
+      .click({ force: true }),
   menuClickEdit: () =>
     cy
       .get('button[data-table-action="table.actions.applications.edit"]', {
         timeout: 20 * 1000
       })
       .click({ force: true }),
-  menuClickDelete: () =>
+  menuClickDelete: type =>
     cy
-      .get('button[data-table-action="table.actions.applications.remove"]', {
+      .get(`button[data-table-action="table.actions.${type}.remove"]`, {
         timeout: 20 * 1000
       })
       .click(),
@@ -143,4 +149,162 @@ export const resourcePage = {
       }
     });
   }
+};
+
+/*
+Validate advanced configuration tables content
+*/
+export const validateSubscriptionTable = (
+  name,
+  tableType,
+  data,
+  numberOfRemoteClusters
+) => {
+  let clustersColumnIndex = -1;
+  let timeWindowColumnIndex = -1;
+  let repositoryColumnIndex = -1; //for channel table only
+
+  switch (tableType) {
+    case "subscriptions":
+      clustersColumnIndex = 4;
+      timeWindowColumnIndex = 5;
+      break;
+    case "placementrules":
+      clustersColumnIndex = 2;
+      break;
+    case "channels":
+      // will not check channel table since we can't get the aggregated number
+      clustersColumnIndex = -1;
+      repositoryColumnIndex = 2;
+      break;
+    default:
+      clustersColumnIndex = -1;
+  }
+  cy.log(
+    `validateSubscriptionTable tableType=${tableType}, clustersColumnIndex=${clustersColumnIndex}`
+  );
+  cy
+    .get(".resource-table")
+    .get(`tr[data-row-name="${name}"]`)
+    .get("td")
+    .eq(0)
+    .invoke("text")
+    .should("eq", name);
+
+  let hasWindow = "";
+  if (timeWindowColumnIndex > 0) {
+    //validate time window for subscriptions
+    cy.log("Validate Window column");
+
+    if (data.timeWindow && data.timeWindow.type) {
+      if (data.timeWindow.type == "activeinterval") {
+        hasWindow = "Active";
+      } else if (data.timeWindow.type == "blockinterval") {
+        hasWindow = "Blocked";
+      }
+    }
+    cy
+      .get(".resource-table")
+      .get(`tr[data-row-name="${name}"]`)
+      .get("td")
+      .eq(timeWindowColumnIndex)
+      .invoke("text")
+      .should("eq", hasWindow);
+  }
+
+  if (clustersColumnIndex > 0 && hasWindow.length == 0) {
+    //don't validate cluster count if time window is set since it might be blocked
+    //validate remote cluster value
+    cy.log("Validate remote cluster values");
+
+    const { local, online, matchingLabel } = data.deployment;
+    const onlineDeploy = online ? true : false;
+    const remoteDeploy = matchingLabel ? true : false;
+    const localDeploy = local ? true : false;
+
+    let clusterText = "None";
+    if (onlineDeploy) {
+      clusterText = `${numberOfRemoteClusters} Remote, 1 Local`;
+    } else if (remoteDeploy && localDeploy) {
+      clusterText = "1 Remote, 1 Local";
+    } else if (localDeploy) {
+      clusterText = "Local";
+    } else if (remoteDeploy) {
+      clusterText = "1 Remote";
+    }
+    cy
+      .get(".resource-table")
+      .get(`tr[data-row-name="${name}"]`)
+      .get("td")
+      .eq(clustersColumnIndex)
+      .invoke("text")
+      .should("eq", clusterText);
+  }
+
+  if (repositoryColumnIndex > 0) {
+    cy.log("Validate Repository popup");
+    cy
+      .get(".resource-table")
+      .get(`tr[data-row-name="${name}"]`)
+      .get("td")
+      .eq(repositoryColumnIndex)
+      .click();
+
+    cy
+      .get(".pf-l-split__item")
+      .invoke("text")
+      .should("include", data.url);
+  }
+
+  cy.log(`Validate Menu actions for ${tableType} with name ${name}`);
+  resourceTable.openRowMenu(name);
+
+  cy.get(`button[data-table-action="table.actions.${tableType}.search"]`, {
+    timeout: 20 * 1000
+  });
+  cy.get(`button[data-table-action="table.actions.${tableType}.edit"]`, {
+    timeout: 20 * 1000
+  });
+
+  cy.get(`button[data-table-action="table.actions.${tableType}.remove"]`, {
+    timeout: 20 * 1000
+  });
+};
+
+/*
+Return remote clusters info and time wndow for a single app as it shows in single app table
+*/
+export const getSingleAppClusterTimeDetails = (
+  data,
+  numberOfRemoteClusters
+) => {
+  let onlineDeploy = false; //deploy to all online clusters including local
+  let localDeploy = false;
+  let remoteDeploy = false;
+  let hasWindow = "";
+  data.config.forEach(item => {
+    if (item.timeWindow) {
+      hasWindow = "Yes"; // at list one window set
+    }
+    const { local, online, matchingLabel } = item.deployment;
+    onlineDeploy = onlineDeploy || online ? true : false; // if any subscription was set to online option, use that over anything else
+    remoteDeploy = matchingLabel ? true : remoteDeploy;
+    localDeploy = local ? true : localDeploy;
+  });
+
+  let clusterText = "None";
+  if (onlineDeploy) {
+    clusterText = `${numberOfRemoteClusters} Remote, 1 Local`;
+  } else if (remoteDeploy && localDeploy) {
+    clusterText = "1 Remote, 1 Local";
+  } else if (localDeploy) {
+    clusterText = "Local";
+  } else if (remoteDeploy) {
+    clusterText = "1 Remote";
+  }
+
+  return {
+    clusterData: clusterText,
+    timeWindowData: hasWindow
+  };
 };

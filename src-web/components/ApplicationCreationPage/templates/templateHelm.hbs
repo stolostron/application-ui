@@ -46,7 +46,7 @@ kind: Subscription
 metadata:
   labels:
     app: {{{@root.name}}}
-  name: {{{@root.name}}}-subscription-{{@index}}
+  name: {{{@root.name}}}-subscription-{{uniqueGroupID}}
   namespace: {{{@root.namespace}}}
   {{#if selfLinks}}
   selfLink: {{{selfLinks.Subscription}}}

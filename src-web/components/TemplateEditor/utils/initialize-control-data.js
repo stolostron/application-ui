@@ -18,7 +18,7 @@ import _ from 'lodash'
 export const initializeControlData = (
   initialControlData,
   locale,
-  groupNum,
+  uniqueGroupID,
   inGroup
 ) => {
   const parentControlData = initialControlData.map(control => {
@@ -29,15 +29,24 @@ export const initializeControlData = (
       if (!active) {
         active = control.active = []
       }
+      if (!control.nextUniqueGroupID) {
+        control.nextUniqueGroupID = 1
+      }
       while (active.length < groupCnt) {
         active.push(
-          initializeControlData(controlData, locale, active.length + 1, true)
+          initializeControlData(
+            controlData,
+            locale,
+            control.nextUniqueGroupID,
+            true
+          )
         )
+        control.nextUniqueGroupID++
       }
       return control
     }
     default:
-      return initialControl(control, locale, groupNum)
+      return initialControl(control, locale)
     }
   })
 
@@ -45,9 +54,14 @@ export const initializeControlData = (
   if (inGroup) {
     parentControlData.forEach(c => {
       if (c.type === 'cards') {
-        c.groupNum = groupNum
+        c.uniqueGroupID = uniqueGroupID
         c.groupControlData = parentControlData
       }
+    })
+    parentControlData.unshift({
+      id: 'uniqueGroupID',
+      type: 'hidden',
+      active: uniqueGroupID
     })
   }
   return parentControlData
@@ -56,7 +70,7 @@ export const initializeControlData = (
 ///////////////////////////////////////////////////////////////////////////////
 // initialze each control
 ///////////////////////////////////////////////////////////////////////////////
-const initialControl = (control, locale, groupNum) => {
+const initialControl = (control, locale) => {
   const { type, isInitialized } = control
   if (!isInitialized) {
     control = Object.assign({}, control)
@@ -68,7 +82,7 @@ const initialControl = (control, locale, groupNum) => {
     initializeControlUserData(control)
 
     // convert i18n message keys to messages
-    initializeMsgs(control, locale, groupNum)
+    initializeMsgs(control, locale)
 
     // intialize choices available for a control
     initializeAvailableChoices(type, control)
@@ -108,7 +122,7 @@ const initializeControlUserData = control => {
   }
 }
 
-const initializeMsgs = (control, locale, groupNum) => {
+const initializeMsgs = (control, locale) => {
   const { type, controlData, available } = control
   const keys = [
     'name',
@@ -122,9 +136,7 @@ const initializeMsgs = (control, locale, groupNum) => {
   ]
   keys.forEach(key => {
     if (typeof control[key] === 'string') {
-      control[key] = groupNum
-        ? msgs.get(control[key], [groupNum], locale)
-        : msgs.get(control[key], locale)
+      control[key] = msgs.get(control[key], locale)
     }
   })
   const properties = ['available', 'active']
@@ -147,7 +159,7 @@ const initializeMsgs = (control, locale, groupNum) => {
   if (type === 'table' && controlData) {
     controlData.forEach(ctrl => {
       if (!ctrl.isInitialized) {
-        initializeMsgs(ctrl, locale, groupNum)
+        initializeMsgs(ctrl, locale)
         ctrl.isInitialized = true
       }
     })
@@ -159,7 +171,7 @@ const initializeMsgs = (control, locale, groupNum) => {
       if (change.insertControlData) {
         change.insertControlData.forEach(ctrl => {
           if (!ctrl.isInitialized) {
-            initializeMsgs(ctrl, locale, groupNum)
+            initializeMsgs(ctrl, locale)
             ctrl.isInitialized = true
           }
         })

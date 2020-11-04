@@ -123,7 +123,7 @@ class DiagramViewer extends React.Component {
     )
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     this.setState((prevState, props) => {
       // reuse existing states for the same node
       const prevStateNodeMap = _.keyBy(prevState.nodes, 'uid')

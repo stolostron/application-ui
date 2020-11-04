@@ -116,6 +116,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
             </div>
             <div
               className="details-col"
+              id="righ-col"
             >
               <div
                 className="details-item"
@@ -140,6 +141,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
               </div>
               <div
                 className="details-item"
+                id="resources-status"
               >
                 <div
                   className="details-item-title right-item"
@@ -166,6 +168,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                   className="details-item-link"
                   href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Aapplication%20name%3Asamplebook-gbapp%20namespace%3Asample\\"}"
                   id="app-search-link"
+                  rel="noreferrer"
                   target="_blank"
                 >
                   <div>
@@ -203,6 +206,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
         
         <button
           className="toggle-subs-btn bx--btn bx--btn--primary"
+          data-test-subscription-details={false}
           disabled={true}
           onClick={[Function]}
           tabIndex={0}
@@ -631,6 +635,7 @@ exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
             </div>
             <div
               className="details-col"
+              id="righ-col"
             >
               <div
                 className="details-item"
@@ -655,6 +660,7 @@ exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
               </div>
               <div
                 className="details-item"
+                id="resources-status"
               >
                 <div
                   className="details-item-title right-item"
@@ -681,6 +687,7 @@ exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
                   className="details-item-link"
                   href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Aapplication%20name%3Aundefined%20namespace%3Aundefined\\"}"
                   id="app-search-link"
+                  rel="noreferrer"
                   target="_blank"
                 >
                   <div>
@@ -718,6 +725,7 @@ exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
         
         <button
           className="toggle-subs-btn bx--btn bx--btn--primary"
+          data-test-subscription-details={false}
           disabled={true}
           onClick={[Function]}
           tabIndex={0}

@@ -20,7 +20,11 @@ import resources from '../../../lib/shared/resources'
 resources(() => {
   require('../../../scss/channel-labels.scss')
 })
-const ChannelLabels = ({ channels, locale, showSubscriptionAttributes=true }) => {
+const ChannelLabels = ({
+  channels,
+  locale,
+  showSubscriptionAttributes = true
+}) => {
   const groupByChannelType = R.groupBy(ch => {
     const channelType = (ch.type && ch.type.toLowerCase()) || ''
     return channelType === 'github' ? 'git' : channelType
@@ -80,7 +84,7 @@ const ChannelLabels = ({ channels, locale, showSubscriptionAttributes=true }) =>
                       <StackItem className="channel-entry">
                         <Stack hasGutter>
                           <StackItem className="channel-entry-link">
-                            <a href={link} target="_blank">
+                            <a href={link} target="_blank" rel="noreferrer">
                               <Split hasGutter>
                                 <SplitItem>
                                   <Icon
@@ -92,33 +96,34 @@ const ChannelLabels = ({ channels, locale, showSubscriptionAttributes=true }) =>
                               </Split>
                             </a>
                           </StackItem>
-                          {showSubscriptionAttributes && chType === 'git' && (
-                            <React.Fragment>
-                              {['gitBranch', 'gitPath'].map(attrib => {
-                                return (
-                                  <StackItem
-                                    key={attrib}
-                                    className="channel-entry-attribute"
-                                  >
-                                    <Split hasGutter>
-                                      <SplitItem className="channel-entry-attribute-name">
-                                        {msgs.get(
-                                          `channel.type.label.${attrib}`
-                                        )}
-                                      </SplitItem>
-                                      <SplitItem>
-                                        {channel[attrib]
-                                          ? channel[attrib]
-                                          : msgs.get(
-                                            'channel.type.label.noData',
-                                            locale
+                          {showSubscriptionAttributes &&
+                            chType === 'git' && (
+                              <React.Fragment>
+                                {['gitBranch', 'gitPath'].map(attrib => {
+                                  return (
+                                    <StackItem
+                                      key={attrib}
+                                      className="channel-entry-attribute"
+                                    >
+                                      <Split hasGutter>
+                                        <SplitItem className="channel-entry-attribute-name">
+                                          {msgs.get(
+                                            `channel.type.label.${attrib}`
                                           )}
-                                      </SplitItem>
-                                    </Split>
-                                  </StackItem>
-                                )
-                              })}
-                            </React.Fragment>
+                                        </SplitItem>
+                                        <SplitItem>
+                                          {channel[attrib]
+                                            ? channel[attrib]
+                                            : msgs.get(
+                                              'channel.type.label.noData',
+                                              locale
+                                            )}
+                                        </SplitItem>
+                                      </Split>
+                                    </StackItem>
+                                  )
+                                })}
+                              </React.Fragment>
                           )}
                         </Stack>
                       </StackItem>

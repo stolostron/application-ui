@@ -30,9 +30,11 @@ describe("FilterModal modal", () => {
         handleModalClose={handleModalClose}
       />
     );
-    component.instance().componentWillReceiveProps();
+    component.instance().UNSAFE_componentWillReceiveProps();
     expect(component.state().tags).toEqual([]);
-    component.instance().componentWillReceiveProps({ selected: ["test"] });
+    component
+      .instance()
+      .UNSAFE_componentWillReceiveProps({ selected: ["test"] });
     expect(component.state().tags).toEqual(["test"]);
   });
   it("convertFilterArray as expected", () => {

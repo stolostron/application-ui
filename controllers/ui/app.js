@@ -93,7 +93,7 @@ router.get('*', (req, res) => {
 
     try {
       res.render(
-        'main',
+        'home',
         Object.assign(
           {
             manifest: appUtil.app().locals.manifest,

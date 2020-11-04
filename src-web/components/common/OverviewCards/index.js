@@ -53,7 +53,7 @@ class OverviewCards extends React.Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // update cards every 1s to pick up side-effect in
     // redux state (calculation of node statuses) created by
     // topology code
@@ -197,7 +197,7 @@ class OverviewCards extends React.Component {
               </div>
             </div>
 
-            <div className="details-col">
+            <div className="details-col" id="righ-col">
               <div className="details-item">
                 <div className="details-item-title right-item">
                   {msgs.get('dashboard.card.overview.cards.clusters', locale)}
@@ -214,7 +214,7 @@ class OverviewCards extends React.Component {
                 </div>
               </div>
 
-              <div className="details-item">
+              <div className="details-item" id="resources-status">
                 <div className="details-item-title right-item">
                   {msgs.get(
                     'dashboard.card.overview.cards.cluster.resource.status',
@@ -236,6 +236,7 @@ class OverviewCards extends React.Component {
                   id="app-search-link"
                   href={getUrl + appOverviewCardsData.targetLink}
                   target="_blank"
+                  rel="noreferrer"
                 >
                   <div>
                     {msgs.get(
@@ -257,6 +258,7 @@ class OverviewCards extends React.Component {
           <Button
             className="toggle-subs-btn"
             disabled={disableBtn}
+            data-test-subscription-details={!disableBtn}
             onClick={() => this.toggleSubsBtn(showSubCards)}
           >
             {this.renderData(
@@ -289,7 +291,10 @@ class OverviewCards extends React.Component {
   createStatusIcons = nodeStatuses => {
     return (
       <React.Fragment>
-        <div className="status-icon-container green-status">
+        <div
+          className="status-icon-container green-status"
+          id="green-resources"
+        >
           <img
             className="status-icon"
             alt="node-status-success"
@@ -297,7 +302,10 @@ class OverviewCards extends React.Component {
           />
           <div className="status-count">{nodeStatuses.green}</div>
         </div>
-        <div className="status-icon-container orange-status">
+        <div
+          className="status-icon-container orange-status"
+          id="orange-resources"
+        >
           <img
             className="status-icon"
             alt="node-status-pending"
@@ -305,7 +313,10 @@ class OverviewCards extends React.Component {
           />
           <div className="status-count">{nodeStatuses.orange}</div>
         </div>
-        <div className="status-icon-container yellow-status">
+        <div
+          className="status-icon-container yellow-status"
+          id="yellow-resources"
+        >
           <img
             className="status-icon"
             alt="node-status-warning"
@@ -313,7 +324,7 @@ class OverviewCards extends React.Component {
           />
           <div className="status-count">{nodeStatuses.yellow}</div>
         </div>
-        <div className="status-icon-container red-status">
+        <div className="status-icon-container red-status" id="red-resources">
           <img
             className="status-icon"
             alt="node-status-failure"

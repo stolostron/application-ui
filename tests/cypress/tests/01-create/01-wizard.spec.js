@@ -6,22 +6,25 @@ const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { createApplication } from "../../views/application";
 import { getManagedClusterName } from "../../views/resources";
 
-describe("Application", () => {
+describe("Application Creation Test", () => {
   it(`get the name of the managed OCP cluster`, () => {
     getManagedClusterName();
   });
   for (const type in config) {
-    const data = config[type].data;
-
-    if (data.enable) {
-      it(`can be created on resource ${type} from the wizard`, () => {
-        const clusterName = Cypress.env("managedCluster");
-        createApplication(clusterName, data, type);
-      });
-    } else {
-      it(`disable creation on resource ${type}`, () => {
-        cy.log(`skipping wizard: ${type} - ${data.name}`);
-      });
-    }
+    const apps = config[type].data;
+    apps.forEach(data => {
+      if (data.enable) {
+        it(`Verify application ${
+          data.name
+        } can be created from resource type ${type} using template editor`, () => {
+          const clusterName = Cypress.env("managedCluster");
+          createApplication(clusterName, data, type);
+        });
+      } else {
+        it(`disable creation on resource ${data.name} ${type}`, () => {
+          cy.log(`skipping wizard: ${type} - ${data.name}`);
+        });
+      }
+    });
   }
 });

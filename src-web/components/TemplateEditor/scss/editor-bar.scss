@@ -12,20 +12,32 @@
 
 .editor-bar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     height: 100%;
     width: 100%;
     justify-content: space-between;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
+    position: relative;
+     
+   .editor-bar-group {
+     height: 100%;
+     flex: auto;
+     > div {
+       height: 48px;
+     }
       
     .editor-bar-title {
-      padding-left: 12px;
+       white-space: nowrap;
+       padding: 0 12px;
+       display: flex;
+       align-items: center;
     }
     
     .editor-bar-toolbar {
       display: flex;
-      height: 100%;
+       border-top: 1px solid #55585C;
 
       .editor-bar-section {
         display: flex;
@@ -41,11 +53,20 @@
         }
       
         &:last-of-type {
-          padding: 0;
+           padding: 10px;
+           margin-right: 50px;
         }
       
       }
     }
+
+   }
+        
+   .editor-bar-close {
+     position: absolute;
+     right: 0;
+     top: 0;
+   }
 
     .editor-bar-search {
       > div {
@@ -111,7 +132,9 @@
       }
     
       &.close {
+        border-left: 1px solid #55585C;
         padding: 16px;
+        height: 48px;
       }
     }
 

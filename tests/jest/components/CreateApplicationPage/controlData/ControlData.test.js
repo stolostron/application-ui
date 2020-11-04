@@ -622,7 +622,7 @@ describe("setAvailableRules", () => {
     }
   };
   const result = {
-    active: "",
+    active: true,
     available: ["dev-clusters"],
     availableData: {
       "dev-clusters": { metadata: { name: "dev-clusters", namespace: "aa-ns" } }
@@ -650,7 +650,7 @@ describe("setAvailableRules", () => {
     data: {}
   };
   const result = {
-    active: "",
+    active: true,
     available: [],
     availableData: {},
     availableMap: {},
@@ -678,7 +678,7 @@ describe("setAvailableRules", () => {
     loading: "data loading"
   };
   const result = {
-    active: "",
+    active: true,
     available: [],
     availableData: { data: {}, loading: "loading message" },
     availableMap: {},

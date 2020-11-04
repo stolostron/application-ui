@@ -85,6 +85,7 @@ module.exports = (on, config) => {
     }
   });
 
+
   on("task",{
     readFileMaybe (filename) {
       if (fs.existsSync(filename)) {
@@ -93,6 +94,8 @@ module.exports = (on, config) => {
       return false
     }
   });
+
+  if (config.env.TEST_MODE === "functional") config.videoUploadOnPasses = false; // disable video compression for passing spec files
 
   config.env.TEST_CONFIG = testConfig;
   config.env.KUBE_CONFIG = kubeConfig;

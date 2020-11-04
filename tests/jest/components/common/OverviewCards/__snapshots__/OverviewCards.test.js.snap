@@ -102,6 +102,7 @@ exports[`OverviewCards OverviewCards renders correctly with data. 1`] = `
         </div>
         <div
           className="details-col"
+          id="righ-col"
         >
           <div
             className="details-item"
@@ -126,6 +127,7 @@ exports[`OverviewCards OverviewCards renders correctly with data. 1`] = `
           </div>
           <div
             className="details-item"
+            id="resources-status"
           >
             <div
               className="details-item-title right-item"

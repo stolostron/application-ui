@@ -115,6 +115,7 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
               </div>
               <div
                 className="details-col"
+                id="righ-col"
               >
                 <div
                   className="details-item"
@@ -139,6 +140,7 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                 </div>
                 <div
                   className="details-item"
+                  id="resources-status"
                 >
                   <div
                     className="details-item-title right-item"

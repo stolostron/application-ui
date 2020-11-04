@@ -17,6 +17,7 @@ describe("DiagramViewer no components", () => {
     clusters: [],
     nodes: [],
     links: [],
+    activeFilters: {},
     staticResourceData: {
       shapeTypeOrder: ["application", "appservice", "dependency"],
       getNodeDescription: jest.fn(),
@@ -32,6 +33,7 @@ describe("DiagramViewer no components", () => {
         links={mockData.links}
         context={{ locale: "US-en" }}
         staticResourceData={mockData.staticResourceData}
+        activeFilters={mockData.activeFilters}
       />
     );
     expect(component.toJSON()).toMatchSnapshot();

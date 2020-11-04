@@ -17,12 +17,7 @@ import msgs from '../../../nls/platform.properties'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import { SEARCH_QUERY_RELATED } from '../../apollo-client/queries/SearchQueries'
-import {
-  Checkbox,
-  Modal,
-  Loading,
-  Notification
-} from 'carbon-components-react'
+import { Checkbox, Loading, Notification } from 'carbon-components-react'
 import { canCallAction } from '../../../lib/client/access-helper'
 import {
   forceResourceReload,
@@ -32,6 +27,7 @@ import {
   getQueryStringForResource
 } from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import { AcmModal } from '@open-cluster-management/ui-components'
 
 class RemoveResourceModal extends React.Component {
   constructor(props) {
@@ -290,6 +286,14 @@ class RemoveResourceModal extends React.Component {
     }
   }
 
+  modalBodyError = errors => {
+    return (
+      <div>
+        <Notification kind="error" title="" subtitle={errors} />
+      </div>
+    )
+  };
+
   modalBody = (name, label, locale) => {
     switch (label.label) {
     case 'modal.remove-hcmapplication.label':
@@ -331,44 +335,32 @@ class RemoveResourceModal extends React.Component {
           </div>
         </div>
       ) : (
-        <p>{msgs.get('modal.remove.confirm', [name], locale)}</p>
+        msgs.get('modal.remove.confirm', [name], locale)
       )
     default:
-      return <p>{msgs.get('modal.remove.confirm', [name], locale)}</p>
+      return msgs.get('modal.remove.confirm', [name], locale)
     }
   };
 
   render() {
     const { label, locale, open } = this.props
     const { canRemove, name, loading, errors } = this.state
-    const bodyLabel =
-      msgs.get(label.label, locale) ||
-      msgs.get('modal.remove.resource', locale)
     const heading = msgs.get(label.heading, locale)
+    const body =
+      errors !== undefined
+        ? this.modalBodyError(errors)
+        : this.modalBody(name, label, locale)
     return (
       <div>
         {loading && <Loading />}
-        <Modal
-          danger
-          id="remove-resource-modal"
+        <AcmModal
           open={open}
-          primaryButtonText={msgs.get(label.primaryBtn, locale)}
-          secondaryButtonText={msgs.get('modal.button.cancel', locale)}
-          modalLabel={bodyLabel}
-          modalHeading={heading}
-          onRequestClose={this.handleClose.bind(this)}
-          onRequestSubmit={this.handleSubmit.bind(this)}
-          role="region"
-          aria-label={heading}
-          primaryButtonDisabled={!canRemove}
-        >
-          <div>
-            {errors !== undefined ? (
-              <Notification kind="error" title="" subtitle={errors} />
-            ) : null}
-          </div>
-          {this.modalBody(name, label, locale)}
-        </Modal>
+          title={heading}
+          cancel={this.handleClose.bind(this)}
+          submit={this.handleSubmit.bind(this)}
+          message={body}
+          //primaryButtonDisabled={!canRemove}
+        />
       </div>
     )
   }

@@ -40,7 +40,7 @@ export default class LayoutHelper {
     this.destroyed = true
   };
 
-  layout = (nodes, links, hiddenLinks, options, cb) => {
+  layout = (nodes, links, hiddenLinks, options, isFilterOn, cb) => {
     Object.assign(this, options)
 
     // filter by currectly selected filters
@@ -123,7 +123,11 @@ export default class LayoutHelper {
     collections = collections.connected.concat(collections.unconnected)
     this.runCollectionLayouts(collections, () => {
       // after all layouts run, fit the collections neatly in the diagram
-      const layoutInfo = this.layoutCollections(collections, hiddenLinks)
+      const layoutInfo = this.layoutCollections(
+        collections,
+        hiddenLinks,
+        isFilterOn
+      )
 
       // return to TopologyView to create/position the d3 svg shapes
       if (!this.destroyed) {
@@ -895,7 +899,7 @@ export default class LayoutHelper {
     })
   };
 
-  layoutCollections = (collections, hiddenLinks) => {
+  layoutCollections = (collections, hiddenLinks, isFilterOn) => {
     // cache layouts
     const clayouts = []
     collections.forEach(
@@ -1093,8 +1097,8 @@ export default class LayoutHelper {
         layoutBBox.x2 = Math.max(layoutBBox.x2 || nx, nx)
         layoutBBox.y2 = Math.max(layoutBBox.y2 || ny, ny)
 
-        // restore position of any node dragged by user
-        if (layout.dragged) {
+        // restore position of any node dragged by user but not when filtering
+        if (layout.dragged && !isFilterOn) {
           // if node is a member of a new section cancel the drag
           if (layout.section.hashCode === hashCodeC) {
             // else reconstitute drag using the current section x/y

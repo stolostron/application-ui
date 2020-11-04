@@ -362,6 +362,24 @@ class DiagramViewer extends React.Component {
     })
   };
 
+  isUserFiltering = activeFilters => {
+    let filteringOn = false
+
+    const keys = Object.keys(activeFilters)
+    if (keys.length === 1) {
+      return filteringOn
+    }
+    let i
+    // loop until we find a filter that's set or there are no more filters
+    for (i = 0; i < keys.length && filteringOn === false; i++) {
+      if (keys[i] !== 'type') {
+        filteringOn = activeFilters[keys[i]].size > 0
+      }
+    }
+
+    return filteringOn
+  };
+
   generateDiagram() {
     // if dragging or searching don't refresh diagram
     if (this.isDragging) {
@@ -408,12 +426,14 @@ class DiagramViewer extends React.Component {
       this.viewerContainerRef.classList.toggle('search-mode', !!searchName)
     }
 
+    const isFilterOn = this.isUserFiltering(activeFilters)
     // whether it was used or not, turn it off
     this.layoutHelper.layout(
       nodes,
       links,
       hiddenLinks,
       options,
+      isFilterOn,
       layoutResults => {
         const {
           laidoutNodes,
@@ -449,6 +469,7 @@ class DiagramViewer extends React.Component {
           typeToShapeMap,
           this.diagramOptions
         )
+
         linkHelper.updateDiagramLinks(currentZoom)
         linkHelper.moveLinks(transition, currentZoom, searchChanged)
 

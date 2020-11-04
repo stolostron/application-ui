@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -17,6 +18,7 @@ describe("DiagramViewer no components", () => {
     clusters: [],
     nodes: [],
     links: [],
+    activeFilters: {},
     staticResourceData: {
       shapeTypeOrder: ["application", "appservice", "dependency"],
       getNodeDescription: jest.fn(),
@@ -32,6 +34,7 @@ describe("DiagramViewer no components", () => {
         links={mockData.links}
         context={{ locale: "US-en" }}
         staticResourceData={mockData.staticResourceData}
+        activeFilters={mockData.activeFilters}
       />
     );
     expect(component.toJSON()).toMatchSnapshot();

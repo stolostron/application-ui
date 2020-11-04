@@ -120,13 +120,9 @@ export default class LinkHelper {
   };
 
   moveLinks = (transition, currentZoom) => {
-    // don't move looped dragged links
     let links = this.svg
       .select('g.links')
       .selectAll('g.link')
-      .filter(({ layout: { source: { dragged } } }) => {
-        return !dragged
-      })
       .attr('transform', currentZoom)
 
     const isHidden = layout => {

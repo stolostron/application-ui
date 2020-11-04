@@ -549,14 +549,11 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     .invoke("text")
     .should("eq", appDetails.timeWindowData);
 
-  cy.log("Validate popup actions");
-  validateAppTableMenu(name, resourceTable, numberOfRemoteClusters);
-
-  //click on app name to go to the single app View
-  resourceTable.openRowMenu(name);
-  resourceTable.rowNameClick(name);
-  cy.reload(); // status isn't updating after unknown failure
-  cy.get(".bx--detail-page-header-title");
+  if (data.type == "git") {
+    cy.log("Validate popup actions");
+    //validate menu for one app only, no need to check all
+    validateAppTableMenu(name, resourceTable, numberOfRemoteClusters);
+  }
 };
 
 //delete application resources from advanced tables

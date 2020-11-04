@@ -54,12 +54,27 @@ module.exports = {
       {
         // Transpile React JSX to ES5
         test: [/\.jsx$/, /\.js$/],
-        exclude: /node_modules|\.scss/,
+        exclude: /node_modules\/(?!(fuse.js)\/)|\.scss/, // fuse.js requires transpiling
         loader: "babel-loader?cacheDirectory"
       },
       {
         test: [/\.s?css$/],
-        exclude: [path.resolve(__dirname, "./node_modules/monaco-editor"), /node_modules\/(?!(@patternfly)\/).*/],
+        exclude: {
+          and: [
+            /node_modules/,
+            {
+              or: [
+                { not: [/node_modules\/@patternfly/] },
+                {
+                  and: [
+                    /node_modules\/@open-cluster-management\/ui-components/,
+                    /node_modules\/@patternfly/
+                  ]
+                }
+              ]
+            }
+          ]
+        },
         loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [
@@ -100,6 +115,12 @@ module.exports = {
         test: /\.css$/,
         include: path.resolve(__dirname, "./node_modules/monaco-editor"),
         use: ["style-loader", "css-loader"]
+      },
+      // ignore styles @open-cluster-management/ui-components
+      {
+        test: /\.s?css$/,
+        include: /node_modules\/@open-cluster-management\/ui-components/,
+        loader: "null-loader"
       },
       {
         test: /\.properties$/,

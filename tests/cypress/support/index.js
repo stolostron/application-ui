@@ -25,6 +25,7 @@
 
 // Import commands.js using ES2015 syntax:
 import "./commands";
+import "./useradd"
 // import '@cypress/code-coverage/support'
 
 // Alternatively you can use CommonJS syntax:
@@ -41,20 +42,8 @@ before(() => {
       Cypress.env("token", res.stdout);
     });
   } else {
-    cy.visit("/");
-    cy.get("body").then(body => {
-      // Check if logged in
-      if (body.find("#header").length === 0) {
-        // Check if identity providers are configured
-        if (body.find("form").length === 0)
-          cy.contains(Cypress.env("OC_IDP")).click();
-
-        cy.get("#inputUsername").type(Cypress.env("OC_CLUSTER_USER"));
-        cy.get("#inputPassword").type(Cypress.env("OC_CLUSTER_PASS"));
-        cy.get('button[type="submit"]').click();
-        cy.get("#header").should("exist");
-      }
-    });
+    cy.addUserIfNotCreatedBySuite();
+    cy.logInAsRole('cluster-manager-admin');
     cy.acquireToken().then(token => {
       Cypress.env("token", token);
     });

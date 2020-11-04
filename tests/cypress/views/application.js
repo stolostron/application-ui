@@ -168,6 +168,17 @@ export const submitSave = () => {
   cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
 };
 
+const convertTimeFormat = time => {
+  if (time !== "") {
+    const hour24 = time.substring(0, 2);
+    let hour12 = hour24 % 12 || 12;
+    const period = hour24 < 12 ? "am" : "pm";
+    return hour12 + time.substring(2) + period;
+  } else {
+    return "";
+  }
+};
+
 export const validateSubscriptionDetails = (name, data, type) => {
   // as soon as details button is enabled we can proceed
   cy
@@ -178,11 +189,77 @@ export const validateSubscriptionDetails = (name, data, type) => {
     // some subscriptions might not have time window
     const type = value.timeWindow ? value.timeWindow.type : "active"; //if not defined is always active
     cy.log(`Validate subscriptions cards for ${name} key=${key}`);
+
+    // Get "Repository resource" info
+    let repoInfo = value.url;
+    if (value.branch && value.branch.length > 0) {
+      repoInfo = `${repoInfo}Branch:${value.branch}`;
+    }
+    if (value.path && value.path.length > 0) {
+      repoInfo = `${repoInfo}Path:${value.path}`;
+    }
+
+    // Get "Time window" info
+    let timeWindowInfo = {};
+    if (value.timeWindow) {
+      timeWindowInfo["date"] = `Days of the week${value.timeWindow.date.join(
+        ", "
+      )}`;
+
+      if (value.timeWindow.hours) {
+        let timeRangeString = "";
+        value.timeWindow.hours.forEach((range, i) => {
+          timeRangeString =
+            `${timeRangeString}${convertTimeFormat(
+              range.start
+            )} - ${convertTimeFormat(range.end)}` +
+            `${i < value.timeWindow.hours.length - 1 ? ", " : ""}`;
+        });
+        timeWindowInfo["hours"] = `Time range${timeRangeString}`;
+      }
+    }
     const keywords = {
       blockinterval: "Blocked",
       activeinterval: "Active",
       active: "Set time window"
     };
+
+    // 1. Check "Repository resource" button and popover
+    cy
+      .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
+      .children()
+      .eq(key)
+      .within($subcards => {
+        cy.log("Validate subscription repository info");
+        let repositoryText =
+          data.type === "objectstore"
+            ? "Object storage"
+            : data.type === "helm" ? "Helm" : "Git";
+        cy
+          .get(".pf-c-label__content")
+          .first()
+          .invoke("text")
+          .should("include", repositoryText);
+
+        cy.log("Validate repository popup");
+        cy
+          .get(".pf-c-label")
+          .first()
+          .click({ force: true });
+      });
+    // Validate info in popover
+    cy
+      .get(".channel-labels.channel-labels-popover-content", {
+        timeout: 20 * 1000
+      })
+      .invoke("text")
+      .should("include", repoInfo);
+    cy
+      .get(".subs-icon")
+      .first()
+      .click(); // Close any popovers
+
+    // 2. Check "Time window" button and popover
     cy
       .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
       .children()
@@ -197,41 +274,25 @@ export const validateSubscriptionDetails = (name, data, type) => {
               .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
               .contains(keywords[type].toLowerCase());
 
-        cy.log("Validate subscription repository info");
-        let repositoryText =
-          data.type === "objectstore"
-            ? "Object storage"
-            : data.type === "helm" ? "Helm" : "Git";
-        cy
-          .get(".pf-c-label__content")
-          .first()
-          .invoke("text")
-          .should("include", repositoryText);
-
-        cy.log("Validate Repository popup");
-        let repoInfo = value.url;
-        if (value.branch && value.branch.length > 0) {
-          repoInfo = `${repoInfo}Branch:${value.branch}`;
+        if (type !== "active") {
+          cy.log("Validate time window popup");
+          cy
+            .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
+            .click({ force: true });
         }
-        if (value.path && value.path.length > 0) {
-          repoInfo = `${repoInfo}Path:${value.path}`;
-        }
-        cy
-          .get(".pf-c-label")
-          .first()
-          .click();
-        //TODO: validate git path and repo info here
-        /*         
-            cy
-            .get(".channel-entry-attribute")
-            .invoke("text")
-            .should("include", repoInfo);
-            */
-        cy
-          .get(".subs-icon")
-          .first()
-          .click(); //close any popups
       });
+    // Validate info in popover
+    if (type !== "active") {
+      cy
+        .get(".timeWindow-labels-popover-content", { timeout: 20 * 1000 })
+        .invoke("text")
+        .should("include", timeWindowInfo.date)
+        .and("include", timeWindowInfo.hours);
+      cy
+        .get(".subs-icon")
+        .first()
+        .click(); // Close any popovers
+    }
   }
 };
 

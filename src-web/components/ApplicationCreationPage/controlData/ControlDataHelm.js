@@ -83,7 +83,7 @@ const helmReleaseChannelData = [
     type: 'text',
     active: '',
     placeholder: 'app.enter.helmrepo.package.alias',
-    reverse: 'Subscription[0].spec.packageOverrides.packageAlias'
+    reverse: 'Subscription[0].spec.packageOverrides[0].packageAlias'
   },
   {
     name: 'creation.app.helmrepo.package.version',

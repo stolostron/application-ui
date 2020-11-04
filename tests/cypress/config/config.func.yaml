@@ -4,6 +4,7 @@ git:
     - enable: true
       name: ui-git
       type: git
+      successNumber: 4 #should have at least 4 resources with status success in the cards status
       config:    
         - url: https://github.com/fxiang1/app-samples.git
           username: ""
@@ -39,6 +40,7 @@ objectstore:
     - enable: true
       name: ui-obj
       type: objectstore
+      successNumber: 0
       config:
         - url: http://ec2-dummy/dev1
           accessKey: dummy1
@@ -91,15 +93,26 @@ helm:
     - enable: true
       name: ui-helm
       type: helm
+      successNumber: 0
       config:
         - url: https://kubernetes-charts.storage.googleapis.com
           chartName: airflow
+          packageVersion: 7.9.0
           deployment:
             local: true
             online: false
             matchingLabel: false
         - url: https://kubernetes-charts.storage.googleapis.com
-          chartName: airstrike
+          chartName: bookstack
+          packageVersion: 1.2.1
+          timeWindow:
+            setting: true
+            type: blockinterval
+            date:
+              - Monday
+            hours:
+              - start: "08:00"
+                end: "12:00"            
           deployment:
             local: false
             online: false
@@ -107,11 +120,12 @@ helm:
     - enable: true
       name: ui-helm2
       type: helm
+      successNumber: 2      
       config:
         - url: https://kubernetes-charts.storage.googleapis.com
-          chartName: airstrike
+          chartName: aerospike
           deployment:
             local: false
             online: true
             matchingLabel: false            
-                  
+

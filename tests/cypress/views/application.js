@@ -71,7 +71,8 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
 export const createHelm = (clusterName, configs) => {
   let helmCss = {
     helmURL: "#helmURL",
-    helmChartName: "#helmChartName"
+    helmChartName: "#helmChartName",
+    helmPackageVersion: "#helmPackageVersion"
   };
   for (const [key, value] of Object.entries(configs)) {
     key == 0
@@ -81,8 +82,8 @@ export const createHelm = (clusterName, configs) => {
 };
 
 export const helmTasks = (clusterName, value, css, key = 0) => {
-  const { url, chartName, timeWindow, deployment } = value;
-  const { helmURL, helmChartName } = css;
+  const { url, chartName, packageVersion, timeWindow, deployment } = value;
+  const { helmURL, helmChartName, helmPackageVersion } = css;
   cy
     .get("#helmrepo")
     .click()
@@ -95,6 +96,11 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .get(helmChartName, { timeout: 20 * 1000 })
     .type(chartName)
     .blur();
+  packageVersion &&
+    cy
+      .get(helmPackageVersion, { timeout: 20 * 1000 })
+      .type(packageVersion)
+      .blur();
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
@@ -293,7 +299,21 @@ export const validateTopology = (name, data, type, numberOfRemoteClusters) => {
     data,
     numberOfRemoteClusters
   );
+  cy.log(
+    `Verify cluster deploy status on app card is ${appDetails.clusterData}`
+  );
   cy.get(".overview-cards-details-section").contains(appDetails.clusterData);
+
+  const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
+  cy.log(
+    `Verify that the deployed resources number with status success is at least ${successNumber}`
+  );
+  cy
+    .get("#green-resources")
+    .children(".status-count")
+    .invoke("text")
+    .then(parseInt)
+    .should("be.gte", successNumber);
 
   validateSubscriptionDetails(name, data, type);
 
@@ -326,7 +346,7 @@ export const validateTopology = (name, data, type, numberOfRemoteClusters) => {
 
   data.config.forEach(data => {
     const { path } = type == "git" ? data : data;
-    path == "helloworld" ? validateHelloWorld() : null;
+    //path == "helloworld" ? validateHelloWorld() : null;
   });
 };
 

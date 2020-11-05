@@ -741,7 +741,7 @@ export const counterZoomLabels = (svg, currentZoom) => {
 
     ////////// LABELS //////////////////////////////
     let showClass, hideClass
-    if (s > 0.6) {
+    if (s > 0.4) {
       showClass = 'regularLabel'
       hideClass = 'compactLabel'
     } else {

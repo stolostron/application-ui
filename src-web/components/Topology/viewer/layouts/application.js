@@ -28,7 +28,12 @@ export const getConnectedApplicationLayoutOptions = (
     .toArray()
   const leaves = nodes.leaves()
   positionApplicationRows(roots, typeToShapeMap)
-  if (nodes.length < 40 && roots.length === 1 && leaves.length > 2) {
+  if (
+    nodes.length < 40 &&
+    roots.length === 1 &&
+    leaves.length > 2 &&
+    leaves.length < 20
+  ) {
     return {
       name: 'preset'
     }

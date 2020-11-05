@@ -3,7 +3,8 @@
 
 import React from "react";
 import ChannelLabels from "../../../../src-web/components/common/ChannelLabels";
-import renderer from "react-test-renderer";
+import { mount } from "enzyme";
+import toJson from "enzyme-to-json";
 
 const channels = [
   {
@@ -38,16 +39,26 @@ const channels = [
   }
 ];
 
+const component = mount(<ChannelLabels channels={channels} />);
+
+const componentWithoutAttributes = mount(<ChannelLabels channels={channels} />);
+
 describe("ChannelLabels", () => {
-  const component = renderer.create(<ChannelLabels channels={channels} />);
+  const verifyLabels = component => {
+    const labels = component.find("Label");
+    expect(labels.length).toBe(4);
+    expect(labels.at(0).text()).toContain("Git");
+    expect(labels.at(0).text()).toContain("(2)");
+    expect(labels.at(1).text()).toContain("Helm");
+    expect(labels.at(2).text()).toContain("Namespace");
+    expect(labels.at(3).text()).toContain("Object storage");
+  };
+
   it("renders as expected", () => {
-    expect(component.toJSON()).toMatchSnapshot();
+    verifyLabels(component);
   });
 
-  const componentWithoutAttributes = renderer.create(
-    <ChannelLabels channels={channels} showSubscriptionAttributes={false} />
-  );
   it("renders as expected without subscription attributes", () => {
-    expect(componentWithoutAttributes.toJSON()).toMatchSnapshot();
+    verifyLabels(componentWithoutAttributes);
   });
 });

@@ -93,9 +93,10 @@ export const noResource = {
 };
 
 export const modal = {
-  shouldBeOpen: () => cy.get(".bx--modal", { timeout: 20000 }).should("exist"),
+  shouldBeOpen: () =>
+    cy.get("#pf-modal-part-0", { timeout: 20000 }).should("exist"),
   shouldBeClosed: () =>
-    cy.get(".bx--modal", { timeout: 20000 }).should("not.exist"),
+    cy.get("#pf-modal-part-0", { timeout: 20000 }).should("not.exist"),
   shouldBeVisible: () =>
     cy.get("#create-button-portal-id", { timeout: 20000 }).should("be.visible"),
   shouldNotBeVisible: () =>
@@ -115,7 +116,7 @@ export const modal = {
   clickResources: () =>
     cy.get("#remove-app-resources", { timeout: 20000 }).click({ force: true }),
   clickDanger: () =>
-    cy.get(".bx--modal .bx--btn--danger--primary", { timeout: 20000 }).click(),
+    cy.get(".pf-c-modal-box__footer .pf-m-primary", { timeout: 20000 }).click(),
   clickPrimary: () =>
     cy
       .get(".bx--btn.bx--btn--sm.bx--btn--primary, .pf-c-button.pf-m-primary", {

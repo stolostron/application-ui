@@ -557,7 +557,7 @@ export const deleteResourceUI = (name, type) => {
   modal.shouldBeOpen();
 
   modal.clickDanger();
-  modal.shouldNotBeVisible();
+  modal.shouldBeClosed();
 
   // after deleting the app, it should not exist in the app table
   resourceTable.rowShouldNotExist(resourceTypes[type], 300 * 1000);
@@ -585,7 +585,7 @@ export const deleteApplicationUI = name => {
     }
     modal.clickDanger();
     // after deleting the app, it should not exist in the app table
-    modal.shouldNotBeVisible();
+    modal.shouldBeClosed();
     resourceTable.rowShouldNotExist(name, 300 * 1000);
   } else {
     cy.log("No apps to delete...");

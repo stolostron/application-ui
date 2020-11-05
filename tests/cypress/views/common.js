@@ -94,9 +94,9 @@ export const noResource = {
 
 export const modal = {
   shouldBeOpen: () =>
-    cy.get("#pf-modal-part-0", { timeout: 20000 }).should("exist"),
+    cy.get(".pf-c-modal-box", { timeout: 20000 }).should("exist"),
   shouldBeClosed: () =>
-    cy.get("#pf-modal-part-0", { timeout: 20000 }).should("not.exist"),
+    cy.get(".pf-c-modal-box", { timeout: 20000 }).should("not.exist"),
   shouldBeVisible: () =>
     cy.get("#create-button-portal-id", { timeout: 20000 }).should("be.visible"),
   shouldNotBeVisible: () =>

@@ -364,6 +364,12 @@ export const getAppOverviewCardsData = (
           resourcePath: repoResourceData.path,
           gitBranch: gitTypeData.gitBranch,
           gitPath: gitTypeData.gitPath,
+          package: _.get(node, 'specs.raw.spec.name', ''),
+          packageFilterVersion: _.get(
+            node,
+            'specs.raw.spec.packageFilter.version',
+            ''
+          ),
           timeWindowType: timeWindowData.windowtype,
           timeWindowDays: timeWindowData.daysofweek,
           timeWindowTimezone: timeWindowData.location,

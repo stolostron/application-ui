@@ -70,6 +70,17 @@ const ChannelLabels = ({
                         }
                       })
                       : pathname
+                  let channelTypeAttributes = []
+                  if (showSubscriptionAttributes) {
+                    if (chType === 'git') {
+                      channelTypeAttributes = ['gitBranch', 'gitPath']
+                    } else if (chType === 'helmrepo') {
+                      channelTypeAttributes = [
+                        'package',
+                        'packageFilterVersion'
+                      ]
+                    }
+                  }
                   return (
                     <React.Fragment
                       key={`${chType}-${channel.pathname}-${
@@ -96,34 +107,33 @@ const ChannelLabels = ({
                               </Split>
                             </a>
                           </StackItem>
-                          {showSubscriptionAttributes &&
-                            chType === 'git' && (
-                              <React.Fragment>
-                                {['gitBranch', 'gitPath'].map(attrib => {
-                                  return (
-                                    <StackItem
-                                      key={attrib}
-                                      className="channel-entry-attribute"
-                                    >
-                                      <Split hasGutter>
-                                        <SplitItem className="channel-entry-attribute-name">
-                                          {msgs.get(
-                                            `channel.type.label.${attrib}`
+                          {channelTypeAttributes.length > 0 && (
+                            <React.Fragment>
+                              {channelTypeAttributes.map(attrib => {
+                                return (
+                                  <StackItem
+                                    key={attrib}
+                                    className="channel-entry-attribute"
+                                  >
+                                    <Split hasGutter>
+                                      <SplitItem className="channel-entry-attribute-name">
+                                        {msgs.get(
+                                          `channel.type.label.${attrib}`
+                                        )}:
+                                      </SplitItem>
+                                      <SplitItem>
+                                        {channel[attrib]
+                                          ? channel[attrib]
+                                          : msgs.get(
+                                            'channel.type.label.noData',
+                                            locale
                                           )}
-                                        </SplitItem>
-                                        <SplitItem>
-                                          {channel[attrib]
-                                            ? channel[attrib]
-                                            : msgs.get(
-                                              'channel.type.label.noData',
-                                              locale
-                                            )}
-                                        </SplitItem>
-                                      </Split>
-                                    </StackItem>
-                                  )
-                                })}
-                              </React.Fragment>
+                                      </SplitItem>
+                                    </Split>
+                                  </StackItem>
+                                )
+                              })}
+                            </React.Fragment>
                           )}
                         </Stack>
                       </StackItem>

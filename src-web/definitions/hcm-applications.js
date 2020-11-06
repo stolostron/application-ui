@@ -184,7 +184,9 @@ export function getChannels(item = {}, locale = '') {
         type: ch['ch.type'],
         pathname: ch['ch.pathname'],
         gitBranch: ch['sub._gitbranch'],
-        gitPath: ch['sub._gitpath']
+        gitPath: ch['sub._gitpath'],
+        package: ch['sub.package'],
+        packageFilterVersion: ch['sub.packageFilterVersion']
       }))}
       locale={locale}
     />

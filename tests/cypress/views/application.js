@@ -17,6 +17,14 @@ import {
 
 import { channelsInformation } from "./resources.js";
 
+const gitCssValues = {
+  gitUrl: "#githubURL",
+  gitUser: "#githubUser",
+  gitKey: "#githubAccessId",
+  gitBranch: "#githubBranch",
+  gitPath: "#githubPath"
+};
+
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
@@ -38,11 +46,16 @@ export const createApplication = (clusterName, data, type) => {
 
 export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   const { url, username, token, branch, path, timeWindow, deployment } = value;
+  cy.log(
+    `gitTasks !!!!!!!!! , key=${key}, url=${url}, path=${path}, timeWindow, deployment`
+  );
   const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
+
   cy
     .get(`#github`)
     .click()
     .trigger("mouseover");
+
   cy
     .get(gitUrl, { timeout: 20 * 1000 })
     .type(url, { timeout: 30 * 1000 })
@@ -105,18 +118,26 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
   selectTimeWindow(timeWindow, key);
 };
 
-export const createGit = (clusterName, configs) => {
-  let gitCss = {
-    gitUrl: "#githubURL",
-    gitUser: "#githubUser",
-    gitKey: "#githubAccessID",
-    gitBranch: "#githubBranch",
-    gitPath: "#githubPath"
-  };
-  for (const [key, value] of Object.entries(configs)) {
-    key == 0
-      ? gitTasks(clusterName, value, gitCss)
-      : multipleTemplate(clusterName, value, gitCss, key, gitTasks);
+export const createGit = (clusterName, configs, addOperation) => {
+  let gitCss = gitCssValues;
+  if (addOperation) {
+    //add new subscription to existing app
+    for (const [key, value] of Object.entries(configs.new)) {
+      multipleTemplate(
+        clusterName,
+        value,
+        gitCss,
+        parseInt(key) + Object.entries(configs.config).length - 1,
+        gitTasks
+      );
+    }
+  } else {
+    //create application
+    for (const [key, value] of Object.entries(configs)) {
+      key == 0
+        ? gitTasks(clusterName, value, gitCss)
+        : multipleTemplate(clusterName, value, gitCss, key, gitTasks);
+    }
   }
 };
 
@@ -247,7 +268,14 @@ export const validateSubscriptionDetails = (name, data, type) => {
           .invoke("text")
           .should("include", repositoryText);
 
-        cy.log("Validate repository popup");
+        cy.log("Validate Repository popup");
+        let repoInfo = value.url;
+        if (value.branch && value.branch.length > 0) {
+          repoInfo = `${repoInfo}Branch:${value.branch}`;
+        }
+        if (value.path && value.path.length > 0) {
+          repoInfo = `${repoInfo}Path:${value.path}`;
+        }
         cy
           .get(".pf-c-label")
           .first()
@@ -374,7 +402,15 @@ export const validateTopology = (name, data, type, numberOfRemoteClusters) => {
     .children(".status-count")
     .invoke("text")
     .then(parseInt)
-    .should("be.gte", successNumber);
+    .should("be.gte", successNumber, {
+      timeout: 50 * 1000
+    });
+  cy
+    .get("#red-resources")
+    .children(".status-count")
+    .invoke("text")
+    .then(parseInt)
+    .should("be.eq", 0);
 
   validateSubscriptionDetails(name, data, type);
 
@@ -508,15 +544,6 @@ export const validateAppTableMenu = (name, resourceTable) => {
   cy.get(".resourceDiagramSourceContainer").should("exist", {
     timeout: 60 * 1000
   });
-  //get back to app page
-  cy.visit(`/multicloud/applications`);
-  cy.get(".search-query-card-loading").should("not.exist", {
-    timeout: 60 * 1000
-  });
-  pageLoader.shouldNotExist();
-  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
-  resourceTable.rowShouldExist(name, 600 * 1000);
-  //END View menu validation
 };
 
 export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
@@ -845,8 +872,6 @@ export const editApplication = (name, data) => {
     .should("eq", `${name}-ns`);
   cy.log("Verify Update button is disabled");
   modal.shouldBeDisabled();
-
-  deleteFirstSubscription(name, data);
 };
 
 export const deleteFirstSubscription = (name, data) => {
@@ -872,7 +897,26 @@ export const deleteFirstSubscription = (name, data) => {
   }
 };
 
-export const verifyEdit = (name, data) => {
+export const addNewSubscription = (name, data, clusterName) => {
+  cy.visit("/multicloud/applications");
+
+  edit(name);
+  cy.log(`Verify that a new subscription can be added to ${name} application`);
+
+  if (data.type === "git") {
+    createGit(clusterName, data, true);
+  } else if (data.type === "objectstore") {
+    createObj(clusterName, data, true);
+  } else if (data.type === "helm") {
+    createHelm(clusterName, data, true);
+  }
+
+  modal.shouldNotBeDisabled();
+  modal.clickSubmit();
+  notification.shouldExist("success", { timeout: 60 * 1000 });
+};
+
+export const verifyEditAfterDeleteSubscription = (name, data) => {
   if (data.config.length > 1) {
     edit(name);
     cy.log(
@@ -884,4 +928,18 @@ export const verifyEdit = (name, data) => {
         .should("have.length", data.config.length - 1);
     });
   }
+};
+
+export const verifyEditAfterNewSubscription = (name, data) => {
+  edit(name);
+  cy.log(
+    `Verify that after edit, ${name} application has one more subscription`
+  );
+  let nbOfSubscriptionsNow =
+    data.config.length == 1 ? 1 : data.config.length - 1; //count for the subscription deleted by the delete subs test
+  cy.get(".creation-view-controls-section").within($section => {
+    cy
+      .get(".creation-view-group-container")
+      .should("have.length", nbOfSubscriptionsNow + 1);
+  });
 };

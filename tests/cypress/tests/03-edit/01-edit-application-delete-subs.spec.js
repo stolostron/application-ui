@@ -4,21 +4,31 @@
  *******************************************************************************/
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
-import { editApplication, verifyEdit } from "../../views/application";
+import {
+  editApplication,
+  verifyEditAfterDeleteSubscription,
+  deleteFirstSubscription
+} from "../../views/application";
 
-describe("Edit application Test", () => {
+describe("Edit application delete subscription Test", () => {
   for (const type in config) {
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`Verify that ${
-          data.name
-        } is editable and can delete first subscription when multiple set`, () => {
+        it(`Verify that ${data.name} is editable`, () => {
           editApplication(data.name, data);
         });
-        it(`Verify that ${data.name} is valid after edit`, () => {
-          verifyEdit(data.name, data);
-        });
+
+        if (data.config.length > 1) {
+          it(`Verify first subscription can be deleted`, () => {
+            deleteFirstSubscription(data.name, data);
+          });
+          it(`Verify ${
+            data.name
+          } is valid after first subscription is deleted`, () => {
+            verifyEditAfterDeleteSubscription(data.name, data);
+          });
+        }
       } else {
         it(`disable modification on resource ${type}`, () => {
           cy.log(`skipping ${type} - ${data.name}`);

@@ -256,19 +256,21 @@ export const validateSubscriptionTable = (
       .should("include", data.url);
   }
 
-  cy.log(`Validate Menu actions for ${tableType} with name ${name}`);
-  resourceTable.openRowMenu(name);
+  if (data.type == "git") {
+    cy.log(`Validate Menu actions for ${tableType} with name ${name}`);
+    resourceTable.openRowMenu(name);
 
-  cy.get(`button[data-table-action="table.actions.${tableType}.search"]`, {
-    timeout: 20 * 1000
-  });
-  cy.get(`button[data-table-action="table.actions.${tableType}.edit"]`, {
-    timeout: 20 * 1000
-  });
+    cy.get(`button[data-table-action="table.actions.${tableType}.search"]`, {
+      timeout: 20 * 1000
+    });
+    cy.get(`button[data-table-action="table.actions.${tableType}.edit"]`, {
+      timeout: 20 * 1000
+    });
 
-  cy.get(`button[data-table-action="table.actions.${tableType}.remove"]`, {
-    timeout: 20 * 1000
-  });
+    cy.get(`button[data-table-action="table.actions.${tableType}.remove"]`, {
+      timeout: 20 * 1000
+    });
+  }
 };
 
 /*

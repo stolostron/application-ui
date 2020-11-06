@@ -1,5 +1,13 @@
 # Copyright (c) 2020 Red Hat, Inc.
 
+if ! jq --version > /dev/null 2>&1; then
+  echo "Missing dependency: jq"
+  return
+elif ! oc version> /dev/null 2>&1; then
+  echo "Missing dependency: oc"
+  return
+fi
+
 OCM_NAMESPACE=open-cluster-management
 OCM_ROUTE=multicloud-console
 OCM_ADDRESS=https://`oc -n $OCM_NAMESPACE get route $OCM_ROUTE -o json | jq -r '.spec.host'`

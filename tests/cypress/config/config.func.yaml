@@ -63,7 +63,7 @@ objectstore:
       type: objectstore
       successNumber: 0
       new: # used when we add new subscriptions after app creation
-        - url: http://ec2-dummy/dev2
+        - url: http://ec2-dummy/dev1
           accessKey: dummy1
           secretKey: dummy2
           timeWindow:

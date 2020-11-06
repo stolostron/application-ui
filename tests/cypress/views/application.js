@@ -46,9 +46,7 @@ export const createApplication = (clusterName, data, type) => {
 
 export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   const { url, username, token, branch, path, timeWindow, deployment } = value;
-  cy.log(
-    `gitTasks !!!!!!!!! , key=${key}, url=${url}, path=${path}, timeWindow, deployment`
-  );
+  cy.log(`gitTasks key=${key}, url=${url}, path=${path}`);
   const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
 
   cy
@@ -81,16 +79,30 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   selectTimeWindow(timeWindow, key);
 };
 
-export const createHelm = (clusterName, configs) => {
+export const createHelm = (clusterName, configs, addOperation) => {
   let helmCss = {
     helmURL: "#helmURL",
     helmChartName: "#helmChartName",
     helmPackageVersion: "#helmPackageVersion"
   };
-  for (const [key, value] of Object.entries(configs)) {
-    key == 0
-      ? helmTasks(clusterName, value, helmCss)
-      : multipleTemplate(clusterName, value, helmCss, key, helmTasks);
+  if (addOperation) {
+    //add new subscription to existing app
+    for (const [key, value] of Object.entries(configs.new)) {
+      multipleTemplate(
+        clusterName,
+        value,
+        helmCss,
+        parseInt(key) + Object.entries(configs.config).length - 1,
+        helmTasks
+      );
+    }
+  } else {
+    //create application
+    for (const [key, value] of Object.entries(configs)) {
+      key == 0
+        ? helmTasks(clusterName, value, helmCss)
+        : multipleTemplate(clusterName, value, helmCss, key, helmTasks);
+    }
   }
 };
 
@@ -141,16 +153,30 @@ export const createGit = (clusterName, configs, addOperation) => {
   }
 };
 
-export const createObj = (clusterName, configs) => {
+export const createObj = (clusterName, configs, addOperation) => {
   let objCss = {
     objUrl: "#objectstoreURL",
     objAccess: "#accessKey",
     objSecret: "#secretKey"
   };
-  for (const [key, value] of Object.entries(configs)) {
-    key == 0
-      ? objTasks(clusterName, value, objCss)
-      : multipleTemplate(clusterName, value, objCss, key, objTasks);
+  if (addOperation) {
+    //add new subscription to existing app
+    for (const [key, value] of Object.entries(configs.new)) {
+      multipleTemplate(
+        clusterName,
+        value,
+        objCss,
+        parseInt(key) + Object.entries(configs.config).length - 1,
+        objTasks
+      );
+    }
+  } else {
+    //create application
+    for (const [key, value] of Object.entries(configs)) {
+      key == 0
+        ? objTasks(clusterName, value, objCss)
+        : multipleTemplate(clusterName, value, objCss, key, objTasks);
+    }
   }
 };
 
@@ -681,6 +707,12 @@ export const deleteApplicationUI = name => {
     resourceTable.openRowMenu(name);
     resourceTable.menuClickDelete("applications");
     modal.shouldBeOpen();
+
+    cy
+      .get(".bx--loading-overlay", { timeout: 50 * 1000 })
+      .should("not.be.visible", {
+        timeout: 100 * 1000
+      });
 
     if (name != "ui-helm2") {
       //delete all resources

@@ -235,7 +235,7 @@ export const validateSubscriptionTable = (
     cy
       .get(".resource-table")
       .get(`tr[data-row-name="${name}"]`)
-      .get("td")
+      .get("td", { timeout: 5 * 10000 })
       .eq(clustersColumnIndex)
       .invoke("text")
       .should("eq", clusterText);

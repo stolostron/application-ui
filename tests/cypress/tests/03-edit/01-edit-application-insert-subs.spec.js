@@ -26,7 +26,9 @@ describe("Edit application insert new subscription Test", () => {
     apps.forEach(data => {
       if (data.enable) {
         if (data.new) {
-          it(`Verify new subscription can be added`, () => {
+          it(`Verify new subscription can be added for application ${
+            data.name
+          }`, () => {
             const clusterName = Cypress.env("managedCluster");
             addNewSubscription(data.name, data, clusterName);
           });

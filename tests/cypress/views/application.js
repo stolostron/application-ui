@@ -176,7 +176,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
 
 export const multipleTemplate = (clusterName, value, css, key, func) => {
   Object.keys(css).forEach(k => (css[k] = css[k] + `grp${key}`));
-  cy.get("#add-channels").click();
+  cy.get("#add-channels").click({ force: true });
   cy
     .get(".creation-view-group-container")
     .eq(key)
@@ -403,7 +403,7 @@ export const validateTopology = (name, data, type, numberOfRemoteClusters) => {
     .invoke("text")
     .then(parseInt)
     .should("be.gte", successNumber, {
-      timeout: 50 * 1000
+      timeout: 100 * 1000
     });
   cy
     .get("#red-resources")

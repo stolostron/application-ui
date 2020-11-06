@@ -915,20 +915,25 @@ export const editApplication = (name, data) => {
   cy.log("Verify Update button is disabled");
 
   modal.shouldBeDisabled();
+
+  verifyApplicationData(name, data);
 };
 
 export const verifyApplicationData = (name, data) => {
   cy.log(`Verify application settings for ${name}`);
-  let key = 0;
-  data.config.forEach(item => {
-    cy.get(".creation-view-controls-section").within($section => {
+  cy.get(".creation-view-controls-section").within($section => {
+    for (const [key, item] of Object.entries(data.config)) {
       cy
         .get(".creation-view-group-container")
         .eq(key)
         .within($div => {
+          let channelSectionId =
+            key == 0
+              ? "#channel-repository-types"
+              : `#channelgrp${key}-repository-types`;
+          cy.get(channelSectionId).click();
           if (data.type == "git") {
             cy.log(`Verify Git reconcile option for ${name}`);
-
             item.gitReconcileOption &&
               cy
                 .get("#gitReconcileOption", { timeout: 20 * 1000 })
@@ -937,14 +942,72 @@ export const verifyApplicationData = (name, data) => {
             !item.gitReconcileOption &&
               cy
                 .get("#gitReconcileOption", { timeout: 20 * 1000 })
-                .should("be.visible")
                 .and("not.be.checked");
           }
 
+          const { deployment } = item;
+
           cy.log(`Verify Placement option for ${name}`);
+          let prSectionId =
+            key == 0
+              ? "#clustersection-select-clusters-to-deploy-to"
+              : `#clustersectiongrp${key}-select-clusters-to-deploy-to`;
+          cy.get(prSectionId).click();
+
+          cy.log(`Verify existing placement rule option should not be checked`);
+          const existingRuleId =
+            key == 0
+              ? "#existingrule-checkbox"
+              : `#existingrule-checkboxgrp${key}`;
+          cy
+            .get(existingRuleId, { timeout: 20 * 1000 })
+            .should("not.be.checked");
+
+          cy.log(
+            `Verify deploy to clusters by label checkbox deployment.matchingLabel=${
+              deployment.matchingLabel
+            }`
+          );
+          const matchingLabelId =
+            key == 0
+              ? "#clusterSelector-checkbox-clusterSelector"
+              : `#clusterSelector-checkbox-clusterSelectorgrp${key}`;
+          deployment.matchingLabel &&
+            cy
+              .get(matchingLabelId, { timeout: 20 * 1000 })
+              .should("be.checked");
+          !deployment.matchingLabel &&
+            cy
+              .get(matchingLabelId, { timeout: 20 * 1000 })
+              .should("not.be.checked");
+
+          cy.log(
+            `Verify deploy to all online clusters checkbox deployment.online=${
+              deployment.online
+            }`
+          );
+          const onlineId =
+            key == 0
+              ? "#online-cluster-only-checkbox"
+              : `#online-cluster-only-checkboxgrp${key}`;
+          deployment.online &&
+            cy.get(onlineId, { timeout: 20 * 1000 }).should("be.checked");
+          !deployment.online &&
+            cy.get(onlineId, { timeout: 20 * 1000 }).should("not.be.checked");
+
+          cy.log(`Verify deploy to local cluster checkbox`);
+          const localClusterId =
+            key == 0
+              ? "#local-cluster-checkbox"
+              : `#local-cluster-checkboxgrp${key}`;
+          deployment.local &&
+            cy.get(localClusterId, { timeout: 20 * 1000 }).should("be.checked");
+          !deployment.local &&
+            cy
+              .get(localClusterId, { timeout: 20 * 1000 })
+              .should("not.be.checked");
         });
-    });
-    key = key + 1;
+    }
   });
 };
 

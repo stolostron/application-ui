@@ -5,7 +5,6 @@
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import {
-  editApplication,
   verifyEditAfterDeleteSubscription,
   deleteFirstSubscription
 } from "../../views/application";
@@ -15,10 +14,6 @@ describe("Edit application delete subscription Test", () => {
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`Verify that ${data.name} is editable`, () => {
-          editApplication(data.name, data);
-        });
-
         if (data.config.length > 1) {
           it(`Verify first subscription can be deleted`, () => {
             deleteFirstSubscription(data.name, data);

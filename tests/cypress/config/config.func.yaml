@@ -32,6 +32,7 @@ git:
           token: ""
           branch: master
           path: nginx
+          gitReconcileOption: true
           timeWindow:
             setting: true
             type: activeinterval

@@ -22,7 +22,8 @@ const gitCssValues = {
   gitUser: "#githubUser",
   gitKey: "#githubAccessId",
   gitBranch: "#githubBranch",
-  gitPath: "#githubPath"
+  gitPath: "#githubPath",
+  gitReconcileOption: "#gitReconcileOption"
 };
 
 export const createApplication = (clusterName, data, type) => {
@@ -47,7 +48,14 @@ export const createApplication = (clusterName, data, type) => {
 export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   const { url, username, token, branch, path, timeWindow, deployment } = value;
   cy.log(`gitTasks key=${key}, url=${url}, path=${path}`);
-  const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
+  const {
+    gitUrl,
+    gitUser,
+    gitKey,
+    gitBranch,
+    gitPath,
+    gitReconcileOption
+  } = gitCss;
 
   cy
     .get(`#github`)
@@ -62,7 +70,9 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     cy.get(gitUser).type(username);
     cy.get(gitKey).type(token);
   }
-
+  if (gitReconcileOption) {
+    cy.get(gitReconcileOption).click({ force: true });
+  }
   // wait for form to remove the users
   cy.wait(1000);
   // type in branch and path
@@ -903,7 +913,39 @@ export const editApplication = (name, data) => {
     .invoke("val")
     .should("eq", `${name}-ns`);
   cy.log("Verify Update button is disabled");
+
   modal.shouldBeDisabled();
+};
+
+export const verifyApplicationData = (name, data) => {
+  cy.log(`Verify application settings for ${name}`);
+  let key = 0;
+  data.config.forEach(item => {
+    cy.get(".creation-view-controls-section").within($section => {
+      cy
+        .get(".creation-view-group-container")
+        .eq(key)
+        .within($div => {
+          if (data.type == "git") {
+            cy.log(`Verify Git reconcile option for ${name}`);
+
+            item.gitReconcileOption &&
+              cy
+                .get("#gitReconcileOption", { timeout: 20 * 1000 })
+                .should("be.checked");
+
+            !item.gitReconcileOption &&
+              cy
+                .get("#gitReconcileOption", { timeout: 20 * 1000 })
+                .should("be.visible")
+                .and("not.be.checked");
+          }
+
+          cy.log(`Verify Placement option for ${name}`);
+        });
+    });
+    key = key + 1;
+  });
 };
 
 export const deleteFirstSubscription = (name, data) => {

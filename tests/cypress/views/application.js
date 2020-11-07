@@ -441,12 +441,14 @@ export const validateTopology = (name, data, type, numberOfRemoteClusters) => {
     .should("be.gte", successNumber, {
       timeout: 100 * 1000
     });
+  /* 
   cy
     .get("#red-resources")
     .children(".status-count")
     .invoke("text")
     .then(parseInt)
     .should("be.eq", 0);
+    */
 
   validateSubscriptionDetails(name, data, type);
 
@@ -1012,6 +1014,7 @@ export const verifyApplicationData = (name, data) => {
 };
 
 export const deleteFirstSubscription = (name, data) => {
+  edit(name);
   if (data.config.length > 1) {
     cy.log(`Verified that ${name} has ${data.config.length} subscriptions`);
     cy.log(
@@ -1035,10 +1038,8 @@ export const deleteFirstSubscription = (name, data) => {
 };
 
 export const addNewSubscription = (name, data, clusterName) => {
-  cy.visit("/multicloud/applications");
-
-  edit(name);
   cy.log(`Verify that a new subscription can be added to ${name} application`);
+  edit(name);
 
   if (data.type === "git") {
     createGit(clusterName, data, true);

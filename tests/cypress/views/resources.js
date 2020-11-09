@@ -42,6 +42,17 @@ export const apiResources = (type, data) => {
   }
 };
 
+export const getSavedPathname = () => {
+  return cy
+    .exec(`oc get channels -o=jsonpath='{.items[*].spec.pathname}' -A`)
+    .then(result => {
+      const urllist = result.stdout.split(" ").filter(i => i);
+      return {
+        urllist: urllist
+      };
+    });
+};
+
 export const channelsInformation = (name, key) => {
   // Return a Cypress chain with channel name/namespace from subscription
   return cy

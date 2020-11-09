@@ -15,7 +15,7 @@ import {
   getSingleAppClusterTimeDetails
 } from "./common";
 
-import { channelsInformation } from "./resources.js";
+import { channelsInformation, getSavedPathname } from "./resources.js";
 
 const gitCssValues = {
   gitUrl: "#githubURL",
@@ -42,7 +42,7 @@ export const createApplication = (clusterName, data, type) => {
   } else if (type === "helm") {
     createHelm(clusterName, config);
   }
-  submitSave();
+  // submitSave();
 };
 
 export const gitTasks = (clusterName, value, gitCss, key = 0) => {
@@ -64,21 +64,28 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
 
   cy
     .get(gitUrl, { timeout: 20 * 1000 })
-    .type(url, { timeout: 30 * 1000 })
+    .type(url, { timeout: 50 * 1000 })
     .blur();
-  if (username && token) {
-    cy.get(gitUser).type(username);
-    cy.get(gitKey).type(token);
-  }
+  getSavedPathname().then(({ urllist }) => {
+    if (!urllist.includes(url)) {
+      if (username && token) {
+        cy.get(gitUser, { timeout: 20 * 1000 }).type(username, { log: false });
+        cy.get(gitKey, { timeout: 20 * 1000 }).type(token, { log: false });
+      }
+    } else {
+      cy.log(`credentials have been saved for url - ${url}`);
+    }
+  });
+
   if (gitReconcileOption) {
-    cy.get(gitReconcileOption).click({ force: true });
+    cy.get(gitReconcileOption, { timeout: 50 * 1000 }).click({ force: true });
   }
   // wait for form to remove the users
   cy.wait(1000);
   // type in branch and path
   cy
-    .get(gitBranch, { timeout: 20 * 1000 })
-    .type(branch, { timeout: 30 * 1000 })
+    .get(gitBranch, { timeout: 50 * 1000 })
+    .type(branch, { timeout: 50 * 1000 })
     .blur();
   cy.wait(1000);
   cy
@@ -198,12 +205,18 @@ export const objTasks = (clusterName, value, css, key = 0) => {
     .click()
     .trigger("mouseover");
   cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
-  cy.get(objAccess).then(input => {
-    if (input.is("enabled")) {
-      cy.get(objAccess).type(accessKey);
-      cy.get(objSecret).type(secretKey);
+  getSavedPathname().then(({ urllist }) => {
+    if (!urllist.includes(url)) {
+      if (accessKey && secretKey) {
+        cy
+          .get(objAccess, { timeout: 20 * 1000 })
+          .type(accessKey, { log: false });
+        cy
+          .get(objSecret, { timeout: 20 * 1000 })
+          .type(secretKey, { log: false });
+      }
     } else {
-      cy.log(`credentials have not been saved...`);
+      cy.log(`credentials have been saved for url - ${url}`);
     }
   });
   selectClusterDeployment(deployment, clusterName, key);

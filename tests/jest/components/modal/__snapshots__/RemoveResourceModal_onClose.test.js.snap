@@ -151,50 +151,45 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
         type="actionModal"
       >
         <div>
-          <Loading
-            active={true}
-            small={false}
-            withOverlay={true}
-          >
-            <div
-              className="bx--loading-overlay"
-            >
-              <div
-                aria-live="assertive"
-                className="bx--loading"
-              >
-                <svg
-                  className="bx--loading__svg"
-                  viewBox="-75 -75 150 150"
-                >
-                  <circle
-                    cx="0"
-                    cy="0"
-                    r="37.5"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Loading>
           <AcmModal
-            cancel={[Function]}
-            message="Removing {0} is irreversible. Are you sure that you want to continue?"
-            open={true}
-            submit={[Function]}
+            actions={
+              Array [
+                <Button
+                  isDisabled={true}
+                  onClick={[Function]}
+                  variant="danger"
+                >
+                  Confirm
+                </Button>,
+                <Button
+                  onClick={[Function]}
+                  variant="secondary"
+                >
+                  Cancel
+                </Button>,
+              ]
+            }
+            aria-label="Delete application"
+            id="remove-resource-modal"
+            isOpen={true}
+            onClose={[Function]}
+            showClose={true}
             title="Delete application"
+            variant="medium"
           >
             <Modal
               actions={
                 Array [
                   <Button
+                    isDisabled={true}
                     onClick={[Function]}
-                    variant="primary"
+                    variant="danger"
                   >
-                    Submit
+                    Confirm
                   </Button>,
                   <Button
                     onClick={[Function]}
-                    variant="link"
+                    variant="secondary"
                   >
                     Cancel
                   </Button>,
@@ -202,10 +197,11 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               }
               appendTo={[Function]}
               aria-describedby=""
-              aria-label=""
+              aria-label="Delete application"
               aria-labelledby=""
               className=""
               hasNoBodyWrapper={false}
+              id="remove-resource-modal"
               isOpen={true}
               onClose={[Function]}
               ouiaSafe={true}
@@ -226,13 +222,14 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                       >
                         <div
                           aria-describedby="pf-modal-part-2"
-                          aria-labelledby="pf-modal-part-1"
+                          aria-label="Delete application"
+                          aria-labelledby="remove-resource-modal pf-modal-part-1"
                           aria-modal="true"
                           class="pf-c-modal-box pf-m-md"
                           data-ouia-component-id="OUIA-Generated-Modal-medium-1"
                           data-ouia-component-type="PF4/ModalContent"
                           data-ouia-safe="true"
-                          id="pf-modal-part-0"
+                          id="remove-resource-modal"
                           role="dialog"
                         >
                           <button
@@ -277,25 +274,74 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                             class="pf-c-modal-box__body"
                             id="pf-modal-part-2"
                           >
-                            Removing {0} is irreversible. Are you sure that you want to continue?
+                            <div>
+                              <section
+                                class="pf-c-page__main-section"
+                              >
+                                <article
+                                  class="pf-c-card"
+                                  data-ouia-component-id="OUIA-Generated-Card-1"
+                                  data-ouia-component-type="PF4/Card"
+                                  data-ouia-safe="true"
+                                >
+                                  <div
+                                    class="pf-c-card__body"
+                                  >
+                                    <div
+                                      class="pf-c-empty-state"
+                                    >
+                                      <div
+                                        class="pf-c-empty-state__content"
+                                      >
+                                        <div
+                                          class="pf-c-empty-state__icon"
+                                        >
+                                          <span
+                                            aria-valuetext="Loading..."
+                                            class="pf-c-spinner pf-m-xl"
+                                            role="progressbar"
+                                          >
+                                            <span
+                                              class="pf-c-spinner__clipper"
+                                            />
+                                            <span
+                                              class="pf-c-spinner__lead-ball"
+                                            />
+                                            <span
+                                              class="pf-c-spinner__tail-ball"
+                                            />
+                                          </span>
+                                        </div>
+                                        <h4
+                                          class="pf-c-title pf-m-lg"
+                                        >
+                                          Loading
+                                        </h4>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </article>
+                              </section>
+                            </div>
                           </div>
                           <footer
                             class="pf-c-modal-box__footer"
                           >
                             <button
-                              aria-disabled="false"
-                              class="pf-c-button pf-m-primary"
-                              data-ouia-component-id="OUIA-Generated-Button-primary-1"
+                              aria-disabled="true"
+                              class="pf-c-button pf-m-danger pf-m-disabled"
+                              data-ouia-component-id="OUIA-Generated-Button-danger-1"
                               data-ouia-component-type="PF4/Button"
                               data-ouia-safe="true"
+                              disabled=""
                               type="button"
                             >
-                              Submit
+                              Confirm
                             </button>
                             <button
                               aria-disabled="false"
-                              class="pf-c-button pf-m-link"
-                              data-ouia-component-id="OUIA-Generated-Button-link-1"
+                              class="pf-c-button pf-m-secondary"
+                              data-ouia-component-id="OUIA-Generated-Button-secondary-1"
                               data-ouia-component-type="PF4/Button"
                               data-ouia-safe="true"
                               type="button"
@@ -313,26 +359,28 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                   actions={
                     Array [
                       <Button
+                        isDisabled={true}
                         onClick={[Function]}
-                        variant="primary"
+                        variant="danger"
                       >
-                        Submit
+                        Confirm
                       </Button>,
                       <Button
                         onClick={[Function]}
-                        variant="link"
+                        variant="secondary"
                       >
                         Cancel
                       </Button>,
                     ]
                   }
                   aria-describedby=""
-                  aria-label=""
+                  aria-label="Delete application"
                   aria-labelledby=""
-                  boxId="pf-modal-part-0"
+                  boxId="remove-resource-modal"
                   className=""
                   descriptorId="pf-modal-part-2"
                   hasNoBodyWrapper={false}
+                  id="remove-resource-modal"
                   isOpen={true}
                   labelId="pf-modal-part-1"
                   onClose={[Function]}
@@ -363,26 +411,26 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                         >
                           <ModalBox
                             aria-describedby="pf-modal-part-2"
-                            aria-label=""
-                            aria-labelledby="pf-modal-part-1"
+                            aria-label="Delete application"
+                            aria-labelledby="remove-resource-modal pf-modal-part-1"
                             className=""
                             data-ouia-component-id="OUIA-Generated-Modal-medium-1"
                             data-ouia-component-type="PF4/ModalContent"
                             data-ouia-safe={true}
-                            id="pf-modal-part-0"
+                            id="remove-resource-modal"
                             style={Object {}}
                             variant="medium"
                           >
                             <div
                               aria-describedby="pf-modal-part-2"
-                              aria-label={null}
-                              aria-labelledby="pf-modal-part-1"
+                              aria-label="Delete application"
+                              aria-labelledby="remove-resource-modal pf-modal-part-1"
                               aria-modal="true"
                               className="pf-c-modal-box pf-m-md"
                               data-ouia-component-id="OUIA-Generated-Modal-medium-1"
                               data-ouia-component-type="PF4/ModalContent"
                               data-ouia-safe={true}
-                              id="pf-modal-part-0"
+                              id="remove-resource-modal"
                               role="dialog"
                               style={Object {}}
                             >
@@ -466,7 +514,79 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                   className="pf-c-modal-box__body"
                                   id="pf-modal-part-2"
                                 >
-                                  Removing {0} is irreversible. Are you sure that you want to continue?
+                                  <div>
+                                    <AcmLoadingPage>
+                                      <AcmPageCard>
+                                        <PageSection>
+                                          <section
+                                            className="pf-c-page__main-section"
+                                          >
+                                            <Card>
+                                              <article
+                                                className="pf-c-card"
+                                                data-ouia-component-id="OUIA-Generated-Card-1"
+                                                data-ouia-component-type="PF4/Card"
+                                                data-ouia-safe={true}
+                                              >
+                                                <CardBody>
+                                                  <div
+                                                    className="pf-c-card__body"
+                                                  >
+                                                    <EmptyState>
+                                                      <div
+                                                        className="pf-c-empty-state"
+                                                      >
+                                                        <div
+                                                          className="pf-c-empty-state__content"
+                                                        >
+                                                          <EmptyStateIcon
+                                                            component={[Function]}
+                                                            variant="container"
+                                                          >
+                                                            <div
+                                                              className="pf-c-empty-state__icon"
+                                                            >
+                                                              <Spinner>
+                                                                <span
+                                                                  aria-valuetext="Loading..."
+                                                                  className="pf-c-spinner pf-m-xl"
+                                                                  role="progressbar"
+                                                                >
+                                                                  <span
+                                                                    className="pf-c-spinner__clipper"
+                                                                  />
+                                                                  <span
+                                                                    className="pf-c-spinner__lead-ball"
+                                                                  />
+                                                                  <span
+                                                                    className="pf-c-spinner__tail-ball"
+                                                                  />
+                                                                </span>
+                                                              </Spinner>
+                                                            </div>
+                                                          </EmptyStateIcon>
+                                                          <Title
+                                                            headingLevel="h4"
+                                                            size="lg"
+                                                          >
+                                                            <h4
+                                                              className="pf-c-title pf-m-lg"
+                                                            >
+                                                              Loading
+                                                            </h4>
+                                                          </Title>
+                                                        </div>
+                                                      </div>
+                                                    </EmptyState>
+                                                  </div>
+                                                </CardBody>
+                                              </article>
+                                            </Card>
+                                          </section>
+                                        </PageSection>
+                                      </AcmPageCard>
+                                    </AcmLoadingPage>
+                                  </div>
                                 </div>
                               </ModalBoxBody>
                               <ModalBoxFooter>
@@ -474,35 +594,37 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                   className="pf-c-modal-box__footer"
                                 >
                                   <Button
+                                    isDisabled={true}
                                     key="confirm"
                                     onClick={[Function]}
-                                    variant="primary"
+                                    variant="danger"
                                   >
                                     <button
-                                      aria-disabled={false}
+                                      aria-disabled={true}
                                       aria-label={null}
-                                      className="pf-c-button pf-m-primary"
-                                      data-ouia-component-id="OUIA-Generated-Button-primary-1"
+                                      className="pf-c-button pf-m-danger pf-m-disabled"
+                                      data-ouia-component-id="OUIA-Generated-Button-danger-1"
                                       data-ouia-component-type="PF4/Button"
                                       data-ouia-safe={true}
-                                      disabled={false}
+                                      disabled={true}
                                       onClick={[Function]}
                                       role={null}
+                                      tabIndex={null}
                                       type="button"
                                     >
-                                      Submit
+                                      Confirm
                                     </button>
                                   </Button>
                                   <Button
                                     key="cancel"
                                     onClick={[Function]}
-                                    variant="link"
+                                    variant="secondary"
                                   >
                                     <button
                                       aria-disabled={false}
                                       aria-label={null}
-                                      className="pf-c-button pf-m-link"
-                                      data-ouia-component-id="OUIA-Generated-Button-link-1"
+                                      className="pf-c-button pf-m-secondary"
+                                      data-ouia-component-id="OUIA-Generated-Button-secondary-1"
                                       data-ouia-component-type="PF4/Button"
                                       data-ouia-safe={true}
                                       disabled={false}
@@ -681,50 +803,45 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
         type="actionModal"
       >
         <div>
-          <Loading
-            active={true}
-            small={false}
-            withOverlay={true}
-          >
-            <div
-              className="bx--loading-overlay"
-            >
-              <div
-                aria-live="assertive"
-                className="bx--loading"
-              >
-                <svg
-                  className="bx--loading__svg"
-                  viewBox="-75 -75 150 150"
-                >
-                  <circle
-                    cx="0"
-                    cy="0"
-                    r="37.5"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Loading>
           <AcmModal
-            cancel={[Function]}
-            message="Removing {0} is irreversible. Are you sure that you want to continue?"
-            open={true}
-            submit={[Function]}
+            actions={
+              Array [
+                <Button
+                  isDisabled={true}
+                  onClick={[Function]}
+                  variant="danger"
+                >
+                  Confirm
+                </Button>,
+                <Button
+                  onClick={[Function]}
+                  variant="secondary"
+                >
+                  Cancel
+                </Button>,
+              ]
+            }
+            aria-label="Delete application"
+            id="remove-resource-modal"
+            isOpen={true}
+            onClose={[Function]}
+            showClose={true}
             title="Delete application"
+            variant="medium"
           >
             <Modal
               actions={
                 Array [
                   <Button
+                    isDisabled={true}
                     onClick={[Function]}
-                    variant="primary"
+                    variant="danger"
                   >
-                    Submit
+                    Confirm
                   </Button>,
                   <Button
                     onClick={[Function]}
-                    variant="link"
+                    variant="secondary"
                   >
                     Cancel
                   </Button>,
@@ -732,10 +849,11 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               }
               appendTo={[Function]}
               aria-describedby=""
-              aria-label=""
+              aria-label="Delete application"
               aria-labelledby=""
               className=""
               hasNoBodyWrapper={false}
+              id="remove-resource-modal"
               isOpen={true}
               onClose={[Function]}
               ouiaSafe={true}
@@ -756,13 +874,14 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                       >
                         <div
                           aria-describedby="pf-modal-part-2"
-                          aria-labelledby="pf-modal-part-1"
+                          aria-label="Delete application"
+                          aria-labelledby="remove-resource-modal pf-modal-part-1"
                           aria-modal="true"
                           class="pf-c-modal-box pf-m-md"
                           data-ouia-component-id="OUIA-Generated-Modal-medium-1"
                           data-ouia-component-type="PF4/ModalContent"
                           data-ouia-safe="true"
-                          id="pf-modal-part-0"
+                          id="remove-resource-modal"
                           role="dialog"
                         >
                           <button
@@ -807,25 +926,74 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                             class="pf-c-modal-box__body"
                             id="pf-modal-part-2"
                           >
-                            Removing {0} is irreversible. Are you sure that you want to continue?
+                            <div>
+                              <section
+                                class="pf-c-page__main-section"
+                              >
+                                <article
+                                  class="pf-c-card"
+                                  data-ouia-component-id="OUIA-Generated-Card-1"
+                                  data-ouia-component-type="PF4/Card"
+                                  data-ouia-safe="true"
+                                >
+                                  <div
+                                    class="pf-c-card__body"
+                                  >
+                                    <div
+                                      class="pf-c-empty-state"
+                                    >
+                                      <div
+                                        class="pf-c-empty-state__content"
+                                      >
+                                        <div
+                                          class="pf-c-empty-state__icon"
+                                        >
+                                          <span
+                                            aria-valuetext="Loading..."
+                                            class="pf-c-spinner pf-m-xl"
+                                            role="progressbar"
+                                          >
+                                            <span
+                                              class="pf-c-spinner__clipper"
+                                            />
+                                            <span
+                                              class="pf-c-spinner__lead-ball"
+                                            />
+                                            <span
+                                              class="pf-c-spinner__tail-ball"
+                                            />
+                                          </span>
+                                        </div>
+                                        <h4
+                                          class="pf-c-title pf-m-lg"
+                                        >
+                                          Loading
+                                        </h4>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </article>
+                              </section>
+                            </div>
                           </div>
                           <footer
                             class="pf-c-modal-box__footer"
                           >
                             <button
-                              aria-disabled="false"
-                              class="pf-c-button pf-m-primary"
-                              data-ouia-component-id="OUIA-Generated-Button-primary-1"
+                              aria-disabled="true"
+                              class="pf-c-button pf-m-danger pf-m-disabled"
+                              data-ouia-component-id="OUIA-Generated-Button-danger-1"
                               data-ouia-component-type="PF4/Button"
                               data-ouia-safe="true"
+                              disabled=""
                               type="button"
                             >
-                              Submit
+                              Confirm
                             </button>
                             <button
                               aria-disabled="false"
-                              class="pf-c-button pf-m-link"
-                              data-ouia-component-id="OUIA-Generated-Button-link-1"
+                              class="pf-c-button pf-m-secondary"
+                              data-ouia-component-id="OUIA-Generated-Button-secondary-1"
                               data-ouia-component-type="PF4/Button"
                               data-ouia-safe="true"
                               type="button"
@@ -843,26 +1011,28 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                   actions={
                     Array [
                       <Button
+                        isDisabled={true}
                         onClick={[Function]}
-                        variant="primary"
+                        variant="danger"
                       >
-                        Submit
+                        Confirm
                       </Button>,
                       <Button
                         onClick={[Function]}
-                        variant="link"
+                        variant="secondary"
                       >
                         Cancel
                       </Button>,
                     ]
                   }
                   aria-describedby=""
-                  aria-label=""
+                  aria-label="Delete application"
                   aria-labelledby=""
-                  boxId="pf-modal-part-0"
+                  boxId="remove-resource-modal"
                   className=""
                   descriptorId="pf-modal-part-2"
                   hasNoBodyWrapper={false}
+                  id="remove-resource-modal"
                   isOpen={true}
                   labelId="pf-modal-part-1"
                   onClose={[Function]}
@@ -893,26 +1063,26 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                         >
                           <ModalBox
                             aria-describedby="pf-modal-part-2"
-                            aria-label=""
-                            aria-labelledby="pf-modal-part-1"
+                            aria-label="Delete application"
+                            aria-labelledby="remove-resource-modal pf-modal-part-1"
                             className=""
                             data-ouia-component-id="OUIA-Generated-Modal-medium-1"
                             data-ouia-component-type="PF4/ModalContent"
                             data-ouia-safe={true}
-                            id="pf-modal-part-0"
+                            id="remove-resource-modal"
                             style={Object {}}
                             variant="medium"
                           >
                             <div
                               aria-describedby="pf-modal-part-2"
-                              aria-label={null}
-                              aria-labelledby="pf-modal-part-1"
+                              aria-label="Delete application"
+                              aria-labelledby="remove-resource-modal pf-modal-part-1"
                               aria-modal="true"
                               className="pf-c-modal-box pf-m-md"
                               data-ouia-component-id="OUIA-Generated-Modal-medium-1"
                               data-ouia-component-type="PF4/ModalContent"
                               data-ouia-safe={true}
-                              id="pf-modal-part-0"
+                              id="remove-resource-modal"
                               role="dialog"
                               style={Object {}}
                             >
@@ -996,7 +1166,79 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                   className="pf-c-modal-box__body"
                                   id="pf-modal-part-2"
                                 >
-                                  Removing {0} is irreversible. Are you sure that you want to continue?
+                                  <div>
+                                    <AcmLoadingPage>
+                                      <AcmPageCard>
+                                        <PageSection>
+                                          <section
+                                            className="pf-c-page__main-section"
+                                          >
+                                            <Card>
+                                              <article
+                                                className="pf-c-card"
+                                                data-ouia-component-id="OUIA-Generated-Card-1"
+                                                data-ouia-component-type="PF4/Card"
+                                                data-ouia-safe={true}
+                                              >
+                                                <CardBody>
+                                                  <div
+                                                    className="pf-c-card__body"
+                                                  >
+                                                    <EmptyState>
+                                                      <div
+                                                        className="pf-c-empty-state"
+                                                      >
+                                                        <div
+                                                          className="pf-c-empty-state__content"
+                                                        >
+                                                          <EmptyStateIcon
+                                                            component={[Function]}
+                                                            variant="container"
+                                                          >
+                                                            <div
+                                                              className="pf-c-empty-state__icon"
+                                                            >
+                                                              <Spinner>
+                                                                <span
+                                                                  aria-valuetext="Loading..."
+                                                                  className="pf-c-spinner pf-m-xl"
+                                                                  role="progressbar"
+                                                                >
+                                                                  <span
+                                                                    className="pf-c-spinner__clipper"
+                                                                  />
+                                                                  <span
+                                                                    className="pf-c-spinner__lead-ball"
+                                                                  />
+                                                                  <span
+                                                                    className="pf-c-spinner__tail-ball"
+                                                                  />
+                                                                </span>
+                                                              </Spinner>
+                                                            </div>
+                                                          </EmptyStateIcon>
+                                                          <Title
+                                                            headingLevel="h4"
+                                                            size="lg"
+                                                          >
+                                                            <h4
+                                                              className="pf-c-title pf-m-lg"
+                                                            >
+                                                              Loading
+                                                            </h4>
+                                                          </Title>
+                                                        </div>
+                                                      </div>
+                                                    </EmptyState>
+                                                  </div>
+                                                </CardBody>
+                                              </article>
+                                            </Card>
+                                          </section>
+                                        </PageSection>
+                                      </AcmPageCard>
+                                    </AcmLoadingPage>
+                                  </div>
                                 </div>
                               </ModalBoxBody>
                               <ModalBoxFooter>
@@ -1004,35 +1246,37 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                   className="pf-c-modal-box__footer"
                                 >
                                   <Button
+                                    isDisabled={true}
                                     key="confirm"
                                     onClick={[Function]}
-                                    variant="primary"
+                                    variant="danger"
                                   >
                                     <button
-                                      aria-disabled={false}
+                                      aria-disabled={true}
                                       aria-label={null}
-                                      className="pf-c-button pf-m-primary"
-                                      data-ouia-component-id="OUIA-Generated-Button-primary-1"
+                                      className="pf-c-button pf-m-danger pf-m-disabled"
+                                      data-ouia-component-id="OUIA-Generated-Button-danger-1"
                                       data-ouia-component-type="PF4/Button"
                                       data-ouia-safe={true}
-                                      disabled={false}
+                                      disabled={true}
                                       onClick={[Function]}
                                       role={null}
+                                      tabIndex={null}
                                       type="button"
                                     >
-                                      Submit
+                                      Confirm
                                     </button>
                                   </Button>
                                   <Button
                                     key="cancel"
                                     onClick={[Function]}
-                                    variant="link"
+                                    variant="secondary"
                                   >
                                     <button
                                       aria-disabled={false}
                                       aria-label={null}
-                                      className="pf-c-button pf-m-link"
-                                      data-ouia-component-id="OUIA-Generated-Button-link-1"
+                                      className="pf-c-button pf-m-secondary"
+                                      data-ouia-component-id="OUIA-Generated-Button-secondary-1"
                                       data-ouia-component-type="PF4/Button"
                                       data-ouia-safe={true}
                                       disabled={false}

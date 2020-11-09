@@ -583,6 +583,7 @@
   "modal.undeploy-hcmapplication.heading": "Remove deployment",
   "modal.undeploy-hcmapplication.label": "Application",
   "modal.resource-filter.label": "Resource Filter",
+  "modal.button.confirm": "Confirm",
   "modal.button.cancel": "Cancel",
   "modal.button.close": "Close",
   "modal.formfield.name": "Name",

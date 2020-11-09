@@ -17,7 +17,6 @@ import msgs from '../../../nls/platform.properties'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import { SEARCH_QUERY_RELATED } from '../../apollo-client/queries/SearchQueries'
-import { Checkbox, Loading, Notification } from 'carbon-components-react'
 import { canCallAction } from '../../../lib/client/access-helper'
 import {
   forceResourceReload,
@@ -27,7 +26,12 @@ import {
   getQueryStringForResource
 } from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
-import { AcmModal } from '@open-cluster-management/ui-components'
+import {
+  AcmModal,
+  AcmLoadingPage,
+  AcmAlert
+} from '@open-cluster-management/ui-components'
+import { Checkbox, Button } from '@patternfly/react-core'
 
 class RemoveResourceModal extends React.Component {
   constructor(props) {
@@ -286,10 +290,23 @@ class RemoveResourceModal extends React.Component {
     }
   }
 
-  modalBodyError = errors => {
+  modalError = errors => {
     return (
       <div>
-        <Notification kind="error" title="" subtitle={errors} />
+        <AcmAlert
+          variant="danger"
+          variantLabel=""
+          title={errors}
+          isInline={true}
+        />
+      </div>
+    )
+  };
+
+  modalLoading = () => {
+    return (
+      <div>
+        <AcmLoadingPage />
       </div>
     )
   };
@@ -311,12 +328,9 @@ class RemoveResourceModal extends React.Component {
           <div className="remove-app-modal-content-data">
             <Checkbox
               id={'remove-app-resources'}
-              checked={this.state.removeAppResources}
+              isChecked={this.state.removeAppResources}
               onChange={this.toggleRemoveAppResources}
-              labelText={msgs.get(
-                'modal.remove.application.resources',
-                locale
-              )}
+              label={msgs.get('modal.remove.application.resources', locale)}
               />
           </div>
           <div>
@@ -346,21 +360,44 @@ class RemoveResourceModal extends React.Component {
     const { label, locale, open } = this.props
     const { canRemove, name, loading, errors } = this.state
     const heading = msgs.get(label.heading, locale)
-    const body =
-      errors !== undefined
-        ? this.modalBodyError(errors)
-        : this.modalBody(name, label, locale)
+    let body
+    if (loading) {
+      body = this.modalLoading()
+    } else if (errors !== undefined) {
+      body = this.modalError(errors)
+    } else {
+      body = this.modalBody(name, label, locale)
+    }
     return (
       <div>
-        {loading && <Loading />}
         <AcmModal
-          open={open}
+          id="remove-resource-modal"
+          isOpen={open}
           title={heading}
-          cancel={this.handleClose.bind(this)}
-          submit={this.handleSubmit.bind(this)}
-          message={body}
-          //primaryButtonDisabled={!canRemove}
-        />
+          aria-label={heading}
+          showClose={true}
+          onClose={this.handleClose.bind(this)}
+          variant="medium"
+          actions={[
+            <Button
+              key="confirm"
+              variant="danger"
+              isDisabled={!canRemove || loading}
+              onClick={this.handleSubmit.bind(this)}
+            >
+              {msgs.get('modal.button.confirm', locale)}
+            </Button>,
+            <Button
+              key="cancel"
+              variant="secondary"
+              onClick={this.handleClose.bind(this)}
+            >
+              {msgs.get('modal.button.cancel', locale)}
+            </Button>
+          ]}
+        >
+          {body}
+        </AcmModal>
       </div>
     )
   }

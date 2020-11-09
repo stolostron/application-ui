@@ -32,7 +32,6 @@ import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 import TagInput from './TagInput'
-import { showCreate } from '../../../lib/client/access-helper'
 import resources from '../../../lib/shared/resources'
 import {
   renderRefreshTime,
@@ -103,7 +102,6 @@ class ResourceList extends React.Component {
 
   render() {
     const {
-      userRole,
       items,
       itemIds,
       locale,
@@ -154,9 +152,6 @@ class ResourceList extends React.Component {
     }
 
     const actions = React.Children.map(children, action => {
-      if (action.props.disabled || !showCreate(userRole)) {
-        return null
-      }
       return React.cloneElement(action, { resourceType })
     })
 
@@ -283,10 +278,8 @@ const mapStateToProps = (state, ownProps) => {
       }
     })
   }
-  const userRole = state.role && state.role.role
 
   return {
-    userRole,
     items,
     itemIds: visibleResources.items,
     totalFilteredItems: visibleResources.totalResults,
@@ -376,8 +369,7 @@ ResourceList.propTypes = {
   title: PropTypes.string,
   totalFilteredItems: PropTypes.number,
   updateBrowserURL: PropTypes.func,
-  updateSecondaryHeaderFn: PropTypes.func,
-  userRole: PropTypes.string
+  updateSecondaryHeaderFn: PropTypes.func
 }
 
 export default withLocale(

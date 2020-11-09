@@ -43,8 +43,7 @@ describe("Edit application insert new subscription Test", () => {
             const numberOfRemoteClusters = Cypress.env(
               "numberOfManagedClusters"
             );
-            //TODO : enable this after bug 6881 is fixed
-            //validateTopology(data.name, data, type, numberOfRemoteClusters);
+            validateTopology(data.name, data, type, numberOfRemoteClusters);
           });
         }
       } else {

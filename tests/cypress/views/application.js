@@ -22,7 +22,8 @@ const gitCssValues = {
   gitUser: "#githubUser",
   gitKey: "#githubAccessId",
   gitBranch: "#githubBranch",
-  gitPath: "#githubPath"
+  gitPath: "#githubPath",
+  gitReconcileOption: "#gitReconcileOption"
 };
 
 export const createApplication = (clusterName, data, type) => {
@@ -47,7 +48,14 @@ export const createApplication = (clusterName, data, type) => {
 export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   const { url, username, token, branch, path, timeWindow, deployment } = value;
   cy.log(`gitTasks key=${key}, url=${url}, path=${path}`);
-  const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
+  const {
+    gitUrl,
+    gitUser,
+    gitKey,
+    gitBranch,
+    gitPath,
+    gitReconcileOption
+  } = gitCss;
 
   cy
     .get(`#github`)
@@ -62,7 +70,9 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     cy.get(gitUser).type(username);
     cy.get(gitKey).type(token);
   }
-
+  if (gitReconcileOption) {
+    cy.get(gitReconcileOption).click({ force: true });
+  }
   // wait for form to remove the users
   cy.wait(1000);
   // type in branch and path
@@ -431,12 +441,14 @@ export const validateTopology = (name, data, type, numberOfRemoteClusters) => {
     .should("be.gte", successNumber, {
       timeout: 100 * 1000
     });
+  /* 
   cy
     .get("#red-resources")
     .children(".status-count")
     .invoke("text")
     .then(parseInt)
     .should("be.eq", 0);
+    */
 
   validateSubscriptionDetails(name, data, type);
 
@@ -903,10 +915,106 @@ export const editApplication = (name, data) => {
     .invoke("val")
     .should("eq", `${name}-ns`);
   cy.log("Verify Update button is disabled");
+
   modal.shouldBeDisabled();
+
+  verifyApplicationData(name, data);
+};
+
+export const verifyApplicationData = (name, data) => {
+  cy.log(`Verify application settings for ${name}`);
+  cy.get(".creation-view-controls-section").within($section => {
+    for (const [key, item] of Object.entries(data.config)) {
+      cy
+        .get(".creation-view-group-container")
+        .eq(key)
+        .within($div => {
+          let channelSectionId =
+            key == 0
+              ? "#channel-repository-types"
+              : `#channelgrp${key}-repository-types`;
+          cy.get(channelSectionId).click();
+          if (data.type == "git") {
+            cy.log(`Verify Git reconcile option for ${name}`);
+            item.gitReconcileOption &&
+              cy
+                .get("#gitReconcileOption", { timeout: 20 * 1000 })
+                .should("be.checked");
+
+            !item.gitReconcileOption &&
+              cy
+                .get("#gitReconcileOption", { timeout: 20 * 1000 })
+                .and("not.be.checked");
+          }
+
+          const { deployment } = item;
+
+          cy.log(`Verify Placement option for ${name}`);
+          let prSectionId =
+            key == 0
+              ? "#clustersection-select-clusters-to-deploy-to"
+              : `#clustersectiongrp${key}-select-clusters-to-deploy-to`;
+          cy.get(prSectionId).click();
+
+          cy.log(`Verify existing placement rule option should not be checked`);
+          const existingRuleId =
+            key == 0
+              ? "#existingrule-checkbox"
+              : `#existingrule-checkboxgrp${key}`;
+          cy
+            .get(existingRuleId, { timeout: 20 * 1000 })
+            .should("not.be.checked");
+
+          cy.log(
+            `Verify deploy to clusters by label checkbox deployment.matchingLabel=${
+              deployment.matchingLabel
+            }`
+          );
+          const matchingLabelId =
+            key == 0
+              ? "#clusterSelector-checkbox-clusterSelector"
+              : `#clusterSelector-checkbox-clusterSelectorgrp${key}`;
+          deployment.matchingLabel &&
+            cy
+              .get(matchingLabelId, { timeout: 20 * 1000 })
+              .should("be.checked");
+          !deployment.matchingLabel &&
+            cy
+              .get(matchingLabelId, { timeout: 20 * 1000 })
+              .should("not.be.checked");
+
+          cy.log(
+            `Verify deploy to all online clusters checkbox deployment.online=${
+              deployment.online
+            }`
+          );
+          const onlineId =
+            key == 0
+              ? "#online-cluster-only-checkbox"
+              : `#online-cluster-only-checkboxgrp${key}`;
+          deployment.online &&
+            cy.get(onlineId, { timeout: 20 * 1000 }).should("be.checked");
+          !deployment.online &&
+            cy.get(onlineId, { timeout: 20 * 1000 }).should("not.be.checked");
+
+          cy.log(`Verify deploy to local cluster checkbox`);
+          const localClusterId =
+            key == 0
+              ? "#local-cluster-checkbox"
+              : `#local-cluster-checkboxgrp${key}`;
+          deployment.local &&
+            cy.get(localClusterId, { timeout: 20 * 1000 }).should("be.checked");
+          !deployment.local &&
+            cy
+              .get(localClusterId, { timeout: 20 * 1000 })
+              .should("not.be.checked");
+        });
+    }
+  });
 };
 
 export const deleteFirstSubscription = (name, data) => {
+  edit(name);
   if (data.config.length > 1) {
     cy.log(`Verified that ${name} has ${data.config.length} subscriptions`);
     cy.log(
@@ -930,10 +1038,8 @@ export const deleteFirstSubscription = (name, data) => {
 };
 
 export const addNewSubscription = (name, data, clusterName) => {
-  cy.visit("/multicloud/applications");
-
-  edit(name);
   cy.log(`Verify that a new subscription can be added to ${name} application`);
+  edit(name);
 
   if (data.type === "git") {
     createGit(clusterName, data, true);

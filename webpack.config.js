@@ -13,8 +13,6 @@ let path = require("path"),
   AssetsPlugin = require("assets-webpack-plugin"),
   WebpackMd5Hash = require("webpack-md5-hash"),
   FileManagerPlugin = require("filemanager-webpack-plugin"),
-  GitRevisionPlugin = require("git-revision-webpack-plugin"),
-  VersionFile = require("webpack-version-file"),
   config = require("./config"),
   CompressionPlugin = require("compression-webpack-plugin"),
   MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
@@ -60,22 +58,6 @@ module.exports = {
       {
         test: [/\.s?css$/],
         exclude: /node_modules/,
-        // exclude: {
-        //   and: [
-        //     /node_modules/,
-        //     {
-        //       or: [
-        //         { not: [/node_modules\/@patternfly/] },
-        //         {
-        //           and: [
-        //             /node_modules\/@open-cluster-management\/ui-components/,
-        //             /node_modules\/@patternfly/
-        //           ]
-        //         }
-        //       ]
-        //     }
-        //   ]
-        // },
         loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [
@@ -120,7 +102,7 @@ module.exports = {
       // ignore styles under node_modules
       {
         test: /\.s?css$/,
-        include: /node_modules/, //\/@open-cluster-management\/ui-components/,
+        include: /node_modules/,
         loader: "null-loader"
       },
       {

@@ -302,16 +302,15 @@ export const validateTopology = (
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
-    numberOfRemoteClusters
+    numberOfRemoteClusters,
+    opType
   );
   cy.log(
     `Verify cluster deploy status on app card is ${appDetails.clusterData}`
   );
 
-  if (opType == "create") {
-    //for now check on create app only
-    cy.get(".overview-cards-details-section").contains(appDetails.clusterData);
-  }
+  //for now check on create app only
+  cy.get(".overview-cards-details-section").contains(appDetails.clusterData);
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
   cy.log(
@@ -340,23 +339,29 @@ export const validateTopology = (
 
   //subscription
   cy.log("validate the subscription...");
-  const subsIndex = opType == "create" ? 1 : 2; //add new subs
+  const subsIndex = opType == "create" ? 1 : 2; //add new subs or delete subs
   cy
     .get(`g[type="${name}-subscription-${subsIndex}"]`, { timeout: 25 * 1000 })
     .should("be.visible");
 
   // cluster and placement
   for (const [key, value] of Object.entries(data.config)) {
-    //if opType is create, the first subscription was removed by the delete subs test, use the new config option
-    const { local, online } =
-      key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
-    const placementKey = opType == "create" ? key : parseInt(key) + 1;
-    !local
-      ? (validatePlacementNode(name, placementKey),
-        !online && validateClusterNode(Cypress.env("managedCluster"))) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
-      : cy.log(
-          "cluster and placement nodes will not be created as the application is deployed locally"
-        );
+    if (opType == "delete" && key == 0) {
+      //ignore first subscription on delete
+    } else {
+      //if opType is create, the first subscription was removed by the delete subs test, use the new config option
+      const { local, online } =
+        key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
+      const placementKey =
+        opType == "create" ? key : opType == "add" ? parseInt(key) + 1 : key;
+      cy.log(`AAAA ${key}, ${opType}, ${placementKey}`);
+      !local
+        ? (validatePlacementNode(name, placementKey),
+          !online && validateClusterNode(Cypress.env("managedCluster"))) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
+        : cy.log(
+            "cluster and placement nodes will not be created as the application is deployed locally"
+          );
+    }
   }
 };
 
@@ -457,7 +462,8 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
-    numberOfRemoteClusters
+    numberOfRemoteClusters,
+    "create"
   );
   cy.log("Validate Cluster column");
   cy

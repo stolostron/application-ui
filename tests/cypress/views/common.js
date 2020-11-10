@@ -278,20 +278,31 @@ Return remote clusters info and time wndow for a single app as it shows in singl
 */
 export const getSingleAppClusterTimeDetails = (
   data,
-  numberOfRemoteClusters
+  numberOfRemoteClusters,
+  opType
 ) => {
   let onlineDeploy = false; //deploy to all online clusters including local
   let localDeploy = false;
   let remoteDeploy = false;
   let hasWindow = "";
+  let index = 0;
   data.config.forEach(item => {
-    if (item.timeWindow) {
-      hasWindow = "Yes"; // at list one window set
+    if (opType == "add" && index == 0) {
+      // if this is called after add subscription stop, use the new configuration
+      //the first initial item was removed on delete subs step
+      item = data.new[0];
+    } else if (opType == "delete" && index == 0) {
+      //ignore first subscription since it was deleted
+    } else {
+      if (item.timeWindow) {
+        hasWindow = "Yes"; // at list one window set
+      }
+      const { local, online, matchingLabel } = item.deployment;
+      onlineDeploy = onlineDeploy || online ? true : false; // if any subscription was set to online option, use that over anything else
+      remoteDeploy = matchingLabel ? true : remoteDeploy;
+      localDeploy = local ? true : localDeploy;
     }
-    const { local, online, matchingLabel } = item.deployment;
-    onlineDeploy = onlineDeploy || online ? true : false; // if any subscription was set to online option, use that over anything else
-    remoteDeploy = matchingLabel ? true : remoteDeploy;
-    localDeploy = local ? true : localDeploy;
+    index = index + 1;
   });
 
   let clusterText = "None";
@@ -419,6 +430,10 @@ const convertTimeFormat = time => {
 };
 
 export const validateSubscriptionDetails = (name, data, type, opType) => {
+  if (opType == "delete") {
+    //ignore this
+    return;
+  }
   // as soon as details button is enabled we can proceed
   cy
     .get("[data-test-subscription-details=true]", { timeout: 50 * 1000 })

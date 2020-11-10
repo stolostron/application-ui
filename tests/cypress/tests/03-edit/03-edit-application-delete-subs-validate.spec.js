@@ -4,16 +4,13 @@
  *******************************************************************************/
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
-import {
-  verifyEditAfterNewSubscription,
-  validateTopology
-} from "../../views/application";
+import { validateTopology } from "../../views/application";
 import {
   getManagedClusterName,
   getNumberOfManagedClusters
 } from "../../views/resources";
 
-describe("Edit application insert new subscription Test", () => {
+describe("Edit application validate delete first subscription", () => {
   it(`get the name of the managed OCP cluster`, () => {
     getManagedClusterName();
   });
@@ -27,12 +24,7 @@ describe("Edit application insert new subscription Test", () => {
         if (data.new) {
           it(`Verify that ${
             data.name
-          } template editor valid after new subscription is created`, () => {
-            verifyEditAfterNewSubscription(data.name, data);
-          });
-          it(`Verify that ${
-            data.name
-          } single app page info is valid after new subscription is created`, () => {
+          } single app page info is valid after first subscription is deleted`, () => {
             const numberOfRemoteClusters = Cypress.env(
               "numberOfManagedClusters"
             );
@@ -41,7 +33,7 @@ describe("Edit application insert new subscription Test", () => {
               data,
               type,
               numberOfRemoteClusters,
-              "add"
+              "delete"
             );
           });
         }

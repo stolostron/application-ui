@@ -352,11 +352,9 @@ export const validateTopology = (
       //if opType is create, the first subscription was removed by the delete subs test, use the new config option
       const { local, online } =
         key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
-      const placementKey =
-        opType == "create" ? key : opType == "add" ? parseInt(key) + 1 : key;
-      cy.log(` key=${key}, type=${opType}, placement=${placementKey}`);
+      cy.log(` key=${key}, type=${opType}`);
       !local
-        ? (validatePlacementNode(name, placementKey),
+        ? (validatePlacementNode(name, key),
           !online && validateClusterNode(Cypress.env("managedCluster"))) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
         : cy.log(
             "cluster and placement nodes will not be created as the application is deployed locally"

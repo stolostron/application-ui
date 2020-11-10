@@ -310,20 +310,20 @@ export const validateTopology = (
   );
 
   //for now check on create app only
-  cy.get(".overview-cards-details-section").contains(appDetails.clusterData);
+  cy
+    .get(".overview-cards-details-section", { timeout: 30 * 1000 })
+    .contains(appDetails.clusterData);
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
   cy.log(
     `Verify that the deployed resources number with status success is at least ${successNumber}`
   );
   cy
-    .get("#green-resources")
+    .get("#green-resources", { timeout: 30 * 1000 })
     .children(".status-count")
     .invoke("text")
     .then(parseInt)
-    .should("be.gte", successNumber, {
-      timeout: 100 * 1000
-    });
+    .should("be.gte", successNumber);
 
   validateSubscriptionDetails(name, data, type, opType);
 

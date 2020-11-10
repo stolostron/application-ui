@@ -13,7 +13,7 @@ describe("Application Validation Test for advanced configuration tables", () => 
   for (const type in config) {
     const apps = config[type].data;
     apps.forEach(data => {
-      if (data.enable) {
+      if (data.enable && data.name != "ui-helm2") {
         it(`Verify application ${
           data.name
         } channel, subscription, placement rule info from the advanced configuration tables - ${type}: ${

@@ -126,8 +126,8 @@ objectstore:
                 end: "22:00"
           deployment:
             local: false
-            online: false
-            matchingLabel: true
+            online: true
+            matchingLabel: false
 helm:
   data:
     - enable: true

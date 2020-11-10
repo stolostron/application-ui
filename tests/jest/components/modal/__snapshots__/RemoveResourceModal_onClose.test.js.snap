@@ -159,7 +159,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                   onClick={[Function]}
                   variant="danger"
                 >
-                  Confirm
+                  Delete application
                 </Button>,
                 <Button
                   onClick={[Function]}
@@ -185,7 +185,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                     onClick={[Function]}
                     variant="danger"
                   >
-                    Confirm
+                    Delete application
                   </Button>,
                   <Button
                     onClick={[Function]}
@@ -274,6 +274,9 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                             class="pf-c-modal-box__body"
                             id="pf-modal-part-2"
                           >
+                            <div
+                              class="remove-app-modal-alert"
+                            />
                             <div>
                               <section
                                 class="pf-c-page__main-section"
@@ -336,7 +339,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                               disabled=""
                               type="button"
                             >
-                              Confirm
+                              Delete application
                             </button>
                             <button
                               aria-disabled="false"
@@ -363,7 +366,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                         onClick={[Function]}
                         variant="danger"
                       >
-                        Confirm
+                        Delete application
                       </Button>,
                       <Button
                         onClick={[Function]}
@@ -514,6 +517,9 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                   className="pf-c-modal-box__body"
                                   id="pf-modal-part-2"
                                 >
+                                  <div
+                                    class="remove-app-modal-alert"
+                                  />
                                   <div>
                                     <AcmLoadingPage>
                                       <AcmPageCard>
@@ -612,7 +618,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                       tabIndex={null}
                                       type="button"
                                     >
-                                      Confirm
+                                      Delete application
                                     </button>
                                   </Button>
                                   <Button
@@ -811,7 +817,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                   onClick={[Function]}
                   variant="danger"
                 >
-                  Confirm
+                  Delete application
                 </Button>,
                 <Button
                   onClick={[Function]}
@@ -837,7 +843,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                     onClick={[Function]}
                     variant="danger"
                   >
-                    Confirm
+                    Delete application
                   </Button>,
                   <Button
                     onClick={[Function]}
@@ -926,6 +932,9 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                             class="pf-c-modal-box__body"
                             id="pf-modal-part-2"
                           >
+                            <div
+                              class="remove-app-modal-alert"
+                            />
                             <div>
                               <section
                                 class="pf-c-page__main-section"
@@ -988,7 +997,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                               disabled=""
                               type="button"
                             >
-                              Confirm
+                              Delete application
                             </button>
                             <button
                               aria-disabled="false"
@@ -1015,7 +1024,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                         onClick={[Function]}
                         variant="danger"
                       >
-                        Confirm
+                        Delete application
                       </Button>,
                       <Button
                         onClick={[Function]}
@@ -1166,6 +1175,9 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                   className="pf-c-modal-box__body"
                                   id="pf-modal-part-2"
                                 >
+                                  <div
+                                    class="remove-app-modal-alert"
+                                  />
                                   <div>
                                     <AcmLoadingPage>
                                       <AcmPageCard>
@@ -1264,7 +1276,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                       tabIndex={null}
                                       type="button"
                                     >
-                                      Confirm
+                                      Delete application
                                     </button>
                                   </Button>
                                   <Button

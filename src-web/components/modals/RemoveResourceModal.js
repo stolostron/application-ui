@@ -52,7 +52,6 @@ class RemoveResourceModal extends React.Component {
   UNSAFE_componentWillMount() {
     if (this.props.data) {
       const { data } = this.props
-      this.getChildResources(data.name, data.namespace)
       const kind = data.selfLink.split('/')
       const apiGroup = kind[1] === 'apis' ? kind[2] : ''
       canCallAction(
@@ -68,6 +67,7 @@ class RemoveResourceModal extends React.Component {
             ? undefined
             : msgs.get('table.actions.remove.unauthorized', this.context.locale)
         })
+        this.getChildResources(data.name, data.namespace)
       })
       this.setState({
         name: data.name,
@@ -80,7 +80,8 @@ class RemoveResourceModal extends React.Component {
   getChildResources = (name, namespace) => {
     try {
       const { resourceType } = this.props
-      if (resourceType.name === 'HCMApplication') {
+      const { canRemove } = this.state
+      if (resourceType.name === 'HCMApplication' && canRemove) {
         // Get application resources
         apolloClient.getApplication({ name, namespace }).then(response => {
           const children = []
@@ -290,19 +291,6 @@ class RemoveResourceModal extends React.Component {
     }
   }
 
-  modalError = errors => {
-    return (
-      <div>
-        <AcmAlert
-          variant="danger"
-          variantLabel=""
-          title={errors}
-          isInline={true}
-        />
-      </div>
-    )
-  };
-
   modalLoading = () => {
     return (
       <div>
@@ -360,14 +348,6 @@ class RemoveResourceModal extends React.Component {
     const { label, locale, open } = this.props
     const { canRemove, name, loading, errors } = this.state
     const heading = msgs.get(label.heading, locale)
-    let body
-    if (loading) {
-      body = this.modalLoading()
-    } else if (errors !== undefined) {
-      body = this.modalError(errors)
-    } else {
-      body = this.modalBody(name, label, locale)
-    }
     return (
       <div>
         <AcmModal
@@ -385,7 +365,7 @@ class RemoveResourceModal extends React.Component {
               isDisabled={!canRemove || loading}
               onClick={this.handleSubmit.bind(this)}
             >
-              {msgs.get('modal.button.confirm', locale)}
+              {msgs.get(label.primaryBtn, locale)}
             </Button>,
             <Button
               key="cancel"
@@ -396,7 +376,17 @@ class RemoveResourceModal extends React.Component {
             </Button>
           ]}
         >
-          {body}
+          <div className="remove-app-modal-alert">
+            {errors !== undefined ? (
+              <AcmAlert
+                variant="danger"
+                variantLabel=""
+                title={errors}
+                isInline={true}
+              />
+            ) : null}
+          </div>
+          {loading ? this.modalLoading() : this.modalBody(name, label, locale)}
         </AcmModal>
       </div>
     )

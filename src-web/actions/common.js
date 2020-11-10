@@ -148,36 +148,6 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
   }
 }
 
-export const fetchGlobalAppsData = resourceType => {
-  return dispatch => {
-    const resourceQuery = { list: 'GlobalApplicationsData' }
-
-    apolloClient
-      .get(resourceQuery)
-      .then(result => {
-        if (result.data && result.data.globalAppData) {
-          return dispatch(
-            receiveResourceSuccess(
-              { items: result.data.globalAppData },
-              resourceType
-            )
-          )
-        }
-        if (result.error) {
-          return dispatch(receiveResourceError(result.error, resourceType))
-        }
-        if (result.errors) {
-          return dispatch(receiveResourceError(result.errors[0], resourceType))
-        }
-        return dispatch(receiveResourceError('invalid', resourceType))
-      })
-      .catch(error => {
-        // catch graph connection error
-        return dispatch(receiveResourceError(error, resourceType))
-      })
-  }
-}
-
 const getResourceQuery = resourceType => {
   let resourceQuery, dataKey
   switch (resourceType.name) {

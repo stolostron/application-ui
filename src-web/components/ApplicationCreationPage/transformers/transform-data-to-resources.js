@@ -31,7 +31,15 @@ const keepKeys = [
   'apps.open-cluster-management.io/reconcile-option'
 ]
 
-const isFiltered = (value, key, parentKey) => {
+export const isFiltered = (value, key, parentKey, parentObj) => {
+  if (
+    key === 'status' &&
+    parentObj &&
+    _.get(parentObj, 'type', '') === 'ManagedClusterConditionAvailable'
+  ) {
+    // for placement rule online option keep the status
+    return false
+  }
   if (kube.includes(key)) {
     return true
   }
@@ -52,7 +60,7 @@ const filterDeep = (obj, parentKey) => {
   const newObj = {}
   Object.entries(obj || {}).forEach(([k, v]) => {
     const value = filter(v, k)
-    if (!isFiltered(value, k, parentKey)) {
+    if (!isFiltered(value, k, parentKey, obj)) {
       if (k === 'apps.open-cluster-management.io/github-branch') {
         k = 'apps.open-cluster-management.io/git-branch'
       }

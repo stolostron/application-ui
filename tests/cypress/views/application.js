@@ -12,7 +12,9 @@ import {
   noResource,
   notification,
   validateSubscriptionTable,
-  getSingleAppClusterTimeDetails
+  getSingleAppClusterTimeDetails,
+  verifyApplicationData,
+  validateSubscriptionDetails
 } from "./common";
 
 import { channelsInformation } from "./resources.js";
@@ -23,7 +25,7 @@ const gitCssValues = {
   gitKey: "#githubAccessId",
   gitBranch: "#githubBranch",
   gitPath: "#githubPath",
-  gitReconcileOption: "#gitReconcileOption"
+  merge: "#gitReconcileOption"
 };
 
 export const createApplication = (clusterName, data, type) => {
@@ -46,16 +48,18 @@ export const createApplication = (clusterName, data, type) => {
 };
 
 export const gitTasks = (clusterName, value, gitCss, key = 0) => {
-  const { url, username, token, branch, path, timeWindow, deployment } = value;
-  cy.log(`gitTasks key=${key}, url=${url}, path=${path}`);
   const {
-    gitUrl,
-    gitUser,
-    gitKey,
-    gitBranch,
-    gitPath,
+    url,
+    username,
+    token,
+    branch,
+    path,
+    timeWindow,
+    deployment,
     gitReconcileOption
-  } = gitCss;
+  } = value;
+  cy.log(`gitTasks key=${key}, url=${url}, path=${path}`);
+  const { gitUrl, gitUser, gitKey, gitBranch, gitPath, merge } = gitCss;
 
   cy
     .get(`#github`)
@@ -71,7 +75,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     cy.get(gitKey).type(token);
   }
   if (gitReconcileOption) {
-    cy.get(gitReconcileOption).click({ force: true });
+    cy.get(merge).click({ force: true });
   }
   // wait for form to remove the users
   cy.wait(1000);
@@ -231,141 +235,6 @@ export const submitSave = () => {
   cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
 };
 
-const convertTimeFormat = time => {
-  if (time !== "") {
-    const hour24 = time.substring(0, 2);
-    let hour12 = hour24 % 12 || 12;
-    const period = hour24 < 12 ? "am" : "pm";
-    return hour12 + time.substring(2) + period;
-  } else {
-    return "";
-  }
-};
-
-export const validateSubscriptionDetails = (name, data, type) => {
-  // as soon as details button is enabled we can proceed
-  cy
-    .get("[data-test-subscription-details=true]", { timeout: 50 * 1000 })
-    .scrollIntoView()
-    .click();
-  for (const [key, value] of Object.entries(data.config)) {
-    // some subscriptions might not have time window
-    const type = value.timeWindow ? value.timeWindow.type : "active"; //if not defined is always active
-    cy.log(`Validate subscriptions cards for ${name} key=${key}`);
-
-    // Get "Repository resource" info
-    let repoInfo = value.url;
-    if (value.branch && value.branch.length > 0) {
-      repoInfo = `${repoInfo}Branch:${value.branch}`;
-    }
-    if (value.path && value.path.length > 0) {
-      repoInfo = `${repoInfo}Path:${value.path}`;
-    }
-
-    // Get "Time window" info
-    let timeWindowInfo = {};
-    if (value.timeWindow) {
-      timeWindowInfo["date"] = `Days of the week${value.timeWindow.date.join(
-        ", "
-      )}`;
-
-      if (value.timeWindow.hours) {
-        let timeRangeString = "";
-        value.timeWindow.hours.forEach((range, i) => {
-          timeRangeString =
-            `${timeRangeString}${convertTimeFormat(
-              range.start
-            )} - ${convertTimeFormat(range.end)}` +
-            `${i < value.timeWindow.hours.length - 1 ? ", " : ""}`;
-        });
-        timeWindowInfo["hours"] = `Time range${timeRangeString}`;
-      }
-    }
-    const keywords = {
-      blockinterval: "Blocked",
-      activeinterval: "Active",
-      active: "Set time window"
-    };
-
-    // 1. Check "Repository resource" button and popover
-    cy
-      .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
-      .children()
-      .eq(key)
-      .within($subcards => {
-        cy.log("Validate subscription repository info");
-        let repositoryText =
-          data.type === "objectstore"
-            ? "Object storage"
-            : data.type === "helm" ? "Helm" : "Git";
-        cy
-          .get(".pf-c-label__content")
-          .first()
-          .invoke("text")
-          .should("include", repositoryText);
-
-        cy.log("Validate Repository popup");
-        let repoInfo = value.url;
-        if (value.branch && value.branch.length > 0) {
-          repoInfo = `${repoInfo}Branch:${value.branch}`;
-        }
-        if (value.path && value.path.length > 0) {
-          repoInfo = `${repoInfo}Path:${value.path}`;
-        }
-        cy
-          .get(".pf-c-label")
-          .first()
-          .click({ force: true });
-      });
-    // Validate info in popover
-    cy
-      .get(".channel-labels.channel-labels-popover-content", {
-        timeout: 20 * 1000
-      })
-      .invoke("text")
-      .should("include", repoInfo);
-    cy
-      .get(".subs-icon")
-      .first()
-      .click(); // Close any popovers
-
-    // 2. Check "Time window" button and popover
-    cy
-      .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
-      .children()
-      .eq(key)
-      .within($subcards => {
-        cy.log(`Validate time window for subscription is ${keywords[type]}`);
-        type == "active"
-          ? cy
-              .get(".set-time-window-link", { timeout: 20 * 1000 })
-              .contains(keywords[type])
-          : cy
-              .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
-              .contains(keywords[type].toLowerCase());
-
-        if (type !== "active") {
-          cy.log("Validate time window popup");
-          cy
-            .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
-            .click({ force: true });
-        }
-      });
-    // Validate info in popover
-    if (type !== "active") {
-      cy
-        .get(".timeWindow-labels-popover-content", { timeout: 20 * 1000 })
-        .invoke("text")
-        .should("include", timeWindowInfo.date)
-        .and("include", timeWindowInfo.hours);
-      cy
-        .get(".subs-icon")
-        .first()
-        .click(); // Close any popovers
-    }
-  }
-};
-
 export const validateAdvancedTables = (
   name,
   data,
@@ -411,7 +280,18 @@ export const validateAdvancedTables = (
   }
 };
 
-export const validateTopology = (name, data, type, numberOfRemoteClusters) => {
+/*
+opType = 'create' if run afer app creation step
+opType = 'delete' if run afer delete subs step
+opType = 'add' if run afer add subs step
+*/
+export const validateTopology = (
+  name,
+  data,
+  type,
+  numberOfRemoteClusters,
+  opType
+) => {
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();
   cy
@@ -422,11 +302,14 @@ export const validateTopology = (name, data, type, numberOfRemoteClusters) => {
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
-    numberOfRemoteClusters
+    numberOfRemoteClusters,
+    opType
   );
   cy.log(
     `Verify cluster deploy status on app card is ${appDetails.clusterData}`
   );
+
+  //for now check on create app only
   cy.get(".overview-cards-details-section").contains(appDetails.clusterData);
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
@@ -441,16 +324,8 @@ export const validateTopology = (name, data, type, numberOfRemoteClusters) => {
     .should("be.gte", successNumber, {
       timeout: 100 * 1000
     });
-  /* 
-  cy
-    .get("#red-resources")
-    .children(".status-count")
-    .invoke("text")
-    .then(parseInt)
-    .should("be.eq", 0);
-    */
 
-  validateSubscriptionDetails(name, data, type);
+  validateSubscriptionDetails(name, data, type, opType);
 
   cy.get(".overview-cards-container");
   cy.get("#topologySvgId", { timeout: 50 * 1000 });
@@ -464,28 +339,33 @@ export const validateTopology = (name, data, type, numberOfRemoteClusters) => {
 
   //subscription
   cy.log("validate the subscription...");
+  const subsIndex = opType == "create" ? 1 : 2; //add new subs or delete subs
   cy
-    .get(`g[type="${name}-subscription-1"]`, { timeout: 25 * 1000 })
+    .get(`g[type="${name}-subscription-${subsIndex}"]`, { timeout: 25 * 1000 })
     .should("be.visible");
 
   // cluster and placement
   for (const [key, value] of Object.entries(data.config)) {
-    const { local, online } = value.deployment;
-    !local
-      ? (validatePlacementNode(name, key),
-        !online && validateClusterNode(Cypress.env("managedCluster"))) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
-      : cy.log(
-          "cluster and placement nodes will not be created as the application is deployed locally"
-        );
+    if (opType == "delete" && key == 0) {
+      //ignore first subscription on delete
+    } else {
+      //if opType is create, the first subscription was removed by the delete subs test, use the new config option
+      const { local, online } =
+        key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
+      const placementKey =
+        opType == "create" ? key : opType == "add" ? parseInt(key) + 1 : key;
+      cy.log(`AAAA ${key}, ${opType}, ${placementKey}`);
+      !local
+        ? (validatePlacementNode(name, placementKey),
+          !online && validateClusterNode(Cypress.env("managedCluster"))) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
+        : cy.log(
+            "cluster and placement nodes will not be created as the application is deployed locally"
+          );
+    }
   }
-
-  data.config.forEach(data => {
-    const { path } = type == "git" ? data : data;
-    //path == "helloworld" ? validateHelloWorld() : null;
-  });
 };
 
-export const validateClusterNode = (clusterName = "magchen-ocp") => {
+export const validateClusterNode = clusterName => {
   cy.log("validating the cluster...");
   cy
     .get(`g[type="${clusterName}"]`, { timeout: 25 * 1000 })
@@ -499,35 +379,6 @@ export const validatePlacementNode = (name, key) => {
         timeout: 25 * 1000
       })
       .should("be.visible");
-};
-
-export const validateHelloWorld = () => {
-  // validate route
-  cy.log("validate the route...");
-  cy.scrollTo("bottom");
-  cy
-    .get('g[type="helloworld-app-route"]', {
-      timeout: 100 * 1000
-    })
-    .should("be.visible")
-    .click();
-  cy
-    .get(".topologyDetails")
-    .children(".details-view-container")
-    .find(">div")
-    .first()
-    .within($div => {
-      cy
-        .get("#linkForNodeAction", { timeout: 200 * 1000 })
-        .contains("http://")
-        .invoke("text")
-        .then(urlLink => {
-          cy
-            .exec(`curl ${urlLink}`)
-            .its("stdout")
-            .should("not.be", "empty");
-        });
-    });
 };
 
 export const validateAppTableMenu = (name, resourceTable) => {
@@ -611,7 +462,8 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
-    numberOfRemoteClusters
+    numberOfRemoteClusters,
+    "create"
   );
   cy.log("Validate Cluster column");
   cy
@@ -918,99 +770,7 @@ export const editApplication = (name, data) => {
 
   modal.shouldBeDisabled();
 
-  verifyApplicationData(name, data);
-};
-
-export const verifyApplicationData = (name, data) => {
-  cy.log(`Verify application settings for ${name}`);
-  cy.get(".creation-view-controls-section").within($section => {
-    for (const [key, item] of Object.entries(data.config)) {
-      cy
-        .get(".creation-view-group-container")
-        .eq(key)
-        .within($div => {
-          let channelSectionId =
-            key == 0
-              ? "#channel-repository-types"
-              : `#channelgrp${key}-repository-types`;
-          cy.get(channelSectionId).click();
-          if (data.type == "git") {
-            cy.log(`Verify Git reconcile option for ${name}`);
-            item.gitReconcileOption &&
-              cy
-                .get("#gitReconcileOption", { timeout: 20 * 1000 })
-                .should("be.checked");
-
-            !item.gitReconcileOption &&
-              cy
-                .get("#gitReconcileOption", { timeout: 20 * 1000 })
-                .and("not.be.checked");
-          }
-
-          const { deployment } = item;
-
-          cy.log(`Verify Placement option for ${name}`);
-          let prSectionId =
-            key == 0
-              ? "#clustersection-select-clusters-to-deploy-to"
-              : `#clustersectiongrp${key}-select-clusters-to-deploy-to`;
-          cy.get(prSectionId).click();
-
-          cy.log(`Verify existing placement rule option should not be checked`);
-          const existingRuleId =
-            key == 0
-              ? "#existingrule-checkbox"
-              : `#existingrule-checkboxgrp${key}`;
-          cy
-            .get(existingRuleId, { timeout: 20 * 1000 })
-            .should("not.be.checked");
-
-          cy.log(
-            `Verify deploy to clusters by label checkbox deployment.matchingLabel=${
-              deployment.matchingLabel
-            }`
-          );
-          const matchingLabelId =
-            key == 0
-              ? "#clusterSelector-checkbox-clusterSelector"
-              : `#clusterSelector-checkbox-clusterSelectorgrp${key}`;
-          deployment.matchingLabel &&
-            cy
-              .get(matchingLabelId, { timeout: 20 * 1000 })
-              .should("be.checked");
-          !deployment.matchingLabel &&
-            cy
-              .get(matchingLabelId, { timeout: 20 * 1000 })
-              .should("not.be.checked");
-
-          cy.log(
-            `Verify deploy to all online clusters checkbox deployment.online=${
-              deployment.online
-            }`
-          );
-          const onlineId =
-            key == 0
-              ? "#online-cluster-only-checkbox"
-              : `#online-cluster-only-checkboxgrp${key}`;
-          deployment.online &&
-            cy.get(onlineId, { timeout: 20 * 1000 }).should("be.checked");
-          !deployment.online &&
-            cy.get(onlineId, { timeout: 20 * 1000 }).should("not.be.checked");
-
-          cy.log(`Verify deploy to local cluster checkbox`);
-          const localClusterId =
-            key == 0
-              ? "#local-cluster-checkbox"
-              : `#local-cluster-checkboxgrp${key}`;
-          deployment.local &&
-            cy.get(localClusterId, { timeout: 20 * 1000 }).should("be.checked");
-          !deployment.local &&
-            cy
-              .get(localClusterId, { timeout: 20 * 1000 })
-              .should("not.be.checked");
-        });
-    }
-  });
+  verifyApplicationData(name, data, "create");
 };
 
 export const deleteFirstSubscription = (name, data) => {
@@ -1080,4 +840,6 @@ export const verifyEditAfterNewSubscription = (name, data) => {
       .get(".creation-view-group-container")
       .should("have.length", nbOfSubscriptionsNow + 1);
   });
+
+  verifyApplicationData(name, data, "add");
 };

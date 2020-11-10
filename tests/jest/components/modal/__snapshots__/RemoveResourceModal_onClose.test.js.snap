@@ -518,7 +518,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                   id="pf-modal-part-2"
                                 >
                                   <div
-                                    class="remove-app-modal-alert"
+                                    className="remove-app-modal-alert"
                                   />
                                   <div>
                                     <AcmLoadingPage>
@@ -1176,7 +1176,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                   id="pf-modal-part-2"
                                 >
                                   <div
-                                    class="remove-app-modal-alert"
+                                    className="remove-app-modal-alert"
                                   />
                                   <div>
                                     <AcmLoadingPage>

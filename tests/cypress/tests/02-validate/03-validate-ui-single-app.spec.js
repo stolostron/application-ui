@@ -26,7 +26,13 @@ describe("Application Validation Test for single application page, topology ", (
           data.name
         }`, () => {
           const numberOfRemoteClusters = Cypress.env("numberOfManagedClusters");
-          validateTopology(data.name, data, type, numberOfRemoteClusters);
+          validateTopology(
+            data.name,
+            data,
+            type,
+            numberOfRemoteClusters,
+            "create"
+          );
         });
       } else {
         it(`disable validation on resource ${type}`, () => {

@@ -15,7 +15,9 @@ describe("Edit application delete subscription Test", () => {
     apps.forEach(data => {
       if (data.enable) {
         if (data.config.length > 1) {
-          it(`Verify first subscription can be deleted`, () => {
+          it(`Verify first subscription can be deleted for app ${
+            data.name
+          }`, () => {
             deleteFirstSubscription(data.name, data);
           });
           it(`Verify ${

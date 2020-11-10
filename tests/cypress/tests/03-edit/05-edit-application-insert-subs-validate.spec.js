@@ -25,16 +25,6 @@ describe("Edit application validate insert new subscription", () => {
     apps.forEach(data => {
       if (data.enable) {
         if (data.new) {
-          it(`Verify new subscription can be added for application ${
-            data.name
-          }`, () => {
-            const clusterName = Cypress.env("managedCluster");
-            addNewSubscription(data.name, data, clusterName);
-          });
-          // will delete once finished
-          it(`manual wait to validate in UI`, () => {
-            cy.wait(200 * 1000);
-          });
           it(`Verify that ${
             data.name
           } template editor valid after new subscription is created`, () => {

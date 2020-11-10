@@ -103,6 +103,8 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
 export const createHelm = (clusterName, configs, addOperation) => {
   let helmCss = {
     helmURL: "#helmURL",
+    helmUsername: "#helmUser",
+    helmPassword: "#helmPassword",
     helmChartName: "#helmChartName",
     helmPackageVersion: "#helmPackageVersion"
   };
@@ -128,8 +130,22 @@ export const createHelm = (clusterName, configs, addOperation) => {
 };
 
 export const helmTasks = (clusterName, value, css, key = 0) => {
-  const { url, chartName, packageVersion, timeWindow, deployment } = value;
-  const { helmURL, helmChartName, helmPackageVersion } = css;
+  const {
+    url,
+    username,
+    password,
+    chartName,
+    packageVersion,
+    timeWindow,
+    deployment
+  } = value;
+  const {
+    helmURL,
+    helmUsername,
+    helmPassword,
+    helmChartName,
+    helmPackageVersion
+  } = css;
   cy
     .get("#helmrepo")
     .click()
@@ -138,6 +154,33 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .get(helmURL, { timeout: 20 * 1000 })
     .type(url, { timeout: 30 * 1000 })
     .blur();
+  console.log(username, password);
+  getSavedPathname().then(({ urllist }) => {
+    if (!urllist.includes(url)) {
+      if (username && password) {
+        cy
+          .get(helmUsername, { timeout: 20 * 1000 })
+          .type(username, { log: false });
+        cy
+          .get(helmPassword, { timeout: 20 * 1000 })
+          .type(password, { log: false });
+      }
+    } else {
+      cy.log(`credentials have been saved for url - ${url}`);
+    }
+  });
+
+  getSavedPathname().then(({ urllist }) => {
+    if (!urllist.includes(url)) {
+      if (username && password) {
+        cy.get(gitUser, { timeout: 20 * 1000 }).type(username, { log: false });
+        cy.get(gitKey, { timeout: 20 * 1000 }).type(token, { log: false });
+      }
+    } else {
+      cy.log(`credentials have been saved for url - ${url}`);
+    }
+  });
+
   cy
     .get(helmChartName, { timeout: 20 * 1000 })
     .type(chartName)

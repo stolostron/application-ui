@@ -134,6 +134,8 @@ helm:
       successNumber: 0
       new: # used when we add new subscriptions after app creation
         - url: https://kubernetes-charts.storage.googleapis.com
+          username: ""
+          password: ""
           chartName: aerospike
           packageVersion: 0.3.3
           timeWindow:
@@ -150,6 +152,8 @@ helm:
             matchingLabel: true
       config:
         - url: https://kubernetes-charts.storage.googleapis.com
+          username: ""
+          password: ""
           chartName: airflow
           packageVersion: 7.9.0
           deployment:
@@ -157,6 +161,8 @@ helm:
             online: false
             matchingLabel: false
         - url: https://kubernetes-charts.storage.googleapis.com
+          username: ""
+          password: ""
           chartName: bookstack
           packageVersion: 1.2.1
           timeWindow:
@@ -177,6 +183,8 @@ helm:
       successNumber: 2
       config:
         - url: https://kubernetes-charts.storage.googleapis.com
+          username: ""
+          password: ""
           chartName: aerospike
           deployment:
             local: false

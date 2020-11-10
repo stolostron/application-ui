@@ -68,15 +68,16 @@ Afterwards, update the `tests/cypress/config/config.e2e.json` file with your con
 
 There are two ways of adding private credentials.
 
+#The easier way
+
 - You could fill the corresponding credentials in either config.func.yaml or config.e2e.yaml, depending on which test mode you are running.
+
+#The hard way
 
 - OR You could export the env variables
   - `export GITHUB_PRIVATE_URL=${YOUR_PRIVATE_GIRHUB_URL}`
   - `export GITHUB_USER=${YOUR_GITHUB_USER}`
   - `export GITHUB_TOKEN=${YOUR_GITHUB_TOKEN}`
-  - `export OBJECTSTORE_PRIVATE_URL=${YOUR_PRIVATE_OBJECTSTORE_URL}`
-  - `export OBJECTSTORE_ACCESS_KEY=${YOUR_OBJECTSTORE_ACESS_KEY}`
-  - `export OBJECTSTORE_SECRET_KEY=${YOUR_OBJECTSTORE_SECRET_KEY}`
   - `export OBJECTSTORE_PRIVATE_URL=${YOUR_PRIVATE_OBJECTSTORE_URL}`
   - `export OBJECTSTORE_ACCESS_KEY=${YOUR_OBJECTSTORE_ACESS_KEY}`
   - `export OBJECTSTORE_SECRET_KEY=${YOUR_OBJECTSTORE_SECRET_KEY}`

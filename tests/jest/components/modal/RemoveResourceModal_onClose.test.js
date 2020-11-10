@@ -133,12 +133,12 @@ describe("RemoveResourceModal test", () => {
       .simulate("click");
 
     component
-      .find(".pf-m-link")
+      .find(".pf-m-secondary")
       .at(0)
       .simulate("click");
 
     component
-      .find(".pf-m-primary")
+      .find(".pf-m-danger")
       .at(0)
       .simulate("click");
   });

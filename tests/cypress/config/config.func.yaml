@@ -156,9 +156,9 @@ helm:
           chartName: airflow
           packageVersion: 7.9.0
           deployment:
-            local: true
+            local: false
             online: false
-            matchingLabel: false
+            matchingLabel: true
         - url: https://kubernetes-charts.storage.googleapis.com
           chartName: bookstack
           packageVersion: 1.2.1
@@ -171,9 +171,9 @@ helm:
               - start: "08:00"
                 end: "12:00"            
           deployment:
-            local: false
+            local: true
             online: false
-            matchingLabel: true
+            matchingLabel: false
     - enable: true
       name: ui-helm2
       type: helm

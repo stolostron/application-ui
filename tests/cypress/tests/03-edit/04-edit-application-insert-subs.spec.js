@@ -4,11 +4,7 @@
  *******************************************************************************/
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
-import {
-  addNewSubscription,
-  verifyEditAfterNewSubscription,
-  validateTopology
-} from "../../views/application";
+import { addNewSubscription } from "../../views/application";
 import {
   getManagedClusterName,
   getNumberOfManagedClusters
@@ -31,24 +27,6 @@ describe("Edit application insert new subscription Test", () => {
           }`, () => {
             const clusterName = Cypress.env("managedCluster");
             addNewSubscription(data.name, data, clusterName);
-          });
-          // will delete once finished
-          it(`manual wait to validate in UI`, () => {
-            cy.wait(200 * 1000);
-          });
-          it(`Verify that ${
-            data.name
-          } is valid after new subscription is created`, () => {
-            verifyEditAfterNewSubscription(data.name, data);
-          });
-          it(`Verify that ${
-            data.name
-          } is valid after new subscription is created`, () => {
-            const numberOfRemoteClusters = Cypress.env(
-              "numberOfManagedClusters"
-            );
-            //TODO : enable this after bug 6881 is fixed
-            //validateTopology(data.name, data, type, numberOfRemoteClusters);
           });
         }
       } else {

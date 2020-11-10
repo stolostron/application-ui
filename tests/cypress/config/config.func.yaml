@@ -23,9 +23,10 @@ git:
               - start: "15:00"
                 end: "18:00"
           deployment:
+            existing: true
             local: false
             online: false
-            matchingLabel: true                 
+            matchingLabel: false                 
       config:    
         - url: https://github.com/fxiang1/app-samples.git
           username: ""
@@ -56,7 +57,7 @@ git:
           deployment:
             local: false
             online: true
-            matchingLabel: false 
+            matchingLabel: false
 objectstore:
   data:
     - enable: true
@@ -76,9 +77,10 @@ objectstore:
               - start: "18:00"
                 end: "22:00"       
           deployment:
+            existing: true
             local: false
             online: false
-            matchingLabel: true
+            matchingLabel: false
       config:
         - url: http://ec2-dummy/dev1
           accessKey: dummy1
@@ -145,9 +147,10 @@ helm:
               - start: "08:00"
                 end: "12:00"            
           deployment:
+            existing: true
             local: false
             online: false
-            matchingLabel: true
+            matchingLabel: false
       config:
         - url: https://kubernetes-charts.storage.googleapis.com
           chartName: airflow
@@ -182,3 +185,4 @@ helm:
             local: false
             online: true
             matchingLabel: false            
+

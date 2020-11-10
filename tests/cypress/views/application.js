@@ -247,7 +247,7 @@ export const validateAdvancedTables = (
     }`
   );
   for (const [key, subscriptionItem] of Object.entries(data.config)) {
-    const { local, online, matchingLabel } = subscriptionItem.deployment;
+    const { local } = subscriptionItem.deployment;
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
         subscriptions: `${name}-subscription-${parseInt(key) + 1}`,
@@ -354,7 +354,7 @@ export const validateTopology = (
         key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
       const placementKey =
         opType == "create" ? key : opType == "add" ? parseInt(key) + 1 : key;
-      cy.log(`AAAA ${key}, ${opType}, ${placementKey}`);
+      cy.log(` key=${key}, type=${opType}, placement=${placementKey}`);
       !local
         ? (validatePlacementNode(name, placementKey),
           !online && validateClusterNode(Cypress.env("managedCluster"))) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
@@ -604,14 +604,16 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     `Execute selectClusterDeployment with options clusterName=${clusterName} deployment=${deployment} and key=${key}`
   );
   if (deployment) {
-    const { local, online, matchingLabel } = deployment;
+    const { local, online, matchingLabel, existing } = deployment;
     cy.log(
-      `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel}`
+      `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel} existing=${existing}`
     );
     let clusterDeploymentCss = {
       localClusterID: "#local-cluster-checkbox",
       onlineClusterID: "#online-cluster-only-checkbox",
-      uniqueClusterID: "#clusterSelector-checkbox-clusterSelector"
+      uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
+      existingClusterID: "#existingrule-checkbox",
+      existingRuleComboID: "#placementrulecombo"
     };
     key == 0
       ? clusterDeploymentCss
@@ -622,10 +624,29 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     const {
       localClusterID,
       onlineClusterID,
-      uniqueClusterID
+      uniqueClusterID,
+      existingClusterID,
+      existingRuleComboID
     } = clusterDeploymentCss;
+    cy.log(
+      `existingClusterID=${existingClusterID} existingRuleCombo=${existingRuleComboID} existing=${existing}`
+    );
+    if (existing) {
+      cy.log(`Select to deploy using existing placement ${existing}`);
+      cy
+        .get(existingClusterID, { timeout: 50 * 1000 })
+        .click({ force: true })
+        .trigger("mouseover", { force: true });
 
-    if (online) {
+      cy.get(existingRuleComboID).within($rules => {
+        cy.get("[type='button']").click();
+        cy
+          .get(".bx--list-box__menu-item:first-of-type", {
+            timeout: 30 * 1000
+          })
+          .click();
+      });
+    } else if (online) {
       cy.log("Select to deploy to all online clusters including local cluster");
       cy
         .get(onlineClusterID, { timeout: 50 * 1000 })
@@ -651,7 +672,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
   }
 };
 
-export const selectMatchingLabel = (cluster = "magchen-ocp", key) => {
+export const selectMatchingLabel = (cluster, key) => {
   let matchingLabelCSS = {
     labelName: "#labelName-0-clusterSelector",
     labelValue: "#labelValue-0-clusterSelector"

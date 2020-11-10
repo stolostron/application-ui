@@ -217,9 +217,9 @@ export const validateSubscriptionTable = (
     //validate remote cluster value
     cy.log("Validate remote cluster values");
 
-    const { local, online, matchingLabel } = data.deployment;
+    const { local, online, matchingLabel, existing } = data.deployment;
     const onlineDeploy = online ? true : false;
-    const remoteDeploy = matchingLabel ? true : false;
+    const remoteDeploy = matchingLabel || existing ? true : false;
     const localDeploy = local ? true : false;
 
     let clusterText = "None";
@@ -297,9 +297,9 @@ export const getSingleAppClusterTimeDetails = (
       if (item.timeWindow) {
         hasWindow = "Yes"; // at list one window set
       }
-      const { local, online, matchingLabel } = item.deployment;
+      const { local, online, matchingLabel, existing } = item.deployment;
       onlineDeploy = onlineDeploy || online ? true : false; // if any subscription was set to online option, use that over anything else
-      remoteDeploy = matchingLabel ? true : remoteDeploy;
+      remoteDeploy = matchingLabel || existing ? true : remoteDeploy;
       localDeploy = local ? true : localDeploy;
     }
     index = index + 1;
@@ -379,11 +379,12 @@ export const verifyApplicationData = (name, data, opType) => {
             key == 0
               ? "#clusterSelector-checkbox-clusterSelector"
               : `#clusterSelector-checkbox-clusterSelectorgrp${key}`;
-          deployment.matchingLabel &&
+          (deployment.matchingLabel || deployment.existing) &&
             cy
               .get(matchingLabelId, { timeout: 20 * 1000 })
               .should("be.checked");
           !deployment.matchingLabel &&
+            !deployment.existing &&
             cy
               .get(matchingLabelId, { timeout: 20 * 1000 })
               .should("not.be.checked");

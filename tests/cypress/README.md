@@ -66,13 +66,13 @@ Afterwards, update the `tests/cypress/config/config.e2e.json` file with your con
 
 ### Adding Private Credentials
 
-There are two ways of adding private credentials.
+There are two ways of adding private credentials when inserting new subscriptions to existing applications.
 
-#The easier way
+#### The easier way
 
 - You could fill the corresponding credentials in either config.func.yaml or config.e2e.yaml, depending on which test mode you are running.
 
-#The hard way
+#### The hard way
 
 - OR You could export the env variables
   - `export GITHUB_PRIVATE_URL=${YOUR_PRIVATE_GIRHUB_URL}`
@@ -81,6 +81,9 @@ There are two ways of adding private credentials.
   - `export OBJECTSTORE_PRIVATE_URL=${YOUR_PRIVATE_OBJECTSTORE_URL}`
   - `export OBJECTSTORE_ACCESS_KEY=${YOUR_OBJECTSTORE_ACESS_KEY}`
   - `export OBJECTSTORE_SECRET_KEY=${YOUR_OBJECTSTORE_SECRET_KEY}`
+  - `export HELM_PRIVATE_URL=${YOUR_PRIVATE_HELM_URL}`
+  - `export HELM_USERNAME=${YOUR_HELM_USERNAME}`
+  - `export HELM_PASSWORD=${YOUR_HELM_PASSWORD}`
 
 #### Building and Running Cypress tests in a Docker Container
 

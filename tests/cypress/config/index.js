@@ -55,6 +55,19 @@ exports.getConfig = () => {
                   });
                 }
                 break;
+              case "helm":
+                if (
+                  process.env.HELM_USERNAME &&
+                  process.env.HELM_PASSWORD &&
+                  process.env.HELM_PRIVATE_URL
+                ) {
+                  data.new.forEach(instance => {
+                    instance.url = process.env.HELM_PRIVATE_URL;
+                    instance.username = process.env.HELM_USERNAME;
+                    instance.password = process.env.HELM_PASSWORD;
+                  });
+                }
+                break;
             }
           }
         }

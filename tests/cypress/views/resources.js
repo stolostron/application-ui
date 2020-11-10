@@ -43,6 +43,7 @@ export const apiResources = (type, data) => {
 };
 
 export const getSavedPathname = () => {
+  // returns a list of existing pathnames
   return cy
     .exec(`oc get channels -o=jsonpath='{.items[*].spec.pathname}' -A`)
     .then(result => {

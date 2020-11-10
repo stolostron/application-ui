@@ -32,6 +32,10 @@ describe("Edit application insert new subscription Test", () => {
             const clusterName = Cypress.env("managedCluster");
             addNewSubscription(data.name, data, clusterName);
           });
+          // will delete once finished
+          it(`manual wait to validate in UI`, () => {
+            cy.wait(200 * 1000);
+          });
           it(`Verify that ${
             data.name
           } is valid after new subscription is created`, () => {

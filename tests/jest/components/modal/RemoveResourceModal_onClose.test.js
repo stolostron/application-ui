@@ -119,26 +119,26 @@ describe("RemoveResourceModal test", () => {
     expect(toJson(component)).toMatchSnapshot();
 
     component
-      .find(".bx--modal--danger")
+      .find(".pf-c-modal-box")
       .at(0)
       .simulate("click");
     component
-      .find(".bx--modal--danger")
+      .find(".pf-c-modal-box")
       .at(0)
       .simulate("keydown");
 
     component
-      .find(".bx--modal-close")
+      .find(".pf-m-plain")
       .at(0)
       .simulate("click");
 
     component
-      .find(".bx--btn--tertiary")
+      .find(".pf-m-secondary")
       .at(0)
       .simulate("click");
 
     component
-      .find(".bx--btn--danger--primary")
+      .find(".pf-m-danger")
       .at(0)
       .simulate("click");
   });

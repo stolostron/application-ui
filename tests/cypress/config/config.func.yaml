@@ -4,7 +4,7 @@ git:
     - enable: true
       name: ui-git
       type: git
-      successNumber: 3 #should have at least 3 resources with status success in the cards status
+      successNumber: 2 #should have at least 3 resources with status success in the cards status
       new: # used when we add new subscriptions after app creation
         - url: https://github.com/fxiang1/app-samples.git
           username: ""
@@ -153,15 +153,15 @@ helm:
             matchingLabel: false
       config:
         - url: https://kubernetes-charts.storage.googleapis.com
-          chartName: airflow
-          packageVersion: 7.9.0
+          chartName: aerospike
+          packageVersion: 0.3.3
           deployment:
             local: false
             online: false
             matchingLabel: true
         - url: https://kubernetes-charts.storage.googleapis.com
-          chartName: bookstack
-          packageVersion: 1.2.1
+          chartName: airflow
+          packageVersion: 7.9.0
           timeWindow:
             setting: true
             type: blockinterval

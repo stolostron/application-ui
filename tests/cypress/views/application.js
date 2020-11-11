@@ -295,7 +295,7 @@ export const validateTopology = (
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();
   cy
-    .get(".search-query-card-loading", { timeout: 100 * 1000 })
+    .get(".search-query-card-loading", { timeout: 50 * 1000 })
     .should("not.exist");
   cy.get("#left-col").contains(name);
   cy.get("#left-col").contains(`${name}-ns`);
@@ -311,7 +311,7 @@ export const validateTopology = (
 
   //for now check on create app only
   cy
-    .get(".overview-cards-details-section", { timeout: 30 * 1000 })
+    .get(".overview-cards-details-section", { timeout: 50 * 1000 })
     .contains(appDetails.clusterData);
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
@@ -319,7 +319,7 @@ export const validateTopology = (
     `Verify that the deployed resources number with status success is at least ${successNumber}`
   );
   cy
-    .get("#green-resources", { timeout: 30 * 1000 })
+    .get("#green-resources", { timeout: 50 * 1000 })
     .children(".status-count")
     .invoke("text")
     .then(parseInt)
@@ -470,7 +470,7 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     .get("td")
     .eq(2)
     .invoke("text")
-    .should("eq", appDetails.clusterData);
+    .should("contains", appDetails.clusterData);
 
   const popupDefaultText =
     "Provide a description that will be used as the title";

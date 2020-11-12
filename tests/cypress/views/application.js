@@ -25,7 +25,8 @@ const gitCssValues = {
   gitKey: "#githubAccessId",
   gitBranch: "#githubBranch",
   gitPath: "#githubPath",
-  merge: "#gitReconcileOption"
+  merge: "#gitReconcileOption",
+  insecureSkipVerify: "#gitInsecureSkipVerify"
 };
 
 export const createApplication = (clusterName, data, type) => {
@@ -56,10 +57,19 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     path,
     timeWindow,
     deployment,
-    gitReconcileOption
+    gitReconcileOption,
+    gitInsecureSkipVerify
   } = value;
   cy.log(`gitTasks key=${key}, url=${url}, path=${path}`);
-  const { gitUrl, gitUser, gitKey, gitBranch, gitPath, merge } = gitCss;
+  const {
+    gitUrl,
+    gitUser,
+    gitKey,
+    gitBranch,
+    gitPath,
+    merge,
+    insecureSkipVerify
+  } = gitCss;
 
   cy
     .get(`#github`)
@@ -76,6 +86,9 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   }
   if (gitReconcileOption) {
     cy.get(merge).click({ force: true });
+  }
+  if (gitInsecureSkipVerify) {
+    cy.get(insecureSkipVerify).click({ force: true });
   }
   // wait for form to remove the users
   cy.wait(1000);

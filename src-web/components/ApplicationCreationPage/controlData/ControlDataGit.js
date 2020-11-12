@@ -145,6 +145,15 @@ const githubChannelData = [
     reverse:
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/reconcile-option"]'
   },
+  {
+    id: 'gitInsecureSkipVerify',
+    type: 'checkbox',
+    name: 'Disable server certificate verification',
+    tooltip:
+      'Disable server TLS certificate verification for Git server connection.',
+    active: false,
+    available: []
+  },
 
   ...prePostTasks,
 

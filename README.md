@@ -138,7 +138,6 @@ The full list of npm scripts are described below.
 | `npm run build:production`       | Does a FULL production build.                                                                                                    |
 | `npm run build:watch`            | Does a build of application code (w/o the DLL generation) and remains running in the background watching for changes.            |
 | `npm run build:dll`              | Only re-builds the the vendor library component.                                                                                 |
-| `npm run test:install-selenium`  | Install selenium standalone for running UI tests locally. Automatically invoked during `npm run test:e2e`                        |
 | `npm run lint`                   | Runs linting on the code base.                                                                                                   |
 | `npm run lint:fix`               | Attempts to fix any linting errors automatically.                                                                                |
 | `npm run shrinkwrap:clean`       | Regenerates a clean `npm-shrinkwrap.json` - THIS COMMAND SHOULD ONLY BE USED IN EXTREME CIRCUMSTANCES.                           |

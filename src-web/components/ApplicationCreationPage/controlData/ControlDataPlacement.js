@@ -242,8 +242,8 @@ const placementData = [
     validation: {}
   },
   {
-    name: 'creation.app.exitingRuleCombo',
-    tooltip: 'tooltip.creation.app.exitingRuleCombo',
+    name: 'creation.app.existingRuleCombo',
+    tooltip: 'tooltip.creation.app.existingRuleCombo',
     id: 'placementrulecombo',
     type: 'hidden',
     fetchAvailable: loadExistingPlacementRules(),

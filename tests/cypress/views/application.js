@@ -576,7 +576,7 @@ export const deleteApplicationUI = name => {
         timeout: 100 * 1000
       });
 
-    if (name != "ui-helm2") {
+    if (!name.includes("ui-helm2")) {
       //delete all resources
       cy.log(`Verify that the app and all resources are deleted for ${name}`);
       modal.clickResources();
@@ -589,7 +589,7 @@ export const deleteApplicationUI = name => {
     cy.log("No apps to delete...");
   }
 
-  if (name == "ui-helm2") {
+  if (name.includes("ui-helm2")) {
     //delete all resources from advanced table
     deleteResourceUI(name, "subscriptions");
     deleteResourceUI(name, "placementrules");

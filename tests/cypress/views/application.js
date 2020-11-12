@@ -364,7 +364,7 @@ export const validateTopology = (
     `Verify that the deployed resources number with status success is at least ${successNumber}`
   );
   cy
-    .get("#green-resources")
+    .get("#green-resources", { timeout: 30 * 1000 })
     .children(".status-count")
     .invoke("text")
     .then(parseInt)

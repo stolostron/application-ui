@@ -495,7 +495,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
             ? "Object storage"
             : data.type === "helm" ? "Helm" : "Git";
         cy
-          .get(".pf-c-label__content")
+          .get(".pf-c-label__content", { timeout: 20 * 1000 })
           .first()
           .invoke("text")
           .should("include", repositoryText);

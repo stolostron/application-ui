@@ -853,7 +853,7 @@ export const addNewSubscription = (name, data, clusterName) => {
   } else if (data.type === "helm") {
     createHelm(clusterName, data, true);
   }
-  // submitSave();
+  submitSave();
 };
 
 export const verifyEditAfterDeleteSubscription = (name, data) => {

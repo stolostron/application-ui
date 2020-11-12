@@ -564,3 +564,126 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
     }
   }
 };
+
+export const testInvalidApplicationInput = () => {
+  const validURL = "http://a.com";
+  const invalidValue = "INVALID VALUE";
+  const validValue = "default";
+
+  cy.visit("/multicloud/applications");
+  // wait for create button to be enabled
+  cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
+  cy.get(".bx--detail-page-header-title-container").should("exist");
+
+  cy.log("Test invalid name");
+  cy.get("#name", { timeout: 50 * 1000 }).type(invalidValue);
+  cy.get("#name-error-msg").should("exist");
+  cy.get("#name", { timeout: 50 * 1000 }).clear();
+  cy.get("#name-error-msg").should("not.exist");
+
+  cy.log("Test invalid namespace");
+  cy
+    .get("#namespace", { timeout: 50 * 1000 })
+    .type(invalidValue)
+    .blur();
+  cy.get("[data-invalid=true]", { timeout: 2 * 1000 }).should("exist");
+  cy
+    .get("#namespace", { timeout: 50 * 1000 })
+    .click()
+    .clear()
+    .type("default")
+    .blur();
+  cy.get("[data-invalid=true]").should("not.exist");
+
+  cy.log("Test invalid git url");
+  cy
+    .get("#github")
+    .click()
+    .trigger("mouseover");
+
+  cy.get("#labelName-0-clusterSelector").type("label");
+  cy.get("#labelValue-0-clusterSelector").type("value");
+
+  cy
+    .get("#githubURL", { timeout: 20 * 1000 })
+    .type(invalidValue)
+    .blur();
+  cy.get("[data-invalid=true]").should("exist");
+  cy.wait(1000);
+  cy
+    .get("#githubURL", { timeout: 20 * 1000 })
+    .click()
+    .clear()
+    .type(validURL)
+    .blur();
+  cy.get("[data-invalid=true]").should("not.exist");
+
+  cy
+    .get("#githubBranch", { timeout: 20 * 1000 })
+    .type(invalidValue)
+    .blur();
+  cy.get("[data-invalid=true]").should("exist");
+  cy.wait(2000);
+  cy
+    .get("#githubBranch", { timeout: 20 * 1000 })
+    .click()
+    .clear()
+    .type(validValue)
+    .blur();
+  cy.get("[data-invalid=true]").should("not.exist");
+
+  cy.log("Test invalid HELM url");
+  cy
+    .get("#github")
+    .click()
+    .trigger("mouseover");
+
+  cy
+    .get("#helmrepo")
+    .click()
+    .trigger("mouseover");
+
+  cy.get("#labelName-0-clusterSelector").type("label");
+  cy.get("#labelValue-0-clusterSelector").type("value");
+
+  cy
+    .get("#helmURL", { timeout: 20 * 1000 })
+    .type(invalidValue)
+    .blur();
+  cy.get("[data-invalid=true]").should("exist");
+  cy.wait(1000);
+  cy
+    .get("#helmURL", { timeout: 20 * 1000 })
+    .click()
+    .clear()
+    .type(validURL)
+    .blur();
+  cy.get("[data-invalid=true]").should("not.exist");
+
+  cy.log("Test invalid object store url");
+  cy
+    .get("#helmrepo")
+    .click()
+    .trigger("mouseover");
+  cy
+    .get("#objectstore")
+    .click()
+    .trigger("mouseover");
+
+  cy.get("#labelName-0-clusterSelector").type("label");
+  cy.get("#labelValue-0-clusterSelector").type("value");
+
+  cy
+    .get("#objectstoreURL", { timeout: 20 * 1000 })
+    .type(invalidValue)
+    .blur();
+  cy.get("[data-invalid=true]").should("exist");
+  cy.wait(1000);
+  cy
+    .get("#objectstoreURL", { timeout: 20 * 1000 })
+    .click()
+    .clear()
+    .type(validURL)
+    .blur();
+  cy.get("[data-invalid=true]").should("not.exist");
+};

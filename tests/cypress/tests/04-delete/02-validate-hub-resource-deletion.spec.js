@@ -3,33 +3,19 @@
  * Copyright (c) 2020 Red Hat, Inc.
  ****************************************************************************** */
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
-import {
-  apiResources,
-  targetResource,
-  validateTimewindow
-} from "../../views/resources";
+import { apiResources } from "../../views/resources";
 
-describe("Application application backend resources exist", () => {
+describe("Application backend validation that app hub resources have been removed", () => {
   for (const type in config) {
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
         it(`Verify that the apps ${
           data.name
-        } channels, subscription and placementrule are valid - ${type}: ${
+        } subscription and placementrule no longer exist - ${type}: ${
           data.name
         }`, () => {
-          apiResources(type, data, "contain");
-        });
-        it(`Validate apps ${data.name} timewindow - ${type}: ${
-          data.name
-        }`, () => {
-          validateTimewindow(data.name, data.config);
-        });
-        it(`Validate apps ${
-          data.name
-        } resources created on the target cluster`, () => {
-          targetResource(data);
+          apiResources(type, data, "not.contain");
         });
       } else {
         it(`disable validation on resource ${type}`, () => {

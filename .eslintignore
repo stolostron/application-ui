@@ -2,7 +2,6 @@ node_modules
 public/*
 coverage/*
 storybook-static
-nightwatch.conf.js
 test-output/*
 webpack.config.js
 travis-scripts

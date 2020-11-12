@@ -17,12 +17,6 @@ import msgs from '../../../nls/platform.properties'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import { SEARCH_QUERY_RELATED } from '../../apollo-client/queries/SearchQueries'
-import {
-  Checkbox,
-  Modal,
-  Loading,
-  Notification
-} from 'carbon-components-react'
 import { canCallAction } from '../../../lib/client/access-helper'
 import {
   forceResourceReload,
@@ -32,6 +26,12 @@ import {
   getQueryStringForResource
 } from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import {
+  AcmModal,
+  AcmLoadingPage,
+  AcmAlert
+} from '@open-cluster-management/ui-components'
+import { Checkbox, Button } from '@patternfly/react-core'
 
 class RemoveResourceModal extends React.Component {
   constructor(props) {
@@ -52,7 +52,6 @@ class RemoveResourceModal extends React.Component {
   UNSAFE_componentWillMount() {
     if (this.props.data) {
       const { data } = this.props
-      this.getChildResources(data.name, data.namespace)
       const kind = data.selfLink.split('/')
       const apiGroup = kind[1] === 'apis' ? kind[2] : ''
       canCallAction(
@@ -68,6 +67,7 @@ class RemoveResourceModal extends React.Component {
             ? undefined
             : msgs.get('table.actions.remove.unauthorized', this.context.locale)
         })
+        this.getChildResources(data.name, data.namespace)
       })
       this.setState({
         name: data.name,
@@ -80,7 +80,8 @@ class RemoveResourceModal extends React.Component {
   getChildResources = (name, namespace) => {
     try {
       const { resourceType } = this.props
-      if (resourceType.name === 'HCMApplication') {
+      const { canRemove } = this.state
+      if (resourceType.name === 'HCMApplication' && canRemove) {
         // Get application resources
         apolloClient.getApplication({ name, namespace }).then(response => {
           const children = []
@@ -290,6 +291,14 @@ class RemoveResourceModal extends React.Component {
     }
   }
 
+  modalLoading = () => {
+    return (
+      <div>
+        <AcmLoadingPage />
+      </div>
+    )
+  };
+
   modalBody = (name, label, locale) => {
     switch (label.label) {
     case 'modal.remove-hcmapplication.label':
@@ -307,12 +316,9 @@ class RemoveResourceModal extends React.Component {
           <div className="remove-app-modal-content-data">
             <Checkbox
               id={'remove-app-resources'}
-              checked={this.state.removeAppResources}
+              isChecked={this.state.removeAppResources}
               onChange={this.toggleRemoveAppResources}
-              labelText={msgs.get(
-                'modal.remove.application.resources',
-                locale
-              )}
+              label={msgs.get('modal.remove.application.resources', locale)}
               />
           </div>
           <div>
@@ -331,44 +337,57 @@ class RemoveResourceModal extends React.Component {
           </div>
         </div>
       ) : (
-        <p>{msgs.get('modal.remove.confirm', [name], locale)}</p>
+        msgs.get('modal.remove.confirm', [name], locale)
       )
     default:
-      return <p>{msgs.get('modal.remove.confirm', [name], locale)}</p>
+      return msgs.get('modal.remove.confirm', [name], locale)
     }
   };
 
   render() {
     const { label, locale, open } = this.props
     const { canRemove, name, loading, errors } = this.state
-    const bodyLabel =
-      msgs.get(label.label, locale) ||
-      msgs.get('modal.remove.resource', locale)
     const heading = msgs.get(label.heading, locale)
     return (
       <div>
-        {loading && <Loading />}
-        <Modal
-          danger
+        <AcmModal
           id="remove-resource-modal"
-          open={open}
-          primaryButtonText={msgs.get(label.primaryBtn, locale)}
-          secondaryButtonText={msgs.get('modal.button.cancel', locale)}
-          modalLabel={bodyLabel}
-          modalHeading={heading}
-          onRequestClose={this.handleClose.bind(this)}
-          onRequestSubmit={this.handleSubmit.bind(this)}
-          role="region"
+          isOpen={open}
+          title={heading}
           aria-label={heading}
-          primaryButtonDisabled={!canRemove}
+          showClose={true}
+          onClose={this.handleClose.bind(this)}
+          variant="medium"
+          actions={[
+            <Button
+              key="confirm"
+              variant="danger"
+              isDisabled={!canRemove || loading}
+              onClick={this.handleSubmit.bind(this)}
+            >
+              {msgs.get(label.primaryBtn, locale)}
+            </Button>,
+            <Button
+              key="cancel"
+              variant="secondary"
+              onClick={this.handleClose.bind(this)}
+            >
+              {msgs.get('modal.button.cancel', locale)}
+            </Button>
+          ]}
         >
-          <div>
+          <div className="remove-app-modal-alert">
             {errors !== undefined ? (
-              <Notification kind="error" title="" subtitle={errors} />
+              <AcmAlert
+                variant="danger"
+                variantLabel=""
+                title={errors}
+                isInline={true}
+              />
             ) : null}
           </div>
-          {this.modalBody(name, label, locale)}
-        </Modal>
+          {loading ? this.modalLoading() : this.modalBody(name, label, locale)}
+        </AcmModal>
       </div>
     )
   }

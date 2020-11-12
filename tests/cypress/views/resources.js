@@ -15,7 +15,7 @@ export const targetResource = data => {
       for (const [key, value] of Object.entries(config)) {
         cy.log(`instance-${key}`);
         !value.deployment.local
-          ? subscription(key, name, kubeconfig)
+          ? subscription(key, name, kubeconfig, "contain")
           : cy.log(`${name} has been deployed locally`);
       }
     });
@@ -26,16 +26,18 @@ export const targetResource = data => {
   }
 };
 
-export const apiResources = (type, data) => {
+export const apiResources = (type, data, returnType) => {
   const name = data.name;
   const config = data.config;
 
   for (const [key, value] of Object.entries(config)) {
     cy.log(`instance-${key}`);
-    channels(key, type, name);
-    subscription(key, name);
+    if (returnType == "contain") {
+      channels(key, type, name);
+    }
+    subscription(key, name, "", returnType);
     !value.deployment.local
-      ? placementrule(key, name)
+      ? placementrule(key, name, returnType)
       : cy.log(
           "placement will not be created as the application is deployed locally"
         );
@@ -73,41 +75,45 @@ export const channelsInformation = (name, key) => {
 export const channels = async (key, type, name) => {
   channelsInformation(name, key).then(({ channelNs, channelName }) => {
     cy.log(`validate the ${type} channel`);
-    cy.exec(`oc get channel ${channelName} -n ${channelNs}`);
-    cy.exec(`oc get ns ${channelNs}`);
+    cy
+      .exec(`oc get channel ${channelName} -n ${channelNs}`)
+      .its("code")
+      .should("eq", 0);
   });
 };
 
-export const placementrule = (key, name) => {
+export const placementrule = (key, name, containType) => {
   cy.log(`validate the placementrule`);
   cy.exec(`oc get placementrule -n ${name}-ns`).then(({ stdout, stderr }) => {
-    cy.exec(
-      `oc get placementrule ${name}-placement-${parseInt(key) +
-        1} -n ${name}-ns`
-    );
-    cy.exec(`oc get ns ${name}-ns`);
+    const placement_name = `${name}-placement-${parseInt(key) + 1}`;
+    cy
+      .exec(`oc get placementrule ${placement_name} -n ${name}-ns`, {
+        failOnNonZeroExit: false
+      })
+      .its("stdout")
+      .should(containType, placement_name);
   });
 };
 
-export const subscription = (key, name, kubeconfig = "") => {
+export const subscription = (key, name, kubeconfig = "", containType) => {
   let managedCluster = kubeconfig ? `--kubeconfig ${kubeconfig}` : "";
 
   cy.log(`validate the subscription`);
   cy.exec(`oc ${managedCluster} get subscriptions -n ${name}-ns`).then(() => {
     if (!managedCluster) {
-      cy.exec(
-        `oc get subscription ${name}-subscription-${parseInt(key) +
-          1} -n ${name}-ns`
-      );
+      const subscription_name = `${name}-subscription-${parseInt(key) + 1}`;
+      cy
+        .exec(`oc get subscription ${subscription_name} -n ${name}-ns`, {
+          failOnNonZeroExit: false
+        })
+        .its("stdout")
+        .should(containType, subscription_name);
     } else {
       cy.exec(
         `oc ${managedCluster} get subscription -n ${name}-ns | awk 'NR>1 {print $1}'`
       );
     }
   });
-  // namespace
-  cy.log(`validate the namespace`);
-  cy.exec(`oc  ${managedCluster} get ns ${name}-ns`);
 };
 
 export const validateTimewindow = (name, config) => {

@@ -87,7 +87,7 @@ objectstore:
           secretKey: dummy2
           timeWindow:
             setting: true
-            type: activeinterval
+            type: blockinterval
             date:
               - Monday
               - Tuesday
@@ -110,7 +110,7 @@ objectstore:
           secretKey: dummy22
           timeWindow:
             setting: true
-            type: blockinterval
+            type: activeinterval
             date:
               - Monday
               - Tuesday

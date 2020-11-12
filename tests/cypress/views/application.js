@@ -247,7 +247,7 @@ export const validateAdvancedTables = (
     }`
   );
   for (const [key, subscriptionItem] of Object.entries(data.config)) {
-    const { local, online, matchingLabel } = subscriptionItem.deployment;
+    const { local } = subscriptionItem.deployment;
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
         subscriptions: `${name}-subscription-${parseInt(key) + 1}`,
@@ -295,7 +295,7 @@ export const validateTopology = (
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();
   cy
-    .get(".search-query-card-loading", { timeout: 100 * 1000 })
+    .get(".search-query-card-loading", { timeout: 50 * 1000 })
     .should("not.exist");
   cy.get("#left-col").contains(name);
   cy.get("#left-col").contains(`${name}-ns`);
@@ -310,20 +310,20 @@ export const validateTopology = (
   );
 
   //for now check on create app only
-  cy.get(".overview-cards-details-section").contains(appDetails.clusterData);
+  cy
+    .get(".overview-cards-details-section", { timeout: 50 * 1000 })
+    .contains(appDetails.clusterData);
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
   cy.log(
     `Verify that the deployed resources number with status success is at least ${successNumber}`
   );
   cy
-    .get("#green-resources")
+    .get("#green-resources", { timeout: 50 * 1000 })
     .children(".status-count")
     .invoke("text")
     .then(parseInt)
-    .should("be.gte", successNumber, {
-      timeout: 100 * 1000
-    });
+    .should("be.gte", successNumber);
 
   validateSubscriptionDetails(name, data, type, opType);
 
@@ -352,11 +352,9 @@ export const validateTopology = (
       //if opType is create, the first subscription was removed by the delete subs test, use the new config option
       const { local, online } =
         key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
-      const placementKey =
-        opType == "create" ? key : opType == "add" ? parseInt(key) + 1 : key;
-      cy.log(`AAAA ${key}, ${opType}, ${placementKey}`);
+      cy.log(` key=${key}, type=${opType}`);
       !local
-        ? (validatePlacementNode(name, placementKey),
+        ? (validatePlacementNode(name, key),
           !online && validateClusterNode(Cypress.env("managedCluster"))) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
         : cy.log(
             "cluster and placement nodes will not be created as the application is deployed locally"
@@ -472,7 +470,7 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     .get("td")
     .eq(2)
     .invoke("text")
-    .should("eq", appDetails.clusterData);
+    .should("contains", appDetails.clusterData);
 
   const popupDefaultText =
     "Provide a description that will be used as the title";
@@ -578,7 +576,7 @@ export const deleteApplicationUI = name => {
         timeout: 100 * 1000
       });
 
-    if (name != "ui-helm2") {
+    if (!name.includes("ui-helm2")) {
       //delete all resources
       cy.log(`Verify that the app and all resources are deleted for ${name}`);
       modal.clickResources();
@@ -591,7 +589,7 @@ export const deleteApplicationUI = name => {
     cy.log("No apps to delete...");
   }
 
-  if (name == "ui-helm2") {
+  if (name.includes("ui-helm2")) {
     //delete all resources from advanced table
     deleteResourceUI(name, "subscriptions");
     deleteResourceUI(name, "placementrules");
@@ -604,14 +602,16 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     `Execute selectClusterDeployment with options clusterName=${clusterName} deployment=${deployment} and key=${key}`
   );
   if (deployment) {
-    const { local, online, matchingLabel } = deployment;
+    const { local, online, matchingLabel, existing } = deployment;
     cy.log(
-      `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel}`
+      `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel} existing=${existing}`
     );
     let clusterDeploymentCss = {
       localClusterID: "#local-cluster-checkbox",
       onlineClusterID: "#online-cluster-only-checkbox",
-      uniqueClusterID: "#clusterSelector-checkbox-clusterSelector"
+      uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
+      existingClusterID: "#existingrule-checkbox",
+      existingRuleComboID: "#placementrulecombo"
     };
     key == 0
       ? clusterDeploymentCss
@@ -622,10 +622,29 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     const {
       localClusterID,
       onlineClusterID,
-      uniqueClusterID
+      uniqueClusterID,
+      existingClusterID,
+      existingRuleComboID
     } = clusterDeploymentCss;
+    cy.log(
+      `existingClusterID=${existingClusterID} existingRuleCombo=${existingRuleComboID} existing=${existing}`
+    );
+    if (existing) {
+      cy.log(`Select to deploy using existing placement ${existing}`);
+      cy
+        .get(existingClusterID, { timeout: 50 * 1000 })
+        .click({ force: true })
+        .trigger("mouseover", { force: true });
 
-    if (online) {
+      cy.get(existingRuleComboID).within($rules => {
+        cy.get("[type='button']").click();
+        cy
+          .get(".bx--list-box__menu-item:first-of-type", {
+            timeout: 30 * 1000
+          })
+          .click();
+      });
+    } else if (online) {
       cy.log("Select to deploy to all online clusters including local cluster");
       cy
         .get(onlineClusterID, { timeout: 50 * 1000 })
@@ -651,7 +670,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
   }
 };
 
-export const selectMatchingLabel = (cluster = "magchen-ocp", key) => {
+export const selectMatchingLabel = (cluster, key) => {
   let matchingLabelCSS = {
     labelName: "#labelName-0-clusterSelector",
     labelValue: "#labelValue-0-clusterSelector"

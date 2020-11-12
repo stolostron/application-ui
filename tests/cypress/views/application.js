@@ -85,11 +85,11 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     cy.get(merge).click({ force: true });
   }
   // wait for form to remove the users
-  cy.wait(10 * 1000);
   // type in branch and path
   cy
     .get(".bx—inline.loading", { timeout: 30 * 1000 })
     .should("not.exist", { timeout: 30 * 1000 });
+  cy.wait(10 * 1000);
   cy
     .get(gitBranch, { timeout: 50 * 1000 })
     .type(branch, { timeout: 50 * 1000 })
@@ -836,9 +836,7 @@ export const deleteFirstSubscription = (name, data) => {
           cy.get(".creation-view-controls-delete-button").click();
         });
     });
-    modal.shouldNotBeDisabled();
-    modal.clickSubmit();
-    notification.shouldExist("success", { timeout: 60 * 1000 });
+    submitSave();
   } else {
     cy.log(`skipping ${name} since it's a single application...`);
   }
@@ -855,7 +853,7 @@ export const addNewSubscription = (name, data, clusterName) => {
   } else if (data.type === "helm") {
     createHelm(clusterName, data, true);
   }
-  submitSave();
+  // submitSave();
 };
 
 export const verifyEditAfterDeleteSubscription = (name, data) => {

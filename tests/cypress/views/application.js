@@ -731,6 +731,13 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
         }
       });
     }
+
+    // Check that time window mode is still selected after toggling YAML editor
+    if (key == 0) {
+      cy.get("#edit-yaml", { timeout: 10 * 1000 }).click({ force: true });
+      cy.get("#edit-yaml", { timeout: 10 * 1000 }).click({ force: true });
+      cy.get(typeID).should("be.checked");
+    }
   } else {
     cy.log("leave default `active`");
   }

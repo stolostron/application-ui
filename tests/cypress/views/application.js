@@ -63,6 +63,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
 
   cy
     .get(`#github`)
+    .scrollIntoView()
     .click()
     .trigger("mouseover");
 
@@ -70,7 +71,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     .get(gitUrl, { timeout: 20 * 1000 })
     .type(url, { timeout: 50 * 1000 })
     .blur();
-  checkExistingUrls(gitUser, username, gitKey, token);
+  checkExistingUrls(gitUser, username, gitKey, token, url);
 
   if (gitReconcileOption) {
     cy.get(merge).click({ force: true });
@@ -148,7 +149,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .get(helmURL, { timeout: 20 * 1000 })
     .type(url, { timeout: 30 * 1000 })
     .blur();
-  checkExistingUrls(helmUsername, username, helmPassword, password);
+  checkExistingUrls(helmUsername, username, helmPassword, password, url);
 
   cy
     .get(helmChartName, { timeout: 20 * 1000 })
@@ -221,7 +222,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
     .click()
     .trigger("mouseover");
   cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
-  checkExistingUrls(objAccess, accessKey, objSecret, secretKey);
+  checkExistingUrls(objAccess, accessKey, objSecret, secretKey, url);
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };

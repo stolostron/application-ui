@@ -757,7 +757,7 @@ export const deleteFirstSubscription = (name, data) => {
           cy.get(".creation-view-controls-delete-button").click();
         });
     });
-    submitSave();
+    submitSave(true);
   } else {
     cy.log(`skipping ${name} since it's a single application...`);
   }
@@ -774,7 +774,7 @@ export const addNewSubscription = (name, data, clusterName) => {
   } else if (data.type === "helm") {
     createHelm(clusterName, data, true);
   }
-  submitSave();
+  submitSave(true);
 };
 
 export const verifyEditAfterDeleteSubscription = (name, data) => {

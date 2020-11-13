@@ -4,7 +4,7 @@ git:
     - enable: true
       name: ui-git
       type: git
-      successNumber: 2 #should have at least 3 resources with status success in the cards status
+      successNumber: 0
       new: # used when we add new subscriptions after app creation
         - url: https://github.com/fxiang1/app-samples.git
           username: ""

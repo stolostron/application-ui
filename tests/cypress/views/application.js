@@ -566,7 +566,9 @@ export const deleteResourceUI = (name, type) => {
   resourceTable.openRowMenu(resourceTypes[type]);
   resourceTable.menuClickDelete(type);
   modal.shouldBeOpen();
-
+  cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.be.visible", {
+    timeout: 100 * 1000
+  });
   modal.clickDanger();
   modal.shouldBeClosed();
 
@@ -584,7 +586,7 @@ export const deleteApplicationUI = name => {
     modal.shouldBeOpen();
 
     cy
-      .get(".bx--loading-overlay", { timeout: 50 * 1000 })
+      .get(".pf-c-empty-state", { timeout: 50 * 1000 })
       .should("not.be.visible", {
         timeout: 100 * 1000
       });

@@ -18,15 +18,9 @@
     "test:unit": "jest --colors",
     "test": "jest --silent",
     "test:watch": "jest --watch",
-    "test:e2e": "nightwatch ./tests/e2e -e chrome.headless",
     "test:update-snapshot": "jest --updateSnapshot",
     "storybook": "start-storybook -p 6006 -s ./public,./node_modules/carbon-components/css",
     "build-storybook": "build-storybook",
-    "test:chrome": "nightwatch ./tests/e2e -e chrome",
-    "test:firefox": "nightwatch ./tests/e2e -e firefox",
-    "test:safari": "nightwatch ./tests/e2e -e safari",
-    "test:chrome.headless": "nightwatch ./tests/e2e -e chrome.headless",
-    "test:firefox.headless": "nightwatch ./tests/e2e -e firefox.headless",
     "test:slack": "node tests/cypress/scripts/slack-reporter.js"
   },
   "husky": {
@@ -202,7 +196,6 @@
     "jsonfile": "^4.0.0",
     "lint-staged": "^7.0.0",
     "monaco-editor-webpack-plugin": "^1.9.1",
-    "nightwatch": "^1.5.0",
     "node-sass": "^4.14.1",
     "postcss-loader": "^2.1.4",
     "prettier": "1.11.0",

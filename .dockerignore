@@ -33,7 +33,6 @@ travis-env.sh
 package.json
 travis-scripts
 copy.sh
-nightwatch*
 upload-selenium.sh
 webpack*
 version.ejs

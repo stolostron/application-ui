@@ -162,7 +162,7 @@ class YamlEditor extends React.Component {
             wordWrap: 'wordWrapColumn',
             wordWrapColumn: 132,
             wordWrapMinified: false,
-            scrollBeyondLastLine: false,
+            scrollBeyondLastLine: true,
             smoothScrolling: true,
             glyphMargin: true,
             tabSize: 2,

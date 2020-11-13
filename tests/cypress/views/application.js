@@ -499,12 +499,12 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
   repositoryText = `${repositoryText}${popupDefaultText}`;
   cy.log("Validate Repository column");
   cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
+    .get(".resource-table", { timeout: 30 * 1000 })
+    .get(`tr[data-row-name="${name}"]`, { timeout: 30 * 1000 })
+    .get("td", { timeout: 30 * 1000 })
     .eq(3)
     .invoke("text")
-    .should("eq", repositoryText);
+    .should("eq", repositoryText, { timeout: 50 * 1000 });
 
   cy.log("Validate Repository popup");
   cy

@@ -608,7 +608,8 @@ export const deleteApplicationUI = name => {
     //delete all resources from advanced table
     deleteResourceUI(name, "subscriptions");
     deleteResourceUI(name, "placementrules");
-    deleteResourceUI(name, "channels");
+    // no existing channels
+    // deleteResourceUI(name, "channels");
   }
 };
 

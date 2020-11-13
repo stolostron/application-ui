@@ -4,7 +4,7 @@ git:
     - enable: true
       name: ui-git
       type: git
-      successNumber: 2 #should have at least 3 resources with status success in the cards status
+      successNumber: 0
       new: # used when we add new subscriptions after app creation
         - url: https://github.com/fxiang1/app-samples.git
           username: ""
@@ -26,8 +26,8 @@ git:
             existing: true
             local: false
             online: false
-            matchingLabel: false                 
-      config:    
+            matchingLabel: false
+      config:
         - url: https://github.com/fxiang1/app-samples.git
           username: ""
           token: ""
@@ -48,7 +48,7 @@ git:
           deployment:
             local: false
             online: false
-            matchingLabel: true 
+            matchingLabel: true
         - url: https://github.com/fxiang1/app-samples.git
           username: ""
           token: ""
@@ -75,7 +75,7 @@ objectstore:
               - Friday
             hours:
               - start: "18:00"
-                end: "22:00"       
+                end: "22:00"
           deployment:
             existing: true
             local: false
@@ -136,6 +136,8 @@ helm:
       successNumber: 0
       new: # used when we add new subscriptions after app creation
         - url: https://kubernetes-charts.storage.googleapis.com
+          username: ""
+          password: ""
           chartName: aerospike
           packageVersion: 0.3.3
           timeWindow:
@@ -145,7 +147,7 @@ helm:
               - Monday
             hours:
               - start: "08:00"
-                end: "12:00"            
+                end: "12:00"
           deployment:
             existing: true
             local: false
@@ -153,6 +155,8 @@ helm:
             matchingLabel: false
       config:
         - url: https://kubernetes-charts.storage.googleapis.com
+          username: ""
+          password: ""
           chartName: aerospike
           packageVersion: 0.3.3
           deployment:
@@ -160,6 +164,8 @@ helm:
             online: false
             matchingLabel: true
         - url: https://kubernetes-charts.storage.googleapis.com
+          username: ""
+          password: ""
           chartName: airflow
           packageVersion: 7.9.0
           timeWindow:
@@ -169,7 +175,7 @@ helm:
               - Monday
             hours:
               - start: "08:00"
-                end: "12:00"            
+                end: "12:00"
           deployment:
             local: true
             online: false
@@ -177,12 +183,13 @@ helm:
     - enable: true
       name: ui-helm2
       type: helm
-      successNumber: 2      
+      successNumber: 2
       config:
         - url: https://kubernetes-charts.storage.googleapis.com
+          username: ""
+          password: ""
           chartName: aerospike
           deployment:
             local: false
             online: true
-            matchingLabel: false            
-
+            matchingLabel: false

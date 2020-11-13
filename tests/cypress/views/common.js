@@ -112,10 +112,13 @@ export const modal = {
       .get(".bx--btn.bx--btn--primary", { timeout: 20000 })
       .should("be.disabled"),
   clickSubmit: () =>
-    cy.get(".bx--btn.bx--btn--primary", { timeout: 20000 }).click(),
+    cy
+      .get(".bx--btn.bx--btn--primary", { timeout: 20000 })
+      .click({ force: true }),
   clickResources: () =>
     cy.get("#remove-app-resources", { timeout: 20000 }).click({ force: true }),
-  clickDanger: () => cy.get(".pf-m-danger", { timeout: 20000 }).click(),
+  clickDanger: () =>
+    cy.get(".pf-m-danger", { timeout: 20000 }).click({ force: true }),
   clickPrimary: () =>
     cy
       .get(".bx--btn.bx--btn--sm.bx--btn--primary, .pf-c-button.pf-m-primary", {
@@ -498,7 +501,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
             ? "Object storage"
             : data.type === "helm" ? "Helm" : "Git";
         cy
-          .get(".pf-c-label__content")
+          .get(".pf-c-label__content", { timeout: 200 * 1000 })
           .first()
           .invoke("text")
           .should("include", repositoryText);
@@ -597,8 +600,8 @@ export const testInvalidApplicationInput = () => {
 
   cy.log("Test invalid git url");
   cy
-    .get("#github")
-    .click()
+    .get("#github", { timeout: 20 * 1000 })
+    .click({ force: true })
     .trigger("mouseover");
 
   cy.get("#labelName-0-clusterSelector").type("label");

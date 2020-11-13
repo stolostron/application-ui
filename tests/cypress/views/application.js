@@ -17,7 +17,7 @@ import {
   validateSubscriptionDetails
 } from "./common";
 
-import { channelsInformation } from "./resources.js";
+import { channelsInformation, checkExistingUrls } from "./resources.js";
 
 const gitCssValues = {
   gitUrl: "#githubURL",
@@ -63,26 +63,28 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
 
   cy
     .get(`#github`)
+    .scrollIntoView()
     .click()
     .trigger("mouseover");
 
   cy
     .get(gitUrl, { timeout: 20 * 1000 })
-    .type(url, { timeout: 30 * 1000 })
+    .type(url, { timeout: 50 * 1000 })
     .blur();
-  if (username && token) {
-    cy.get(gitUser).type(username);
-    cy.get(gitKey).type(token);
-  }
+  checkExistingUrls(gitUser, username, gitKey, token, url);
+
   if (gitReconcileOption) {
     cy.get(merge).click({ force: true });
   }
   // wait for form to remove the users
-  cy.wait(1000);
   // type in branch and path
   cy
-    .get(gitBranch, { timeout: 20 * 1000 })
-    .type(branch, { timeout: 30 * 1000 })
+    .get(".bx—inline.loading", { timeout: 30 * 1000 })
+    .should("not.exist", { timeout: 30 * 1000 });
+  cy.wait(10 * 1000);
+  cy
+    .get(gitBranch, { timeout: 50 * 1000 })
+    .type(branch, { timeout: 50 * 1000 })
     .blur();
   cy.wait(1000);
   cy
@@ -96,6 +98,8 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
 export const createHelm = (clusterName, configs, addOperation) => {
   let helmCss = {
     helmURL: "#helmURL",
+    helmUsername: "#helmUser",
+    helmPassword: "#helmPassword",
     helmChartName: "#helmChartName",
     helmPackageVersion: "#helmPackageVersion"
   };
@@ -121,8 +125,22 @@ export const createHelm = (clusterName, configs, addOperation) => {
 };
 
 export const helmTasks = (clusterName, value, css, key = 0) => {
-  const { url, chartName, packageVersion, timeWindow, deployment } = value;
-  const { helmURL, helmChartName, helmPackageVersion } = css;
+  const {
+    url,
+    username,
+    password,
+    chartName,
+    packageVersion,
+    timeWindow,
+    deployment
+  } = value;
+  const {
+    helmURL,
+    helmUsername,
+    helmPassword,
+    helmChartName,
+    helmPackageVersion
+  } = css;
   cy
     .get("#helmrepo")
     .click()
@@ -131,6 +149,8 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .get(helmURL, { timeout: 20 * 1000 })
     .type(url, { timeout: 30 * 1000 })
     .blur();
+  checkExistingUrls(helmUsername, username, helmPassword, password, url);
+
   cy
     .get(helmChartName, { timeout: 20 * 1000 })
     .type(chartName)
@@ -202,14 +222,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
     .click()
     .trigger("mouseover");
   cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
-  cy.get(objAccess).then(input => {
-    if (input.is("enabled")) {
-      cy.get(objAccess).type(accessKey);
-      cy.get(objSecret).type(secretKey);
-    } else {
-      cy.log(`credentials have not been saved...`);
-    }
-  });
+  checkExistingUrls(objAccess, accessKey, objSecret, secretKey, url);
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
@@ -310,6 +323,9 @@ export const validateTopology = (
   );
 
   //for now check on create app only
+  cy
+    .get(".search-query-card-loading", { timeout: 50 * 1000 })
+    .should("not.exist");
   cy
     .get(".overview-cards-details-section", { timeout: 50 * 1000 })
     .contains(appDetails.clusterData);
@@ -486,12 +502,12 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
   repositoryText = `${repositoryText}${popupDefaultText}`;
   cy.log("Validate Repository column");
   cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
+    .get(".resource-table", { timeout: 30 * 1000 })
+    .get(`tr[data-row-name="${name}"]`, { timeout: 30 * 1000 })
+    .get("td", { timeout: 30 * 1000 })
     .eq(3)
     .invoke("text")
-    .should("eq", repositoryText);
+    .should("eq", repositoryText, { timeout: 50 * 1000 });
 
   cy.log("Validate Repository popup");
   cy
@@ -553,7 +569,9 @@ export const deleteResourceUI = (name, type) => {
   resourceTable.openRowMenu(resourceTypes[type]);
   resourceTable.menuClickDelete(type);
   modal.shouldBeOpen();
-
+  cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.be.visible", {
+    timeout: 100 * 1000
+  });
   modal.clickDanger();
   modal.shouldBeClosed();
 
@@ -571,7 +589,7 @@ export const deleteApplicationUI = name => {
     modal.shouldBeOpen();
 
     cy
-      .get(".bx--loading-overlay", { timeout: 50 * 1000 })
+      .get(".pf-c-empty-state", { timeout: 50 * 1000 })
       .should("not.be.visible", {
         timeout: 100 * 1000
       });
@@ -593,7 +611,8 @@ export const deleteApplicationUI = name => {
     //delete all resources from advanced table
     deleteResourceUI(name, "subscriptions");
     deleteResourceUI(name, "placementrules");
-    deleteResourceUI(name, "channels");
+    // no existing channels
+    // deleteResourceUI(name, "channels");
   }
 };
 
@@ -815,9 +834,7 @@ export const deleteFirstSubscription = (name, data) => {
           cy.get(".creation-view-controls-delete-button").click();
         });
     });
-    modal.shouldNotBeDisabled();
-    modal.clickSubmit();
-    notification.shouldExist("success", { timeout: 60 * 1000 });
+    submitSave();
   } else {
     cy.log(`skipping ${name} since it's a single application...`);
   }
@@ -834,10 +851,7 @@ export const addNewSubscription = (name, data, clusterName) => {
   } else if (data.type === "helm") {
     createHelm(clusterName, data, true);
   }
-
-  modal.shouldNotBeDisabled();
-  modal.clickSubmit();
-  notification.shouldExist("success", { timeout: 60 * 1000 });
+  submitSave();
 };
 
 export const verifyEditAfterDeleteSubscription = (name, data) => {

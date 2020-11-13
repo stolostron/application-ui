@@ -44,6 +44,37 @@ export const apiResources = (type, data, returnType) => {
   }
 };
 
+export const checkExistingUrls = (css1, value1, css2, value2, url) => {
+  getSavedPathname().then(({ urllist }) => {
+    if (!urllist.includes(url)) {
+      if (value1 && value2) {
+        cy
+          .get(css1, { timeout: 20 * 1000 })
+          .type(value1, { log: false, timeout: 20 * 1000 });
+        cy
+          .get(css2, { timeout: 20 * 1000 })
+          .type(value2, { log: false, timeout: 20 * 1000 });
+      }
+    } else {
+      cy.log(`credentials have been saved for url - ${url}`);
+    }
+  });
+};
+
+export const getSavedPathname = () => {
+  // returns a list of existing pathnames
+  return cy
+    .exec(`oc get channels -o=jsonpath='{.items[*].spec.pathname}' -A`, {
+      timeout: 50 * 1000
+    })
+    .then(result => {
+      const urllist = result.stdout.split(" ").filter(i => i);
+      return {
+        urllist: urllist
+      };
+    });
+};
+
 export const channelsInformation = (name, key) => {
   // Return a Cypress chain with channel name/namespace from subscription
   return cy

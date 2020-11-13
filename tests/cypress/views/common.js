@@ -12,6 +12,92 @@ export const pageLoader = {
     cy.get(".content-spinner", { timeout: 20000 }).should("not.exist")
 };
 
+export const selectDate = (date, key) => {
+  date.forEach(d => {
+    const dateId = d.toLowerCase().substring(0, 3) + "-timeWindow";
+    key == 0
+      ? cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
+      : cy
+          .get(`#${dateId}grp${key}`, { timeout: 20 * 1000 })
+          .click({ force: true });
+  });
+};
+
+export const selectTimeWindow = (timeWindow, key = 0) => {
+  if (!timeWindow) {
+    cy.log("timeWindow info not available, ignore this section");
+    return;
+  }
+  const { setting, type, date, hours } = timeWindow;
+  if (setting && date) {
+    cy.log(`Select TimeWindow - ${type}...`);
+    let typeID;
+    key == 0
+      ? (typeID =
+          type === "blockinterval"
+            ? "#blocked-mode-timeWindow"
+            : "#active-mode-timeWindow")
+      : (typeID =
+          type === "blockinterval"
+            ? `#blocked-mode-timeWindowgrp${key}`
+            : `#active-mode-timeWindowgrp${key}`);
+
+    cy
+      .get(typeID)
+      .scrollIntoView()
+      .click({ force: true });
+    selectDate(date, key);
+
+    cy
+      .get(".bx--combo-box.config-timezone-combo-box.bx--list-box")
+      .within($timezone => {
+        cy.get("[type='button']").click();
+        cy
+          .get(".bx--list-box__menu-item:first-of-type", {
+            timeout: 30 * 1000
+          })
+          .click();
+      });
+
+    if (hours) {
+      hours.forEach((interval, idx) => {
+        cy.get(`#start-time-${idx}`).type(interval.start);
+        cy.get(`#end-time-${idx}`).type(interval.end);
+
+        if (idx < hours.length - 1) {
+          cy.get(".add-time-btn", { timeout: 10 * 1000 }).click();
+        }
+      });
+    }
+
+    // Check that time window mode is still selected after toggling YAML editor
+    if (key == 0) {
+      cy.get("#edit-yaml", { timeout: 10 * 1000 }).click({ force: true });
+      cy.get("#edit-yaml", { timeout: 10 * 1000 }).click({ force: true });
+      cy.get(typeID).should("be.checked");
+    }
+  } else {
+    cy.log("leave default `active`");
+  }
+};
+
+export const submitSave = successState => {
+  modal.shouldNotBeDisabled();
+  modal.clickSubmit();
+  cy
+    .get("#notifications", { timeout: 50 * 1000 })
+    .scrollIntoView({ offset: { top: -500, left: 0 } });
+
+  if (successState) {
+    notification.shouldExist("success", { timeout: 60 * 1000 });
+    cy
+      .location("pathname", { timeout: 60 * 1000 })
+      .should("include", `${name}`);
+  } else {
+    notification.shouldExist("error", { timeout: 2 * 1000 });
+  }
+};
+
 export const resourceTable = {
   shouldExist: () =>
     cy.get(".resource-table", { timeout: 20000 }).should("exist"),
@@ -581,7 +667,10 @@ export const testInvalidApplicationInput = () => {
   cy.log("Test invalid name");
   cy.get("#name", { timeout: 50 * 1000 }).type(invalidValue);
   cy.get("#name-error-msg").should("exist");
-  cy.get("#name", { timeout: 50 * 1000 }).clear();
+  cy
+    .get("#name", { timeout: 50 * 1000 })
+    .clear()
+    .type(validValue);
   cy.get("#name-error-msg").should("not.exist");
 
   cy.log("Test invalid namespace");
@@ -689,4 +778,14 @@ export const testInvalidApplicationInput = () => {
     .type(validURL)
     .blur();
   cy.get("[data-invalid=true]").should("not.exist");
+
+  cy.log("Test invalid time window");
+  const timeWindow = {
+    type: "activeinterval",
+    setting: true,
+    date: []
+  };
+  selectTimeWindow(timeWindow, 0);
+
+  submitSave(false);
 };

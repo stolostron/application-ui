@@ -14,7 +14,9 @@ import {
   validateSubscriptionTable,
   getSingleAppClusterTimeDetails,
   verifyApplicationData,
-  validateSubscriptionDetails
+  validateSubscriptionDetails,
+  submitSave,
+  selectTimeWindow
 } from "./common";
 
 import { channelsInformation, checkExistingUrls } from "./resources.js";
@@ -44,7 +46,7 @@ export const createApplication = (clusterName, data, type) => {
   } else if (type === "helm") {
     createHelm(clusterName, config);
   }
-  submitSave();
+  submitSave(true);
 };
 
 export const gitTasks = (clusterName, value, gitCss, key = 0) => {
@@ -236,16 +238,6 @@ export const multipleTemplate = (clusterName, value, css, key, func) => {
     .within($content => {
       func(clusterName, value, css, key);
     });
-};
-
-export const submitSave = () => {
-  modal.shouldNotBeDisabled();
-  modal.clickSubmit();
-  cy
-    .get("#notifications", { timeout: 50 * 1000 })
-    .scrollIntoView({ offset: { top: -500, left: 0 } });
-  notification.shouldExist("success", { timeout: 60 * 1000 });
-  cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
 };
 
 export const validateAdvancedTables = (
@@ -702,75 +694,6 @@ export const selectMatchingLabel = (cluster, key) => {
       );
   const { labelName, labelValue } = matchingLabelCSS;
   cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
-};
-
-export const selectTimeWindow = (timeWindow, key = 0) => {
-  if (!timeWindow) {
-    cy.log("timeWindow info not available, ignore this section");
-    return;
-  }
-  const { setting, type, date, hours } = timeWindow;
-  if (setting && date) {
-    cy.log(`Select TimeWindow - ${type}...`);
-    let typeID;
-    key == 0
-      ? (typeID =
-          type === "blockinterval"
-            ? "#blocked-mode-timeWindow"
-            : "#active-mode-timeWindow")
-      : (typeID =
-          type === "blockinterval"
-            ? `#blocked-mode-timeWindowgrp${key}`
-            : `#active-mode-timeWindowgrp${key}`);
-
-    cy
-      .get(typeID)
-      .scrollIntoView()
-      .click({ force: true });
-    selectDate(date, key);
-
-    cy
-      .get(".bx--combo-box.config-timezone-combo-box.bx--list-box")
-      .within($timezone => {
-        cy.get("[type='button']").click();
-        cy
-          .get(".bx--list-box__menu-item:first-of-type", {
-            timeout: 30 * 1000
-          })
-          .click();
-      });
-
-    if (hours) {
-      hours.forEach((interval, idx) => {
-        cy.get(`#start-time-${idx}`).type(interval.start);
-        cy.get(`#end-time-${idx}`).type(interval.end);
-
-        if (idx < hours.length - 1) {
-          cy.get(".add-time-btn", { timeout: 10 * 1000 }).click();
-        }
-      });
-    }
-
-    // Check that time window mode is still selected after toggling YAML editor
-    if (key == 0) {
-      cy.get("#edit-yaml", { timeout: 10 * 1000 }).click({ force: true });
-      cy.get("#edit-yaml", { timeout: 10 * 1000 }).click({ force: true });
-      cy.get(typeID).should("be.checked");
-    }
-  } else {
-    cy.log("leave default `active`");
-  }
-};
-
-export const selectDate = (date, key) => {
-  date.forEach(d => {
-    const dateId = d.toLowerCase().substring(0, 3) + "-timeWindow";
-    key == 0
-      ? cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
-      : cy
-          .get(`#${dateId}grp${key}`, { timeout: 20 * 1000 })
-          .click({ force: true });
-  });
 };
 
 export const edit = name => {

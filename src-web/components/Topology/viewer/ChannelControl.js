@@ -231,7 +231,7 @@ class ChannelControl extends React.Component {
       const { channelMap } = this.state
       const channelKeys = Object.keys(channelMap)
       let currentChannelMap = {}
-      for (var i = 0; i < channelKeys.length; i++) {
+      for (let i = 0; i < channelKeys.length; i++) {
         const channelSubscription = this.getChannelSubscription(
           channelKeys[i]
         )

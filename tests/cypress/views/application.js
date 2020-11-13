@@ -324,6 +324,9 @@ export const validateTopology = (
 
   //for now check on create app only
   cy
+    .get(".search-query-card-loading", { timeout: 50 * 1000 })
+    .should("not.exist");
+  cy
     .get(".overview-cards-details-section", { timeout: 50 * 1000 })
     .contains(appDetails.clusterData);
 

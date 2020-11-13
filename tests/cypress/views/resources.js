@@ -44,6 +44,19 @@ export const apiResources = (type, data, returnType) => {
   }
 };
 
+export const checkExistingUrls = (css1, value1, css2, value2) => {
+  getSavedPathname().then(({ urllist }) => {
+    if (!urllist.includes(url)) {
+      if (value1 && value2) {
+        cy.get(css1, { timeout: 20 * 1000 }).type(value1, { log: false });
+        cy.get(css2, { timeout: 20 * 1000 }).type(value2, { log: false });
+      }
+    } else {
+      cy.log(`credentials have been saved for url - ${url}`);
+    }
+  });
+};
+
 export const getSavedPathname = () => {
   // returns a list of existing pathnames
   return cy

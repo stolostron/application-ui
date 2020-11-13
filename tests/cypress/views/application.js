@@ -17,7 +17,7 @@ import {
   validateSubscriptionDetails
 } from "./common";
 
-import { channelsInformation, getSavedPathname } from "./resources.js";
+import { channelsInformation, checkExistingUrls } from "./resources.js";
 
 const gitCssValues = {
   gitUrl: "#githubURL",
@@ -70,16 +70,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     .get(gitUrl, { timeout: 20 * 1000 })
     .type(url, { timeout: 50 * 1000 })
     .blur();
-  getSavedPathname().then(({ urllist }) => {
-    if (!urllist.includes(url)) {
-      if (username && token) {
-        cy.get(gitUser, { timeout: 20 * 1000 }).type(username, { log: false });
-        cy.get(gitKey, { timeout: 20 * 1000 }).type(token, { log: false });
-      }
-    } else {
-      cy.log(`credentials have been saved for url - ${url}`);
-    }
-  });
+  checkExistingUrls(gitUser, username, gitKey, token);
 
   if (gitReconcileOption) {
     cy.get(merge).click({ force: true });
@@ -157,20 +148,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .get(helmURL, { timeout: 20 * 1000 })
     .type(url, { timeout: 30 * 1000 })
     .blur();
-  getSavedPathname().then(({ urllist }) => {
-    if (!urllist.includes(url)) {
-      if (username && password) {
-        cy
-          .get(helmUsername, { timeout: 20 * 1000 })
-          .type(username, { log: false });
-        cy
-          .get(helmPassword, { timeout: 20 * 1000 })
-          .type(password, { log: false });
-      }
-    } else {
-      cy.log(`credentials have been saved for url - ${url}`);
-    }
-  });
+  checkExistingUrls(helmUsername, username, helmPassword, password);
 
   cy
     .get(helmChartName, { timeout: 20 * 1000 })
@@ -243,20 +221,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
     .click()
     .trigger("mouseover");
   cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
-  getSavedPathname().then(({ urllist }) => {
-    if (!urllist.includes(url)) {
-      if (accessKey && secretKey) {
-        cy
-          .get(objAccess, { timeout: 20 * 1000 })
-          .type(accessKey, { log: false });
-        cy
-          .get(objSecret, { timeout: 20 * 1000 })
-          .type(secretKey, { log: false });
-      }
-    } else {
-      cy.log(`credentials have been saved for url - ${url}`);
-    }
-  });
+  checkExistingUrls(objAccess, accessKey, objSecret, secretKey);
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };

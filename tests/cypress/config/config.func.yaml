@@ -183,7 +183,7 @@ helm:
     - enable: true
       name: ui-helm2
       type: helm
-      successNumber: 2
+      successNumber: 0
       config:
         - url: https://kubernetes-charts.storage.googleapis.com
           username: ""

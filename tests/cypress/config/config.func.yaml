@@ -4,7 +4,7 @@ git:
     - enable: true
       name: ui-git
       type: git
-      successNumber: 0
+      successNumber: 0 #should have at least 0 resources with status success in the cards status
       new: # used when we add new subscriptions after app creation
         - url: https://github.com/fxiang1/app-samples.git
           username: ""
@@ -183,7 +183,7 @@ helm:
     - enable: true
       name: ui-helm2
       type: helm
-      successNumber: 2
+      successNumber: 0
       config:
         - url: https://kubernetes-charts.storage.googleapis.com
           username: ""

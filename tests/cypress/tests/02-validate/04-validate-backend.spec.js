@@ -14,19 +14,19 @@ describe("Application application backend resources exist", () => {
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`[P1/Sev1/application-lifecycle-ui] Verify that the apps ${
+        it(`[P1,Sev1,app-lifecycle-ui] Verify that the apps ${
           data.name
         } channels, subscription and placementrule are valid - ${type}: ${
           data.name
         }`, () => {
           apiResources(type, data, "contain");
         });
-        it(`[P1/Sev1/application-lifecycle-ui] Validate apps ${
+        it(`[P1,Sev1,app-lifecycle-ui] Validate apps ${
           data.name
         } timewindow - ${type}: ${data.name}`, () => {
           validateTimewindow(data.name, data.config);
         });
-        it(`[P1/Sev1/application-lifecycle-ui] Validate apps ${
+        it(`[P1,Sev1,app-lifecycle-ui] Validate apps ${
           data.name
         } resources created on the target cluster`, () => {
           targetResource(data);

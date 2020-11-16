@@ -10,7 +10,7 @@ describe("Application backend validation that app hub resources have been remove
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`[P1/Sev1/application-lifecycle-ui] Verify that the apps ${
+        it(`[P1,Sev1,app-lifecycle-ui] Verify that the apps ${
           data.name
         } subscription and placementrule no longer exist - ${type}: ${
           data.name

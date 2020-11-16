@@ -69,6 +69,7 @@ const helmReleaseChannelData = [
     tooltip: 'tooltip.creation.app.helmrepo.chart.name',
     id: 'helmChartName',
     type: 'text',
+    syncWith: 'helmPackageAlias',
     active: '',
     placeholder: 'app.enter.helmrepo.chart.name',
     validation: {
@@ -81,8 +82,12 @@ const helmReleaseChannelData = [
     tooltip: 'tooltip.creation.app.helmrepo.package.alias',
     id: 'helmPackageAlias',
     type: 'text',
+    syncedWith: 'helmChartName',
     active: '',
     placeholder: 'app.enter.helmrepo.package.alias',
+    validation: {
+      required: true
+    },
     reverse: 'Subscription[0].spec.packageOverrides[0].packageAlias'
   },
   {

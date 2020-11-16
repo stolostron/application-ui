@@ -15,12 +15,12 @@ describe("Edit application delete subscription Test", () => {
     apps.forEach(data => {
       if (data.enable) {
         if (data.config.length > 1) {
-          it(`Verify first subscription can be deleted for app ${
+          it(`[P1,Sev1,app-lifecycle-ui] Verify first subscription can be deleted for app ${
             data.name
           }`, () => {
             deleteFirstSubscription(data.name, data);
           });
-          it(`Verify ${
+          it(`[P1,Sev1,app-lifecycle-ui] Verify ${
             data.name
           } is valid after first subscription is deleted`, () => {
             verifyEditAfterDeleteSubscription(data.name, data);

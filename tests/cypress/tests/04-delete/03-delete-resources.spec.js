@@ -14,10 +14,12 @@ describe("Cleanup resouces Test", () => {
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`Verify it deletes namespace ${data.name}-ns on hub cluster`, () => {
+        it(`[P1,Sev1,app-lifecycle-ui] Verify it deletes namespace ${
+          data.name
+        }-ns on hub cluster`, () => {
           deleteNamespaceHub(data, data.name, type);
         });
-        it(`Verify it deletes namespace ${
+        it(`[P1,Sev1,app-lifecycle-ui] Verify it deletes namespace ${
           data.name
         }-ns on target cluster`, () => {
           kubeconfigs

@@ -10,7 +10,7 @@ import {
   resourceTable,
   modal,
   noResource,
-  notification,
+  indexedCSS,
   validateSubscriptionTable,
   getSingleAppClusterTimeDetails,
   verifyApplicationData,
@@ -20,15 +20,6 @@ import {
 } from "./common";
 
 import { channelsInformation, checkExistingUrls } from "./resources.js";
-
-const gitCssValues = {
-  gitUrl: "#githubURL",
-  gitUser: "#githubUser",
-  gitKey: "#githubAccessId",
-  gitBranch: "#githubBranch",
-  gitPath: "#githubPath",
-  merge: "#gitReconcileOption"
-};
 
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
@@ -167,7 +158,14 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
 };
 
 export const createGit = (clusterName, configs, addOperation) => {
-  let gitCss = gitCssValues;
+  const gitCss = {
+    gitUrl: "#githubURL",
+    gitUser: "#githubUser",
+    gitKey: "#githubAccessId",
+    gitBranch: "#githubBranch",
+    gitPath: "#githubPath",
+    merge: "#gitReconcileOption"
+  };
   if (addOperation) {
     //add new subscription to existing app
     for (const [key, value] of Object.entries(configs.new)) {
@@ -182,6 +180,7 @@ export const createGit = (clusterName, configs, addOperation) => {
   } else {
     //create application
     for (const [key, value] of Object.entries(configs)) {
+      cy.log(`About to create git with key ${key}, typeof=${typeof key}`);
       key == 0
         ? gitTasks(clusterName, value, gitCss)
         : multipleTemplate(clusterName, value, gitCss, key, gitTasks);
@@ -230,13 +229,12 @@ export const objTasks = (clusterName, value, css, key = 0) => {
 };
 
 export const multipleTemplate = (clusterName, value, css, key, func) => {
-  Object.keys(css).forEach(k => (css[k] = css[k] + `grp${key}`));
   cy.get("#add-channels").click({ force: true });
   cy
     .get(".creation-view-group-container")
     .eq(key)
     .within($content => {
-      func(clusterName, value, css, key);
+      func(clusterName, value, indexedCSS(css, key), key);
     });
 };
 
@@ -617,23 +615,19 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     cy.log(
       `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel} existing=${existing}`
     );
-    let clusterDeploymentCss = {
-      localClusterID: "#local-cluster-checkbox",
-      onlineClusterID: "#online-cluster-only-checkbox",
-      uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
-      existingClusterID: "#existingrule-checkbox",
-      existingRuleComboID: "#placementrulecombo"
-    };
-    key == 0
-      ? clusterDeploymentCss
-      : Object.keys(clusterDeploymentCss).forEach(
-          k => (clusterDeploymentCss[k] = clusterDeploymentCss[k] + `grp${key}`)
-        );
-
+    const clusterDeploymentCss = indexedCSS(
+      {
+        localClusterID: "#local-cluster-checkbox",
+        onlineClusterID: "#online-cluster-only-checkbox",
+        uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
+        existingClusterID: "#existingrule-checkbox",
+        existingRuleComboID: "#placementrulecombo"
+      },
+      key
+    );
     const {
       localClusterID,
       onlineClusterID,
-      uniqueClusterID,
       existingClusterID,
       existingRuleComboID
     } = clusterDeploymentCss;
@@ -682,16 +676,13 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
 };
 
 export const selectMatchingLabel = (cluster, key) => {
-  let matchingLabelCSS = {
-    labelName: "#labelName-0-clusterSelector",
-    labelValue: "#labelValue-0-clusterSelector"
-  };
-
-  key == 0
-    ? matchingLabelCSS
-    : Object.keys(matchingLabelCSS).forEach(
-        k => (matchingLabelCSS[k] = matchingLabelCSS[k] + `grp${key}`)
-      );
+  const matchingLabelCSS = indexedCSS(
+    {
+      labelName: "#labelName-0-clusterSelector",
+      labelValue: "#labelValue-0-clusterSelector"
+    },
+    key
+  );
   const { labelName, labelValue } = matchingLabelCSS;
   cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
 };

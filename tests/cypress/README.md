@@ -106,7 +106,7 @@ There are two ways of adding private credentials when inserting new subscription
 4. Run `make run-test-image` to run the Docker container.
 5. Alternatively, you can manually from the command line using this command:
 
-- `docker run \ -e BROWSER=$(BROWSER) \ -v $(shell pwd)/options.yaml:/resources/options.yaml \ -v $(shell pwd)/results/:/results/ \ $(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)`
+- `docker run \ -e BROWSER=$(BROWSER) \ -v $(pwd)/options.yaml:/resources/options.yaml \ -v $(pwd)/results/:/results/ \ $(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)`
 
 6. After running, the XML results, screenshots and videos will be copied from inside the Docker container into /application-ui/results/
 

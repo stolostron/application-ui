@@ -14,10 +14,12 @@ import {
   validateSubscriptionTable,
   getSingleAppClusterTimeDetails,
   verifyApplicationData,
-  validateSubscriptionDetails
+  validateSubscriptionDetails,
+  submitSave,
+  selectTimeWindow
 } from "./common";
 
-import { channelsInformation } from "./resources.js";
+import { channelsInformation, checkExistingUrls } from "./resources.js";
 
 const gitCssValues = {
   gitUrl: "#githubURL",
@@ -45,7 +47,7 @@ export const createApplication = (clusterName, data, type) => {
   } else if (type === "helm") {
     createHelm(clusterName, config);
   }
-  submitSave();
+  submitSave(true);
 };
 
 export const gitTasks = (clusterName, value, gitCss, key = 0) => {
@@ -73,17 +75,16 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
 
   cy
     .get(`#github`)
+    .scrollIntoView()
     .click()
     .trigger("mouseover");
 
   cy
     .get(gitUrl, { timeout: 20 * 1000 })
-    .type(url, { timeout: 30 * 1000 })
+    .type(url, { timeout: 50 * 1000 })
     .blur();
-  if (username && token) {
-    cy.get(gitUser).type(username);
-    cy.get(gitKey).type(token);
-  }
+  checkExistingUrls(gitUser, username, gitKey, token, url);
+
   if (gitReconcileOption) {
     cy.get(merge).click({ force: true });
   }
@@ -91,11 +92,14 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     cy.get(insecureSkipVerify).click({ force: true });
   }
   // wait for form to remove the users
-  cy.wait(1000);
   // type in branch and path
   cy
-    .get(gitBranch, { timeout: 20 * 1000 })
-    .type(branch, { timeout: 30 * 1000 })
+    .get(".bx—inline.loading", { timeout: 30 * 1000 })
+    .should("not.exist", { timeout: 30 * 1000 });
+  cy.wait(10 * 1000);
+  cy
+    .get(gitBranch, { timeout: 50 * 1000 })
+    .type(branch, { timeout: 50 * 1000 })
     .blur();
   cy.wait(1000);
   cy
@@ -109,6 +113,8 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
 export const createHelm = (clusterName, configs, addOperation) => {
   let helmCss = {
     helmURL: "#helmURL",
+    helmUsername: "#helmUser",
+    helmPassword: "#helmPassword",
     helmChartName: "#helmChartName",
     helmPackageVersion: "#helmPackageVersion"
   };
@@ -134,8 +140,22 @@ export const createHelm = (clusterName, configs, addOperation) => {
 };
 
 export const helmTasks = (clusterName, value, css, key = 0) => {
-  const { url, chartName, packageVersion, timeWindow, deployment } = value;
-  const { helmURL, helmChartName, helmPackageVersion } = css;
+  const {
+    url,
+    username,
+    password,
+    chartName,
+    packageVersion,
+    timeWindow,
+    deployment
+  } = value;
+  const {
+    helmURL,
+    helmUsername,
+    helmPassword,
+    helmChartName,
+    helmPackageVersion
+  } = css;
   cy
     .get("#helmrepo")
     .click()
@@ -144,6 +164,8 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .get(helmURL, { timeout: 20 * 1000 })
     .type(url, { timeout: 30 * 1000 })
     .blur();
+  checkExistingUrls(helmUsername, username, helmPassword, password, url);
+
   cy
     .get(helmChartName, { timeout: 20 * 1000 })
     .type(chartName)
@@ -215,14 +237,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
     .click()
     .trigger("mouseover");
   cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
-  cy.get(objAccess).then(input => {
-    if (input.is("enabled")) {
-      cy.get(objAccess).type(accessKey);
-      cy.get(objSecret).type(secretKey);
-    } else {
-      cy.log(`credentials have not been saved...`);
-    }
-  });
+  checkExistingUrls(objAccess, accessKey, objSecret, secretKey, url);
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
@@ -238,16 +253,6 @@ export const multipleTemplate = (clusterName, value, css, key, func) => {
     });
 };
 
-export const submitSave = () => {
-  modal.shouldNotBeDisabled();
-  modal.clickSubmit();
-  cy
-    .get("#notifications", { timeout: 50 * 1000 })
-    .scrollIntoView({ offset: { top: -500, left: 0 } });
-  notification.shouldExist("success", { timeout: 60 * 1000 });
-  cy.location("pathname", { timeout: 60 * 1000 }).should("include", `${name}`);
-};
-
 export const validateAdvancedTables = (
   name,
   data,
@@ -260,7 +265,7 @@ export const validateAdvancedTables = (
     }`
   );
   for (const [key, subscriptionItem] of Object.entries(data.config)) {
-    const { local, online, matchingLabel } = subscriptionItem.deployment;
+    const { local } = subscriptionItem.deployment;
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
         subscriptions: `${name}-subscription-${parseInt(key) + 1}`,
@@ -308,7 +313,7 @@ export const validateTopology = (
   cy.visit(`/multicloud/applications/${name}-ns/${name}`);
   cy.reload();
   cy
-    .get(".search-query-card-loading", { timeout: 100 * 1000 })
+    .get(".search-query-card-loading", { timeout: 50 * 1000 })
     .should("not.exist");
   cy.get("#left-col").contains(name);
   cy.get("#left-col").contains(`${name}-ns`);
@@ -323,20 +328,23 @@ export const validateTopology = (
   );
 
   //for now check on create app only
-  cy.get(".overview-cards-details-section").contains(appDetails.clusterData);
+  cy
+    .get(".search-query-card-loading", { timeout: 50 * 1000 })
+    .should("not.exist");
+  cy
+    .get(".overview-cards-details-section", { timeout: 50 * 1000 })
+    .contains(appDetails.clusterData);
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
   cy.log(
     `Verify that the deployed resources number with status success is at least ${successNumber}`
   );
   cy
-    .get("#green-resources")
+    .get("#green-resources", { timeout: 50 * 1000 })
     .children(".status-count")
     .invoke("text")
     .then(parseInt)
-    .should("be.gte", successNumber, {
-      timeout: 100 * 1000
-    });
+    .should("be.gte", successNumber);
 
   validateSubscriptionDetails(name, data, type, opType);
 
@@ -365,11 +373,9 @@ export const validateTopology = (
       //if opType is create, the first subscription was removed by the delete subs test, use the new config option
       const { local, online } =
         key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
-      const placementKey =
-        opType == "create" ? key : opType == "add" ? parseInt(key) + 1 : key;
-      cy.log(`AAAA ${key}, ${opType}, ${placementKey}`);
+      cy.log(` key=${key}, type=${opType}`);
       !local
-        ? (validatePlacementNode(name, placementKey),
+        ? (validatePlacementNode(name, key),
           !online && validateClusterNode(Cypress.env("managedCluster"))) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
         : cy.log(
             "cluster and placement nodes will not be created as the application is deployed locally"
@@ -485,7 +491,7 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     .get("td")
     .eq(2)
     .invoke("text")
-    .should("eq", appDetails.clusterData);
+    .should("contains", appDetails.clusterData);
 
   const popupDefaultText =
     "Provide a description that will be used as the title";
@@ -501,12 +507,12 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
   repositoryText = `${repositoryText}${popupDefaultText}`;
   cy.log("Validate Repository column");
   cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
+    .get(".resource-table", { timeout: 30 * 1000 })
+    .get(`tr[data-row-name="${name}"]`, { timeout: 30 * 1000 })
+    .get("td", { timeout: 30 * 1000 })
     .eq(3)
     .invoke("text")
-    .should("eq", repositoryText);
+    .should("eq", repositoryText, { timeout: 50 * 1000 });
 
   cy.log("Validate Repository popup");
   cy
@@ -568,7 +574,9 @@ export const deleteResourceUI = (name, type) => {
   resourceTable.openRowMenu(resourceTypes[type]);
   resourceTable.menuClickDelete(type);
   modal.shouldBeOpen();
-
+  cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.be.visible", {
+    timeout: 100 * 1000
+  });
   modal.clickDanger();
   modal.shouldBeClosed();
 
@@ -586,12 +594,12 @@ export const deleteApplicationUI = name => {
     modal.shouldBeOpen();
 
     cy
-      .get(".bx--loading-overlay", { timeout: 50 * 1000 })
+      .get(".pf-c-empty-state", { timeout: 50 * 1000 })
       .should("not.be.visible", {
         timeout: 100 * 1000
       });
 
-    if (name != "ui-helm2") {
+    if (!name.includes("ui-helm2")) {
       //delete all resources
       cy.log(`Verify that the app and all resources are deleted for ${name}`);
       modal.clickResources();
@@ -604,11 +612,12 @@ export const deleteApplicationUI = name => {
     cy.log("No apps to delete...");
   }
 
-  if (name == "ui-helm2") {
+  if (name.includes("ui-helm2")) {
     //delete all resources from advanced table
     deleteResourceUI(name, "subscriptions");
     deleteResourceUI(name, "placementrules");
-    deleteResourceUI(name, "channels");
+    // no existing channels
+    // deleteResourceUI(name, "channels");
   }
 };
 
@@ -617,14 +626,16 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     `Execute selectClusterDeployment with options clusterName=${clusterName} deployment=${deployment} and key=${key}`
   );
   if (deployment) {
-    const { local, online, matchingLabel } = deployment;
+    const { local, online, matchingLabel, existing } = deployment;
     cy.log(
-      `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel}`
+      `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel} existing=${existing}`
     );
     let clusterDeploymentCss = {
       localClusterID: "#local-cluster-checkbox",
       onlineClusterID: "#online-cluster-only-checkbox",
-      uniqueClusterID: "#clusterSelector-checkbox-clusterSelector"
+      uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
+      existingClusterID: "#existingrule-checkbox",
+      existingRuleComboID: "#placementrulecombo"
     };
     key == 0
       ? clusterDeploymentCss
@@ -635,10 +646,29 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     const {
       localClusterID,
       onlineClusterID,
-      uniqueClusterID
+      uniqueClusterID,
+      existingClusterID,
+      existingRuleComboID
     } = clusterDeploymentCss;
+    cy.log(
+      `existingClusterID=${existingClusterID} existingRuleCombo=${existingRuleComboID} existing=${existing}`
+    );
+    if (existing) {
+      cy.log(`Select to deploy using existing placement ${existing}`);
+      cy
+        .get(existingClusterID, { timeout: 50 * 1000 })
+        .click({ force: true })
+        .trigger("mouseover", { force: true });
 
-    if (online) {
+      cy.get(existingRuleComboID).within($rules => {
+        cy.get("[type='button']").click();
+        cy
+          .get(".bx--list-box__menu-item:first-of-type", {
+            timeout: 30 * 1000
+          })
+          .click();
+      });
+    } else if (online) {
       cy.log("Select to deploy to all online clusters including local cluster");
       cy
         .get(onlineClusterID, { timeout: 50 * 1000 })
@@ -664,7 +694,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
   }
 };
 
-export const selectMatchingLabel = (cluster = "magchen-ocp", key) => {
+export const selectMatchingLabel = (cluster, key) => {
   let matchingLabelCSS = {
     labelName: "#labelName-0-clusterSelector",
     labelValue: "#labelValue-0-clusterSelector"
@@ -677,68 +707,6 @@ export const selectMatchingLabel = (cluster = "magchen-ocp", key) => {
       );
   const { labelName, labelValue } = matchingLabelCSS;
   cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
-};
-
-export const selectTimeWindow = (timeWindow, key = 0) => {
-  if (!timeWindow) {
-    cy.log("timeWindow info not available, ignore this section");
-    return;
-  }
-  const { setting, type, date, hours } = timeWindow;
-  if (setting && date) {
-    cy.log(`Select TimeWindow - ${type}...`);
-    let typeID;
-    key == 0
-      ? (typeID =
-          type === "blockinterval"
-            ? "#blocked-mode-timeWindow"
-            : "#active-mode-timeWindow")
-      : (typeID =
-          type === "blockinterval"
-            ? `#blocked-mode-timeWindowgrp${key}`
-            : `#active-mode-timeWindowgrp${key}`);
-
-    cy
-      .get(typeID)
-      .scrollIntoView()
-      .click({ force: true });
-    selectDate(date, key);
-
-    cy
-      .get(".bx--combo-box.config-timezone-combo-box.bx--list-box")
-      .within($timezone => {
-        cy.get("[type='button']").click();
-        cy
-          .get(".bx--list-box__menu-item:first-of-type", {
-            timeout: 30 * 1000
-          })
-          .click();
-      });
-
-    if (hours) {
-      hours.forEach((interval, idx) => {
-        cy.get(`#start-time-${idx}`).type(interval.start);
-        cy.get(`#end-time-${idx}`).type(interval.end);
-
-        if (idx < hours.length - 1) {
-          cy.get(".add-time-btn", { timeout: 10 * 1000 }).click();
-        }
-      });
-    }
-  } else {
-    cy.log("leave default `active`");
-  }
-};
-
-export const selectDate = (date, key) => {
-  date.forEach(d => {
-    const dateId = d.toLowerCase().substring(0, 3) + "-timeWindow";
-    key == 0
-      ? cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
-      : cy
-          .get(`#${dateId}grp${key}`, { timeout: 20 * 1000 })
-          .click({ force: true });
-  });
 };
 
 export const edit = name => {
@@ -802,9 +770,7 @@ export const deleteFirstSubscription = (name, data) => {
           cy.get(".creation-view-controls-delete-button").click();
         });
     });
-    modal.shouldNotBeDisabled();
-    modal.clickSubmit();
-    notification.shouldExist("success", { timeout: 60 * 1000 });
+    submitSave(true);
   } else {
     cy.log(`skipping ${name} since it's a single application...`);
   }
@@ -821,10 +787,7 @@ export const addNewSubscription = (name, data, clusterName) => {
   } else if (data.type === "helm") {
     createHelm(clusterName, data, true);
   }
-
-  modal.shouldNotBeDisabled();
-  modal.clickSubmit();
-  notification.shouldExist("success", { timeout: 60 * 1000 });
+  submitSave(true);
 };
 
 export const verifyEditAfterDeleteSubscription = (name, data) => {

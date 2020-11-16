@@ -167,7 +167,16 @@ class ChannelControl extends React.Component {
     const selectedIdx = channelsData[1]
 
     // Set current channel on page load
-    this.setState({ currentChannel: displayChannels[selectedIdx] })
+    this.setState({
+      currentChannel: displayChannels[selectedIdx],
+      channelMap: channelMap
+    })
+  };
+
+  getChannelSubscription = channel => {
+    const channelSplit = channel ? channel.split('//') : []
+
+    return channelSplit.length > 0 ? channelSplit[0] : ''
   };
 
   handlePageClick = e => {
@@ -185,7 +194,9 @@ class ChannelControl extends React.Component {
     switch (e.target.id) {
     case 'p1': {
       //move to the first channel
-      this.selectChannelByNumber(1)
+      if (selectedChannelIndex !== 1) {
+        this.selectChannelByNumber(1)
+      }
       break
     }
     case 'p2': {
@@ -197,7 +208,16 @@ class ChannelControl extends React.Component {
     }
     case 'p3': {
       //move one channel up
-      if (selectedChannelIndex < allChannels.length) {
+      const currentSubscriptionP3 = this.getChannelSubscription(
+        allChannels[selectedChannelIndex - 1]
+      )
+      const nextSubscription = this.getChannelSubscription(
+        allChannels[selectedChannelIndex]
+      )
+      if (
+        selectedChannelIndex < allChannels.length &&
+          currentSubscriptionP3 === nextSubscription
+      ) {
         this.selectChannelByNumber(selectedChannelIndex + 1)
       }
 
@@ -205,7 +225,29 @@ class ChannelControl extends React.Component {
     }
     case 'p4': {
       //up to the last channel
-      this.selectChannelByNumber(allChannels.length)
+      const currentSubscriptionP4 = this.getChannelSubscription(
+        allChannels[selectedChannelIndex - 1]
+      )
+      const { channelMap } = this.state
+      const channelKeys = Object.keys(channelMap)
+      let currentChannelMap = {}
+      for (let i = 0; i < channelKeys.length; i++) {
+        const channelSubscription = this.getChannelSubscription(
+          channelKeys[i]
+        )
+        if (currentSubscriptionP4 === channelSubscription) {
+          currentChannelMap = channelMap[channelKeys[i]]
+          break
+        }
+      }
+      //this.selectChannelByNumber(allChannels.length)
+      if (selectedChannelIndex !== currentChannelMap.subchannels.length) {
+        this.changeSubscriptionChannels(
+          currentChannelMap.subchannels[
+            currentChannelMap.subchannels.length - 1
+          ].chnl
+        )
+      }
       break
     }
     default:

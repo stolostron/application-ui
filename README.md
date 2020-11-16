@@ -16,7 +16,6 @@ The UI Platform is developed as an isomorphic react application.  The following 
 * IBM Carbon Design System
 * Red Hat PatternFly
 * Jest
-* Nightwatch
 
 
 ## Build
@@ -118,37 +117,11 @@ Launch storybook at: http://localhost:6006/
 
 ## Testing
 
-The following will run all unit tests and selenium based tests.  The selenium based tests require the UI running locally or can target a remote cluster.
+The following will run all unit tests.
 
 <pre>
 npm run test:unit
-npm run test:e2e
 </pre>
-
-## How to run Nightwatch tests
-
-#### Prerequisites:
-
-- Install dependencies:  `npm install`
-
----
-
-#### Live Cluster
-
-1. Export the following environment variables:
-    - RHACM4K8 (e.g. `https://multicloud-console.apps.${OCM_URL}`)
-    - K8S_CLUSTER_USER (`login username`)
-    - K8S_CLUSTER_PASSWORD (`login password`)
-2. In the root directory, run `npm run test:e2e`.
-
-#### Local Environment
-
-1. Export the following environment variables:
-    - TEST_LOCAL=true
-    - K8S_CLUSTER_USER (`login username`)
-    - K8S_CLUSTER_PASSWORD (`login password`)
-2. Start the application-ui locally by pointing to a live cluster
-3. In the root directory, run `npm run test:e2e`.
 
 ## NPM Commands
 
@@ -159,14 +132,12 @@ The full list of npm scripts are described below.
 | `npm start`                      | Starts the application with NODE_ENV='development'                                                                               |
 | `npm run test:unit`                  | Runs jest tests                                                                                                                  |
 | `npm run test:update-snapshot`       | Updates snapshots for jest tests. This command should only be used if you have made changes to a component that requires an updated snapshot artifact for a test case.|
-| `npm run test:e2e`                   | Runs nightwatch e2e tests                                                                                                        |
 | `npm run start:production`       | Starts the application with NODE_ENV='production'                                                                                |
 | `npm run clean`                  | Deletes the generated files from public folder.                                                                                  |
 | `npm run build`                  | Does a FULL development build.  (caching disabled and dev source maps)                                                           |
 | `npm run build:production`       | Does a FULL production build.                                                                                                    |
 | `npm run build:watch`            | Does a build of application code (w/o the DLL generation) and remains running in the background watching for changes.            |
 | `npm run build:dll`              | Only re-builds the the vendor library component.                                                                                 |
-| `npm run test:install-selenium`  | Install selenium standalone for running UI tests locally. Automatically invoked during `npm run test:e2e`                        |
 | `npm run lint`                   | Runs linting on the code base.                                                                                                   |
 | `npm run lint:fix`               | Attempts to fix any linting errors automatically.                                                                                |
 | `npm run shrinkwrap:clean`       | Regenerates a clean `npm-shrinkwrap.json` - THIS COMMAND SHOULD ONLY BE USED IN EXTREME CIRCUMSTANCES.                           |

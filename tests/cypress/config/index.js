@@ -27,6 +27,49 @@ exports.getConfig = () => {
               : (name = name + "-" + process.env.CYPRESS_JOB_ID)
             : name;
           data.name = name;
+          if (data.new) {
+            switch (key) {
+              case "git":
+                if (
+                  process.env.GITHUB_USER &&
+                  process.env.GITHUB_TOKEN &&
+                  process.env.GITHUB_PRIVATE_URL
+                ) {
+                  data.new.forEach(instance => {
+                    instance.url = process.env.GITHUB_PRIVATE_URL;
+                    instance.username = process.env.GITHUB_USER;
+                    instance.token = process.env.GITHUB_TOKEN;
+                  });
+                }
+                break;
+              case "objectstore":
+                if (
+                  process.env.OBJECTSTORE_ACCESS_KEY &&
+                  process.env.OBJECTSTORE_SECRET_KEY &&
+                  process.env.OBJECTSTORE_PRIVATE_URL
+                ) {
+                  data.new.forEach(instance => {
+                    instance.url = process.env.OBJECTSTORE_PRIVATE_URL;
+                    instance.accessKey = process.env.OBJECTSTORE_ACCESS_KEY;
+                    instance.secretKey = process.env.OBJECTSTORE_SECRET_KEY;
+                  });
+                }
+                break;
+              case "helm":
+                if (
+                  process.env.HELM_USERNAME &&
+                  process.env.HELM_PASSWORD &&
+                  process.env.HELM_PRIVATE_URL
+                ) {
+                  data.new.forEach(instance => {
+                    instance.url = process.env.HELM_PRIVATE_URL;
+                    instance.username = process.env.HELM_USERNAME;
+                    instance.password = process.env.HELM_PASSWORD;
+                  });
+                }
+                break;
+            }
+          }
         }
       });
     }
@@ -48,14 +91,16 @@ exports.getKubeConfig = () => {
   return results;
 };
 
-exports.getUsers = () => { 
+exports.getUsers = () => {
   // returns the userlist oject with username,
   // IDP corresponding role
-    let userData;
-    userData = jsYaml.safeLoad(fs.readFileSync(path.join(__dirname, "users.yaml")));
-    const userList =  {
-              users: userData.users,
-              idp: userData.idp    
-          }
-    return userList
-  }
+  let userData;
+  userData = jsYaml.safeLoad(
+    fs.readFileSync(path.join(__dirname, "users.yaml"))
+  );
+  const userList = {
+    users: userData.users,
+    idp: userData.idp
+  };
+  return userList;
+};

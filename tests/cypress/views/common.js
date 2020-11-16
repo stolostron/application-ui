@@ -329,7 +329,7 @@ export const validateSubscriptionTable = (
       .get("td")
       .eq(clustersColumnIndex)
       .invoke("text")
-      .should("eq", clusterText);
+      .should("contain", clusterText);
   }
 
   if (repositoryColumnIndex > 0) {

@@ -8,7 +8,7 @@ import {
   getManagedClusterName,
   channelsInformation
 } from "../../views/resources";
-import { resourceTable, validateSubscriptionTable } from "../../views/common";
+import { resourceTable } from "../../views/common";
 
 describe("Application Creation Test", () => {
   it(`get the name of the managed OCP cluster`, () => {

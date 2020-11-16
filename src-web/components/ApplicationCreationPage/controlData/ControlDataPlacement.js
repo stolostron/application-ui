@@ -29,7 +29,7 @@ import {
   getSharedPlacementRuleWarning,
   getSharedSubscriptionWarning
 } from './utils'
-import { getSourcePath } from '../../TemplateEditor/utils/utils'
+import { getSourcePath } from '@open-cluster-management/temptifly'
 import _ from 'lodash'
 import msgs from '../../../../nls/platform.properties'
 

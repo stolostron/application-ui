@@ -26,7 +26,7 @@ import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import msgs from '../../../nls/platform.properties'
 import { toString, saveLoad } from '../../../lib/client/design-helper'
-import YamlEditor from '../common/YamlEditor'
+import { YamlEditor } from '@open-cluster-management/temptifly'
 
 resources(() => {
   require('../../../scss/modal.scss')

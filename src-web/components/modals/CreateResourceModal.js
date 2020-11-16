@@ -28,7 +28,7 @@ import {
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import getResourceDefinitions from '../../definitions'
-import YamlEditor from '../common/YamlEditor'
+import { YamlEditor } from '@open-cluster-management/temptifly'
 import {
   delResourceSuccessFinished,
   mutateResourceSuccessFinished

@@ -12,7 +12,7 @@
 import {
   initializeControls,
   getSourcePath
-} from '../../TemplateEditor/utils/utils'
+} from '@open-cluster-management/temptifly'
 import _ from 'lodash'
 
 //only called when editing an existing application
@@ -22,7 +22,7 @@ export const discoverGroupsFromSource = (
   cd,
   templateObject,
   editor,
-  locale
+  i18n
 ) => {
   // get application selflink
   const selfLinkControl = cd.find(({ id }) => id === 'selfLink')
@@ -43,7 +43,7 @@ export const discoverGroupsFromSource = (
       const newGroup = initializeControls(
         groupData,
         editor,
-        locale,
+        i18n,
         active.length + 1,
         true
       )
@@ -60,7 +60,7 @@ export const discoverGroupsFromSource = (
         templateObject,
         editor,
         times > 1,
-        locale
+        i18n
       )
 
       const selfLinksControl = newGroup.find(({ id }) => id === 'selfLinks')
@@ -80,7 +80,7 @@ const discoverChannelFromSource = (
   templateObject,
   editor,
   multiple,
-  locale
+  i18n
 ) => {
   // determine channel type
   let id
@@ -144,7 +144,7 @@ const discoverChannelFromSource = (
     groupControlData.forEach(cd => {
       cd.groupControlData = groupControlData
     })
-    initializeControls(groupControlData, editor, locale)
+    initializeControls(groupControlData, editor, i18n)
 
     // initialize channel namespace
     const path = 'Subscription[0].spec.channel'

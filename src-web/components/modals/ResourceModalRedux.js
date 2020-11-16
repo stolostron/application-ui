@@ -30,7 +30,7 @@ import { connect } from 'react-redux'
 import { REQUEST_STATUS } from '../../actions/index'
 import msgs from '../../../nls/platform.properties'
 import { toString, saveLoad } from '../../../lib/client/design-helper'
-import YamlEditor from '../common/YamlEditor'
+import { YamlEditor } from '@open-cluster-management/temptifly'
 
 resources(() => {
   require('../../../scss/modal.scss')

@@ -12,7 +12,7 @@
 import React, { Component } from 'react'
 import msgs from '../../../nls/platform.properties'
 import { Button } from '@patternfly/react-core'
-import TooltipContainer from '../TemplateEditor/components/TooltipContainer'
+import { TooltipContainer } from '@open-cluster-management/temptifly'
 import { Link } from 'react-router-dom'
 import config from '../../../lib/shared/config'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'

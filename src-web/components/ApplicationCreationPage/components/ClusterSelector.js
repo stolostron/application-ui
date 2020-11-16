@@ -18,8 +18,7 @@ import {
   Icon,
   TextInput
 } from 'carbon-components-react'
-import { getSourcePath, removeVs } from '../../TemplateEditor/utils/utils'
-import Tooltip from '../../TemplateEditor/components/Tooltip'
+import { Tooltip, getSourcePath, removeVs } from '@open-cluster-management/temptifly'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 

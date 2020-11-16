@@ -14,8 +14,7 @@ let path = require("path"),
   WebpackMd5Hash = require("webpack-md5-hash"),
   FileManagerPlugin = require("filemanager-webpack-plugin"),
   config = require("./config"),
-  CompressionPlugin = require("compression-webpack-plugin"),
-  MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
+  CompressionPlugin = require("compression-webpack-plugin");
 
 let NO_OP = () => {},
   PRODUCTION = process.env.BUILD_ENV
@@ -33,8 +32,7 @@ module.exports = {
   devtool: PRODUCTION ? "source-map" : "cheap-module-source-map",
   stats: { children: false },
   entry: {
-    main: ["babel-polyfill", "./src-web/index.js"],
-    "editor.worker": ["monaco-editor/esm/vs/editor/editor.worker.js"]
+    main: ["babel-polyfill", "./src-web/index.js"]
   },
 
   externals: Object.assign(PRODUCTION ? prodExternals : {}, {
@@ -96,7 +94,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, "./node_modules/monaco-editor"),
+        include: path.resolve(__dirname, "../temptifly/node_modules/monaco-editor"),
         use: ["style-loader", "css-loader"]
       },
       // ignore styles under node_modules
@@ -189,9 +187,6 @@ module.exports = {
       algorithm: "gzip",
       test: /\.js$|\.css$/,
       minRatio: 1
-    }),
-    new MonacoWebpackPlugin({
-      languages: ["yaml"]
     }),
     new AssetsPlugin({
       path: path.join(__dirname, "public"),

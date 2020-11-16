@@ -35,7 +35,6 @@ module.exports = {
       'normalizr',
       'prop-types',
       'react-custom-scrollbars',
-      'react-monaco-editor',
       'react-dnd',
       'react-dnd-html5-backend',
       'react-dom',

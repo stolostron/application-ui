@@ -24,7 +24,7 @@ import {
 } from '../../actions/application'
 import { updateSecondaryHeader } from '../../actions/common'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
-import { TemplateEditor } from '../TemplateEditor'
+import TemplateEditor from '@open-cluster-management/temptifly'
 import { controlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
 import { getApplicationResources } from './transformers/transform-data-to-resources'
@@ -220,6 +220,9 @@ class ApplicationCreationPage extends React.Component {
       creationStatus: mutateStatus,
       creationMsg: mutateErrorMsgs
     }
+    const i18n = (key, arg2) => {
+      return msgs.get(key, arg2, locale)
+    }
     return (
       <TemplateEditor
         type={'application'}
@@ -229,10 +232,10 @@ class ApplicationCreationPage extends React.Component {
         portals={Portals}
         fetchControl={fetchControl}
         createControl={createControl}
-        locale={locale}
         updateFormState={updateFormState}
         savedFormData={savedFormData}
         history={history}
+        i18n={i18n}
       />
     )
   }

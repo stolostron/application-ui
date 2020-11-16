@@ -20,7 +20,7 @@ describe("Application Validation Test for single application page, topology ", (
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`Verify application ${
+        it(`[P1/Sev1/application-lifecycle-ui] Verify application ${
           data.name
         } content from the single application topology - ${type}: ${
           data.name

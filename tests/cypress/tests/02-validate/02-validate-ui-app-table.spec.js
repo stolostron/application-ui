@@ -14,7 +14,7 @@ describe("Application Validation Test for applications table", () => {
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`Verify application ${
+        it(`[P1/Sev1/application-lifecycle-ui] Verify application ${
           data.name
         } info from applications table - ${type}: ${data.name}`, () => {
           const numberOfRemoteClusters = Cypress.env("numberOfManagedClusters");

@@ -22,7 +22,7 @@ describe("Edit application insert new subscription Test", () => {
     apps.forEach(data => {
       if (data.enable) {
         if (data.new) {
-          it(`Verify new subscription can be added for application ${
+          it(`[P1/Sev1/application-lifecycle-ui] Verify new subscription can be added for application ${
             data.name
           }`, () => {
             const clusterName = Cypress.env("managedCluster");

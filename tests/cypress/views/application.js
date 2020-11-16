@@ -34,8 +34,8 @@ export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
   cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
-  cy.log(`Test create application ${name}`);
   const { name, config } = data;
+  cy.log(`Test create application ${name}`);
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name", { timeout: 50 * 1000 }).type(name);
   cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`);

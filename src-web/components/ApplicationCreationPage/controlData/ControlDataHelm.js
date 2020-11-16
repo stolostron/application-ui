@@ -97,9 +97,8 @@ const helmReleaseChannelData = [
   {
     id: 'helmInsecureSkipVerify',
     type: 'checkbox',
-    name: 'Disable server certificate verification',
-    tooltip:
-      'Disable server TLS certificate verification for Git server connection.',
+    name: 'creation.app.insecureSkipVerify.label',
+    tooltip: 'creation.app.insecureSkipVerify.helm.tooltip',
     active: false,
     available: [],
     editing: { hidden: true } // if editing existing app, hide this field initially

@@ -94,6 +94,16 @@ const helmReleaseChannelData = [
     placeholder: 'app.enter.helmrepo.package.version',
     reverse: 'Subscription[0].spec.packageFilter.version'
   },
+  {
+    id: 'helmInsecureSkipVerify',
+    type: 'checkbox',
+    name: 'Disable server certificate verification',
+    tooltip:
+      'Disable server TLS certificate verification for Git server connection.',
+    active: false,
+    available: [],
+    editing: { hidden: true } // if editing existing app, hide this field initially
+  },
 
   ...placementData
 ]

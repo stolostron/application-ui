@@ -26,6 +26,9 @@ spec:
 {{#if helmURL}}
   pathname: '{{{helmURL}}}'
 {{/if}}
+{{#if helmInsecureSkipVerify}}
+  insecureSkipVerify: true
+{{/if}}
 {{#if helmUser}}
   secretRef:
     name: {{{channelName}}}-auth

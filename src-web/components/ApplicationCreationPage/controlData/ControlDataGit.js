@@ -152,7 +152,8 @@ const githubChannelData = [
     tooltip:
       'Disable server TLS certificate verification for Git server connection.',
     active: false,
-    available: []
+    available: [],
+    editing: { hidden: true } // if editing existing app, hide this field initially
   },
 
   ...prePostTasks,

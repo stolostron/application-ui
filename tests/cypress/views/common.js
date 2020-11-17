@@ -786,7 +786,7 @@ export const testInvalidApplicationInput = () => {
 // Calculates unique CSS selectors based on index
 // Always returns a new object to avoid side-effects
 export const indexedCSS = (cssMap, index) =>
-  index
+  index != 0
     ? Object.keys(cssMap).reduce((result, key) => {
         let selector;
         switch (cssMap[key]) {

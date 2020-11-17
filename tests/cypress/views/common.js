@@ -789,7 +789,7 @@ export const indexedCSS = (cssMap, index) =>
   index
     ? Object.keys(cssMap).reduce((result, key) => {
         let selector;
-        switch (key) {
+        switch (cssMap[key]) {
           case "#clustersection-select-clusters-to-deploy-to":
             selector = `#clustersectiongrp${index}-select-clusters-to-deploy-to`;
             break;

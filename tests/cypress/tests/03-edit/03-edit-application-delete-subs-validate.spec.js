@@ -28,10 +28,12 @@ describe("Edit application validate delete first subscription", () => {
             const numberOfRemoteClusters = Cypress.env(
               "numberOfManagedClusters"
             );
+            const clusterName = Cypress.env("managedCluster");
             validateTopology(
               data.name,
               data,
               type,
+              clusterName,
               numberOfRemoteClusters,
               "delete"
             );

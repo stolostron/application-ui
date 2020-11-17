@@ -292,6 +292,7 @@ export const validateTopology = (
   name,
   data,
   type,
+  clusterName,
   numberOfRemoteClusters,
   opType
 ) => {
@@ -361,7 +362,7 @@ export const validateTopology = (
       cy.log(` key=${key}, type=${opType}`);
       !local
         ? (validatePlacementNode(name, key),
-          !online && validateClusterNode(Cypress.env("managedCluster"))) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
+          !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
         : cy.log(
             "cluster and placement nodes will not be created as the application is deployed locally"
           );
@@ -370,7 +371,7 @@ export const validateTopology = (
 };
 
 export const validateClusterNode = clusterName => {
-  cy.log("validating the cluster...");
+  cy.log(`validating the cluster... ${clusterName}`);
   cy
     .get(`g[type="${clusterName}"]`, { timeout: 25 * 1000 })
     .should("be.visible");

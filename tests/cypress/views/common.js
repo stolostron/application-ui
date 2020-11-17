@@ -37,8 +37,9 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
       },
       key
     );
+    const typeID = type === "blockinterval" ? blocked : active;
     cy
-      .get(type === "blockinterval" ? blocked : active)
+      .get(typeID)
       .scrollIntoView()
       .click({ force: true });
     selectDate(date, key);

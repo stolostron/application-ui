@@ -14,12 +14,11 @@ export const pageLoader = {
 
 export const selectDate = (date, key) => {
   date.forEach(d => {
-    const dateId = d.toLowerCase().substring(0, 3) + "-timeWindow";
-    key == 0
-      ? cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true })
-      : cy
-          .get(`#${dateId}grp${key}`, { timeout: 20 * 1000 })
-          .click({ force: true });
+    const { dateId } = indexedCSS(
+      { dateId: d.toLowerCase().substring(0, 3) + "-timeWindow" },
+      key
+    );
+    cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true });
   });
 };
 
@@ -31,17 +30,14 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
   const { setting, type, date, hours } = timeWindow;
   if (setting && date) {
     cy.log(`Select TimeWindow - ${type}...`);
-    let typeID;
-    key == 0
-      ? (typeID =
-          type === "blockinterval"
-            ? "#blocked-mode-timeWindow"
-            : "#active-mode-timeWindow")
-      : (typeID =
-          type === "blockinterval"
-            ? `#blocked-mode-timeWindowgrp${key}`
-            : `#active-mode-timeWindowgrp${key}`);
-
+    const { active, blocked } = indexedCSS(
+      {
+        active: "#active-mode-timeWindow",
+        blocked: "#blocked-mode-timeWindow"
+      },
+      key
+    );
+    const typeID = type === "blockinterval" ? blocked : active;
     cy
       .get(typeID)
       .scrollIntoView()
@@ -427,15 +423,30 @@ export const verifyApplicationData = (name, data, opType) => {
         .get(".creation-view-group-container")
         .eq(key)
         .within($div => {
-          let channelSectionId =
-            key == 0
-              ? "#channel-repository-types"
-              : `#channelgrp${key}-repository-types`;
+          const {
+            channelSectionId,
+            prSectionId,
+            existingRuleId,
+            reconcileKey,
+            matchingLabelId,
+            onlineId,
+            localClusterId
+          } = indexedCSS(
+            {
+              channelSectionId: "#channel-repository-types",
+              prSectionId: "#clustersection-select-clusters-to-deploy-to",
+              existingRuleId: "#existingrule-checkbox",
+              reconcileKey: "#gitReconcileOption",
+              matchingLabelId: "#clusterSelector-checkbox-clusterSelector",
+              onlineId: "#online-cluster-only-checkbox",
+              localClusterId: "#local-cluster-checkbox"
+            },
+            key
+          );
+
           cy.get(channelSectionId).click();
           if (data.type == "git") {
             cy.log(`Verify Git reconcile option for ${name}`);
-            const reconcileKey =
-              key == 0 ? "#gitReconcileOption" : `#gitReconcileOptiongrp${key}`;
             item.gitReconcileOption &&
               cy.get(reconcileKey, { timeout: 20 * 1000 }).should("be.checked");
 
@@ -448,17 +459,9 @@ export const verifyApplicationData = (name, data, opType) => {
           const { deployment } = item;
 
           cy.log(`Verify Placement option for ${name}`);
-          let prSectionId =
-            key == 0
-              ? "#clustersection-select-clusters-to-deploy-to"
-              : `#clustersectiongrp${key}-select-clusters-to-deploy-to`;
           cy.get(prSectionId).click();
 
           cy.log(`Verify existing placement rule option should not be checked`);
-          const existingRuleId =
-            key == 0
-              ? "#existingrule-checkbox"
-              : `#existingrule-checkboxgrp${key}`;
           cy
             .get(existingRuleId, { timeout: 20 * 1000 })
             .should("not.be.checked");
@@ -468,10 +471,6 @@ export const verifyApplicationData = (name, data, opType) => {
               deployment.matchingLabel
             }`
           );
-          const matchingLabelId =
-            key == 0
-              ? "#clusterSelector-checkbox-clusterSelector"
-              : `#clusterSelector-checkbox-clusterSelectorgrp${key}`;
           (deployment.matchingLabel || deployment.existing) &&
             cy
               .get(matchingLabelId, { timeout: 20 * 1000 })
@@ -487,20 +486,12 @@ export const verifyApplicationData = (name, data, opType) => {
               deployment.online
             }`
           );
-          const onlineId =
-            key == 0
-              ? "#online-cluster-only-checkbox"
-              : `#online-cluster-only-checkboxgrp${key}`;
           deployment.online &&
             cy.get(onlineId, { timeout: 20 * 1000 }).should("be.checked");
           !deployment.online &&
             cy.get(onlineId, { timeout: 20 * 1000 }).should("not.be.checked");
 
           cy.log(`Verify deploy to local cluster checkbox`);
-          const localClusterId =
-            key == 0
-              ? "#local-cluster-checkbox"
-              : `#local-cluster-checkboxgrp${key}`;
           deployment.local &&
             cy.get(localClusterId, { timeout: 20 * 1000 }).should("be.checked");
           !deployment.local &&
@@ -791,3 +782,25 @@ export const testInvalidApplicationInput = () => {
 
   submitSave(false);
 };
+
+// Calculates unique CSS selectors based on index
+// Always returns a new object to avoid side-effects
+export const indexedCSS = (cssMap, index) =>
+  index != 0
+    ? Object.keys(cssMap).reduce((result, key) => {
+        let selector;
+        switch (cssMap[key]) {
+          case "#clustersection-select-clusters-to-deploy-to":
+            selector = `#clustersectiongrp${index}-select-clusters-to-deploy-to`;
+            break;
+          case "#channel-repository-types":
+            selector = `#channelgrp${index}-repository-types`;
+            break;
+          default:
+            selector = `${cssMap[key]}grp${index}`;
+            break;
+        }
+        result[key] = selector;
+        return result;
+      }, {})
+    : cssMap;

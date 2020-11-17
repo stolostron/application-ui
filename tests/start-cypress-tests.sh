@@ -36,12 +36,12 @@ if [[ -z $CYPRESS_MANAGED_OCP_URL || -z $CYPRESS_MANAGED_OCP_USER || -z $CYPRESS
    echo 'one or more variables are undefined'
 else	
   echo "Logging into the managed cluster..."
-  mkdir $(shell pwd)/import-kubeconfig && touch $(shell pwd)/import-kubeconfig/kubeconfig
-  export KUBECONFIG=$(shell pwd)/import-kubeconfig/kubeconfig
+  mkdir ./import-kubeconfig && touch ./import-kubeconfig/kubeconfig
+  export KUBECONFIG=$(pwd)/import-kubeconfig/kubeconfig
   oc login --server=$CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
   unset KUBECONFIG
   echo "Copying managed cluster kubeconfig to ./cypress/config/import-kubeconfig ..."
-  cp $(shell pwd)/import-kubeconfig/* ./cypress/config/import-kubeconfig
+  cp ./import-kubeconfig/* ./cypress/config/import-kubeconfig
 fi
 
 echo "Logging into Kube API server..."

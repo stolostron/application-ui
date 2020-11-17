@@ -84,6 +84,7 @@ There are two ways of adding private credentials when inserting new subscription
   - `export HELM_PRIVATE_URL=${YOUR_PRIVATE_HELM_URL}`
   - `export HELM_USERNAME=${YOUR_HELM_USERNAME}`
   - `export HELM_PASSWORD=${YOUR_HELM_PASSWORD}`
+  - `export HELM_CHART_NAME=${YOUR_HELM_CHART_NAME}`
 
 #### Building and Running Cypress tests in a Docker Container
 

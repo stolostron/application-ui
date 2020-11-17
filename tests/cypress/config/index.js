@@ -59,12 +59,14 @@ exports.getConfig = () => {
                 if (
                   process.env.HELM_USERNAME &&
                   process.env.HELM_PASSWORD &&
-                  process.env.HELM_PRIVATE_URL
+                  process.env.HELM_PRIVATE_URL &&
+                  process.env.HELM_CHART_NAME
                 ) {
                   data.new.forEach(instance => {
                     instance.url = process.env.HELM_PRIVATE_URL;
                     instance.username = process.env.HELM_USERNAME;
                     instance.password = process.env.HELM_PASSWORD;
+                    instance.chartName = process.env.HELM_CHART_NAME;
                   });
                 }
                 break;

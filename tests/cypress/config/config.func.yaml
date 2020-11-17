@@ -139,7 +139,6 @@ helm:
           username: ""
           password: ""
           chartName: aerospike
-          packageVersion: 0.3.3
           timeWindow:
             setting: true
             type: blockinterval
@@ -189,6 +188,7 @@ helm:
           username: ""
           password: ""
           chartName: aerospike
+          packageVersion: 0.3.3
           deployment:
             local: false
             online: true

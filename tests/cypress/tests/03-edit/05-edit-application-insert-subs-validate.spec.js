@@ -36,10 +36,12 @@ describe("Edit application validate insert new subscription", () => {
             const numberOfRemoteClusters = Cypress.env(
               "numberOfManagedClusters"
             );
+            const clusterName = Cypress.env("managedCluster");
             validateTopology(
               data.name,
               data,
               type,
+              clusterName,
               numberOfRemoteClusters,
               "add"
             );

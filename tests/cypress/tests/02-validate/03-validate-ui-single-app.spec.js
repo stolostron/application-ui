@@ -26,10 +26,12 @@ describe("Application Validation Test for single application page, topology ", (
           data.name
         }`, () => {
           const numberOfRemoteClusters = Cypress.env("numberOfManagedClusters");
+          const clusterName = Cypress.env("managedCluster");
           validateTopology(
             data.name,
             data,
             type,
+            clusterName,
             numberOfRemoteClusters,
             "create"
           );

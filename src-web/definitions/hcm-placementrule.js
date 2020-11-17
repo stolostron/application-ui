@@ -12,13 +12,15 @@ import {
   getAge,
   getEditLink,
   getSearchLink,
-  getClusterCount
+  getClusterCount,
+  getClusterCountString
 } from '../../lib/client/resource-helper'
 
 export default {
   defaultSortField: 'name',
   primaryKey: 'name',
   secondaryKey: 'namespace',
+  pluralKey: 'table.plural.placementrule',
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -33,6 +35,7 @@ export default {
       msgKey: 'table.header.clusters',
       resourceKey: 'clusterCount',
       transformFunction: createClustersLink,
+      textFunction: createClustersText,
       tooltipKey: 'table.header.placementrules.clusters.tooltip'
     },
     {
@@ -75,7 +78,7 @@ export default {
   ]
 }
 
-export function createClustersLink(item, locale) {
+function createClustersLink(item, locale) {
   const clusterCount = R.path(['clusterCount'], item) || {}
   return getClusterCount({
     locale,
@@ -85,4 +88,13 @@ export function createClustersLink(item, locale) {
     namespace: item.namespace,
     kind: 'placementrule'
   })
+}
+
+function createClustersText(item, locale) {
+  const clusterCount = R.path(['clusterCount'], item) || {}
+  return getClusterCountString(
+    locale,
+    clusterCount.remoteCount,
+    clusterCount.localCount
+  )
 }

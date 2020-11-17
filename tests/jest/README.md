@@ -6,7 +6,7 @@ Link: https://facebook.github.io/jest/docs/en/tutorial-react.html
 <pre>
 shallow rendering: jest/components/Header.test.js
 properties/selector: jest/definitions/index.test.js
-sanpshot testing: jest/components/common/NoResource.test.js
+sanpshot testing: jest/components/sub-components/Page.test.js
 </pre>
 
 ##selector testing

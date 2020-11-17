@@ -109,13 +109,13 @@ describe("ApplicationsListPage", () => {
         </Provider>
       </BrowserRouter>
     );
-    wrapper.find(".bx--search-input").simulate("change");
-    wrapper.find(".bx--search-close").simulate("click");
-    wrapper
-      .find(".bx--table-sort-v2--ascending")
-      .at(0)
-      .simulate("click");
-    wrapper.find(".bx--select-input").simulate("change");
+    wrapper.find(".pf-c-search-input__text-input").simulate("change");
+    // wrapper.find(".pf-c-search-input__clear").simulate("click");
+    // wrapper
+    //   .find(".pf-c-table__sort-indicator")
+    //   .at(0)
+    //   .simulate("click");
+    //wrapper.find(".pf-c-options-menu__toggle-button-icon").simulate("change");
   });
 
   it("ApplicationsListPage renders correctly with data on single app.", () => {

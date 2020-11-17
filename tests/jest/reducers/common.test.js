@@ -13,9 +13,6 @@ import {
   getItems,
   getItemsPerPage,
   getPage,
-  getSearch,
-  getSortColumn,
-  getSortDirection,
   INITIAL_STATE
 } from "../../../src-web/reducers/common";
 
@@ -496,31 +493,5 @@ describe("getPage", () => {
   it("should return getPage for resource type", () => {
     const expectedValue = 1;
     expect(getPage(state, props, "page")).toEqual(expectedValue);
-  });
-});
-
-describe("getSearch", () => {
-  it("should return getSearch for resource type", () => {
-    const expectedValue = "aa";
-
-    expect(getSearch(state, props, "search")).toEqual(expectedValue);
-  });
-});
-
-describe("getSortColumn", () => {
-  it("should return getSortColumn for resource type", () => {
-    const expectedValue = "name";
-
-    expect(getSortColumn(state, props, "sortColumn")).toEqual(expectedValue);
-  });
-});
-
-describe("getSortDirection", () => {
-  it("should return getSortDirection for resource type", () => {
-    const expectedValue = "asc";
-
-    expect(getSortDirection(state, props, "sortDirection")).toEqual(
-      expectedValue
-    );
   });
 });

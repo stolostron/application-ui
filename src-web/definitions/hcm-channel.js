@@ -11,9 +11,13 @@ import R from 'ramda'
 import {
   createEditLink,
   getAge,
+  getChannelLabel,
   getClusterCount,
+  getClusterCountString,
   getEditLink,
-  getSearchLink
+  getSearchLink,
+  normalizeChannelType,
+  CHANNEL_TYPES
 } from '../../lib/client/resource-helper'
 import ChannelLabels from '../components/common/ChannelLabels'
 
@@ -21,6 +25,7 @@ export default {
   defaultSortField: 'name',
   primaryKey: 'name',
   secondaryKey: 'namespace',
+  pluralKey: 'table.plural.channel',
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -35,6 +40,7 @@ export default {
       msgKey: 'table.header.type',
       resourceKey: 'type',
       transformFunction: getChannels,
+      textFunction: getChannelsText,
       tooltipKey: 'table.header.channels.type.tooltip'
     },
     {
@@ -47,6 +53,7 @@ export default {
       msgKey: 'table.header.clusters',
       resourceKey: 'clusterCount',
       transformFunction: createClustersLink,
+      textFunction: createClustersText,
       tooltipKey: 'table.header.channels.clusters.tooltip'
     },
     {
@@ -84,7 +91,7 @@ export default {
   ]
 }
 
-export function createSubscriptionsLink(item) {
+function createSubscriptionsLink(item) {
   if (item.subscriptionCount) {
     const channelLink = getSearchLink({
       properties: {
@@ -99,20 +106,33 @@ export function createSubscriptionsLink(item) {
   return item.subscriptionCount === 0 ? item.subscriptionCount : '-'
 }
 
-export function createClustersLink(item, locale) {
+function getClusterCounts(item) {
   const clusterCount = R.path(['clusterCount'], item) || {}
   const localPlacement = R.path(['localPlacement'], item) || false
+  return {
+    remoteCount: clusterCount.remoteCount,
+    localPlacement: localPlacement || clusterCount.localCount
+  }
+}
+
+function createClustersLink(item, locale) {
+  const { remoteCount, localPlacement } = getClusterCounts(item)
   return getClusterCount({
     locale,
-    remoteCount: clusterCount.remoteCount,
-    localPlacement: localPlacement || clusterCount.localCount,
+    remoteCount,
+    localPlacement,
     name: item.name,
     namespace: item.namespace,
     kind: 'placementrule'
   })
 }
 
-export function getChannels(item = {}, locale = '') {
+function createClustersText(item = {}, locale = '') {
+  const { remoteCount, localPlacement } = getClusterCounts(item)
+  return getClusterCountString(locale, remoteCount, localPlacement)
+}
+
+function getChannels(item = {}, locale = '') {
   return (
     <ChannelLabels
       channels={[
@@ -125,4 +145,11 @@ export function getChannels(item = {}, locale = '') {
       showSubscriptionAttributes={false}
     />
   )
+}
+
+function getChannelsText(item = {}, locale = '') {
+  const normalizedType = normalizeChannelType(item.type)
+  return CHANNEL_TYPES.includes(normalizedType)
+    ? getChannelLabel(normalizedType, 0, locale)
+    : ''
 }

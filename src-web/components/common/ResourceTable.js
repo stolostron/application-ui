@@ -13,34 +13,33 @@
 
 import _ from 'lodash'
 import React from 'react'
-import {
-  AcmTable,
-  AcmEmptyState
-} from '@open-cluster-management/ui-components'
-import PropTypes from 'prop-types'
+import { AcmTable, AcmPageCard } from '@open-cluster-management/ui-components'
 import msgs from '../../../nls/platform.properties'
+import resources from '../../../lib/shared/resources'
 import { withRouter } from 'react-router-dom'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import config from '../../../lib/shared/config'
 
+resources(() => {
+  require('../../../scss/table.scss')
+})
+
 class ResourceTable extends React.Component {
   render() {
-    const { actions } = this.props
+    const { actions, staticResourceData, locale } = this.props
     return [
-      <AcmTable
-        key="data-table"
-        plural="applications"
-        items={this.getResources()}
-        columns={this.getColumns()}
-        keyFn={item => item.name}
-        tableActions={[]}
-        rowActions={this.getRowActions()}
-        extraToolbarControls={actions}
-        emptyState={
-          <AcmEmptyState title="No filtered results found" showIcon={true} />
-        }
-      />
+      <AcmPageCard key="data-table">
+        <AcmTable
+          plural={msgs.get(staticResourceData.pluralKey, locale)}
+          items={this.getResources()}
+          columns={this.getColumns()}
+          keyFn={item => `${item.namespace}/${item.name}`}
+          tableActions={[]}
+          rowActions={this.getRowActions()}
+          extraToolbarControls={actions}
+        />
+      </AcmPageCard>
     ]
   }
 
@@ -55,11 +54,27 @@ class ResourceTable extends React.Component {
     })
     return enabledColumns.map(tableKey => ({
       header: msgs.get(tableKey.msgKey, locale),
-      cell: tableKey.transformFunction
-        ? item => tableKey.transformFunction(item, locale)
-        : tableKey.resourceKey,
-      sort: tableKey.resourceKey,
-      search: tableKey.resourceKey,
+      cell:
+        tableKey.transformFunction &&
+        typeof tableKey.transformFunction === 'function'
+          ? `transformed.${tableKey.resourceKey}.value` //item => tableKey.transformFunction(item, locale)
+          : tableKey.resourceKey,
+      sort:
+        tableKey.textFunction && typeof tableKey.textFunction === 'function'
+          ? `transformed.${tableKey.resourceKey}.text`
+          : // ? (a, b) => {
+        //   const aText = tableKey.textFunction(a, locale)
+        //   const bText = tableKey.textFunction(b, locale)
+        //   return aText.localeCompare(bText)
+        // }
+          tableKey.resourceKey,
+      search:
+        tableKey.textFunction && typeof tableKey.textFunction === 'function'
+          ? `transformed.${tableKey.resourceKey}.text`
+          : // ? item => {
+        //   return tableKey.textFunction(item, locale)
+        // }
+          tableKey.resourceKey,
       tooltip: tableKey.tooltipKey
         ? msgs.get(tableKey.tooltipKey, locale)
         : undefined
@@ -119,24 +134,19 @@ class ResourceTable extends React.Component {
   getResources() {
     const { items, itemIds, staticResourceData } = this.props
     const { normalizedKey } = staticResourceData
-    return (
-      itemIds &&
-      itemIds.map(
+    return itemIds
+      ? itemIds.map(
         id =>
           items[id] ||
-          (Array.isArray(items) &&
-            items.find(
-              target =>
-                (normalizedKey && _.get(target, normalizedKey) === id) ||
-                target.name === id
-            ))
+            (Array.isArray(items) &&
+              items.find(
+                target =>
+                  (normalizedKey && _.get(target, normalizedKey) === id) ||
+                  target.name === id
+              ))
       )
-    )
+      : undefined
   }
-}
-
-ResourceTable.contextTypes = {
-  locale: PropTypes.string
 }
 
 export default withRouter(ResourceTable)

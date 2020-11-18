@@ -11,13 +11,13 @@ describe("Delete application Test", () => {
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`[P1,Sev1,app-lifecycle-ui] Verify application ${
+        it(`[P1][Sev1][app-lifecycle-ui] Verify application ${
           data.name
         } is deleted from UI`, () => {
           deleteApplicationUI(data.name);
         });
       } else {
-        it(`[P1,Sev1,app-lifecycle-ui] Verify disable deletion on resource ${
+        it(`[P1][Sev1][app-lifecycle-ui] Verify disable deletion on resource ${
           data.name
         } ${type}`, () => {
           cy.log(`skipping ${type} - ${data.name}`);

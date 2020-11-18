@@ -749,9 +749,16 @@ export const deleteFirstSubscription = (name, data) => {
           cy.get(".creation-view-controls-delete-button").click();
         });
     });
+    cy.log(
+      `verify subscription can no longer be deleted for ${name} since there is only one subscription left`
+    );
+    cy.get(".creation-view-controls-delete-button").should("not.exist");
     submitSave(true);
   } else {
-    cy.log(`skipping ${name} since it's a single application...`);
+    cy.log(
+      `verify subscription cannot be deleted for ${name} since this application has only one subscription`
+    );
+    cy.get(".creation-view-controls-delete-button").should("not.exist");
   }
 };
 
@@ -780,6 +787,10 @@ export const verifyEditAfterDeleteSubscription = (name, data) => {
         .get(".creation-view-group-container")
         .should("have.length", data.config.length - 1);
     });
+    cy.log(
+      `verify subscription cannot be deleted for ${name} since this application has only one subscription`
+    );
+    cy.get(".creation-view-controls-delete-button").should("not.exist");
   }
 };
 

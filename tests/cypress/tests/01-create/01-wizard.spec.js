@@ -18,14 +18,14 @@ describe("Application Creation Test", () => {
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`[P1,Sev1,app-lifecycle-ui] Verify application ${
+        it(`[P1][Sev1][app-lifecycle-ui] Verify application ${
           data.name
         } can be created from resource type ${type} using template editor`, () => {
           const clusterName = Cypress.env("managedCluster");
           createApplication(clusterName, data, type);
         });
 
-        it(`[P1,Sev1,app-lifecycle-ui] Verify channel for app ${
+        it(`[P1][Sev1][app-lifecycle-ui] Verify channel for app ${
           data.name
         } was created - wait for creation`, () => {
           const key = 0;

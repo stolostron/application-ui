@@ -232,16 +232,11 @@ Cypress.Commands.add("get$", selector => {
 Cypress.Commands.add("logInAsRole", role => {
   // reading users and idp  object values from users.yaml file
   const { users, idp } = Cypress.env("USER_CONFIG");
-  Cypress.env("OC_CLUSTER_USER", users[role]);
+  const user = Cypress.env("OC_CLUSTER_USER", users[role]);
+  const password = Cypress.env("OC_CLUSTER_PASS");
+
   // Cypress.env("OC_CLUSTER_PASS",Cypress.env("OC_CLUSTER_USER_PASS"))
   Cypress.env("OC_IDP", idp);
-
-  // logging out irrespective of the username
-  const logout = () => {
-    cy.get(".header-user-info-dropdown_icon").click();
-    cy.contains("Log out").click();
-    // cy.clearCookies()
-  };
 
   // login only if user is not looged In
   cy.visit("/multicloud/applications");

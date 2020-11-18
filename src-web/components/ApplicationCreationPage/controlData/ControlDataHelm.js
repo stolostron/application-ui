@@ -99,6 +99,15 @@ const helmReleaseChannelData = [
     placeholder: 'app.enter.helmrepo.package.version',
     reverse: 'Subscription[0].spec.packageFilter.version'
   },
+  {
+    id: 'helmInsecureSkipVerify',
+    type: 'checkbox',
+    name: 'creation.app.insecureSkipVerify.label',
+    tooltip: 'creation.app.insecureSkipVerify.helm.tooltip',
+    active: false,
+    available: [],
+    editing: { hidden: true } // if editing existing app, hide this field initially
+  },
 
   ...placementData
 ]

@@ -145,6 +145,15 @@ const githubChannelData = [
     reverse:
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/reconcile-option"]'
   },
+  {
+    id: 'gitInsecureSkipVerify',
+    type: 'checkbox',
+    name: 'creation.app.insecureSkipVerify.label',
+    tooltip: 'creation.app.insecureSkipVerify.git.tooltip',
+    active: false,
+    available: [],
+    editing: { hidden: true } // if editing existing app, hide this field initially
+  },
 
   ...prePostTasks,
 

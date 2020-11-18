@@ -71,9 +71,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   }
   // wait for form to remove the users
   // type in branch and path
-  cy
-    .get(".bx—inline.loading", { timeout: 30 * 1000 })
-    .should("not.exist", { timeout: 30 * 1000 });
+  cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   cy.wait(10 * 1000);
   cy
     .get(gitBranch, { timeout: 50 * 1000 })
@@ -493,12 +491,12 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
   repositoryText = `${repositoryText}${popupDefaultText}`;
   cy.log("Validate Repository column");
   cy
-    .get(".resource-table", { timeout: 30 * 1000 })
-    .get(`tr[data-row-name="${name}"]`, { timeout: 30 * 1000 })
+    .get(".resource-table", { timeout: 100 * 1000 })
+    .get(`tr[data-row-name="${name}"]`, { timeout: 100 * 1000 })
     .get("td", { timeout: 30 * 1000 })
     .eq(3)
     .invoke("text")
-    .should("eq", repositoryText, { timeout: 50 * 1000 });
+    .should("eq", repositoryText);
 
   cy.log("Validate Repository popup");
   cy
@@ -560,9 +558,7 @@ export const deleteResourceUI = (name, type) => {
   resourceTable.openRowMenu(resourceTypes[type]);
   resourceTable.menuClickDelete(type);
   modal.shouldBeOpen();
-  cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.be.visible", {
-    timeout: 100 * 1000
-  });
+  cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.be.visible");
   modal.clickDanger();
   modal.shouldBeClosed();
 

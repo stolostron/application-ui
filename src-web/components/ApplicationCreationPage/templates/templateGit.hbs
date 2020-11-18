@@ -26,6 +26,9 @@ spec:
 {{#if githubURL}}
   pathname: '{{{githubURL}}}'
 {{/if}}
+{{#if gitInsecureSkipVerify}}
+  insecureSkipVerify: true
+{{/if}}
 {{#if githubUser}}
   secretRef:
     name: {{{channelName}}}-auth

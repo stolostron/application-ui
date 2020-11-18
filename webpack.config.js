@@ -50,12 +50,32 @@ module.exports = {
       {
         // Transpile React JSX to ES5
         test: [/\.jsx$/, /\.js$/],
-        exclude: /node_modules\/(?!(fuse.js)\/)|\.scss/, // fuse.js requires transpiling
+        exclude: [
+          {
+            test: [
+              /\.scss$/,
+              path.resolve(__dirname, './node_modules'),
+            ],
+            exclude: [
+              path.resolve(__dirname, './node_modules/fuse.js'),
+              path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
+            ]
+          }
+        ],
         loader: "babel-loader?cacheDirectory"
       },
       {
         test: [/\.s?css$/],
-        exclude: /node_modules/,
+        exclude: [
+          {
+            test: [
+              path.resolve(__dirname, './node_modules'),
+            ],
+            exclude: [
+              path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
+            ]
+          }
+        ],
         loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [
@@ -94,13 +114,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, "../temptifly/node_modules/monaco-editor"),
+        include: path.resolve(__dirname, "./node_modules/monaco-editor"),
         use: ["style-loader", "css-loader"]
       },
-      // ignore styles under node_modules
       {
         test: /\.s?css$/,
-        include: /node_modules/,
+        include: path.resolve(__dirname, "./node_modules/@patternfly"),
         loader: "null-loader"
       },
       {

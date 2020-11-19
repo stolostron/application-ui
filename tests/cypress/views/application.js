@@ -74,10 +74,11 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   cy.wait(10 * 1000);
   cy
-    .get(gitBranch, { timeout: 50 * 1000 })
-    .type(branch, { timeout: 50 * 1000 })
+    .get(gitBranch, { timeout: 100 * 1000 })
+    .type(branch, { timeout: 100 * 1000, waitForAnimations: true })
     .blur();
   cy.wait(1000);
+  cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   cy
     .get(gitPath, { timeout: 20 * 1000 })
     .type(path, { timeout: 30 * 1000 })

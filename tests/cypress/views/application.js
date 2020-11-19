@@ -75,14 +75,16 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   cy.wait(10 * 1000);
   cy
     .get(gitBranch, { timeout: 100 * 1000 })
-    .type(branch, { timeout: 100 * 1000, waitForAnimations: true })
-    .blur();
+    .click()
+    .focused()
+    .type(branch, { timeout: 100 * 1000, waitForAnimations: true });
   cy.wait(1000);
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   cy
     .get(gitPath, { timeout: 20 * 1000 })
-    .type(path, { timeout: 30 * 1000 })
-    .blur();
+    .click()
+    .focused()
+    .type(path, { timeout: 30 * 1000 });
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };

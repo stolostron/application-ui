@@ -14,7 +14,8 @@ let path = require("path"),
   WebpackMd5Hash = require("webpack-md5-hash"),
   FileManagerPlugin = require("filemanager-webpack-plugin"),
   config = require("./config"),
-  CompressionPlugin = require("compression-webpack-plugin");
+  CompressionPlugin = require("compression-webpack-plugin"),
+  MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 let NO_OP = () => {},
   PRODUCTION = process.env.BUILD_ENV
@@ -32,7 +33,8 @@ module.exports = {
   devtool: PRODUCTION ? "source-map" : "cheap-module-source-map",
   stats: { children: false },
   entry: {
-    main: ["babel-polyfill", "./src-web/index.js"]
+    main: ["babel-polyfill", "./src-web/index.js"],
+    "editor.worker": ["monaco-editor/esm/vs/editor/editor.worker.js"]
   },
 
   externals: Object.assign(PRODUCTION ? prodExternals : {}, {
@@ -50,32 +52,11 @@ module.exports = {
       {
         // Transpile React JSX to ES5
         test: [/\.jsx$/, /\.js$/],
-        exclude: [
-          {
-            test: [
-              /\.scss$/,
-              path.resolve(__dirname, './node_modules'),
-            ],
-            exclude: [
-              path.resolve(__dirname, './node_modules/fuse.js'),
-              path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
-            ]
-          }
-        ],
+        exclude: /node_modules|\.scss/,
         loader: "babel-loader?cacheDirectory"
       },
       {
         test: [/\.s?css$/],
-        exclude: [
-          {
-            test: [
-              path.resolve(__dirname, './node_modules'),
-            ],
-            exclude: [
-              path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
-            ]
-          }
-        ],
         loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [
@@ -209,6 +190,9 @@ module.exports = {
       algorithm: "gzip",
       test: /\.js$|\.css$/,
       minRatio: 1
+    }),
+    new MonacoWebpackPlugin({
+      languages: ["yaml"]
     }),
     new AssetsPlugin({
       path: path.join(__dirname, "public"),

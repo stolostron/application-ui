@@ -27,6 +27,8 @@ exports.getConfig = () => {
               : (name = name + "-" + process.env.CYPRESS_JOB_ID)
             : name;
           data.name = name;
+          const job_id =
+            process.env.CYPRESS_JOB_ID && process.env.CYPRESS_JOB_ID.slice(-5);
           if (data.new) {
             switch (key) {
               case "git":
@@ -36,9 +38,15 @@ exports.getConfig = () => {
                   process.env.GITHUB_PRIVATE_URL
                 ) {
                   data.new.forEach(instance => {
-                    instance.url = process.env.GITHUB_PRIVATE_URL;
+                    instance.url = job_id
+                      ? process.env.GITHUB_PRIVATE_URL + "/" + job_id
+                      : process.env.GITHUB_PRIVATE_URL;
                     instance.username = process.env.GITHUB_USER;
                     instance.token = process.env.GITHUB_TOKEN;
+                  });
+                } else if (job_id) {
+                  data.new.forEach(instance => {
+                    instance.url = instance.url + "/" + job_id;
                   });
                 }
                 break;
@@ -63,10 +71,16 @@ exports.getConfig = () => {
                   process.env.HELM_CHART_NAME
                 ) {
                   data.new.forEach(instance => {
-                    instance.url = process.env.HELM_PRIVATE_URL;
+                    instance.url = job_id
+                      ? process.env.HELM_PRIVATE_URL + "/" + job_id
+                      : process.env.HELM_PRIVATE_URL;
                     instance.username = process.env.HELM_USERNAME;
                     instance.password = process.env.HELM_PASSWORD;
                     instance.chartName = process.env.HELM_CHART_NAME;
+                  });
+                } else if (job_id) {
+                  data.new.forEach(instance => {
+                    instance.url = instance.url + "/" + job_id;
                   });
                 }
                 break;

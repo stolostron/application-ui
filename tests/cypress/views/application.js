@@ -313,10 +313,10 @@ export const validateTopology = (
 
   //for now check on create app only
   cy
-    .get(".search-query-card-loading", { timeout: 50 * 1000 })
+    .get(".search-query-card-loading", { timeout: 120 * 1000 })
     .should("not.exist");
   cy
-    .get(".overview-cards-details-section", { timeout: 50 * 1000 })
+    .get(".overview-cards-details-section", { timeout: 120 * 1000 })
     .contains(appDetails.clusterData);
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
@@ -324,7 +324,7 @@ export const validateTopology = (
     `Verify that the deployed resources number with status success is at least ${successNumber}`
   );
   cy
-    .get("#green-resources", { timeout: 50 * 1000 })
+    .get("#green-resources", { timeout: 120 * 1000 })
     .children(".status-count")
     .invoke("text")
     .then(parseInt)

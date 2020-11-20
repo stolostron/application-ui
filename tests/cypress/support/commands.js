@@ -229,42 +229,40 @@ Cypress.Commands.add("get$", selector => {
   return cy.wrap(Cypress.$(selector)).should("have.length.gte", 1);
 });
 
-Cypress.Commands.add("logInAsRole", (role) => {
-  // reading users and idp  object values from users.yaml file 
-    const { users, idp } = Cypress.env('USER_CONFIG')
-    Cypress.env("OC_CLUSTER_USER",users[role])
-    // Cypress.env("OC_CLUSTER_PASS",Cypress.env("OC_CLUSTER_USER_PASS"))
-    Cypress.env("OC_IDP",idp)
-  
-  // logging out irrespective of the username
-    const logout = () => {
-      cy.get('.header-user-info-dropdown_icon').click()
-      cy.contains("Log out").click();
-      // cy.clearCookies()
-    } 
+Cypress.Commands.add("logInAsRole", role => {
+  // reading users and idp  object values from users.yaml file
+  const { users, idp } = Cypress.env("USER_CONFIG");
+  const user = Cypress.env("OC_CLUSTER_USER", users[role]);
+  const password = Cypress.env("OC_CLUSTER_PASS");
+
+  // Cypress.env("OC_CLUSTER_PASS",Cypress.env("OC_CLUSTER_USER_PASS"))
+  Cypress.env("OC_IDP", idp);
+
   // login only if user is not looged In
-    const logInIfRequired = () => {
-      cy.get('.header-user-info-dropdown').invoke('text').then((text) => {
-        cy.log(`Logged in User ${text} expected ${users[role]}`)
-        if ( text == users[role] ){
-          cy.log(`Already Logged in as User $users[role]`)
-        }  
-        else { logout(); cy.wait(5000); cy.login() } 
-        })
+  cy.visit("/multicloud/applications");
+  cy.get("body").then(body => {
+    // Check if logged in
+    if (body.find("#header").length === 0) {
+      // Check if identity providers are configured
+      if (body.find("form").length === 0) cy.contains(idp).click();
+      cy
+        .get("#inputUsername", { timeout: 20000 })
+        .click()
+        .focused()
+        .type(user);
+      cy
+        .get("#inputPassword", { timeout: 20000 })
+        .click()
+        .focused()
+        .type(password);
+      cy.get('button[type="submit"]', { timeout: 20000 }).click();
+      cy.get("#header", { timeout: 30000 }).should("exist");
     }
-    cy.visit('/')
-    cy.get("body").then(body => {
-      if (body.find("#header").length !== 0)
-          logInIfRequired(); 
-      if (body.find("#header").length === 0)
-          cy.login();
-          cy.log(`Logged in with user ${users[role]}`)
-  
-      });
   });
-  
-  Cypress.Commands.add("logoutFromRole", (role) => {
-    const { users } = Cypress.env('USER_CONFIG')
-    Cypress.env("OC_CLUSTER_USER",users[role])
-    cy.logout()
-  })
+});
+
+Cypress.Commands.add("logoutFromRole", role => {
+  const { users } = Cypress.env("USER_CONFIG");
+  Cypress.env("OC_CLUSTER_USER", users[role]);
+  cy.logout();
+});

@@ -287,6 +287,30 @@ describe("getPulseForNodeWithPodStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "deployment",
     specs: {
       podModel: {
@@ -296,8 +320,7 @@ describe("getPulseForNodeWithPodStatus ", () => {
           status: "Error",
           startedAt: "2020-04-20T22:03:52Z",
           restarts: 0,
-          podIP: "1.1.1.1",
-          startedAt: "Monday"
+          podIP: "1.1.1.1"
         }
       },
       deploymentModel: {
@@ -370,6 +393,30 @@ describe("getPulseForNodeWithPodStatus no replica", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "deployment",
     specs: {
       deploymentModel: {
@@ -1670,6 +1717,11 @@ describe("computeNodeStatus ", () => {
   const genericNodeInputRed = {
     id: "member--pod--default--mortgagedc-subscription",
     name: "mortgagedc",
+    clusters: {
+      specs: {
+        clusters: []
+      }
+    },
     specs: {
       raw: {
         spec: { template: { spec: { containers: [{ name: "c1" }] } } }
@@ -1682,6 +1734,11 @@ describe("computeNodeStatus ", () => {
   const genericNodeInputRed2 = {
     id: "member--pod--default--mortgagedc-subscription",
     name: "mortgagedc",
+    clusters: {
+      specs: {
+        clusters: []
+      }
+    },
     specs: {
       raw: {
         spec: { template: { spec: { containers: [{ name: "c1" }] } } }
@@ -1700,6 +1757,30 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "deployment",
     specs: {
       raw: {
@@ -1725,6 +1806,30 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "deployment",
     specs: {
       pulse: "red",
@@ -1746,6 +1851,30 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "deployment",
     specs: {
       pulse: "green",
@@ -1767,6 +1896,30 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "deployment",
     specs: {
       raw: {
@@ -1792,6 +1945,30 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "deployment",
     specs: {
       deploymentModel: {
@@ -1926,6 +2103,30 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "deployment",
     specs: {
       deploymentModel: {
@@ -2060,6 +2261,30 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "deployment",
     specs: {
       deploymentModel: {
@@ -2230,6 +2455,30 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "deployment",
     specs: {
       deploymentModel: {
@@ -2299,6 +2548,30 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "service",
     specs: {
       serviceModel: {
@@ -2334,6 +2607,30 @@ describe("computeNodeStatus ", () => {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     type: "package",
     specs: {}
   };
@@ -2385,6 +2682,36 @@ describe("computeNodeStatus ", () => {
       "member--deployable--member--clusters--possiblereptile, braveman, sharingpenguin, relievedox--deployment--frontend",
     uid:
       "member--deployable--member--clusters--possiblereptile, braveman, sharingpenguin, relievedox--deployment--frontend",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "braveman"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "sharingpenguin"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "relievedox"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
     specs: {
       podModel: {
         "frontend-6cb7f8bd65-g25j6-possiblereptile": {

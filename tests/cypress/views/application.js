@@ -10,7 +10,7 @@ import {
   resourceTable,
   modal,
   noResource,
-  notification,
+  indexedCSS,
   validateSubscriptionTable,
   getSingleAppClusterTimeDetails,
   verifyApplicationData,
@@ -21,21 +21,12 @@ import {
 
 import { channelsInformation, checkExistingUrls } from "./resources.js";
 
-const gitCssValues = {
-  gitUrl: "#githubURL",
-  gitUser: "#githubUser",
-  gitKey: "#githubAccessId",
-  gitBranch: "#githubBranch",
-  gitPath: "#githubPath",
-  merge: "#gitReconcileOption"
-};
-
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
   cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
-  cy.log(`Test create application ${name}`);
   const { name, config } = data;
+  cy.log(`Test create application ${name}`);
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name", { timeout: 50 * 1000 }).type(name);
   cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`);
@@ -80,9 +71,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   }
   // wait for form to remove the users
   // type in branch and path
-  cy
-    .get(".bx—inline.loading", { timeout: 30 * 1000 })
-    .should("not.exist", { timeout: 30 * 1000 });
+  cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   cy.wait(10 * 1000);
   cy
     .get(gitBranch, { timeout: 50 * 1000 })
@@ -167,7 +156,14 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
 };
 
 export const createGit = (clusterName, configs, addOperation) => {
-  let gitCss = gitCssValues;
+  const gitCss = {
+    gitUrl: "#githubURL",
+    gitUser: "#githubUser",
+    gitKey: "#githubAccessId",
+    gitBranch: "#githubBranch",
+    gitPath: "#githubPath",
+    merge: "#gitReconcileOption"
+  };
   if (addOperation) {
     //add new subscription to existing app
     for (const [key, value] of Object.entries(configs.new)) {
@@ -182,6 +178,7 @@ export const createGit = (clusterName, configs, addOperation) => {
   } else {
     //create application
     for (const [key, value] of Object.entries(configs)) {
+      cy.log(`About to create git with key ${key}, typeof=${typeof key}`);
       key == 0
         ? gitTasks(clusterName, value, gitCss)
         : multipleTemplate(clusterName, value, gitCss, key, gitTasks);
@@ -230,13 +227,12 @@ export const objTasks = (clusterName, value, css, key = 0) => {
 };
 
 export const multipleTemplate = (clusterName, value, css, key, func) => {
-  Object.keys(css).forEach(k => (css[k] = css[k] + `grp${key}`));
   cy.get("#add-channels").click({ force: true });
   cy
     .get(".creation-view-group-container")
     .eq(key)
     .within($content => {
-      func(clusterName, value, css, key);
+      func(clusterName, value, indexedCSS(css, key), key);
     });
 };
 
@@ -294,6 +290,7 @@ export const validateTopology = (
   name,
   data,
   type,
+  clusterName,
   numberOfRemoteClusters,
   opType
 ) => {
@@ -363,7 +360,7 @@ export const validateTopology = (
       cy.log(` key=${key}, type=${opType}`);
       !local
         ? (validatePlacementNode(name, key),
-          !online && validateClusterNode(Cypress.env("managedCluster"))) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
+          !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
         : cy.log(
             "cluster and placement nodes will not be created as the application is deployed locally"
           );
@@ -372,7 +369,7 @@ export const validateTopology = (
 };
 
 export const validateClusterNode = clusterName => {
-  cy.log("validating the cluster...");
+  cy.log(`validating the cluster... ${clusterName}`);
   cy
     .get(`g[type="${clusterName}"]`, { timeout: 25 * 1000 })
     .should("be.visible");
@@ -494,12 +491,12 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
   repositoryText = `${repositoryText}${popupDefaultText}`;
   cy.log("Validate Repository column");
   cy
-    .get(".resource-table", { timeout: 30 * 1000 })
-    .get(`tr[data-row-name="${name}"]`, { timeout: 30 * 1000 })
+    .get(".resource-table", { timeout: 100 * 1000 })
+    .get(`tr[data-row-name="${name}"]`, { timeout: 100 * 1000 })
     .get("td", { timeout: 30 * 1000 })
     .eq(3)
     .invoke("text")
-    .should("eq", repositoryText, { timeout: 50 * 1000 });
+    .should("eq", repositoryText);
 
   cy.log("Validate Repository popup");
   cy
@@ -561,9 +558,7 @@ export const deleteResourceUI = (name, type) => {
   resourceTable.openRowMenu(resourceTypes[type]);
   resourceTable.menuClickDelete(type);
   modal.shouldBeOpen();
-  cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.be.visible", {
-    timeout: 100 * 1000
-  });
+  cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.be.visible");
   modal.clickDanger();
   modal.shouldBeClosed();
 
@@ -617,23 +612,19 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     cy.log(
       `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel} existing=${existing}`
     );
-    let clusterDeploymentCss = {
-      localClusterID: "#local-cluster-checkbox",
-      onlineClusterID: "#online-cluster-only-checkbox",
-      uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
-      existingClusterID: "#existingrule-checkbox",
-      existingRuleComboID: "#placementrulecombo"
-    };
-    key == 0
-      ? clusterDeploymentCss
-      : Object.keys(clusterDeploymentCss).forEach(
-          k => (clusterDeploymentCss[k] = clusterDeploymentCss[k] + `grp${key}`)
-        );
-
+    const clusterDeploymentCss = indexedCSS(
+      {
+        localClusterID: "#local-cluster-checkbox",
+        onlineClusterID: "#online-cluster-only-checkbox",
+        uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
+        existingClusterID: "#existingrule-checkbox",
+        existingRuleComboID: "#placementrulecombo"
+      },
+      key
+    );
     const {
       localClusterID,
       onlineClusterID,
-      uniqueClusterID,
       existingClusterID,
       existingRuleComboID
     } = clusterDeploymentCss;
@@ -682,16 +673,13 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
 };
 
 export const selectMatchingLabel = (cluster, key) => {
-  let matchingLabelCSS = {
-    labelName: "#labelName-0-clusterSelector",
-    labelValue: "#labelValue-0-clusterSelector"
-  };
-
-  key == 0
-    ? matchingLabelCSS
-    : Object.keys(matchingLabelCSS).forEach(
-        k => (matchingLabelCSS[k] = matchingLabelCSS[k] + `grp${key}`)
-      );
+  const matchingLabelCSS = indexedCSS(
+    {
+      labelName: "#labelName-0-clusterSelector",
+      labelValue: "#labelValue-0-clusterSelector"
+    },
+    key
+  );
   const { labelName, labelValue } = matchingLabelCSS;
   cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
 };
@@ -757,9 +745,16 @@ export const deleteFirstSubscription = (name, data) => {
           cy.get(".creation-view-controls-delete-button").click();
         });
     });
+    cy.log(
+      `verify subscription can no longer be deleted for ${name} since there is only one subscription left`
+    );
+    cy.get(".creation-view-controls-delete-button").should("not.exist");
     submitSave(true);
   } else {
-    cy.log(`skipping ${name} since it's a single application...`);
+    cy.log(
+      `verify subscription cannot be deleted for ${name} since this application has only one subscription`
+    );
+    cy.get(".creation-view-controls-delete-button").should("not.exist");
   }
 };
 
@@ -788,6 +783,10 @@ export const verifyEditAfterDeleteSubscription = (name, data) => {
         .get(".creation-view-group-container")
         .should("have.length", data.config.length - 1);
     });
+    cy.log(
+      `verify subscription cannot be deleted for ${name} since this application has only one subscription`
+    );
+    cy.get(".creation-view-controls-delete-button").should("not.exist");
   }
 };
 

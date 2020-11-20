@@ -191,16 +191,87 @@ describe("hcm-application-diagram-tests", () => {
   it("getDiagramElements with pods container info", () => {
     const nodes = [
       {
-        id: "--clusters--app",
+        id:
+          "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
+        type: "cluster",
+        specs: {
+          clusters: [
+            {
+              metadata: {
+                name: "possiblereptile"
+              },
+              status: "ok"
+            },
+            {
+              metadata: {
+                name: "braveman"
+              },
+              status: "ok"
+            },
+            {
+              metadata: {
+                name: "sharingpenguin"
+              },
+              status: "ok"
+            },
+            {
+              metadata: {
+                name: "relievedox"
+              },
+              status: "ok"
+            }
+          ]
+        }
+      },
+      {
+        id:
+          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--app",
         type: "application",
         name: "aa",
-        namespace: "ns"
+        namespace: "ns",
+        clusters: {
+          specs: {
+            clusters: []
+          }
+        }
       },
       {
         type: "deployment",
         id:
           "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
         name: "depl",
+        cluster: null,
+        clusterName: null,
+        clusters: {
+          specs: {
+            clusters: [
+              {
+                metadata: {
+                  name: "possiblereptile"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "braveman"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "sharingpenguin"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "relievedox"
+                },
+                status: "ok"
+              }
+            ]
+          }
+        },
         specs: {
           raw: {
             spec: {
@@ -219,8 +290,21 @@ describe("hcm-application-diagram-tests", () => {
       },
       {
         type: "deployment",
-        id: "--clusters--depl",
+        id:
+          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
         name: "depl2",
+        clusters: {
+          specs: {
+            clusters: [
+              {
+                metadata: {
+                  name: "braveman"
+                },
+                status: "ok"
+              }
+            ]
+          }
+        },
         specs: {
           raw: {
             spec: {
@@ -239,8 +323,14 @@ describe("hcm-application-diagram-tests", () => {
       },
       {
         type: "subscription",
-        id: "--clusters--subs",
+        id:
+          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--subs",
         name: "subsname",
+        clusters: {
+          specs: {
+            clusters: []
+          }
+        },
         specs: {
           raw: {
             spec: {
@@ -458,42 +548,232 @@ describe("hcm-application-diagram-tests", () => {
     };
     const res = [
       {
-        id: "--clusters--app",
+        id:
+          "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
+        specs: {
+          clusters: [
+            {
+              metadata: {
+                name: "possiblereptile"
+              },
+              status: "ok"
+            },
+            {
+              metadata: {
+                name: "braveman"
+              },
+              status: "ok"
+            },
+            {
+              metadata: {
+                name: "sharingpenguin"
+              },
+              status: "ok"
+            },
+            {
+              metadata: {
+                name: "relievedox"
+              },
+              status: "ok"
+            }
+          ],
+          pulse: "green",
+          shapeType: "cluster"
+        },
+        type: "cluster"
+      },
+      {
+        clusters: {
+          specs: {
+            clusters: []
+          }
+        },
+        id:
+          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--app",
         name: "aa",
         namespace: "ns",
+        specs: {
+          pulse: "red",
+          shapeType: "application"
+        },
         type: "application"
       },
       {
+        cluster: null,
+        clusterName: null,
+        clusters: {
+          id:
+            "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
+          specs: {
+            clusters: [
+              {
+                metadata: {
+                  name: "possiblereptile"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "braveman"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "sharingpenguin"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "relievedox"
+                },
+                status: "ok"
+              }
+            ],
+            pulse: "green",
+            shapeType: "cluster"
+          },
+          type: "cluster"
+        },
         id:
           "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
         name: "depl",
         specs: {
+          pulse: "orange",
           raw: {
-            spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+            spec: {
+              template: {
+                spec: {
+                  containers: [
+                    {
+                      name: "c1"
+                    }
+                  ]
+                }
+              }
+            }
           },
-          row: 0
+          row: 0,
+          shapeType: "deployment"
         },
         type: "deployment"
       },
       {
-        id: "--clusters--depl",
+        clusters: {
+          id:
+            "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
+          specs: {
+            clusters: [
+              {
+                metadata: {
+                  name: "possiblereptile"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "braveman"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "sharingpenguin"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "relievedox"
+                },
+                status: "ok"
+              }
+            ],
+            pulse: "green",
+            shapeType: "cluster"
+          },
+          type: "cluster"
+        },
+        id:
+          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
         name: "depl2",
         specs: {
+          pulse: "orange",
           raw: {
-            spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+            spec: {
+              template: {
+                spec: {
+                  containers: [
+                    {
+                      name: "c1"
+                    }
+                  ]
+                }
+              }
+            }
           },
-          row: 6
+          row: 6,
+          shapeType: "deployment"
         },
         type: "deployment"
       },
       {
-        id: "--clusters--subs",
+        clusters: {
+          id:
+            "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
+          specs: {
+            clusters: [
+              {
+                metadata: {
+                  name: "possiblereptile"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "braveman"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "sharingpenguin"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "relievedox"
+                },
+                status: "ok"
+              }
+            ],
+            pulse: "green",
+            shapeType: "cluster"
+          },
+          type: "cluster"
+        },
+        id:
+          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--subs",
         name: "subsname",
         specs: {
+          pulse: "orange",
           raw: {
-            spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+            spec: {
+              template: {
+                spec: {
+                  containers: [
+                    {
+                      name: "c1"
+                    }
+                  ]
+                }
+              }
+            }
           },
-          row: 12
+          row: 12,
+          shapeType: "subscription"
         },
         type: "subscription"
       }

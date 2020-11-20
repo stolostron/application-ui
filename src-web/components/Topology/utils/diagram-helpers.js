@@ -377,12 +377,20 @@ const getPulseStatusForGenericNode = node => {
   const resourceName = channel.length > 0 ? `${channel}-${name}` : name
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
-  if (!resourceMap) {
+  const clusterNames = R.split(',', getClusterName(node.id))
+  const onlineClusters = getOnlineClusters(
+    clusterNames,
+    node.clusters.specs.clusters
+  )
+  if (!resourceMap || onlineClusters.length === 0) {
     pulse = 'orange' //resource not available
     return pulse
   }
 
-  const clusterNames = R.split(',', getClusterName(node.id))
+  if (onlineClusters.length < clusterNames.length) {
+    pulse = 'yellow'
+    return pulse
+  }
 
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
@@ -459,13 +467,16 @@ export const getPulseForNodeWithPodStatus = node => {
     desired = 1
   }
   const resourceName = _.get(node, metadataName, '')
+  const clusterNames = R.split(',', getClusterName(node.id))
+  const onlineClusters = getOnlineClusters(
+    clusterNames,
+    node.clusters.specs.clusters
+  )
 
-  if (!resourceMap) {
+  if (!resourceMap || onlineClusters.length === 0) {
     pulse = 'orange' //resource not available
     return pulse
   }
-
-  const clusterNames = R.split(',', getClusterName(node.id))
 
   //must have pods, set the pods status here
   const podStatusMap = {}
@@ -533,6 +544,10 @@ export const getPulseForNodeWithPodStatus = node => {
   const minPulse = Math.min.apply(null, pulseArr)
   pulse = pulseValueArr[minPulse]
   _.set(node, 'podStatusMap', podStatusMap)
+
+  if (onlineClusters.length < clusterNames.length) {
+    pulse = 'yellow'
+  }
 
   return pulse
 }

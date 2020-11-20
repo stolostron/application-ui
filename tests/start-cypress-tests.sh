@@ -36,24 +36,16 @@ if [[ -z $CYPRESS_MANAGED_OCP_URL || -z $CYPRESS_MANAGED_OCP_USER || -z $CYPRESS
    echo 'one or more variables are undefined'
 else	
   echo "Logging into the managed cluster..."
-  mkdir $(shell pwd)/import-kubeconfig && touch $(shell pwd)/import-kubeconfig/kubeconfig
-  export KUBECONFIG=$(shell pwd)/import-kubeconfig/kubeconfig
+  mkdir ./import-kubeconfig && touch ./import-kubeconfig/kubeconfig
+  export KUBECONFIG=$(pwd)/import-kubeconfig/kubeconfig
   oc login --server=$CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
   unset KUBECONFIG
   echo "Copying managed cluster kubeconfig to ./cypress/config/import-kubeconfig ..."
-  cp $(shell pwd)/import-kubeconfig/* ./cypress/config/import-kubeconfig
+  cp ./import-kubeconfig/* ./cypress/config/import-kubeconfig
 fi
 
 echo "Logging into Kube API server..."
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
-
-
-# copy the test artifact files and append the job_id
-echo "Generating the YAML files to use the JOB_ID..."
-mkdir ./cypress/test-artifacts
-cp ./cypress/test-artifacts-templates/* ./cypress/test-artifacts/
-# do a find and replace operation to sub in the ID
-sed -i "s/\$JOB_ID/$JOB_ID/g" ./cypress/test-artifacts/*.yaml
 
 echo "Running tests on $CYPRESS_BASE_URL in $CYPRESS_TEST_MODE mode..."
 testCode=0

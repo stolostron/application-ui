@@ -179,7 +179,7 @@ export const fetchGlobalAppsData = resourceType => {
 }
 
 const getResourceQuery = resourceType => {
-  let resourceQuery, dataKey, filter
+  let resourceQuery, dataKey
   switch (resourceType.name) {
   case 'QueryApplications':
     resourceQuery = { list: 'ApplicationsList' }
@@ -188,7 +188,6 @@ const getResourceQuery = resourceType => {
   case 'QuerySubscriptions':
     resourceQuery = { list: 'SubscriptionsList' }
     dataKey = 'subscriptions'
-    filter = item => item.channel !== 'open-cluster-management/charts-v1'
     break
   case 'QueryPlacementRules':
     resourceQuery = { list: 'PlacementRulesList' }
@@ -197,9 +196,6 @@ const getResourceQuery = resourceType => {
   case 'QueryChannels':
     resourceQuery = { list: 'ChannelsList' }
     dataKey = 'channels'
-    filter = item =>
-      item.namespace !== 'open-cluster-management' ||
-        item.name !== 'charts-v1'
     break
   }
   if (resourceQuery) {
@@ -209,11 +205,11 @@ const getResourceQuery = resourceType => {
         .get(resourceQuery)
         .then(result => {
           if (result.data && result.data[dataKey]) {
-            const filteredItems = filter
-              ? result.data[dataKey].filter(filter)
-              : result.data[dataKey]
             return dispatch(
-              receiveResourceSuccess({ items: filteredItems }, resourceType)
+              receiveResourceSuccess(
+                { items: result.data[dataKey] },
+                resourceType
+              )
             )
           }
           if (result.error) {

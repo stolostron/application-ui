@@ -26,6 +26,9 @@ spec:
 {{#if helmURL}}
   pathname: '{{{helmURL}}}'
 {{/if}}
+{{#if helmInsecureSkipVerify}}
+  insecureSkipVerify: true
+{{/if}}
 {{#if helmUser}}
   secretRef:
     name: {{{channelName}}}-auth
@@ -37,7 +40,7 @@ metadata:
   namespace: {{{channelName}}}-ns
 data:
   user: {{{helmUser}}}
-  accessToken: {{{helmPassword}}}
+  password: {{{helmPassword}}}
 {{/if}}
 {{/unless}}      
 ---

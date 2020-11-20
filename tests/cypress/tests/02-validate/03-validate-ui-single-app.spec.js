@@ -20,16 +20,18 @@ describe("Application Validation Test for single application page, topology ", (
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`Verify application ${
+        it(`[P1][Sev1][app-lifecycle-ui] Verify application ${
           data.name
         } content from the single application topology - ${type}: ${
           data.name
         }`, () => {
           const numberOfRemoteClusters = Cypress.env("numberOfManagedClusters");
+          const clusterName = Cypress.env("managedCluster");
           validateTopology(
             data.name,
             data,
             type,
+            clusterName,
             numberOfRemoteClusters,
             "create"
           );

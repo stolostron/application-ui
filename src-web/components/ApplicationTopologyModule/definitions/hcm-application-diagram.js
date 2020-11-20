@@ -16,7 +16,8 @@ import {
   getClusterName,
   setupResourceModel,
   computeNodeStatus,
-  nodeMustHavePods
+  nodeMustHavePods,
+  isDeployableResource
 } from '../../Topology/utils/diagram-helpers'
 import { getTopologyElements } from './hcm-topology'
 import { REQUEST_STATUS } from '../../../actions'
@@ -74,10 +75,8 @@ export const processNodeData = (
 ) => {
   const { name, type } = node
 
-  const isDeployableResource =
-    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
   if (
-    !isDeployableResource &&
+    !isDeployableResource(node) &&
     R.contains(type, ['cluster', 'application', 'placements'])
   ) {
     return //ignore these types
@@ -85,7 +84,9 @@ export const processNodeData = (
 
   const channel = _.get(node, 'specs.raw.spec.channel', '')
   const keyName =
-    !isDeployableResource && channel.length > 0 ? `${channel}-${name}` : name
+    !isDeployableResource(node) && channel.length > 0
+      ? `${channel}-${name}`
+      : name
 
   let podsKeyForThisNode = null
   const clusterName = getClusterName(node.id)

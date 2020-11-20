@@ -41,6 +41,12 @@ import {
   getPulseStatusForAnsibleNode
 } from './ansible-task'
 
+export const isDeployableResource = node => {
+  //check if this node has been created using a deployable object
+  //used to differentiate between app, subscription, rules deployed using an app deployable
+  return _.get(node, 'id', '').indexOf('--member--deployable--') !== -1
+}
+
 /*
  * UI helpers to help with data transformations
  * */
@@ -372,13 +378,12 @@ const getPulseStatusForGenericNode = node => {
   if (pulse === 'red') {
     return pulse //no need to check anything else, return red
   }
-  const isDeployableResource =
-    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
-
   const name = _.get(node, metadataName, '')
   const channel = _.get(node, 'specs.raw.spec.channel', '')
   const resourceName =
-    !isDeployableResource && channel.length > 0 ? `${channel}-${name}` : name
+    !isDeployableResource(node) && channel.length > 0
+      ? `${channel}-${name}`
+      : name
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   const clusterNames = R.split(',', getClusterName(node.id))
@@ -579,25 +584,24 @@ export const computeNodeStatus = node => {
     return pulse
   }
 
-  const isDeployableResource =
-    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
+  const isDeployable = isDeployableResource(node)
   switch (node.type) {
   case 'application':
-    if (isDeployableResource) {
+    if (isDeployable) {
       pulse = getPulseStatusForGenericNode(node)
     } else if (!_.get(node, 'specs.channels')) {
       pulse = 'red'
     }
     break
   case 'placements':
-    if (isDeployableResource) {
+    if (isDeployable) {
       pulse = getPulseStatusForGenericNode(node)
     } else if (!_.get(node, 'specs.raw.status.decisions')) {
       pulse = 'red'
     }
     break
   case 'subscription':
-    if (isDeployableResource) {
+    if (isDeployable) {
       pulse = getPulseStatusForGenericNode(node)
     } else {
       pulse = getPulseStatusForSubscription(node)
@@ -1052,12 +1056,11 @@ export const setupResourceModel = (
 //show resource deployed status on the remote clusters
 //for resources not producing pods
 export const setResourceDeployStatus = (node, details) => {
-  const isDeployableResource =
-    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
+  const isDeployable = isDeployableResource(node)
   if (
     nodeMustHavePods(node) ||
     node.type === 'package' ||
-    (!isDeployableResource &&
+    (!isDeployable &&
       R.contains(node.type, [
         'application',
         'placements',
@@ -1072,7 +1075,7 @@ export const setResourceDeployStatus = (node, details) => {
   const name = _.get(node, metadataName, '')
   const channel = _.get(node, 'specs.raw.spec.channel', '')
   const resourceName =
-    !isDeployableResource && channel.length > 0 ? `${channel}-${name}` : name
+    !isDeployable && channel.length > 0 ? `${channel}-${name}` : name
 
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
@@ -1320,9 +1323,10 @@ const setClusterWindowStatus = (windowStatusArray, subscription, details) => {
 
 export const setSubscriptionDeployStatus = (node, details) => {
   //check if this is a subscription created from the app deployable
-  const isDeployableResource =
-    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
-  if (R.pathOr('', ['type'])(node) !== 'subscription' || isDeployableResource) {
+  if (
+    R.pathOr('', ['type'])(node) !== 'subscription' ||
+    isDeployableResource(node)
+  ) {
     return details //ignore subscriptions defined from deployables or any other types
   }
   const timeWindow = _.get(node, 'specs.raw.spec.timewindow.windowtype')
@@ -1524,11 +1528,8 @@ export const setApplicationDeployStatus = (node, details) => {
     type: 'spacer'
   })
 
-  //check if this is a subscription created from the app deployable
-  const isDeployableResource =
-    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
   //show error if no channel, meaning there is no linked subscription
-  if (!isDeployableResource && !_.get(node, 'specs.channels')) {
+  if (!isDeployableResource(node) && !_.get(node, 'specs.channels')) {
     const appNS = _.get(node, metadataNamespace, 'NA')
 
     details.push({

@@ -32,7 +32,8 @@ import {
   getNameWithoutChartRelease,
   removeReleaseGeneratedSuffix,
   getClusterHost,
-  getPulseStatusForCluster
+  getPulseStatusForCluster,
+  isDeployableResource
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const ansibleSuccess = {
@@ -4499,5 +4500,46 @@ describe("getPulseStatusForCluster all some ok", () => {
   };
   it("should process cluster node", () => {
     expect(getPulseStatusForCluster(clusterNode)).toEqual("yellow");
+  });
+});
+
+describe("isDeployableResource for regular subscription", () => {
+  const node = {
+    id: "member--subscription--default--mortgagedc-subscription",
+    name: "mortgagedcNOStatus",
+    specs: {
+      raw: { spec: {} },
+      subscriptionModel: {
+        "mortgagedc-subscription-braveman": {},
+        "mortgagedc-subscription-braveman2": {}
+      }
+    },
+    type: "subscription"
+  };
+
+  it("returns false for regular subscription ", () => {
+    expect(isDeployableResource(node)).toEqual(false);
+  });
+});
+
+describe("isDeployableResource for deployable subscription", () => {
+  const node = {
+    id:
+      "member--member--deployable--member--clusters--birsan2-remote--default--val-op-subscription-1-tmp-val-op-subscription-1-master-operators-config-cert-manager-operator-rhmp-test-subscription--subscription--cert-manager-operator-rhmp-test",
+    name: "cert-manager-operator-rhmp-test",
+    namespace: "default",
+    specs: {
+      raw: {
+        spec: {
+          apiVersion: "operators.coreos.com/v1alpha1",
+          kind: "Subscription"
+        }
+      }
+    },
+    type: "subscription"
+  };
+
+  it("returns true for deployable subscription ", () => {
+    expect(isDeployableResource(node)).toEqual(true);
   });
 });

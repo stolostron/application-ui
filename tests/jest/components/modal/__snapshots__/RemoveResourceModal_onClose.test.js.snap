@@ -181,12 +181,15 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               actions={
                 Array [
                   <Button
-                    variant="primary"
+                    isDisabled={true}
+                    onClick={[Function]}
+                    variant="danger"
                   >
-                    Submit
+                    Delete application
                   </Button>,
                   <Button
-                    variant="link"
+                    onClick={[Function]}
+                    variant="secondary"
                   >
                     Cancel
                   </Button>,
@@ -194,11 +197,12 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               }
               appendTo={[Function]}
               aria-describedby=""
-              aria-label=""
+              aria-label="Delete application"
               aria-labelledby=""
               className=""
               hasNoBodyWrapper={false}
-              isOpen={false}
+              id="remove-resource-modal"
+              isOpen={true}
               onClose={[Function]}
               ouiaSafe={true}
               showClose={true}
@@ -208,31 +212,179 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               variant="medium"
             >
               <Portal
-                containerInfo={<div />}
+                containerInfo={
+                  <div>
+                    <div
+                      class="pf-c-backdrop"
+                    >
+                      <div
+                        class="pf-l-bullseye"
+                      >
+                        <div
+                          aria-describedby="pf-modal-part-2"
+                          aria-label="Delete application"
+                          aria-labelledby="remove-resource-modal pf-modal-part-1"
+                          aria-modal="true"
+                          class="pf-c-modal-box pf-m-md"
+                          data-ouia-component-id="OUIA-Generated-Modal-medium-1"
+                          data-ouia-component-type="PF4/ModalContent"
+                          data-ouia-safe="true"
+                          id="remove-resource-modal"
+                          role="dialog"
+                        >
+                          <button
+                            aria-disabled="false"
+                            aria-label="Close"
+                            class="pf-c-button pf-m-plain"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-1"
+                            data-ouia-component-type="PF4/Button"
+                            data-ouia-safe="true"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 352 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                              />
+                            </svg>
+                          </button>
+                          <header
+                            class="pf-c-modal-box__header"
+                          >
+                            <h1
+                              class="pf-c-modal-box__title"
+                              id="pf-modal-part-1"
+                            >
+                              
+                              <span
+                                class="pf-c-modal-box__title-text"
+                              >
+                                Delete application
+                              </span>
+                            </h1>
+                          </header>
+                          <div
+                            class="pf-c-modal-box__body"
+                            id="pf-modal-part-2"
+                          >
+                            <div
+                              class="remove-app-modal-alert"
+                            />
+                            <div>
+                              <section
+                                class="pf-c-page__main-section"
+                              >
+                                <article
+                                  class="pf-c-card"
+                                  data-ouia-component-id="OUIA-Generated-Card-1"
+                                  data-ouia-component-type="PF4/Card"
+                                  data-ouia-safe="true"
+                                >
+                                  <div
+                                    class="pf-c-card__body"
+                                  >
+                                    <div
+                                      class="pf-c-empty-state"
+                                    >
+                                      <div
+                                        class="pf-c-empty-state__content"
+                                      >
+                                        <div
+                                          class="pf-c-empty-state__icon"
+                                        >
+                                          <span
+                                            aria-valuetext="Loading..."
+                                            class="pf-c-spinner pf-m-xl"
+                                            role="progressbar"
+                                          >
+                                            <span
+                                              class="pf-c-spinner__clipper"
+                                            />
+                                            <span
+                                              class="pf-c-spinner__lead-ball"
+                                            />
+                                            <span
+                                              class="pf-c-spinner__tail-ball"
+                                            />
+                                          </span>
+                                        </div>
+                                        <h4
+                                          class="pf-c-title pf-m-lg"
+                                        >
+                                          Loading
+                                        </h4>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </article>
+                              </section>
+                            </div>
+                          </div>
+                          <footer
+                            class="pf-c-modal-box__footer"
+                          >
+                            <button
+                              aria-disabled="true"
+                              class="pf-c-button pf-m-danger pf-m-disabled"
+                              data-ouia-component-id="OUIA-Generated-Button-danger-1"
+                              data-ouia-component-type="PF4/Button"
+                              data-ouia-safe="true"
+                              disabled=""
+                              type="button"
+                            >
+                              Delete application
+                            </button>
+                            <button
+                              aria-disabled="false"
+                              class="pf-c-button pf-m-secondary"
+                              data-ouia-component-id="OUIA-Generated-Button-secondary-1"
+                              data-ouia-component-type="PF4/Button"
+                              data-ouia-safe="true"
+                              type="button"
+                            >
+                              Cancel
+                            </button>
+                          </footer>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
               >
                 <ModalContent
                   actions={
                     Array [
                       <Button
-                        variant="primary"
+                        isDisabled={true}
+                        onClick={[Function]}
+                        variant="danger"
                       >
-                        Submit
+                        Delete application
                       </Button>,
                       <Button
-                        variant="link"
+                        onClick={[Function]}
+                        variant="secondary"
                       >
                         Cancel
                       </Button>,
                     ]
                   }
                   aria-describedby=""
-                  aria-label=""
+                  aria-label="Delete application"
                   aria-labelledby=""
-                  boxId="pf-modal-part-0"
+                  boxId="remove-resource-modal"
                   className=""
                   descriptorId="pf-modal-part-2"
                   hasNoBodyWrapper={false}
-                  isOpen={false}
+                  id="remove-resource-modal"
+                  isOpen={true}
                   labelId="pf-modal-part-1"
                   onClose={[Function]}
                   ouiaId="OUIA-Generated-Modal-medium-1"
@@ -242,7 +394,262 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                   titleIconVariant={null}
                   titleLabel=""
                   variant="medium"
-                />
+                >
+                  <Backdrop>
+                    <div
+                      className="pf-c-backdrop"
+                    >
+                      <FocusTrap
+                        active={true}
+                        className="pf-l-bullseye"
+                        focusTrapOptions={
+                          Object {
+                            "clickOutsideDeactivates": true,
+                          }
+                        }
+                        paused={false}
+                      >
+                        <div
+                          className="pf-l-bullseye"
+                        >
+                          <ModalBox
+                            aria-describedby="pf-modal-part-2"
+                            aria-label="Delete application"
+                            aria-labelledby="remove-resource-modal pf-modal-part-1"
+                            className=""
+                            data-ouia-component-id="OUIA-Generated-Modal-medium-1"
+                            data-ouia-component-type="PF4/ModalContent"
+                            data-ouia-safe={true}
+                            id="remove-resource-modal"
+                            style={Object {}}
+                            variant="medium"
+                          >
+                            <div
+                              aria-describedby="pf-modal-part-2"
+                              aria-label="Delete application"
+                              aria-labelledby="remove-resource-modal pf-modal-part-1"
+                              aria-modal="true"
+                              className="pf-c-modal-box pf-m-md"
+                              data-ouia-component-id="OUIA-Generated-Modal-medium-1"
+                              data-ouia-component-type="PF4/ModalContent"
+                              data-ouia-safe={true}
+                              id="remove-resource-modal"
+                              role="dialog"
+                              style={Object {}}
+                            >
+                              <ModalBoxCloseButton
+                                onClose={[Function]}
+                              >
+                                <Button
+                                  aria-label="Close"
+                                  className=""
+                                  onClick={[Function]}
+                                  variant="plain"
+                                >
+                                  <button
+                                    aria-disabled={false}
+                                    aria-label="Close"
+                                    className="pf-c-button pf-m-plain"
+                                    data-ouia-component-id="OUIA-Generated-Button-plain-1"
+                                    data-ouia-component-type="PF4/Button"
+                                    data-ouia-safe={true}
+                                    disabled={false}
+                                    onClick={[Function]}
+                                    role={null}
+                                    type="button"
+                                  >
+                                    <TimesIcon
+                                      color="currentColor"
+                                      noVerticalAlign={false}
+                                      size="sm"
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        aria-labelledby={null}
+                                        fill="currentColor"
+                                        height="1em"
+                                        role="img"
+                                        style={
+                                          Object {
+                                            "verticalAlign": "-0.125em",
+                                          }
+                                        }
+                                        viewBox="0 0 352 512"
+                                        width="1em"
+                                      >
+                                        <path
+                                          d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                        />
+                                      </svg>
+                                    </TimesIcon>
+                                  </button>
+                                </Button>
+                              </ModalBoxCloseButton>
+                              <ModalBoxHeader
+                                help={null}
+                              >
+                                <header
+                                  className="pf-c-modal-box__header"
+                                >
+                                  <ModalBoxTitle
+                                    id="pf-modal-part-1"
+                                    title="Delete application"
+                                    titleIconVariant={null}
+                                    titleLabel=""
+                                  >
+                                    <h1
+                                      className="pf-c-modal-box__title"
+                                      id="pf-modal-part-1"
+                                    >
+                                      <span
+                                        className="pf-c-modal-box__title-text"
+                                      >
+                                        Delete application
+                                      </span>
+                                    </h1>
+                                  </ModalBoxTitle>
+                                </header>
+                              </ModalBoxHeader>
+                              <ModalBoxBody
+                                id="pf-modal-part-2"
+                              >
+                                <div
+                                  className="pf-c-modal-box__body"
+                                  id="pf-modal-part-2"
+                                >
+                                  <div
+                                    className="remove-app-modal-alert"
+                                  />
+                                  <div>
+                                    <AcmLoadingPage>
+                                      <AcmPageCard>
+                                        <PageSection>
+                                          <section
+                                            className="pf-c-page__main-section"
+                                          >
+                                            <Card>
+                                              <article
+                                                className="pf-c-card"
+                                                data-ouia-component-id="OUIA-Generated-Card-1"
+                                                data-ouia-component-type="PF4/Card"
+                                                data-ouia-safe={true}
+                                              >
+                                                <CardBody>
+                                                  <div
+                                                    className="pf-c-card__body"
+                                                  >
+                                                    <EmptyState>
+                                                      <div
+                                                        className="pf-c-empty-state"
+                                                      >
+                                                        <div
+                                                          className="pf-c-empty-state__content"
+                                                        >
+                                                          <EmptyStateIcon
+                                                            component={[Function]}
+                                                            variant="container"
+                                                          >
+                                                            <div
+                                                              className="pf-c-empty-state__icon"
+                                                            >
+                                                              <Spinner>
+                                                                <span
+                                                                  aria-valuetext="Loading..."
+                                                                  className="pf-c-spinner pf-m-xl"
+                                                                  role="progressbar"
+                                                                >
+                                                                  <span
+                                                                    className="pf-c-spinner__clipper"
+                                                                  />
+                                                                  <span
+                                                                    className="pf-c-spinner__lead-ball"
+                                                                  />
+                                                                  <span
+                                                                    className="pf-c-spinner__tail-ball"
+                                                                  />
+                                                                </span>
+                                                              </Spinner>
+                                                            </div>
+                                                          </EmptyStateIcon>
+                                                          <Title
+                                                            headingLevel="h4"
+                                                            size="lg"
+                                                          >
+                                                            <h4
+                                                              className="pf-c-title pf-m-lg"
+                                                            >
+                                                              Loading
+                                                            </h4>
+                                                          </Title>
+                                                        </div>
+                                                      </div>
+                                                    </EmptyState>
+                                                  </div>
+                                                </CardBody>
+                                              </article>
+                                            </Card>
+                                          </section>
+                                        </PageSection>
+                                      </AcmPageCard>
+                                    </AcmLoadingPage>
+                                  </div>
+                                </div>
+                              </ModalBoxBody>
+                              <ModalBoxFooter>
+                                <footer
+                                  className="pf-c-modal-box__footer"
+                                >
+                                  <Button
+                                    isDisabled={true}
+                                    key="confirm"
+                                    onClick={[Function]}
+                                    variant="danger"
+                                  >
+                                    <button
+                                      aria-disabled={true}
+                                      aria-label={null}
+                                      className="pf-c-button pf-m-danger pf-m-disabled"
+                                      data-ouia-component-id="OUIA-Generated-Button-danger-1"
+                                      data-ouia-component-type="PF4/Button"
+                                      data-ouia-safe={true}
+                                      disabled={true}
+                                      onClick={[Function]}
+                                      role={null}
+                                      tabIndex={null}
+                                      type="button"
+                                    >
+                                      Delete application
+                                    </button>
+                                  </Button>
+                                  <Button
+                                    key="cancel"
+                                    onClick={[Function]}
+                                    variant="secondary"
+                                  >
+                                    <button
+                                      aria-disabled={false}
+                                      aria-label={null}
+                                      className="pf-c-button pf-m-secondary"
+                                      data-ouia-component-id="OUIA-Generated-Button-secondary-1"
+                                      data-ouia-component-type="PF4/Button"
+                                      data-ouia-safe={true}
+                                      disabled={false}
+                                      onClick={[Function]}
+                                      role={null}
+                                      type="button"
+                                    >
+                                      Cancel
+                                    </button>
+                                  </Button>
+                                </footer>
+                              </ModalBoxFooter>
+                            </div>
+                          </ModalBox>
+                        </div>
+                      </FocusTrap>
+                    </div>
+                  </Backdrop>
+                </ModalContent>
               </Portal>
             </Modal>
           </AcmModal>
@@ -432,12 +839,15 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               actions={
                 Array [
                   <Button
-                    variant="primary"
+                    isDisabled={true}
+                    onClick={[Function]}
+                    variant="danger"
                   >
-                    Submit
+                    Delete application
                   </Button>,
                   <Button
-                    variant="link"
+                    onClick={[Function]}
+                    variant="secondary"
                   >
                     Cancel
                   </Button>,
@@ -445,11 +855,12 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               }
               appendTo={[Function]}
               aria-describedby=""
-              aria-label=""
+              aria-label="Delete application"
               aria-labelledby=""
               className=""
               hasNoBodyWrapper={false}
-              isOpen={false}
+              id="remove-resource-modal"
+              isOpen={true}
               onClose={[Function]}
               ouiaSafe={true}
               showClose={true}
@@ -459,31 +870,179 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               variant="medium"
             >
               <Portal
-                containerInfo={<div />}
+                containerInfo={
+                  <div>
+                    <div
+                      class="pf-c-backdrop"
+                    >
+                      <div
+                        class="pf-l-bullseye"
+                      >
+                        <div
+                          aria-describedby="pf-modal-part-2"
+                          aria-label="Delete application"
+                          aria-labelledby="remove-resource-modal pf-modal-part-1"
+                          aria-modal="true"
+                          class="pf-c-modal-box pf-m-md"
+                          data-ouia-component-id="OUIA-Generated-Modal-medium-1"
+                          data-ouia-component-type="PF4/ModalContent"
+                          data-ouia-safe="true"
+                          id="remove-resource-modal"
+                          role="dialog"
+                        >
+                          <button
+                            aria-disabled="false"
+                            aria-label="Close"
+                            class="pf-c-button pf-m-plain"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-1"
+                            data-ouia-component-type="PF4/Button"
+                            data-ouia-safe="true"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 352 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                              />
+                            </svg>
+                          </button>
+                          <header
+                            class="pf-c-modal-box__header"
+                          >
+                            <h1
+                              class="pf-c-modal-box__title"
+                              id="pf-modal-part-1"
+                            >
+                              
+                              <span
+                                class="pf-c-modal-box__title-text"
+                              >
+                                Delete application
+                              </span>
+                            </h1>
+                          </header>
+                          <div
+                            class="pf-c-modal-box__body"
+                            id="pf-modal-part-2"
+                          >
+                            <div
+                              class="remove-app-modal-alert"
+                            />
+                            <div>
+                              <section
+                                class="pf-c-page__main-section"
+                              >
+                                <article
+                                  class="pf-c-card"
+                                  data-ouia-component-id="OUIA-Generated-Card-1"
+                                  data-ouia-component-type="PF4/Card"
+                                  data-ouia-safe="true"
+                                >
+                                  <div
+                                    class="pf-c-card__body"
+                                  >
+                                    <div
+                                      class="pf-c-empty-state"
+                                    >
+                                      <div
+                                        class="pf-c-empty-state__content"
+                                      >
+                                        <div
+                                          class="pf-c-empty-state__icon"
+                                        >
+                                          <span
+                                            aria-valuetext="Loading..."
+                                            class="pf-c-spinner pf-m-xl"
+                                            role="progressbar"
+                                          >
+                                            <span
+                                              class="pf-c-spinner__clipper"
+                                            />
+                                            <span
+                                              class="pf-c-spinner__lead-ball"
+                                            />
+                                            <span
+                                              class="pf-c-spinner__tail-ball"
+                                            />
+                                          </span>
+                                        </div>
+                                        <h4
+                                          class="pf-c-title pf-m-lg"
+                                        >
+                                          Loading
+                                        </h4>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </article>
+                              </section>
+                            </div>
+                          </div>
+                          <footer
+                            class="pf-c-modal-box__footer"
+                          >
+                            <button
+                              aria-disabled="true"
+                              class="pf-c-button pf-m-danger pf-m-disabled"
+                              data-ouia-component-id="OUIA-Generated-Button-danger-1"
+                              data-ouia-component-type="PF4/Button"
+                              data-ouia-safe="true"
+                              disabled=""
+                              type="button"
+                            >
+                              Delete application
+                            </button>
+                            <button
+                              aria-disabled="false"
+                              class="pf-c-button pf-m-secondary"
+                              data-ouia-component-id="OUIA-Generated-Button-secondary-1"
+                              data-ouia-component-type="PF4/Button"
+                              data-ouia-safe="true"
+                              type="button"
+                            >
+                              Cancel
+                            </button>
+                          </footer>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
               >
                 <ModalContent
                   actions={
                     Array [
                       <Button
-                        variant="primary"
+                        isDisabled={true}
+                        onClick={[Function]}
+                        variant="danger"
                       >
-                        Submit
+                        Delete application
                       </Button>,
                       <Button
-                        variant="link"
+                        onClick={[Function]}
+                        variant="secondary"
                       >
                         Cancel
                       </Button>,
                     ]
                   }
                   aria-describedby=""
-                  aria-label=""
+                  aria-label="Delete application"
                   aria-labelledby=""
-                  boxId="pf-modal-part-0"
+                  boxId="remove-resource-modal"
                   className=""
                   descriptorId="pf-modal-part-2"
                   hasNoBodyWrapper={false}
-                  isOpen={false}
+                  id="remove-resource-modal"
+                  isOpen={true}
                   labelId="pf-modal-part-1"
                   onClose={[Function]}
                   ouiaId="OUIA-Generated-Modal-medium-1"
@@ -493,7 +1052,262 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                   titleIconVariant={null}
                   titleLabel=""
                   variant="medium"
-                />
+                >
+                  <Backdrop>
+                    <div
+                      className="pf-c-backdrop"
+                    >
+                      <FocusTrap
+                        active={true}
+                        className="pf-l-bullseye"
+                        focusTrapOptions={
+                          Object {
+                            "clickOutsideDeactivates": true,
+                          }
+                        }
+                        paused={false}
+                      >
+                        <div
+                          className="pf-l-bullseye"
+                        >
+                          <ModalBox
+                            aria-describedby="pf-modal-part-2"
+                            aria-label="Delete application"
+                            aria-labelledby="remove-resource-modal pf-modal-part-1"
+                            className=""
+                            data-ouia-component-id="OUIA-Generated-Modal-medium-1"
+                            data-ouia-component-type="PF4/ModalContent"
+                            data-ouia-safe={true}
+                            id="remove-resource-modal"
+                            style={Object {}}
+                            variant="medium"
+                          >
+                            <div
+                              aria-describedby="pf-modal-part-2"
+                              aria-label="Delete application"
+                              aria-labelledby="remove-resource-modal pf-modal-part-1"
+                              aria-modal="true"
+                              className="pf-c-modal-box pf-m-md"
+                              data-ouia-component-id="OUIA-Generated-Modal-medium-1"
+                              data-ouia-component-type="PF4/ModalContent"
+                              data-ouia-safe={true}
+                              id="remove-resource-modal"
+                              role="dialog"
+                              style={Object {}}
+                            >
+                              <ModalBoxCloseButton
+                                onClose={[Function]}
+                              >
+                                <Button
+                                  aria-label="Close"
+                                  className=""
+                                  onClick={[Function]}
+                                  variant="plain"
+                                >
+                                  <button
+                                    aria-disabled={false}
+                                    aria-label="Close"
+                                    className="pf-c-button pf-m-plain"
+                                    data-ouia-component-id="OUIA-Generated-Button-plain-1"
+                                    data-ouia-component-type="PF4/Button"
+                                    data-ouia-safe={true}
+                                    disabled={false}
+                                    onClick={[Function]}
+                                    role={null}
+                                    type="button"
+                                  >
+                                    <TimesIcon
+                                      color="currentColor"
+                                      noVerticalAlign={false}
+                                      size="sm"
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        aria-labelledby={null}
+                                        fill="currentColor"
+                                        height="1em"
+                                        role="img"
+                                        style={
+                                          Object {
+                                            "verticalAlign": "-0.125em",
+                                          }
+                                        }
+                                        viewBox="0 0 352 512"
+                                        width="1em"
+                                      >
+                                        <path
+                                          d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                        />
+                                      </svg>
+                                    </TimesIcon>
+                                  </button>
+                                </Button>
+                              </ModalBoxCloseButton>
+                              <ModalBoxHeader
+                                help={null}
+                              >
+                                <header
+                                  className="pf-c-modal-box__header"
+                                >
+                                  <ModalBoxTitle
+                                    id="pf-modal-part-1"
+                                    title="Delete application"
+                                    titleIconVariant={null}
+                                    titleLabel=""
+                                  >
+                                    <h1
+                                      className="pf-c-modal-box__title"
+                                      id="pf-modal-part-1"
+                                    >
+                                      <span
+                                        className="pf-c-modal-box__title-text"
+                                      >
+                                        Delete application
+                                      </span>
+                                    </h1>
+                                  </ModalBoxTitle>
+                                </header>
+                              </ModalBoxHeader>
+                              <ModalBoxBody
+                                id="pf-modal-part-2"
+                              >
+                                <div
+                                  className="pf-c-modal-box__body"
+                                  id="pf-modal-part-2"
+                                >
+                                  <div
+                                    className="remove-app-modal-alert"
+                                  />
+                                  <div>
+                                    <AcmLoadingPage>
+                                      <AcmPageCard>
+                                        <PageSection>
+                                          <section
+                                            className="pf-c-page__main-section"
+                                          >
+                                            <Card>
+                                              <article
+                                                className="pf-c-card"
+                                                data-ouia-component-id="OUIA-Generated-Card-1"
+                                                data-ouia-component-type="PF4/Card"
+                                                data-ouia-safe={true}
+                                              >
+                                                <CardBody>
+                                                  <div
+                                                    className="pf-c-card__body"
+                                                  >
+                                                    <EmptyState>
+                                                      <div
+                                                        className="pf-c-empty-state"
+                                                      >
+                                                        <div
+                                                          className="pf-c-empty-state__content"
+                                                        >
+                                                          <EmptyStateIcon
+                                                            component={[Function]}
+                                                            variant="container"
+                                                          >
+                                                            <div
+                                                              className="pf-c-empty-state__icon"
+                                                            >
+                                                              <Spinner>
+                                                                <span
+                                                                  aria-valuetext="Loading..."
+                                                                  className="pf-c-spinner pf-m-xl"
+                                                                  role="progressbar"
+                                                                >
+                                                                  <span
+                                                                    className="pf-c-spinner__clipper"
+                                                                  />
+                                                                  <span
+                                                                    className="pf-c-spinner__lead-ball"
+                                                                  />
+                                                                  <span
+                                                                    className="pf-c-spinner__tail-ball"
+                                                                  />
+                                                                </span>
+                                                              </Spinner>
+                                                            </div>
+                                                          </EmptyStateIcon>
+                                                          <Title
+                                                            headingLevel="h4"
+                                                            size="lg"
+                                                          >
+                                                            <h4
+                                                              className="pf-c-title pf-m-lg"
+                                                            >
+                                                              Loading
+                                                            </h4>
+                                                          </Title>
+                                                        </div>
+                                                      </div>
+                                                    </EmptyState>
+                                                  </div>
+                                                </CardBody>
+                                              </article>
+                                            </Card>
+                                          </section>
+                                        </PageSection>
+                                      </AcmPageCard>
+                                    </AcmLoadingPage>
+                                  </div>
+                                </div>
+                              </ModalBoxBody>
+                              <ModalBoxFooter>
+                                <footer
+                                  className="pf-c-modal-box__footer"
+                                >
+                                  <Button
+                                    isDisabled={true}
+                                    key="confirm"
+                                    onClick={[Function]}
+                                    variant="danger"
+                                  >
+                                    <button
+                                      aria-disabled={true}
+                                      aria-label={null}
+                                      className="pf-c-button pf-m-danger pf-m-disabled"
+                                      data-ouia-component-id="OUIA-Generated-Button-danger-1"
+                                      data-ouia-component-type="PF4/Button"
+                                      data-ouia-safe={true}
+                                      disabled={true}
+                                      onClick={[Function]}
+                                      role={null}
+                                      tabIndex={null}
+                                      type="button"
+                                    >
+                                      Delete application
+                                    </button>
+                                  </Button>
+                                  <Button
+                                    key="cancel"
+                                    onClick={[Function]}
+                                    variant="secondary"
+                                  >
+                                    <button
+                                      aria-disabled={false}
+                                      aria-label={null}
+                                      className="pf-c-button pf-m-secondary"
+                                      data-ouia-component-id="OUIA-Generated-Button-secondary-1"
+                                      data-ouia-component-type="PF4/Button"
+                                      data-ouia-safe={true}
+                                      disabled={false}
+                                      onClick={[Function]}
+                                      role={null}
+                                      type="button"
+                                    >
+                                      Cancel
+                                    </button>
+                                  </Button>
+                                </footer>
+                              </ModalBoxFooter>
+                            </div>
+                          </ModalBox>
+                        </div>
+                      </FocusTrap>
+                    </div>
+                  </Backdrop>
+                </ModalContent>
               </Portal>
             </Modal>
           </AcmModal>

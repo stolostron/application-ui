@@ -58,7 +58,7 @@ module.exports = {
             ],
             exclude: [
               path.resolve(__dirname, './node_modules/fuse.js'),
-              path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
+              //path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
             ]
           }
         ],
@@ -72,7 +72,7 @@ module.exports = {
               path.resolve(__dirname, './node_modules'),
             ],
             exclude: [
-              path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
+              //path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
             ]
           }
         ],
@@ -114,7 +114,10 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, "./node_modules/monaco-editor"),
+        include: [
+         path.resolve(__dirname, "./node_modules/monaco-editor"),
+         path.resolve(__dirname, "./node_modules/@open-cluster-management/temptifly") 
+        ],
         use: ["style-loader", "css-loader"]
       },
       {

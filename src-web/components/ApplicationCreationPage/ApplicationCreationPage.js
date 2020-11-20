@@ -24,6 +24,7 @@ import {
 } from '../../actions/application'
 import { updateSecondaryHeader } from '../../actions/common'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
+import '@open-cluster-management/temptifly/dist/styles.css'
 import TemplateEditor from '@open-cluster-management/temptifly'
 import { controlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'

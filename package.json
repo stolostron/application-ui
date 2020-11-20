@@ -7,6 +7,7 @@
     "start": "cross-env NODE_ENV=development node app.js",
     "start:production": "cross-env NODE_ENV=production node app.js",
     "clean": "del-cli dll public/*",
+    "build:test": "webpack --progress",
     "build:watch": "webpack --progress --watch",
     "build": "npm run clean && webpack --config webpack.dll.js --progress && webpack --progress",
     "build:production": "npm run build:dll:production && cross-env BUILD_ENV=production webpack",

@@ -206,4 +206,7 @@
         </g>
       </g>
     </symbol>
+    <symbol viewBox="0 0 12 8" id="clusterCount">
+      <rect width="100%" height="100%" stroke="white" fill="black" stroke-width="1"/>
+    </symbol>
 </svg>

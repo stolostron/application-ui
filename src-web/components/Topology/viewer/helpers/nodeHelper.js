@@ -27,6 +27,7 @@ const TITLE_RADIUS = NODE_RADIUS + 28
 const textNodeStatus = 'text.nodeStatus'
 const gNodeTitle = 'g.nodeTitle'
 const gNodeLabel = 'g.nodeLabel'
+const gClusterCountText = 'g.clusterCountText'
 
 // fix d3-selection-multi not added to d3
 import 'd3-selection-multi'
@@ -193,6 +194,9 @@ export default class NodeHelper {
 
     // update node icons
     this.updateNodeIcons()
+
+    // cluster count text
+    this.createClusterCountText(draw, newNodes)
   };
 
   createNodePulse = nodes => {
@@ -342,6 +346,32 @@ export default class NodeHelper {
       .call(this.layoutBackgroundRect)
   };
 
+  // Only for cluster nodes, put the cluster count text
+  createClusterCountText = (draw, nodes) => {
+    const clusterNode = nodes.filter(d => {
+      const { layout } = d
+      return layout.type === 'cluster'
+    })
+
+    clusterNode
+      .append('g')
+      .attr('class', 'clusterCountText')
+      .html(({ layout }) => {
+        const clusterCountTextGroup = draw.group()
+        // Generate text SVG on the fly
+        clusterCountTextGroup.text(add => {
+          add
+            .tspan(layout.clusterCount)
+            .addClass('count')
+            .font({ fill: 'white', 'font-weight': 'bold' })
+            .newLine()
+        })
+
+        return clusterCountTextGroup.svg()
+      })
+      .call(fixedD3.drag().on('drag', this.dragNode))
+  };
+
   layoutBackgroundRect = selectionB => {
     selectionB.each(({ layout }, i, ns) => {
       layout.textBBox = ns[i].getBBox()
@@ -386,6 +416,33 @@ export default class NodeHelper {
           'pointer-events': 'none',
           tabindex: -1,
           class: `nodeIcon ${classType}`
+        }
+      })
+
+    //special icon for the cluster node count
+    const clusterNode = this.svg
+      .select('g.nodes')
+      .selectAll('g.node')
+      .filter(d => {
+        const { layout } = d
+        return layout.type === 'cluster'
+      })
+    const clusterSVGIcon = clusterNode
+      .selectAll('use.clusterCountIcon')
+      .data(({ layout: { clusterCountIcon } }) => {
+        return clusterCountIcon ? [clusterCountIcon] : []
+      })
+    clusterSVGIcon
+      .enter()
+      .append('use')
+      .attrs(({ icon, classType, width, height }) => {
+        return {
+          'xlink:href': `#diagramIcons_${icon}`,
+          width: `${width}px`,
+          height: `${height}px`,
+          'pointer-events': 'none',
+          tabindex: -1,
+          class: `clusterCountIcon ${classType}`
         }
       })
 
@@ -573,11 +630,27 @@ export default class NodeHelper {
         }
       })
 
+    // move cluster count icon
+    nodeLayer
+      .selectAll('.clusterCountIcon')
+      .attrs(({ dx, dy, width, height }, i, ns) => {
+        const { layout: { x = 0, y = 0, scale = 1 } } = d3
+          .select(ns[i].parentNode)
+          .datum()
+        return {
+          transform: `translate(${x + dx * scale - width / 2}, ${y +
+            dy * scale -
+            height / 2})`
+        }
+      })
+
     if (this.showsShapeTitles) {
       moveTitles(this.svg)
     }
     // move labels
     moveLabels(this.svg)
+    // move clusterCountText
+    moveClusterCountText(this.svg)
   };
 
   dragNode = (dp, index, nodeNS) => {
@@ -634,6 +707,17 @@ export default class NodeHelper {
         }
       })
 
+      node
+        .selectAll('.clusterCountIcon')
+        .attrs(({ dx, dy, width, height }, i, ns) => {
+          const { layout: { x, y } } = d3.select(ns[i].parentNode).datum()
+          return {
+            transform: `translate(${x + dx - width / 2}, ${y +
+              dy -
+              height / 2})`
+          }
+        })
+
       // drag status message
       node.selectAll(textNodeStatus).attrs(({ textBBox: { dy } }, i, ns) => {
         const { layout: { x, y } } = d3.select(ns[i].parentNode).datum()
@@ -664,6 +748,38 @@ export default class NodeHelper {
             })
         })
       }
+
+      //drag cluster count text
+      const clusterCountText = node.selectAll(gClusterCountText)
+      clusterCountText.each((d, i, ns) => {
+        d3
+          .select(ns[i])
+          .selectAll('text')
+          .attr('x', () => {
+            return layout.x + NODE_RADIUS - 2
+          })
+          .attr('y', () => {
+            return layout.y + 4 * (layout.scale || 1)
+          })
+        d3
+          .select(ns[i])
+          .selectAll('rect')
+          .attr('x', () => {
+            return layout.x - layout.textBBox.width / 2
+          })
+          .attr('y', () => {
+            return layout.y + NODE_RADIUS * (layout.scale || 1) + 2
+          })
+        d3
+          .select(ns[i])
+          .selectAll('tspan')
+          .attr('x', () => {
+            return layout.x + NODE_RADIUS - 2
+          })
+          .attr('y', () => {
+            return layout.y + 4 * (layout.scale || 1)
+          })
+      })
 
       // drag node label
       const nodeLabels = node.selectAll(gNodeLabel)
@@ -834,6 +950,15 @@ export const counterZoomLabels = (svg, currentZoom) => {
         .datum()
       return search === FilterResults.hidden ? 'hidden' : 'visible'
     })
+
+    nodeLayer
+      .selectAll('use.clusterCountIcon')
+      .style('visibility', (d, i, ns) => {
+        const { layout: { search = FilterResults.nosearch } } = d3
+          .select(ns[i].parentNode)
+          .datum()
+        return search === FilterResults.hidden ? 'hidden' : 'visible'
+      })
 
     ///////// STATUS //////////////////
     nodeLayer
@@ -1030,6 +1155,33 @@ export const moveTitles = svg => {
       })
       nodeTitle.selectAll('tspan.beg').attr('x', () => {
         return x
+      })
+    })
+}
+
+export const moveClusterCountText = svg => {
+  svg
+    .select('g.nodes')
+    .selectAll(gClusterCountText)
+    .filter(({ layout: { x, y } }) => {
+      return x !== undefined && y !== undefined
+    })
+    .each(({ layout }, i, ns) => {
+      const { x, y } = layout
+      const clusterCountText = d3.select(ns[i])
+
+      clusterCountText.selectAll('text').attrs(() => {
+        return {
+          x: x + NODE_RADIUS - 2,
+          y: y + 4
+        }
+      })
+      clusterCountText.selectAll('tspan.count').attrs(() => {
+        return {
+          x: x + NODE_RADIUS - 2,
+          y: y + 4,
+          dy: 0
+        }
       })
     })
 }

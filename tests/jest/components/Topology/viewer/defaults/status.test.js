@@ -60,6 +60,7 @@ const clusterNodes = [
     clusterName: null,
     type: "cluster",
     specs: {
+      clusters: [],
       cluster: {
         metadata: {
           name: "cluster1",
@@ -109,6 +110,7 @@ const clusterNodes = [
     clusterName: null,
     type: "cluster",
     specs: {
+      clusters: [],
       cluster: {
         metadata: {
           name: "cluster2",
@@ -157,6 +159,7 @@ const clusterNodes = [
     clusterName: null,
     type: "cluster",
     specs: {
+      clusters: [],
       cluster: {
         metadata: {
           name: "cluster3",

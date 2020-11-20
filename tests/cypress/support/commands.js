@@ -238,27 +238,41 @@ Cypress.Commands.add("logInAsRole", role => {
   // Cypress.env("OC_CLUSTER_PASS",Cypress.env("OC_CLUSTER_USER_PASS"))
   Cypress.env("OC_IDP", idp);
 
-  // login only if user is not looged In
   cy.visit("/multicloud/applications");
-  cy.get("body").then(body => {
-    // Check if logged in
-    if (body.find("#header").length === 0) {
-      // Check if identity providers are configured
-      if (body.find("form").length === 0) cy.contains(idp).click();
-      cy
-        .get("#inputUsername", { timeout: 20000 })
-        .click()
-        .focused()
-        .type(user);
-      cy
-        .get("#inputPassword", { timeout: 20000 })
-        .click()
-        .focused()
-        .type(password);
-      cy.get('button[type="submit"]', { timeout: 20000 }).click();
-      cy.get("#header", { timeout: 30000 }).should("exist");
-    }
+  cy.get(".header-user-info-dropdown_icon").then($btn => {
+    //logout when test starts since we need to use the app idp user
+    cy.log("Logging out existing user");
+    cy.get($btn).click();
+    cy.contains("Log out").click();
+    // cy.clearCookies()
   });
+
+  cy.log(`Attempt to log in app app tests user ${user} with idp ${idp}`);
+  cy
+    .get(".pf-c-login__main-body")
+    .get(".pf-c-button")
+    .each($el => {
+      const userIDP = $el.text();
+      if (userIDP == idp) {
+        cy
+          .get($el)
+          .focus()
+          .click({ force: true });
+
+        cy
+          .get("#inputUsername", { timeout: 20000 })
+          .click()
+          .focused()
+          .type(user);
+        cy
+          .get("#inputPassword", { timeout: 20000 })
+          .click()
+          .focused()
+          .type(password);
+        cy.get('button[type="submit"]', { timeout: 20000 }).click();
+        cy.get("#header", { timeout: 30000 }).should("exist");
+      }
+    });
 });
 
 Cypress.Commands.add("logoutFromRole", role => {

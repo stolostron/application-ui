@@ -52,11 +52,12 @@ module.exports = {
       {
         // Transpile React JSX to ES5
         test: [/\.jsx$/, /\.js$/],
-        exclude: /node_modules|\.scss/,
+        exclude: /node_modules\/(?!(fuse.js)\/)|\.scss/, // fuse.js requires transpiling
         loader: "babel-loader?cacheDirectory"
       },
       {
         test: [/\.s?css$/],
+        exclude: /node_modules/,
         loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [

@@ -58,7 +58,7 @@ module.exports = {
             ],
             exclude: [
               path.resolve(__dirname, './node_modules/fuse.js'),
-              //path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
+              path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
             ]
           }
         ],

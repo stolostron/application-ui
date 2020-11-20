@@ -128,8 +128,15 @@ export const updatePlacementControlsForLocal = placementControl => {
   )
 
   if (active === true) {
-    onlineControl && _.set(onlineControl, 'type', 'hidden')
-    clusterSelectorControl && _.set(clusterSelectorControl, 'type', 'hidden')
+    if (onlineControl) {
+      _.set(onlineControl, 'type', 'hidden')
+      _.set(onlineControl, 'active', false)
+    }
+    if (clusterSelectorControl) {
+      _.set(clusterSelectorControl, 'type', 'hidden')
+      clusterSelectorControl.active &&
+        _.set(clusterSelectorControl.active, 'mode', false)
+    }
   } else {
     if (onlineControl) {
       _.set(onlineControl, 'type', 'checkbox')
@@ -156,9 +163,10 @@ export const updatePlacementControlsForCustom = placementControl => {
     ({ id }) => id === localClusterCheckbox
   )
 
+  localControl && _.set(localControl, 'active', false)
+
   if (active && active.mode) {
     onlineControl && _.set(onlineControl, 'active', false)
-    localControl && _.set(localControl, 'active', false)
   } else {
     onlineControl && _.set(onlineControl, 'active', true)
   }
@@ -176,10 +184,11 @@ export const updatePlacementControlsForAllOnline = placementControl => {
     ({ id }) => id === localClusterCheckbox
   )
 
+  localControl && _.set(localControl, 'active', false)
+
   if (clusterSelectorControl && clusterSelectorControl.active) {
     if (active) {
       _.set(clusterSelectorControl.active, 'mode', false)
-      localControl && _.set(localControl, 'active', false)
     } else {
       _.set(clusterSelectorControl.active, 'mode', true)
     }

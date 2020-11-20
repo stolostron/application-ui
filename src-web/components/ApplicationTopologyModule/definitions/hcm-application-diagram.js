@@ -74,12 +74,18 @@ export const processNodeData = (
 ) => {
   const { name, type } = node
 
-  if (R.contains(type, ['cluster', 'application', 'placements'])) {
+  const isDeployableResource =
+    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
+  if (
+    !isDeployableResource &&
+    R.contains(type, ['cluster', 'application', 'placements'])
+  ) {
     return //ignore these types
   }
 
   const channel = _.get(node, 'specs.raw.spec.channel', '')
-  const keyName = channel.length > 0 ? `${channel}-${name}` : name
+  const keyName =
+    !isDeployableResource && channel.length > 0 ? `${channel}-${name}` : name
 
   let podsKeyForThisNode = null
   const clusterName = getClusterName(node.id)

@@ -372,9 +372,13 @@ const getPulseStatusForGenericNode = node => {
   if (pulse === 'red') {
     return pulse //no need to check anything else, return red
   }
+  const isDeployableResource =
+    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
+
   const name = _.get(node, metadataName, '')
   const channel = _.get(node, 'specs.raw.spec.channel', '')
-  const resourceName = channel.length > 0 ? `${channel}-${name}` : name
+  const resourceName =
+    !isDeployableResource && channel.length > 0 ? `${channel}-${name}` : name
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   const clusterNames = R.split(',', getClusterName(node.id))
@@ -575,20 +579,30 @@ export const computeNodeStatus = node => {
     return pulse
   }
 
+  const isDeployableResource =
+    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
   switch (node.type) {
   case 'application':
-    if (!_.get(node, 'specs.channels')) {
+    if (isDeployableResource) {
+      pulse = getPulseStatusForGenericNode(node)
+    } else if (!_.get(node, 'specs.channels')) {
       pulse = 'red'
     }
     break
   case 'placements':
-    if (!_.get(node, 'specs.raw.status.decisions')) {
+    if (isDeployableResource) {
+      pulse = getPulseStatusForGenericNode(node)
+    } else if (!_.get(node, 'specs.raw.status.decisions')) {
       pulse = 'red'
     }
     break
   case 'subscription':
-    pulse = getPulseStatusForSubscription(node)
-    shapeType = getShapeTypeForSubscription(node)
+    if (isDeployableResource) {
+      pulse = getPulseStatusForGenericNode(node)
+    } else {
+      pulse = getPulseStatusForSubscription(node)
+      shapeType = getShapeTypeForSubscription(node)
+    }
     break
   case 'cluster':
     pulse = getPulseStatusForCluster(node)
@@ -960,14 +974,7 @@ export const setupResourceModel = (
 ) => {
   if (list && resourceMap) {
     list.forEach(kindArray => {
-      if (
-        R.contains(_.get(kindArray, 'kind', ''), [
-          'cluster',
-          'placementrule',
-          'channel',
-          'deployable'
-        ])
-      ) {
+      if (R.contains(_.get(kindArray, 'kind', ''), ['cluster', 'deployable'])) {
         return //ignore these type of resources
       }
 
@@ -1045,23 +1052,27 @@ export const setupResourceModel = (
 //show resource deployed status on the remote clusters
 //for resources not producing pods
 export const setResourceDeployStatus = (node, details) => {
+  const isDeployableResource =
+    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
   if (
     nodeMustHavePods(node) ||
-    R.contains(node.type, [
-      'application',
-      'placements',
-      'cluster',
-      'subscription',
-      'package'
-    ])
+    node.type === 'package' ||
+    (!isDeployableResource &&
+      R.contains(node.type, [
+        'application',
+        'placements',
+        'cluster',
+        'subscription'
+      ]))
   ) {
     //resource with pods info is processed separately
-    //ignore packages
+    //ignore packages or any resources from the above list not defined as a deployable
     return details
   }
   const name = _.get(node, metadataName, '')
   const channel = _.get(node, 'specs.raw.spec.channel', '')
-  const resourceName = channel.length > 0 ? `${channel}-${name}` : name
+  const resourceName =
+    !isDeployableResource && channel.length > 0 ? `${channel}-${name}` : name
 
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
@@ -1308,8 +1319,11 @@ const setClusterWindowStatus = (windowStatusArray, subscription, details) => {
 }
 
 export const setSubscriptionDeployStatus = (node, details) => {
-  if (R.pathOr('', ['type'])(node) !== 'subscription') {
-    return details
+  //check if this is a subscription created from the app deployable
+  const isDeployableResource =
+    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
+  if (R.pathOr('', ['type'])(node) !== 'subscription' || isDeployableResource) {
+    return details //ignore subscriptions defined from deployables or any other types
   }
   const timeWindow = _.get(node, 'specs.raw.spec.timewindow.windowtype')
   const timezone = _.get(node, 'specs.raw.spec.timewindow.location', 'NA')
@@ -1510,8 +1524,11 @@ export const setApplicationDeployStatus = (node, details) => {
     type: 'spacer'
   })
 
+  //check if this is a subscription created from the app deployable
+  const isDeployableResource =
+    _.get(node, 'id', '').indexOf('--member--deployable--') > 0
   //show error if no channel, meaning there is no linked subscription
-  if (!_.get(node, 'specs.channels')) {
+  if (!isDeployableResource && !_.get(node, 'specs.channels')) {
     const appNS = _.get(node, metadataNamespace, 'NA')
 
     details.push({

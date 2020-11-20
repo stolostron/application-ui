@@ -6,7 +6,6 @@
 import {
   getNodePropery,
   addPropertyToList,
-  nodeMustHavePods,
   createDeployableYamlLink,
   createResourceSearchLink,
   setupResourceModel,
@@ -27,13 +26,18 @@ import {
   addIngressNodeInfo,
   setPlacementRuleDeployStatus,
   addNodeInfoPerCluster,
-  getClusterName,
   getPodState,
   getNameWithoutChartRelease,
   removeReleaseGeneratedSuffix,
   getClusterHost,
   getPulseStatusForCluster
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
+
+import {
+  getClusterName,
+  nodeMustHavePods,
+  isDeployableResource
+} from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
 
 const ansibleSuccess = {
   type: "ansiblejob",
@@ -3240,6 +3244,36 @@ describe("setApplicationDeployStatus 2 ", () => {
       status: false,
       value: "test"
     },
+    { type: "spacer" }
+  ];
+  it("setApplicationDeployStatus deployed application as a deployable", () => {
+    expect(setApplicationDeployStatus(node, [])).toEqual(result);
+  });
+});
+
+describe("setApplicationDeployStatus application ", () => {
+  const node = {
+    type: "application",
+    name: "cassandra",
+    namespace: "default",
+    id: "member--application",
+    specs: {
+      raw: {
+        metadata: {
+          selfLink: "aaa"
+        },
+        spec: {
+          selector: "test"
+        }
+      }
+    }
+  };
+  const result = [
+    {
+      labelKey: "spec.selector.matchExpressions",
+      status: false,
+      value: "test"
+    },
     { type: "spacer" },
     {
       labelKey: "resource.rule.clusters.error.label",
@@ -3255,13 +3289,12 @@ describe("setApplicationDeployStatus 2 ", () => {
           targetLink:
             '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3ANA%20cluster%3Alocal-cluster"}'
         },
-        id:
-          "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra-subscrSearch",
+        id: "member--application-subscrSearch",
         label: "View all subscriptions in {0} namespace"
       }
     }
   ];
-  it("setApplicationDeployStatus deployed selector 2", () => {
+  it("setApplicationDeployStatus deployed application", () => {
     expect(setApplicationDeployStatus(node, [])).toEqual(result);
   });
 });
@@ -3272,7 +3305,7 @@ describe("setApplicationDeployStatus no selector ", () => {
     name: "cassandra",
     namespace: "default",
     id:
-      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+      "member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
     specs: {}
   };
   const result = [
@@ -3298,7 +3331,7 @@ describe("setApplicationDeployStatus no selector ", () => {
             '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3ANA%20cluster%3Alocal-cluster"}'
         },
         id:
-          "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra-subscrSearch",
+          "member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra-subscrSearch",
         label: "View all subscriptions in {0} namespace"
       }
     }
@@ -4470,5 +4503,46 @@ describe("getPulseStatusForCluster all some ok", () => {
   };
   it("should process cluster node", () => {
     expect(getPulseStatusForCluster(clusterNode)).toEqual("yellow");
+  });
+});
+
+describe("isDeployableResource for regular subscription", () => {
+  const node = {
+    id: "member--subscription--default--mortgagedc-subscription",
+    name: "mortgagedcNOStatus",
+    specs: {
+      raw: { spec: {} },
+      subscriptionModel: {
+        "mortgagedc-subscription-braveman": {},
+        "mortgagedc-subscription-braveman2": {}
+      }
+    },
+    type: "subscription"
+  };
+
+  it("returns false for regular subscription ", () => {
+    expect(isDeployableResource(node)).toEqual(false);
+  });
+});
+
+describe("isDeployableResource for deployable subscription", () => {
+  const node = {
+    id:
+      "member--member--deployable--member--clusters--birsan2-remote--default--val-op-subscription-1-tmp-val-op-subscription-1-master-operators-config-cert-manager-operator-rhmp-test-subscription--subscription--cert-manager-operator-rhmp-test",
+    name: "cert-manager-operator-rhmp-test",
+    namespace: "default",
+    specs: {
+      raw: {
+        spec: {
+          apiVersion: "operators.coreos.com/v1alpha1",
+          kind: "Subscription"
+        }
+      }
+    },
+    type: "subscription"
+  };
+
+  it("returns true for deployable subscription ", () => {
+    expect(isDeployableResource(node)).toEqual(true);
   });
 });

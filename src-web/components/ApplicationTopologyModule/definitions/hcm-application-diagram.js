@@ -13,12 +13,14 @@ import {
   saveStoredObject
 } from '../../../../lib/client/resource-helper'
 import {
-  getClusterName,
   setupResourceModel,
-  computeNodeStatus,
+  computeNodeStatus
+} from '../../Topology/utils/diagram-helpers'
+import {
+  getClusterName,
   nodeMustHavePods,
   isDeployableResource
-} from '../../Topology/utils/diagram-helpers'
+} from '../../Topology/utils/diagram-helpers-utils'
 import { getTopologyElements } from './hcm-topology'
 import { REQUEST_STATUS } from '../../../actions'
 import _ from 'lodash'

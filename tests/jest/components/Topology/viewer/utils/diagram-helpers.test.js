@@ -6,7 +6,6 @@
 import {
   getNodePropery,
   addPropertyToList,
-  nodeMustHavePods,
   createDeployableYamlLink,
   createResourceSearchLink,
   setupResourceModel,
@@ -27,14 +26,18 @@ import {
   addIngressNodeInfo,
   setPlacementRuleDeployStatus,
   addNodeInfoPerCluster,
-  getClusterName,
   getPodState,
   getNameWithoutChartRelease,
   removeReleaseGeneratedSuffix,
   getClusterHost,
-  getPulseStatusForCluster,
-  isDeployableResource
+  getPulseStatusForCluster
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
+
+import {
+  getClusterName,
+  nodeMustHavePods,
+  isDeployableResource
+} from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
 
 const ansibleSuccess = {
   type: "ansiblejob",

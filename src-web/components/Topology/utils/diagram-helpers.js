@@ -15,6 +15,11 @@ import _ from 'lodash'
 import moment from 'moment'
 import msgs from '../../../../nls/platform.properties'
 import { LOCAL_HUB_NAME } from '../../../../lib/shared/constants'
+import {
+  isDeployableResource,
+  nodeMustHavePods,
+  getClusterName
+} from './diagram-helpers-utils'
 
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
@@ -40,12 +45,6 @@ import {
   showAnsibleJobDetails,
   getPulseStatusForAnsibleNode
 } from './ansible-task'
-
-export const isDeployableResource = node => {
-  //check if this node has been created using a deployable object
-  //used to differentiate between app, subscription, rules deployed using an app deployable
-  return _.get(node, 'id', '').indexOf('--member--deployable--') !== -1
-}
 
 /*
  * UI helpers to help with data transformations
@@ -74,21 +73,6 @@ export const addDetails = (details, dets) => {
       })
     }
   })
-}
-
-export const getClusterName = nodeId => {
-  if (nodeId === undefined) {
-    return ''
-  }
-  const clusterIndex = nodeId.indexOf('--clusters--')
-  if (clusterIndex !== -1) {
-    const startPos = nodeId.indexOf('--clusters--') + 12
-    const endPos = nodeId.indexOf('--', startPos)
-    return nodeId.slice(startPos, endPos)
-  }
-
-  //node must be deployed locally on hub, such as ansible jobs
-  return LOCAL_HUB_NAME
 }
 
 export const getWrappedNodeLabel = (label, width, rows = 3) => {
@@ -256,52 +240,6 @@ export const addPropertyToList = (list, data) => {
   }
 
   return list
-}
-
-export const nodeMustHavePods = node => {
-  //returns true if the node should deploy pods
-
-  if (
-    !node ||
-    !node.type ||
-    R.contains(node.type, ['application', 'placements', 'subscription'])
-  ) {
-    return false
-  }
-
-  if (
-    R.contains(R.pathOr('', ['type'])(node), [
-      'pod',
-      'replicaset',
-      'daemonset',
-      'statefulset',
-      'replicationcontroller',
-      'deployment',
-      'deploymentconfig'
-    ])
-  ) {
-    //pod deployables must have pods
-    return true
-  }
-  const hasContainers =
-    R.pathOr([], ['specs', 'raw', 'spec', 'template', 'spec', 'containers'])(
-      node
-    ).length > 0
-  const hasReplicas = R.pathOr(undefined, ['specs', 'raw', 'spec', 'replicas'])(
-    node
-  ) //pods will go under replica object
-  const hasDesired = R.pathOr(undefined, ['specs', 'raw', 'spec', 'desired'])(
-    node
-  ) //deployables from subscription package have this set only, not containers
-  if ((hasContainers || hasDesired) && !hasReplicas) {
-    return true
-  }
-
-  if (hasReplicas) {
-    return true
-  }
-
-  return false
 }
 
 export const getPulseStatusForSubscription = node => {

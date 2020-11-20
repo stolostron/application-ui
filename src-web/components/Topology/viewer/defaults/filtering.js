@@ -10,7 +10,7 @@
 
 import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
-import { getClusterName } from '../../utils/diagram-helpers'
+import { getClusterName } from '../../utils/diagram-helpers-utils'
 
 const clusterLabels = 'cluster.metadata.labels'
 

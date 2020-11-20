@@ -25,21 +25,23 @@ describe("Edit application validate insert new subscription", () => {
     apps.forEach(data => {
       if (data.enable) {
         if (data.new) {
-          it(`Verify that ${
+          it(`[P1][Sev1][app-lifecycle-ui] Verify that ${
             data.name
           } template editor valid after new subscription is created`, () => {
             verifyEditAfterNewSubscription(data.name, data);
           });
-          it(`Verify that ${
+          it(`[P1][Sev1][app-lifecycle-ui] Verify that ${
             data.name
           } single app page info is valid after new subscription is created`, () => {
             const numberOfRemoteClusters = Cypress.env(
               "numberOfManagedClusters"
             );
+            const clusterName = Cypress.env("managedCluster");
             validateTopology(
               data.name,
               data,
               type,
+              clusterName,
               numberOfRemoteClusters,
               "add"
             );

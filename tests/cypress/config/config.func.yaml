@@ -55,8 +55,20 @@ git:
           branch: master
           path: helloworld
           deployment:
-            local: false
-            online: true
+            local: true
+            online: false
+            matchingLabel: false
+    - enable: true
+      name: ui-git2
+      type: git
+      successNumber: 0 #should have at least 0 resources with status success in the cards status
+      config:
+        - url: https://github.com/kubernetes/examples.git
+          branch: master
+          path: cassandra
+          deployment:
+            local: true
+            online: false
             matchingLabel: false
 objectstore:
   data:
@@ -139,7 +151,6 @@ helm:
           username: ""
           password: ""
           chartName: aerospike
-          packageVersion: 0.3.3
           timeWindow:
             setting: true
             type: blockinterval
@@ -189,6 +200,7 @@ helm:
           username: ""
           password: ""
           chartName: aerospike
+          packageVersion: 0.3.3
           deployment:
             local: false
             online: true

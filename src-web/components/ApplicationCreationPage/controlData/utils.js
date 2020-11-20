@@ -205,9 +205,11 @@ export const updateChannelControls = (
   let control
   // if existing channel, hide user/token controls; show it when using the same channel in the same app
   const type = !existingChannel || usingSameChannel ? 'text' : 'hidden'
-  const setType = (cid, isPasswordField) => {
+  const checkboxType =
+    !existingChannel || usingSameChannel ? 'checkbox' : 'hidden'
+  const setType = (cid, isPasswordField, isCheckbox) => {
     control = groupControlData.find(({ id }) => id === cid)
-    let setCtrlType = type
+    let setCtrlType = isCheckbox ? checkboxType : type
     if (isPasswordField) {
       setCtrlType = type === 'hidden' ? type : 'password'
     }
@@ -221,6 +223,7 @@ export const updateChannelControls = (
   case 'githubURL':
     setType('githubUser')
     setType('githubAccessId', true)
+    setType('gitInsecureSkipVerify', false, true)
     break
   case 'objectstoreURL':
     setType('accessKey')
@@ -229,6 +232,7 @@ export const updateChannelControls = (
   case 'helmURL':
     setType('helmUser')
     setType('helmPassword', true)
+    setType('helmInsecureSkipVerify', false, true)
     break
   }
 

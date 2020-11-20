@@ -139,16 +139,12 @@ function addK8Details(node, updatedNode, details) {
     {
       labelKey: 'resource.type',
       value: ltype || type
-    }
-  ]
-  apiVersion &&
-    mainDetails.push({
+    },
+    {
       labelKey: 'resource.api.version',
-      value: apiVersion
-    })
-
-  mainDetails.push[
-    ({
+      value: apiVersion ? apiVersion : undefined
+    },
+    {
       labelKey: 'resource.cluster',
       value: clusterName ? clusterName : undefined
     },
@@ -157,7 +153,7 @@ function addK8Details(node, updatedNode, details) {
       value: namespace
         ? namespace
         : R.pathOr('N/A', ['specs', 'raw', 'metadata', 'namespace'])(node)
-    })
+    }
   ]
 
   //for charts

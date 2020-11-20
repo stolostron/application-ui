@@ -28,6 +28,9 @@ const textNodeStatus = 'text.nodeStatus'
 const gNodeTitle = 'g.nodeTitle'
 const gNodeLabel = 'g.nodeLabel'
 const gClusterCountText = 'g.clusterCountText'
+const useNodeIcon = 'use.nodeIcon'
+const useClusterCountIcon = 'use.clusterCountIcon'
+const dotClusterCountIcon = '.clusterCountIcon'
 
 // fix d3-selection-multi not added to d3
 import 'd3-selection-multi'
@@ -70,8 +73,6 @@ export const tooltip = d3
       return opacity0()
     })
   })
-
-const useNodeIcon = 'use.nodeIcon'
 
 export default class NodeHelper {
   /**
@@ -428,7 +429,7 @@ export default class NodeHelper {
         return layout.type === 'cluster'
       })
     const clusterSVGIcon = clusterNode
-      .selectAll('use.clusterCountIcon')
+      .selectAll(useClusterCountIcon)
       .data(({ layout: { clusterCountIcon } }) => {
         return clusterCountIcon ? [clusterCountIcon] : []
       })
@@ -617,32 +618,10 @@ export default class NodeHelper {
     })
 
     // move icons
-    nodeLayer
-      .selectAll('.nodeIcon')
-      .attrs(({ dx, dy, width, height }, i, ns) => {
-        const { layout: { x = 0, y = 0, scale = 1 } } = d3
-          .select(ns[i].parentNode)
-          .datum()
-        return {
-          transform: `translate(${x + dx * scale - width / 2}, ${y +
-            dy * scale -
-            height / 2})`
-        }
-      })
+    this.moveIcons(nodeLayer, '.nodeIcon')
 
     // move cluster count icon
-    nodeLayer
-      .selectAll('.clusterCountIcon')
-      .attrs(({ dx, dy, width, height }, i, ns) => {
-        const { layout: { x = 0, y = 0, scale = 1 } } = d3
-          .select(ns[i].parentNode)
-          .datum()
-        return {
-          transform: `translate(${x + dx * scale - width / 2}, ${y +
-            dy * scale -
-            height / 2})`
-        }
-      })
+    this.moveIcons(nodeLayer, dotClusterCountIcon)
 
     if (this.showsShapeTitles) {
       moveTitles(this.svg)
@@ -651,6 +630,19 @@ export default class NodeHelper {
     moveLabels(this.svg)
     // move clusterCountText
     moveClusterCountText(this.svg)
+  };
+
+  moveIcons = (nodeLayer, iconClass) => {
+    nodeLayer.selectAll(iconClass).attrs(({ dx, dy, width, height }, i, ns) => {
+      const { layout: { x = 0, y = 0, scale = 1 } } = d3
+        .select(ns[i].parentNode)
+        .datum()
+      return {
+        transform: `translate(${x + dx * scale - width / 2}, ${y +
+          dy * scale -
+          height / 2})`
+      }
+    })
   };
 
   dragNode = (dp, index, nodeNS) => {
@@ -700,23 +692,10 @@ export default class NodeHelper {
       })
 
       // drag icons
-      node.selectAll('.nodeIcon').attrs(({ dx, dy, width, height }, i, ns) => {
-        const { layout: { x, y } } = d3.select(ns[i].parentNode).datum()
-        return {
-          transform: `translate(${x + dx - width / 2}, ${y + dy - height / 2})`
-        }
-      })
+      this.dragIcons(node, '.nodeIcon')
 
-      node
-        .selectAll('.clusterCountIcon')
-        .attrs(({ dx, dy, width, height }, i, ns) => {
-          const { layout: { x, y } } = d3.select(ns[i].parentNode).datum()
-          return {
-            transform: `translate(${x + dx - width / 2}, ${y +
-              dy -
-              height / 2})`
-          }
-        })
+      // drag cluster count icon
+      this.dragIcons(node, dotClusterCountIcon)
 
       // drag status message
       node.selectAll(textNodeStatus).attrs(({ textBBox: { dy } }, i, ns) => {
@@ -813,6 +792,15 @@ export default class NodeHelper {
       // drag any connecting links
       dragLinks(this.svg, dp, this.typeToShapeMap)
     }
+  };
+
+  dragIcons = (node, iconClass) => {
+    node.selectAll(iconClass).attrs(({ dx, dy, width, height }, i, ns) => {
+      const { layout: { x, y } } = d3.select(ns[i].parentNode).datum()
+      return {
+        transform: `translate(${x + dx - width / 2}, ${y + dy - height / 2})`
+      }
+    })
   };
 }
 
@@ -944,21 +932,10 @@ export const counterZoomLabels = (svg, currentZoom) => {
       })
 
     //////////// ICONS /////////////////////////////
-    nodeLayer.selectAll(useNodeIcon).style('visibility', (d, i, ns) => {
-      const { layout: { search = FilterResults.nosearch } } = d3
-        .select(ns[i].parentNode)
-        .datum()
-      return search === FilterResults.hidden ? 'hidden' : 'visible'
-    })
+    setIconVisibility(nodeLayer, useNodeIcon)
 
-    nodeLayer
-      .selectAll('use.clusterCountIcon')
-      .style('visibility', (d, i, ns) => {
-        const { layout: { search = FilterResults.nosearch } } = d3
-          .select(ns[i].parentNode)
-          .datum()
-        return search === FilterResults.hidden ? 'hidden' : 'visible'
-      })
+    // cluster count icon
+    setIconVisibility(nodeLayer, useClusterCountIcon)
 
     ///////// STATUS //////////////////
     nodeLayer
@@ -975,6 +952,15 @@ export const counterZoomLabels = (svg, currentZoom) => {
         })
       })
   }
+}
+
+export const setIconVisibility = (nodeLayer, iconClass) => {
+  nodeLayer.selectAll(iconClass).style('visibility', (d, i, ns) => {
+    const { layout: { search = FilterResults.nosearch } } = d3
+      .select(ns[i].parentNode)
+      .datum()
+    return search === FilterResults.hidden ? 'hidden' : 'visible'
+  })
 }
 
 const getSplitName = (

@@ -124,14 +124,6 @@ describe("getNodeDetails application node", () => {
     },
     {
       indent: undefined,
-      labelKey: "resource.namespace",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "ns-sub-1"
-    },
-    {
-      indent: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
       status: undefined,
@@ -745,11 +737,11 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
-      labelKey: "resource.namespace",
+      labelKey: "resource.api.version",
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "default"
+      value: "apps/v1"
     },
     {
       indent: undefined,
@@ -941,11 +933,11 @@ describe("getNodeDetails helm node", () => {
     },
     {
       indent: undefined,
-      labelKey: "resource.namespace",
+      labelKey: "resource.api.version",
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "default"
+      value: "app.ibm.com/v1alpha1"
     },
     {
       indent: undefined,
@@ -1082,11 +1074,11 @@ describe("getNodeDetails placement rules node with error", () => {
     },
     {
       indent: undefined,
-      labelKey: "resource.namespace",
+      labelKey: "resource.api.version",
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "default"
+      value: "app.ibm.com/v1alpha1"
     },
     {
       indent: undefined,
@@ -1170,11 +1162,11 @@ describe("getNodeDetails placement rules node with success", () => {
     },
     {
       indent: undefined,
-      labelKey: "resource.namespace",
+      labelKey: "resource.api.version",
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "default"
+      value: "app.ibm.com/v1alpha1"
     },
     {
       indent: undefined,

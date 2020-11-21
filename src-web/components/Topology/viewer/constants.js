@@ -71,6 +71,16 @@ export const StatusIcon = Object.freeze({
   }
 })
 
+// icon for containing the cluster count
+export const ClusterCountIcon = {
+  icon: 'clusterCount',
+  classType: 'clusterCount',
+  width: 22,
+  height: 18,
+  dx: 26,
+  dy: 0
+}
+
 //if controller contains a pod
 export const PodIcon = {
   icon: 'circle',

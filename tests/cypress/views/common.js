@@ -570,7 +570,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
 
     // 1. Check "Repository resource" button and popover
     cy
-      .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
+      .get(".overview-cards-subs-section", { timeout: 120 * 1000 })
       .children()
       .eq(key)
       .within($subcards => {

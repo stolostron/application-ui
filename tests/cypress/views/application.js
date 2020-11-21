@@ -50,7 +50,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     timeWindow,
     deployment,
     gitReconcileOption,
-    gitInsecureSkipVerify
+    insecureSkipVerifyOption
   } = value;
   cy.log(`gitTasks key=${key}, url=${url}, path=${path}`);
   const {
@@ -78,7 +78,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   if (gitReconcileOption) {
     cy.get(merge).click({ force: true });
   }
-  if (gitInsecureSkipVerify) {
+  if (insecureSkipVerifyOption) {
     cy.get(insecureSkipVerify).click({ force: true });
   }
   // wait for form to remove the users
@@ -137,7 +137,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     packageVersion,
     timeWindow,
     deployment,
-    helmInsecureSkipVerify
+    insecureSkipVerifyOption
   } = value;
   const {
     helmURL,
@@ -157,7 +157,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .blur();
   checkExistingUrls(helmUsername, username, helmPassword, password, url);
 
-  if (helmInsecureSkipVerify) {
+  if (insecureSkipVerifyOption) {
     cy.get(insecureSkipVerify).click({ force: true });
   }
   cy

@@ -11,7 +11,7 @@ git:
           token: ""
           branch: master
           path: mortgagedc
-          gitInsecureSkipVerify: true
+          insecureSkipVerifyOption: true
           timeWindow:
             setting: true
             type: activeinterval
@@ -152,7 +152,7 @@ helm:
           username: ""
           password: ""
           chartName: aerospike
-          helmInsecureSkipVerify: true
+          insecureSkipVerifyOption: true
           timeWindow:
             setting: true
             type: blockinterval

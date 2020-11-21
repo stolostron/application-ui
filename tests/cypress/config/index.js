@@ -21,14 +21,10 @@ exports.getConfig = () => {
       value.data.forEach(data => {
         let { enable, name } = data;
         if (enable) {
-          process.env.CYPRESS_JOB_ID
-            ? process.env.CYPRESS_JOB_ID.length > 5
-              ? (name = name + "-" + process.env.CYPRESS_JOB_ID.slice(-5))
-              : (name = name + "-" + process.env.CYPRESS_JOB_ID)
-            : name;
-          data.name = name;
           const job_id =
             process.env.CYPRESS_JOB_ID && process.env.CYPRESS_JOB_ID.slice(-5);
+          process.env.CYPRESS_JOB_ID ? (name = name + "-" + job_id) : name;
+          data.name = name;
           if (data.new) {
             switch (key) {
               case "git":
@@ -38,15 +34,17 @@ exports.getConfig = () => {
                   process.env.GITHUB_PRIVATE_URL
                 ) {
                   data.new.forEach(instance => {
-                    instance.url = job_id
+                    instance.url = instance.insecureSkipVerifyOption
                       ? process.env.GITHUB_PRIVATE_URL + "/" + job_id
                       : process.env.GITHUB_PRIVATE_URL;
                     instance.username = process.env.GITHUB_USER;
                     instance.token = process.env.GITHUB_TOKEN;
                   });
-                } else if (job_id) {
+                } else {
                   data.new.forEach(instance => {
-                    instance.url = instance.url + "/" + job_id;
+                    if (instance.insecureSkipVerifyOption) {
+                      instance.url = instance.url + "/" + job_id;
+                    }
                   });
                 }
                 break;
@@ -71,20 +69,29 @@ exports.getConfig = () => {
                   process.env.HELM_CHART_NAME
                 ) {
                   data.new.forEach(instance => {
-                    instance.url = job_id
+                    instance.url = instance.insecureSkipVerifyOption
                       ? process.env.HELM_PRIVATE_URL + "/" + job_id
                       : process.env.HELM_PRIVATE_URL;
                     instance.username = process.env.HELM_USERNAME;
                     instance.password = process.env.HELM_PASSWORD;
                     instance.chartName = process.env.HELM_CHART_NAME;
                   });
-                } else if (job_id) {
+                } else {
                   data.new.forEach(instance => {
-                    instance.url = instance.url + "/" + job_id;
+                    if (instance.insecureSkipVerifyOption) {
+                      instance.url = instance.url + "/" + job_id;
+                    }
                   });
                 }
                 break;
             }
+          }
+          if (data.config && (key === "git" || key === "helm")) {
+            data.config.forEach(instance => {
+              if (instance.insecureSkipVerifyOption) {
+                instance.url = instance.url + "/" + job_id;
+              }
+            });
           }
         }
       });

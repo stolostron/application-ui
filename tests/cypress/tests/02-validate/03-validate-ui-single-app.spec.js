@@ -9,7 +9,7 @@ import {
   getNumberOfManagedClusters
 } from "../../views/resources";
 
-describe("Application Validation Test for single application page, topology ", () => {
+describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Test for single application page, topology ", () => {
   it(`get the name of the managed OCP cluster`, () => {
     getManagedClusterName();
   });
@@ -20,7 +20,7 @@ describe("Application Validation Test for single application page, topology ", (
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`[P1][Sev1][app-lifecycle-ui] Verify application ${
+        it(`Verify application ${
           data.name
         } content from the single application topology - ${type}: ${
           data.name

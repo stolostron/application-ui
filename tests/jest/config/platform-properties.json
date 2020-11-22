@@ -380,6 +380,7 @@
   "resource.version": "Version",
   "resource.violations": "Violations",
   "resource.api.version": "apiVersion",
+  "spec.route.cluster.name": "Route name",
   "routes.applications": "Applications",
   "search.label": "Search",
   "search.label.links": "Find [+Find]",

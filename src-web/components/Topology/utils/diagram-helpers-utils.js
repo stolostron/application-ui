@@ -78,14 +78,14 @@ export const getClusterName = nodeId => {
   return LOCAL_HUB_NAME
 }
 
-//if this is a route generated from in Ingress resource, remove generated id
+//if this is a route generated from an Ingress resource, remove generated hash
 export const getRouteNameWithoutIngressHash = relatedKind => {
   let name = _.get(relatedKind, 'name', '')
   const isRouteGeneratedByIngress =
     relatedKind.kind === 'route' &&
     !_.get(relatedKind, '_hostingDeployable', '').endsWith(name)
   if (isRouteGeneratedByIngress) {
-    //this is a route generated from in Ingress resource, remove generated id
+    //this is a route generated from an Ingress resource, remove generated hash
     const names = _.get(relatedKind, '_hostingDeployable', '').split(
       'Ingress-'
     )

@@ -33,12 +33,6 @@ import {
   getPulseStatusForCluster
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
-import {
-  getClusterName,
-  nodeMustHavePods,
-  isDeployableResource
-} from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
-
 const ansibleSuccess = {
   type: "ansiblejob",
   name: "bigjoblaunch",
@@ -587,90 +581,6 @@ describe("addPropertyToList undefined list", () => {
 describe("addPropertyToList undefined data", () => {
   it("addPropertyToList", () => {
     expect(addPropertyToList(list, undefined)).toEqual(list);
-  });
-});
-
-describe("nodeMustHavePods undefined data", () => {
-  it("nodeMustHavePods", () => {
-    expect(nodeMustHavePods(undefined)).toEqual(false);
-  });
-});
-
-describe("nodeMustHavePods node with no pods data", () => {
-  const node = {
-    type: "daemonset1",
-    specs: {
-      raw: {
-        spec: {}
-      }
-    }
-  };
-  it("nodeMustHavePods", () => {
-    expect(nodeMustHavePods(node)).toEqual(false);
-  });
-});
-
-describe("nodeMustHavePods node with replicas", () => {
-  const node = {
-    type: "daemonset3",
-    specs: {
-      raw: {
-        spec: {
-          replicas: 3
-        }
-      }
-    }
-  };
-  it("nodeMustHavePods with replicas", () => {
-    expect(nodeMustHavePods(node)).toEqual(true);
-  });
-});
-
-describe("nodeMustHavePods node has desired", () => {
-  const node = {
-    type: "daemonset",
-    specs: {
-      raw: {
-        spec: {
-          desired: 3
-        }
-      }
-    }
-  };
-  it("nodeMustHavePods has desired", () => {
-    expect(nodeMustHavePods(node)).toEqual(true);
-  });
-});
-
-describe("nodeMustHavePods node with pods data", () => {
-  const node = {
-    type: "deployment",
-    specs: {
-      raw: {
-        spec: {
-          template: {
-            spec: {
-              containers: [
-                {
-                  name: "c1"
-                }
-              ]
-            }
-          }
-        }
-      }
-    }
-  };
-  it("nodeMustHavePods", () => {
-    expect(nodeMustHavePods(node)).toEqual(true);
-  });
-});
-describe("nodeMustHavePods node with pods POD object", () => {
-  const node = {
-    type: "pod"
-  };
-  it("nodeMustHavePods POD object", () => {
-    expect(nodeMustHavePods(node)).toEqual(true);
   });
 });
 
@@ -4027,6 +3937,113 @@ describe("addNodeOCPRouteLocationForCluster", () => {
   });
 });
 
+describe("addNodeOCPRouteLocationForCluster", () => {
+  const node = {
+    type: "route",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-route--route--mortgage-app-deploy",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            consoleURL: "https://console-openshift-console.222",
+            metadata: {
+              name: "possiblereptile"
+            }
+          }
+        ]
+      }
+    },
+    specs: {
+      routeModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          kind: "route",
+          cluster: "possiblereptile"
+        }
+      },
+      raw: {
+        kind: "Route",
+        spec: {
+          rules: [{}, {}]
+        }
+      }
+    }
+  };
+
+  const obj = {
+    id: "objID",
+    cluster: "possiblereptile"
+  };
+  it("tests Routes generated from Ingress with 2 route rules", () => {
+    expect(addNodeOCPRouteLocationForCluster(node, obj, [])).toEqual([]);
+  });
+});
+
+describe("addNodeOCPRouteLocationForCluster", () => {
+  const node = {
+    type: "route",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-route--route--mortgage-app-deploy",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            consoleURL: "https://console-openshift-console.222",
+            metadata: {
+              name: "possiblereptile"
+            }
+          }
+        ]
+      }
+    },
+    specs: {
+      routeModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          kind: "route",
+          cluster: "possiblereptile"
+        }
+      },
+      raw: {
+        kind: "Route",
+        spec: {
+          rules: [
+            {
+              route: "aaa"
+            }
+          ]
+        }
+      }
+    }
+  };
+
+  const obj = {
+    id: "objID",
+    cluster: "possiblereptile"
+  };
+  const result = [
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink: "http://mortgage-app-deploy-default.222/"
+        },
+        id: "objID-location",
+        label: "http://mortgage-app-deploy-default.222/"
+      }
+    }
+  ];
+
+  it("tests Routes generated from Ingress with one route rules", () => {
+    expect(addNodeOCPRouteLocationForCluster(node, obj, [])).toEqual(result);
+  });
+});
+
 describe("addIngressNodeInfo 1", () => {
   const node = {
     type: "ingress",
@@ -4337,20 +4354,6 @@ describe("processResourceActionLink dummy link", () => {
   });
 });
 
-describe("getClusterName node id undefined", () => {
-  it("should return empty string", () => {
-    expect(getClusterName(undefined)).toEqual("");
-  });
-});
-
-describe("getClusterName node id doesn't have cluster info", () => {
-  it("should return empty string", () => {
-    const nodeId =
-      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch";
-    expect(getClusterName(nodeId)).toEqual("local-cluster");
-  });
-});
-
 describe("getPodState pod", () => {
   const podItem = {
     apiversion: "v1",
@@ -4503,46 +4506,5 @@ describe("getPulseStatusForCluster all some ok", () => {
   };
   it("should process cluster node", () => {
     expect(getPulseStatusForCluster(clusterNode)).toEqual("yellow");
-  });
-});
-
-describe("isDeployableResource for regular subscription", () => {
-  const node = {
-    id: "member--subscription--default--mortgagedc-subscription",
-    name: "mortgagedcNOStatus",
-    specs: {
-      raw: { spec: {} },
-      subscriptionModel: {
-        "mortgagedc-subscription-braveman": {},
-        "mortgagedc-subscription-braveman2": {}
-      }
-    },
-    type: "subscription"
-  };
-
-  it("returns false for regular subscription ", () => {
-    expect(isDeployableResource(node)).toEqual(false);
-  });
-});
-
-describe("isDeployableResource for deployable subscription", () => {
-  const node = {
-    id:
-      "member--member--deployable--member--clusters--birsan2-remote--default--val-op-subscription-1-tmp-val-op-subscription-1-master-operators-config-cert-manager-operator-rhmp-test-subscription--subscription--cert-manager-operator-rhmp-test",
-    name: "cert-manager-operator-rhmp-test",
-    namespace: "default",
-    specs: {
-      raw: {
-        spec: {
-          apiVersion: "operators.coreos.com/v1alpha1",
-          kind: "Subscription"
-        }
-      }
-    },
-    type: "subscription"
-  };
-
-  it("returns true for deployable subscription ", () => {
-    expect(isDeployableResource(node)).toEqual(true);
   });
 });

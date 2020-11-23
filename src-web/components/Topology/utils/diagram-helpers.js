@@ -1511,7 +1511,7 @@ export const addNodeOCPRouteLocationForCluster = (
 
   if (typeObject && _.get(node, 'name', '') !== _.get(typeObject, 'name', '')) {
     //if route name on remote cluster doesn't match the main route name ( generated from Ingress ), show the name here
-    //this is to cover the scenario when teh Ingress objects defines multiple routes,
+    //this is to cover the scenario when the Ingress object defines multiple routes,
     //so it generates multiple Route objects on the same cluster
     addPropertyToList(
       details,

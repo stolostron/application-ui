@@ -362,8 +362,6 @@ const retrieveGitDetails = async (
         },
         () => {
           //on error
-          branchCtrl.active = ''
-          branchCtrl.available = []
           branchCtrl.exception = msgs.get('creation.app.loading.branch.error')
           setLoadingState(branchCtrl, false)
         }
@@ -379,6 +377,7 @@ export const updateGitBranchFolders = async (
   globalControls,
   setLoadingState
 ) => {
+
   const groupControlData = _.get(branchControl, 'groupControlData', [])
   const branchName = _.get(branchControl, 'active', '')
   retrieveGitDetails(branchName, groupControlData, setLoadingState)

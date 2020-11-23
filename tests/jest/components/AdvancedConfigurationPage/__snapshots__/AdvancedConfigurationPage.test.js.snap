@@ -825,7 +825,7 @@ Array [
             >
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-2"
+                data-ouia-component-id="cassandra-ch/cassandra-channel"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >
@@ -973,7 +973,7 @@ Array [
               </tr>
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-3"
+                data-ouia-component-id="open-cluster-management/charts-v1"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >
@@ -1117,7 +1117,7 @@ Array [
               </tr>
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-4"
+                data-ouia-component-id="gbchn/gbchn"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >
@@ -1265,7 +1265,7 @@ Array [
               </tr>
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-5"
+                data-ouia-component-id="ansible/git"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >
@@ -2185,7 +2185,7 @@ Array [
             >
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-2"
+                data-ouia-component-id="ansible/app123-placement-0"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >
@@ -2267,7 +2267,7 @@ Array [
               </tr>
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-3"
+                data-ouia-component-id="ns-sub-1/app123-placement-0"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >
@@ -2349,7 +2349,7 @@ Array [
               </tr>
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-4"
+                data-ouia-component-id="cassandra-app-ns/cassandra-app-placement"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >
@@ -2433,7 +2433,7 @@ Array [
               </tr>
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-5"
+                data-ouia-component-id="demo-saude-digital/demo-saude-digital"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >
@@ -3433,7 +3433,7 @@ Array [
             >
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-2"
+                data-ouia-component-id="ansible/ansible-hook"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >
@@ -3533,7 +3533,7 @@ Array [
               </tr>
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-3"
+                data-ouia-component-id="ansible/app123-subscription-0"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >
@@ -3637,7 +3637,7 @@ Array [
               </tr>
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-4"
+                data-ouia-component-id="ns-sub-1/app123-subscription-0"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >
@@ -3735,7 +3735,7 @@ Array [
               </tr>
               <tr
                 class=""
-                data-ouia-component-id="OUIA-Generated-TableRow-5"
+                data-ouia-component-id="open-cluster-management/application-chart-sub"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
               >

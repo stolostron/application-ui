@@ -301,7 +301,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               >
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-13"
+                  data-ouia-component-id="OUIA-Generated-TableRow-3"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -646,7 +646,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               >
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-14"
+                  data-ouia-component-id="default/app-no-channel"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -733,7 +733,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-15"
+                  data-ouia-component-id="default/mortgage-app"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -824,7 +824,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-16"
+                  data-ouia-component-id="sample/samplebook-gbapp"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -915,7 +915,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-17"
+                  data-ouia-component-id="stock-trader/stocktrader-app"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -1002,7 +1002,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-18"
+                  data-ouia-component-id="kube-system/subscribed-guestbook-application"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -1761,7 +1761,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               >
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-2"
+                  data-ouia-component-id="default/app-no-channel"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -1848,7 +1848,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-3"
+                  data-ouia-component-id="default/mortgage-app"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -1939,7 +1939,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-4"
+                  data-ouia-component-id="sample/samplebook-gbapp"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -2030,7 +2030,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-5"
+                  data-ouia-component-id="stock-trader/stocktrader-app"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -2117,7 +2117,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-6"
+                  data-ouia-component-id="kube-system/subscribed-guestbook-application"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -2531,7 +2531,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               >
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-7"
+                  data-ouia-component-id="OUIA-Generated-TableRow-2"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -2876,7 +2876,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               >
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-8"
+                  data-ouia-component-id="default/app-no-channel"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -2963,7 +2963,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-9"
+                  data-ouia-component-id="default/mortgage-app"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -3054,7 +3054,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-10"
+                  data-ouia-component-id="sample/samplebook-gbapp"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -3145,7 +3145,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-11"
+                  data-ouia-component-id="stock-trader/stocktrader-app"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >
@@ -3232,7 +3232,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 </tr>
                 <tr
                   class=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-12"
+                  data-ouia-component-id="kube-system/subscribed-guestbook-application"
                   data-ouia-component-type="PF4/TableRow"
                   data-ouia-safe="true"
                 >

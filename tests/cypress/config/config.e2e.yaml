@@ -6,11 +6,12 @@ git:
       type: git
       successNumber: 0 #should have at least 0 resources with status success in the cards status
       new: # used when we add new subscriptions after app creation
-        - url: ""
+        - url: https://github.com/fxiang1/app-samples.git
           username: ""
           token: ""
-          branch: ""
+          branch: master
           path: mortgagedc
+          insecureSkipVerifyOption: true
           timeWindow:
             setting: true
             type: activeinterval
@@ -28,10 +29,10 @@ git:
             online: false
             matchingLabel: false
       config:
-        - url: ""
+        - url: https://github.com/fxiang1/app-samples.git
           username: ""
           token: ""
-          branch: ""
+          branch: master
           path: nginx
           gitReconcileOption: true
           timeWindow:
@@ -52,11 +53,23 @@ git:
         - url: https://github.com/fxiang1/app-samples.git
           username: ""
           token: ""
-          branch: ""
+          branch: master
           path: helloworld
           deployment:
-            local: false
-            online: true
+            local: true
+            online: false
+            matchingLabel: false
+    - enable: true
+      name: ui-git2
+      type: git
+      successNumber: 0 #should have at least 0 resources with status success in the cards status
+      config:
+        - url: https://github.com/kubernetes/examples.git
+          branch: master
+          path: cassandra
+          deployment:
+            local: true
+            online: false
             matchingLabel: false
 objectstore:
   data:
@@ -139,7 +152,7 @@ helm:
           username: ""
           password: ""
           chartName: aerospike
-          packageVersion: 0.3.3
+          insecureSkipVerifyOption: true
           timeWindow:
             setting: true
             type: blockinterval
@@ -189,6 +202,7 @@ helm:
           username: ""
           password: ""
           chartName: aerospike
+          packageVersion: 0.3.3
           deployment:
             local: false
             online: true

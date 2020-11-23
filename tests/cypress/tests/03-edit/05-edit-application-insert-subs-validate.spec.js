@@ -6,6 +6,7 @@
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import {
   verifyEditAfterNewSubscription,
+  verifyInsecureSkipAfterNewSubscription,
   validateTopology
 } from "../../views/application";
 import {
@@ -46,6 +47,13 @@ describe("Edit application validate insert new subscription", () => {
               "add"
             );
           });
+          if (type === "git" || type === "helm") {
+            it(`[P1][Sev1][app-lifecycle-ui] Verify insecureSkipVerify option in new channel for app ${
+              data.name
+            } was selected`, () => {
+              verifyInsecureSkipAfterNewSubscription(data.name);
+            });
+          }
         }
       } else {
         it(`disable modification on resource ${type}`, () => {

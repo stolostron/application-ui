@@ -13,11 +13,14 @@ import {
   saveStoredObject
 } from '../../../../lib/client/resource-helper'
 import {
-  getClusterName,
   setupResourceModel,
-  computeNodeStatus,
-  nodeMustHavePods
+  computeNodeStatus
 } from '../../Topology/utils/diagram-helpers'
+import {
+  getClusterName,
+  nodeMustHavePods,
+  isDeployableResource
+} from '../../Topology/utils/diagram-helpers-utils'
 import { getTopologyElements } from './hcm-topology'
 import { REQUEST_STATUS } from '../../../actions'
 import _ from 'lodash'
@@ -74,12 +77,18 @@ export const processNodeData = (
 ) => {
   const { name, type } = node
 
-  if (R.contains(type, ['cluster', 'application', 'placements'])) {
+  if (
+    !isDeployableResource(node) &&
+    R.contains(type, ['cluster', 'application', 'placements'])
+  ) {
     return //ignore these types
   }
 
   const channel = _.get(node, 'specs.raw.spec.channel', '')
-  const keyName = channel.length > 0 ? `${channel}-${name}` : name
+  const keyName =
+    !isDeployableResource(node) && channel.length > 0
+      ? `${channel}-${name}`
+      : name
 
   let podsKeyForThisNode = null
   const clusterName = getClusterName(node.id)

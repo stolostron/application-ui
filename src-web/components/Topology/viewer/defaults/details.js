@@ -133,11 +133,16 @@ function addK8Details(node, updatedNode, details) {
     ? 'apps.open-cluster-management.io/git-path'
     : 'apps.open-cluster-management.io/github-path'
 
+  const apiVersion = _.get(node, 'specs.raw.apiVersion', '')
   // the main stuff
   const mainDetails = [
     {
       labelKey: 'resource.type',
       value: ltype || type
+    },
+    {
+      labelKey: 'resource.api.version',
+      value: apiVersion ? apiVersion : undefined
     },
     {
       labelKey: 'resource.cluster',
@@ -232,6 +237,40 @@ function addK8Details(node, updatedNode, details) {
       'raw.spec.channel'
     )
   )
+
+  //subscription operator specific
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'installPlanApproval'],
+      'raw.spec.installPlanApproval'
+    )
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(node, ['specs', 'raw', 'spec', 'source'], 'raw.spec.source')
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'sourceNamespace'],
+      'raw.spec.sourceNamespace'
+    )
+  )
+
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'startingCSV'],
+      'raw.spec.startingCSV'
+    )
+  )
+  ////
 
   addPropertyToList(
     mainDetails,

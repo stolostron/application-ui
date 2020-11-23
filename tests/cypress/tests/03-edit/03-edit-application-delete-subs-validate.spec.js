@@ -10,7 +10,7 @@ import {
   getNumberOfManagedClusters
 } from "../../views/resources";
 
-describe("Edit application validate delete first subscription", () => {
+describe("Application UI: [P1][Sev1][app-lifecycle-ui] Edit application validate delete first subscription", () => {
   it(`get the name of the managed OCP cluster`, () => {
     getManagedClusterName();
   });
@@ -22,7 +22,7 @@ describe("Edit application validate delete first subscription", () => {
     apps.forEach(data => {
       if (data.enable) {
         if (data.new) {
-          it(`[P1][Sev1][app-lifecycle-ui] Verify that ${
+          it(`Verify that ${
             data.name
           } single app page info is valid after first subscription is deleted`, () => {
             const numberOfRemoteClusters = Cypress.env(

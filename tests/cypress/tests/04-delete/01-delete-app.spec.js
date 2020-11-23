@@ -9,7 +9,7 @@ import {
   deleteChannelInsecureSkip
 } from "../../views/application";
 
-describe("Delete application Test", () => {
+describe("Application UI: [P1][Sev1][app-lifecycle-ui] Delete application Test", () => {
   for (const type in config) {
     const apps = config[type].data;
     apps.forEach(data => {
@@ -27,9 +27,7 @@ describe("Delete application Test", () => {
           deleteApplicationUI(data.name);
         });
       } else {
-        it(`[P1][Sev1][app-lifecycle-ui] Verify disable deletion on resource ${
-          data.name
-        } ${type}`, () => {
+        it(`Verify disable deletion on resource ${data.name} ${type}`, () => {
           cy.log(`skipping ${type} - ${data.name}`);
         });
       }

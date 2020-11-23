@@ -10,7 +10,7 @@ import {
   getNumberOfManagedClusters
 } from "../../views/resources";
 
-describe("Edit application insert new subscription Test", () => {
+describe("Application UI: [P1][Sev1][app-lifecycle-ui] Edit application insert new subscription Test", () => {
   it(`get the name of the managed OCP cluster`, () => {
     getManagedClusterName();
   });
@@ -22,7 +22,7 @@ describe("Edit application insert new subscription Test", () => {
     apps.forEach(data => {
       if (data.enable) {
         if (data.new) {
-          it(`[P1][Sev1][app-lifecycle-ui] Verify new subscription can be added for application ${
+          it(`Verify new subscription can be added for application ${
             data.name
           }`, () => {
             const clusterName = Cypress.env("managedCluster");

@@ -7,18 +7,17 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 import React from 'react'
-import R from 'ramda'
 import {
   createEditLink,
   getAge,
   getChannelLabel,
   getClusterCount,
-  getClusterCountString,
   getEditLink,
   getSearchLink,
   normalizeChannelType,
   CHANNEL_TYPES
 } from '../../lib/client/resource-helper'
+import { getClusterCounts, createClustersText } from './hcm-subscription'
 import ChannelLabels from '../components/common/ChannelLabels'
 
 export default {
@@ -106,15 +105,6 @@ function createSubscriptionsLink(item) {
   return item.subscriptionCount === 0 ? item.subscriptionCount : '-'
 }
 
-function getClusterCounts(item) {
-  const clusterCount = R.path(['clusterCount'], item) || {}
-  const localPlacement = R.path(['localPlacement'], item) || false
-  return {
-    remoteCount: clusterCount.remoteCount,
-    localPlacement: localPlacement || clusterCount.localCount
-  }
-}
-
 function createClustersLink(item, locale) {
   const { remoteCount, localPlacement } = getClusterCounts(item)
   return getClusterCount({
@@ -125,11 +115,6 @@ function createClustersLink(item, locale) {
     namespace: item.namespace,
     kind: 'placementrule'
   })
-}
-
-function createClustersText(item = {}, locale = '') {
-  const { remoteCount, localPlacement } = getClusterCounts(item)
-  return getClusterCountString(locale, remoteCount, localPlacement)
 }
 
 function getChannels(item = {}, locale = '') {

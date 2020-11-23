@@ -127,7 +127,7 @@ function createApplicationsLink(item) {
   return item.appCount === 0 ? item.appCount : '-'
 }
 
-function getClusterCounts(item) {
+export function getClusterCounts(item) {
   const clusterCount = R.path(['clusterCount'], item) || {}
   const localPlacement = R.path(['localPlacement'], item) || false
   return {
@@ -148,7 +148,7 @@ function createClustersLink(item, locale) {
   })
 }
 
-function createClustersText(item = {}, locale = '') {
+export function createClustersText(item = {}, locale = '') {
   const { remoteCount, localPlacement } = getClusterCounts(item)
   return getClusterCountString(locale, remoteCount, localPlacement)
 }

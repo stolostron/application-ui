@@ -2,7 +2,7 @@
 
 exports[`ApplicationsListPage ApplicationsListPage renders correctly with data on all app. 1`] = `
 <div
-  className="page-content-container"
+  class="page-content-container"
   role="main"
 >
   <div>
@@ -10,18 +10,18 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
       id="resource-list"
     >
       <div
-        className="bx--inline-notification bx--inline-notification--success"
+        class="bx--inline-notification bx--inline-notification--success"
         kind="success"
         role="alert"
       >
         <div
-          className="bx--inline-notification__details"
+          class="bx--inline-notification__details"
         >
           <svg
             alt="closes notification"
             aria-label="closes notification"
-            className="bx--inline-notification__icon"
-            fillRule="evenodd"
+            class="bx--inline-notification__icon"
+            fill-rule="evenodd"
             height="16"
             role="img"
             viewBox="0 0 16 16"
@@ -35,30 +35,29 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
             />
           </svg>
           <div
-            className="bx--inline-notification__text-wrapper"
+            class="bx--inline-notification__text-wrapper"
           >
             <p
-              className="bx--inline-notification__title"
+              class="bx--inline-notification__title"
             >
               Success:
             </p>
             <div
-              className="bx--inline-notification__subtitle"
+              class="bx--inline-notification__subtitle"
             >
               Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
             </div>
           </div>
         </div>
         <button
-          className="bx--inline-notification__close-button"
-          onClick={[Function]}
+          class="bx--inline-notification__close-button"
           type="button"
         >
           <svg
             alt="close icon"
             aria-label="close icon"
-            className="bx--inline-notification__close-icon"
-            fillRule="evenodd"
+            class="bx--inline-notification__close-icon"
+            fill-rule="evenodd"
             height="10"
             role="img"
             viewBox="0 0 10 10"
@@ -74,18 +73,18 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
         </button>
       </div>
       <div
-        className="bx--inline-notification bx--inline-notification--success"
+        class="bx--inline-notification bx--inline-notification--success"
         kind="success"
         role="alert"
       >
         <div
-          className="bx--inline-notification__details"
+          class="bx--inline-notification__details"
         >
           <svg
             alt="closes notification"
             aria-label="closes notification"
-            className="bx--inline-notification__icon"
-            fillRule="evenodd"
+            class="bx--inline-notification__icon"
+            fill-rule="evenodd"
             height="16"
             role="img"
             viewBox="0 0 16 16"
@@ -99,30 +98,27 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
             />
           </svg>
           <div
-            className="bx--inline-notification__text-wrapper"
+            class="bx--inline-notification__text-wrapper"
           >
             <p
-              className="bx--inline-notification__title"
-            >
-              
-            </p>
+              class="bx--inline-notification__title"
+            />
             <div
-              className="bx--inline-notification__subtitle"
+              class="bx--inline-notification__subtitle"
             >
               Create resource was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
             </div>
           </div>
         </div>
         <button
-          className="bx--inline-notification__close-button"
-          onClick={[Function]}
+          class="bx--inline-notification__close-button"
           type="button"
         >
           <svg
             alt="close icon"
             aria-label="close icon"
-            className="bx--inline-notification__close-icon"
-            fillRule="evenodd"
+            class="bx--inline-notification__close-icon"
+            fill-rule="evenodd"
             height="10"
             role="img"
             viewBox="0 0 10 10"
@@ -138,26 +134,24 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
         </button>
       </div>
       <div
-        className="refresh-time-div"
+        class="refresh-time-div"
       >
         <div
-          className="refresh-time-container"
+          class="refresh-time-container"
         >
           <div
-            className="refresh-time-selection"
+            class="refresh-time-selection"
           >
             <div
               aria-label="Refresh"
-              className="button"
+              class="button"
               id="refreshButton"
-              onClick={[Function]}
-              onKeyPress={[Function]}
               role="button"
-              tabIndex="0"
+              tabindex="0"
               title="Refresh"
             >
               <svg
-                className="button-icon"
+                class="button-icon"
               >
                 <use
                   href="#diagramIcons_autoRefresh"
@@ -166,1068 +160,33 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
             </div>
             <div
               aria-label="Choose refresh"
-              className="bx--dropdown selection bx--list-box"
-              onClick={[Function]}
-              onKeyDown={[Function]}
+              class="bx--dropdown selection bx--list-box"
               role="listbox"
-              tabIndex="0"
+              tabindex="0"
             >
               <div
-                aria-expanded={false}
-                aria-haspopup={true}
+                aria-expanded="false"
+                aria-haspopup="true"
                 aria-label="open menu"
-                className="bx--list-box__field"
-                data-toggle={true}
-                disabled={false}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onKeyDown={[Function]}
+                class="bx--list-box__field"
+                data-toggle="true"
                 role="button"
-                tabIndex="0"
+                tabindex="0"
                 type="button"
               >
                 <span
-                  className="bx--list-box__label"
-                  htmlFor="refreshDropdown-input"
+                  class="bx--list-box__label"
+                  for="refreshDropdown-input"
                 >
                   Disable refresh
                 </span>
                 <div
-                  className="bx--list-box__menu-icon"
+                  class="bx--list-box__menu-icon"
                 >
                   <svg
                     alt="Open menu"
                     aria-label="Open menu"
-                    fillRule="evenodd"
-                    height="5"
-                    role="img"
-                    viewBox="0 0 10 5"
-                    width="10"
-                  >
-                    <title>
-                      Open menu
-                    </title>
-                    <path
-                      d="M0 0l5 4.998L10 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            Last update: {0}
-          </div>
-        </div>
-      </div>
-      <div
-        className="bx--data-table-v2-container"
-        id="undefined-table-container"
-      >
-        <section
-          aria-label="undefined-search"
-          className="bx--table-toolbar"
-          role="region"
-        >
-          <div
-            className="bx--toolbar-search-container"
-          >
-            <div
-              aria-labelledby="undefined-search-label"
-              className="bx--search bx--search--sm bx--search--light"
-              role="search"
-            >
-              <svg
-                alt="Filter table"
-                aria-label="Filter table"
-                className="bx--search-magnifier"
-                fillRule="evenodd"
-                height="16"
-                role="img"
-                viewBox="0 0 16 16"
-                width="16"
-              >
-                <title>
-                  Filter table
-                </title>
-                <path
-                  d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm4.936-1.27l4.563 4.557-.707.708-4.563-4.558a6.5 6.5 0 1 1 .707-.707z"
-                />
-              </svg>
-              <label
-                className="bx--label"
-                htmlFor="undefined-search"
-                id="undefined-search-label"
-              >
-                Filter table
-              </label>
-              <input
-                aria-label="undefined-search"
-                className="bx--search-input"
-                id="undefined-search"
-                onChange={[Function]}
-                placeholder="Find resources"
-                type="text"
-                value="aa"
-              />
-              <button
-                className="bx--search-close"
-                onClick={[Function]}
-                type="button"
-              >
-                <svg
-                  alt="Provide a description that will be used as the title"
-                  aria-label="Provide a description that will be used as the title"
-                  fillRule="evenodd"
-                  height="16"
-                  role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
-                >
-                  <title>
-                    Provide a description that will be used as the title
-                  </title>
-                  <path
-                    d="M8 6.586L5.879 4.464 4.464 5.88 6.586 8l-2.122 2.121 1.415 1.415L8 9.414l2.121 2.122 1.415-1.415L9.414 8l2.122-2.121-1.415-1.415L8 6.586zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div
-            className="bx--toolbar-content"
-          />
-        </section>
-        <table
-          className="bx--data-table-v2 resource-table"
-        >
-          <thead>
-            <tr>
-              <th
-                scope="col"
-              >
-                <button
-                  className="bx--table-sort-v2 bx--table-sort-v2--ascending bx--table-sort-v2--active"
-                  data-default-key="name"
-                  data-key="name"
-                  onClick={[Function]}
-                  title="Sort rows by this header in descending order"
-                >
-                  <span
-                    className="bx--table-header-label"
-                  >
-                    <div>
-                      Name
-                    </div>
-                  </span>
-                  <svg
-                    alt="Sort rows by this header in descending order"
-                    aria-label="Sort rows by this header in descending order"
-                    className="bx--table-sort-v2__icon"
-                    fillRule="evenodd"
-                    height="5"
-                    name="caret--down"
-                    role="img"
-                    viewBox="0 0 10 5"
-                    width="10"
-                  >
-                    <title>
-                      Sort rows by this header in descending order
-                    </title>
-                    <path
-                      d="M0 0l5 4.998L10 0z"
-                    />
-                  </svg>
-                </button>
-              </th>
-              <th
-                scope="col"
-              >
-                <button
-                  className="bx--table-sort-v2 bx--table-sort-v2--ascending"
-                  data-default-key="name"
-                  data-key="namespace"
-                  onClick={[Function]}
-                  title="Sort rows by this header in descending order"
-                >
-                  <span
-                    className="bx--table-header-label"
-                  >
-                    <div>
-                      Namespace
-                    </div>
-                  </span>
-                  <svg
-                    alt="Sort rows by this header in descending order"
-                    aria-label="Sort rows by this header in descending order"
-                    className="bx--table-sort-v2__icon"
-                    fillRule="evenodd"
-                    height="5"
-                    name="caret--down"
-                    role="img"
-                    viewBox="0 0 10 5"
-                    width="10"
-                  >
-                    <title>
-                      Sort rows by this header in descending order
-                    </title>
-                    <path
-                      d="M0 0l5 4.998L10 0z"
-                    />
-                  </svg>
-                </button>
-              </th>
-              <th
-                scope="col"
-              >
-                <button
-                  className="bx--table-sort-v2 bx--table-sort-v2--ascending"
-                  data-default-key="name"
-                  data-key="clusterCount"
-                  onClick={[Function]}
-                  title="Sort rows by this header in descending order"
-                >
-                  <span
-                    className="bx--table-header-label"
-                  >
-                    <div>
-                      Clusters
-                      <div
-                        className="bx--tooltip__trigger"
-                      >
-                        
-                        <div
-                          aria-expanded={false}
-                          aria-haspopup="true"
-                          id="__carbon-tooltip-trigger_i"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onKeyDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          role="button"
-                          tabIndex={0}
-                        >
-                          <svg
-                            alt="tooltip"
-                            aria-label="tooltip"
-                            fillRule="evenodd"
-                            height="16"
-                            name="icon--info--outline"
-                            role="img"
-                            viewBox="0 0 16 16"
-                            width="16"
-                          >
-                            <title>
-                              
-                            </title>
-                            <path
-                              d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
-                            />
-                            <path
-                              d="M9 13H7V7h2z"
-                            />
-                            <path
-                              d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </span>
-                  <svg
-                    alt="Sort rows by this header in descending order"
-                    aria-label="Sort rows by this header in descending order"
-                    className="bx--table-sort-v2__icon"
-                    fillRule="evenodd"
-                    height="5"
-                    name="caret--down"
-                    role="img"
-                    viewBox="0 0 10 5"
-                    width="10"
-                  >
-                    <title>
-                      Sort rows by this header in descending order
-                    </title>
-                    <path
-                      d="M0 0l5 4.998L10 0z"
-                    />
-                  </svg>
-                </button>
-              </th>
-              <th
-                scope="col"
-              >
-                <button
-                  className="bx--table-sort-v2 bx--table-sort-v2--ascending"
-                  data-default-key="name"
-                  data-key="hubChannels"
-                  onClick={[Function]}
-                  title="Sort rows by this header in descending order"
-                >
-                  <span
-                    className="bx--table-header-label"
-                  >
-                    <div>
-                      Resource
-                      <div
-                        className="bx--tooltip__trigger"
-                      >
-                        
-                        <div
-                          aria-expanded={false}
-                          aria-haspopup="true"
-                          id="__carbon-tooltip-trigger_i"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onKeyDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          role="button"
-                          tabIndex={0}
-                        >
-                          <svg
-                            alt="tooltip"
-                            aria-label="tooltip"
-                            fillRule="evenodd"
-                            height="16"
-                            name="icon--info--outline"
-                            role="img"
-                            viewBox="0 0 16 16"
-                            width="16"
-                          >
-                            <title>
-                              
-                            </title>
-                            <path
-                              d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
-                            />
-                            <path
-                              d="M9 13H7V7h2z"
-                            />
-                            <path
-                              d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </span>
-                  <svg
-                    alt="Sort rows by this header in descending order"
-                    aria-label="Sort rows by this header in descending order"
-                    className="bx--table-sort-v2__icon"
-                    fillRule="evenodd"
-                    height="5"
-                    name="caret--down"
-                    role="img"
-                    viewBox="0 0 10 5"
-                    width="10"
-                  >
-                    <title>
-                      Sort rows by this header in descending order
-                    </title>
-                    <path
-                      d="M0 0l5 4.998L10 0z"
-                    />
-                  </svg>
-                </button>
-              </th>
-              <th
-                scope="col"
-              >
-                <button
-                  className="bx--table-sort-v2 bx--table-sort-v2--ascending"
-                  data-default-key="name"
-                  data-key="hubSubscriptions"
-                  onClick={[Function]}
-                  title="Sort rows by this header in descending order"
-                >
-                  <span
-                    className="bx--table-header-label"
-                  >
-                    <div>
-                      Time window
-                      <div
-                        className="bx--tooltip__trigger"
-                      >
-                        
-                        <div
-                          aria-expanded={false}
-                          aria-haspopup="true"
-                          id="__carbon-tooltip-trigger_i"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onKeyDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          role="button"
-                          tabIndex={0}
-                        >
-                          <svg
-                            alt="tooltip"
-                            aria-label="tooltip"
-                            fillRule="evenodd"
-                            height="16"
-                            name="icon--info--outline"
-                            role="img"
-                            viewBox="0 0 16 16"
-                            width="16"
-                          >
-                            <title>
-                              
-                            </title>
-                            <path
-                              d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
-                            />
-                            <path
-                              d="M9 13H7V7h2z"
-                            />
-                            <path
-                              d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </span>
-                  <svg
-                    alt="Sort rows by this header in descending order"
-                    aria-label="Sort rows by this header in descending order"
-                    className="bx--table-sort-v2__icon"
-                    fillRule="evenodd"
-                    height="5"
-                    name="caret--down"
-                    role="img"
-                    viewBox="0 0 10 5"
-                    width="10"
-                  >
-                    <title>
-                      Sort rows by this header in descending order
-                    </title>
-                    <path
-                      d="M0 0l5 4.998L10 0z"
-                    />
-                  </svg>
-                </button>
-              </th>
-              <th
-                scope="col"
-              >
-                <button
-                  className="bx--table-sort-v2 bx--table-sort-v2--ascending"
-                  data-default-key="name"
-                  data-key="created"
-                  onClick={[Function]}
-                  title="Sort rows by this header in descending order"
-                >
-                  <span
-                    className="bx--table-header-label"
-                  >
-                    <div>
-                      Created
-                    </div>
-                  </span>
-                  <svg
-                    alt="Sort rows by this header in descending order"
-                    aria-label="Sort rows by this header in descending order"
-                    className="bx--table-sort-v2__icon"
-                    fillRule="evenodd"
-                    height="5"
-                    name="caret--down"
-                    role="img"
-                    viewBox="0 0 10 5"
-                    width="10"
-                  >
-                    <title>
-                      Sort rows by this header in descending order
-                    </title>
-                    <path
-                      d="M0 0l5 4.998L10 0z"
-                    />
-                  </svg>
-                </button>
-              </th>
-              <th
-                scope="col"
-              />
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              data-row-name="mortgage-app"
-            >
-              <td>
-                <a
-                  href="undefined/default/mortgage-app"
-                  onClick={[Function]}
-                >
-                  mortgage-app
-                </a>
-              </td>
-              <td>
-                default
-              </td>
-              <td>
-                <a
-                  href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Amortgage-app%20namespace%3Adefault%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
-                >
-                  {0} Remote
-                </a>
-              </td>
-              <td>
-                <div
-                  className="label-with-popover-container channel-labels"
-                />
-              </td>
-              <td>
-                
-              </td>
-              <td>
-                3 years ago
-              </td>
-              <td>
-                <div
-                  aria-expanded={false}
-                  aria-haspopup={true}
-                  aria-label="Overflow-menu"
-                  className="bx--overflow-menu"
-                  onClose={[Function]}
-                  onKeyDown={[Function]}
-                  open={false}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <svg
-                    alt="Actions"
-                    aria-label="Actions"
-                    className="bx--overflow-menu__icon"
-                    fillRule="evenodd"
-                    focusable="false"
-                    height="15"
-                    onClick={[Function]}
-                    onKeyDown={[Function]}
-                    role="img"
-                    viewBox="0 0 3 15"
-                    width="3"
-                  >
-                    <title>
-                      Actions
-                    </title>
-                    <path
-                      d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
-                    />
-                  </svg>
-                </div>
-              </td>
-            </tr>
-            <tr
-              data-row-name="samplebook-gbapp"
-            >
-              <td>
-                <a
-                  href="undefined/sample/samplebook-gbapp"
-                  onClick={[Function]}
-                >
-                  samplebook-gbapp
-                </a>
-              </td>
-              <td>
-                sample
-              </td>
-              <td>
-                <a
-                  href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asamplebook-gbapp%20namespace%3Asample%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
-                >
-                  {0} Remote
-                </a>
-              </td>
-              <td>
-                <div
-                  className="label-with-popover-container channel-labels"
-                />
-              </td>
-              <td>
-                
-              </td>
-              <td>
-                3 years ago
-              </td>
-              <td>
-                <div
-                  aria-expanded={false}
-                  aria-haspopup={true}
-                  aria-label="Overflow-menu"
-                  className="bx--overflow-menu"
-                  onClose={[Function]}
-                  onKeyDown={[Function]}
-                  open={false}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <svg
-                    alt="Actions"
-                    aria-label="Actions"
-                    className="bx--overflow-menu__icon"
-                    fillRule="evenodd"
-                    focusable="false"
-                    height="15"
-                    onClick={[Function]}
-                    onKeyDown={[Function]}
-                    role="img"
-                    viewBox="0 0 3 15"
-                    width="3"
-                  >
-                    <title>
-                      Actions
-                    </title>
-                    <path
-                      d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
-                    />
-                  </svg>
-                </div>
-              </td>
-            </tr>
-            <tr
-              data-row-name="subscribed-guestbook-application"
-            >
-              <td>
-                <a
-                  href="undefined/kube-system/subscribed-guestbook-application"
-                  onClick={[Function]}
-                >
-                  subscribed-guestbook-application
-                </a>
-              </td>
-              <td>
-                kube-system
-              </td>
-              <td>
-                <a
-                  href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asubscribed-guestbook-application%20namespace%3Akube-system%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
-                >
-                  {0} Remote, 1 Local
-                </a>
-              </td>
-              <td>
-                <div
-                  className="label-with-popover-container channel-labels"
-                />
-              </td>
-              <td>
-                
-              </td>
-              <td>
-                2 years ago
-              </td>
-              <td>
-                <div
-                  aria-expanded={false}
-                  aria-haspopup={true}
-                  aria-label="Overflow-menu"
-                  className="bx--overflow-menu"
-                  onClose={[Function]}
-                  onKeyDown={[Function]}
-                  open={false}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <svg
-                    alt="Actions"
-                    aria-label="Actions"
-                    className="bx--overflow-menu__icon"
-                    fillRule="evenodd"
-                    focusable="false"
-                    height="15"
-                    onClick={[Function]}
-                    onKeyDown={[Function]}
-                    role="img"
-                    viewBox="0 0 3 15"
-                    width="3"
-                  >
-                    <title>
-                      Actions
-                    </title>
-                    <path
-                      d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
-                    />
-                  </svg>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div
-        className="bx--pagination"
-        disabled={true}
-      >
-        <div
-          className="bx--pagination__left"
-        >
-          <span
-            className="bx--pagination__text"
-          >
-            items per page
-          </span>
-          <div
-            className="bx--form-item"
-          >
-            <div
-              className="bx--select bx--select--inline"
-            >
-              <label
-                className="bx--label bx--visually-hidden"
-                htmlFor="bx-pagination-select-resource-table-pagination"
-              >
-                items per page
-              </label>
-              <select
-                className="bx--select-input"
-                id="bx-pagination-select-resource-table-pagination"
-                onChange={[Function]}
-                value={20}
-              >
-                <option
-                  className="bx--select-option"
-                  disabled={false}
-                  hidden={false}
-                  value={5}
-                >
-                  5
-                </option>
-                <option
-                  className="bx--select-option"
-                  disabled={false}
-                  hidden={false}
-                  value={10}
-                >
-                  10
-                </option>
-                <option
-                  className="bx--select-option"
-                  disabled={false}
-                  hidden={false}
-                  value={20}
-                >
-                  20
-                </option>
-                <option
-                  className="bx--select-option"
-                  disabled={false}
-                  hidden={false}
-                  value={50}
-                >
-                  50
-                </option>
-                <option
-                  className="bx--select-option"
-                  disabled={false}
-                  hidden={false}
-                  value={75}
-                >
-                  75
-                </option>
-                <option
-                  className="bx--select-option"
-                  disabled={false}
-                  hidden={false}
-                  value={100}
-                >
-                  100
-                </option>
-              </select>
-              <svg
-                alt="open list of options"
-                aria-label="open list of options"
-                className="bx--select__arrow"
-                fillRule="evenodd"
-                height="5"
-                role="img"
-                viewBox="0 0 10 5"
-                width="10"
-              >
-                <title>
-                  open list of options
-                </title>
-                <path
-                  d="M0 0l5 4.998L10 0z"
-                />
-              </svg>
-            </div>
-          </div>
-          <span
-            className="bx--pagination__text"
-          >
-             |  
-            {0}-{1} of {0} items
-          </span>
-        </div>
-        <div
-          className="bx--pagination__right bx--pagination--inline"
-        >
-          <span
-            className="bx--pagination__text"
-          >
-            {0} of {1} pages
-          </span>
-          <button
-            aria-label="Backward"
-            className="bx--pagination__button bx--pagination__button--backward bx--pagination__button--no-index"
-            disabled={true}
-            onClick={[Function]}
-          >
-            <svg
-              alt="Backward"
-              aria-label="Backward"
-              className="bx--pagination__button-icon"
-              fillRule="evenodd"
-              height="12"
-              role="img"
-              viewBox="0 0 7 12"
-              width="7"
-            >
-              <title>
-                Backward
-              </title>
-              <path
-                d="M1.45 6.002L7 11.27l-.685.726L0 6.003 6.315 0 7 .726z"
-              />
-            </svg>
-          </button>
-          <button
-            aria-label="Forward"
-            className="bx--pagination__button bx--pagination__button--forward"
-            disabled={true}
-            onClick={[Function]}
-          >
-            <svg
-              alt="Forward"
-              aria-label="Forward"
-              className="bx--pagination__button-icon"
-              fillRule="evenodd"
-              height="12"
-              role="img"
-              viewBox="0 0 7 12"
-              width="7"
-            >
-              <title>
-                Forward
-              </title>
-              <path
-                d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`ApplicationsListPage ApplicationsListPage renders correctly with data on single app. 1`] = `
-<div
-  className="page-content-container"
-  role="main"
->
-  <div>
-    <div
-      id="resource-list"
-    >
-      <div
-        className="bx--inline-notification bx--inline-notification--success"
-        kind="success"
-        role="alert"
-      >
-        <div
-          className="bx--inline-notification__details"
-        >
-          <svg
-            alt="closes notification"
-            aria-label="closes notification"
-            className="bx--inline-notification__icon"
-            fillRule="evenodd"
-            height="16"
-            role="img"
-            viewBox="0 0 16 16"
-            width="16"
-          >
-            <title>
-              closes notification
-            </title>
-            <path
-              d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
-            />
-          </svg>
-          <div
-            className="bx--inline-notification__text-wrapper"
-          >
-            <p
-              className="bx--inline-notification__title"
-            >
-              Success:
-            </p>
-            <div
-              className="bx--inline-notification__subtitle"
-            >
-              Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
-            </div>
-          </div>
-        </div>
-        <button
-          className="bx--inline-notification__close-button"
-          onClick={[Function]}
-          type="button"
-        >
-          <svg
-            alt="close icon"
-            aria-label="close icon"
-            className="bx--inline-notification__close-icon"
-            fillRule="evenodd"
-            height="10"
-            role="img"
-            viewBox="0 0 10 10"
-            width="10"
-          >
-            <title>
-              close icon
-            </title>
-            <path
-              d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
-            />
-          </svg>
-        </button>
-      </div>
-      <div
-        className="bx--inline-notification bx--inline-notification--success"
-        kind="success"
-        role="alert"
-      >
-        <div
-          className="bx--inline-notification__details"
-        >
-          <svg
-            alt="closes notification"
-            aria-label="closes notification"
-            className="bx--inline-notification__icon"
-            fillRule="evenodd"
-            height="16"
-            role="img"
-            viewBox="0 0 16 16"
-            width="16"
-          >
-            <title>
-              closes notification
-            </title>
-            <path
-              d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
-            />
-          </svg>
-          <div
-            className="bx--inline-notification__text-wrapper"
-          >
-            <p
-              className="bx--inline-notification__title"
-            >
-              
-            </p>
-            <div
-              className="bx--inline-notification__subtitle"
-            >
-              Create resource was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
-            </div>
-          </div>
-        </div>
-        <button
-          className="bx--inline-notification__close-button"
-          onClick={[Function]}
-          type="button"
-        >
-          <svg
-            alt="close icon"
-            aria-label="close icon"
-            className="bx--inline-notification__close-icon"
-            fillRule="evenodd"
-            height="10"
-            role="img"
-            viewBox="0 0 10 10"
-            width="10"
-          >
-            <title>
-              close icon
-            </title>
-            <path
-              d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
-            />
-          </svg>
-        </button>
-      </div>
-      <div
-        className="refresh-time-div"
-      >
-        <div
-          className="refresh-time-container"
-        >
-          <div
-            className="refresh-time-selection"
-          >
-            <div
-              aria-label="Refresh"
-              className="button"
-              id="refreshButton"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex="0"
-              title="Refresh"
-            >
-              <svg
-                className="button-icon"
-              >
-                <use
-                  href="#diagramIcons_autoRefresh"
-                />
-              </svg>
-            </div>
-            <div
-              aria-label="Choose refresh"
-              className="bx--dropdown selection bx--list-box"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              role="listbox"
-              tabIndex="0"
-            >
-              <div
-                aria-expanded={false}
-                aria-haspopup={true}
-                aria-label="open menu"
-                className="bx--list-box__field"
-                data-toggle={true}
-                disabled={false}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onKeyDown={[Function]}
-                role="button"
-                tabIndex="0"
-                type="button"
-              >
-                <span
-                  className="bx--list-box__label"
-                  htmlFor="refreshDropdown-input"
-                >
-                  Disable refresh
-                </span>
-                <div
-                  className="bx--list-box__menu-icon"
-                >
-                  <svg
-                    alt="Open menu"
-                    aria-label="Open menu"
-                    fillRule="evenodd"
+                    fill-rule="evenodd"
                     height="5"
                     role="img"
                     viewBox="0 0 10 5"
@@ -1250,56 +209,46 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
         </div>
       </div>
       <section
-        className="pf-c-page__main-section"
+        class="pf-c-page__main-section"
       >
         <article
-          className="pf-c-card"
-          data-ouia-component-id="OUIA-Generated-Card-2"
+          class="pf-c-card"
+          data-ouia-component-id="OUIA-Generated-Card-3"
           data-ouia-component-type="PF4/Card"
-          data-ouia-safe={true}
+          data-ouia-safe="true"
         >
           <div
-            className="pf-c-card__body"
+            class="pf-c-card__body"
           >
             <div
-              className="pf-c-toolbar"
-              id="pf-random-id-1"
+              class="pf-c-toolbar"
+              id="pf-random-id-2"
             >
               <div
-                className="pf-c-toolbar__content"
+                class="pf-c-toolbar__content"
               >
                 <div
-                  className="pf-c-toolbar__content-section"
+                  class="pf-c-toolbar__content-section"
                 >
                   <div
-                    className="pf-c-toolbar__item"
-                    hidden={false}
+                    class="pf-c-toolbar__item"
                   >
                     <div
-                      className="pf-c-search-input"
-                      style={
-                        Object {
-                          "minWidth": "350px",
-                        }
-                      }
+                      class="pf-c-search-input"
+                      style="min-width: 350px;"
                     >
                       <span
-                        className="pf-c-search-input__text"
+                        class="pf-c-search-input__text"
                       >
                         <span
-                          className="pf-c-search-input__icon"
+                          class="pf-c-search-input__icon"
                         >
                           <svg
-                            aria-hidden={true}
-                            aria-labelledby={null}
+                            aria-hidden="true"
                             fill="currentColor"
                             height="1em"
                             role="img"
-                            style={
-                              Object {
-                                "verticalAlign": "-0.125em",
-                              }
-                            }
+                            style="vertical-align: -0.125em;"
                             viewBox="0 0 512 512"
                             width="1em"
                           >
@@ -1310,91 +259,80 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         </span>
                         <input
                           aria-label="Search input"
-                          className="pf-c-search-input__text-input"
-                          onChange={[Function]}
+                          class="pf-c-search-input__text-input"
                           placeholder="Search"
                           value=""
                         />
                       </span>
-                      
                     </div>
                   </div>
                   <div
-                    className="pf-c-toolbar__item pf-m-align-right"
+                    class="pf-c-toolbar__item pf-m-align-right"
                   />
                 </div>
                 <div
-                  className="pf-c-toolbar__expandable-content"
-                  id="pf-random-id-1-expandable-content-1"
+                  class="pf-c-toolbar__expandable-content"
+                  id="pf-random-id-2-expandable-content-2"
                 >
                   <div
-                    className="pf-c-toolbar__group"
+                    class="pf-c-toolbar__group"
                   />
                 </div>
               </div>
               <div
-                className="pf-c-toolbar__content pf-m-hidden"
-                hidden={true}
+                class="pf-c-toolbar__content pf-m-hidden"
+                hidden=""
               >
                 <div
-                  className="pf-c-toolbar__group"
+                  class="pf-c-toolbar__group"
                 />
               </div>
             </div>
             <table
               aria-label="Simple Table"
-              className="pf-c-table pf-m-grid-md pf-m-compact"
-              data-ouia-component-id="OUIA-Generated-Table-4"
+              class="pf-c-table pf-m-grid-md pf-m-compact"
+              data-ouia-component-id="OUIA-Generated-Table-6"
               data-ouia-component-type="PF4/Table"
-              data-ouia-safe={true}
+              data-ouia-safe="true"
               role="grid"
             >
               <thead
-                className=""
+                class=""
               >
                 <tr
-                  className=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-7"
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-13"
                   data-ouia-component-type="PF4/TableRow"
-                  data-ouia-safe={true}
-                  hidden={false}
+                  data-ouia-safe="true"
                 >
                   <th
                     aria-sort="ascending"
-                    className="pf-c-table__sort pf-m-selected"
-                    data-key={0}
+                    class="pf-c-table__sort pf-m-selected"
+                    data-key="0"
                     data-label="Name"
-                    onMouseEnter={[Function]}
                     scope="col"
                   >
                     <button
-                      className="pf-c-table__button"
-                      onClick={[Function]}
+                      class="pf-c-table__button"
                       type="button"
                     >
                       <div
-                        className="pf-c-table__button-content"
+                        class="pf-c-table__button-content"
                       >
                         <span
-                          className="pf-c-table__text"
-                          onMouseEnter={[Function]}
+                          class="pf-c-table__text"
                         >
                           Name
                         </span>
                         <span
-                          className="pf-c-table__sort-indicator"
+                          class="pf-c-table__sort-indicator"
                         >
                           <svg
-                            aria-hidden={true}
-                            aria-labelledby={null}
+                            aria-hidden="true"
                             fill="currentColor"
                             height="1em"
                             role="img"
-                            style={
-                              Object {
-                                "verticalAlign": "-0.125em",
-                              }
-                            }
+                            style="vertical-align: -0.125em;"
                             viewBox="0 0 256 512"
                             width="1em"
                           >
@@ -1408,40 +346,32 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </th>
                   <th
                     aria-sort="none"
-                    className="pf-c-table__sort"
-                    data-key={1}
+                    class="pf-c-table__sort"
+                    data-key="1"
                     data-label="Namespace"
-                    onMouseEnter={[Function]}
                     scope="col"
                   >
                     <button
-                      className="pf-c-table__button"
-                      onClick={[Function]}
+                      class="pf-c-table__button"
                       type="button"
                     >
                       <div
-                        className="pf-c-table__button-content"
+                        class="pf-c-table__button-content"
                       >
                         <span
-                          className="pf-c-table__text"
-                          onMouseEnter={[Function]}
+                          class="pf-c-table__text"
                         >
                           Namespace
                         </span>
                         <span
-                          className="pf-c-table__sort-indicator"
+                          class="pf-c-table__sort-indicator"
                         >
                           <svg
-                            aria-hidden={true}
-                            aria-labelledby={null}
+                            aria-hidden="true"
                             fill="currentColor"
                             height="1em"
                             role="img"
-                            style={
-                              Object {
-                                "verticalAlign": "-0.125em",
-                              }
-                            }
+                            style="vertical-align: -0.125em;"
                             viewBox="0 0 256 512"
                             width="1em"
                           >
@@ -1455,43 +385,35 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </th>
                   <th
                     aria-sort="none"
-                    className="pf-c-table__sort"
-                    data-key={2}
+                    class="pf-c-table__sort"
+                    data-key="2"
                     data-label="Clusters"
-                    onMouseEnter={[Function]}
                     scope="col"
                   >
                     <div
-                      className="pf-c-table__column-help"
+                      class="pf-c-table__column-help"
                     >
                       <button
-                        className="pf-c-table__button"
-                        onClick={[Function]}
+                        class="pf-c-table__button"
                         type="button"
                       >
                         <div
-                          className="pf-c-table__button-content"
+                          class="pf-c-table__button-content"
                         >
                           <span
-                            className="pf-c-table__text"
-                            onMouseEnter={[Function]}
+                            class="pf-c-table__text"
                           >
                             Clusters
                           </span>
                           <span
-                            className="pf-c-table__sort-indicator"
+                            class="pf-c-table__sort-indicator"
                           >
                             <svg
-                              aria-hidden={true}
-                              aria-labelledby={null}
+                              aria-hidden="true"
                               fill="currentColor"
                               height="1em"
                               role="img"
-                              style={
-                                Object {
-                                  "verticalAlign": "-0.125em",
-                                }
-                              }
+                              style="vertical-align: -0.125em;"
                               viewBox="0 0 256 512"
                               width="1em"
                             >
@@ -1503,27 +425,23 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         </div>
                       </button>
                       <span
-                        className="pf-c-table__column-help-action"
+                        class="pf-c-table__column-help-action"
                       >
                         <button
-                          aria-describedby="pf-tooltip-4"
-                          aria-disabled={false}
+                          aria-describedby="pf-tooltip-7"
+                          aria-disabled="false"
                           aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
-                          className="pf-c-button pf-m-plain"
-                          data-ouia-component-id="OUIA-Generated-Button-plain-4"
+                          class="pf-c-button pf-m-plain"
+                          data-ouia-component-id="OUIA-Generated-Button-plain-7"
                           data-ouia-component-type="PF4/Button"
-                          data-ouia-safe={true}
-                          disabled={false}
-                          role={null}
+                          data-ouia-safe="true"
                           type="button"
                         >
                           <svg
-                            aria-hidden={true}
-                            aria-labelledby={null}
+                            aria-hidden="true"
                             fill="currentColor"
                             height="1em"
                             role="img"
-                            style={null}
                             viewBox="0 0 1024 1024"
                             width="1em"
                           >
@@ -1537,43 +455,35 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </th>
                   <th
                     aria-sort="none"
-                    className="pf-c-table__sort"
-                    data-key={3}
+                    class="pf-c-table__sort"
+                    data-key="3"
                     data-label="Resource"
-                    onMouseEnter={[Function]}
                     scope="col"
                   >
                     <div
-                      className="pf-c-table__column-help"
+                      class="pf-c-table__column-help"
                     >
                       <button
-                        className="pf-c-table__button"
-                        onClick={[Function]}
+                        class="pf-c-table__button"
                         type="button"
                       >
                         <div
-                          className="pf-c-table__button-content"
+                          class="pf-c-table__button-content"
                         >
                           <span
-                            className="pf-c-table__text"
-                            onMouseEnter={[Function]}
+                            class="pf-c-table__text"
                           >
                             Resource
                           </span>
                           <span
-                            className="pf-c-table__sort-indicator"
+                            class="pf-c-table__sort-indicator"
                           >
                             <svg
-                              aria-hidden={true}
-                              aria-labelledby={null}
+                              aria-hidden="true"
                               fill="currentColor"
                               height="1em"
                               role="img"
-                              style={
-                                Object {
-                                  "verticalAlign": "-0.125em",
-                                }
-                              }
+                              style="vertical-align: -0.125em;"
                               viewBox="0 0 256 512"
                               width="1em"
                             >
@@ -1585,27 +495,23 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         </div>
                       </button>
                       <span
-                        className="pf-c-table__column-help-action"
+                        class="pf-c-table__column-help-action"
                       >
                         <button
-                          aria-describedby="pf-tooltip-5"
-                          aria-disabled={false}
+                          aria-describedby="pf-tooltip-8"
+                          aria-disabled="false"
                           aria-label="Provides links to each of the resource repositories used by the application."
-                          className="pf-c-button pf-m-plain"
-                          data-ouia-component-id="OUIA-Generated-Button-plain-5"
+                          class="pf-c-button pf-m-plain"
+                          data-ouia-component-id="OUIA-Generated-Button-plain-8"
                           data-ouia-component-type="PF4/Button"
-                          data-ouia-safe={true}
-                          disabled={false}
-                          role={null}
+                          data-ouia-safe="true"
                           type="button"
                         >
                           <svg
-                            aria-hidden={true}
-                            aria-labelledby={null}
+                            aria-hidden="true"
                             fill="currentColor"
                             height="1em"
                             role="img"
-                            style={null}
                             viewBox="0 0 1024 1024"
                             width="1em"
                           >
@@ -1619,43 +525,35 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </th>
                   <th
                     aria-sort="none"
-                    className="pf-c-table__sort"
-                    data-key={4}
+                    class="pf-c-table__sort"
+                    data-key="4"
                     data-label="Time window"
-                    onMouseEnter={[Function]}
                     scope="col"
                   >
                     <div
-                      className="pf-c-table__column-help"
+                      class="pf-c-table__column-help"
                     >
                       <button
-                        className="pf-c-table__button"
-                        onClick={[Function]}
+                        class="pf-c-table__button"
                         type="button"
                       >
                         <div
-                          className="pf-c-table__button-content"
+                          class="pf-c-table__button-content"
                         >
                           <span
-                            className="pf-c-table__text"
-                            onMouseEnter={[Function]}
+                            class="pf-c-table__text"
                           >
                             Time window
                           </span>
                           <span
-                            className="pf-c-table__sort-indicator"
+                            class="pf-c-table__sort-indicator"
                           >
                             <svg
-                              aria-hidden={true}
-                              aria-labelledby={null}
+                              aria-hidden="true"
                               fill="currentColor"
                               height="1em"
                               role="img"
-                              style={
-                                Object {
-                                  "verticalAlign": "-0.125em",
-                                }
-                              }
+                              style="vertical-align: -0.125em;"
                               viewBox="0 0 256 512"
                               width="1em"
                             >
@@ -1667,27 +565,23 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         </div>
                       </button>
                       <span
-                        className="pf-c-table__column-help-action"
+                        class="pf-c-table__column-help-action"
                       >
                         <button
-                          aria-describedby="pf-tooltip-6"
-                          aria-disabled={false}
+                          aria-describedby="pf-tooltip-9"
+                          aria-disabled="false"
                           aria-label="Indicates if updates to any of the application resources are subject to a deployment time window."
-                          className="pf-c-button pf-m-plain"
-                          data-ouia-component-id="OUIA-Generated-Button-plain-6"
+                          class="pf-c-button pf-m-plain"
+                          data-ouia-component-id="OUIA-Generated-Button-plain-9"
                           data-ouia-component-type="PF4/Button"
-                          data-ouia-safe={true}
-                          disabled={false}
-                          role={null}
+                          data-ouia-safe="true"
                           type="button"
                         >
                           <svg
-                            aria-hidden={true}
-                            aria-labelledby={null}
+                            aria-hidden="true"
                             fill="currentColor"
                             height="1em"
                             role="img"
-                            style={null}
                             viewBox="0 0 1024 1024"
                             width="1em"
                           >
@@ -1701,40 +595,32 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </th>
                   <th
                     aria-sort="none"
-                    className="pf-c-table__sort"
-                    data-key={5}
+                    class="pf-c-table__sort"
+                    data-key="5"
                     data-label="Created"
-                    onMouseEnter={[Function]}
                     scope="col"
                   >
                     <button
-                      className="pf-c-table__button"
-                      onClick={[Function]}
+                      class="pf-c-table__button"
                       type="button"
                     >
                       <div
-                        className="pf-c-table__button-content"
+                        class="pf-c-table__button-content"
                       >
                         <span
-                          className="pf-c-table__text"
-                          onMouseEnter={[Function]}
+                          class="pf-c-table__text"
                         >
                           Created
                         </span>
                         <span
-                          className="pf-c-table__sort-indicator"
+                          class="pf-c-table__sort-indicator"
                         >
                           <svg
-                            aria-hidden={true}
-                            aria-labelledby={null}
+                            aria-hidden="true"
                             fill="currentColor"
                             height="1em"
                             role="img"
-                            style={
-                              Object {
-                                "verticalAlign": "-0.125em",
-                              }
-                            }
+                            style="vertical-align: -0.125em;"
                             viewBox="0 0 256 512"
                             width="1em"
                           >
@@ -1747,115 +633,93 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </button>
                   </th>
                   <td
-                    className=""
-                    data-key={6}
+                    class=""
+                    data-key="6"
                     data-label=""
-                    onMouseEnter={[Function]}
                     scope=""
-                  >
-                    
-                  </td>
+                  />
                 </tr>
               </thead>
               <tbody
-                className=""
+                class=""
                 role="rowgroup"
               >
                 <tr
-                  className=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-8"
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-14"
                   data-ouia-component-type="PF4/TableRow"
-                  data-ouia-safe={true}
-                  hidden={false}
-                  onMouseDown={[Function]}
+                  data-ouia-safe="true"
                 >
                   <td
-                    className=""
-                    data-key={0}
+                    class=""
+                    data-key="0"
                     data-label="Name"
-                    onMouseEnter={[Function]}
                   >
                     <a
                       href="undefined/default/app-no-channel"
-                      onClick={[Function]}
                     >
                       app-no-channel
                     </a>
                   </td>
                   <td
-                    className=""
-                    data-key={1}
+                    class=""
+                    data-key="1"
                     data-label="Namespace"
-                    onMouseEnter={[Function]}
                   >
                     default
                   </td>
                   <td
-                    className=""
-                    data-key={2}
+                    class=""
+                    data-key="2"
                     data-label="Clusters"
-                    onMouseEnter={[Function]}
                   >
                     None
                   </td>
                   <td
-                    className=""
-                    data-key={3}
+                    class=""
+                    data-key="3"
                     data-label="Resource"
-                    onMouseEnter={[Function]}
                   >
                     <div
-                      className="label-with-popover-container channel-labels"
+                      class="label-with-popover-container channel-labels"
                     />
                   </td>
                   <td
-                    className=""
-                    data-key={4}
+                    class=""
+                    data-key="4"
                     data-label="Time window"
-                    onMouseEnter={[Function]}
                   />
                   <td
-                    className=""
-                    data-key={5}
+                    class=""
+                    data-key="5"
                     data-label="Created"
-                    onMouseEnter={[Function]}
                   >
                     2 years ago
                   </td>
                   <td
-                    className="pf-c-table__action"
-                    data-key={6}
-                    data-label={null}
-                    onMouseEnter={[Function]}
+                    class="pf-c-table__action"
+                    data-key="6"
                   >
                     <div
-                      className="pf-c-dropdown pf-m-align-right"
-                      data-ouia-component-id="OUIA-Generated-Dropdown-6"
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-11"
                       data-ouia-component-type="PF4/Dropdown"
-                      data-ouia-safe={true}
+                      data-ouia-safe="true"
                     >
                       <button
-                        aria-expanded={false}
-                        aria-haspopup={true}
+                        aria-expanded="false"
+                        aria-haspopup="true"
                         aria-label="Actions"
-                        className="pf-c-dropdown__toggle pf-m-plain"
-                        disabled={false}
-                        id="pf-dropdown-toggle-id-5"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-10"
                         type="button"
                       >
                         <svg
-                          aria-hidden={true}
-                          aria-labelledby={null}
+                          aria-hidden="true"
                           fill="currentColor"
                           height="1em"
                           role="img"
-                          style={
-                            Object {
-                              "verticalAlign": "-0.125em",
-                            }
-                          }
+                          style="vertical-align: -0.125em;"
                           viewBox="0 0 192 512"
                           width="1em"
                         >
@@ -1868,39 +732,33 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </td>
                 </tr>
                 <tr
-                  className=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-9"
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-15"
                   data-ouia-component-type="PF4/TableRow"
-                  data-ouia-safe={true}
-                  hidden={false}
-                  onMouseDown={[Function]}
+                  data-ouia-safe="true"
                 >
                   <td
-                    className=""
-                    data-key={0}
+                    class=""
+                    data-key="0"
                     data-label="Name"
-                    onMouseEnter={[Function]}
                   >
                     <a
                       href="undefined/default/mortgage-app"
-                      onClick={[Function]}
                     >
                       mortgage-app
                     </a>
                   </td>
                   <td
-                    className=""
-                    data-key={1}
+                    class=""
+                    data-key="1"
                     data-label="Namespace"
-                    onMouseEnter={[Function]}
                   >
                     default
                   </td>
                   <td
-                    className=""
-                    data-key={2}
+                    class=""
+                    data-key="2"
                     data-label="Clusters"
-                    onMouseEnter={[Function]}
                   >
                     <a
                       href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Amortgage-app%20namespace%3Adefault%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
@@ -1909,63 +767,50 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </a>
                   </td>
                   <td
-                    className=""
-                    data-key={3}
+                    class=""
+                    data-key="3"
                     data-label="Resource"
-                    onMouseEnter={[Function]}
                   >
                     <div
-                      className="label-with-popover-container channel-labels"
+                      class="label-with-popover-container channel-labels"
                     />
                   </td>
                   <td
-                    className=""
-                    data-key={4}
+                    class=""
+                    data-key="4"
                     data-label="Time window"
-                    onMouseEnter={[Function]}
                   />
                   <td
-                    className=""
-                    data-key={5}
+                    class=""
+                    data-key="5"
                     data-label="Created"
-                    onMouseEnter={[Function]}
                   >
                     3 years ago
                   </td>
                   <td
-                    className="pf-c-table__action"
-                    data-key={6}
-                    data-label={null}
-                    onMouseEnter={[Function]}
+                    class="pf-c-table__action"
+                    data-key="6"
                   >
                     <div
-                      className="pf-c-dropdown pf-m-align-right"
-                      data-ouia-component-id="OUIA-Generated-Dropdown-7"
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-12"
                       data-ouia-component-type="PF4/Dropdown"
-                      data-ouia-safe={true}
+                      data-ouia-safe="true"
                     >
                       <button
-                        aria-expanded={false}
-                        aria-haspopup={true}
+                        aria-expanded="false"
+                        aria-haspopup="true"
                         aria-label="Actions"
-                        className="pf-c-dropdown__toggle pf-m-plain"
-                        disabled={false}
-                        id="pf-dropdown-toggle-id-6"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-11"
                         type="button"
                       >
                         <svg
-                          aria-hidden={true}
-                          aria-labelledby={null}
+                          aria-hidden="true"
                           fill="currentColor"
                           height="1em"
                           role="img"
-                          style={
-                            Object {
-                              "verticalAlign": "-0.125em",
-                            }
-                          }
+                          style="vertical-align: -0.125em;"
                           viewBox="0 0 192 512"
                           width="1em"
                         >
@@ -1978,39 +823,33 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </td>
                 </tr>
                 <tr
-                  className=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-10"
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-16"
                   data-ouia-component-type="PF4/TableRow"
-                  data-ouia-safe={true}
-                  hidden={false}
-                  onMouseDown={[Function]}
+                  data-ouia-safe="true"
                 >
                   <td
-                    className=""
-                    data-key={0}
+                    class=""
+                    data-key="0"
                     data-label="Name"
-                    onMouseEnter={[Function]}
                   >
                     <a
                       href="undefined/sample/samplebook-gbapp"
-                      onClick={[Function]}
                     >
                       samplebook-gbapp
                     </a>
                   </td>
                   <td
-                    className=""
-                    data-key={1}
+                    class=""
+                    data-key="1"
                     data-label="Namespace"
-                    onMouseEnter={[Function]}
                   >
                     sample
                   </td>
                   <td
-                    className=""
-                    data-key={2}
+                    class=""
+                    data-key="2"
                     data-label="Clusters"
-                    onMouseEnter={[Function]}
                   >
                     <a
                       href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asamplebook-gbapp%20namespace%3Asample%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
@@ -2019,63 +858,50 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </a>
                   </td>
                   <td
-                    className=""
-                    data-key={3}
+                    class=""
+                    data-key="3"
                     data-label="Resource"
-                    onMouseEnter={[Function]}
                   >
                     <div
-                      className="label-with-popover-container channel-labels"
+                      class="label-with-popover-container channel-labels"
                     />
                   </td>
                   <td
-                    className=""
-                    data-key={4}
+                    class=""
+                    data-key="4"
                     data-label="Time window"
-                    onMouseEnter={[Function]}
                   />
                   <td
-                    className=""
-                    data-key={5}
+                    class=""
+                    data-key="5"
                     data-label="Created"
-                    onMouseEnter={[Function]}
                   >
                     3 years ago
                   </td>
                   <td
-                    className="pf-c-table__action"
-                    data-key={6}
-                    data-label={null}
-                    onMouseEnter={[Function]}
+                    class="pf-c-table__action"
+                    data-key="6"
                   >
                     <div
-                      className="pf-c-dropdown pf-m-align-right"
-                      data-ouia-component-id="OUIA-Generated-Dropdown-8"
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-13"
                       data-ouia-component-type="PF4/Dropdown"
-                      data-ouia-safe={true}
+                      data-ouia-safe="true"
                     >
                       <button
-                        aria-expanded={false}
-                        aria-haspopup={true}
+                        aria-expanded="false"
+                        aria-haspopup="true"
                         aria-label="Actions"
-                        className="pf-c-dropdown__toggle pf-m-plain"
-                        disabled={false}
-                        id="pf-dropdown-toggle-id-7"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-12"
                         type="button"
                       >
                         <svg
-                          aria-hidden={true}
-                          aria-labelledby={null}
+                          aria-hidden="true"
                           fill="currentColor"
                           height="1em"
                           role="img"
-                          style={
-                            Object {
-                              "verticalAlign": "-0.125em",
-                            }
-                          }
+                          style="vertical-align: -0.125em;"
                           viewBox="0 0 192 512"
                           width="1em"
                         >
@@ -2088,100 +914,81 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </td>
                 </tr>
                 <tr
-                  className=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-11"
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-17"
                   data-ouia-component-type="PF4/TableRow"
-                  data-ouia-safe={true}
-                  hidden={false}
-                  onMouseDown={[Function]}
+                  data-ouia-safe="true"
                 >
                   <td
-                    className=""
-                    data-key={0}
+                    class=""
+                    data-key="0"
                     data-label="Name"
-                    onMouseEnter={[Function]}
                   >
                     <a
                       href="undefined/stock-trader/stocktrader-app"
-                      onClick={[Function]}
                     >
                       stocktrader-app
                     </a>
                   </td>
                   <td
-                    className=""
-                    data-key={1}
+                    class=""
+                    data-key="1"
                     data-label="Namespace"
-                    onMouseEnter={[Function]}
                   >
                     stock-trader
                   </td>
                   <td
-                    className=""
-                    data-key={2}
+                    class=""
+                    data-key="2"
                     data-label="Clusters"
-                    onMouseEnter={[Function]}
                   >
                     None
                   </td>
                   <td
-                    className=""
-                    data-key={3}
+                    class=""
+                    data-key="3"
                     data-label="Resource"
-                    onMouseEnter={[Function]}
                   >
                     <div
-                      className="label-with-popover-container channel-labels"
+                      class="label-with-popover-container channel-labels"
                     />
                   </td>
                   <td
-                    className=""
-                    data-key={4}
+                    class=""
+                    data-key="4"
                     data-label="Time window"
-                    onMouseEnter={[Function]}
                   />
                   <td
-                    className=""
-                    data-key={5}
+                    class=""
+                    data-key="5"
                     data-label="Created"
-                    onMouseEnter={[Function]}
                   >
                     2 years ago
                   </td>
                   <td
-                    className="pf-c-table__action"
-                    data-key={6}
-                    data-label={null}
-                    onMouseEnter={[Function]}
+                    class="pf-c-table__action"
+                    data-key="6"
                   >
                     <div
-                      className="pf-c-dropdown pf-m-align-right"
-                      data-ouia-component-id="OUIA-Generated-Dropdown-9"
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-14"
                       data-ouia-component-type="PF4/Dropdown"
-                      data-ouia-safe={true}
+                      data-ouia-safe="true"
                     >
                       <button
-                        aria-expanded={false}
-                        aria-haspopup={true}
+                        aria-expanded="false"
+                        aria-haspopup="true"
                         aria-label="Actions"
-                        className="pf-c-dropdown__toggle pf-m-plain"
-                        disabled={false}
-                        id="pf-dropdown-toggle-id-8"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-13"
                         type="button"
                       >
                         <svg
-                          aria-hidden={true}
-                          aria-labelledby={null}
+                          aria-hidden="true"
                           fill="currentColor"
                           height="1em"
                           role="img"
-                          style={
-                            Object {
-                              "verticalAlign": "-0.125em",
-                            }
-                          }
+                          style="vertical-align: -0.125em;"
                           viewBox="0 0 192 512"
                           width="1em"
                         >
@@ -2194,39 +1001,33 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </td>
                 </tr>
                 <tr
-                  className=""
-                  data-ouia-component-id="OUIA-Generated-TableRow-12"
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-18"
                   data-ouia-component-type="PF4/TableRow"
-                  data-ouia-safe={true}
-                  hidden={false}
-                  onMouseDown={[Function]}
+                  data-ouia-safe="true"
                 >
                   <td
-                    className=""
-                    data-key={0}
+                    class=""
+                    data-key="0"
                     data-label="Name"
-                    onMouseEnter={[Function]}
                   >
                     <a
                       href="undefined/kube-system/subscribed-guestbook-application"
-                      onClick={[Function]}
                     >
                       subscribed-guestbook-application
                     </a>
                   </td>
                   <td
-                    className=""
-                    data-key={1}
+                    class=""
+                    data-key="1"
                     data-label="Namespace"
-                    onMouseEnter={[Function]}
                   >
                     kube-system
                   </td>
                   <td
-                    className=""
-                    data-key={2}
+                    class=""
+                    data-key="2"
                     data-label="Clusters"
-                    onMouseEnter={[Function]}
                   >
                     <a
                       href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asubscribed-guestbook-application%20namespace%3Akube-system%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
@@ -2235,63 +1036,50 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </a>
                   </td>
                   <td
-                    className=""
-                    data-key={3}
+                    class=""
+                    data-key="3"
                     data-label="Resource"
-                    onMouseEnter={[Function]}
                   >
                     <div
-                      className="label-with-popover-container channel-labels"
+                      class="label-with-popover-container channel-labels"
                     />
                   </td>
                   <td
-                    className=""
-                    data-key={4}
+                    class=""
+                    data-key="4"
                     data-label="Time window"
-                    onMouseEnter={[Function]}
                   />
                   <td
-                    className=""
-                    data-key={5}
+                    class=""
+                    data-key="5"
                     data-label="Created"
-                    onMouseEnter={[Function]}
                   >
                     2 years ago
                   </td>
                   <td
-                    className="pf-c-table__action"
-                    data-key={6}
-                    data-label={null}
-                    onMouseEnter={[Function]}
+                    class="pf-c-table__action"
+                    data-key="6"
                   >
                     <div
-                      className="pf-c-dropdown pf-m-align-right"
-                      data-ouia-component-id="OUIA-Generated-Dropdown-10"
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-15"
                       data-ouia-component-type="PF4/Dropdown"
-                      data-ouia-safe={true}
+                      data-ouia-safe="true"
                     >
                       <button
-                        aria-expanded={false}
-                        aria-haspopup={true}
+                        aria-expanded="false"
+                        aria-haspopup="true"
                         aria-label="Actions"
-                        className="pf-c-dropdown__toggle pf-m-plain"
-                        disabled={false}
-                        id="pf-dropdown-toggle-id-9"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-14"
                         type="button"
                       >
                         <svg
-                          aria-hidden={true}
-                          aria-labelledby={null}
+                          aria-hidden="true"
                           fill="currentColor"
                           height="1em"
                           role="img"
-                          style={
-                            Object {
-                              "verticalAlign": "-0.125em",
-                            }
-                          }
+                          style="vertical-align: -0.125em;"
                           viewBox="0 0 192 512"
                           width="1em"
                         >
@@ -2306,13 +1094,2243 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               </tbody>
             </table>
             <div
-              className="pf-l-split"
+              class="pf-l-split"
             >
               <div
-                className="pf-l-split__item pf-m-fill"
+                class="pf-l-split__item pf-m-fill"
               />
               <div
-                className="pf-l-split__item"
+                class="pf-l-split__item"
+              >
+                <span>
+                   
+                </span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ApplicationsListPage ApplicationsListPage renders correctly with data on single app, create app action 1`] = `
+<div
+  class="page-content-container"
+  role="main"
+>
+  <div>
+    <div
+      id="resource-list"
+    >
+      <div
+        class="bx--inline-notification bx--inline-notification--success"
+        kind="success"
+        role="alert"
+      >
+        <div
+          class="bx--inline-notification__details"
+        >
+          <svg
+            alt="closes notification"
+            aria-label="closes notification"
+            class="bx--inline-notification__icon"
+            fill-rule="evenodd"
+            height="16"
+            role="img"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <title>
+              closes notification
+            </title>
+            <path
+              d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
+            />
+          </svg>
+          <div
+            class="bx--inline-notification__text-wrapper"
+          >
+            <p
+              class="bx--inline-notification__title"
+            >
+              Success:
+            </p>
+            <div
+              class="bx--inline-notification__subtitle"
+            >
+              Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+            </div>
+          </div>
+        </div>
+        <button
+          class="bx--inline-notification__close-button"
+          type="button"
+        >
+          <svg
+            alt="close icon"
+            aria-label="close icon"
+            class="bx--inline-notification__close-icon"
+            fill-rule="evenodd"
+            height="10"
+            role="img"
+            viewBox="0 0 10 10"
+            width="10"
+          >
+            <title>
+              close icon
+            </title>
+            <path
+              d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="bx--inline-notification bx--inline-notification--success"
+        kind="success"
+        role="alert"
+      >
+        <div
+          class="bx--inline-notification__details"
+        >
+          <svg
+            alt="closes notification"
+            aria-label="closes notification"
+            class="bx--inline-notification__icon"
+            fill-rule="evenodd"
+            height="16"
+            role="img"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <title>
+              closes notification
+            </title>
+            <path
+              d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
+            />
+          </svg>
+          <div
+            class="bx--inline-notification__text-wrapper"
+          >
+            <p
+              class="bx--inline-notification__title"
+            />
+            <div
+              class="bx--inline-notification__subtitle"
+            >
+              Create resource was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+            </div>
+          </div>
+        </div>
+        <button
+          class="bx--inline-notification__close-button"
+          type="button"
+        >
+          <svg
+            alt="close icon"
+            aria-label="close icon"
+            class="bx--inline-notification__close-icon"
+            fill-rule="evenodd"
+            height="10"
+            role="img"
+            viewBox="0 0 10 10"
+            width="10"
+          >
+            <title>
+              close icon
+            </title>
+            <path
+              d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="refresh-time-div"
+      >
+        <div
+          class="refresh-time-container"
+        >
+          <div
+            class="refresh-time-selection"
+          >
+            <div
+              aria-label="Refresh"
+              class="button"
+              id="refreshButton"
+              role="button"
+              tabindex="0"
+              title="Refresh"
+            >
+              <svg
+                class="button-icon"
+              >
+                <use
+                  href="#diagramIcons_autoRefresh"
+                />
+              </svg>
+            </div>
+            <div
+              aria-label="Choose refresh"
+              class="bx--dropdown selection bx--list-box"
+              role="listbox"
+              tabindex="0"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="open menu"
+                class="bx--list-box__field"
+                data-toggle="true"
+                role="button"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="bx--list-box__label"
+                  for="refreshDropdown-input"
+                >
+                  Disable refresh
+                </span>
+                <div
+                  class="bx--list-box__menu-icon"
+                >
+                  <svg
+                    alt="Open menu"
+                    aria-label="Open menu"
+                    fill-rule="evenodd"
+                    height="5"
+                    role="img"
+                    viewBox="0 0 10 5"
+                    width="10"
+                  >
+                    <title>
+                      Open menu
+                    </title>
+                    <path
+                      d="M0 0l5 4.998L10 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            Last update: {0}
+          </div>
+        </div>
+      </div>
+      <section
+        class="pf-c-page__main-section"
+      >
+        <article
+          class="pf-c-card"
+          data-ouia-component-id="OUIA-Generated-Card-1"
+          data-ouia-component-type="PF4/Card"
+          data-ouia-safe="true"
+        >
+          <div
+            class="pf-c-card__body"
+          >
+            <div
+              class="pf-c-toolbar"
+              id="pf-random-id-0"
+            >
+              <div
+                class="pf-c-toolbar__content"
+              >
+                <div
+                  class="pf-c-toolbar__content-section"
+                >
+                  <div
+                    class="pf-c-toolbar__item"
+                  >
+                    <div
+                      class="pf-c-search-input"
+                      style="min-width: 350px;"
+                    >
+                      <span
+                        class="pf-c-search-input__text"
+                      >
+                        <span
+                          class="pf-c-search-input__icon"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 512 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"
+                            />
+                          </svg>
+                        </span>
+                        <input
+                          aria-label="Search input"
+                          class="pf-c-search-input__text-input"
+                          placeholder="Search"
+                          value=""
+                        />
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="pf-c-toolbar__item pf-m-align-right"
+                  />
+                </div>
+                <div
+                  class="pf-c-toolbar__expandable-content"
+                  id="pf-random-id-0-expandable-content-0"
+                >
+                  <div
+                    class="pf-c-toolbar__group"
+                  />
+                </div>
+              </div>
+              <div
+                class="pf-c-toolbar__content pf-m-hidden"
+                hidden=""
+              >
+                <div
+                  class="pf-c-toolbar__group"
+                />
+              </div>
+            </div>
+            <table
+              aria-label="Simple Table"
+              class="pf-c-table pf-m-grid-md pf-m-compact"
+              data-ouia-component-id="OUIA-Generated-Table-2"
+              data-ouia-component-type="PF4/Table"
+              data-ouia-safe="true"
+              role="grid"
+            >
+              <thead
+                class=""
+              >
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-1"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <th
+                    aria-sort="ascending"
+                    class="pf-c-table__sort pf-m-selected"
+                    data-key="0"
+                    data-label="Name"
+                    scope="col"
+                  >
+                    <button
+                      class="pf-c-table__button"
+                      type="button"
+                    >
+                      <div
+                        class="pf-c-table__button-content"
+                      >
+                        <span
+                          class="pf-c-table__text"
+                        >
+                          Name
+                        </span>
+                        <span
+                          class="pf-c-table__sort-indicator"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 256 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="pf-c-table__sort"
+                    data-key="1"
+                    data-label="Namespace"
+                    scope="col"
+                  >
+                    <button
+                      class="pf-c-table__button"
+                      type="button"
+                    >
+                      <div
+                        class="pf-c-table__button-content"
+                      >
+                        <span
+                          class="pf-c-table__text"
+                        >
+                          Namespace
+                        </span>
+                        <span
+                          class="pf-c-table__sort-indicator"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 256 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="pf-c-table__sort"
+                    data-key="2"
+                    data-label="Clusters"
+                    scope="col"
+                  >
+                    <div
+                      class="pf-c-table__column-help"
+                    >
+                      <button
+                        class="pf-c-table__button"
+                        type="button"
+                      >
+                        <div
+                          class="pf-c-table__button-content"
+                        >
+                          <span
+                            class="pf-c-table__text"
+                          >
+                            Clusters
+                          </span>
+                          <span
+                            class="pf-c-table__sort-indicator"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 256 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                      </button>
+                      <span
+                        class="pf-c-table__column-help-action"
+                      >
+                        <button
+                          aria-describedby="pf-tooltip-1"
+                          aria-disabled="false"
+                          aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
+                          class="pf-c-button pf-m-plain"
+                          data-ouia-component-id="OUIA-Generated-Button-plain-1"
+                          data-ouia-component-type="PF4/Button"
+                          data-ouia-safe="true"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            viewBox="0 0 1024 1024"
+                            width="1em"
+                          >
+                            <path
+                              d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                            />
+                          </svg>
+                        </button>
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="pf-c-table__sort"
+                    data-key="3"
+                    data-label="Resource"
+                    scope="col"
+                  >
+                    <div
+                      class="pf-c-table__column-help"
+                    >
+                      <button
+                        class="pf-c-table__button"
+                        type="button"
+                      >
+                        <div
+                          class="pf-c-table__button-content"
+                        >
+                          <span
+                            class="pf-c-table__text"
+                          >
+                            Resource
+                          </span>
+                          <span
+                            class="pf-c-table__sort-indicator"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 256 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                      </button>
+                      <span
+                        class="pf-c-table__column-help-action"
+                      >
+                        <button
+                          aria-describedby="pf-tooltip-2"
+                          aria-disabled="false"
+                          aria-label="Provides links to each of the resource repositories used by the application."
+                          class="pf-c-button pf-m-plain"
+                          data-ouia-component-id="OUIA-Generated-Button-plain-2"
+                          data-ouia-component-type="PF4/Button"
+                          data-ouia-safe="true"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            viewBox="0 0 1024 1024"
+                            width="1em"
+                          >
+                            <path
+                              d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                            />
+                          </svg>
+                        </button>
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="pf-c-table__sort"
+                    data-key="4"
+                    data-label="Time window"
+                    scope="col"
+                  >
+                    <div
+                      class="pf-c-table__column-help"
+                    >
+                      <button
+                        class="pf-c-table__button"
+                        type="button"
+                      >
+                        <div
+                          class="pf-c-table__button-content"
+                        >
+                          <span
+                            class="pf-c-table__text"
+                          >
+                            Time window
+                          </span>
+                          <span
+                            class="pf-c-table__sort-indicator"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 256 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                      </button>
+                      <span
+                        class="pf-c-table__column-help-action"
+                      >
+                        <button
+                          aria-describedby="pf-tooltip-3"
+                          aria-disabled="false"
+                          aria-label="Indicates if updates to any of the application resources are subject to a deployment time window."
+                          class="pf-c-button pf-m-plain"
+                          data-ouia-component-id="OUIA-Generated-Button-plain-3"
+                          data-ouia-component-type="PF4/Button"
+                          data-ouia-safe="true"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            viewBox="0 0 1024 1024"
+                            width="1em"
+                          >
+                            <path
+                              d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                            />
+                          </svg>
+                        </button>
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="pf-c-table__sort"
+                    data-key="5"
+                    data-label="Created"
+                    scope="col"
+                  >
+                    <button
+                      class="pf-c-table__button"
+                      type="button"
+                    >
+                      <div
+                        class="pf-c-table__button-content"
+                      >
+                        <span
+                          class="pf-c-table__text"
+                        >
+                          Created
+                        </span>
+                        <span
+                          class="pf-c-table__sort-indicator"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 256 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </button>
+                  </th>
+                  <td
+                    class=""
+                    data-key="6"
+                    data-label=""
+                    scope=""
+                  />
+                </tr>
+              </thead>
+              <tbody
+                class=""
+                role="rowgroup"
+              >
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-2"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <td
+                    class=""
+                    data-key="0"
+                    data-label="Name"
+                  >
+                    <a
+                      href="undefined/default/app-no-channel"
+                    >
+                      app-no-channel
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="1"
+                    data-label="Namespace"
+                  >
+                    default
+                  </td>
+                  <td
+                    class=""
+                    data-key="2"
+                    data-label="Clusters"
+                  >
+                    None
+                  </td>
+                  <td
+                    class=""
+                    data-key="3"
+                    data-label="Resource"
+                  >
+                    <div
+                      class="label-with-popover-container channel-labels"
+                    />
+                  </td>
+                  <td
+                    class=""
+                    data-key="4"
+                    data-label="Time window"
+                  />
+                  <td
+                    class=""
+                    data-key="5"
+                    data-label="Created"
+                  >
+                    2 years ago
+                  </td>
+                  <td
+                    class="pf-c-table__action"
+                    data-key="6"
+                  >
+                    <div
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-1"
+                      data-ouia-component-type="PF4/Dropdown"
+                      data-ouia-safe="true"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-label="Actions"
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-0"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 192 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-3"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <td
+                    class=""
+                    data-key="0"
+                    data-label="Name"
+                  >
+                    <a
+                      href="undefined/default/mortgage-app"
+                    >
+                      mortgage-app
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="1"
+                    data-label="Namespace"
+                  >
+                    default
+                  </td>
+                  <td
+                    class=""
+                    data-key="2"
+                    data-label="Clusters"
+                  >
+                    <a
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Amortgage-app%20namespace%3Adefault%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+                    >
+                      {0} Remote
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="3"
+                    data-label="Resource"
+                  >
+                    <div
+                      class="label-with-popover-container channel-labels"
+                    />
+                  </td>
+                  <td
+                    class=""
+                    data-key="4"
+                    data-label="Time window"
+                  />
+                  <td
+                    class=""
+                    data-key="5"
+                    data-label="Created"
+                  >
+                    3 years ago
+                  </td>
+                  <td
+                    class="pf-c-table__action"
+                    data-key="6"
+                  >
+                    <div
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-2"
+                      data-ouia-component-type="PF4/Dropdown"
+                      data-ouia-safe="true"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-label="Actions"
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-1"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 192 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-4"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <td
+                    class=""
+                    data-key="0"
+                    data-label="Name"
+                  >
+                    <a
+                      href="undefined/sample/samplebook-gbapp"
+                    >
+                      samplebook-gbapp
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="1"
+                    data-label="Namespace"
+                  >
+                    sample
+                  </td>
+                  <td
+                    class=""
+                    data-key="2"
+                    data-label="Clusters"
+                  >
+                    <a
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asamplebook-gbapp%20namespace%3Asample%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+                    >
+                      {0} Remote
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="3"
+                    data-label="Resource"
+                  >
+                    <div
+                      class="label-with-popover-container channel-labels"
+                    />
+                  </td>
+                  <td
+                    class=""
+                    data-key="4"
+                    data-label="Time window"
+                  />
+                  <td
+                    class=""
+                    data-key="5"
+                    data-label="Created"
+                  >
+                    3 years ago
+                  </td>
+                  <td
+                    class="pf-c-table__action"
+                    data-key="6"
+                  >
+                    <div
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-3"
+                      data-ouia-component-type="PF4/Dropdown"
+                      data-ouia-safe="true"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-label="Actions"
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-2"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 192 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-5"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <td
+                    class=""
+                    data-key="0"
+                    data-label="Name"
+                  >
+                    <a
+                      href="undefined/stock-trader/stocktrader-app"
+                    >
+                      stocktrader-app
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="1"
+                    data-label="Namespace"
+                  >
+                    stock-trader
+                  </td>
+                  <td
+                    class=""
+                    data-key="2"
+                    data-label="Clusters"
+                  >
+                    None
+                  </td>
+                  <td
+                    class=""
+                    data-key="3"
+                    data-label="Resource"
+                  >
+                    <div
+                      class="label-with-popover-container channel-labels"
+                    />
+                  </td>
+                  <td
+                    class=""
+                    data-key="4"
+                    data-label="Time window"
+                  />
+                  <td
+                    class=""
+                    data-key="5"
+                    data-label="Created"
+                  >
+                    2 years ago
+                  </td>
+                  <td
+                    class="pf-c-table__action"
+                    data-key="6"
+                  >
+                    <div
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-4"
+                      data-ouia-component-type="PF4/Dropdown"
+                      data-ouia-safe="true"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-label="Actions"
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-3"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 192 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-6"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <td
+                    class=""
+                    data-key="0"
+                    data-label="Name"
+                  >
+                    <a
+                      href="undefined/kube-system/subscribed-guestbook-application"
+                    >
+                      subscribed-guestbook-application
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="1"
+                    data-label="Namespace"
+                  >
+                    kube-system
+                  </td>
+                  <td
+                    class=""
+                    data-key="2"
+                    data-label="Clusters"
+                  >
+                    <a
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asubscribed-guestbook-application%20namespace%3Akube-system%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+                    >
+                      {0} Remote, 1 Local
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="3"
+                    data-label="Resource"
+                  >
+                    <div
+                      class="label-with-popover-container channel-labels"
+                    />
+                  </td>
+                  <td
+                    class=""
+                    data-key="4"
+                    data-label="Time window"
+                  />
+                  <td
+                    class=""
+                    data-key="5"
+                    data-label="Created"
+                  >
+                    2 years ago
+                  </td>
+                  <td
+                    class="pf-c-table__action"
+                    data-key="6"
+                  >
+                    <div
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-5"
+                      data-ouia-component-type="PF4/Dropdown"
+                      data-ouia-safe="true"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-label="Actions"
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-4"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 192 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div
+              class="pf-l-split"
+            >
+              <div
+                class="pf-l-split__item pf-m-fill"
+              />
+              <div
+                class="pf-l-split__item"
+              >
+                <span>
+                   
+                </span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ApplicationsListPage ApplicationsListPage renders correctly with data on single app. 1`] = `
+<div
+  class="page-content-container"
+  role="main"
+>
+  <div>
+    <div
+      id="resource-list"
+    >
+      <div
+        class="bx--inline-notification bx--inline-notification--success"
+        kind="success"
+        role="alert"
+      >
+        <div
+          class="bx--inline-notification__details"
+        >
+          <svg
+            alt="closes notification"
+            aria-label="closes notification"
+            class="bx--inline-notification__icon"
+            fill-rule="evenodd"
+            height="16"
+            role="img"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <title>
+              closes notification
+            </title>
+            <path
+              d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
+            />
+          </svg>
+          <div
+            class="bx--inline-notification__text-wrapper"
+          >
+            <p
+              class="bx--inline-notification__title"
+            >
+              Success:
+            </p>
+            <div
+              class="bx--inline-notification__subtitle"
+            >
+              Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+            </div>
+          </div>
+        </div>
+        <button
+          class="bx--inline-notification__close-button"
+          type="button"
+        >
+          <svg
+            alt="close icon"
+            aria-label="close icon"
+            class="bx--inline-notification__close-icon"
+            fill-rule="evenodd"
+            height="10"
+            role="img"
+            viewBox="0 0 10 10"
+            width="10"
+          >
+            <title>
+              close icon
+            </title>
+            <path
+              d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="bx--inline-notification bx--inline-notification--success"
+        kind="success"
+        role="alert"
+      >
+        <div
+          class="bx--inline-notification__details"
+        >
+          <svg
+            alt="closes notification"
+            aria-label="closes notification"
+            class="bx--inline-notification__icon"
+            fill-rule="evenodd"
+            height="16"
+            role="img"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <title>
+              closes notification
+            </title>
+            <path
+              d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm3.293-11.332L6.75 9.21 4.707 7.168 3.293 8.582 6.75 12.04l5.957-5.957-1.414-1.414z"
+            />
+          </svg>
+          <div
+            class="bx--inline-notification__text-wrapper"
+          >
+            <p
+              class="bx--inline-notification__title"
+            />
+            <div
+              class="bx--inline-notification__subtitle"
+            >
+              Create resource was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+            </div>
+          </div>
+        </div>
+        <button
+          class="bx--inline-notification__close-button"
+          type="button"
+        >
+          <svg
+            alt="close icon"
+            aria-label="close icon"
+            class="bx--inline-notification__close-icon"
+            fill-rule="evenodd"
+            height="10"
+            role="img"
+            viewBox="0 0 10 10"
+            width="10"
+          >
+            <title>
+              close icon
+            </title>
+            <path
+              d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="refresh-time-div"
+      >
+        <div
+          class="refresh-time-container"
+        >
+          <div
+            class="refresh-time-selection"
+          >
+            <div
+              aria-label="Refresh"
+              class="button"
+              id="refreshButton"
+              role="button"
+              tabindex="0"
+              title="Refresh"
+            >
+              <svg
+                class="button-icon"
+              >
+                <use
+                  href="#diagramIcons_autoRefresh"
+                />
+              </svg>
+            </div>
+            <div
+              aria-label="Choose refresh"
+              class="bx--dropdown selection bx--list-box"
+              role="listbox"
+              tabindex="0"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="open menu"
+                class="bx--list-box__field"
+                data-toggle="true"
+                role="button"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="bx--list-box__label"
+                  for="refreshDropdown-input"
+                >
+                  Disable refresh
+                </span>
+                <div
+                  class="bx--list-box__menu-icon"
+                >
+                  <svg
+                    alt="Open menu"
+                    aria-label="Open menu"
+                    fill-rule="evenodd"
+                    height="5"
+                    role="img"
+                    viewBox="0 0 10 5"
+                    width="10"
+                  >
+                    <title>
+                      Open menu
+                    </title>
+                    <path
+                      d="M0 0l5 4.998L10 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            Last update: {0}
+          </div>
+        </div>
+      </div>
+      <section
+        class="pf-c-page__main-section"
+      >
+        <article
+          class="pf-c-card"
+          data-ouia-component-id="OUIA-Generated-Card-2"
+          data-ouia-component-type="PF4/Card"
+          data-ouia-safe="true"
+        >
+          <div
+            class="pf-c-card__body"
+          >
+            <div
+              class="pf-c-toolbar"
+              id="pf-random-id-1"
+            >
+              <div
+                class="pf-c-toolbar__content"
+              >
+                <div
+                  class="pf-c-toolbar__content-section"
+                >
+                  <div
+                    class="pf-c-toolbar__item"
+                  >
+                    <div
+                      class="pf-c-search-input"
+                      style="min-width: 350px;"
+                    >
+                      <span
+                        class="pf-c-search-input__text"
+                      >
+                        <span
+                          class="pf-c-search-input__icon"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 512 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"
+                            />
+                          </svg>
+                        </span>
+                        <input
+                          aria-label="Search input"
+                          class="pf-c-search-input__text-input"
+                          placeholder="Search"
+                          value=""
+                        />
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="pf-c-toolbar__item pf-m-align-right"
+                  />
+                </div>
+                <div
+                  class="pf-c-toolbar__expandable-content"
+                  id="pf-random-id-1-expandable-content-1"
+                >
+                  <div
+                    class="pf-c-toolbar__group"
+                  />
+                </div>
+              </div>
+              <div
+                class="pf-c-toolbar__content pf-m-hidden"
+                hidden=""
+              >
+                <div
+                  class="pf-c-toolbar__group"
+                />
+              </div>
+            </div>
+            <table
+              aria-label="Simple Table"
+              class="pf-c-table pf-m-grid-md pf-m-compact"
+              data-ouia-component-id="OUIA-Generated-Table-4"
+              data-ouia-component-type="PF4/Table"
+              data-ouia-safe="true"
+              role="grid"
+            >
+              <thead
+                class=""
+              >
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-7"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <th
+                    aria-sort="ascending"
+                    class="pf-c-table__sort pf-m-selected"
+                    data-key="0"
+                    data-label="Name"
+                    scope="col"
+                  >
+                    <button
+                      class="pf-c-table__button"
+                      type="button"
+                    >
+                      <div
+                        class="pf-c-table__button-content"
+                      >
+                        <span
+                          class="pf-c-table__text"
+                        >
+                          Name
+                        </span>
+                        <span
+                          class="pf-c-table__sort-indicator"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 256 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="pf-c-table__sort"
+                    data-key="1"
+                    data-label="Namespace"
+                    scope="col"
+                  >
+                    <button
+                      class="pf-c-table__button"
+                      type="button"
+                    >
+                      <div
+                        class="pf-c-table__button-content"
+                      >
+                        <span
+                          class="pf-c-table__text"
+                        >
+                          Namespace
+                        </span>
+                        <span
+                          class="pf-c-table__sort-indicator"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 256 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="pf-c-table__sort"
+                    data-key="2"
+                    data-label="Clusters"
+                    scope="col"
+                  >
+                    <div
+                      class="pf-c-table__column-help"
+                    >
+                      <button
+                        class="pf-c-table__button"
+                        type="button"
+                      >
+                        <div
+                          class="pf-c-table__button-content"
+                        >
+                          <span
+                            class="pf-c-table__text"
+                          >
+                            Clusters
+                          </span>
+                          <span
+                            class="pf-c-table__sort-indicator"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 256 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                      </button>
+                      <span
+                        class="pf-c-table__column-help-action"
+                      >
+                        <button
+                          aria-describedby="pf-tooltip-4"
+                          aria-disabled="false"
+                          aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
+                          class="pf-c-button pf-m-plain"
+                          data-ouia-component-id="OUIA-Generated-Button-plain-4"
+                          data-ouia-component-type="PF4/Button"
+                          data-ouia-safe="true"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            viewBox="0 0 1024 1024"
+                            width="1em"
+                          >
+                            <path
+                              d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                            />
+                          </svg>
+                        </button>
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="pf-c-table__sort"
+                    data-key="3"
+                    data-label="Resource"
+                    scope="col"
+                  >
+                    <div
+                      class="pf-c-table__column-help"
+                    >
+                      <button
+                        class="pf-c-table__button"
+                        type="button"
+                      >
+                        <div
+                          class="pf-c-table__button-content"
+                        >
+                          <span
+                            class="pf-c-table__text"
+                          >
+                            Resource
+                          </span>
+                          <span
+                            class="pf-c-table__sort-indicator"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 256 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                      </button>
+                      <span
+                        class="pf-c-table__column-help-action"
+                      >
+                        <button
+                          aria-describedby="pf-tooltip-5"
+                          aria-disabled="false"
+                          aria-label="Provides links to each of the resource repositories used by the application."
+                          class="pf-c-button pf-m-plain"
+                          data-ouia-component-id="OUIA-Generated-Button-plain-5"
+                          data-ouia-component-type="PF4/Button"
+                          data-ouia-safe="true"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            viewBox="0 0 1024 1024"
+                            width="1em"
+                          >
+                            <path
+                              d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                            />
+                          </svg>
+                        </button>
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="pf-c-table__sort"
+                    data-key="4"
+                    data-label="Time window"
+                    scope="col"
+                  >
+                    <div
+                      class="pf-c-table__column-help"
+                    >
+                      <button
+                        class="pf-c-table__button"
+                        type="button"
+                      >
+                        <div
+                          class="pf-c-table__button-content"
+                        >
+                          <span
+                            class="pf-c-table__text"
+                          >
+                            Time window
+                          </span>
+                          <span
+                            class="pf-c-table__sort-indicator"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 256 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                      </button>
+                      <span
+                        class="pf-c-table__column-help-action"
+                      >
+                        <button
+                          aria-describedby="pf-tooltip-6"
+                          aria-disabled="false"
+                          aria-label="Indicates if updates to any of the application resources are subject to a deployment time window."
+                          class="pf-c-button pf-m-plain"
+                          data-ouia-component-id="OUIA-Generated-Button-plain-6"
+                          data-ouia-component-type="PF4/Button"
+                          data-ouia-safe="true"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            viewBox="0 0 1024 1024"
+                            width="1em"
+                          >
+                            <path
+                              d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                            />
+                          </svg>
+                        </button>
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="pf-c-table__sort"
+                    data-key="5"
+                    data-label="Created"
+                    scope="col"
+                  >
+                    <button
+                      class="pf-c-table__button"
+                      type="button"
+                    >
+                      <div
+                        class="pf-c-table__button-content"
+                      >
+                        <span
+                          class="pf-c-table__text"
+                        >
+                          Created
+                        </span>
+                        <span
+                          class="pf-c-table__sort-indicator"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 256 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </button>
+                  </th>
+                  <td
+                    class=""
+                    data-key="6"
+                    data-label=""
+                    scope=""
+                  />
+                </tr>
+              </thead>
+              <tbody
+                class=""
+                role="rowgroup"
+              >
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-8"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <td
+                    class=""
+                    data-key="0"
+                    data-label="Name"
+                  >
+                    <a
+                      href="undefined/default/app-no-channel"
+                    >
+                      app-no-channel
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="1"
+                    data-label="Namespace"
+                  >
+                    default
+                  </td>
+                  <td
+                    class=""
+                    data-key="2"
+                    data-label="Clusters"
+                  >
+                    None
+                  </td>
+                  <td
+                    class=""
+                    data-key="3"
+                    data-label="Resource"
+                  >
+                    <div
+                      class="label-with-popover-container channel-labels"
+                    />
+                  </td>
+                  <td
+                    class=""
+                    data-key="4"
+                    data-label="Time window"
+                  />
+                  <td
+                    class=""
+                    data-key="5"
+                    data-label="Created"
+                  >
+                    2 years ago
+                  </td>
+                  <td
+                    class="pf-c-table__action"
+                    data-key="6"
+                  >
+                    <div
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-6"
+                      data-ouia-component-type="PF4/Dropdown"
+                      data-ouia-safe="true"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-label="Actions"
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-5"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 192 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-9"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <td
+                    class=""
+                    data-key="0"
+                    data-label="Name"
+                  >
+                    <a
+                      href="undefined/default/mortgage-app"
+                    >
+                      mortgage-app
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="1"
+                    data-label="Namespace"
+                  >
+                    default
+                  </td>
+                  <td
+                    class=""
+                    data-key="2"
+                    data-label="Clusters"
+                  >
+                    <a
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Amortgage-app%20namespace%3Adefault%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+                    >
+                      {0} Remote
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="3"
+                    data-label="Resource"
+                  >
+                    <div
+                      class="label-with-popover-container channel-labels"
+                    />
+                  </td>
+                  <td
+                    class=""
+                    data-key="4"
+                    data-label="Time window"
+                  />
+                  <td
+                    class=""
+                    data-key="5"
+                    data-label="Created"
+                  >
+                    3 years ago
+                  </td>
+                  <td
+                    class="pf-c-table__action"
+                    data-key="6"
+                  >
+                    <div
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-7"
+                      data-ouia-component-type="PF4/Dropdown"
+                      data-ouia-safe="true"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-label="Actions"
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-6"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 192 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-10"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <td
+                    class=""
+                    data-key="0"
+                    data-label="Name"
+                  >
+                    <a
+                      href="undefined/sample/samplebook-gbapp"
+                    >
+                      samplebook-gbapp
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="1"
+                    data-label="Namespace"
+                  >
+                    sample
+                  </td>
+                  <td
+                    class=""
+                    data-key="2"
+                    data-label="Clusters"
+                  >
+                    <a
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asamplebook-gbapp%20namespace%3Asample%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+                    >
+                      {0} Remote
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="3"
+                    data-label="Resource"
+                  >
+                    <div
+                      class="label-with-popover-container channel-labels"
+                    />
+                  </td>
+                  <td
+                    class=""
+                    data-key="4"
+                    data-label="Time window"
+                  />
+                  <td
+                    class=""
+                    data-key="5"
+                    data-label="Created"
+                  >
+                    3 years ago
+                  </td>
+                  <td
+                    class="pf-c-table__action"
+                    data-key="6"
+                  >
+                    <div
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-8"
+                      data-ouia-component-type="PF4/Dropdown"
+                      data-ouia-safe="true"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-label="Actions"
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-7"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 192 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-11"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <td
+                    class=""
+                    data-key="0"
+                    data-label="Name"
+                  >
+                    <a
+                      href="undefined/stock-trader/stocktrader-app"
+                    >
+                      stocktrader-app
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="1"
+                    data-label="Namespace"
+                  >
+                    stock-trader
+                  </td>
+                  <td
+                    class=""
+                    data-key="2"
+                    data-label="Clusters"
+                  >
+                    None
+                  </td>
+                  <td
+                    class=""
+                    data-key="3"
+                    data-label="Resource"
+                  >
+                    <div
+                      class="label-with-popover-container channel-labels"
+                    />
+                  </td>
+                  <td
+                    class=""
+                    data-key="4"
+                    data-label="Time window"
+                  />
+                  <td
+                    class=""
+                    data-key="5"
+                    data-label="Created"
+                  >
+                    2 years ago
+                  </td>
+                  <td
+                    class="pf-c-table__action"
+                    data-key="6"
+                  >
+                    <div
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-9"
+                      data-ouia-component-type="PF4/Dropdown"
+                      data-ouia-safe="true"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-label="Actions"
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-8"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 192 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                  data-ouia-component-id="OUIA-Generated-TableRow-12"
+                  data-ouia-component-type="PF4/TableRow"
+                  data-ouia-safe="true"
+                >
+                  <td
+                    class=""
+                    data-key="0"
+                    data-label="Name"
+                  >
+                    <a
+                      href="undefined/kube-system/subscribed-guestbook-application"
+                    >
+                      subscribed-guestbook-application
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="1"
+                    data-label="Namespace"
+                  >
+                    kube-system
+                  </td>
+                  <td
+                    class=""
+                    data-key="2"
+                    data-label="Clusters"
+                  >
+                    <a
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Asubscribed-guestbook-application%20namespace%3Akube-system%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+                    >
+                      {0} Remote, 1 Local
+                    </a>
+                  </td>
+                  <td
+                    class=""
+                    data-key="3"
+                    data-label="Resource"
+                  >
+                    <div
+                      class="label-with-popover-container channel-labels"
+                    />
+                  </td>
+                  <td
+                    class=""
+                    data-key="4"
+                    data-label="Time window"
+                  />
+                  <td
+                    class=""
+                    data-key="5"
+                    data-label="Created"
+                  >
+                    2 years ago
+                  </td>
+                  <td
+                    class="pf-c-table__action"
+                    data-key="6"
+                  >
+                    <div
+                      class="pf-c-dropdown pf-m-align-right"
+                      data-ouia-component-id="OUIA-Generated-Dropdown-10"
+                      data-ouia-component-type="PF4/Dropdown"
+                      data-ouia-safe="true"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-label="Actions"
+                        class="pf-c-dropdown__toggle pf-m-plain"
+                        id="pf-dropdown-toggle-id-9"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 192 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div
+              class="pf-l-split"
+            >
+              <div
+                class="pf-l-split__item pf-m-fill"
+              />
+              <div
+                class="pf-l-split__item"
               >
                 <span>
                    

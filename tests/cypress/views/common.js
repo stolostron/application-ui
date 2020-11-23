@@ -94,70 +94,41 @@ export const submitSave = successState => {
   }
 };
 
+const getPFTableRowSelector = key =>
+  `[data-ouia-component-type="PF4/TableRow"][data-ouia-component-id="${key}"]`;
+
 export const resourceTable = {
-  shouldExist: () =>
-    cy.get(".resource-table", { timeout: 20000 }).should("exist"),
-  shouldNotExist: () =>
-    cy.get(".resource-table", { timeout: 20000 }).should("not.exist"),
-  rowCount: () =>
-    cy.get(".resource-table", { timeout: 500 * 1000 }).then($table => {
-      return $table.find("tbody").find("tr").length;
-    }),
-  rowShouldExist: function(name, timeout) {
-    this.searchTable(name);
-    cy
-      .get(`tr[data-row-name="${name}"]`, {
-        timeout: timeout || 30 * 1000
-      })
-      .should("exist");
-  },
-  rowShouldNotExist: function(name, timeout, disableSearch) {
-    !disableSearch && this.searchTable(name);
-    cy
-      .get(`tr[data-row-name="${name}"]`, {
-        timeout: timeout || 30 * 1000
-      })
-      .should("not.exist");
-  },
-  rowNameClick: name =>
-    cy.get(`a[href*="multicloud/applications/${name}-ns/${name}"]`).click(),
-  searchTable: function(name) {
-    cy.get("#page").then(page => {
-      if (page.find("#resource-search-bar", { timeout: 15000 }).length > 0) {
-        this.clearSearch();
-        cy.get("#resource-search-bar").paste(name);
-      }
+  getRow: function(name, key, timeout) {
+    return cy.get(getPFTableRowSelector(key), {
+      timeout: timeout || 30 * 1000
     });
   },
-  openRowMenu: name =>
+  getCell: function(name) {
+    return cy.get(`td[data-label="${name}"]`);
+  },
+  rowShouldExist: function(name, key, timeout) {
+    this.searchTable(name);
+    this.getRow(name, key, timeout).should("exist");
+  },
+  rowShouldNotExist: function(name, key, timeout, disableSearch) {
+    !disableSearch && this.searchTable(name);
+    this.getRow(name, key, timeout).should("not.exist");
+  },
+  searchTable: function(name) {
+    cy.get(".pf-c-search-input__text-input").type(name);
+  },
+  openRowMenu: (name, key) =>
     cy
-      .get(`tr[data-row-name="${name}"] .bx--overflow-menu`, {
+      .get(`${getPFTableRowSelector(key)} .pf-c-dropdown__toggle`, {
         timeout: 20 * 10000
       })
       .click(),
-  menuClickView: () =>
-    cy
-      .get('button[data-table-action="table.actions.applications.view"]', {
-        timeout: 20 * 1000
-      })
-      .click({ force: true }),
-  menuClickEdit: () =>
-    cy
-      .get('button[data-table-action="table.actions.applications.edit"]', {
-        timeout: 20 * 1000
-      })
-      .click({ force: true }),
-  menuClickDelete: type =>
-    cy
-      .get(`button[data-table-action="table.actions.${type}.remove"]`, {
-        timeout: 20 * 1000
-      })
-      .click(),
-  menuClickDeleteConfirm: () =>
-    cy
-      .get("button")
-      .contains("Delete application", { timeout: 20 * 1000 })
-      .click()
+  getMenuButton: action =>
+    cy.contains("button", action, {
+      matchCase: false,
+      timeout: 20 * 1000
+    }),
+  menuClick: action => this.getMenuButton(action).click({ force: true })
 };
 
 export const secondaryHeader = {
@@ -167,10 +138,14 @@ export const secondaryHeader = {
 
 export const noResource = {
   shouldExist: () =>
-    cy.get(".no-resource", { timeout: 20000 }).should("be.visible"),
+    cy
+      .get(".pf-c-empty-state__content", { timeout: 20000 })
+      .should("be.visible"),
   shouldNotExist: timeout =>
     cy
-      .get(".no-resource", { timeout: timeout ? timeout : 20 * 1000 })
+      .get(".pf-c-empty-state__content", {
+        timeout: timeout ? timeout : 20 * 1000
+      })
       .should("not.be.visible")
 };
 
@@ -224,85 +199,74 @@ export const notification = {
       .should("exist")
 };
 
-export const resourcePage = {
-  shouldLoad: () => {
-    cy.get("#page").then(page => {
-      if (page.find(".resource-table").length) {
-        resourceTable.shouldExist();
-      } else {
-        noResource.shouldExist();
-      }
-    });
-  }
-};
-
 /*
 Validate advanced configuration tables content
 */
 export const validateSubscriptionTable = (
   name,
   tableType,
-  data,
-  numberOfRemoteClusters
+  sub,
+  numberOfRemoteClusters,
+  data
 ) => {
-  let clustersColumnIndex = -1;
-  let timeWindowColumnIndex = -1;
-  let repositoryColumnIndex = -1; //for channel table only
+  let checkClusterColumn = true;
+  let checkTimeWindowColumn = false;
+  let checkResourceColumn = false;
+  let singularDisplayName;
 
   switch (tableType) {
     case "subscriptions":
-      clustersColumnIndex = 4;
-      timeWindowColumnIndex = 5;
+      singularDisplayName = "subscription";
+      checkTimeWindowColumn = true;
       break;
     case "placementrules":
-      clustersColumnIndex = 2;
+      singularDisplayName = "placement rule";
       break;
     case "channels":
+      singularDisplayName = "channel";
       // will not check channel table since we can't get the aggregated number
-      clustersColumnIndex = -1;
-      repositoryColumnIndex = 2;
+      checkClusterColumn = false;
+      checkResourceColumn = true;
       break;
-    default:
-      clustersColumnIndex = -1;
   }
-  cy.log(
-    `validateSubscriptionTable tableType=${tableType}, clustersColumnIndex=${clustersColumnIndex}`
+  cy.log(`validateSubscriptionTable tableType=${tableType}`);
+  const resourceKey = getResourceKey(
+    name,
+    getNamespace(tableType === "channels" ? name : data.name)
   );
-  cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
-    .eq(0)
-    .invoke("text")
-    .should("eq", name);
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Name")
+      .invoke("text")
+      .should("eq", name)
+  );
 
   let hasWindow = "";
-  if (timeWindowColumnIndex > 0) {
+  if (checkTimeWindowColumn > 0) {
     //validate time window for subscriptions
     cy.log("Validate Window column");
 
-    if (data.timeWindow && data.timeWindow.type) {
-      if (data.timeWindow.type == "activeinterval") {
+    if (sub.timeWindow && sub.timeWindow.type) {
+      if (sub.timeWindow.type == "activeinterval") {
         hasWindow = "Active";
-      } else if (data.timeWindow.type == "blockinterval") {
+      } else if (sub.timeWindow.type == "blockinterval") {
         hasWindow = "Blocked";
       }
     }
-    cy
-      .get(".resource-table")
-      .get(`tr[data-row-name="${name}"]`)
-      .get("td")
-      .eq(timeWindowColumnIndex)
-      .invoke("text")
-      .should("eq", hasWindow);
+    resourceTable.getRow(name, resourceKey).within(() =>
+      resourceTable
+        .getCell("Time window")
+        .invoke("text")
+        .should("eq", hasWindow)
+    );
   }
 
-  if (clustersColumnIndex > 0 && hasWindow.length == 0) {
+  if (checkClusterColumn && hasWindow.length == 0) {
     //don't validate cluster count if time window is set since it might be blocked
     //validate remote cluster value
     cy.log("Validate remote cluster values");
 
-    const { local, online, matchingLabel, existing } = data.deployment;
+    const { local, online, matchingLabel, existing } = sub.deployment;
     const onlineDeploy = online ? true : false;
     const remoteDeploy = matchingLabel || existing ? true : false;
     const localDeploy = local ? true : false;
@@ -319,44 +283,32 @@ export const validateSubscriptionTable = (
     } else if (remoteDeploy) {
       clusterText = "1 Remote";
     }
-    cy
-      .get(".resource-table", { timeout: 100 * 1000 })
-      .get(`tr[data-row-name="${name}"]`)
-      .get("td")
-      .eq(clustersColumnIndex)
-      .invoke("text")
-      .should("contain", clusterText);
+    resourceTable.getRow(name, resourceKey).within(() =>
+      resourceTable
+        .getCell("Clusters")
+        .invoke("text")
+        .should("contain", clusterText)
+    );
   }
 
-  if (repositoryColumnIndex > 0) {
+  if (checkResourceColumn) {
     cy.log("Validate Repository popup");
-    cy
-      .get(".resource-table")
-      .get(`tr[data-row-name="${name}"]`)
-      .get("td")
-      .eq(repositoryColumnIndex)
-      .click();
-
+    resourceTable
+      .getRow(name, resourceKey)
+      .within(() => resourceTable.getCell("Type").click());
     cy
       .get(".pf-l-split__item")
       .invoke("text")
-      .should("include", data.url);
+      .should("include", sub.url);
   }
 
   if (data.type == "git") {
     cy.log(`Validate Menu actions for ${tableType} with name ${name}`);
     resourceTable.openRowMenu(name);
 
-    cy.get(`button[data-table-action="table.actions.${tableType}.search"]`, {
-      timeout: 20 * 1000
-    });
-    cy.get(`button[data-table-action="table.actions.${tableType}.edit"]`, {
-      timeout: 20 * 1000
-    });
-
-    cy.get(`button[data-table-action="table.actions.${tableType}.remove"]`, {
-      timeout: 20 * 1000
-    });
+    resourceTable.getMenuButton(`search ${singularDisplayName}`);
+    resourceTable.getMenuButton(`edit ${singularDisplayName}`);
+    resourceTable.getMenuButton(`delete ${singularDisplayName}`);
   }
 };
 
@@ -804,3 +756,9 @@ export const indexedCSS = (cssMap, index) =>
         return result;
       }, {})
     : cssMap;
+
+export const getNamespace = name => {
+  return `${name}-ns`;
+};
+
+export const getResourceKey = (name, namespace) => `${namespace}/${name}`;

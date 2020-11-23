@@ -13,6 +13,8 @@ import {
   indexedCSS,
   validateSubscriptionTable,
   getSingleAppClusterTimeDetails,
+  getNamespace,
+  getResourceKey,
   verifyApplicationData,
   validateSubscriptionDetails,
   submitSave,
@@ -284,15 +286,22 @@ export const validateAdvancedTables = (
         } else {
           cy.log(`Validating ${tableType} on Advanced Tables`);
           cy.visit(`/multicloud/applications/advanced?resource=${tableType}`);
-          cy
-            .get("#undefined-search", { timeout: 500 * 1000 })
-            .type(resourceTypes[tableType]);
-          resourceTable.rowShouldExist(resourceTypes[tableType], 600 * 1000);
+          resourceTable.rowShouldExist(
+            resourceTypes[tableType],
+            getResourceKey(
+              resourceTypes[tableType],
+              getNamespace(
+                tableType === "channels" ? resourceTypes[tableType] : data.name
+              )
+            ),
+            600 * 1000
+          );
           validateSubscriptionTable(
             resourceTypes[tableType],
             tableType,
             subscriptionItem,
-            numberOfRemoteClusters
+            numberOfRemoteClusters,
+            data
           );
         }
       });
@@ -410,7 +419,8 @@ export const validateAppTableMenu = (name, resourceTable) => {
     // check popup actions on one app only, that's sufficient
     return;
   }
-  resourceTable.openRowMenu(name);
+  const resourceKey = getResourceKey(name, getNamespace(name));
+  resourceTable.openRowMenu(name, getResourceKey(name, getNamespace(name)));
   cy
     .get('button[data-table-action="table.actions.applications.search"]', {
       timeout: 20 * 1000
@@ -429,13 +439,12 @@ export const validateAppTableMenu = (name, resourceTable) => {
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
-  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
-  resourceTable.rowShouldExist(name, 600 * 1000);
+  resourceTable.rowShouldExist(name, resourceKey, 600 * 1000);
   //END SEARCH menu validation
 
   //validate Edit menu
-  resourceTable.openRowMenu(name);
-  resourceTable.menuClickEdit();
+  resourceTable.openRowMenu(name, resourceKey);
+  resourceTable.menuClick("edit");
   cy.get(".bx--detail-page-header-title").should("exist", {
     timeout: 60 * 1000
   });
@@ -445,13 +454,12 @@ export const validateAppTableMenu = (name, resourceTable) => {
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
-  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
-  resourceTable.rowShouldExist(name, 600 * 1000);
+  resourceTable.rowShouldExist(name, resourceKey, 600 * 1000);
   //END Edit menu validation
 
   //validate View menu
-  resourceTable.openRowMenu(name);
-  resourceTable.menuClickView();
+  resourceTable.openRowMenu(name, resourceKey);
+  resourceTable.menuClick("view");
   cy.get(".resourceDiagramSourceContainer").should("exist", {
     timeout: 60 * 1000
   });
@@ -463,24 +471,23 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
-  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
-  resourceTable.rowShouldExist(name, 600 * 1000);
+  const resourceKey = getResourceKey(name, getNamespace(name));
+  resourceTable.rowShouldExist(name, resourceKey, 600 * 1000);
 
   //validate content
-  cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
-    .eq(0)
-    .invoke("text")
-    .should("eq", name);
-  cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
-    .eq(1)
-    .invoke("text")
-    .should("eq", `${name}-ns`);
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Name")
+      .invoke("text")
+      .should("eq", name)
+  );
+
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Namespace")
+      .invoke("text")
+      .should("eq", `${name}-ns`)
+  );
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
@@ -488,13 +495,12 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     "create"
   );
   cy.log("Validate Cluster column");
-  cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
-    .eq(2)
-    .invoke("text")
-    .should("contains", appDetails.clusterData);
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Clusters")
+      .invoke("text")
+      .should("contains", appDetails.clusterData)
+  );
 
   const popupDefaultText =
     "Provide a description that will be used as the title";
@@ -509,21 +515,17 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
       : repositoryText;
   repositoryText = `${repositoryText}${popupDefaultText}`;
   cy.log("Validate Repository column");
-  cy
-    .get(".resource-table", { timeout: 100 * 1000 })
-    .get(`tr[data-row-name="${name}"]`, { timeout: 100 * 1000 })
-    .get("td", { timeout: 30 * 1000 })
-    .eq(3)
-    .invoke("text")
-    .should("eq", repositoryText);
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Resource")
+      .invoke("text")
+      .should("eq", repositoryText)
+  );
 
   cy.log("Validate Repository popup");
-  cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
-    .eq(3)
-    .click();
+  resourceTable
+    .getRow(name, resourceKey)
+    .within(() => resourceTable.getCell("Resource").click());
 
   data.config.forEach(item => {
     let repoInfo = `${popupDefaultText}${item.url}`;
@@ -541,13 +543,12 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
   });
 
   cy.log("Validate Window column");
-  cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
-    .eq(4)
-    .invoke("text")
-    .should("eq", appDetails.timeWindowData);
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Time window")
+      .invoke("text")
+      .should("eq", appDetails.timeWindowData)
+  );
 
   if (data.type == "git") {
     cy.log("Validate popup actions");
@@ -568,30 +569,36 @@ export const deleteResourceUI = (name, type) => {
   cy.log(
     `Verify that resource ${resourceTypes[type]} can be deleted for app ${name}`
   );
+  const resourceKey = getResourceKey(
+    resourceTypes[type],
+    getNamespace(type === "channels" ? resourceTypes[type] : data.name)
+  );
+  resourceTable.rowShouldExist(resourceTypes[type], resourceKey, 600 * 1000);
 
-  cy
-    .get("#undefined-search", { timeout: 500 * 1000 })
-    .type(resourceTypes[type]);
-  resourceTable.rowShouldExist(resourceTypes[type], 600 * 1000);
-
-  resourceTable.openRowMenu(resourceTypes[type]);
-  resourceTable.menuClickDelete(type);
+  resourceTable.openRowMenu(resourceTypes[type], resourceKey);
+  resourceTable.menuClick("delete");
   modal.shouldBeOpen();
   cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.be.visible");
   modal.clickDanger();
   modal.shouldBeClosed();
 
   // after deleting the app, it should not exist in the app table
-  resourceTable.rowShouldNotExist(resourceTypes[type], 300 * 1000);
+  resourceTable.rowShouldNotExist(
+    resourceTypes[type],
+    resourceKey,
+    300 * 1000,
+    true
+  );
 };
 
 export const deleteApplicationUI = name => {
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
-    resourceTable.rowShouldExist(name, 600 * 1000);
+    const resourceKey = getResourceKey(name, getNamespace(name));
+    resourceTable.rowShouldExist(name, resourceKey, 600 * 1000);
 
-    resourceTable.openRowMenu(name);
-    resourceTable.menuClickDelete("applications");
+    resourceTable.openRowMenu(name, resourceKey);
+    resourceTable.menuClick("delete");
     modal.shouldBeOpen();
 
     cy
@@ -608,7 +615,7 @@ export const deleteApplicationUI = name => {
     modal.clickDanger();
     // after deleting the app, it should not exist in the app table
     modal.shouldBeClosed();
-    resourceTable.rowShouldNotExist(name, 300 * 1000);
+    resourceTable.rowShouldNotExist(name, resourceKey, 300 * 1000, true);
   } else {
     cy.log("No apps to delete...");
   }
@@ -735,9 +742,10 @@ export const edit = name => {
     })
     .as("graphql");
   cy.visit("/multicloud/applications");
-  resourceTable.rowShouldExist(name, 600 * 1000);
-  resourceTable.openRowMenu(name);
-  resourceTable.menuClickEdit();
+  const resourceKey = getResourceKey(name, getNamespace(name));
+  resourceTable.rowShouldExist(name, resourceKey, 600 * 1000);
+  resourceTable.openRowMenu(name, resourceKey);
+  resourceTable.menuClick("edit");
   cy.url().should("include", `/${name}`);
   // as soon as edit button is shown we can proceed
   cy.get("#edit-yaml", { timeout: 100 * 1000 });

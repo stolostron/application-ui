@@ -30,8 +30,11 @@ import {
   getSharedSubscriptionWarning
 } from './utils'
 import { getSourcePath } from '../../TemplateEditor/utils/utils'
+import { getGeneralQuery } from '../components/SharedResourceWarning'
+import apolloClient from '../../../../lib/client/apollo-client'
 import _ from 'lodash'
 import msgs from '../../../../nls/platform.properties'
+import { SEARCH_QUERY } from '../../../apollo-client/queries/SearchQueries'
 
 const existingRuleCheckbox = 'existingrule-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
@@ -227,6 +230,22 @@ export const summarizeOnline = (control, globalControlData, summary) => {
   }
 }
 
+const fetchQuery = (kind, name) => {
+  const query = getGeneralQuery(kind, name)
+  return apolloClient
+    .search(SEARCH_QUERY, { input: [query] })
+    .then(response => {
+      const itemRes =
+        response &&
+        response.data &&
+        response.data.searchResult[0] &&
+        response.data.searchResult[0].items
+      return itemRes
+    })
+}
+
+const queryResult = fetchQuery('cluster', 'local-cluster')
+
 const placementData = [
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
@@ -276,8 +295,12 @@ const placementData = [
   {
     id: 'online-cluster-only-checkbox',
     type: 'checkbox',
-    name: 'creation.app.settings.onlineClusters',
-    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    name: queryResult
+      ? 'creation.app.settings.onlineClusters'
+      : 'creation.app.settings.onlineClustersOnly',
+    tooltip: queryResult
+      ? 'tooltip.creation.app.settings.onlineClusters'
+      : 'tooltip.creation.app.settings.onlineClustersOnly',
     active: false,
     available: [],
     onSelect: updatePlacementControlsForAllOnline,
@@ -286,7 +309,7 @@ const placementData = [
   },
   {
     id: localClusterCheckbox,
-    type: 'checkbox',
+    type: queryResult ? 'checkbox' : 'hidden',
     name: 'creation.app.settings.localClusters',
     tooltip: 'tooltip.creation.app.settings.localClusters',
     onSelect: updatePlacementControlsForLocal,

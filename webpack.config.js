@@ -51,18 +51,7 @@ module.exports = {
       {
         // Transpile React JSX to ES5
         test: [/\.jsx$/, /\.js$/],
-        exclude: [
-          {
-            test: [
-              /\.scss$/,
-              path.resolve(__dirname, './node_modules'),
-            ],
-            exclude: [
-              path.resolve(__dirname, './node_modules/fuse.js'),
-              //path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
-            ]
-          }
-        ],
+        exclude: /node_modules\/(?!(fuse.js)\/)|\.scss/, // fuse.js requires transpiling
         loader: "babel-loader?cacheDirectory"
       },
       {

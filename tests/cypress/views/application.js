@@ -578,7 +578,7 @@ export const deleteResourceUI = (name, type) => {
   resourceTable.openRowMenu(resourceTypes[type], resourceKey);
   resourceTable.menuClick("delete");
   modal.shouldBeOpen();
-  cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.be.visible");
+  cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.exist");
   modal.clickDanger();
   modal.shouldBeClosed();
 
@@ -601,11 +601,9 @@ export const deleteApplicationUI = name => {
     resourceTable.menuClick("delete");
     modal.shouldBeOpen();
 
-    cy
-      .get(".pf-c-empty-state", { timeout: 50 * 1000 })
-      .should("not.be.visible", {
-        timeout: 100 * 1000
-      });
+    cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.exist", {
+      timeout: 100 * 1000
+    });
 
     if (!name.includes("ui-helm2")) {
       //delete all resources
@@ -639,11 +637,9 @@ export const deleteChannelInsecureSkip = name => {
     resourceTable.menuClickDelete("channels");
     modal.shouldBeOpen();
 
-    cy
-      .get(".pf-c-empty-state", { timeout: 50 * 1000 })
-      .should("not.be.visible", {
-        timeout: 100 * 1000
-      });
+    cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.exist", {
+      timeout: 100 * 1000
+    });
 
     modal.clickDanger();
     // after deleting the channel, it should not exist in the app table

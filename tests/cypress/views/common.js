@@ -117,18 +117,22 @@ export const resourceTable = {
   searchTable: function(name) {
     cy.get(".pf-c-search-input__text-input").type(name);
   },
-  openRowMenu: (name, key) =>
+  openRowMenu: function(name, key) {
     cy
       .get(`${getPFTableRowSelector(key)} .pf-c-dropdown__toggle`, {
         timeout: 20 * 10000
       })
-      .click(),
-  getMenuButton: action =>
-    cy.contains("button", action, {
+      .click();
+  },
+  getMenuButton: function(action) {
+    return cy.contains("button", action, {
       matchCase: false,
       timeout: 20 * 1000
-    }),
-  menuClick: action => this.getMenuButton(action).click({ force: true })
+    });
+  },
+  menuClick: function(action) {
+    return this.getMenuButton(action).click({ force: true });
+  }
 };
 
 export const secondaryHeader = {
@@ -146,7 +150,7 @@ export const noResource = {
       .get(".pf-c-empty-state__content", {
         timeout: timeout ? timeout : 20 * 1000
       })
-      .should("not.be.visible")
+      .should("not.exist")
 };
 
 export const modal = {
@@ -304,7 +308,7 @@ export const validateSubscriptionTable = (
 
   if (data.type == "git") {
     cy.log(`Validate Menu actions for ${tableType} with name ${name}`);
-    resourceTable.openRowMenu(name);
+    resourceTable.openRowMenu(name, resourceKey);
 
     resourceTable.getMenuButton(`search ${singularDisplayName}`);
     resourceTable.getMenuButton(`edit ${singularDisplayName}`);

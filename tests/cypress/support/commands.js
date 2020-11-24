@@ -37,21 +37,44 @@ var authUrl = Cypress.config().baseUrl.replace(
   "oauth-openshift"
 );
 
-Cypress.Commands.add("login", () => {
-  cy.visit("/");
-  cy.contains(Cypress.env("OC_IDP")).click();
-  cy.get("#inputUsername").type(Cypress.env("OC_CLUSTER_USER"));
-  cy.get("#inputPassword").type(Cypress.env("OC_CLUSTER_PASS"));
-  cy.get("[type=submit]").click();
+Cypress.Commands.add("login", (idp, user, password) => {
+  cy.log(`Attempt to log in app tests user ${user} with idp ${idp}`);
+  cy
+    .get(".pf-c-login__main-body")
+    .get(".pf-c-button")
+    .each($el => {
+      const userIDP = $el.text();
+      if (userIDP == idp) {
+        cy
+          .get($el)
+          .focus()
+          .click({ force: true });
+
+        cy
+          .get("#inputUsername", { timeout: 20000 })
+          .click()
+          .focused()
+          .type(user);
+        cy
+          .get("#inputPassword", { timeout: 20000 })
+          .click()
+          .focused()
+          .type(password);
+        cy.get('button[type="submit"]', { timeout: 20000 }).click();
+        cy.get("#header", { timeout: 30000 }).should("exist");
+      }
+    });
 });
 
 Cypress.Commands.add("logout", () => {
-  const username =
-    Cypress.env("OC_CLUSTER_USER") == "kubeadmin"
-      ? "kube:admin"
-      : Cypress.env("OC_CLUSTER_USER");
-  cy.contains(username).click();
-  cy.contains("Log out").click();
+  cy.log("Attempt to logout existing user");
+  cy.get(".header-user-info-dropdown_icon").then($btn => {
+    //logout when test starts since we need to use the app idp user
+    cy.log("Logging out existing user");
+    cy.get($btn).click();
+    cy.contains("Log out").click();
+    // cy.clearCookies()
+  });
 });
 
 Cypress.Commands.add("editYaml", file => {
@@ -239,24 +262,33 @@ Cypress.Commands.add("logInAsRole", role => {
   Cypress.env("OC_IDP", idp);
 
   // login only if user is not looged In
-  cy.visit("/multicloud/applications");
+  const logInIfRequired = () => {
+    cy.log(`Check if login is required for user ${user} with idp ${idp}`);
+    cy
+      .get(".header-user-info-dropdown")
+      .invoke("text")
+      .then(text => {
+        cy.log(`Logged in User ${text} expected ${users[role]}`);
+        if (text == users[role]) {
+          cy.log(`Already Logged in as User $users[role]`);
+        } else {
+          logout();
+          cy.wait(5000);
+          cy.login(idp, user, password);
+        }
+      });
+  };
+  cy.visit("/");
   cy.get("body").then(body => {
-    // Check if logged in
+    if (body.find("#header").length !== 0) {
+      cy.log(
+        "User already logged in, check if required to logout and login again"
+      );
+      logInIfRequired();
+    }
     if (body.find("#header").length === 0) {
-      // Check if identity providers are configured
-      if (body.find("form").length === 0) cy.contains(idp).click();
-      cy
-        .get("#inputUsername", { timeout: 20000 })
-        .click()
-        .focused()
-        .type(user);
-      cy
-        .get("#inputPassword", { timeout: 20000 })
-        .click()
-        .focused()
-        .type(password);
-      cy.get('button[type="submit"]', { timeout: 20000 }).click();
-      cy.get("#header", { timeout: 30000 }).should("exist");
+      cy.login(idp, user, password);
+      cy.log(`Logged in with user ${users[role]}`);
     }
   });
 });

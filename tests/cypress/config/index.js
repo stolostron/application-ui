@@ -19,15 +19,17 @@ exports.getConfig = () => {
     config = jsYaml.safeLoad(config);
     for (const [key, value] of Object.entries(config)) {
       value.data.forEach(data => {
-        let { enable, name } = data;
+        let { enable, name, config } = data;
         if (enable) {
-          process.env.CYPRESS_JOB_ID
-            ? process.env.CYPRESS_JOB_ID.length > 5
-              ? (name = name + "-" + process.env.CYPRESS_JOB_ID.slice(-5))
-              : (name = name + "-" + process.env.CYPRESS_JOB_ID)
-            : name;
+          // attach travis job id to each name
+          const job_id =
+            process.env.CYPRESS_JOB_ID && process.env.CYPRESS_JOB_ID.slice(-5);
+          process.env.CYPRESS_JOB_ID ? (name = name + "-" + job_id) : name;
           data.name = name;
-          if (data.new) {
+
+          // inject private credentials if given for the first subscription only if we have multiple subscriptions
+          if (config.length > 1) {
+            const givenConfig = config[0];
             switch (key) {
               case "git":
                 if (
@@ -35,11 +37,9 @@ exports.getConfig = () => {
                   process.env.GITHUB_TOKEN &&
                   process.env.GITHUB_PRIVATE_URL
                 ) {
-                  data.new.forEach(instance => {
-                    instance.url = process.env.GITHUB_PRIVATE_URL;
-                    instance.username = process.env.GITHUB_USER;
-                    instance.token = process.env.GITHUB_TOKEN;
-                  });
+                  givenConfig.url = process.env.GITHUB_PRIVATE_URL;
+                  givenConfig.username = process.env.GITHUB_USER;
+                  givenConfig.token = process.env.GITHUB_TOKEN;
                 }
                 break;
               case "objectstore":
@@ -48,11 +48,9 @@ exports.getConfig = () => {
                   process.env.OBJECTSTORE_SECRET_KEY &&
                   process.env.OBJECTSTORE_PRIVATE_URL
                 ) {
-                  data.new.forEach(instance => {
-                    instance.url = process.env.OBJECTSTORE_PRIVATE_URL;
-                    instance.accessKey = process.env.OBJECTSTORE_ACCESS_KEY;
-                    instance.secretKey = process.env.OBJECTSTORE_SECRET_KEY;
-                  });
+                  givenConfig.url = process.env.OBJECTSTORE_PRIVATE_URL;
+                  givenConfig.accessKey = process.env.OBJECTSTORE_ACCESS_KEY;
+                  givenConfig.secretKey = process.env.OBJECTSTORE_SECRET_KEY;
                 }
                 break;
               case "helm":
@@ -62,15 +60,29 @@ exports.getConfig = () => {
                   process.env.HELM_PRIVATE_URL &&
                   process.env.HELM_CHART_NAME
                 ) {
-                  data.new.forEach(instance => {
-                    instance.url = process.env.HELM_PRIVATE_URL;
-                    instance.username = process.env.HELM_USERNAME;
-                    instance.password = process.env.HELM_PASSWORD;
-                    instance.chartName = process.env.HELM_CHART_NAME;
-                  });
+                  givenConfig.url = process.env.HELM_PRIVATE_URL;
+                  givenConfig.username = process.env.HELM_USERNAME;
+                  givenConfig.password = process.env.HELM_PASSWORD;
+                  givenConfig.chartName = process.env.HELM_CHART_NAME;
                 }
                 break;
             }
+          }
+
+          // attach travis job id to the new subscription url
+          if (data.new) {
+            data.new.forEach(instance => {
+              instance.url = instance.insecureSkipVerifyOption
+                ? instance.url + "/" + job_id
+                : instance.url;
+            });
+          }
+          if (data.config && (key === "git" || key === "helm")) {
+            data.config.forEach(instance => {
+              if (instance.insecureSkipVerifyOption) {
+                instance.url = instance.url + "/" + job_id;
+              }
+            });
           }
         }
       });

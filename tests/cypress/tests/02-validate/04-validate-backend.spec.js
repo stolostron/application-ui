@@ -9,7 +9,7 @@ import {
   validateTimewindow
 } from "../../views/resources";
 
-describe("Application application backend resources exist", () => {
+describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application application backend resources exist", () => {
   for (const type in config) {
     const apps = config[type].data;
     apps.forEach(data => {
@@ -21,12 +21,12 @@ describe("Application application backend resources exist", () => {
         }`, () => {
           apiResources(type, data, "contain");
         });
-        it(`[P1][Sev1][app-lifecycle-ui] Validate apps ${
+        it(`Validate apps ${data.name} timewindow - ${type}: ${
           data.name
-        } timewindow - ${type}: ${data.name}`, () => {
+        }`, () => {
           validateTimewindow(data.name, data.config);
         });
-        it(`[P1][Sev1][app-lifecycle-ui] Validate apps ${
+        it(`Validate apps ${
           data.name
         } resources created on the target cluster`, () => {
           targetResource(data);

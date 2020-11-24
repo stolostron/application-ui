@@ -9,7 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import { StatusIcon } from '../constants.js'
+import { StatusIcon, ClusterCountIcon } from '../constants.js'
 import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -179,6 +179,8 @@ export const updateNodeIcons = nodes => {
         nodeStatus = status
         disabled = isDisabled
       }
+      layout.clusterCountIcon = ClusterCountIcon
+      layout.clusterCount = specs.clusters.length
     }
 
     const pulse = _.get(node, 'specs.pulse', '')

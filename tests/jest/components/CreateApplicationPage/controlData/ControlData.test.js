@@ -969,7 +969,7 @@ describe("updatePlacementControls with controls", () => {
   };
   const result = [
     { id: "local-cluster-checkbox", type: "checkbox" },
-    { id: "online-cluster-only-checkbox", type: "hidden" },
+    { id: "online-cluster-only-checkbox", type: "hidden", active: false },
     { id: "clusterSelector", type: "hidden" }
   ];
   it("should return local only", () => {

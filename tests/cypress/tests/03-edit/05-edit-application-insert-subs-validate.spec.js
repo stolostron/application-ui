@@ -6,6 +6,7 @@
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import {
   verifyEditAfterNewSubscription,
+  verifyInsecureSkipAfterNewSubscription,
   validateTopology
 } from "../../views/application";
 import {
@@ -13,7 +14,7 @@ import {
   getNumberOfManagedClusters
 } from "../../views/resources";
 
-describe("Edit application validate insert new subscription", () => {
+describe("Application UI: [P1][Sev1][app-lifecycle-ui] Edit application validate insert new subscription", () => {
   it(`get the name of the managed OCP cluster`, () => {
     getManagedClusterName();
   });
@@ -25,12 +26,12 @@ describe("Edit application validate insert new subscription", () => {
     apps.forEach(data => {
       if (data.enable) {
         if (data.new) {
-          it(`[P1][Sev1][app-lifecycle-ui] Verify that ${
+          it(`Verify that ${
             data.name
           } template editor valid after new subscription is created`, () => {
             verifyEditAfterNewSubscription(data.name, data);
           });
-          it(`[P1][Sev1][app-lifecycle-ui] Verify that ${
+          it(`Verify that ${
             data.name
           } single app page info is valid after new subscription is created`, () => {
             const numberOfRemoteClusters = Cypress.env(
@@ -46,6 +47,13 @@ describe("Edit application validate insert new subscription", () => {
               "add"
             );
           });
+          if (type === "git" || type === "helm") {
+            it(`[P1][Sev1][app-lifecycle-ui] Verify insecureSkipVerify option in new channel for app ${
+              data.name
+            } was selected`, () => {
+              verifyInsecureSkipAfterNewSubscription(data.name);
+            });
+          }
         }
       } else {
         it(`disable modification on resource ${type}`, () => {

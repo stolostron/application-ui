@@ -6,12 +6,12 @@
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { editApplication } from "../../views/application";
 
-describe("Verify application settings on Editor", () => {
+describe("Application UI: [P1][Sev1][app-lifecycle-ui] Verify application settings on Editor", () => {
   for (const type in config) {
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`[P1][Sev1][app-lifecycle-ui] Verify that settings for application ${
+        it(`Verify that settings for application ${
           data.name
         } are properly shown in the app Editor`, () => {
           editApplication(data.name, data);

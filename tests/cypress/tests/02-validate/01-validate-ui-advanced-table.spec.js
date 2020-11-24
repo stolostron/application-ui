@@ -6,7 +6,7 @@ const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { validateAdvancedTables } from "../../views/application";
 import { getNumberOfManagedClusters } from "../../views/resources";
 
-describe("Application Validation Test for advanced configuration tables", () => {
+describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Test for advanced configuration tables", () => {
   it(`get the name of the managed OCP cluster`, () => {
     getNumberOfManagedClusters();
   });
@@ -14,7 +14,7 @@ describe("Application Validation Test for advanced configuration tables", () => 
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable && !data.name.includes("ui-helm2")) {
-        it(`[P1][Sev1][app-lifecycle-ui]Verify application ${
+        it(`Verify application ${
           data.name
         } channel, subscription, placement rule info from the advanced configuration tables - ${type}: ${
           data.name

@@ -49,10 +49,19 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     path,
     timeWindow,
     deployment,
-    gitReconcileOption
+    gitReconcileOption,
+    insecureSkipVerifyOption
   } = value;
   cy.log(`gitTasks key=${key}, url=${url}, path=${path}`);
-  const { gitUrl, gitUser, gitKey, gitBranch, gitPath, merge } = gitCss;
+  const {
+    gitUrl,
+    gitUser,
+    gitKey,
+    gitBranch,
+    gitPath,
+    merge,
+    insecureSkipVerify
+  } = gitCss;
 
   cy
     .get(`#github`)
@@ -68,6 +77,9 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
 
   if (gitReconcileOption) {
     cy.get(merge).click({ force: true });
+  }
+  if (insecureSkipVerifyOption) {
+    cy.get(insecureSkipVerify).click({ force: true });
   }
   // wait for form to remove the users
   // type in branch and path
@@ -92,7 +104,8 @@ export const createHelm = (clusterName, configs, addOperation) => {
     helmUsername: "#helmUser",
     helmPassword: "#helmPassword",
     helmChartName: "#helmChartName",
-    helmPackageVersion: "#helmPackageVersion"
+    helmPackageVersion: "#helmPackageVersion",
+    insecureSkipVerify: "#helmInsecureSkipVerify"
   };
   if (addOperation) {
     //add new subscription to existing app
@@ -123,14 +136,16 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     chartName,
     packageVersion,
     timeWindow,
-    deployment
+    deployment,
+    insecureSkipVerifyOption
   } = value;
   const {
     helmURL,
     helmUsername,
     helmPassword,
     helmChartName,
-    helmPackageVersion
+    helmPackageVersion,
+    insecureSkipVerify
   } = css;
   cy
     .get("#helmrepo")
@@ -142,6 +157,9 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .blur();
   checkExistingUrls(helmUsername, username, helmPassword, password, url);
 
+  if (insecureSkipVerifyOption) {
+    cy.get(insecureSkipVerify).click({ force: true });
+  }
   cy
     .get(helmChartName, { timeout: 20 * 1000 })
     .type(chartName)
@@ -162,7 +180,8 @@ export const createGit = (clusterName, configs, addOperation) => {
     gitKey: "#githubAccessId",
     gitBranch: "#githubBranch",
     gitPath: "#githubPath",
-    merge: "#gitReconcileOption"
+    merge: "#gitReconcileOption",
+    insecureSkipVerify: "#gitInsecureSkipVerify"
   };
   if (addOperation) {
     //add new subscription to existing app
@@ -313,10 +332,10 @@ export const validateTopology = (
 
   //for now check on create app only
   cy
-    .get(".search-query-card-loading", { timeout: 50 * 1000 })
+    .get(".search-query-card-loading", { timeout: 120 * 1000 })
     .should("not.exist");
   cy
-    .get(".overview-cards-details-section", { timeout: 50 * 1000 })
+    .get(".overview-cards-details-section", { timeout: 120 * 1000 })
     .contains(appDetails.clusterData);
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
@@ -324,7 +343,7 @@ export const validateTopology = (
     `Verify that the deployed resources number with status success is at least ${successNumber}`
   );
   cy
-    .get("#green-resources", { timeout: 50 * 1000 })
+    .get("#green-resources", { timeout: 120 * 1000 })
     .children(".status-count")
     .invoke("text")
     .then(parseInt)
@@ -603,6 +622,29 @@ export const deleteApplicationUI = name => {
   }
 };
 
+export const deleteChannelInsecureSkip = name => {
+  const key = 2; // Target newly created (3rd) channel with insecureSkipVerify option
+  channelsInformation(name, key).then(({ channelNs, channelName }) => {
+    cy.log(`Delete channel with insecureSkipVerify option from Channels table`);
+    cy.visit(`/multicloud/applications/advanced?resource=channels`);
+
+    resourceTable.openRowMenu(channelName);
+    resourceTable.menuClickDelete("channels");
+    modal.shouldBeOpen();
+
+    cy
+      .get(".pf-c-empty-state", { timeout: 50 * 1000 })
+      .should("not.be.visible", {
+        timeout: 100 * 1000
+      });
+
+    modal.clickDanger();
+    // after deleting the channel, it should not exist in the app table
+    modal.shouldBeClosed();
+    resourceTable.rowShouldNotExist(channelName, 300 * 1000);
+  });
+};
+
 export const selectClusterDeployment = (deployment, clusterName, key) => {
   cy.log(
     `Execute selectClusterDeployment with options clusterName=${clusterName} deployment=${deployment} and key=${key}`
@@ -804,4 +846,14 @@ export const verifyEditAfterNewSubscription = (name, data) => {
   });
 
   verifyApplicationData(name, data, "add");
+};
+
+export const verifyInsecureSkipAfterNewSubscription = name => {
+  const key = 2; // Target newly created (3rd) channel
+  channelsInformation(name, key).then(({ channelNs, channelName }) => {
+    cy
+      .exec(`oc -n ${channelNs} get channel ${channelName} -o yaml`)
+      .its("stdout")
+      .should("include", "insecureSkipVerify: true");
+  });
 };

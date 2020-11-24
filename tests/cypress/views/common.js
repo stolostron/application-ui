@@ -91,6 +91,8 @@ export const submitSave = successState => {
       .should("include", `${name}`);
   } else {
     notification.shouldExist("error", { timeout: 2 * 1000 });
+    cy.log("Verify Save button is disabled");
+    modal.shouldBeDisabled();
   }
 };
 
@@ -200,7 +202,11 @@ export const notification = {
   shouldExist: type =>
     cy
       .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 200 * 1000 })
-      .should("exist")
+      .should("exist"),
+  shouldNotExist: type =>
+    cy
+      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 200 * 1000 })
+      .should("not.exist")
 };
 
 /*
@@ -603,6 +609,14 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
   }
 };
 
+const saveErrorShouldNotExist = () => {
+  cy.log("Verify Save errors are gone");
+  cy
+    .get("#notifications", { timeout: 50 * 1000 })
+    .scrollIntoView({ offset: { top: -500, left: 0 } });
+  notification.shouldNotExist("error", { timeout: 2 * 1000 }); //save error goes away
+};
+
 export const testInvalidApplicationInput = () => {
   const validURL = "http://a.com";
   const invalidValue = "INVALID VALUE";
@@ -613,14 +627,26 @@ export const testInvalidApplicationInput = () => {
   cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
   cy.get(".bx--detail-page-header-title-container").should("exist");
 
+  //enter a valid ns
+  cy
+    .get("#namespace", { timeout: 50 * 1000 })
+    .click()
+    .clear()
+    .type("default")
+    .blur();
+
   cy.log("Test invalid name");
   cy.get("#name", { timeout: 50 * 1000 }).type(invalidValue);
   cy.get("#name-error-msg").should("exist");
+
+  submitSave(false); //test save error
+
   cy
     .get("#name", { timeout: 50 * 1000 })
     .clear()
     .type(validValue);
   cy.get("#name-error-msg").should("not.exist");
+  saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid namespace");
   cy
@@ -628,6 +654,8 @@ export const testInvalidApplicationInput = () => {
     .type(invalidValue)
     .blur();
   cy.get("[data-invalid=true]", { timeout: 2 * 1000 }).should("exist");
+  submitSave(false); //test save error
+
   cy
     .get("#namespace", { timeout: 50 * 1000 })
     .click()
@@ -635,6 +663,7 @@ export const testInvalidApplicationInput = () => {
     .type("default")
     .blur();
   cy.get("[data-invalid=true]").should("not.exist");
+  saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid git url");
   cy
@@ -642,15 +671,18 @@ export const testInvalidApplicationInput = () => {
     .click({ force: true })
     .trigger("mouseover");
 
-  cy.get("#labelName-0-clusterSelector").type("label");
-  cy.get("#labelValue-0-clusterSelector").type("value");
-
   cy
     .get("#githubURL", { timeout: 20 * 1000 })
     .type(invalidValue)
     .blur();
+  //enter a valid deployment value
+  cy.get("#labelName-0-clusterSelector").type("label");
+  cy.get("#labelValue-0-clusterSelector").type("value");
+
   cy.get("[data-invalid=true]").should("exist");
   cy.wait(1000);
+  submitSave(false); //test save error
+
   cy
     .get("#githubURL", { timeout: 20 * 1000 })
     .click()
@@ -658,6 +690,7 @@ export const testInvalidApplicationInput = () => {
     .type(validURL)
     .blur();
   cy.get("[data-invalid=true]").should("not.exist");
+  saveErrorShouldNotExist(); //save error goes away
 
   cy
     .get("#githubBranch", { timeout: 20 * 1000 })
@@ -672,6 +705,7 @@ export const testInvalidApplicationInput = () => {
     .type(validValue)
     .blur();
   cy.get("[data-invalid=true]").should("not.exist");
+  saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid HELM url");
   cy
@@ -684,15 +718,19 @@ export const testInvalidApplicationInput = () => {
     .click()
     .trigger("mouseover");
 
-  cy.get("#labelName-0-clusterSelector").type("label");
-  cy.get("#labelValue-0-clusterSelector").type("value");
-
   cy
     .get("#helmURL", { timeout: 20 * 1000 })
     .type(invalidValue)
     .blur();
+  //enter a valid deployment value and a chart name
+  cy.get("#labelName-0-clusterSelector").type("label");
+  cy.get("#labelValue-0-clusterSelector").type("value");
+  cy.get("#helmChartName").type("chartName");
+
   cy.get("[data-invalid=true]").should("exist");
   cy.wait(1000);
+  submitSave(false); //test save error
+
   cy
     .get("#helmURL", { timeout: 20 * 1000 })
     .click()
@@ -700,6 +738,7 @@ export const testInvalidApplicationInput = () => {
     .type(validURL)
     .blur();
   cy.get("[data-invalid=true]").should("not.exist");
+  saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid object store url");
   cy
@@ -711,15 +750,18 @@ export const testInvalidApplicationInput = () => {
     .click()
     .trigger("mouseover");
 
-  cy.get("#labelName-0-clusterSelector").type("label");
-  cy.get("#labelValue-0-clusterSelector").type("value");
-
   cy
     .get("#objectstoreURL", { timeout: 20 * 1000 })
     .type(invalidValue)
     .blur();
+  //enter a valid deployment value
+  cy.get("#labelName-0-clusterSelector").type("label");
+  cy.get("#labelValue-0-clusterSelector").type("value");
+
   cy.get("[data-invalid=true]").should("exist");
   cy.wait(1000);
+  submitSave(false); //test save error
+
   cy
     .get("#objectstoreURL", { timeout: 20 * 1000 })
     .click()
@@ -727,6 +769,7 @@ export const testInvalidApplicationInput = () => {
     .type(validURL)
     .blur();
   cy.get("[data-invalid=true]").should("not.exist");
+  saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid time window");
   const timeWindow = {
@@ -735,8 +778,7 @@ export const testInvalidApplicationInput = () => {
     date: []
   };
   selectTimeWindow(timeWindow, 0);
-
-  submitSave(false);
+  submitSave(false); //test error
 };
 
 // Calculates unique CSS selectors based on index

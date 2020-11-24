@@ -50,7 +50,7 @@ const QuerySwitcher = ({
   }
 
   return (
-    <ToggleGroup variant="light">
+    <ToggleGroup>
       {options.map(({ id, contents }) => (
         <ToggleGroupItem
           key={id}

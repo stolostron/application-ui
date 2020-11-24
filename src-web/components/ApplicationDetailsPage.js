@@ -7,17 +7,10 @@
  *******************************************************************************/
 'use strict'
 
-import React from 'react'
-import ResourceTableModule from './common/ResourceTableModuleFromProps'
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageDetails } from './common/ResourcePage'
 
 export default withRouter(
-  typedResourcePageDetails(
-    RESOURCE_TYPES.QUERY_APPLICATIONS,
-    [],
-    [],
-    [<ResourceTableModule key="deployments" definitionsKey="deploymentKeys" />]
-  )
+  typedResourcePageDetails(RESOURCE_TYPES.QUERY_APPLICATIONS, [], [], [])
 )

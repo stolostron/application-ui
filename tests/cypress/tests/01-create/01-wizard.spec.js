@@ -8,7 +8,11 @@ import {
   getManagedClusterName,
   channelsInformation
 } from "../../views/resources";
-import { resourceTable } from "../../views/common";
+import {
+  getNamespace,
+  getResourceKey,
+  resourceTable
+} from "../../views/common";
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Creation Test", () => {
   it(`get the name of the managed OCP cluster`, () => {
@@ -34,10 +38,11 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Creation Test
           channelsInformation(name, key).then(({ channelNs, channelName }) => {
             cy.log(`validate channel ${channelName} exists on Advanced Tables`);
             cy.visit(`/multicloud/applications/advanced?resource=channels`);
-            cy
-              .get("#undefined-search", { timeout: 500 * 1000 })
-              .type(channelName);
-            resourceTable.rowShouldExist(channelName, 600 * 1000);
+            resourceTable.rowShouldExist(
+              channelName,
+              getResourceKey(channelName, getNamespace(channelName)),
+              600 * 1000
+            );
           });
         });
       } else {

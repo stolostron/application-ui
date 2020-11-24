@@ -228,7 +228,9 @@ const props = {
     defaultSortField: "name",
     uriKey: "name",
     primaryKey: "name",
-    secondaryKey: "namespace"
+    secondaryKey: "namespace",
+    tableKeys: [],
+    tableActions: []
   },
   getVisibleResources: function getVisibleResources(state, obj) {
     return { normalizedItems: ["item1", "item2"] };
@@ -237,5 +239,5 @@ const props = {
   modules: [{}],
   tabs: undefined,
   title: "routes.applications",
-  children: [{}]
+  children: []
 };

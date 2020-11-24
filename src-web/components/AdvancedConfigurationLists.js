@@ -11,7 +11,6 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ResourceList from './common/ResourceList'
-import ResourceTableModule from './common/ResourceTableModuleFromProps'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import getResourceDefinitions from '../definitions'
 import { makeGetVisibleTableItemsSelector } from '../reducers/common'
@@ -49,12 +48,6 @@ const AdvancedConfigurationLists = ({
       resourceType={resourceType}
       staticResourceData={staticResourceData}
       getVisibleResources={getVisibleResources}
-      modules={[
-        <ResourceTableModule
-          key="deployments"
-          definitionsKey="deploymentKeys"
-        />
-      ]}
     >
       {[
         <QuerySwitcher

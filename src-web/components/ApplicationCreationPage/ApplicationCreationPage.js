@@ -39,6 +39,14 @@ const Portals = Object.freeze({
   createBtn: 'create-button-portal-id'
 })
 
+import 'monaco-editor/esm/vs/editor/editor.all.js'
+window.MonacoEnvironment = {
+  getWorkerUrl: function() {
+    return `${config.contextPath}/editor.worker.js`
+  }
+}
+
+
 resources(() => {
   require('./style.scss')
 })

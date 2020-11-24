@@ -100,12 +100,39 @@ exports[`ResourceList renders correctly 1`] = `
         className="pf-c-card__body"
       >
         <div
+          className="pf-c-toolbar"
+          id="pf-random-id-0"
+        >
+          <div
+            className="pf-c-toolbar__content"
+          >
+            <div
+              className="pf-c-toolbar__content-section"
+            >
+              <div
+                className="pf-c-toolbar__item pf-m-align-right"
+              />
+            </div>
+            <div
+              className="pf-c-toolbar__expandable-content"
+              id="pf-random-id-0-expandable-content-1"
+            >
+              <div
+                className="pf-c-toolbar__group"
+              />
+            </div>
+          </div>
+          <div
+            className="pf-c-toolbar__content pf-m-hidden"
+            hidden={true}
+          >
+            <div
+              className="pf-c-toolbar__group"
+            />
+          </div>
+        </div>
+        <div
           className="pf-c-empty-state"
-          style={
-            Object {
-              "minHeight": "587px",
-            }
-          }
         >
           <div
             className="pf-c-empty-state__content"

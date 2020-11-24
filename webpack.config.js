@@ -94,12 +94,12 @@ module.exports = {
         loader: "file-loader?name=fonts/[name].[ext]"
       },
       {
-        test: /\.css$/,
+      test: /\.css$/,
         include: [
-         path.resolve(__dirname, "./node_modules/@open-cluster-management/temptifly"),
-         path.resolve(__dirname, "./node_modules/monaco-editor")
+          path.resolve(__dirname, './node_modules/monaco-editor'),
+          path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly')
         ],
-        use: ["style-loader", "css-loader"]
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.s?css$/,

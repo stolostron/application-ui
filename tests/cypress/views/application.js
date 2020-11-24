@@ -520,9 +520,12 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
   );
 
   cy.log("Validate Repository popup");
-  resourceTable
-    .getRow(name, resourceKey)
-    .within(() => resourceTable.getCell("Resource").click());
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Resource")
+      .find(".pf-c-label")
+      .click()
+  );
 
   data.config.forEach(item => {
     let repoInfo = `${item.url}`;
@@ -568,7 +571,7 @@ export const deleteResourceUI = (name, type) => {
   );
   const resourceKey = getResourceKey(
     resourceTypes[type],
-    getNamespace(type === "channels" ? resourceTypes[type] : data.name)
+    getNamespace(type === "channels" ? resourceTypes[type] : name)
   );
   resourceTable.rowShouldExist(resourceTypes[type], resourceKey, 600 * 1000);
 

@@ -303,11 +303,14 @@ export const validateSubscriptionTable = (
 
   if (checkResourceColumn) {
     cy.log("Validate Repository popup");
-    resourceTable
-      .getRow(name, resourceKey)
-      .within(() => resourceTable.getCell("Type").click());
+    resourceTable.getRow(name, resourceKey).within(() =>
+      resourceTable
+        .getCell("Type")
+        .find(".pf-c-label")
+        .click()
+    );
     cy
-      .get(".pf-l-split__item")
+      .get(".channel-labels-popover-content .channel-entry")
       .invoke("text")
       .should("include", sub.url);
   }
@@ -562,7 +565,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
       });
     // Validate info in popover
     cy
-      .get(".channel-labels.channel-labels-popover-content", {
+      .get(".channel-labels-popover-content .channel-entry", {
         timeout: 20 * 1000
       })
       .invoke("text")

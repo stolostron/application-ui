@@ -502,8 +502,6 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
       .should("contains", appDetails.clusterData)
   );
 
-  const popupDefaultText =
-    "Provide a description that will be used as the title";
   const subscriptionLength = data.config.length;
   let repositoryText =
     data.type === "objectstore"
@@ -513,7 +511,6 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     subscriptionLength > 1
       ? `${repositoryText} (${subscriptionLength})`
       : repositoryText;
-  repositoryText = `${repositoryText}${popupDefaultText}`;
   cy.log("Validate Repository column");
   resourceTable.getRow(name, resourceKey).within(() =>
     resourceTable
@@ -528,7 +525,7 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     .within(() => resourceTable.getCell("Resource").click());
 
   data.config.forEach(item => {
-    let repoInfo = `${popupDefaultText}${item.url}`;
+    let repoInfo = `${item.url}`;
     if (item.branch && item.branch.length > 0) {
       repoInfo = `${repoInfo}Branch:${item.branch}`;
     }
@@ -537,7 +534,7 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     }
 
     cy
-      .get(".pf-l-split__item")
+      .get(".channel-labels-popover-content .channel-entry")
       .invoke("text")
       .should("include", repoInfo);
   });
@@ -633,8 +630,11 @@ export const deleteChannelInsecureSkip = name => {
     cy.log(`Delete channel with insecureSkipVerify option from Channels table`);
     cy.visit(`/multicloud/applications/advanced?resource=channels`);
 
-    resourceTable.openRowMenu(channelName);
-    resourceTable.menuClickDelete("channels");
+    resourceTable.openRowMenu(
+      channelName,
+      getResourceKey(channelName, channelNs)
+    );
+    resourceTable.menuClick("delete channel");
     modal.shouldBeOpen();
 
     cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.exist", {

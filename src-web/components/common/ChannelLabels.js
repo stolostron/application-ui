@@ -2,7 +2,6 @@
 'use strict'
 
 import React from 'react'
-import { Icon } from 'carbon-components-react'
 import PropTypes from 'prop-types'
 import {
   Divider,
@@ -11,6 +10,7 @@ import {
   Stack,
   StackItem
 } from '@patternfly/react-core'
+import { ExternalLinkAltIcon } from '@patternfly/react-icons'
 import R from 'ramda'
 import LabelWithPopover from './LabelWithPopover'
 import {
@@ -49,7 +49,7 @@ const ChannelLabels = ({
                   {getChannelLabel(chType, channelMap[chType].length, locale)}
                 </SplitItem>
                 <SplitItem>
-                  <Icon className="channel-entry-icon" name="icon--launch" />
+                  <ExternalLinkAltIcon />
                 </SplitItem>
               </Split>
             }
@@ -92,10 +92,7 @@ const ChannelLabels = ({
                           <a href={link} target="_blank" rel="noreferrer">
                             <Split hasGutter>
                               <SplitItem>
-                                <Icon
-                                  className="channel-entry-icon"
-                                  name="icon--launch"
-                                />
+                                <ExternalLinkAltIcon />
                               </SplitItem>
                               <SplitItem>{pathname}</SplitItem>
                             </Split>

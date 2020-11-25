@@ -238,7 +238,7 @@ const getGeneralQuery = (kind, name) => {
   }
 }
 
-const fetchQuery = (kind, name) => {
+const queryReturnsItems = (kind, name) => {
   const query = getGeneralQuery(kind, name)
   return apolloClient
     .search(SEARCH_QUERY, { input: [query] })
@@ -256,7 +256,7 @@ const fetchQuery = (kind, name) => {
     })
 }
 
-const enableHubSelfManagement = fetchQuery('cluster', 'local-cluster')
+const enableHubSelfManagement = queryReturnsItems('cluster', 'local-cluster')
 
 const placementData = async () => [
   ////////////////////////////////////////////////////////////////////////////////////

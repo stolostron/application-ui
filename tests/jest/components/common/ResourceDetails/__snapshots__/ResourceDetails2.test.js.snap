@@ -21,47 +21,54 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
       <div
         className="overview-cards-container"
       >
-        <ul
-          className="bx--accordion"
+        <dl
+          aria-label=""
+          className="pf-c-accordion"
         >
-          <li
-            className="bx--accordion__item--active bx--accordion__item overview-cards-details-section"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            open={true}
-            role="presentation"
-          >
+          <dt>
             <button
               aria-expanded={true}
-              className="bx--accordion__heading"
+              className="pf-c-accordion__toggle pf-m-expanded overview-cards-details-section"
+              id="details-card"
               onClick={[Function]}
-              type="button"
             >
-              <svg
-                alt="Expand/Collapse"
-                aria-label="Expand/Collapse"
-                className="bx--accordion__arrow"
-                fillRule="evenodd"
-                height="12"
-                role={null}
-                viewBox="0 0 7 12"
-                width="7"
-              >
-                <title>
-                  Expand/Collapse
-                </title>
-                <path
-                  d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
-                />
-              </svg>
-              <div
-                className="bx--accordion__title"
+              <span
+                className="pf-c-accordion__toggle-text"
               >
                 Details
-              </div>
+              </span>
+              <span
+                className="pf-c-accordion__toggle-icon"
+              >
+                <svg
+                  aria-hidden={true}
+                  aria-labelledby={null}
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 256 512"
+                  width="1em"
+                >
+                  <path
+                    d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                  />
+                </svg>
+              </span>
             </button>
+          </dt>
+          <dd
+            aria-label=""
+            className="pf-c-accordion__expanded-content pf-m-expanded"
+            hidden={false}
+            id=""
+          >
             <div
-              className="bx--accordion__content"
+              className="pf-c-accordion__expanded-content-body"
             >
               <div
                 className="details-col  add-right-border"
@@ -102,14 +109,19 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                   <div
                     className="details-item-content"
                   >
-                    <p
-                      className="bx--skeleton__text loading-skeleton-text"
+                    <div
+                      className="pf-c-skeleton loading-skeleton-text"
                       style={
                         Object {
-                          "width": "30%",
+                          "--pf-c-skeleton--Height": undefined,
+                          "--pf-c-skeleton--Width": "30%",
                         }
                       }
-                    />
+                    >
+                      <span
+                        className="pf-u-screen-reader"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -128,14 +140,19 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                   <div
                     className="details-item-content"
                   >
-                    <p
-                      className="bx--skeleton__text loading-skeleton-text"
+                    <div
+                      className="pf-c-skeleton loading-skeleton-text"
                       style={
                         Object {
-                          "width": "30%",
+                          "--pf-c-skeleton--Height": undefined,
+                          "--pf-c-skeleton--Width": "30%",
                         }
                       }
-                    />
+                    >
+                      <span
+                        className="pf-u-screen-reader"
+                      />
+                    </div>
                   </div>
                 </div>
                 <div
@@ -150,14 +167,19 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                   <div
                     className="details-item-content"
                   >
-                    <p
-                      className="bx--skeleton__text loading-skeleton-text"
+                    <div
+                      className="pf-c-skeleton loading-skeleton-text"
                       style={
                         Object {
-                          "width": "30%",
+                          "--pf-c-skeleton--Height": undefined,
+                          "--pf-c-skeleton--Width": "30%",
                         }
                       }
-                    />
+                    >
+                      <span
+                        className="pf-u-screen-reader"
+                      />
+                    </div>
                   </div>
                 </div>
                 <div
@@ -197,28 +219,39 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                 </div>
               </div>
             </div>
-          </li>
-        </ul>
+          </dd>
+        </dl>
         <div
           className="overview-cards-subs-section"
         >
           
           <button
-            className="toggle-subs-btn bx--btn bx--btn--primary"
+            aria-disabled={true}
+            aria-label={null}
+            className="pf-c-button pf-m-secondary pf-m-disabled toggle-subs-btn"
+            data-ouia-component-id="OUIA-Generated-Button-secondary-1"
+            data-ouia-component-type="PF4/Button"
+            data-ouia-safe={true}
             data-test-subscription-details={false}
             disabled={true}
             onClick={[Function]}
-            tabIndex={0}
+            role={null}
+            tabIndex={null}
             type="button"
           >
-            <p
-              className="bx--skeleton__text loading-skeleton-text"
+            <div
+              className="pf-c-skeleton loading-skeleton-text"
               style={
                 Object {
-                  "width": "70%",
+                  "--pf-c-skeleton--Height": undefined,
+                  "--pf-c-skeleton--Width": "70%",
                 }
               }
-            />
+            >
+              <span
+                className="pf-u-screen-reader"
+              />
+            </div>
           </button>
         </div>
       </div>

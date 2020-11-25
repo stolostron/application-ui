@@ -335,7 +335,7 @@ export const validateTopology = (
     .get(".search-query-card-loading", { timeout: 120 * 1000 })
     .should("not.exist");
   cy
-    .get(".overview-cards-details-section", { timeout: 120 * 1000 })
+    .get(".pf-c-accordion", { timeout: 120 * 1000 })
     .contains(appDetails.clusterData);
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app

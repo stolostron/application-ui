@@ -240,13 +240,13 @@ const fetchQuery = (kind, name) => {
         response.data &&
         response.data.searchResult[0] &&
         response.data.searchResult[0].items
-      return itemRes
+      return !!itemRes
     })
 }
 
 const queryResult = fetchQuery('cluster', 'local-cluster')
 
-const placementData = [
+const placementData = async () => [
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
   {
@@ -295,10 +295,10 @@ const placementData = [
   {
     id: 'online-cluster-only-checkbox',
     type: 'checkbox',
-    name: queryResult
+    name: (await queryResult)
       ? 'creation.app.settings.onlineClusters'
       : 'creation.app.settings.onlineClustersOnly',
-    tooltip: queryResult
+    tooltip: (await queryResult)
       ? 'tooltip.creation.app.settings.onlineClusters'
       : 'tooltip.creation.app.settings.onlineClustersOnly',
     active: false,
@@ -309,7 +309,7 @@ const placementData = [
   },
   {
     id: localClusterCheckbox,
-    type: queryResult ? 'checkbox' : 'hidden',
+    type: (await queryResult) ? 'checkbox' : 'hidden',
     name: 'creation.app.settings.localClusters',
     tooltip: 'tooltip.creation.app.settings.localClusters',
     onSelect: updatePlacementControlsForLocal,

@@ -75,15 +75,6 @@ const getQuery = (resourceType, name, namespace) => {
   }
 }
 
-export const getGeneralQuery = (kind, name) => {
-  return {
-    filters: [
-      { property: 'kind', values: [kind] },
-      { property: 'name', values: [name] }
-    ]
-  }
-}
-
 const SharedResourceWarning = ({ resourceType, control, locale }) => {
   const [relatedApplications, setRelatedApplications] = useState([])
   const selfLinks = getSelfLinks(control)

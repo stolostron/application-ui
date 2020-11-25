@@ -9,16 +9,12 @@
 @import 'scss/variables';
 
 .overview-cards-container {
-  // Details accordion
-  .overview-cards-details-section {
-    background-color: white;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-  }
-
   // Accordion header
-  #details-card {
+  #details-header {
     height: 57px;
     padding: 10px;
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   }
 
   .pf-c-accordion__toggle.pf-m-expanded {

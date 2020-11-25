@@ -175,8 +175,7 @@ class OverviewCards extends React.Component {
                 toggleAccordion(showDetailsCard)
               }}
               isExpanded={showDetailsCard}
-              className="overview-cards-details-section"
-              id="details-card"
+              id="details-header"
             >
               {msgs.get('dashboard.card.overview.cards.title', locale)}
             </AccordionToggle>

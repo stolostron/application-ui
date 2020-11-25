@@ -11,8 +11,8 @@ exports[`OverviewCards OverviewCards renders correctly with data. 1`] = `
     <dt>
       <button
         aria-expanded={true}
-        className="pf-c-accordion__toggle pf-m-expanded overview-cards-details-section"
-        id="details-card"
+        className="pf-c-accordion__toggle pf-m-expanded"
+        id="details-header"
         onClick={[Function]}
       >
         <span

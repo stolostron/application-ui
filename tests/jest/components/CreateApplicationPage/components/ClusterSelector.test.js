@@ -73,12 +73,12 @@ describe("on control change function", () => {
       .at(0)
       .simulate("change", evt);
     wrapper
-      .find(".bx--accordion__item")
+      .find("#labels-header")
       .at(0)
       .simulate("keypress", evt);
 
     wrapper
-      .find(".bx--accordion__heading")
+      .find("#labels-header")
       .at(0)
       .simulate("click", evt);
   });

@@ -53,7 +53,7 @@
   "clusterSelector.label.placeholder.field": "Label name",
   "clusterSelector.value.placeholder.field": "Label value",
   "clusterSelector.value.field.ui": "Value",
-  "clusterSelector.value.field": "Value",
+  "clusterSelector.value.field": "Label value",
   "combo.subscription": "Subscription",
   "combo.subscription.all": "All Subscriptions",
   "combo.subscription.choose": "All subscriptions",

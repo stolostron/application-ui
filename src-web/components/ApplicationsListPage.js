@@ -20,7 +20,7 @@ const TypedResourcePageList = typedResourcePageList(
 )
 
 const ApplicationsListPage = props => (
-  <AcmTablePaginationContextProvider localStorageKey="applications-table">
+  <AcmTablePaginationContextProvider localStorageKey="application-table-pagination">
     <TypedResourcePageList {...props} />
   </AcmTablePaginationContextProvider>
 )

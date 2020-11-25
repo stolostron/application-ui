@@ -25,7 +25,7 @@ import {
 import { updateSecondaryHeader } from '../../actions/common'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 import { TemplateEditor } from '../TemplateEditor'
-import { controlData } from './controlData/ControlData'
+import { controlData as getControlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
 import { getApplicationResources } from './transformers/transform-data-to-resources'
 import config from '../../../lib/shared/config'
@@ -133,7 +133,7 @@ class ApplicationCreationPage extends React.Component {
       }
     )
 
-    controlData().then(controlData =>
+    getControlData().then(controlData =>
       this.setState({ controlData: _.cloneDeep(controlData) })
     )
   }

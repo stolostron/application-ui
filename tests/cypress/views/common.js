@@ -817,10 +817,10 @@ export const validateDeployables = data => {
   if (data.resources) {
     cy.log(`validate deployables list ${data.resources}...`),
       data.resources.forEach(resourceType => {
-        cy.log(`validate deployable ${resourceType} exists in app topology`),
-          cy
-            .get(`g[type="#diagramShapes_${resourceType}"]`)
-            .should("be.visible");
+        cy.log(
+          `validate deployable with type ${resourceType} exists in app topology`
+        ),
+          cy.get(`#diagramShapes_${resourceType}`).should("exist");
       });
   }
 };

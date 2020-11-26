@@ -418,11 +418,7 @@ export const validateAppTableMenu = (name, resourceTable) => {
   }
   const resourceKey = getResourceKey(name, getNamespace(name));
   resourceTable.openRowMenu(name, getResourceKey(name, getNamespace(name)));
-  cy
-    .get('button[data-table-action="table.actions.applications.search"]', {
-      timeout: 20 * 1000
-    })
-    .click({ force: true });
+  resourceTable.menuClick("search");
   cy
     .url()
     .should(

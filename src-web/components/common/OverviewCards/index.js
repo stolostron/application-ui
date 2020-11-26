@@ -73,15 +73,14 @@ class OverviewCards extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (
-      nextState.pollToggle === this.state.pollToggle ||
+    return !(
+      (nextState.pollToggle === this.state.pollToggle &&
+        nextState.showDetailsCard === this.state.showDetailsCard &&
+        nextState.showSubCards === this.state.showSubCards) ||
       _.get(nextProps, 'topology.status', '') === REQUEST_STATUS.IN_PROGRESS ||
       _.get(nextProps, 'HCMApplicationList.status', '') ===
         REQUEST_STATUS.IN_PROGRESS
-    ) {
-      return false
-    }
-    return true
+    )
   }
 
   render() {
@@ -124,12 +123,7 @@ class OverviewCards extends React.Component {
     }
 
     const toggleAccordion = toggleStatus => {
-      if (toggleStatus) {
-        this.setState({ showDetailsCard: false })
-      } else {
-        this.setState({ showDetailsCard: true })
-      }
-      this.forceUpdate()
+      this.setState({ showDetailsCard: !toggleStatus })
     }
 
     let getUrl = window.location.href
@@ -464,7 +458,6 @@ class OverviewCards extends React.Component {
 
   toggleSubsBtn = showSubCards => {
     this.setState({ showSubCards: !showSubCards })
-    this.forceUpdate()
   };
 }
 

@@ -50,7 +50,7 @@ export const checkExistingUrls = (css1, value1, css2, value2, url) => {
       if (value1 && value2) {
         cy
           .get(css1, { timeout: 20 * 1000 })
-          .type(value1, { log: false, timeout: 20 * 1000 });
+          .paste(value1, { log: false, timeout: 20 * 1000 });
         cy
           .get(css2, { timeout: 20 * 1000 })
           .paste(value2, { log: false, timeout: 20 * 1000 });

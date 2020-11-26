@@ -4,10 +4,8 @@
  *******************************************************************************/
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
-import {
-  deleteApplicationUI,
-  deleteChannelInsecureSkip
-} from "../../views/application";
+import { deleteApplicationUI } from "../../views/application";
+import { deleteChannel, channelsInformation } from "../../views/resources";
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Delete application Test", () => {
   for (const type in config) {
@@ -15,10 +13,21 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Delete application Test",
     apps.forEach(data => {
       if (data.enable) {
         if (data.new && (type === "git" || type === "helm")) {
-          it(`[P1][Sev1][app-lifecycle-ui] Verify channel with insecureSkipVerify option is deleted for application ${
+          it(`[P2][Sev2][app-lifecycle-ui] Try to delete channel with insecureSkipVerify option for application ${
             data.name
           }`, () => {
-            deleteChannelInsecureSkip(data.name);
+            const key = 2; // our tests use the invalidate option on add new subscription, which has index 2
+            const name = data.name;
+            channelsInformation(name, key).then(
+              ({ channelNs, channelName }) => {
+                if (channelName.indexOf("insecureSkipVerifyOption") != -1) {
+                  cy.log(
+                    `delete channel ${channelName} ns:  ${channelNs}, set for insecureSkipVerifyOption test `
+                  );
+                  deleteChannel(channelName, channelNs);
+                }
+              }
+            );
           });
         }
         it(`[P1][Sev1][app-lifecycle-ui] Verify application ${

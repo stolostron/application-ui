@@ -218,6 +218,13 @@ export const getManagedClusterName = () => {
     });
 };
 
+export const deleteChannel = (name, ns) => {
+  cy.exec(`oc delete channel -n ${ns} ${name}`, {
+    failOnNonZeroExit: true,
+    timeout: 20 * 1000
+  });
+};
+
 export const deleteNamespaceHub = (data, name, type) => {
   cy.exec(`oc delete ns ${name}-ns`, {
     failOnNonZeroExit: type !== "helm", // helm namespaces in particular get stuck

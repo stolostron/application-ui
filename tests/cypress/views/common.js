@@ -81,16 +81,16 @@ export const submitSave = successState => {
   modal.shouldNotBeDisabled();
   modal.clickSubmit();
   cy
-    .get("#notifications", { timeout: 50 * 1000 })
+    .get("#notifications", { timeout: 5 * 1000 })
     .scrollIntoView({ offset: { top: -500, left: 0 } });
 
   if (successState) {
-    notification.shouldExist("success", { timeout: 60 * 1000 });
+    notification.shouldExist("success");
     cy
-      .location("pathname", { timeout: 60 * 1000 })
+      .location("pathname", { timeout: 10 * 1000 })
       .should("include", `${name}`);
   } else {
-    notification.shouldExist("error", { timeout: 2 * 1000 });
+    notification.shouldExist("error");
     cy.log("Verify Save button is disabled");
     modal.shouldBeDisabled();
   }
@@ -201,11 +201,11 @@ export const modal = {
 export const notification = {
   shouldExist: type =>
     cy
-      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 200 * 1000 })
+      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 10 * 1000 })
       .should("exist"),
   shouldNotExist: type =>
     cy
-      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 200 * 1000 })
+      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 5 * 1000 })
       .should("not.exist")
 };
 
@@ -811,3 +811,18 @@ export const getNamespace = name => {
 };
 
 export const getResourceKey = (name, namespace) => `${namespace}/${name}`;
+
+//validate all deployed nodes show up in the app topo
+export const validateDeployables = data => {
+  if (data.config && data.config.resources) {
+    cy.log(`validate deployables list ${data.config.resources}...`),
+      data.config.resources.forEach(resourceType => {
+        cy.log(`validate deployable ${resourceType} exists in app topology`),
+          cy
+            .get(`g[type="${resourceType}"]`, {
+              timeout: 120 * 1000
+            })
+            .should("be.visible");
+      });
+  }
+};

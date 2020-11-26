@@ -20,6 +20,7 @@ import {
 } from './common/QuerySwitcher'
 import msgs from '../../nls/platform.properties'
 import { withLocale } from '../providers/LocaleProvider'
+import { AcmTablePaginationContextProvider } from '@open-cluster-management/ui-components'
 
 const AdvancedConfigurationLists = ({
   secondaryHeaderProps,
@@ -40,26 +41,28 @@ const AdvancedConfigurationLists = ({
   const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
 
   return (
-    <ResourceList
-      key={selectedId}
-      tabs={secondaryHeaderProps.tabs}
-      title={secondaryHeaderProps.title}
-      mainButton={secondaryHeaderProps.mainButton}
-      resourceType={resourceType}
-      staticResourceData={staticResourceData}
-      getVisibleResources={getVisibleResources}
-    >
-      {[
-        <QuerySwitcher
-          key="switcher"
-          options={options.map(({ id }) => ({
-            id,
-            contents: msgs.get(`resource.${id}`, locale)
-          }))}
-          defaultOption={defaultOption}
-        />
-      ]}
-    </ResourceList>
+    <AcmTablePaginationContextProvider localStorageKey="advanced-tables-pagination">
+      <ResourceList
+        key={selectedId}
+        tabs={secondaryHeaderProps.tabs}
+        title={secondaryHeaderProps.title}
+        mainButton={secondaryHeaderProps.mainButton}
+        resourceType={resourceType}
+        staticResourceData={staticResourceData}
+        getVisibleResources={getVisibleResources}
+      >
+        {[
+          <QuerySwitcher
+            key="switcher"
+            options={options.map(({ id }) => ({
+              id,
+              contents: msgs.get(`resource.${id}`, locale)
+            }))}
+            defaultOption={defaultOption}
+          />
+        ]}
+      </ResourceList>
+    </AcmTablePaginationContextProvider>
   )
 }
 

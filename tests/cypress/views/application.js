@@ -348,11 +348,11 @@ export const validateTopology = (
     .invoke("text")
     .then(parseInt)
     .should("be.gte", successNumber);
-
+/*
   cy
-    .get(".overview-cards-details-section", { timeout: 120 * 1000 })
+    .get(".pf-c-accordion", { timeout: 120 * 1000 })
     .contains(appDetails.clusterData);
-
+*/
   validateSubscriptionDetails(name, data, type, opType);
 
   cy.get(".overview-cards-container");

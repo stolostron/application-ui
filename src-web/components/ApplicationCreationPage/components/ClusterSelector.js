@@ -249,10 +249,14 @@ export class ClusterSelector extends React.Component {
                 {id !== 0 ? ( // Option to remove added labels
                   <div
                     id={id}
-                    className="remove-label-btn"
+                    className={`remove-label-btn ${
+                      isReadOnly ? 'btn-disabled' : ''
+                    }`}
                     tabIndex="0"
                     role={'button'}
-                    onClick={() => this.removeLabelFromList(control, item)}
+                    onClick={() =>
+                      this.removeLabelFromList(control, item, isReadOnly)
+                    }
                     onKeyPress={this.removeLabelKeyPress.bind(this)}
                   >
                     <Icon
@@ -295,13 +299,15 @@ export class ClusterSelector extends React.Component {
     }
   };
 
-  removeLabelFromList = (control, item) => {
-    // Removed labels are no longer valid
-    control.active.clusterLabelsList[item.id].validValue = false
+  removeLabelFromList = (control, item, isReadOnly) => {
+    if (!isReadOnly) {
+      // Removed labels are no longer valid
+      control.active.clusterLabelsList[item.id].validValue = false
 
-    // Update UI and yaml editor
-    this.forceUpdate()
-    this.handleChange({})
+      // Update UI and yaml editor
+      this.forceUpdate()
+      this.handleChange({})
+    }
   };
 
   removeLabelKeyPress = e => {

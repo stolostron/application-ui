@@ -592,14 +592,14 @@ export const deleteApplicationUI = name => {
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
     const resourceKey = getResourceKey(name, getNamespace(name));
-    resourceTable.rowShouldExist(name, resourceKey, 60 * 1000);
+    resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
 
     resourceTable.openRowMenu(name, resourceKey);
     resourceTable.menuClick("delete");
     modal.shouldBeOpen();
 
     cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.exist", {
-      timeout: 100 * 1000
+      timeout: 20 * 1000
     });
 
     if (!name.includes("ui-helm2")) {
@@ -832,7 +832,9 @@ export const verifyInsecureSkipAfterNewSubscription = name => {
   const key = 2; // Target newly created (3rd) channel
   channelsInformation(name, key).then(({ channelNs, channelName }) => {
     cy
-      .exec(`oc -n ${channelNs} get channel ${channelName} -o yaml`)
+      .exec(`oc -n ${channelNs} get channel ${channelName} -o yaml`, {
+        timeout: 20000
+      })
       .its("stdout")
       .should("include", "insecureSkipVerify: true");
   });

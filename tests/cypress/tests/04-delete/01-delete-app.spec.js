@@ -18,9 +18,11 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Delete application Test",
           }`, () => {
             const key = 2; // our tests use the invalidate option on add new subscription, which has index 2
             const name = data.name;
+            cy.log(`DATA ${name}`);
             channelsInformation(name, key).then(
               ({ channelNs, channelName }) => {
-                if (channelName.indexOf("insecureSkipVerifyOption") != -1) {
+                cy.log(`CHANNEL ${channelName}, ${channelNs}`);
+                if (channelName.indexOf("insecureskipverifyoption") != -1) {
                   cy.log(
                     `delete channel ${channelName} ns:  ${channelNs}, set for insecureSkipVerifyOption test `
                   );

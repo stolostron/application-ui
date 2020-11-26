@@ -814,14 +814,12 @@ export const getResourceKey = (name, namespace) => `${namespace}/${name}`;
 
 //validate all deployed nodes show up in the app topo
 export const validateDeployables = data => {
-  if (data.config && data.config.resources) {
-    cy.log(`validate deployables list ${data.config.resources}...`),
-      data.config.resources.forEach(resourceType => {
+  if (data.resources) {
+    cy.log(`validate deployables list ${data.resources}...`),
+      data.resources.forEach(resourceType => {
         cy.log(`validate deployable ${resourceType} exists in app topology`),
           cy
-            .get(`g[type="${resourceType}"]`, {
-              timeout: 120 * 1000
-            })
+            .get(`g[type="#diagramShapes_${resourceType}"]`)
             .should("be.visible");
       });
   }

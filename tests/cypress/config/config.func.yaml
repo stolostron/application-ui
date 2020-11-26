@@ -157,6 +157,7 @@ helm:
             matchingLabel: false
       config:
         - url: https://kubernetes-charts.storage.googleapis.com
+          resources: ["Service"] #the type of resources this application must deploy
           username: ""
           password: ""
           chartName: aerospike

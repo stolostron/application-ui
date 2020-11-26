@@ -17,6 +17,7 @@ import {
   normalizeChannelType,
   CHANNEL_TYPES
 } from '../../lib/client/resource-helper'
+import { cellWidth } from '@patternfly/react-table'
 import {
   getClusterCounts,
   createClustersText,
@@ -36,11 +37,13 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'name',
-      transformFunction: createEditLink
+      transformFunction: createEditLink,
+      transforms: [cellWidth(20)]
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'namespace'
+      resourceKey: 'namespace',
+      transforms: [cellWidth(20)]
     },
     {
       msgKey: 'table.header.type',

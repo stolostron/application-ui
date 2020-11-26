@@ -17,6 +17,7 @@ import {
   getChannelLabel,
   CHANNEL_TYPES
 } from '../../lib/client/resource-helper'
+import { cellWidth } from '@patternfly/react-table'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import msgs from '../../nls/platform.properties'
@@ -34,11 +35,13 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'name',
-      transformFunction: createApplicationLink
+      transformFunction: createApplicationLink,
+      transforms: [cellWidth(20)]
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'namespace'
+      resourceKey: 'namespace',
+      transforms: [cellWidth(20)]
     },
     {
       msgKey: 'table.header.clusters',

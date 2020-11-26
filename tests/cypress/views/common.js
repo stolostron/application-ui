@@ -544,8 +544,11 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
           data.type === "objectstore"
             ? "Object storage"
             : data.type === "helm" ? "Helm" : "Git";
+
         cy
-          .get(".pf-c-label__content", { timeout: 200 * 1000 })
+          .get(".sub-card-column")
+          .eq(1)
+          .get(".pf-c-label__content", { timeout: 60 * 1000 })
           .first()
           .invoke("text")
           .should("include", repositoryText);

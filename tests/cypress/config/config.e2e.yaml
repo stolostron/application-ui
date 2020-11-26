@@ -6,7 +6,7 @@ git:
       type: git
       successNumber: 0 #should have at least 0 resources with status success in the cards status
       new: # used when we add new subscriptions after app creation
-        - url: https://github.com/fxiang1/app-samples.git
+        - url: https://dummy/insecureSkipVerifyOption
           username: ""
           token: ""
           branch: master
@@ -30,6 +30,7 @@ git:
             matchingLabel: false
       config:
         - url: https://github.com/fxiang1/app-samples.git
+          resources: ["Route", "Service", "Ingress"] #the type of resources this application must deploy
           username: ""
           token: ""
           branch: master
@@ -148,7 +149,7 @@ helm:
       type: helm
       successNumber: 0
       new: # used when we add new subscriptions after app creation
-        - url: https://kubernetes-charts.storage.googleapis.com
+        - url: https://dummy/insecureSkipVerifyOption
           username: ""
           password: ""
           chartName: aerospike

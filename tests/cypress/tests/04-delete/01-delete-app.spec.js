@@ -21,7 +21,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Delete application Test",
             //wait until channel gets created, otherwise the next new app might try to create the same channel instead of reusing
             channelsInformation(name, key).then(
               ({ channelNs, channelName }) => {
-                if (channelName.endsWith("insecureSkipVerifyOption")) {
+                if (channelName.indexOf("insecureSkipVerifyOption") != -1) {
                   cy.log(
                     `delete channel set for insecureSkipVerifyOption test ${channelName} ns:  ${channelNs}`
                   );

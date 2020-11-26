@@ -338,14 +338,6 @@ export const validateTopology = (
     `Verify cluster deploy status on app card is ${appDetails.clusterData}`
   );
 
-  //for now check on create app only
-  cy
-    .get(".search-query-card-loading", { timeout: 120 * 1000 })
-    .should("not.exist");
-  cy
-    .get(".overview-cards-details-section", { timeout: 120 * 1000 })
-    .contains(appDetails.clusterData);
-
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
   cy.log(
     `Verify that the deployed resources number with status success is at least ${successNumber}`
@@ -356,6 +348,10 @@ export const validateTopology = (
     .invoke("text")
     .then(parseInt)
     .should("be.gte", successNumber);
+
+  cy
+    .get(".overview-cards-details-section", { timeout: 120 * 1000 })
+    .contains(appDetails.clusterData);
 
   validateSubscriptionDetails(name, data, type, opType);
 
@@ -626,30 +622,6 @@ export const deleteApplicationUI = name => {
     // no existing channels
     // deleteResourceUI(name, "channels");
   }
-};
-
-export const deleteChannelInsecureSkip = name => {
-  const key = 2; // Target newly created (3rd) channel with insecureSkipVerify option
-  channelsInformation(name, key).then(({ channelNs, channelName }) => {
-    cy.log(`Delete channel with insecureSkipVerify option from Channels table`);
-    cy.visit(`/multicloud/applications/advanced?resource=channels`);
-
-    resourceTable.openRowMenu(
-      channelName,
-      getResourceKey(channelName, channelNs)
-    );
-    resourceTable.menuClick("delete channel");
-    modal.shouldBeOpen();
-
-    cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.exist", {
-      timeout: 100 * 1000
-    });
-
-    modal.clickDanger();
-    // after deleting the channel, it should not exist in the app table
-    modal.shouldBeClosed();
-    resourceTable.rowShouldNotExist(channelName, 30 * 1000);
-  });
 };
 
 export const selectClusterDeployment = (deployment, clusterName, key) => {

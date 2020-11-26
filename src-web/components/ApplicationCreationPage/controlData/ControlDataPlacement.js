@@ -30,8 +30,10 @@ import {
   getSharedSubscriptionWarning
 } from './utils'
 import { getSourcePath } from '../../TemplateEditor/utils/utils'
+import apolloClient from '../../../../lib/client/apollo-client'
 import _ from 'lodash'
 import msgs from '../../../../nls/platform.properties'
+import { SEARCH_QUERY } from '../../../apollo-client/queries/SearchQueries'
 
 const existingRuleCheckbox = 'existingrule-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
@@ -227,7 +229,36 @@ export const summarizeOnline = (control, globalControlData, summary) => {
   }
 }
 
-const placementData = [
+const getGeneralQuery = (kind, name) => {
+  return {
+    filters: [
+      { property: 'kind', values: [kind] },
+      { property: 'name', values: [name] }
+    ]
+  }
+}
+
+const queryReturnsItems = (kind, name) => {
+  const query = getGeneralQuery(kind, name)
+  return apolloClient
+    .search(SEARCH_QUERY, { input: [query] })
+    .then(response => {
+      const itemRes =
+        response &&
+        response.data &&
+        response.data.searchResult[0] &&
+        response.data.searchResult[0].items
+      return !!itemRes && !!itemRes.length
+    })
+    .catch(() => {
+      // default to have the local-cluster managed
+      return true
+    })
+}
+
+const enableHubSelfManagement = queryReturnsItems('cluster', 'local-cluster')
+
+const placementData = async () => [
   ////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////  clusters  /////////////////////////////////////
   {
@@ -276,8 +307,12 @@ const placementData = [
   {
     id: 'online-cluster-only-checkbox',
     type: 'checkbox',
-    name: 'creation.app.settings.onlineClusters',
-    tooltip: 'tooltip.creation.app.settings.onlineClusters',
+    name: (await enableHubSelfManagement)
+      ? 'creation.app.settings.onlineClusters'
+      : 'creation.app.settings.onlineClustersOnly',
+    tooltip: (await enableHubSelfManagement)
+      ? 'tooltip.creation.app.settings.onlineClusters'
+      : 'tooltip.creation.app.settings.onlineClustersOnly',
     active: false,
     available: [],
     onSelect: updatePlacementControlsForAllOnline,
@@ -286,7 +321,7 @@ const placementData = [
   },
   {
     id: localClusterCheckbox,
-    type: 'checkbox',
+    type: (await enableHubSelfManagement) ? 'checkbox' : 'hidden',
     name: 'creation.app.settings.localClusters',
     tooltip: 'tooltip.creation.app.settings.localClusters',
     onSelect: updatePlacementControlsForLocal,

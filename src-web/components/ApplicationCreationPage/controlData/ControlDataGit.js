@@ -52,7 +52,7 @@ export const updateGitCredentials = (
   return groupControlData
 }
 
-const githubChannelData = [
+const githubChannelData = async () => [
   ///////////////////////  github  /////////////////////////////////////
   {
     id: 'channelNamespaceExists',
@@ -157,7 +157,7 @@ const githubChannelData = [
 
   ...prePostTasks,
 
-  ...placementData
+  ...(await placementData())
 ]
 
 export default githubChannelData

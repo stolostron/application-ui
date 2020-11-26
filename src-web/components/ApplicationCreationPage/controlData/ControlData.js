@@ -48,7 +48,7 @@ export const updateNSControls = (nsControl, globalControl) => {
   return updateControlsForNS(nsControl, nsControl, globalControl)
 }
 
-export const controlData = [
+export const controlData = async () => [
   {
     id: 'main',
     type: 'section',
@@ -151,7 +151,7 @@ export const controlData = [
             title: 'channel.type.git',
             tooltip: 'tooltip.creation.app.channel.git',
             change: {
-              insertControlData: gitChannelData
+              insertControlData: await gitChannelData()
             }
           },
           {
@@ -160,7 +160,7 @@ export const controlData = [
             title: 'channel.type.helmrepo',
             tooltip: 'tooltip.channel.type.helmrepo',
             change: {
-              insertControlData: helmReleaseChannelData
+              insertControlData: await helmReleaseChannelData()
             }
           },
           {
@@ -169,7 +169,7 @@ export const controlData = [
             title: 'channel.type.objectbucket',
             tooltip: 'tooltip.channel.type.objectbucket',
             change: {
-              insertControlData: objectstoreChannelData
+              insertControlData: await objectstoreChannelData()
             }
           },
           {
@@ -179,7 +179,7 @@ export const controlData = [
             tooltip: 'tooltip.channel.type.other',
             hidden: true, // only show this if editing existing app
             change: {
-              insertControlData: otherChannelData
+              insertControlData: await otherChannelData()
             }
           }
         ],

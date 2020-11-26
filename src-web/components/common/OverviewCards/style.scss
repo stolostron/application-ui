@@ -9,53 +9,53 @@
 @import 'scss/variables';
 
 .overview-cards-container {
-  // Details accordion
-  .overview-cards-details-section {
+  // Accordion header
+  #details-header {
+    height: 57px;
+    padding: 10px;
     background-color: white;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   }
 
-  .bx--accordion__item--active > .bx--accordion__content {
-    transition: all 200ms cubic-bezier(0.25, 0, 1, 1);
+  .pf-c-accordion__toggle.pf-m-expanded {
+    --pf-c-accordion__toggle--before--BackgroundColor: none;
   }
 
-  // Accordion header
-  .bx--accordion__heading {
-    height: 57px;
-    padding: 10px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  // Accordion title
-  .bx--accordion__title {
+  // Accordion header title
+  .pf-c-accordion__toggle-text {
     font-size: 16px;
     font-weight: 600;
-    color: #151515;
+    color: #151515 !important;
+    margin-left: 1rem;
   }
 
-  // Accordion arrow
-  .bx--accordion__arrow {
-    fill: #151515 !important;
-    position: absolute;
-    right: 7%;
+  // Accordion header arrow
+  .pf-c-accordion__toggle-icon {
+    margin-right: 1rem;
   }
 
   // App Overview details
-  .bx--accordion__item--active > .bx--accordion__content {
+  .pf-c-accordion__expanded-content {
     height: 170px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: #152935;
   }
 
   // Divide left and right sides
-  .bx--accordion__content {
+  .pf-c-accordion__expanded-content-body {
     display: grid;
     grid-template-columns: 50% 50%;
     padding: 0;
   }
 
+  .pf-c-accordion__expanded-content.pf-m-expanded {
+    --pf-c-accordion__expanded-content-body--before--BackgroundColor: none;
+  }
+
   .details-col {
     display: grid;
     grid-template-rows: 40px 40px 40px;
-    padding: calc(10px + 1rem);
+    padding: calc(9px + 1rem);
   }
 
   .add-right-border {
@@ -139,14 +139,11 @@
   .toggle-subs-btn {
     width: 208px;
     height: 32px;
-    display: block !important;
+    display: block;
     padding: 6px 0;
     margin: 20px auto 10px;
     font-size: 13px;
-    color: #0066cc;
-    background-color: $acm_background_color;
-    border: 1px solid #0066cc;
-    border-radius: 3px;
+    font-weight: 600;
   }
 
   // Subscription cards
@@ -188,94 +185,16 @@
   }
 }
 
-.resource-cards-info,
-.overview-cards-info {
-  display: flex;
-  padding: 0 5%;
-  height: 100%;
-  justify-content: space-between;
-  align-items: center;
+.overview-notification {
+  margin: 0.5rem 0;
+  --pf-c-alert--BoxShadow: none;
 
-  .card-margin {
-    margin: 0 7%;
+  .pf-c-alert__title {
+    margin-left: 1rem;
+    font-size: 15px;
   }
 
-  .clickable {
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
-  .loading-skeleton-text {
-    &-header {
-      margin-left: 20%;
-      height: 20px;
-    }
-
-    &-lrg {
-      margin-left: 10%;
-      height: 10px;
-    }
-
-    &-med {
-      margin-left: 20%;
-      height: 10px;
-    }
-
-    &-sm {
-      margin-left: 30%;
-      margin-top: 5px;
-      height: 10px;
-    }
-  }
-
-  .card-count {
-    line-height: 44px;
-    font-size: 34px;
-    font-weight: 600;
-    margin-bottom: 5px;
-    text-align: center;
-    color: #5a6872;
-
-    &.alert {
-      color: #e0182d;
-    }
-  }
-
-  .card-type {
-    letter-spacing: 1.03px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 20px;
-    color: #5a6872;
-    text-transform: uppercase;
-  }
-
-  .card-text {
-    text-align: center;
-    font-size: 12px;
-    font-style: italic;
-    line-height: 20px;
-    color: #4a4a4a;
-  }
-
-  .card-subtext {
-    text-align: center;
-    font-size: 12px;
-    line-height: 20px;
-    color: #4a4a4a;
-  }
-
-  .column-divider {
-    height: 100%;
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .row-divider {
-    width: 100%;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    margin-top: 5px;
-    padding-top: 5px;
+  .pf-u-screen-reader {
+    display: none;
   }
 }

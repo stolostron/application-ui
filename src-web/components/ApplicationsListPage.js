@@ -7,12 +7,22 @@
  *******************************************************************************/
 'use strict'
 
+import React from 'react'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageList } from './common/ResourcePage'
+import { AcmTablePaginationContextProvider } from '@open-cluster-management/ui-components'
 
-export default typedResourcePageList(
+const TypedResourcePageList = typedResourcePageList(
   RESOURCE_TYPES.QUERY_APPLICATIONS,
   [],
   [],
   []
 )
+
+const ApplicationsListPage = props => (
+  <AcmTablePaginationContextProvider localStorageKey="application-table-pagination">
+    <TypedResourcePageList {...props} />
+  </AcmTablePaginationContextProvider>
+)
+
+export default ApplicationsListPage

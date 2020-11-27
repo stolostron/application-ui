@@ -108,7 +108,7 @@ module.exports = {
       test: /\.css$/,
         include: [
          path.resolve(__dirname, "./node_modules/monaco-editor"),
-         path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly')
+         path.resolve(__dirname, './node_modules/@open-cluster-management')
         ],
         use: ["style-loader", "css-loader"]
       },

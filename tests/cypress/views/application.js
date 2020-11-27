@@ -278,6 +278,7 @@ export const validateAdvancedTables = (
       cy.log(`Validate instance-${key} with channel name ${channelName}`);
       Object.keys(resourceTypes).map(function(tableType) {
         cy.log(`Validating now the ${tableType} table for app ${name}`);
+        const tableTimout = tableType == "placementrules" ? 30 : 120; // wait for subscription creation longer
         if (local && tableType == "placementrules") {
           cy.log(
             `no placementrules for app - ${name} because it has been deployed locally`
@@ -293,7 +294,7 @@ export const validateAdvancedTables = (
                 tableType === "channels" ? resourceTypes[tableType] : data.name
               )
             ),
-            30 * 1000
+            tableTimout * 1000
           );
           validateSubscriptionTable(
             resourceTypes[tableType],

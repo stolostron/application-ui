@@ -545,13 +545,16 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
             ? "Object storage"
             : data.type === "helm" ? "Helm" : "Git";
 
+        //get repository popup info
         cy
-          .get(".sub-card-column")
+          .get(".add-right-border")
           .eq(1)
-          .get(".pf-c-label__content", { timeout: 60 * 1000 })
-          .first()
-          .invoke("text")
-          .should("include", repositoryText);
+          .within($repo => {
+            cy
+              .get(".pf-c-label__content", { timeout: 120 * 1000 })
+              .invoke("text")
+              .should("include", repositoryText);
+          });
 
         cy.log("Validate Repository popup");
         let repoInfo = value.url;

@@ -321,6 +321,16 @@ const retrieveGitDetails = async (
       accessToken: _.get(tokenCtrl, 'active')
     }
 
+    if (
+      !(
+        (queryVariables.namespace && queryVariables.secretRef) ||
+        queryVariables.accessToken
+      )
+    ) {
+      // insufficent data so far to query branch or paths
+      return
+    }
+
     githubPathCtrl.active = ''
     githubPathCtrl.available = []
 
@@ -347,9 +357,14 @@ const retrieveGitDetails = async (
     } else {
       //get branches
       setLoadingState(branchCtrl, true)
-
-      apolloClient.getGitChannelBranches(queryVariables).then(
-        result => {
+      const onError = () => {
+        branchCtrl.exception = msgs.get('creation.app.loading.branch.error')
+        setLoadingState(branchCtrl, false)
+      }
+      apolloClient.getGitChannelBranches(queryVariables).then(result => {
+        if (_.get(result, 'errors')) {
+          onError()
+        } else {
           branchCtrl.active = ''
           branchCtrl.available = []
 
@@ -359,13 +374,8 @@ const retrieveGitDetails = async (
           })
           delete branchCtrl.exception
           setLoadingState(branchCtrl, false)
-        },
-        () => {
-          //on error
-          branchCtrl.exception = msgs.get('creation.app.loading.branch.error')
-          setLoadingState(branchCtrl, false)
         }
-      )
+      }, onError)
     }
   } catch (err) {
     //return err
@@ -377,7 +387,6 @@ export const updateGitBranchFolders = async (
   globalControls,
   setLoadingState
 ) => {
-
   const groupControlData = _.get(branchControl, 'groupControlData', [])
   const branchName = _.get(branchControl, 'active', '')
   retrieveGitDetails(branchName, groupControlData, setLoadingState)

@@ -50,10 +50,10 @@ export const checkExistingUrls = (css1, value1, css2, value2, url) => {
       if (value1 && value2) {
         cy
           .get(css1, { timeout: 20 * 1000 })
-          .type(value1, { log: false, timeout: 20 * 1000 });
+          .paste(value1, { log: false, timeout: 20 * 1000 });
         cy
           .get(css2, { timeout: 20 * 1000 })
-          .type(value2, { log: false, timeout: 20 * 1000 });
+          .paste(value2, { log: false, timeout: 20 * 1000 });
       }
     } else {
       cy.log(`credentials have been saved for url - ${url}`);
@@ -80,7 +80,8 @@ export const channelsInformation = (name, key) => {
   return cy
     .exec(
       `oc -n ${name}-ns get subscription ${name}-subscription-${parseInt(key) +
-        1} -o=jsonpath='{.spec.channel}'`
+        1} -o=jsonpath='{.spec.channel}'`,
+      { timeout: 5000 }
     )
     .then(({ stdout }) => {
       const [channelNs, channelName] = stdout.split("/");
@@ -216,6 +217,13 @@ export const getManagedClusterName = () => {
         cy.log(`managed cluster name is ${Cypress.env("managedCluster")}`);
       }
     });
+};
+
+export const deleteChannel = (name, ns) => {
+  cy.exec(`oc delete channel -n ${ns} ${name}`, {
+    failOnNonZeroExit: true,
+    timeout: 20 * 1000
+  });
 };
 
 export const deleteNamespaceHub = (data, name, type) => {

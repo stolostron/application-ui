@@ -67,6 +67,7 @@ Object {
     ],
     "title": "application.details",
   },
+  "pluralKey": "table.plural.application",
   "primaryKey": "name",
   "secondaryKey": "namespace",
   "tableActions": Array [
@@ -110,18 +111,21 @@ Object {
     Object {
       "msgKey": "table.header.clusters",
       "resourceKey": "clusterCount",
+      "textFunction": [Function],
       "tooltipKey": "table.header.application.clusters.tooltip",
       "transformFunction": [Function],
     },
     Object {
       "msgKey": "table.header.resource",
       "resourceKey": "hubChannels",
+      "textFunction": [Function],
       "tooltipKey": "table.header.application.resource.tooltip",
       "transformFunction": [Function],
     },
     Object {
       "msgKey": "table.header.timeWindow",
       "resourceKey": "hubSubscriptions",
+      "textFunction": [Function],
       "tooltipKey": "table.header.application.timeWindow.tooltip",
       "transformFunction": [Function],
     },
@@ -151,18 +155,21 @@ Array [
   Object {
     "msgKey": "table.header.clusters",
     "resourceKey": "clusterCount",
+    "textFunction": [Function],
     "tooltipKey": "table.header.application.clusters.tooltip",
     "transformFunction": [Function],
   },
   Object {
     "msgKey": "table.header.resource",
     "resourceKey": "hubChannels",
+    "textFunction": [Function],
     "tooltipKey": "table.header.application.resource.tooltip",
     "transformFunction": [Function],
   },
   Object {
     "msgKey": "table.header.timeWindow",
     "resourceKey": "hubSubscriptions",
+    "textFunction": [Function],
     "tooltipKey": "table.header.application.timeWindow.tooltip",
     "transformFunction": [Function],
   },

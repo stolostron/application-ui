@@ -298,3 +298,29 @@ Cypress.Commands.add("logoutFromRole", role => {
   Cypress.env("OC_CLUSTER_USER", users[role]);
   cy.logout();
 });
+
+Cypress.Commands.add(
+  "paste",
+  {
+    prevSubject: true,
+    element: true
+  },
+  ($element, text) => {
+    const subString = text.substr(0, text.length - 1);
+    const lastChar = text.slice(-1);
+
+    $element.text(subString);
+    $element.val(subString);
+    cy
+      .get($element)
+      .type(lastChar)
+      .then(() => {
+        if ($element.val() !== text)
+          // first usage only setStates the last character for some reason
+          cy
+            .get($element)
+            .clear()
+            .type(text);
+      });
+  }
+);

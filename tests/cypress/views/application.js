@@ -13,10 +13,13 @@ import {
   indexedCSS,
   validateSubscriptionTable,
   getSingleAppClusterTimeDetails,
+  getNamespace,
+  getResourceKey,
   verifyApplicationData,
   validateSubscriptionDetails,
   submitSave,
-  selectTimeWindow
+  selectTimeWindow,
+  validateDeployables
 } from "./common";
 
 import { channelsInformation, checkExistingUrls } from "./resources.js";
@@ -81,15 +84,14 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   if (insecureSkipVerifyOption) {
     cy.get(insecureSkipVerify).click({ force: true });
   }
-  // wait for form to remove the users
   // type in branch and path
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
-  cy.wait(10 * 1000);
   cy
     .get(gitBranch, { timeout: 50 * 1000 })
     .type(branch, { timeout: 50 * 1000 })
     .blur();
   cy.wait(1000);
+  cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   cy
     .get(gitPath, { timeout: 20 * 1000 })
     .type(path, { timeout: 30 * 1000 })
@@ -271,8 +273,7 @@ export const validateAdvancedTables = (
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
         subscriptions: `${name}-subscription-${parseInt(key) + 1}`,
-        placementrules: `${name}-placement-${parseInt(key) + 1}`,
-        channels: channelName
+        placementrules: `${name}-placement-${parseInt(key) + 1}`
       };
       cy.log(`Validate instance-${key} with channel name ${channelName}`);
       Object.keys(resourceTypes).map(function(tableType) {
@@ -284,15 +285,22 @@ export const validateAdvancedTables = (
         } else {
           cy.log(`Validating ${tableType} on Advanced Tables`);
           cy.visit(`/multicloud/applications/advanced?resource=${tableType}`);
-          cy
-            .get("#undefined-search", { timeout: 500 * 1000 })
-            .type(resourceTypes[tableType]);
-          resourceTable.rowShouldExist(resourceTypes[tableType], 600 * 1000);
+          resourceTable.rowShouldExist(
+            resourceTypes[tableType],
+            getResourceKey(
+              resourceTypes[tableType],
+              getNamespace(
+                tableType === "channels" ? resourceTypes[tableType] : data.name
+              )
+            ),
+            30 * 1000
+          );
           validateSubscriptionTable(
             resourceTypes[tableType],
             tableType,
             subscriptionItem,
-            numberOfRemoteClusters
+            numberOfRemoteClusters,
+            data
           );
         }
       });
@@ -330,14 +338,6 @@ export const validateTopology = (
     `Verify cluster deploy status on app card is ${appDetails.clusterData}`
   );
 
-  //for now check on create app only
-  cy
-    .get(".search-query-card-loading", { timeout: 120 * 1000 })
-    .should("not.exist");
-  cy
-    .get(".overview-cards-details-section", { timeout: 120 * 1000 })
-    .contains(appDetails.clusterData);
-
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
   cy.log(
     `Verify that the deployed resources number with status success is at least ${successNumber}`
@@ -348,6 +348,10 @@ export const validateTopology = (
     .invoke("text")
     .then(parseInt)
     .should("be.gte", successNumber);
+
+  cy
+    .get(".pf-c-accordion", { timeout: 120 * 1000 })
+    .contains(appDetails.clusterData);
 
   validateSubscriptionDetails(name, data, type, opType);
 
@@ -374,6 +378,8 @@ export const validateTopology = (
       //ignore first subscription on delete
     } else {
       //if opType is create, the first subscription was removed by the delete subs test, use the new config option
+      validateDeployables(opType == "add" ? data.new[0] : value);
+
       const { local, online } =
         key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
       cy.log(` key=${key}, type=${opType}`);
@@ -410,12 +416,9 @@ export const validateAppTableMenu = (name, resourceTable) => {
     // check popup actions on one app only, that's sufficient
     return;
   }
-  resourceTable.openRowMenu(name);
-  cy
-    .get('button[data-table-action="table.actions.applications.search"]', {
-      timeout: 20 * 1000
-    })
-    .click({ force: true });
+  const resourceKey = getResourceKey(name, getNamespace(name));
+  resourceTable.openRowMenu(name, getResourceKey(name, getNamespace(name)));
+  resourceTable.menuClick("search");
   cy
     .url()
     .should(
@@ -429,13 +432,12 @@ export const validateAppTableMenu = (name, resourceTable) => {
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
-  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
-  resourceTable.rowShouldExist(name, 600 * 1000);
+  resourceTable.rowShouldExist(name, resourceKey, 120 * 1000);
   //END SEARCH menu validation
 
   //validate Edit menu
-  resourceTable.openRowMenu(name);
-  resourceTable.menuClickEdit();
+  resourceTable.openRowMenu(name, resourceKey);
+  resourceTable.menuClick("edit");
   cy.get(".bx--detail-page-header-title").should("exist", {
     timeout: 60 * 1000
   });
@@ -445,13 +447,12 @@ export const validateAppTableMenu = (name, resourceTable) => {
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
-  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
-  resourceTable.rowShouldExist(name, 600 * 1000);
+  resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
   //END Edit menu validation
 
   //validate View menu
-  resourceTable.openRowMenu(name);
-  resourceTable.menuClickView();
+  resourceTable.openRowMenu(name, resourceKey);
+  resourceTable.menuClick("view");
   cy.get(".resourceDiagramSourceContainer").should("exist", {
     timeout: 60 * 1000
   });
@@ -463,24 +464,23 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
-  cy.get("#undefined-search", { timeout: 500 * 1000 }).type(name);
-  resourceTable.rowShouldExist(name, 600 * 1000);
+  const resourceKey = getResourceKey(name, getNamespace(name));
+  resourceTable.rowShouldExist(name, resourceKey, 60 * 1000);
 
   //validate content
-  cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
-    .eq(0)
-    .invoke("text")
-    .should("eq", name);
-  cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
-    .eq(1)
-    .invoke("text")
-    .should("eq", `${name}-ns`);
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Name")
+      .invoke("text")
+      .should("eq", name)
+  );
+
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Namespace")
+      .invoke("text")
+      .should("eq", `${name}-ns`)
+  );
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
@@ -488,16 +488,13 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     "create"
   );
   cy.log("Validate Cluster column");
-  cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
-    .eq(2)
-    .invoke("text")
-    .should("contains", appDetails.clusterData);
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Clusters")
+      .invoke("text")
+      .should("contains", appDetails.clusterData)
+  );
 
-  const popupDefaultText =
-    "Provide a description that will be used as the title";
   const subscriptionLength = data.config.length;
   let repositoryText =
     data.type === "objectstore"
@@ -507,26 +504,24 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     subscriptionLength > 1
       ? `${repositoryText} (${subscriptionLength})`
       : repositoryText;
-  repositoryText = `${repositoryText}${popupDefaultText}`;
   cy.log("Validate Repository column");
-  cy
-    .get(".resource-table", { timeout: 100 * 1000 })
-    .get(`tr[data-row-name="${name}"]`, { timeout: 100 * 1000 })
-    .get("td", { timeout: 30 * 1000 })
-    .eq(3)
-    .invoke("text")
-    .should("eq", repositoryText);
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Resource")
+      .invoke("text")
+      .should("eq", repositoryText)
+  );
 
   cy.log("Validate Repository popup");
-  cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
-    .eq(3)
-    .click();
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Resource")
+      .find(".pf-c-label")
+      .click()
+  );
 
   data.config.forEach(item => {
-    let repoInfo = `${popupDefaultText}${item.url}`;
+    let repoInfo = `${item.url}`;
     if (item.branch && item.branch.length > 0) {
       repoInfo = `${repoInfo}Branch:${item.branch}`;
     }
@@ -535,19 +530,18 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     }
 
     cy
-      .get(".pf-l-split__item")
+      .get(".channel-labels-popover-content .channel-entry")
       .invoke("text")
       .should("include", repoInfo);
   });
 
   cy.log("Validate Window column");
-  cy
-    .get(".resource-table")
-    .get(`tr[data-row-name="${name}"]`)
-    .get("td")
-    .eq(4)
-    .invoke("text")
-    .should("eq", appDetails.timeWindowData);
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Time window")
+      .invoke("text")
+      .should("eq", appDetails.timeWindowData)
+  );
 
   if (data.type == "git") {
     cy.log("Validate popup actions");
@@ -568,37 +562,41 @@ export const deleteResourceUI = (name, type) => {
   cy.log(
     `Verify that resource ${resourceTypes[type]} can be deleted for app ${name}`
   );
+  const resourceKey = getResourceKey(
+    resourceTypes[type],
+    getNamespace(type === "channels" ? resourceTypes[type] : name)
+  );
+  resourceTable.rowShouldExist(resourceTypes[type], resourceKey, 60 * 1000);
 
-  cy
-    .get("#undefined-search", { timeout: 500 * 1000 })
-    .type(resourceTypes[type]);
-  resourceTable.rowShouldExist(resourceTypes[type], 600 * 1000);
-
-  resourceTable.openRowMenu(resourceTypes[type]);
-  resourceTable.menuClickDelete(type);
+  resourceTable.openRowMenu(resourceTypes[type], resourceKey);
+  resourceTable.menuClick("delete");
   modal.shouldBeOpen();
-  cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.be.visible");
+  cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.exist");
   modal.clickDanger();
   modal.shouldBeClosed();
 
   // after deleting the app, it should not exist in the app table
-  resourceTable.rowShouldNotExist(resourceTypes[type], 300 * 1000);
+  resourceTable.rowShouldNotExist(
+    resourceTypes[type],
+    resourceKey,
+    300 * 1000,
+    true
+  );
 };
 
 export const deleteApplicationUI = name => {
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
-    resourceTable.rowShouldExist(name, 600 * 1000);
+    const resourceKey = getResourceKey(name, getNamespace(name));
+    resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
 
-    resourceTable.openRowMenu(name);
-    resourceTable.menuClickDelete("applications");
+    resourceTable.openRowMenu(name, resourceKey);
+    resourceTable.menuClick("delete");
     modal.shouldBeOpen();
 
-    cy
-      .get(".pf-c-empty-state", { timeout: 50 * 1000 })
-      .should("not.be.visible", {
-        timeout: 100 * 1000
-      });
+    cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.exist", {
+      timeout: 20 * 1000
+    });
 
     if (!name.includes("ui-helm2")) {
       //delete all resources
@@ -608,7 +606,7 @@ export const deleteApplicationUI = name => {
     modal.clickDanger();
     // after deleting the app, it should not exist in the app table
     modal.shouldBeClosed();
-    resourceTable.rowShouldNotExist(name, 300 * 1000);
+    resourceTable.rowShouldNotExist(name, resourceKey, 30 * 1000, true);
   } else {
     cy.log("No apps to delete...");
   }
@@ -620,29 +618,6 @@ export const deleteApplicationUI = name => {
     // no existing channels
     // deleteResourceUI(name, "channels");
   }
-};
-
-export const deleteChannelInsecureSkip = name => {
-  const key = 2; // Target newly created (3rd) channel with insecureSkipVerify option
-  channelsInformation(name, key).then(({ channelNs, channelName }) => {
-    cy.log(`Delete channel with insecureSkipVerify option from Channels table`);
-    cy.visit(`/multicloud/applications/advanced?resource=channels`);
-
-    resourceTable.openRowMenu(channelName);
-    resourceTable.menuClickDelete("channels");
-    modal.shouldBeOpen();
-
-    cy
-      .get(".pf-c-empty-state", { timeout: 50 * 1000 })
-      .should("not.be.visible", {
-        timeout: 100 * 1000
-      });
-
-    modal.clickDanger();
-    // after deleting the channel, it should not exist in the app table
-    modal.shouldBeClosed();
-    resourceTable.rowShouldNotExist(channelName, 300 * 1000);
-  });
 };
 
 export const selectClusterDeployment = (deployment, clusterName, key) => {
@@ -735,12 +710,13 @@ export const edit = name => {
     })
     .as("graphql");
   cy.visit("/multicloud/applications");
-  resourceTable.rowShouldExist(name, 600 * 1000);
-  resourceTable.openRowMenu(name);
-  resourceTable.menuClickEdit();
+  const resourceKey = getResourceKey(name, getNamespace(name));
+  resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
+  resourceTable.openRowMenu(name, resourceKey);
+  resourceTable.menuClick("edit");
   cy.url().should("include", `/${name}`);
   // as soon as edit button is shown we can proceed
-  cy.get("#edit-yaml", { timeout: 100 * 1000 });
+  cy.get("#edit-yaml", { timeout: 20 * 1000 });
   cy.wait(["@graphql", "@graphql"], {
     timeout: 50 * 1000
   });
@@ -749,7 +725,7 @@ export const edit = name => {
 export const editApplication = (name, data) => {
   edit(name);
   cy.log("Verify name and namespace fields are disabled");
-  cy.get(".bx--detail-page-header-title-container", { timeout: 100 * 1000 });
+  cy.get(".bx--detail-page-header-title-container", { timeout: 20 * 1000 });
   cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
   cy
@@ -852,7 +828,9 @@ export const verifyInsecureSkipAfterNewSubscription = name => {
   const key = 2; // Target newly created (3rd) channel
   channelsInformation(name, key).then(({ channelNs, channelName }) => {
     cy
-      .exec(`oc -n ${channelNs} get channel ${channelName} -o yaml`)
+      .exec(`oc -n ${channelNs} get channel ${channelName} -o yaml`, {
+        timeout: 20000
+      })
       .its("stdout")
       .should("include", "insecureSkipVerify: true");
   });

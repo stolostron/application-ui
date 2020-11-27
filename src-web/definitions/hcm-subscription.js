@@ -12,6 +12,7 @@ import {
   createEditLink,
   getAge,
   getClusterCount,
+  getClusterCountString,
   getEditLink,
   getSearchLink
 } from '../../lib/client/resource-helper'
@@ -23,6 +24,7 @@ export default {
   defaultSortField: 'name',
   primaryKey: 'name',
   secondaryKey: 'namespace',
+  pluralKey: 'table.plural.subscription',
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -49,7 +51,8 @@ export default {
       msgKey: 'table.header.clusters',
       tooltipKey: 'table.header.subscriptions.clusters.tooltip',
       resourceKey: 'clusterCount',
-      transformFunction: createClustersLink
+      transformFunction: createClustersLink,
+      textFunction: createClustersText
     },
     {
       msgKey: 'table.header.timeWindow',
@@ -92,11 +95,7 @@ export default {
   ]
 }
 
-export function createSubscriptionLink(item) {
-  return <a href={getEditLink(item)}>{item.name}</a>
-}
-
-export function createChannelLink(item) {
+function createChannelLink(item) {
   if (item.channel) {
     const [namespace, name] = item.channel.split('/')
     const channelLink = getSearchLink({
@@ -112,7 +111,7 @@ export function createChannelLink(item) {
   return '-'
 }
 
-export function createApplicationsLink(item) {
+function createApplicationsLink(item) {
   if (item.appCount) {
     const channelLink = getSearchLink({
       properties: {
@@ -128,20 +127,33 @@ export function createApplicationsLink(item) {
   return item.appCount === 0 ? item.appCount : '-'
 }
 
-export function createClustersLink(item, locale) {
+export function getClusterCounts(item) {
   const clusterCount = R.path(['clusterCount'], item) || {}
   const localPlacement = R.path(['localPlacement'], item) || false
+  return {
+    remoteCount: clusterCount.remoteCount,
+    localPlacement: localPlacement || clusterCount.localCount
+  }
+}
+
+function createClustersLink(item, locale) {
+  const { remoteCount, localPlacement } = getClusterCounts(item)
   return getClusterCount({
     locale,
-    remoteCount: clusterCount.remoteCount,
-    localPlacement: localPlacement || clusterCount.localCount,
+    remoteCount,
+    localPlacement,
     name: item.name,
     namespace: item.namespace,
     kind: 'subscription'
   })
 }
 
-export function getTimeWindow(item = {}, locale = '') {
+export function createClustersText(item = {}, locale = '') {
+  const { remoteCount, localPlacement } = getClusterCounts(item)
+  return getClusterCountString(locale, remoteCount, localPlacement)
+}
+
+function getTimeWindow(item = {}, locale = '') {
   const timeWindow = R.path(['timeWindow'], item)
   return ['active', 'blocked'].includes(timeWindow)
     ? msgs.get(`table.cell.timeWindow.${timeWindow}`, locale)

@@ -26,7 +26,7 @@ import { updateSecondaryHeader } from '../../actions/common'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 import '@open-cluster-management/temptifly/dist/styles.css'
 import TemplateEditor from '@open-cluster-management/temptifly'
-import { controlData } from './controlData/ControlData'
+import { controlData as getControlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
 import { getApplicationResources } from './transformers/transform-data-to-resources'
 import config from '../../../lib/shared/config'
@@ -69,15 +69,6 @@ class ApplicationCreationPage extends React.Component {
     updateFormState: PropTypes.func,
     updateSecondaryHeader: PropTypes.func
   };
-
-  static getDerivedStateFromProps(props, state) {
-    const { importMerged } = state
-    if (!importMerged) {
-      const mergedData = _.cloneDeep(controlData)
-      return { controlData: mergedData }
-    }
-    return null
-  }
 
   constructor(props) {
     super(props)
@@ -150,6 +141,10 @@ class ApplicationCreationPage extends React.Component {
         this.setState({ hasPermissions })
       }
     )
+
+    getControlData().then(controlData =>
+      this.setState({ controlData: _.cloneDeep(controlData) })
+    )
   }
 
   componentDidUpdate() {
@@ -214,7 +209,7 @@ class ApplicationCreationPage extends React.Component {
 
   renderEditor(fetchControl) {
     const { locale } = this.context
-    const { controlData: cd, hasPermissions } = this.state
+    const { controlData, hasPermissions } = this.state
     const {
       mutateStatus,
       mutateErrorMsgs,
@@ -233,19 +228,21 @@ class ApplicationCreationPage extends React.Component {
       return msgs.get(key, arg2, locale)
     }
     return (
-      <TemplateEditor
-        type={'application'}
-        title={msgs.get('creation.app.yaml', locale)}
-        template={createTemplate}
-        controlData={cd}
-        portals={Portals}
-        fetchControl={fetchControl}
-        createControl={createControl}
-        updateFormState={updateFormState}
-        savedFormData={savedFormData}
-        history={history}
-        i18n={i18n}
-      />
+      controlData && (
+        <TemplateEditor
+          type={'application'}
+          title={msgs.get('creation.app.yaml', locale)}
+          template={createTemplate}
+          controlData={controlData}
+          portals={Portals}
+          fetchControl={fetchControl}
+          createControl={createControl}
+          i18n={i18n}
+          updateFormState={updateFormState}
+          savedFormData={savedFormData}
+          history={history}
+        />
+      )
     )
   }
 

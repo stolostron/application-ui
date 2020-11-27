@@ -13,7 +13,7 @@ import { VALIDATE_URL } from '@open-cluster-management/temptifly'
 import { loadExistingChannels, updateChannelControls } from './utils'
 import placementData from './ControlDataPlacement'
 
-const objectstoreChannelData = [
+const objectstoreChannelData = async () => [
   ///////////////////////  Objectstore  /////////////////////////////////////
   {
     id: 'channelNamespaceExists',
@@ -64,7 +64,7 @@ const objectstoreChannelData = [
     placeholder: 'app.enter.secretkey'
   },
 
-  ...placementData
+  ...(await placementData())
 ]
 
 export default objectstoreChannelData

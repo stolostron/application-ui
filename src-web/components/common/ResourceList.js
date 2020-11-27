@@ -9,12 +9,10 @@
 
 'use strict'
 
-import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import ResourceTable from './ResourceTable'
 import { REQUEST_STATUS } from '../../actions/index'
-import NoResource from './NoResource'
 import { connect } from 'react-redux'
 import {
   changeTablePage,
@@ -26,13 +24,9 @@ import {
   mutateResourceSuccessFinished
 } from '../../actions/common'
 import { updateResourceFilters, combineFilters } from '../../actions/filters'
-import TableHelper from '../../util/table-helper'
 import { Notification } from 'carbon-components-react'
 import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
-import config from '../../../lib/shared/config'
-import TagInput from './TagInput'
-import { showCreate } from '../../../lib/client/access-helper'
 import resources from '../../../lib/shared/resources'
 import {
   renderRefreshTime,
@@ -42,7 +36,6 @@ import {
   handleVisibilityChanged
 } from '../../shared/utils/refetch'
 import { refetchIntervalUpdate } from '../../actions/refetch'
-import { loadingComponent } from '../common/ResourceOverview/utils'
 import { withLocale } from '../../providers/LocaleProvider'
 
 resources(() => {
@@ -67,8 +60,8 @@ class ResourceList extends React.Component {
     } = this.props
     updateSecondaryHeaderFn(msgs.get(title, locale), tabs, mainButton)
 
-    const { fetchTableResources, selectedFilters = [] } = this.props
-    fetchTableResources(selectedFilters)
+    const { fetchTableResources } = this.props
+    fetchTableResources([])
 
     document.addEventListener('visibilitychange', this.onVisibilityChange)
     startPolling(this, setInterval)
@@ -96,39 +89,24 @@ class ResourceList extends React.Component {
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {
       this.setState({ xhrPoll: true })
-      const { fetchTableResources, selectedFilters = [] } = this.props
-      fetchTableResources(selectedFilters)
+      const { fetchTableResources } = this.props
+      fetchTableResources([])
     }
   }
 
   render() {
     const {
-      userRole,
       items,
       itemIds,
       locale,
       mutateStatus,
       deleteStatus,
       deleteMsg,
-      page,
-      pageSize,
-      sortDirection,
-      totalFilteredItems,
       status,
-      sortTableFn,
-      sortColumn,
-      changeTablePageFn,
-      searchTableFn,
       staticResourceData,
-      searchValue,
       resourceType,
       err,
       children,
-      resourceFilters,
-      onSelectedFilterChange,
-      selectedFilters,
-      updateBrowserURL,
-      clientSideFilters,
       fetchTableResources,
       refetchIntervalUpdateDispatch
     } = this.props
@@ -149,102 +127,30 @@ class ResourceList extends React.Component {
       )
     }
 
-    if (status !== REQUEST_STATUS.DONE && !this.state.xhrPoll) {
-      return loadingComponent()
-    }
-
     const actions = React.Children.map(children, action => {
-      if (action.props.disabled || !showCreate(userRole)) {
-        return null
-      }
       return React.cloneElement(action, { resourceType })
     })
 
-    let showTable = items
-    if (resourceType.name === 'QueryApplications' && R.isEmpty(items)) {
-      showTable = false
-    }
-
-    if (showTable || searchValue || clientSideFilters) {
-      if (
-        searchValue !== clientSideFilters &&
-        clientSideFilters &&
-        !this.state.xhrPoll
-      ) {
-        searchTableFn(clientSideFilters, false)
-      }
-      return (
-        <div id="resource-list">
-          {deleteStatus === REQUEST_STATUS.DONE && (
-            <Notification
-              title={msgs.get('success.update.resource', locale)}
-              subtitle={msgs.get(
-                'success.delete.description',
-                [deleteMsg],
-                locale
-              )}
-              kind="success"
-            />
-          )}
-          {mutateStatus === REQUEST_STATUS.DONE && (
-            <Notification
-              title=""
-              subtitle={msgs.get('success.create.description', locale)}
-              kind="success"
-            />
-          )}
-          {config['featureFlags:filters'] &&
-            resourceType.filter && (
-              <div className="resource-list-filter">
-                <TagInput
-                  tags={selectedFilters}
-                  availableFilters={resourceFilters}
-                  onSelectedFilterChange={onSelectedFilterChange}
-                  updateBrowserURL={updateBrowserURL}
-                />
-              </div>
-          )}
-          {renderRefreshTime(
-            refetchIntervalUpdateDispatch,
-            isLoaded,
-            isReloading,
-            timestamp,
-            locale
-          )}
-          <ResourceTable
-            actions={actions}
-            staticResourceData={staticResourceData}
-            page={page}
-            pageSize={pageSize}
-            itemIds={itemIds}
-            sortDirection={sortDirection}
-            sortColumn={sortColumn}
-            status={status}
-            items={items}
-            totalFilteredItems={totalFilteredItems}
-            resourceType={resourceType}
-            changeTablePage={changeTablePageFn}
-            handleSort={TableHelper.handleSort.bind(
-              this,
-              sortDirection,
-              sortColumn,
-              sortTableFn
-            )}
-            handleSearch={TableHelper.handleInputValue.bind(
-              this,
-              searchTableFn
-            )}
-            searchValue={searchValue}
-            defaultSearchValue={clientSideFilters}
-            tableActions={staticResourceData.tableActions}
-            locale={locale}
-          />
-        </div>
-      )
-    }
-
     return (
-      <div>
+      <div id="resource-list">
+        {deleteStatus === REQUEST_STATUS.DONE && (
+          <Notification
+            title={msgs.get('success.update.resource', locale)}
+            subtitle={msgs.get(
+              'success.delete.description',
+              [deleteMsg],
+              locale
+            )}
+            kind="success"
+          />
+        )}
+        {mutateStatus === REQUEST_STATUS.DONE && (
+          <Notification
+            title=""
+            subtitle={msgs.get('success.create.description', locale)}
+            kind="success"
+          />
+        )}
         {renderRefreshTime(
           refetchIntervalUpdateDispatch,
           isLoaded,
@@ -252,30 +158,36 @@ class ResourceList extends React.Component {
           timestamp,
           locale
         )}
-        <NoResource
-          title={msgs.get('no-resource.title', locale)}
-          detail={msgs.get('no-resource.description.line1', locale)}
-          detail2={[
-            msgs.get('no-resource.description.line2.1', locale),
-            msgs.get('description.application', locale),
-            msgs.get('no-resource.description.line2.2', locale)
-          ]}
-        >
-          {actions}
-        </NoResource>
+        <ResourceTable
+          actions={actions}
+          staticResourceData={staticResourceData}
+          itemIds={itemIds}
+          items={items}
+          resourceType={resourceType}
+          tableActions={staticResourceData.tableActions}
+          locale={locale}
+        />
       </div>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { list: typeListName, name: resourceName } = ownProps.resourceType,
+  const { list: typeListName } = ownProps.resourceType,
         visibleResources = ownProps.getVisibleResources(state, {
           storeRoot: typeListName
         })
 
   const pendingActions = state[typeListName].pendingActions
-  const items = visibleResources.normalizedItems
+  const status = state[typeListName].status
+  const items =
+    status !== REQUEST_STATUS.DONE && !state.xhrPoll
+      ? undefined
+      : visibleResources.normalizedItems
+  const itemIds =
+    status !== REQUEST_STATUS.DONE && !state.xhrPoll
+      ? undefined
+      : visibleResources.items
   if (items && pendingActions) {
     Object.keys(items).forEach(key => {
       if (pendingActions.find(pending => pending.name === items[key].Name)) {
@@ -283,30 +195,17 @@ const mapStateToProps = (state, ownProps) => {
       }
     })
   }
-  const userRole = state.role && state.role.role
 
   return {
-    userRole,
     items,
-    itemIds: visibleResources.items,
-    totalFilteredItems: visibleResources.totalResults,
-    totalPages: visibleResources.totalPages,
+    itemIds,
     status: state[typeListName].status,
-    page: state[typeListName].page,
-    pageSize: state[typeListName].itemsPerPage,
-    sortDirection: state[typeListName].sortDirection,
-    sortColumn: state[typeListName].sortColumn,
-    searchValue: state[typeListName].search,
     err: state[typeListName].err,
     mutateStatus: state[typeListName].mutateStatus,
     mutateErrorMsg: state[typeListName].mutateErrorMsg,
     deleteStatus: state[typeListName].deleteStatus,
     deleteMsg: state[typeListName].deleteMsg,
     forceReload: state[typeListName].forceReload,
-    resourceFilters: state[typeListName].filters,
-    selectedFilters:
-      state['resourceFilters'].selectedFilters &&
-      state['resourceFilters'].selectedFilters[resourceName],
     mutateSuccessFinished: state.mutateSuccessFinished,
     refetch: state.refetch
   }
@@ -344,9 +243,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 ResourceList.propTypes = {
-  changeTablePageFn: PropTypes.func,
   children: PropTypes.array,
-  clientSideFilters: PropTypes.array,
   deleteMsg: PropTypes.string,
   deleteStatus: PropTypes.string,
   deleteSuccessFinished: PropTypes.func,
@@ -358,26 +255,13 @@ ResourceList.propTypes = {
   mainButton: PropTypes.object,
   mutateStatus: PropTypes.string,
   mutateSuccessFinished: PropTypes.func,
-  onSelectedFilterChange: PropTypes.func,
-  page: PropTypes.number,
-  pageSize: PropTypes.number,
   refetchIntervalUpdateDispatch: PropTypes.func,
-  resourceFilters: PropTypes.array,
   resourceType: PropTypes.object,
-  searchTableFn: PropTypes.func,
-  searchValue: PropTypes.string,
-  selectedFilters: PropTypes.object,
-  sortColumn: PropTypes.string,
-  sortDirection: PropTypes.string,
-  sortTableFn: PropTypes.func,
   staticResourceData: PropTypes.object,
   status: PropTypes.string,
   tabs: PropTypes.array,
   title: PropTypes.string,
-  totalFilteredItems: PropTypes.number,
-  updateBrowserURL: PropTypes.func,
-  updateSecondaryHeaderFn: PropTypes.func,
-  userRole: PropTypes.string
+  updateSecondaryHeaderFn: PropTypes.func
 }
 
 export default withLocale(

@@ -184,7 +184,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                   </div>
                 </div>
                 <div
-                  className="remove-label-btn"
+                  className="remove-label-btn "
                   id={1}
                   onClick={[Function]}
                   onKeyPress={[Function]}

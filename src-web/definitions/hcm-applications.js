@@ -11,7 +11,11 @@ import React from 'react'
 import {
   getAge,
   getClusterCount,
-  getSearchLink
+  getClusterCountString,
+  getSearchLink,
+  groupByChannelType,
+  getChannelLabel,
+  CHANNEL_TYPES
 } from '../../lib/client/resource-helper'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
@@ -23,6 +27,7 @@ export default {
   uriKey: 'name',
   primaryKey: 'name',
   secondaryKey: 'namespace',
+  pluralKey: 'table.plural.application',
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -37,19 +42,22 @@ export default {
       msgKey: 'table.header.clusters',
       tooltipKey: 'table.header.application.clusters.tooltip',
       resourceKey: 'clusterCount',
-      transformFunction: createClustersLink
+      transformFunction: createClustersLink,
+      textFunction: createClustersText
     },
     {
       msgKey: 'table.header.resource',
       tooltipKey: 'table.header.application.resource.tooltip',
       resourceKey: 'hubChannels',
-      transformFunction: getChannels
+      transformFunction: getChannels,
+      textFunction: getChannelsText
     },
     {
       msgKey: 'table.header.timeWindow',
       tooltipKey: 'table.header.application.timeWindow.tooltip',
       resourceKey: 'hubSubscriptions',
-      transformFunction: getTimeWindow
+      transformFunction: getTimeWindow,
+      textFunction: getTimeWindow
     },
     {
       msgKey: 'table.header.created',
@@ -161,15 +169,23 @@ export function createApplicationLink(item = {}, ...param) {
   return <Link to={link}>{name}</Link>
 }
 
-export function createClustersLink(item = {}, locale = '') {
+function getClusterCounts(item) {
   const clusterCount = R.path(['clusterCount'], item) || {}
   const localPlacement = (R.path(['hubSubscriptions'], item) || []).some(
     sub => sub.localPlacement
   )
+  return {
+    remoteCount: clusterCount.remoteCount,
+    localPlacement: localPlacement || clusterCount.localCount
+  }
+}
+
+function createClustersLink(item = {}, locale = '') {
+  const { remoteCount, localPlacement } = getClusterCounts(item)
   return getClusterCount({
     locale,
-    remoteCount: clusterCount.remoteCount,
-    localPlacement: localPlacement || clusterCount.localCount,
+    remoteCount,
+    localPlacement,
     name: item.name,
     namespace: item.namespace,
     kind: 'application',
@@ -177,7 +193,12 @@ export function createClustersLink(item = {}, locale = '') {
   })
 }
 
-export function getChannels(item = {}, locale = '') {
+function createClustersText(item = {}, locale = '') {
+  const { remoteCount, localPlacement } = getClusterCounts(item)
+  return getClusterCountString(locale, remoteCount, localPlacement)
+}
+
+function getChannels(item = {}, locale = '') {
   return (
     <ChannelLabels
       channels={(R.path(['hubChannels'], item) || []).map(ch => ({
@@ -193,7 +214,17 @@ export function getChannels(item = {}, locale = '') {
   )
 }
 
-export function getTimeWindow(item = {}, locale = '') {
+function getChannelsText(item = {}, locale = '') {
+  const channels = (R.path(['hubChannels'], item) || []).map(ch => ({
+    type: ch['ch.type']
+  }))
+  const channelMap = groupByChannelType(channels || [])
+  return CHANNEL_TYPES.filter(chType => channelMap[chType])
+    .map(chType => getChannelLabel(chType, channelMap[chType].length, locale))
+    .join(' ')
+}
+
+function getTimeWindow(item = {}, locale = '') {
   // Check for 'active' or 'blocked' subscription, ignoring 'none'
   return (R.path(['hubSubscriptions'], item) || []).some(sub =>
     ['active', 'blocked'].includes(sub.timeWindow)

@@ -62,7 +62,7 @@ import thunkMiddleware from "redux-thunk";
 import ApplicationsListPage from "../../../src-web/components/ApplicationsListPage";
 
 import { mount } from "enzyme";
-import renderer from "react-test-renderer";
+import toJson from "enzyme-to-json";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
@@ -97,7 +97,7 @@ global.Math = mockMath;
 
 describe("ApplicationsListPage", () => {
   it("ApplicationsListPage renders correctly with data on single app, create app action", () => {
-    const wrapper = mount(
+    const tree = mount(
       <BrowserRouter>
         <Provider store={storeAllApps}>
           <ApplicationsListPage
@@ -108,49 +108,39 @@ describe("ApplicationsListPage", () => {
           />
         </Provider>
       </BrowserRouter>
-    );
-    wrapper.find(".bx--search-input").simulate("change");
-    wrapper.find(".bx--search-close").simulate("click");
-    wrapper
-      .find(".bx--table-sort-v2--ascending")
-      .at(0)
-      .simulate("click");
-    wrapper.find(".bx--select-input").simulate("change");
+    ).render();
+    expect(toJson(tree)).toMatchSnapshot();
   });
 
   it("ApplicationsListPage renders correctly with data on single app.", () => {
-    const tree = renderer
-      .create(
-        <BrowserRouter>
-          <Provider store={storeApp}>
-            <ApplicationsListPage
-              serverProps={serverProps}
-              secondaryHeaderProps={secondaryHeaderProps}
-              resourceType={resourceType}
-              status="DONE"
-            />
-          </Provider>
-        </BrowserRouter>
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const tree = mount(
+      <BrowserRouter>
+        <Provider store={storeApp}>
+          <ApplicationsListPage
+            serverProps={serverProps}
+            secondaryHeaderProps={secondaryHeaderProps}
+            resourceType={resourceType}
+            status="DONE"
+          />
+        </Provider>
+      </BrowserRouter>
+    ).render();
+    expect(toJson(tree)).toMatchSnapshot();
   });
 
   it("ApplicationsListPage renders correctly with data on all app.", () => {
-    const tree = renderer
-      .create(
-        <BrowserRouter>
-          <Provider store={storeAllApps}>
-            <ApplicationsListPage
-              serverProps={serverProps}
-              secondaryHeaderProps={secondaryHeaderProps}
-              resourceType={resourceType}
-              status="DONE"
-            />
-          </Provider>
-        </BrowserRouter>
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const tree = mount(
+      <BrowserRouter>
+        <Provider store={storeAllApps}>
+          <ApplicationsListPage
+            serverProps={serverProps}
+            secondaryHeaderProps={secondaryHeaderProps}
+            resourceType={resourceType}
+            status="DONE"
+          />
+        </Provider>
+      </BrowserRouter>
+    ).render();
+    expect(toJson(tree)).toMatchSnapshot();
   });
 });

@@ -12,7 +12,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ResourceDetails from './ResourceDetails'
 import ResourceList from './ResourceList'
-import { Route, Switch, Redirect } from 'react-router-dom'
 import getResourceDefinitions from '../../definitions'
 import { makeGetVisibleTableItemsSelector } from '../../reducers/common'
 import Page from './Page'
@@ -42,54 +41,6 @@ const WrappedResourceDetails = props => (
     {props.modules}
   </ResourceDetails>
 )
-
-const ResourcePageWithListAndDetails = props => (
-  <Switch>
-    <Route
-      exact
-      path={props.match.url}
-      render={() => <WrappedResourceList {...props} />}
-    />
-    <Route
-      path={`${props.match.url}/:namespace/:name`}
-      render={() => <WrappedResourceDetails {...props} />}
-    />
-    <Route render={() => <Redirect to={props.match.url} />} />
-  </Switch>
-)
-
-const typedResourcePageWithListAndDetails = (
-  resourceType,
-  buttons,
-  routes,
-  modules
-) => {
-  const staticResourceData = getResourceDefinitions(resourceType)
-  const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
-
-  // eslint-disable-next-line react/display-name
-  return class extends React.PureComponent {
-    constructor(props) {
-      super(props)
-    }
-
-    render() {
-      return (
-        <Page>
-          <ResourcePageWithListAndDetails
-            {...this.props}
-            routes={routes}
-            resourceType={resourceType}
-            staticResourceData={staticResourceData}
-            getVisibleResources={getVisibleResources}
-            buttons={buttons}
-            modules={modules}
-          />
-        </Page>
-      )
-    }
-  }
-}
 
 const typedResourcePageList = (resourceType, buttons, routes, modules) => {
   const staticResourceData = getResourceDefinitions(resourceType)
@@ -162,12 +113,4 @@ WrappedResourceDetails.propTypes = {
   staticResourceData: PropTypes.object
 }
 
-ResourcePageWithListAndDetails.propTypes = {
-  match: PropTypes.object
-}
-
-export {
-  typedResourcePageWithListAndDetails,
-  typedResourcePageList,
-  typedResourcePageDetails
-}
+export { typedResourcePageList, typedResourcePageDetails }

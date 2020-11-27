@@ -2,7 +2,6 @@
 'use strict'
 
 import React from 'react'
-import { Icon } from 'carbon-components-react'
 import PropTypes from 'prop-types'
 import {
   Divider,
@@ -11,9 +10,15 @@ import {
   Stack,
   StackItem
 } from '@patternfly/react-core'
+import { ExternalLinkAltIcon } from '@patternfly/react-icons'
 import R from 'ramda'
 import LabelWithPopover from './LabelWithPopover'
-import { getSearchLink } from '../../../lib/client/resource-helper'
+import {
+  getSearchLink,
+  groupByChannelType,
+  getChannelLabel,
+  CHANNEL_TYPES
+} from '../../../lib/client/resource-helper'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
 
@@ -25,10 +30,6 @@ const ChannelLabels = ({
   locale,
   showSubscriptionAttributes = true
 }) => {
-  const groupByChannelType = R.groupBy(ch => {
-    const channelType = (ch.type && ch.type.toLowerCase()) || ''
-    return channelType === 'github' ? 'git' : channelType
-  })
   const channelMap = groupByChannelType(channels || [])
   // Create sorting function for channels
   const channelSort = R.sortWith([
@@ -38,112 +39,100 @@ const ChannelLabels = ({
   ])
   return (
     <div className="label-with-popover-container channel-labels">
-      {['git', 'helmrepo', 'namespace', 'objectbucket']
-        .filter(chType => channelMap[chType])
-        .map(chType => {
-          return (
-            <LabelWithPopover
-              key={`${chType}`}
-              labelContent={
-                <Split hasGutter className="channel-label">
-                  <SplitItem>
-                    {msgs.get(`channel.type.${chType}`, locale)}
-                    {channelMap[chType].length > 1 &&
-                      ` (${channelMap[chType].length})`}
-                  </SplitItem>
-                  <SplitItem>
-                    <Icon className="channel-entry-icon" name="icon--launch" />
-                  </SplitItem>
-                </Split>
-              }
-            >
-              <Stack className="channel-labels channel-labels-popover-content">
-                {channelSort(channelMap[chType]).map((channel, index) => {
-                  const pathname = channel.pathname
-                  const link =
-                    chType === 'namespace'
-                      ? getSearchLink({
-                        properties: {
-                          namespace: pathname,
-                          kind: 'deployable',
-                          apigroup: 'apps.open-cluster-management.io'
-                        }
-                      })
-                      : pathname
-                  let channelTypeAttributes = []
-                  if (showSubscriptionAttributes) {
-                    if (chType === 'git') {
-                      channelTypeAttributes = ['gitBranch', 'gitPath']
-                    } else if (chType === 'helmrepo') {
-                      channelTypeAttributes = [
-                        'package',
-                        'packageFilterVersion'
-                      ]
-                    }
+      {CHANNEL_TYPES.filter(chType => channelMap[chType]).map(chType => {
+        return (
+          <LabelWithPopover
+            key={`${chType}`}
+            labelContent={
+              <Split hasGutter className="channel-label">
+                <SplitItem>
+                  {getChannelLabel(chType, channelMap[chType].length, locale)}
+                </SplitItem>
+                <SplitItem>
+                  <ExternalLinkAltIcon />
+                </SplitItem>
+              </Split>
+            }
+          >
+            <Stack className="channel-labels channel-labels-popover-content">
+              {channelSort(channelMap[chType]).map((channel, index) => {
+                const pathname = channel.pathname
+                const link =
+                  chType === 'namespace'
+                    ? getSearchLink({
+                      properties: {
+                        namespace: pathname,
+                        kind: 'deployable',
+                        apigroup: 'apps.open-cluster-management.io'
+                      }
+                    })
+                    : pathname
+                let channelTypeAttributes = []
+                if (showSubscriptionAttributes) {
+                  if (chType === 'git') {
+                    channelTypeAttributes = ['gitBranch', 'gitPath']
+                  } else if (chType === 'helmrepo') {
+                    channelTypeAttributes = ['package', 'packageFilterVersion']
                   }
-                  return (
-                    <React.Fragment
-                      key={`${chType}-${channel.pathname}-${
-                        channel.gitBranch
-                      }-${channel.gitPath}`}
-                    >
-                      {index > 0 && (
-                        <StackItem>
-                          <Divider />
-                        </StackItem>
-                      )}
-                      <StackItem className="channel-entry">
-                        <Stack hasGutter>
-                          <StackItem className="channel-entry-link">
-                            <a href={link} target="_blank" rel="noreferrer">
-                              <Split hasGutter>
-                                <SplitItem>
-                                  <Icon
-                                    className="channel-entry-icon"
-                                    name="icon--launch"
-                                  />
-                                </SplitItem>
-                                <SplitItem>{pathname}</SplitItem>
-                              </Split>
-                            </a>
-                          </StackItem>
-                          {channelTypeAttributes.length > 0 && (
-                            <React.Fragment>
-                              {channelTypeAttributes.map(attrib => {
-                                return (
-                                  <StackItem
-                                    key={attrib}
-                                    className="channel-entry-attribute"
-                                  >
-                                    <Split hasGutter>
-                                      <SplitItem className="channel-entry-attribute-name">
-                                        {msgs.get(
-                                          `channel.type.label.${attrib}`
-                                        )}:
-                                      </SplitItem>
-                                      <SplitItem>
-                                        {channel[attrib]
-                                          ? channel[attrib]
-                                          : msgs.get(
-                                            'channel.type.label.noData',
-                                            locale
-                                          )}
-                                      </SplitItem>
-                                    </Split>
-                                  </StackItem>
-                                )
-                              })}
-                            </React.Fragment>
-                          )}
-                        </Stack>
+                }
+                return (
+                  <React.Fragment
+                    key={`${chType}-${channel.pathname}-${channel.gitBranch}-${
+                      channel.gitPath
+                    }`}
+                  >
+                    {index > 0 && (
+                      <StackItem>
+                        <Divider />
                       </StackItem>
-                    </React.Fragment>
-                  )
-                })}
-              </Stack>
-            </LabelWithPopover>
-          )
-        })}
+                    )}
+                    <StackItem className="channel-entry">
+                      <Stack hasGutter>
+                        <StackItem className="channel-entry-link">
+                          <a href={link} target="_blank" rel="noreferrer">
+                            <Split hasGutter>
+                              <SplitItem>
+                                <ExternalLinkAltIcon />
+                              </SplitItem>
+                              <SplitItem>{pathname}</SplitItem>
+                            </Split>
+                          </a>
+                        </StackItem>
+                        {channelTypeAttributes.length > 0 && (
+                          <React.Fragment>
+                            {channelTypeAttributes.map(attrib => {
+                              return (
+                                <StackItem
+                                  key={attrib}
+                                  className="channel-entry-attribute"
+                                >
+                                  <Split hasGutter>
+                                    <SplitItem className="channel-entry-attribute-name">
+                                      {msgs.get(`channel.type.label.${attrib}`)}:
+                                    </SplitItem>
+                                    <SplitItem>
+                                      {channel[attrib]
+                                        ? channel[attrib]
+                                        : msgs.get(
+                                          'channel.type.label.noData',
+                                          locale
+                                        )}
+                                    </SplitItem>
+                                  </Split>
+                                </StackItem>
+                              )
+                            })}
+                          </React.Fragment>
+                        )}
+                      </Stack>
+                    </StackItem>
+                  </React.Fragment>
+                )
+              })}
+            </Stack>
+          </LabelWithPopover>
+        )
+      })}
     </div>
   )
 }

@@ -1106,7 +1106,10 @@ export const getOnlineClusters = (clusterNames, clusterObjs) => {
     for (let i = 0; i < clusterObjs.length; i++) {
       const clusterObjName = _.get(clusterObjs[i], 'metadata.name')
       if (clusterObjName === clsName.trim()) {
-        if (clusterObjs[i].status === 'ok') {
+        if (
+          clusterObjs[i].status === 'ok' ||
+          clusterObjs[i].status === 'pendingimport'
+        ) {
           onlineClusters.push(clsName)
         }
         break

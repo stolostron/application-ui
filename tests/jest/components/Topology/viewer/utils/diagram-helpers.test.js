@@ -4511,7 +4511,7 @@ describe("getPulseStatusForCluster all some ok", () => {
 });
 
 describe("getOnlineCluster ok and pending", () => {
-  const clusterNames = ["cluster1", "cluster2"];
+  const clusterNames = ["cluster1", "cluster2", "cluster3"];
   const clusterObjs = [
     {
       metadata: {
@@ -4524,6 +4524,12 @@ describe("getOnlineCluster ok and pending", () => {
         name: "cluster2"
       },
       status: "pendingimport"
+    },
+    {
+      metadata: {
+        name: "cluster3"
+      },
+      status: "offline"
     }
   ];
   it("should process cluster node status", () => {

@@ -13,7 +13,7 @@ import {
   VALIDATE_ALPHANUMERIC,
   VALID_REPOPATH,
   VALIDATE_URL
-} from '@open-cluster-management/temptifly'
+} from 'temptifly'
 import placementData from './ControlDataPlacement'
 import prePostTasks from './ControlDataPrePostTasks'
 import {

@@ -9,7 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import { VALIDATE_URL } from '@open-cluster-management/temptifly'
+import { VALIDATE_URL } from 'temptifly'
 import { loadExistingChannels, updateChannelControls } from './utils'
 import placementData from './ControlDataPlacement'
 

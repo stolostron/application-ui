@@ -12,7 +12,7 @@
 import {
   initializeControls,
   getSourcePath
-} from '@open-cluster-management/temptifly'
+} from 'temptifly'
 import _ from 'lodash'
 
 //only called when editing an existing application

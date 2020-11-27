@@ -21,7 +21,7 @@ import {
   RadioButtonGroup,
   TimePicker
 } from 'carbon-components-react'
-import { Tooltip, getSourcePath, removeVs } from '@open-cluster-management/temptifly'
+import { Tooltip, getSourcePath, removeVs } from 'temptifly'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 

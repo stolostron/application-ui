@@ -51,7 +51,18 @@ module.exports = {
       {
         // Transpile React JSX to ES5
         test: [/\.jsx$/, /\.js$/],
-        exclude: /node_modules\/(?!(fuse.js)\/)|\.scss/, // fuse.js requires transpiling
+        exclude: [
+          {
+            test: [
+              /\.scss$/,
+              path.resolve(__dirname, './node_modules'),
+            ],
+            exclude: [
+              path.resolve(__dirname, './node_modules/fuse.js'),
+              //path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly'),
+            ]
+          }
+        ],
         loader: "babel-loader?cacheDirectory"
       },
       {
@@ -96,10 +107,10 @@ module.exports = {
       {
       test: /\.css$/,
         include: [
-          path.resolve(__dirname, './node_modules/monaco-editor'),
-          path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly')
+         path.resolve(__dirname, "./node_modules/monaco-editor"),
+         path.resolve(__dirname, './node_modules/@open-cluster-management/temptifly')
         ],
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.s?css$/,

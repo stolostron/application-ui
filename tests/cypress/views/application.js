@@ -67,7 +67,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   } = gitCss;
 
   cy
-    .get(`#github`)
+    .get(`#git`)
     .scrollIntoView()
     .click()
     .trigger("mouseover");
@@ -238,7 +238,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
   const { url, accessKey, secretKey, timeWindow, deployment } = value;
   const { objUrl, objAccess, objSecret } = css;
   cy
-    .get("#objectstore")
+    .get("#object-storage")
     .click()
     .trigger("mouseover");
   cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });

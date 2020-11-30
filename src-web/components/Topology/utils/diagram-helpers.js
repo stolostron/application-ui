@@ -326,10 +326,8 @@ const getPulseStatusForGenericNode = node => {
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   const clusterNames = R.split(',', getClusterName(node.id))
-  const onlineClusters = getOnlineClusters(
-    clusterNames,
-    node.clusters.specs.clusters
-  )
+  const clusterObjs = _.get(node, 'clusters.specs.clusters', [])
+  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
   if (!resourceMap || onlineClusters.length === 0) {
     pulse = 'orange' //resource not available
     return pulse
@@ -416,10 +414,8 @@ export const getPulseForNodeWithPodStatus = node => {
   }
   const resourceName = _.get(node, metadataName, '')
   const clusterNames = R.split(',', getClusterName(node.id))
-  const onlineClusters = getOnlineClusters(
-    clusterNames,
-    node.clusters.specs.clusters
-  )
+  const clusterObjs = _.get(node, 'clusters.specs.clusters', [])
+  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
   if (!resourceMap || onlineClusters.length === 0) {
     pulse = 'orange' //resource not available

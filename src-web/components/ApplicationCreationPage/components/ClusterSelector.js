@@ -64,15 +64,15 @@ export class ClusterSelector extends React.Component {
       this.setState({ isExpanded: !toggleStatus })
     }
 
-    if (!this.props.control.active) {
-      this.props.control.active = {
-        mode: true,
-        clusterLabelsList: [
-          { id: 0, labelName: '', labelValue: '', validValue: false }
-        ],
-        clusterLabelsListID: 1
-      }
-    }
+    // if (!this.props.control.active) {
+    //   this.props.control.active = {
+    //     mode: true,
+    //     clusterLabelsList: [
+    //       { id: 0, labelName: '', labelValue: '', validValue: false }
+    //     ],
+    //     clusterLabelsListID: 1
+    //   }
+    // }
     const { controlId, locale, control } = this.props
     const { name, active, validation = {} } = control
     const modeSelected = active && active.mode === true
@@ -111,7 +111,9 @@ export class ClusterSelector extends React.Component {
                   }}
                   isExpanded={showLabels}
                   id="labels-header"
-                />
+                >
+                  {msgs.get('edit.app.labelClusters.summary', locale)}
+                </AccordionToggle>
                 <AccordionContent isHidden={!showLabels}>
                   <div className="clusterSelector-labels-section">
                     <div className="labels-descr">
@@ -138,7 +140,7 @@ export class ClusterSelector extends React.Component {
                         onKeyPress={this.addLabelKeyPress.bind(this)}
                       >
                         <PlusCircleIcon
-                          color="#3d70b2"
+                          color="#06c"
                           key="add-icon"
                           className="add-label-btn-icon"
                         />
@@ -264,7 +266,7 @@ export class ClusterSelector extends React.Component {
                     }
                     onKeyPress={this.removeLabelKeyPress.bind(this)}
                   >
-                    <TimesCircleIcon color="#3d70b2" key="remove-icon" />
+                    <TimesCircleIcon color="#06c" key="remove-icon" />
                   </div>
                 ) : (
                   ''

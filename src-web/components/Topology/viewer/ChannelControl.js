@@ -195,7 +195,7 @@ class ChannelControl extends React.Component {
     const channelAllIndex = this.getChannelAllIndex(displayChannels)
     if (channelsLength !== -1) {
       subscriptionShowInfo =
-        currentChannel.chn == '__ALL__/__ALL__//__ALL__/__ALL__'
+        currentChannel.chn === '__ALL__/__ALL__//__ALL__/__ALL__'
           ? msgs.get('subscription.page.count.all')
           : msgs.get('subscription.page.count.nb', [
             channelsLength > 1

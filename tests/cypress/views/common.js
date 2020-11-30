@@ -755,7 +755,7 @@ export const testInvalidApplicationInput = () => {
     .click()
     .trigger("mouseover");
   cy
-    .get("#object-store")
+    .get("#object-storage")
     .click()
     .trigger("mouseover");
 

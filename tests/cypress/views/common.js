@@ -723,7 +723,7 @@ export const testInvalidApplicationInput = () => {
     .trigger("mouseover");
 
   cy
-    .get("#helmrepo")
+    .get("#helm")
     .click()
     .trigger("mouseover");
 
@@ -751,7 +751,7 @@ export const testInvalidApplicationInput = () => {
 
   cy.log("Test invalid object store url");
   cy
-    .get("#helmrepo")
+    .get("#helm")
     .click()
     .trigger("mouseover");
   cy

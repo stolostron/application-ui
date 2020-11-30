@@ -150,7 +150,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     insecureSkipVerify
   } = css;
   cy
-    .get("#helmrepo")
+    .get("#helm")
     .click()
     .trigger("mouseover");
   cy

@@ -145,7 +145,7 @@
     "svg-react-loader": "^0.4.6",
     "svg-sprite-loader": "^5.0.0",
     "svg.js": "^2.6.5",
-    "temptifly": "^0.1.7",
+    "temptifly": "^0.1.8",
     "watchr": "^4.0.1",
     "webpack-sources": "^1.1.0",
     "yaml": "^1.7.2",

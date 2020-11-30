@@ -24,6 +24,7 @@ import {
 } from '../../actions/application'
 import { updateSecondaryHeader } from '../../actions/common'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
+import 'monaco-editor/esm/vs/editor/editor.all.js'
 import 'temptifly/dist/styles.css'
 import TemplateEditor from 'temptifly'
 import { controlData as getControlData } from './controlData/ControlData'
@@ -38,14 +39,6 @@ const Portals = Object.freeze({
   cancelBtn: 'cancel-button-portal-id',
   createBtn: 'create-button-portal-id'
 })
-
-import 'monaco-editor/esm/vs/editor/editor.all.js'
-window.MonacoEnvironment = {
-  getWorkerUrl: function() {
-    return `${config.contextPath}/editor.worker.js`
-  }
-}
-
 
 resources(() => {
   require('./style.scss')

@@ -24,7 +24,9 @@ import {
 } from '../../actions/application'
 import { updateSecondaryHeader } from '../../actions/common'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
-import { TemplateEditor } from '../TemplateEditor'
+import 'monaco-editor/esm/vs/editor/editor.all.js'
+import 'temptifly/dist/styles.css'
+import TemplateEditor from 'temptifly'
 import { controlData as getControlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
 import { getApplicationResources } from './transformers/transform-data-to-resources'
@@ -215,6 +217,9 @@ class ApplicationCreationPage extends React.Component {
       creationStatus: mutateStatus,
       creationMsg: mutateErrorMsgs
     }
+    const i18n = (key, arg2) => {
+      return msgs.get(key, arg2, locale)
+    }
     return (
       controlData && (
         <TemplateEditor
@@ -225,7 +230,7 @@ class ApplicationCreationPage extends React.Component {
           portals={Portals}
           fetchControl={fetchControl}
           createControl={createControl}
-          locale={locale}
+          i18n={i18n}
           updateFormState={updateFormState}
           savedFormData={savedFormData}
           history={history}

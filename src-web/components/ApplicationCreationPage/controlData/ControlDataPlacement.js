@@ -29,7 +29,7 @@ import {
   getSharedPlacementRuleWarning,
   getSharedSubscriptionWarning
 } from './utils'
-import { getSourcePath } from '../../TemplateEditor/utils/utils'
+import { getSourcePath } from 'temptifly'
 import apolloClient from '../../../../lib/client/apollo-client'
 import _ from 'lodash'
 import msgs from '../../../../nls/platform.properties'

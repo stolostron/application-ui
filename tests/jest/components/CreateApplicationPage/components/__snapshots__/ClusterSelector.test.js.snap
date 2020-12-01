@@ -40,7 +40,9 @@ exports[`ClusterSelector component renders as expected 1`] = `
         >
           <span
             className="pf-c-accordion__toggle-text"
-          />
+          >
+            Cluster labels
+          </span>
           <span
             className="pf-c-accordion__toggle-icon"
           >
@@ -233,7 +235,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                   <svg
                     aria-hidden={true}
                     aria-labelledby={null}
-                    fill="#3d70b2"
+                    fill="#06c"
                     height="1em"
                     role="img"
                     style={
@@ -262,7 +264,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                   aria-hidden={true}
                   aria-labelledby={null}
                   className="add-label-btn-icon"
-                  fill="#3d70b2"
+                  fill="#06c"
                   height="1em"
                   role="img"
                   style={

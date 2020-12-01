@@ -65,12 +65,12 @@ describe("on control change function", () => {
       .at(0)
       .simulate("click", evt);
     wrapper
-      .find(".bx--accordion__item")
+      .find("#time-window-header")
       .at(0)
       .simulate("keypress", evt);
 
     wrapper
-      .find(".bx--accordion__heading")
+      .find("#time-window-header")
       .at(0)
       .simulate("click", evt);
 

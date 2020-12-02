@@ -16,10 +16,10 @@ import {
   AccordionItem,
   AccordionContent,
   AccordionToggle,
-  Alert,
   Button,
   Skeleton
 } from '@patternfly/react-core'
+import { AcmAlert } from '@open-cluster-management/ui-components'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
 import config from '../../../../lib/shared/config'
@@ -100,7 +100,7 @@ class OverviewCards extends React.Component {
         msgs.get('resource.error')
       )
       return (
-        <Alert
+        <AcmAlert
           variant="danger"
           title={errMessage}
           className="overview-notification"
@@ -114,7 +114,7 @@ class OverviewCards extends React.Component {
         msgs.get('load.app.info.notfound', [selectedAppName])
       )
       return (
-        <Alert
+        <AcmAlert
           variant="info"
           title={infoMessage}
           className="overview-notification"

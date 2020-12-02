@@ -167,5 +167,5 @@ function getEmptyTitle(locale = '') {
 }
 
 export function getEmptyMessage(locale = '') {
-  return msgs.get('no-resource.documentation.message', locale)
+  return <p>{msgs.get('no-resource.documentation.message', locale)}</p>
 }

@@ -248,10 +248,10 @@ function getEmptyMessage(locale = '') {
     locale
   )
   return (
-    <span>
+    <p>
       <span dangerouslySetInnerHTML={{ __html: message }} />
       <br />
       {msgs.get('no-resource.documentation.message', locale)}
-    </span>
+    </p>
   )
 }

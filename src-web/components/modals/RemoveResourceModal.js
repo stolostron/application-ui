@@ -26,12 +26,17 @@ import {
   getQueryStringForResource
 } from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import resources from '../../../lib/shared/resources'
 import {
   AcmModal,
   AcmLoadingPage,
   AcmAlert
 } from '@open-cluster-management/ui-components'
 import { Checkbox, Button } from '@patternfly/react-core'
+
+resources(() => {
+  require('../../../scss/modal.scss')
+})
 
 class RemoveResourceModal extends React.Component {
   constructor(props) {

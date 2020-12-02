@@ -25,6 +25,9 @@ const overpassTest = /overpass-.*\.(woff2?|ttf|eot|otf)(\?.*$|$)/
 module.exports = {
   entry: {
     vendorhcm: [
+      '@patternfly/react-core',
+      '@patternfly/react-icons',
+      '@patternfly/react-tokens',
       'carbon-components-react',
       'cytoscape',
       'cytoscape-cola',
@@ -35,7 +38,7 @@ module.exports = {
       'normalizr',
       'prop-types',
       'react-custom-scrollbars',
-      'react-monaco-editor',
+      'monaco-editor',
       'react-dnd',
       'react-dnd-html5-backend',
       'react-dom',
@@ -64,7 +67,12 @@ module.exports = {
         ]
       },
       {
-        test: /\.(woff2?|ttf|eot|otf)(\?.*$|$)/,
+        test: /\.s?css$/,
+        include: path.resolve(__dirname, './node_modules/@patternfly'),
+        loader: 'null-loader'
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg|woff2?|ttf|eot|otf)(\?.*$|$)/,
         exclude: overpassTest,
         loader: 'file-loader',
         options: {
@@ -96,6 +104,9 @@ module.exports = {
       path: path.join(__dirname, 'dll', '[name]-manifest.json'),
       name: '[name]',
       context: __dirname
+    }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 5
     }),
     PRODUCTION
       ? new UglifyJSPlugin({

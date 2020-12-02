@@ -99,13 +99,7 @@ class OverviewCards extends React.Component {
         'err.message',
         msgs.get('resource.error')
       )
-      return (
-        <AcmAlert
-          variant="danger"
-          title={errMessage}
-          className="overview-notification"
-        />
-      )
+      return <AcmAlert variant="danger" title={errMessage} noClose />
     }
     if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
       const infoMessage = _.get(
@@ -113,13 +107,7 @@ class OverviewCards extends React.Component {
         'err.err',
         msgs.get('load.app.info.notfound', [selectedAppName])
       )
-      return (
-        <AcmAlert
-          variant="info"
-          title={infoMessage}
-          className="overview-notification"
-        />
-      )
+      return <AcmAlert variant="info" title={infoMessage} noClose />
     }
 
     const toggleAccordion = toggleStatus => {

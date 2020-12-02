@@ -61,7 +61,7 @@ const sortKeys = (a, b) => {
 export const getActiveChannel = localStoreKey => {
   const storedActiveChannel = getStoredObject(localStoreKey)
   if (storedActiveChannel) {
-    return storedActiveChannel.activeChannel
+    return storedActiveChannel.activeChannelInfo
   }
 
   return undefined
@@ -165,12 +165,16 @@ export const getDiagramElements = (
       const { id, type } = node
 
       if (type === 'application' && id.startsWith('application')) {
+        channelsList = _.get(node, 'specs.channels', [])
+        // set default active channel
+        const defaultActiveChannel = channelsList.filter(
+          chn => chn !== '__ALL__/__ALL__//__ALL__/__ALL__'
+        )[0]
         activeChannelInfo = _.get(
           node,
           'specs.activeChannel',
-          '__ALL__/__ALL__//__ALL__/__ALL__'
+          defaultActiveChannel
         )
-        channelsList = _.get(node, 'specs.channels', [])
       }
 
       processNodeData(
@@ -247,9 +251,10 @@ export const getDiagramElements = (
   let activeChannelInfo2
   const storedActiveChannel = getStoredObject(localStoreKey)
   if (storedActiveChannel) {
-    activeChannelInfo2 = storedActiveChannel.activeChannel
+    activeChannelInfo2 = storedActiveChannel.activeChannelInfo
     channelsList2 = storedActiveChannel.channelsList || []
   }
+
   activeChannelInfo2 = _.get(
     topology,
     'fetchFilters.application.channel',

@@ -40,6 +40,24 @@ ShallowWrapper {
             className="subscription label"
           >
             Subscription
+             
+            (showing 1 out of {0})
+            <Tooltip
+              direction="bottom"
+              iconDescription="tooltip"
+              iconName="info"
+              iconTitle=""
+              menuOffset={[Function]}
+              open={false}
+              showIcon={true}
+              triggerText=""
+            >
+              <span
+                className="showPagesTooltip"
+              >
+                Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+              </span>
+            </Tooltip>
           </div>
           <div
             className="channelsCombo"
@@ -53,19 +71,6 @@ ShallowWrapper {
               itemToString={[Function]}
               items={
                 Array [
-                  Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
-                    "subchannels": Array [],
-                  },
                   Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                     "hasSubchannels": true,
@@ -89,6 +94,19 @@ ShallowWrapper {
                         "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                       },
                     ],
+                  },
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
                   },
                 ]
               }
@@ -116,6 +134,24 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (showing 1 out of {0})
+              <Tooltip
+                direction="bottom"
+                iconDescription="tooltip"
+                iconName="info"
+                iconTitle=""
+                menuOffset={[Function]}
+                open={false}
+                showIcon={true}
+                triggerText=""
+              >
+                <span
+                  className="showPagesTooltip"
+                >
+                  Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                </span>
+              </Tooltip>
             </div>,
             <div
               className="channelsCombo"
@@ -129,19 +165,6 @@ ShallowWrapper {
                 itemToString={[Function]}
                 items={
                   Array [
-                    Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
-                    },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
@@ -165,6 +188,19 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
+                    },
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
                     },
                   ]
                 }
@@ -185,11 +221,69 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Subscription",
+              "children": Array [
+                "Subscription",
+                " ",
+                "(showing 1 out of {0})",
+                <Tooltip
+                  direction="bottom"
+                  iconDescription="tooltip"
+                  iconName="info"
+                  iconTitle=""
+                  menuOffset={[Function]}
+                  open={false}
+                  showIcon={true}
+                  triggerText=""
+                >
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                  </span>
+                </Tooltip>,
+              ],
               "className": "subscription label",
             },
             "ref": null,
-            "rendered": "Subscription",
+            "rendered": Array [
+              "Subscription",
+              " ",
+              "(showing 1 out of {0})",
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                  </span>,
+                  "direction": "bottom",
+                  "iconDescription": "tooltip",
+                  "iconName": "info",
+                  "iconTitle": "",
+                  "menuOffset": [Function],
+                  "open": false,
+                  "showIcon": true,
+                  "triggerText": "",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.",
+                    "className": "showPagesTooltip",
+                  },
+                  "ref": null,
+                  "rendered": "Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.",
+                  "type": "span",
+                },
+                "type": [Function],
+              },
+            ],
             "type": "div",
           },
           Object {
@@ -206,19 +300,6 @@ ShallowWrapper {
                 itemToString={[Function]}
                 items={
                   Array [
-                    Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
-                    },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
@@ -242,6 +323,19 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
+                    },
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
                     },
                   ]
                 }
@@ -267,19 +361,6 @@ ShallowWrapper {
                 "itemToString": [Function],
                 "items": Array [
                   Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
-                    "subchannels": Array [],
-                  },
-                  Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                     "hasSubchannels": true,
                     "label": "guestbook-app",
@@ -302,6 +383,19 @@ ShallowWrapper {
                         "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                       },
                     ],
+                  },
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
                   },
                 ],
                 "label": "All subscriptions",
@@ -337,6 +431,24 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (showing 1 out of {0})
+              <Tooltip
+                direction="bottom"
+                iconDescription="tooltip"
+                iconName="info"
+                iconTitle=""
+                menuOffset={[Function]}
+                open={false}
+                showIcon={true}
+                triggerText=""
+              >
+                <span
+                  className="showPagesTooltip"
+                >
+                  Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                </span>
+              </Tooltip>
             </div>
             <div
               className="channelsCombo"
@@ -350,19 +462,6 @@ ShallowWrapper {
                 itemToString={[Function]}
                 items={
                   Array [
-                    Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
-                    },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
@@ -386,6 +485,19 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
+                    },
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
                     },
                   ]
                 }
@@ -413,6 +525,24 @@ ShallowWrapper {
                 className="subscription label"
               >
                 Subscription
+                 
+                (showing 1 out of {0})
+                <Tooltip
+                  direction="bottom"
+                  iconDescription="tooltip"
+                  iconName="info"
+                  iconTitle=""
+                  menuOffset={[Function]}
+                  open={false}
+                  showIcon={true}
+                  triggerText=""
+                >
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                  </span>
+                </Tooltip>
               </div>,
               <div
                 className="channelsCombo"
@@ -426,19 +556,6 @@ ShallowWrapper {
                   itemToString={[Function]}
                   items={
                     Array [
-                      Object {
-                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "hasSubchannels": false,
-                        "label": "All Subscriptions",
-                        "splitChn": Array [
-                          "__ALL__/__ALL__//__ALL__/__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                        ],
-                        "subchannels": Array [],
-                      },
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                         "hasSubchannels": true,
@@ -462,6 +579,19 @@ ShallowWrapper {
                             "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                           },
                         ],
+                      },
+                      Object {
+                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "hasSubchannels": false,
+                        "label": "All Subscriptions",
+                        "splitChn": Array [
+                          "__ALL__/__ALL__//__ALL__/__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                        ],
+                        "subchannels": Array [],
                       },
                     ]
                   }
@@ -482,11 +612,69 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Subscription",
+                "children": Array [
+                  "Subscription",
+                  " ",
+                  "(showing 1 out of {0})",
+                  <Tooltip
+                    direction="bottom"
+                    iconDescription="tooltip"
+                    iconName="info"
+                    iconTitle=""
+                    menuOffset={[Function]}
+                    open={false}
+                    showIcon={true}
+                    triggerText=""
+                  >
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                    </span>
+                  </Tooltip>,
+                ],
                 "className": "subscription label",
               },
               "ref": null,
-              "rendered": "Subscription",
+              "rendered": Array [
+                "Subscription",
+                " ",
+                "(showing 1 out of {0})",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                    </span>,
+                    "direction": "bottom",
+                    "iconDescription": "tooltip",
+                    "iconName": "info",
+                    "iconTitle": "",
+                    "menuOffset": [Function],
+                    "open": false,
+                    "showIcon": true,
+                    "triggerText": "",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.",
+                      "className": "showPagesTooltip",
+                    },
+                    "ref": null,
+                    "rendered": "Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.",
+                    "type": "span",
+                  },
+                  "type": [Function],
+                },
+              ],
               "type": "div",
             },
             Object {
@@ -503,19 +691,6 @@ ShallowWrapper {
                   itemToString={[Function]}
                   items={
                     Array [
-                      Object {
-                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "hasSubchannels": false,
-                        "label": "All Subscriptions",
-                        "splitChn": Array [
-                          "__ALL__/__ALL__//__ALL__/__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                        ],
-                        "subchannels": Array [],
-                      },
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                         "hasSubchannels": true,
@@ -539,6 +714,19 @@ ShallowWrapper {
                             "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                           },
                         ],
+                      },
+                      Object {
+                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "hasSubchannels": false,
+                        "label": "All Subscriptions",
+                        "splitChn": Array [
+                          "__ALL__/__ALL__//__ALL__/__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                        ],
+                        "subchannels": Array [],
                       },
                     ]
                   }
@@ -564,19 +752,6 @@ ShallowWrapper {
                   "itemToString": [Function],
                   "items": Array [
                     Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
-                    },
-                    Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
                       "label": "guestbook-app",
@@ -599,6 +774,19 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
+                    },
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
                     },
                   ],
                   "label": "All subscriptions",
@@ -691,6 +879,24 @@ ShallowWrapper {
             className="subscription label"
           >
             Subscription
+             
+            (showing 1 out of {0})
+            <Tooltip
+              direction="bottom"
+              iconDescription="tooltip"
+              iconName="info"
+              iconTitle=""
+              menuOffset={[Function]}
+              open={false}
+              showIcon={true}
+              triggerText=""
+            >
+              <span
+                className="showPagesTooltip"
+              >
+                Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+              </span>
+            </Tooltip>
           </div>
           <div
             className="channelsCombo"
@@ -848,6 +1054,24 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (showing 1 out of {0})
+              <Tooltip
+                direction="bottom"
+                iconDescription="tooltip"
+                iconName="info"
+                iconTitle=""
+                menuOffset={[Function]}
+                open={false}
+                showIcon={true}
+                triggerText=""
+              >
+                <span
+                  className="showPagesTooltip"
+                >
+                  Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                </span>
+              </Tooltip>
             </div>,
             <div
               className="channelsCombo"
@@ -909,11 +1133,69 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Subscription",
+              "children": Array [
+                "Subscription",
+                " ",
+                "(showing 1 out of {0})",
+                <Tooltip
+                  direction="bottom"
+                  iconDescription="tooltip"
+                  iconName="info"
+                  iconTitle=""
+                  menuOffset={[Function]}
+                  open={false}
+                  showIcon={true}
+                  triggerText=""
+                >
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                  </span>
+                </Tooltip>,
+              ],
               "className": "subscription label",
             },
             "ref": null,
-            "rendered": "Subscription",
+            "rendered": Array [
+              "Subscription",
+              " ",
+              "(showing 1 out of {0})",
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                  </span>,
+                  "direction": "bottom",
+                  "iconDescription": "tooltip",
+                  "iconName": "info",
+                  "iconTitle": "",
+                  "menuOffset": [Function],
+                  "open": false,
+                  "showIcon": true,
+                  "triggerText": "",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.",
+                    "className": "showPagesTooltip",
+                  },
+                  "ref": null,
+                  "rendered": "Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.",
+                  "type": "span",
+                },
+                "type": [Function],
+              },
+            ],
             "type": "div",
           },
           Object {
@@ -1411,6 +1693,24 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (showing 1 out of {0})
+              <Tooltip
+                direction="bottom"
+                iconDescription="tooltip"
+                iconName="info"
+                iconTitle=""
+                menuOffset={[Function]}
+                open={false}
+                showIcon={true}
+                triggerText=""
+              >
+                <span
+                  className="showPagesTooltip"
+                >
+                  Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                </span>
+              </Tooltip>
             </div>
             <div
               className="channelsCombo"
@@ -1568,6 +1868,24 @@ ShallowWrapper {
                 className="subscription label"
               >
                 Subscription
+                 
+                (showing 1 out of {0})
+                <Tooltip
+                  direction="bottom"
+                  iconDescription="tooltip"
+                  iconName="info"
+                  iconTitle=""
+                  menuOffset={[Function]}
+                  open={false}
+                  showIcon={true}
+                  triggerText=""
+                >
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                  </span>
+                </Tooltip>
               </div>,
               <div
                 className="channelsCombo"
@@ -1629,11 +1947,69 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Subscription",
+                "children": Array [
+                  "Subscription",
+                  " ",
+                  "(showing 1 out of {0})",
+                  <Tooltip
+                    direction="bottom"
+                    iconDescription="tooltip"
+                    iconName="info"
+                    iconTitle=""
+                    menuOffset={[Function]}
+                    open={false}
+                    showIcon={true}
+                    triggerText=""
+                  >
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                    </span>
+                  </Tooltip>,
+                ],
                 "className": "subscription label",
               },
               "ref": null,
-              "rendered": "Subscription",
+              "rendered": Array [
+                "Subscription",
+                " ",
+                "(showing 1 out of {0})",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.
+                    </span>,
+                    "direction": "bottom",
+                    "iconDescription": "tooltip",
+                    "iconName": "info",
+                    "iconTitle": "",
+                    "menuOffset": [Function],
+                    "open": false,
+                    "showIcon": true,
+                    "triggerText": "",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.",
+                      "className": "showPagesTooltip",
+                    },
+                    "ref": null,
+                    "rendered": "Displays the number of subscriptions. Use the dropdown menu to view the resources by the selected subscription.",
+                    "type": "span",
+                  },
+                  "type": [Function],
+                },
+              ],
               "type": "div",
             },
             Object {

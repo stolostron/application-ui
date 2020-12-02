@@ -13,7 +13,11 @@
 
 import _ from 'lodash'
 import React from 'react'
-import { AcmTable, AcmPageCard } from '@open-cluster-management/ui-components'
+import {
+  AcmEmptyState,
+  AcmTable,
+  AcmPageCard
+} from '@open-cluster-management/ui-components'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
 import { withRouter } from 'react-router-dom'
@@ -37,6 +41,12 @@ class ResourceTable extends React.Component {
           keyFn={item => `${item.namespace}/${item.name}`}
           tableActions={[]}
           rowActions={this.getRowActions()}
+          emptyState={
+            <AcmEmptyState
+              title={staticResourceData.emptyTitle(locale)}
+              message={staticResourceData.emptyMessage(locale)}
+            />
+          }
           extraToolbarControls={actions}
         />
       </AcmPageCard>

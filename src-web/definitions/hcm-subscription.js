@@ -25,6 +25,8 @@ export default {
   primaryKey: 'name',
   secondaryKey: 'namespace',
   pluralKey: 'table.plural.subscription',
+  emptyTitle: getEmptyTitle,
+  emptyMessage: getEmptyMessage,
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -158,4 +160,12 @@ function getTimeWindow(item = {}, locale = '') {
   return ['active', 'blocked'].includes(timeWindow)
     ? msgs.get(`table.cell.timeWindow.${timeWindow}`, locale)
     : ''
+}
+
+function getEmptyTitle(locale = '') {
+  return msgs.get('no-resource.subscription.title', locale)
+}
+
+export function getEmptyMessage(locale = '') {
+  return msgs.get('no-resource.documentation.message', locale)
 }

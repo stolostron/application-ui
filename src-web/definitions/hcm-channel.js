@@ -17,14 +17,21 @@ import {
   normalizeChannelType,
   CHANNEL_TYPES
 } from '../../lib/client/resource-helper'
-import { getClusterCounts, createClustersText } from './hcm-subscription'
+import {
+  getClusterCounts,
+  createClustersText,
+  getEmptyMessage
+} from './hcm-subscription'
 import ChannelLabels from '../components/common/ChannelLabels'
+import msgs from '../../nls/platform.properties'
 
 export default {
   defaultSortField: 'name',
   primaryKey: 'name',
   secondaryKey: 'namespace',
   pluralKey: 'table.plural.channel',
+  emptyTitle: getEmptyTitle,
+  emptyMessage: getEmptyMessage,
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -137,4 +144,8 @@ function getChannelsText(item = {}, locale = '') {
   return CHANNEL_TYPES.includes(normalizedType)
     ? getChannelLabel(normalizedType, 0, locale)
     : ''
+}
+
+function getEmptyTitle(locale = '') {
+  return msgs.get('no-resource.channel.title', locale)
 }

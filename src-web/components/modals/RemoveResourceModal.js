@@ -378,7 +378,8 @@ class RemoveResourceModal extends React.Component {
                 variant="danger"
                 variantLabel=""
                 title={errors}
-                isInline={true}
+                isInline
+                noClose
               />
             ) : null}
           </div>

@@ -24,17 +24,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Creation Test
           const clusterName = Cypress.env("managedCluster");
           createApplication(clusterName, data, type);
         });
-      } else {
-        it(`disable creation on resource ${data.name} ${type}`, () => {
-          cy.log(`skipping wizard: ${type} - ${data.name}`);
-        });
-      }
-    });
-  }
-  for (const type in config) {
-    const apps = config[type].data;
-    apps.forEach(data => {
-      if (data.enable) {
+
         it(`Verify channel for app ${
           data.name
         } was created - wait for creation`, () => {
@@ -46,11 +36,11 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Creation Test
             cy.log(
               `validate channel ${channelName} ns:  ${channelNs} exists on Advanced Tables`
             );
-            cy.visit(`/multicloud/applications/advanced?resource=channels`);
+            cy.visit("/multicloud/applications/advanced?resource=channels");
             resourceTable.rowShouldExist(
               channelName,
               getResourceKey(channelName, channelNs),
-              30 * 1000
+              60 * 1000
             );
           });
         });

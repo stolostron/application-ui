@@ -190,6 +190,7 @@ class ChannelControl extends React.Component {
   };
 
   getSubscriptionCount = (displayChannels, currentChannel) => {
+    // count subscription amount and renders corresponding message
     let subscriptionShowInfo
     const channelsLength = displayChannels.length
     const channelAllIndex = this.getChannelAllIndex(displayChannels)

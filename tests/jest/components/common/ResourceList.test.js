@@ -230,7 +230,9 @@ const props = {
     primaryKey: "name",
     secondaryKey: "namespace",
     tableKeys: [],
-    tableActions: []
+    tableActions: [],
+    emptyTitle: () => "No items",
+    emptyMessage: () => "There are no items"
   },
   getVisibleResources: function getVisibleResources(state, obj) {
     return { normalizedItems: ["item1", "item2"] };

@@ -128,10 +128,9 @@ class ChannelControl extends React.Component {
 
   getChannelAllIndex = displayChannels => {
     // find the index for all susbcriptions
-    const channelAllIndex = displayChannels.findIndex(
+    return displayChannels.findIndex(
       ({ chn }) => chn === '__ALL__/__ALL__//__ALL__/__ALL__'
     )
-    return channelAllIndex
   };
 
   getDisplayedChannels = (channelMap, activeChannel) => {

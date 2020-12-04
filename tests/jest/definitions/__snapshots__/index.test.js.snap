@@ -67,6 +67,8 @@ Object {
     ],
     "title": "application.details",
   },
+  "emptyMessage": [Function],
+  "emptyTitle": [Function],
   "pluralKey": "table.plural.application",
   "primaryKey": "name",
   "secondaryKey": "namespace",

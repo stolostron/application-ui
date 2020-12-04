@@ -676,7 +676,7 @@ export const testInvalidApplicationInput = () => {
 
   cy.log("Test invalid git url");
   cy
-    .get("#github", { timeout: 20 * 1000 })
+    .get("#git", { timeout: 20 * 1000 })
     .click({ force: true })
     .trigger("mouseover");
 
@@ -718,12 +718,12 @@ export const testInvalidApplicationInput = () => {
 
   cy.log("Test invalid HELM url");
   cy
-    .get("#github")
+    .get("#git")
     .click()
     .trigger("mouseover");
 
   cy
-    .get("#helmrepo")
+    .get("#helm")
     .click()
     .trigger("mouseover");
 
@@ -751,11 +751,11 @@ export const testInvalidApplicationInput = () => {
 
   cy.log("Test invalid object store url");
   cy
-    .get("#helmrepo")
+    .get("#helm")
     .click()
     .trigger("mouseover");
   cy
-    .get("#objectstore")
+    .get("#object-storage")
     .click()
     .trigger("mouseover");
 

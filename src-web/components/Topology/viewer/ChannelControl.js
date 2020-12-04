@@ -127,6 +127,7 @@ class ChannelControl extends React.Component {
   };
 
   getChannelAllIndex = displayChannels => {
+    // find the index for all susbcriptions
     const channelAllIndex = displayChannels.findIndex(
       ({ chn }) => chn === '__ALL__/__ALL__//__ALL__/__ALL__'
     )
@@ -134,6 +135,7 @@ class ChannelControl extends React.Component {
   };
 
   getDisplayedChannels = (channelMap, activeChannel) => {
+    // construct display channels and the selected channel index
     const displayChannels = []
 
     Object.values(channelMap).forEach(({ chnl, splitChn, subchannels }) => {
@@ -150,8 +152,6 @@ class ChannelControl extends React.Component {
         subchannels
       })
     })
-    const channelAllIndex = this.getChannelAllIndex(displayChannels)
-    displayChannels.push(displayChannels.splice(channelAllIndex, 1)[0])
 
     let selectedIdx =
       displayChannels.length === 1
@@ -176,7 +176,10 @@ class ChannelControl extends React.Component {
     const displayChannels = channelsData[0]
     const selectedIdx = channelsData[1]
 
-    // Set current channel on page load
+    const channelAllIndex = this.getChannelAllIndex(displayChannels)
+    displayChannels.push(displayChannels.splice(channelAllIndex, 1)[0])
+
+    // Set default current channel on page load
     this.setState({
       currentChannel: displayChannels[selectedIdx],
       channelMap: channelMap

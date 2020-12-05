@@ -258,16 +258,17 @@ const getSubCardData = (appData, subIdentifier) => {
     const subData = relatedSubs.items.find(
       sub =>
         sub.cluster === 'local-cluster' &&
-        sub.channel == subIdentifier.chnNs + '/' + subIdentifier.chnName &&
+        sub.channel === subIdentifier.chnNs + '/' + subIdentifier.chnName &&
         sub.name === subIdentifier.subName &&
         sub.namespace === subIdentifier.subNs
     )
-    subData &&
-      ((gitBranch = subData._gitbranch),
-      (gitPath = subData._gitpath),
-      (packageName = subData.package),
-      (packageFilterVersion = subData.packageFilterVersion),
-      (timeWindowType = subData.timeWindow))
+    if (subData) {
+      gitBranch = subData._gitbranch
+      gitPath = subData._gitpath
+      packageName = subData.package
+      packageFilterVersion = subData.packageFilterVersion
+      timeWindowType = subData.timeWindow
+    }
 
     // Get related channel data
     const chnData = relatedChns.items.find(
@@ -275,8 +276,10 @@ const getSubCardData = (appData, subIdentifier) => {
         chn.name === subIdentifier.chnName &&
         chn.namespace === subIdentifier.chnNs
     )
-    chnData &&
-      ((resourceType = chnData.type), (resourcePath = chnData.pathname))
+    if (chnData) {
+      resourceType = chnData.type
+      resourcePath = chnData.pathname
+    }
   }
 
   return {
@@ -393,11 +396,12 @@ export const getAppOverviewCardsData = (
             sub.name === node.name &&
             sub.timeWindowType === timeWindowData.windowtype
         )
-        timeWindowSub &&
-          ((timeWindowSub.timeWindowDays = timeWindowData.daysofweek),
-          (timeWindowSub.timeWindowTimezone = timeWindowData.location),
-          (timeWindowSub.timeWindowRanges = timeWindowData.hours),
-          (timeWindowSub.timeWindowMissingData = false))
+        if (timeWindowSub) {
+          timeWindowSub.timeWindowDays = timeWindowData.daysofweek
+          timeWindowSub.timeWindowTimezone = timeWindowData.location
+          timeWindowSub.timeWindowRanges = timeWindowData.hours
+          timeWindowSub.timeWindowMissingData = false
+        }
       } else if (
         node.type !== 'cluster' &&
         node.type !== 'subscription' &&

@@ -681,6 +681,7 @@ export const HCMApplicationList = {
               selfLink:
                 "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgage-app-subscription",
               status: "Failed",
+              timeWindow: "none",
               _clusterNamespace: "kcormier-cluster",
               _gitbranch: "master",
               _gitpath: "mortgage",
@@ -704,6 +705,9 @@ export const HCMApplicationList = {
               selfLink:
                 "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgage-app-subscription",
               status: "Propagated",
+              timeWindow: "active",
+              _gitbranch: "master",
+              _gitpath: "mortgage",
               _gitcommit: "0660bd66c02d09a4c8813d3ae2e711fc98b6426b",
               _hubClusterResource: "true",
               _rbac: "default_apps.open-cluster-management.io_subscriptions",
@@ -1275,7 +1279,15 @@ export const topology = {
             generation: 2,
             name: "mortgage-app-subscription"
           },
-          spec: { channel: "mortgage-ch/mortgage-channel" },
+          spec: {
+            channel: "mortgage-ch/mortgage-channel",
+            timewindow: {
+              hours: [{ end: "09:10PM", start: "8:00AM" }],
+              location: "America/Toronto",
+              daysofweek: ["Monday", "Tuesday", "Wednesday"],
+              windowtype: "active"
+            }
+          },
           status: {
             lastUpdateTime: "2019-08-15T09:11:11Z",
             phase: "Propagated"

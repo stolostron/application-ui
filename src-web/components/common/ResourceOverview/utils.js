@@ -239,53 +239,55 @@ const getClusterCount = appData => {
   }
 }
 
-const getRepoResourceData = (appData, channelIdentifier) => {
+const getSubCardData = (appData, subIdentifier) => {
   let resourceType = ''
   let resourcePath = ''
+  let gitBranch = ''
+  let gitPath = ''
+  let packageName = ''
+  let packageFilterVersion = ''
+  let timeWindowType = 'none'
+
   if (appData && appData.related) {
-    appData.related.forEach(resource => {
-      if (resource.kind === 'channel' && resource.items) {
-        resource.items.forEach(chn => {
-          // Get resource type and path of corresponding channel
-          if (
-            chn.name === channelIdentifier[1] &&
-            chn.namespace === channelIdentifier[0]
-          ) {
-            resourceType = chn.type
-            resourcePath = chn.pathname
-          }
-        })
-      }
-    })
+    const relatedSubs = appData.related.find(
+      item => item.kind === 'subscription'
+    )
+    const relatedChns = appData.related.find(item => item.kind === 'channel')
+
+    // Get related subscription data
+    const subData = relatedSubs.items.find(
+      sub =>
+        sub.cluster === 'local-cluster' &&
+        sub.channel == subIdentifier.chnNs + '/' + subIdentifier.chnName &&
+        sub.name === subIdentifier.subName &&
+        sub.namespace === subIdentifier.subNs
+    )
+    subData &&
+      ((gitBranch = subData._gitbranch),
+      (gitPath = subData._gitpath),
+      (packageName = subData.package),
+      (packageFilterVersion = subData.packageFilterVersion),
+      (timeWindowType = subData.timeWindow))
+
+    // Get related channel data
+    const chnData = relatedChns.items.find(
+      chn =>
+        chn.name === subIdentifier.chnName &&
+        chn.namespace === subIdentifier.chnNs
+    )
+    chnData &&
+      ((resourceType = chnData.type), (resourcePath = chnData.pathname))
   }
 
   return {
-    type: resourceType,
-    path: resourcePath
+    resourceType: resourceType,
+    resourcePath: resourcePath,
+    gitBranch: gitBranch,
+    gitPath: gitPath,
+    package: packageName,
+    packageFilterVersion: packageFilterVersion,
+    timeWindowType: timeWindowType
   }
-}
-
-const getGitTypeData = node => {
-  const gitTypeData = {}
-  const nodeAnnotations = _.get(node, 'specs.raw.metadata.annotations', [])
-
-  nodeAnnotations['apps.open-cluster-management.io/git-branch']
-    ? Object.assign(gitTypeData, {
-      gitBranch: nodeAnnotations['apps.open-cluster-management.io/git-branch']
-    })
-    : Object.assign(gitTypeData, {
-      gitBranch:
-          nodeAnnotations['apps.open-cluster-management.io/github-branch']
-    })
-  nodeAnnotations['apps.open-cluster-management.io/git-path']
-    ? Object.assign(gitTypeData, {
-      gitPath: nodeAnnotations['apps.open-cluster-management.io/git-path']
-    })
-    : Object.assign(gitTypeData, {
-      gitPath: nodeAnnotations['apps.open-cluster-management.io/github-path']
-    })
-
-  return gitTypeData
 }
 
 export const getAppOverviewCardsData = (
@@ -325,56 +327,77 @@ export const getAppOverviewCardsData = (
   ) {
     let creationTimestamp = ''
     const nodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
+    const uniqueSubs = []
     const subsList = []
 
     const selectedAppDataItem = _.get(selectedAppData, 'items[0]', '')
     const clusterData = getClusterCount(selectedAppDataItem)
 
     topologyData.nodes.map(node => {
-      // Get date and time of app creation
       if (node.type === 'application') {
+        // Get date and time of app creation
         creationTimestamp = getShortDateTime(
           node.specs.raw.metadata.creationTimestamp,
           locale
         )
+
+        // Get data for subscription cards
+        const channelArray = _.get(node, 'specs.channels', '')
+        channelArray &&
+          channelArray.forEach(channel => {
+            if (channel !== '__ALL__/__ALL__//__ALL__/__ALL__') {
+              const chnIdentifier = channel.split('//')
+              const subPath = chnIdentifier[0].split('/')
+              const chnPath = chnIdentifier[1].split('/')
+              const subIdentifier = {
+                subNs: subPath[0],
+                subName: subPath[1],
+                chnNs: chnPath[0],
+                chnName: chnPath[1]
+              }
+
+              // Use unique subscriptions (may be more than 1 entry for a single subscription if the deployables are paged)
+              if (!_.find(uniqueSubs, subIdentifier)) {
+                uniqueSubs.push(subIdentifier)
+
+                // Get "Repo resouce" and "Time window" info
+                const subCardData = getSubCardData(
+                  selectedAppDataItem,
+                  subIdentifier
+                )
+
+                subsList.push({
+                  name: subIdentifier.subName,
+                  id: chnIdentifier[0] + '//' + chnIdentifier[1],
+                  resourceType: subCardData.resourceType,
+                  resourcePath: subCardData.resourcePath,
+                  gitBranch: subCardData.gitBranch,
+                  gitPath: subCardData.gitPath,
+                  package: subCardData.package,
+                  packageFilterVersion: subCardData.packageFilterVersion,
+                  timeWindowType: subCardData.timeWindowType,
+                  timeWindowMissingData: true
+                })
+              }
+            }
+          })
       } else if (
         node.type === 'subscription' &&
         _.get(node, 'specs.parent.parentType') !== 'cluster'
       ) {
-        // Get name and namespace of channel to match with data from HCMAppList
-        const channelIdentifier = _.get(
-          node,
-          'specs.raw.spec.channel',
-          ''
-        ).split('/')
-        // Get repo resource type and URL
-        const repoResourceData = getRepoResourceData(
-          selectedAppDataItem,
-          channelIdentifier
-        )
-        const gitTypeData = getGitTypeData(node)
-
-        // Get time window type
         const timeWindowData = _.get(node, 'specs.raw.spec.timewindow', '')
 
-        subsList.push({
-          name: node.name,
-          id: node.id,
-          resourceType: repoResourceData.type,
-          resourcePath: repoResourceData.path,
-          gitBranch: gitTypeData.gitBranch,
-          gitPath: gitTypeData.gitPath,
-          package: _.get(node, 'specs.raw.spec.name', ''),
-          packageFilterVersion: _.get(
-            node,
-            'specs.raw.spec.packageFilter.version',
-            ''
-          ),
-          timeWindowType: timeWindowData.windowtype,
-          timeWindowDays: timeWindowData.daysofweek,
-          timeWindowTimezone: timeWindowData.location,
-          timeWindowRanges: timeWindowData.hours
-        })
+        // Add all time window info to subscription card
+        const timeWindowSub = subsList.find(
+          sub =>
+            sub.name === node.name &&
+            sub.timeWindowType === timeWindowData.windowtype
+        )
+        timeWindowSub &&
+          ((timeWindowSub.timeWindowDays = timeWindowData.daysofweek),
+          (timeWindowSub.timeWindowTimezone = timeWindowData.location),
+          (timeWindowSub.timeWindowRanges = timeWindowData.hours),
+          (timeWindowSub.timeWindowMissingData = false))
       } else if (
         node.type !== 'cluster' &&
         node.type !== 'subscription' &&

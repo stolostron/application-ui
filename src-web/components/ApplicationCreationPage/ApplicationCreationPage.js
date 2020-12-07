@@ -24,21 +24,54 @@ import {
 } from '../../actions/application'
 import { updateSecondaryHeader } from '../../actions/common'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
-import 'monaco-editor/esm/vs/editor/editor.all.js'
 import 'temptifly/dist/styles.css'
-import TemplateEditor from 'temptifly'
 import { controlData as getControlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
 import { getApplicationResources } from './transformers/transform-data-to-resources'
 import config from '../../../lib/shared/config'
-
 import _ from 'lodash'
+
+
+// include monaco editor
+import TemplateEditor from 'temptifly'
+import MonacoEditor from 'react-monaco-editor'
+import 'monaco-editor/esm/vs/editor/editor.all.js'
+import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand.js'
+import 'monaco-editor/esm/vs/basic-languages/yaml/yaml.contribution.js'
+import { global_BackgroundColor_dark_100 as editorBackground } from '@patternfly/react-tokens';
+if (window.monaco) {
+  window.monaco.editor.defineTheme('console', {
+    base: 'vs-dark',
+    inherit: true,
+    rules: [
+      // avoid pf tokens for `rules` since tokens are opaque strings that might not be hex values
+      { token: 'number', foreground: 'ace12e' },
+      { token: 'type', foreground: '73bcf7' },
+      { token: 'string', foreground: 'f0ab00' },
+      { token: 'keyword', foreground: 'cbc0ff' },
+    ],
+    colors: {
+      'editor.background': editorBackground.value,
+      'editorGutter.background': '#292e34', // no pf token defined
+      'editorLineNumber.activeForeground': '#fff',
+      'editorLineNumber.foreground': '#f0f0f0',
+    },
+  });
+}
+
+window.MonacoEnvironment = {
+  getWorkerUrl: function() {
+    return `${config.contextPath}/editor.worker.js`
+  }
+}
+
 
 const Portals = Object.freeze({
   editBtn: 'edit-button-portal-id',
   cancelBtn: 'cancel-button-portal-id',
   createBtn: 'create-button-portal-id'
 })
+
 
 resources(() => {
   require('./style.scss')
@@ -227,6 +260,7 @@ class ApplicationCreationPage extends React.Component {
           title={msgs.get('creation.app.yaml', locale)}
           template={createTemplate}
           controlData={controlData}
+          monacoEditor={<MonacoEditor />}
           portals={Portals}
           fetchControl={fetchControl}
           createControl={createControl}

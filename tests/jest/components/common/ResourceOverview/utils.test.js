@@ -340,6 +340,46 @@ describe("getAppOverviewCardsData", () => {
     expect(appOverviewCardsData).toEqual(result);
   });
 
+  it("has missing channel data", () => {
+    const targetLink =
+      '/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
+    const appOverviewCardsData = getAppOverviewCardsData(
+      testHCMAppList,
+      reduxStoreAppPipelineWithCEM.topology,
+      "mortgage-app",
+      "default",
+      targetLink
+    );
+    const result = {
+      appName: "mortgage-app",
+      appNamespace: "default",
+      creationTimestamp: "Aug 13 2018, 3:23 pm",
+      remoteClusterCount: 1,
+      localClusterDeploy: false,
+      nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 3 },
+      targetLink: targetLink,
+      subsList: [
+        {
+          name: "mortgage-app-subscription",
+          id: "default/mortgage-app-subscription//mortgage-ch/mortgage-channel",
+          resourceType: "",
+          resourcePath: "",
+          gitBranch: undefined,
+          gitPath: undefined,
+          package: undefined,
+          packageFilterVersion: undefined,
+          timeWindowType: "active",
+          timeWindowDays: ["Monday", "Tuesday", "Wednesday"],
+          timeWindowTimezone: "America/Toronto",
+          timeWindowRanges: [{ end: "09:10PM", start: "8:00AM" }],
+          timeWindowMissingData: false
+        }
+      ]
+    };
+
+    expect(appOverviewCardsData).toEqual(result);
+  });
+
   it("has no data", () => {
     const targetLink =
       '/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
@@ -390,4 +430,118 @@ const podSampleData = {
       }
     }
   ]
+};
+
+const testHCMAppList = {
+  forceReload: false,
+  items: [
+    {
+      apigroup: "app.k8s.io",
+      cluster: "local-cluster",
+      created: "2018-08-13T19:23:00Z",
+      dashboard: "",
+      kind: "application",
+      label: "",
+      name: "mortgage-app",
+      namespace: "default",
+      related: [
+        {
+          items: [
+            {
+              kind: "cluster",
+              kubernetesVersion: "",
+              name: "local-cluster",
+              status: "OK"
+            }
+          ],
+          kind: "cluster",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              channel: "mortgage-ch/mortgage-channel",
+              cluster: "kcormier-cluster",
+              created: "2019-09-18T21:20:00Z",
+              kind: "subscription",
+              label:
+                "app=mortgage-app-mortgage; hosting-deployable-name=mortgage-app-subscription-deployable; subscription-pause=false",
+              localPlacement: "true",
+              name: "mortgage-app-subscription",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgage-app-subscription",
+              status: "Failed",
+              timeWindow: "none",
+              _clusterNamespace: "kcormier-cluster",
+              _hostingDeployable:
+                "kcormier-cluster/mortgage-app-subscription-deployable-w2qpd",
+              _hostingSubscription: "default/mortgage-app-subscription",
+              _rbac:
+                "kcormier-cluster_apps.open-cluster-management.io_subscriptions",
+              _uid: "kcormier-cluster/727109c7-0742-44b2-bc19-37eccc63508b"
+            },
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              channel: "mortgage-ch/mortgage-channel",
+              cluster: "local-cluster",
+              created: "2018-08-13T19:23:01Z",
+              kind: "subscription",
+              label: "app=mortgage-app-mortgage",
+              name: "mortgage-app-subscription",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgage-app-subscription",
+              status: "Propagated",
+              timeWindow: "active",
+              _gitcommit: "0660bd66c02d09a4c8813d3ae2e711fc98b6426b",
+              _hubClusterResource: "true",
+              _rbac: "default_apps.open-cluster-management.io_subscriptions",
+              _uid: "local-cluster/e5a9d3e2-a5df-43de-900c-c15a2079f760"
+            }
+          ],
+          kind: "subscription",
+          __typename: "SearchRelatedResult"
+        },
+        {
+          items: [
+            {
+              apigroup: "apps.open-cluster-management.io",
+              apiversion: "v1",
+              cluster: "local-cluster",
+              created: "2018-08-13T19:23:00Z",
+              kind: "placementrule",
+              label: "app=mortgage-app-mortgage",
+              name: "mortgage-app-placement",
+              namespace: "default",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/default/placementrules/mortgage-app-placement",
+              _hubClusterResource: "true",
+              _rbac: "default_apps.open-cluster-management.io_placementrules",
+              _uid: "local-cluster/0533baf0-e272-4db6-ae00-b99f1d4e2e1c"
+            }
+          ],
+          kind: "placementrule",
+          __typename: "SearchRelatedResult"
+        }
+      ],
+      selfLink:
+        "/apis/app.k8s.io/v1beta1/namespaces/default/applications/mortgage-app",
+      _hubClusterResource: "true",
+      _rbac: "default_app.k8s.io_applications",
+      _uid: "local-cluster/dc9499ab-d23f-4dac-ba9d-9232218a383f"
+    }
+  ],
+  itemsPerPage: 20,
+  page: 1,
+  pendingActions: [],
+  postErrorMsg: "",
+  putErrorMsg: "",
+  resourceVersion: undefined,
+  search: "",
+  sortDirection: "asc",
+  status: "DONE"
 };

@@ -28,20 +28,26 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Creation Test
         it(`Verify channel for app ${
           data.name
         } was created - wait for creation`, () => {
-          const key = 0;
+          let key = 0;
           const name = data.name;
-          //call this after creating application to allow more time for the resources to get created
-          //wait until channel gets created, otherwise the next new app might try to create the same channel instead of reusing
-          channelsInformation(name, key).then(({ channelNs, channelName }) => {
-            cy.log(
-              `validate channel ${channelName} ns:  ${channelNs} exists on Advanced Tables`
+          Object.keys(data.config).forEach(configObj => {
+            cy.log(`validate channel for subscription number ${key}`);
+            //call this after creating application to allow more time for the resources to get created
+            //wait until channel gets created, otherwise the next new app might try to create the same channel instead of reusing
+            channelsInformation(name, key).then(
+              ({ channelNs, channelName }) => {
+                cy.log(
+                  `validate channel ${channelName} ns:  ${channelNs} exists on Advanced Tables`
+                );
+                cy.visit("/multicloud/applications/advanced?resource=channels");
+                resourceTable.rowShouldExist(
+                  channelName,
+                  getResourceKey(channelName, channelNs),
+                  60 * 1000
+                );
+              }
             );
-            cy.visit("/multicloud/applications/advanced?resource=channels");
-            resourceTable.rowShouldExist(
-              channelName,
-              getResourceKey(channelName, channelNs),
-              60 * 1000
-            );
+            key = key + 1;
           });
         });
       } else {

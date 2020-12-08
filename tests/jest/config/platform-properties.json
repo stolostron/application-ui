@@ -494,6 +494,7 @@
   "timeWindow.label.timezone": "Time zone",
   "timeWindow.label.timezone.label": "Time zone combo box menu options",
   "timeWindow.label.timezone.placeholder": "Choose a location",
+  "timeWindow.label.missing.data": "Go to the Editor tab to view time window information.",
   "tooltip.channel.type.helmrepo": "Use a Helm repository",
   "tooltip.channel.type.objectbucket": "Use a bucket from an object storage repository",
   "tooltip.creation.app.ansibleSecretName": "If using Ansible pre or post tasks, enter the Ansible Tower secret name to be used by these tasks. Create new secret or select from the existing secrets defined in the application namespace. ",

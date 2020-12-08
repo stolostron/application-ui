@@ -405,7 +405,7 @@ class OverviewCards extends React.Component {
                       locale
                     )}
                   </div>
-                  {!sub.timeWindowType ? (
+                  {sub.timeWindowType === 'none' ? (
                     <div
                       className="set-time-window-link"
                       tabIndex="0"
@@ -425,7 +425,8 @@ class OverviewCards extends React.Component {
                         type: sub.timeWindowType,
                         days: sub.timeWindowDays,
                         timezone: sub.timeWindowTimezone,
-                        ranges: sub.timeWindowRanges
+                        ranges: sub.timeWindowRanges,
+                        missingData: sub.timeWindowMissingData
                       }}
                       locale={locale}
                     />

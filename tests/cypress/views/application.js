@@ -86,16 +86,26 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   }
   // type in branch and path
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
-  cy
-    .get(gitBranch, { timeout: 50 * 1000 })
-    .type(branch, { timeout: 50 * 1000 })
-    .blur();
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitBranch, { timeout: 50 * 1000 }).click();
+    cy.contains(".bx--list-box__menu-item", branch).click();
+  } else {
+    cy
+      .get(gitBranch, { timeout: 50 * 1000 })
+      .type(branch, { timeout: 50 * 1000 })
+      .blur();
+  }
   cy.wait(1000);
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
-  cy
-    .get(gitPath, { timeout: 20 * 1000 })
-    .type(path, { timeout: 30 * 1000 })
-    .blur();
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitPath, { timeout: 20 * 1000 }).click();
+    cy.contains(".bx--list-box__menu-item", path).click();
+  } else {
+    cy
+      .get(gitPath, { timeout: 20 * 1000 })
+      .type(path, { timeout: 30 * 1000 })
+      .blur();
+  }
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };

@@ -249,36 +249,36 @@ const getSubCardData = (appData, subIdentifier) => {
   let timeWindowType = 'none'
 
   if (appData && appData.related) {
-    const relatedSubs = appData.related.find(
-      item => item.kind === 'subscription'
-    )
-    const relatedChns = appData.related.find(item => item.kind === 'channel')
+    const relatedSubs = _.find(appData.related, { kind: 'subscription' })
+    const relatedChns = _.find(appData.related, { kind: 'channel' })
 
     // Get related subscription data
-    const subData = relatedSubs.items.find(
-      sub =>
-        sub.cluster === 'local-cluster' &&
-        sub.channel === subIdentifier.chnNs + '/' + subIdentifier.chnName &&
-        sub.name === subIdentifier.subName &&
-        sub.namespace === subIdentifier.subNs
-    )
-    if (subData) {
-      gitBranch = subData._gitbranch
-      gitPath = subData._gitpath
-      packageName = subData.package
-      packageFilterVersion = subData.packageFilterVersion
-      timeWindowType = subData.timeWindow
+    if (relatedSubs && relatedSubs.items) {
+      const subData = _.find(relatedSubs.items, {
+        cluster: 'local-cluster',
+        channel: subIdentifier.chnNs + '/' + subIdentifier.chnName,
+        name: subIdentifier.subName,
+        namespace: subIdentifier.subNs
+      })
+      if (subData) {
+        gitBranch = subData._gitbranch
+        gitPath = subData._gitpath
+        packageName = subData.package
+        packageFilterVersion = subData.packageFilterVersion
+        timeWindowType = subData.timeWindow
+      }
     }
 
     // Get related channel data
-    const chnData = relatedChns.items.find(
-      chn =>
-        chn.name === subIdentifier.chnName &&
-        chn.namespace === subIdentifier.chnNs
-    )
-    if (chnData) {
-      resourceType = chnData.type
-      resourcePath = chnData.pathname
+    if (relatedChns && relatedChns.items) {
+      const chnData = _.find(relatedChns.items, {
+        name: subIdentifier.chnName,
+        namespace: subIdentifier.chnNs
+      })
+      if (chnData) {
+        resourceType = chnData.type
+        resourcePath = chnData.pathname
+      }
     }
   }
 
@@ -391,11 +391,10 @@ export const getAppOverviewCardsData = (
         const timeWindowData = _.get(node, 'specs.raw.spec.timewindow', '')
 
         // Add all time window info to subscription card
-        const timeWindowSub = subsList.find(
-          sub =>
-            sub.name === node.name &&
-            sub.timeWindowType === timeWindowData.windowtype
-        )
+        const timeWindowSub = _.find(subsList, {
+          name: node.name,
+          timeWindowType: timeWindowData.windowtype
+        })
         if (timeWindowSub) {
           timeWindowSub.timeWindowDays = timeWindowData.daysofweek
           timeWindowSub.timeWindowTimezone = timeWindowData.location

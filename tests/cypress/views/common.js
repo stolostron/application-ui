@@ -547,7 +547,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
 
         //get repository popup info
         cy
-          .get(".add-right-border", { timeout: 120 * 1000 })
+          .get(".add-right-border", { timeout: 20 * 1000 })
           .eq(1)
           .within($repo => {
             cy

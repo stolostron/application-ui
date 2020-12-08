@@ -174,14 +174,9 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
       status: Actions.REQUEST_STATUS.IN_PROGRESS
     })
   case Actions.RESOURCE_RECEIVE_SUCCESS: {
-    const pageSize =
-        action.items.length > state.itemsPerPage * (state.page - 1)
-          ? state.page
-          : state.page - 1
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.DONE,
       items: action.items,
-      page: action.items.length === 0 ? 1 : pageSize,
       resourceVersion: action.resourceVersion
     })
   }

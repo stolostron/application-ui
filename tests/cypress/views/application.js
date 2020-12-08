@@ -423,11 +423,6 @@ export const validateClusterNode = clusterName => {
 
 export const validatePlacementNode = (name, key) => {
   cy.log("validate the placementrule..."),
-    // cy.get(".channelsCombo").within(($channels) => {
-    //   cy.get(".bx--list-box__field", { timeout: 20 * 1000 }).click()
-    //   //select all subscriptions
-    //   cy.get(".bx--list-box__menu-item", { timeout: 20 * 1000 }).eq(0).click()
-    // })
     cy
       .get(`g[type="${name}-placement-${parseInt(key) + 1}"]`, {
         timeout: 25 * 1000

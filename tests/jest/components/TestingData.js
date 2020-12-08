@@ -124,7 +124,6 @@ export const appNormalizedItems = {
 };
 export const QueryApplicationList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
@@ -234,7 +233,6 @@ export const QueryApplicationList = {
 
 export const QuerySubscriptionList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
@@ -308,7 +306,6 @@ export const QuerySubscriptionList = {
 
 export const QueryPlacementRuleList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
@@ -366,7 +363,6 @@ export const QueryPlacementRuleList = {
 
 export const QueryChannelList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
@@ -437,7 +433,6 @@ export const QueryChannelList = {
 
 export const QueryApplicationList_INCEPTION = {
   status: "INCEPTION",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
@@ -808,7 +803,6 @@ export const HCMApplicationList = {
       _uid: "local-cluster/dc9499ab-d23f-4dac-ba9d-9232218a383f"
     }
   ],
-  itemsPerPage: 20,
   page: 1,
   pendingActions: [],
   postErrorMsg: "",
@@ -1085,7 +1079,6 @@ export const HCMSubscriptionList = {
 
 export const HCMPlacementRuleList = {
   items: [],
-  itemsPerPage: 20,
   page: 1,
   search: "",
   sortDirection: "asc",
@@ -1795,57 +1788,7 @@ export const staticResourceData = {
     tableActions: [
       "table.actions.applications.edit",
       "table.actions.applications.remove"
-    ],
-    detailKeys: {
-      title: "application.details",
-      headerRows: ["type", "detail"],
-      rows: [
-        {
-          cells: [
-            {
-              resourceKey: "description.title.name",
-              type: "i18n"
-            },
-            {
-              resourceKey: "name"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.namespace",
-              type: "i18n"
-            },
-            {
-              resourceKey: "namespace"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.created",
-              type: "i18n"
-            },
-            {
-              resourceKey: "created"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.labels",
-              type: "i18n"
-            },
-            {
-              resourceKey: "label"
-            }
-          ]
-        }
-      ]
-    }
+    ]
   }
 };
 
@@ -1889,55 +1832,5 @@ export const staticResourceDataApp = {
   tableActions: [
     "table.actions.applications.edit",
     "table.actions.applications.remove"
-  ],
-  detailKeys: {
-    title: "application.details",
-    headerRows: ["type", "detail"],
-    rows: [
-      {
-        cells: [
-          {
-            resourceKey: "description.title.name",
-            type: "i18n"
-          },
-          {
-            resourceKey: "name"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.namespace",
-            type: "i18n"
-          },
-          {
-            resourceKey: "namespace"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.created",
-            type: "i18n"
-          },
-          {
-            resourceKey: "created"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.labels",
-            type: "i18n"
-          },
-          {
-            resourceKey: "label"
-          }
-        ]
-      }
-    ]
-  }
+  ]
 };

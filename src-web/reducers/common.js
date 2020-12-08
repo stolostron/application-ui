@@ -29,8 +29,6 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
 export const getItems = (state, props) =>
   getFromState(state, props.storeRoot, 'items')
-export const getItemsPerPage = (state, props) =>
-  getFromState(state, props.storeRoot, 'itemsPerPage')
 export const getPage = (state, props) =>
   getFromState(state, props.storeRoot, 'page')
 
@@ -54,7 +52,6 @@ try {
 
 export const INITIAL_STATE = {
   items: [],
-  itemsPerPage: Actions.PAGE_SIZES.DEFAULT,
   page: 1,
   search: '',
   sortColumn: undefined,
@@ -256,8 +253,7 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     })
   case Actions.TABLE_PAGE_CHANGE:
     return Object.assign({}, state, {
-      page: action.page,
-      itemsPerPage: action.pageSize
+      page: action.page
     })
   case Actions.RESOURCE_ADD:
   case Actions.RESOURCE_MODIFY: {

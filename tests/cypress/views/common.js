@@ -608,8 +608,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
       cy
         .get(".timeWindow-labels-popover-content", { timeout: 20 * 1000 })
         .invoke("text")
-        .should("include", timeWindowInfo.date)
-        .and("include", timeWindowInfo.hours);
+        .should("include", "Edit time window");
       cy
         .get(".subs-icon")
         .first()

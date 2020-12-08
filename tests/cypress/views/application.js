@@ -385,6 +385,16 @@ export const validateTopology = (
 
   // cluster and placement
   for (const [key, value] of Object.entries(data.config)) {
+    if (data.config > 1) {
+      cy.get(".channelsCombo").within($channels => {
+        cy.get(".bx--list-box__field", { timeout: 20 * 1000 }).click();
+        //select all subscriptions
+        cy
+          .get(".bx--list-box__menu-item", { timeout: 20 * 1000 })
+          .eq(0)
+          .click();
+      });
+    }
     if (opType == "delete" && key == 0) {
       //ignore first subscription on delete
     } else {
@@ -413,6 +423,11 @@ export const validateClusterNode = clusterName => {
 
 export const validatePlacementNode = (name, key) => {
   cy.log("validate the placementrule..."),
+    // cy.get(".channelsCombo").within(($channels) => {
+    //   cy.get(".bx--list-box__field", { timeout: 20 * 1000 }).click()
+    //   //select all subscriptions
+    //   cy.get(".bx--list-box__menu-item", { timeout: 20 * 1000 }).eq(0).click()
+    // })
     cy
       .get(`g[type="${name}-placement-${parseInt(key) + 1}"]`, {
         timeout: 25 * 1000

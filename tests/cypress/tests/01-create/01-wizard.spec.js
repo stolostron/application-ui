@@ -43,7 +43,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Creation Test
                 resourceTable.rowShouldExist(
                   channelName,
                   getResourceKey(channelName, channelNs),
-                  60 * 1000
+                  120 * 1000
                 );
               }
             );

@@ -547,7 +547,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
 
         //get repository popup info
         cy
-          .get(".add-right-border")
+          .get(".add-right-border", { timeout: 20 * 1000 })
           .eq(1)
           .within($repo => {
             cy
@@ -608,8 +608,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
       cy
         .get(".timeWindow-labels-popover-content", { timeout: 20 * 1000 })
         .invoke("text")
-        .should("include", timeWindowInfo.date)
-        .and("include", timeWindowInfo.hours);
+        .should("include", "Edit time window");
       cy
         .get(".subs-icon")
         .first()

@@ -40,6 +40,24 @@ ShallowWrapper {
             className="subscription label"
           >
             Subscription
+             
+            (1 of {0})
+            <Tooltip
+              direction="bottom"
+              iconDescription="tooltip"
+              iconName="info"
+              iconTitle=""
+              menuOffset={[Function]}
+              open={false}
+              showIcon={true}
+              triggerText=""
+            >
+              <span
+                className="showPagesTooltip"
+              >
+                Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+              </span>
+            </Tooltip>
           </div>
           <div
             className="channelsCombo"
@@ -116,6 +134,24 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (1 of {0})
+              <Tooltip
+                direction="bottom"
+                iconDescription="tooltip"
+                iconName="info"
+                iconTitle=""
+                menuOffset={[Function]}
+                open={false}
+                showIcon={true}
+                triggerText=""
+              >
+                <span
+                  className="showPagesTooltip"
+                >
+                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                </span>
+              </Tooltip>
             </div>,
             <div
               className="channelsCombo"
@@ -185,11 +221,69 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Subscription",
+              "children": Array [
+                "Subscription",
+                " ",
+                "(1 of {0})",
+                <Tooltip
+                  direction="bottom"
+                  iconDescription="tooltip"
+                  iconName="info"
+                  iconTitle=""
+                  menuOffset={[Function]}
+                  open={false}
+                  showIcon={true}
+                  triggerText=""
+                >
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                  </span>
+                </Tooltip>,
+              ],
               "className": "subscription label",
             },
             "ref": null,
-            "rendered": "Subscription",
+            "rendered": Array [
+              "Subscription",
+              " ",
+              "(1 of {0})",
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                  </span>,
+                  "direction": "bottom",
+                  "iconDescription": "tooltip",
+                  "iconName": "info",
+                  "iconTitle": "",
+                  "menuOffset": [Function],
+                  "open": false,
+                  "showIcon": true,
+                  "triggerText": "",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                    "className": "showPagesTooltip",
+                  },
+                  "ref": null,
+                  "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                  "type": "span",
+                },
+                "type": [Function],
+              },
+            ],
             "type": "div",
           },
           Object {
@@ -337,6 +431,24 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (1 of {0})
+              <Tooltip
+                direction="bottom"
+                iconDescription="tooltip"
+                iconName="info"
+                iconTitle=""
+                menuOffset={[Function]}
+                open={false}
+                showIcon={true}
+                triggerText=""
+              >
+                <span
+                  className="showPagesTooltip"
+                >
+                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                </span>
+              </Tooltip>
             </div>
             <div
               className="channelsCombo"
@@ -413,6 +525,24 @@ ShallowWrapper {
                 className="subscription label"
               >
                 Subscription
+                 
+                (1 of {0})
+                <Tooltip
+                  direction="bottom"
+                  iconDescription="tooltip"
+                  iconName="info"
+                  iconTitle=""
+                  menuOffset={[Function]}
+                  open={false}
+                  showIcon={true}
+                  triggerText=""
+                >
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                  </span>
+                </Tooltip>
               </div>,
               <div
                 className="channelsCombo"
@@ -482,11 +612,69 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Subscription",
+                "children": Array [
+                  "Subscription",
+                  " ",
+                  "(1 of {0})",
+                  <Tooltip
+                    direction="bottom"
+                    iconDescription="tooltip"
+                    iconName="info"
+                    iconTitle=""
+                    menuOffset={[Function]}
+                    open={false}
+                    showIcon={true}
+                    triggerText=""
+                  >
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                    </span>
+                  </Tooltip>,
+                ],
                 "className": "subscription label",
               },
               "ref": null,
-              "rendered": "Subscription",
+              "rendered": Array [
+                "Subscription",
+                " ",
+                "(1 of {0})",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                    </span>,
+                    "direction": "bottom",
+                    "iconDescription": "tooltip",
+                    "iconName": "info",
+                    "iconTitle": "",
+                    "menuOffset": [Function],
+                    "open": false,
+                    "showIcon": true,
+                    "triggerText": "",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                      "className": "showPagesTooltip",
+                    },
+                    "ref": null,
+                    "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                    "type": "span",
+                  },
+                  "type": [Function],
+                },
+              ],
               "type": "div",
             },
             Object {
@@ -691,6 +879,24 @@ ShallowWrapper {
             className="subscription label"
           >
             Subscription
+             
+            (1 of {0})
+            <Tooltip
+              direction="bottom"
+              iconDescription="tooltip"
+              iconName="info"
+              iconTitle=""
+              menuOffset={[Function]}
+              open={false}
+              showIcon={true}
+              triggerText=""
+            >
+              <span
+                className="showPagesTooltip"
+              >
+                Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+              </span>
+            </Tooltip>
           </div>
           <div
             className="channelsCombo"
@@ -848,6 +1054,24 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (1 of {0})
+              <Tooltip
+                direction="bottom"
+                iconDescription="tooltip"
+                iconName="info"
+                iconTitle=""
+                menuOffset={[Function]}
+                open={false}
+                showIcon={true}
+                triggerText=""
+              >
+                <span
+                  className="showPagesTooltip"
+                >
+                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                </span>
+              </Tooltip>
             </div>,
             <div
               className="channelsCombo"
@@ -909,11 +1133,69 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Subscription",
+              "children": Array [
+                "Subscription",
+                " ",
+                "(1 of {0})",
+                <Tooltip
+                  direction="bottom"
+                  iconDescription="tooltip"
+                  iconName="info"
+                  iconTitle=""
+                  menuOffset={[Function]}
+                  open={false}
+                  showIcon={true}
+                  triggerText=""
+                >
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                  </span>
+                </Tooltip>,
+              ],
               "className": "subscription label",
             },
             "ref": null,
-            "rendered": "Subscription",
+            "rendered": Array [
+              "Subscription",
+              " ",
+              "(1 of {0})",
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                  </span>,
+                  "direction": "bottom",
+                  "iconDescription": "tooltip",
+                  "iconName": "info",
+                  "iconTitle": "",
+                  "menuOffset": [Function],
+                  "open": false,
+                  "showIcon": true,
+                  "triggerText": "",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                    "className": "showPagesTooltip",
+                  },
+                  "ref": null,
+                  "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                  "type": "span",
+                },
+                "type": [Function],
+              },
+            ],
             "type": "div",
           },
           Object {
@@ -1411,6 +1693,24 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (1 of {0})
+              <Tooltip
+                direction="bottom"
+                iconDescription="tooltip"
+                iconName="info"
+                iconTitle=""
+                menuOffset={[Function]}
+                open={false}
+                showIcon={true}
+                triggerText=""
+              >
+                <span
+                  className="showPagesTooltip"
+                >
+                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                </span>
+              </Tooltip>
             </div>
             <div
               className="channelsCombo"
@@ -1568,6 +1868,24 @@ ShallowWrapper {
                 className="subscription label"
               >
                 Subscription
+                 
+                (1 of {0})
+                <Tooltip
+                  direction="bottom"
+                  iconDescription="tooltip"
+                  iconName="info"
+                  iconTitle=""
+                  menuOffset={[Function]}
+                  open={false}
+                  showIcon={true}
+                  triggerText=""
+                >
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                  </span>
+                </Tooltip>
               </div>,
               <div
                 className="channelsCombo"
@@ -1629,11 +1947,69 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Subscription",
+                "children": Array [
+                  "Subscription",
+                  " ",
+                  "(1 of {0})",
+                  <Tooltip
+                    direction="bottom"
+                    iconDescription="tooltip"
+                    iconName="info"
+                    iconTitle=""
+                    menuOffset={[Function]}
+                    open={false}
+                    showIcon={true}
+                    triggerText=""
+                  >
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                    </span>
+                  </Tooltip>,
+                ],
                 "className": "subscription label",
               },
               "ref": null,
-              "rendered": "Subscription",
+              "rendered": Array [
+                "Subscription",
+                " ",
+                "(1 of {0})",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                    </span>,
+                    "direction": "bottom",
+                    "iconDescription": "tooltip",
+                    "iconName": "info",
+                    "iconTitle": "",
+                    "menuOffset": [Function],
+                    "open": false,
+                    "showIcon": true,
+                    "triggerText": "",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                      "className": "showPagesTooltip",
+                    },
+                    "ref": null,
+                    "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                    "type": "span",
+                  },
+                  "type": [Function],
+                },
+              ],
               "type": "div",
             },
             Object {

@@ -126,7 +126,15 @@ class ChannelControl extends React.Component {
     return channelMap
   };
 
+  getChannelAllIndex = displayChannels => {
+    // find the index for all susbcriptions
+    return displayChannels.findIndex(
+      ({ chn }) => chn === '__ALL__/__ALL__//__ALL__/__ALL__'
+    )
+  };
+
   getDisplayedChannels = (channelMap, activeChannel) => {
+    // construct display channels and the selected channel index
     const displayChannels = []
 
     Object.values(channelMap).forEach(({ chnl, splitChn, subchannels }) => {
@@ -143,6 +151,7 @@ class ChannelControl extends React.Component {
         subchannels
       })
     })
+
     let selectedIdx =
       displayChannels.length === 1
         ? 0
@@ -166,7 +175,10 @@ class ChannelControl extends React.Component {
     const displayChannels = channelsData[0]
     const selectedIdx = channelsData[1]
 
-    // Set current channel on page load
+    const channelAllIndex = this.getChannelAllIndex(displayChannels)
+    displayChannels.push(displayChannels.splice(channelAllIndex, 1)[0])
+
+    // Set default current channel on page load
     this.setState({
       currentChannel: displayChannels[selectedIdx],
       channelMap: channelMap
@@ -177,6 +189,24 @@ class ChannelControl extends React.Component {
     const channelSplit = channel ? channel.split('//') : []
 
     return channelSplit.length > 0 ? channelSplit[0] : ''
+  };
+
+  getSubscriptionCount = (displayChannels, currentChannel) => {
+    // count subscription amount and renders corresponding message
+    let subscriptionShowInfo
+    const channelsLength = displayChannels.length
+    const channelAllIndex = this.getChannelAllIndex(displayChannels)
+    if (channelsLength !== -1) {
+      subscriptionShowInfo =
+        currentChannel.chn === '__ALL__/__ALL__//__ALL__/__ALL__'
+          ? ''
+          : msgs.get('subscription.page.count.nb', [
+            channelsLength > 1
+              ? channelAllIndex !== -1 ? channelsLength - 1 : channelsLength
+              : 1
+          ])
+    }
+    return subscriptionShowInfo
   };
 
   handlePageClick = e => {
@@ -311,7 +341,13 @@ class ChannelControl extends React.Component {
           {showMainChannel && (
             <div className="channels">
               <div className="subscription label">
-                {msgs.get('combo.subscription')}
+                {msgs.get('combo.subscription')}{' '}
+                {this.getSubscriptionCount(displayChannels, currentChannel)}
+                <Tooltip triggerText="" iconName="info">
+                  <span className="showPagesTooltip">
+                    {msgs.get('subscription.page.count.info', locale)}
+                  </span>
+                </Tooltip>
               </div>
 
               <div className="channelsCombo">

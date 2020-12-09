@@ -5,7 +5,11 @@
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { deleteApplicationUI } from "../../views/application";
-import { deleteChannel, channelsInformation } from "../../views/resources";
+import {
+  channelsInformation,
+  deleteChannel,
+  deleteNamespaceHub
+} from "../../views/resources";
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Delete application Test", () => {
   for (const type in config) {
@@ -27,6 +31,11 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Delete application Test",
                     `delete channel ${channelName} ns:  ${channelNs}, set for insecureSkipVerifyOption test `
                   );
                   deleteChannel(channelName, channelNs);
+
+                  cy.log(
+                    `Delete insecureSkipVerify channel namespace, ${channelNs}`
+                  );
+                  deleteNamespaceHub(data, channelName, type);
                 }
               }
             );

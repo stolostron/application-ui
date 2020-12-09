@@ -61,7 +61,13 @@ describe("getNodeDetails no clusters or violation", () => {
     { labelKey: "prop.details.section.cluster", type: "label" },
     { type: "spacer" },
     { labelValue: "Clusters (0)", type: "label" },
-    { comboboxdata: [], type: "clusterdetailcombobox" }
+    {
+      comboboxdata: {
+        clusterID: "member--clusters--c1",
+        clusterList: []
+      },
+      type: "clusterdetailcombobox"
+    }
   ];
   it("should process the node, no clusters or violation", () => {
     expect(getNodeDetails(clusterNode, locale)).toEqual(expectedResult);
@@ -264,22 +270,25 @@ describe("getNodeDetails cluster node 1", () => {
       type: "label"
     },
     {
-      comboboxdata: [
-        {
-          allocatable: {
-            cpu: "8",
-            memory: "24",
-            pods: []
-          },
-          capacity: {
-            cpu: "10",
-            memory: "32",
-            nodes: []
-          },
-          consoleURL: "aaa",
-          consoleip: "api"
-        }
-      ],
+      comboboxdata: {
+        clusterID: "member--clusters--feng",
+        clusterList: [
+          {
+            allocatable: {
+              cpu: "8",
+              memory: "24",
+              pods: []
+            },
+            capacity: {
+              cpu: "10",
+              memory: "32",
+              nodes: []
+            },
+            consoleURL: "aaa",
+            consoleip: "api"
+          }
+        ]
+      },
       type: "clusterdetailcombobox"
     }
   ];
@@ -400,50 +409,53 @@ describe("getNodeDetails clusters node", () => {
       type: "label"
     },
     {
-      comboboxdata: [
-        {
-          capacity: {
-            cpu: "10",
-            memory: "32Gi",
-            nodes: [],
-            storage: "500Gi"
-          },
-          metatdata: {
-            labels: {
-              cloud: "AWS",
-              env: "Dev"
+      comboboxdata: {
+        clusterID: "member--clusters--braveman",
+        clusterList: [
+          {
+            capacity: {
+              cpu: "10",
+              memory: "32Gi",
+              nodes: [],
+              storage: "500Gi"
             },
-            name: "braveman",
-            namespace: "default"
-          },
-          usage: {
-            cpu: "8",
-            memory: "24Ti",
-            pods: [],
-            storage: "400Ei"
-          }
-        },
-        {
-          allocatable: {
-            cpu: "8",
-            memory: "24Ti",
-            pods: []
-          },
-          capacity: {
-            cpu: "10",
-            memory: "32Gi",
-            nodes: []
-          },
-          metatdata: {
-            labels: {
-              cloud: "AWS",
-              env: "Dev"
+            metatdata: {
+              labels: {
+                cloud: "AWS",
+                env: "Dev"
+              },
+              name: "braveman",
+              namespace: "default"
             },
-            name: "possiblereptile",
-            namespace: "default"
+            usage: {
+              cpu: "8",
+              memory: "24Ti",
+              pods: [],
+              storage: "400Ei"
+            }
+          },
+          {
+            allocatable: {
+              cpu: "8",
+              memory: "24Ti",
+              pods: []
+            },
+            capacity: {
+              cpu: "10",
+              memory: "32Gi",
+              nodes: []
+            },
+            metatdata: {
+              labels: {
+                cloud: "AWS",
+                env: "Dev"
+              },
+              name: "possiblereptile",
+              namespace: "default"
+            }
           }
-        }
-      ],
+        ]
+      },
       type: "clusterdetailcombobox"
     }
   ];

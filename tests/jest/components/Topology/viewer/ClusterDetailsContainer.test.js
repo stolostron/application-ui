@@ -43,7 +43,6 @@ describe("ClusterDetailsContainer with some clusters", () => {
         allocatable: { cpu: "11580m", memory: "20056Mi" },
         capacity: { cpu: "12", memory: "23308Mi" },
         metadata: {
-          creationTimestamp: "2020-10-26T18:21:11Z",
           name: "fxiang-eks",
           namespace: "fxiang-eks"
         },
@@ -55,7 +54,6 @@ describe("ClusterDetailsContainer with some clusters", () => {
         consoleURL:
           "https://console-openshift-console.apps.vbirsan1-remote.dev06.red-chesterfield.com",
         metadata: {
-          creationTimestamp: "2020-11-23T23:06:17Z",
           name: "vbirsan1-remote",
           namespace: "vbirsan1-remote"
         },
@@ -92,7 +90,6 @@ describe("ClusterDetailsContainer test functions", () => {
         allocatable: { cpu: "11580m", memory: "20056Mi" },
         capacity: { cpu: "12", memory: "23308Mi" },
         metadata: {
-          creationTimestamp: "2020-10-26T18:21:11Z",
           name: "fxiang-eks",
           namespace: "fxiang-eks"
         },
@@ -104,7 +101,6 @@ describe("ClusterDetailsContainer test functions", () => {
         consoleURL:
           "https://console-openshift-console.apps.vbirsan1-remote.dev06.red-chesterfield.com",
         metadata: {
-          creationTimestamp: "2020-11-23T23:06:17Z",
           name: "vbirsan1-remote",
           namespace: "vbirsan1-remote"
         },

@@ -1100,7 +1100,7 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
           <span
             className="value"
           >
-            a month ago
+            -
           </span>
         </div>
         <div
@@ -1323,7 +1323,11 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
           <span
             className="value"
           >
+<<<<<<< HEAD
             16 days ago
+=======
+            -
+>>>>>>> master
           </span>
         </div>
         <div

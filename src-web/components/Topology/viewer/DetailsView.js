@@ -27,6 +27,7 @@ import '../../../../graphics/diagramIcons.svg'
 import msgs from '../../../../nls/platform.properties'
 import { createResourceSearchLink } from '../utils/diagram-helpers'
 import { getLegendTitle } from './defaults/titles'
+import ClusterDetailsContainer from './ClusterDetailsContainer'
 
 const DetailsViewDecorator = ({ shape, className }) => {
   return (
@@ -136,6 +137,8 @@ class DetailsView extends React.Component {
       return this.renderSubmit(detail, locale)
     case 'snippet':
       return this.renderSnippet(detail, locale)
+    case 'clusterdetailcombobox':
+      return this.renderClusterDetailComboBox(detail, locale)
     default:
       return this.renderLabel(detail, locale)
     }
@@ -342,9 +345,26 @@ class DetailsView extends React.Component {
       <div className={'details-view-scrollbar'} style={finalStyle} {...props} />
     )
   }
+
+  renderClusterDetailComboBox({ comboboxdata }, locale) {
+    const { clusterDetailsContainerControl } = this.props
+    return (
+      <div className="sectionContent" key={Math.random()}>
+        <ClusterDetailsContainer
+          clusterList={comboboxdata}
+          locale={locale}
+          clusterDetailsContainerControl={clusterDetailsContainerControl}
+        />
+      </div>
+    )
+  }
 }
 
 DetailsView.propTypes = {
+  clusterDetailsContainerControl: PropTypes.shape({
+    clusterDetailsContainerData: PropTypes.object,
+    handleClusterDetailsContainerUpdate: PropTypes.func
+  }),
   getLayoutNodes: PropTypes.func,
   getViewContainer: PropTypes.func,
   locale: PropTypes.string,

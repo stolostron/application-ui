@@ -630,66 +630,14 @@ export const setClusterStatus = (node, details) => {
   const { cluster, clusters = [] } = specs
   const clusterArr = cluster ? [cluster] : clusters
 
-  if (clusterArr.length > 1) {
-    addPropertyToList(
-      details,
-      getNodePropery(node, ['specs', 'clusterNames'], 'resource.clusters')
-    )
+  details.push({
+    type: 'label',
+    labelValue: `Clusters (${clusterArr.length})`
+  })
 
-    details.push({
-      type: 'spacer'
-    })
-  }
-
-  clusterArr.forEach(c => {
-    const {
-      metadata = {},
-      capacity = {},
-      allocatable = {},
-      clusterip,
-      status
-    } = c
-    const { name, namespace, creationTimestamp } = metadata
-    //void ({ labels } = metadata)
-    const { nodes, cpu: cc, memory: cm } = capacity
-    const { pods, cpu: ac, memory: am } = allocatable
-    details.push({ labelKey: 'resource.name', value: name })
-    details.push({ labelKey: 'resource.namespace', value: namespace })
-    if (c.consoleURL) {
-      const href = c.consoleURL
-      details.push({
-        type: 'link',
-        value: {
-          label: msgs.get('details.cluster.console'),
-          id: `${href}-location`,
-          data: {
-            action: 'open_link',
-            targetLink: href
-          }
-        },
-        indent: true
-      })
-    }
-
-    // general details
-    addDetails(details, [
-      { labelKey: 'resource.clusterip', value: clusterip },
-      { labelKey: 'resource.pods', value: pods },
-      { labelKey: 'resource.nodes', value: nodes },
-      { labelKey: 'resource.status', value: status },
-      {
-        labelKey: 'resource.cpu',
-        value: `${getPercentage(inflateKubeValue(ac), inflateKubeValue(cc))}%`
-      },
-      {
-        labelKey: 'resource.memory',
-        value: `${getPercentage(inflateKubeValue(am), inflateKubeValue(cm))}%`
-      },
-      { labelKey: 'resource.created', value: getAge(creationTimestamp) }
-    ])
-    details.push({
-      type: 'spacer'
-    })
+  details.push({
+    type: 'clusterdetailcombobox',
+    comboboxdata: clusterArr
   })
 
   return details

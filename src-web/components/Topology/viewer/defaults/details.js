@@ -40,10 +40,17 @@ export const getNodeDetails = (node, updatedNode) => {
     details.push({
       type: 'spacer'
     })
-    details.push({
-      type: 'label',
-      labelKey: 'prop.details.section'
-    })
+    if (type !== 'cluster') {
+      details.push({
+        type: 'label',
+        labelKey: 'prop.details.section'
+      })
+    } else {
+      details.push({
+        type: 'label',
+        labelKey: 'prop.details.section.cluster'
+      })
+    }
     details.push({
       type: 'spacer'
     })

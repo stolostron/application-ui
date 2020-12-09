@@ -19,6 +19,7 @@ import {
   updateControlsForNS,
   getSharedSubscriptionWarning
 } from './utils'
+import config from '../../../../lib/shared/config'
 
 import {
   discoverGroupsFromSource,
@@ -147,7 +148,7 @@ export const controlData = async () => [
         available: [
           {
             id: 'github',
-            logo: 'git-repo.svg',
+            logo: `${config.contextPath}/graphics/git-repo.svg`,
             title: 'channel.type.git',
             tooltip: 'tooltip.creation.app.channel.git',
             change: {
@@ -156,7 +157,7 @@ export const controlData = async () => [
           },
           {
             id: 'helmrepo',
-            logo: 'helm-repo.png',
+            logo: `${config.contextPath}/graphics/helm-repo.png`,
             title: 'channel.type.helmrepo',
             tooltip: 'tooltip.channel.type.helmrepo',
             change: {
@@ -165,7 +166,7 @@ export const controlData = async () => [
           },
           {
             id: 'objectstore',
-            logo: 'object-bucket-repo.svg',
+            logo: `${config.contextPath}/graphics/object-bucket-repo.svg`,
             title: 'channel.type.objectbucket',
             tooltip: 'tooltip.channel.type.objectbucket',
             change: {
@@ -174,7 +175,7 @@ export const controlData = async () => [
           },
           {
             id: 'other',
-            logo: 'resource-deployable-icon.svg',
+            logo: `${config.contextPath}/graphics/resource-deployable-icon.svg`,
             title: 'channel.type.other',
             tooltip: 'tooltip.channel.type.other',
             hidden: true, // only show this if editing existing app

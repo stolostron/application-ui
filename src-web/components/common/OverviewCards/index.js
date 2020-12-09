@@ -16,10 +16,10 @@ import {
   AccordionItem,
   AccordionContent,
   AccordionToggle,
-  Alert,
   Button,
   Skeleton
 } from '@patternfly/react-core'
+import { AcmAlert } from '@open-cluster-management/ui-components'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
 import config from '../../../../lib/shared/config'
@@ -99,13 +99,7 @@ class OverviewCards extends React.Component {
         'err.message',
         msgs.get('resource.error')
       )
-      return (
-        <Alert
-          variant="danger"
-          title={errMessage}
-          className="overview-notification"
-        />
-      )
+      return <AcmAlert variant="danger" title={errMessage} noClose />
     }
     if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
       const infoMessage = _.get(
@@ -113,13 +107,7 @@ class OverviewCards extends React.Component {
         'err.err',
         msgs.get('load.app.info.notfound', [selectedAppName])
       )
-      return (
-        <Alert
-          variant="info"
-          title={infoMessage}
-          className="overview-notification"
-        />
-      )
+      return <AcmAlert variant="info" title={infoMessage} noClose />
     }
 
     const toggleAccordion = toggleStatus => {
@@ -417,7 +405,7 @@ class OverviewCards extends React.Component {
                       locale
                     )}
                   </div>
-                  {!sub.timeWindowType ? (
+                  {sub.timeWindowType === 'none' ? (
                     <div
                       className="set-time-window-link"
                       tabIndex="0"
@@ -437,7 +425,8 @@ class OverviewCards extends React.Component {
                         type: sub.timeWindowType,
                         days: sub.timeWindowDays,
                         timezone: sub.timeWindowTimezone,
-                        ranges: sub.timeWindowRanges
+                        ranges: sub.timeWindowRanges,
+                        missingData: sub.timeWindowMissingData
                       }}
                       locale={locale}
                     />

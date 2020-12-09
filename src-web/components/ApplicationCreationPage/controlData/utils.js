@@ -321,16 +321,6 @@ const retrieveGitDetails = async (
       accessToken: _.get(tokenCtrl, 'active')
     }
 
-    if (
-      !(
-        (queryVariables.namespace && queryVariables.secretRef) ||
-        queryVariables.accessToken
-      )
-    ) {
-      // insufficent data so far to query branch or paths
-      return
-    }
-
     githubPathCtrl.active = ''
     githubPathCtrl.available = []
 

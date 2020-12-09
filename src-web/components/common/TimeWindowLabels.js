@@ -44,28 +44,38 @@ const TimeWindowLabels = ({ timeWindow, locale }) => {
         labelColor={timeWindow.type === 'active' ? 'green' : 'orange'}
       >
         <div className="timeWindow-labels-popover-content">
-          <div className="timeWindow-title">
-            {msgs.get('timeWindow.label.days', locale)}
-          </div>
-          <div className="timeWindow-content">
-            {timeWindow.days ? timeWindow.days.join(', ') : notSelectedLabel}
-          </div>
+          {timeWindow.missingData ? (
+            <div className="timeWindow-content">
+              {msgs.get('timeWindow.label.missing.data', locale)}
+            </div>
+          ) : (
+            <React.Fragment>
+              <div className="timeWindow-title">
+                {msgs.get('timeWindow.label.days', locale)}
+              </div>
+              <div className="timeWindow-content">
+                {timeWindow.days
+                  ? timeWindow.days.join(', ')
+                  : notSelectedLabel}
+              </div>
 
-          <div className="timeWindow-title">
-            {msgs.get('timeWindow.label.timezone', locale)}
-          </div>
-          <div className="timeWindow-content">
-            {timeWindow.timezone ? timeWindow.timezone : notSelectedLabel}
-          </div>
+              <div className="timeWindow-title">
+                {msgs.get('timeWindow.label.timezone', locale)}
+              </div>
+              <div className="timeWindow-content">
+                {timeWindow.timezone ? timeWindow.timezone : notSelectedLabel}
+              </div>
 
-          <div className="timeWindow-title">
-            {msgs.get('timeWindow.label.ranges', locale)}
-          </div>
-          <div className="timeWindow-content">
-            {timeWindow.ranges
-              ? createTimeRanges(timeWindow.ranges)
-              : notSelectedLabel}
-          </div>
+              <div className="timeWindow-title">
+                {msgs.get('timeWindow.label.ranges', locale)}
+              </div>
+              <div className="timeWindow-content">
+                {timeWindow.ranges
+                  ? createTimeRanges(timeWindow.ranges)
+                  : notSelectedLabel}
+              </div>
+            </React.Fragment>
+          )}
 
           <div
             className="edit-time-window-link"

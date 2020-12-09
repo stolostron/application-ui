@@ -67,7 +67,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   } = gitCss;
 
   cy
-    .get(`#github`)
+    .get(`#git`)
     .scrollIntoView()
     .click()
     .trigger("mouseover");
@@ -86,16 +86,26 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   }
   // type in branch and path
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
-  cy
-    .get(gitBranch, { timeout: 50 * 1000 })
-    .type(branch, { timeout: 50 * 1000 })
-    .blur();
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitBranch, { timeout: 50 * 1000 }).click();
+    cy.contains(".bx--list-box__menu-item", branch).click();
+  } else {
+    cy
+      .get(gitBranch, { timeout: 50 * 1000 })
+      .type(branch, { timeout: 50 * 1000 })
+      .blur();
+  }
   cy.wait(1000);
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
-  cy
-    .get(gitPath, { timeout: 20 * 1000 })
-    .type(path, { timeout: 30 * 1000 })
-    .blur();
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitPath, { timeout: 20 * 1000 }).click();
+    cy.contains(".bx--list-box__menu-item", path).click();
+  } else {
+    cy
+      .get(gitPath, { timeout: 20 * 1000 })
+      .type(path, { timeout: 30 * 1000 })
+      .blur();
+  }
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
@@ -150,7 +160,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     insecureSkipVerify
   } = css;
   cy
-    .get("#helmrepo")
+    .get("#helm")
     .click()
     .trigger("mouseover");
   cy
@@ -238,7 +248,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
   const { url, accessKey, secretKey, timeWindow, deployment } = value;
   const { objUrl, objAccess, objSecret } = css;
   cy
-    .get("#objectstore")
+    .get("#object-storage")
     .click()
     .trigger("mouseover");
   cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
@@ -375,6 +385,19 @@ export const validateTopology = (
 
   // cluster and placement
   for (const [key, value] of Object.entries(data.config)) {
+    //ignore as only one subscription exists
+    if (opType !== "delete") {
+      if (data.config.length > 1 || opType == "add") {
+        cy.get(".channelsCombo").within($channels => {
+          cy.get(".bx--list-box__field", { timeout: 20 * 1000 }).click();
+          //select all subscriptions
+          cy
+            .get(".bx--list-box__menu-item", { timeout: 20 * 1000 })
+            .eq(0)
+            .click();
+        });
+      }
+    }
     if (opType == "delete" && key == 0) {
       //ignore first subscription on delete
     } else {
@@ -383,7 +406,7 @@ export const validateTopology = (
 
       const { local, online } =
         key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
-      cy.log(` key=${key}, type=${opType}`);
+      cy.log(`key=${key}, type=${opType}`);
       !local
         ? (validatePlacementNode(name, key),
           !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has

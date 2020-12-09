@@ -15,12 +15,16 @@ import {
   getClusterCount,
   getClusterCountString
 } from '../../lib/client/resource-helper'
+import { getEmptyMessage } from './hcm-subscription'
+import msgs from '../../nls/platform.properties'
 
 export default {
   defaultSortField: 'name',
   primaryKey: 'name',
   secondaryKey: 'namespace',
   pluralKey: 'table.plural.placementrule',
+  emptyTitle: getEmptyTitle,
+  emptyMessage: getEmptyMessage,
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -97,4 +101,8 @@ function createClustersText(item, locale) {
     clusterCount.remoteCount,
     clusterCount.localCount
   )
+}
+
+function getEmptyTitle(locale = '') {
+  return msgs.get('no-resource.placementrule.title', locale)
 }

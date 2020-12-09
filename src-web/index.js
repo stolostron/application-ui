@@ -49,6 +49,12 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 )
 
+window.MonacoEnvironment = {
+  getWorkerUrl: function() {
+    return `${config.contextPath}/editor.worker.js`
+  }
+}
+
 hydrate(
   <ApolloProvider client={apolloClient.getClient()}>
     <Provider store={store}>

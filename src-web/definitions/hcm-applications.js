@@ -28,6 +28,8 @@ export default {
   primaryKey: 'name',
   secondaryKey: 'namespace',
   pluralKey: 'table.plural.application',
+  emptyTitle: getEmptyTitle,
+  emptyMessage: getEmptyMessage,
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -231,4 +233,25 @@ function getTimeWindow(item = {}, locale = '') {
   )
     ? msgs.get('table.cell.timeWindow.yes', locale)
     : ''
+}
+
+function getEmptyTitle(locale = '') {
+  return msgs.get('no-resource.application.title', locale)
+}
+
+function getEmptyMessage(locale = '') {
+  const buttonName = msgs.get('actions.create.application', locale)
+  const buttonText = `<span class="emptyStateButtonReference">${buttonName}</span>`
+  const message = msgs.get(
+    'no-resource.application.message',
+    [buttonText],
+    locale
+  )
+  return (
+    <p>
+      <span dangerouslySetInnerHTML={{ __html: message }} />
+      <br />
+      {msgs.get('no-resource.documentation.message', locale)}
+    </p>
+  )
 }

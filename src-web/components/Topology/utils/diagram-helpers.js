@@ -34,6 +34,7 @@ const specsPropsYaml = 'props.show.yaml'
 const showLocalYaml = 'props.show.local.yaml'
 const showResourceYaml = 'show_resource_yaml'
 const specLocation = 'raw.spec.host.location'
+const clusterObjsPath = 'clusters.specs.clusters'
 
 //pod state contains any of these strings
 const podErrorStates = ['err', 'off', 'invalid', 'kill']
@@ -326,10 +327,8 @@ const getPulseStatusForGenericNode = node => {
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   const clusterNames = R.split(',', getClusterName(node.id))
-  const onlineClusters = getOnlineClusters(
-    clusterNames,
-    node.clusters.specs.clusters
-  )
+  const clusterObjs = _.get(node, clusterObjsPath, [])
+  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
   if (!resourceMap || onlineClusters.length === 0) {
     pulse = 'orange' //resource not available
     return pulse
@@ -416,10 +415,8 @@ export const getPulseForNodeWithPodStatus = node => {
   }
   const resourceName = _.get(node, metadataName, '')
   const clusterNames = R.split(',', getClusterName(node.id))
-  const onlineClusters = getOnlineClusters(
-    clusterNames,
-    node.clusters.specs.clusters
-  )
+  const clusterObjs = _.get(node, clusterObjsPath, [])
+  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
   if (!resourceMap || onlineClusters.length === 0) {
     pulse = 'orange' //resource not available
@@ -972,7 +969,7 @@ export const setResourceDeployStatus = (node, details) => {
 
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
-  const clusterObjs = _.get(node, 'clusters.specs.clusters', [])
+  const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
   if (_.get(node, 'type', '') === 'ansiblejob') {
@@ -1087,7 +1084,7 @@ export const setPodDeployStatus = (node, updatedNode, details) => {
   const podDataPerCluster = {} //pod details list for each cluster name
 
   const clusterNames = R.split(',', getClusterName(node.id))
-  const clusterObjs = _.get(node, 'clusters.specs.clusters', [])
+  const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
   onlineClusters.forEach(clusterName => {

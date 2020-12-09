@@ -298,6 +298,7 @@ class ClusterDetailsContainer extends React.Component {
     const divClass = 'sectionContent borderLeft'
     const labelClass = 'label sectionLabel'
     const valueClass = 'value'
+    const solidLineStyle = '1px solid #D2D2D2'
 
     for (let i = startIdx; i < clusterList.length && i < page * perPage; i++) {
       const {
@@ -325,10 +326,10 @@ class ClusterDetailsContainer extends React.Component {
       const parentDivStyle =
         i === startIdx
           ? {
-            'border-top': '1px solid #D2D2D2',
-            'border-bottom': '1px solid #D2D2D2'
+            'border-top': solidLineStyle,
+            'border-bottom': solidLineStyle
           }
-          : { 'border-bottom': '1px solid #D2D2D2' }
+          : { 'border-bottom': solidLineStyle }
       const toggleItemNum = i % perPage
       const namespaceStyle = {
         color: '#5A6872',

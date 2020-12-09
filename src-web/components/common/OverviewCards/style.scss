@@ -185,12 +185,12 @@
   }
 }
 
-.overview-notification {
+.pf-c-alert {
   margin: 0.5rem 0;
-  --pf-c-alert--BoxShadow: none;
 
-  .pf-c-alert__title {
-    margin-left: 1rem;
-    font-size: 15px;
+  .pf-c-alert__title,
+  .pf-c-alert__description > p {
+    font-size: 14px;
+    margin-top: auto;
   }
 }

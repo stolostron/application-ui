@@ -42,7 +42,9 @@ export const createApplication = resourceJson => {
   return dispatch => {
     dispatch(createApplicationInProgress())
     return apolloClient.createApplication(resourceJson).then(result => {
-      const errors = _.get(result, 'data.createApplication.errors')
+      const errors =
+        _.get(result, 'data.createApplication.errors') ||
+        _.get(result, 'errors')
       if (errors && errors.length > 0) {
         dispatch(createApplicationFailure(errors))
       } else {

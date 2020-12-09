@@ -547,7 +547,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
 
         //get repository popup info
         cy
-          .get(".add-right-border")
+          .get(".add-right-border", { timeout: 20 * 1000 })
           .eq(1)
           .within($repo => {
             cy
@@ -608,8 +608,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
       cy
         .get(".timeWindow-labels-popover-content", { timeout: 20 * 1000 })
         .invoke("text")
-        .should("include", timeWindowInfo.date)
-        .and("include", timeWindowInfo.hours);
+        .should("include", "Edit time window");
       cy
         .get(".subs-icon")
         .first()
@@ -676,7 +675,7 @@ export const testInvalidApplicationInput = () => {
 
   cy.log("Test invalid git url");
   cy
-    .get("#github", { timeout: 20 * 1000 })
+    .get("#git", { timeout: 20 * 1000 })
     .click({ force: true })
     .trigger("mouseover");
 
@@ -718,12 +717,12 @@ export const testInvalidApplicationInput = () => {
 
   cy.log("Test invalid HELM url");
   cy
-    .get("#github")
+    .get("#git")
     .click()
     .trigger("mouseover");
 
   cy
-    .get("#helmrepo")
+    .get("#helm")
     .click()
     .trigger("mouseover");
 
@@ -751,11 +750,11 @@ export const testInvalidApplicationInput = () => {
 
   cy.log("Test invalid object store url");
   cy
-    .get("#helmrepo")
+    .get("#helm")
     .click()
     .trigger("mouseover");
   cy
-    .get("#objectstore")
+    .get("#object-storage")
     .click()
     .trigger("mouseover");
 

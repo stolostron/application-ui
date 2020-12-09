@@ -198,6 +198,52 @@
       display: flex;
       justify-content: flex-end;
     }
+
+    .clusterDetails {
+      .pf-c-pagination {
+        .pf-c-pagination__total-items {
+          display: none;
+        }
+
+        .pf-c-pagination__nav {
+          .pf-c-pagination__nav-control {
+            .pf-c-button {
+              outline-width: 0px;
+            }
+          }
+        }
+
+        .pf-c-options-menu {
+          display: none;
+        }
+      }
+
+      .pf-c-select {
+        .pf-c-select__toggle {
+          .pf-c-select__toggle-wrapper {
+            .pf-c-form-control:focus {
+              outline-width: 0px;
+            }
+          }
+
+          .pf-c-button:focus {
+            outline-width: 0px;
+          }
+        }
+      }
+
+      .clusterDetailItem {
+        .pf-c-expandable-section {
+          .pf-c-expandable-section__content {
+            margin-top: 0px;
+          }
+
+          .pf-c-expandable-section__toggle:focus {
+            outline-width: 0px;
+          }
+        }
+      }
+    }
   }
 
   .label {

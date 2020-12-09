@@ -20,11 +20,9 @@ import {
   sortTable,
   fetchResources,
   updateSecondaryHeader,
-  delResourceSuccessFinished,
-  mutateResourceSuccessFinished
+  delResourceSuccessFinished
 } from '../../actions/common'
 import { updateResourceFilters, combineFilters } from '../../actions/filters'
-import { Notification } from 'carbon-components-react'
 import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
@@ -37,6 +35,8 @@ import {
 } from '../../shared/utils/refetch'
 import { refetchIntervalUpdate } from '../../actions/refetch'
 import { withLocale } from '../../providers/LocaleProvider'
+import { AcmAlert } from '@open-cluster-management/ui-components'
+import { Stack, StackItem } from '@patternfly/react-core'
 
 resources(() => {
   require('../../../scss/resource-list.scss')
@@ -74,7 +74,6 @@ class ResourceList extends React.Component {
   }
 
   mutateFinished() {
-    this.props.mutateSuccessFinished()
     this.props.deleteSuccessFinished()
   }
 
@@ -99,7 +98,6 @@ class ResourceList extends React.Component {
       items,
       itemIds,
       locale,
-      mutateStatus,
       deleteStatus,
       deleteMsg,
       status,
@@ -118,11 +116,10 @@ class ResourceList extends React.Component {
       //eslint-disable-next-line no-console
       console.error(err)
       return (
-        <Notification
-          title=""
-          className="persistent"
-          subtitle={msgs.get('error.default.description', locale)}
-          kind="error"
+        <AcmAlert
+          title={msgs.get('error.default.description', locale)}
+          variant="danger"
+          noClose
         />
       )
     }
@@ -131,33 +128,24 @@ class ResourceList extends React.Component {
       return React.cloneElement(action, { resourceType })
     })
 
-    return (
-      <div id="resource-list">
-        {deleteStatus === REQUEST_STATUS.DONE && (
-          <Notification
+    const stackItems = []
+    if (deleteStatus === REQUEST_STATUS.DONE) {
+      stackItems.push(
+        <StackItem key="alert">
+          <AcmAlert
             title={msgs.get('success.update.resource', locale)}
             subtitle={msgs.get(
               'success.delete.description',
               [deleteMsg],
               locale
             )}
-            kind="success"
+            variant="success"
           />
-        )}
-        {mutateStatus === REQUEST_STATUS.DONE && (
-          <Notification
-            title=""
-            subtitle={msgs.get('success.create.description', locale)}
-            kind="success"
-          />
-        )}
-        {renderRefreshTime(
-          refetchIntervalUpdateDispatch,
-          isLoaded,
-          isReloading,
-          timestamp,
-          locale
-        )}
+        </StackItem>
+      )
+    }
+    stackItems.push(
+      <StackItem key="table">
         <ResourceTable
           actions={actions}
           staticResourceData={staticResourceData}
@@ -167,6 +155,19 @@ class ResourceList extends React.Component {
           tableActions={staticResourceData.tableActions}
           locale={locale}
         />
+      </StackItem>
+    )
+
+    return (
+      <div id="resource-list">
+        {renderRefreshTime(
+          refetchIntervalUpdateDispatch,
+          isLoaded,
+          isReloading,
+          timestamp,
+          locale
+        )}
+        <Stack hasGutter>{stackItems}</Stack>
       </div>
     )
   }
@@ -201,12 +202,9 @@ const mapStateToProps = (state, ownProps) => {
     itemIds,
     status: state[typeListName].status,
     err: state[typeListName].err,
-    mutateStatus: state[typeListName].mutateStatus,
-    mutateErrorMsg: state[typeListName].mutateErrorMsg,
     deleteStatus: state[typeListName].deleteStatus,
     deleteMsg: state[typeListName].deleteMsg,
     forceReload: state[typeListName].forceReload,
-    mutateSuccessFinished: state.mutateSuccessFinished,
     refetch: state.refetch
   }
 }
@@ -234,8 +232,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       updateBrowserURL && updateBrowserURL(selectedFilters)
       dispatch(updateResourceFilters(resourceType, selectedFilters))
     },
-    mutateSuccessFinished: () =>
-      dispatch(mutateResourceSuccessFinished(ownProps.resourceType)),
     deleteSuccessFinished: () =>
       dispatch(delResourceSuccessFinished(ownProps.resourceType)),
     refetchIntervalUpdateDispatch: data => dispatch(refetchIntervalUpdate(data))
@@ -253,8 +249,6 @@ ResourceList.propTypes = {
   items: PropTypes.object,
   locale: PropTypes.string,
   mainButton: PropTypes.object,
-  mutateStatus: PropTypes.string,
-  mutateSuccessFinished: PropTypes.func,
   refetchIntervalUpdateDispatch: PropTypes.func,
   resourceType: PropTypes.object,
   staticResourceData: PropTypes.object,

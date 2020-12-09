@@ -9,7 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import { VALIDATE_URL } from '../../TemplateEditor/utils/validation'
+import { VALIDATE_URL } from 'temptifly'
 import { loadExistingChannels, updateChannelControls } from './utils'
 import placementData from './ControlDataPlacement'
 

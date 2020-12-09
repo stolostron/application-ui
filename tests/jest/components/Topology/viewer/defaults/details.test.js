@@ -58,8 +58,10 @@ describe("getNodeDetails no clusters or violation", () => {
 
   const expectedResult = [
     { type: "spacer" },
-    { labelKey: "prop.details.section", type: "label" },
-    { type: "spacer" }
+    { labelKey: "prop.details.section.cluster", type: "label" },
+    { type: "spacer" },
+    { labelValue: "Clusters (0)", type: "label" },
+    { comboboxdata: [], type: "clusterdetailcombobox" }
   ];
   it("should process the node, no clusters or violation", () => {
     expect(getNodeDetails(clusterNode, locale)).toEqual(expectedResult);
@@ -252,60 +254,34 @@ describe("getNodeDetails cluster node 1", () => {
 
   const expectedResult = [
     { type: "spacer" },
-    { labelKey: "prop.details.section", type: "label" },
+    {
+      labelKey: "prop.details.section.cluster",
+      type: "label"
+    },
     { type: "spacer" },
-    { labelKey: "resource.name", value: undefined },
-    { labelKey: "resource.namespace", value: undefined },
     {
-      indent: true,
-      type: "link",
-      value: {
-        data: { action: "open_link", targetLink: "aaa" },
-        id: "aaa-location",
-        label: "Open cluster console"
-      }
+      labelValue: "Clusters (1)",
+      type: "label"
     },
     {
-      indent: undefined,
-      labelKey: "resource.pods",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: []
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.nodes",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: []
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.cpu",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "20%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.memory",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "25%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.created",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "-"
-    },
-    { type: "spacer" }
+      comboboxdata: [
+        {
+          allocatable: {
+            cpu: "8",
+            memory: "24",
+            pods: []
+          },
+          capacity: {
+            cpu: "10",
+            memory: "32",
+            nodes: []
+          },
+          consoleURL: "aaa",
+          consoleip: "api"
+        }
+      ],
+      type: "clusterdetailcombobox"
+    }
   ];
 
   it("should process the node, cluster node 2", () => {
@@ -414,92 +390,62 @@ describe("getNodeDetails clusters node", () => {
 
   const expectedResult = [
     { type: "spacer" },
-    { labelKey: "prop.details.section", type: "label" },
-    { type: "spacer" },
     {
-      labelKey: "resource.clusters",
-      status: undefined,
-      value: "[braveman,possiblereptile]"
+      labelKey: "prop.details.section.cluster",
+      type: "label"
     },
     { type: "spacer" },
-    { labelKey: "resource.name", value: undefined },
-    { labelKey: "resource.namespace", value: undefined },
     {
-      indent: undefined,
-      labelKey: "resource.nodes",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: []
+      labelValue: "Clusters (2)",
+      type: "label"
     },
     {
-      indent: undefined,
-      labelKey: "resource.cpu",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "100%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.memory",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "100%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.created",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "-"
-    },
-    { type: "spacer" },
-    { labelKey: "resource.name", value: undefined },
-    { labelKey: "resource.namespace", value: undefined },
-    {
-      indent: undefined,
-      labelKey: "resource.pods",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: []
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.nodes",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: []
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.cpu",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "20%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.memory",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "-76700%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.created",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "-"
-    },
-    { type: "spacer" }
+      comboboxdata: [
+        {
+          capacity: {
+            cpu: "10",
+            memory: "32Gi",
+            nodes: [],
+            storage: "500Gi"
+          },
+          metatdata: {
+            labels: {
+              cloud: "AWS",
+              env: "Dev"
+            },
+            name: "braveman",
+            namespace: "default"
+          },
+          usage: {
+            cpu: "8",
+            memory: "24Ti",
+            pods: [],
+            storage: "400Ei"
+          }
+        },
+        {
+          allocatable: {
+            cpu: "8",
+            memory: "24Ti",
+            pods: []
+          },
+          capacity: {
+            cpu: "10",
+            memory: "32Gi",
+            nodes: []
+          },
+          metatdata: {
+            labels: {
+              cloud: "AWS",
+              env: "Dev"
+            },
+            name: "possiblereptile",
+            namespace: "default"
+          }
+        }
+      ],
+      type: "clusterdetailcombobox"
+    }
   ];
 
   it("should process the clusters node", () => {

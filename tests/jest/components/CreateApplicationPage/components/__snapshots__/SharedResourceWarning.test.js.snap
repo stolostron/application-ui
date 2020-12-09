@@ -26,9 +26,16 @@ exports[`SharedResourceWarning renders correctly for a shared placement rule 1`]
     </svg>
   </div>
   <div>
-    <p>
-      Warning: This application uses a shared {0} resource. Changes to these settings will also affect the following applications:
-    </p>
+    <p
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+              <span class=\\"warning-font\\">Caution: </span>
+              This application uses a shared {0} resource. Changes to these settings will also affect the following applications:
+              ",
+        }
+      }
+    />
     <p>
       shared-pr-app-1, shared-pr-app-2
     </p>
@@ -62,9 +69,16 @@ exports[`SharedResourceWarning renders correctly for a shared subscription 1`] =
     </svg>
   </div>
   <div>
-    <p>
-      Warning: This application uses a shared {0} resource. Changes to these settings will also affect the following applications:
-    </p>
+    <p
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+              <span class=\\"warning-font\\">Caution: </span>
+              This application uses a shared {0} resource. Changes to these settings will also affect the following applications:
+              ",
+        }
+      }
+    />
     <p>
       shared-sub-app-1, shared-sub-app-2
     </p>

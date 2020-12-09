@@ -1323,7 +1323,7 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
           <span
             className="value"
           >
-            15 days ago
+            16 days ago
           </span>
         </div>
         <div

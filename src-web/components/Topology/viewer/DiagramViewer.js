@@ -70,7 +70,10 @@ class DiagramViewer extends React.Component {
         startIdx: 0,
         clusterSearchToggle: false,
         isSelectOpen: false,
-        expandSectionToggleMap: new Set()
+        expandSectionToggleMap: new Set(),
+        clusterID: undefined,
+        selected: undefined,
+        selectedClusterList: []
       }
     }
     if (props.setViewer) {
@@ -573,14 +576,20 @@ class DiagramViewer extends React.Component {
     page,
     startIdx,
     clusterSearchToggle,
-    expandSectionToggleMap
+    expandSectionToggleMap,
+    clusterID,
+    selected,
+    selectedClusterList
   ) => {
     this.setState({
       clusterDetailsContainerData: {
         page: page,
         startIdx: startIdx,
         clusterSearchToggle: clusterSearchToggle,
-        expandSectionToggleMap: expandSectionToggleMap
+        expandSectionToggleMap: expandSectionToggleMap,
+        clusterID: clusterID,
+        selected: selected,
+        selectedClusterList: selectedClusterList
       }
     })
   };

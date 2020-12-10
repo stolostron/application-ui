@@ -34,11 +34,12 @@ import _ from 'lodash'
 
 // include monaco editor
 import TemplateEditor from 'temptifly'
+//import TemplateEditor from '../../../../temptifly/src/'
 import MonacoEditor from 'react-monaco-editor'
 import 'monaco-editor/esm/vs/editor/editor.all.js'
 import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand.js'
 import 'monaco-editor/esm/vs/basic-languages/yaml/yaml.contribution.js'
-import { global_BackgroundColor_dark_100 as editorBackground } from '@patternfly/react-tokens';
+import { global_BackgroundColor_dark_100 as editorBackground } from '@patternfly/react-tokens'
 if (window.monaco) {
   window.monaco.editor.defineTheme('console', {
     base: 'vs-dark',
@@ -56,7 +57,7 @@ if (window.monaco) {
       'editorLineNumber.activeForeground': '#fff',
       'editorLineNumber.foreground': '#f0f0f0',
     },
-  });
+  })
 }
 
 window.MonacoEnvironment = {
@@ -87,12 +88,7 @@ class ApplicationCreationPage extends React.Component {
     match: PropTypes.object,
     mutateErrorMsgs: PropTypes.array,
     mutateStatus: PropTypes.string,
-    savedFormData: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.arrayOf(PropTypes.object)
-    ]),
     secondaryHeaderProps: PropTypes.object,
-    updateFormState: PropTypes.func,
     updateSecondaryHeader: PropTypes.func
   };
 
@@ -239,9 +235,6 @@ class ApplicationCreationPage extends React.Component {
     const {
       mutateStatus,
       mutateErrorMsgs,
-      updateFormState,
-      savedFormData,
-      history
     } = this.props
     const createControl = {
       hasPermissions,
@@ -265,9 +258,6 @@ class ApplicationCreationPage extends React.Component {
           fetchControl={fetchControl}
           createControl={createControl}
           i18n={i18n}
-          updateFormState={updateFormState}
-          savedFormData={savedFormData}
-          history={history}
         />
       )
     )

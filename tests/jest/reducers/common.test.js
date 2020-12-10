@@ -236,13 +236,13 @@ describe("resourceReducerFunction", () => {
     };
     const action = {
       type: "TABLE_SORT",
-      sortDirection: "test",
-      sortColumn: "test"
+      sortDirection: "desc",
+      sortColumn: 1
     };
     const expectedValue = {
       test: "test",
-      sortDirection: "test",
-      sortColumn: "test"
+      sortDirection: "desc",
+      sortColumn: 1
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });

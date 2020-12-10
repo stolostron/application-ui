@@ -20,9 +20,32 @@ import {
 } from './utils'
 import _ from 'lodash'
 
-const VALID_GITBRANCH = /^(?!\/.*)(?!.*([/.]\.|@\/{|\\\\))(?!.*@\{)[^\040\177~^:?*[]+(?<!\.lock|[/.])$/
+const branchRegex = new RegExp(
+  [
+    /^(?!.*\\)/, // (from #9)   cannot contain a \
+    /(?!\/.*)/, // (from #6)   cannot begin with /
+    /(?!.*([/.]\.|@\/{|\\\\))/, // (from #1,3) cannot contain /. or .. or \\
+    /(?!.*@\{)/, // (from #8)   cannot contain a sequence @{
+    /([^\040\177~^:?*[]+)/, // (from #4-5) valid character rules
+    /(?<!\.lock|[/.])$/ // (from #6-7) cannot end with / or .  or .lock
+  ]
+    .map(r => r.source)
+    .join('')
+)
+
+// var branchRegex= new RegExp(''
+//   + /(?!.*\\)/.source     // protocol
+//   + /(?!\/.*)/.source  // user:pass
+//   + /(?!.*([/.]\.|@\/{|\\\\))/.source     // domain
+//   + /(?!.*@\{)/.source                 // request
+//   + /[^\040\177 ~^:?*[]+/.source                 // query
+//   + /(?<!\.lock|[/.])$/.source                  // anchor
+// );
+
+//const branchRegex = new RegExp(/^(?!\/.*)(?!.*([/.]\.|@\/{|\\\\))(?!.*@\{)[^\040\177~^:?*[]+(?<!\.lock|[/.])$/)
+
 export const VALIDATE_GITBRANCH = {
-  tester: new RegExp(VALID_GITBRANCH),
+  tester: branchRegex,
   notification: 'creation.valid.gitbranch',
   required: false
 }

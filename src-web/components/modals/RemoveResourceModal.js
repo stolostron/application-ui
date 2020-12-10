@@ -27,6 +27,7 @@ import {
 } from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import resources from '../../../lib/shared/resources'
+import { withLocale } from '../../providers/LocaleProvider'
 import {
   AcmModal,
   AcmLoadingPage,
@@ -48,6 +49,7 @@ class RemoveResourceModal extends React.Component {
       cluster: '',
       selfLink: '',
       errors: undefined,
+      warnings: undefined,
       loading: true,
       selected: [],
       removeAppResources: false
@@ -70,7 +72,7 @@ class RemoveResourceModal extends React.Component {
           canRemove: allowed,
           errors: allowed
             ? undefined
-            : msgs.get('table.actions.remove.unauthorized', this.context.locale)
+            : msgs.get('table.actions.remove.unauthorized', this.props.locale)
         })
         this.getChildResources(data.name, data.namespace)
       })
@@ -84,11 +86,31 @@ class RemoveResourceModal extends React.Component {
 
   getChildResources = (name, namespace) => {
     try {
-      const { resourceType } = this.props
+      const { resourceType, locale } = this.props
       const { canRemove } = this.state
       if (resourceType.name === 'HCMApplication' && canRemove) {
         // Get application resources
         apolloClient.getApplication({ name, namespace }).then(response => {
+          // Warning for application deployed by another application
+          const hostingSubAnnotation =
+            _.get(response, 'data.application.metadata.annotations') !==
+            undefined
+              ? _.get(response, 'data.application.metadata.annotations')[
+                'apps.open-cluster-management.io/hosting-subscription'
+              ]
+              : undefined
+          if (hostingSubAnnotation) {
+            const subName = hostingSubAnnotation.split('/')[1]
+            this.setState({
+              warnings: msgs.get(
+                'table.actions.remove.child.application',
+                [subName],
+                locale
+              ),
+              loading: false
+            })
+            return
+          }
           const children = []
           const removableSubs = []
           const removableSubNames = []
@@ -191,7 +213,9 @@ class RemoveResourceModal extends React.Component {
     const isApp = n => n.kind.toLowerCase() === 'application'
     const apps = R.filter(isApp, related)
     const items = apps && apps.length === 1 ? apps[0].items : []
-    return items && items.length === 1 ? false : true
+    return items.filter(item => !item._hostingSubscription).length === 1
+      ? false
+      : true
   };
 
   usedByOtherSubs = (related, removableSubNames, appNamespace) => {
@@ -248,6 +272,7 @@ class RemoveResourceModal extends React.Component {
   }
 
   handleSubmit() {
+    const { locale } = this.props
     const { selfLink, cluster, selected, removeAppResources } = this.state
     this.setState({
       loading: true
@@ -263,7 +288,7 @@ class RemoveResourceModal extends React.Component {
     this.props.deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
     if (!selfLink) {
       this.setState({
-        errors: msgs.get('modal.errors.querying.resource', this.context.locale)
+        errors: msgs.get('modal.errors.querying.resource', locale)
       })
     } else {
       apolloClient
@@ -342,7 +367,7 @@ class RemoveResourceModal extends React.Component {
 
   render() {
     const { label, locale, open } = this.props
-    const { canRemove, name, loading, errors } = this.state
+    const { canRemove, name, loading, errors, warnings } = this.state
     const heading = msgs.get(label.heading, locale)
     return (
       <div>
@@ -380,6 +405,14 @@ class RemoveResourceModal extends React.Component {
                 title={errors}
                 isInline
                 noClose
+              />
+            ) : null}
+            {warnings !== undefined ? (
+              <AcmAlert
+                variant="warning"
+                variantLabel=""
+                title={warnings}
+                isInline
               />
             ) : null}
           </div>
@@ -429,6 +462,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  RemoveResourceModal
+export default withLocale(
+  connect(mapStateToProps, mapDispatchToProps)(RemoveResourceModal)
 )

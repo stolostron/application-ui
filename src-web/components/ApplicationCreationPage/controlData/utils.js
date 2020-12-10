@@ -550,9 +550,13 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
 
     _.set(clusterSelectorControl, 'type', 'custom')
     _.set(clusterSelectorControl, 'active.mode', true)
-    clusterSelectorControl.active.clusterLabelsList = [
-      { id: 0, labelName: '', labelValue: '', validValue: false }
-    ]
+
+    // Only set cluster labels list if empty
+    if (!clusterSelectorControl.active.clusterLabelsList.length) {
+      clusterSelectorControl.active.clusterLabelsList = [
+        { id: 0, labelName: '', labelValue: '', validValue: false }
+      ]
+    }
     clusterSelectorControl.showData = []
   }
 

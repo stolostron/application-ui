@@ -9,11 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import {
-  VALIDATE_ALPHANUMERIC,
-  VALID_REPOPATH,
-  VALIDATE_URL
-} from 'temptifly'
+import { VALID_REPOPATH, VALIDATE_URL } from 'temptifly'
 import placementData from './ControlDataPlacement'
 import prePostTasks from './ControlDataPrePostTasks'
 import {
@@ -23,6 +19,14 @@ import {
   updateGitBranchFolders
 } from './utils'
 import _ from 'lodash'
+
+var VALIDATE_GITBRANCH = (exports.VALIDATE_GITBRANCH = {
+  tester: new RegExp(
+    /^(?!\/.*)(?!.*([/.]\.|@\/{|\\\\))(?!.*@\{)[^\040\177~^:?*[]+(?<!\.lock|[/.])$/
+  ),
+  notification: 'creation.valid.gitbranch',
+  required: false
+})
 
 export const updateGitCredentials = (
   urlControl,
@@ -112,7 +116,7 @@ const githubChannelData = async () => [
     active: '',
     placeholder: 'app.enter.select.branch',
     available: [],
-    validation: VALIDATE_ALPHANUMERIC,
+    validation: VALIDATE_GITBRANCH,
     reverse: [
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/github-branch"]',
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/git-branch"]'

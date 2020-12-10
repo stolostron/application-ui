@@ -627,6 +627,29 @@ const saveErrorShouldNotExist = () => {
 
 export const testInvalidApplicationInput = () => {
   const validURL = "http://a.com";
+  const invalidGitBranches = [
+    "INVALID VALUE",
+    "master..123",
+    "master.",
+    "master/.abc",
+    "/master",
+    "master/",
+    "master/.lock",
+    "master:12",
+    "abc~",
+    "master:",
+    "abc?a",
+    "abc*a",
+    "abc[a",
+    "master@{",
+    "master."
+  ];
+  const validGitBranches = [
+    "master",
+    "release-2.1",
+    "master/resource/abc",
+    "master@abc"
+  ];
   const invalidValue = "INVALID VALUE";
   const validValue = "default";
 
@@ -700,20 +723,28 @@ export const testInvalidApplicationInput = () => {
   cy.get("[data-invalid=true]").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
-  cy
-    .get("#githubBranch", { timeout: 20 * 1000 })
-    .type(invalidValue)
-    .blur();
-  cy.get("[data-invalid=true]").should("exist");
-  cy.wait(2000);
-  cy
-    .get("#githubBranch", { timeout: 20 * 1000 })
-    .click()
-    .clear()
-    .type(validValue)
-    .blur();
-  cy.get("[data-invalid=true]").should("not.exist");
-  saveErrorShouldNotExist(); //save error goes away
+  // test invalid git branch names
+  invalidGitBranches.forEach(invalidGitBranch => {
+    cy
+      .get("#githubBranch", { timeout: 20 * 1000 })
+      .trigger("mouseover")
+      .type(invalidGitBranch)
+      .blur();
+    cy.get("[data-invalid=true]").should("exist");
+    cy.wait(2000);
+  });
+
+  // test valid git branch names
+  validGitBranches.forEach(validGitBranch => {
+    cy
+      .get("#githubBranch", { timeout: 20 * 1000 })
+      .trigger("mouseover")
+      .type(validGitBranch)
+      .blur();
+    cy.get("[data-invalid=true]").should("not.exist");
+    saveErrorShouldNotExist(); //save error goes away
+    cy.wait(2000);
+  });
 
   cy.log("Test invalid HELM url");
   cy

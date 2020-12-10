@@ -33,17 +33,6 @@ const branchRegex = new RegExp(
     .join('')
 )
 
-// var branchRegex= new RegExp(''
-//   + /(?!.*\\)/.source     // protocol
-//   + /(?!\/.*)/.source  // user:pass
-//   + /(?!.*([/.]\.|@\/{|\\\\))/.source     // domain
-//   + /(?!.*@\{)/.source                 // request
-//   + /[^\040\177 ~^:?*[]+/.source                 // query
-//   + /(?<!\.lock|[/.])$/.source                  // anchor
-// );
-
-//const branchRegex = new RegExp(/^(?!\/.*)(?!.*([/.]\.|@\/{|\\\\))(?!.*@\{)[^\040\177~^:?*[]+(?<!\.lock|[/.])$/)
-
 export const VALIDATE_GITBRANCH = {
   tester: branchRegex,
   notification: 'creation.valid.gitbranch',

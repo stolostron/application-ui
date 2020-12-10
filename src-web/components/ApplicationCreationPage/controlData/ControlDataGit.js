@@ -20,13 +20,12 @@ import {
 } from './utils'
 import _ from 'lodash'
 
-var VALIDATE_GITBRANCH = (exports.VALIDATE_GITBRANCH = {
-  tester: new RegExp(
-    /^(?!\/.*)(?!.*([/.]\.|@\/{|\\\\))(?!.*@\{)[^\040\177~^:?*[]+(?<!\.lock|[/.])$/
-  ),
+const VALID_GITBRANCH = /^(?!\/.*)(?!.*([/.]\.|@\/{|\\\\))(?!.*@\{)[^\040\177~^:?*[]+(?<!\.lock|[/.])$/
+export const VALIDATE_GITBRANCH = {
+  tester: new RegExp(VALID_GITBRANCH),
   notification: 'creation.valid.gitbranch',
   required: false
-})
+}
 
 export const updateGitCredentials = (
   urlControl,

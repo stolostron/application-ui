@@ -75,6 +75,7 @@ describe("ClusterDetailsContainer with some clusters", () => {
     const component = renderer.create(
       <ClusterDetailsContainer
         clusterList={mockData.clusters}
+        clusterID="TestClusterID"
         locale={locale}
         clusterDetailsContainerControl={mockData.clusterDetailsContainerControl}
       />

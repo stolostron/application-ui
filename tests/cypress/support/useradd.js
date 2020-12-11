@@ -27,22 +27,40 @@ Cypress.Commands.add('addRolesToManagedClusterUser', () => {
     for ( const role in users){
         if (role == 'admin-managed-cluster') {  
             const cmdAddRole = `oc adm policy add-cluster-role-to-user \
-                                open-cluster-management:admin:${Cypress.env("managedCluster")} ${users[role]}`
+                                open-cluster-management:admin:${Cypress.env("managedCluster")} ${users[role]}| \
+                                oc policy add-role-to-user admin ${users[role]} -n ${Cypress.env("managedCluster")}`
             cy.log(cmdAddRole)
             cy.exec(cmdAddRole)
         }
         if (role == 'edit-managed-cluster') {
             const cmdAddRole = `oc adm policy add-cluster-role-to-user \
-                                open-cluster-management:view:${Cypress.env("managedCluster")} ${users[role]}`
+                                open-cluster-management:view:${Cypress.env("managedCluster")} ${users[role]}| \
+                                oc policy add-role-to-user edit ${users[role]} -n ${Cypress.env("managedCluster")}`
             cy.log(cmdAddRole)
             cy.exec(cmdAddRole)
     }
         if (role == 'view-managed-cluster') {
             const cmdAddRole = `oc adm policy add-cluster-role-to-user \
-                                open-cluster-management:view:${Cypress.env("managedCluster")} ${users[role]}`
+                                open-cluster-management:view:${Cypress.env("managedCluster")} ${users[role]}| \
+                                oc policy add-role-to-user view ${users[role]} -n ${Cypress.env("managedCluster")}`
             cy.log(cmdAddRole)
             cy.exec(cmdAddRole)
-        } 
+        }
+        if (role == 'admin') {
+            const cmdAddRole = `oc policy add-role-to-user admin ${users[role]} -n ${Cypress.env("managedCluster")}`
+            cy.log(cmdAddRole)
+            cy.exec(cmdAddRole)
+        }
+        if (role == 'edit') {
+            const cmdAddRole = `oc policy add-role-to-user edit ${users[role]} -n ${Cypress.env("managedCluster")}`
+            cy.log(cmdAddRole)
+            cy.exec(cmdAddRole)
+        }
+        if (role == 'view') {
+            const cmdAddRole = `oc policy add-role-to-user view ${users[role]} -n ${Cypress.env("managedCluster")}`
+            cy.log(cmdAddRole)
+            cy.exec(cmdAddRole)
+        }
     }
 })
 

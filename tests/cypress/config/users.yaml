@@ -11,7 +11,7 @@ users:
   # As superuser in RHACM lke default cluster-admin         
   
   admin-managed-cluster: test-mngd-cluster-admin
-  #open-cluster-management:cluster-manager-admin / cluster-wide
+  # open-cluster-management:admin:managed-cluster-1  / cluster-wide
   #admin / namespace
 
   edit-managed-cluster: test-mngd-cluster-edit
@@ -23,7 +23,7 @@ users:
   # view / namespace
   # Binded to the managed-cluster-1 and its namspace
 
-  subscription-admin: test-subscripion-admin
+  subscription-admin: test-subscription-admin
   # open-cluster-management:subscription-admin / cluster-wide
 
   admin: test-admin

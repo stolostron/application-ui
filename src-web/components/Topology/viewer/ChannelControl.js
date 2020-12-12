@@ -98,9 +98,12 @@ class ChannelControl extends React.Component {
     if (
       activeChannel &&
       allChannels &&
-      R.contains(activeChannel, allChannels)
+      allChannels.indexOf(activeChannel) !== -1
     ) {
       selectedChannelIndex = allChannels.indexOf(activeChannel) + 1
+    } else {
+      //if channel is not found in the list, reset to null
+      activeChannel = null
     }
 
     return selectedChannelIndex

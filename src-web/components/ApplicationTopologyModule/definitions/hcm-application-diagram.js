@@ -167,14 +167,26 @@ export const getDiagramElements = (
       if (type === 'application' && id.startsWith('application')) {
         channelsList = _.get(node, 'specs.channels', [])
         // set default active channel
-        const defaultActiveChannel = channelsList.filter(
+        const channelListNoAllChannels = channelsList.filter(
           chn => chn !== '__ALL__/__ALL__//__ALL__/__ALL__'
-        )[0]
-        activeChannelInfo = _.get(
-          node,
-          'specs.activeChannel',
-          defaultActiveChannel
         )
+        const defaultActiveChannel =
+          channelListNoAllChannels.length > 0
+            ? channelListNoAllChannels[0]
+            : null
+        activeChannelInfo = _.get(node, 'specs.activeChannel')
+        if (!activeChannelInfo) {
+          activeChannelInfo = defaultActiveChannel
+          _.set(node, 'specs.activeChannel', defaultActiveChannel)
+        }
+        //active channel not found in the list of channel, remove it
+        if (
+          activeChannelInfo &&
+          channelsList.indexOf(activeChannelInfo) === -1
+        ) {
+          _.set(node, 'specs.activeChannel', defaultActiveChannel)
+          activeChannelInfo = defaultActiveChannel
+        }
       }
 
       processNodeData(
@@ -260,7 +272,8 @@ export const getDiagramElements = (
     'fetchFilters.application.channel',
     activeChannelInfo2
   )
-  if (activeChannelInfo2) {
+  if (activeChannelInfo2 && loaded) {
+    //skip this if topology is not loaded ( disable refresh for example)
     const storedElements = getStoredObject(
       `${localStoreKey}-${activeChannelInfo2}`
     )

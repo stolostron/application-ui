@@ -144,6 +144,7 @@ export const getDiagramElements = (
   const topologyReloading = reloading
   const topologyLoadError = status === REQUEST_STATUS.ERROR
   const appLoaded = applicationDetails && applicationDetails.status === 'DONE'
+  const specsActiveChannel = 'specs.activeChannel'
   if (loaded && !topologyLoadError && appLoaded) {
     // topology from api will have raw k8 objects, pods status
     const { topo_links, topo_nodes } = getTopologyElements(topology)
@@ -174,17 +175,17 @@ export const getDiagramElements = (
           channelListNoAllChannels.length > 0
             ? channelListNoAllChannels[0]
             : null
-        activeChannelInfo = _.get(node, 'specs.activeChannel')
+        activeChannelInfo = _.get(node, specsActiveChannel)
         if (!activeChannelInfo) {
           activeChannelInfo = defaultActiveChannel
-          _.set(node, 'specs.activeChannel', defaultActiveChannel)
+          _.set(node, specsActiveChannel, defaultActiveChannel)
         }
         //active channel not found in the list of channel, remove it
         if (
           activeChannelInfo &&
           channelsList.indexOf(activeChannelInfo) === -1
         ) {
-          _.set(node, 'specs.activeChannel', defaultActiveChannel)
+          _.set(node, specsActiveChannel, defaultActiveChannel)
           activeChannelInfo = defaultActiveChannel
         }
       }

@@ -149,7 +149,9 @@ class ChannelControl extends React.Component {
       if (
         chnl === activeChannel ||
         (hasSubchannels &&
-          subchannels.findIndex(({ chnl }) => chnl === activeChannel) !== -1)
+          subchannels.findIndex(
+            ({ chnl: subchannel }) => subchannel === activeChannel
+          ) !== -1)
       ) {
         mainSubscriptionName = channelLabel
       }

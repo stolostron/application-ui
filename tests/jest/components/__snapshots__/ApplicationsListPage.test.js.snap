@@ -92,7 +92,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
         >
           <div
             aria-label="Success Alert"
-            class="pf-c-alert pf-m-success makeStyles-alert-1"
+            class="pf-c-alert pf-m-success"
             data-ouia-component-id="OUIA-Generated-Alert-success-3"
             data-ouia-component-type="PF4/Alert"
             data-ouia-safe="true"
@@ -125,33 +125,6 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               </span>
               Success
             </h4>
-            <div
-              class="pf-c-alert__action"
-            >
-              <button
-                aria-disabled="false"
-                aria-label="Close Success alert: alert: Success"
-                class="pf-c-button pf-m-plain"
-                data-ouia-component-id="OUIA-Generated-Button-plain-11"
-                data-ouia-component-type="PF4/Button"
-                data-ouia-safe="true"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style="vertical-align: -0.125em;"
-                  viewBox="0 0 352 512"
-                  width="1em"
-                >
-                  <path
-                    d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                  />
-                </svg>
-              </button>
-            </div>
             <div
               class="pf-c-alert__description"
             >
@@ -1127,7 +1100,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to first page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="first"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-12"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-9"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""
@@ -1156,7 +1129,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to previous page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="previous"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-13"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-10"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""
@@ -1203,7 +1176,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to next page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="next"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-14"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-11"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""
@@ -1232,7 +1205,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to last page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="last"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-15"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-12"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""
@@ -1359,7 +1332,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
         >
           <div
             aria-label="Success Alert"
-            class="pf-c-alert pf-m-success makeStyles-alert-1"
+            class="pf-c-alert pf-m-success"
             data-ouia-component-id="OUIA-Generated-Alert-success-1"
             data-ouia-component-type="PF4/Alert"
             data-ouia-safe="true"
@@ -1392,33 +1365,6 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               </span>
               Success
             </h4>
-            <div
-              class="pf-c-alert__action"
-            >
-              <button
-                aria-disabled="false"
-                aria-label="Close Success alert: alert: Success"
-                class="pf-c-button pf-m-plain"
-                data-ouia-component-id="OUIA-Generated-Button-plain-1"
-                data-ouia-component-type="PF4/Button"
-                data-ouia-safe="true"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style="vertical-align: -0.125em;"
-                  viewBox="0 0 352 512"
-                  width="1em"
-                >
-                  <path
-                    d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                  />
-                </svg>
-              </button>
-            </div>
             <div
               class="pf-c-alert__description"
             >
@@ -2394,7 +2340,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to first page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="first"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-2"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-1"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""
@@ -2423,7 +2369,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to previous page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="previous"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-3"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-2"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""
@@ -2470,7 +2416,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to next page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="next"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-4"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-3"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""
@@ -2499,7 +2445,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to last page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="last"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-5"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-4"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""
@@ -2626,7 +2572,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
         >
           <div
             aria-label="Success Alert"
-            class="pf-c-alert pf-m-success makeStyles-alert-1"
+            class="pf-c-alert pf-m-success"
             data-ouia-component-id="OUIA-Generated-Alert-success-2"
             data-ouia-component-type="PF4/Alert"
             data-ouia-safe="true"
@@ -2659,33 +2605,6 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               </span>
               Success
             </h4>
-            <div
-              class="pf-c-alert__action"
-            >
-              <button
-                aria-disabled="false"
-                aria-label="Close Success alert: alert: Success"
-                class="pf-c-button pf-m-plain"
-                data-ouia-component-id="OUIA-Generated-Button-plain-6"
-                data-ouia-component-type="PF4/Button"
-                data-ouia-safe="true"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style="vertical-align: -0.125em;"
-                  viewBox="0 0 352 512"
-                  width="1em"
-                >
-                  <path
-                    d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                  />
-                </svg>
-              </button>
-            </div>
             <div
               class="pf-c-alert__description"
             >
@@ -3661,7 +3580,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to first page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="first"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-7"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-5"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""
@@ -3690,7 +3609,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to previous page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="previous"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-8"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-6"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""
@@ -3737,7 +3656,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to next page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="next"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-9"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-7"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""
@@ -3766,7 +3685,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             aria-label="Go to last page"
                             class="pf-c-button pf-m-plain pf-m-disabled"
                             data-action="last"
-                            data-ouia-component-id="OUIA-Generated-Button-plain-10"
+                            data-ouia-component-id="OUIA-Generated-Button-plain-8"
                             data-ouia-component-type="PF4/Button"
                             data-ouia-safe="true"
                             disabled=""

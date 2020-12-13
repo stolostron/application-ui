@@ -84,10 +84,11 @@ class Topology extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    // Keep channel control visible if multiple channels exist
-    if (_.get(nextProps.channelControl, 'allChannels', []).length > 1) {
-      this.setState({ showChannelsControl: true })
-    }
+    // Keep channel control visible if multiple channels exist, or hide it otherwise
+    this.setState({
+      showChannelsControl:
+        _.get(nextProps.channelControl, 'allChannels', []).length > 1
+    })
 
     this.setState(prevState => {
       let { timestamp } = prevState

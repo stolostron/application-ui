@@ -74,6 +74,30 @@ export const receiveTopologyDetailsSuccess = (
   fetchFilters
 })
 
+//return the type of resources deployed by the application
+//and whether there is only one subscription showing; in this case, retrieve the relatedKinds for this subscription only
+export const getResourceData = nodes => {
+  let subscriptionName = ''
+  let nbOfSubscriptions = 0
+  const nodeTypes = ['pod'] //always get pods
+
+  nodes.forEach(node => {
+    const nodeType = lodash.get(node, 'type', '')
+    nodeTypes.push(nodeType) //ask for this related object type
+    if (nodeType === 'subscription') {
+      subscriptionName = lodash.get(node, 'name', '')
+      nbOfSubscriptions = nbOfSubscriptions + 1
+    } /*else if(nodeType !== 'application') {
+         nodeTypes.push(nodeType) // don't require application related object
+      }*/
+  })
+
+  return {
+    subscription: nbOfSubscriptions === 1 ? subscriptionName : null, //ask for this subscription related kind only if one subscriptions shows up, otherwise it must show all subscriptions
+    relatedKinds: lodash.uniq(nodeTypes) //ask only for these type of resources since only those are displayed
+  }
+}
+
 export const fetchTopology = (vars, fetchFilters, reloading) => {
   const appName = lodash.get(fetchFilters, 'application.name', '')
   const appNS = lodash.get(fetchFilters, 'application.namespace', '')
@@ -87,8 +111,20 @@ export const fetchTopology = (vars, fetchFilters, reloading) => {
         if (response.errors) {
           dispatch(receiveResourceError(response.errors[0], resourceType))
         } else {
+          //get application resource types and if only one subscription shows, get this subscription name
+          //the data will be used to query the related kinds
+          //if one subscription shows, get related kinds from the subscription object rather then the app, since the UI shows only that subscription
+          //always ask only for related types that shows in the topology + pods
+          const appData = getResourceData(
+            lodash.get(response, 'data.topology.resources', [])
+          )
           dispatch(
-            fetchResource(RESOURCE_TYPES.HCM_APPLICATIONS, appNS, appName)
+            fetchResource(
+              RESOURCE_TYPES.HCM_APPLICATIONS,
+              appNS,
+              appName,
+              appData
+            )
           )
           // return topology
           const topology = {

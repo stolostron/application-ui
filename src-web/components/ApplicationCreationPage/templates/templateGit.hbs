@@ -52,6 +52,8 @@ metadata:
     apps.open-cluster-management.io/git-path: {{{githubPath}}}
     {{#if gitReconcileOption}}
     apps.open-cluster-management.io/reconcile-option: merge
+    {{else}}
+    apps.open-cluster-management.io/reconcile-option: replace
     {{/if}}
   labels:
     app: {{{@root.name}}}

@@ -9,11 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import {
-  VALIDATE_ALPHANUMERIC,
-  VALID_REPOPATH,
-  VALIDATE_URL
-} from 'temptifly'
+import { VALIDATE_ALPHANUMERIC, VALID_REPOPATH, VALIDATE_URL } from 'temptifly'
 import placementData from './ControlDataPlacement'
 import prePostTasks from './ControlDataPrePostTasks'
 import {
@@ -140,7 +136,7 @@ const githubChannelData = async () => [
     type: 'checkbox',
     name: 'creation.app.github.reconcileOption',
     tooltip: 'tooltip.creation.app.github.reconcileOption',
-    active: false,
+    active: true,
     available: [],
     reverse:
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/reconcile-option"]'

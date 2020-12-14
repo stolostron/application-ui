@@ -702,18 +702,20 @@ export const testInvalidApplicationInput = () => {
 
   cy
     .get("#githubBranch", { timeout: 20 * 1000 })
+    .trigger("mouseover")
     .type(invalidValue)
     .blur();
   cy.get("[data-invalid=true]").should("exist");
   cy.wait(2000);
+
   cy
     .get("#githubBranch", { timeout: 20 * 1000 })
-    .click()
-    .clear()
+    .trigger("mouseover")
     .type(validValue)
     .blur();
   cy.get("[data-invalid=true]").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
+  cy.wait(2000);
 
   cy.log("Test invalid HELM url");
   cy

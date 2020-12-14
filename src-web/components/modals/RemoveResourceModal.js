@@ -33,7 +33,8 @@ import {
   AcmLoadingPage,
   AcmAlert
 } from '@open-cluster-management/ui-components'
-import { Checkbox, Button } from '@patternfly/react-core'
+import { Checkbox, Button, ModalVariant } from '@patternfly/react-core'
+import { ExclamationTriangleIcon } from '@patternfly/react-icons'
 
 resources(() => {
   require('../../../scss/modal.scss')
@@ -52,6 +53,7 @@ class RemoveResourceModal extends React.Component {
       warnings: undefined,
       loading: true,
       selected: [],
+      shared: [],
       removeAppResources: false
     }
   }
@@ -112,6 +114,7 @@ class RemoveResourceModal extends React.Component {
             return
           }
           const children = []
+          const sharedChildren = []
           const removableSubs = []
           const removableSubNames = []
           const subResources = []
@@ -131,9 +134,20 @@ class RemoveResourceModal extends React.Component {
               if (!this.usedByOtherApps(related)) {
                 removableSubs.push(subscription)
                 removableSubNames.push(subName)
+                const subsChildResources = this.getSubsChildResources(
+                  subName,
+                  subNamespace,
+                  related
+                )
                 children.push({
                   id: `subscriptions-${subNamespace}-${subName}`,
                   selfLink: subscription.metadata.selfLink,
+                  label: `${subName} [Subscription]`,
+                  subsChildResources: subsChildResources
+                })
+              } else {
+                sharedChildren.push({
+                  id: `subscriptions-${subNamespace}-${subName}`,
                   label: `${subName} [Subscription]`
                 })
               }
@@ -149,7 +163,7 @@ class RemoveResourceModal extends React.Component {
                   name: currName,
                   namespace: currNamespace,
                   selfLink: curr.metadata.selfLink,
-                  label: `${currName} [Rule]`,
+                  label: `${currName} [PlacementRule]`,
                   type: RESOURCE_TYPES.HCM_PLACEMENT_RULES
                 })
               })
@@ -167,11 +181,17 @@ class RemoveResourceModal extends React.Component {
                   !this.usedByOtherSubs(related, removableSubNames, namespace)
                 ) {
                   children.push(resource)
+                } else {
+                  sharedChildren.push({
+                    id: resource.id,
+                    label: resource.label
+                  })
                 }
               })
             ).then(() => {
               this.setState({
                 selected: children,
+                shared: sharedChildren,
                 loading: false
               })
             })
@@ -218,6 +238,43 @@ class RemoveResourceModal extends React.Component {
       : true
   };
 
+  getSubsChildResources = (resourceName, resourceNamespace, relatedItems) => {
+    const CHILD_RESOURCE_TYPES = [
+      'Application',
+      'Subscription',
+      'PlacementRule',
+      'Channel'
+    ]
+    const localSuffix = '-local'
+    const children = []
+    CHILD_RESOURCE_TYPES.forEach(type => {
+      const related = _.get(
+        relatedItems.find(r => r.kind === type.toLowerCase()),
+        'items',
+        []
+      )
+      const childItems = related
+        .filter(
+          i =>
+            (i._hostingSubscription ===
+              `${resourceNamespace}/${resourceName}` ||
+              i._hostingSubscription ===
+                `${resourceNamespace}/${resourceName}${localSuffix}`) &&
+            // Only include resources on the local cluster
+            i.cluster === 'local-cluster' &&
+            // Do not include the -local subscription
+            (type !== 'Subscription' ||
+              i.namespace !== resourceNamespace ||
+              i.name !== `${resourceName}${localSuffix}`)
+        )
+        .map(i => i.name)
+        .sort()
+        .map(n => `${n} [${type}]`)
+      children.push(...childItems)
+    })
+    return children
+  };
+
   usedByOtherSubs = (related, removableSubNames, appNamespace) => {
     const isSub = n => n.kind.toLowerCase() === 'subscription'
     const subs = R.filter(isSub, related)
@@ -226,15 +283,6 @@ class RemoveResourceModal extends React.Component {
       return (
         sub.namespace !== appNamespace || !removableSubNames.includes(sub.name)
       )
-    })
-  };
-
-  toggleSelected = (i, target) => {
-    this.setState(prevState => {
-      const currState = prevState.selected
-      const index = currState.findIndex(item => item.id === target)
-      currState[index].selected = !currState[index].selected
-      return currState
     })
   };
 
@@ -321,9 +369,29 @@ class RemoveResourceModal extends React.Component {
   };
 
   modalBody = (name, label, locale) => {
-    switch (label.label) {
-    case 'modal.remove-hcmapplication.label':
-      return this.state.selected.length > 0 ? (
+    const { selected, shared } = this.state
+    const renderSharedResources = () => {
+      return shared.length > 0 ? (
+        <div className="shared-resource-content">
+          <div>
+            <ExclamationTriangleIcon />
+          </div>
+          <div>
+            <p>
+              {msgs.get('modal.remove.application.shared.resources', locale)}
+            </p>
+            <p>
+              {shared
+                .map(r => r.label)
+                .sort()
+                .join(', ')}
+            </p>
+          </div>
+        </div>
+      ) : null
+    }
+    if (label.label === 'modal.remove-hcmapplication.label') {
+      return selected.length > 0 ? (
         <div className="remove-app-modal-content">
           <div className="remove-app-modal-content-text">
             {msgs.get('modal.remove.application.confirm.one', [name], locale)}
@@ -340,27 +408,47 @@ class RemoveResourceModal extends React.Component {
               isChecked={this.state.removeAppResources}
               onChange={this.toggleRemoveAppResources}
               label={msgs.get('modal.remove.application.resources', locale)}
-              />
+            />
           </div>
           <div>
             <ul>
-              {this.state.selected.map(child => {
+              {selected.map(child => {
                 return (
-                  <div
-                    className="remove-app-modal-content-data"
-                    key={child.id}
-                    >
-                    <li>{child.label}</li>
+                  <div className="remove-app-modal-content-data" key={child.id}>
+                    <li>
+                      {child.label}
+                      {child.subsChildResources &&
+                        child.subsChildResources.length > 0 && (
+                          <div className="sub-child-resource-content">
+                            <div>
+                              <ExclamationTriangleIcon />
+                            </div>
+                            <div>
+                              <p>
+                                {msgs.get(
+                                  'modal.remove.application.child.resources',
+                                  locale
+                                )}
+                              </p>
+                              <p>{child.subsChildResources.join(', ')}</p>
+                            </div>
+                          </div>
+                      )}
+                    </li>
                   </div>
                 )
               })}
             </ul>
           </div>
+          {renderSharedResources()}
         </div>
       ) : (
-        msgs.get('modal.remove.confirm', [name], locale)
+        <div className="remove-app-modal-content">
+          {msgs.get('modal.remove.confirm', [name], locale)}
+          {renderSharedResources()}
+        </div>
       )
-    default:
+    } else {
       return msgs.get('modal.remove.confirm', [name], locale)
     }
   };
@@ -378,7 +466,7 @@ class RemoveResourceModal extends React.Component {
           aria-label={heading}
           showClose={true}
           onClose={this.handleClose.bind(this)}
-          variant="medium"
+          variant={ModalVariant.medium}
           actions={[
             <Button
               key="confirm"

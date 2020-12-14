@@ -142,9 +142,9 @@ const SharedResourceWarning = ({ resourceType, control, locale }) => {
                   relatedApps
                     .filter(
                       r =>
-                        (!r._hostingSubscription && // Filter out applications deployed by a subscription
-                          r.name !== applicationName) ||
-                        r.namespace !== applicationNamespace
+                        !r._hostingSubscription && // Filter out applications deployed by a subscription
+                        (r.name !== applicationName ||
+                          r.namespace !== applicationNamespace)
                     )
                     .map(r => r.name)
                     .sort()

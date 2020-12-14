@@ -31,7 +31,9 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
       case "sub-1":
         relatedApps = [
           { name: "shared-sub-app-1" },
-          { name: "shared-sub-app-2" }
+          { name: "shared-sub-app-2" },
+          { name: "shared-sub-app-3", _hostingSubscription: "bar/sub-1" },
+          { name: "app-1", namespace: "bar" }
         ];
         break;
       case "pr-1":

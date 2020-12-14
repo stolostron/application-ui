@@ -80,7 +80,7 @@ exports[`SharedResourceWarning renders correctly for a shared subscription 1`] =
       }
     />
     <p>
-      shared-sub-app-1, shared-sub-app-2
+      app-1, shared-sub-app-1, shared-sub-app-2
     </p>
   </div>
 </div>

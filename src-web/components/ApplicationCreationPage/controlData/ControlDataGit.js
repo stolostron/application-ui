@@ -20,21 +20,55 @@ import {
 } from './utils'
 import _ from 'lodash'
 
-const branchRegex = new RegExp(
-  [
-    /^(?!.*\\)/, // (from #9)   cannot contain a \
-    /(?!\/.*)/, // (from #6)   cannot begin with /
-    /(?!.*([/.]\.|@\/{|\\\\))/, // (from #1,3) cannot contain /. or .. or \\
-    /(?!.*@\{)/, // (from #8)   cannot contain a sequence @{
-    /([^\040\177~^:?*[]+)/, // (from #4-5) valid character rules
-    /(?<!\.lock|[/.])$/ // (from #6-7) cannot end with / or .  or .lock
+export const validateBranch = branch => {
+  // Validate branch name according to rules from https://git-scm.com/docs/git-check-ref-format
+  // Rule 2 and exceptions do not apply
+
+  const negativeExpressions = [
+    // (3) They cannot have two consecutive dots .. anywhere
+    /\.\./,
+    //  (4) They cannot have ASCII control characters (i.e. bytes whose values are lower than \040, or \177 DEL),
+    //      space, tilde ~, caret ^, or colon : anywhere
+    //  (5) They cannot have question-mark ?, asterisk *, or open bracket [ anywhere
+    // (10) They cannot contain a \
+    /[\000-\037\177 ~^?*[\\]/,
+    // (6) They cannot begin or end with a slash / or contain multiple consecutive slashes
+    /^\//,
+    /\/$/,
+    /\/\//,
+    // (7) They cannot end with a dot .
+    /\.$/,
+    // (8) They cannot contain a sequence @{
+    /@\{/
   ]
-    .map(r => r.source)
-    .join('')
-)
+
+  if (negativeExpressions.some(ne => ne.test(branch))) {
+    // at least one rule is broken
+    return false
+  }
+
+  // (9) They cannot be the single character @
+  if (branch === '@') {
+    return false
+  }
+
+  // (1) They can include slash / for hierarchical (directory) grouping, but no slash-separated component
+  // can begin with a dot . or end with the sequence .lock
+  const components = branch.split('/')
+  if (
+    components.length > 0 &&
+    components.some(c => c.startsWith('.') || c.endsWith('.lock'))
+  ) {
+    return false
+  }
+
+  return true
+}
 
 export const VALIDATE_GITBRANCH = {
-  tester: branchRegex,
+  tester: {
+    test: validateBranch
+  },
   notification: 'creation.valid.gitbranch',
   required: false
 }

@@ -31,7 +31,7 @@ export const validateBranch = branch => {
     //      space, tilde ~, caret ^, or colon : anywhere
     //  (5) They cannot have question-mark ?, asterisk *, or open bracket [ anywhere
     // (10) They cannot contain a \
-    /[\000-\037\177 ~^?*[\\]/,
+    /[\000-\037\177 ~^:?*[\\]/,
     // (6) They cannot begin or end with a slash / or contain multiple consecutive slashes
     /^\//,
     /\/$/,

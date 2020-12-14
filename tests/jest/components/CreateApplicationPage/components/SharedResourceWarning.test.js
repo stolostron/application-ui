@@ -32,7 +32,7 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
     const { filters } = query;
     const name = filters.find(f => f.property === "name").values[0];
     let item = {};
-    let relatedApps;
+    let relatedApps = [];
     let relatedSubs = [];
     switch (name) {
       case "sub-1":
@@ -99,14 +99,33 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
           } // exclude - cluster
         ];
         break;
+      case "sub-3":
+        item = { _hostingSubscription: "bar/some-other-sub" };
+        break;
+      case "sub-4":
+        relatedApps = [
+          { name: "shared-sub-app-1" },
+          { name: "shared-sub-app-2" },
+          {
+            name: "child-app-1",
+            _hostingSubscription: "foo/sub-4",
+            cluster: "local-cluster"
+          },
+          {
+            name: "child-app-2",
+            _hostingSubscription: "foo/sub-4-local",
+            cluster: "local-cluster"
+          }
+        ];
+        break;
       case "pr-1":
         relatedApps = [
           { name: "shared-pr-app-1" },
           { name: "shared-pr-app-2" }
         ];
         break;
-      case "pr-2":
-        relatedApps = [];
+      case "pr-3":
+        item = { _hostingSubscription: "bar/some-other-sub" };
         break;
     }
     return Promise.resolve(response(item, relatedApps, relatedSubs));
@@ -170,6 +189,26 @@ act(() => {
   );
 });
 
+let deployedSubscription;
+act(() => {
+  deployedSubscription = create(
+    <SharedResourceWarning
+      resourceType={RESOURCE_TYPES.HCM_SUBSCRIPTIONS}
+      control={editingControl("sub-3", "pr-1")}
+    />
+  );
+});
+
+let sharedSubscriptionWithChildren;
+act(() => {
+  sharedSubscriptionWithChildren = create(
+    <SharedResourceWarning
+      resourceType={RESOURCE_TYPES.HCM_SUBSCRIPTIONS}
+      control={editingControl("sub-4", "pr-1")}
+    />
+  );
+});
+
 let sharedPR;
 act(() => {
   sharedPR = create(
@@ -190,8 +229,19 @@ act(() => {
   );
 });
 
+let deployedPR;
+act(() => {
+  deployedPR = create(
+    <SharedResourceWarning
+      resourceType={RESOURCE_TYPES.HCM_PLACEMENT_RULES}
+      control={editingControl("sub-1", "pr-3")}
+    />
+  );
+});
+
 const sharedMessage = /This application uses a shared/;
 const childMessage = /This subscription deploys the following resources/;
+const deployedMessage = /This application uses a .* resource that is deployed by the subscription/;
 
 describe("SharedResourceWarning", () => {
   it("renders empty for creation mode", () => {
@@ -218,6 +268,23 @@ describe("SharedResourceWarning", () => {
     expect(json).not.toMatch(/child-sub-3/);
   });
 
+  it("renders correctly for a subscription deployed by another subscription", () => {
+    const json = JSON.stringify(deployedSubscription.toJSON());
+    expect(json).not.toMatch(sharedMessage);
+    expect(json).not.toMatch(childMessage);
+    expect(json).toMatch(deployedMessage);
+  });
+
+  it("renders correctly for a shared subscription with children", () => {
+    const json = JSON.stringify(sharedSubscriptionWithChildren.toJSON());
+    expect(json).toMatch(sharedMessage);
+    expect(json).toMatch(childMessage);
+    expect(json).toMatch(/shared-sub-app-1, shared-sub-app-2/);
+    expect(json).toMatch(
+      /child-app-1 \[Application\], child-app-2 \[Application\]/
+    );
+  });
+
   it("renders correctly for a shared placement rule", () => {
     const json = JSON.stringify(sharedPR.toJSON());
     expect(json).toMatch(sharedMessage);
@@ -227,5 +294,12 @@ describe("SharedResourceWarning", () => {
 
   it("renders correctly for a exclusive placement rule", () => {
     expect(exclusivePR.toJSON()).toBeNull();
+  });
+
+  it("renders correctly for a placement rule deployed by another subscription", () => {
+    const json = JSON.stringify(deployedPR.toJSON());
+    expect(json).not.toMatch(sharedMessage);
+    expect(json).not.toMatch(childMessage);
+    expect(json).toMatch(deployedMessage);
   });
 });

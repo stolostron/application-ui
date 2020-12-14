@@ -50,9 +50,11 @@ metadata:
   annotations:
     apps.open-cluster-management.io/git-branch: {{{githubBranch}}}
     apps.open-cluster-management.io/git-path: {{{githubPath}}}
-    {{#if gitReconcileOption}}
+  {{#if gitReconcileOption}}
     apps.open-cluster-management.io/reconcile-option: merge
-    {{/if}}
+  {{else}}
+    apps.open-cluster-management.io/reconcile-option: replace
+  {{/if}}
   labels:
     app: {{{@root.name}}}
   name: {{{@root.name}}}-subscription-{{uniqueGroupID}}

@@ -87,9 +87,7 @@ export const getResourceData = nodes => {
     if (nodeType === 'subscription') {
       subscriptionName = lodash.get(node, 'name', '')
       nbOfSubscriptions = nbOfSubscriptions + 1
-    } /*else if(nodeType !== 'application') {
-         nodeTypes.push(nodeType) // don't require application related object
-      }*/
+    }
   })
 
   return {

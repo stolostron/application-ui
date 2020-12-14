@@ -1004,7 +1004,7 @@ ShallowWrapper {
               aria-label="Current page"
               className="label pageInput"
               id="valuePage"
-              max="{channelsLength}"
+              max="{selectedSubscriptionPages}"
               min="1"
               onChange={[Function]}
               onKeyPress={[Function]}
@@ -1367,7 +1367,7 @@ ShallowWrapper {
                 aria-label="Current page"
                 className="label pageInput"
                 id="valuePage"
-                max="{channelsLength}"
+                max="{selectedSubscriptionPages}"
                 min="1"
                 onChange={[Function]}
                 onKeyPress={[Function]}
@@ -1532,7 +1532,7 @@ ShallowWrapper {
                   aria-label="Current page"
                   className="label pageInput"
                   id="valuePage"
-                  max="{channelsLength}"
+                  max="{selectedSubscriptionPages}"
                   min="1"
                   onChange={[Function]}
                   onKeyPress={[Function]}
@@ -1612,7 +1612,7 @@ ShallowWrapper {
                   "aria-label": "Current page",
                   "className": "label pageInput",
                   "id": "valuePage",
-                  "max": "{channelsLength}",
+                  "max": "{selectedSubscriptionPages}",
                   "min": "1",
                   "onChange": [Function],
                   "onKeyPress": [Function],
@@ -1818,7 +1818,7 @@ ShallowWrapper {
                 aria-label="Current page"
                 className="label pageInput"
                 id="valuePage"
-                max="{channelsLength}"
+                max="{selectedSubscriptionPages}"
                 min="1"
                 onChange={[Function]}
                 onKeyPress={[Function]}
@@ -2181,7 +2181,7 @@ ShallowWrapper {
                   aria-label="Current page"
                   className="label pageInput"
                   id="valuePage"
-                  max="{channelsLength}"
+                  max="{selectedSubscriptionPages}"
                   min="1"
                   onChange={[Function]}
                   onKeyPress={[Function]}
@@ -2346,7 +2346,7 @@ ShallowWrapper {
                     aria-label="Current page"
                     className="label pageInput"
                     id="valuePage"
-                    max="{channelsLength}"
+                    max="{selectedSubscriptionPages}"
                     min="1"
                     onChange={[Function]}
                     onKeyPress={[Function]}
@@ -2426,7 +2426,7 @@ ShallowWrapper {
                     "aria-label": "Current page",
                     "className": "label pageInput",
                     "id": "valuePage",
-                    "max": "{channelsLength}",
+                    "max": "{selectedSubscriptionPages}",
                     "min": "1",
                     "onChange": [Function],
                     "onKeyPress": [Function],

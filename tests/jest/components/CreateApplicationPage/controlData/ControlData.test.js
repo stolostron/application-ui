@@ -287,7 +287,10 @@ describe("validateBranch", () => {
     "abc*a",
     "abc[a",
     "master@{",
-    "master."
+    "master.",
+    "abc//efg",
+    "master^",
+    "@"
   ];
 
   validGitBranches.forEach(branch => {

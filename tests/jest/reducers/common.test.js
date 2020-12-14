@@ -11,7 +11,6 @@ import {
   secondaryHeader,
   resourceReducerFunction,
   getItems,
-  getItemsPerPage,
   getPage,
   INITIAL_STATE
 } from "../../../src-web/reducers/common";
@@ -83,7 +82,6 @@ describe("resourceReducerFunction", () => {
       test: "test",
       status: "DONE",
       items: [],
-      page: 1,
       resourceVersion: 0
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
@@ -238,13 +236,13 @@ describe("resourceReducerFunction", () => {
     };
     const action = {
       type: "TABLE_SORT",
-      sortDirection: "test",
-      sortColumn: "test"
+      sortDirection: "desc",
+      sortColumn: 1
     };
     const expectedValue = {
       test: "test",
-      sortDirection: "test",
-      sortColumn: "test"
+      sortDirection: "desc",
+      sortColumn: 1
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });
@@ -259,8 +257,7 @@ describe("resourceReducerFunction", () => {
     };
     const expectedValue = {
       test: "test",
-      page: 1,
-      itemsPerPage: 10
+      page: 1
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });
@@ -477,15 +474,6 @@ describe("getItems", () => {
   it("should return getItems for resource type", () => {
     const expectedValue = QueryApplicationList.items;
     expect(getItems(state, props, "items")).toEqual(expectedValue);
-  });
-});
-
-describe("getItemsPerPage", () => {
-  it("should return getItemsPerPage for resource type", () => {
-    const expectedValue = 20;
-    expect(getItemsPerPage(state, props, "itemsPerPage")).toEqual(
-      expectedValue
-    );
   });
 });
 

@@ -536,7 +536,6 @@ describe("hcm-application-diagram-tests", () => {
           _uid: "local-cluster/687cfa53-db56-4744-b3a1-046045d8f338"
         }
       ],
-      itemsPerPage: 20,
       page: 1,
       pendingActions: [],
       postErrorMsg: "",

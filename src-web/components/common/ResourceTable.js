@@ -31,7 +31,17 @@ resources(() => {
 
 class ResourceTable extends React.Component {
   render() {
-    const { actions, staticResourceData, locale } = this.props
+    const {
+      actions,
+      page,
+      setPage,
+      search,
+      setSearch,
+      sort,
+      setSort,
+      staticResourceData,
+      locale
+    } = this.props
     return [
       <AcmPageCard key="data-table">
         <AcmTable
@@ -48,6 +58,12 @@ class ResourceTable extends React.Component {
             />
           }
           extraToolbarControls={actions}
+          page={page}
+          setPage={setPage}
+          search={search}
+          setSearch={setSearch}
+          sort={sort}
+          setSort={setSort}
         />
       </AcmPageCard>
     ]

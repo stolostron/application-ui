@@ -13,60 +13,6 @@ exports[`definitions/index tests should return the primary key of node 1`] = `"n
 exports[`definitions/index tests should return the resource data for specified resource 1`] = `
 Object {
   "defaultSortField": "name",
-  "detailKeys": Object {
-    "headerRows": Array [
-      "type",
-      "detail",
-    ],
-    "rows": Array [
-      Object {
-        "cells": Array [
-          Object {
-            "resourceKey": "description.title.name",
-            "type": "i18n",
-          },
-          Object {
-            "resourceKey": "name",
-          },
-        ],
-      },
-      Object {
-        "cells": Array [
-          Object {
-            "resourceKey": "description.title.namespace",
-            "type": "i18n",
-          },
-          Object {
-            "resourceKey": "namespace",
-          },
-        ],
-      },
-      Object {
-        "cells": Array [
-          Object {
-            "resourceKey": "description.title.created",
-            "type": "i18n",
-          },
-          Object {
-            "resourceKey": "created",
-            "transformFunction": [Function],
-          },
-        ],
-      },
-      Object {
-        "cells": Array [
-          Object {
-            "resourceKey": "description.title.labels",
-            "type": "i18n",
-          },
-          Object {
-            "resourceKey": "labels",
-          },
-        ],
-      },
-    ],
-    "title": "application.details",
-  },
   "emptyMessage": [Function],
   "emptyTitle": [Function],
   "pluralKey": "table.plural.application",

@@ -140,7 +140,17 @@ describe("ApplicationsListPage", () => {
           />
         </Provider>
       </BrowserRouter>
-    ).render();
-    expect(toJson(tree)).toMatchSnapshot();
+    );
+    expect(toJson(tree.render())).toMatchSnapshot();
+    // sort by name
+    tree
+      .find(".pf-c-table__button")
+      .at(0)
+      .simulate("click");
+    // clear search
+    tree
+      .find(".pf-c-button.pf-m-link")
+      .at(0)
+      .simulate("click");
   });
 });

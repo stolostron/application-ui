@@ -91,8 +91,10 @@ export const getResourceData = nodes => {
   })
 
   return {
-    subscription: nbOfSubscriptions === 1 ? subscriptionName : null, //ask for this subscription related kind only if one subscriptions shows up, otherwise it must show all subscriptions
-    relatedKinds: lodash.uniq(nodeTypes) //ask only for these type of resources since only those are displayed
+    //if only one subscription, ask for resources only related to that subscription
+    subscription: nbOfSubscriptions === 1 ? subscriptionName : null,
+    //ask only for these type of resources since only those are displayed
+    relatedKinds: lodash.uniq(nodeTypes)
   }
 }
 

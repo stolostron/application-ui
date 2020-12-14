@@ -10,7 +10,8 @@ import {
   requestResourceDetails,
   receiveTopologyDetailsSuccess,
   restoreSavedTopologyFilters,
-  updateTopologyFilters
+  updateTopologyFilters,
+  getResourceData
 } from "../../../src-web/actions/topology";
 
 const resourceType = {
@@ -192,5 +193,55 @@ describe("topology actions", () => {
         "mortgage-app"
       )
     ).toEqual(expectedValue);
+  });
+
+  it("should return getResourceData for one subscription", () => {
+    const nodes = [
+      {
+        type: "application",
+        name: "app1"
+      },
+      {
+        type: "subscription",
+        name: "subs1"
+      },
+      {
+        type: "route",
+        name: "routeName"
+      }
+    ];
+    const expectedValue = {
+      relatedKinds: ["pod", "application", "subscription", "route"],
+      subscription: "subs1"
+    };
+
+    expect(getResourceData(nodes)).toEqual(expectedValue);
+  });
+
+  it("should return getResourceData for one more then one subscription", () => {
+    const nodes = [
+      {
+        type: "application",
+        name: "app1"
+      },
+      {
+        type: "subscription",
+        name: "subs1"
+      },
+      {
+        type: "subscription",
+        name: "subs2"
+      },
+      {
+        type: "route",
+        name: "routeName"
+      }
+    ];
+    const expectedValue = {
+      relatedKinds: ["pod", "application", "subscription", "route"],
+      subscription: null
+    };
+
+    expect(getResourceData(nodes)).toEqual(expectedValue);
   });
 });

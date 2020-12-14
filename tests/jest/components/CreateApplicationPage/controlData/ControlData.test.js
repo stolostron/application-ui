@@ -14,7 +14,10 @@ import { updateNSControls } from "../../../../../src-web/components/ApplicationC
 
 import { updatePlacementControlsForLocal } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
 
-import { updateGitCredentials } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataGit";
+import {
+  updateGitCredentials,
+  validateBranch
+} from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataGit";
 
 import {
   setAvailableRules,
@@ -259,6 +262,44 @@ describe("updatePrePostControls", () => {
   };
   it("updatePrePostControls existing secret", () => {
     expect(updatePrePostControls(data, controlDataNS)).toEqual(result);
+  });
+});
+
+describe("validateBranch", () => {
+  const validGitBranches = [
+    "master",
+    "release-2.1",
+    "master/resource/abc",
+    "master@abc"
+  ];
+  const invalidGitBranches = [
+    "foo/bar.lock/hello",
+    "master..123",
+    "master.",
+    "master/.abc",
+    "/master",
+    "master/",
+    "master/.lock",
+    "master:12",
+    "abc~",
+    "master:",
+    "abc?a",
+    "abc*a",
+    "abc[a",
+    "master@{",
+    "master."
+  ];
+
+  validGitBranches.forEach(branch => {
+    it("verify valid Git branch", () => {
+      expect(validateBranch(branch)).toEqual(true);
+    });
+  });
+
+  invalidGitBranches.forEach(branch => {
+    it("verify invalid Git branch", () => {
+      expect(validateBranch(branch)).toEqual(false);
+    });
   });
 });
 

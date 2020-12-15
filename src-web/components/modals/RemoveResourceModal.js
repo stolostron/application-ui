@@ -94,7 +94,6 @@ class RemoveResourceModal extends React.Component {
         // Get application resources
         apolloClient.getApplication({ name, namespace }).then(response => {
           // Warning for application deployed by another application
-          console.log('_______', JSON.stringify(response))
           const hostingSubAnnotation =
             _.get(response, 'data.application.metadata.annotations') !==
             undefined
@@ -102,7 +101,6 @@ class RemoveResourceModal extends React.Component {
                 'apps.open-cluster-management.io/hosting-subscription'
               ]
               : undefined
-          console.log('_______>>', hostingSubAnnotation)
           if (hostingSubAnnotation) {
             const subName = hostingSubAnnotation.split('/')[1]
             this.setState({
@@ -113,7 +111,6 @@ class RemoveResourceModal extends React.Component {
               ),
               loading: false
             })
-            console.log('_______>>', this.state.loading)
             return
           }
           const children = []
@@ -125,12 +122,8 @@ class RemoveResourceModal extends React.Component {
             _.get(response, 'data.application.subscriptions', []) || []
           Promise.all(
             subscriptions.map(async subscription => {
-              const subName = _.get(subscription, 'metadata.name', '')
-              const subNamespace = _.get(
-                subscription,
-                'metadata.namespace',
-                ''
-              )
+              const subName = subscription.metadata.name
+              const subNamespace = subscription.metadata.namespace
               // For each subscription, get related applications
               const related = await this.fetchRelated(
                 RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
@@ -368,7 +361,6 @@ class RemoveResourceModal extends React.Component {
   }
 
   modalLoading = () => {
-    console.log('_______LOADING')
     return (
       <div>
         <AcmLoadingPage />
@@ -378,7 +370,6 @@ class RemoveResourceModal extends React.Component {
 
   modalBody = (name, label, locale) => {
     const { selected, shared } = this.state
-    console.log('______modalBody')
     const renderSharedResources = () => {
       return shared.length > 0 ? (
         <div className="shared-resource-content">
@@ -400,7 +391,6 @@ class RemoveResourceModal extends React.Component {
       ) : null
     }
     if (label.label === 'modal.remove-hcmapplication.label') {
-      console.log('__________label.label')
       return selected.length > 0 ? (
         <div className="remove-app-modal-content">
           <div className="remove-app-modal-content-text">
@@ -464,14 +454,9 @@ class RemoveResourceModal extends React.Component {
   };
 
   render() {
-    console.log('calling render -------------:')
     const { label, locale, open } = this.props
     const { canRemove, name, loading, errors, warnings } = this.state
     const heading = msgs.get(label.heading, locale)
-    console.log('****state', JSON.stringify(this.state))
-    //console.log("****props", JSON.stringify(this.props))
-    console.log('****warnings', JSON.stringify(warnings))
-    console.log('****loading', JSON.stringify(loading))
     return (
       <div>
         <AcmModal
@@ -520,7 +505,6 @@ class RemoveResourceModal extends React.Component {
             ) : null}
           </div>
           {loading ? this.modalLoading() : this.modalBody(name, label, locale)}
-          {/* {this.modalBody(name, label, locale)} */}
         </AcmModal>
       </div>
     )

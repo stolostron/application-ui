@@ -157,9 +157,6 @@ class ChannelControl extends React.Component {
       }
     })
 
-    const channelAllIndex = this.getChannelAllIndex(displayChannels)
-    displayChannels.push(displayChannels.splice(channelAllIndex, 1)[0])
-
     let selectedIdx =
       displayChannels.length === 1 || !mainSubscriptionName
         ? 0
@@ -185,10 +182,15 @@ class ChannelControl extends React.Component {
     const channelsData = this.getDisplayedChannels(channelMap, activeChannel)
     const displayChannels = channelsData[0]
     const selectedIdx = channelsData[1]
+    let currentChannel = undefined
 
     // Set default current channel on page load
+    if (!activeChannel) {
+      currentChannel = displayChannels[selectedIdx + 1]
+    }
+
     this.setState({
-      currentChannel: displayChannels[selectedIdx]
+      currentChannel: currentChannel || displayChannels[selectedIdx]
     })
   };
 

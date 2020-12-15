@@ -408,7 +408,7 @@
   "subscription.page.label.info": "Use the navigation to view the resources that are deployed by the selected subscription.",
   "subscription.page.label": "Resource nodes",
   "subscription.page.nb": "of {0}",
-  "subscription.page.count.info": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+  "subscription.page.count.info": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.",
   "subscription.page.count.nb": "(1 of {0})",
   "success.create.created": "Created {0}. Redirecting to details...",
   "success.create.creating": "Creating {0}",

@@ -182,7 +182,7 @@ class ChannelControl extends React.Component {
     const channelsData = this.getDisplayedChannels(channelMap, activeChannel)
     const displayChannels = channelsData[0]
     const selectedIdx = channelsData[1]
-    let currentChannel = undefined
+    let currentChannel = null
 
     // Set default current channel on page load
     if (!activeChannel) {

@@ -27,9 +27,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
   }),
   remove: jest.fn(() => {
     const data = {
-      userAccess: {
-        allowed: true
-      }
+      error: ""
     };
     return Promise.resolve(data);
   }),
@@ -41,7 +39,35 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
     };
     return Promise.resolve(data);
   }),
-  getApplication: jest.fn(() => {
+  getApplication: jest.fn(({ name, namespace }) => {
+    if (name === "childApp") {
+      const childAppData = {
+        data: {
+          application: {
+            metadata: {
+              labels: null,
+              name: "nginx-placement",
+              namespace: "a--ns",
+              selfLink:
+                "/apis/app.k8s.io/v1beta1/namespaces/a--ns/applications/nginx-placement",
+              uid: "959af3d2-fd39-4d05-ab37-8f117d4d4d6f",
+              __typename: "Metadata",
+              annotations: {
+                "apps.open-cluster-management.io/hosting-subscription":
+                  "sahar-multilevel-app-ns/sahar-multilevel-app-subscription-1-local"
+              }
+            },
+            name: "nginx-placement",
+            namespace: "a--ns"
+          }
+        },
+        loading: false,
+        networkStatus: 7,
+        stale: false
+      };
+
+      return Promise.resolve(childAppData);
+    }
     const data = {
       data: {
         application: {
@@ -75,8 +101,40 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
               ]
             }
           },
-          subscriptions: null,
-          __typename: "Application"
+          subscriptions: {
+            apiVersion: "apps.open-cluster-management.io/v1",
+            kind: "Subscription",
+            metadata: {
+              annotations: {
+                "apps.open-cluster-management.io/deployables":
+                  "sahar-multilevel-app-ns/kevin-helloworld-app-subscription-helloworld-helloworld-app-deploy-deployment,sahar-multilevel-app-ns/kevin-helloworld-app-subscription-helloworld-password-secret,sahar-multilevel-app-ns/kevin-helloworld-app-subscription-helloworld-helloworld-app-svc-service",
+                "apps.open-cluster-management.io/git-commit":
+                  "ca55d903421cfd624abca5b9f18e82d27a476c05",
+                "apps.open-cluster-management.io/github-branch": "master",
+                "apps.open-cluster-management.io/github-path": "helloworld",
+                "apps.open-cluster-management.io/hosting-deployable":
+                  "kevin-multilevel-channel/kevin-multilevel-channel-Subscription-kevin-helloworld-app-subscription",
+                "apps.open-cluster-management.io/hosting-subscription":
+                  "sahar-multilevel-app-ns/sahar-multilevel-app-subscription-1-local",
+                "apps.open-cluster-management.io/sync-source":
+                  "subgbk8s-sahar-multilevel-app-ns/sahar-multilevel-app-subscription-1-local",
+                "apps.open-cluster-management.io/topo":
+                  "deployable//Service//helloworld-app-svc/0,deployable//Deployment//helloworld-app-deploy/1,deployable//Secret//Password/0"
+              },
+              creationTimestamp: "2020-12-09T16:12:09Z",
+              generation: 11446,
+              labels: {
+                app: "kevin-helloworld-app"
+              },
+              name: "kevin-helloworld-app-subscription",
+              namespace: "sahar-multilevel-app-ns",
+              resourceVersion: "124422248",
+              selfLink:
+                "/apis/apps.open-cluster-management.io/v1/namespaces/sahar-multilevel-app-ns/subscriptions/kevin-helloworld-app-subscription",
+              uid: "f5b3b96e-fbf1-41aa-b356-a55fa8e2e9aa"
+            },
+            __typename: "Application"
+          }
         }
       },
       loading: false,
@@ -97,6 +155,7 @@ import thunkMiddleware from "redux-thunk";
 import {
   resourceModalData,
   resourceModalDataDel2,
+  resourceModalDataChildApp,
   resourceModalLabels,
   resourceModalLabelsDummy
 } from "./ModalsTestingData";
@@ -222,6 +281,24 @@ describe("RemoveResourceModal test", () => {
     );
     expect(toJson(component.instance())).toMatchSnapshot();
     expect(toJson(component.update())).toMatchSnapshot();
+    expect(toJson(component)).toMatchSnapshot();
+  });
+
+  it("renders as expected child application with warning", () => {
+    const component = mount(
+      <BrowserRouter>
+        <RemoveResourceModal
+          data={resourceModalDataChildApp}
+          handleClose={handleModalClose}
+          handleSubmit={handleModalSubmit}
+          label={resourceModalLabels}
+          locale={"en"}
+          open={true}
+          resourceType={resourceType}
+          store={store}
+        />
+      </BrowserRouter>
+    );
     expect(toJson(component)).toMatchSnapshot();
   });
 });

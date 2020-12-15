@@ -14,9 +14,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
   }),
   remove: jest.fn(() => {
     const data = {
-      userAccess: {
-        allowed: true
-      }
+      error: ""
     };
     return Promise.resolve(data);
   }),

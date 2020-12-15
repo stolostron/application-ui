@@ -13,6 +13,7 @@ import * as Actions from './index'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import apolloClient from '../../lib/client/apollo-client'
 import { fetchResource } from './common'
+import { nodeMustHavePods } from '../components/Topology/utils/diagram-helpers-utils'
 
 export const requestResource = (resourceType, fetchFilters, reloading) => ({
   type: Actions.RESOURCE_REQUEST,
@@ -79,16 +80,25 @@ export const receiveTopologyDetailsSuccess = (
 export const getResourceData = nodes => {
   let subscriptionName = ''
   let nbOfSubscriptions = 0
-  const nodeTypes = ['pod'] //always get pods
+  let resurceMustHavePods = false
+  const nodeTypes = [] //always get pods
 
   nodes.forEach(node => {
     const nodeType = lodash.get(node, 'type', '')
     nodeTypes.push(nodeType) //ask for this related object type
+    if (nodeMustHavePods(node)) {
+      //request pods when asking for related resources, this resource can have pods
+      resurceMustHavePods = true
+    }
     if (nodeType === 'subscription') {
       subscriptionName = lodash.get(node, 'name', '')
       nbOfSubscriptions = nbOfSubscriptions + 1
     }
   })
+
+  if (resurceMustHavePods) {
+    nodeTypes.push('pod')
+  }
 
   return {
     //if only one subscription, ask for resources only related to that subscription

@@ -195,7 +195,7 @@ describe("topology actions", () => {
     ).toEqual(expectedValue);
   });
 
-  it("should return getResourceData for one subscription", () => {
+  it("should return getResourceData for one subscription, no pods", () => {
     const nodes = [
       {
         type: "application",
@@ -211,14 +211,37 @@ describe("topology actions", () => {
       }
     ];
     const expectedValue = {
-      relatedKinds: ["pod", "application", "subscription", "route"],
+      relatedKinds: ["application", "subscription", "route"],
       subscription: "subs1"
     };
 
     expect(getResourceData(nodes)).toEqual(expectedValue);
   });
 
-  it("should return getResourceData for one more then one subscription", () => {
+  it("should return getResourceData for one subscription, with pods", () => {
+    const nodes = [
+      {
+        type: "application",
+        name: "app1"
+      },
+      {
+        type: "subscription",
+        name: "subs1"
+      },
+      {
+        type: "deployment",
+        name: "deploymentName"
+      }
+    ];
+    const expectedValue = {
+      relatedKinds: ["application", "subscription", "route", "pod"],
+      subscription: "subs1"
+    };
+
+    expect(getResourceData(nodes)).toEqual(expectedValue);
+  });
+
+  it("should return getResourceData for one more then one subscription with no pods", () => {
     const nodes = [
       {
         type: "application",
@@ -238,7 +261,7 @@ describe("topology actions", () => {
       }
     ];
     const expectedValue = {
-      relatedKinds: ["pod", "application", "subscription", "route"],
+      relatedKinds: ["application", "subscription", "route"],
       subscription: null
     };
 

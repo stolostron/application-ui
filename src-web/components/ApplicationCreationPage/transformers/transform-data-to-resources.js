@@ -28,7 +28,8 @@ const keepKeys = [
   'apps.open-cluster-management.io/github-path',
   'apps.open-cluster-management.io/git-branch',
   'apps.open-cluster-management.io/git-path',
-  'apps.open-cluster-management.io/reconcile-option'
+  'apps.open-cluster-management.io/reconcile-option',
+  'apps.open-cluster-management.io/deployables' //needed by the topology to show deployable information
 ]
 
 export const isFiltered = (value, key, parentKey, parentObj) => {

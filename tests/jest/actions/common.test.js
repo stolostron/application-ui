@@ -20,12 +20,6 @@ const item = {
   dashboard:
     "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
   clusterCount: 1,
-  remoteSubscriptionStatusCount: {
-    Subscribed: 1
-  },
-  podStatusCount: {
-    Running: 1
-  },
   hubSubscriptions: [
     {
       _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
@@ -46,12 +40,6 @@ const item1 = {
   dashboard:
     "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
   clusterCount: 1,
-  remoteSubscriptionStatusCount: {
-    Subscribed: 1
-  },
-  podStatusCount: {
-    Running: 1
-  },
   hubSubscriptions: [
     {
       _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
@@ -487,13 +475,7 @@ describe("common actions ", () => {
           }
         ],
         name: "mortgage-app",
-        namespace: "default",
-        podStatusCount: {
-          Running: 1
-        },
-        remoteSubscriptionStatusCount: {
-          Subscribed: 1
-        }
+        namespace: "default"
       },
       type: "MODAL_UPDATE"
     };
@@ -529,13 +511,7 @@ describe("common actions ", () => {
           }
         ],
         name: "mortgage-app",
-        namespace: "default",
-        podStatusCount: {
-          Running: 1
-        },
-        remoteSubscriptionStatusCount: {
-          Subscribed: 1
-        }
+        namespace: "default"
       },
       postStatus: "DONE",
       resourceType: {
@@ -586,13 +562,7 @@ describe("common actions ", () => {
           }
         ],
         name: "mortgage-app",
-        namespace: "default",
-        podStatusCount: {
-          Running: 1
-        },
-        remoteSubscriptionStatusCount: {
-          Subscribed: 1
-        }
+        namespace: "default"
       },
       putStatus: "DONE",
       resourceType: {
@@ -645,13 +615,7 @@ describe("common actions ", () => {
           }
         ],
         name: "mortgage-app",
-        namespace: "default",
-        podStatusCount: {
-          Running: 1
-        },
-        remoteSubscriptionStatusCount: {
-          Subscribed: 1
-        }
+        namespace: "default"
       },
       resource: {},
       resourceType: {

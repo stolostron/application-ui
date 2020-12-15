@@ -393,7 +393,7 @@ export const validateTopology = (
           //select all subscriptions
           cy
             .get(".bx--list-box__menu-item", { timeout: 20 * 1000 })
-            .last()
+            .first()
             .click();
         });
       }

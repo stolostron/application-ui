@@ -22,18 +22,6 @@ const query_data1 = {
   dashboard:
     "localhost/grafana/dashboard/db/val-dashboard-via-federated-prometheus?namespace=default",
   created: "2018-01-30T15:47:53Z",
-  remoteSubscriptionStatusCount: {
-    Subscribed: 4,
-    Failed: 5,
-    null: 3
-  },
-  podStatusCount: {
-    Running: 4,
-    Error: 5,
-    ImagePullBackOff: 3,
-    ContainerCreating: 6,
-    Ready: 8
-  },
   clusterCount: 4,
   hubSubscriptions: [
     {

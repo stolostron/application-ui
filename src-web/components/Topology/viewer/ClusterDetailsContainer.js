@@ -26,27 +26,63 @@ class ClusterDetailsContainer extends React.Component {
       clusterDetailsContainerData: PropTypes.object,
       handleClusterDetailsContainerUpdate: PropTypes.func
     }),
+    clusterID: PropTypes.string,
     clusterList: PropTypes.array,
     locale: PropTypes.string
   };
   constructor(props) {
     super()
-    this.state = {
-      clusterList: props.clusterList,
-      locale: props.locale,
-      selected: null,
-      page:
-        props.clusterDetailsContainerControl.clusterDetailsContainerData.page,
-      perPage: 5,
-      startIdx:
-        props.clusterDetailsContainerControl.clusterDetailsContainerData
-          .startIdx,
-      clusterSearchToggle:
-        props.clusterDetailsContainerControl.clusterDetailsContainerData
-          .clusterSearchToggle,
-      expandSectionToggleMap:
-        props.clusterDetailsContainerControl.clusterDetailsContainerData
-          .expandSectionToggleMap
+    const currentClusterID =
+      props.clusterDetailsContainerControl.clusterDetailsContainerData
+        .clusterID
+    if (currentClusterID === props.clusterID) {
+      this.state = {
+        clusterList: props.clusterList,
+        locale: props.locale,
+        selected:
+          props.clusterDetailsContainerControl.clusterDetailsContainerData
+            .selected,
+        page:
+          props.clusterDetailsContainerControl.clusterDetailsContainerData.page,
+        perPage: 5,
+        startIdx:
+          props.clusterDetailsContainerControl.clusterDetailsContainerData
+            .startIdx,
+        clusterSearchToggle:
+          props.clusterDetailsContainerControl.clusterDetailsContainerData
+            .clusterSearchToggle,
+        expandSectionToggleMap:
+          props.clusterDetailsContainerControl.clusterDetailsContainerData
+            .expandSectionToggleMap,
+        selectedClusterList:
+          props.clusterDetailsContainerControl.clusterDetailsContainerData
+            .selectedClusterList
+      }
+    } else {
+      // reset saved setting when a different cluster node is selected
+      const {
+        clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
+      } = props
+
+      handleClusterDetailsContainerUpdate(
+        1,
+        0,
+        false,
+        new Set(),
+        props.clusterID
+      )
+      this.state = {
+        clusterList: props.clusterList,
+        locale: props.locale,
+        selected: undefined,
+        page: 1,
+        perPage: 5,
+        startIdx: 0,
+        clusterSearchToggle: false,
+        expandSectionToggleMap: new Set(),
+        clusterID: props.clusterID,
+        selectedClusterList: []
+      }
     }
 
     this.handleFirstClick = this.handleFirstClick.bind(this)
@@ -69,6 +105,7 @@ class ClusterDetailsContainer extends React.Component {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate },
       clusterList
     } = this.props
+    const { clusterID } = this.state
     let selectedCluster, newClusterList
     if (selection) {
       selectedCluster = clusterList.find(
@@ -79,14 +116,23 @@ class ClusterDetailsContainer extends React.Component {
       newClusterList = clusterList
     }
 
-    handleClusterDetailsContainerUpdate(1, 0, false, new Set())
+    handleClusterDetailsContainerUpdate(
+      1,
+      0,
+      false,
+      new Set(),
+      clusterID,
+      selection,
+      newClusterList
+    )
     this.setState({
       selected: selection,
       clusterList: newClusterList,
       startIdx: 0,
       page: 1,
       expandSectionToggleMap: new Set(),
-      clusterSearchToggle: false
+      clusterSearchToggle: false,
+      selectedClusterList: newClusterList
     })
   };
 
@@ -94,8 +140,17 @@ class ClusterDetailsContainer extends React.Component {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
     } = this.props
+    const { clusterID } = this.state
 
-    handleClusterDetailsContainerUpdate(1, 0, false, new Set())
+    handleClusterDetailsContainerUpdate(
+      1,
+      0,
+      false,
+      new Set(),
+      clusterID,
+      undefined,
+      []
+    )
     this.setState({
       selected: undefined,
       startIdx: 0,
@@ -109,8 +164,17 @@ class ClusterDetailsContainer extends React.Component {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
     } = this.props
+    const { clusterID } = this.state
 
-    handleClusterDetailsContainerUpdate(1, 0, false, new Set())
+    handleClusterDetailsContainerUpdate(
+      1,
+      0,
+      false,
+      new Set(),
+      clusterID,
+      undefined,
+      []
+    )
     this.setState({
       startIdx: 0,
       page: 1,
@@ -122,7 +186,7 @@ class ClusterDetailsContainer extends React.Component {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
     } = this.props
-    const { clusterList, perPage } = this.state
+    const { clusterList, perPage, clusterID } = this.state
 
     let divResult = Math.floor(clusterList.length / perPage)
     let lastPage = divResult
@@ -138,7 +202,10 @@ class ClusterDetailsContainer extends React.Component {
       lastPage,
       newStartIdx,
       false,
-      new Set()
+      new Set(),
+      clusterID,
+      undefined,
+      []
     )
     this.setState({
       startIdx: newStartIdx,
@@ -151,14 +218,17 @@ class ClusterDetailsContainer extends React.Component {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
     } = this.props
-    const { perPage, startIdx } = this.state
+    const { perPage, startIdx, clusterID } = this.state
     const newStartIdx = startIdx + perPage
 
     handleClusterDetailsContainerUpdate(
       currentPage,
       newStartIdx,
       false,
-      new Set()
+      new Set(),
+      clusterID,
+      undefined,
+      []
     )
     this.setState({
       startIdx: newStartIdx,
@@ -171,14 +241,17 @@ class ClusterDetailsContainer extends React.Component {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
     } = this.props
-    const { perPage, startIdx } = this.state
+    const { perPage, startIdx, clusterID } = this.state
     const newStartIdx = startIdx - perPage
 
     handleClusterDetailsContainerUpdate(
       currentPage,
       newStartIdx,
       false,
-      new Set()
+      new Set(),
+      clusterID,
+      undefined,
+      []
     )
     this.setState({
       startIdx: newStartIdx,
@@ -191,10 +264,18 @@ class ClusterDetailsContainer extends React.Component {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
     } = this.props
-    const { perPage } = this.state
+    const { perPage, clusterID } = this.state
     const newStartIdx = (newPage - 1) * perPage
 
-    handleClusterDetailsContainerUpdate(newPage, newStartIdx, false, new Set())
+    handleClusterDetailsContainerUpdate(
+      newPage,
+      newStartIdx,
+      false,
+      new Set(),
+      clusterID,
+      undefined,
+      []
+    )
     this.setState({
       startIdx: newStartIdx,
       page: newPage,
@@ -216,7 +297,8 @@ class ClusterDetailsContainer extends React.Component {
       page,
       startIdx,
       clusterSearchToggle,
-      expandSectionToggleMap
+      expandSectionToggleMap,
+      clusterID
     } = this.state
     const newClusterSearchToggle = !clusterSearchToggle
 
@@ -224,7 +306,10 @@ class ClusterDetailsContainer extends React.Component {
       page,
       startIdx,
       newClusterSearchToggle,
-      expandSectionToggleMap
+      expandSectionToggleMap,
+      clusterID,
+      undefined,
+      []
     )
     this.setState({
       clusterSearchToggle: newClusterSearchToggle
@@ -239,7 +324,10 @@ class ClusterDetailsContainer extends React.Component {
       page,
       startIdx,
       clusterSearchToggle,
-      expandSectionToggleMap
+      expandSectionToggleMap,
+      clusterID,
+      selected,
+      selectedClusterList
     } = this.state
 
     if (!expandSectionToggleMap.has(itemNum)) {
@@ -252,7 +340,10 @@ class ClusterDetailsContainer extends React.Component {
       page,
       startIdx,
       clusterSearchToggle,
-      expandSectionToggleMap
+      expandSectionToggleMap,
+      clusterID,
+      selected,
+      selectedClusterList
     )
     this.setState({
       expandSectionToggleMap: expandSectionToggleMap
@@ -290,7 +381,8 @@ class ClusterDetailsContainer extends React.Component {
       startIdx,
       locale,
       clusterSearchToggle,
-      expandSectionToggleMap
+      expandSectionToggleMap,
+      selectedClusterList
     } = this.state
     const titleId = 'cluster-select-id-1'
     const findClusterMsg = 'Find cluster'
@@ -299,15 +391,20 @@ class ClusterDetailsContainer extends React.Component {
     const labelClass = 'label sectionLabel'
     const valueClass = 'value'
     const solidLineStyle = '1px solid #D2D2D2'
+    const displayClusterList = selected ? selectedClusterList : clusterList
 
-    for (let i = startIdx; i < clusterList.length && i < page * perPage; i++) {
+    for (
+      let i = startIdx;
+      i < displayClusterList.length && i < page * perPage;
+      i++
+    ) {
       const {
         metadata = {},
         capacity = {},
         allocatable = {},
         status,
         consoleURL
-      } = clusterList[i]
+      } = displayClusterList[i]
       const {
         name: clusterName,
         namespace: clusterNamespace,
@@ -431,7 +528,7 @@ class ClusterDetailsContainer extends React.Component {
         </Select>
         <div className="spacer" />
         <Pagination
-          itemCount={clusterList.length}
+          itemCount={displayClusterList.length}
           perPage={perPage}
           page={page}
           widgetId="pagination-options-menu-top"
@@ -444,7 +541,7 @@ class ClusterDetailsContainer extends React.Component {
         <div className="spacer" />
         {clusterItems}
         <Pagination
-          itemCount={clusterList.length}
+          itemCount={displayClusterList.length}
           perPage={perPage}
           page={page}
           widgetId="pagination-options-menu-bottom"

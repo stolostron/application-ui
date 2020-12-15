@@ -26,8 +26,6 @@ describe("transform", () => {
     namespace: "default",
     dashboard: null,
     clusterCount: 1,
-    remoteSubscriptionStatusCount: { Failed: 1 },
-    podStatusCount: {},
     hubSubscriptions: [
       {
         _uid: "local-cluster/42e926fd-7275-4fae-820b-e9148d2e7cd2",

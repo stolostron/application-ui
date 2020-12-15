@@ -631,6 +631,7 @@ export const getPercentage = (value, total) => {
 }
 
 export const setClusterStatus = (node, details) => {
+  const { id } = node
   const specs = _.get(node, 'specs', {})
   const { cluster, clusters = [] } = specs
   const clusterArr = cluster ? [cluster] : clusters
@@ -642,7 +643,10 @@ export const setClusterStatus = (node, details) => {
 
   details.push({
     type: 'clusterdetailcombobox',
-    comboboxdata: clusterArr
+    comboboxdata: {
+      clusterList: clusterArr,
+      clusterID: id
+    }
   })
 
   return details

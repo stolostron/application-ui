@@ -55,7 +55,7 @@ ShallowWrapper {
               <span
                 className="showPagesTooltip"
               >
-                Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
               </span>
             </Tooltip>
           </div>
@@ -71,6 +71,19 @@ ShallowWrapper {
               itemToString={[Function]}
               items={
                 Array [
+                  Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  },
                   Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                     "hasSubchannels": true,
@@ -94,19 +107,6 @@ ShallowWrapper {
                         "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                       },
                     ],
-                  },
-                  Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
-                    "subchannels": Array [],
                   },
                 ]
               }
@@ -149,7 +149,7 @@ ShallowWrapper {
                 <span
                   className="showPagesTooltip"
                 >
-                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                 </span>
               </Tooltip>
             </div>,
@@ -165,6 +165,19 @@ ShallowWrapper {
                 itemToString={[Function]}
                 items={
                   Array [
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
@@ -188,19 +201,6 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
-                    },
-                    Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
                     },
                   ]
                 }
@@ -238,7 +238,7 @@ ShallowWrapper {
                   <span
                     className="showPagesTooltip"
                   >
-                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                   </span>
                 </Tooltip>,
               ],
@@ -257,7 +257,7 @@ ShallowWrapper {
                   "children": <span
                     className="showPagesTooltip"
                   >
-                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                   </span>,
                   "direction": "bottom",
                   "iconDescription": "tooltip",
@@ -274,11 +274,11 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                    "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.",
                     "className": "showPagesTooltip",
                   },
                   "ref": null,
-                  "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                  "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.",
                   "type": "span",
                 },
                 "type": [Function],
@@ -300,6 +300,19 @@ ShallowWrapper {
                 itemToString={[Function]}
                 items={
                   Array [
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
@@ -323,19 +336,6 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
-                    },
-                    Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
                     },
                   ]
                 }
@@ -361,6 +361,19 @@ ShallowWrapper {
                 "itemToString": [Function],
                 "items": Array [
                   Object {
+                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                    "hasSubchannels": false,
+                    "label": "All Subscriptions",
+                    "splitChn": Array [
+                      "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                      "__ALL__",
+                    ],
+                    "subchannels": Array [],
+                  },
+                  Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                     "hasSubchannels": true,
                     "label": "guestbook-app",
@@ -383,19 +396,6 @@ ShallowWrapper {
                         "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                       },
                     ],
-                  },
-                  Object {
-                    "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
-                    "label": "All Subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
-                    "subchannels": Array [],
                   },
                 ],
                 "label": "All subscriptions",
@@ -446,7 +446,7 @@ ShallowWrapper {
                 <span
                   className="showPagesTooltip"
                 >
-                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                 </span>
               </Tooltip>
             </div>
@@ -462,6 +462,19 @@ ShallowWrapper {
                 itemToString={[Function]}
                 items={
                   Array [
+                    Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
@@ -485,19 +498,6 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
-                    },
-                    Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
                     },
                   ]
                 }
@@ -540,7 +540,7 @@ ShallowWrapper {
                   <span
                     className="showPagesTooltip"
                   >
-                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                   </span>
                 </Tooltip>
               </div>,
@@ -556,6 +556,19 @@ ShallowWrapper {
                   itemToString={[Function]}
                   items={
                     Array [
+                      Object {
+                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "hasSubchannels": false,
+                        "label": "All Subscriptions",
+                        "splitChn": Array [
+                          "__ALL__/__ALL__//__ALL__/__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                        ],
+                        "subchannels": Array [],
+                      },
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                         "hasSubchannels": true,
@@ -579,19 +592,6 @@ ShallowWrapper {
                             "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                           },
                         ],
-                      },
-                      Object {
-                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "hasSubchannels": false,
-                        "label": "All Subscriptions",
-                        "splitChn": Array [
-                          "__ALL__/__ALL__//__ALL__/__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                        ],
-                        "subchannels": Array [],
                       },
                     ]
                   }
@@ -629,7 +629,7 @@ ShallowWrapper {
                     <span
                       className="showPagesTooltip"
                     >
-                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                     </span>
                   </Tooltip>,
                 ],
@@ -648,7 +648,7 @@ ShallowWrapper {
                     "children": <span
                       className="showPagesTooltip"
                     >
-                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                     </span>,
                     "direction": "bottom",
                     "iconDescription": "tooltip",
@@ -665,11 +665,11 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                      "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.",
                       "className": "showPagesTooltip",
                     },
                     "ref": null,
-                    "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                    "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.",
                     "type": "span",
                   },
                   "type": [Function],
@@ -691,6 +691,19 @@ ShallowWrapper {
                   itemToString={[Function]}
                   items={
                     Array [
+                      Object {
+                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "hasSubchannels": false,
+                        "label": "All Subscriptions",
+                        "splitChn": Array [
+                          "__ALL__/__ALL__//__ALL__/__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                          "__ALL__",
+                        ],
+                        "subchannels": Array [],
+                      },
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                         "hasSubchannels": true,
@@ -714,19 +727,6 @@ ShallowWrapper {
                             "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                           },
                         ],
-                      },
-                      Object {
-                        "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "hasSubchannels": false,
-                        "label": "All Subscriptions",
-                        "splitChn": Array [
-                          "__ALL__/__ALL__//__ALL__/__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                        ],
-                        "subchannels": Array [],
                       },
                     ]
                   }
@@ -752,6 +752,19 @@ ShallowWrapper {
                   "itemToString": [Function],
                   "items": Array [
                     Object {
+                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
+                      "hasSubchannels": false,
+                      "label": "All Subscriptions",
+                      "splitChn": Array [
+                        "__ALL__/__ALL__//__ALL__/__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                        "__ALL__",
+                      ],
+                      "subchannels": Array [],
+                    },
+                    Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
                       "label": "guestbook-app",
@@ -774,19 +787,6 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
-                    },
-                    Object {
-                      "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
-                      "label": "All Subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
-                      "subchannels": Array [],
                     },
                   ],
                   "label": "All subscriptions",
@@ -894,7 +894,7 @@ ShallowWrapper {
               <span
                 className="showPagesTooltip"
               >
-                Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
               </span>
             </Tooltip>
           </div>
@@ -1004,7 +1004,7 @@ ShallowWrapper {
               aria-label="Current page"
               className="label pageInput"
               id="valuePage"
-              max="{channelsLength}"
+              max="{selectedSubscriptionPages}"
               min="1"
               onChange={[Function]}
               onKeyPress={[Function]}
@@ -1069,7 +1069,7 @@ ShallowWrapper {
                 <span
                   className="showPagesTooltip"
                 >
-                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                 </span>
               </Tooltip>
             </div>,
@@ -1150,7 +1150,7 @@ ShallowWrapper {
                   <span
                     className="showPagesTooltip"
                   >
-                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                   </span>
                 </Tooltip>,
               ],
@@ -1169,7 +1169,7 @@ ShallowWrapper {
                   "children": <span
                     className="showPagesTooltip"
                   >
-                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                   </span>,
                   "direction": "bottom",
                   "iconDescription": "tooltip",
@@ -1186,11 +1186,11 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                    "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.",
                     "className": "showPagesTooltip",
                   },
                   "ref": null,
-                  "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                  "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.",
                   "type": "span",
                 },
                 "type": [Function],
@@ -1367,7 +1367,7 @@ ShallowWrapper {
                 aria-label="Current page"
                 className="label pageInput"
                 id="valuePage"
-                max="{channelsLength}"
+                max="{selectedSubscriptionPages}"
                 min="1"
                 onChange={[Function]}
                 onKeyPress={[Function]}
@@ -1532,7 +1532,7 @@ ShallowWrapper {
                   aria-label="Current page"
                   className="label pageInput"
                   id="valuePage"
-                  max="{channelsLength}"
+                  max="{selectedSubscriptionPages}"
                   min="1"
                   onChange={[Function]}
                   onKeyPress={[Function]}
@@ -1612,7 +1612,7 @@ ShallowWrapper {
                   "aria-label": "Current page",
                   "className": "label pageInput",
                   "id": "valuePage",
-                  "max": "{channelsLength}",
+                  "max": "{selectedSubscriptionPages}",
                   "min": "1",
                   "onChange": [Function],
                   "onKeyPress": [Function],
@@ -1708,7 +1708,7 @@ ShallowWrapper {
                 <span
                   className="showPagesTooltip"
                 >
-                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                 </span>
               </Tooltip>
             </div>
@@ -1818,7 +1818,7 @@ ShallowWrapper {
                 aria-label="Current page"
                 className="label pageInput"
                 id="valuePage"
-                max="{channelsLength}"
+                max="{selectedSubscriptionPages}"
                 min="1"
                 onChange={[Function]}
                 onKeyPress={[Function]}
@@ -1883,7 +1883,7 @@ ShallowWrapper {
                   <span
                     className="showPagesTooltip"
                   >
-                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                   </span>
                 </Tooltip>
               </div>,
@@ -1964,7 +1964,7 @@ ShallowWrapper {
                     <span
                       className="showPagesTooltip"
                     >
-                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                     </span>
                   </Tooltip>,
                 ],
@@ -1983,7 +1983,7 @@ ShallowWrapper {
                     "children": <span
                       className="showPagesTooltip"
                     >
-                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
                     </span>,
                     "direction": "bottom",
                     "iconDescription": "tooltip",
@@ -2000,11 +2000,11 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                      "children": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.",
                       "className": "showPagesTooltip",
                     },
                     "ref": null,
-                    "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology.",
+                    "rendered": "Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.",
                     "type": "span",
                   },
                   "type": [Function],
@@ -2181,7 +2181,7 @@ ShallowWrapper {
                   aria-label="Current page"
                   className="label pageInput"
                   id="valuePage"
-                  max="{channelsLength}"
+                  max="{selectedSubscriptionPages}"
                   min="1"
                   onChange={[Function]}
                   onKeyPress={[Function]}
@@ -2346,7 +2346,7 @@ ShallowWrapper {
                     aria-label="Current page"
                     className="label pageInput"
                     id="valuePage"
-                    max="{channelsLength}"
+                    max="{selectedSubscriptionPages}"
                     min="1"
                     onChange={[Function]}
                     onKeyPress={[Function]}
@@ -2426,7 +2426,7 @@ ShallowWrapper {
                     "aria-label": "Current page",
                     "className": "label pageInput",
                     "id": "valuePage",
-                    "max": "{channelsLength}",
+                    "max": "{selectedSubscriptionPages}",
                     "min": "1",
                     "onChange": [Function],
                     "onKeyPress": [Function],

@@ -10,16 +10,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withLocale } from '../../../providers/LocaleProvider'
-import { ArrowRightIcon } from '@patternfly/react-icons'
 import {
-  Accordion,
-  AccordionItem,
-  AccordionContent,
-  AccordionToggle,
-  Button,
-  Skeleton
-} from '@patternfly/react-core'
-import { AcmAlert } from '@open-cluster-management/ui-components'
+  ArrowRightIcon,
+  OutlinedQuestionCircleIcon
+} from '@patternfly/react-icons'
+import { Button, Skeleton, Tooltip } from '@patternfly/react-core'
+import {
+  AcmAlert,
+  AcmDescriptionList
+} from '@open-cluster-management/ui-components'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
 import config from '../../../../lib/shared/config'
@@ -51,8 +50,7 @@ class OverviewCards extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showSubCards: false,
-      showDetailsCard: true
+      showSubCards: false
     }
   }
 
@@ -75,7 +73,6 @@ class OverviewCards extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return !(
       (nextState.pollToggle === this.state.pollToggle &&
-        nextState.showDetailsCard === this.state.showDetailsCard &&
         nextState.showSubCards === this.state.showSubCards) ||
       _.get(nextProps, 'topology.status', '') === REQUEST_STATUS.IN_PROGRESS ||
       _.get(nextProps, 'HCMApplicationList.status', '') ===
@@ -91,7 +88,7 @@ class OverviewCards extends React.Component {
       selectedAppNS,
       locale
     } = this.props
-    const { showSubCards, showDetailsCard } = this.state
+    const { showSubCards } = this.state
 
     if (HCMApplicationList.status === REQUEST_STATUS.ERROR) {
       const errMessage = _.get(
@@ -108,10 +105,6 @@ class OverviewCards extends React.Component {
         msgs.get('load.app.info.notfound', [selectedAppName])
       )
       return <AcmAlert variant="info" title={infoMessage} noClose />
-    }
-
-    const toggleAccordion = toggleStatus => {
-      this.setState({ showDetailsCard: !toggleStatus })
     }
 
     let getUrl = window.location.href
@@ -150,89 +143,81 @@ class OverviewCards extends React.Component {
 
     return (
       <div className="overview-cards-container">
-        <Accordion>
-          <AccordionItem>
-            <AccordionToggle
-              onClick={() => {
-                toggleAccordion(showDetailsCard)
-              }}
-              isExpanded={showDetailsCard}
-              id="details-header"
-            >
-              {msgs.get('dashboard.card.overview.cards.title', locale)}
-            </AccordionToggle>
-
-            <AccordionContent isHidden={!showDetailsCard}>
-              <div className="details-col  add-right-border" id="left-col">
-                <div className="details-item">
-                  <div className="details-item-title left-item">
-                    {msgs.get('dashboard.card.overview.cards.name', locale)}
-                  </div>
-                  <div className="details-item-content">
-                    {appOverviewCardsData.appName}
-                  </div>
-                </div>
-
-                <div className="details-item">
-                  <div className="details-item-title left-item">
-                    {msgs.get(
-                      'dashboard.card.overview.cards.namespace',
-                      locale
-                    )}
-                  </div>
-                  <div className="details-item-content">
-                    {appOverviewCardsData.appNamespace}
-                  </div>
-                </div>
-
-                <div className="details-item">
-                  <div className="details-item-title left-item">
-                    {msgs.get('dashboard.card.overview.cards.created', locale)}
-                  </div>
-                  <div className="details-item-content">
-                    {this.renderData(
-                      appOverviewCardsData.creationTimestamp,
-                      appOverviewCardsData.creationTimestamp,
-                      '30%'
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="details-col" id="righ-col">
-                <div className="details-item">
-                  <div className="details-item-title right-item">
-                    {msgs.get('dashboard.card.overview.cards.clusters', locale)}
-                  </div>
-                  <div className="details-item-content">
-                    {this.renderData(
-                      appOverviewCardsData.remoteClusterCount !== -1 ||
-                      appOverviewCardsData.localClusterDeploy
-                        ? 0
-                        : -1,
-                      clusterCount,
-                      '30%'
-                    )}
-                  </div>
-                </div>
-
-                <div className="details-item" id="resources-status">
-                  <div className="details-item-title right-item">
-                    {msgs.get(
-                      'dashboard.card.overview.cards.cluster.resource.status',
-                      locale
-                    )}
-                  </div>
-                  <div className="details-item-content">
-                    {this.renderData(
-                      appOverviewCardsData.nodeStatuses,
-                      this.createStatusIcons(appOverviewCardsData.nodeStatuses),
-                      '30%'
-                    )}
-                  </div>
-                </div>
-
-                <div className="details-item">
+        <AcmDescriptionList
+          title={msgs.get('dashboard.card.overview.cards.title', locale)}
+          leftItems={[
+            {
+              key: msgs.get('dashboard.card.overview.cards.name', locale),
+              value: appOverviewCardsData.appName
+            },
+            {
+              key: msgs.get('dashboard.card.overview.cards.namespace', locale),
+              value: appOverviewCardsData.appNamespace
+            },
+            {
+              key: msgs.get('dashboard.card.overview.cards.created', locale),
+              value: (
+                <React.Fragment>
+                  {this.renderData(
+                    appOverviewCardsData.creationTimestamp,
+                    appOverviewCardsData.creationTimestamp,
+                    '30%'
+                  )}
+                </React.Fragment>
+              )
+            }
+          ]}
+          rightItems={[
+            {
+              key: msgs.get('dashboard.card.overview.cards.clusters', locale),
+              value: (
+                <React.Fragment>
+                  {this.renderData(
+                    appOverviewCardsData.remoteClusterCount !== -1 ||
+                    appOverviewCardsData.localClusterDeploy
+                      ? 0
+                      : -1,
+                    clusterCount,
+                    '30%'
+                  )}
+                </React.Fragment>
+              )
+            },
+            {
+              key: (
+                <React.Fragment>
+                  {msgs.get(
+                    'dashboard.card.overview.cards.cluster.resource.status',
+                    locale
+                  )}
+                  <Tooltip
+                    isContentLeftAligned
+                    content={
+                      <div>
+                        {msgs.get(
+                          'dashboard.card.overview.cards.cluster.resource.status.tooltip',
+                          locale
+                        )}
+                      </div>
+                    }
+                  >
+                    <OutlinedQuestionCircleIcon className="resource-status-help-icon" />
+                  </Tooltip>
+                </React.Fragment>
+              ),
+              value: (
+                <React.Fragment>
+                  {this.renderData(
+                    appOverviewCardsData.nodeStatuses,
+                    this.createStatusIcons(appOverviewCardsData.nodeStatuses),
+                    '30%'
+                  )}
+                </React.Fragment>
+              )
+            },
+            {
+              key: (
+                <React.Fragment>
                   <a
                     className="details-item-link"
                     id="app-search-link"
@@ -248,11 +233,12 @@ class OverviewCards extends React.Component {
                       <ArrowRightIcon className="details-item-link-icon" />
                     </div>
                   </a>
-                </div>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+                </React.Fragment>
+              ),
+              value: ''
+            }
+          ]}
+        />
 
         <div className="overview-cards-subs-section">
           {showSubCards && !disableBtn

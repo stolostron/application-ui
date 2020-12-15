@@ -172,17 +172,6 @@ describe("OverviewCards", () => {
       .simulate("keypress", { key: "Enter" });
   });
 
-  it("OverviewCards renders correctly with data.", () => {
-    const tree = renderer
-      .create(
-        <Provider store={store}>
-          <OverviewCards selectedAppName="app1" selectedAppNS="default" />
-        </Provider>
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-
   it("OverviewCards successfully handles change in props to refetch", () => {
     const wrapper = mount(
       <Provider store={storeApp}>

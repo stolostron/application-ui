@@ -340,8 +340,14 @@ export const validateTopology = (
   cy
     .get(".search-query-card-loading", { timeout: 50 * 1000 })
     .should("not.exist");
-  cy.get("#left-col").contains(name);
-  cy.get("#left-col").contains(`${name}-ns`);
+  cy
+    .get(".pf-l-grid__item")
+    .first()
+    .contains(name);
+  cy
+    .get(".pf-l-grid__item")
+    .first()
+    .contains(`${name}-ns`);
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
@@ -364,7 +370,8 @@ export const validateTopology = (
     .should("be.gte", successNumber);
 
   cy
-    .get(".pf-c-accordion", { timeout: 120 * 1000 })
+    .get(".pf-l-grid__item", { timeout: 120 * 1000 })
+    .last()
     .contains(appDetails.clusterData);
 
   validateSubscriptionDetails(name, data, type, opType);
@@ -396,7 +403,7 @@ export const validateTopology = (
           //select all subscriptions
           cy
             .get(".bx--list-box__menu-item", { timeout: 20 * 1000 })
-            .last()
+            .first()
             .click();
         });
       }

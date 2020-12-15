@@ -34,12 +34,11 @@ const jestConfig = {
   testResultsProcessor: 'jest-sonar-reporter',
   testURL: 'http://localhost/',
   coverageThreshold: {
-    // TODO - increase threshold once repo is finalized
     global: {
-      branches: 40,
-      functions: 50,
-      lines: 40,
-      statements: 40
+      branches: 50,
+      functions: 55,
+      lines: 60,
+      statements: 60
     }
   },
   testMatch: [

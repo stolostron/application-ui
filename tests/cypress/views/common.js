@@ -413,12 +413,16 @@ export const verifyApplicationData = (name, data, opType) => {
           if (data.type == "git") {
             cy.log(`Verify Git reconcile option for ${name}`);
             item.gitReconcileOption &&
-              cy.get(reconcileKey, { timeout: 20 * 1000 }).should("be.checked");
+              cy
+                .get(reconcileKey)
+                .invoke("val")
+                .should("eq", item.gitReconcileOption);
 
             !item.gitReconcileOption &&
               cy
-                .get(reconcileKey, { timeout: 20 * 1000 })
-                .and("not.be.checked");
+                .get(reconcileKey)
+                .invoke("val")
+                .should("eq", "merge"); //default is merge
           }
 
           const { deployment } = item;

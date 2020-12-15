@@ -407,7 +407,7 @@ Array [
                   </div>
                   <div
                     class="pf-c-toolbar__expandable-content"
-                    id="pf-random-id-4-expandable-content-19"
+                    id="pf-random-id-4-expandable-content-9"
                   >
                     <div
                       class="pf-c-toolbar__group"
@@ -563,7 +563,7 @@ Array [
                           class="pf-c-table__column-help-action"
                         >
                           <button
-                            aria-describedby="pf-tooltip-13"
+                            aria-describedby="pf-tooltip-28"
                             aria-disabled="false"
                             aria-label="Provides a link to the resource repository that is represented by the channel."
                             class="pf-c-button pf-m-plain"
@@ -633,7 +633,7 @@ Array [
                           class="pf-c-table__column-help-action"
                         >
                           <button
-                            aria-describedby="pf-tooltip-14"
+                            aria-describedby="pf-tooltip-29"
                             aria-disabled="false"
                             aria-label="Displays the number of local subscriptions using the channel. Click to search for all related subscriptions."
                             class="pf-c-button pf-m-plain"
@@ -703,7 +703,7 @@ Array [
                           class="pf-c-table__column-help-action"
                         >
                           <button
-                            aria-describedby="pf-tooltip-15"
+                            aria-describedby="pf-tooltip-30"
                             aria-disabled="false"
                             aria-label="Displays the number of remote and local clusters where resources from the channel are deployed. Click to search for the remote clusters."
                             class="pf-c-button pf-m-plain"
@@ -870,6 +870,7 @@ Array [
                       data-label="Clusters"
                     >
                       <a
+                        class="cluster-count-link"
                         href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Acassandra-channel%20namespace%3Acassandra-ch%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
                       >
                         {0} Remote
@@ -897,7 +898,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-16"
+                          id="pf-dropdown-toggle-id-36"
                           type="button"
                         >
                           <svg
@@ -1031,7 +1032,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-17"
+                          id="pf-dropdown-toggle-id-37"
                           type="button"
                         >
                           <svg
@@ -1142,6 +1143,7 @@ Array [
                       data-label="Clusters"
                     >
                       <a
+                        class="cluster-count-link"
                         href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Agbchn%20namespace%3Agbchn%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
                       >
                         {0} Remote
@@ -1169,7 +1171,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-18"
+                          id="pf-dropdown-toggle-id-38"
                           type="button"
                         >
                           <svg
@@ -1303,7 +1305,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-19"
+                          id="pf-dropdown-toggle-id-39"
                           type="button"
                         >
                           <svg
@@ -1339,7 +1341,7 @@ Array [
                     data-ouia-component-id="OUIA-Generated-Pagination-bottom-1"
                     data-ouia-component-type="PF4/Pagination"
                     data-ouia-safe="true"
-                    id="pagination-options-menu-4"
+                    id="pagination-options-menu-9"
                   >
                     <div
                       class="pf-c-options-menu pf-m-top"
@@ -1368,7 +1370,7 @@ Array [
                           data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
                           data-ouia-component-type="PF4/DropdownToggle"
                           data-ouia-safe="true"
-                          id="pagination-options-menu-toggle-4"
+                          id="pagination-options-menu-toggle-9"
                           type="button"
                         >
                           <span
@@ -1949,7 +1951,7 @@ Array [
                   </div>
                   <div
                     class="pf-c-toolbar__expandable-content"
-                    id="pf-random-id-2-expandable-content-11"
+                    id="pf-random-id-2-expandable-content-5"
                   >
                     <div
                       class="pf-c-toolbar__group"
@@ -2105,7 +2107,7 @@ Array [
                           class="pf-c-table__column-help-action"
                         >
                           <button
-                            aria-describedby="pf-tooltip-9"
+                            aria-describedby="pf-tooltip-19"
                             aria-disabled="false"
                             aria-label="Displays the number of remote and local clusters where resources are deployed because of the placement rule. Click to search for the remote clusters."
                             class="pf-c-button pf-m-plain"
@@ -2175,7 +2177,7 @@ Array [
                           class="pf-c-table__column-help-action"
                         >
                           <button
-                            aria-describedby="pf-tooltip-10"
+                            aria-describedby="pf-tooltip-20"
                             aria-disabled="false"
                             aria-label="Displays the desired number of clusters to which subscriptions that use this placement rule should be propagated."
                             class="pf-c-button pf-m-plain"
@@ -2281,6 +2283,7 @@ Array [
                       data-label="Clusters"
                     >
                       <a
+                        class="cluster-count-link"
                         href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp123-placement-0%20namespace%3Aansible%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
                       >
                         {0} Remote
@@ -2313,7 +2316,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-8"
+                          id="pf-dropdown-toggle-id-20"
                           type="button"
                         >
                           <svg
@@ -2363,6 +2366,7 @@ Array [
                       data-label="Clusters"
                     >
                       <a
+                        class="cluster-count-link"
                         href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp123-placement-0%20namespace%3Ans-sub-1%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
                       >
                         {0} Remote
@@ -2395,7 +2399,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-9"
+                          id="pf-dropdown-toggle-id-21"
                           type="button"
                         >
                           <svg
@@ -2445,6 +2449,7 @@ Array [
                       data-label="Clusters"
                     >
                       <a
+                        class="cluster-count-link"
                         href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Acassandra-app-placement%20namespace%3Acassandra-app-ns%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
                       >
                         {0} Remote
@@ -2479,7 +2484,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-10"
+                          id="pf-dropdown-toggle-id-22"
                           type="button"
                         >
                           <svg
@@ -2529,6 +2534,7 @@ Array [
                       data-label="Clusters"
                     >
                       <a
+                        class="cluster-count-link"
                         href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Ademo-saude-digital%20namespace%3Ademo-saude-digital%20kind%3Aplacementrule%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
                       >
                         {0} Remote
@@ -2563,7 +2569,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-11"
+                          id="pf-dropdown-toggle-id-23"
                           type="button"
                         >
                           <svg
@@ -2599,7 +2605,7 @@ Array [
                     data-ouia-component-id="OUIA-Generated-Pagination-bottom-1"
                     data-ouia-component-type="PF4/Pagination"
                     data-ouia-safe="true"
-                    id="pagination-options-menu-2"
+                    id="pagination-options-menu-5"
                   >
                     <div
                       class="pf-c-options-menu pf-m-top"
@@ -2628,7 +2634,7 @@ Array [
                           data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
                           data-ouia-component-type="PF4/DropdownToggle"
                           data-ouia-safe="true"
-                          id="pagination-options-menu-toggle-2"
+                          id="pagination-options-menu-toggle-5"
                           type="button"
                         >
                           <span
@@ -3209,7 +3215,7 @@ Array [
                   </div>
                   <div
                     class="pf-c-toolbar__expandable-content"
-                    id="pf-random-id-0-expandable-content-3"
+                    id="pf-random-id-0-expandable-content-1"
                   >
                     <div
                       class="pf-c-toolbar__group"
@@ -3365,7 +3371,7 @@ Array [
                           class="pf-c-table__column-help-action"
                         >
                           <button
-                            aria-describedby="pf-tooltip-1"
+                            aria-describedby="pf-tooltip-5"
                             aria-disabled="false"
                             aria-label="Displays the name of the channel used by the subscription. Click to search for the channel."
                             class="pf-c-button pf-m-plain"
@@ -3435,7 +3441,7 @@ Array [
                           class="pf-c-table__column-help-action"
                         >
                           <button
-                            aria-describedby="pf-tooltip-2"
+                            aria-describedby="pf-tooltip-6"
                             aria-disabled="false"
                             aria-label="Displays the number of applications using the subscription. Click to search for the applications."
                             class="pf-c-button pf-m-plain"
@@ -3505,7 +3511,7 @@ Array [
                           class="pf-c-table__column-help-action"
                         >
                           <button
-                            aria-describedby="pf-tooltip-3"
+                            aria-describedby="pf-tooltip-7"
                             aria-disabled="false"
                             aria-label="Displays the number of remote and local clusters where resources for the subscription are deployed. Click to search for the remote clusters."
                             class="pf-c-button pf-m-plain"
@@ -3575,7 +3581,7 @@ Array [
                           class="pf-c-table__column-help-action"
                         >
                           <button
-                            aria-describedby="pf-tooltip-4"
+                            aria-describedby="pf-tooltip-8"
                             aria-disabled="false"
                             aria-label="Indicates if updates to the subscription resources are subject to an active or blocked deployment time window."
                             class="pf-c-button pf-m-plain"
@@ -3731,7 +3737,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-0"
+                          id="pf-dropdown-toggle-id-4"
                           type="button"
                         >
                           <svg
@@ -3803,6 +3809,7 @@ Array [
                       data-label="Clusters"
                     >
                       <a
+                        class="cluster-count-link"
                         href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp123-subscription-0%20namespace%3Aansible%20kind%3Asubscription%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
                       >
                         {0} Remote
@@ -3835,7 +3842,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-1"
+                          id="pf-dropdown-toggle-id-5"
                           type="button"
                         >
                           <svg
@@ -3901,6 +3908,7 @@ Array [
                       data-label="Clusters"
                     >
                       <a
+                        class="cluster-count-link"
                         href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp123-subscription-0%20namespace%3Ans-sub-1%20kind%3Asubscription%20apigroup%3Aapps.open-cluster-management.io\\"}&showrelated=cluster"
                       >
                         {0} Remote
@@ -3933,7 +3941,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-2"
+                          id="pf-dropdown-toggle-id-6"
                           type="button"
                         >
                           <svg
@@ -4027,7 +4035,7 @@ Array [
                           aria-haspopup="true"
                           aria-label="Actions"
                           class="pf-c-dropdown__toggle pf-m-plain"
-                          id="pf-dropdown-toggle-id-3"
+                          id="pf-dropdown-toggle-id-7"
                           type="button"
                         >
                           <svg
@@ -4063,7 +4071,7 @@ Array [
                     data-ouia-component-id="OUIA-Generated-Pagination-bottom-1"
                     data-ouia-component-type="PF4/Pagination"
                     data-ouia-safe="true"
-                    id="pagination-options-menu-0"
+                    id="pagination-options-menu-1"
                   >
                     <div
                       class="pf-c-options-menu pf-m-top"
@@ -4092,7 +4100,7 @@ Array [
                           data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
                           data-ouia-component-type="PF4/DropdownToggle"
                           data-ouia-safe="true"
-                          id="pagination-options-menu-toggle-0"
+                          id="pagination-options-menu-toggle-1"
                           type="button"
                         >
                           <span

@@ -132,6 +132,7 @@
   "creation.valid.numeric": "Value must be integer.",
   "creation.view.required.mark": "All fields marked with an asterisk (*) are mandatory. Fill out the form or edit the YAML directly.",
   "dashboard.card.overview.cards.cluster.resource.status": "Cluster resource status",
+  "dashboard.card.overview.cards.cluster.resource.status.tooltip": "Status represents the subscription selection within Resource topology.",
   "dashboard.card.overview.cards.clusters": "Clusters",
   "dashboard.card.overview.cards.created": "Created",
   "dashboard.card.overview.cards.name": "Name",

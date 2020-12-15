@@ -23,12 +23,6 @@ jest.mock("../../../lib/client/apollo-client", () => ({
             dashboard:
               "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
             clusterCount: 1,
-            remoteSubscriptionStatusCount: {
-              Subscribed: 1
-            },
-            podStatusCount: {
-              Running: 1
-            },
             hubSubscriptions: [
               {
                 _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",

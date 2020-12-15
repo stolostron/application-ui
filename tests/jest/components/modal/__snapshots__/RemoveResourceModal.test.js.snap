@@ -38,8 +38,6 @@ exports[`RemoveResourceModal test renders as expected 2 2`] = `
           "kind": "HCMApplication",
           "name": "samplebook-gbap",
           "namespace": "sample",
-          "podStatusCount": Object {},
-          "remoteSubscriptionStatusCount": Object {},
           "selected": Array [
             Object {
               "id": "1",
@@ -90,8 +88,6 @@ exports[`RemoveResourceModal test renders as expected 2 2`] = `
             "kind": "HCMApplication",
             "name": "samplebook-gbap",
             "namespace": "sample",
-            "podStatusCount": Object {},
-            "remoteSubscriptionStatusCount": Object {},
             "selected": Array [
               Object {
                 "id": "1",
@@ -700,8 +696,6 @@ exports[`RemoveResourceModal test renders as expected 2 3`] = `
           "kind": "HCMApplication",
           "name": "samplebook-gbap",
           "namespace": "sample",
-          "podStatusCount": Object {},
-          "remoteSubscriptionStatusCount": Object {},
           "selected": Array [
             Object {
               "id": "1",
@@ -752,8 +746,6 @@ exports[`RemoveResourceModal test renders as expected 2 3`] = `
             "kind": "HCMApplication",
             "name": "samplebook-gbap",
             "namespace": "sample",
-            "podStatusCount": Object {},
-            "remoteSubscriptionStatusCount": Object {},
             "selected": Array [
               Object {
                 "id": "1",
@@ -1369,8 +1361,6 @@ exports[`RemoveResourceModal test renders as expected dummy 2`] = `
           },
           "name": "samplebook-gbap",
           "namespace": "sample",
-          "podStatusCount": Object {},
-          "remoteSubscriptionStatusCount": Object {},
           "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
         }
       }
@@ -1418,8 +1408,6 @@ exports[`RemoveResourceModal test renders as expected dummy 2`] = `
             },
             "name": "samplebook-gbap",
             "namespace": "sample",
-            "podStatusCount": Object {},
-            "remoteSubscriptionStatusCount": Object {},
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }
@@ -1972,8 +1960,6 @@ exports[`RemoveResourceModal test renders as expected dummy 3`] = `
           },
           "name": "samplebook-gbap",
           "namespace": "sample",
-          "podStatusCount": Object {},
-          "remoteSubscriptionStatusCount": Object {},
           "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
         }
       }
@@ -2021,8 +2007,6 @@ exports[`RemoveResourceModal test renders as expected dummy 3`] = `
             },
             "name": "samplebook-gbap",
             "namespace": "sample",
-            "podStatusCount": Object {},
-            "remoteSubscriptionStatusCount": Object {},
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }
@@ -2577,8 +2561,6 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
           },
           "name": "samplebook-gbap",
           "namespace": "sample",
-          "podStatusCount": Object {},
-          "remoteSubscriptionStatusCount": Object {},
           "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
         }
       }
@@ -2626,8 +2608,6 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
             },
             "name": "samplebook-gbap",
             "namespace": "sample",
-            "podStatusCount": Object {},
-            "remoteSubscriptionStatusCount": Object {},
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }
@@ -3233,8 +3213,6 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
           },
           "name": "samplebook-gbap",
           "namespace": "sample",
-          "podStatusCount": Object {},
-          "remoteSubscriptionStatusCount": Object {},
           "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
         }
       }
@@ -3282,8 +3260,6 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
             },
             "name": "samplebook-gbap",
             "namespace": "sample",
-            "podStatusCount": Object {},
-            "remoteSubscriptionStatusCount": Object {},
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }

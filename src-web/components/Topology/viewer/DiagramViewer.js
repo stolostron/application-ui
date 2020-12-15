@@ -255,7 +255,8 @@ class DiagramViewer extends React.Component {
       showChannelsControl,
       showLegendView,
       handleLegendClose,
-      nodes
+      nodes,
+      activeFilters
     } = this.props
 
     const {
@@ -321,6 +322,7 @@ class DiagramViewer extends React.Component {
             processActionLink={processActionLink}
             nodes={nodes}
             clusterDetailsContainerControl={clusterDetailsContainerControl}
+            activeFilters={activeFilters}
           />
         )}
         {showLegendView && (

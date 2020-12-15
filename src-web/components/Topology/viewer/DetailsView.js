@@ -75,7 +75,8 @@ class DetailsView extends React.Component {
       getLayoutNodes,
       staticResourceData,
       selectedNodeId,
-      nodes
+      nodes,
+      activeFilters
     } = this.props
     const { typeToShapeMap, getNodeDetails } = staticResourceData
     const currentUpdatedNode = nodes.find(n => n.uid === selectedNodeId)
@@ -86,7 +87,12 @@ class DetailsView extends React.Component {
       layout.type || currentNode.type || currentUpdatedNode.type
     const { shape = 'other', className = 'default' } =
       typeToShapeMap[resourceType] || {}
-    const details = getNodeDetails(currentNode, currentUpdatedNode, locale)
+    const details = getNodeDetails(
+      currentNode,
+      currentUpdatedNode,
+      activeFilters,
+      locale
+    )
     const name = currentNode.type === 'cluster' ? '' : currentNode.name
     const legend = getLegendTitle(resourceType, locale)
 
@@ -361,6 +367,7 @@ class DetailsView extends React.Component {
 }
 
 DetailsView.propTypes = {
+  activeFilters: PropTypes.object,
   clusterDetailsContainerControl: PropTypes.shape({
     clusterDetailsContainerData: PropTypes.object,
     handleClusterDetailsContainerUpdate: PropTypes.func

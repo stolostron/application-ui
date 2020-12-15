@@ -35,11 +35,19 @@ const showLocalYaml = 'props.show.local.yaml'
 const showResourceYaml = 'show_resource_yaml'
 const specLocation = 'raw.spec.host.location'
 const clusterObjsPath = 'clusters.specs.clusters'
+const checkmarkStatus = 'checkmark'
+const warningStatus = 'warning'
+const pendingStatus = 'pending'
+const failureStatus = 'failure'
+const checkmarkCode = 3
+const warningCode = 2
+const pendingCode = 1
+const failureCode = 0
 
 //pod state contains any of these strings
 const podErrorStates = ['err', 'off', 'invalid', 'kill']
 
-const podWarningStates = ['pending', 'creating']
+const podWarningStates = [pendingStatus, 'creating']
 
 const podSuccessStates = ['run']
 
@@ -945,8 +953,10 @@ export const setupResourceModel = (
 
 //show resource deployed status on the remote clusters
 //for resources not producing pods
-export const setResourceDeployStatus = (node, details) => {
+export const setResourceDeployStatus = (node, details, activeFilters) => {
   const isDeployable = isDeployableResource(node)
+  const { resourceStatuses = new Set() } = activeFilters
+  const activeFilterCodes = getActiveFilterCodes(resourceStatuses)
   if (
     nodeMustHavePods(node) ||
     node.type === 'package' ||
@@ -993,7 +1003,7 @@ export const setResourceDeployStatus = (node, details) => {
       type: 'spacer'
     })
     clusterName = R.trim(clusterName)
-    const res = resourceMap[`${resourceName}-${clusterName}`]
+    let res = resourceMap[`${resourceName}-${clusterName}`]
 
     if (_.get(node, 'type', '') !== 'ansiblejob') {
       const deployedKey = res
@@ -1001,14 +1011,36 @@ export const setResourceDeployStatus = (node, details) => {
         : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr
       const statusStr =
         deployedKey === deployedStr || deployedKey === deployedNSStr
-          ? 'checkmark'
-          : 'pending'
+          ? checkmarkStatus
+          : pendingStatus
 
-      details.push({
-        labelValue: clusterName,
-        value: deployedKey,
-        status: statusStr
-      })
+      let addItemToDetails = false
+      if (resourceStatuses.size > 0) {
+        if (
+          statusStr === checkmarkStatus &&
+          activeFilterCodes.has(checkmarkCode)
+        ) {
+          addItemToDetails = true
+        } else if (
+          statusStr === pendingStatus &&
+          (activeFilterCodes.has(pendingCode) ||
+            activeFilterCodes.has(warningCode))
+        ) {
+          addItemToDetails = true
+        }
+      } else {
+        addItemToDetails = true
+      }
+
+      if (addItemToDetails) {
+        details.push({
+          labelValue: clusterName,
+          value: deployedKey,
+          status: statusStr
+        })
+      } else {
+        res = undefined
+      }
     }
 
     if (res) {
@@ -1066,7 +1098,15 @@ export const getOnlineClusters = (clusterNames, clusterObjs) => {
 }
 
 //show resource deployed status for resources producing pods
-export const setPodDeployStatus = (node, updatedNode, details) => {
+export const setPodDeployStatus = (
+  node,
+  updatedNode,
+  details,
+  activeFilters
+) => {
+  const { resourceStatuses = new Set() } = activeFilters
+  const activeFilterCodes = getActiveFilterCodes(resourceStatuses)
+
   if (!nodeMustHavePods(node)) {
     return details //process only resources with pods
   }
@@ -1099,24 +1139,41 @@ export const setPodDeployStatus = (node, updatedNode, details) => {
     let statusStr
     switch (pulse) {
     case 'red':
-      statusStr = 'failure'
+      statusStr = failureStatus
       break
     case 'yellow':
-      statusStr = 'warning'
+      statusStr = warningStatus
       break
     case 'orange':
-      statusStr = 'pending'
+      statusStr = pendingStatus
       break
     default:
-      statusStr = 'checkmark'
+      statusStr = checkmarkStatus
       break
     }
 
-    details.push({
-      labelValue: clusterName,
-      value: valueStr,
-      status: statusStr
-    })
+    let addItemToDetails = false
+    if (resourceStatuses.size > 0) {
+      if (
+        (statusStr === checkmarkStatus &&
+          activeFilterCodes.has(checkmarkCode)) ||
+        (statusStr === warningStatus && activeFilterCodes.has(warningCode)) ||
+        (statusStr === pendingStatus && activeFilterCodes.has(pendingCode)) ||
+        (statusStr === failureStatus && activeFilterCodes.has(failureCode))
+      ) {
+        addItemToDetails = true
+      }
+    } else {
+      addItemToDetails = true
+    }
+
+    if (addItemToDetails) {
+      details.push({
+        labelValue: clusterName,
+        value: valueStr,
+        status: statusStr
+      })
+    }
 
     podDataPerCluster[clusterName] = []
   })
@@ -1133,49 +1190,65 @@ export const setPodDeployStatus = (node, updatedNode, details) => {
     const clusterDetails = podDataPerCluster[cluster]
     if (clusterDetails) {
       const statusStr = podError
-        ? 'failure'
-        : podWarning ? 'warning' : 'checkmark'
+        ? failureStatus
+        : podWarning ? warningStatus : checkmarkStatus
 
-      addDetails(clusterDetails, [
-        {
-          labelKey: 'resource.pod',
-          value: pod.name
-        },
-        {
-          labelKey: 'resource.status',
-          value: status,
-          status: statusStr
+      let addPodDetails = false
+      if (resourceStatuses.size > 0) {
+        if (
+          (statusStr === failureStatus && activeFilterCodes.has(failureCode)) ||
+          (statusStr === warningStatus && activeFilterCodes.has(warningCode)) ||
+          (statusStr === checkmarkStatus &&
+            activeFilterCodes.has(checkmarkCode))
+        ) {
+          addPodDetails = true
         }
-      ])
-      clusterDetails.push({
-        type: 'link',
-        value: {
-          label: msgs.get('props.show.log'),
-          data: {
-            action: showResourceYaml,
-            cluster: pod.cluster,
-            selfLink: pod.selfLink
+      } else {
+        addPodDetails = true
+      }
+
+      if (addPodDetails) {
+        addDetails(clusterDetails, [
+          {
+            labelKey: 'resource.pod',
+            value: pod.name
+          },
+          {
+            labelKey: 'resource.status',
+            value: status,
+            status: statusStr
           }
-        },
-        indent: true
-      })
-      addDetails(clusterDetails, [
-        {
-          labelKey: 'resource.restarts',
-          value: `${restarts}`
-        },
-        {
-          labelKey: 'resource.hostip',
-          value: `${hostIP}, ${podIP}`
-        },
-        {
-          labelKey: 'resource.created',
-          value: getAge(startedAt)
-        }
-      ])
-      clusterDetails.push({
-        type: 'spacer'
-      })
+        ])
+        clusterDetails.push({
+          type: 'link',
+          value: {
+            label: msgs.get('props.show.log'),
+            data: {
+              action: showResourceYaml,
+              cluster: pod.cluster,
+              selfLink: pod.selfLink
+            }
+          },
+          indent: true
+        })
+        addDetails(clusterDetails, [
+          {
+            labelKey: 'resource.restarts',
+            value: `${restarts}`
+          },
+          {
+            labelKey: 'resource.hostip',
+            value: `${hostIP}, ${podIP}`
+          },
+          {
+            labelKey: 'resource.created',
+            value: getAge(startedAt)
+          }
+        ])
+        clusterDetails.push({
+          type: 'spacer'
+        })
+      }
     }
   })
 
@@ -1214,7 +1287,49 @@ const setClusterWindowStatus = (windowStatusArray, subscription, details) => {
   })
 }
 
-export const setSubscriptionDeployStatus = (node, details) => {
+export const getActiveFilterCodes = resourceStatuses => {
+  const activeFilterCodes = new Set()
+  resourceStatuses.forEach(rStatus => {
+    if (rStatus === 'green') {
+      activeFilterCodes.add(checkmarkCode)
+    } else if (rStatus === 'yellow') {
+      activeFilterCodes.add(warningCode)
+    } else if (rStatus === 'orange') {
+      activeFilterCodes.add(pendingCode)
+    } else if (rStatus === 'red') {
+      activeFilterCodes.add(failureCode)
+    }
+  })
+
+  return activeFilterCodes
+}
+
+export const filterSubscriptionObject = (resourceMap, activeFilterCodes) => {
+  const filteredObject = {}
+  Object.entries(resourceMap).forEach(([key, value]) => {
+    if (value.status === 'Subscribed') {
+      if (activeFilterCodes.has(checkmarkCode)) {
+        filteredObject[key] = value
+      }
+    }
+    if (value.status === 'Propagated') {
+      if (activeFilterCodes.has(warningCode)) {
+        filteredObject[key] = value
+      }
+    }
+    if (value.status === 'Fail') {
+      if (activeFilterCodes.has(failureCode)) {
+        filteredObject[key] = value
+      }
+    }
+  })
+
+  return filteredObject
+}
+
+export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
+  const { resourceStatuses = new Set() } = activeFilters
+  const activeFilterCodes = getActiveFilterCodes(resourceStatuses)
   //check if this is a subscription created from the app deployable
   if (
     R.pathOr('', ['type'])(node) !== 'subscription' ||
@@ -1283,7 +1398,15 @@ export const setSubscriptionDeployStatus = (node, details) => {
   })
 
   let localSubscriptionFailed = false
-  const resourceMap = _.get(node, 'specs.subscriptionModel', {})
+  let resourceMap = _.get(node, 'specs.subscriptionModel', {})
+  const filteredResourceMap = filterSubscriptionObject(
+    resourceMap,
+    activeFilterCodes
+  )
+
+  if (resourceStatuses.size > 0) {
+    resourceMap = filteredResourceMap
+  }
   Object.values(resourceMap).forEach(subscription => {
     const isLocalFailedSubscription =
       subscription._hubClusterResource &&
@@ -1304,10 +1427,10 @@ export const setSubscriptionDeployStatus = (node, details) => {
         'Fail',
         R.pathOr('', ['status'])(subscription)
       )
-        ? 'failure'
+        ? failureStatus
         : R.pathOr(null, ['status'])(subscription) === null
-          ? 'warning'
-          : 'checkmark'
+          ? warningStatus
+          : checkmarkStatus
 
       //if subscription has not status show an error message
       const emptyStatusErrorMsg = subscription._hubClusterResource
@@ -1354,13 +1477,14 @@ export const setSubscriptionDeployStatus = (node, details) => {
   if (
     Object.keys(resourceMap).length === 1 &&
     !localSubscriptionFailed &&
-    !isLocalPlacementSubs
+    !isLocalPlacementSubs &&
+    resourceStatuses.size === 0
   ) {
     //no remote subscriptions
     details.push({
       labelValue: msgs.get('resource.subscription.remote'),
       value: msgs.get('resource.subscription.placed.error', [node.namespace]),
-      status: 'failure'
+      status: failureStatus
     })
     const ruleSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3A${
       node.namespace
@@ -1395,7 +1519,7 @@ export const setPlacementRuleDeployStatus = (node, details) => {
     details.push({
       labelValue: msgs.get('resource.rule.clusters.error.label'),
       value: msgs.get('resource.rule.placed.error.msg'),
-      status: 'failure'
+      status: failureStatus
     })
   }
 
@@ -1428,7 +1552,7 @@ export const setApplicationDeployStatus = (node, details) => {
     details.push({
       labelKey: 'resource.rule.clusters.error.label',
       value: msgs.get('resource.application.error.msg', [appNS]),
-      status: 'failure'
+      status: failureStatus
     })
     const subscrSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
     details.push({

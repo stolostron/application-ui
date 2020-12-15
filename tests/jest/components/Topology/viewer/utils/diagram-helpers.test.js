@@ -1096,7 +1096,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatuswith time window ", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1144,7 +1144,7 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with local hub subscription error", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1183,7 +1183,7 @@ describe("setSubscriptionDeployStatus with hub error", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with hub error", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1228,7 +1228,7 @@ describe("setSubscriptionDeployStatus with no sub error", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with no hub error", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1272,7 +1272,7 @@ describe("setSubscriptionDeployStatus with error", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with error", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1315,7 +1315,7 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with hub no status", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1363,7 +1363,7 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with remote no status", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1419,7 +1419,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus yellow", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1443,7 +1443,7 @@ describe("setSubscriptionDeployStatus for node type different then subscription 
     }
   };
   it("setSubscriptionDeployStatus for node type different then subscription should return []", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual([]);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual([]);
   });
 });
 
@@ -2795,7 +2795,7 @@ describe("setResourceDeployStatus 1 ", () => {
     { type: "spacer" }
   ];
   it("setResourceDeployStatus not deployed 1", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(result);
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
   });
 });
 
@@ -2856,7 +2856,7 @@ describe("setResourceDeployStatus ansiblejob ", () => {
     { type: "spacer" }
   ];
   it("setResourceDeployStatus ansiblejob", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(result);
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
   });
 });
 
@@ -2942,13 +2942,13 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
   ];
 
   it("setResourceDeployStatus ansiblejob no status", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(result);
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
   });
   it("setResourceDeployStatus ansiblejob no status 1", () => {
-    expect(setResourceDeployStatus(ansibleError, [])).toEqual(result1);
+    expect(setResourceDeployStatus(ansibleError, [], {})).toEqual(result1);
   });
   it("setResourceDeployStatus ansiblejob no status 2", () => {
-    expect(setResourceDeployStatus(ansibleError2, [])).toEqual(result2);
+    expect(setResourceDeployStatus(ansibleError2, [], {})).toEqual(result2);
   });
 });
 
@@ -3011,7 +3011,7 @@ describe("setResourceDeployStatus 2 ", () => {
     { type: "spacer" }
   ];
   it("setResourceDeployStatus deployed 2", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(result);
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
   });
 });
 
@@ -3075,7 +3075,7 @@ describe("setResourceDeployStatus 3 ", () => {
     { type: "spacer" }
   ];
   it("setResourceDeployStatus deployed 3", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(result);
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
   });
 });
 
@@ -3289,7 +3289,7 @@ describe("setPodDeployStatus  node does not have pods", () => {
     }
   };
   it("setPodDeployStatus node does not have pods", () => {
-    expect(setPodDeployStatus(node, node, [])).toEqual([]);
+    expect(setPodDeployStatus(node, node, [], {})).toEqual([]);
   });
 });
 
@@ -3392,7 +3392,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod less then desired ", () => {
-    expect(setPodDeployStatus(node, node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [], {})).toEqual(result);
   });
 });
 
@@ -3435,7 +3435,7 @@ describe("setPodDeployStatus  with pod but no pod model and no podStatusMap", ()
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod but no pod podStatusMap ", () => {
-    expect(setPodDeployStatus(node, node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [], {})).toEqual(result);
   });
 });
 
@@ -3593,7 +3593,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod as desired", () => {
-    expect(setPodDeployStatus(node, node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [], {})).toEqual(result);
   });
 });
 
@@ -3647,7 +3647,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod as desired but no matched cluster", () => {
-    expect(setPodDeployStatus(node, node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [], {})).toEqual(result);
   });
 });
 

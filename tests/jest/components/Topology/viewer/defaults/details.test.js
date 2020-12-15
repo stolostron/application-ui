@@ -169,7 +169,7 @@ describe("getNodeDetails application node", () => {
   ];
 
   it("should process the node, application node", () => {
-    expect(getNodeDetails(applicationNode, locale)).toEqual(expectedResult);
+    expect(getNodeDetails(applicationNode, locale, {})).toEqual(expectedResult);
   });
 });
 
@@ -847,7 +847,7 @@ describe("getNodeDetails deployment node", () => {
   ];
 
   it("should process the node, deployment node", () => {
-    expect(getNodeDetails(deploymentNode, locale)).toEqual(expectedResult);
+    expect(getNodeDetails(deploymentNode, locale, {})).toEqual(expectedResult);
   });
 });
 
@@ -942,7 +942,7 @@ describe("getNodeDetails helm node", () => {
   ];
 
   it("should process the node, helm node", () => {
-    expect(getNodeDetails(helmreleaseNode, locale)).toEqual(expectedResult);
+    expect(getNodeDetails(helmreleaseNode, locale, {})).toEqual(expectedResult);
   });
 });
 
@@ -1091,7 +1091,7 @@ describe("getNodeDetails placement rules node with error", () => {
     }
   ];
   it("should process the node, placement rules node with error", () => {
-    expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);
+    expect(getNodeDetails(rulesNode, locale, {})).toEqual(expectedResult);
   });
 });
 
@@ -1182,7 +1182,7 @@ describe("getNodeDetails placement rules node with success", () => {
   ];
 
   it("should process the node, placement rules node with success", () => {
-    expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);
+    expect(getNodeDetails(rulesNode, locale, {})).toEqual(expectedResult);
   });
 });
 

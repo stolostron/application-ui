@@ -30,8 +30,7 @@ import {
   getNameWithoutChartRelease,
   removeReleaseGeneratedSuffix,
   getClusterHost,
-  getPulseStatusForCluster,
-  getOnlineClusters
+  getPulseStatusForCluster
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const ansibleSuccess = {
@@ -4507,35 +4506,5 @@ describe("getPulseStatusForCluster all some ok", () => {
   };
   it("should process cluster node", () => {
     expect(getPulseStatusForCluster(clusterNode)).toEqual("yellow");
-  });
-});
-
-describe("getOnlineCluster ok and pending", () => {
-  const clusterNames = ["cluster1", "cluster2", "cluster3"];
-  const clusterObjs = [
-    {
-      metadata: {
-        name: "cluster1"
-      },
-      status: "ok"
-    },
-    {
-      metadata: {
-        name: "cluster2"
-      },
-      status: "pendingimport"
-    },
-    {
-      metadata: {
-        name: "cluster3"
-      },
-      status: "offline"
-    }
-  ];
-  it("should process cluster node status", () => {
-    expect(getOnlineClusters(clusterNames, clusterObjs)).toEqual([
-      "cluster1",
-      "cluster2"
-    ]);
   });
 });

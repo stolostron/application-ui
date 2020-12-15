@@ -19,7 +19,10 @@ import {
   isDeployableResource,
   nodeMustHavePods,
   getClusterName,
-  getRouteNameWithoutIngressHash
+  getRouteNameWithoutIngressHash,
+  getActiveFilterCodes,
+  filterSubscriptionObject,
+  getOnlineClusters
 } from './diagram-helpers-utils'
 
 const metadataName = 'specs.raw.metadata.name'
@@ -43,12 +46,9 @@ const checkmarkCode = 3
 const warningCode = 2
 const pendingCode = 1
 const failureCode = 0
-
 //pod state contains any of these strings
 const podErrorStates = ['err', 'off', 'invalid', 'kill']
-
 const podWarningStates = [pendingStatus, 'creating']
-
 const podSuccessStates = ['run']
 
 import {
@@ -1021,14 +1021,11 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       let addItemToDetails = false
       if (resourceStatuses.size > 0) {
         if (
-          statusStr === checkmarkStatus &&
-          activeFilterCodes.has(checkmarkCode)
-        ) {
-          addItemToDetails = true
-        } else if (
-          statusStr === pendingStatus &&
-          (activeFilterCodes.has(pendingCode) ||
-            activeFilterCodes.has(warningCode))
+          (statusStr === checkmarkStatus &&
+            activeFilterCodes.has(checkmarkCode)) ||
+          (statusStr === pendingStatus &&
+            (activeFilterCodes.has(pendingCode) ||
+              activeFilterCodes.has(warningCode)))
         ) {
           addItemToDetails = true
         }
@@ -1043,7 +1040,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
           status: statusStr
         })
       } else {
-        res = undefined
+        res = null
       }
     }
 
@@ -1074,31 +1071,6 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   })
 
   return details
-}
-
-export const getOnlineClusters = (clusterNames, clusterObjs) => {
-  const onlineClusters = []
-
-  clusterNames.forEach(clsName => {
-    if (clsName.trim() === LOCAL_HUB_NAME) {
-      onlineClusters.push(clsName)
-      return
-    }
-    for (let i = 0; i < clusterObjs.length; i++) {
-      const clusterObjName = _.get(clusterObjs[i], 'metadata.name')
-      if (clusterObjName === clsName.trim()) {
-        if (
-          clusterObjs[i].status === 'ok' ||
-          clusterObjs[i].status === 'pendingimport'
-        ) {
-          onlineClusters.push(clsName)
-        }
-        break
-      }
-    }
-  })
-
-  return onlineClusters
 }
 
 //show resource deployed status for resources producing pods
@@ -1289,46 +1261,6 @@ const setClusterWindowStatus = (windowStatusArray, subscription, details) => {
       })
     }
   })
-}
-
-export const getActiveFilterCodes = resourceStatuses => {
-  const activeFilterCodes = new Set()
-  resourceStatuses.forEach(rStatus => {
-    if (rStatus === 'green') {
-      activeFilterCodes.add(checkmarkCode)
-    } else if (rStatus === 'yellow') {
-      activeFilterCodes.add(warningCode)
-    } else if (rStatus === 'orange') {
-      activeFilterCodes.add(pendingCode)
-    } else if (rStatus === 'red') {
-      activeFilterCodes.add(failureCode)
-    }
-  })
-
-  return activeFilterCodes
-}
-
-export const filterSubscriptionObject = (resourceMap, activeFilterCodes) => {
-  const filteredObject = {}
-  Object.entries(resourceMap).forEach(([key, value]) => {
-    if (value.status === 'Subscribed') {
-      if (activeFilterCodes.has(checkmarkCode)) {
-        filteredObject[key] = value
-      }
-    }
-    if (value.status === 'Propagated') {
-      if (activeFilterCodes.has(warningCode)) {
-        filteredObject[key] = value
-      }
-    }
-    if (value.status === 'Fail') {
-      if (activeFilterCodes.has(failureCode)) {
-        filteredObject[key] = value
-      }
-    }
-  })
-
-  return filteredObject
 }
 
 export const setSubscriptionDeployStatus = (node, details, activeFilters) => {

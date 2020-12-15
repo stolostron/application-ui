@@ -110,14 +110,24 @@
 
   p {
     font-size: 14px;
+    margin-top: 0.5rem;
   }
 
   p:first-of-type {
-    margin-bottom: 0.5rem;
+    margin-top: 0rem;
   }
 
   div:first-of-type {
     margin-right: 5px;
+  }
+
+  .warning-font {
+    font-weight: 600;
+  }
+
+  .code-font {
+    font-size: 12px;
+    font-family: Menlo, Monaco, "Courier New", monospace;
   }
 }
 

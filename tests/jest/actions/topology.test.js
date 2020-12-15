@@ -234,7 +234,7 @@ describe("topology actions", () => {
       }
     ];
     const expectedValue = {
-      relatedKinds: ["application", "subscription", "route", "pod"],
+      relatedKinds: ["application", "subscription", "deployment", "pod"],
       subscription: "subs1"
     };
 

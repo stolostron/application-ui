@@ -43,12 +43,6 @@ export const appNormalizedItems = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 1
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
@@ -67,12 +61,6 @@ export const appNormalizedItems = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/42d9ec27-52b9-11ea-bf05-00000a102d26",
@@ -90,8 +78,6 @@ export const appNormalizedItems = {
       namespace: "stock-trader",
       dashboard: null,
       clusterCount: { remoteCount: 0, localCount: 0 },
-      remoteSubscriptionStatusCount: {},
-      podStatusCount: {},
       hubSubscriptions: [],
       created: "2019-02-11T17:33:04Z",
       __typename: "Application"
@@ -102,13 +88,6 @@ export const appNormalizedItems = {
       namespace: "kube-system",
       dashboard: null,
       clusterCount: { remoteCount: 2, localCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Failed: 1,
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26",
@@ -139,14 +118,6 @@ export const QueryApplicationList = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1,
-        null: 3,
-        Failed: 6
-      },
-      podStatusCount: {
-        Running: 1
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
@@ -165,12 +136,6 @@ export const QueryApplicationList = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26gbook",
@@ -188,8 +153,6 @@ export const QueryApplicationList = {
       namespace: "stock-trader",
       dashboard: null,
       clusterCount: { remoteCount: 0, localCount: 0 },
-      remoteSubscriptionStatusCount: {},
-      podStatusCount: {},
       hubSubscriptions: [],
       created: "2019-02-11T17:33:04Z",
       __typename: "Application"
@@ -200,13 +163,6 @@ export const QueryApplicationList = {
       namespace: "kube-system",
       dashboard: null,
       clusterCount: { remoteCount: 2, localCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Failed: 1,
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26gbook",
@@ -1089,13 +1045,6 @@ export const HCMPlacementRuleList = {
   forceReload: false
 };
 
-export const GlobalApplicationDataList = {
-  status: "DONE",
-  items: {
-    clusterCount: 2
-  }
-};
-
 export const topology = {
   activeFilters: {
     application: {
@@ -1656,7 +1605,6 @@ export const reduxStoreAppPipeline = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverview
 };
 
@@ -1674,7 +1622,6 @@ export const reduxStoreAppPipelineWithCEM = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
   topology: topology,
   role: {
@@ -1697,7 +1644,6 @@ export const reduxStoreAppPipelineWithCEM_Inception = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
   role: {
     role: "ClusterAdministrator"
@@ -1720,7 +1666,6 @@ export const reduxStoreAllAppsPipeline = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverview
 };
 
@@ -1732,8 +1677,7 @@ export const reduxStoreAllAppsPipelineNoChannels = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelListEmpty,
   HCMSubscriptionList: HCMSubscriptionList,
-  HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList
+  HCMPlacementRuleList: HCMPlacementRuleList
 };
 
 export const reduxStoreAppPipelineNoChannels = {
@@ -1744,8 +1688,7 @@ export const reduxStoreAppPipelineNoChannels = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelListEmpty,
   HCMSubscriptionList: HCMSubscriptionList,
-  HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList
+  HCMPlacementRuleList: HCMPlacementRuleList
 };
 
 export const staticResourceData = {

@@ -2158,8 +2158,6 @@ export const resourceModalData = {
   namespace: "sample",
   dashboard: null,
   clusterCount: 0,
-  remoteSubscriptionStatusCount: {},
-  podStatusCount: {},
   hubSubscriptions: [],
   created: "2019-12-11T01:24:02Z",
   __typename: "Application"
@@ -2174,8 +2172,6 @@ export const resourceModalDataDel2 = {
   namespace: "sample",
   dashboard: null,
   clusterCount: 0,
-  remoteSubscriptionStatusCount: {},
-  podStatusCount: {},
   hubSubscriptions: [],
   created: "2019-12-11T01:24:02Z",
   __typename: "Application",

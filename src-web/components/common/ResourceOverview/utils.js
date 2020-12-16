@@ -212,7 +212,7 @@ const getClusterCount = node => {
   }
 }
 
-const getSubCardData = (appData, subIdentifier) => {
+const getSubCardData = (subIdentifier, node) => {
   let resourceType = ''
   let resourcePath = ''
   let gitBranch = ''
@@ -221,38 +221,48 @@ const getSubCardData = (appData, subIdentifier) => {
   let packageFilterVersion = ''
   let timeWindowType = 'none'
 
-  if (appData && appData.related) {
-    const relatedSubs = _.find(appData.related, { kind: 'subscription' })
-    const relatedChns = _.find(appData.related, { kind: 'channel' })
+  const relatedSubs = _.get(node, 'specs.allSubscriptions', [])
+  const relatedChns = _.get(node, 'specs.allChannels', [])
 
-    // Get related subscription data
-    if (relatedSubs && relatedSubs.items) {
-      const subData = _.find(relatedSubs.items, {
-        cluster: 'local-cluster',
-        channel: subIdentifier.chnNs + '/' + subIdentifier.chnName,
-        name: subIdentifier.subName,
-        namespace: subIdentifier.subNs
-      })
-      if (subData) {
-        gitBranch = subData._gitbranch
-        gitPath = subData._gitpath
-        packageName = subData.package
-        packageFilterVersion = subData.packageFilterVersion
-        timeWindowType = subData.timeWindow
-      }
+  // Get related subscription data
+  let subData
+  relatedSubs.forEach(subs => {
+    if (
+      _.get(subs, 'metadata.name', '') === subIdentifier.subName &&
+      _.get(subs, 'metadata.namespace', '') === subIdentifier.subNs
+    ) {
+      subData = subs
     }
+  })
+  if (subData) {
+    gitBranch = _.get(
+      subData,
+      ['metadata', 'annotations', 'apps.open-cluster-management.io/git-branch'],
+      ''
+    )
+    gitPath = _.get(
+      subData,
+      ['metadata', 'annotations', 'apps.open-cluster-management.io/git-path'],
+      ''
+    )
+    packageName = _.get(subData, 'spec.name', '')
+    packageFilterVersion = _.get(subData, 'spec.packageFilter.version', '')
+    timeWindowType = _.get(subData, 'spec.timewindow.windowtype', '')
+  }
 
-    // Get related channel data
-    if (relatedChns && relatedChns.items) {
-      const chnData = _.find(relatedChns.items, {
-        name: subIdentifier.chnName,
-        namespace: subIdentifier.chnNs
-      })
-      if (chnData) {
-        resourceType = chnData.type
-        resourcePath = chnData.pathname
-      }
+  // Get related channel data
+  let chnData
+  relatedChns.forEach(chnl => {
+    if (
+      _.get(chnl, 'metadata.name', '') === subIdentifier.chnName &&
+      _.get(chnl, 'metadata.namespace', '') === subIdentifier.chnNs
+    ) {
+      chnData = chnl
     }
+  })
+  if (chnData) {
+    resourceType = _.get(chnData, 'spec.type', '')
+    resourcePath = _.get(chnData, 'spec.pathname', '')
   }
 
   return {
@@ -306,16 +316,14 @@ export const getAppOverviewCardsData = (
     const uniqueSubs = []
     const subsList = []
 
-    const selectedAppDataItem = _.get(selectedAppData, 'items[0]', '')
     let clusterData = {
-      isLocal: false,
-      remoteCount: 0
+      remoteCount: 0,
+      isLocal: false
     }
 
     topologyData.nodes.map(node => {
       if (node.type === 'application') {
         clusterData = getClusterCount(node)
-
         // Get date and time of app creation
         creationTimestamp = getShortDateTime(
           node.specs.raw.metadata.creationTimestamp,
@@ -342,11 +350,7 @@ export const getAppOverviewCardsData = (
                 uniqueSubs.push(subIdentifier)
 
                 // Get "Repo resouce" and "Time window" info
-                const subCardData = getSubCardData(
-                  selectedAppDataItem,
-                  subIdentifier
-                )
-
+                const subCardData = getSubCardData(subIdentifier, node)
                 subsList.push({
                   name: subIdentifier.subName,
                   id: chnIdentifier[0] + '//' + chnIdentifier[1],

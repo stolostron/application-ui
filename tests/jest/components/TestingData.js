@@ -1152,6 +1152,7 @@ export const topology = {
       namespace: "default",
       specs: {
         activeChannel: "__ALL__/__ALL__//__ALL__/__ALL__",
+        allClusters: ["vbirsan1-remote"],
         channels: [
           "default/mortgage-app-subscription//mortgage-ch/mortgage-channel"
         ],

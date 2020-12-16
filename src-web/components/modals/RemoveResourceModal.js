@@ -122,19 +122,23 @@ class RemoveResourceModal extends React.Component {
             _.get(response, 'data.application.subscriptions', []) || []
           Promise.all(
             subscriptions.map(async subscription => {
-              const subName = subscription.metadata.name
-              const subNamespace = subscription.metadata.namespace
+              const subName = _.get(subscription, 'metadata.name', '')
+              const subNamespace = _.get(
+                subscription,
+                'metadata.namespace',
+                ''
+              )
               // For each subscription, get related applications
-              const related = await this.fetchRelated(
+              const related = await fetchRelated(
                 RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
                 subName,
                 subNamespace
               )
               // If subscription is used only by this application, it is removable
-              if (!this.usedByOtherApps(related)) {
+              if (!usedByOtherApps(related)) {
                 removableSubs.push(subscription)
                 removableSubNames.push(subName)
-                const subsChildResources = this.getSubsChildResources(
+                const subsChildResources = getSubsChildResources(
                   subName,
                   subNamespace,
                   related
@@ -171,15 +175,13 @@ class RemoveResourceModal extends React.Component {
             Promise.all(
               _.uniqBy(subResources, 'id').map(async resource => {
                 // For each rule, get related subscriptions
-                const related = await this.fetchRelated(
+                const related = await fetchRelated(
                   resource.type,
                   resource.name,
                   resource.namespace
                 )
                 // Rule is removable if it's used only by removable subscriptions
-                if (
-                  !this.usedByOtherSubs(related, removableSubNames, namespace)
-                ) {
+                if (!usedByOtherSubs(related, removableSubNames, namespace)) {
                   children.push(resource)
                 } else {
                   sharedChildren.push({
@@ -207,83 +209,6 @@ class RemoveResourceModal extends React.Component {
         loading: false
       })
     }
-  };
-
-  fetchRelated = async (resourceType, name, namespace) => {
-    try {
-      const query = getQueryStringForResource(
-        resourceType.name,
-        name,
-        namespace
-      )
-      const response = await apolloClient.search(SEARCH_QUERY_RELATED, {
-        input: [query]
-      })
-      const resource = response.errors
-        ? []
-        : _.get(response, 'data.searchResult[0]', [])
-
-      return resource && resource.related ? resource.related : []
-    } catch (err) {
-      return []
-    }
-  };
-
-  usedByOtherApps = related => {
-    const isApp = n => n.kind.toLowerCase() === 'application'
-    const apps = R.filter(isApp, related)
-    const items = apps && apps.length === 1 ? apps[0].items : []
-    return items.filter(item => !item._hostingSubscription).length === 1
-      ? false
-      : true
-  };
-
-  getSubsChildResources = (resourceName, resourceNamespace, relatedItems) => {
-    const CHILD_RESOURCE_TYPES = [
-      'Application',
-      'Subscription',
-      'PlacementRule',
-      'Channel'
-    ]
-    const localSuffix = '-local'
-    const children = []
-    CHILD_RESOURCE_TYPES.forEach(type => {
-      const related = _.get(
-        relatedItems.find(r => r.kind === type.toLowerCase()),
-        'items',
-        []
-      )
-      const childItems = related
-        .filter(
-          i =>
-            (i._hostingSubscription ===
-              `${resourceNamespace}/${resourceName}` ||
-              i._hostingSubscription ===
-                `${resourceNamespace}/${resourceName}${localSuffix}`) &&
-            // Only include resources on the local cluster
-            i.cluster === 'local-cluster' &&
-            // Do not include the -local subscription
-            (type !== 'Subscription' ||
-              i.namespace !== resourceNamespace ||
-              i.name !== `${resourceName}${localSuffix}`)
-        )
-        .map(i => i.name)
-        .sort()
-        .map(n => `${n} [${type}]`)
-      children.push(...childItems)
-    })
-    return children
-  };
-
-  usedByOtherSubs = (related, removableSubNames, appNamespace) => {
-    const isSub = n => n.kind.toLowerCase() === 'subscription'
-    const subs = R.filter(isSub, related)
-    const items = subs && subs.length === 1 ? subs[0].items : []
-    return items.filter(item => item._hubClusterResource).some(sub => {
-      return (
-        sub.namespace !== appNamespace || !removableSubNames.includes(sub.name)
-      )
-    })
   };
 
   toggleRemoveAppResources = () => {
@@ -509,6 +434,83 @@ class RemoveResourceModal extends React.Component {
       </div>
     )
   }
+}
+
+export const fetchRelated = async (resourceType, name, namespace) => {
+  try {
+    const query = getQueryStringForResource(resourceType.name, name, namespace)
+    const response = await apolloClient.search(SEARCH_QUERY_RELATED, {
+      input: [query]
+    })
+    const resource = response.errors
+      ? []
+      : _.get(response, 'data.searchResult[0]', [])
+
+    return resource && resource.related ? resource.related : []
+  } catch (err) {
+    console.error('Failed to fetch related resources:', err)
+    return []
+  }
+}
+
+export const usedByOtherApps = related => {
+  const isApp = n => n.kind.toLowerCase() === 'application'
+  const apps = R.filter(isApp, related)
+  const items = apps && apps.length === 1 ? apps[0].items : []
+  return items.filter(item => !item._hostingSubscription).length === 1
+    ? false
+    : true
+}
+
+export const getSubsChildResources = (
+  resourceName,
+  resourceNamespace,
+  relatedItems
+) => {
+  const CHILD_RESOURCE_TYPES = [
+    'Application',
+    'Subscription',
+    'PlacementRule',
+    'Channel'
+  ]
+  const localSuffix = '-local'
+  const children = []
+  CHILD_RESOURCE_TYPES.forEach(type => {
+    const related = _.get(
+      relatedItems.find(r => r.kind === type.toLowerCase()),
+      'items',
+      []
+    )
+    const childItems = related
+      .filter(
+        i =>
+          (i._hostingSubscription === `${resourceNamespace}/${resourceName}` ||
+            i._hostingSubscription ===
+              `${resourceNamespace}/${resourceName}${localSuffix}`) &&
+          // Only include resources on the local cluster
+          i.cluster === 'local-cluster' &&
+          // Do not include the -local subscription
+          (type !== 'Subscription' ||
+            i.namespace !== resourceNamespace ||
+            i.name !== `${resourceName}${localSuffix}`)
+      )
+      .map(i => i.name)
+      .sort()
+      .map(n => `${n} [${type}]`)
+    children.push(...childItems)
+  })
+  return children
+}
+
+export const usedByOtherSubs = (related, removableSubNames, appNamespace) => {
+  const isSub = n => n.kind.toLowerCase() === 'subscription'
+  const subs = R.filter(isSub, related)
+  const items = subs && subs.length === 1 ? subs[0].items : []
+  return items.filter(item => item._hubClusterResource).some(sub => {
+    return (
+      sub.namespace !== appNamespace || !removableSubNames.includes(sub.name)
+    )
+  })
 }
 
 RemoveResourceModal.propTypes = {

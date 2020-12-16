@@ -184,26 +184,24 @@ class OverviewCards extends React.Component {
               )
             },
             {
-              key: (
-                <React.Fragment>
-                  {msgs.get(
-                    'dashboard.card.overview.cards.cluster.resource.status',
-                    locale
-                  )}
-                  <Tooltip
-                    isContentLeftAligned
-                    content={
-                      <div>
-                        {msgs.get(
-                          'dashboard.card.overview.cards.cluster.resource.status.tooltip',
-                          locale
-                        )}
-                      </div>
-                    }
-                  >
-                    <OutlinedQuestionCircleIcon className="resource-status-help-icon" />
-                  </Tooltip>
-                </React.Fragment>
+              key: msgs.get(
+                'dashboard.card.overview.cards.cluster.resource.status',
+                locale
+              ),
+              keyAction: (
+                <Tooltip
+                  isContentLeftAligned
+                  content={
+                    <div>
+                      {msgs.get(
+                        'dashboard.card.overview.cards.cluster.resource.status.tooltip',
+                        locale
+                      )}
+                    </div>
+                  }
+                >
+                  <OutlinedQuestionCircleIcon className="resource-status-help-icon" />
+                </Tooltip>
               ),
               value: (
                 <React.Fragment>

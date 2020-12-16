@@ -3014,6 +3014,158 @@ describe("setResourceDeployStatus 2 ", () => {
   });
 });
 
+describe("setResourceDeployStatus 2 with filter green", () => {
+  const node = {
+    type: "service",
+    name: "mortgage-app-svc",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    specs: {
+      raw: {
+        metadata: {
+          name: "mortgage-app-svc"
+        }
+      },
+      serviceModel: {
+        "mortgage-app-svc-possiblereptile": {
+          cluster: "possiblereptile",
+          clusterIP: "172.30.140.196",
+          created: "2020-04-20T22:03:01Z",
+          kind: "service",
+          label: "app=mortgage-app-mortgage",
+          name: "mortgage-app-svc",
+          namespace: "default",
+          port: "9080:31558/TCP"
+        }
+      }
+    }
+  };
+  const activeFilters = {
+    resourceStatuses: new Set(["green"])
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "possiblereptile", status: "checkmark", value: "Deployed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "possiblereptile",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setResourceDeployStatus deployed 2 - should filter resource", () => {
+    expect(setResourceDeployStatus(node, [], activeFilters)).toEqual(result);
+  });
+});
+
+describe("setResourceDeployStatus 2 with filter yellow", () => {
+  const node = {
+    type: "service",
+    name: "mortgage-app-svc",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    specs: {
+      raw: {
+        metadata: {
+          name: "mortgage-app-svc"
+        }
+      },
+      serviceModel: {}
+    }
+  };
+  const activeFilters = {
+    resourceStatuses: new Set(["yellow"])
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "possiblereptile", status: "pending", value: "Not Deployed" },
+    { type: "spacer" }
+  ];
+  it("setResourceDeployStatus deployed 2 - should filter resource", () => {
+    expect(setResourceDeployStatus(node, [], activeFilters)).toEqual(result);
+  });
+});
+
+describe("setResourceDeployStatus 2 with filter orange", () => {
+  const node = {
+    type: "service",
+    name: "mortgage-app-svc",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    specs: {
+      raw: {
+        metadata: {
+          name: "mortgage-app-svc"
+        }
+      },
+      serviceModel: {}
+    }
+  };
+  const activeFilters = {
+    resourceStatuses: new Set(["orange"])
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "possiblereptile", status: "pending", value: "Not Deployed" },
+    { type: "spacer" }
+  ];
+  it("setResourceDeployStatus deployed 2 - should filter resource", () => {
+    expect(setResourceDeployStatus(node, [], activeFilters)).toEqual(result);
+  });
+});
+
 describe("setResourceDeployStatus 3 ", () => {
   const node = {
     type: "service",
@@ -3593,6 +3745,122 @@ describe("setPodDeployStatus  with pod as desired", () => {
   ];
   it("setPodDeployStatus with pod as desired", () => {
     expect(setPodDeployStatus(node, node, [], {})).toEqual(result);
+  });
+});
+
+describe("setPodDeployStatus - pod as desired with green filter", () => {
+  const node = {
+    type: "pod1",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    podStatusMap: {
+      possiblereptile: {
+        ready: 3,
+        desired: 3
+      }
+    },
+    specs: {
+      raw: {
+        spec: {
+          template: {
+            spec: {
+              containers: [{ c1: "aa" }]
+            }
+          }
+        }
+      },
+      podModel: {
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile": {
+          cluster: "possiblereptile",
+          status: "Running"
+        },
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile2": {
+          cluster: "possiblereptile",
+          status: "Pending"
+        },
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile3": {
+          cluster: "possiblereptile",
+          status: "CrashLoopBackOff"
+        },
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile4": {
+          cluster: "possiblereptile4",
+          status: "CrashLoopBackOff"
+        }
+      }
+    }
+  };
+  const activeFilters = {
+    resourceStatuses: new Set(["green"])
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.pods.statuses", type: "label" },
+    { labelValue: "possiblereptile", status: "checkmark", value: "3/3" },
+    { type: "spacer" },
+    { type: "spacer" },
+    { labelValue: "Pod details for {0}", type: "label" },
+    {
+      indent: undefined,
+      labelKey: "resource.status",
+      labelValue: undefined,
+      status: "checkmark",
+      type: "label",
+      value: "Running"
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "possiblereptile",
+          selfLink: undefined
+        },
+        label: "View Pod YAML and Logs"
+      }
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.restarts",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.hostip",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined, undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "-"
+    },
+    { type: "spacer" }
+  ];
+  it("setPodDeployStatus - pod as desired green filter", () => {
+    expect(setPodDeployStatus(node, node, [], activeFilters)).toEqual(result);
   });
 });
 

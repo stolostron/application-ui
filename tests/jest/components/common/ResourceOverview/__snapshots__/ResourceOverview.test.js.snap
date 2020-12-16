@@ -222,6 +222,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                       className="pf-c-description-list__text"
                     >
                       Cluster resource status
+                       
                       <svg
                         aria-describedby="pf-tooltip-2"
                         aria-hidden={true}
@@ -243,7 +244,6 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                           transform=""
                         />
                       </svg>
-                       
                     </span>
                   </dt>
                   <dd

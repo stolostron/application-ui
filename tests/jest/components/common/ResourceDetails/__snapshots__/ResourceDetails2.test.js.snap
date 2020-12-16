@@ -225,6 +225,7 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                         className="pf-c-description-list__text"
                       >
                         Cluster resource status
+                         
                         <svg
                           aria-describedby="pf-tooltip-1"
                           aria-hidden={true}
@@ -246,7 +247,6 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                             transform=""
                           />
                         </svg>
-                         
                       </span>
                     </dt>
                     <dd

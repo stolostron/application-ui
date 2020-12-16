@@ -33,6 +33,7 @@ describe("CreateApplicationButton", () => {
     const buttonClasses = componentEnabled.root.findByType("button").props
       .className;
     expect(buttonClasses).not.toContain("pf-m-disabled");
+    expect(buttonClasses).not.toContain("pf-m-aria-disabled");
   });
 
   mockUserAccessAnyNamespaces = false;
@@ -45,6 +46,6 @@ describe("CreateApplicationButton", () => {
   it("renders correctly when disabled", () => {
     const buttonClasses = componentDisabled.root.findByType("button").props
       .className;
-    expect(buttonClasses).toContain("pf-m-disabled");
+    expect(buttonClasses).toContain("pf-m-aria-disabled");
   });
 });

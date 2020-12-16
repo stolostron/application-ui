@@ -75,12 +75,6 @@ export const QueryChannelList = createResourceReducer(
   predicate.bind(null, RESOURCE_TYPES.QUERY_CHANNELS)
 )
 
-// the exported function name must match the resourceType value
-export const GlobalApplicationDataList = createResourceReducer(
-  resourceReducerFunction,
-  predicate.bind(null, RESOURCE_TYPES.GLOBAL_APPLICATIONS_DATA)
-)
-
 export const HCMChannelList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.HCM_CHANNELS)

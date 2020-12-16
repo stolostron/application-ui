@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -22,12 +23,6 @@ const applications = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: 1,
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 1
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
@@ -46,12 +41,6 @@ const applications = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
       clusterCount: 1,
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/42d9ec27-52b9-11ea-bf05-00000a102d26",
@@ -69,8 +58,6 @@ const applications = {
       namespace: "stock-trader",
       dashboard: null,
       clusterCount: 0,
-      remoteSubscriptionStatusCount: {},
-      podStatusCount: {},
       hubSubscriptions: [],
       created: "2020-02-11T17:33:04Z",
       __typename: "Application"
@@ -81,13 +68,6 @@ const applications = {
       namespace: "kube-system",
       dashboard: null,
       clusterCount: 2,
-      remoteSubscriptionStatusCount: {
-        Failed: 1,
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26",

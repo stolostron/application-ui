@@ -43,12 +43,6 @@ export const appNormalizedItems = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 1
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
@@ -67,12 +61,6 @@ export const appNormalizedItems = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/42d9ec27-52b9-11ea-bf05-00000a102d26",
@@ -90,8 +78,6 @@ export const appNormalizedItems = {
       namespace: "stock-trader",
       dashboard: null,
       clusterCount: { remoteCount: 0, localCount: 0 },
-      remoteSubscriptionStatusCount: {},
-      podStatusCount: {},
       hubSubscriptions: [],
       created: "2019-02-11T17:33:04Z",
       __typename: "Application"
@@ -102,13 +88,6 @@ export const appNormalizedItems = {
       namespace: "kube-system",
       dashboard: null,
       clusterCount: { remoteCount: 2, localCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Failed: 1,
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26",
@@ -124,11 +103,10 @@ export const appNormalizedItems = {
 };
 export const QueryApplicationList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
-  sortColumn: "name",
+  sortColumn: 1,
   mutateStatus: "DONE",
   deleteStatus: "DONE",
   deleteMsg: "app123",
@@ -140,14 +118,6 @@ export const QueryApplicationList = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1,
-        null: 3,
-        Failed: 6
-      },
-      podStatusCount: {
-        Running: 1
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
@@ -166,12 +136,6 @@ export const QueryApplicationList = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26gbook",
@@ -189,8 +153,6 @@ export const QueryApplicationList = {
       namespace: "stock-trader",
       dashboard: null,
       clusterCount: { remoteCount: 0, localCount: 0 },
-      remoteSubscriptionStatusCount: {},
-      podStatusCount: {},
       hubSubscriptions: [],
       created: "2019-02-11T17:33:04Z",
       __typename: "Application"
@@ -201,13 +163,6 @@ export const QueryApplicationList = {
       namespace: "kube-system",
       dashboard: null,
       clusterCount: { remoteCount: 2, localCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Failed: 1,
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26gbook",
@@ -234,11 +189,10 @@ export const QueryApplicationList = {
 
 export const QuerySubscriptionList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
-  sortColumn: "name",
+  sortColumn: 1,
   mutateStatus: "DONE",
   deleteStatus: "DONE",
   deleteMsg: "app123",
@@ -308,11 +262,10 @@ export const QuerySubscriptionList = {
 
 export const QueryPlacementRuleList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
-  sortColumn: "name",
+  sortColumn: 1,
   mutateStatus: "DONE",
   deleteStatus: "DONE",
   deleteMsg: "app123",
@@ -366,11 +319,10 @@ export const QueryPlacementRuleList = {
 
 export const QueryChannelList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
-  sortColumn: "name",
+  sortColumn: 1,
   mutateStatus: "DONE",
   deleteStatus: "DONE",
   deleteMsg: "app123",
@@ -437,11 +389,10 @@ export const QueryChannelList = {
 
 export const QueryApplicationList_INCEPTION = {
   status: "INCEPTION",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
-  sortColumn: "name",
+  sortColumn: 1,
   items: []
 };
 export const HCMChannelList = {
@@ -808,7 +759,6 @@ export const HCMApplicationList = {
       _uid: "local-cluster/dc9499ab-d23f-4dac-ba9d-9232218a383f"
     }
   ],
-  itemsPerPage: 20,
   page: 1,
   pendingActions: [],
   postErrorMsg: "",
@@ -1085,7 +1035,6 @@ export const HCMSubscriptionList = {
 
 export const HCMPlacementRuleList = {
   items: [],
-  itemsPerPage: 20,
   page: 1,
   search: "",
   sortDirection: "asc",
@@ -2084,7 +2033,6 @@ export const reduxStoreAppPipeline = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverview
 };
 
@@ -2102,7 +2050,6 @@ export const reduxStoreAppPipelineWithCEM = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
   topology: topology,
   role: {
@@ -2125,7 +2072,6 @@ export const reduxStoreAppPipelineWithCEM_Inception = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
   role: {
     role: "ClusterAdministrator"
@@ -2148,7 +2094,6 @@ export const reduxStoreAllAppsPipeline = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverview
 };
 
@@ -2160,8 +2105,7 @@ export const reduxStoreAllAppsPipelineNoChannels = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelListEmpty,
   HCMSubscriptionList: HCMSubscriptionList,
-  HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList
+  HCMPlacementRuleList: HCMPlacementRuleList
 };
 
 export const reduxStoreAppPipelineNoChannels = {
@@ -2172,8 +2116,7 @@ export const reduxStoreAppPipelineNoChannels = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelListEmpty,
   HCMSubscriptionList: HCMSubscriptionList,
-  HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList
+  HCMPlacementRuleList: HCMPlacementRuleList
 };
 
 export const staticResourceData = {
@@ -2216,57 +2159,7 @@ export const staticResourceData = {
     tableActions: [
       "table.actions.applications.edit",
       "table.actions.applications.remove"
-    ],
-    detailKeys: {
-      title: "application.details",
-      headerRows: ["type", "detail"],
-      rows: [
-        {
-          cells: [
-            {
-              resourceKey: "description.title.name",
-              type: "i18n"
-            },
-            {
-              resourceKey: "name"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.namespace",
-              type: "i18n"
-            },
-            {
-              resourceKey: "namespace"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.created",
-              type: "i18n"
-            },
-            {
-              resourceKey: "created"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.labels",
-              type: "i18n"
-            },
-            {
-              resourceKey: "label"
-            }
-          ]
-        }
-      ]
-    }
+    ]
   }
 };
 
@@ -2310,55 +2203,5 @@ export const staticResourceDataApp = {
   tableActions: [
     "table.actions.applications.edit",
     "table.actions.applications.remove"
-  ],
-  detailKeys: {
-    title: "application.details",
-    headerRows: ["type", "detail"],
-    rows: [
-      {
-        cells: [
-          {
-            resourceKey: "description.title.name",
-            type: "i18n"
-          },
-          {
-            resourceKey: "name"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.namespace",
-            type: "i18n"
-          },
-          {
-            resourceKey: "namespace"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.created",
-            type: "i18n"
-          },
-          {
-            resourceKey: "created"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.labels",
-            type: "i18n"
-          },
-          {
-            resourceKey: "label"
-          }
-        ]
-      }
-    ]
-  }
+  ]
 };

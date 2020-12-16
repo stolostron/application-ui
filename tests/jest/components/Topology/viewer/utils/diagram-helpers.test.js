@@ -30,8 +30,7 @@ import {
   getNameWithoutChartRelease,
   removeReleaseGeneratedSuffix,
   getClusterHost,
-  getPulseStatusForCluster,
-  getOnlineClusters
+  getPulseStatusForCluster
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const ansibleSuccess = {
@@ -1096,7 +1095,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatuswith time window ", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1144,7 +1143,7 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with local hub subscription error", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1183,7 +1182,7 @@ describe("setSubscriptionDeployStatus with hub error", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with hub error", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1228,7 +1227,7 @@ describe("setSubscriptionDeployStatus with no sub error", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with no hub error", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1272,7 +1271,7 @@ describe("setSubscriptionDeployStatus with error", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with error", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1315,7 +1314,7 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with hub no status", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1363,7 +1362,7 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with remote no status", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1419,7 +1418,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus yellow", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
   });
 });
 
@@ -1443,7 +1442,7 @@ describe("setSubscriptionDeployStatus for node type different then subscription 
     }
   };
   it("setSubscriptionDeployStatus for node type different then subscription should return []", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual([]);
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual([]);
   });
 });
 
@@ -2795,7 +2794,7 @@ describe("setResourceDeployStatus 1 ", () => {
     { type: "spacer" }
   ];
   it("setResourceDeployStatus not deployed 1", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(result);
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
   });
 });
 
@@ -2856,7 +2855,7 @@ describe("setResourceDeployStatus ansiblejob ", () => {
     { type: "spacer" }
   ];
   it("setResourceDeployStatus ansiblejob", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(result);
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
   });
 });
 
@@ -2942,13 +2941,13 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
   ];
 
   it("setResourceDeployStatus ansiblejob no status", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(result);
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
   });
   it("setResourceDeployStatus ansiblejob no status 1", () => {
-    expect(setResourceDeployStatus(ansibleError, [])).toEqual(result1);
+    expect(setResourceDeployStatus(ansibleError, [], {})).toEqual(result1);
   });
   it("setResourceDeployStatus ansiblejob no status 2", () => {
-    expect(setResourceDeployStatus(ansibleError2, [])).toEqual(result2);
+    expect(setResourceDeployStatus(ansibleError2, [], {})).toEqual(result2);
   });
 });
 
@@ -3011,7 +3010,159 @@ describe("setResourceDeployStatus 2 ", () => {
     { type: "spacer" }
   ];
   it("setResourceDeployStatus deployed 2", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(result);
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
+  });
+});
+
+describe("setResourceDeployStatus 2 with filter green", () => {
+  const node = {
+    type: "service",
+    name: "mortgage-app-svc",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    specs: {
+      raw: {
+        metadata: {
+          name: "mortgage-app-svc"
+        }
+      },
+      serviceModel: {
+        "mortgage-app-svc-possiblereptile": {
+          cluster: "possiblereptile",
+          clusterIP: "172.30.140.196",
+          created: "2020-04-20T22:03:01Z",
+          kind: "service",
+          label: "app=mortgage-app-mortgage",
+          name: "mortgage-app-svc",
+          namespace: "default",
+          port: "9080:31558/TCP"
+        }
+      }
+    }
+  };
+  const activeFilters = {
+    resourceStatuses: new Set(["green"])
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "possiblereptile", status: "checkmark", value: "Deployed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "possiblereptile",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setResourceDeployStatus deployed 2 - should filter resource", () => {
+    expect(setResourceDeployStatus(node, [], activeFilters)).toEqual(result);
+  });
+});
+
+describe("setResourceDeployStatus 2 with filter yellow", () => {
+  const node = {
+    type: "service",
+    name: "mortgage-app-svc",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    specs: {
+      raw: {
+        metadata: {
+          name: "mortgage-app-svc"
+        }
+      },
+      serviceModel: {}
+    }
+  };
+  const activeFilters = {
+    resourceStatuses: new Set(["yellow"])
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "possiblereptile", status: "pending", value: "Not Deployed" },
+    { type: "spacer" }
+  ];
+  it("setResourceDeployStatus deployed 2 - should filter resource", () => {
+    expect(setResourceDeployStatus(node, [], activeFilters)).toEqual(result);
+  });
+});
+
+describe("setResourceDeployStatus 2 with filter orange", () => {
+  const node = {
+    type: "service",
+    name: "mortgage-app-svc",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    specs: {
+      raw: {
+        metadata: {
+          name: "mortgage-app-svc"
+        }
+      },
+      serviceModel: {}
+    }
+  };
+  const activeFilters = {
+    resourceStatuses: new Set(["orange"])
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
+    { labelValue: "possiblereptile", status: "pending", value: "Not Deployed" },
+    { type: "spacer" }
+  ];
+  it("setResourceDeployStatus deployed 2 - should filter resource", () => {
+    expect(setResourceDeployStatus(node, [], activeFilters)).toEqual(result);
   });
 });
 
@@ -3075,7 +3226,7 @@ describe("setResourceDeployStatus 3 ", () => {
     { type: "spacer" }
   ];
   it("setResourceDeployStatus deployed 3", () => {
-    expect(setResourceDeployStatus(node, [])).toEqual(result);
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
   });
 });
 
@@ -3289,7 +3440,7 @@ describe("setPodDeployStatus  node does not have pods", () => {
     }
   };
   it("setPodDeployStatus node does not have pods", () => {
-    expect(setPodDeployStatus(node, node, [])).toEqual([]);
+    expect(setPodDeployStatus(node, node, [], {})).toEqual([]);
   });
 });
 
@@ -3392,7 +3543,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod less then desired ", () => {
-    expect(setPodDeployStatus(node, node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [], {})).toEqual(result);
   });
 });
 
@@ -3435,7 +3586,7 @@ describe("setPodDeployStatus  with pod but no pod model and no podStatusMap", ()
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod but no pod podStatusMap ", () => {
-    expect(setPodDeployStatus(node, node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [], {})).toEqual(result);
   });
 });
 
@@ -3593,7 +3744,123 @@ describe("setPodDeployStatus  with pod as desired", () => {
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod as desired", () => {
-    expect(setPodDeployStatus(node, node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [], {})).toEqual(result);
+  });
+});
+
+describe("setPodDeployStatus - pod as desired with green filter", () => {
+  const node = {
+    type: "pod1",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    podStatusMap: {
+      possiblereptile: {
+        ready: 3,
+        desired: 3
+      }
+    },
+    specs: {
+      raw: {
+        spec: {
+          template: {
+            spec: {
+              containers: [{ c1: "aa" }]
+            }
+          }
+        }
+      },
+      podModel: {
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile": {
+          cluster: "possiblereptile",
+          status: "Running"
+        },
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile2": {
+          cluster: "possiblereptile",
+          status: "Pending"
+        },
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile3": {
+          cluster: "possiblereptile",
+          status: "CrashLoopBackOff"
+        },
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile4": {
+          cluster: "possiblereptile4",
+          status: "CrashLoopBackOff"
+        }
+      }
+    }
+  };
+  const activeFilters = {
+    resourceStatuses: new Set(["green"])
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "resource.deploy.pods.statuses", type: "label" },
+    { labelValue: "possiblereptile", status: "checkmark", value: "3/3" },
+    { type: "spacer" },
+    { type: "spacer" },
+    { labelValue: "Pod details for {0}", type: "label" },
+    {
+      indent: undefined,
+      labelKey: "resource.status",
+      labelValue: undefined,
+      status: "checkmark",
+      type: "label",
+      value: "Running"
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "possiblereptile",
+          selfLink: undefined
+        },
+        label: "View Pod YAML and Logs"
+      }
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.restarts",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.hostip",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined, undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "-"
+    },
+    { type: "spacer" }
+  ];
+  it("setPodDeployStatus - pod as desired green filter", () => {
+    expect(setPodDeployStatus(node, node, [], activeFilters)).toEqual(result);
   });
 });
 
@@ -3647,7 +3914,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod as desired but no matched cluster", () => {
-    expect(setPodDeployStatus(node, node, [])).toEqual(result);
+    expect(setPodDeployStatus(node, node, [], {})).toEqual(result);
   });
 });
 
@@ -4507,35 +4774,5 @@ describe("getPulseStatusForCluster all some ok", () => {
   };
   it("should process cluster node", () => {
     expect(getPulseStatusForCluster(clusterNode)).toEqual("yellow");
-  });
-});
-
-describe("getOnlineCluster ok and pending", () => {
-  const clusterNames = ["cluster1", "cluster2", "cluster3"];
-  const clusterObjs = [
-    {
-      metadata: {
-        name: "cluster1"
-      },
-      status: "ok"
-    },
-    {
-      metadata: {
-        name: "cluster2"
-      },
-      status: "pendingimport"
-    },
-    {
-      metadata: {
-        name: "cluster3"
-      },
-      status: "offline"
-    }
-  ];
-  it("should process cluster node status", () => {
-    expect(getOnlineClusters(clusterNames, clusterObjs)).toEqual([
-      "cluster1",
-      "cluster2"
-    ]);
   });
 });

@@ -10,7 +10,7 @@
 
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
-import { Notification } from 'carbon-components-react'
+import { AcmAlert } from '@open-cluster-management/ui-components'
 import { updateSecondaryHeader } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -70,11 +70,11 @@ const withResource = Component => {
         return (
           <React.Fragment>
             {showError && (
-              <Notification
-                title=""
+              <AcmAlert
                 className="persistent"
-                subtitle={errors}
-                kind="error"
+                title={errors}
+                variant="danger"
+                noClose
               />
             )}
             <Component {...this.props} />

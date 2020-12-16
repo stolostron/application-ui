@@ -40,7 +40,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
             className="pf-l-split__item pf-m-fill"
           />
           <div
-            className="pf-l-split__item makeStyles-toggleContainer-3"
+            className="pf-l-split__item makeStyles-toggleContainer-2"
           >
             <button
               aria-disabled={false}
@@ -77,7 +77,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
           </div>
         </div>
         <div
-          className="pf-c-card__body makeStyles-cardBody-4"
+          className="pf-c-card__body makeStyles-cardBody-3"
         >
           <div
             className="pf-l-grid pf-m-all-12-col-on-sm pf-m-all-6-col-on-md"
@@ -172,7 +172,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
               </dl>
             </div>
             <div
-              className="pf-l-grid__item makeStyles-rightCol-2"
+              className="pf-l-grid__item"
             >
               <dl
                 className="pf-c-description-list pf-m-horizontal"
@@ -222,6 +222,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                       className="pf-c-description-list__text"
                     >
                       Cluster resource status
+                       
                       <svg
                         aria-describedby="pf-tooltip-2"
                         aria-hidden={true}
@@ -243,7 +244,6 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                           transform=""
                         />
                       </svg>
-                       
                     </span>
                   </dt>
                   <dd

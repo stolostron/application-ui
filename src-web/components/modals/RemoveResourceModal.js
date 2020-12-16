@@ -448,7 +448,6 @@ export const fetchRelated = async (resourceType, name, namespace) => {
 
     return resource && resource.related ? resource.related : []
   } catch (err) {
-    console.error('Failed to fetch related resources:', err)
     return []
   }
 }

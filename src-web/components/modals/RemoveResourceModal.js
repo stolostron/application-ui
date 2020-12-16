@@ -117,7 +117,7 @@ class RemoveResourceModal extends React.Component {
           const sharedChildren = []
           const removableSubs = []
           const removableSubNames = []
-          const subResources = []
+          const placementrules = []
           const subscriptions =
             _.get(response, 'data.application.subscriptions', []) || []
           Promise.all(
@@ -138,7 +138,7 @@ class RemoveResourceModal extends React.Component {
               if (!usedByOtherApps(related)) {
                 removableSubs.push(subscription)
                 removableSubNames.push(subName)
-                const subsChildResources = getSubsChildResources(
+                const subChildResources = getSubChildResources(
                   subName,
                   subNamespace,
                   related
@@ -147,7 +147,7 @@ class RemoveResourceModal extends React.Component {
                   id: `subscriptions-${subNamespace}-${subName}`,
                   selfLink: subscription.metadata.selfLink,
                   label: `${subName} [Subscription]`,
-                  subsChildResources: subsChildResources
+                  subChildResources: subChildResources
                 })
               } else {
                 sharedChildren.push({
@@ -162,7 +162,7 @@ class RemoveResourceModal extends React.Component {
               _.map(_.get(subscription, 'rules', []), curr => {
                 const currName = curr.metadata.name
                 const currNamespace = curr.metadata.namespace
-                subResources.push({
+                placementrules.push({
                   id: `rules-${currNamespace}-${currName}`,
                   name: currName,
                   namespace: currNamespace,
@@ -173,20 +173,20 @@ class RemoveResourceModal extends React.Component {
               })
             })
             Promise.all(
-              _.uniqBy(subResources, 'id').map(async resource => {
+              _.uniqBy(placementrules, 'id').map(async rule => {
                 // For each rule, get related subscriptions
                 const related = await fetchRelated(
-                  resource.type,
-                  resource.name,
-                  resource.namespace
+                  rule.type,
+                  rule.name,
+                  rule.namespace
                 )
                 // Rule is removable if it's used only by removable subscriptions
                 if (!usedByOtherSubs(related, removableSubNames, namespace)) {
-                  children.push(resource)
+                  children.push(rule)
                 } else {
                   sharedChildren.push({
-                    id: resource.id,
-                    label: resource.label
+                    id: rule.id,
+                    label: rule.label
                   })
                 }
               })
@@ -342,8 +342,8 @@ class RemoveResourceModal extends React.Component {
                   <div className="remove-app-modal-content-data" key={child.id}>
                     <li>
                       {child.label}
-                      {child.subsChildResources &&
-                        child.subsChildResources.length > 0 && (
+                      {child.subChildResources &&
+                        child.subChildResources.length > 0 && (
                           <div className="sub-child-resource-content">
                             <div>
                               <ExclamationTriangleIcon />
@@ -355,7 +355,7 @@ class RemoveResourceModal extends React.Component {
                                   locale
                                 )}
                               </p>
-                              <p>{child.subsChildResources.join(', ')}</p>
+                              <p>{child.subChildResources.join(', ')}</p>
                             </div>
                           </div>
                       )}
@@ -392,6 +392,8 @@ class RemoveResourceModal extends React.Component {
           showClose={true}
           onClose={this.handleClose.bind(this)}
           variant={ModalVariant.medium}
+          position="top"
+          positionOffset="200px"
           actions={[
             <Button
               key="confirm"
@@ -461,7 +463,7 @@ export const usedByOtherApps = related => {
     : true
 }
 
-export const getSubsChildResources = (
+export const getSubChildResources = (
   resourceName,
   resourceNamespace,
   relatedItems

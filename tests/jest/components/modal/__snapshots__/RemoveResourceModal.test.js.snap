@@ -219,6 +219,8 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
               id="remove-resource-modal"
               isOpen={true}
               onClose={[Function]}
+              position="top"
+              positionOffset="200px"
               showClose={true}
               title="Delete application"
               variant="medium"
@@ -251,6 +253,8 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                 isOpen={true}
                 onClose={[Function]}
                 ouiaSafe={true}
+                position="top"
+                positionOffset="200px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -271,7 +275,7 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                             aria-label="Delete application"
                             aria-labelledby="remove-resource-modal pf-modal-part-2"
                             aria-modal="true"
-                            class="pf-c-modal-box pf-m-md"
+                            class="pf-c-modal-box pf-m-align-top pf-m-md"
                             data-ouia-component-id="OUIA-Generated-Modal-medium-2"
                             data-ouia-component-type="PF4/ModalContent"
                             data-ouia-safe="true"
@@ -435,6 +439,8 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                     onClose={[Function]}
                     ouiaId="OUIA-Generated-Modal-medium-2"
                     ouiaSafe={true}
+                    position="top"
+                    positionOffset="200px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -467,7 +473,13 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                               data-ouia-component-type="PF4/ModalContent"
                               data-ouia-safe={true}
                               id="remove-resource-modal"
-                              style={Object {}}
+                              position="top"
+                              positionOffset="200px"
+                              style={
+                                Object {
+                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                }
+                              }
                               variant="medium"
                             >
                               <div
@@ -475,13 +487,17 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                                 aria-label="Delete application"
                                 aria-labelledby="remove-resource-modal pf-modal-part-2"
                                 aria-modal="true"
-                                className="pf-c-modal-box pf-m-md"
+                                className="pf-c-modal-box pf-m-align-top pf-m-md"
                                 data-ouia-component-id="OUIA-Generated-Modal-medium-2"
                                 data-ouia-component-type="PF4/ModalContent"
                                 data-ouia-safe={true}
                                 id="remove-resource-modal"
                                 role="dialog"
-                                style={Object {}}
+                                style={
+                                  Object {
+                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  }
+                                }
                               >
                                 <ModalBoxCloseButton
                                   onClose={[Function]}
@@ -884,6 +900,8 @@ exports[`RemoveResourceModal test renders as expected child application with war
               id="remove-resource-modal"
               isOpen={true}
               onClose={[Function]}
+              position="top"
+              positionOffset="200px"
               showClose={true}
               title="Delete application"
               variant="medium"
@@ -916,6 +934,8 @@ exports[`RemoveResourceModal test renders as expected child application with war
                 isOpen={true}
                 onClose={[Function]}
                 ouiaSafe={true}
+                position="top"
+                positionOffset="200px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -936,7 +956,7 @@ exports[`RemoveResourceModal test renders as expected child application with war
                             aria-label="Delete application"
                             aria-labelledby="remove-resource-modal pf-modal-part-4"
                             aria-modal="true"
-                            class="pf-c-modal-box pf-m-md"
+                            class="pf-c-modal-box pf-m-align-top pf-m-md"
                             data-ouia-component-id="OUIA-Generated-Modal-medium-4"
                             data-ouia-component-type="PF4/ModalContent"
                             data-ouia-safe="true"
@@ -1100,6 +1120,8 @@ exports[`RemoveResourceModal test renders as expected child application with war
                     onClose={[Function]}
                     ouiaId="OUIA-Generated-Modal-medium-4"
                     ouiaSafe={true}
+                    position="top"
+                    positionOffset="200px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -1132,7 +1154,13 @@ exports[`RemoveResourceModal test renders as expected child application with war
                               data-ouia-component-type="PF4/ModalContent"
                               data-ouia-safe={true}
                               id="remove-resource-modal"
-                              style={Object {}}
+                              position="top"
+                              positionOffset="200px"
+                              style={
+                                Object {
+                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                }
+                              }
                               variant="medium"
                             >
                               <div
@@ -1140,13 +1168,17 @@ exports[`RemoveResourceModal test renders as expected child application with war
                                 aria-label="Delete application"
                                 aria-labelledby="remove-resource-modal pf-modal-part-4"
                                 aria-modal="true"
-                                className="pf-c-modal-box pf-m-md"
+                                className="pf-c-modal-box pf-m-align-top pf-m-md"
                                 data-ouia-component-id="OUIA-Generated-Modal-medium-4"
                                 data-ouia-component-type="PF4/ModalContent"
                                 data-ouia-safe={true}
                                 id="remove-resource-modal"
                                 role="dialog"
-                                style={Object {}}
+                                style={
+                                  Object {
+                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  }
+                                }
                               >
                                 <ModalBoxCloseButton
                                   onClose={[Function]}
@@ -1579,6 +1611,8 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
               id="remove-resource-modal"
               isOpen={true}
               onClose={[Function]}
+              position="top"
+              positionOffset="200px"
               showClose={true}
               variant="medium"
             >
@@ -1608,6 +1642,8 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                 isOpen={true}
                 onClose={[Function]}
                 ouiaSafe={true}
+                position="top"
+                positionOffset="200px"
                 showClose={true}
                 title=""
                 titleIconVariant={null}
@@ -1626,7 +1662,7 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                           <div
                             aria-describedby="pf-modal-part-4"
                             aria-modal="true"
-                            class="pf-c-modal-box pf-m-md"
+                            class="pf-c-modal-box pf-m-align-top pf-m-md"
                             data-ouia-component-id="OUIA-Generated-Modal-medium-3"
                             data-ouia-component-type="PF4/ModalContent"
                             data-ouia-safe="true"
@@ -1772,6 +1808,8 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                     onClose={[Function]}
                     ouiaId="OUIA-Generated-Modal-medium-3"
                     ouiaSafe={true}
+                    position="top"
+                    positionOffset="200px"
                     showClose={true}
                     title=""
                     titleIconVariant={null}
@@ -1804,7 +1842,13 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                               data-ouia-component-type="PF4/ModalContent"
                               data-ouia-safe={true}
                               id="remove-resource-modal"
-                              style={Object {}}
+                              position="top"
+                              positionOffset="200px"
+                              style={
+                                Object {
+                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                }
+                              }
                               variant="medium"
                             >
                               <div
@@ -1812,13 +1856,17 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                                 aria-label={null}
                                 aria-labelledby={null}
                                 aria-modal="true"
-                                className="pf-c-modal-box pf-m-md"
+                                className="pf-c-modal-box pf-m-align-top pf-m-md"
                                 data-ouia-component-id="OUIA-Generated-Modal-medium-3"
                                 data-ouia-component-type="PF4/ModalContent"
                                 data-ouia-safe={true}
                                 id="remove-resource-modal"
                                 role="dialog"
-                                style={Object {}}
+                                style={
+                                  Object {
+                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  }
+                                }
                               >
                                 <ModalBoxCloseButton
                                   onClose={[Function]}
@@ -2194,6 +2242,8 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
               id="remove-resource-modal"
               isOpen={true}
               onClose={[Function]}
+              position="top"
+              positionOffset="200px"
               showClose={true}
               title="Delete application"
               variant="medium"
@@ -2226,6 +2276,8 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                 isOpen={true}
                 onClose={[Function]}
                 ouiaSafe={true}
+                position="top"
+                positionOffset="200px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -2246,7 +2298,7 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                             aria-label="Delete application"
                             aria-labelledby="remove-resource-modal pf-modal-part-5"
                             aria-modal="true"
-                            class="pf-c-modal-box pf-m-md"
+                            class="pf-c-modal-box pf-m-align-top pf-m-md"
                             data-ouia-component-id="OUIA-Generated-Modal-medium-5"
                             data-ouia-component-type="PF4/ModalContent"
                             data-ouia-safe="true"
@@ -2410,6 +2462,8 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                     onClose={[Function]}
                     ouiaId="OUIA-Generated-Modal-medium-5"
                     ouiaSafe={true}
+                    position="top"
+                    positionOffset="200px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -2442,7 +2496,13 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                               data-ouia-component-type="PF4/ModalContent"
                               data-ouia-safe={true}
                               id="remove-resource-modal"
-                              style={Object {}}
+                              position="top"
+                              positionOffset="200px"
+                              style={
+                                Object {
+                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                }
+                              }
                               variant="medium"
                             >
                               <div
@@ -2450,13 +2510,17 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                                 aria-label="Delete application"
                                 aria-labelledby="remove-resource-modal pf-modal-part-5"
                                 aria-modal="true"
-                                className="pf-c-modal-box pf-m-md"
+                                className="pf-c-modal-box pf-m-align-top pf-m-md"
                                 data-ouia-component-id="OUIA-Generated-Modal-medium-5"
                                 data-ouia-component-type="PF4/ModalContent"
                                 data-ouia-safe={true}
                                 id="remove-resource-modal"
                                 role="dialog"
-                                style={Object {}}
+                                style={
+                                  Object {
+                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  }
+                                }
                               >
                                 <ModalBoxCloseButton
                                   onClose={[Function]}
@@ -2892,6 +2956,8 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
               id="remove-resource-modal"
               isOpen={true}
               onClose={[Function]}
+              position="top"
+              positionOffset="200px"
               showClose={true}
               title="Delete application"
               variant="medium"
@@ -2924,6 +2990,8 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                 isOpen={true}
                 onClose={[Function]}
                 ouiaSafe={true}
+                position="top"
+                positionOffset="200px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -2944,7 +3012,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                             aria-label="Delete application"
                             aria-labelledby="remove-resource-modal pf-modal-part-1"
                             aria-modal="true"
-                            class="pf-c-modal-box pf-m-md"
+                            class="pf-c-modal-box pf-m-align-top pf-m-md"
                             data-ouia-component-id="OUIA-Generated-Modal-medium-1"
                             data-ouia-component-type="PF4/ModalContent"
                             data-ouia-safe="true"
@@ -3108,6 +3176,8 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                     onClose={[Function]}
                     ouiaId="OUIA-Generated-Modal-medium-1"
                     ouiaSafe={true}
+                    position="top"
+                    positionOffset="200px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -3140,7 +3210,13 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                               data-ouia-component-type="PF4/ModalContent"
                               data-ouia-safe={true}
                               id="remove-resource-modal"
-                              style={Object {}}
+                              position="top"
+                              positionOffset="200px"
+                              style={
+                                Object {
+                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                }
+                              }
                               variant="medium"
                             >
                               <div
@@ -3148,13 +3224,17 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                                 aria-label="Delete application"
                                 aria-labelledby="remove-resource-modal pf-modal-part-1"
                                 aria-modal="true"
-                                className="pf-c-modal-box pf-m-md"
+                                className="pf-c-modal-box pf-m-align-top pf-m-md"
                                 data-ouia-component-id="OUIA-Generated-Modal-medium-1"
                                 data-ouia-component-type="PF4/ModalContent"
                                 data-ouia-safe={true}
                                 id="remove-resource-modal"
                                 role="dialog"
-                                style={Object {}}
+                                style={
+                                  Object {
+                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  }
+                                }
                               >
                                 <ModalBoxCloseButton
                                   onClose={[Function]}

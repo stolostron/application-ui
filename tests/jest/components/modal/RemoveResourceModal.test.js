@@ -480,7 +480,7 @@ import RemoveResourceModal, {
   fetchRelated,
   usedByOtherApps,
   usedByOtherSubs,
-  getSubsChildResources
+  getSubChildResources
 } from "../../../../src-web/components/modals/RemoveResourceModal";
 import { mount } from "enzyme";
 import * as reducers from "../../../../src-web/reducers";
@@ -749,7 +749,7 @@ describe("RemoveResourceModal test", () => {
     );
     expect(related).toEqual(result1);
     expect(usedByOtherApps(related)).toEqual(false);
-    expect(getSubsChildResources(subName, subNamespace, related)).toEqual(
+    expect(getSubChildResources(subName, subNamespace, related)).toEqual(
       result2
     );
   });

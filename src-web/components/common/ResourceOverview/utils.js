@@ -196,42 +196,16 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
-const checkDupClusters = (clusterList, cluster) => {
-  // Add cluster to cluster list if it's not a duplicate
-  if (!_.find(clusterList, cluster)) {
-    clusterList = clusterList.concat(cluster)
-  }
-
-  return clusterList
-}
-
-const getClusterCount = appData => {
-  let remoteClusterList = []
+const getClusterCount = node => {
+  //let remoteClusterList = []
   let remoteClusterCount = 0
   let localClusterDeploy = false
+  const clusterNames = _.get(node, 'specs.allClusters', [])
 
-  if (appData && appData.related) {
-    appData.related.forEach(resource => {
-      if (resource.kind === 'subscription' && resource.items) {
-        resource.items.forEach(sub => {
-          if (sub._hostingSubscription) {
-            if (sub.cluster === 'local-cluster') {
-              localClusterDeploy = true
-            } else {
-              const remoteCluster = { cluster: sub.cluster }
-              remoteClusterList = checkDupClusters(
-                remoteClusterList,
-                remoteCluster
-              )
-            }
-          } else if (sub.localPlacement === 'true') {
-            localClusterDeploy = true
-          }
-        })
-        remoteClusterCount = remoteClusterList.length
-      }
-    })
-  }
+  localClusterDeploy = clusterNames.indexOf('local-cluster') !== -1
+  remoteClusterCount = localClusterDeploy
+    ? clusterNames.length - 1
+    : clusterNames.length
 
   return {
     remoteCount: remoteClusterCount,
@@ -334,10 +308,15 @@ export const getAppOverviewCardsData = (
     const subsList = []
 
     const selectedAppDataItem = _.get(selectedAppData, 'items[0]', '')
-    const clusterData = getClusterCount(selectedAppDataItem)
+    let clusterData = {
+      isLocal: false,
+      remoteCount: 0
+    }
 
     topologyData.nodes.map(node => {
       if (node.type === 'application') {
+        clusterData = getClusterCount(node)
+
         // Get date and time of app creation
         creationTimestamp = getShortDateTime(
           node.specs.raw.metadata.creationTimestamp,

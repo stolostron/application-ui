@@ -35,7 +35,7 @@ git:
           token: ""
           branch: master
           path: nginx
-          gitReconcileOption: true
+          gitReconcileOption: merge
           timeWindow:
             setting: true
             type: activeinterval

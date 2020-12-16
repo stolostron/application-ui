@@ -186,11 +186,11 @@ const githubChannelData = async () => [
   },
   {
     id: 'gitReconcileOption',
-    type: 'checkbox',
+    type: 'combobox',
     name: 'creation.app.github.reconcileOption',
     tooltip: 'tooltip.creation.app.github.reconcileOption',
-    active: false,
-    available: [],
+    active: 'merge',
+    available: ['merge', 'replace'],
     reverse:
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/reconcile-option"]'
   },

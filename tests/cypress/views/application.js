@@ -78,9 +78,6 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     .blur();
   checkExistingUrls(gitUser, username, gitKey, token, url);
 
-  if (gitReconcileOption) {
-    cy.get(merge).click({ force: true });
-  }
   if (insecureSkipVerifyOption) {
     cy.get(insecureSkipVerify).click({ force: true });
   }
@@ -104,6 +101,12 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     cy
       .get(gitPath, { timeout: 20 * 1000 })
       .type(path, { timeout: 30 * 1000 })
+      .blur();
+  }
+  if (gitReconcileOption) {
+    cy
+      .get(merge)
+      .type(gitReconcileOption)
       .blur();
   }
   selectClusterDeployment(deployment, clusterName, key);

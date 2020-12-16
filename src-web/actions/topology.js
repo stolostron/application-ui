@@ -81,7 +81,7 @@ export const getResourceData = nodes => {
   let subscriptionName = ''
   let nbOfSubscriptions = 0
   let resurceMustHavePods = false
-  const nodeTypes = [] //always get pods
+  const nodeTypes = []
 
   nodes.forEach(node => {
     const nodeType = lodash.get(node, 'type', '')

@@ -212,7 +212,7 @@ const getClusterCount = node => {
   }
 }
 
-const getSubCardData = (subIdentifier, node) => {
+const getSubCardData = (subData, node) => {
   let resourceType = ''
   let resourcePath = ''
   let gitBranch = ''
@@ -220,42 +220,37 @@ const getSubCardData = (subIdentifier, node) => {
   let packageName = ''
   let packageFilterVersion = ''
   let timeWindowType = 'none'
+  let timeWindowDays = ''
+  let timeWindowTimezone = ''
+  let timeWindowRanges = ''
 
-  const relatedSubs = _.get(node, 'specs.allSubscriptions', [])
   const relatedChns = _.get(node, 'specs.allChannels', [])
-
-  // Get related subscription data
-  let subData
-  relatedSubs.forEach(subs => {
-    if (
-      _.get(subs, 'metadata.name', '') === subIdentifier.subName &&
-      _.get(subs, 'metadata.namespace', '') === subIdentifier.subNs
-    ) {
-      subData = subs
-    }
-  })
-  if (subData) {
-    gitBranch = _.get(
-      subData,
-      ['metadata', 'annotations', 'apps.open-cluster-management.io/git-branch'],
-      ''
-    )
-    gitPath = _.get(
-      subData,
-      ['metadata', 'annotations', 'apps.open-cluster-management.io/git-path'],
-      ''
-    )
-    packageName = _.get(subData, 'spec.name', '')
-    packageFilterVersion = _.get(subData, 'spec.packageFilter.version', '')
-    timeWindowType = _.get(subData, 'spec.timewindow.windowtype', '')
-  }
+  gitBranch = _.get(
+    subData,
+    ['metadata', 'annotations', 'apps.open-cluster-management.io/git-branch'],
+    ''
+  )
+  gitPath = _.get(
+    subData,
+    ['metadata', 'annotations', 'apps.open-cluster-management.io/git-path'],
+    ''
+  )
+  packageName = _.get(subData, 'spec.name', '')
+  packageFilterVersion = _.get(subData, 'spec.packageFilter.version', '')
+  timeWindowType = _.get(subData, 'spec.timewindow.windowtype', 'none')
+  timeWindowDays = _.get(subData, 'spec.timewindow.daysofweek', '')
+  timeWindowTimezone = _.get(subData, 'spec.timewindow.location', '')
+  timeWindowRanges = _.get(subData, 'spec.timewindow.hours', '')
 
   // Get related channel data
   let chnData
   relatedChns.forEach(chnl => {
     if (
-      _.get(chnl, 'metadata.name', '') === subIdentifier.chnName &&
-      _.get(chnl, 'metadata.namespace', '') === subIdentifier.chnNs
+      `${_.get(chnl, 'metadata.namespace', '')}/${_.get(
+        chnl,
+        'metadata.name',
+        ''
+      )}` === _.get(subData, 'spec.channel', '')
     ) {
       chnData = chnl
     }
@@ -264,15 +259,18 @@ const getSubCardData = (subIdentifier, node) => {
     resourceType = _.get(chnData, 'spec.type', '')
     resourcePath = _.get(chnData, 'spec.pathname', '')
   }
-
   return {
+    name: _.get(subData, 'metadata.name', ''),
     resourceType: resourceType,
     resourcePath: resourcePath,
     gitBranch: gitBranch,
     gitPath: gitPath,
     package: packageName,
     packageFilterVersion: packageFilterVersion,
-    timeWindowType: timeWindowType
+    timeWindowType: timeWindowType,
+    timeWindowDays: timeWindowDays,
+    timeWindowTimezone: timeWindowTimezone,
+    timeWindowRanges: timeWindowRanges
   }
 }
 
@@ -313,7 +311,6 @@ export const getAppOverviewCardsData = (
   ) {
     let creationTimestamp = ''
     const nodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
-    const uniqueSubs = []
     const subsList = []
 
     let clusterData = {
@@ -322,78 +319,32 @@ export const getAppOverviewCardsData = (
     }
 
     topologyData.nodes.map(node => {
-      if (node.type === 'application') {
+      //get only the top app node
+
+      if (
+        _.get(node, 'type', '') === 'application' &&
+        _.get(node, 'id').indexOf('--deployable') === -1
+      ) {
         clusterData = getClusterCount(node)
         // Get date and time of app creation
         creationTimestamp = getShortDateTime(
           node.specs.raw.metadata.creationTimestamp,
           locale
         )
-
-        // Get data for subscription cards
-        const channelArray = _.get(node, 'specs.channels', '')
-        channelArray &&
-          channelArray.forEach(channel => {
-            if (channel !== '__ALL__/__ALL__//__ALL__/__ALL__') {
-              const chnIdentifier = channel.split('//')
-              const subPath = chnIdentifier[0].split('/')
-              const chnPath = chnIdentifier[1].split('/')
-              const subIdentifier = {
-                subNs: subPath[0],
-                subName: subPath[1],
-                chnNs: chnPath[0],
-                chnName: chnPath[1]
-              }
-
-              // Use unique subscriptions (may be more than 1 entry for a single subscription if the deployables are paged)
-              if (!_.find(uniqueSubs, subIdentifier)) {
-                uniqueSubs.push(subIdentifier)
-
-                // Get "Repo resouce" and "Time window" info
-                const subCardData = getSubCardData(subIdentifier, node)
-                subsList.push({
-                  name: subIdentifier.subName,
-                  id: chnIdentifier[0] + '//' + chnIdentifier[1],
-                  resourceType: subCardData.resourceType,
-                  resourcePath: subCardData.resourcePath,
-                  gitBranch: subCardData.gitBranch,
-                  gitPath: subCardData.gitPath,
-                  package: subCardData.package,
-                  packageFilterVersion: subCardData.packageFilterVersion,
-                  timeWindowType: subCardData.timeWindowType,
-                  timeWindowMissingData: true
-                })
-              }
-            }
-          })
-      } else if (
-        node.type === 'subscription' &&
-        _.get(node, 'specs.parent.parentType') !== 'cluster'
-      ) {
-        const timeWindowData = _.get(node, 'specs.raw.spec.timewindow', '')
-
-        // Add all time window info to subscription card
-        const timeWindowSub = _.find(subsList, {
-          name: node.name,
-          timeWindowType: timeWindowData.windowtype
+        const allSubscriptions = _.get(node, 'specs.allSubscriptions', [])
+        allSubscriptions.forEach(subs => {
+          subsList.push(getSubCardData(subs, node))
         })
-        if (timeWindowSub) {
-          timeWindowSub.timeWindowDays = timeWindowData.daysofweek
-          timeWindowSub.timeWindowTimezone = timeWindowData.location
-          timeWindowSub.timeWindowRanges = timeWindowData.hours
-          timeWindowSub.timeWindowMissingData = false
-        }
-      } else if (
-        node.type !== 'cluster' &&
-        node.type !== 'subscription' &&
-        node.type !== 'placements' &&
+      }
+      //get pulse for all objects generated from a ddeployable
+      if (
+        _.get(node, 'id', '').indexOf('--deployable') !== -1 &&
         _.get(node, 'specs.pulse')
       ) {
         // Get cluster resource statuses
         nodeStatuses[node.specs.pulse]++
       }
     })
-
     return {
       appName: appName,
       appNamespace: appNamespace,

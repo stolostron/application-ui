@@ -312,7 +312,6 @@ describe("getAppOverviewCardsData", () => {
       subsList: [
         {
           name: "mortgage-app-subscription",
-          id: "default/mortgage-app-subscription//mortgage-ch/mortgage-channel",
           resourceType: "GitHub",
           resourcePath: "https://github.com/fxiang1/app-samples.git",
           gitBranch: "master",
@@ -322,8 +321,7 @@ describe("getAppOverviewCardsData", () => {
           timeWindowType: "active",
           timeWindowDays: ["Monday", "Tuesday", "Wednesday"],
           timeWindowTimezone: "America/Toronto",
-          timeWindowRanges: [{ end: "09:10PM", start: "8:00AM" }],
-          timeWindowMissingData: false
+          timeWindowRanges: [{ end: "09:10PM", start: "8:00AM" }]
         }
       ]
     };
@@ -352,7 +350,6 @@ describe("getAppOverviewCardsData", () => {
       subsList: [
         {
           name: "mortgage-app-subscription",
-          id: "default/mortgage-app-subscription//mortgage-ch/mortgage-channel",
           resourceType: "",
           resourcePath: "",
           gitBranch: "master",
@@ -362,8 +359,7 @@ describe("getAppOverviewCardsData", () => {
           timeWindowType: "active",
           timeWindowDays: ["Monday", "Tuesday", "Wednesday"],
           timeWindowTimezone: "America/Toronto",
-          timeWindowRanges: [{ end: "09:10PM", start: "8:00AM" }],
-          timeWindowMissingData: false
+          timeWindowRanges: [{ end: "09:10PM", start: "8:00AM" }]
         }
       ]
     };

@@ -1411,7 +1411,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
 
   //show missing remote placement error only if local subscription is successful and is not local placement
   if (
-    Object.keys(resourceMap).length === 1 &&
+    Object.keys(resourceMap).length === 0 &&
     !localSubscriptionFailed &&
     !isLocalPlacementSubs &&
     resourceStatuses.size === 0

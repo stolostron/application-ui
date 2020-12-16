@@ -1165,11 +1165,11 @@ export const topologyNoChannel = {
               }
             },
             spec: {
-              channel: "mortgagers-ch/mortgagers-channel",
+              channel: "mortgage-ch/mortgage-channel",
               timewindow: {
-                daysofweek: ["Moday", "Tuesday", "Wednesday"],
-                hours: { end: "09:58PM", start: "09:58AM" },
+                hours: [{ end: "09:10PM", start: "8:00AM" }],
                 location: "America/Toronto",
+                daysofweek: ["Monday", "Tuesday", "Wednesday"],
                 windowtype: "active"
               }
             }
@@ -1564,11 +1564,11 @@ export const topology = {
               }
             },
             spec: {
-              channel: "mortgagers-ch/mortgagers-channel",
+              channel: "mortgage-ch/mortgage-channel",
               timewindow: {
-                daysofweek: ["Moday", "Tuesday", "Wednesday"],
-                hours: { end: "09:58PM", start: "09:58AM" },
+                hours: [{ end: "09:10PM", start: "8:00AM" }],
                 location: "America/Toronto",
+                daysofweek: ["Monday", "Tuesday", "Wednesday"],
                 windowtype: "active"
               }
             }

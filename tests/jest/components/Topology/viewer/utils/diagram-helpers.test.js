@@ -1192,20 +1192,12 @@ describe("setSubscriptionDeployStatus with no sub error", () => {
     name: "name",
     namespace: "ns",
     specs: {
-      subscriptionModel: {
-        sub1: {
-          cluster: "local",
-          namespace: "ns",
-          status: "Propagated",
-          _hubClusterResource: "true"
-        }
-      }
+      subscriptionModel: {}
     }
   };
   const response = [
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { type: "spacer" },
     {
       labelValue: "Remote subscriptions",
       status: "failure",
@@ -1372,31 +1364,12 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
     name: "name",
     namespace: "ns",
     specs: {
-      subscriptionModel: {
-        sub1: {
-          cluster: "local",
-          status: "Propagated"
-        }
-      }
+      subscriptionModel: {}
     }
   };
   const response = [
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { labelValue: "local", status: "checkmark", value: "Propagated" },
-    {
-      indent: true,
-      type: "link",
-      value: {
-        data: {
-          action: "show_resource_yaml",
-          cluster: "local",
-          selfLink: undefined
-        },
-        label: "View Resource YAML"
-      }
-    },
-    { type: "spacer" },
     {
       labelValue: "Remote subscriptions",
       status: "failure",

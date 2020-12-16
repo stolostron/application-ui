@@ -13,7 +13,10 @@ import {
   getPodData,
   getAppOverviewCardsData
 } from "../../../../../src-web/components/common/ResourceOverview/utils";
-import { reduxStoreAppPipelineWithCEM } from "../../TestingData";
+import {
+  reduxStoreAppPipelineWithCEM,
+  topologyNoChannel
+} from "../../TestingData";
 
 const query_data1 = {
   name: "val",
@@ -326,8 +329,8 @@ describe("getAppOverviewCardsData", () => {
           resourcePath: "https://github.com/fxiang1/app-samples.git",
           gitBranch: "master",
           gitPath: "mortgage",
-          package: undefined,
-          packageFilterVersion: undefined,
+          package: "",
+          packageFilterVersion: "",
           timeWindowType: "active",
           timeWindowDays: ["Monday", "Tuesday", "Wednesday"],
           timeWindowTimezone: "America/Toronto",
@@ -345,7 +348,7 @@ describe("getAppOverviewCardsData", () => {
       '/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
       testHCMAppList,
-      reduxStoreAppPipelineWithCEM.topology,
+      topologyNoChannel,
       "mortgage-app",
       "default",
       targetLink
@@ -364,10 +367,10 @@ describe("getAppOverviewCardsData", () => {
           id: "default/mortgage-app-subscription//mortgage-ch/mortgage-channel",
           resourceType: "",
           resourcePath: "",
-          gitBranch: undefined,
-          gitPath: undefined,
-          package: undefined,
-          packageFilterVersion: undefined,
+          gitBranch: "master",
+          gitPath: "mortgage",
+          package: "",
+          packageFilterVersion: "",
           timeWindowType: "active",
           timeWindowDays: ["Monday", "Tuesday", "Wednesday"],
           timeWindowTimezone: "America/Toronto",

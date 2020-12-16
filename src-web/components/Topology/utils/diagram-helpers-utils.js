@@ -11,6 +11,11 @@ import R from 'ramda'
 import _ from 'lodash'
 import { LOCAL_HUB_NAME } from '../../../../lib/shared/constants'
 
+const checkmarkCode = 3
+const warningCode = 2
+const pendingCode = 1
+const failureCode = 0
+
 export const isDeployableResource = node => {
   //check if this node has been created using a deployable object
   //used to differentiate between app, subscription, rules deployed using an app deployable
@@ -99,4 +104,63 @@ export const getRouteNameWithoutIngressHash = (relatedKind, relateKindName) => {
   }
 
   return name
+}
+
+export const getActiveFilterCodes = resourceStatuses => {
+  const activeFilterCodes = new Set()
+  resourceStatuses.forEach(rStatus => {
+    if (rStatus === 'green') {
+      activeFilterCodes.add(checkmarkCode)
+    } else if (rStatus === 'yellow') {
+      activeFilterCodes.add(warningCode)
+    } else if (rStatus === 'orange') {
+      activeFilterCodes.add(pendingCode)
+    } else if (rStatus === 'red') {
+      activeFilterCodes.add(failureCode)
+    }
+  })
+
+  return activeFilterCodes
+}
+
+export const filterSubscriptionObject = (resourceMap, activeFilterCodes) => {
+  const filteredObject = {}
+  Object.entries(resourceMap).forEach(([key, value]) => {
+    if (value.status === 'Subscribed' && activeFilterCodes.has(checkmarkCode)) {
+      filteredObject[key] = value
+    }
+    if (value.status === 'Propagated' && activeFilterCodes.has(warningCode)) {
+      filteredObject[key] = value
+    }
+    if (value.status === 'Fail' && activeFilterCodes.has(failureCode)) {
+      filteredObject[key] = value
+    }
+  })
+
+  return filteredObject
+}
+
+export const getOnlineClusters = (clusterNames, clusterObjs) => {
+  const onlineClusters = []
+
+  clusterNames.forEach(clsName => {
+    if (clsName.trim() === LOCAL_HUB_NAME) {
+      onlineClusters.push(clsName)
+      return
+    }
+    for (let i = 0; i < clusterObjs.length; i++) {
+      const clusterObjName = _.get(clusterObjs[i], 'metadata.name')
+      if (clusterObjName === clsName.trim()) {
+        if (
+          clusterObjs[i].status === 'ok' ||
+          clusterObjs[i].status === 'pendingimport'
+        ) {
+          onlineClusters.push(clsName)
+        }
+        break
+      }
+    }
+  })
+
+  return onlineClusters
 }

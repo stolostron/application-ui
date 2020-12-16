@@ -197,7 +197,6 @@ export const getSearchLinkForOneApplication = params => {
 }
 
 const getClusterCount = node => {
-  //let remoteClusterList = []
   let remoteClusterCount = 0
   let localClusterDeploy = false
   const clusterNames = _.get(node, 'specs.allClusters', [])

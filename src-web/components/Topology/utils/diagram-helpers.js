@@ -1134,7 +1134,8 @@ export const setPodDeployStatus = (
         (statusStr === checkmarkStatus &&
           activeFilterCodes.has(checkmarkCode)) ||
         (statusStr === warningStatus && activeFilterCodes.has(warningCode)) ||
-        (statusStr === pendingStatus && activeFilterCodes.has(pendingCode)) ||
+        ((statusStr === pendingStatus || statusStr === warningStatus) &&
+          activeFilterCodes.has(pendingCode)) ||
         (statusStr === failureStatus && activeFilterCodes.has(failureCode))
       ) {
         addItemToDetails = true

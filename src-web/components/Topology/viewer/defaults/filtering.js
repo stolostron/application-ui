@@ -569,7 +569,8 @@ export const processResourceStatus = (resourceStatuses, resourceStatus) => {
   return (
     (resourceStatuses.has('green') && resourceStatus === 'green') ||
     (resourceStatuses.has('yellow') && resourceStatus === 'yellow') ||
-    (resourceStatuses.has('orange') && resourceStatus === 'orange') ||
+    (resourceStatuses.has('orange') &&
+      (resourceStatus === 'orange' || resourceStatus === 'yellow')) ||
     (resourceStatuses.has('red') && resourceStatus === 'red')
   )
 }

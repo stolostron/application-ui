@@ -328,7 +328,7 @@ class OverviewCards extends React.Component {
     return subsList.map(sub => {
       if (sub.name) {
         return (
-          <React.Fragment key={sub.id}>
+          <React.Fragment key={sub.name}>
             <div className="sub-card-container">
               <div className="sub-card-column add-right-border">
                 <img

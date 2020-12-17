@@ -115,12 +115,10 @@
       align-items: center;
     }
 
-    .bx--tooltip__trigger {
-      font-size: 0.75rem;
-    }
-
-    .bx--tooltip__trigger svg {
-      height: 14px;
+    .channel-controls-help-icon {
+      fill: #0066cc;
+      margin-left: 4px;
+      cursor: pointer;
     }
 
     .pageInput {

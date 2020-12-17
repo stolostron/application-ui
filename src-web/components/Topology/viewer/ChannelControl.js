@@ -12,7 +12,9 @@
 import React from 'react'
 import R from 'ramda'
 import PropTypes from 'prop-types'
-import { DropdownV2, Tooltip } from 'carbon-components-react'
+import { DropdownV2 } from 'carbon-components-react'
+import { Tooltip } from '@patternfly/react-core'
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -377,10 +379,15 @@ class ChannelControl extends React.Component {
               <div className="subscription label">
                 {msgs.get('combo.subscription')}{' '}
                 {this.getSubscriptionCount(displayChannels, currentChannel)}
-                <Tooltip triggerText="" iconName="info">
-                  <span className="showPagesTooltip">
-                    {msgs.get('subscription.page.count.info', locale)}
-                  </span>
+                <Tooltip
+                  isContentLeftAligned
+                  content={
+                    <span className="showPagesTooltip">
+                      {msgs.get('subscription.page.count.info', locale)}
+                    </span>
+                  }
+                >
+                  <OutlinedQuestionCircleIcon className="channel-controls-help-icon" />
                 </Tooltip>
               </div>
 
@@ -403,10 +410,15 @@ class ChannelControl extends React.Component {
               <div className="resourcePaging label">
                 {msgs.get('subscription.page.label')}
                 <div className="show-subscription-pages-icon">
-                  <Tooltip triggerText="" iconName="info">
-                    <span className="showPagesTooltip">
-                      {msgs.get('subscription.page.label.info', locale)}
-                    </span>
+                  <Tooltip
+                    isContentLeftAligned
+                    content={
+                      <span className="showPagesTooltip">
+                        {msgs.get('subscription.page.label.info', locale)}
+                      </span>
+                    }
+                  >
+                    <OutlinedQuestionCircleIcon className="channel-controls-help-icon" />
                   </Tooltip>
                 </div>
               </div>

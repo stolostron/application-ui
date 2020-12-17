@@ -566,11 +566,13 @@ const filterClusterNodes = (nodes, activeFilters) => {
 }
 
 export const processResourceStatus = (resourceStatuses, resourceStatus) => {
+  const orangeOrYellow =
+    resourceStatus === 'orange' || resourceStatus === 'yellow'
+
   return (
     (resourceStatuses.has('green') && resourceStatus === 'green') ||
     (resourceStatuses.has('yellow') && resourceStatus === 'yellow') ||
-    (resourceStatuses.has('orange') &&
-      (resourceStatus === 'orange' || resourceStatus === 'yellow')) ||
+    (resourceStatuses.has('orange') && orangeOrYellow) ||
     (resourceStatuses.has('red') && resourceStatus === 'red')
   )
 }

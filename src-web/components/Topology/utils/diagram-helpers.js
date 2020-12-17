@@ -1130,12 +1130,13 @@ export const setPodDeployStatus = (
 
     let addItemToDetails = false
     if (resourceStatuses.size > 0) {
+      const pendingOrWanrning =
+        statusStr === pendingStatus || statusStr === warningStatus
       if (
         (statusStr === checkmarkStatus &&
           activeFilterCodes.has(checkmarkCode)) ||
         (statusStr === warningStatus && activeFilterCodes.has(warningCode)) ||
-        ((statusStr === pendingStatus || statusStr === warningStatus) &&
-          activeFilterCodes.has(pendingCode)) ||
+        (pendingOrWanrning && activeFilterCodes.has(pendingCode)) ||
         (statusStr === failureStatus && activeFilterCodes.has(failureCode))
       ) {
         addItemToDetails = true

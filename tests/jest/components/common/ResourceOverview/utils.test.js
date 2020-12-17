@@ -13,7 +13,10 @@ import {
   getPodData,
   getAppOverviewCardsData
 } from "../../../../../src-web/components/common/ResourceOverview/utils";
-import { reduxStoreAppPipelineWithCEM } from "../../TestingData";
+import {
+  reduxStoreAppPipelineWithCEM,
+  topologyNoChannel
+} from "../../TestingData";
 
 const query_data1 = {
   name: "val",
@@ -309,18 +312,16 @@ describe("getAppOverviewCardsData", () => {
       subsList: [
         {
           name: "mortgage-app-subscription",
-          id: "default/mortgage-app-subscription//mortgage-ch/mortgage-channel",
           resourceType: "GitHub",
           resourcePath: "https://github.com/fxiang1/app-samples.git",
           gitBranch: "master",
           gitPath: "mortgage",
-          package: undefined,
-          packageFilterVersion: undefined,
+          package: "",
+          packageFilterVersion: "",
           timeWindowType: "active",
           timeWindowDays: ["Monday", "Tuesday", "Wednesday"],
           timeWindowTimezone: "America/Toronto",
-          timeWindowRanges: [{ end: "09:10PM", start: "8:00AM" }],
-          timeWindowMissingData: false
+          timeWindowRanges: [{ end: "09:10PM", start: "8:00AM" }]
         }
       ]
     };
@@ -333,7 +334,7 @@ describe("getAppOverviewCardsData", () => {
       '/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
       testHCMAppList,
-      reduxStoreAppPipelineWithCEM.topology,
+      topologyNoChannel,
       "mortgage-app",
       "default",
       targetLink
@@ -349,18 +350,16 @@ describe("getAppOverviewCardsData", () => {
       subsList: [
         {
           name: "mortgage-app-subscription",
-          id: "default/mortgage-app-subscription//mortgage-ch/mortgage-channel",
           resourceType: "",
           resourcePath: "",
-          gitBranch: undefined,
-          gitPath: undefined,
-          package: undefined,
-          packageFilterVersion: undefined,
+          gitBranch: "master",
+          gitPath: "mortgage",
+          package: "",
+          packageFilterVersion: "",
           timeWindowType: "active",
           timeWindowDays: ["Monday", "Tuesday", "Wednesday"],
           timeWindowTimezone: "America/Toronto",
-          timeWindowRanges: [{ end: "09:10PM", start: "8:00AM" }],
-          timeWindowMissingData: false
+          timeWindowRanges: [{ end: "09:10PM", start: "8:00AM" }]
         }
       ]
     };

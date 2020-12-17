@@ -219,7 +219,7 @@ const getSubCardData = (subData, node) => {
   let gitPath = ''
   let packageName = ''
   let packageFilterVersion = ''
-  let timeWindowType = 'none'
+  let timeWindowType = ''
   let timeWindowDays = ''
   let timeWindowTimezone = ''
   let timeWindowRanges = ''

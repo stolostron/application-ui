@@ -441,7 +441,11 @@ class ClusterDetailsContainer extends React.Component {
         : namespaceStyle
 
       clusterItems.push(
-        <div className="clusterDetailItem" style={parentDivStyle}>
+        <div
+          className="clusterDetailItem"
+          style={parentDivStyle}
+          key={clusterName}
+        >
           <ExpandableSection
             toggleText={clusterName}
             onToggle={() => this.handleExpandSectionToggle(toggleItemNum)}

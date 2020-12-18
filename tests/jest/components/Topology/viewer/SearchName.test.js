@@ -10,10 +10,6 @@ const testSearchName = "test";
 const locale = "en-US";
 
 describe("SearchName search", () => {
-  let btn = document.createElement("a");
-  btn.innerHTML = "<button className='bx--search-close' />";
-  btn.className = "bx--search-close";
-  document.body.appendChild(btn);
   const props = {
     searchName: testSearchName,
     onNameSearch: jest.fn(),
@@ -22,7 +18,8 @@ describe("SearchName search", () => {
 
   const searchInst = new Search(props);
   searchInst.setNameSearchRef(document);
-  searchInst.handleSearch({ target: { value: "test" } });
+  searchInst.handleSearch({ value: "test" });
+  searchInst.handleClear();
   it("render as expected", () => {
     const component = renderer.create(searchInst.render());
     expect(component.toJSON()).toMatchSnapshot();

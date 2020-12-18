@@ -16,18 +16,6 @@ const query_data1 = {
   dashboard:
     "localhost/grafana/dashboard/db/val-dashboard-via-federated-prometheus?namespace=default",
   created: "2020-01-30T15:47:53Z",
-  remoteSubscriptionStatusCount: {
-    Subscribed: 4,
-    Failed: 5,
-    null: 3
-  },
-  podStatusCount: {
-    Running: 4,
-    Error: 5,
-    ImagePullBackOff: 3,
-    ContainerCreating: 6,
-    Ready: 8
-  },
   clusterCount: 4,
   hubSubscriptions: [
     {
@@ -54,10 +42,7 @@ const query_data2 = {
   _uid: "local-cluster/e04141c7-4377-11ea-a84e-00000a100f99",
   dashboard:
     "localhost/grafana/dashboard/db/val-dashboard-via-federated-prometheus?namespace=default",
-  created: "2020-01-30T15:47:53Z",
-  remoteSubscriptionStatusCount: {
-    Subscribed: 4
-  }
+  created: "2020-01-30T15:47:53Z"
 };
 
 const result1 = {

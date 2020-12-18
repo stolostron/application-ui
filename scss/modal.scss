@@ -136,3 +136,48 @@
 .remove-app-modal-alert {
   padding-bottom: 10px;
 }
+
+.shared-resource-content {
+  display: inline-flex;
+  color: $color__blue-90;
+  line-height: 21px;
+  margin-top: 1.5rem;
+
+  svg {
+    fill: #e6ae3c;
+    width: 18px;
+    height: 18px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  p:first-of-type {
+    margin-bottom: 0.5rem;
+  }
+
+  div:first-of-type {
+    margin-right: 5px;
+  }
+}
+
+.sub-child-resource-content {
+  display: inline-flex;
+  color: $color__blue-90;
+  line-height: 21px;
+
+  svg {
+    fill: #e6ae3c;
+    width: 18px;
+    height: 18px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  div:first-of-type {
+    margin-right: 5px;
+  }
+}

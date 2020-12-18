@@ -78,24 +78,37 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     .blur();
   checkExistingUrls(gitUser, username, gitKey, token, url);
 
-  if (gitReconcileOption) {
-    cy.get(merge).click({ force: true });
-  }
   if (insecureSkipVerifyOption) {
     cy.get(insecureSkipVerify).click({ force: true });
   }
   // type in branch and path
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
-  cy
-    .get(gitBranch, { timeout: 50 * 1000 })
-    .type(branch, { timeout: 50 * 1000 })
-    .blur();
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitBranch, { timeout: 50 * 1000 }).click();
+    cy.contains(".bx--list-box__menu-item", branch).click();
+  } else {
+    cy
+      .get(gitBranch, { timeout: 50 * 1000 })
+      .type(branch, { timeout: 50 * 1000 })
+      .blur();
+  }
   cy.wait(1000);
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
-  cy
-    .get(gitPath, { timeout: 20 * 1000 })
-    .type(path, { timeout: 30 * 1000 })
-    .blur();
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitPath, { timeout: 20 * 1000 }).click();
+    cy.contains(".bx--list-box__menu-item", path).click();
+  } else {
+    cy
+      .get(gitPath, { timeout: 20 * 1000 })
+      .type(path, { timeout: 30 * 1000 })
+      .blur();
+  }
+  if (gitReconcileOption) {
+    cy
+      .get(merge)
+      .type(gitReconcileOption)
+      .blur();
+  }
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
@@ -327,8 +340,14 @@ export const validateTopology = (
   cy
     .get(".search-query-card-loading", { timeout: 50 * 1000 })
     .should("not.exist");
-  cy.get("#left-col").contains(name);
-  cy.get("#left-col").contains(`${name}-ns`);
+  cy
+    .get(".pf-l-grid__item")
+    .first()
+    .contains(name);
+  cy
+    .get(".pf-l-grid__item")
+    .first()
+    .contains(`${name}-ns`);
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
@@ -351,7 +370,8 @@ export const validateTopology = (
     .should("be.gte", successNumber);
 
   cy
-    .get(".pf-c-accordion", { timeout: 120 * 1000 })
+    .get(".pf-l-grid__item", { timeout: 120 * 1000 })
+    .last()
     .contains(appDetails.clusterData);
 
   validateSubscriptionDetails(name, data, type, opType);
@@ -375,6 +395,19 @@ export const validateTopology = (
 
   // cluster and placement
   for (const [key, value] of Object.entries(data.config)) {
+    //ignore as only one subscription exists
+    if (opType !== "delete") {
+      if (data.config.length > 1 || opType == "add") {
+        cy.get(".channelsCombo").within($channels => {
+          cy.get(".bx--list-box__field", { timeout: 20 * 1000 }).click();
+          //select all subscriptions
+          cy
+            .get(".bx--list-box__menu-item", { timeout: 20 * 1000 })
+            .first()
+            .click();
+        });
+      }
+    }
     if (opType == "delete" && key == 0) {
       //ignore first subscription on delete
     } else {
@@ -383,7 +416,7 @@ export const validateTopology = (
 
       const { local, online } =
         key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
-      cy.log(` key=${key}, type=${opType}`);
+      cy.log(`key=${key}, type=${opType}`);
       !local
         ? (validatePlacementNode(name, key),
           !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has

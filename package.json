@@ -48,7 +48,7 @@
   "author": "",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
-    "@open-cluster-management/ui-components": "^0.1.89",
+    "@open-cluster-management/ui-components": "^0.1.120",
     "@patternfly/react-core": "^4.75.2",
     "@patternfly/react-icons": "^4.7.4",
     "@patternfly/react-tokens": "^4.9.18",
@@ -146,7 +146,7 @@
     "svg-react-loader": "^0.4.6",
     "svg-sprite-loader": "^5.0.0",
     "svg.js": "^2.6.5",
-    "temptifly": "^0.1.9",
+    "temptifly": "^0.1.12",
     "watchr": "^4.0.1",
     "webpack-sources": "^1.1.0",
     "yaml": "^1.7.2",

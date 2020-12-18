@@ -12,7 +12,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import { Notification } from 'carbon-components-react'
+import { AcmAlert } from '@open-cluster-management/ui-components'
 import SearchName from './viewer/SearchName'
 import TypeFilterBar, { setActiveTypeFilters } from './viewer/TypeFilterBar'
 import ResourceFilterModule from './viewer/ResourceFilterModule'
@@ -84,10 +84,11 @@ class Topology extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    // Keep channel control visible if multiple channels exist
-    if (_.get(nextProps.channelControl, 'allChannels', []).length > 1) {
-      this.setState({ showChannelsControl: true })
-    }
+    // Keep channel control visible if multiple channels exist, or hide it otherwise
+    this.setState({
+      showChannelsControl:
+        _.get(nextProps.channelControl, 'allChannels', []).length > 1
+    })
 
     this.setState(prevState => {
       let { timestamp } = prevState
@@ -148,11 +149,10 @@ class Topology extends React.Component {
 
     if (isFailed) {
       return (
-        <Notification
-          title=""
+        <AcmAlert
           className="persistent"
-          subtitle={msgs.get('error.default.description', locale)}
-          kind="error"
+          title={msgs.get('error.default.description', locale)}
+          variant="danger"
         />
       )
     }

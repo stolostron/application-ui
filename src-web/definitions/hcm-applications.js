@@ -106,58 +106,7 @@ export default {
       modal: true,
       delete: true
     }
-  ],
-  detailKeys: {
-    title: 'application.details',
-    headerRows: ['type', 'detail'],
-    rows: [
-      {
-        cells: [
-          {
-            resourceKey: 'description.title.name',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'name'
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'description.title.namespace',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'namespace'
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'description.title.created',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'created',
-            transformFunction: getAge
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'description.title.labels',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'labels'
-          }
-        ]
-      }
-    ]
-  }
+  ]
 }
 
 export function createApplicationLink(item = {}, ...param) {

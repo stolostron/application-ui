@@ -21,7 +21,7 @@ import {
 import { fetchTopology } from '../../actions/topology'
 import { processResourceActionLink } from '../Topology/utils/diagram-helpers'
 import { DIAGRAM_QUERY_COOKIE } from '../../../lib/shared/constants'
-import { InlineNotification } from 'carbon-components-react'
+import { AcmAlert } from '@open-cluster-management/ui-components'
 import '../../../graphics/diagramIcons.svg'
 import {
   TOPOLOGY_SET_ACTIVE_FILTERS,
@@ -389,12 +389,11 @@ class ApplicationTopologyModule extends React.Component {
             <React.Fragment>{!isLoadError && renderTopology()}</React.Fragment>
           </div>
           {isLoadError && (
-            <InlineNotification
-              kind={'error'}
+            <AcmAlert
               title={msgs.get('error.load.resource', this.context.locale)}
-              iconDescription=""
               subtitle={msgs.get('error.load.topology', this.context.locale)}
-              onCloseButtonClick={this.handleTopologyErrorClosed}
+              variant="danger"
+              onClick={this.handleTopologyErrorClosed}
             />
           )}
         </React.Fragment>

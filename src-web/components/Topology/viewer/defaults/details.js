@@ -29,7 +29,7 @@ import msgs from '../../../../../nls/platform.properties'
 
 const resName = 'resource.name'
 
-export const getNodeDetails = (node, updatedNode) => {
+export const getNodeDetails = (node, updatedNode, activeFilters) => {
   const details = []
   if (node) {
     const { type, specs } = node
@@ -40,10 +40,17 @@ export const getNodeDetails = (node, updatedNode) => {
     details.push({
       type: 'spacer'
     })
-    details.push({
-      type: 'label',
-      labelKey: 'prop.details.section'
-    })
+    if (type !== 'cluster') {
+      details.push({
+        type: 'label',
+        labelKey: 'prop.details.section'
+      })
+    } else {
+      details.push({
+        type: 'label',
+        labelKey: 'prop.details.section.cluster'
+      })
+    }
     details.push({
       type: 'spacer'
     })
@@ -83,7 +90,7 @@ export const getNodeDetails = (node, updatedNode) => {
       break
 
     default:
-      addK8Details(node, updatedNode, details)
+      addK8Details(node, updatedNode, details, activeFilters)
       break
     }
 
@@ -102,7 +109,7 @@ export const getNodeDetails = (node, updatedNode) => {
   return details
 }
 
-function addK8Details(node, updatedNode, details) {
+function addK8Details(node, updatedNode, details, activeFilters) {
   const { clusterName, type, layout = {} } = node
   const { type: ltype } = layout
 
@@ -389,15 +396,15 @@ function addK8Details(node, updatedNode, details) {
 
   setApplicationDeployStatus(node, details)
   //subscriptions status
-  setSubscriptionDeployStatus(node, details)
+  setSubscriptionDeployStatus(node, details, activeFilters)
   //placement rule details
   setPlacementRuleDeployStatus(node, details)
 
   //show error if the resource doesn't produce pods and was not deployed on remote clusters
-  setResourceDeployStatus(node, details)
+  setResourceDeployStatus(node, details, activeFilters)
 
   // kube model details
-  setPodDeployStatus(node, updatedNode, details)
+  setPodDeployStatus(node, updatedNode, details, activeFilters)
 
   return details
 }

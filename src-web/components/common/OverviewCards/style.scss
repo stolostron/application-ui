@@ -9,83 +9,22 @@
 @import 'scss/variables';
 
 .overview-cards-container {
-  // Accordion header
-  #details-header {
-    height: 57px;
-    padding: 10px;
-    background-color: white;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  .pf-c-accordion__toggle.pf-m-expanded {
-    --pf-c-accordion__toggle--before--BackgroundColor: none;
-  }
-
-  // Accordion header title
-  .pf-c-accordion__toggle-text {
-    font-size: 16px;
-    font-weight: 600;
-    color: #151515 !important;
-    margin-left: 1rem;
-  }
-
-  // Accordion header arrow
-  .pf-c-accordion__toggle-icon {
-    margin-right: 1rem;
-  }
-
-  // App Overview details
-  .pf-c-accordion__expanded-content {
-    height: 170px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    color: #152935;
-  }
-
-  // Divide left and right sides
-  .pf-c-accordion__expanded-content-body {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    padding: 0;
-  }
-
-  .pf-c-accordion__expanded-content.pf-m-expanded {
-    --pf-c-accordion__expanded-content-body--before--BackgroundColor: none;
-  }
-
-  .details-col {
-    display: grid;
-    grid-template-rows: 40px 40px 40px;
-    padding: calc(9px + 1rem);
-  }
-
-  .add-right-border {
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  // The 3 rows of data for each side
-  .details-item {
-    padding: 10px 0;
-    font-size: 14px;
-  }
-
-  .details-item-title {
-    float: left;
-    font-weight: 600;
-
-    &.left-item {
-      width: 20%;
-    }
-
-    &.right-item {
-      width: 32%;
-    }
-  }
-
   .loading-skeleton-text {
     display: inline-block;
   }
 
+  // Cluster count
+  .cluster-count-link {
+    color: #0066cc;
+  }
+
   // Cluster resource status icons
+  .resource-status-help-icon {
+    fill: #0066cc;
+    margin-left: 4px;
+    cursor: pointer;
+  }
+
   .status-icon-container {
     display: inline-block;
     width: 40px;
@@ -125,13 +64,12 @@
 
   // Search resource link
   .details-item-link {
-    display: inline-block;
     color: #0066cc;
     text-decoration: none;
   }
 
   .details-item-link-icon {
-    margin: 0 10px;
+    margin-left: 6px;
     height: 13px;
   }
 

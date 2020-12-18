@@ -43,12 +43,6 @@ export const appNormalizedItems = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 1
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
@@ -67,12 +61,6 @@ export const appNormalizedItems = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/42d9ec27-52b9-11ea-bf05-00000a102d26",
@@ -90,8 +78,6 @@ export const appNormalizedItems = {
       namespace: "stock-trader",
       dashboard: null,
       clusterCount: { remoteCount: 0, localCount: 0 },
-      remoteSubscriptionStatusCount: {},
-      podStatusCount: {},
       hubSubscriptions: [],
       created: "2019-02-11T17:33:04Z",
       __typename: "Application"
@@ -102,13 +88,6 @@ export const appNormalizedItems = {
       namespace: "kube-system",
       dashboard: null,
       clusterCount: { remoteCount: 2, localCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Failed: 1,
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26",
@@ -124,11 +103,10 @@ export const appNormalizedItems = {
 };
 export const QueryApplicationList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
-  sortColumn: "name",
+  sortColumn: 1,
   mutateStatus: "DONE",
   deleteStatus: "DONE",
   deleteMsg: "app123",
@@ -140,14 +118,6 @@ export const QueryApplicationList = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1,
-        null: 3,
-        Failed: 6
-      },
-      podStatusCount: {
-        Running: 1
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
@@ -166,12 +136,6 @@ export const QueryApplicationList = {
       dashboard:
         "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
       clusterCount: { remoteCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26gbook",
@@ -189,8 +153,6 @@ export const QueryApplicationList = {
       namespace: "stock-trader",
       dashboard: null,
       clusterCount: { remoteCount: 0, localCount: 0 },
-      remoteSubscriptionStatusCount: {},
-      podStatusCount: {},
       hubSubscriptions: [],
       created: "2019-02-11T17:33:04Z",
       __typename: "Application"
@@ -201,13 +163,6 @@ export const QueryApplicationList = {
       namespace: "kube-system",
       dashboard: null,
       clusterCount: { remoteCount: 2, localCount: 1 },
-      remoteSubscriptionStatusCount: {
-        Failed: 1,
-        Subscribed: 1
-      },
-      podStatusCount: {
-        Running: 3
-      },
       hubSubscriptions: [
         {
           _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26gbook",
@@ -234,11 +189,10 @@ export const QueryApplicationList = {
 
 export const QuerySubscriptionList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
-  sortColumn: "name",
+  sortColumn: 1,
   mutateStatus: "DONE",
   deleteStatus: "DONE",
   deleteMsg: "app123",
@@ -308,11 +262,10 @@ export const QuerySubscriptionList = {
 
 export const QueryPlacementRuleList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
-  sortColumn: "name",
+  sortColumn: 1,
   mutateStatus: "DONE",
   deleteStatus: "DONE",
   deleteMsg: "app123",
@@ -366,11 +319,10 @@ export const QueryPlacementRuleList = {
 
 export const QueryChannelList = {
   status: "DONE",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
-  sortColumn: "name",
+  sortColumn: 1,
   mutateStatus: "DONE",
   deleteStatus: "DONE",
   deleteMsg: "app123",
@@ -437,11 +389,10 @@ export const QueryChannelList = {
 
 export const QueryApplicationList_INCEPTION = {
   status: "INCEPTION",
-  itemsPerPage: 20,
   page: 1,
   search: "aa",
   sortDirection: "asc",
-  sortColumn: "name",
+  sortColumn: 1,
   items: []
 };
 export const HCMChannelList = {
@@ -681,6 +632,7 @@ export const HCMApplicationList = {
               selfLink:
                 "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgage-app-subscription",
               status: "Failed",
+              timeWindow: "none",
               _clusterNamespace: "kcormier-cluster",
               _gitbranch: "master",
               _gitpath: "mortgage",
@@ -704,6 +656,9 @@ export const HCMApplicationList = {
               selfLink:
                 "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgage-app-subscription",
               status: "Propagated",
+              timeWindow: "active",
+              _gitbranch: "master",
+              _gitpath: "mortgage",
               _gitcommit: "0660bd66c02d09a4c8813d3ae2e711fc98b6426b",
               _hubClusterResource: "true",
               _rbac: "default_apps.open-cluster-management.io_subscriptions",
@@ -804,7 +759,6 @@ export const HCMApplicationList = {
       _uid: "local-cluster/dc9499ab-d23f-4dac-ba9d-9232218a383f"
     }
   ],
-  itemsPerPage: 20,
   page: 1,
   pendingActions: [],
   postErrorMsg: "",
@@ -1081,7 +1035,6 @@ export const HCMSubscriptionList = {
 
 export const HCMPlacementRuleList = {
   items: [],
-  itemsPerPage: 20,
   page: 1,
   search: "",
   sortDirection: "asc",
@@ -1092,11 +1045,391 @@ export const HCMPlacementRuleList = {
   forceReload: false
 };
 
-export const GlobalApplicationDataList = {
+export const topologyNoChannel = {
+  activeFilters: {
+    application: {
+      channel: "__ALL__/__ALL__//__ALL__/__ALL__",
+      name: "mortgage-app",
+      namespace: "default"
+    }
+  },
+  availableFilters: {
+    clusters: [],
+    labels: [],
+    namespaces: [],
+    types: []
+  },
+  detailsLoaded: true,
+  detailsReloading: false,
+  diagramFilters: [],
+  fetchFilters: {
+    application: {
+      channel: "__ALL__/__ALL__//__ALL__/__ALL__",
+      name: "mortgage-app",
+      namespace: "default"
+    }
+  },
+  links: [
+    {
+      from: { uid: "application--mortgage-app", __typename: "Resource" },
+      specs: { isDesign: true },
+      to: {
+        uid: "member--subscription--default--mortgage-app-subscription",
+        __typename: "Resource"
+      },
+      type: "",
+      __typename: "Relationship"
+    },
+    {
+      from: {
+        uid: "member--subscription--default--mortgage-app-subscription",
+        __typename: "Resource"
+      },
+      specs: { isDesign: true },
+      to: {
+        uid: "member--rules--default--mortgage-app-placement--0",
+        __typename: "Resource"
+      },
+      type: "uses",
+      __typename: "Relationship"
+    },
+    {
+      from: {
+        uid: "member--subscription--default--mortgage-app-subscription",
+        __typename: "Resource"
+      },
+      specs: { isDesign: true },
+      to: { uid: "member--clusters--fxiang", __typename: "Resource" },
+      type: "",
+      __typename: "Relationship"
+    },
+    {
+      from: { uid: "member--clusters--fxiang", __typename: "Resource" },
+      specs: null,
+      to: {
+        uid:
+          "member--member--deployable--member--clusters--fxia…rtgage-app-svc-service--service--mortgage-app-svc",
+        __typename: "Resource"
+      },
+      type: "",
+      __typename: "Relationship"
+    },
+    {
+      from: { uid: "member--clusters--fxiang", __typename: "Resource" },
+      specs: null,
+      to: {
+        uid:
+          "member--member--deployable--member--clusters--fxia…eploy-deployment--deployment--mortgage-app-deploy",
+        __typename: "Resource"
+      },
+      type: "",
+      __typename: "Relationship"
+    },
+    {
+      from: {
+        uid:
+          "member--member--deployable--member--clusters--fxia…eploy-deployment--deployment--mortgage-app-deploy",
+        __typename: "Resource"
+      },
+      specs: null,
+      to: {
+        uid:
+          "member--member--deployable--member--clusters--fxiang--replicaset--mortgage-app-deploy",
+        __typename: "Resource"
+      },
+      type: "",
+      __typename: "Relationship"
+    }
+  ],
+  loaded: true,
+  nodes: [
+    {
+      cluster: null,
+      clusterName: null,
+      id: "application--mortgage-app",
+      labels: null,
+      name: "mortgage-app",
+      namespace: "default",
+      specs: {
+        allChannels: [],
+        allClusters: ["val-cluster"],
+        allSubscriptions: [
+          {
+            kind: "Subscription",
+            metadata: {
+              name: "mortgage-app-subscription",
+              namespace: "default",
+              annotations: {
+                "apps.open-cluster-management.io/git-branch": "master",
+                "apps.open-cluster-management.io/git-path": "mortgage"
+              }
+            },
+            spec: {
+              channel: "mortgage-ch/mortgage-channel",
+              timewindow: {
+                hours: [{ end: "09:10PM", start: "8:00AM" }],
+                location: "America/Toronto",
+                daysofweek: ["Monday", "Tuesday", "Wednesday"],
+                windowtype: "active"
+              }
+            }
+          }
+        ],
+        activeChannel: "__ALL__/__ALL__//__ALL__/__ALL__",
+        channels: [
+          "default/mortgage-app-subscription//mortgage-ch/mortgage-channel"
+        ],
+        isDesign: true,
+        pulse: "green",
+        raw: {
+          apiVersion: "app.k8s.io/v1beta1",
+          kind: "Application",
+          metadata: {
+            creationTimestamp: "2018-08-13T19:23:00Z",
+            generation: 2,
+            name: "mortgage-app",
+            namespace: "default",
+            resourceVersion: "2349939",
+            selfLink:
+              "/apis/app.k8s.io/v1beta1/namespaces/default/applications/mortgage-app",
+            uid: "dc9499ab-d23f-4dac-ba9d-9232218a383f"
+          },
+          spec: {
+            componentKinds: [
+              {
+                group: "apps.open-cluster-management.io",
+                kind: "Subscription"
+              }
+            ],
+            descriptor: {},
+            selector: {
+              matchExpressions: [
+                {
+                  key: "app",
+                  operator: "In",
+                  values: ["mortgage-app-mortgage"]
+                }
+              ]
+            }
+          }
+        },
+        row: 0
+      },
+      topology: null,
+      type: "application",
+      uid: "application--mortgage-app",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id: "member--subscription--default--mortgage-app-subscription",
+      labels: null,
+      name: "mortgage-app-subscription",
+      namespace: "default",
+      specs: {
+        hasRules: true,
+        isDesign: true,
+        isPlaced: true,
+        pulse: "yellow",
+        raw: {
+          apiVersion: "apps.open-cluster-management.io/v1",
+          channels: [],
+          kind: "Subscription",
+          metadata: {
+            annotations: {
+              "apps.open-cluster-management.io/github-branch": "master",
+              "apps.open-cluster-management.io/github-path": "mortgage"
+            },
+            creationTimestamp: "2018-08-13T19:23:01Z",
+            generation: 2,
+            name: "mortgage-app-subscription"
+          },
+          spec: {
+            channel: "mortgage-ch/mortgage-channel",
+            timewindow: {
+              hours: [{ end: "09:10PM", start: "8:00AM" }],
+              location: "America/Toronto",
+              daysofweek: ["Monday", "Tuesday", "Wednesday"],
+              windowtype: "active"
+            }
+          },
+          status: {
+            lastUpdateTime: "2019-08-15T09:11:11Z",
+            phase: "Propagated"
+          }
+        },
+        row: 18
+      },
+      topology: null,
+      type: "subscription",
+      uid: "member--subscription--default--mortgage-app-subscription",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id: "member--rules--default--mortgage-app-placement--0",
+      labels: null,
+      name: "mortgage-app-placement",
+      namespace: "default",
+      specs: {
+        isDesign: true,
+        pulse: "green",
+        raw: {
+          apiVersion: "apps.open-cluster-management.io/v1",
+          kind: "PlacementRule"
+        },
+        row: 34
+      },
+      topology: null,
+      type: "placements",
+      uid: "member--rules--default--mortgage-app-placement--0",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id: "member--clusters--fxiang",
+      labels: null,
+      name: "fxiang",
+      namespace: "",
+      specs: {
+        cluster: {
+          allocatable: { cpu: "33", memory: "137847Mi" },
+          capacity: { cpu: "36", memory: "144591Mi" },
+          consoleURL:
+            "https://console-openshift-console.apps.fxiang.dev06.red-chesterfield.com",
+          metadata: {
+            creationTimestamp: "2019-08-13T18:17:34Z",
+            finalizers: Array(5),
+            generation: 1,
+            name: "fxiang"
+          },
+          rawCluster: {
+            apiVersion: "cluster.open-cluster-management.io/v1",
+            kind: "ManagedCluster"
+          },
+          rawStatus: {
+            apiVersion: "internal.open-cluster-management.io/v1beta1",
+            kind: "ManagedClusterInfo"
+          },
+          status: "ok"
+        },
+        clusterNames: ["fxiang"],
+        clusters: [
+          {
+            allocatable: { cpu: "33", memory: "137847Mi" },
+            capacity: { cpu: "36", memory: "144591Mi" },
+            consoleURL:
+              "https://console-openshift-console.apps.fxiang.dev06.red-chesterfield.com",
+            metadata: {
+              creationTimestamp: "2019-08-13T18:17:34Z",
+              finalizers: Array(5),
+              generation: 1,
+              name: "fxiang"
+            },
+            rawCluster: {
+              apiVersion: "cluster.open-cluster-management.io/v1",
+              kind: "ManagedCluster"
+            },
+            rawStatus: {
+              apiVersion: "internal.open-cluster-management.io/v1beta1",
+              kind: "ManagedClusterInfo"
+            },
+            status: "ok"
+          }
+        ],
+        pulse: "orange"
+      },
+      topology: null,
+      type: "cluster",
+      uid: "member--clusters--fxiang",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id:
+        "member--member--deployable--member--clusters--fxiang--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
+      labels: null,
+      name: "mortgage-app-svc",
+      namespace: "default",
+      specs: {
+        deployStatuses: [],
+        isDesign: false,
+        parent: {
+          parentId: "member--clusters--fxiang",
+          parentName: "fxiang",
+          parentType: "cluster"
+        },
+        pulse: "orange",
+        raw: { apiVersion: "v1", kind: "Service" },
+        row: 48
+      },
+      topology: null,
+      type: "service",
+      uid:
+        "member--member--deployable--member--clusters--fxiang--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id:
+        "member--member--deployable--member--clusters--fxiang--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+      labels: null,
+      name: "mortgage-app-deploy",
+      namespace: "default",
+      specs: {
+        deployStatuses: [],
+        isDesign: false,
+        parent: {
+          parentId: "member--clusters--fxiang",
+          parentName: "fxiang",
+          parentType: "cluster"
+        },
+        pulse: "orange",
+        raw: { apiVersion: "apps/v1", kind: "Deployment" },
+        row: 63
+      },
+      topology: null,
+      type: "deployment",
+      uid:
+        "member--member--deployable--member--clusters--fxiang--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+      __typename: "Resource"
+    },
+    {
+      cluster: null,
+      clusterName: null,
+      id:
+        "member--member--deployable--member--clusters--fxiang--replicaset--mortgage-app-deploy",
+      labels: null,
+      name: "mortgage-app-deploy",
+      namespace: "default",
+      specs: {
+        isDesign: false,
+        parent: {
+          parentId:
+            "member--member--deployable--member--clusters--fxia…eploy-deployment--deployment--mortgage-app-deploy",
+          parentName: "mortgage-app-deploy",
+          parentType: "deployment"
+        },
+        pulse: "orange",
+        raw: { kind: "replicaset" },
+        row: 93
+      },
+      topology: null,
+      type: "replicaset",
+      uid:
+        "member--member--deployable--member--clusters--fxiang--replicaset--mortgage-app-deploy",
+      __typename: "Resource"
+    }
+  ],
+  otherTypeFilters: [],
+  reloading: false,
   status: "DONE",
-  items: {
-    clusterCount: 2
-  }
+  willLoadDetails: false
 };
 
 export const topology = {
@@ -1205,6 +1538,42 @@ export const topology = {
       name: "mortgage-app",
       namespace: "default",
       specs: {
+        allClusters: ["aa"],
+        allChannels: [
+          {
+            kind: "Channel",
+            metadata: {
+              name: "mortgage-channel",
+              namespace: "mortgage-ch"
+            },
+            spec: {
+              pathname: "https://github.com/fxiang1/app-samples.git",
+              type: "GitHub"
+            }
+          }
+        ],
+        allSubscriptions: [
+          {
+            kind: "Subscription",
+            metadata: {
+              name: "mortgage-app-subscription",
+              namespace: "default",
+              annotations: {
+                "apps.open-cluster-management.io/git-branch": "master",
+                "apps.open-cluster-management.io/git-path": "mortgage"
+              }
+            },
+            spec: {
+              channel: "mortgage-ch/mortgage-channel",
+              timewindow: {
+                hours: [{ end: "09:10PM", start: "8:00AM" }],
+                location: "America/Toronto",
+                daysofweek: ["Monday", "Tuesday", "Wednesday"],
+                windowtype: "active"
+              }
+            }
+          }
+        ],
         activeChannel: "__ALL__/__ALL__//__ALL__/__ALL__",
         channels: [
           "default/mortgage-app-subscription//mortgage-ch/mortgage-channel"
@@ -1275,7 +1644,15 @@ export const topology = {
             generation: 2,
             name: "mortgage-app-subscription"
           },
-          spec: { channel: "mortgage-ch/mortgage-channel" },
+          spec: {
+            channel: "mortgage-ch/mortgage-channel",
+            timewindow: {
+              hours: [{ end: "09:10PM", start: "8:00AM" }],
+              location: "America/Toronto",
+              daysofweek: ["Monday", "Tuesday", "Wednesday"],
+              windowtype: "active"
+            }
+          },
           status: {
             lastUpdateTime: "2019-08-15T09:11:11Z",
             phase: "Propagated"
@@ -1651,7 +2028,6 @@ export const reduxStoreAppPipeline = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverview
 };
 
@@ -1669,7 +2045,6 @@ export const reduxStoreAppPipelineWithCEM = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
   topology: topology,
   role: {
@@ -1692,7 +2067,6 @@ export const reduxStoreAppPipelineWithCEM_Inception = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
   role: {
     role: "ClusterAdministrator"
@@ -1715,7 +2089,6 @@ export const reduxStoreAllAppsPipeline = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverview
 };
 
@@ -1727,8 +2100,7 @@ export const reduxStoreAllAppsPipelineNoChannels = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelListEmpty,
   HCMSubscriptionList: HCMSubscriptionList,
-  HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList
+  HCMPlacementRuleList: HCMPlacementRuleList
 };
 
 export const reduxStoreAppPipelineNoChannels = {
@@ -1739,8 +2111,7 @@ export const reduxStoreAppPipelineNoChannels = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelListEmpty,
   HCMSubscriptionList: HCMSubscriptionList,
-  HCMPlacementRuleList: HCMPlacementRuleList,
-  GlobalApplicationDataList: GlobalApplicationDataList
+  HCMPlacementRuleList: HCMPlacementRuleList
 };
 
 export const staticResourceData = {
@@ -1783,57 +2154,7 @@ export const staticResourceData = {
     tableActions: [
       "table.actions.applications.edit",
       "table.actions.applications.remove"
-    ],
-    detailKeys: {
-      title: "application.details",
-      headerRows: ["type", "detail"],
-      rows: [
-        {
-          cells: [
-            {
-              resourceKey: "description.title.name",
-              type: "i18n"
-            },
-            {
-              resourceKey: "name"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.namespace",
-              type: "i18n"
-            },
-            {
-              resourceKey: "namespace"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.created",
-              type: "i18n"
-            },
-            {
-              resourceKey: "created"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.labels",
-              type: "i18n"
-            },
-            {
-              resourceKey: "label"
-            }
-          ]
-        }
-      ]
-    }
+    ]
   }
 };
 
@@ -1877,55 +2198,5 @@ export const staticResourceDataApp = {
   tableActions: [
     "table.actions.applications.edit",
     "table.actions.applications.remove"
-  ],
-  detailKeys: {
-    title: "application.details",
-    headerRows: ["type", "detail"],
-    rows: [
-      {
-        cells: [
-          {
-            resourceKey: "description.title.name",
-            type: "i18n"
-          },
-          {
-            resourceKey: "name"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.namespace",
-            type: "i18n"
-          },
-          {
-            resourceKey: "namespace"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.created",
-            type: "i18n"
-          },
-          {
-            resourceKey: "created"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.labels",
-            type: "i18n"
-          },
-          {
-            resourceKey: "label"
-          }
-        ]
-      }
-    ]
-  }
+  ]
 };

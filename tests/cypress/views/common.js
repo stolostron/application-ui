@@ -413,12 +413,16 @@ export const verifyApplicationData = (name, data, opType) => {
           if (data.type == "git") {
             cy.log(`Verify Git reconcile option for ${name}`);
             item.gitReconcileOption &&
-              cy.get(reconcileKey, { timeout: 20 * 1000 }).should("be.checked");
+              cy
+                .get(reconcileKey)
+                .invoke("val")
+                .should("eq", item.gitReconcileOption);
 
             !item.gitReconcileOption &&
               cy
-                .get(reconcileKey, { timeout: 20 * 1000 })
-                .and("not.be.checked");
+                .get(reconcileKey)
+                .invoke("val")
+                .should("eq", "merge"); //default is merge
           }
 
           const { deployment } = item;
@@ -547,7 +551,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
 
         //get repository popup info
         cy
-          .get(".add-right-border")
+          .get(".add-right-border", { timeout: 20 * 1000 })
           .eq(1)
           .within($repo => {
             cy
@@ -608,8 +612,7 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
       cy
         .get(".timeWindow-labels-popover-content", { timeout: 20 * 1000 })
         .invoke("text")
-        .should("include", timeWindowInfo.date)
-        .and("include", timeWindowInfo.hours);
+        .should("include", "Edit time window");
       cy
         .get(".subs-icon")
         .first()
@@ -703,18 +706,20 @@ export const testInvalidApplicationInput = () => {
 
   cy
     .get("#githubBranch", { timeout: 20 * 1000 })
+    .trigger("mouseover")
     .type(invalidValue)
     .blur();
   cy.get("[data-invalid=true]").should("exist");
   cy.wait(2000);
+
   cy
     .get("#githubBranch", { timeout: 20 * 1000 })
-    .click()
-    .clear()
+    .trigger("mouseover")
     .type(validValue)
     .blur();
   cy.get("[data-invalid=true]").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
+  cy.wait(2000);
 
   cy.log("Test invalid HELM url");
   cy

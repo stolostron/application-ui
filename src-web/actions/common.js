@@ -148,36 +148,6 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
   }
 }
 
-export const fetchGlobalAppsData = resourceType => {
-  return dispatch => {
-    const resourceQuery = { list: 'GlobalApplicationsData' }
-
-    apolloClient
-      .get(resourceQuery)
-      .then(result => {
-        if (result.data && result.data.globalAppData) {
-          return dispatch(
-            receiveResourceSuccess(
-              { items: result.data.globalAppData },
-              resourceType
-            )
-          )
-        }
-        if (result.error) {
-          return dispatch(receiveResourceError(result.error, resourceType))
-        }
-        if (result.errors) {
-          return dispatch(receiveResourceError(result.errors[0], resourceType))
-        }
-        return dispatch(receiveResourceError('invalid', resourceType))
-      })
-      .catch(error => {
-        // catch graph connection error
-        return dispatch(receiveResourceError(error, resourceType))
-      })
-  }
-}
-
 const getResourceQuery = resourceType => {
   let resourceQuery, dataKey
   switch (resourceType.name) {
@@ -287,8 +257,24 @@ export const fetchResources = resourceType => {
   }
 }
 
-export const fetchResource = (resourceType, namespace, name) => {
-  const query = getQueryStringForResource(resourceType.name, name, namespace)
+export const fetchResource = (resourceType, namespace, name, querySettings) => {
+  let query = getQueryStringForResource(resourceType.name, name, namespace)
+  if (querySettings) {
+    //query asking for a subset of related kinds and possibly for one subscription only
+    if (querySettings.subscription) {
+      //get related resources only for the selected subscription
+      query = getQueryStringForResource(
+        RESOURCE_TYPES.HCM_SUBSCRIPTIONS.name,
+        querySettings.subscription,
+        namespace
+      )
+      //ask only for these type of resources
+      query.relatedKinds = querySettings.relatedKinds
+    } else {
+      //get related resources for the application, but only this subset
+      query.relatedKinds = querySettings.relatedKinds
+    }
+  }
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient

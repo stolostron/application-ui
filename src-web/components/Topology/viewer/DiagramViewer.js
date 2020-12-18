@@ -64,7 +64,17 @@ class DiagramViewer extends React.Component {
       nodes: _.uniqBy(props.nodes, 'uid'),
       hiddenLinks: new Set(),
       selectedNodeId: props.selectedNode ? props.selectedNode.uid : '',
-      showDetailsView: null
+      showDetailsView: null,
+      clusterDetailsContainerData: {
+        page: 1,
+        startIdx: 0,
+        clusterSearchToggle: false,
+        isSelectOpen: false,
+        expandSectionToggleMap: new Set(),
+        clusterID: undefined,
+        selected: undefined,
+        selectedClusterList: []
+      }
     }
     if (props.setViewer) {
       props.setViewer(this)
@@ -87,6 +97,9 @@ class DiagramViewer extends React.Component {
     this.isDragging = false
     this.lastRefreshing = true
     this.detailsViewUpdate = false
+    this.handleClusterDetailsContainerUpdate = this.handleClusterDetailsContainerUpdate.bind(
+      this
+    )
   }
 
   componentDidMount() {
@@ -245,14 +258,24 @@ class DiagramViewer extends React.Component {
       showChannelsControl,
       showLegendView,
       handleLegendClose,
-      nodes
+      nodes,
+      activeFilters
     } = this.props
 
-    const { selectedNodeId, showDetailsView } = this.state
+    const {
+      selectedNodeId,
+      showDetailsView,
+      clusterDetailsContainerData
+    } = this.state
     const currentNode = nodes.find(n => n.uid === selectedNodeId) || {}
     const { layout = {} } = currentNode
     const selectedResourceType = layout.type || currentNode.type
     const validNodeSelected = selectedResourceType && showDetailsView
+    const clusterDetailsContainerControl = {
+      clusterDetailsContainerData,
+      handleClusterDetailsContainerUpdate: this
+        .handleClusterDetailsContainerUpdate
+    }
     return (
       <div className="diagramViewerDiagram" ref={this.setContainerRef}>
         {title && <div className="diagramTitle">{title}</div>}
@@ -301,6 +324,8 @@ class DiagramViewer extends React.Component {
             getViewContainer={this.getViewContainer}
             processActionLink={processActionLink}
             nodes={nodes}
+            clusterDetailsContainerControl={clusterDetailsContainerControl}
+            activeFilters={activeFilters}
           />
         )}
         {showLegendView && (
@@ -547,6 +572,28 @@ class DiagramViewer extends React.Component {
         .selectAll('*')
         .remove()
     }
+  };
+
+  handleClusterDetailsContainerUpdate = (
+    page,
+    startIdx,
+    clusterSearchToggle,
+    expandSectionToggleMap,
+    clusterID,
+    selected,
+    selectedClusterList
+  ) => {
+    this.setState({
+      clusterDetailsContainerData: {
+        page: page,
+        startIdx: startIdx,
+        clusterSearchToggle: clusterSearchToggle,
+        expandSectionToggleMap: expandSectionToggleMap,
+        clusterID: clusterID,
+        selected: selected,
+        selectedClusterList: selectedClusterList
+      }
+    })
   };
 }
 

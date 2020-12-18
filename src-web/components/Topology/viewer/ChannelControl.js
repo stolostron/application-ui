@@ -12,7 +12,9 @@
 import React from 'react'
 import R from 'ramda'
 import PropTypes from 'prop-types'
-import { DropdownV2, Tooltip } from 'carbon-components-react'
+import { DropdownV2 } from 'carbon-components-react'
+import { Tooltip } from '@patternfly/react-core'
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -88,19 +90,14 @@ class ChannelControl extends React.Component {
     this.changeSubscriptionChannels(changeToChannel)
   }
 
-  handlePageChanged = e => {
-    const selectedValue = e.target.value
-    this.selectChannelByNumber(selectedValue)
-  };
-
   getSelectedIndex = (activeChannel, allChannels) => {
     let selectedChannelIndex = 1
-    if (
-      activeChannel &&
-      allChannels &&
-      R.contains(activeChannel, allChannels)
-    ) {
-      selectedChannelIndex = allChannels.indexOf(activeChannel) + 1
+    if (activeChannel && allChannels) {
+      selectedChannelIndex =
+        allChannels.findIndex(({ chnl }) => chnl === activeChannel) + 1
+      if (selectedChannelIndex === 0) {
+        selectedChannelIndex = 1 //if not found select first one
+      }
     }
 
     return selectedChannelIndex
@@ -126,8 +123,17 @@ class ChannelControl extends React.Component {
     return channelMap
   };
 
+  getChannelAllIndex = displayChannels => {
+    // find the index for all susbcriptions
+    return displayChannels.findIndex(
+      ({ chn }) => chn === '__ALL__/__ALL__//__ALL__/__ALL__'
+    )
+  };
+
   getDisplayedChannels = (channelMap, activeChannel) => {
+    // construct display channels and the selected channel index
     const displayChannels = []
+    let mainSubscriptionName //name as showing in the combo; pages from the same subscription share the same main name
 
     Object.values(channelMap).forEach(({ chnl, splitChn, subchannels }) => {
       const hasSubchannels = subchannels.length > 0
@@ -142,15 +148,28 @@ class ChannelControl extends React.Component {
         hasSubchannels,
         subchannels
       })
+      if (
+        chnl === activeChannel ||
+        (hasSubchannels &&
+          subchannels.findIndex(
+            ({ chnl: subchannel }) => subchannel === activeChannel
+          ) !== -1)
+      ) {
+        mainSubscriptionName = channelLabel
+      }
     })
+
     let selectedIdx =
-      displayChannels.length === 1
+      displayChannels.length === 1 || !mainSubscriptionName
         ? 0
-        : displayChannels.findIndex(({ chn }) => chn === activeChannel)
+        : displayChannels.findIndex(
+          ({ label }) => label === mainSubscriptionName
+        )
     if (selectedIdx < 0) {
       selectedIdx = displayChannels.findIndex(({ chn }) => !!chn)
     }
-
+    //displayChannels = all subscriptions showing in the combo, with paging information(subChannels)
+    //selectedIdx = index of the channel (within subChannels list) showing in the topology
     return [displayChannels, selectedIdx]
   };
 
@@ -165,11 +184,15 @@ class ChannelControl extends React.Component {
     const channelsData = this.getDisplayedChannels(channelMap, activeChannel)
     const displayChannels = channelsData[0]
     const selectedIdx = channelsData[1]
+    let currentChannel = null
 
-    // Set current channel on page load
+    // Set default current channel on page load
+    if (!activeChannel) {
+      currentChannel = displayChannels[selectedIdx + 1]
+    }
+
     this.setState({
-      currentChannel: displayChannels[selectedIdx],
-      channelMap: channelMap
+      currentChannel: currentChannel || displayChannels[selectedIdx]
     })
   };
 
@@ -179,79 +202,119 @@ class ChannelControl extends React.Component {
     return channelSplit.length > 0 ? channelSplit[0] : ''
   };
 
-  handlePageClick = e => {
-    const allChannels = R.pathOr([], ['channelControl', 'allChannels'])(
-      this.props
-    )
-    const activeChannel = R.pathOr(null, ['channelControl', 'activeChannel'])(
-      this.props
-    )
-    const selectedChannelIndex = this.getSelectedIndex(
-      activeChannel,
-      allChannels
-    )
+  getSubscriptionCount = (displayChannels, currentChannel) => {
+    // count subscription amount and renders corresponding message
+    let subscriptionShowInfo
+    const channelsLength = displayChannels.length
+    const channelAllIndex = this.getChannelAllIndex(displayChannels)
+    if (channelsLength !== -1) {
+      subscriptionShowInfo =
+        currentChannel.chn === '__ALL__/__ALL__//__ALL__/__ALL__'
+          ? ''
+          : msgs.get('subscription.page.count.nb', [
+            channelsLength > 1
+              ? channelAllIndex !== -1 ? channelsLength - 1 : channelsLength
+              : 1
+          ])
+    }
+    return subscriptionShowInfo
+  };
 
+  //for paged subscriptions give the selected subscription current page number
+  getSelectedSubscriptionPage = channelControl => {
+    const { allChannels } = channelControl
+    let { activeChannel } = channelControl
+    const { fetchChannel } = this.state
+    activeChannel = fetchChannel || activeChannel
+
+    const channelMap = this.getSubChannels(allChannels)
+
+    // determine displayed subscriptions ( returns all subscriptions and the index for the selected subscription)
+    const subscriptionsData = this.getDisplayedChannels(
+      channelMap,
+      activeChannel
+    )
+    const displayChannels = subscriptionsData[0]
+    const selectedIdx = subscriptionsData[1]
+
+    const selectedSubscription =
+      displayChannels.length > selectedIdx
+        ? displayChannels[selectedIdx]
+        : null
+
+    let selectedPageForCurrentSubs = -1
+    selectedSubscription &&
+      selectedSubscription.subchannels.forEach(item => {
+        if (_.get(item, 'chnl', '') === activeChannel) {
+          selectedPageForCurrentSubs = selectedSubscription.subchannels.indexOf(
+            item
+          )
+        }
+      })
+
+    return { selectedSubscription, selectedPageForCurrentSubs }
+  };
+
+  handlePageClick = e => {
+    const { channelControl = {} } = this.props
+    const {
+      selectedSubscription,
+      selectedPageForCurrentSubs
+    } = this.getSelectedSubscriptionPage(channelControl)
+
+    if (!selectedSubscription) {
+      //subscription not found
+      return
+    }
+    let newPageSelection = null
     switch (e.target.id) {
     case 'p1': {
-      //move to the first channel
-      if (selectedChannelIndex !== 1) {
-        this.selectChannelByNumber(1)
+      //move to the first page
+      if (selectedSubscription.subchannels.length > 0) {
+        newPageSelection = selectedSubscription.subchannels[0]
       }
       break
     }
     case 'p2': {
-      //move one channel down
-      if (selectedChannelIndex > 0) {
-        this.selectChannelByNumber(selectedChannelIndex - 1)
+      //move one page down
+      if (
+        selectedSubscription.subchannels.length > 0 &&
+          selectedPageForCurrentSubs !== 0
+      ) {
+        newPageSelection =
+            selectedSubscription.subchannels[selectedPageForCurrentSubs - 1]
       }
       break
     }
     case 'p3': {
-      //move one channel up
-      const currentSubscriptionP3 = this.getChannelSubscription(
-        allChannels[selectedChannelIndex - 1]
-      )
-      const nextSubscription = this.getChannelSubscription(
-        allChannels[selectedChannelIndex]
-      )
+      //move one page up
       if (
-        selectedChannelIndex < allChannels.length &&
-          currentSubscriptionP3 === nextSubscription
+        selectedSubscription.subchannels.length > selectedPageForCurrentSubs
       ) {
-        this.selectChannelByNumber(selectedChannelIndex + 1)
+        newPageSelection =
+            selectedSubscription.subchannels[selectedPageForCurrentSubs + 1]
       }
-
       break
     }
     case 'p4': {
-      //up to the last channel
-      const currentSubscriptionP4 = this.getChannelSubscription(
-        allChannels[selectedChannelIndex - 1]
-      )
-      const { channelMap } = this.state
-      const channelKeys = Object.keys(channelMap)
-      let currentChannelMap = {}
-      for (let i = 0; i < channelKeys.length; i++) {
-        const channelSubscription = this.getChannelSubscription(
-          channelKeys[i]
-        )
-        if (currentSubscriptionP4 === channelSubscription) {
-          currentChannelMap = channelMap[channelKeys[i]]
-          break
-        }
-      }
-      //this.selectChannelByNumber(allChannels.length)
-      if (selectedChannelIndex !== currentChannelMap.subchannels.length) {
-        this.changeSubscriptionChannels(
-          currentChannelMap.subchannels[
-            currentChannelMap.subchannels.length - 1
-          ].chnl
-        )
+      //up to the last page
+      if (selectedSubscription.subchannels.length > 0) {
+        newPageSelection =
+            selectedSubscription.subchannels[
+              selectedSubscription.subchannels.length - 1
+            ]
       }
       break
     }
     default:
       break
+    }
+
+    if (newPageSelection) {
+      //update state information on current channel
+      this.setState({ currentChannel: newPageSelection })
+      //update selected channel
+      this.changeSubscriptionChannels(newPageSelection.chnl)
     }
   };
 
@@ -263,8 +326,8 @@ class ChannelControl extends React.Component {
     if (allChannels) {
       // Initialize channel control variables for topology refresh state
       let showMainChannel = true
-      let hasSubchannelsList = false
-      let channelsLength = 0
+      let selectedSubscriptionIsPaged = false //true if selected subscription has paged resources
+      let selectedSubscriptionPages = 0
       let selectedChannelIndex = 0
       let displayChannels = []
       let isRefreshing = true
@@ -292,15 +355,18 @@ class ChannelControl extends React.Component {
         displayChannels = channelsData[0]
         const selectedIdx = channelsData[1]
 
-        hasSubchannelsList = displayChannels[selectedIdx].hasSubchannels
-        channelsLength = hasSubchannelsList
+        selectedSubscriptionIsPaged =
+          displayChannels[selectedIdx].hasSubchannels
+        selectedSubscriptionPages = selectedSubscriptionIsPaged
           ? displayChannels[selectedIdx].subchannels.length
           : 0
 
-        selectedChannelIndex = this.getSelectedIndex(
-          activeChannel,
-          allChannels
-        )
+        selectedChannelIndex = selectedSubscriptionIsPaged
+          ? this.getSelectedIndex(
+            activeChannel,
+            displayChannels[selectedIdx].subchannels
+          )
+          : 0
 
         isRefreshing = false
       }
@@ -311,7 +377,18 @@ class ChannelControl extends React.Component {
           {showMainChannel && (
             <div className="channels">
               <div className="subscription label">
-                {msgs.get('combo.subscription')}
+                {msgs.get('combo.subscription')}{' '}
+                {this.getSubscriptionCount(displayChannels, currentChannel)}
+                <Tooltip
+                  isContentLeftAligned
+                  content={
+                    <span className="showPagesTooltip">
+                      {msgs.get('subscription.page.count.info', locale)}
+                    </span>
+                  }
+                >
+                  <OutlinedQuestionCircleIcon className="channel-controls-help-icon" />
+                </Tooltip>
               </div>
 
               <div className="channelsCombo">
@@ -328,15 +405,20 @@ class ChannelControl extends React.Component {
               </div>
             </div>
           )}
-          {hasSubchannelsList && (
+          {selectedSubscriptionIsPaged && (
             <div className="pagination">
               <div className="resourcePaging label">
                 {msgs.get('subscription.page.label')}
                 <div className="show-subscription-pages-icon">
-                  <Tooltip triggerText="" iconName="info">
-                    <span className="showPagesTooltip">
-                      {msgs.get('subscription.page.label.info', locale)}
-                    </span>
+                  <Tooltip
+                    isContentLeftAligned
+                    content={
+                      <span className="showPagesTooltip">
+                        {msgs.get('subscription.page.label.info', locale)}
+                      </span>
+                    }
+                  >
+                    <OutlinedQuestionCircleIcon className="channel-controls-help-icon" />
                   </Tooltip>
                 </div>
               </div>
@@ -364,17 +446,19 @@ class ChannelControl extends React.Component {
                 <input
                   className="label pageInput"
                   id="valuePage"
-                  onChange={this.handlePageChanged}
+                  onChange={this.handlePageClick}
                   onKeyPress={this.handlePageClick}
                   aria-label="Current page"
                   type="number"
                   min="1"
-                  max="{channelsLength}"
+                  max="{selectedSubscriptionPages}"
                   value={selectedChannelIndex}
                   tabIndex="0"
                 />
                 <span className="label pageLabel">
-                  {msgs.get('subscription.page.nb', [channelsLength])}
+                  {msgs.get('subscription.page.nb', [
+                    selectedSubscriptionPages
+                  ])}
                 </span>
                 <span
                   id="p3"

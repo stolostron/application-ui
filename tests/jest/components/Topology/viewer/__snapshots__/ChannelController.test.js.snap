@@ -40,6 +40,25 @@ ShallowWrapper {
             className="subscription label"
           >
             Subscription
+             
+            (1 of {0})
+            <Tooltip
+              content={
+                <span
+                  className="showPagesTooltip"
+                >
+                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                </span>
+              }
+              isContentLeftAligned={true}
+            >
+              <OutlinedQuestionCircleIcon
+                className="channel-controls-help-icon"
+                color="currentColor"
+                noVerticalAlign={false}
+                size="sm"
+              />
+            </Tooltip>
           </div>
           <div
             className="channelsCombo"
@@ -116,6 +135,25 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (1 of {0})
+              <Tooltip
+                content={
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                  </span>
+                }
+                isContentLeftAligned={true}
+              >
+                <OutlinedQuestionCircleIcon
+                  className="channel-controls-help-icon"
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                />
+              </Tooltip>
             </div>,
             <div
               className="channelsCombo"
@@ -185,11 +223,71 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Subscription",
+              "children": Array [
+                "Subscription",
+                " ",
+                "(1 of {0})",
+                <Tooltip
+                  content={
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                    </span>
+                  }
+                  isContentLeftAligned={true}
+                >
+                  <OutlinedQuestionCircleIcon
+                    className="channel-controls-help-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                  />
+                </Tooltip>,
+              ],
               "className": "subscription label",
             },
             "ref": null,
-            "rendered": "Subscription",
+            "rendered": Array [
+              "Subscription",
+              " ",
+              "(1 of {0})",
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": <OutlinedQuestionCircleIcon
+                    className="channel-controls-help-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                  />,
+                  "content": <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                  </span>,
+                  "isContentLeftAligned": true,
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "className": "channel-controls-help-icon",
+                    "color": "currentColor",
+                    "noVerticalAlign": false,
+                    "size": "sm",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+            ],
             "type": "div",
           },
           Object {
@@ -337,6 +435,25 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (1 of {0})
+              <Tooltip
+                content={
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                  </span>
+                }
+                isContentLeftAligned={true}
+              >
+                <OutlinedQuestionCircleIcon
+                  className="channel-controls-help-icon"
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                />
+              </Tooltip>
             </div>
             <div
               className="channelsCombo"
@@ -413,6 +530,25 @@ ShallowWrapper {
                 className="subscription label"
               >
                 Subscription
+                 
+                (1 of {0})
+                <Tooltip
+                  content={
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                    </span>
+                  }
+                  isContentLeftAligned={true}
+                >
+                  <OutlinedQuestionCircleIcon
+                    className="channel-controls-help-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                  />
+                </Tooltip>
               </div>,
               <div
                 className="channelsCombo"
@@ -482,11 +618,71 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Subscription",
+                "children": Array [
+                  "Subscription",
+                  " ",
+                  "(1 of {0})",
+                  <Tooltip
+                    content={
+                      <span
+                        className="showPagesTooltip"
+                      >
+                        Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                      </span>
+                    }
+                    isContentLeftAligned={true}
+                  >
+                    <OutlinedQuestionCircleIcon
+                      className="channel-controls-help-icon"
+                      color="currentColor"
+                      noVerticalAlign={false}
+                      size="sm"
+                    />
+                  </Tooltip>,
+                ],
                 "className": "subscription label",
               },
               "ref": null,
-              "rendered": "Subscription",
+              "rendered": Array [
+                "Subscription",
+                " ",
+                "(1 of {0})",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <OutlinedQuestionCircleIcon
+                      className="channel-controls-help-icon"
+                      color="currentColor"
+                      noVerticalAlign={false}
+                      size="sm"
+                    />,
+                    "content": <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                    </span>,
+                    "isContentLeftAligned": true,
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "className": "channel-controls-help-icon",
+                      "color": "currentColor",
+                      "noVerticalAlign": false,
+                      "size": "sm",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+              ],
               "type": "div",
             },
             Object {
@@ -691,6 +887,25 @@ ShallowWrapper {
             className="subscription label"
           >
             Subscription
+             
+            (1 of {0})
+            <Tooltip
+              content={
+                <span
+                  className="showPagesTooltip"
+                >
+                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                </span>
+              }
+              isContentLeftAligned={true}
+            >
+              <OutlinedQuestionCircleIcon
+                className="channel-controls-help-icon"
+                color="currentColor"
+                noVerticalAlign={false}
+                size="sm"
+              />
+            </Tooltip>
           </div>
           <div
             className="channelsCombo"
@@ -754,20 +969,21 @@ ShallowWrapper {
               className="show-subscription-pages-icon"
             >
               <Tooltip
-                direction="bottom"
-                iconDescription="tooltip"
-                iconName="info"
-                iconTitle=""
-                menuOffset={[Function]}
-                open={false}
-                showIcon={true}
-                triggerText=""
+                content={
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Use the navigation to view the resources that are deployed by the selected subscription.
+                  </span>
+                }
+                isContentLeftAligned={true}
               >
-                <span
-                  className="showPagesTooltip"
-                >
-                  Use the navigation to view the resources that are deployed by the selected subscription.
-                </span>
+                <OutlinedQuestionCircleIcon
+                  className="channel-controls-help-icon"
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                />
               </Tooltip>
             </div>
           </div>
@@ -798,7 +1014,7 @@ ShallowWrapper {
               aria-label="Current page"
               className="label pageInput"
               id="valuePage"
-              max="{channelsLength}"
+              max="{selectedSubscriptionPages}"
               min="1"
               onChange={[Function]}
               onKeyPress={[Function]}
@@ -848,6 +1064,25 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (1 of {0})
+              <Tooltip
+                content={
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                  </span>
+                }
+                isContentLeftAligned={true}
+              >
+                <OutlinedQuestionCircleIcon
+                  className="channel-controls-help-icon"
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                />
+              </Tooltip>
             </div>,
             <div
               className="channelsCombo"
@@ -909,11 +1144,71 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Subscription",
+              "children": Array [
+                "Subscription",
+                " ",
+                "(1 of {0})",
+                <Tooltip
+                  content={
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                    </span>
+                  }
+                  isContentLeftAligned={true}
+                >
+                  <OutlinedQuestionCircleIcon
+                    className="channel-controls-help-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                  />
+                </Tooltip>,
+              ],
               "className": "subscription label",
             },
             "ref": null,
-            "rendered": "Subscription",
+            "rendered": Array [
+              "Subscription",
+              " ",
+              "(1 of {0})",
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": <OutlinedQuestionCircleIcon
+                    className="channel-controls-help-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                  />,
+                  "content": <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                  </span>,
+                  "isContentLeftAligned": true,
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "className": "channel-controls-help-icon",
+                    "color": "currentColor",
+                    "noVerticalAlign": false,
+                    "size": "sm",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+            ],
             "type": "div",
           },
           Object {
@@ -1041,20 +1336,21 @@ ShallowWrapper {
                 className="show-subscription-pages-icon"
               >
                 <Tooltip
-                  direction="bottom"
-                  iconDescription="tooltip"
-                  iconName="info"
-                  iconTitle=""
-                  menuOffset={[Function]}
-                  open={false}
-                  showIcon={true}
-                  triggerText=""
+                  content={
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Use the navigation to view the resources that are deployed by the selected subscription.
+                    </span>
+                  }
+                  isContentLeftAligned={true}
                 >
-                  <span
-                    className="showPagesTooltip"
-                  >
-                    Use the navigation to view the resources that are deployed by the selected subscription.
-                  </span>
+                  <OutlinedQuestionCircleIcon
+                    className="channel-controls-help-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                  />
                 </Tooltip>
               </div>
             </div>,
@@ -1085,7 +1381,7 @@ ShallowWrapper {
                 aria-label="Current page"
                 className="label pageInput"
                 id="valuePage"
-                max="{channelsLength}"
+                max="{selectedSubscriptionPages}"
                 min="1"
                 onChange={[Function]}
                 onKeyPress={[Function]}
@@ -1135,20 +1431,21 @@ ShallowWrapper {
                   className="show-subscription-pages-icon"
                 >
                   <Tooltip
-                    direction="bottom"
-                    iconDescription="tooltip"
-                    iconName="info"
-                    iconTitle=""
-                    menuOffset={[Function]}
-                    open={false}
-                    showIcon={true}
-                    triggerText=""
+                    content={
+                      <span
+                        className="showPagesTooltip"
+                      >
+                        Use the navigation to view the resources that are deployed by the selected subscription.
+                      </span>
+                    }
+                    isContentLeftAligned={true}
                   >
-                    <span
-                      className="showPagesTooltip"
-                    >
-                      Use the navigation to view the resources that are deployed by the selected subscription.
-                    </span>
+                    <OutlinedQuestionCircleIcon
+                      className="channel-controls-help-icon"
+                      color="currentColor"
+                      noVerticalAlign={false}
+                      size="sm"
+                    />
                   </Tooltip>
                 </div>,
               ],
@@ -1163,20 +1460,21 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": <Tooltip
-                    direction="bottom"
-                    iconDescription="tooltip"
-                    iconName="info"
-                    iconTitle=""
-                    menuOffset={[Function]}
-                    open={false}
-                    showIcon={true}
-                    triggerText=""
+                    content={
+                      <span
+                        className="showPagesTooltip"
+                      >
+                        Use the navigation to view the resources that are deployed by the selected subscription.
+                      </span>
+                    }
+                    isContentLeftAligned={true}
                   >
-                    <span
-                      className="showPagesTooltip"
-                    >
-                      Use the navigation to view the resources that are deployed by the selected subscription.
-                    </span>
+                    <OutlinedQuestionCircleIcon
+                      className="channel-controls-help-icon"
+                      color="currentColor"
+                      noVerticalAlign={false}
+                      size="sm"
+                    />
                   </Tooltip>,
                   "className": "show-subscription-pages-icon",
                 },
@@ -1184,34 +1482,35 @@ ShallowWrapper {
                 "rendered": Object {
                   "instance": null,
                   "key": undefined,
-                  "nodeType": "class",
+                  "nodeType": "function",
                   "props": Object {
-                    "children": <span
+                    "children": <OutlinedQuestionCircleIcon
+                      className="channel-controls-help-icon"
+                      color="currentColor"
+                      noVerticalAlign={false}
+                      size="sm"
+                    />,
+                    "content": <span
                       className="showPagesTooltip"
                     >
                       Use the navigation to view the resources that are deployed by the selected subscription.
                     </span>,
-                    "direction": "bottom",
-                    "iconDescription": "tooltip",
-                    "iconName": "info",
-                    "iconTitle": "",
-                    "menuOffset": [Function],
-                    "open": false,
-                    "showIcon": true,
-                    "triggerText": "",
+                    "isContentLeftAligned": true,
                   },
                   "ref": null,
                   "rendered": Object {
                     "instance": null,
                     "key": undefined,
-                    "nodeType": "host",
+                    "nodeType": "class",
                     "props": Object {
-                      "children": "Use the navigation to view the resources that are deployed by the selected subscription.",
-                      "className": "showPagesTooltip",
+                      "className": "channel-controls-help-icon",
+                      "color": "currentColor",
+                      "noVerticalAlign": false,
+                      "size": "sm",
                     },
                     "ref": null,
-                    "rendered": "Use the navigation to view the resources that are deployed by the selected subscription.",
-                    "type": "span",
+                    "rendered": null,
+                    "type": [Function],
                   },
                   "type": [Function],
                 },
@@ -1250,7 +1549,7 @@ ShallowWrapper {
                   aria-label="Current page"
                   className="label pageInput"
                   id="valuePage"
-                  max="{channelsLength}"
+                  max="{selectedSubscriptionPages}"
                   min="1"
                   onChange={[Function]}
                   onKeyPress={[Function]}
@@ -1330,7 +1629,7 @@ ShallowWrapper {
                   "aria-label": "Current page",
                   "className": "label pageInput",
                   "id": "valuePage",
-                  "max": "{channelsLength}",
+                  "max": "{selectedSubscriptionPages}",
                   "min": "1",
                   "onChange": [Function],
                   "onKeyPress": [Function],
@@ -1411,6 +1710,25 @@ ShallowWrapper {
               className="subscription label"
             >
               Subscription
+               
+              (1 of {0})
+              <Tooltip
+                content={
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                  </span>
+                }
+                isContentLeftAligned={true}
+              >
+                <OutlinedQuestionCircleIcon
+                  className="channel-controls-help-icon"
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                />
+              </Tooltip>
             </div>
             <div
               className="channelsCombo"
@@ -1474,20 +1792,21 @@ ShallowWrapper {
                 className="show-subscription-pages-icon"
               >
                 <Tooltip
-                  direction="bottom"
-                  iconDescription="tooltip"
-                  iconName="info"
-                  iconTitle=""
-                  menuOffset={[Function]}
-                  open={false}
-                  showIcon={true}
-                  triggerText=""
+                  content={
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Use the navigation to view the resources that are deployed by the selected subscription.
+                    </span>
+                  }
+                  isContentLeftAligned={true}
                 >
-                  <span
-                    className="showPagesTooltip"
-                  >
-                    Use the navigation to view the resources that are deployed by the selected subscription.
-                  </span>
+                  <OutlinedQuestionCircleIcon
+                    className="channel-controls-help-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                  />
                 </Tooltip>
               </div>
             </div>
@@ -1518,7 +1837,7 @@ ShallowWrapper {
                 aria-label="Current page"
                 className="label pageInput"
                 id="valuePage"
-                max="{channelsLength}"
+                max="{selectedSubscriptionPages}"
                 min="1"
                 onChange={[Function]}
                 onKeyPress={[Function]}
@@ -1568,6 +1887,25 @@ ShallowWrapper {
                 className="subscription label"
               >
                 Subscription
+                 
+                (1 of {0})
+                <Tooltip
+                  content={
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                    </span>
+                  }
+                  isContentLeftAligned={true}
+                >
+                  <OutlinedQuestionCircleIcon
+                    className="channel-controls-help-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                  />
+                </Tooltip>
               </div>,
               <div
                 className="channelsCombo"
@@ -1629,11 +1967,71 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Subscription",
+                "children": Array [
+                  "Subscription",
+                  " ",
+                  "(1 of {0})",
+                  <Tooltip
+                    content={
+                      <span
+                        className="showPagesTooltip"
+                      >
+                        Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                      </span>
+                    }
+                    isContentLeftAligned={true}
+                  >
+                    <OutlinedQuestionCircleIcon
+                      className="channel-controls-help-icon"
+                      color="currentColor"
+                      noVerticalAlign={false}
+                      size="sm"
+                    />
+                  </Tooltip>,
+                ],
                 "className": "subscription label",
               },
               "ref": null,
-              "rendered": "Subscription",
+              "rendered": Array [
+                "Subscription",
+                " ",
+                "(1 of {0})",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <OutlinedQuestionCircleIcon
+                      className="channel-controls-help-icon"
+                      color="currentColor"
+                      noVerticalAlign={false}
+                      size="sm"
+                    />,
+                    "content": <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                    </span>,
+                    "isContentLeftAligned": true,
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "className": "channel-controls-help-icon",
+                      "color": "currentColor",
+                      "noVerticalAlign": false,
+                      "size": "sm",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+              ],
               "type": "div",
             },
             Object {
@@ -1761,20 +2159,21 @@ ShallowWrapper {
                   className="show-subscription-pages-icon"
                 >
                   <Tooltip
-                    direction="bottom"
-                    iconDescription="tooltip"
-                    iconName="info"
-                    iconTitle=""
-                    menuOffset={[Function]}
-                    open={false}
-                    showIcon={true}
-                    triggerText=""
+                    content={
+                      <span
+                        className="showPagesTooltip"
+                      >
+                        Use the navigation to view the resources that are deployed by the selected subscription.
+                      </span>
+                    }
+                    isContentLeftAligned={true}
                   >
-                    <span
-                      className="showPagesTooltip"
-                    >
-                      Use the navigation to view the resources that are deployed by the selected subscription.
-                    </span>
+                    <OutlinedQuestionCircleIcon
+                      className="channel-controls-help-icon"
+                      color="currentColor"
+                      noVerticalAlign={false}
+                      size="sm"
+                    />
                   </Tooltip>
                 </div>
               </div>,
@@ -1805,7 +2204,7 @@ ShallowWrapper {
                   aria-label="Current page"
                   className="label pageInput"
                   id="valuePage"
-                  max="{channelsLength}"
+                  max="{selectedSubscriptionPages}"
                   min="1"
                   onChange={[Function]}
                   onKeyPress={[Function]}
@@ -1855,20 +2254,21 @@ ShallowWrapper {
                     className="show-subscription-pages-icon"
                   >
                     <Tooltip
-                      direction="bottom"
-                      iconDescription="tooltip"
-                      iconName="info"
-                      iconTitle=""
-                      menuOffset={[Function]}
-                      open={false}
-                      showIcon={true}
-                      triggerText=""
+                      content={
+                        <span
+                          className="showPagesTooltip"
+                        >
+                          Use the navigation to view the resources that are deployed by the selected subscription.
+                        </span>
+                      }
+                      isContentLeftAligned={true}
                     >
-                      <span
-                        className="showPagesTooltip"
-                      >
-                        Use the navigation to view the resources that are deployed by the selected subscription.
-                      </span>
+                      <OutlinedQuestionCircleIcon
+                        className="channel-controls-help-icon"
+                        color="currentColor"
+                        noVerticalAlign={false}
+                        size="sm"
+                      />
                     </Tooltip>
                   </div>,
                 ],
@@ -1883,20 +2283,21 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": <Tooltip
-                      direction="bottom"
-                      iconDescription="tooltip"
-                      iconName="info"
-                      iconTitle=""
-                      menuOffset={[Function]}
-                      open={false}
-                      showIcon={true}
-                      triggerText=""
+                      content={
+                        <span
+                          className="showPagesTooltip"
+                        >
+                          Use the navigation to view the resources that are deployed by the selected subscription.
+                        </span>
+                      }
+                      isContentLeftAligned={true}
                     >
-                      <span
-                        className="showPagesTooltip"
-                      >
-                        Use the navigation to view the resources that are deployed by the selected subscription.
-                      </span>
+                      <OutlinedQuestionCircleIcon
+                        className="channel-controls-help-icon"
+                        color="currentColor"
+                        noVerticalAlign={false}
+                        size="sm"
+                      />
                     </Tooltip>,
                     "className": "show-subscription-pages-icon",
                   },
@@ -1904,34 +2305,35 @@ ShallowWrapper {
                   "rendered": Object {
                     "instance": null,
                     "key": undefined,
-                    "nodeType": "class",
+                    "nodeType": "function",
                     "props": Object {
-                      "children": <span
+                      "children": <OutlinedQuestionCircleIcon
+                        className="channel-controls-help-icon"
+                        color="currentColor"
+                        noVerticalAlign={false}
+                        size="sm"
+                      />,
+                      "content": <span
                         className="showPagesTooltip"
                       >
                         Use the navigation to view the resources that are deployed by the selected subscription.
                       </span>,
-                      "direction": "bottom",
-                      "iconDescription": "tooltip",
-                      "iconName": "info",
-                      "iconTitle": "",
-                      "menuOffset": [Function],
-                      "open": false,
-                      "showIcon": true,
-                      "triggerText": "",
+                      "isContentLeftAligned": true,
                     },
                     "ref": null,
                     "rendered": Object {
                       "instance": null,
                       "key": undefined,
-                      "nodeType": "host",
+                      "nodeType": "class",
                       "props": Object {
-                        "children": "Use the navigation to view the resources that are deployed by the selected subscription.",
-                        "className": "showPagesTooltip",
+                        "className": "channel-controls-help-icon",
+                        "color": "currentColor",
+                        "noVerticalAlign": false,
+                        "size": "sm",
                       },
                       "ref": null,
-                      "rendered": "Use the navigation to view the resources that are deployed by the selected subscription.",
-                      "type": "span",
+                      "rendered": null,
+                      "type": [Function],
                     },
                     "type": [Function],
                   },
@@ -1970,7 +2372,7 @@ ShallowWrapper {
                     aria-label="Current page"
                     className="label pageInput"
                     id="valuePage"
-                    max="{channelsLength}"
+                    max="{selectedSubscriptionPages}"
                     min="1"
                     onChange={[Function]}
                     onKeyPress={[Function]}
@@ -2050,7 +2452,7 @@ ShallowWrapper {
                     "aria-label": "Current page",
                     "className": "label pageInput",
                     "id": "valuePage",
-                    "max": "{channelsLength}",
+                    "max": "{selectedSubscriptionPages}",
                     "min": "1",
                     "onChange": [Function],
                     "onKeyPress": [Function],

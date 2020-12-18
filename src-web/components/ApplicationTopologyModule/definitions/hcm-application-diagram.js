@@ -61,7 +61,7 @@ const sortKeys = (a, b) => {
 export const getActiveChannel = localStoreKey => {
   const storedActiveChannel = getStoredObject(localStoreKey)
   if (storedActiveChannel) {
-    return storedActiveChannel.activeChannel
+    return storedActiveChannel.activeChannelInfo
   }
 
   return undefined
@@ -144,6 +144,7 @@ export const getDiagramElements = (
   const topologyReloading = reloading
   const topologyLoadError = status === REQUEST_STATUS.ERROR
   const appLoaded = applicationDetails && applicationDetails.status === 'DONE'
+  const specsActiveChannel = 'specs.activeChannel'
   if (loaded && !topologyLoadError && appLoaded) {
     // topology from api will have raw k8 objects, pods status
     const { topo_links, topo_nodes } = getTopologyElements(topology)
@@ -165,12 +166,28 @@ export const getDiagramElements = (
       const { id, type } = node
 
       if (type === 'application' && id.startsWith('application')) {
-        activeChannelInfo = _.get(
-          node,
-          'specs.activeChannel',
-          '__ALL__/__ALL__//__ALL__/__ALL__'
-        )
         channelsList = _.get(node, 'specs.channels', [])
+        // set default active channel
+        const channelListNoAllChannels = channelsList.filter(
+          chn => chn !== '__ALL__/__ALL__//__ALL__/__ALL__'
+        )
+        const defaultActiveChannel =
+          channelListNoAllChannels.length > 0
+            ? channelListNoAllChannels[0]
+            : null
+        activeChannelInfo = _.get(node, specsActiveChannel)
+        if (!activeChannelInfo) {
+          activeChannelInfo = defaultActiveChannel
+          _.set(node, specsActiveChannel, defaultActiveChannel)
+        }
+        //active channel not found in the list of channel, remove it
+        if (
+          activeChannelInfo &&
+          channelsList.indexOf(activeChannelInfo) === -1
+        ) {
+          _.set(node, specsActiveChannel, defaultActiveChannel)
+          activeChannelInfo = defaultActiveChannel
+        }
       }
 
       processNodeData(
@@ -247,15 +264,17 @@ export const getDiagramElements = (
   let activeChannelInfo2
   const storedActiveChannel = getStoredObject(localStoreKey)
   if (storedActiveChannel) {
-    activeChannelInfo2 = storedActiveChannel.activeChannel
+    activeChannelInfo2 = storedActiveChannel.activeChannelInfo
     channelsList2 = storedActiveChannel.channelsList || []
   }
+
   activeChannelInfo2 = _.get(
     topology,
     'fetchFilters.application.channel',
     activeChannelInfo2
   )
-  if (activeChannelInfo2) {
+  if (activeChannelInfo2 && loaded) {
+    //skip this if topology is not loaded ( disable refresh for example)
     const storedElements = getStoredObject(
       `${localStoreKey}-${activeChannelInfo2}`
     )

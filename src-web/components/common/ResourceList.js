@@ -106,7 +106,13 @@ class ResourceList extends React.Component {
       err,
       children,
       fetchTableResources,
-      refetchIntervalUpdateDispatch
+      refetchIntervalUpdateDispatch,
+      page,
+      changeTablePageFn,
+      searchValue,
+      searchTableFn,
+      sort,
+      sortTableFn
     } = this.props
 
     const { isLoaded = true, isReloading = false } = fetchTableResources
@@ -153,6 +159,12 @@ class ResourceList extends React.Component {
           items={items}
           resourceType={resourceType}
           tableActions={staticResourceData.tableActions}
+          page={page}
+          setPage={changeTablePageFn}
+          search={searchValue}
+          setSearch={searchTableFn}
+          sort={sort}
+          setSort={sortTableFn}
           locale={locale}
         />
       </StackItem>
@@ -201,6 +213,12 @@ const mapStateToProps = (state, ownProps) => {
     items,
     itemIds,
     status: state[typeListName].status,
+    page: state[typeListName].page,
+    sort: {
+      index: state[typeListName].sortColumn,
+      direction: state[typeListName].sortDirection
+    },
+    searchValue: state[typeListName].search,
     err: state[typeListName].err,
     deleteStatus: state[typeListName].deleteStatus,
     deleteMsg: state[typeListName].deleteMsg,
@@ -215,15 +233,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     fetchTableResources: selectedFilters => {
       dispatch(fetchResources(resourceType, combineFilters(selectedFilters)))
     },
-    changeTablePageFn: page => dispatch(changeTablePage(page, resourceType)),
-    searchTableFn: (search, updateURL) => {
-      if (updateURL !== false) {
-        updateBrowserURL && updateBrowserURL(search)
-      }
+    changeTablePageFn: page =>
+      dispatch(changeTablePage({ page }, resourceType)),
+    searchTableFn: search => {
       dispatch(searchTable(search, resourceType))
     },
-    sortTableFn: (sortDirection, sortColumn) =>
-      dispatch(sortTable(sortDirection, sortColumn, resourceType)),
+    sortTableFn: sort => {
+      const { index, direction } = sort || {}
+      dispatch(sortTable(direction, index, resourceType))
+    },
     updateSecondaryHeaderFn: (title, tabs, mainButton) =>
       dispatch(
         updateSecondaryHeader(title, tabs, null, null, null, null, mainButton)
@@ -239,6 +257,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 ResourceList.propTypes = {
+  changeTablePageFn: PropTypes.func,
   children: PropTypes.array,
   deleteMsg: PropTypes.string,
   deleteStatus: PropTypes.string,
@@ -249,8 +268,13 @@ ResourceList.propTypes = {
   items: PropTypes.object,
   locale: PropTypes.string,
   mainButton: PropTypes.object,
+  page: PropTypes.number,
   refetchIntervalUpdateDispatch: PropTypes.func,
   resourceType: PropTypes.object,
+  searchTableFn: PropTypes.func,
+  searchValue: PropTypes.string,
+  sort: PropTypes.object,
+  sortTableFn: PropTypes.func,
   staticResourceData: PropTypes.object,
   status: PropTypes.string,
   tabs: PropTypes.array,

@@ -196,42 +196,15 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
-const checkDupClusters = (clusterList, cluster) => {
-  // Add cluster to cluster list if it's not a duplicate
-  if (!_.find(clusterList, cluster)) {
-    clusterList = clusterList.concat(cluster)
-  }
-
-  return clusterList
-}
-
-const getClusterCount = appData => {
-  let remoteClusterList = []
+const getClusterCount = node => {
   let remoteClusterCount = 0
   let localClusterDeploy = false
+  const clusterNames = _.get(node, 'specs.allClusters', [])
 
-  if (appData && appData.related) {
-    appData.related.forEach(resource => {
-      if (resource.kind === 'subscription' && resource.items) {
-        resource.items.forEach(sub => {
-          if (sub._hostingSubscription) {
-            if (sub.cluster === 'local-cluster') {
-              localClusterDeploy = true
-            } else {
-              const remoteCluster = { cluster: sub.cluster }
-              remoteClusterList = checkDupClusters(
-                remoteClusterList,
-                remoteCluster
-              )
-            }
-          } else if (sub.localPlacement === 'true') {
-            localClusterDeploy = true
-          }
-        })
-        remoteClusterCount = remoteClusterList.length
-      }
-    })
-  }
+  localClusterDeploy = clusterNames.indexOf('local-cluster') !== -1
+  remoteClusterCount = localClusterDeploy
+    ? clusterNames.length - 1
+    : clusterNames.length
 
   return {
     remoteCount: remoteClusterCount,
@@ -239,53 +212,66 @@ const getClusterCount = appData => {
   }
 }
 
-const getRepoResourceData = (appData, channelIdentifier) => {
+const getSubCardData = (subData, node) => {
   let resourceType = ''
   let resourcePath = ''
-  if (appData && appData.related) {
-    appData.related.forEach(resource => {
-      if (resource.kind === 'channel' && resource.items) {
-        resource.items.forEach(chn => {
-          // Get resource type and path of corresponding channel
-          if (
-            chn.name === channelIdentifier[1] &&
-            chn.namespace === channelIdentifier[0]
-          ) {
-            resourceType = chn.type
-            resourcePath = chn.pathname
-          }
-        })
-      }
-    })
-  }
+  let gitBranch = ''
+  let gitPath = ''
+  let packageName = ''
+  let packageFilterVersion = ''
+  let timeWindowType = ''
+  let timeWindowDays = ''
+  let timeWindowTimezone = ''
+  let timeWindowRanges = ''
 
+  const relatedChns = _.get(node, 'specs.allChannels', [])
+  gitBranch = _.get(
+    subData,
+    ['metadata', 'annotations', 'apps.open-cluster-management.io/git-branch'],
+    ''
+  )
+  gitPath = _.get(
+    subData,
+    ['metadata', 'annotations', 'apps.open-cluster-management.io/git-path'],
+    ''
+  )
+  packageName = _.get(subData, 'spec.name', '')
+  packageFilterVersion = _.get(subData, 'spec.packageFilter.version', '')
+  timeWindowType = _.get(subData, 'spec.timewindow.windowtype', 'none')
+  timeWindowDays = _.get(subData, 'spec.timewindow.daysofweek', '')
+  timeWindowTimezone = _.get(subData, 'spec.timewindow.location', '')
+  timeWindowRanges = _.get(subData, 'spec.timewindow.hours', '')
+
+  // Get related channel data
+  let chnData
+  relatedChns.forEach(chnl => {
+    if (
+      `${_.get(chnl, 'metadata.namespace', '')}/${_.get(
+        chnl,
+        'metadata.name',
+        ''
+      )}` === _.get(subData, 'spec.channel', '')
+    ) {
+      chnData = chnl
+    }
+  })
+  if (chnData) {
+    resourceType = _.get(chnData, 'spec.type', '')
+    resourcePath = _.get(chnData, 'spec.pathname', '')
+  }
   return {
-    type: resourceType,
-    path: resourcePath
+    name: _.get(subData, 'metadata.name', ''),
+    resourceType: resourceType,
+    resourcePath: resourcePath,
+    gitBranch: gitBranch,
+    gitPath: gitPath,
+    package: packageName,
+    packageFilterVersion: packageFilterVersion,
+    timeWindowType: timeWindowType,
+    timeWindowDays: timeWindowDays,
+    timeWindowTimezone: timeWindowTimezone,
+    timeWindowRanges: timeWindowRanges
   }
-}
-
-const getGitTypeData = node => {
-  const gitTypeData = {}
-  const nodeAnnotations = _.get(node, 'specs.raw.metadata.annotations', [])
-
-  nodeAnnotations['apps.open-cluster-management.io/git-branch']
-    ? Object.assign(gitTypeData, {
-      gitBranch: nodeAnnotations['apps.open-cluster-management.io/git-branch']
-    })
-    : Object.assign(gitTypeData, {
-      gitBranch:
-          nodeAnnotations['apps.open-cluster-management.io/github-branch']
-    })
-  nodeAnnotations['apps.open-cluster-management.io/git-path']
-    ? Object.assign(gitTypeData, {
-      gitPath: nodeAnnotations['apps.open-cluster-management.io/git-path']
-    })
-    : Object.assign(gitTypeData, {
-      gitPath: nodeAnnotations['apps.open-cluster-management.io/github-path']
-    })
-
-  return gitTypeData
 }
 
 export const getAppOverviewCardsData = (
@@ -327,65 +313,38 @@ export const getAppOverviewCardsData = (
     const nodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
     const subsList = []
 
-    const selectedAppDataItem = _.get(selectedAppData, 'items[0]', '')
-    const clusterData = getClusterCount(selectedAppDataItem)
+    let clusterData = {
+      remoteCount: 0,
+      isLocal: false
+    }
 
     topologyData.nodes.map(node => {
-      // Get date and time of app creation
-      if (node.type === 'application') {
+      //get only the top app node
+
+      if (
+        _.get(node, 'type', '') === 'application' &&
+        _.get(node, 'id').indexOf('--deployable') === -1
+      ) {
+        clusterData = getClusterCount(node)
+        // Get date and time of app creation
         creationTimestamp = getShortDateTime(
           node.specs.raw.metadata.creationTimestamp,
           locale
         )
-      } else if (
-        node.type === 'subscription' &&
-        _.get(node, 'specs.parent.parentType') !== 'cluster'
-      ) {
-        // Get name and namespace of channel to match with data from HCMAppList
-        const channelIdentifier = _.get(
-          node,
-          'specs.raw.spec.channel',
-          ''
-        ).split('/')
-        // Get repo resource type and URL
-        const repoResourceData = getRepoResourceData(
-          selectedAppDataItem,
-          channelIdentifier
-        )
-        const gitTypeData = getGitTypeData(node)
-
-        // Get time window type
-        const timeWindowData = _.get(node, 'specs.raw.spec.timewindow', '')
-
-        subsList.push({
-          name: node.name,
-          id: node.id,
-          resourceType: repoResourceData.type,
-          resourcePath: repoResourceData.path,
-          gitBranch: gitTypeData.gitBranch,
-          gitPath: gitTypeData.gitPath,
-          package: _.get(node, 'specs.raw.spec.name', ''),
-          packageFilterVersion: _.get(
-            node,
-            'specs.raw.spec.packageFilter.version',
-            ''
-          ),
-          timeWindowType: timeWindowData.windowtype,
-          timeWindowDays: timeWindowData.daysofweek,
-          timeWindowTimezone: timeWindowData.location,
-          timeWindowRanges: timeWindowData.hours
+        const allSubscriptions = _.get(node, 'specs.allSubscriptions', [])
+        allSubscriptions.forEach(subs => {
+          subsList.push(getSubCardData(subs, node))
         })
-      } else if (
-        node.type !== 'cluster' &&
-        node.type !== 'subscription' &&
-        node.type !== 'placements' &&
+      }
+      //get pulse for all objects generated from a ddeployable
+      if (
+        _.get(node, 'id', '').indexOf('--deployable') !== -1 &&
         _.get(node, 'specs.pulse')
       ) {
         // Get cluster resource statuses
         nodeStatuses[node.specs.pulse]++
       }
     })
-
     return {
       appName: appName,
       appNamespace: appNamespace,

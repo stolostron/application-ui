@@ -2139,10 +2139,6 @@ export const availableFilters = {
   }
 };
 
-//export const resourceModalData = { 'kind': 'QueryApplications', 'metadata': { 'name': 'policy-auditpolicy-will-sev', 'namespace': 'mcm', 'selfLink': '/apis/policy.mcm.ibm.com/v1alpha1/namespaces/mcm/policies/policy-auditpolicy-will-sev', 'annotations': { 'policy.mcm.ibm.com/categories': 'SystemAndCommunicationsProtections', 'policy.mcm.ibm.com/controls': 'IAM', 'policy.mcm.ibm.com/standards': 'FISMA', 'seed-generation': '2' }, 'resourceVersion': '5300122', '__typename': 'Metadata' }, 'name': 'policy-auditpolicy-will-sev', 'namespace': 'mcm', 'raw': { 'apiVersion': 'policy.mcm.ibm.com/v1alpha1', 'kind': 'Policy', 'metadata': { 'annotations': { 'policy.mcm.ibm.com/categories': 'SystemAndCommunicationsProtections', 'policy.mcm.ibm.com/controls': 'IAM', 'policy.mcm.ibm.com/standards': 'FISMA', 'seed-generation': '2' }, 'creationTimestamp': '2019-10-01T14:55:28Z', 'finalizers': ['finalizer.policies.ibm.com', 'propagator.finalizer.mcm.ibm.com'], 'generation': 27, 'name': 'policy-auditpolicy-will-sev', 'namespace': 'mcm', 'resourceVersion': '5300122', 'selfLink': '/apis/policy.mcm.ibm.com/v1alpha1/namespaces/mcm/policies/policy-auditpolicy-will-sev', 'uid': '81b9569e-e45b-11e9-8895-005056a061f1' }, 'spec': { 'complianceType': 'musthave', 'namespaces': { 'exclude': ['kube-*'], 'include': ['default'] }, 'policy-templates': [{ 'objectDefinition': { 'apiVersion': 'audit.policies.ibm.com/v1alpha1', 'kind': 'AuditPolicy', 'metadata': { 'label': { 'category': 'System-Integrity' }, 'name': 'policy-auditpolicy-will-sev' }, 'spec': { 'clusterAuditPolicy': { 'auditPolicyRules': { 'auth-idp': 'ignore', 'helmapi': 'ignore', 'kubernetes': 'ignore', 'platform-api': 'ignore', 'platform-identity-manager': 'ignore', 'platform-identity-provider': 'ignore', 'vulnerability-advisor': 'ignore' } }, 'namespaceSelector': { 'exclude': ['kube-system'], 'include': ['default', 'kube-*'] }, 'remediationAction': 'inform', 'severity': 'low' } }, 'status': { 'Validity': {} } }], 'remediationAction': 'inform' }, 'status': { 'placementBindings': ['binding-policy-auditpolicy-will-sev'], 'placementPolicies': ['placement-policy-auditpolicy-will-sev'], 'status': { 'cluster1': { 'aggregatePoliciesStatus': { 'policy-auditpolicy-will-sev': { 'compliant': 'Compliant' } }, 'clustername': 'cluster1', 'compliant': 'Compliant' }, 'clusterhub': { 'aggregatePoliciesStatus': { 'policy-auditpolicy-will-sev': {} }, 'clustername': 'clusterhub' } } } }, 'remediation': 'inform', 'policyCompliant': '1/2', 'clusterCompliant': '1/2', 'placementPolicies': [{ 'metadata': { 'name': 'placement-policy-auditpolicy-will-sev', 'selfLink': '/apis/mcm.ibm.com/v1alpha1/namespaces/mcm/placementpolicies/placement-policy-auditpolicy-will-sev', '__typename': 'Metadata' }, '__typename': 'PlacementPolicy' }], 'placementBindings': [{ 'metadata': { 'name': 'binding-policy-auditpolicy-will-sev', 'selfLink': '/apis/mcm.ibm.com/v1alpha1/namespaces/mcm/placementbindings/binding-policy-auditpolicy-will-sev', '__typename': 'Metadata' }, '__typename': 'PlacementBinding' }], '__typename': 'Compliance', 'subItems': [{ 'name': 'policy.pb', 'items': ['binding-policy-auditpolicy-will-sev'] }, { 'name': 'policy.pp', 'items': ['placement-policy-auditpolicy-will-sev'] }], 'custom': { 'metadata.name': { 'key': null, 'ref': null, 'props': { 'to': '/multicloud/policies/all/policy-auditpolicy-will-sev', 'children': 'policy-auditpolicy-will-sev', 'replace': false }, '_owner': null, '_store': {} }, 'metadata.annotations["policy.mcm.ibm.com/standards"]': 'FISMA', 'metadata.annotations["policy.mcm.ibm.com/controls"]': 'IAM', 'metadata.annotations["policy.mcm.ibm.com/categories"]': 'System And Communications Protections' } }
-
-//export const resourceModalYAML= 'apiVersion: policy.mcm.ibm.com/v1alpha1\nkind: Policy\nmetadata:\n  name: policy-auditpolicy-will-sev\n  namespace: mcm\n  annotations:\n    policy.mcm.ibm.com/categories: SystemAndCommunicationsProtections\n    policy.mcm.ibm.com/controls: IAM\n    policy.mcm.ibm.com/standards: FISMA\n    seed-generation: \'2\'\n  finalizers:\n    - finalizer.policies.ibm.com\n    - propagator.finalizer.mcm.ibm.com\n  generation: 31\n  resourceVersion: \'5696116\'\nspec:\n  complianceType: musthave\n  namespaces:\n    exclude:\n      - kube-*\n    include:\n      - default\n  policy-templates:\n    - objectDefinition:\n        apiVersion: audit.policies.ibm.com/v1alpha1\n        kind: AuditPolicy\n        metadata:\n          name: policy-auditpolicy-will-sev\n          label:\n            category: System-Integrity\n        spec:\n          clusterAuditPolicy:\n            auditPolicyRules:\n              auth-idp: ignore\n              helmapi: ignore\n              kubernetes: ignore\n              platform-api: ignore\n              platform-identity-manager: ignore\n              platform-identity-provider: ignore\n              vulnerability-advisor: ignore\n          namespaceSelector:\n            exclude:\n              - kube-system\n            include:\n              - default\n              - kube-*\n          remediationAction: inform\n          severity: low\n  remediationAction: inform\n'
-
 export const resourceModalData = {
   kind: "HCMApplication",
   _uid: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
@@ -2158,8 +2154,6 @@ export const resourceModalData = {
   namespace: "sample",
   dashboard: null,
   clusterCount: 0,
-  remoteSubscriptionStatusCount: {},
-  podStatusCount: {},
   hubSubscriptions: [],
   created: "2019-12-11T01:24:02Z",
   __typename: "Application"
@@ -2174,12 +2168,25 @@ export const resourceModalDataDel2 = {
   namespace: "sample",
   dashboard: null,
   clusterCount: 0,
-  remoteSubscriptionStatusCount: {},
-  podStatusCount: {},
   hubSubscriptions: [],
   created: "2019-12-11T01:24:02Z",
   __typename: "Application",
   selected: [{ id: "1" }, { id: 2 }]
+};
+
+export const resourceModalDataChildApp = {
+  kind: "HCMApplication",
+  selfLink: "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/childApp",
+  name: "childApp",
+  namespace: "sample"
+};
+
+export const resourceModalDataMultiLevelApp = {
+  kind: "HCMApplication",
+  selfLink:
+    "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/multiLevelApp",
+  name: "multiLevelApp",
+  namespace: "sample"
 };
 
 export const resourceModalYAML =

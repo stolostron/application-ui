@@ -27,12 +27,14 @@ import {
 } from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import resources from '../../../lib/shared/resources'
+import { withLocale } from '../../providers/LocaleProvider'
 import {
   AcmModal,
   AcmLoadingPage,
   AcmAlert
 } from '@open-cluster-management/ui-components'
-import { Checkbox, Button } from '@patternfly/react-core'
+import { Checkbox, Button, ModalVariant } from '@patternfly/react-core'
+import { ExclamationTriangleIcon } from '@patternfly/react-icons'
 
 resources(() => {
   require('../../../scss/modal.scss')
@@ -48,8 +50,10 @@ class RemoveResourceModal extends React.Component {
       cluster: '',
       selfLink: '',
       errors: undefined,
+      warnings: undefined,
       loading: true,
       selected: [],
+      shared: [],
       removeAppResources: false
     }
   }
@@ -70,7 +74,7 @@ class RemoveResourceModal extends React.Component {
           canRemove: allowed,
           errors: allowed
             ? undefined
-            : msgs.get('table.actions.remove.unauthorized', this.context.locale)
+            : msgs.get('table.actions.remove.unauthorized', this.props.locale)
         })
         this.getChildResources(data.name, data.namespace)
       })
@@ -84,34 +88,70 @@ class RemoveResourceModal extends React.Component {
 
   getChildResources = (name, namespace) => {
     try {
-      const { resourceType } = this.props
+      const { resourceType, locale } = this.props
       const { canRemove } = this.state
       if (resourceType.name === 'HCMApplication' && canRemove) {
         // Get application resources
         apolloClient.getApplication({ name, namespace }).then(response => {
+          // Warning for application deployed by another application
+          const hostingSubAnnotation =
+            _.get(response, 'data.application.metadata.annotations') !==
+            undefined
+              ? _.get(response, 'data.application.metadata.annotations')[
+                'apps.open-cluster-management.io/hosting-subscription'
+              ]
+              : undefined
+          if (hostingSubAnnotation) {
+            const subName = hostingSubAnnotation.split('/')[1]
+            this.setState({
+              warnings: msgs.get(
+                'table.actions.remove.child.application',
+                [subName],
+                locale
+              ),
+              loading: false
+            })
+            return
+          }
           const children = []
+          const sharedChildren = []
           const removableSubs = []
           const removableSubNames = []
-          const subResources = []
+          const placementrules = []
           const subscriptions =
             _.get(response, 'data.application.subscriptions', []) || []
           Promise.all(
             subscriptions.map(async subscription => {
-              const subName = subscription.metadata.name
-              const subNamespace = subscription.metadata.namespace
+              const subName = _.get(subscription, 'metadata.name', '')
+              const subNamespace = _.get(
+                subscription,
+                'metadata.namespace',
+                ''
+              )
               // For each subscription, get related applications
-              const related = await this.fetchRelated(
+              const related = await fetchRelated(
                 RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
                 subName,
                 subNamespace
               )
               // If subscription is used only by this application, it is removable
-              if (!this.usedByOtherApps(related)) {
+              if (!usedByOtherApps(related)) {
                 removableSubs.push(subscription)
                 removableSubNames.push(subName)
+                const subChildResources = getSubChildResources(
+                  subName,
+                  subNamespace,
+                  related
+                )
                 children.push({
                   id: `subscriptions-${subNamespace}-${subName}`,
                   selfLink: subscription.metadata.selfLink,
+                  label: `${subName} [Subscription]`,
+                  subChildResources: subChildResources
+                })
+              } else {
+                sharedChildren.push({
+                  id: `subscriptions-${subNamespace}-${subName}`,
                   label: `${subName} [Subscription]`
                 })
               }
@@ -122,34 +162,38 @@ class RemoveResourceModal extends React.Component {
               _.map(_.get(subscription, 'rules', []), curr => {
                 const currName = curr.metadata.name
                 const currNamespace = curr.metadata.namespace
-                subResources.push({
+                placementrules.push({
                   id: `rules-${currNamespace}-${currName}`,
                   name: currName,
                   namespace: currNamespace,
                   selfLink: curr.metadata.selfLink,
-                  label: `${currName} [Rule]`,
+                  label: `${currName} [PlacementRule]`,
                   type: RESOURCE_TYPES.HCM_PLACEMENT_RULES
                 })
               })
             })
             Promise.all(
-              _.uniqBy(subResources, 'id').map(async resource => {
+              _.uniqBy(placementrules, 'id').map(async rule => {
                 // For each rule, get related subscriptions
-                const related = await this.fetchRelated(
-                  resource.type,
-                  resource.name,
-                  resource.namespace
+                const related = await fetchRelated(
+                  rule.type,
+                  rule.name,
+                  rule.namespace
                 )
                 // Rule is removable if it's used only by removable subscriptions
-                if (
-                  !this.usedByOtherSubs(related, removableSubNames, namespace)
-                ) {
-                  children.push(resource)
+                if (!usedByOtherSubs(related, removableSubNames, namespace)) {
+                  children.push(rule)
+                } else {
+                  sharedChildren.push({
+                    id: rule.id,
+                    label: rule.label
+                  })
                 }
               })
             ).then(() => {
               this.setState({
                 selected: children,
+                shared: sharedChildren,
                 loading: false
               })
             })
@@ -165,53 +209,6 @@ class RemoveResourceModal extends React.Component {
         loading: false
       })
     }
-  };
-
-  fetchRelated = async (resourceType, name, namespace) => {
-    try {
-      const query = getQueryStringForResource(
-        resourceType.name,
-        name,
-        namespace
-      )
-      const response = await apolloClient.search(SEARCH_QUERY_RELATED, {
-        input: [query]
-      })
-      const resource = response.errors
-        ? []
-        : _.get(response, 'data.searchResult[0]', [])
-
-      return resource && resource.related ? resource.related : []
-    } catch (err) {
-      return []
-    }
-  };
-
-  usedByOtherApps = related => {
-    const isApp = n => n.kind.toLowerCase() === 'application'
-    const apps = R.filter(isApp, related)
-    const items = apps && apps.length === 1 ? apps[0].items : []
-    return items && items.length === 1 ? false : true
-  };
-
-  usedByOtherSubs = (related, removableSubNames, appNamespace) => {
-    const isSub = n => n.kind.toLowerCase() === 'subscription'
-    const subs = R.filter(isSub, related)
-    const items = subs && subs.length === 1 ? subs[0].items : []
-    return items.filter(item => item._hubClusterResource).some(sub => {
-      return (
-        sub.namespace !== appNamespace || !removableSubNames.includes(sub.name)
-      )
-    })
-  };
-
-  toggleSelected = (i, target) => {
-    this.setState(prevState => {
-      const currState = prevState.selected
-      const index = currState.findIndex(item => item.id === target)
-      currState[index].selected = !currState[index].selected
-      return currState
-    })
   };
 
   toggleRemoveAppResources = () => {
@@ -248,6 +245,7 @@ class RemoveResourceModal extends React.Component {
   }
 
   handleSubmit() {
+    const { locale } = this.props
     const { selfLink, cluster, selected, removeAppResources } = this.state
     this.setState({
       loading: true
@@ -263,7 +261,7 @@ class RemoveResourceModal extends React.Component {
     this.props.deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
     if (!selfLink) {
       this.setState({
-        errors: msgs.get('modal.errors.querying.resource', this.context.locale)
+        errors: msgs.get('modal.errors.querying.resource', locale)
       })
     } else {
       apolloClient
@@ -296,9 +294,29 @@ class RemoveResourceModal extends React.Component {
   };
 
   modalBody = (name, label, locale) => {
-    switch (label.label) {
-    case 'modal.remove-hcmapplication.label':
-      return this.state.selected.length > 0 ? (
+    const { selected, shared } = this.state
+    const renderSharedResources = () => {
+      return shared.length > 0 ? (
+        <div className="shared-resource-content">
+          <div>
+            <ExclamationTriangleIcon />
+          </div>
+          <div>
+            <p>
+              {msgs.get('modal.remove.application.shared.resources', locale)}
+            </p>
+            <p>
+              {shared
+                .map(r => r.label)
+                .sort()
+                .join(', ')}
+            </p>
+          </div>
+        </div>
+      ) : null
+    }
+    if (label.label === 'modal.remove-hcmapplication.label') {
+      return selected.length > 0 ? (
         <div className="remove-app-modal-content">
           <div className="remove-app-modal-content-text">
             {msgs.get('modal.remove.application.confirm.one', [name], locale)}
@@ -315,34 +333,54 @@ class RemoveResourceModal extends React.Component {
               isChecked={this.state.removeAppResources}
               onChange={this.toggleRemoveAppResources}
               label={msgs.get('modal.remove.application.resources', locale)}
-              />
+            />
           </div>
           <div>
             <ul>
-              {this.state.selected.map(child => {
+              {selected.map(child => {
                 return (
-                  <div
-                    className="remove-app-modal-content-data"
-                    key={child.id}
-                    >
-                    <li>{child.label}</li>
+                  <div className="remove-app-modal-content-data" key={child.id}>
+                    <li>
+                      {child.label}
+                      {child.subChildResources &&
+                        child.subChildResources.length > 0 && (
+                          <div className="sub-child-resource-content">
+                            <div>
+                              <ExclamationTriangleIcon />
+                            </div>
+                            <div>
+                              <p>
+                                {msgs.get(
+                                  'modal.remove.application.child.resources',
+                                  locale
+                                )}
+                              </p>
+                              <p>{child.subChildResources.join(', ')}</p>
+                            </div>
+                          </div>
+                      )}
+                    </li>
                   </div>
                 )
               })}
             </ul>
           </div>
+          {renderSharedResources()}
         </div>
       ) : (
-        msgs.get('modal.remove.confirm', [name], locale)
+        <div className="remove-app-modal-content">
+          {msgs.get('modal.remove.confirm', [name], locale)}
+          {renderSharedResources()}
+        </div>
       )
-    default:
+    } else {
       return msgs.get('modal.remove.confirm', [name], locale)
     }
   };
 
   render() {
     const { label, locale, open } = this.props
-    const { canRemove, name, loading, errors } = this.state
+    const { canRemove, name, loading, errors, warnings } = this.state
     const heading = msgs.get(label.heading, locale)
     return (
       <div>
@@ -353,7 +391,9 @@ class RemoveResourceModal extends React.Component {
           aria-label={heading}
           showClose={true}
           onClose={this.handleClose.bind(this)}
-          variant="medium"
+          variant={ModalVariant.medium}
+          position="top"
+          positionOffset="200px"
           actions={[
             <Button
               key="confirm"
@@ -382,12 +422,96 @@ class RemoveResourceModal extends React.Component {
                 noClose
               />
             ) : null}
+            {warnings !== undefined ? (
+              <AcmAlert
+                variant="warning"
+                variantLabel=""
+                title={warnings}
+                isInline
+              />
+            ) : null}
           </div>
           {loading ? this.modalLoading() : this.modalBody(name, label, locale)}
         </AcmModal>
       </div>
     )
   }
+}
+
+export const fetchRelated = async (resourceType, name, namespace) => {
+  try {
+    const query = getQueryStringForResource(resourceType.name, name, namespace)
+    const response = await apolloClient.search(SEARCH_QUERY_RELATED, {
+      input: [query]
+    })
+    const resource = response.errors
+      ? []
+      : _.get(response, 'data.searchResult[0]', [])
+
+    return resource && resource.related ? resource.related : []
+  } catch (err) {
+    return []
+  }
+}
+
+export const usedByOtherApps = related => {
+  const isApp = n => n.kind.toLowerCase() === 'application'
+  const apps = R.filter(isApp, related)
+  const items = apps && apps.length === 1 ? apps[0].items : []
+  return items.filter(item => !item._hostingSubscription).length === 1
+    ? false
+    : true
+}
+
+export const getSubChildResources = (
+  resourceName,
+  resourceNamespace,
+  relatedItems
+) => {
+  const CHILD_RESOURCE_TYPES = [
+    'Application',
+    'Subscription',
+    'PlacementRule',
+    'Channel'
+  ]
+  const localSuffix = '-local'
+  const children = []
+  CHILD_RESOURCE_TYPES.forEach(type => {
+    const related = _.get(
+      relatedItems.find(r => r.kind === type.toLowerCase()),
+      'items',
+      []
+    )
+    const childItems = related
+      .filter(
+        i =>
+          (i._hostingSubscription === `${resourceNamespace}/${resourceName}` ||
+            i._hostingSubscription ===
+              `${resourceNamespace}/${resourceName}${localSuffix}`) &&
+          // Only include resources on the local cluster
+          i.cluster === 'local-cluster' &&
+          // Do not include the -local subscription
+          (type !== 'Subscription' ||
+            i.namespace !== resourceNamespace ||
+            i.name !== `${resourceName}${localSuffix}`)
+      )
+      .map(i => i.name)
+      .sort()
+      .map(n => `${n} [${type}]`)
+    children.push(...childItems)
+  })
+  return children
+}
+
+export const usedByOtherSubs = (related, removableSubNames, appNamespace) => {
+  const isSub = n => n.kind.toLowerCase() === 'subscription'
+  const subs = R.filter(isSub, related)
+  const items = subs && subs.length === 1 ? subs[0].items : []
+  return items.filter(item => item._hubClusterResource).some(sub => {
+    return (
+      sub.namespace !== appNamespace || !removableSubNames.includes(sub.name)
+    )
+  })
 }
 
 RemoveResourceModal.propTypes = {
@@ -429,6 +553,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  RemoveResourceModal
+export default withLocale(
+  connect(mapStateToProps, mapDispatchToProps)(RemoveResourceModal)
 )

@@ -60,24 +60,6 @@ describe("ResourceOverview", () => {
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
-
-  it("ResourceOverview renders spinner", () => {
-    const tree = renderer
-      .create(
-        <BrowserRouter>
-          <Provider store={store}>
-            <ResourceOverview
-              resourceType={resourceType}
-              params={emptyParams}
-              role={role}
-              locale={"en-US"}
-            />
-          </Provider>
-        </BrowserRouter>
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-  });
 });
 
 const resourceType = {

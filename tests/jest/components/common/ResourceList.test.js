@@ -229,7 +229,12 @@ const props = {
     uriKey: "name",
     primaryKey: "name",
     secondaryKey: "namespace",
-    tableKeys: [],
+    tableKeys: [
+      {
+        msgKey: "table.header.name",
+        resourceKey: "name"
+      }
+    ],
     tableActions: [],
     emptyTitle: () => "No items",
     emptyMessage: () => "There are no items"

@@ -1615,7 +1615,8 @@ export const staticResourceData = {
   tableKeys: [
     {
       msgKey: "table.header.policy.name",
-      resourceKey: "metadata.name"
+      resourceKey: "metadata.name",
+      transformFunction: item => item.metadata.name
     },
     {
       msgKey: "table.header.remediation",
@@ -1669,7 +1670,8 @@ export const staticResourceData = {
     tableKeys: [
       {
         msgKey: "table.header.policy.name",
-        resourceKey: "metadata.name"
+        resourceKey: "metadata.name",
+        transformFunction: item => item.metadata.name
       },
       {
         msgKey: "table.header.remediation",
@@ -3239,7 +3241,8 @@ export const staticResourceDataPolicyOverview = {
       {
         msgKey: "table.header.name",
         resourceKey: "name",
-        key: "name"
+        key: "name",
+        transformFunction: item => item.name
       },
       {
         msgKey: "table.header.cluster.compliant",
@@ -3261,7 +3264,8 @@ export const staticResourceDataPolicyOverview = {
       {
         key: "name",
         resourceKey: "metadata.name",
-        msgKey: "table.header.name"
+        msgKey: "table.header.name",
+        transformFunction: item => item.metadata.name
       },
       {
         key: "namespace",
@@ -3294,7 +3298,8 @@ export const staticResourceDataPolicyOverview = {
       {
         key: "name",
         resourceKey: "metadata.name",
-        msgKey: "table.header.name"
+        msgKey: "table.header.name",
+        transformFunction: item => item.metadata.name
       },
       {
         key: "namespace",
@@ -3338,7 +3343,8 @@ export const staticResourceDataPolicyOverview = {
       {
         msgKey: "table.header.role.template.name",
         resourceKey: "metadata.name",
-        key: "name"
+        key: "name",
+        transformFunction: item => item.metadata.name
       },
       {
         msgKey: "table.header.role.template.complianceType",
@@ -3486,7 +3492,8 @@ export const staticResourceDataPolicyOverview = {
   tableKeys: [
     {
       msgKey: "table.header.policy.name",
-      resourceKey: "metadata.name"
+      resourceKey: "metadata.name",
+      transformFunction: item => item.metadata.name
     },
     {
       msgKey: "table.header.namespace",

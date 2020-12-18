@@ -143,7 +143,7 @@ describe("ApplicationsListPage", () => {
       .simulate("click");
     // clear search
     tree
-      .find(".pf-c-button.pf-m-link")
+      .find('button[aria-label="Clear"]')
       .at(0)
       .simulate("click");
   });

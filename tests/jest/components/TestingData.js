@@ -104,7 +104,7 @@ export const appNormalizedItems = {
 export const QueryApplicationList = {
   status: "DONE",
   page: 1,
-  search: "aa",
+  search: "mortgage",
   sortDirection: "asc",
   sortColumn: 1,
   mutateStatus: "DONE",

@@ -10,18 +10,18 @@
 
 // On app create page
 .page-content-container {
-  .creation-view {
+  .temptifly {
     &.showEditor {
       margin: -24px 0 -3.125rem 0;
     }
 
     .creation-view-split-container {
       &.showEditor {
-        height: calc(100vh - 169px);
+        height: calc(100vh - 175px);
 
         .creation-view-controls-container {
           padding-top: 1.0rem;
-          height: calc(100vh - 174px);
+          height: calc(100vh - 180px);
         }
       }
     }
@@ -30,7 +30,7 @@
 
 // On app edit page
 .secondary-header-wrapper.with-tabs.with-breadcrumbs ~ .page-content-container {
-  .creation-view {
+  .temptifly {
     &.showEditor {
       margin: -21px 0 -9.125rem 0;
     }

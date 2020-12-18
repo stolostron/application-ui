@@ -24,7 +24,6 @@ import {
 } from '../../actions/application'
 import { updateSecondaryHeader } from '../../actions/common'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
-import 'temptifly/dist/styles.css'
 import { controlData as getControlData } from './controlData/ControlData'
 import createTemplate from './templates/template.hbs'
 import { getApplicationResources } from './transformers/transform-data-to-resources'
@@ -34,7 +33,7 @@ import _ from 'lodash'
 
 // include monaco editor
 import TemplateEditor from 'temptifly'
-//import TemplateEditor from '../../../../temptifly/src/'
+import 'temptifly/dist/styles.css'
 import MonacoEditor from 'react-monaco-editor'
 import 'monaco-editor/esm/vs/editor/editor.all.js'
 import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand.js'

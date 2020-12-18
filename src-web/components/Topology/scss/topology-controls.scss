@@ -11,58 +11,59 @@
 @import 'variables';
 
 .topology-controls {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0rem 1rem 5px 0rem;
+  justify-content: space-between;
+
+  .topology-control-container {
     display: flex;
-    flex-wrap: wrap;
-    margin: 0rem 1rem 5px 0rem;
-    justify-content: space-between;
+    align-items: center;
 
-    .topology-control-container {
-      display: flex;
-      align-items: center;
+    > div {
+      width: 90vw;
+      margin-right: 20px;
+      background-color: #fff;
+    }
 
-      > div {
-        width: 90vw;
-        margin-right: 20px;
+    > * {
+      input::placeholder {
+        color: $ibm-colors__gray--40;
       }
 
-      > * {
-        input::placeholder {
-          color: $ibm-colors__gray--40;
-        }
+      .bx--list-box__menu {
+        max-height: 25rem;
+      }
 
-        .bx--list-box__menu {
-          max-height: 25rem;
-        }
-
-        .bx--text-input, .bx--search-input, .bx--list-box__field {
-          background-color: #fff;
-        }
-     }
-
-     .clear-filters {
-        .bx--tag.bx--tag--custom {
-          margin-left: 10px;
-          background-color: #edc0c0;
-          color: $color__blue-90;
-          font-size: .9rem;
-          padding: .8rem;
-          line-height: 20px;
-          white-space: nowrap;
-
-          .closeIcon {
-            fill: $color__blue-90;
-            cursor: pointer;
-            margin-left: 5px;
-          }
-        }
-     }
-
+      .bx--text-input,
+      .bx--search-input,
+      .bx--list-box__field {
+        background-color: #fff;
+      }
     }
 
-    .topology-type-filter-bar {
-      display: flex;
-      align-items: flex-end;
-      height: 100%;
-    }
+    .clear-filters {
+      .bx--tag.bx--tag--custom {
+        margin-left: 10px;
+        background-color: #edc0c0;
+        color: $color__blue-90;
+        font-size: .9rem;
+        padding: .8rem;
+        line-height: 20px;
+        white-space: nowrap;
 
+        .closeIcon {
+          fill: $color__blue-90;
+          cursor: pointer;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+
+  .topology-type-filter-bar {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+  }
 }

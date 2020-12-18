@@ -22,7 +22,6 @@ describe("SearchName search", () => {
 
   const searchInst = new Search(props);
   searchInst.setNameSearchRef(document);
-  searchInst.componentDidMount();
   searchInst.handleSearch({ target: { value: "test" } });
   it("render as expected", () => {
     const component = renderer.create(searchInst.render());

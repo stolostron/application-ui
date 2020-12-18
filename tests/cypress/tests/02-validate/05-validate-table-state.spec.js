@@ -6,6 +6,9 @@ const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 
 describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", () => {
   it(`maintain their state across SPA navigation`, () => {
+    // Set larger viewport to make sure all tables are in table mode and sortable
+    cy.viewport(1240, 660);
+
     // Open Applications table
     cy.visit("/multicloud/applications");
 

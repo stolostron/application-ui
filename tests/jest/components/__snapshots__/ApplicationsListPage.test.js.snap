@@ -91,73 +91,87 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
           class="pf-l-stack__item"
         >
           <div
-            aria-label="Success Alert"
-            class="pf-c-alert pf-m-success makeStyles-alert-1"
-            data-ouia-component-id="OUIA-Generated-Alert-success-3"
-            data-ouia-component-type="PF4/Alert"
-            data-ouia-safe="true"
-            subtitle="Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes."
+            class="MuiCollapse-container"
+            style="min-height: 0px; height: 0px; transition-duration: 200ms;"
           >
             <div
-              class="pf-c-alert__icon"
+              class="MuiCollapse-wrapper"
             >
-              <svg
-                aria-hidden="true"
-                fill="currentColor"
-                height="1em"
-                role="img"
-                style="vertical-align: -0.125em;"
-                viewBox="0 0 512 512"
-                width="1em"
+              <div
+                class="MuiCollapse-wrapperInner"
               >
-                <path
-                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
-                />
-              </svg>
-            </div>
-            <h4
-              class="pf-c-alert__title"
-            >
-              <span
-                class="pf-u-screen-reader"
-              >
-                Success alert:
-              </span>
-              Success
-            </h4>
-            <div
-              class="pf-c-alert__action"
-            >
-              <button
-                aria-disabled="false"
-                aria-label="Close Success alert: alert: Success"
-                class="pf-c-button pf-m-plain"
-                data-ouia-component-id="OUIA-Generated-Button-plain-5"
-                data-ouia-component-type="PF4/Button"
-                data-ouia-safe="true"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style="vertical-align: -0.125em;"
-                  viewBox="0 0 352 512"
-                  width="1em"
+                <div
+                  style="padding-bottom: 8px;"
                 >
-                  <path
-                    d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div
-              class="pf-c-alert__description"
-            >
-              <p>
-                Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
-              </p>
+                  <div
+                    aria-label="Success Alert"
+                    class="pf-c-alert pf-m-success"
+                    data-ouia-component-id="OUIA-Generated-Alert-success-3"
+                    data-ouia-component-type="PF4/Alert"
+                    data-ouia-safe="true"
+                  >
+                    <div
+                      class="pf-c-alert__icon"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        fill="currentColor"
+                        height="1em"
+                        role="img"
+                        style="vertical-align: -0.125em;"
+                        viewBox="0 0 512 512"
+                        width="1em"
+                      >
+                        <path
+                          d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+                        />
+                      </svg>
+                    </div>
+                    <h4
+                      class="pf-c-alert__title"
+                    >
+                      <span
+                        class="pf-u-screen-reader"
+                      >
+                        Success alert:
+                      </span>
+                      Success
+                    </h4>
+                    <div
+                      class="pf-c-alert__action"
+                    >
+                      <button
+                        aria-disabled="false"
+                        aria-label="Close Success alert: alert: Success"
+                        class="pf-c-button pf-m-plain"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-5"
+                        data-ouia-component-type="PF4/Button"
+                        data-ouia-safe="true"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 352 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="pf-c-alert__description"
+                    >
+                      Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -284,363 +298,371 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     />
                   </div>
                 </div>
-                <table
-                  aria-label="Simple Table"
-                  class="pf-c-table pf-m-grid-md pf-m-compact"
-                  data-ouia-component-id="OUIA-Generated-Table-6"
-                  data-ouia-component-type="PF4/Table"
-                  data-ouia-safe="true"
-                  role="grid"
+                <div
+                  class="makeStyles-outerDiv-2"
                 >
-                  <thead
-                    class=""
+                  <div
+                    class="makeStyles-tableDiv-1"
                   >
-                    <tr
-                      class=""
-                      data-ouia-component-id="OUIA-Generated-TableRow-3"
-                      data-ouia-component-type="PF4/TableRow"
+                    <table
+                      aria-label="Simple Table"
+                      class="pf-c-table pf-m-compact"
+                      data-ouia-component-id="OUIA-Generated-Table-6"
+                      data-ouia-component-type="PF4/Table"
                       data-ouia-safe="true"
+                      role="grid"
                     >
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="0"
-                        data-label="Name"
-                        scope="col"
-                      >
-                        <button
-                          class="pf-c-table__button"
-                          type="button"
-                        >
-                          <div
-                            class="pf-c-table__button-content"
-                          >
-                            <span
-                              class="pf-c-table__text"
-                            >
-                              Name
-                            </span>
-                            <span
-                              class="pf-c-table__sort-indicator"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                style="vertical-align: -0.125em;"
-                                viewBox="0 0 256 512"
-                                width="1em"
-                              >
-                                <path
-                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </button>
-                      </th>
-                      <th
-                        aria-sort="ascending"
-                        class="pf-c-table__sort pf-m-selected"
-                        data-key="1"
-                        data-label="Namespace"
-                        scope="col"
-                      >
-                        <button
-                          class="pf-c-table__button"
-                          type="button"
-                        >
-                          <div
-                            class="pf-c-table__button-content"
-                          >
-                            <span
-                              class="pf-c-table__text"
-                            >
-                              Namespace
-                            </span>
-                            <span
-                              class="pf-c-table__sort-indicator"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                style="vertical-align: -0.125em;"
-                                viewBox="0 0 256 512"
-                                width="1em"
-                              >
-                                <path
-                                  d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </button>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="2"
-                        data-label="Clusters"
-                        scope="col"
-                      >
-                        <div
-                          class="pf-c-table__column-help"
-                        >
-                          <button
-                            class="pf-c-table__button"
-                            type="button"
-                          >
-                            <div
-                              class="pf-c-table__button-content"
-                            >
-                              <span
-                                class="pf-c-table__text"
-                              >
-                                Clusters
-                              </span>
-                              <span
-                                class="pf-c-table__sort-indicator"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  fill="currentColor"
-                                  height="1em"
-                                  role="img"
-                                  style="vertical-align: -0.125em;"
-                                  viewBox="0 0 256 512"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                  />
-                                </svg>
-                              </span>
-                            </div>
-                          </button>
-                          <span
-                            class="pf-c-table__column-help-action"
-                          >
-                            <button
-                              aria-describedby="pf-tooltip-16"
-                              aria-disabled="false"
-                              aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
-                              class="pf-c-button pf-m-plain"
-                              data-ouia-component-id="OUIA-Generated-Button-plain-7"
-                              data-ouia-component-type="PF4/Button"
-                              data-ouia-safe="true"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                viewBox="0 0 1024 1024"
-                                width="1em"
-                              >
-                                <path
-                                  d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
-                                />
-                              </svg>
-                            </button>
-                          </span>
-                        </div>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="3"
-                        data-label="Resource"
-                        scope="col"
-                      >
-                        <div
-                          class="pf-c-table__column-help"
-                        >
-                          <button
-                            class="pf-c-table__button"
-                            type="button"
-                          >
-                            <div
-                              class="pf-c-table__button-content"
-                            >
-                              <span
-                                class="pf-c-table__text"
-                              >
-                                Resource
-                              </span>
-                              <span
-                                class="pf-c-table__sort-indicator"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  fill="currentColor"
-                                  height="1em"
-                                  role="img"
-                                  style="vertical-align: -0.125em;"
-                                  viewBox="0 0 256 512"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                  />
-                                </svg>
-                              </span>
-                            </div>
-                          </button>
-                          <span
-                            class="pf-c-table__column-help-action"
-                          >
-                            <button
-                              aria-describedby="pf-tooltip-17"
-                              aria-disabled="false"
-                              aria-label="Provides links to each of the resource repositories used by the application."
-                              class="pf-c-button pf-m-plain"
-                              data-ouia-component-id="OUIA-Generated-Button-plain-8"
-                              data-ouia-component-type="PF4/Button"
-                              data-ouia-safe="true"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                viewBox="0 0 1024 1024"
-                                width="1em"
-                              >
-                                <path
-                                  d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
-                                />
-                              </svg>
-                            </button>
-                          </span>
-                        </div>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="4"
-                        data-label="Time window"
-                        scope="col"
-                      >
-                        <div
-                          class="pf-c-table__column-help"
-                        >
-                          <button
-                            class="pf-c-table__button"
-                            type="button"
-                          >
-                            <div
-                              class="pf-c-table__button-content"
-                            >
-                              <span
-                                class="pf-c-table__text"
-                              >
-                                Time window
-                              </span>
-                              <span
-                                class="pf-c-table__sort-indicator"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  fill="currentColor"
-                                  height="1em"
-                                  role="img"
-                                  style="vertical-align: -0.125em;"
-                                  viewBox="0 0 256 512"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                  />
-                                </svg>
-                              </span>
-                            </div>
-                          </button>
-                          <span
-                            class="pf-c-table__column-help-action"
-                          >
-                            <button
-                              aria-describedby="pf-tooltip-18"
-                              aria-disabled="false"
-                              aria-label="Indicates if updates to any of the application resources are subject to a deployment time window."
-                              class="pf-c-button pf-m-plain"
-                              data-ouia-component-id="OUIA-Generated-Button-plain-9"
-                              data-ouia-component-type="PF4/Button"
-                              data-ouia-safe="true"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                viewBox="0 0 1024 1024"
-                                width="1em"
-                              >
-                                <path
-                                  d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
-                                />
-                              </svg>
-                            </button>
-                          </span>
-                        </div>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="5"
-                        data-label="Created"
-                        scope="col"
-                      >
-                        <button
-                          class="pf-c-table__button"
-                          type="button"
-                        >
-                          <div
-                            class="pf-c-table__button-content"
-                          >
-                            <span
-                              class="pf-c-table__text"
-                            >
-                              Created
-                            </span>
-                            <span
-                              class="pf-c-table__sort-indicator"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                style="vertical-align: -0.125em;"
-                                viewBox="0 0 256 512"
-                                width="1em"
-                              >
-                                <path
-                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </button>
-                      </th>
-                      <td
+                      <thead
                         class=""
-                        data-key="6"
-                        data-label=""
-                        scope=""
+                      >
+                        <tr
+                          class=""
+                          data-ouia-component-id="OUIA-Generated-TableRow-3"
+                          data-ouia-component-type="PF4/TableRow"
+                          data-ouia-safe="true"
+                        >
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
+                            data-key="0"
+                            data-label="Name"
+                            scope="col"
+                          >
+                            <button
+                              class="pf-c-table__button"
+                              type="button"
+                            >
+                              <div
+                                class="pf-c-table__button-content"
+                              >
+                                <span
+                                  class="pf-c-table__text"
+                                >
+                                  Name
+                                </span>
+                                <span
+                                  class="pf-c-table__sort-indicator"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style="vertical-align: -0.125em;"
+                                    viewBox="0 0 256 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </button>
+                          </th>
+                          <th
+                            aria-sort="ascending"
+                            class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
+                            data-key="1"
+                            data-label="Namespace"
+                            scope="col"
+                          >
+                            <button
+                              class="pf-c-table__button"
+                              type="button"
+                            >
+                              <div
+                                class="pf-c-table__button-content"
+                              >
+                                <span
+                                  class="pf-c-table__text"
+                                >
+                                  Namespace
+                                </span>
+                                <span
+                                  class="pf-c-table__sort-indicator"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style="vertical-align: -0.125em;"
+                                    viewBox="0 0 256 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </button>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="2"
+                            data-label="Clusters"
+                            scope="col"
+                          >
+                            <div
+                              class="pf-c-table__column-help"
+                            >
+                              <button
+                                class="pf-c-table__button"
+                                type="button"
+                              >
+                                <div
+                                  class="pf-c-table__button-content"
+                                >
+                                  <span
+                                    class="pf-c-table__text"
+                                  >
+                                    Clusters
+                                  </span>
+                                  <span
+                                    class="pf-c-table__sort-indicator"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 256 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </div>
+                              </button>
+                              <span
+                                class="pf-c-table__column-help-action"
+                              >
+                                <button
+                                  aria-describedby="pf-tooltip-16"
+                                  aria-disabled="false"
+                                  aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
+                                  class="pf-c-button pf-m-plain"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-7"
+                                  data-ouia-component-type="PF4/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    viewBox="0 0 1024 1024"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                                    />
+                                  </svg>
+                                </button>
+                              </span>
+                            </div>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="3"
+                            data-label="Resource"
+                            scope="col"
+                          >
+                            <div
+                              class="pf-c-table__column-help"
+                            >
+                              <button
+                                class="pf-c-table__button"
+                                type="button"
+                              >
+                                <div
+                                  class="pf-c-table__button-content"
+                                >
+                                  <span
+                                    class="pf-c-table__text"
+                                  >
+                                    Resource
+                                  </span>
+                                  <span
+                                    class="pf-c-table__sort-indicator"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 256 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </div>
+                              </button>
+                              <span
+                                class="pf-c-table__column-help-action"
+                              >
+                                <button
+                                  aria-describedby="pf-tooltip-17"
+                                  aria-disabled="false"
+                                  aria-label="Provides links to each of the resource repositories used by the application."
+                                  class="pf-c-button pf-m-plain"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-8"
+                                  data-ouia-component-type="PF4/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    viewBox="0 0 1024 1024"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                                    />
+                                  </svg>
+                                </button>
+                              </span>
+                            </div>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="4"
+                            data-label="Time window"
+                            scope="col"
+                          >
+                            <div
+                              class="pf-c-table__column-help"
+                            >
+                              <button
+                                class="pf-c-table__button"
+                                type="button"
+                              >
+                                <div
+                                  class="pf-c-table__button-content"
+                                >
+                                  <span
+                                    class="pf-c-table__text"
+                                  >
+                                    Time window
+                                  </span>
+                                  <span
+                                    class="pf-c-table__sort-indicator"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 256 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </div>
+                              </button>
+                              <span
+                                class="pf-c-table__column-help-action"
+                              >
+                                <button
+                                  aria-describedby="pf-tooltip-18"
+                                  aria-disabled="false"
+                                  aria-label="Indicates if updates to any of the application resources are subject to a deployment time window."
+                                  class="pf-c-button pf-m-plain"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-9"
+                                  data-ouia-component-type="PF4/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    viewBox="0 0 1024 1024"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                                    />
+                                  </svg>
+                                </button>
+                              </span>
+                            </div>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="5"
+                            data-label="Created"
+                            scope="col"
+                          >
+                            <button
+                              class="pf-c-table__button"
+                              type="button"
+                            >
+                              <div
+                                class="pf-c-table__button-content"
+                              >
+                                <span
+                                  class="pf-c-table__text"
+                                >
+                                  Created
+                                </span>
+                                <span
+                                  class="pf-c-table__sort-indicator"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style="vertical-align: -0.125em;"
+                                    viewBox="0 0 256 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </button>
+                          </th>
+                          <td
+                            class=""
+                            data-key="6"
+                            data-label=""
+                            scope=""
+                          />
+                        </tr>
+                      </thead>
+                      <tbody
+                        class=""
+                        role="rowgroup"
                       />
-                    </tr>
-                  </thead>
-                  <tbody
-                    class=""
-                    role="rowgroup"
-                  />
-                </table>
+                    </table>
+                  </div>
+                </div>
                 <div
                   class="pf-l-split"
                 >
@@ -784,73 +806,87 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
           class="pf-l-stack__item"
         >
           <div
-            aria-label="Success Alert"
-            class="pf-c-alert pf-m-success makeStyles-alert-1"
-            data-ouia-component-id="OUIA-Generated-Alert-success-1"
-            data-ouia-component-type="PF4/Alert"
-            data-ouia-safe="true"
-            subtitle="Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes."
+            class="MuiCollapse-container"
+            style="min-height: 0px; height: 0px; transition-duration: 200ms;"
           >
             <div
-              class="pf-c-alert__icon"
+              class="MuiCollapse-wrapper"
             >
-              <svg
-                aria-hidden="true"
-                fill="currentColor"
-                height="1em"
-                role="img"
-                style="vertical-align: -0.125em;"
-                viewBox="0 0 512 512"
-                width="1em"
+              <div
+                class="MuiCollapse-wrapperInner"
               >
-                <path
-                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
-                />
-              </svg>
-            </div>
-            <h4
-              class="pf-c-alert__title"
-            >
-              <span
-                class="pf-u-screen-reader"
-              >
-                Success alert:
-              </span>
-              Success
-            </h4>
-            <div
-              class="pf-c-alert__action"
-            >
-              <button
-                aria-disabled="false"
-                aria-label="Close Success alert: alert: Success"
-                class="pf-c-button pf-m-plain"
-                data-ouia-component-id="OUIA-Generated-Button-plain-1"
-                data-ouia-component-type="PF4/Button"
-                data-ouia-safe="true"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style="vertical-align: -0.125em;"
-                  viewBox="0 0 352 512"
-                  width="1em"
+                <div
+                  style="padding-bottom: 8px;"
                 >
-                  <path
-                    d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div
-              class="pf-c-alert__description"
-            >
-              <p>
-                Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
-              </p>
+                  <div
+                    aria-label="Success Alert"
+                    class="pf-c-alert pf-m-success"
+                    data-ouia-component-id="OUIA-Generated-Alert-success-1"
+                    data-ouia-component-type="PF4/Alert"
+                    data-ouia-safe="true"
+                  >
+                    <div
+                      class="pf-c-alert__icon"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        fill="currentColor"
+                        height="1em"
+                        role="img"
+                        style="vertical-align: -0.125em;"
+                        viewBox="0 0 512 512"
+                        width="1em"
+                      >
+                        <path
+                          d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+                        />
+                      </svg>
+                    </div>
+                    <h4
+                      class="pf-c-alert__title"
+                    >
+                      <span
+                        class="pf-u-screen-reader"
+                      >
+                        Success alert:
+                      </span>
+                      Success
+                    </h4>
+                    <div
+                      class="pf-c-alert__action"
+                    >
+                      <button
+                        aria-disabled="false"
+                        aria-label="Close Success alert: alert: Success"
+                        class="pf-c-button pf-m-plain"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-1"
+                        data-ouia-component-type="PF4/Button"
+                        data-ouia-safe="true"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 352 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="pf-c-alert__description"
+                    >
+                      Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -977,363 +1013,371 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     />
                   </div>
                 </div>
-                <table
-                  aria-label="Simple Table"
-                  class="pf-c-table pf-m-grid-md pf-m-compact"
-                  data-ouia-component-id="OUIA-Generated-Table-2"
-                  data-ouia-component-type="PF4/Table"
-                  data-ouia-safe="true"
-                  role="grid"
+                <div
+                  class="makeStyles-outerDiv-2"
                 >
-                  <thead
-                    class=""
+                  <div
+                    class="makeStyles-tableDiv-1"
                   >
-                    <tr
-                      class=""
-                      data-ouia-component-id="OUIA-Generated-TableRow-1"
-                      data-ouia-component-type="PF4/TableRow"
+                    <table
+                      aria-label="Simple Table"
+                      class="pf-c-table pf-m-compact"
+                      data-ouia-component-id="OUIA-Generated-Table-2"
+                      data-ouia-component-type="PF4/Table"
                       data-ouia-safe="true"
+                      role="grid"
                     >
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="0"
-                        data-label="Name"
-                        scope="col"
-                      >
-                        <button
-                          class="pf-c-table__button"
-                          type="button"
-                        >
-                          <div
-                            class="pf-c-table__button-content"
-                          >
-                            <span
-                              class="pf-c-table__text"
-                            >
-                              Name
-                            </span>
-                            <span
-                              class="pf-c-table__sort-indicator"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                style="vertical-align: -0.125em;"
-                                viewBox="0 0 256 512"
-                                width="1em"
-                              >
-                                <path
-                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </button>
-                      </th>
-                      <th
-                        aria-sort="ascending"
-                        class="pf-c-table__sort pf-m-selected"
-                        data-key="1"
-                        data-label="Namespace"
-                        scope="col"
-                      >
-                        <button
-                          class="pf-c-table__button"
-                          type="button"
-                        >
-                          <div
-                            class="pf-c-table__button-content"
-                          >
-                            <span
-                              class="pf-c-table__text"
-                            >
-                              Namespace
-                            </span>
-                            <span
-                              class="pf-c-table__sort-indicator"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                style="vertical-align: -0.125em;"
-                                viewBox="0 0 256 512"
-                                width="1em"
-                              >
-                                <path
-                                  d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </button>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="2"
-                        data-label="Clusters"
-                        scope="col"
-                      >
-                        <div
-                          class="pf-c-table__column-help"
-                        >
-                          <button
-                            class="pf-c-table__button"
-                            type="button"
-                          >
-                            <div
-                              class="pf-c-table__button-content"
-                            >
-                              <span
-                                class="pf-c-table__text"
-                              >
-                                Clusters
-                              </span>
-                              <span
-                                class="pf-c-table__sort-indicator"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  fill="currentColor"
-                                  height="1em"
-                                  role="img"
-                                  style="vertical-align: -0.125em;"
-                                  viewBox="0 0 256 512"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                  />
-                                </svg>
-                              </span>
-                            </div>
-                          </button>
-                          <span
-                            class="pf-c-table__column-help-action"
-                          >
-                            <button
-                              aria-describedby="pf-tooltip-4"
-                              aria-disabled="false"
-                              aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
-                              class="pf-c-button pf-m-plain"
-                              data-ouia-component-id="OUIA-Generated-Button-plain-1"
-                              data-ouia-component-type="PF4/Button"
-                              data-ouia-safe="true"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                viewBox="0 0 1024 1024"
-                                width="1em"
-                              >
-                                <path
-                                  d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
-                                />
-                              </svg>
-                            </button>
-                          </span>
-                        </div>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="3"
-                        data-label="Resource"
-                        scope="col"
-                      >
-                        <div
-                          class="pf-c-table__column-help"
-                        >
-                          <button
-                            class="pf-c-table__button"
-                            type="button"
-                          >
-                            <div
-                              class="pf-c-table__button-content"
-                            >
-                              <span
-                                class="pf-c-table__text"
-                              >
-                                Resource
-                              </span>
-                              <span
-                                class="pf-c-table__sort-indicator"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  fill="currentColor"
-                                  height="1em"
-                                  role="img"
-                                  style="vertical-align: -0.125em;"
-                                  viewBox="0 0 256 512"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                  />
-                                </svg>
-                              </span>
-                            </div>
-                          </button>
-                          <span
-                            class="pf-c-table__column-help-action"
-                          >
-                            <button
-                              aria-describedby="pf-tooltip-5"
-                              aria-disabled="false"
-                              aria-label="Provides links to each of the resource repositories used by the application."
-                              class="pf-c-button pf-m-plain"
-                              data-ouia-component-id="OUIA-Generated-Button-plain-2"
-                              data-ouia-component-type="PF4/Button"
-                              data-ouia-safe="true"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                viewBox="0 0 1024 1024"
-                                width="1em"
-                              >
-                                <path
-                                  d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
-                                />
-                              </svg>
-                            </button>
-                          </span>
-                        </div>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="4"
-                        data-label="Time window"
-                        scope="col"
-                      >
-                        <div
-                          class="pf-c-table__column-help"
-                        >
-                          <button
-                            class="pf-c-table__button"
-                            type="button"
-                          >
-                            <div
-                              class="pf-c-table__button-content"
-                            >
-                              <span
-                                class="pf-c-table__text"
-                              >
-                                Time window
-                              </span>
-                              <span
-                                class="pf-c-table__sort-indicator"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  fill="currentColor"
-                                  height="1em"
-                                  role="img"
-                                  style="vertical-align: -0.125em;"
-                                  viewBox="0 0 256 512"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                  />
-                                </svg>
-                              </span>
-                            </div>
-                          </button>
-                          <span
-                            class="pf-c-table__column-help-action"
-                          >
-                            <button
-                              aria-describedby="pf-tooltip-6"
-                              aria-disabled="false"
-                              aria-label="Indicates if updates to any of the application resources are subject to a deployment time window."
-                              class="pf-c-button pf-m-plain"
-                              data-ouia-component-id="OUIA-Generated-Button-plain-3"
-                              data-ouia-component-type="PF4/Button"
-                              data-ouia-safe="true"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                viewBox="0 0 1024 1024"
-                                width="1em"
-                              >
-                                <path
-                                  d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
-                                />
-                              </svg>
-                            </button>
-                          </span>
-                        </div>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="5"
-                        data-label="Created"
-                        scope="col"
-                      >
-                        <button
-                          class="pf-c-table__button"
-                          type="button"
-                        >
-                          <div
-                            class="pf-c-table__button-content"
-                          >
-                            <span
-                              class="pf-c-table__text"
-                            >
-                              Created
-                            </span>
-                            <span
-                              class="pf-c-table__sort-indicator"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                style="vertical-align: -0.125em;"
-                                viewBox="0 0 256 512"
-                                width="1em"
-                              >
-                                <path
-                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </button>
-                      </th>
-                      <td
+                      <thead
                         class=""
-                        data-key="6"
-                        data-label=""
-                        scope=""
+                      >
+                        <tr
+                          class=""
+                          data-ouia-component-id="OUIA-Generated-TableRow-1"
+                          data-ouia-component-type="PF4/TableRow"
+                          data-ouia-safe="true"
+                        >
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
+                            data-key="0"
+                            data-label="Name"
+                            scope="col"
+                          >
+                            <button
+                              class="pf-c-table__button"
+                              type="button"
+                            >
+                              <div
+                                class="pf-c-table__button-content"
+                              >
+                                <span
+                                  class="pf-c-table__text"
+                                >
+                                  Name
+                                </span>
+                                <span
+                                  class="pf-c-table__sort-indicator"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style="vertical-align: -0.125em;"
+                                    viewBox="0 0 256 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </button>
+                          </th>
+                          <th
+                            aria-sort="ascending"
+                            class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
+                            data-key="1"
+                            data-label="Namespace"
+                            scope="col"
+                          >
+                            <button
+                              class="pf-c-table__button"
+                              type="button"
+                            >
+                              <div
+                                class="pf-c-table__button-content"
+                              >
+                                <span
+                                  class="pf-c-table__text"
+                                >
+                                  Namespace
+                                </span>
+                                <span
+                                  class="pf-c-table__sort-indicator"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style="vertical-align: -0.125em;"
+                                    viewBox="0 0 256 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </button>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="2"
+                            data-label="Clusters"
+                            scope="col"
+                          >
+                            <div
+                              class="pf-c-table__column-help"
+                            >
+                              <button
+                                class="pf-c-table__button"
+                                type="button"
+                              >
+                                <div
+                                  class="pf-c-table__button-content"
+                                >
+                                  <span
+                                    class="pf-c-table__text"
+                                  >
+                                    Clusters
+                                  </span>
+                                  <span
+                                    class="pf-c-table__sort-indicator"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 256 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </div>
+                              </button>
+                              <span
+                                class="pf-c-table__column-help-action"
+                              >
+                                <button
+                                  aria-describedby="pf-tooltip-4"
+                                  aria-disabled="false"
+                                  aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
+                                  class="pf-c-button pf-m-plain"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-1"
+                                  data-ouia-component-type="PF4/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    viewBox="0 0 1024 1024"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                                    />
+                                  </svg>
+                                </button>
+                              </span>
+                            </div>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="3"
+                            data-label="Resource"
+                            scope="col"
+                          >
+                            <div
+                              class="pf-c-table__column-help"
+                            >
+                              <button
+                                class="pf-c-table__button"
+                                type="button"
+                              >
+                                <div
+                                  class="pf-c-table__button-content"
+                                >
+                                  <span
+                                    class="pf-c-table__text"
+                                  >
+                                    Resource
+                                  </span>
+                                  <span
+                                    class="pf-c-table__sort-indicator"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 256 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </div>
+                              </button>
+                              <span
+                                class="pf-c-table__column-help-action"
+                              >
+                                <button
+                                  aria-describedby="pf-tooltip-5"
+                                  aria-disabled="false"
+                                  aria-label="Provides links to each of the resource repositories used by the application."
+                                  class="pf-c-button pf-m-plain"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-2"
+                                  data-ouia-component-type="PF4/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    viewBox="0 0 1024 1024"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                                    />
+                                  </svg>
+                                </button>
+                              </span>
+                            </div>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="4"
+                            data-label="Time window"
+                            scope="col"
+                          >
+                            <div
+                              class="pf-c-table__column-help"
+                            >
+                              <button
+                                class="pf-c-table__button"
+                                type="button"
+                              >
+                                <div
+                                  class="pf-c-table__button-content"
+                                >
+                                  <span
+                                    class="pf-c-table__text"
+                                  >
+                                    Time window
+                                  </span>
+                                  <span
+                                    class="pf-c-table__sort-indicator"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 256 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </div>
+                              </button>
+                              <span
+                                class="pf-c-table__column-help-action"
+                              >
+                                <button
+                                  aria-describedby="pf-tooltip-6"
+                                  aria-disabled="false"
+                                  aria-label="Indicates if updates to any of the application resources are subject to a deployment time window."
+                                  class="pf-c-button pf-m-plain"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-3"
+                                  data-ouia-component-type="PF4/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    viewBox="0 0 1024 1024"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                                    />
+                                  </svg>
+                                </button>
+                              </span>
+                            </div>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="5"
+                            data-label="Created"
+                            scope="col"
+                          >
+                            <button
+                              class="pf-c-table__button"
+                              type="button"
+                            >
+                              <div
+                                class="pf-c-table__button-content"
+                              >
+                                <span
+                                  class="pf-c-table__text"
+                                >
+                                  Created
+                                </span>
+                                <span
+                                  class="pf-c-table__sort-indicator"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style="vertical-align: -0.125em;"
+                                    viewBox="0 0 256 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </button>
+                          </th>
+                          <td
+                            class=""
+                            data-key="6"
+                            data-label=""
+                            scope=""
+                          />
+                        </tr>
+                      </thead>
+                      <tbody
+                        class=""
+                        role="rowgroup"
                       />
-                    </tr>
-                  </thead>
-                  <tbody
-                    class=""
-                    role="rowgroup"
-                  />
-                </table>
+                    </table>
+                  </div>
+                </div>
                 <div
                   class="pf-l-split"
                 >
@@ -1477,73 +1521,87 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
           class="pf-l-stack__item"
         >
           <div
-            aria-label="Success Alert"
-            class="pf-c-alert pf-m-success makeStyles-alert-1"
-            data-ouia-component-id="OUIA-Generated-Alert-success-2"
-            data-ouia-component-type="PF4/Alert"
-            data-ouia-safe="true"
-            subtitle="Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes."
+            class="MuiCollapse-container"
+            style="min-height: 0px; height: 0px; transition-duration: 200ms;"
           >
             <div
-              class="pf-c-alert__icon"
+              class="MuiCollapse-wrapper"
             >
-              <svg
-                aria-hidden="true"
-                fill="currentColor"
-                height="1em"
-                role="img"
-                style="vertical-align: -0.125em;"
-                viewBox="0 0 512 512"
-                width="1em"
+              <div
+                class="MuiCollapse-wrapperInner"
               >
-                <path
-                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
-                />
-              </svg>
-            </div>
-            <h4
-              class="pf-c-alert__title"
-            >
-              <span
-                class="pf-u-screen-reader"
-              >
-                Success alert:
-              </span>
-              Success
-            </h4>
-            <div
-              class="pf-c-alert__action"
-            >
-              <button
-                aria-disabled="false"
-                aria-label="Close Success alert: alert: Success"
-                class="pf-c-button pf-m-plain"
-                data-ouia-component-id="OUIA-Generated-Button-plain-3"
-                data-ouia-component-type="PF4/Button"
-                data-ouia-safe="true"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style="vertical-align: -0.125em;"
-                  viewBox="0 0 352 512"
-                  width="1em"
+                <div
+                  style="padding-bottom: 8px;"
                 >
-                  <path
-                    d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div
-              class="pf-c-alert__description"
-            >
-              <p>
-                Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
-              </p>
+                  <div
+                    aria-label="Success Alert"
+                    class="pf-c-alert pf-m-success"
+                    data-ouia-component-id="OUIA-Generated-Alert-success-2"
+                    data-ouia-component-type="PF4/Alert"
+                    data-ouia-safe="true"
+                  >
+                    <div
+                      class="pf-c-alert__icon"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        fill="currentColor"
+                        height="1em"
+                        role="img"
+                        style="vertical-align: -0.125em;"
+                        viewBox="0 0 512 512"
+                        width="1em"
+                      >
+                        <path
+                          d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+                        />
+                      </svg>
+                    </div>
+                    <h4
+                      class="pf-c-alert__title"
+                    >
+                      <span
+                        class="pf-u-screen-reader"
+                      >
+                        Success alert:
+                      </span>
+                      Success
+                    </h4>
+                    <div
+                      class="pf-c-alert__action"
+                    >
+                      <button
+                        aria-disabled="false"
+                        aria-label="Close Success alert: alert: Success"
+                        class="pf-c-button pf-m-plain"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-3"
+                        data-ouia-component-type="PF4/Button"
+                        data-ouia-safe="true"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 352 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="pf-c-alert__description"
+                    >
+                      Delete resource {0} was submitted successfully. The result will display when ready. If you disabled refresh, you need to manually refresh the page to see the changes.
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1670,363 +1728,371 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     />
                   </div>
                 </div>
-                <table
-                  aria-label="Simple Table"
-                  class="pf-c-table pf-m-grid-md pf-m-compact"
-                  data-ouia-component-id="OUIA-Generated-Table-4"
-                  data-ouia-component-type="PF4/Table"
-                  data-ouia-safe="true"
-                  role="grid"
+                <div
+                  class="makeStyles-outerDiv-2"
                 >
-                  <thead
-                    class=""
+                  <div
+                    class="makeStyles-tableDiv-1"
                   >
-                    <tr
-                      class=""
-                      data-ouia-component-id="OUIA-Generated-TableRow-2"
-                      data-ouia-component-type="PF4/TableRow"
+                    <table
+                      aria-label="Simple Table"
+                      class="pf-c-table pf-m-compact"
+                      data-ouia-component-id="OUIA-Generated-Table-4"
+                      data-ouia-component-type="PF4/Table"
                       data-ouia-safe="true"
+                      role="grid"
                     >
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="0"
-                        data-label="Name"
-                        scope="col"
-                      >
-                        <button
-                          class="pf-c-table__button"
-                          type="button"
-                        >
-                          <div
-                            class="pf-c-table__button-content"
-                          >
-                            <span
-                              class="pf-c-table__text"
-                            >
-                              Name
-                            </span>
-                            <span
-                              class="pf-c-table__sort-indicator"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                style="vertical-align: -0.125em;"
-                                viewBox="0 0 256 512"
-                                width="1em"
-                              >
-                                <path
-                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </button>
-                      </th>
-                      <th
-                        aria-sort="ascending"
-                        class="pf-c-table__sort pf-m-selected"
-                        data-key="1"
-                        data-label="Namespace"
-                        scope="col"
-                      >
-                        <button
-                          class="pf-c-table__button"
-                          type="button"
-                        >
-                          <div
-                            class="pf-c-table__button-content"
-                          >
-                            <span
-                              class="pf-c-table__text"
-                            >
-                              Namespace
-                            </span>
-                            <span
-                              class="pf-c-table__sort-indicator"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                style="vertical-align: -0.125em;"
-                                viewBox="0 0 256 512"
-                                width="1em"
-                              >
-                                <path
-                                  d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </button>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="2"
-                        data-label="Clusters"
-                        scope="col"
-                      >
-                        <div
-                          class="pf-c-table__column-help"
-                        >
-                          <button
-                            class="pf-c-table__button"
-                            type="button"
-                          >
-                            <div
-                              class="pf-c-table__button-content"
-                            >
-                              <span
-                                class="pf-c-table__text"
-                              >
-                                Clusters
-                              </span>
-                              <span
-                                class="pf-c-table__sort-indicator"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  fill="currentColor"
-                                  height="1em"
-                                  role="img"
-                                  style="vertical-align: -0.125em;"
-                                  viewBox="0 0 256 512"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                  />
-                                </svg>
-                              </span>
-                            </div>
-                          </button>
-                          <span
-                            class="pf-c-table__column-help-action"
-                          >
-                            <button
-                              aria-describedby="pf-tooltip-10"
-                              aria-disabled="false"
-                              aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
-                              class="pf-c-button pf-m-plain"
-                              data-ouia-component-id="OUIA-Generated-Button-plain-4"
-                              data-ouia-component-type="PF4/Button"
-                              data-ouia-safe="true"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                viewBox="0 0 1024 1024"
-                                width="1em"
-                              >
-                                <path
-                                  d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
-                                />
-                              </svg>
-                            </button>
-                          </span>
-                        </div>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="3"
-                        data-label="Resource"
-                        scope="col"
-                      >
-                        <div
-                          class="pf-c-table__column-help"
-                        >
-                          <button
-                            class="pf-c-table__button"
-                            type="button"
-                          >
-                            <div
-                              class="pf-c-table__button-content"
-                            >
-                              <span
-                                class="pf-c-table__text"
-                              >
-                                Resource
-                              </span>
-                              <span
-                                class="pf-c-table__sort-indicator"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  fill="currentColor"
-                                  height="1em"
-                                  role="img"
-                                  style="vertical-align: -0.125em;"
-                                  viewBox="0 0 256 512"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                  />
-                                </svg>
-                              </span>
-                            </div>
-                          </button>
-                          <span
-                            class="pf-c-table__column-help-action"
-                          >
-                            <button
-                              aria-describedby="pf-tooltip-11"
-                              aria-disabled="false"
-                              aria-label="Provides links to each of the resource repositories used by the application."
-                              class="pf-c-button pf-m-plain"
-                              data-ouia-component-id="OUIA-Generated-Button-plain-5"
-                              data-ouia-component-type="PF4/Button"
-                              data-ouia-safe="true"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                viewBox="0 0 1024 1024"
-                                width="1em"
-                              >
-                                <path
-                                  d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
-                                />
-                              </svg>
-                            </button>
-                          </span>
-                        </div>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="4"
-                        data-label="Time window"
-                        scope="col"
-                      >
-                        <div
-                          class="pf-c-table__column-help"
-                        >
-                          <button
-                            class="pf-c-table__button"
-                            type="button"
-                          >
-                            <div
-                              class="pf-c-table__button-content"
-                            >
-                              <span
-                                class="pf-c-table__text"
-                              >
-                                Time window
-                              </span>
-                              <span
-                                class="pf-c-table__sort-indicator"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  fill="currentColor"
-                                  height="1em"
-                                  role="img"
-                                  style="vertical-align: -0.125em;"
-                                  viewBox="0 0 256 512"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                  />
-                                </svg>
-                              </span>
-                            </div>
-                          </button>
-                          <span
-                            class="pf-c-table__column-help-action"
-                          >
-                            <button
-                              aria-describedby="pf-tooltip-12"
-                              aria-disabled="false"
-                              aria-label="Indicates if updates to any of the application resources are subject to a deployment time window."
-                              class="pf-c-button pf-m-plain"
-                              data-ouia-component-id="OUIA-Generated-Button-plain-6"
-                              data-ouia-component-type="PF4/Button"
-                              data-ouia-safe="true"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                viewBox="0 0 1024 1024"
-                                width="1em"
-                              >
-                                <path
-                                  d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
-                                />
-                              </svg>
-                            </button>
-                          </span>
-                        </div>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="pf-c-table__sort"
-                        data-key="5"
-                        data-label="Created"
-                        scope="col"
-                      >
-                        <button
-                          class="pf-c-table__button"
-                          type="button"
-                        >
-                          <div
-                            class="pf-c-table__button-content"
-                          >
-                            <span
-                              class="pf-c-table__text"
-                            >
-                              Created
-                            </span>
-                            <span
-                              class="pf-c-table__sort-indicator"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                style="vertical-align: -0.125em;"
-                                viewBox="0 0 256 512"
-                                width="1em"
-                              >
-                                <path
-                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </button>
-                      </th>
-                      <td
+                      <thead
                         class=""
-                        data-key="6"
-                        data-label=""
-                        scope=""
+                      >
+                        <tr
+                          class=""
+                          data-ouia-component-id="OUIA-Generated-TableRow-2"
+                          data-ouia-component-type="PF4/TableRow"
+                          data-ouia-safe="true"
+                        >
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
+                            data-key="0"
+                            data-label="Name"
+                            scope="col"
+                          >
+                            <button
+                              class="pf-c-table__button"
+                              type="button"
+                            >
+                              <div
+                                class="pf-c-table__button-content"
+                              >
+                                <span
+                                  class="pf-c-table__text"
+                                >
+                                  Name
+                                </span>
+                                <span
+                                  class="pf-c-table__sort-indicator"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style="vertical-align: -0.125em;"
+                                    viewBox="0 0 256 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </button>
+                          </th>
+                          <th
+                            aria-sort="ascending"
+                            class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
+                            data-key="1"
+                            data-label="Namespace"
+                            scope="col"
+                          >
+                            <button
+                              class="pf-c-table__button"
+                              type="button"
+                            >
+                              <div
+                                class="pf-c-table__button-content"
+                              >
+                                <span
+                                  class="pf-c-table__text"
+                                >
+                                  Namespace
+                                </span>
+                                <span
+                                  class="pf-c-table__sort-indicator"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style="vertical-align: -0.125em;"
+                                    viewBox="0 0 256 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </button>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="2"
+                            data-label="Clusters"
+                            scope="col"
+                          >
+                            <div
+                              class="pf-c-table__column-help"
+                            >
+                              <button
+                                class="pf-c-table__button"
+                                type="button"
+                              >
+                                <div
+                                  class="pf-c-table__button-content"
+                                >
+                                  <span
+                                    class="pf-c-table__text"
+                                  >
+                                    Clusters
+                                  </span>
+                                  <span
+                                    class="pf-c-table__sort-indicator"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 256 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </div>
+                              </button>
+                              <span
+                                class="pf-c-table__column-help-action"
+                              >
+                                <button
+                                  aria-describedby="pf-tooltip-10"
+                                  aria-disabled="false"
+                                  aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
+                                  class="pf-c-button pf-m-plain"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-4"
+                                  data-ouia-component-type="PF4/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    viewBox="0 0 1024 1024"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                                    />
+                                  </svg>
+                                </button>
+                              </span>
+                            </div>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="3"
+                            data-label="Resource"
+                            scope="col"
+                          >
+                            <div
+                              class="pf-c-table__column-help"
+                            >
+                              <button
+                                class="pf-c-table__button"
+                                type="button"
+                              >
+                                <div
+                                  class="pf-c-table__button-content"
+                                >
+                                  <span
+                                    class="pf-c-table__text"
+                                  >
+                                    Resource
+                                  </span>
+                                  <span
+                                    class="pf-c-table__sort-indicator"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 256 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </div>
+                              </button>
+                              <span
+                                class="pf-c-table__column-help-action"
+                              >
+                                <button
+                                  aria-describedby="pf-tooltip-11"
+                                  aria-disabled="false"
+                                  aria-label="Provides links to each of the resource repositories used by the application."
+                                  class="pf-c-button pf-m-plain"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-5"
+                                  data-ouia-component-type="PF4/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    viewBox="0 0 1024 1024"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                                    />
+                                  </svg>
+                                </button>
+                              </span>
+                            </div>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="4"
+                            data-label="Time window"
+                            scope="col"
+                          >
+                            <div
+                              class="pf-c-table__column-help"
+                            >
+                              <button
+                                class="pf-c-table__button"
+                                type="button"
+                              >
+                                <div
+                                  class="pf-c-table__button-content"
+                                >
+                                  <span
+                                    class="pf-c-table__text"
+                                  >
+                                    Time window
+                                  </span>
+                                  <span
+                                    class="pf-c-table__sort-indicator"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 256 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </div>
+                              </button>
+                              <span
+                                class="pf-c-table__column-help-action"
+                              >
+                                <button
+                                  aria-describedby="pf-tooltip-12"
+                                  aria-disabled="false"
+                                  aria-label="Indicates if updates to any of the application resources are subject to a deployment time window."
+                                  class="pf-c-button pf-m-plain"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-6"
+                                  data-ouia-component-type="PF4/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    viewBox="0 0 1024 1024"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M521.3,576 C627.5,576 713.7,502 713.7,413.7 C713.7,325.4 627.6,253.6 521.3,253.6 C366,253.6 334.5,337.7 329.2,407.2 C329.2,414.3 335.2,416 343.5,416 L445,416 C450.5,416 458,415.5 460.8,406.5 C460.8,362.6 582.9,357.1 582.9,413.6 C582.9,441.9 556.2,470.9 521.3,473 C486.4,475.1 447.3,479.8 447.3,521.7 L447.3,553.8 C447.3,570.8 456.1,576 472,576 C487.9,576 521.3,576 521.3,576 M575.3,751.3 L575.3,655.3 C575.313862,651.055109 573.620137,646.982962 570.6,644 C567.638831,640.947672 563.552355,639.247987 559.3,639.29884 L463.3,639.29884 C459.055109,639.286138 454.982962,640.979863 452,644 C448.947672,646.961169 447.247987,651.047645 447.29884,655.3 L447.29884,751.3 C447.286138,755.544891 448.979863,759.617038 452,762.6 C454.961169,765.652328 459.047645,767.352013 463.3,767.30116 L559.3,767.30116 C563.544891,767.313862 567.617038,765.620137 570.6,762.6 C573.659349,759.643612 575.360354,755.553963 575.3,751.3 M512,896 C300.2,896 128,723.9 128,512 C128,300.3 300.2,128 512,128 C723.8,128 896,300.2 896,512 C896,723.8 723.7,896 512,896 M512.1,0 C229.7,0 0,229.8 0,512 C0,794.2 229.8,1024 512.1,1024 C794.4,1024 1024,794.3 1024,512 C1024,229.7 794.4,0 512.1,0"
+                                    />
+                                  </svg>
+                                </button>
+                              </span>
+                            </div>
+                          </th>
+                          <th
+                            aria-sort="none"
+                            class="pf-m-nowrap pf-c-table__sort"
+                            data-key="5"
+                            data-label="Created"
+                            scope="col"
+                          >
+                            <button
+                              class="pf-c-table__button"
+                              type="button"
+                            >
+                              <div
+                                class="pf-c-table__button-content"
+                              >
+                                <span
+                                  class="pf-c-table__text"
+                                >
+                                  Created
+                                </span>
+                                <span
+                                  class="pf-c-table__sort-indicator"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style="vertical-align: -0.125em;"
+                                    viewBox="0 0 256 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </button>
+                          </th>
+                          <td
+                            class=""
+                            data-key="6"
+                            data-label=""
+                            scope=""
+                          />
+                        </tr>
+                      </thead>
+                      <tbody
+                        class=""
+                        role="rowgroup"
                       />
-                    </tr>
-                  </thead>
-                  <tbody
-                    class=""
-                    role="rowgroup"
-                  />
-                </table>
+                    </table>
+                  </div>
+                </div>
                 <div
                   class="pf-l-split"
                 >

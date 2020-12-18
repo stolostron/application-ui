@@ -15,12 +15,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Scrollbars } from 'react-custom-scrollbars'
-import {
-  Icon,
-  NumberInput,
-  MultiSelect,
-  Button
-} from 'carbon-components-react'
+import { NumberInput, MultiSelect, Button } from 'carbon-components-react'
+import { TimesIcon } from '@patternfly/react-icons'
 import jsYaml from 'js-yaml'
 import '../../../../graphics/diagramShapes.svg'
 import '../../../../graphics/diagramIcons.svg'
@@ -110,10 +106,9 @@ class DetailsView extends React.Component {
             </div>
             <div className="openSearchLink">{this.renderLink(searchLink)}</div>
           </div>
-          <Icon
+          <TimesIcon
             className="closeIcon"
             description={msgs.get('topology.details.close', locale)}
-            name="icon--close"
             onClick={onClose}
           />
         </div>

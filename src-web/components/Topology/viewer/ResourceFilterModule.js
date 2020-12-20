@@ -13,7 +13,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
-import { Checkbox, Icon } from 'carbon-components-react'
+import { Checkbox } from 'carbon-components-react'
+import { TimesIcon } from '@patternfly/react-icons'
 import { Chip, ChipGroup } from '@patternfly/react-core'
 import { Scrollbars } from 'react-custom-scrollbars'
 import '../scss/resource-filter-view.scss'
@@ -217,10 +218,9 @@ export class ResourceFilterView extends React.Component {
           <div className="titleText">
             {msgs.get('filter.view.title', locale)}
           </div>
-          <Icon
+          <TimesIcon
             className="closeIcon"
             description={msgs.get('filter.view.close', locale)}
-            name="icon--close"
             onClick={this.handleFilterClose}
           />
         </h3>

@@ -379,7 +379,7 @@ export const validateTopology = (
   cy.get(".overview-cards-container");
   cy.get("#topologySvgId", { timeout: 50 * 1000 });
   cy.get(".layoutLoadingContainer").should("not.be.visible");
-  cy.get(".bx--loading", { timeout: 50 * 1000 }).should("not.be.visible", {
+  cy.get(".pf-c-spinner", { timeout: 50 * 1000 }).should("not.be.visible", {
     timeout: 100 * 1000
   });
   // application

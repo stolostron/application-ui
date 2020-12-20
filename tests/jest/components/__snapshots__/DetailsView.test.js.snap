@@ -74,22 +74,25 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
       </div>
     </div>
     <svg
-      alt="Close topology details view"
-      aria-label="Close topology details view"
+      aria-hidden={true}
+      aria-labelledby={null}
       className="closeIcon"
-      fillRule="evenodd"
-      height="10"
-      name="icon--close"
+      description="Close topology details view"
+      fill="currentColor"
+      height="1em"
       onClick={[MockFunction]}
       role="img"
-      viewBox="0 0 10 10"
-      width="10"
+      style={
+        Object {
+          "verticalAlign": "-0.125em",
+        }
+      }
+      viewBox="0 0 352 512"
+      width="1em"
     >
-      <title>
-        Close topology details view
-      </title>
       <path
-        d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+        transform=""
       />
     </svg>
   </div>
@@ -434,22 +437,25 @@ exports[`DetailsView no components renders as expected 1`] = `
       </div>
     </div>
     <svg
-      alt="Close topology details view"
-      aria-label="Close topology details view"
+      aria-hidden={true}
+      aria-labelledby={null}
       className="closeIcon"
-      fillRule="evenodd"
-      height="10"
-      name="icon--close"
+      description="Close topology details view"
+      fill="currentColor"
+      height="1em"
       onClick={[MockFunction]}
       role="img"
-      viewBox="0 0 10 10"
-      width="10"
+      style={
+        Object {
+          "verticalAlign": "-0.125em",
+        }
+      }
+      viewBox="0 0 352 512"
+      width="1em"
     >
-      <title>
-        Close topology details view
-      </title>
       <path
-        d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+        transform=""
       />
     </svg>
   </div>

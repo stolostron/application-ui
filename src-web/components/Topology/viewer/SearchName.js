@@ -11,7 +11,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Search as CarbonSearch } from 'carbon-components-react'
+import { SearchInput } from '@patternfly/react-core'
 import { getSearchNames } from './helpers/filterHelper'
 import msgs from '../../../../nls/platform.properties'
 
@@ -30,40 +30,31 @@ class Search extends React.Component {
     this.nameSearchMode = false
   }
 
-  componentDidMount() {
-    this.closeBtn = this.nameSearchRef.getElementsByClassName(
-      'bx--search-close'
-    )[0]
-    this.closeBtn.addEventListener('click', () => {
-      this.closeBtnClicked = true
-    })
-  }
-
-  handleSearch = ({ target }) => {
+  handleSearch = value => {
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout)
     }
 
     // if user clicks close button, stop search immediately
-    const searchName = target.value || ''
+    const searchName = value || ''
     this.setState({ searchName })
-    if (this.closeBtnClicked) {
-      this.props.onNameSearch(searchName)
-      delete this.closeBtnClicked
-    } else {
-      if (searchName.length > 0 || this.nameSearchMode) {
-        // if not in search mode yet, wait for an input > 2 chars
-        // if in search mode, keep in mode until no chars left
-        const { searchNames } = getSearchNames(searchName)
-        const refreshSearch = searchNames.filter(s => s.length > 1).length > 0
-        if (refreshSearch || searchName.length === 0) {
-          this.typingTimeout = setTimeout(() => {
-            this.props.onNameSearch(searchName)
-          }, searchName.length > 0 ? 500 : 1500)
-          this.nameSearchMode = searchName.length > 0
-        }
+    if (searchName.length > 0 || this.nameSearchMode) {
+      // if not in search mode yet, wait for an input > 2 chars
+      // if in search mode, keep in mode until no chars left
+      const { searchNames } = getSearchNames(searchName)
+      const refreshSearch = searchNames.filter(s => s.length > 1).length > 0
+      if (refreshSearch || searchName.length === 0) {
+        this.typingTimeout = setTimeout(() => {
+          this.props.onNameSearch(searchName)
+        }, searchName.length > 0 ? 500 : 1500)
+        this.nameSearchMode = searchName.length > 0
       }
     }
+  };
+
+  handleClear = () => {
+    this.setState({ searchName: '' })
+    this.props.onNameSearch('')
   };
 
   setNameSearchRef = ref => {
@@ -87,13 +78,13 @@ class Search extends React.Component {
         aria-label={searchTitle}
         id={searchTitle}
       >
-        <CarbonSearch
+        <SearchInput
           id="search-name"
-          labelText=""
           aria-label="Search-input"
           value={searchName}
-          placeHolderText={msgs.get(searchMsgKey, locale)}
+          placeholder={msgs.get(searchMsgKey, locale)}
           onChange={this.handleSearch}
+          onClear={this.handleClear}
         />
       </div>
     )

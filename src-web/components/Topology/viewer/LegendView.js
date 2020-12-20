@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { Icon } from 'carbon-components-react'
+import { TimesIcon } from '@patternfly/react-icons'
 import { defaultShapes } from './defaults/shapes'
 import { getLegendTitle } from './defaults/titles'
 import '../../../../graphics/diagramShapes.svg'
@@ -20,13 +20,12 @@ class LegendView extends React.Component {
     return (
       <section className="topologyDetails">
         <div>
-          <Icon
+          <TimesIcon
             className="closeIcon"
             description={msgs.get('topology.legend.close', locale)}
-            name="icon--close"
             onClick={onClose}
           />
-          <hr style={{ visibility: 'hidden', marginBottom: '16px' }} />
+          <hr style={{ visibility: 'hidden', marginBottom: '20px' }} />
         </div>
         <Scrollbars
           renderView={this.renderView}

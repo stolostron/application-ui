@@ -409,6 +409,8 @@
   "spec.subscr.timeWindow.title": "Time Window",
   "spec.subscr.timeWindow.type": "Time Window type",
   "spec.subscr.timeWindow": "Current window status is",
+  "specs.k8sJob.templateName": "Ansible Tower Job template name",
+  "specs.k8sJob.secretName": "Ansible Tower secret",
   "subscription.page.label.info": "Use the navigation to view the resources that are deployed by the selected subscription.",
   "subscription.page.label": "Resource nodes",
   "subscription.page.nb": "of {0}",

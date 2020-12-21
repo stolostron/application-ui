@@ -196,22 +196,6 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
-const getClusterCount = node => {
-  let remoteClusterCount = 0
-  let localClusterDeploy = false
-  const clusterNames = _.get(node, 'specs.allClusters', [])
-
-  localClusterDeploy = clusterNames.indexOf('local-cluster') !== -1
-  remoteClusterCount = localClusterDeploy
-    ? clusterNames.length - 1
-    : clusterNames.length
-
-  return {
-    remoteCount: remoteClusterCount,
-    isLocal: localClusterDeploy
-  }
-}
-
 const getSubCardData = (subData, node) => {
   let resourceType = ''
   let resourcePath = ''
@@ -325,7 +309,10 @@ export const getAppOverviewCardsData = (
         _.get(node, 'type', '') === 'application' &&
         _.get(node, 'id').indexOf('--deployable') === -1
       ) {
-        clusterData = getClusterCount(node)
+        clusterData = _.get(node, 'specs.allClusters', {
+          isLocal: false,
+          remoteCount: 0
+        })
         // Get date and time of app creation
         creationTimestamp = getShortDateTime(
           node.specs.raw.metadata.creationTimestamp,

@@ -11,6 +11,8 @@
   "videosFolder": "cypress/videos",
   "baseUrl": "https://localhost:3001",
   "nodeVersion": "system",
+  "viewportWidth": 1240,
+  "viewportHeight": 700,
   "ignoreTestFiles": "**/ignoredTestFiles/*.js",
   "env": {
     "OC_IDP": "kube:admin",

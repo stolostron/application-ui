@@ -16,6 +16,7 @@ import {
   getEditLink,
   getSearchLink
 } from '../../lib/client/resource-helper'
+import { cellWidth } from '@patternfly/react-table'
 import msgs from '../../nls/platform.properties'
 
 const apigroup = 'apps.open-cluster-management.io'
@@ -31,17 +32,20 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'name',
-      transformFunction: createEditLink
+      transformFunction: createEditLink,
+      transforms: [cellWidth(20)]
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'namespace'
+      resourceKey: 'namespace',
+      transforms: [cellWidth(20)]
     },
     {
       msgKey: 'table.header.channel',
       resourceKey: 'channel',
       transformFunction: createChannelLink,
-      tooltipKey: 'table.header.subscriptions.channel.tooltip'
+      tooltipKey: 'table.header.subscriptions.channel.tooltip',
+      transforms: [cellWidth(20)]
     },
     {
       msgKey: 'table.header.applications',

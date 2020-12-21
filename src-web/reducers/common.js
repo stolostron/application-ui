@@ -78,15 +78,6 @@ const makeGetTransformedItemsSelector = resourceType => {
       const transformed = {}
 
       resourceData.tableKeys.forEach(key => {
-        if (
-          key.transformFunction &&
-          typeof key.transformFunction === 'function'
-        ) {
-          transformed[`${key.resourceKey}.value`] = key.transformFunction(
-            item,
-            globalContext.locale
-          )
-        }
         if (key.textFunction && typeof key.textFunction === 'function') {
           transformed[`${key.resourceKey}.text`] = key.textFunction(
             item,

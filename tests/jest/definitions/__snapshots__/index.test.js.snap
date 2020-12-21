@@ -51,10 +51,16 @@ Object {
       "msgKey": "table.header.name",
       "resourceKey": "name",
       "transformFunction": [Function],
+      "transforms": Array [
+        [Function],
+      ],
     },
     Object {
       "msgKey": "table.header.namespace",
       "resourceKey": "namespace",
+      "transforms": Array [
+        [Function],
+      ],
     },
     Object {
       "msgKey": "table.header.clusters",
@@ -95,10 +101,16 @@ Array [
     "msgKey": "table.header.name",
     "resourceKey": "name",
     "transformFunction": [Function],
+    "transforms": Array [
+      [Function],
+    ],
   },
   Object {
     "msgKey": "table.header.namespace",
     "resourceKey": "namespace",
+    "transforms": Array [
+      [Function],
+    ],
   },
   Object {
     "msgKey": "table.header.clusters",

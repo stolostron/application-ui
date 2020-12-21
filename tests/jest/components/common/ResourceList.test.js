@@ -232,7 +232,8 @@ const props = {
     tableKeys: [
       {
         msgKey: "table.header.name",
-        resourceKey: "name"
+        resourceKey: "name",
+        transformFunction: item => item.name
       }
     ],
     tableActions: [],

@@ -15,6 +15,7 @@ import {
   getClusterCount,
   getClusterCountString
 } from '../../lib/client/resource-helper'
+import { cellWidth } from '@patternfly/react-table'
 import { getEmptyMessage } from './hcm-subscription'
 import msgs from '../../nls/platform.properties'
 
@@ -29,11 +30,13 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'name',
-      transformFunction: createEditLink
+      transformFunction: createEditLink,
+      transforms: [cellWidth(20)]
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'namespace'
+      resourceKey: 'namespace',
+      transforms: [cellWidth(20)]
     },
     {
       msgKey: 'table.header.clusters',

@@ -83,7 +83,7 @@ class ResourceTable extends React.Component {
       cell:
         tableKey.transformFunction &&
         typeof tableKey.transformFunction === 'function'
-          ? `transformed.${tableKey.resourceKey}.value` //item => tableKey.transformFunction(item, locale)
+          ? item => tableKey.transformFunction(item, locale)
           : tableKey.resourceKey,
       sort:
         tableKey.textFunction && typeof tableKey.textFunction === 'function'
@@ -101,6 +101,7 @@ class ResourceTable extends React.Component {
         //   return tableKey.textFunction(item, locale)
         // }
           tableKey.resourceKey,
+      transforms: tableKey.transforms,
       tooltip: tableKey.tooltipKey
         ? msgs.get(tableKey.tooltipKey, locale)
         : undefined

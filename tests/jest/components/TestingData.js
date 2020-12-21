@@ -1152,7 +1152,10 @@ export const topologyNoChannel = {
       namespace: "default",
       specs: {
         allChannels: [],
-        allClusters: ["val-cluster"],
+        allClusters: {
+          isLocal: false,
+          remoteCount: 1
+        },
         allSubscriptions: [
           {
             kind: "Subscription",
@@ -1538,7 +1541,11 @@ export const topology = {
       name: "mortgage-app",
       namespace: "default",
       specs: {
-        allClusters: ["aa"],
+        allChannels: [],
+        allClusters: {
+          isLocal: false,
+          remoteCount: 1
+        },
         allChannels: [
           {
             kind: "Channel",

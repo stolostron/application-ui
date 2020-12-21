@@ -12,7 +12,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
-import { Loading } from 'carbon-components-react'
+import { Spinner } from '@patternfly/react-core'
 import DetailsView from './DetailsView'
 import LegendView from './LegendView'
 import Zoom from './Zoom'
@@ -295,14 +295,14 @@ class DiagramViewer extends React.Component {
           </div>
           {secondaryLoad && (
             <div className="secondaryLoad">
-              <Loading withOverlay={false} />
+              <Spinner />
             </div>
           )}
           <div
             className="layoutLoadingContainer"
             ref={this.setLayoutLoadingRef}
           >
-            <Loading withOverlay={false} />
+            <Spinner />
           </div>
         </div>
         <span className="diagramControls">

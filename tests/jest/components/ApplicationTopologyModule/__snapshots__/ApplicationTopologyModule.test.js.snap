@@ -194,40 +194,40 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
           <div
             className="secondaryLoad"
           >
-            <div
-              aria-live="assertive"
-              className="bx--loading"
+            <span
+              aria-valuetext="Loading..."
+              className="pf-c-spinner pf-m-xl"
+              role="progressbar"
             >
-              <svg
-                className="bx--loading__svg"
-                viewBox="-75 -75 150 150"
-              >
-                <circle
-                  cx="0"
-                  cy="0"
-                  r="37.5"
-                />
-              </svg>
-            </div>
+              <span
+                className="pf-c-spinner__clipper"
+              />
+              <span
+                className="pf-c-spinner__lead-ball"
+              />
+              <span
+                className="pf-c-spinner__tail-ball"
+              />
+            </span>
           </div>
           <div
             className="layoutLoadingContainer"
           >
-            <div
-              aria-live="assertive"
-              className="bx--loading"
+            <span
+              aria-valuetext="Loading..."
+              className="pf-c-spinner pf-m-xl"
+              role="progressbar"
             >
-              <svg
-                className="bx--loading__svg"
-                viewBox="-75 -75 150 150"
-              >
-                <circle
-                  cx="0"
-                  cy="0"
-                  r="37.5"
-                />
-              </svg>
-            </div>
+              <span
+                className="pf-c-spinner__clipper"
+              />
+              <span
+                className="pf-c-spinner__lead-ball"
+              />
+              <span
+                className="pf-c-spinner__tail-ball"
+              />
+            </span>
           </div>
         </div>
         <span
@@ -489,40 +489,40 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
           <div
             className="secondaryLoad"
           >
-            <div
-              aria-live="assertive"
-              className="bx--loading"
+            <span
+              aria-valuetext="Loading..."
+              className="pf-c-spinner pf-m-xl"
+              role="progressbar"
             >
-              <svg
-                className="bx--loading__svg"
-                viewBox="-75 -75 150 150"
-              >
-                <circle
-                  cx="0"
-                  cy="0"
-                  r="37.5"
-                />
-              </svg>
-            </div>
+              <span
+                className="pf-c-spinner__clipper"
+              />
+              <span
+                className="pf-c-spinner__lead-ball"
+              />
+              <span
+                className="pf-c-spinner__tail-ball"
+              />
+            </span>
           </div>
           <div
             className="layoutLoadingContainer"
           >
-            <div
-              aria-live="assertive"
-              className="bx--loading"
+            <span
+              aria-valuetext="Loading..."
+              className="pf-c-spinner pf-m-xl"
+              role="progressbar"
             >
-              <svg
-                className="bx--loading__svg"
-                viewBox="-75 -75 150 150"
-              >
-                <circle
-                  cx="0"
-                  cy="0"
-                  r="37.5"
-                />
-              </svg>
-            </div>
+              <span
+                className="pf-c-spinner__clipper"
+              />
+              <span
+                className="pf-c-spinner__lead-ball"
+              />
+              <span
+                className="pf-c-spinner__tail-ball"
+              />
+            </span>
           </div>
         </div>
         <span

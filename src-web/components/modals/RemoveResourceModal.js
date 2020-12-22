@@ -9,7 +9,6 @@
 'use strict'
 
 import _ from 'lodash'
-import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -135,7 +134,8 @@ class RemoveResourceModal extends React.Component {
                 subNamespace
               )
               // If subscription is used only by this application, it is removable
-              if (!usedByOtherApps(related)) {
+              const siblingApps = usedByOtherApps(related, name, namespace)
+              if (siblingApps.length === 0) {
                 removableSubs.push(subscription)
                 removableSubNames.push(subName)
                 const subChildResources = getSubChildResources(
@@ -152,7 +152,8 @@ class RemoveResourceModal extends React.Component {
               } else {
                 sharedChildren.push({
                   id: `subscriptions-${subNamespace}-${subName}`,
-                  label: `${subName} [Subscription]`
+                  label: `${subName} [Subscription]`,
+                  siblingApps: siblingApps
                 })
               }
             })
@@ -181,12 +182,18 @@ class RemoveResourceModal extends React.Component {
                   rule.namespace
                 )
                 // Rule is removable if it's used only by removable subscriptions
-                if (!usedByOtherSubs(related, removableSubNames, namespace)) {
+                const siblingSubs = usedByOtherSubs(
+                  related,
+                  removableSubNames,
+                  namespace
+                )
+                if (siblingSubs.length === 0) {
                   children.push(rule)
                 } else {
                   sharedChildren.push({
                     id: rule.id,
-                    label: rule.label
+                    label: rule.label,
+                    siblingSubs: siblingSubs
                   })
                 }
               })
@@ -293,39 +300,73 @@ class RemoveResourceModal extends React.Component {
     )
   };
 
-  modalBody = (name, label, locale) => {
-    const { selected, shared } = this.state
-    const renderSharedResources = () => {
-      return shared.length > 0 ? (
-        <div className="shared-resource-content">
+  getItalicSpan = text => {
+    return `<span class="italic-font">${text}</span>`
+  };
+
+  renderSharedResources = () => {
+    const { shared } = this.state
+    const { locale } = this.props
+    return shared.length > 0 ? (
+      <div className="shared-resource-content">
+        <div>
+          <ExclamationTriangleIcon />
+        </div>
+        <div>
+          <p>{msgs.get('modal.remove.application.shared.resources', locale)}</p>
           <div>
-            <ExclamationTriangleIcon />
-          </div>
-          <div>
-            <p>
-              {msgs.get('modal.remove.application.shared.resources', locale)}
-            </p>
-            <p>
-              {shared
-                .map(r => r.label)
-                .sort()
-                .join(', ')}
-            </p>
+            <ul>
+              {shared.map(child => {
+                const siblingResources =
+                  child.siblingApps || child.siblingSubs || []
+                return (
+                  <div className="sibling-resource-content" key={child.id}>
+                    <li>
+                      {child.label}
+                      {siblingResources.length > 0 && (
+                        <span>
+                          <span className="italic-font">
+                            &nbsp;{msgs.get(
+                            'modal.remove.application.sibling.resources',
+                            locale
+                          )}&nbsp;
+                          </span>
+                          {siblingResources.join(', ')}
+                        </span>
+                      )}
+                    </li>
+                  </div>
+                )
+              })}
+            </ul>
           </div>
         </div>
-      ) : null
-    }
+      </div>
+    ) : null
+  };
+
+  modalBody = (name, label, locale) => {
+    const { selected } = this.state
     if (label.label === 'modal.remove-hcmapplication.label') {
       return selected.length > 0 ? (
         <div className="remove-app-modal-content">
           <div className="remove-app-modal-content-text">
-            {msgs.get('modal.remove.application.confirm.one', [name], locale)}
-            <span>&nbsp;</span>
-            <span style={{ fontStyle: 'italic' }}>
-              {msgs.get('modal.remove.application.resources', locale)}
-            </span>
-            <span>&nbsp;</span>
-            {msgs.get('modal.remove.application.confirm.two', [name], locale)}
+            <p
+              dangerouslySetInnerHTML={{
+                __html: `
+              ${msgs.get(
+                  'modal.remove.application.confirm',
+                  [
+                    name,
+                    this.getItalicSpan(
+                      msgs.get('modal.remove.application.resources', locale)
+                    )
+                  ],
+                  locale
+                )}
+              `
+              }}
+            />
           </div>
           <div className="remove-app-modal-content-data">
             <Checkbox
@@ -365,12 +406,12 @@ class RemoveResourceModal extends React.Component {
               })}
             </ul>
           </div>
-          {renderSharedResources()}
+          {this.renderSharedResources()}
         </div>
       ) : (
         <div className="remove-app-modal-content">
           {msgs.get('modal.remove.confirm', [name], locale)}
-          {renderSharedResources()}
+          {this.renderSharedResources()}
         </div>
       )
     } else {
@@ -391,7 +432,7 @@ class RemoveResourceModal extends React.Component {
           aria-label={heading}
           showClose={true}
           onClose={this.handleClose.bind(this)}
-          variant={ModalVariant.medium}
+          variant={ModalVariant.large}
           position="top"
           positionOffset="200px"
           actions={[
@@ -444,23 +485,26 @@ export const fetchRelated = async (resourceType, name, namespace) => {
     const response = await apolloClient.search(SEARCH_QUERY_RELATED, {
       input: [query]
     })
-    const resource = response.errors
-      ? []
-      : _.get(response, 'data.searchResult[0]', [])
-
-    return resource && resource.related ? resource.related : []
+    return _.get(response, 'data.searchResult[0].related') || []
   } catch (err) {
     return []
   }
 }
 
-export const usedByOtherApps = related => {
-  const isApp = n => n.kind.toLowerCase() === 'application'
-  const apps = R.filter(isApp, related)
-  const items = apps && apps.length === 1 ? apps[0].items : []
-  return items.filter(item => !item._hostingSubscription).length === 1
-    ? false
-    : true
+export const usedByOtherApps = (relatedItems, appName, appNamespace) => {
+  const relatedApps = _.get(
+    relatedItems.find(r => r.kind === 'application'),
+    'items',
+    []
+  )
+  return _.uniqBy(relatedApps, '_uid')
+    .filter(
+      r =>
+        !r._hostingSubscription && // Filter out applications deployed by a subscription
+        (r.name !== appName || r.namespace !== appNamespace)
+    )
+    .map(r => `${r.name} [Application]`)
+    .sort()
 }
 
 export const getSubChildResources = (
@@ -482,7 +526,7 @@ export const getSubChildResources = (
       'items',
       []
     )
-    const childItems = related
+    const childItems = _.uniqBy(related, '_uid')
       .filter(
         i =>
           (i._hostingSubscription === `${resourceNamespace}/${resourceName}` ||
@@ -503,15 +547,24 @@ export const getSubChildResources = (
   return children
 }
 
-export const usedByOtherSubs = (related, removableSubNames, appNamespace) => {
-  const isSub = n => n.kind.toLowerCase() === 'subscription'
-  const subs = R.filter(isSub, related)
-  const items = subs && subs.length === 1 ? subs[0].items : []
-  return items.filter(item => item._hubClusterResource).some(sub => {
-    return (
-      sub.namespace !== appNamespace || !removableSubNames.includes(sub.name)
+export const usedByOtherSubs = (
+  relatedItems,
+  removableSubNames,
+  appNamespace
+) => {
+  const relatedSubs = _.get(
+    relatedItems.find(r => r.kind === 'subscription'),
+    'items',
+    []
+  )
+  return _.uniqBy(relatedSubs, '_uid')
+    .filter(
+      r =>
+        r._hubClusterResource &&
+        (r.namespace !== appNamespace || !removableSubNames.includes(r.name))
     )
-  })
+    .map(r => `${r.name} [Subscription]`)
+    .sort()
 }
 
 RemoveResourceModal.propTypes = {

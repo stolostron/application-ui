@@ -207,12 +207,16 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                       cluster: "local-cluster",
                       name: "sahar-multilevel-app",
                       _hubClusterResource: "true",
+                      _uid:
+                        "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d36",
                       kind: "application"
                     },
                     {
                       _hubClusterResource: "true",
                       _hostingSubscription:
                         "sahar-multilevel-app-ns/sahar-multilevel-app-subscription-1-local",
+                      _uid:
+                        "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d37",
                       kind: "application",
                       cluster: "local-cluster",
                       name: "kevin-helloworld-app",
@@ -228,6 +232,8 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                       kind: "subscription",
                       _hostingSubscription:
                         "sahar-multilevel-app-ns/sahar-multilevel-app-subscription-1",
+                      _uid:
+                        "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d46",
                       channel:
                         "kevin-multilevel-channel/kevin-multilevel-channel",
                       localPlacement: "true",
@@ -241,6 +247,8 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                         "kevin-multilevel-channel/kevin-multilevel-channel",
                       _hostingSubscription:
                         "sahar-multilevel-app-ns/sahar-multilevel-app-subscription-1-local",
+                      _uid:
+                        "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d47",
                       localPlacement: "false",
                       cluster: "local-cluster",
                       namespace: "sahar-multilevel-app-ns",
@@ -258,6 +266,8 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                       label: "app=sahar-multilevel-app",
                       namespace: "sahar-multilevel-app-ns",
                       name: "sahar-multilevel-app-placement-1",
+                      _uid:
+                        "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d56",
                       _hubClusterResource: "true"
                     },
                     {
@@ -267,6 +277,8 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                       kind: "placementrule",
                       _hostingSubscription:
                         "sahar-multilevel-app-ns/sahar-multilevel-app-subscription-1-local",
+                      _uid:
+                        "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d57",
                       name: "sahar-helloworld-app-placement-2"
                     }
                   ]
@@ -279,6 +291,8 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                       kind: "channel",
                       namespace: "kevin-multilevel-channel",
                       cluster: "local-cluster",
+                      _uid:
+                        "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d66",
                       _hubClusterResource: "true"
                     }
                   ]
@@ -417,6 +431,8 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                   kind: "subscription",
                   items: [
                     {
+                      _uid:
+                        "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",
                       localPlacement: "false",
                       name: "sahar-multilevel-app-subscription-2",
                       cluster: "local-cluster",
@@ -426,6 +442,8 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                       kind: "subscription"
                     },
                     {
+                      _uid:
+                        "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d27",
                       _hubClusterResource: "true",
                       channel:
                         "kevin-multilevel-channel/kevin-multilevel-channel",
@@ -438,6 +456,8 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                       name: "kevin-helloworld-app-subscription"
                     },
                     {
+                      _uid:
+                        "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d29",
                       name: "sahar-multilevel-app-subscription-1-local",
                       kind: "subscription",
                       _hostingSubscription:
@@ -450,6 +470,8 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                       namespace: "sahar-multilevel-app-ns"
                     },
                     {
+                      _uid:
+                        "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d28",
                       name: "sahar-multilevel-app-subscription-1",
                       cluster: "local-cluster",
                       _hubClusterResource: "true",
@@ -656,6 +678,7 @@ describe("RemoveResourceModal test", () => {
         items: [
           {
             _hubClusterResource: "true",
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d36",
             cluster: "local-cluster",
             kind: "application",
             name: "sahar-multilevel-app",
@@ -665,6 +688,7 @@ describe("RemoveResourceModal test", () => {
             _hostingSubscription:
               "sahar-multilevel-app-ns/sahar-multilevel-app-subscription-1-local",
             _hubClusterResource: "true",
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d37",
             cluster: "local-cluster",
             kind: "application",
             name: "kevin-helloworld-app",
@@ -682,6 +706,7 @@ describe("RemoveResourceModal test", () => {
             channel: "kevin-multilevel-channel/kevin-multilevel-channel",
             cluster: "local-cluster",
             kind: "subscription",
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d46",
             localPlacement: "true",
             name: "sahar-multilevel-app-subscription-1-local",
             namespace: "sahar-multilevel-app-ns"
@@ -693,6 +718,7 @@ describe("RemoveResourceModal test", () => {
             channel: "kevin-multilevel-channel/kevin-multilevel-channel",
             cluster: "local-cluster",
             kind: "subscription",
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d47",
             localPlacement: "false",
             name: "kevin-helloworld-app-subscription",
             namespace: "sahar-multilevel-app-ns"
@@ -706,6 +732,7 @@ describe("RemoveResourceModal test", () => {
             _hubClusterResource: "true",
             cluster: "local-cluster",
             kind: "placementrule",
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d56",
             label: "app=sahar-multilevel-app",
             name: "sahar-multilevel-app-placement-1",
             namespace: "sahar-multilevel-app-ns"
@@ -715,6 +742,7 @@ describe("RemoveResourceModal test", () => {
               "sahar-multilevel-app-ns/sahar-multilevel-app-subscription-1-local",
             _hubClusterResource: "true",
             cluster: "local-cluster",
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d57",
             kind: "placementrule",
             name: "sahar-helloworld-app-placement-2",
             namespace: "sahar-multilevel-app-ns"
@@ -728,6 +756,7 @@ describe("RemoveResourceModal test", () => {
             _hubClusterResource: "true",
             cluster: "local-cluster",
             kind: "channel",
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d66",
             name: "kevin-multilevel-channel",
             namespace: "kevin-multilevel-channel"
           }
@@ -748,7 +777,13 @@ describe("RemoveResourceModal test", () => {
       subNamespace
     );
     expect(related).toEqual(result1);
-    expect(usedByOtherApps(related)).toEqual(false);
+    expect(
+      usedByOtherApps(
+        related,
+        "sahar-multilevel-app",
+        "sahar-multilevel-app-ns"
+      ).length
+    ).toEqual(0);
     expect(getSubChildResources(subName, subNamespace, related)).toEqual(
       result2
     );
@@ -760,6 +795,7 @@ describe("RemoveResourceModal test", () => {
         items: [
           {
             _hubClusterResource: "true",
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",
             channel: "mortgagers-ch/mortgagers-channel",
             cluster: "local-cluster",
             kind: "subscription",
@@ -771,6 +807,7 @@ describe("RemoveResourceModal test", () => {
             _hostingSubscription:
               "sahar-multilevel-app-ns/sahar-multilevel-app-subscription-1-local",
             _hubClusterResource: "true",
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d27",
             channel: "kevin-multilevel-channel/kevin-multilevel-channel",
             cluster: "local-cluster",
             kind: "subscription",
@@ -782,6 +819,7 @@ describe("RemoveResourceModal test", () => {
             _hostingSubscription:
               "sahar-multilevel-app-ns/sahar-multilevel-app-subscription-1",
             _hubClusterResource: "true",
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d29",
             channel: "kevin-multilevel-channel/kevin-multilevel-channel",
             cluster: "local-cluster",
             kind: "subscription",
@@ -791,6 +829,7 @@ describe("RemoveResourceModal test", () => {
           },
           {
             _hubClusterResource: "true",
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d28",
             channel: "kevin-multilevel-channel/kevin-multilevel-channel",
             cluster: "local-cluster",
             kind: "subscription",
@@ -816,7 +855,7 @@ describe("RemoveResourceModal test", () => {
           "sahar-multilevel-app-subscription-2"
         ],
         "sahar-multilevel-app-ns"
-      )
-    ).toEqual(true);
+      ).length
+    ).toEqual(2);
   });
 });

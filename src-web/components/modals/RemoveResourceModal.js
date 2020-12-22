@@ -304,48 +304,49 @@ class RemoveResourceModal extends React.Component {
     return `<span class="italic-font">${text}</span>`
   };
 
-  modalBody = (name, label, locale) => {
-    const { selected, shared } = this.state
-    const renderSharedResources = () => {
-      return shared.length > 0 ? (
-        <div className="shared-resource-content">
+  renderSharedResources = () => {
+    const { shared } = this.state
+    const { locale } = this.props
+    return shared.length > 0 ? (
+      <div className="shared-resource-content">
+        <div>
+          <ExclamationTriangleIcon />
+        </div>
+        <div>
+          <p>{msgs.get('modal.remove.application.shared.resources', locale)}</p>
           <div>
-            <ExclamationTriangleIcon />
-          </div>
-          <div>
-            <p>
-              {msgs.get('modal.remove.application.shared.resources', locale)}
-            </p>
-            <div>
-              <ul>
-                {shared.map(child => {
-                  const siblingResources =
-                    child.siblingApps || child.siblingSubs || []
-                  return (
-                    <div className="sibling-resource-content" key={child.id}>
-                      <li>
-                        {child.label}
-                        {siblingResources.length > 0 && (
-                          <span>
-                            <span className="italic-font">
-                              &nbsp;{msgs.get(
-                              'modal.remove.application.sibling.resources',
-                              locale
-                            )}&nbsp;
-                            </span>
-                            {siblingResources.join(', ')}
+            <ul>
+              {shared.map(child => {
+                const siblingResources =
+                  child.siblingApps || child.siblingSubs || []
+                return (
+                  <div className="sibling-resource-content" key={child.id}>
+                    <li>
+                      {child.label}
+                      {siblingResources.length > 0 && (
+                        <span>
+                          <span className="italic-font">
+                            &nbsp;{msgs.get(
+                            'modal.remove.application.sibling.resources',
+                            locale
+                          )}&nbsp;
                           </span>
-                        )}
-                      </li>
-                    </div>
-                  )
-                })}
-              </ul>
-            </div>
+                          {siblingResources.join(', ')}
+                        </span>
+                      )}
+                    </li>
+                  </div>
+                )
+              })}
+            </ul>
           </div>
         </div>
-      ) : null
-    }
+      </div>
+    ) : null
+  };
+
+  modalBody = (name, label, locale) => {
+    const { selected } = this.state
     if (label.label === 'modal.remove-hcmapplication.label') {
       return selected.length > 0 ? (
         <div className="remove-app-modal-content">
@@ -405,12 +406,12 @@ class RemoveResourceModal extends React.Component {
               })}
             </ul>
           </div>
-          {renderSharedResources()}
+          {this.renderSharedResources()}
         </div>
       ) : (
         <div className="remove-app-modal-content">
           {msgs.get('modal.remove.confirm', [name], locale)}
-          {renderSharedResources()}
+          {this.renderSharedResources()}
         </div>
       )
     } else {

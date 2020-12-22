@@ -105,7 +105,10 @@ export const processNodeData = (
       topoAnnotation !== undefined && topoAnnotation.indexOf('helmchart/') > -1
   } else {
     topoResourceMap[`${type}-${keyName}-${clusterName}`] = node
-    podsKeyForThisNode = `pod-${keyName}-${clusterName}`
+    //podsKeyForThisNode must use the resource type and name since we can have
+    //resources deploying pods and having the same name, in the same deployment
+    //(for example deploymant and deploymentconfig with same name)
+    podsKeyForThisNode = `pod-${type}-${keyName}-${clusterName}`
 
     if (clusterName.indexOf(', ') > -1) {
       isClusterGrouped.value = true

@@ -849,8 +849,8 @@ export const getNameWithoutPodHash = relatedKind => {
       }
     }
   })
-
-  return { nameNoHash, deployableName }
+  //return podHash as well, it will be used to map pods with parent resource
+  return { nameNoHash, deployableName, podHash }
 }
 
 //add deployed object to the matching resource in the map
@@ -873,7 +873,19 @@ export const setupResourceModel = (
   isHelmRelease
 ) => {
   if (list && resourceMap) {
-    list.forEach(kindArray => {
+    const podIndex = _.findIndex(list, ['kind', 'pod'])
+    //move pods last in the list to be processed after all resources producing pods have been processed
+    //we want to add the pods to the map by using the pod hash
+    const updatedList =
+      podIndex === -1
+        ? list
+        : _.concat(
+          _.slice(list, 0, podIndex),
+          _.slice(list, podIndex + 1),
+          list[podIndex]
+        )
+
+    updatedList.forEach(kindArray => {
       if (R.contains(_.get(kindArray, 'kind', ''), ['cluster', 'deployable'])) {
         return //ignore these type of resources
       }
@@ -884,7 +896,7 @@ export const setupResourceModel = (
         const kind = relatedKind.kind
 
         //look for pod template hash and remove it from the name if there
-        const { nameNoHash, deployableName } = getNameWithoutPodHash(
+        const { nameNoHash, deployableName, podHash } = getNameWithoutPodHash(
           relatedKind
         )
 
@@ -917,7 +929,18 @@ export const setupResourceModel = (
           name = _.trimEnd(name, '-local')
         }
 
+        if (podHash && resourceMap[`pod-${name}`]) {
+          //update resource map key with podHash if the resource has a pod hash ( deployment, replicaset, deploymentconig, etc )
+          //this is going to be used to link pods with this parent resource
+          resourceMap[`pod-${podHash}`] = resourceMap[`pod-${name}`]
+        }
+
         let resourceMapForObject = resourceMap[name]
+        if (!resourceMapForObject && kind === 'pod' && podHash) {
+          //just found a pod object, try to map it to the parent resource using the podHash
+          resourceMapForObject = resourceMap[`pod-${podHash}`]
+        }
+
         if (resourceMapForObject) {
           addResourceToModel(
             resourceMapForObject,

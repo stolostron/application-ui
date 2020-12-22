@@ -326,15 +326,15 @@ class RemoveResourceModal extends React.Component {
                       <li>
                         {child.label}
                         {siblingResources.length > 0 && (
-                          <div>
+                          <span>
                             <span className="italic-font">
                               &nbsp;{msgs.get(
                               'modal.remove.application.sibling.resources',
                               locale
                             )}&nbsp;
                             </span>
-                            <span>{siblingResources.join(', ')}</span>
-                          </div>
+                            {siblingResources.join(', ')}
+                          </span>
                         )}
                       </li>
                     </div>
@@ -356,7 +356,7 @@ class RemoveResourceModal extends React.Component {
               ${msgs.get(
                   'modal.remove.application.confirm',
                   [
-                    this.getItalicSpan(name),
+                    name,
                     this.getItalicSpan(
                       msgs.get('modal.remove.application.resources', locale)
                     )
@@ -431,7 +431,7 @@ class RemoveResourceModal extends React.Component {
           aria-label={heading}
           showClose={true}
           onClose={this.handleClose.bind(this)}
-          variant={ModalVariant.medium}
+          variant={ModalVariant.large}
           position="top"
           positionOffset="200px"
           actions={[
@@ -496,7 +496,7 @@ export const usedByOtherApps = (relatedItems, appName, appNamespace) => {
     'items',
     []
   )
-  return relatedApps
+  return _.uniqBy(relatedApps, '_uid')
     .filter(
       r =>
         !r._hostingSubscription && // Filter out applications deployed by a subscription
@@ -525,7 +525,7 @@ export const getSubChildResources = (
       'items',
       []
     )
-    const childItems = related
+    const childItems = _.uniqBy(related, '_uid')
       .filter(
         i =>
           (i._hostingSubscription === `${resourceNamespace}/${resourceName}` ||
@@ -556,7 +556,7 @@ export const usedByOtherSubs = (
     'items',
     []
   )
-  return relatedSubs
+  return _.uniqBy(relatedSubs, '_uid')
     .filter(
       r =>
         r._hubClusterResource &&

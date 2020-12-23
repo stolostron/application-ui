@@ -22,7 +22,6 @@ import {
   addNodeServiceLocationForCluster,
   addNodeOCPRouteLocationForCluster,
   computeResourceName,
-  getPulseStatusForSubscription,
   addIngressNodeInfo,
   setPlacementRuleDeployStatus,
   addNodeInfoPerCluster,
@@ -254,26 +253,6 @@ const modelResult = {
   "mortgagedc-svc-braveman": {},
   "route-unsecured-braveman": {}
 };
-
-describe("getPulseStatusForSubscription no subscriptionItem.status", () => {
-  const node = {
-    id: "member--subscription--default--mortgagedc-subscription",
-    name: "mortgagedcNOStatus",
-    specs: {
-      raw: { spec: {} },
-      subscriptionModel: {
-        "mortgagedc-subscription-braveman": {},
-        "mortgagedc-subscription-braveman2": {}
-      },
-      row: 12
-    },
-    type: "subscription"
-  };
-
-  it("getPulseStatusForSubscription no subscriptionItem.status", () => {
-    expect(getPulseStatusForSubscription(node)).toEqual("yellow");
-  });
-});
 
 describe("getPulseForNodeWithPodStatus ", () => {
   const podItem = {

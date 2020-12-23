@@ -11,7 +11,8 @@ import {
   getOnlineClusters,
   getActiveFilterCodes,
   filterSubscriptionObject,
-  getClusterHost
+  getClusterHost,
+  getPulseStatusForSubscription
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
 
 describe("getClusterName node id undefined", () => {
@@ -294,5 +295,25 @@ describe("getClusterHost", () => {
     expect(getClusterHost("https://console-openshift-console.222")).toEqual(
       "222"
     );
+  });
+});
+
+describe("getPulseStatusForSubscription no subscriptionItem.status", () => {
+  const node = {
+    id: "member--subscription--default--mortgagedc-subscription",
+    name: "mortgagedcNOStatus",
+    specs: {
+      raw: { spec: {} },
+      subscriptionModel: {
+        "mortgagedc-subscription-braveman": {},
+        "mortgagedc-subscription-braveman2": {}
+      },
+      row: 12
+    },
+    type: "subscription"
+  };
+
+  it("getPulseStatusForSubscription no subscriptionItem.status", () => {
+    expect(getPulseStatusForSubscription(node)).toEqual("yellow");
   });
 });

@@ -105,7 +105,10 @@ const ansibleError2 = {
             message: "Awaiting next reconciliation",
             reason: "Failed"
           }
-        ]
+        ],
+        k8sJob: {
+          message: "some message"
+        }
       }
     },
     ansiblejobModel: {
@@ -2874,6 +2877,11 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
       labelValue: "Ansible Tower Job status",
       status: "pending",
       value: "Ansible Tower job was not executed."
+    },
+    {
+      labelValue: "Details",
+      value:
+        "Use View Resource YAML link below to view the Ansible Job details. Look for the message section and follow the debug instructions available there."
     },
     { type: "spacer" },
     {

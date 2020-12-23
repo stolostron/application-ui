@@ -117,7 +117,11 @@ export const resourceTable = {
     this.getRow(name, key, timeout).should("not.exist");
   },
   searchTable: function(name) {
-    cy.get(".pf-c-search-input__text-input").type(name);
+    cy
+      .get(".pf-c-search-input__text-input", {
+        timeout: 30 * 10000
+      })
+      .type(name);
   },
   openRowMenu: function(name, key) {
     cy

@@ -194,6 +194,11 @@ export const showAnsibleJobDetails = (node, details) => {
         : jobStatus.message,
     status: getStatusFromPulse(jobStatus.pulse)
   })
+  _.get(node, 'specs.raw.spec.k8sJob.message') &&
+    details.push({
+      labelValue: msgs.get('prop.details.section'),
+      value: msgs.get('description.ansible.job.status.debug')
+    })
 
   return details
 }

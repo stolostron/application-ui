@@ -147,6 +147,7 @@
   "dashboard.card.overview.cards.timeWindow.label": "Time window",
   "dashboard.card.overview.cards.timeWindow.set.label": "Set time window",
   "dashboard.card.overview.cards.title": "Details",
+  "description.ansible.job.status.debug": "Use View Resource YAML link below to view the Ansible Job details. Look for the message section and follow the debug instructions available there.",
   "description.ansible.job.status.empty.err": "Ansible task was not executed. Check the Subscription YAML for status errors.",
   "description.ansible.job.status.empty": "Ansible Tower job was not executed.",
   "description.ansible.job.status": "Ansible Tower Job status",

@@ -22,14 +22,12 @@ import {
   addNodeServiceLocationForCluster,
   addNodeOCPRouteLocationForCluster,
   computeResourceName,
-  getPulseStatusForSubscription,
   addIngressNodeInfo,
   setPlacementRuleDeployStatus,
   addNodeInfoPerCluster,
   getPodState,
   getNameWithoutChartRelease,
   removeReleaseGeneratedSuffix,
-  getClusterHost,
   getPulseStatusForCluster
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
@@ -255,26 +253,6 @@ const modelResult = {
   "mortgagedc-svc-braveman": {},
   "route-unsecured-braveman": {}
 };
-
-describe("getPulseStatusForSubscription no subscriptionItem.status", () => {
-  const node = {
-    id: "member--subscription--default--mortgagedc-subscription",
-    name: "mortgagedcNOStatus",
-    specs: {
-      raw: { spec: {} },
-      subscriptionModel: {
-        "mortgagedc-subscription-braveman": {},
-        "mortgagedc-subscription-braveman2": {}
-      },
-      row: 12
-    },
-    type: "subscription"
-  };
-
-  it("getPulseStatusForSubscription no subscriptionItem.status", () => {
-    expect(getPulseStatusForSubscription(node)).toEqual("yellow");
-  });
-});
 
 describe("getPulseForNodeWithPodStatus ", () => {
   const podItem = {
@@ -4694,14 +4672,6 @@ describe("removeReleaseGeneratedSuffix remove suffix", () => {
   it("should remove generate suffix for the helmrelease", () => {
     expect(removeReleaseGeneratedSuffix("nginx-ingress-66f46")).toEqual(
       "nginx-ingress"
-    );
-  });
-});
-
-describe("getClusterHost", () => {
-  it("should host from cluster URL", () => {
-    expect(getClusterHost("https://console-openshift-console.222")).toEqual(
-      "222"
     );
   });
 });

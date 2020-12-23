@@ -29,7 +29,6 @@ import {
   getPodState,
   getNameWithoutChartRelease,
   removeReleaseGeneratedSuffix,
-  getClusterHost,
   getPulseStatusForCluster
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
@@ -4694,14 +4693,6 @@ describe("removeReleaseGeneratedSuffix remove suffix", () => {
   it("should remove generate suffix for the helmrelease", () => {
     expect(removeReleaseGeneratedSuffix("nginx-ingress-66f46")).toEqual(
       "nginx-ingress"
-    );
-  });
-});
-
-describe("getClusterHost", () => {
-  it("should host from cluster URL", () => {
-    expect(getClusterHost("https://console-openshift-console.222")).toEqual(
-      "222"
     );
   });
 });

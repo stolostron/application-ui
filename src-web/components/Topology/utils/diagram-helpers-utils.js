@@ -164,3 +164,12 @@ export const getOnlineClusters = (clusterNames, clusterObjs) => {
 
   return onlineClusters
 }
+
+export const getClusterHost = consoleURL => {
+  const consoleURLInstance = new URL(consoleURL)
+  const ocpIdx = consoleURL ? consoleURLInstance.host.indexOf('.') : -1
+  if (ocpIdx < 0) {
+    return ''
+  }
+  return consoleURLInstance.host.substr(ocpIdx + 1)
+}

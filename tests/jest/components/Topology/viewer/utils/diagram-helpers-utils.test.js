@@ -10,7 +10,8 @@ import {
   getRouteNameWithoutIngressHash,
   getOnlineClusters,
   getActiveFilterCodes,
-  filterSubscriptionObject
+  filterSubscriptionObject,
+  getClusterHost
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
 
 describe("getClusterName node id undefined", () => {
@@ -285,5 +286,13 @@ describe("filterSubscriptionObject simple subscription object", () => {
 
   it("should filter object", () => {
     expect(filterSubscriptionObject(subs, new Set([3, 2, 0]))).toEqual(subs);
+  });
+});
+
+describe("getClusterHost", () => {
+  it("should host from cluster URL", () => {
+    expect(getClusterHost("https://console-openshift-console.222")).toEqual(
+      "222"
+    );
   });
 });

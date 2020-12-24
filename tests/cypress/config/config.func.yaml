@@ -4,7 +4,7 @@ git:
     - enable: true
       name: ui-git
       type: git
-      successNumber: 0 #should have at least 0 resources with status success in the cards status
+      successNumber: 4 #should have at least 4 resources with status success in the cards status; note that we can validate this only when at least one subscription NOT using online: true !
       new: # used when we add new subscriptions after app creation
         - url: https://dummy/insecureSkipVerifyOption
           username: ""
@@ -30,7 +30,7 @@ git:
             matchingLabel: false
       config:
         - url: https://github.com/fxiang1/app-samples.git
-          resources: ["Route", "Service", "Ingress"] #the type of resources this application must deploy
+          resources: ["route", "service", "ingress"] #the type of resources this application must deploy
           username: ""
           token: ""
           branch: master
@@ -52,6 +52,7 @@ git:
             online: false
             matchingLabel: true
         - url: https://github.com/fxiang1/app-samples.git
+          resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
           username: ""
           token: ""
           branch: master
@@ -65,7 +66,6 @@ objectstore:
     - enable: true
       name: ui-obj
       type: objectstore
-      successNumber: 0
       new: # used when we add new subscriptions after app creation
         - url: http://ec2-dummy/dev1
           accessKey: dummy1
@@ -135,7 +135,7 @@ helm:
     - enable: true
       name: ui-helm
       type: helm
-      successNumber: 0
+      successNumber: 4 #should have at least 4 resources with status success in the cards status; note that we can validate this only when at least one subscription NOT using online: true !
       new: # used when we add new subscriptions after app creation
         - url: https://dummy/helminsecureSkipVerifyOption
           username: ""
@@ -156,21 +156,21 @@ helm:
             online: false
             matchingLabel: false
       config:
-        - url: https://kubernetes-charts.storage.googleapis.com
-          resources: ["Service"] #the type of resources this application must deploy
+        - url: https://charts.bitnami.com/bitnami
           username: ""
           password: ""
-          chartName: aerospike
-          packageVersion: 0.3.3
+          chartName: redis
+          packageVersion: 12.2.4
           deployment:
             local: false
             online: false
             matchingLabel: true
-        - url: https://kubernetes-charts.storage.googleapis.com
+        - url: https://charts.bitnami.com/bitnami
+          resources: ["service", "configmap", "secret"] #the type of resources this application must deploy
           username: ""
           password: ""
-          chartName: airflow
-          packageVersion: 7.9.0
+          chartName: minio
+          packageVersion: 4.1.9
           timeWindow:
             setting: true
             type: blockinterval
@@ -186,13 +186,13 @@ helm:
     - enable: true
       name: ui-helm2
       type: helm
-      successNumber: 0
       config:
-        - url: https://kubernetes-charts.storage.googleapis.com
+        - url: https://charts.bitnami.com/bitnami
+          resources: ["service", "secret", "configmap"] #the type of resources this application must deploy
           username: ""
           password: ""
-          chartName: aerospike
-          packageVersion: 0.3.3
+          chartName: redis
+          packageVersion: 12.2.4
           deployment:
             local: false
             online: true

@@ -416,7 +416,7 @@ export const validateTopology = (
   }
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
-  if (successNumber) {
+  if (opType == "create" && successNumber) {
     cy.log(
       `Verify that the deployed resources number with status success is at least ${successNumber}`
     );

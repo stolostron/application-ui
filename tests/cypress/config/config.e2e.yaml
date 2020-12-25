@@ -4,7 +4,7 @@ git:
     - enable: true
       name: ui-git
       type: git
-      successNumber: 4 #should have at least 4 resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
+      successNumber: 3 #should have at least this many resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
       new: # used when we add new subscriptions after app creation
         - url: https://dummy/insecureSkipVerifyOption
           username: ""
@@ -30,12 +30,22 @@ git:
             matchingLabel: false
       config:
         - url: https://github.com/fxiang1/app-samples.git
-          resources: ["route", "service", "ingress"] #the type of resources this application must deploy
+          resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
           username: ""
           token: ""
           branch: master
-          path: nginx
+          path: helloworld
           gitReconcileOption: merge
+          deployment:
+            local: false
+            online: false
+            matchingLabel: true
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["pod", "service"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: master
+          path: mortgagepod
           timeWindow:
             setting: true
             type: activeinterval
@@ -43,20 +53,10 @@ git:
               - Thursday
               - Friday
             hours:
-              - start: "09:00"
-                end: "12:00"
-              - start: "15:00"
-                end: "18:00"
-          deployment:
-            local: false
-            online: false
-            matchingLabel: true
-        - url: https://github.com/fxiang1/app-samples.git
-          resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
-          username: ""
-          token: ""
-          branch: master
-          path: helloworld
+              - start: "09:10"
+                end: "09:11"
+              - start: "15:10"
+                end: "15:11"
           deployment:
             local: true
             online: false
@@ -166,7 +166,7 @@ helm:
             online: false
             matchingLabel: true
         - url: https://charts.bitnami.com/bitnami
-          resources: ["service", "configmap", "secret"] #the type of resources this application must deploy
+          resources: ["service", "configmap", "secret", "deployment"] #the type of resources this application must deploy
           username: ""
           password: ""
           chartName: minio
@@ -177,8 +177,8 @@ helm:
             date:
               - Monday
             hours:
-              - start: "08:00"
-                end: "12:00"
+              - start: "08:10"
+                end: "08:11"
           deployment:
             local: true
             online: false

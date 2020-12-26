@@ -272,7 +272,7 @@ Cypress.Commands.add("logInAsRole", role => {
         if (text == users[role]) {
           cy.log(`Already Logged in as User $users[role]`);
         } else {
-          logout();
+          cy.logout();
           cy.wait(5000);
           cy.login(idp, user, password);
         }

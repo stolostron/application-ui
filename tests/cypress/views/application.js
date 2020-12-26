@@ -358,17 +358,6 @@ export const validateTopology = (
     `Verify cluster deploy status on app card is ${appDetails.clusterData}`
   );
 
-  const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
-  cy.log(
-    `Verify that the deployed resources number with status success is at least ${successNumber}`
-  );
-  cy
-    .get("#green-resources", { timeout: 120 * 1000 })
-    .children(".status-count")
-    .invoke("text")
-    .then(parseInt)
-    .should("be.gte", successNumber);
-
   cy
     .get(".pf-l-grid__item", { timeout: 120 * 1000 })
     .last()
@@ -424,6 +413,19 @@ export const validateTopology = (
             "cluster and placement nodes will not be created as the application is deployed locally"
           );
     }
+  }
+
+  const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
+  if (opType == "create" && successNumber) {
+    cy.log(
+      `Verify that the deployed resources number with status success is at least ${successNumber}`
+    );
+    cy
+      .get("#green-resources", { timeout: 120 * 1000 })
+      .children(".status-count")
+      .invoke("text")
+      .then(parseInt)
+      .should("be.gte", successNumber);
   }
 };
 

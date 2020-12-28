@@ -19,12 +19,14 @@ import {
   validateSubscriptionDetails,
   submitSave,
   selectTimeWindow,
-  validateDeployables
+  validateDeployables,
+  validateRbacAlert
 } from "./common";
 
 import { channelsInformation, checkExistingUrls } from "./resources.js";
 
-export const createApplication = (clusterName, data, type) => {
+export const createApplication = (clusterName, data, type, namespace='default') => {
+  namespace == 'default' ? (namespace = `${name}-ns`): namespace
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
   cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
@@ -32,7 +34,7 @@ export const createApplication = (clusterName, data, type) => {
   cy.log(`Test create application ${name}`);
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name", { timeout: 50 * 1000 }).type(name);
-  cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`);
+  cy.get("#namespace", { timeout: 50 * 1000 }).type(namespace);
   if (type === "git") {
     createGit(clusterName, config);
   } else if (type === "objectstore") {
@@ -620,10 +622,11 @@ export const deleteResourceUI = (name, type) => {
   );
 };
 
-export const deleteApplicationUI = name => {
+export const deleteApplicationUI = (name,namespace='default') => {
+  namespace == 'default' ? (namespace = getNamespace(name)): namespace
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
-    const resourceKey = getResourceKey(name, getNamespace(name));
+    const resourceKey = getResourceKey(name, namespace);
     resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
 
     resourceTable.openRowMenu(name, resourceKey);
@@ -737,7 +740,8 @@ export const selectMatchingLabel = (cluster, key) => {
   cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
 };
 
-export const edit = name => {
+export const edit = (name, namespace='default') => {
+  namespace == 'default' ? (namespace = getNamespace(name)): namespace
   cy
     .server()
     .route({
@@ -746,7 +750,7 @@ export const edit = name => {
     })
     .as("graphql");
   cy.visit("/multicloud/applications");
-  const resourceKey = getResourceKey(name, getNamespace(name));
+  const resourceKey = getResourceKey(name, namespace);
   resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
   resourceTable.openRowMenu(name, resourceKey);
   resourceTable.menuClick("edit");
@@ -783,8 +787,9 @@ export const editApplication = (name, data) => {
   verifyApplicationData(name, data, "create");
 };
 
-export const deleteFirstSubscription = (name, data) => {
-  edit(name);
+export const deleteFirstSubscription = (name, data, namespace='default') => {
+  namespace == 'default' ? (namespace = `${name}-ns`): namespace
+  edit(name, namespace);
   if (data.config.length > 1) {
     cy.log(`Verified that ${name} has ${data.config.length} subscriptions`);
     cy.log(
@@ -812,9 +817,10 @@ export const deleteFirstSubscription = (name, data) => {
   }
 };
 
-export const addNewSubscription = (name, data, clusterName) => {
+export const addNewSubscription = (name, data, clusterName, namespace='default') => {
   cy.log(`Verify that a new subscription can be added to ${name} application`);
-  edit(name);
+  namespace == 'default' ? (namespace = `${name}-ns`): namespace
+  edit(name, namespace);
 
   if (data.type === "git") {
     createGit(clusterName, data, true);
@@ -870,4 +876,18 @@ export const verifyInsecureSkipAfterNewSubscription = name => {
       .its("stdout")
       .should("include", "insecureSkipVerify: true");
   });
+};
+
+export const verifyUnauthorizedApplicationDelete = (name,namespace) => {
+
+  cy.visit("/multicloud/applications")
+  const resourceKey = getResourceKey(name,namespace);
+  resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
+  resourceTable.openRowMenu(name, resourceKey);
+  resourceTable.menuClick("delete");
+  validateRbacAlert();
+  cy
+    .get("[data-ouia-component-id=OUIA-Generated-Button-danger-1]",{ timeout: 20 * 1000 })
+    .contains("Delete application")
+    .should('be.disabled')
 };

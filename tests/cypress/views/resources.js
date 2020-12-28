@@ -75,11 +75,12 @@ export const getSavedPathname = () => {
     });
 };
 
-export const channelsInformation = (name, key) => {
+export const channelsInformation = (name, key, namespace='default') => {
   // Return a Cypress chain with channel name/namespace from subscription
+  namespace == 'default' ? (namespace = `${name}-ns`): namespace
   return cy
     .exec(
-      `oc -n ${name}-ns get subscription ${name}-subscription-${parseInt(key) +
+      `oc -n ${namespace} get subscription ${name}-subscription-${parseInt(key) +
         1} -o=jsonpath='{.spec.channel}'`,
       { timeout: 5000 }
     )

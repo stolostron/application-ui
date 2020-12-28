@@ -839,3 +839,14 @@ export const validateDeployables = data => {
       });
   }
 };
+
+export const validateRbacAlert = () => {
+
+  const alertMessage = "You are not authorized to complete this action. See "+
+                       "your cluster administrator for role-based "+
+                       "access control information.";
+  cy
+    .get('.pf-c-alert__title',{ timeout: 20 * 1000 })
+    .invoke("text")
+    .should("eq",alertMessage)
+};

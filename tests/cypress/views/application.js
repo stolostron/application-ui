@@ -804,6 +804,42 @@ export const deleteFirstSubscription = (name, data) => {
     );
     cy.get(".creation-view-controls-delete-button").should("not.exist");
     submitSave(true);
+
+    //verify channel combo doesn't show up
+    cy.log(
+      "verify defect 7696 channel combo does not show up after one subscription is removed"
+    );
+    cy.get(".channelsCombo").should("not.exist");
+
+    if (data.type != "objectstore") {
+      //ignore objectstore because this app doesn't deploy any resources
+      cy.log(
+        "verify defect 7696 - resources still show in topology view after moving from Editor tab to Overview"
+      );
+      const allResources =
+        cy
+          .get("#green-resources", { timeout: 120 * 1000 })
+          .children(".status-count")
+          .invoke("text")
+          .then(parseInt) +
+        cy
+          .get("#yellow-resources", { timeout: 120 * 1000 })
+          .children(".status-count")
+          .invoke("text")
+          .then(parseInt) +
+        cy
+          .get("#red-resources", { timeout: 120 * 1000 })
+          .children(".status-count")
+          .invoke("text")
+          .then(parseInt) +
+        cy
+          .get("#orange-resources", { timeout: 120 * 1000 })
+          .children(".status-count")
+          .invoke("text")
+          .then(parseInt);
+
+      cy.expect(allResources).to.be.greaterThan(0);
+    }
   } else {
     cy.log(
       `verify subscription cannot be deleted for ${name} since this application has only one subscription`

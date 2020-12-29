@@ -810,45 +810,6 @@ export const deleteFirstSubscription = (name, data) => {
       "verify defect 7696 channel combo does not show up after one subscription is removed"
     );
     cy.get(".channelsCombo").should("not.exist");
-
-    if (data.type != "objectstore") {
-      //ignore objectstore because this app doesn't deploy any resources
-      cy.log(
-        "verify defect 7696 - resources still show in topology view after moving from Editor tab to Overview"
-      );
-      let allResources = 0;
-
-      cy
-        .get("#green-resources", { timeout: 120 * 1000 })
-        .children(".status-count")
-        .invoke("text")
-        .then(text => {
-          allResources = allResources + parseInt(text);
-        });
-      cy
-        .get("#yellow-resources", { timeout: 120 * 1000 })
-        .children(".status-count")
-        .invoke("text")
-        .then(text => {
-          allResources = allResources + parseInt(text);
-        });
-      cy
-        .get("#red-resources", { timeout: 120 * 1000 })
-        .children(".status-count")
-        .invoke("text")
-        .then(text => {
-          allResources = allResources + parseInt(text);
-        });
-      cy
-        .get("#orange-resources", { timeout: 120 * 1000 })
-        .children(".status-count")
-        .invoke("text")
-        .then(text => {
-          allResources = allResources + parseInt(text);
-        });
-      cy.log(`All resources is ${allResources}`);
-      cy.expect(allResources).to.be.greaterThan(0);
-    }
   } else {
     cy.log(
       `verify subscription cannot be deleted for ${name} since this application has only one subscription`

@@ -8,9 +8,7 @@
  *******************************************************************************/
 
 import {
-  getNumClustersForApp,
   getSearchLinkForOneApplication,
-  getPodData,
   getAppOverviewCardsData
 } from "../../../../../src-web/components/common/ResourceOverview/utils";
 import {
@@ -213,20 +211,6 @@ const data2 = {
   related: []
 };
 
-describe("getNumClustersForApp", () => {
-  it("should return cluster count", () => {
-    const result = 4;
-    expect(getNumClustersForApp(query_data1)).toEqual(result);
-  });
-  it("should return 0 if related is empty", () => {
-    expect(getNumClustersForApp(query_data2)).toEqual(0);
-  });
-
-  it("should return 0 if no data", () => {
-    expect(getNumClustersForApp(null)).toEqual(0);
-  });
-});
-
 describe("getSearchLinkForOneApplication", () => {
   const appName = "test-app";
   const appNamespace = "default";
@@ -261,32 +245,6 @@ describe("getSearchLinkForOneApplication", () => {
   });
   it("should return empty string if name param is empty", () => {
     expect(getSearchLinkForOneApplication()).toEqual("");
-  });
-});
-
-// getPodData
-describe("getPodData", () => {
-  it("has pod data", () => {
-    const podData = getPodData(podSampleData, "app1", "default");
-
-    expect(podData.total).toEqual(14);
-    expect(podData.running).toEqual(4);
-    expect(podData.failed).toEqual(5);
-    expect(podData.inProgress).toEqual(2);
-  });
-  it("no pod data", () => {
-    const podData = getPodData(emptyItemsData, "app1", "default");
-
-    expect(podData.total).toEqual(0);
-    expect(podData.running).toEqual(0);
-    expect(podData.failed).toEqual(0);
-    expect(podData.inProgress).toEqual(0);
-  });
-  it("no pod data", () => {
-    const podData = getPodData(emptyData, "app1", "default");
-
-    // -1 to identify when skeleton text load bar should appear
-    expect(podData.total).toEqual(-1);
   });
 });
 

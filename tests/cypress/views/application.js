@@ -816,28 +816,37 @@ export const deleteFirstSubscription = (name, data) => {
       cy.log(
         "verify defect 7696 - resources still show in topology view after moving from Editor tab to Overview"
       );
-      const allResources =
-        cy
-          .get("#green-resources", { timeout: 120 * 1000 })
-          .children(".status-count")
-          .invoke("text")
-          .then(parseInt) +
-        cy
-          .get("#yellow-resources", { timeout: 120 * 1000 })
-          .children(".status-count")
-          .invoke("text")
-          .then(parseInt) +
-        cy
-          .get("#red-resources", { timeout: 120 * 1000 })
-          .children(".status-count")
-          .invoke("text")
-          .then(parseInt) +
-        cy
-          .get("#orange-resources", { timeout: 120 * 1000 })
-          .children(".status-count")
-          .invoke("text")
-          .then(parseInt);
+      let allResources = 0;
 
+      cy
+        .get("#green-resources", { timeout: 120 * 1000 })
+        .children(".status-count")
+        .invoke("text")
+        .then(text => {
+          allResources = allResources + parseInt(text);
+        });
+      cy
+        .get("#yellow-resources", { timeout: 120 * 1000 })
+        .children(".status-count")
+        .invoke("text")
+        .then(text => {
+          allResources = allResources + parseInt(text);
+        });
+      cy
+        .get("#red-resources", { timeout: 120 * 1000 })
+        .children(".status-count")
+        .invoke("text")
+        .then(text => {
+          allResources = allResources + parseInt(text);
+        });
+      cy
+        .get("#orange-resources", { timeout: 120 * 1000 })
+        .children(".status-count")
+        .invoke("text")
+        .then(text => {
+          allResources = allResources + parseInt(text);
+        });
+      cy.log(`All resources is ${allResources}`);
       cy.expect(allResources).to.be.greaterThan(0);
     }
   } else {

@@ -804,6 +804,12 @@ export const deleteFirstSubscription = (name, data) => {
     );
     cy.get(".creation-view-controls-delete-button").should("not.exist");
     submitSave(true);
+
+    //verify channel combo doesn't show up
+    cy.log(
+      "verify defect 7696 channel combo does not show up after one subscription is removed"
+    );
+    cy.get(".channelsCombo").should("not.exist");
   } else {
     cy.log(
       `verify subscription cannot be deleted for ${name} since this application has only one subscription`

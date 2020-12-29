@@ -4,6 +4,7 @@
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { validateTopology } from "../../views/application";
+import { validateDefect7696 } from "../../views/common";
 import {
   getManagedClusterName,
   getNumberOfManagedClusters
@@ -36,6 +37,11 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Te
             "create"
           );
         });
+        if (data.type == "git") {
+          it("Verify defects 7696 and 8055", () => {
+            validateDefect7696();
+          });
+        }
       } else {
         it(`disable validation on resource ${type}`, () => {
           cy.log(`skipping ${type} - ${data.name}`);

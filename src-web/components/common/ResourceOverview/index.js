@@ -6,7 +6,6 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-import R from 'ramda'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -18,17 +17,10 @@ import {
   getSingleResourceItem,
   resourceItemByName
 } from '../../../reducers/common'
-import { handleEditResource, loadingComponent } from './utils'
+import { loadingComponent } from './utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
-import {
-  fetchApplicationResource,
-  closeModals
-} from '../../../reducers/reducerAppDeployments'
-import apolloClient from '../../../../lib/client/apollo-client'
 import OverviewCards from '../OverviewCards'
-import { RESOURCE_TYPES, DOC_LINKS } from '../../../../lib/shared/constants'
-import { updateModal } from '../../../actions/common'
 import HeaderActions from '../../common/HeaderActions'
 
 resources(() => {
@@ -36,29 +28,7 @@ resources(() => {
 })
 
 const ResourceOverview = withLocale(
-  ({
-    params,
-    actions,
-    showExpandedTopology,
-    loading,
-    openEditApplicationModal,
-    currentApplicationInfo,
-    closeModal,
-    editResource
-  }) => {
-    if (openEditApplicationModal) {
-      const data = R.pathOr([], ['data', 'items'], currentApplicationInfo)[0]
-      const name = R.pathOr('', ['metadata', 'name'], data)
-      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
-      closeModal()
-      editResource(RESOURCE_TYPES.HCM_APPLICATIONS, {
-        name: name,
-        namespace: namespace,
-        data: data,
-        helpLink: DOC_LINKS.APPLICATIONS
-      })
-    }
-
+  ({ params, actions, showExpandedTopology, loading }) => {
     const serverProps = {}
     return (
       <div id="resource-overview" className="overview-content">
@@ -98,20 +68,7 @@ ResourceOverview.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(Actions, dispatch),
-    getApplicationResource: (selfLink, namespace, name, cluster) =>
-      dispatch(
-        fetchApplicationResource(
-          apolloClient,
-          selfLink,
-          namespace,
-          name,
-          cluster
-        )
-      ),
-    editResource: (resourceType, data) =>
-      handleEditResource(dispatch, updateModal, resourceType, data),
-    closeModal: () => dispatch(closeModals())
+    actions: bindActionCreators(Actions, dispatch)
   }
 }
 
@@ -130,9 +87,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     item,
     userRole: role && role.role,
-    loading: AppDeployments.loading,
-    currentApplicationInfo: AppDeployments.currentApplicationInfo || {},
-    openEditApplicationModal: AppDeployments.openEditApplicationModal
+    loading: AppDeployments.loading
   }
 }
 

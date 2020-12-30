@@ -633,6 +633,20 @@ const saveErrorShouldNotExist = () => {
   notification.shouldNotExist("error", { timeout: 2 * 1000 }); //save error goes away
 };
 
+//verify https://github.com/open-cluster-management/backlog/issues/7080
+export const testDefect7080 = () => {
+  //click all clusters option
+  cy.log("Test defect 7080 - check all online clusters option");
+  cy.get("#online-cluster-only-checkbox").click({ force: true });
+
+  //click local cluster only
+  cy.log("Test defect 7080 - verify local cluster option can be checked");
+  cy.get("#local-cluster-checkbox").click({ force: true });
+
+  cy.log("Test defect 7080 - now go back to default option");
+  cy.get("#local-cluster-checkbox").click({ force: true });
+};
+
 export const testInvalidApplicationInput = () => {
   const validURL = "http://a.com";
   const invalidValue = "INVALID VALUE";
@@ -691,6 +705,9 @@ export const testInvalidApplicationInput = () => {
     .get("#githubURL", { timeout: 20 * 1000 })
     .type(invalidValue)
     .blur();
+
+  testDefect7080();
+
   //enter a valid deployment value
   cy.get("#labelName-0-clusterSelector").type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
@@ -840,6 +857,7 @@ export const validateDeployables = data => {
   }
 };
 
+
 export const validateRbacAlert = () => {
 
   const alertMessage = "You are not authorized to complete this action. See "+
@@ -849,4 +867,34 @@ export const validateRbacAlert = () => {
     .get('.pf-c-alert__title',{ timeout: 20 * 1000 })
     .invoke("text")
     .should("eq",alertMessage)
+
+export const validateDefect7696 = () => {
+  cy.log(
+    "verify defect 7696 - resources still show in topology view after moving from Editor tab to Overview"
+  );
+
+  cy.log("Select Editor tab");
+  cy.get("#editor", { timeout: 20 * 1000 }).click({ force: true });
+
+  cy.log(
+    "Verify defect 8055 - Temptifly 0.1.15 no longer shows yaml toggler for app-ui"
+  );
+  cy.get("#edit-button-portal-id", { timeout: 20 * 1000 }).should("be.visible");
+
+  cy.log("show YAML");
+  cy.get("#edit-yaml", { timeout: 2 * 1000 }).should("not.be.checked");
+  cy.get("#edit-yaml", { timeout: 2 * 1000 }).click({ force: true });
+  cy.get("#edit-yaml", { timeout: 2 * 1000 }).should("be.checked");
+
+  cy.log("Verify YAML shows deployable annotations");
+  cy.get(".yamlEditorContainer", { timeout: 5 * 1000 }).should("be.visible");
+
+  cy.log(
+    "move back to topology view and check resources still show up - defect 7696"
+  );
+  cy.get("#overview", { timeout: 20 * 1000 }).click({ force: true });
+
+  cy.log("Verify deployables show up");
+  cy.get("#diagramShapes_pod", { timeout: 30 * 1000 }).should("exist");
+
 };

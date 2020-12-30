@@ -867,6 +867,7 @@ export const validateRbacAlert = () => {
     .get('.pf-c-alert__title',{ timeout: 20 * 1000 })
     .invoke("text")
     .should("eq",alertMessage)
+};
 
 export const validateDefect7696 = () => {
   cy.log(

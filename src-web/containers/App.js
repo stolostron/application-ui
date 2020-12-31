@@ -123,7 +123,14 @@ class App extends React.Component {
 
     return (
       <div className="expand-vertically">
-        <SecondaryHeader />
+        <SecondaryHeader
+          tabs={allApplicationsTabs}
+          titleId={applicationsTitle}
+          location={this.props.location}
+          history={this.props.history}
+          locale={locale}
+          mainButton={createApplicationButton}
+        />
         <Switch>
           <Route
             exact
@@ -212,7 +219,9 @@ class App extends React.Component {
 }
 
 App.propTypes = {
+  history: PropTypes.object,
   locale: PropTypes.object,
+  location: PropTypes.object,
   match: PropTypes.object,
   serverProps: PropTypes.object,
   staticContext: PropTypes.object

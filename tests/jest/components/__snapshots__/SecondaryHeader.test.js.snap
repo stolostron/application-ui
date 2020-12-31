@@ -2,8 +2,8 @@
 
 exports[`SecondaryHeader component 1 renders as expected 1`] = `
 <div
-  aria-label="hello world secondary"
-  className="secondary-header-wrapper-min"
+  aria-label="undefined secondary"
+  className="secondary-header-wrapper"
   role="region"
 >
   <div
@@ -12,7 +12,7 @@ exports[`SecondaryHeader component 1 renders as expected 1`] = `
     <h1
       className="bx--detail-page-header-title"
     >
-      hello world
+      undefined
     </h1>
   </div>
 </div>
@@ -20,7 +20,6 @@ exports[`SecondaryHeader component 1 renders as expected 1`] = `
 
 exports[`SecondaryHeader component 2 renders as expected 1`] = `
 <div
-  aria-label="hello world"
   className="secondary-header-wrapper with-tabs"
   role="region"
 >
@@ -28,7 +27,7 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
     className="secondary-header "
   >
     <header
-      aria-label="hello world secondary"
+      aria-label="undefined secondary"
       className="bx--detail-page-header bx--detail-page-header--with-tabs"
       data-header-active={false}
       role="banner"
@@ -57,7 +56,7 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
           <h1
             className="bx--detail-page-header-title"
           >
-            hello world
+            undefined
           </h1>
           <div
             className="bx--detail-page-header-status-container"
@@ -85,7 +84,7 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
       className="tab-container"
     >
       <nav
-        aria-label="hello world undefined"
+        aria-label="undefined Applications Label"
         className="bx--tabs cluster-tabs"
         role="navigation"
         selected={0}
@@ -161,7 +160,6 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
 
 exports[`SecondaryHeader component 3 renders as expected 1`] = `
 <div
-  aria-label="hello world"
   className="secondary-header-wrapper with-tabs"
   role="region"
 >
@@ -169,7 +167,7 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
     className="secondary-header "
   >
     <header
-      aria-label="hello world secondary"
+      aria-label="undefined secondary"
       className="bx--detail-page-header bx--detail-page-header--with-tabs"
       data-header-active={false}
       role="banner"
@@ -198,7 +196,7 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
           <h1
             className="bx--detail-page-header-title"
           >
-            hello world
+            undefined
           </h1>
           <div
             className="bx--detail-page-header-status-container"
@@ -226,7 +224,7 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
       className="tab-container"
     >
       <nav
-        aria-label="hello world undefined"
+        aria-label="undefined Applications Label"
         className="bx--tabs cluster-tabs"
         role="navigation"
         selected={1}
@@ -319,6 +317,259 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
         className="tab-content"
         hidden={false}
         selected={true}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SecondaryHeader component 4 renders as expected 1`] = `
+<div
+  className="secondary-header-wrapper with-tabs with-breadcrumbs"
+  role="region"
+>
+  <div
+    className="secondary-header "
+  >
+    <header
+      aria-label="undefined secondary"
+      className="bx--detail-page-header bx--detail-page-header--with-tabs"
+      data-header-active={false}
+      role="banner"
+    >
+      <div
+        className="bx--detail-page-header-content"
+      >
+        <div
+          className="bx--breadcrumb"
+        >
+          <div
+            className="bx--breadcrumb-item"
+            title="breadcrumb1"
+          >
+            <a
+              className="bx--link"
+              href="breadcrumb1-url1"
+              onClick={[Function]}
+            >
+              breadcrumb1
+            </a>
+          </div>
+          <div
+            className="bx--breadcrumb-item"
+            title="breadcrumb2"
+          >
+            <a
+              className="bx--link"
+              href="breadcrumb2-url2"
+              onClick={[Function]}
+            >
+              breadcrumb2
+            </a>
+          </div>
+        </div>
+        <div
+          className="bx--detail-page-header-title-container"
+        >
+          <div
+            className="bx--detail-page-header-icon-container"
+          >
+            <svg
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M0 0h24v24H0z"
+                fill="#D8D8D8"
+                fillRule="evenodd"
+              />
+            </svg>
+          </div>
+          <h1
+            className="bx--detail-page-header-title"
+          >
+            undefined
+          </h1>
+          <div
+            className="bx--detail-page-header-status-container"
+          >
+            <div
+              className="bx--detail-page-header-status-icon"
+              style={
+                Object {
+                  "backgroundColor": undefined,
+                }
+              }
+            />
+             
+            <span
+              className="bx--detail-page-header-status-text"
+            >
+              <div
+                className="bx--tooltip__trigger secondary-header-tooltip-icon"
+              >
+                <div
+                  aria-expanded={false}
+                  aria-haspopup="true"
+                  id="__carbon-tooltip-trigger_i"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <svg
+                    alt="tooltip"
+                    aria-label="tooltip"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--info--outline"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      
+                    </title>
+                    <path
+                      d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+                    />
+                    <path
+                      d="M9 13H7V7h2z"
+                    />
+                    <path
+                      d="M7 4a1 1 0 1 1 2 0 1 1 0 1 1-2 0"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="bx--detail-page-header-menu"
+      />
+    </header>
+    <div
+      className="tab-container"
+    >
+      <nav
+        aria-label="undefined Applications Label"
+        className="bx--tabs cluster-tabs--long"
+        role="navigation"
+        selected={1}
+      >
+        <div
+          aria-label="listbox"
+          className="bx--tabs-trigger"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="listbox"
+          tabIndex={0}
+        >
+          <a
+            className="bx--tabs-trigger-text"
+            href="#"
+            onClick={[Function]}
+            tabIndex={-1}
+          >
+            provide a label
+          </a>
+          <svg
+            alt="show menu options"
+            aria-label="show menu options"
+            fillRule="evenodd"
+            height="5"
+            role="img"
+            viewBox="0 0 10 5"
+            width="10"
+          >
+            <title>
+              show menu options
+            </title>
+            <path
+              d="M0 0l5 4.998L10 0z"
+            />
+          </svg>
+        </div>
+        <ul
+          className="bx--tabs__nav bx--tabs__nav--hidden"
+          role="tablist"
+        >
+          <li
+            className="bx--tabs__nav-item"
+            id="logs-tab1"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            role="presentation"
+            selected={false}
+            tabIndex={-1}
+          >
+            <a
+              aria-selected={false}
+              className="bx--tabs__nav-link"
+              href="/multicloud/dashboard"
+              role="tab"
+              tabIndex={0}
+            >
+              Application
+            </a>
+          </li>
+          <li
+            className="bx--tabs__nav-item bx--tabs__nav-item--selected"
+            id="logs-tab2"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            role="presentation"
+            selected={true}
+            tabIndex={-1}
+          >
+            <a
+              aria-selected={true}
+              className="bx--tabs__nav-link"
+              href="/hello"
+              role="tab"
+              tabIndex={0}
+            >
+              provide a label
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div
+        aria-hidden={true}
+        className="tab-content"
+        hidden={true}
+        selected={false}
+      />
+      <div
+        aria-hidden={false}
+        className="tab-content"
+        hidden={false}
+        selected={true}
+      />
+    </div>
+    <div
+      className="secondary-header-actions"
+    >
+      <button
+        className="secondary-header-actions-secondary bx--btn bx--btn--secondary"
+        disabled={false}
+        onClick={[Function]}
+        tabIndex={0}
+        type="button"
+      />
+      <button
+        className="secondary-header-actions-primary bx--btn bx--btn--primary"
+        disabled={false}
+        onClick={[Function]}
+        tabIndex={0}
+        type="button"
       />
     </div>
   </div>

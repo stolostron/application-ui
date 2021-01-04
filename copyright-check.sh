@@ -10,8 +10,9 @@
 
 #Project start year
 origin_year=2016
+rh_origin_year=2020
 #Back up year if system time is null or incorrect
-back_up_year=2019
+back_up_year=2021
 #Currrent year
 current_year=$(date +"%Y")
 
@@ -47,6 +48,20 @@ do
   done
 done
 lic_year_size=${#lic_year[@]}
+
+rh_lic_year=()
+for ((start_year=rh_origin_year;start_year<=current_year;start_year++)); 
+do
+  rh_lic_year+=(" Copyright (c) ${start_year} Red Hat, Inc.")
+  # As per https://coreos.slack.com/archives/CSZLD3RSM/p1609791996152200?thread_ts=1609770344.127000&cid=CSZLD3RSM
+  # we do not need to support a range for Red Hat copyright years
+  
+  # for ((end_year=start_year+1;end_year<=current_year;end_year++)); 
+  # do
+  #   rh_lic_year+=(" Copyright (c) ${start_year}, ${end_year} Red Hat, Inc.")
+  # done
+done
+rh_lic_year_size=${#rh_lic_year[@]}
 
 #lic_rest to scan for rest copyright format's correctness
 lic_rest=()
@@ -110,13 +125,29 @@ for f in $FILES_TO_SCAN; do
     must_have_redhat_license=true
   fi
 
-  if [[ "${must_have_redhat_license}" == "true" ]] && [[ "$header" != *"${lic_redhat_identifier}"* ]]; then
-    printf " Missing copyright\n >> Could not find [${lic_redhat_identifier}] in the file.\n"
-    ERROR=1
-  fi
+  if [[ "${must_have_redhat_license}" == "true" ]] || [[ "${flag_redhat_license}" == "true" ]]; then
+    # Verify Red Hat copyright is present
+    # Check for year copyright single line
+    year_line_count=0
+    for ((i=0;i<${rh_lic_year_size};i++));
+    do
+      #Validate year format within [origin_year, current_year] range
+      if [[ "$header" == *"${rh_lic_year[$i]}"* ]]; then
+        year_line_count=$((year_line_count + 1))
+      else
+        echo No match ${rh_lic_year[$i]}
+      fi
+    done
 
-  if [[ "${flag_redhat_license}" == "true" ]] && [[ "$header" == *"${lic_redhat_identifier}"* ]]; then 
-    printf " Warning: Older file, may not include Red Hat license.\n"
+    #Must find and only find one line valid year, otherwise invalid copyright format
+    if [[ $year_line_count != 1 ]]; then
+      if [[ "${must_have_redhat_license}" == "true" ]]; then
+        printf " Missing copyright\n >> Could not find [${lic_redhat_identifier}] or similar in the file $year_line_count.\n"
+        ERROR=1
+      else
+        printf " Warning: Older file, may not include Red Hat license.\n"
+      fi
+    fi
   fi
 
   if [[ "${flag_ibm_license}" == "true" ]] && [[ "$header" == *"${lic_ibm_identifier}"* ]]; then 

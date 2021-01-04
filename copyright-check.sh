@@ -55,7 +55,7 @@ do
   rh_lic_year+=(" Copyright (c) ${start_year} Red Hat, Inc.")
   # As per https://coreos.slack.com/archives/CSZLD3RSM/p1609791996152200?thread_ts=1609770344.127000&cid=CSZLD3RSM
   # we do not need to support a range for Red Hat copyright years
-  
+
   # for ((end_year=start_year+1;end_year<=current_year;end_year++)); 
   # do
   #   rh_lic_year+=(" Copyright (c) ${start_year}, ${end_year} Red Hat, Inc.")
@@ -160,13 +160,13 @@ for f in $FILES_TO_SCAN; do
     year_line_count=0
     for ((i=0;i<${lic_year_size};i++));
     do
-      #Validate year formart within [origin_year, current_year] range
+      #Validate year format within [origin_year, current_year] range
       if [[ "$header" == *"${lic_year[$i]}"* ]]; then
         year_line_count=$((year_line_count + 1))
       fi
     done
 
-    #Must find and only find one line valid year, otherwise invalid copyright formart
+    #Must find and only find one line valid year, otherwise invalid copyright format
     if [[ $year_line_count != 1 ]]; then
       printf "Missing copyright\n  >>Could not find correct copyright year in the file $f\n"
       ERROR=1

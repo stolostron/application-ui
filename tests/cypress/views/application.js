@@ -286,7 +286,8 @@ export const validateAdvancedTables = (
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
         subscriptions: `${name}-subscription-${parseInt(key) + 1}`,
-        placementrules: `${name}-placement-${parseInt(key) + 1}`
+        placementrules: `${name}-placement-${parseInt(key) + 1}`,
+        channels: channelName
       };
       cy.log(`Validate instance-${key} with channel name ${channelName}`);
       Object.keys(resourceTypes).map(function(tableType) {

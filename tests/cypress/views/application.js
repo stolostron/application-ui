@@ -22,7 +22,11 @@ import {
   validateDeployables
 } from "./common";
 
-import { channelsInformation, checkExistingUrls } from "./resources.js";
+import {
+  channelsInformation,
+  checkExistingUrls,
+  checkExistingSecrets
+} from "./resources.js";
 
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
@@ -109,6 +113,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
       .type(gitReconcileOption)
       .blur();
   }
+  selectPrePostTasks(value, key);
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
@@ -655,6 +660,43 @@ export const deleteApplicationUI = name => {
     // no existing channels
     // deleteResourceUI(name, "channels");
   }
+};
+
+export const selectPrePostTasks = (value, key) => {
+  const { ansibleSecretName, ansibleHost, ansibleToken } = value;
+  if (!ansibleSecretName) {
+    cy.log("PrePost SecretName not available, ignore this section");
+    return;
+  }
+  let prePostCss = {
+    gitAnsibleSecret: "#ansibleSecretName",
+    gitAnsibleHost: "#ansibleTowerHost",
+    gitAnsibleToken: "#ansibleTowerToken"
+  };
+  key == 0
+    ? prePostCss
+    : Object.keys(prePostCss).forEach(k => {
+        prePostCss[k] = prePostCss[k] + `grp${key}`;
+      });
+  const { gitAnsibleSecret, gitAnsibleHost, gitAnsibleToken } = prePostCss;
+
+  key == 0
+    ? cy.get("#perpostsection-set-pre-and-post-deployment-tasks").click()
+    : cy
+        .get(`#perpostsectiongrp${key}-set-pre-and-post-deployment-tasks`)
+        .click();
+
+  cy
+    .get(gitAnsibleSecret, { timeout: 20 * 1000 })
+    .type(ansibleSecretName, { timeout: 50 * 1000 })
+    .blur();
+  checkExistingSecrets(
+    gitAnsibleHost,
+    ansibleHost,
+    gitAnsibleToken,
+    ansibleToken,
+    ansibleSecretName
+  );
 };
 
 export const selectClusterDeployment = (deployment, clusterName, key) => {

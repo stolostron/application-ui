@@ -38,8 +38,7 @@ describe("getNodeDetails no clusters or violation", () => {
         {
           name: "Cluster",
           value: "c1",
-          href:
-            "/multicloud/search?filters={'textsearch':'kind:cluster name:c1'}"
+          href: "/search?filters={'textsearch':'kind:cluster name:c1'}"
         }
       ],
       x: 76.5,
@@ -166,7 +165,7 @@ describe("getNodeDetails application node", () => {
         data: {
           action: "open_link",
           targetLink:
-            '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3Ans-sub-1%20cluster%3Alocal-cluster"}'
+            '/search?filters={"textsearch":"kind%3Asubscription%20namespace%3Ans-sub-1%20cluster%3Alocal-cluster"}'
         },
         id: "application--nginx-app-3-subscrSearch",
         label: "View all subscriptions in {0} namespace"
@@ -240,8 +239,7 @@ describe("getNodeDetails cluster node 1", () => {
         {
           name: "Cluster",
           value: "feng",
-          href:
-            "/multicloud/search?filters={'textsearch':'kind:cluster name:feng'}"
+          href: "/search?filters={'textsearch':'kind:cluster name:feng'}"
         }
       ],
       x: 76.5,
@@ -379,8 +377,7 @@ describe("getNodeDetails clusters node", () => {
         {
           name: "Cluster",
           value: "feng",
-          href:
-            "/multicloud/search?filters={'textsearch':'kind:cluster name:feng'}"
+          href: "/search?filters={'textsearch':'kind:cluster name:feng'}"
         }
       ],
       x: 76.5,
@@ -640,7 +637,7 @@ describe("getNodeDetails deployment node", () => {
           name: "Deployment",
           value: "mortgage-app-deploy",
           href:
-            "/multicloud/search?filters={'textsearch':'kind:deployment name:mortgage-app-deploy'}"
+            "/search?filters={'textsearch':'kind:deployment name:mortgage-app-deploy'}"
         }
       ],
       x: 151.5,

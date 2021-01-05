@@ -33,7 +33,7 @@ export const getSearchLinkForOneApplication = params => {
     const showRelated = params.showRelated
       ? `&showrelated=${params.showRelated}`
       : ''
-    return `/multicloud/search?filters={"textsearch":"kind%3Aapplication${name}${namespace}"}${showRelated}`
+    return `/search?filters={"textsearch":"kind%3Aapplication${name}${namespace}"}${showRelated}`
   }
   return ''
 }

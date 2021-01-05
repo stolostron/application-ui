@@ -215,7 +215,7 @@ describe("getSearchLinkForOneApplication", () => {
   const appName = "test-app";
   const appNamespace = "default";
   it("should return general search link for one application", () => {
-    const result = `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${appName}"}`;
+    const result = `/search?filters={"textsearch":"kind%3Aapplication%20name%3A${appName}"}`;
     expect(
       getSearchLinkForOneApplication({
         name: appName
@@ -224,7 +224,7 @@ describe("getSearchLinkForOneApplication", () => {
   });
   it("should return cluster related search link for one application", () => {
     const related = "cluster";
-    const result = `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${appName}"}&showrelated=${related}`;
+    const result = `/search?filters={"textsearch":"kind%3Aapplication%20name%3A${appName}"}&showrelated=${related}`;
     expect(
       getSearchLinkForOneApplication({
         name: appName,
@@ -234,7 +234,7 @@ describe("getSearchLinkForOneApplication", () => {
   });
   it("should return subscription related search link for one application", () => {
     const related = "subscription";
-    const result = `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${appName}%20namespace%3A${appNamespace}"}&showrelated=${related}`;
+    const result = `/search?filters={"textsearch":"kind%3Aapplication%20name%3A${appName}%20namespace%3A${appNamespace}"}&showrelated=${related}`;
     expect(
       getSearchLinkForOneApplication({
         name: appName,
@@ -251,7 +251,7 @@ describe("getSearchLinkForOneApplication", () => {
 describe("getAppOverviewCardsData", () => {
   it("has topology and app data with local deployment and time window", () => {
     const targetLink =
-      '/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
+      '/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
       reduxStoreAppPipelineWithCEM.HCMApplicationList,
       reduxStoreAppPipelineWithCEM.topology,
@@ -289,7 +289,7 @@ describe("getAppOverviewCardsData", () => {
 
   it("has missing channel data", () => {
     const targetLink =
-      '/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
+      '/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
       testHCMAppList,
       topologyNoChannel,
@@ -327,7 +327,7 @@ describe("getAppOverviewCardsData", () => {
 
   it("has no data", () => {
     const targetLink =
-      '/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
+      '/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
       emptyData,
       emptyData,

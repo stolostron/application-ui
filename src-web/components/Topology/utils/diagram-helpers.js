@@ -1415,7 +1415,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
       value: msgs.get('resource.subscription.placed.error', [node.namespace]),
       status: failureStatus
     })
-    const ruleSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3A${
+    const ruleSearchLink = `/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3A${
       node.namespace
     }%20cluster%3A${LOCAL_HUB_NAME}"}`
     details.push({
@@ -1483,7 +1483,7 @@ export const setApplicationDeployStatus = (node, details) => {
       value: msgs.get('resource.application.error.msg', [appNS]),
       status: failureStatus
     })
-    const subscrSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
+    const subscrSearchLink = `/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
     details.push({
       type: 'link',
       value: {
@@ -1725,13 +1725,13 @@ export const processResourceActionLink = resource => {
   const nsData = namespace ? ` namespace:${namespace}` : ''
   switch (linkPath) {
   case 'show_pod_log':
-    targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
+    targetLink = `/resources/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
     break
   case showResourceYaml:
-    targetLink = `/multicloud/details/${cluster}${selfLink}`
+    targetLink = `/resources/${cluster}${selfLink}`
     break
   case 'show_search':
-    targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`
+    targetLink = `/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`
     break
   default:
     targetLink = R.pathOr('', ['targetLink'])(resource)

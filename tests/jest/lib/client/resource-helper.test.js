@@ -491,14 +491,14 @@ describe("getResourceType", () => {
 
 describe("getSearchLink", () => {
   it("returns a bare link to search with no properties", () => {
-    expect(getSearchLink()).toEqual("/multicloud/search");
+    expect(getSearchLink()).toEqual("/search");
   });
 
   it("handles multiple properties", () => {
     expect(
       getSearchLink({ properties: { name: "testing", kind: "resource" } })
     ).toEqual(
-      '/multicloud/search?filters={"textsearch":"name%3Atesting%20kind%3Aresource"}'
+      '/search?filters={"textsearch":"name%3Atesting%20kind%3Aresource"}'
     );
   });
 
@@ -509,7 +509,7 @@ describe("getSearchLink", () => {
         showRelated: "subscriptions"
       })
     ).toEqual(
-      '/multicloud/search?filters={"textsearch":"name%3Atesting"}&showrelated=subscriptions'
+      '/search?filters={"textsearch":"name%3Atesting"}&showrelated=subscriptions'
     );
   });
 });
@@ -517,7 +517,7 @@ describe("getSearchLink", () => {
 describe("getEditLink", () => {
   it("returns an edit link using the item.selfLink", () => {
     expect(getEditLink({ selfLink: "/api/foo" })).toEqual(
-      "/multicloud/details/local-cluster/api/foo"
+      "/resources/local-cluster/api/foo"
     );
   });
 });

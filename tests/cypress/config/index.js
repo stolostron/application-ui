@@ -41,10 +41,6 @@ exports.getConfig = () => {
                   givenConfig.username = process.env.GITHUB_USER;
                   givenConfig.token = process.env.GITHUB_TOKEN;
                 }
-                if (process.env.ANSIBLE_URL && process.env.ANSIBLE_TOKEN) {
-                  givenConfig.ansibleHost = process.env.ANSIBLE_URL;
-                  givenConfig.ansibleToken = process.env.ANSIBLE_TOKEN;
-                }
                 break;
               case "objectstore":
                 if (
@@ -70,6 +66,18 @@ exports.getConfig = () => {
                   givenConfig.chartName = process.env.HELM_CHART_NAME;
                 }
                 break;
+            }
+          }
+
+          if (key === "git" && config.length > 0) {
+            const givenConfig = config[0];
+            if (
+              givenConfig.ansibleSecretName &&
+              process.env.ANSIBLE_URL &&
+              process.env.ANSIBLE_TOKEN
+            ) {
+              givenConfig.ansibleHost = process.env.ANSIBLE_URL;
+              givenConfig.ansibleToken = process.env.ANSIBLE_TOKEN;
             }
           }
 

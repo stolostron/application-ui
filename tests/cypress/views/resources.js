@@ -61,23 +61,6 @@ export const checkExistingUrls = (css1, value1, css2, value2, url) => {
   });
 };
 
-export const checkExistingSecrets = (css1, value1, css2, value2, secret) => {
-  getSavedSecretname().then(({ secretlist }) => {
-    if (!secretlist.includes(secret)) {
-      if (value1 && value2) {
-        cy
-          .get(css1, { timeout: 20 * 1000 })
-          .paste(value1, { log: false, timeout: 20 * 1000 });
-        cy
-          .get(css2, { timeout: 20 * 1000 })
-          .paste(value2, { log: false, timeout: 20 * 1000 });
-      }
-    } else {
-      cy.log(`credentials have been saved for secret - ${secret}`);
-    }
-  });
-};
-
 export const getSavedPathname = () => {
   // returns a list of existing pathnames
   return cy
@@ -88,20 +71,6 @@ export const getSavedPathname = () => {
       const urllist = result.stdout.split(" ").filter(i => i);
       return {
         urllist: urllist
-      };
-    });
-};
-
-export const getSavedSecretname = () => {
-  // returns a list of existing secret names
-  return cy
-    .exec(`oc get secrets -o=jsonpath='{.items[*].metadata.name}' -A`, {
-      timeout: 50 * 1000
-    })
-    .then(result => {
-      const secretlist = result.stdout.split(" ").filter(i => i);
-      return {
-        secretlist: secretlist
       };
     });
 };

@@ -22,11 +22,7 @@ import {
   validateDeployables
 } from "./common";
 
-import {
-  channelsInformation,
-  checkExistingUrls,
-  checkExistingSecrets
-} from "./resources.js";
+import { channelsInformation, checkExistingUrls } from "./resources.js";
 
 export const createApplication = (clusterName, data, type) => {
   cy.visit("/multicloud/applications");
@@ -690,13 +686,15 @@ export const selectPrePostTasks = (value, key) => {
     .get(gitAnsibleSecret, { timeout: 20 * 1000 })
     .type(ansibleSecretName, { timeout: 50 * 1000 })
     .blur();
-  checkExistingSecrets(
-    gitAnsibleHost,
-    ansibleHost,
-    gitAnsibleToken,
-    ansibleToken,
-    ansibleSecretName
-  );
+
+  if (ansibleHost && ansibleToken) {
+    cy
+      .get(gitAnsibleHost, { timeout: 20 * 1000 })
+      .paste(ansibleHost, { log: false, timeout: 20 * 1000 });
+    cy
+      .get(gitAnsibleToken, { timeout: 20 * 1000 })
+      .paste(ansibleToken, { log: false, timeout: 20 * 1000 });
+  }
 };
 
 export const selectClusterDeployment = (deployment, clusterName, key) => {

@@ -85,7 +85,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   if (url.indexOf("github.com") >= 0) {
     cy.get(gitBranch, { timeout: 50 * 1000 }).click();
-    cy.contains(".bx--list-box__menu-item", branch).click();
+    cy.contains(".bx--list-box__menu-item", new RegExp(`^${branch}$`)).click();
   } else {
     cy
       .get(gitBranch, { timeout: 50 * 1000 })
@@ -96,7 +96,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   if (url.indexOf("github.com") >= 0) {
     cy.get(gitPath, { timeout: 20 * 1000 }).click();
-    cy.contains(".bx--list-box__menu-item", path).click();
+    cy.contains(".bx--list-box__menu-item", new RegExp(`^${path}$`)).click();
   } else {
     cy
       .get(gitPath, { timeout: 20 * 1000 })

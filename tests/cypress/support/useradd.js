@@ -28,14 +28,14 @@ Cypress.Commands.add('addRolesToManagedClusterUser', () => {
         if (role == 'admin-managed-cluster') {  
             const cmdAddRole = `oc adm policy add-cluster-role-to-user \
                                 open-cluster-management:admin:${Cypress.env("managedCluster")} ${users[role]}| \
-                                oc policy add-role-to-user admin ${users[role]} -n ${Cypress.env("managedCluster")}`
+                                oc adm policy add-cluster-role-to-user admin ${users[role]} -n ${Cypress.env("managedCluster")}`
             cy.log(cmdAddRole)
             cy.exec(cmdAddRole)
         }
         if (role == 'edit-managed-cluster') {
             const cmdAddRole = `oc adm policy add-cluster-role-to-user \
                                 open-cluster-management:view:${Cypress.env("managedCluster")} ${users[role]}| \
-                                oc policy add-role-to-user edit ${users[role]} -n ${Cypress.env("managedCluster")}`
+                                oc addm policy add-cluster-role-to-user edit ${users[role]} -n ${Cypress.env("managedCluster")}`
             cy.log(cmdAddRole)
             cy.exec(cmdAddRole)
     }

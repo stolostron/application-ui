@@ -26,11 +26,11 @@ import {
 import { channelsInformation, checkExistingUrls } from "./resources.js";
 
 export const createApplication = (clusterName, data, type, namespace='default') => {
-  namespace == 'default' ? (namespace = `${name}-ns`): namespace
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
   cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
   const { name, config } = data;
+  namespace == 'default' ? (namespace = `${name}-ns`): namespace
   cy.log(`Test create application ${name}`);
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name", { timeout: 50 * 1000 }).type(name);

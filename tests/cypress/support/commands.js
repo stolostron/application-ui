@@ -39,6 +39,7 @@ var authUrl = Cypress.config().baseUrl.replace(
 
 Cypress.Commands.add("login", (idp, user, password) => {
   cy.log(`Attempt to log in app tests user ${user} with idp ${idp}`);
+  cy.visit("/multicloud/applications/");
   cy
     .get(".pf-c-login__main-body")
     .get(".pf-c-button")
@@ -72,7 +73,7 @@ Cypress.Commands.add("logout", () => {
     //logout when test starts since we need to use the app idp user
     cy.log("Logging out existing user");
     cy.get($btn).click();
-    cy.contains("Log out").click();
+    cy.get("#logout").click();
     // cy.clearCookies()
   });
 });
@@ -260,6 +261,8 @@ Cypress.Commands.add("logInAsRole", role => {
 
   // Cypress.env("OC_CLUSTER_PASS",Cypress.env("OC_CLUSTER_USER_PASS"))
   Cypress.env("OC_IDP", idp);
+  // cy.clearCookies()
+  cy.login(idp, user, password);
 
   // login only if user is not looged In
   const logInIfRequired = () => {
@@ -278,7 +281,7 @@ Cypress.Commands.add("logInAsRole", role => {
         }
       });
   };
-  cy.visit("/");
+  cy.visit("/multicloud/applications");
   cy.get("body").then(body => {
     if (body.find("#header").length !== 0) {
       cy.log(

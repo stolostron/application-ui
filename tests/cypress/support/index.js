@@ -36,11 +36,6 @@ Cypress.Cookies.defaults({
 });
 
 before(() => {
-  cy.addUserIfNotCreatedBySuite();
-  cy.logInAsRole("cluster-manager-admin");
-});
-
-beforeEach(() => {
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.exec("oc whoami -t").then(res => {
       cy.setCookie("acm-access-token-cookie", res.stdout);
@@ -51,6 +46,9 @@ beforeEach(() => {
       Cypress.env("token", token);
     });
   }
+  cy.clearCookies();
+  cy.addUserIfNotCreatedBySuite();
+  cy.logInAsRole("cluster-manager-admin");
 });
 
 Cypress.on("uncaught:exception", (err, runnable) => {

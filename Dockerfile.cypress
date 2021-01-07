@@ -7,7 +7,7 @@ FROM quay.io/kcormier/cypress-included:latest as production
 
 USER root
 
-COPY --from=builder /go/bin/yq /usr/bin/yq
+COPY --from=builder /opt/app-root/src/go/bin/yq /usr/bin/yq
 
 WORKDIR /usr/src/app
 

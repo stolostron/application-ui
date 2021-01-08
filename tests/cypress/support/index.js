@@ -26,6 +26,7 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 import "./useradd";
+import "./ansibleoperator";
 // import '@cypress/code-coverage/support'
 
 // Alternatively you can use CommonJS syntax:
@@ -48,6 +49,7 @@ before(() => {
     cy.acquireToken().then(token => {
       Cypress.env("token", token);
     });
+    cy.installAnsibleOperator();
   }
 });
 

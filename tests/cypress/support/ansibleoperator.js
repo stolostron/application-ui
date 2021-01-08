@@ -32,25 +32,21 @@ Cypress.Commands.add("installAnsibleOperator", () => {
           .exec(`oc create namespace app-ui-ansibleoperator`, {
             timeout: 20 * 1000
           })
-          .then(({ stdout, stderr }) => {
-            if (stdout.includes("created")) {
-              cy.log(`app-ui-ansibleoperator namespace created.`);
-            } else if (stderr) {
-              cy.log(stderr);
-            }
-          });
-        cy.exec(`oc apply -f ${ANSIBLE_FILE_PATH}/ansible-operator-group.yaml`);
-        cy.exec(`oc apply -f ${ANSIBLE_FILE_PATH}/ansible-subscription.yaml`);
+          .its("stdout")
+          .should("contain", "created");
+        cy
+          .exec(`oc apply -f ${ANSIBLE_FILE_PATH}/ansible-operator-group.yaml`)
+          .its("stdout")
+          .should("contain", "created");
+        cy
+          .exec(`oc apply -f ${ANSIBLE_FILE_PATH}/ansible-subscription.yaml`)
+          .its("stdout")
+          .should("contain", "created");
         cy.wait(5000);
         cy
           .exec(`oc get pods -n app-ui-ansibleoperator`)
-          .then(({ stdout, stderr }) => {
-            if (stdout.includes("tower-resource-operator")) {
-              cy.log(`tower-resource-operator is installed.`);
-            } else if (stderr) {
-              cy.log(stderr);
-            }
-          });
+          .its("stdout")
+          .should("contain", "tower-resource-operator");
       });
   };
 

@@ -659,20 +659,20 @@ export const testInvalidApplicationInput = () => {
 
   //enter a valid ns
   cy
-    .get("#namespace", { timeout: 50 * 1000 })
+    .get("#emanspace", { timeout: 50 * 1000 })
     .click()
     .clear()
     .type("default")
     .blur();
 
   cy.log("Test invalid name");
-  cy.get("#name", { timeout: 50 * 1000 }).type(invalidValue);
+  cy.get("#eman", { timeout: 50 * 1000 }).type(invalidValue);
   cy.get("#name-error-msg").should("exist");
 
   submitSave(false); //test save error
 
   cy
-    .get("#name", { timeout: 50 * 1000 })
+    .get("#eman", { timeout: 50 * 1000 })
     .clear()
     .type(validValue);
   cy.get("#name-error-msg").should("not.exist");
@@ -680,14 +680,14 @@ export const testInvalidApplicationInput = () => {
 
   cy.log("Test invalid namespace");
   cy
-    .get("#namespace", { timeout: 50 * 1000 })
+    .get("#emanspace", { timeout: 50 * 1000 })
     .type(invalidValue)
     .blur();
   cy.get("[data-invalid=true]", { timeout: 2 * 1000 }).should("exist");
   submitSave(false); //test save error
 
   cy
-    .get("#namespace", { timeout: 50 * 1000 })
+    .get("#emanspace", { timeout: 50 * 1000 })
     .click()
     .clear()
     .type("default")

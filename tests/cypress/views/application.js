@@ -31,8 +31,8 @@ export const createApplication = (clusterName, data, type) => {
   const { name, config } = data;
   cy.log(`Test create application ${name}`);
   cy.get(".bx--detail-page-header-title-container").should("exist");
-  cy.get("#name", { timeout: 50 * 1000 }).type(name);
-  cy.get("#namespace", { timeout: 50 * 1000 }).type(`${name}-ns`);
+  cy.get("#eman", { timeout: 50 * 1000 }).type(name);
+  cy.get("#emanspace", { timeout: 50 * 1000 }).type(`${name}-ns`);
   if (type === "git") {
     createGit(clusterName, config);
   } else if (type === "objectstore") {
@@ -772,9 +772,9 @@ export const editApplication = (name, data) => {
     .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
     .invoke("val")
     .should("eq", name);
-  cy.get("#namespace", { timeout: 20 * 1000 }).should("be.disabled");
+  cy.get("#emanspace", { timeout: 20 * 1000 }).should("be.disabled");
   cy
-    .get("#namespace", { timeout: 20 * 1000 })
+    .get("#emanspace", { timeout: 20 * 1000 })
     .invoke("val")
     .should("eq", `${name}-ns`);
   cy.log("Verify Update button is disabled");

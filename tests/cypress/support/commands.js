@@ -278,7 +278,7 @@ Cypress.Commands.add("logInAsRole", role => {
         }
       });
   };
-  cy.visit("/");
+  cy.visit("/multicloud/applications");
   cy.get("body").then(body => {
     if (body.find("#header").length !== 0) {
       cy.log(

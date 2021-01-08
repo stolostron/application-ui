@@ -36,36 +36,20 @@ Cypress.Cookies.defaults({
 });
 
 before(() => {
-  // if (Cypress.config().baseUrl.includes("localhost")) {
-  //   cy.exec("oc whoami -t").then(res => {
-  //     cy.setCookie("acm-access-token-cookie", res.stdout);
-  //     Cypress.env("token", res.stdout);
-  //   });
-  // } else {
-  cy.addUserIfNotCreatedBySuite();
-  cy.logInAsRole("cluster-manager-admin");
-  cy.acquireToken().then(token => {
-    Cypress.env("token", token);
-  });
-  // }
+  if (Cypress.config().baseUrl.includes("localhost")) {
+    cy.ocLogin("cluster-manager-admin");
+    cy.exec("oc whoami -t").then(res => {
+      cy.setCookie("acm-access-token-cookie", res.stdout);
+      Cypress.env("token", res.stdout);
+    });
+  } else {
+    cy.addUserIfNotCreatedBySuite();
+    cy.logInAsRole("cluster-manager-admin");
+    cy.acquireToken().then(token => {
+      Cypress.env("token", token);
+    });
+  }
 });
-
-beforeEach(() => {
-  // if (Cypress.config().baseUrl.includes("localhost")) {
-  //   // cy.exec("oc whoami -t").then(res => {
-  //   //   cy.setCookie("acm-access-token-cookie", res.stdout);
-  //   //   Cypress.env("token", res.stdout);
-  //   // });
-  // }
-});
-
-//delete app resource - disabled now as it's not used currently
-// cy.task("getFileList", "yaml").then(list => {
-//   cy.log(list);
-//   list.forEach(file => {
-//     cy.deleteAppResourcesInFileAPI(Cypress.env("token"), file);
-//   });
-// });
 
 Cypress.on("uncaught:exception", (err, runnable) => {
   debugger;

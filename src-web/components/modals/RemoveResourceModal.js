@@ -139,7 +139,10 @@ class RemoveResourceModal extends React.Component {
                 )
                 children.push({
                   id: `subscriptions-${subNamespace}-${subName}`,
-                  selfLink: subscription.metadata.selfLink,
+                  name: subscription.metadata.name,
+                  namespace: subscription.metadata.namespace,
+                  kind: subscription.kind,
+                  apiVersion: subscription.apiVersion,
                   label: `${subName} [Subscription]`,
                   subChildResources: subChildResources
                 })
@@ -161,7 +164,8 @@ class RemoveResourceModal extends React.Component {
                   id: `rules-${currNamespace}-${currName}`,
                   name: currName,
                   namespace: currNamespace,
-                  selfLink: curr.metadata.selfLink,
+                  kind: curr.kind,
+                  apiVersion: curr.apiVersion,
                   label: `${currName} [PlacementRule]`,
                   type: RESOURCE_TYPES.HCM_PLACEMENT_RULES
                 })

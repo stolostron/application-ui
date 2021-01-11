@@ -85,6 +85,8 @@ There are two ways of adding private credentials when inserting new subscription
   - `export HELM_USERNAME=${YOUR_HELM_USERNAME}`
   - `export HELM_PASSWORD=${YOUR_HELM_PASSWORD}`
   - `export HELM_CHART_NAME=${YOUR_HELM_CHART_NAME}`
+  - `export ANSIBLE_URL=${ANSIBLE_URL}`
+  - `export ANSIBLE_TOKEN=${ANSIBLE_TOKEN}`
 
 #### Building and Running Cypress tests in a Docker Container
 

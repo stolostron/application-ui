@@ -109,6 +109,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
       .type(gitReconcileOption)
       .blur();
   }
+  selectPrePostTasks(value, key);
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
@@ -654,6 +655,45 @@ export const deleteApplicationUI = name => {
     deleteResourceUI(name, "placementrules");
     // no existing channels
     // deleteResourceUI(name, "channels");
+  }
+};
+
+export const selectPrePostTasks = (value, key) => {
+  const { ansibleSecretName, ansibleHost, ansibleToken } = value;
+  if (!ansibleSecretName) {
+    cy.log("PrePost SecretName not available, ignore this section");
+    return;
+  }
+  let prePostCss = {
+    gitAnsibleSecret: "#ansibleSecretName",
+    gitAnsibleHost: "#ansibleTowerHost",
+    gitAnsibleToken: "#ansibleTowerToken"
+  };
+  key == 0
+    ? prePostCss
+    : Object.keys(prePostCss).forEach(k => {
+        prePostCss[k] = prePostCss[k] + `grp${key}`;
+      });
+  const { gitAnsibleSecret, gitAnsibleHost, gitAnsibleToken } = prePostCss;
+
+  key == 0
+    ? cy.get("#perpostsection-set-pre-and-post-deployment-tasks").click()
+    : cy
+        .get(`#perpostsectiongrp${key}-set-pre-and-post-deployment-tasks`)
+        .click();
+
+  cy
+    .get(gitAnsibleSecret, { timeout: 20 * 1000 })
+    .type(ansibleSecretName, { timeout: 50 * 1000 })
+    .blur();
+
+  if (ansibleHost && ansibleToken) {
+    cy
+      .get(gitAnsibleHost, { timeout: 20 * 1000 })
+      .paste(ansibleHost, { log: false, timeout: 20 * 1000 });
+    cy
+      .get(gitAnsibleToken, { timeout: 20 * 1000 })
+      .paste(ansibleToken, { log: false, timeout: 20 * 1000 });
   }
 };
 

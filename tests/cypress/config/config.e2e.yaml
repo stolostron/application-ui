@@ -61,6 +61,24 @@ git:
             local: true
             online: false
             matchingLabel: false
+    - enable: true
+      name: ui-git-ansible
+      type: git
+      config:
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["configmap", "ansiblejob"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: master
+          path: ansible
+          gitReconcileOption: merge
+          ansibleSecretName: ui-git-ansible-secret
+          ansibleHost: ""
+          ansibleToken: ""
+          deployment:
+            local: false
+            online: true
+            matchingLabel: false
 objectstore:
   data:
     - enable: true

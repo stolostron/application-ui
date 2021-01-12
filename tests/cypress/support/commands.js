@@ -29,9 +29,10 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-const apiUrl =
-  Cypress.env("OC_CLUSTER_URL") ||
-  Cypress.config().baseUrl.replace("multicloud-console.apps", "api") + ":6443";
+const apiUrl = !Cypress.config().baseUrl.includes("localhost")
+  ? Cypress.config().baseUrl.replace("multicloud-console.apps", "api") + ":6443"
+  : Cypress.env("OC_CLUSTER_URL");
+
 const authUrl = Cypress.config().baseUrl.replace(
   "multicloud-console",
   "oauth-openshift"

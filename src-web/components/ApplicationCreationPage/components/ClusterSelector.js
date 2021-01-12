@@ -221,7 +221,9 @@ export class ClusterSelector extends React.Component {
                         : ''
                     }
                     value={labelName === '' ? '' : labelName}
-                    placeholder={msgs.get('clusterSelector.label.field')}
+                    placeholder={msgs.get(
+                      'clusterSelector.label.placeholder.field'
+                    )}
                     disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}
                   />
@@ -239,7 +241,9 @@ export class ClusterSelector extends React.Component {
                         : ''
                     }
                     value={labelValue === '' ? '' : labelValue}
-                    placeholder={msgs.get('clusterSelector.label.field')}
+                    placeholder={msgs.get(
+                      'clusterSelector.value.placeholder.field'
+                    )}
                     disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}
                   />

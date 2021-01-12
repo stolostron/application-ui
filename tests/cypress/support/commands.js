@@ -255,10 +255,14 @@ Cypress.Commands.add("get$", selector => {
 
 Cypress.Commands.add("ocLogin", role => {
   const { users } = Cypress.env("USER_CONFIG");
-  cy.addUserIfNotCreatedBySuite();
+  let user;
+  if (role !== "kubeadmin") {
+    cy.addUserIfNotCreatedBySuite();
+    user = Cypress.env("OC_CLUSTER_USER", users[role]);
+  }
   const loginUserDetails = {
     api: apiUrl,
-    user: Cypress.env("OC_CLUSTER_USER", users[role]),
+    user: user || "kubeadmin",
     password: Cypress.env("OC_CLUSTER_PASS")
   };
   cy.exec(

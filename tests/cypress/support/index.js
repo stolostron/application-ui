@@ -37,13 +37,14 @@ Cypress.Cookies.defaults({
 });
 
 before(() => {
-  cy.installAnsibleOperator();
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.ocLogin("cluster-manager-admin");
+    // set ui token
     cy.exec("oc whoami -t").then(res => {
       cy.setCookie("acm-access-token-cookie", res.stdout);
       Cypress.env("token", res.stdout);
     });
+    cy.ocLogin("kubeadmin");
   } else {
     cy.addUserIfNotCreatedBySuite();
     cy.logInAsRole("cluster-manager-admin");

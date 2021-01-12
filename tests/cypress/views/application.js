@@ -365,7 +365,13 @@ export const validateTopology = (
     .last()
     .contains(appDetails.clusterData);
 
-  cy.get('#app-search-link').invoke('attr', 'href').should('include', `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${name}-ns"}`)
+  cy
+    .get("#app-search-link")
+    .invoke("attr", "href")
+    .should(
+      "include",
+      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${name}-ns"}`
+    );
 
   validateSubscriptionDetails(name, data, type, opType);
 
@@ -392,10 +398,10 @@ export const validateTopology = (
     if (opType !== "delete") {
       if (data.config.length > 1 || opType == "add") {
         cy.get(".channelsCombo").within($channels => {
-          cy.get(".bx--list-box__field", { timeout: 20 * 1000 }).click();
+          cy.get("#comboChannel", { timeout: 20 * 1000 }).click();
           //select all subscriptions
           cy
-            .get(".bx--list-box__menu-item", { timeout: 20 * 1000 })
+            .get(".pf-c-dropdown__menu", { timeout: 20 * 1000 })
             .first()
             .click();
         });

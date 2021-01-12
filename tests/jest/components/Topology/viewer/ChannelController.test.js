@@ -132,18 +132,24 @@ describe("ChannelController components 3", () => {
     wrapper
       .find("#comboChannel")
       .at(0)
-      .simulate("change", {
-        selectedItem: {
-          chn: "nginx-blue/blue-nginx-subscription//demo/gitops",
-          hasSubchannels: false,
-          splitChn: [
-            "nginx-blue/blue-nginx-subscription//demo/gitops",
-            "nginx-blue",
-            "blue-nginx-subscription",
-            "demo",
-            "gitops"
-          ]
-        }
-      });
+      .simulate(
+        "change",
+        ("blue-nginx-subscription",
+        [
+          {
+            chn: "nginx-blue/blue-nginx-subscription//demo/gitops",
+            hasSubchannels: false,
+            id: "blue-nginx-subscription",
+            splitChn: [
+              "nginx-blue/blue-nginx-subscription//demo/gitops",
+              "nginx-blue",
+              "blue-nginx-subscription",
+              "demo",
+              "gitops"
+            ],
+            text: "blue-nginx-subscription"
+          }
+        ])
+      );
   });
 });

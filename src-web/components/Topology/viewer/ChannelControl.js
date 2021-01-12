@@ -12,7 +12,7 @@
 import React from 'react'
 import R from 'ramda'
 import PropTypes from 'prop-types'
-import { DropdownV2 } from 'carbon-components-react'
+import { AcmDropdown } from '@open-cluster-management/ui-components'
 import { Tooltip } from '@patternfly/react-core'
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import msgs from '../../../../nls/platform.properties'
@@ -73,11 +73,11 @@ class ChannelControl extends React.Component {
     )
   }
 
-  handleSubscriptionChange = e => {
-    const channel = e.selectedItem.chn
-    this.changeSubscriptionChannels(channel)
+  handleSubscriptionChange = (e, displayChannels) => {
+    const selectedItem = displayChannels.find(chn => chn.id === e)
+    this.changeSubscriptionChannels(selectedItem.chn)
     // Set the current channel to the selected channel
-    this.setState({ currentChannel: e.selectedItem })
+    this.setState({ currentChannel: selectedItem })
   };
 
   selectChannelByNumber(channelNb) {
@@ -141,8 +141,11 @@ class ChannelControl extends React.Component {
       if (channelLabel === '__ALL__') {
         channelLabel = msgs.get('combo.subscription.all')
       }
+      const channelID = channelLabel.replace(/\s+/g, '-').toLowerCase()
+
       displayChannels.push({
-        label: channelLabel,
+        id: channelID,
+        text: channelLabel,
         chn: chnl,
         splitChn,
         hasSubchannels,
@@ -163,7 +166,7 @@ class ChannelControl extends React.Component {
       displayChannels.length === 1 || !mainSubscriptionName
         ? 0
         : displayChannels.findIndex(
-          ({ label }) => label === mainSubscriptionName
+          ({ text }) => text === mainSubscriptionName
         )
     if (selectedIdx < 0) {
       selectedIdx = displayChannels.findIndex(({ chn }) => !!chn)
@@ -332,7 +335,6 @@ class ChannelControl extends React.Component {
       let displayChannels = []
       let isRefreshing = true
 
-      const comboLabel = msgs.get('combo.subscription.choose', locale)
       const back1 = '<<'
       const back2 = '<'
       const fwd1 = '>'
@@ -392,15 +394,17 @@ class ChannelControl extends React.Component {
               </div>
 
               <div className="channelsCombo">
-                <DropdownV2
-                  items={displayChannels}
+                <AcmDropdown
+                  isDisabled={isRefreshing}
                   id="comboChannel"
-                  label={comboLabel}
-                  ariaLabel={comboLabel}
-                  inline={true}
-                  onChange={this.handleSubscriptionChange}
-                  selectedItem={currentChannel}
-                  disabled={isRefreshing}
+                  onSelect={e =>
+                    this.handleSubscriptionChange(e, displayChannels)
+                  }
+                  text={currentChannel.text}
+                  dropdownItems={displayChannels}
+                  position="left"
+                  isPlain={false}
+                  isPrimary={false}
                 />
               </div>
             </div>

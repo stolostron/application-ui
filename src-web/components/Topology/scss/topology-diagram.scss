@@ -72,11 +72,27 @@
     }
 
     .channelsCombo {
+      width: 100%;
       height: 40px;
       top: 35px;
       position: relative;
       font-weight: 400;
       font-size: 14px;
+
+      .pf-c-dropdown,
+      #comboChannel {
+        width: 100%;
+      }
+
+      .pf-c-dropdown__toggle-text {
+        white-space: normal;
+        text-align: left;
+        font-size: 14px;
+      }
+
+      .pf-c-dropdown__menu-item {
+        font-size: 14px;
+      }
     }
 
     .label {

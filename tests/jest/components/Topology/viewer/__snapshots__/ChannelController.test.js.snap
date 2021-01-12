@@ -63,19 +63,13 @@ ShallowWrapper {
           <div
             className="channelsCombo"
           >
-            <DropdownV2
-              ariaLabel="All subscriptions"
-              disabled={false}
-              id="comboChannel"
-              inline={true}
-              itemToElement={null}
-              itemToString={[Function]}
-              items={
+            <AcmDropdown
+              dropdownItems={
                 Array [
                   Object {
                     "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
                     "hasSubchannels": false,
-                    "label": "All Subscriptions",
+                    "id": "all-subscriptions",
                     "splitChn": Array [
                       "__ALL__/__ALL__//__ALL__/__ALL__",
                       "__ALL__",
@@ -84,11 +78,12 @@ ShallowWrapper {
                       "__ALL__",
                     ],
                     "subchannels": Array [],
+                    "text": "All Subscriptions",
                   },
                   Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                     "hasSubchannels": true,
-                    "label": "guestbook-app",
+                    "id": "guestbook-app",
                     "splitChn": Array [
                       "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                       "default",
@@ -108,14 +103,16 @@ ShallowWrapper {
                         "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                       },
                     ],
+                    "text": "guestbook-app",
                   },
                 ]
               }
-              label="All subscriptions"
-              light={false}
-              onChange={[Function]}
-              selectedItem={Object {}}
-              type="default"
+              id="comboChannel"
+              isDisabled={false}
+              isPlain={false}
+              isPrimary={false}
+              onSelect={[Function]}
+              position="left"
             />
           </div>
         </div>,
@@ -158,19 +155,13 @@ ShallowWrapper {
             <div
               className="channelsCombo"
             >
-              <DropdownV2
-                ariaLabel="All subscriptions"
-                disabled={false}
-                id="comboChannel"
-                inline={true}
-                itemToElement={null}
-                itemToString={[Function]}
-                items={
+              <AcmDropdown
+                dropdownItems={
                   Array [
                     Object {
                       "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
                       "hasSubchannels": false,
-                      "label": "All Subscriptions",
+                      "id": "all-subscriptions",
                       "splitChn": Array [
                         "__ALL__/__ALL__//__ALL__/__ALL__",
                         "__ALL__",
@@ -179,11 +170,12 @@ ShallowWrapper {
                         "__ALL__",
                       ],
                       "subchannels": Array [],
+                      "text": "All Subscriptions",
                     },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
-                      "label": "guestbook-app",
+                      "id": "guestbook-app",
                       "splitChn": Array [
                         "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                         "default",
@@ -203,14 +195,16 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
+                      "text": "guestbook-app",
                     },
                   ]
                 }
-                label="All subscriptions"
-                light={false}
-                onChange={[Function]}
-                selectedItem={Object {}}
-                type="default"
+                id="comboChannel"
+                isDisabled={false}
+                isPlain={false}
+                isPrimary={false}
+                onSelect={[Function]}
+                position="left"
               />
             </div>,
           ],
@@ -295,19 +289,13 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": <DropdownV2
-                ariaLabel="All subscriptions"
-                disabled={false}
-                id="comboChannel"
-                inline={true}
-                itemToElement={null}
-                itemToString={[Function]}
-                items={
+              "children": <AcmDropdown
+                dropdownItems={
                   Array [
                     Object {
                       "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
                       "hasSubchannels": false,
-                      "label": "All Subscriptions",
+                      "id": "all-subscriptions",
                       "splitChn": Array [
                         "__ALL__/__ALL__//__ALL__/__ALL__",
                         "__ALL__",
@@ -316,11 +304,12 @@ ShallowWrapper {
                         "__ALL__",
                       ],
                       "subchannels": Array [],
+                      "text": "All Subscriptions",
                     },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
-                      "label": "guestbook-app",
+                      "id": "guestbook-app",
                       "splitChn": Array [
                         "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                         "default",
@@ -340,14 +329,16 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
+                      "text": "guestbook-app",
                     },
                   ]
                 }
-                label="All subscriptions"
-                light={false}
-                onChange={[Function]}
-                selectedItem={Object {}}
-                type="default"
+                id="comboChannel"
+                isDisabled={false}
+                isPlain={false}
+                isPrimary={false}
+                onSelect={[Function]}
+                position="left"
               />,
               "className": "channelsCombo",
             },
@@ -355,19 +346,13 @@ ShallowWrapper {
             "rendered": Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "class",
+              "nodeType": "function",
               "props": Object {
-                "ariaLabel": "All subscriptions",
-                "disabled": false,
-                "id": "comboChannel",
-                "inline": true,
-                "itemToElement": null,
-                "itemToString": [Function],
-                "items": Array [
+                "dropdownItems": Array [
                   Object {
                     "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
                     "hasSubchannels": false,
-                    "label": "All Subscriptions",
+                    "id": "all-subscriptions",
                     "splitChn": Array [
                       "__ALL__/__ALL__//__ALL__/__ALL__",
                       "__ALL__",
@@ -376,11 +361,12 @@ ShallowWrapper {
                       "__ALL__",
                     ],
                     "subchannels": Array [],
+                    "text": "All Subscriptions",
                   },
                   Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                     "hasSubchannels": true,
-                    "label": "guestbook-app",
+                    "id": "guestbook-app",
                     "splitChn": Array [
                       "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                       "default",
@@ -400,13 +386,16 @@ ShallowWrapper {
                         "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                       },
                     ],
+                    "text": "guestbook-app",
                   },
                 ],
-                "label": "All subscriptions",
-                "light": false,
-                "onChange": [Function],
-                "selectedItem": Object {},
-                "type": "default",
+                "id": "comboChannel",
+                "isDisabled": false,
+                "isPlain": false,
+                "isPrimary": false,
+                "onSelect": [Function],
+                "position": "left",
+                "text": undefined,
               },
               "ref": null,
               "rendered": null,
@@ -458,19 +447,13 @@ ShallowWrapper {
             <div
               className="channelsCombo"
             >
-              <DropdownV2
-                ariaLabel="All subscriptions"
-                disabled={false}
-                id="comboChannel"
-                inline={true}
-                itemToElement={null}
-                itemToString={[Function]}
-                items={
+              <AcmDropdown
+                dropdownItems={
                   Array [
                     Object {
                       "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
                       "hasSubchannels": false,
-                      "label": "All Subscriptions",
+                      "id": "all-subscriptions",
                       "splitChn": Array [
                         "__ALL__/__ALL__//__ALL__/__ALL__",
                         "__ALL__",
@@ -479,11 +462,12 @@ ShallowWrapper {
                         "__ALL__",
                       ],
                       "subchannels": Array [],
+                      "text": "All Subscriptions",
                     },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
-                      "label": "guestbook-app",
+                      "id": "guestbook-app",
                       "splitChn": Array [
                         "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                         "default",
@@ -503,14 +487,16 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
+                      "text": "guestbook-app",
                     },
                   ]
                 }
-                label="All subscriptions"
-                light={false}
-                onChange={[Function]}
-                selectedItem={Object {}}
-                type="default"
+                id="comboChannel"
+                isDisabled={false}
+                isPlain={false}
+                isPrimary={false}
+                onSelect={[Function]}
+                position="left"
               />
             </div>
           </div>,
@@ -553,19 +539,13 @@ ShallowWrapper {
               <div
                 className="channelsCombo"
               >
-                <DropdownV2
-                  ariaLabel="All subscriptions"
-                  disabled={false}
-                  id="comboChannel"
-                  inline={true}
-                  itemToElement={null}
-                  itemToString={[Function]}
-                  items={
+                <AcmDropdown
+                  dropdownItems={
                     Array [
                       Object {
                         "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
                         "hasSubchannels": false,
-                        "label": "All Subscriptions",
+                        "id": "all-subscriptions",
                         "splitChn": Array [
                           "__ALL__/__ALL__//__ALL__/__ALL__",
                           "__ALL__",
@@ -574,11 +554,12 @@ ShallowWrapper {
                           "__ALL__",
                         ],
                         "subchannels": Array [],
+                        "text": "All Subscriptions",
                       },
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                         "hasSubchannels": true,
-                        "label": "guestbook-app",
+                        "id": "guestbook-app",
                         "splitChn": Array [
                           "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                           "default",
@@ -598,14 +579,16 @@ ShallowWrapper {
                             "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                           },
                         ],
+                        "text": "guestbook-app",
                       },
                     ]
                   }
-                  label="All subscriptions"
-                  light={false}
-                  onChange={[Function]}
-                  selectedItem={Object {}}
-                  type="default"
+                  id="comboChannel"
+                  isDisabled={false}
+                  isPlain={false}
+                  isPrimary={false}
+                  onSelect={[Function]}
+                  position="left"
                 />
               </div>,
             ],
@@ -690,19 +673,13 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": <DropdownV2
-                  ariaLabel="All subscriptions"
-                  disabled={false}
-                  id="comboChannel"
-                  inline={true}
-                  itemToElement={null}
-                  itemToString={[Function]}
-                  items={
+                "children": <AcmDropdown
+                  dropdownItems={
                     Array [
                       Object {
                         "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
                         "hasSubchannels": false,
-                        "label": "All Subscriptions",
+                        "id": "all-subscriptions",
                         "splitChn": Array [
                           "__ALL__/__ALL__//__ALL__/__ALL__",
                           "__ALL__",
@@ -711,11 +688,12 @@ ShallowWrapper {
                           "__ALL__",
                         ],
                         "subchannels": Array [],
+                        "text": "All Subscriptions",
                       },
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                         "hasSubchannels": true,
-                        "label": "guestbook-app",
+                        "id": "guestbook-app",
                         "splitChn": Array [
                           "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                           "default",
@@ -735,14 +713,16 @@ ShallowWrapper {
                             "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                           },
                         ],
+                        "text": "guestbook-app",
                       },
                     ]
                   }
-                  label="All subscriptions"
-                  light={false}
-                  onChange={[Function]}
-                  selectedItem={Object {}}
-                  type="default"
+                  id="comboChannel"
+                  isDisabled={false}
+                  isPlain={false}
+                  isPrimary={false}
+                  onSelect={[Function]}
+                  position="left"
                 />,
                 "className": "channelsCombo",
               },
@@ -750,19 +730,13 @@ ShallowWrapper {
               "rendered": Object {
                 "instance": null,
                 "key": undefined,
-                "nodeType": "class",
+                "nodeType": "function",
                 "props": Object {
-                  "ariaLabel": "All subscriptions",
-                  "disabled": false,
-                  "id": "comboChannel",
-                  "inline": true,
-                  "itemToElement": null,
-                  "itemToString": [Function],
-                  "items": Array [
+                  "dropdownItems": Array [
                     Object {
                       "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
                       "hasSubchannels": false,
-                      "label": "All Subscriptions",
+                      "id": "all-subscriptions",
                       "splitChn": Array [
                         "__ALL__/__ALL__//__ALL__/__ALL__",
                         "__ALL__",
@@ -771,11 +745,12 @@ ShallowWrapper {
                         "__ALL__",
                       ],
                       "subchannels": Array [],
+                      "text": "All Subscriptions",
                     },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
                       "hasSubchannels": true,
-                      "label": "guestbook-app",
+                      "id": "guestbook-app",
                       "splitChn": Array [
                         "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                         "default",
@@ -795,13 +770,16 @@ ShallowWrapper {
                           "end": "staging-elasticsearch-elasticsearch-serviceaccount",
                         },
                       ],
+                      "text": "guestbook-app",
                     },
                   ],
-                  "label": "All subscriptions",
-                  "light": false,
-                  "onChange": [Function],
-                  "selectedItem": Object {},
-                  "type": "default",
+                  "id": "comboChannel",
+                  "isDisabled": false,
+                  "isPlain": false,
+                  "isPrimary": false,
+                  "onSelect": [Function],
+                  "position": "left",
+                  "text": undefined,
                 },
                 "ref": null,
                 "rendered": null,
@@ -910,19 +888,13 @@ ShallowWrapper {
           <div
             className="channelsCombo"
           >
-            <DropdownV2
-              ariaLabel="All subscriptions"
-              disabled={false}
-              id="comboChannel"
-              inline={true}
-              itemToElement={null}
-              itemToString={[Function]}
-              items={
+            <AcmDropdown
+              dropdownItems={
                 Array [
                   Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                     "hasSubchannels": true,
-                    "label": "guestbook-app",
+                    "id": "guestbook-app",
                     "splitChn": Array [
                       "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                       "default",
@@ -947,14 +919,16 @@ ShallowWrapper {
                         "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                       },
                     ],
+                    "text": "guestbook-app",
                   },
                 ]
               }
-              label="All subscriptions"
-              light={false}
-              onChange={[Function]}
-              selectedItem={Object {}}
-              type="default"
+              id="comboChannel"
+              isDisabled={false}
+              isPlain={false}
+              isPrimary={false}
+              onSelect={[Function]}
+              position="left"
             />
           </div>
         </div>,
@@ -1087,19 +1061,13 @@ ShallowWrapper {
             <div
               className="channelsCombo"
             >
-              <DropdownV2
-                ariaLabel="All subscriptions"
-                disabled={false}
-                id="comboChannel"
-                inline={true}
-                itemToElement={null}
-                itemToString={[Function]}
-                items={
+              <AcmDropdown
+                dropdownItems={
                   Array [
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                       "hasSubchannels": true,
-                      "label": "guestbook-app",
+                      "id": "guestbook-app",
                       "splitChn": Array [
                         "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                         "default",
@@ -1124,14 +1092,16 @@ ShallowWrapper {
                           "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                         },
                       ],
+                      "text": "guestbook-app",
                     },
                   ]
                 }
-                label="All subscriptions"
-                light={false}
-                onChange={[Function]}
-                selectedItem={Object {}}
-                type="default"
+                id="comboChannel"
+                isDisabled={false}
+                isPlain={false}
+                isPrimary={false}
+                onSelect={[Function]}
+                position="left"
               />
             </div>,
           ],
@@ -1216,19 +1186,13 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": <DropdownV2
-                ariaLabel="All subscriptions"
-                disabled={false}
-                id="comboChannel"
-                inline={true}
-                itemToElement={null}
-                itemToString={[Function]}
-                items={
+              "children": <AcmDropdown
+                dropdownItems={
                   Array [
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                       "hasSubchannels": true,
-                      "label": "guestbook-app",
+                      "id": "guestbook-app",
                       "splitChn": Array [
                         "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                         "default",
@@ -1253,14 +1217,16 @@ ShallowWrapper {
                           "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                         },
                       ],
+                      "text": "guestbook-app",
                     },
                   ]
                 }
-                label="All subscriptions"
-                light={false}
-                onChange={[Function]}
-                selectedItem={Object {}}
-                type="default"
+                id="comboChannel"
+                isDisabled={false}
+                isPlain={false}
+                isPrimary={false}
+                onSelect={[Function]}
+                position="left"
               />,
               "className": "channelsCombo",
             },
@@ -1268,19 +1234,13 @@ ShallowWrapper {
             "rendered": Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "class",
+              "nodeType": "function",
               "props": Object {
-                "ariaLabel": "All subscriptions",
-                "disabled": false,
-                "id": "comboChannel",
-                "inline": true,
-                "itemToElement": null,
-                "itemToString": [Function],
-                "items": Array [
+                "dropdownItems": Array [
                   Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                     "hasSubchannels": true,
-                    "label": "guestbook-app",
+                    "id": "guestbook-app",
                     "splitChn": Array [
                       "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                       "default",
@@ -1305,13 +1265,16 @@ ShallowWrapper {
                         "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                       },
                     ],
+                    "text": "guestbook-app",
                   },
                 ],
-                "label": "All subscriptions",
-                "light": false,
-                "onChange": [Function],
-                "selectedItem": Object {},
-                "type": "default",
+                "id": "comboChannel",
+                "isDisabled": false,
+                "isPlain": false,
+                "isPrimary": false,
+                "onSelect": [Function],
+                "position": "left",
+                "text": undefined,
               },
               "ref": null,
               "rendered": null,
@@ -1733,19 +1696,13 @@ ShallowWrapper {
             <div
               className="channelsCombo"
             >
-              <DropdownV2
-                ariaLabel="All subscriptions"
-                disabled={false}
-                id="comboChannel"
-                inline={true}
-                itemToElement={null}
-                itemToString={[Function]}
-                items={
+              <AcmDropdown
+                dropdownItems={
                   Array [
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                       "hasSubchannels": true,
-                      "label": "guestbook-app",
+                      "id": "guestbook-app",
                       "splitChn": Array [
                         "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                         "default",
@@ -1770,14 +1727,16 @@ ShallowWrapper {
                           "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                         },
                       ],
+                      "text": "guestbook-app",
                     },
                   ]
                 }
-                label="All subscriptions"
-                light={false}
-                onChange={[Function]}
-                selectedItem={Object {}}
-                type="default"
+                id="comboChannel"
+                isDisabled={false}
+                isPlain={false}
+                isPrimary={false}
+                onSelect={[Function]}
+                position="left"
               />
             </div>
           </div>,
@@ -1910,19 +1869,13 @@ ShallowWrapper {
               <div
                 className="channelsCombo"
               >
-                <DropdownV2
-                  ariaLabel="All subscriptions"
-                  disabled={false}
-                  id="comboChannel"
-                  inline={true}
-                  itemToElement={null}
-                  itemToString={[Function]}
-                  items={
+                <AcmDropdown
+                  dropdownItems={
                     Array [
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                         "hasSubchannels": true,
-                        "label": "guestbook-app",
+                        "id": "guestbook-app",
                         "splitChn": Array [
                           "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                           "default",
@@ -1947,14 +1900,16 @@ ShallowWrapper {
                             "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                           },
                         ],
+                        "text": "guestbook-app",
                       },
                     ]
                   }
-                  label="All subscriptions"
-                  light={false}
-                  onChange={[Function]}
-                  selectedItem={Object {}}
-                  type="default"
+                  id="comboChannel"
+                  isDisabled={false}
+                  isPlain={false}
+                  isPrimary={false}
+                  onSelect={[Function]}
+                  position="left"
                 />
               </div>,
             ],
@@ -2039,19 +1994,13 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": <DropdownV2
-                  ariaLabel="All subscriptions"
-                  disabled={false}
-                  id="comboChannel"
-                  inline={true}
-                  itemToElement={null}
-                  itemToString={[Function]}
-                  items={
+                "children": <AcmDropdown
+                  dropdownItems={
                     Array [
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                         "hasSubchannels": true,
-                        "label": "guestbook-app",
+                        "id": "guestbook-app",
                         "splitChn": Array [
                           "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                           "default",
@@ -2076,14 +2025,16 @@ ShallowWrapper {
                             "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                           },
                         ],
+                        "text": "guestbook-app",
                       },
                     ]
                   }
-                  label="All subscriptions"
-                  light={false}
-                  onChange={[Function]}
-                  selectedItem={Object {}}
-                  type="default"
+                  id="comboChannel"
+                  isDisabled={false}
+                  isPlain={false}
+                  isPrimary={false}
+                  onSelect={[Function]}
+                  position="left"
                 />,
                 "className": "channelsCombo",
               },
@@ -2091,19 +2042,13 @@ ShallowWrapper {
               "rendered": Object {
                 "instance": null,
                 "key": undefined,
-                "nodeType": "class",
+                "nodeType": "function",
                 "props": Object {
-                  "ariaLabel": "All subscriptions",
-                  "disabled": false,
-                  "id": "comboChannel",
-                  "inline": true,
-                  "itemToElement": null,
-                  "itemToString": [Function],
-                  "items": Array [
+                  "dropdownItems": Array [
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
                       "hasSubchannels": true,
-                      "label": "guestbook-app",
+                      "id": "guestbook-app",
                       "splitChn": Array [
                         "default/guestbook-app//gbapp-ch/guestbook-app-latest",
                         "default",
@@ -2128,13 +2073,16 @@ ShallowWrapper {
                           "end": "spark-spark-gluster-spark-master-controller-replicationcontroller",
                         },
                       ],
+                      "text": "guestbook-app",
                     },
                   ],
-                  "label": "All subscriptions",
-                  "light": false,
-                  "onChange": [Function],
-                  "selectedItem": Object {},
-                  "type": "default",
+                  "id": "comboChannel",
+                  "isDisabled": false,
+                  "isPlain": false,
+                  "isPrimary": false,
+                  "onSelect": [Function],
+                  "position": "left",
+                  "text": undefined,
                 },
                 "ref": null,
                 "rendered": null,

@@ -361,11 +361,12 @@ export const validateTopology = (
   );
 
   cy
-    .get(".pf-l-grid__item", { timeout: 120 * 1000 })
-    .last()
-    .contains(appDetails.clusterData);
-
-  cy.get('#app-search-link').invoke('attr', 'href').should('include', `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${name}-ns"}`)
+    .get("#app-search-link")
+    .invoke("attr", "href")
+    .should(
+      "include",
+      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${name}-ns"}`
+    );
 
   validateSubscriptionDetails(name, data, type, opType);
 
@@ -417,6 +418,11 @@ export const validateTopology = (
             "cluster and placement nodes will not be created as the application is deployed locally"
           );
     }
+
+    cy
+      .get(".pf-l-grid__item", { timeout: 120 * 1000 })
+      .last()
+      .contains(appDetails.clusterData);
   }
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app

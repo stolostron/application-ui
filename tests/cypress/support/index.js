@@ -36,7 +36,6 @@ Cypress.Cookies.defaults({
   preserve: ["acm-access-token-cookie", "_oauth_proxy", "XSRF-TOKEN", "_csrf"]
 });
 before(() => {
-  cy.installAnsibleOperator();
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.ocLogin("cluster-manager-admin");
     cy.exec("oc whoami -t").then(res => {
@@ -50,6 +49,7 @@ before(() => {
       Cypress.env("token", token);
     });
   }
+  cy.installAnsibleOperator();
 });
 
 Cypress.on("uncaught:exception", (err, runnable) => {

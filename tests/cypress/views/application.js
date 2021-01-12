@@ -365,6 +365,8 @@ export const validateTopology = (
     .last()
     .contains(appDetails.clusterData);
 
+  cy.get('#app-search-link').invoke('attr', 'href').should('include', `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${name}-ns"}`)
+
   validateSubscriptionDetails(name, data, type, opType);
 
   cy.get(".overview-cards-container");

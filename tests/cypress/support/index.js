@@ -48,8 +48,8 @@ before(() => {
     cy.acquireToken().then(token => {
       Cypress.env("token", token);
     });
+    cy.installAnsibleOperator();
   }
-  cy.installAnsibleOperator();
 });
 
 Cypress.on("uncaught:exception", (err, runnable) => {

@@ -398,11 +398,12 @@ export const validateTopology = (
     if (opType !== "delete") {
       if (data.config.length > 1 || opType == "add") {
         cy.get(".channelsCombo").within($channels => {
-          cy.get("#comboChannel", { timeout: 20 * 1000 }).click();
+          cy.get(".pf-c-dropdown__toggle", { timeout: 20 * 1000 }).click();
           //select all subscriptions
           cy
-            .get(".pf-c-dropdown__menu", { timeout: 20 * 1000 })
-            .first()
+            .get(".pf-c-dropdown__menu>li", { timeout: 20 * 1000 })
+            .eq(0)
+            // .first()
             .click();
         });
       }

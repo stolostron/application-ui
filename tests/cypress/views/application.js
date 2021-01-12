@@ -403,7 +403,6 @@ export const validateTopology = (
           cy
             .get(".pf-c-dropdown__menu>li", { timeout: 20 * 1000 })
             .eq(0)
-            // .first()
             .click();
         });
       }

@@ -34,6 +34,7 @@ import {
 } from '@open-cluster-management/ui-components'
 import { Checkbox, Button, ModalVariant } from '@patternfly/react-core'
 import { ExclamationTriangleIcon } from '@patternfly/react-icons'
+import { getApiGroupFromVersion } from '../../../lib/client/resource-helper'
 
 resources(() => {
   require('../../../scss/modal.scss')
@@ -59,11 +60,12 @@ class RemoveResourceModal extends React.Component {
     if (this.props.data) {
       const { data } = this.props
       const kind = data.kind
-      const apiGroup =
-        data.apiVersion && data.apiVersion.indexOf('/')
-          ? data.apiVersion.split('/')[0]
-          : ''
-      canCallAction(kind, 'delete', data.namespace, apiGroup).then(response => {
+      canCallAction(
+        kind,
+        'delete',
+        data.namespace,
+        getApiGroupFromVersion(data.apiVersion)
+      ).then(response => {
         const allowed = _.get(response, 'data.userAccess.allowed')
         this.setState({
           canRemove: allowed,

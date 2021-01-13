@@ -153,7 +153,7 @@ helm:
     - enable: true
       name: ui-helm
       type: helm
-      successNumber: 3 #should have at least 3 resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
+      successNumber: 4 #should have at least 3 resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
       new: # used when we add new subscriptions after app creation
         - url: https://dummy/helminsecureSkipVerifyOption
           username: ""

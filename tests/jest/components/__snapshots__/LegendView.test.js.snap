@@ -104,6 +104,11 @@ exports[`LegendView no nodes renders as expected 1`] = `
             Status icon legend
           </div>
           <div
+            className="titleNoteText"
+          >
+            Note: Resources that you do not have permission to view display a status of "Not deployed".
+          </div>
+          <div
             className="bodyText"
           >
             <div>
@@ -341,6 +346,11 @@ exports[`LegendView with nodes render as expected 1`] = `
             className="titleText"
           >
             Status icon legend
+          </div>
+          <div
+            className="titleNoteText"
+          >
+            Note: Resources that you do not have permission to view display a status of "Not deployed".
           </div>
           <div
             className="bodyText"

@@ -52,6 +52,9 @@ class LegendView extends React.Component {
               <div className="titleText">
                 {msgs.get('topology.legend.body.status.title', locale)}
               </div>
+              <div className="titleNoteText">
+                {msgs.get('topology.legend.body.status.note', locale)}
+              </div>
               {this.renderStatusDescriptions()}
               <div className="bodyText">
                 {msgs.get('topology.legend.body.status.logs', locale)}

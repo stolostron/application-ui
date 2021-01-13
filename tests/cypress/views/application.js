@@ -392,7 +392,7 @@ export const validateTopology = (
     //ignore as only one subscription exists
     if (opType !== "delete") {
       if (data.config.length > 1 || opType == "add") {
-        cy.get(".channelsCombo").within($channels => {
+        cy.get(".channelsCombo", { timeout: 60 * 1000 }).within($channels => {
           cy.get(".bx--list-box__field", { timeout: 20 * 1000 }).click();
           //select all subscriptions
           cy
@@ -411,7 +411,7 @@ export const validateTopology = (
       const { local, online } =
         key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
       cy.log(`key=${key}, type=${opType}`);
-      !local && !(opType == "add") //TODO: show all subscriptions not working, remove !(opType == "add") once we fix that
+      !local
         ? (validatePlacementNode(name, key),
           !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
         : cy.log(

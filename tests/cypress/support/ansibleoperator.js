@@ -42,11 +42,6 @@ Cypress.Commands.add("installAnsibleOperator", () => {
           .exec(`oc apply -f ${ANSIBLE_FILE_PATH}/ansible-subscription.yaml`)
           .its("stdout")
           .should("contain", "created");
-        cy.wait(5000);
-        cy
-          .exec(`oc get pods -n app-ui-ansibleoperator`)
-          .its("stdout")
-          .should("contain", "tower-resource-operator");
       });
   };
 

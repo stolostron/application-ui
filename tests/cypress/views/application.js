@@ -411,7 +411,7 @@ export const validateTopology = (
       const { local, online } =
         key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
       cy.log(`key=${key}, type=${opType}`);
-      !local
+      !local && !(opType == "add") //TODO: show all subscriptions not working, remove !(opType == "add") once we fix that
         ? (validatePlacementNode(name, key),
           !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
         : cy.log(

@@ -286,9 +286,9 @@ export const validateAdvancedTables = (
     const { local } = subscriptionItem.deployment;
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
+        channels: channelName, //validate channels table first to allow subscriptions time to propagate
         subscriptions: `${name}-subscription-${parseInt(key) + 1}`,
-        placementrules: `${name}-placement-${parseInt(key) + 1}`,
-        channels: channelName
+        placementrules: `${name}-placement-${parseInt(key) + 1}`
       };
       cy.log(`Validate instance-${key} with channel name ${channelName}`);
       Object.keys(resourceTypes).map(function(tableType) {
@@ -400,6 +400,12 @@ export const validateTopology = (
             .first()
             .click();
         });
+
+        cy
+          .get(".pf-c-spinner", { timeout: 50 * 1000 })
+          .should("not.be.visible", {
+            timeout: 100 * 1000
+          });
       }
     }
     if (opType == "delete" && key == 0) {
@@ -418,7 +424,9 @@ export const validateTopology = (
             "cluster and placement nodes will not be created as the application is deployed locally"
           );
     }
+  }
 
+  if (opType == "create") {
     cy
       .get(".pf-l-grid__item", { timeout: 120 * 1000 })
       .last()

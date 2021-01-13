@@ -85,7 +85,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   if (url.indexOf("github.com") >= 0) {
     cy.get(gitBranch, { timeout: 50 * 1000 }).click();
-    cy.contains(".bx--list-box__menu-item", branch).click();
+    cy.contains(".tf--list-box__menu-item", branch).click();
   } else {
     cy
       .get(gitBranch, { timeout: 50 * 1000 })
@@ -96,7 +96,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   if (url.indexOf("github.com") >= 0) {
     cy.get(gitPath, { timeout: 20 * 1000 }).click();
-    cy.contains(".bx--list-box__menu-item", path).click();
+    cy.contains(".tf--list-box__menu-item", path).click();
   } else {
     cy
       .get(gitPath, { timeout: 20 * 1000 })
@@ -166,6 +166,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .get("#helm")
     .click()
     .trigger("mouseover");
+    
   cy
     .get(helmURL, { timeout: 20 * 1000 })
     .type(url, { timeout: 30 * 1000 })
@@ -389,10 +390,10 @@ export const validateTopology = (
     if (opType !== "delete") {
       if (data.config.length > 1 || opType == "add") {
         cy.get(".channelsCombo").within($channels => {
-          cy.get(".bx--list-box__field", { timeout: 20 * 1000 }).click();
+          cy.get(".tf--list-box__field", { timeout: 20 * 1000 }).click();
           //select all subscriptions
           cy
-            .get(".bx--list-box__menu-item", { timeout: 20 * 1000 })
+            .get(".tf--list-box__menu-item", { timeout: 20 * 1000 })
             .first()
             .click();
         });
@@ -766,10 +767,10 @@ export const editApplication = (name, data) => {
   cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
   cy
-    .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
+    .get("#eman", { timeout: 20 * 1000 })
     .should("be.disabled");
   cy
-    .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
+    .get("#eman", { timeout: 20 * 1000 })
     .invoke("val")
     .should("eq", name);
   cy.get("#emanspace", { timeout: 20 * 1000 }).should("be.disabled");

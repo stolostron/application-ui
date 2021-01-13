@@ -90,7 +90,7 @@ export const submitSave = successState => {
       .location("pathname", { timeout: 10 * 1000 })
       .should("include", `${name}`);
   } else {
-    notification.shouldExist("error");
+    notification.shouldExist("danger");
     cy.log("Verify Save button is disabled");
     modal.shouldBeDisabled();
   }
@@ -172,15 +172,15 @@ export const modal = {
       .should("not.be.visible"),
   shouldNotBeDisabled: () =>
     cy
-      .get(".bx--btn.bx--btn--primary", { timeout: 20000 })
+      .get(".bx--btn.bx--btn--primary, .pf-c-button.pf-m-primary", { timeout: 20000 })
       .should("not.be.disabled"),
   shouldBeDisabled: () =>
     cy
-      .get(".bx--btn.bx--btn--primary", { timeout: 20000 })
+      .get(".bx--btn.bx--btn--primary, .pf-c-button.pf-m-primary", { timeout: 20000 })
       .should("be.disabled"),
   clickSubmit: () =>
     cy
-      .get(".bx--btn.bx--btn--primary", { timeout: 20000 })
+      .get(".bx--btn.bx--btn--primary, .pf-c-button.pf-m-primary", { timeout: 20000 })
       .click({ force: true }),
   clickResources: () =>
     cy.get("#remove-app-resources", { timeout: 20000 }).click({ force: true }),
@@ -205,11 +205,11 @@ export const modal = {
 export const notification = {
   shouldExist: type =>
     cy
-      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 10 * 1000 })
+      .get(`.pf-c-alert.pf-m-${type}`, { timeout: 10 * 1000 })
       .should("exist"),
   shouldNotExist: type =>
     cy
-      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 5 * 1000 })
+      .get(`.pf-c-alert.pf-m-${type}`, { timeout: 5 * 1000 })
       .should("not.exist")
 };
 
@@ -667,7 +667,7 @@ export const testInvalidApplicationInput = () => {
 
   cy.log("Test invalid name");
   cy.get("#eman", { timeout: 50 * 1000 }).type(invalidValue);
-  cy.get("#name-error-msg").should("exist");
+  cy.get("#eman-helper").should("exist");
 
   submitSave(false); //test save error
 
@@ -675,7 +675,7 @@ export const testInvalidApplicationInput = () => {
     .get("#eman", { timeout: 50 * 1000 })
     .clear()
     .type(validValue);
-  cy.get("#name-error-msg").should("not.exist");
+  cy.get("#eman-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid namespace");
@@ -683,7 +683,7 @@ export const testInvalidApplicationInput = () => {
     .get("#emanspace", { timeout: 50 * 1000 })
     .type(invalidValue)
     .blur();
-  cy.get("[data-invalid=true]", { timeout: 2 * 1000 }).should("exist");
+  cy.get("#emanspace-helper").should("exist");
   submitSave(false); //test save error
 
   cy
@@ -692,7 +692,8 @@ export const testInvalidApplicationInput = () => {
     .clear()
     .type("default")
     .blur();
-  cy.get("[data-invalid=true]").should("not.exist");
+
+  cy.get("#emanspace-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid git url");
@@ -712,7 +713,7 @@ export const testInvalidApplicationInput = () => {
   cy.get("#labelName-0-clusterSelector").type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
 
-  cy.get("[data-invalid=true]").should("exist");
+  cy.get("#githubURL-helper").should("exist");
   cy.wait(1000);
   submitSave(false); //test save error
 
@@ -722,7 +723,7 @@ export const testInvalidApplicationInput = () => {
     .clear()
     .type(validURL)
     .blur();
-  cy.get("[data-invalid=true]").should("not.exist");
+  cy.get("#githubURL-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
   cy
@@ -730,7 +731,7 @@ export const testInvalidApplicationInput = () => {
     .trigger("mouseover")
     .type(invalidValue)
     .blur();
-  cy.get("[data-invalid=true]").should("exist");
+  cy.get("#githubBranch-helper").should("exist");
   cy.wait(2000);
 
   cy
@@ -738,7 +739,7 @@ export const testInvalidApplicationInput = () => {
     .trigger("mouseover")
     .type(validValue)
     .blur();
-  cy.get("[data-invalid=true]").should("not.exist");
+  cy.get("#githubBranch-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
   cy.wait(2000);
 
@@ -762,7 +763,7 @@ export const testInvalidApplicationInput = () => {
   cy.get("#labelValue-0-clusterSelector").type("value");
   cy.get("#helmChartName").type("chartName");
 
-  cy.get("[data-invalid=true]").should("exist");
+  cy.get("#helmURL-helper").should("exist");
   cy.wait(1000);
   submitSave(false); //test save error
 
@@ -772,7 +773,7 @@ export const testInvalidApplicationInput = () => {
     .clear()
     .type(validURL)
     .blur();
-  cy.get("[data-invalid=true]").should("not.exist");
+  cy.get("#helmURL-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid object store url");
@@ -793,7 +794,7 @@ export const testInvalidApplicationInput = () => {
   cy.get("#labelName-0-clusterSelector").type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
 
-  cy.get("[data-invalid=true]").should("exist");
+  cy.get("#objectstoreURL-helper").should("exist");
   cy.wait(1000);
   submitSave(false); //test save error
 
@@ -803,7 +804,7 @@ export const testInvalidApplicationInput = () => {
     .clear()
     .type(validURL)
     .blur();
-  cy.get("[data-invalid=true]").should("not.exist");
+  cy.get("#objectstoreURL-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid time window");

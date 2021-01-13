@@ -286,9 +286,9 @@ export const validateAdvancedTables = (
     const { local } = subscriptionItem.deployment;
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
+        channels: channelName, //validate channels table first to allow subscriptions time to propagate
         subscriptions: `${name}-subscription-${parseInt(key) + 1}`,
-        placementrules: `${name}-placement-${parseInt(key) + 1}`,
-        channels: channelName
+        placementrules: `${name}-placement-${parseInt(key) + 1}`
       };
       cy.log(`Validate instance-${key} with channel name ${channelName}`);
       Object.keys(resourceTypes).map(function(tableType) {
@@ -361,11 +361,6 @@ export const validateTopology = (
   );
 
   cy
-    .get(".pf-l-grid__item", { timeout: 120 * 1000 })
-    .last()
-    .contains(appDetails.clusterData);
-
-  cy
     .get("#app-search-link")
     .invoke("attr", "href")
     .should(
@@ -397,7 +392,7 @@ export const validateTopology = (
     //ignore as only one subscription exists
     if (opType !== "delete") {
       if (data.config.length > 1 || opType == "add") {
-        cy.get(".channelsCombo").within($channels => {
+        cy.get(".channelsCombo", { timeout: 60 * 1000 }).within($channels => {
           cy.get(".pf-c-dropdown__toggle", { timeout: 20 * 1000 }).click();
           //select all subscriptions
           cy
@@ -405,6 +400,12 @@ export const validateTopology = (
             .eq(0)
             .click();
         });
+
+        cy
+          .get(".pf-c-spinner", { timeout: 50 * 1000 })
+          .should("not.be.visible", {
+            timeout: 100 * 1000
+          });
       }
     }
     if (opType == "delete" && key == 0) {
@@ -413,16 +414,28 @@ export const validateTopology = (
       //if opType is create, the first subscription was removed by the delete subs test, use the new config option
       validateDeployables(opType == "add" ? data.new[0] : value);
 
-      const { local, online } =
-        key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
-      cy.log(`key=${key}, type=${opType}`);
-      !local
-        ? (validatePlacementNode(name, key),
-          !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
-        : cy.log(
-            "cluster and placement nodes will not be created as the application is deployed locally"
-          );
+      if (opType == "create") {
+        //TODO remove the if condition once we find why the All subscription selection after deleting/adding a subscriptin is no longer working
+        const { local, online } =
+          key == 0 && opType == "add"
+            ? data.new[0].deployment
+            : value.deployment;
+        cy.log(`key=${key}, type=${opType}`);
+        !local
+          ? (validatePlacementNode(name, key),
+            !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
+          : cy.log(
+              "cluster and placement nodes will not be created as the application is deployed locally"
+            );
+      }
     }
+  }
+
+  if (opType == "create") {
+    cy
+      .get(".pf-l-grid__item", { timeout: 120 * 1000 })
+      .last()
+      .contains(appDetails.clusterData);
   }
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app

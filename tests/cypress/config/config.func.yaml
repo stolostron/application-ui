@@ -61,24 +61,24 @@ git:
             local: true
             online: false
             matchingLabel: false
-    - enable: true
-      name: ui-git-ansible
-      type: git
-      config:
-        - url: https://github.com/fxiang1/app-samples.git
-          resources: ["configmap", "ansiblejob"] #the type of resources this application must deploy
-          username: ""
-          token: ""
-          branch: master
-          path: ansible
-          gitReconcileOption: merge
-          ansibleSecretName: ui-git-ansible-secret
-          ansibleHost: ""
-          ansibleToken: ""
-          deployment:
-            local: false
-            online: true
-            matchingLabel: false
+#    - enable: true
+#      name: ui-git-ansible
+#      type: git
+#      config:
+#        - url: https://github.com/fxiang1/app-samples.git
+#          resources: ["configmap", "ansiblejob"] #the type of resources this application must deploy
+#          username: ""
+#          token: ""
+#          branch: master
+#          path: ansible
+#          gitReconcileOption: merge
+#          ansibleSecretName: ui-git-ansible-secret
+#          ansibleHost: ""
+#          ansibleToken: ""
+#          deployment:
+#            local: false
+#            online: true
+#            matchingLabel: false
 objectstore:
   data:
     - enable: true
@@ -153,7 +153,7 @@ helm:
     - enable: true
       name: ui-helm
       type: helm
-      successNumber: 3 #should have at least 3 resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
+      successNumber: 4 #should have at least 3 resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
       new: # used when we add new subscriptions after app creation
         - url: https://dummy/helminsecureSkipVerifyOption
           username: ""

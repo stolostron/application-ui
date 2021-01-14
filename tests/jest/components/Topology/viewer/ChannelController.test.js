@@ -138,15 +138,8 @@ describe("ChannelController components 3", () => {
         [
           {
             chn: "nginx-blue/blue-nginx-subscription//demo/gitops",
-            hasSubchannels: false,
             id: "blue-nginx-subscription",
-            splitChn: [
-              "nginx-blue/blue-nginx-subscription//demo/gitops",
-              "nginx-blue",
-              "blue-nginx-subscription",
-              "demo",
-              "gitops"
-            ],
+            subchannels: [],
             text: "blue-nginx-subscription"
           }
         ])

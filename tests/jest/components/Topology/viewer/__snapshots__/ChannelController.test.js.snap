@@ -68,29 +68,13 @@ ShallowWrapper {
                 Array [
                   Object {
                     "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
                     "id": "all-subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
                     "subchannels": Array [],
                     "text": "All Subscriptions",
                   },
                   Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                    "hasSubchannels": true,
                     "id": "guestbook-app",
-                    "splitChn": Array [
-                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                      "default",
-                      "guestbook-app",
-                      "gbapp-ch",
-                      "guestbook-app-latest",
-                    ],
                     "subchannels": Array [
                       Object {
                         "beg": "cassandra-cassandra-service",
@@ -160,29 +144,13 @@ ShallowWrapper {
                   Array [
                     Object {
                       "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
                       "id": "all-subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
                       "subchannels": Array [],
                       "text": "All Subscriptions",
                     },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                      "hasSubchannels": true,
                       "id": "guestbook-app",
-                      "splitChn": Array [
-                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                        "default",
-                        "guestbook-app",
-                        "gbapp-ch",
-                        "guestbook-app-latest",
-                      ],
                       "subchannels": Array [
                         Object {
                           "beg": "cassandra-cassandra-service",
@@ -294,29 +262,13 @@ ShallowWrapper {
                   Array [
                     Object {
                       "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
                       "id": "all-subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
                       "subchannels": Array [],
                       "text": "All Subscriptions",
                     },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                      "hasSubchannels": true,
                       "id": "guestbook-app",
-                      "splitChn": Array [
-                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                        "default",
-                        "guestbook-app",
-                        "gbapp-ch",
-                        "guestbook-app-latest",
-                      ],
                       "subchannels": Array [
                         Object {
                           "beg": "cassandra-cassandra-service",
@@ -351,29 +303,13 @@ ShallowWrapper {
                 "dropdownItems": Array [
                   Object {
                     "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                    "hasSubchannels": false,
                     "id": "all-subscriptions",
-                    "splitChn": Array [
-                      "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                      "__ALL__",
-                    ],
                     "subchannels": Array [],
                     "text": "All Subscriptions",
                   },
                   Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                    "hasSubchannels": true,
                     "id": "guestbook-app",
-                    "splitChn": Array [
-                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                      "default",
-                      "guestbook-app",
-                      "gbapp-ch",
-                      "guestbook-app-latest",
-                    ],
                     "subchannels": Array [
                       Object {
                         "beg": "cassandra-cassandra-service",
@@ -452,29 +388,13 @@ ShallowWrapper {
                   Array [
                     Object {
                       "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
                       "id": "all-subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
                       "subchannels": Array [],
                       "text": "All Subscriptions",
                     },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                      "hasSubchannels": true,
                       "id": "guestbook-app",
-                      "splitChn": Array [
-                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                        "default",
-                        "guestbook-app",
-                        "gbapp-ch",
-                        "guestbook-app-latest",
-                      ],
                       "subchannels": Array [
                         Object {
                           "beg": "cassandra-cassandra-service",
@@ -544,29 +464,13 @@ ShallowWrapper {
                     Array [
                       Object {
                         "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "hasSubchannels": false,
                         "id": "all-subscriptions",
-                        "splitChn": Array [
-                          "__ALL__/__ALL__//__ALL__/__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                        ],
                         "subchannels": Array [],
                         "text": "All Subscriptions",
                       },
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                        "hasSubchannels": true,
                         "id": "guestbook-app",
-                        "splitChn": Array [
-                          "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                          "default",
-                          "guestbook-app",
-                          "gbapp-ch",
-                          "guestbook-app-latest",
-                        ],
                         "subchannels": Array [
                           Object {
                             "beg": "cassandra-cassandra-service",
@@ -678,29 +582,13 @@ ShallowWrapper {
                     Array [
                       Object {
                         "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "hasSubchannels": false,
                         "id": "all-subscriptions",
-                        "splitChn": Array [
-                          "__ALL__/__ALL__//__ALL__/__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                          "__ALL__",
-                        ],
                         "subchannels": Array [],
                         "text": "All Subscriptions",
                       },
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                        "hasSubchannels": true,
                         "id": "guestbook-app",
-                        "splitChn": Array [
-                          "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                          "default",
-                          "guestbook-app",
-                          "gbapp-ch",
-                          "guestbook-app-latest",
-                        ],
                         "subchannels": Array [
                           Object {
                             "beg": "cassandra-cassandra-service",
@@ -735,29 +623,13 @@ ShallowWrapper {
                   "dropdownItems": Array [
                     Object {
                       "chn": "__ALL__/__ALL__//__ALL__/__ALL__",
-                      "hasSubchannels": false,
                       "id": "all-subscriptions",
-                      "splitChn": Array [
-                        "__ALL__/__ALL__//__ALL__/__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                        "__ALL__",
-                      ],
                       "subchannels": Array [],
                       "text": "All Subscriptions",
                     },
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
-                      "hasSubchannels": true,
                       "id": "guestbook-app",
-                      "splitChn": Array [
-                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                        "default",
-                        "guestbook-app",
-                        "gbapp-ch",
-                        "guestbook-app-latest",
-                      ],
                       "subchannels": Array [
                         Object {
                           "beg": "cassandra-cassandra-service",
@@ -893,15 +765,7 @@ ShallowWrapper {
                 Array [
                   Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                    "hasSubchannels": true,
                     "id": "guestbook-app",
-                    "splitChn": Array [
-                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                      "default",
-                      "guestbook-app",
-                      "gbapp-ch",
-                      "guestbook-app-latest",
-                    ],
                     "subchannels": Array [
                       Object {
                         "beg": "mysql-wordpress-pd-wordpress-mysql-service",
@@ -1066,15 +930,7 @@ ShallowWrapper {
                   Array [
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                      "hasSubchannels": true,
                       "id": "guestbook-app",
-                      "splitChn": Array [
-                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                        "default",
-                        "guestbook-app",
-                        "gbapp-ch",
-                        "guestbook-app-latest",
-                      ],
                       "subchannels": Array [
                         Object {
                           "beg": "mysql-wordpress-pd-wordpress-mysql-service",
@@ -1191,15 +1047,7 @@ ShallowWrapper {
                   Array [
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                      "hasSubchannels": true,
                       "id": "guestbook-app",
-                      "splitChn": Array [
-                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                        "default",
-                        "guestbook-app",
-                        "gbapp-ch",
-                        "guestbook-app-latest",
-                      ],
                       "subchannels": Array [
                         Object {
                           "beg": "mysql-wordpress-pd-wordpress-mysql-service",
@@ -1239,15 +1087,7 @@ ShallowWrapper {
                 "dropdownItems": Array [
                   Object {
                     "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                    "hasSubchannels": true,
                     "id": "guestbook-app",
-                    "splitChn": Array [
-                      "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                      "default",
-                      "guestbook-app",
-                      "gbapp-ch",
-                      "guestbook-app-latest",
-                    ],
                     "subchannels": Array [
                       Object {
                         "beg": "mysql-wordpress-pd-wordpress-mysql-service",
@@ -1701,15 +1541,7 @@ ShallowWrapper {
                   Array [
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                      "hasSubchannels": true,
                       "id": "guestbook-app",
-                      "splitChn": Array [
-                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                        "default",
-                        "guestbook-app",
-                        "gbapp-ch",
-                        "guestbook-app-latest",
-                      ],
                       "subchannels": Array [
                         Object {
                           "beg": "mysql-wordpress-pd-wordpress-mysql-service",
@@ -1874,15 +1706,7 @@ ShallowWrapper {
                     Array [
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                        "hasSubchannels": true,
                         "id": "guestbook-app",
-                        "splitChn": Array [
-                          "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                          "default",
-                          "guestbook-app",
-                          "gbapp-ch",
-                          "guestbook-app-latest",
-                        ],
                         "subchannels": Array [
                           Object {
                             "beg": "mysql-wordpress-pd-wordpress-mysql-service",
@@ -1999,15 +1823,7 @@ ShallowWrapper {
                     Array [
                       Object {
                         "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                        "hasSubchannels": true,
                         "id": "guestbook-app",
-                        "splitChn": Array [
-                          "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                          "default",
-                          "guestbook-app",
-                          "gbapp-ch",
-                          "guestbook-app-latest",
-                        ],
                         "subchannels": Array [
                           Object {
                             "beg": "mysql-wordpress-pd-wordpress-mysql-service",
@@ -2047,15 +1863,7 @@ ShallowWrapper {
                   "dropdownItems": Array [
                     Object {
                       "chn": "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount",
-                      "hasSubchannels": true,
                       "id": "guestbook-app",
-                      "splitChn": Array [
-                        "default/guestbook-app//gbapp-ch/guestbook-app-latest",
-                        "default",
-                        "guestbook-app",
-                        "gbapp-ch",
-                        "guestbook-app-latest",
-                      ],
                       "subchannels": Array [
                         Object {
                           "beg": "mysql-wordpress-pd-wordpress-mysql-service",

@@ -136,7 +136,6 @@ class ChannelControl extends React.Component {
     let mainSubscriptionName //name as showing in the combo; pages from the same subscription share the same main name
 
     Object.values(channelMap).forEach(({ chnl, splitChn, subchannels }) => {
-      const hasSubchannels = subchannels.length > 0
       let channelLabel = splitChn && splitChn[2] ? splitChn[2] : 'unknown'
       if (channelLabel === '__ALL__') {
         channelLabel = msgs.get('combo.subscription.all')
@@ -147,13 +146,11 @@ class ChannelControl extends React.Component {
         id: channelID,
         text: channelLabel,
         chn: chnl,
-        splitChn,
-        hasSubchannels,
         subchannels
       })
       if (
         chnl === activeChannel ||
-        (hasSubchannels &&
+        (subchannels.length > 0 &&
           subchannels.findIndex(
             ({ chnl: subchannel }) => subchannel === activeChannel
           ) !== -1)
@@ -358,7 +355,7 @@ class ChannelControl extends React.Component {
         const selectedIdx = channelsData[1]
 
         selectedSubscriptionIsPaged =
-          displayChannels[selectedIdx].hasSubchannels
+          displayChannels[selectedIdx].subchannels.length > 0
         selectedSubscriptionPages = selectedSubscriptionIsPaged
           ? displayChannels[selectedIdx].subchannels.length
           : 0

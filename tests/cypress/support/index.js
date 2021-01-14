@@ -35,6 +35,7 @@ import "./ansibleoperator";
 Cypress.Cookies.defaults({
   preserve: ["acm-access-token-cookie", "_oauth_proxy", "XSRF-TOKEN", "_csrf"]
 });
+
 before(() => {
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.ocLogin("cluster-manager-admin");

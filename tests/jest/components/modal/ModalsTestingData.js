@@ -2140,7 +2140,8 @@ export const availableFilters = {
 };
 
 export const resourceModalData = {
-  kind: "HCMApplication",
+  kind: "Application",
+  apiVersion: "app.k8s.io/v1beta1",
   _uid: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
   metadata: {
     name: "samplebook-gbap",
@@ -2160,7 +2161,8 @@ export const resourceModalData = {
 };
 
 export const resourceModalDataDel2 = {
-  kind: "HCMApplication",
+  kind: "Application",
+  apiVersion: "app.k8s.io/v1beta1",
   _uid: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
   selfLink:
     "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
@@ -2175,14 +2177,16 @@ export const resourceModalDataDel2 = {
 };
 
 export const resourceModalDataChildApp = {
-  kind: "HCMApplication",
+  kind: "Application",
+  apiVersion: "app.k8s.io/v1beta1",
   selfLink: "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/childApp",
   name: "childApp",
   namespace: "sample"
 };
 
 export const resourceModalDataMultiLevelApp = {
-  kind: "HCMApplication",
+  kind: "Application",
+  apiVersion: "app.k8s.io/v1beta1",
   selfLink:
     "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/multiLevelApp",
   name: "multiLevelApp",

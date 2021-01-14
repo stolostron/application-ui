@@ -29,11 +29,12 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
         Object {
           "__typename": "Application",
           "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+          "apiVersion": "app.k8s.io/v1beta1",
           "clusterCount": 0,
           "created": "2019-12-11T01:24:02Z",
           "dashboard": null,
           "hubSubscriptions": Array [],
-          "kind": "HCMApplication",
+          "kind": "Application",
           "name": "samplebook-gbap",
           "namespace": "sample",
           "selected": Array [
@@ -79,11 +80,12 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
           Object {
             "__typename": "Application",
             "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+            "apiVersion": "app.k8s.io/v1beta1",
             "clusterCount": 0,
             "created": "2019-12-11T01:24:02Z",
             "dashboard": null,
             "hubSubscriptions": Array [],
-            "kind": "HCMApplication",
+            "kind": "Application",
             "name": "samplebook-gbap",
             "namespace": "sample",
             "selected": Array [
@@ -128,11 +130,12 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
             Object {
               "__typename": "Application",
               "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+              "apiVersion": "app.k8s.io/v1beta1",
               "clusterCount": 0,
               "created": "2019-12-11T01:24:02Z",
               "dashboard": null,
               "hubSubscriptions": Array [],
-              "kind": "HCMApplication",
+              "kind": "Application",
               "name": "samplebook-gbap",
               "namespace": "sample",
               "selected": Array [
@@ -750,7 +753,8 @@ exports[`RemoveResourceModal test renders as expected child application with war
     <withLocale(Connect(RemoveResourceModal))
       data={
         Object {
-          "kind": "HCMApplication",
+          "apiVersion": "app.k8s.io/v1beta1",
+          "kind": "Application",
           "name": "childApp",
           "namespace": "sample",
           "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/childApp",
@@ -786,7 +790,8 @@ exports[`RemoveResourceModal test renders as expected child application with war
       <Connect(RemoveResourceModal)
         data={
           Object {
-            "kind": "HCMApplication",
+            "apiVersion": "app.k8s.io/v1beta1",
+            "kind": "Application",
             "name": "childApp",
             "namespace": "sample",
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/childApp",
@@ -821,7 +826,8 @@ exports[`RemoveResourceModal test renders as expected child application with war
         <RemoveResourceModal
           data={
             Object {
-              "kind": "HCMApplication",
+              "apiVersion": "app.k8s.io/v1beta1",
+              "kind": "Application",
               "name": "childApp",
               "namespace": "sample",
               "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/childApp",
@@ -1433,11 +1439,12 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
         Object {
           "__typename": "Application",
           "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+          "apiVersion": "app.k8s.io/v1beta1",
           "clusterCount": 0,
           "created": "2019-12-11T01:24:02Z",
           "dashboard": null,
           "hubSubscriptions": Array [],
-          "kind": "HCMApplication",
+          "kind": "Application",
           "metadata": Object {
             "name": "samplebook-gbap",
             "namespace": "sample",
@@ -1480,11 +1487,12 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
           Object {
             "__typename": "Application",
             "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+            "apiVersion": "app.k8s.io/v1beta1",
             "clusterCount": 0,
             "created": "2019-12-11T01:24:02Z",
             "dashboard": null,
             "hubSubscriptions": Array [],
-            "kind": "HCMApplication",
+            "kind": "Application",
             "metadata": Object {
               "name": "samplebook-gbap",
               "namespace": "sample",
@@ -1526,11 +1534,12 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
             Object {
               "__typename": "Application",
               "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+              "apiVersion": "app.k8s.io/v1beta1",
               "clusterCount": 0,
               "created": "2019-12-11T01:24:02Z",
               "dashboard": null,
               "hubSubscriptions": Array [],
-              "kind": "HCMApplication",
+              "kind": "Application",
               "metadata": Object {
                 "name": "samplebook-gbap",
                 "namespace": "sample",
@@ -2092,7 +2101,8 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
     <withLocale(Connect(RemoveResourceModal))
       data={
         Object {
-          "kind": "HCMApplication",
+          "apiVersion": "app.k8s.io/v1beta1",
+          "kind": "Application",
           "name": "multiLevelApp",
           "namespace": "sample",
           "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/multiLevelApp",
@@ -2128,7 +2138,8 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
       <Connect(RemoveResourceModal)
         data={
           Object {
-            "kind": "HCMApplication",
+            "apiVersion": "app.k8s.io/v1beta1",
+            "kind": "Application",
             "name": "multiLevelApp",
             "namespace": "sample",
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/multiLevelApp",
@@ -2163,7 +2174,8 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
         <RemoveResourceModal
           data={
             Object {
-              "kind": "HCMApplication",
+              "apiVersion": "app.k8s.io/v1beta1",
+              "kind": "Application",
               "name": "multiLevelApp",
               "namespace": "sample",
               "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/multiLevelApp",
@@ -2775,11 +2787,12 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
         Object {
           "__typename": "Application",
           "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+          "apiVersion": "app.k8s.io/v1beta1",
           "clusterCount": 0,
           "created": "2019-12-11T01:24:02Z",
           "dashboard": null,
           "hubSubscriptions": Array [],
-          "kind": "HCMApplication",
+          "kind": "Application",
           "metadata": Object {
             "name": "samplebook-gbap",
             "namespace": "sample",
@@ -2822,11 +2835,12 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
           Object {
             "__typename": "Application",
             "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+            "apiVersion": "app.k8s.io/v1beta1",
             "clusterCount": 0,
             "created": "2019-12-11T01:24:02Z",
             "dashboard": null,
             "hubSubscriptions": Array [],
-            "kind": "HCMApplication",
+            "kind": "Application",
             "metadata": Object {
               "name": "samplebook-gbap",
               "namespace": "sample",
@@ -2868,11 +2882,12 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
             Object {
               "__typename": "Application",
               "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+              "apiVersion": "app.k8s.io/v1beta1",
               "clusterCount": 0,
               "created": "2019-12-11T01:24:02Z",
               "dashboard": null,
               "hubSubscriptions": Array [],
-              "kind": "HCMApplication",
+              "kind": "Application",
               "metadata": Object {
                 "name": "samplebook-gbap",
                 "namespace": "sample",

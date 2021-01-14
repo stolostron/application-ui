@@ -81,7 +81,7 @@ export const channelsInformation = (name, key) => {
     .exec(
       `oc -n ${name}-ns get subscription ${name}-subscription-${parseInt(key) +
         1} -o=jsonpath='{.spec.channel}'`,
-      { timeout: 5000 }
+      { timeout: 10 * 1000 }
     )
     .then(({ stdout }) => {
       const [channelNs, channelName] = stdout.split("/");

@@ -105,8 +105,10 @@ export const resourceTable = {
       timeout: timeout || 30 * 1000
     });
   },
-  getCell: function(name) {
-    return cy.get(`td[data-label="${name}"]`);
+  getCell: function(name, timeout) {
+    return cy.get(`td[data-label="${name}"]`, {
+      timeout: timeout || 30 * 1000
+    });
   },
   rowShouldExist: function(name, key, timeout) {
     this.searchTable(name);

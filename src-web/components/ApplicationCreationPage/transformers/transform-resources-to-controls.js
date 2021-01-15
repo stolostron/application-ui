@@ -22,12 +22,10 @@ export const discoverGroupsFromSource = (
   i18n
 ) => {
   const applicationResource = _.get(templateObject, 'Application[0].$raw')
-  const applicationResourceID =
-    '/apis/app.k8s.io/v1beta1' + getResourceID(applicationResource)
 
   // get application selflink
   const selfLinkControl = cd.find(({ id }) => id === 'selfLink')
-  const selfLink = applicationResource.metadata.selfLink || applicationResourceID
+  const selfLink = getResourceID(applicationResource)
   selfLinkControl['active'] = selfLink
 
   // find groups
@@ -196,11 +194,7 @@ export const shiftTemplateObject = (templateObject, selfLinksControl) => {
   if (subscription) {
     subscription = subscription.shift()
     if (selfLinksControl) {
-      const subscriptionResourceID =
-        '/apis/apps.open-cluster-management.io/v1' +
-        getResourceID(subscription.$raw)
-      const subscriptionSelfLink =
-        _.get(subscription, '$raw.metadata.selfLink') || subscriptionResourceID
+      const subscriptionSelfLink = getResourceID(subscription.$raw)
       _.set(selfLinksControl, 'active.Subscription', subscriptionSelfLink)
     }
 
@@ -219,11 +213,7 @@ export const shiftTemplateObject = (templateObject, selfLinksControl) => {
       if (inx !== -1) {
         const channel = templateObject.Channel.splice(inx, 1)[0]
         if (selfLinksControl) {
-          const channelResourceID =
-            '/apis/apps.open-cluster-management.io/v1' +
-            getResourceID(channel.$raw)
-          const channelSelfLink =
-            _.get(channel, '$raw.metadata.selfLink') || channelResourceID
+          const channelSelfLink = getResourceID(channel.$raw)
           _.set(selfLinksControl, 'active.Channel', channelSelfLink)
         }
       }
@@ -243,11 +233,7 @@ export const shiftTemplateObject = (templateObject, selfLinksControl) => {
       if (inx !== -1) {
         const rule = templateObject.PlacementRule.splice(inx, 1)[0]
         if (selfLinksControl) {
-          const ruleResourceID =
-            '/apis/apps.open-cluster-management.io/v1' +
-            getResourceID(rule.$raw)
-          const ruleSelfLink =
-            _.get(rule, '$raw.metadata.selfLink') || ruleResourceID
+          const ruleSelfLink = getResourceID(rule.$raw)
           _.set(selfLinksControl, 'active.PlacementRule', ruleSelfLink)
         }
       }

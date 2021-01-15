@@ -9,10 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import {
-  initializeControls,
-  getSourcePath
-} from 'temptifly'
+import { initializeControls, getSourcePath, getResourceID } from 'temptifly'
 import _ from 'lodash'
 
 //only called when editing an existing application
@@ -24,13 +21,14 @@ export const discoverGroupsFromSource = (
   editor,
   i18n
 ) => {
+  const applicationResource = _.get(templateObject, 'Application[0].$raw')
+  const applicationResourceID =
+    '/apis/app.k8s.io/v1beta1' + getResourceID(applicationResource)
+
   // get application selflink
   const selfLinkControl = cd.find(({ id }) => id === 'selfLink')
-  const selfLink = _.get(
-    templateObject,
-    'Application[0].$raw.metadata.selfLink'
-  )
-  selfLinkControl.active = selfLink
+  const selfLink = applicationResource.metadata.selfLink || applicationResourceID
+  selfLinkControl['active'] = selfLink
 
   // find groups
   const { controlData: groupData, prompts: { nameId, baseName } } = control
@@ -196,11 +194,14 @@ export const shiftTemplateObject = (templateObject, selfLinksControl) => {
   // pop the subscription off of all subscriptions
   let subscription = _.get(templateObject, 'Subscription')
   if (subscription) {
-    let selfLink
     subscription = subscription.shift()
     if (selfLinksControl) {
-      selfLink = _.get(subscription, '$raw.metadata.selfLink')
-      _.set(selfLinksControl, 'active.Subscription', selfLink)
+      const subscriptionResourceID =
+        '/apis/apps.open-cluster-management.io/v1' +
+        getResourceID(subscription.$raw)
+      const subscriptionSelfLink =
+        _.get(subscription, '$raw.metadata.selfLink') || subscriptionResourceID
+      _.set(selfLinksControl, 'active.Subscription', subscriptionSelfLink)
     }
 
     // if this subscription pointed to a channel in this template
@@ -218,8 +219,12 @@ export const shiftTemplateObject = (templateObject, selfLinksControl) => {
       if (inx !== -1) {
         const channel = templateObject.Channel.splice(inx, 1)[0]
         if (selfLinksControl) {
-          selfLink = _.get(channel, '$raw.metadata.selfLink')
-          _.set(selfLinksControl, 'active.Channel', selfLink)
+          const channelResourceID =
+            '/apis/apps.open-cluster-management.io/v1' +
+            getResourceID(channel.$raw)
+          const channelSelfLink =
+            _.get(channel, '$raw.metadata.selfLink') || channelResourceID
+          _.set(selfLinksControl, 'active.Channel', channelSelfLink)
         }
       }
     }
@@ -238,8 +243,12 @@ export const shiftTemplateObject = (templateObject, selfLinksControl) => {
       if (inx !== -1) {
         const rule = templateObject.PlacementRule.splice(inx, 1)[0]
         if (selfLinksControl) {
-          selfLink = _.get(rule, '$raw.metadata.selfLink')
-          _.set(selfLinksControl, 'active.PlacementRule', selfLink)
+          const ruleResourceID =
+            '/apis/apps.open-cluster-management.io/v1' +
+            getResourceID(rule.$raw)
+          const ruleSelfLink =
+            _.get(rule, '$raw.metadata.selfLink') || ruleResourceID
+          _.set(selfLinksControl, 'active.PlacementRule', ruleSelfLink)
         }
       }
     }

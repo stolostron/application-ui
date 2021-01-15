@@ -123,7 +123,7 @@ exports[`LegendView no nodes renders as expected 1`] = `
               </svg>
             </div>
             <div>
-              All resources in this group deployed successfully.
+              All resources in this group have deployed on the target clusters, although their status might not be successful.
             </div>
           </div>
           <div
@@ -367,7 +367,7 @@ exports[`LegendView with nodes render as expected 1`] = `
               </svg>
             </div>
             <div>
-              All resources in this group deployed successfully.
+              All resources in this group have deployed on the target clusters, although their status might not be successful.
             </div>
           </div>
           <div

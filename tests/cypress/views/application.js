@@ -703,19 +703,29 @@ export const selectPrePostTasks = (value, key) => {
         .get(`#perpostsectiongrp${key}-set-pre-and-post-deployment-tasks`)
         .click();
 
-  cy
-    .get(gitAnsibleSecret, { timeout: 20 * 1000 })
-    .type(ansibleSecretName, { timeout: 50 * 1000 })
-    .blur();
+  cy.get(gitAnsibleSecret, { timeout: 20 * 1000 }).click();
 
-  if (ansibleHost && ansibleToken) {
-    cy
-      .get(gitAnsibleHost, { timeout: 20 * 1000 })
-      .paste(ansibleHost, { log: false, timeout: 20 * 1000 });
-    cy
-      .get(gitAnsibleToken, { timeout: 20 * 1000 })
-      .paste(ansibleToken, { log: false, timeout: 20 * 1000 });
-  }
+  cy.get(".bx--list-box__menu", { timeout: 20 * 1000 }).then($listbox => {
+    if ($listbox.find(".bx--list-box__menu-item").length) {
+      // Ansible secret alraedy exists in this namespace
+      cy.contains(".bx--list-box__menu-item", ansibleSecretName).click();
+    } else {
+      // Create new ansible secret in this namespace
+      cy
+        .get(gitAnsibleSecret, { timeout: 20 * 1000 })
+        .type(ansibleSecretName, { timeout: 50 * 1000 })
+        .blur();
+
+      if (ansibleHost && ansibleToken) {
+        cy
+          .get(gitAnsibleHost, { timeout: 20 * 1000 })
+          .paste(ansibleHost, { log: false, timeout: 20 * 1000 });
+        cy
+          .get(gitAnsibleToken, { timeout: 20 * 1000 })
+          .paste(ansibleToken, { log: false, timeout: 20 * 1000 });
+      }
+    }
+  });
 };
 
 export const selectClusterDeployment = (deployment, clusterName, key) => {

@@ -743,15 +743,20 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
         onlineClusterID: "#online-cluster-only-checkbox",
         uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
         existingClusterID: "#existingrule-checkbox",
-        existingRuleComboID: "#placementrulecombo"
+        existingRuleComboID: "#placementrulecombo",
+        labelNameID: "#labelName-0-clusterSelector",
+        labelValueID: "#labelValue-0-clusterSelector"
       },
       key
     );
     const {
       localClusterID,
       onlineClusterID,
+      uniqueClusterID,
       existingClusterID,
-      existingRuleComboID
+      existingRuleComboID,
+      labelNameID,
+      labelValueID
     } = clusterDeploymentCss;
     cy.log(
       `existingClusterID=${existingClusterID} existingRuleCombo=${existingRuleComboID} existing=${existing}`
@@ -771,6 +776,21 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
           })
           .click();
       });
+      cy
+        .get(uniqueClusterID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
+      cy
+        .get(labelNameID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
+      cy
+        .get(labelValueID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
     } else if (online) {
       cy.log("Select to deploy to all online clusters including local cluster");
       cy

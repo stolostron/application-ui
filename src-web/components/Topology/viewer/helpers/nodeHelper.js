@@ -225,7 +225,7 @@ export default class NodeHelper {
     })
   };
 
-  createNodeShapes = (nodes, nodeDragHandler) => {
+  addElementsForNodes = (nodes, nodeDragHandler) => {
     nodes
       .append('use')
       .attrs(d => {
@@ -260,6 +260,10 @@ export default class NodeHelper {
             }
           })
       )
+  };
+
+  createNodeShapes = (nodes, nodeDragHandler) => {
+    this.addElementsForNodes(nodes, nodeDragHandler)
 
     //Make sure the subscription node updates
     const subscriptionNode = this.svg
@@ -282,41 +286,9 @@ export default class NodeHelper {
         }
         return [data]
       })
-    subscriptionNodeShape
-      .enter()
-      .append('use')
-      .attrs(d => {
-        const { layout, specs } = d
-        const shapeType = specs.shapeType || layout.type
-        const shape = this.typeToShapeMap[shapeType]
-          ? this.typeToShapeMap[shapeType].shape
-          : 'other'
-        const classType = this.typeToShapeMap[shapeType]
-          ? this.typeToShapeMap[shapeType].className
-          : 'default'
-        return {
-          'xlink:href': `#diagramShapes_${shape}`,
-          width: NODE_SIZE,
-          height: NODE_SIZE,
-          tabindex: 1,
-          class: `shape ${classType}`
-        }
-      })
-      .call(
-        fixedD3
-          .drag()
-          .on('drag', this.dragNode)
-          .on('start', () => {
-            if (nodeDragHandler) {
-              nodeDragHandler(true)
-            }
-          })
-          .on('end', () => {
-            if (nodeDragHandler) {
-              nodeDragHandler(false)
-            }
-          })
-      )
+    const subscriptionNodeShapeEnter = subscriptionNodeShape.enter()
+
+    this.addElementsForNodes(subscriptionNodeShapeEnter, nodeDragHandler)
   };
 
   createTitles = (draw, nodes) => {

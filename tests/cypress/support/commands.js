@@ -29,9 +29,10 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-const apiUrl =
-  Cypress.env("OC_CLUSTER_URL") ||
-  Cypress.config().baseUrl.replace("multicloud-console.apps", "api") + ":6443";
+const apiUrl = !Cypress.config().baseUrl.includes("localhost")
+  ? Cypress.config().baseUrl.replace("multicloud-console.apps", "api") + ":6443"
+  : Cypress.env("OC_CLUSTER_URL");
+
 const authUrl = Cypress.config().baseUrl.replace(
   "multicloud-console",
   "oauth-openshift"
@@ -254,10 +255,14 @@ Cypress.Commands.add("get$", selector => {
 
 Cypress.Commands.add("ocLogin", role => {
   const { users } = Cypress.env("USER_CONFIG");
-  cy.addUserIfNotCreatedBySuite();
+  let user;
+  if (role !== "kubeadmin") {
+    cy.addUserIfNotCreatedBySuite();
+    user = Cypress.env("OC_CLUSTER_USER", users[role]);
+  }
   const loginUserDetails = {
     api: apiUrl,
-    user: Cypress.env("OC_CLUSTER_USER", users[role]),
+    user: user || "kubeadmin",
     password: Cypress.env("OC_CLUSTER_PASS")
   };
   cy.exec(

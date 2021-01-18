@@ -35,7 +35,11 @@ import "./ansibleoperator";
 Cypress.Cookies.defaults({
   preserve: ["acm-access-token-cookie", "_oauth_proxy", "XSRF-TOKEN", "_csrf"]
 });
+
 before(() => {
+  // Use kubeadmin user to install ansible operator
+  cy.ocLogin("kubeadmin");
+  cy.installAnsibleOperator();
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.ocLogin("cluster-manager-admin");
     cy.exec("oc whoami -t").then(res => {
@@ -48,7 +52,6 @@ before(() => {
     cy.acquireToken().then(token => {
       Cypress.env("token", token);
     });
-    //cy.installAnsibleOperator();
   }
 });
 

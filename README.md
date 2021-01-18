@@ -3,7 +3,7 @@ The UI service for Application Lifecycle
 
 ## Design
 
-The UI Platform is developed as an isomorphic react application.  The following major components are used to build this service.
+The UI Platform is developed as an isomorphic react application.  The following major components are used to build this service. Test
 
 * NodeJS
 * Express

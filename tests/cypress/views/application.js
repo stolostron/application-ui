@@ -414,20 +414,15 @@ export const validateTopology = (
       //if opType is create, the first subscription was removed by the delete subs test, use the new config option
       validateDeployables(opType == "add" ? data.new[0] : value);
 
-      if (opType == "create") {
-        //TODO remove the if condition once we find why the All subscription selection after deleting/adding a subscriptin is no longer working
-        const { local, online } =
-          key == 0 && opType == "add"
-            ? data.new[0].deployment
-            : value.deployment;
-        cy.log(`key=${key}, type=${opType}`);
-        !local
-          ? (validatePlacementNode(name, key),
-            !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
-          : cy.log(
-              "cluster and placement nodes will not be created as the application is deployed locally"
-            );
-      }
+      const { local, online } =
+        key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
+      cy.log(`key=${key}, type=${opType}`);
+      !local
+        ? (validatePlacementNode(name, key),
+          !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
+        : cy.log(
+            "cluster and placement nodes will not be created as the application is deployed locally"
+          );
     }
   }
 
@@ -703,19 +698,29 @@ export const selectPrePostTasks = (value, key) => {
         .get(`#perpostsectiongrp${key}-set-pre-and-post-deployment-tasks`)
         .click();
 
-  cy
-    .get(gitAnsibleSecret, { timeout: 20 * 1000 })
-    .type(ansibleSecretName, { timeout: 50 * 1000 })
-    .blur();
+  cy.get(gitAnsibleSecret, { timeout: 20 * 1000 }).click();
 
-  if (ansibleHost && ansibleToken) {
-    cy
-      .get(gitAnsibleHost, { timeout: 20 * 1000 })
-      .paste(ansibleHost, { log: false, timeout: 20 * 1000 });
-    cy
-      .get(gitAnsibleToken, { timeout: 20 * 1000 })
-      .paste(ansibleToken, { log: false, timeout: 20 * 1000 });
-  }
+  cy.get(".bx--list-box__menu", { timeout: 20 * 1000 }).then($listbox => {
+    if ($listbox.find(".bx--list-box__menu-item").length) {
+      // Ansible secret alraedy exists in this namespace
+      cy.contains(".bx--list-box__menu-item", ansibleSecretName).click();
+    } else {
+      // Create new ansible secret in this namespace
+      cy
+        .get(gitAnsibleSecret, { timeout: 20 * 1000 })
+        .type(ansibleSecretName, { timeout: 50 * 1000 })
+        .blur();
+
+      if (ansibleHost && ansibleToken) {
+        cy
+          .get(gitAnsibleHost, { timeout: 20 * 1000 })
+          .paste(ansibleHost, { log: false, timeout: 20 * 1000 });
+        cy
+          .get(gitAnsibleToken, { timeout: 20 * 1000 })
+          .paste(ansibleToken, { log: false, timeout: 20 * 1000 });
+      }
+    }
+  });
 };
 
 export const selectClusterDeployment = (deployment, clusterName, key) => {
@@ -733,15 +738,20 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
         onlineClusterID: "#online-cluster-only-checkbox",
         uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
         existingClusterID: "#existingrule-checkbox",
-        existingRuleComboID: "#placementrulecombo"
+        existingRuleComboID: "#placementrulecombo",
+        labelNameID: "#labelName-0-clusterSelector",
+        labelValueID: "#labelValue-0-clusterSelector"
       },
       key
     );
     const {
       localClusterID,
       onlineClusterID,
+      uniqueClusterID,
       existingClusterID,
-      existingRuleComboID
+      existingRuleComboID,
+      labelNameID,
+      labelValueID
     } = clusterDeploymentCss;
     cy.log(
       `existingClusterID=${existingClusterID} existingRuleCombo=${existingRuleComboID} existing=${existing}`
@@ -761,6 +771,21 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
           })
           .click();
       });
+      cy
+        .get(uniqueClusterID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
+      cy
+        .get(labelNameID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
+      cy
+        .get(labelValueID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
     } else if (online) {
       cy.log("Select to deploy to all online clusters including local cluster");
       cy

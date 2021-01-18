@@ -139,7 +139,8 @@ class ResourceTable extends React.Component {
             clusterName: _.get(item, 'cluster', ''),
             selfLink: _.get(item, 'selfLink', ''),
             _uid: _.get(item, '_uid', ''),
-            kind: _.get(item, 'kind', '')
+            kind: _.get(resourceType, 'kind', ''),
+            apiVersion: _.get(resourceType, 'apiVersion', '')
           }
         }
       })

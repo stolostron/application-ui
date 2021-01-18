@@ -222,6 +222,7 @@ export const createGit = (clusterName, configs, addOperation) => {
 };
 
 export const createObj = (clusterName, configs, addOperation) => {
+  // Test
   let objCss = {
     objUrl: "#objectstoreURL",
     objAccess: "#accessKey",

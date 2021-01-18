@@ -260,6 +260,63 @@ export default class NodeHelper {
             }
           })
       )
+
+    //Make sure the subscription node updates
+    const subscriptionNode = this.svg
+      .select('g.nodes')
+      .selectAll('g.node')
+      .filter(d => {
+        const { layout } = d
+        return (
+          layout.type === 'subscription' ||
+          layout.type === 'subscriptionblocked'
+        )
+      })
+    subscriptionNode.select('use.shape').remove()
+    const subscriptionNodeShape = subscriptionNode
+      .selectAll('use.shape')
+      .data(({ specs, layout }) => {
+        const data = {
+          specs: specs,
+          layout: layout
+        }
+        return [data]
+      })
+    subscriptionNodeShape
+      .enter()
+      .append('use')
+      .attrs(d => {
+        const { layout, specs } = d
+        const shapeType = specs.shapeType || layout.type
+        const shape = this.typeToShapeMap[shapeType]
+          ? this.typeToShapeMap[shapeType].shape
+          : 'other'
+        const classType = this.typeToShapeMap[shapeType]
+          ? this.typeToShapeMap[shapeType].className
+          : 'default'
+        return {
+          'xlink:href': `#diagramShapes_${shape}`,
+          width: NODE_SIZE,
+          height: NODE_SIZE,
+          tabindex: 1,
+          class: `shape ${classType}`
+        }
+      })
+      .call(
+        fixedD3
+          .drag()
+          .on('drag', this.dragNode)
+          .on('start', () => {
+            if (nodeDragHandler) {
+              nodeDragHandler(true)
+            }
+          })
+          .on('end', () => {
+            if (nodeDragHandler) {
+              nodeDragHandler(false)
+            }
+          })
+      )
   };
 
   createTitles = (draw, nodes) => {

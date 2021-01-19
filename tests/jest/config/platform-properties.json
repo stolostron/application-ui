@@ -1290,7 +1290,7 @@
   "creation.missing.clusterSelector.label.field": "Label must be set",
   "creation.missing.clusterSelector.value.field": "Value must be set",
   "clusterSelector.label.placeholder.field": "Label name",
-  "clusterSelector.value.placeholder.field": "Label Value",
+  "clusterSelector.value.placeholder.field": "Label value",
   "clusterSelector.label.field.ui": "Label",
   "clusterSelector.value.field": "Value",
   "clusterSelector.value.field.ui": "Value"

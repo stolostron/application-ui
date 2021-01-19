@@ -752,7 +752,6 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       labelNameID,
       labelValueID
     } = clusterDeploymentCss;
-
     cy.log(
       `existingClusterID=${existingClusterID} existingRuleCombo=${existingRuleComboID} existing=${existing}`
     );
@@ -922,7 +921,6 @@ export const addNewSubscription = (name, data, clusterName) => {
   } else if (data.type === "helm") {
     createHelm(clusterName, data, true);
   }
-  // issue 7359
   if (data.new[0].deployment.existing) {
     verifyYamlTemplate(Cypress.env("existingRule"));
   }
@@ -931,6 +929,9 @@ export const addNewSubscription = (name, data, clusterName) => {
 };
 
 export const verifyYamlTemplate = text => {
+  cy.log(
+    "Verify that the existing placement selection is updated in yaml editor upon editing an application..."
+  );
   cy.get("#template-editor-search-application").type(text);
   cy
     .get(".view-lines", { timeout: 20 * 1000 })

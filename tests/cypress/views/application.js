@@ -777,7 +777,6 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
             Cypress.env("existingRule", stdout);
             console.log(`inside: ${Cypress.env("existingRule")}`);
           });
-        console.log(Cypress.env("existingRule"));
       });
 
       cy
@@ -853,14 +852,6 @@ export const edit = name => {
   cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
 };
 
-export const verifyYamlTemplate = text => {
-  console.log(`Text: ${text}`);
-  cy
-    .get(".view-lines", { timeout: 20 * 1000 })
-    .invoke("text")
-    .should("contains", text);
-};
-
 export const editApplication = (name, data) => {
   edit(name);
   cy.log("Verify name and namespace fields are disabled");
@@ -931,10 +922,20 @@ export const addNewSubscription = (name, data, clusterName) => {
   } else if (data.type === "helm") {
     createHelm(clusterName, data, true);
   }
-
-  verifyYamlTemplate(Cypress.env("existingRule"));
+  // issue 7359
+  if (data.new[0].deployment.existing) {
+    verifyYamlTemplate(Cypress.env("existingRule"));
+  }
 
   submitSave(true);
+};
+
+export const verifyYamlTemplate = text => {
+  cy.get("#template-editor-search-application").type(text);
+  cy
+    .get(".view-lines", { timeout: 20 * 1000 })
+    .invoke("text")
+    .should("contains", text);
 };
 
 export const verifyEditAfterDeleteSubscription = (name, data) => {

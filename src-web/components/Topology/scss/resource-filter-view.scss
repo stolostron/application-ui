@@ -88,8 +88,13 @@ $filter_sidebar_animation_duration: 100ms;
         font-weight: 600;
       }
 
-      .filter-section-checkbox {
+      .pf-c-check {
+        margin-bottom: 1rem;
+      }
+
+      .pf-c-check__label {
         font-size: 12px;
+        color: white;
       }
 
       .filter-section-expand {

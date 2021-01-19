@@ -107,69 +107,60 @@ exports[`ResourceFilterView renders as expected 1`] = `
           Namespaces
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={true}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="namespacesall"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="namespacesall"
-            title={null}
           >
-            <span
-              className=""
-            >
-              All
-            </span>
+            All
           </label>
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={false}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="namespacescassandra-ns"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="namespacescassandra-ns"
-            title={null}
           >
-            <span
-              className=""
-            >
-              cassandra-ns
-            </span>
+            cassandra-ns
           </label>
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={false}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="namespacescluster-scoped"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="namespacescluster-scoped"
-            title={null}
           >
-            <span
-              className=""
-            >
-              cluster-scoped
-            </span>
+            cluster-scoped
           </label>
         </div>
       </div>
@@ -182,113 +173,98 @@ exports[`ResourceFilterView renders as expected 1`] = `
           Resource status
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={false}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="resourceStatusesall"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="resourceStatusesall"
-            title={null}
           >
-            <span
-              className=""
-            >
-              All
-            </span>
+            All
           </label>
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={true}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="resourceStatusesred"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="resourceStatusesred"
-            title={null}
           >
-            <span
-              className=""
-            >
-              Error
-            </span>
+            Error
           </label>
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={true}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="resourceStatusesorange"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="resourceStatusesorange"
-            title={null}
           >
-            <span
-              className=""
-            >
-              Pending
-            </span>
+            Pending
           </label>
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={false}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="resourceStatusesgreen"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="resourceStatusesgreen"
-            title={null}
           >
-            <span
-              className=""
-            >
-              Success
-            </span>
+            Success
           </label>
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={true}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="resourceStatusesyellow"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="resourceStatusesyellow"
-            title={null}
           >
-            <span
-              className=""
-            >
-              Warning
-            </span>
+            Warning
           </label>
         </div>
       </div>
@@ -301,91 +277,79 @@ exports[`ResourceFilterView renders as expected 1`] = `
           Types
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={true}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="resourceTypesall"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="resourceTypesall"
-            title={null}
           >
-            <span
-              className=""
-            >
-              All
-            </span>
+            All
           </label>
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={false}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="resourceTypesservice"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="resourceTypesservice"
-            title={null}
           >
-            <span
-              className=""
-            >
-              service
-            </span>
+            service
           </label>
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={false}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="resourceTypesstatefulset"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="resourceTypesstatefulset"
-            title={null}
           >
-            <span
-              className=""
-            >
-              statefulset
-            </span>
+            statefulset
           </label>
         </div>
         <div
-          className="bx--form-item bx--checkbox-wrapper"
+          className="pf-c-check filter-section-checkbox"
         >
           <input
+            aria-invalid={false}
             checked={false}
-            className="bx--checkbox"
+            className="pf-c-check__input"
+            disabled={false}
             id="resourceTypesstorageclass"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="bx--checkbox-label filter-section-checkbox"
+            className="pf-c-check__label"
             htmlFor="resourceTypesstorageclass"
-            title={null}
           >
-            <span
-              className=""
-            >
-              storageclass
-            </span>
+            storageclass
           </label>
         </div>
       </div>

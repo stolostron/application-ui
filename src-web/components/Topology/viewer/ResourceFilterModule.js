@@ -13,9 +13,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
-import { Checkbox } from 'carbon-components-react'
 import { TimesIcon } from '@patternfly/react-icons'
-import { Chip, ChipGroup } from '@patternfly/react-core'
+import { Checkbox, Chip, ChipGroup } from '@patternfly/react-core'
 import { Scrollbars } from 'react-custom-scrollbars'
 import '../scss/resource-filter-view.scss'
 import '../../../../graphics/diagramIcons.svg'
@@ -88,8 +87,8 @@ const FilterSection = ({
             id={key}
             key={key}
             className="filter-section-checkbox"
-            labelText={label}
-            checked={checked}
+            label={label}
+            isChecked={checked}
             onChange={onChange}
           />
         )

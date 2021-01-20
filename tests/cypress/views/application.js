@@ -326,7 +326,7 @@ export const deleteApplicationUI = name => {
     resourceTable.openRowMenu(name);
     resourceTable.menuClickDelete();
     modal.shouldBeOpen();
-    modal.clickResources();
+    // modal.clickResources();
     modal.clickDanger();
     modal.shouldNotBeVisible();
 

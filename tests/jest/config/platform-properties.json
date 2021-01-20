@@ -51,7 +51,7 @@
   "cluster.status.offline": "Offline",
   "clusterSelector.label.field.ui": "Label",
   "clusterSelector.label.placeholder.field": "Label name",
-  "clusterSelector.value.placeholder.field": "Label Value",
+  "clusterSelector.value.placeholder.field": "Label value",
   "clusterSelector.value.field.ui": "Value",
   "clusterSelector.value.field": "Value",
   "combo.subscription": "Subscription",

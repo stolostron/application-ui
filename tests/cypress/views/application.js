@@ -4,7 +4,6 @@
  ****************************************************************************** */
 
 /// <reference types="cypress" />
-
 import {
   pageLoader,
   resourceTable,
@@ -770,7 +769,15 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
             timeout: 30 * 1000
           })
           .click();
+        cy
+          .get(".bx--list-box__label")
+          .invoke("text")
+          .then(stdout => {
+            Cypress.env("existingRule", stdout);
+            console.log(`inside: ${Cypress.env("existingRule")}`);
+          });
       });
+
       cy
         .get(uniqueClusterID, {
           timeout: 30 * 1000
@@ -826,8 +833,7 @@ export const selectMatchingLabel = (cluster, key) => {
 
 export const edit = name => {
   cy
-    .server()
-    .route({
+    .intercept({
       method: "POST", // Route all POST requests
       url: `/multicloud/applications/graphql`
     })
@@ -839,17 +845,16 @@ export const edit = name => {
   resourceTable.menuClick("edit");
   cy.url().should("include", `/${name}`);
   // as soon as edit button is shown we can proceed
-  cy.get("#edit-yaml", { timeout: 20 * 1000 });
   cy.wait(["@graphql", "@graphql"], {
     timeout: 50 * 1000
   });
+  cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
 };
 
 export const editApplication = (name, data) => {
   edit(name);
   cy.log("Verify name and namespace fields are disabled");
   cy.get(".bx--detail-page-header-title-container", { timeout: 20 * 1000 });
-  cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
   cy
     .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
@@ -916,7 +921,22 @@ export const addNewSubscription = (name, data, clusterName) => {
   } else if (data.type === "helm") {
     createHelm(clusterName, data, true);
   }
+  if (data.new[0].deployment.existing) {
+    verifyYamlTemplate(Cypress.env("existingRule"));
+  }
+
   submitSave(true);
+};
+
+export const verifyYamlTemplate = text => {
+  cy.log(
+    "Verify that the existing placement selection is updated in yaml editor upon editing an application..."
+  );
+  cy.get("#template-editor-search-application").type(text);
+  cy
+    .get(".view-lines", { timeout: 20 * 1000 })
+    .invoke("text")
+    .should("contains", text);
 };
 
 export const verifyEditAfterDeleteSubscription = (name, data) => {

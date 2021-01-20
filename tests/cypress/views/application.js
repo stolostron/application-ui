@@ -4,7 +4,6 @@
  ****************************************************************************** */
 
 /// <reference types="cypress" />
-
 import {
   pageLoader,
   resourceTable,
@@ -414,20 +413,15 @@ export const validateTopology = (
       //if opType is create, the first subscription was removed by the delete subs test, use the new config option
       validateDeployables(opType == "add" ? data.new[0] : value);
 
-      if (opType == "create") {
-        //TODO remove the if condition once we find why the All subscription selection after deleting/adding a subscriptin is no longer working
-        const { local, online } =
-          key == 0 && opType == "add"
-            ? data.new[0].deployment
-            : value.deployment;
-        cy.log(`key=${key}, type=${opType}`);
-        !local
-          ? (validatePlacementNode(name, key),
-            !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
-          : cy.log(
-              "cluster and placement nodes will not be created as the application is deployed locally"
-            );
-      }
+      const { local, online } =
+        key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
+      cy.log(`key=${key}, type=${opType}`);
+      !local
+        ? (validatePlacementNode(name, key),
+          !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
+        : cy.log(
+            "cluster and placement nodes will not be created as the application is deployed locally"
+          );
     }
   }
 
@@ -743,15 +737,20 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
         onlineClusterID: "#online-cluster-only-checkbox",
         uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
         existingClusterID: "#existingrule-checkbox",
-        existingRuleComboID: "#placementrulecombo"
+        existingRuleComboID: "#placementrulecombo",
+        labelNameID: "#labelName-0-clusterSelector",
+        labelValueID: "#labelValue-0-clusterSelector"
       },
       key
     );
     const {
       localClusterID,
       onlineClusterID,
+      uniqueClusterID,
       existingClusterID,
-      existingRuleComboID
+      existingRuleComboID,
+      labelNameID,
+      labelValueID
     } = clusterDeploymentCss;
     cy.log(
       `existingClusterID=${existingClusterID} existingRuleCombo=${existingRuleComboID} existing=${existing}`
@@ -770,7 +769,30 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
             timeout: 30 * 1000
           })
           .click();
+        cy
+          .get(".bx--list-box__label")
+          .invoke("text")
+          .then(stdout => {
+            Cypress.env("existingRule", stdout);
+            console.log(`inside: ${Cypress.env("existingRule")}`);
+          });
       });
+
+      cy
+        .get(uniqueClusterID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
+      cy
+        .get(labelNameID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
+      cy
+        .get(labelValueID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
     } else if (online) {
       cy.log("Select to deploy to all online clusters including local cluster");
       cy
@@ -811,8 +833,7 @@ export const selectMatchingLabel = (cluster, key) => {
 
 export const edit = name => {
   cy
-    .server()
-    .route({
+    .intercept({
       method: "POST", // Route all POST requests
       url: `/multicloud/applications/graphql`
     })
@@ -824,17 +845,16 @@ export const edit = name => {
   resourceTable.menuClick("edit");
   cy.url().should("include", `/${name}`);
   // as soon as edit button is shown we can proceed
-  cy.get("#edit-yaml", { timeout: 20 * 1000 });
   cy.wait(["@graphql", "@graphql"], {
     timeout: 50 * 1000
   });
+  cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
 };
 
 export const editApplication = (name, data) => {
   edit(name);
   cy.log("Verify name and namespace fields are disabled");
   cy.get(".bx--detail-page-header-title-container", { timeout: 20 * 1000 });
-  cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
   cy
     .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
@@ -901,7 +921,22 @@ export const addNewSubscription = (name, data, clusterName) => {
   } else if (data.type === "helm") {
     createHelm(clusterName, data, true);
   }
+  if (data.new[0].deployment.existing) {
+    verifyYamlTemplate(Cypress.env("existingRule"));
+  }
+
   submitSave(true);
+};
+
+export const verifyYamlTemplate = text => {
+  cy.log(
+    "Verify that the existing placement selection is updated in yaml editor upon editing an application..."
+  );
+  cy.get("#template-editor-search-application").type(text);
+  cy
+    .get(".view-lines", { timeout: 20 * 1000 })
+    .invoke("text")
+    .should("contains", text);
 };
 
 export const verifyEditAfterDeleteSubscription = (name, data) => {

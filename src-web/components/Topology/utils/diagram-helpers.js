@@ -24,7 +24,8 @@ import {
   filterSubscriptionObject,
   getOnlineClusters,
   getClusterHost,
-  getPulseStatusForSubscription
+  getPulseStatusForSubscription,
+  getExistingResourceMapKey
 } from './diagram-helpers-utils'
 
 const metadataName = 'specs.raw.metadata.name'
@@ -897,10 +898,15 @@ export const setupResourceModel = (
         name = _.trimEnd(name, '-local')
       }
 
-      if (podHash && resourceMap[`pod-${name}`]) {
+      const existingResourceMapKey = getExistingResourceMapKey(
+        resourceMap,
+        name,
+        relatedKind
+      )
+      if (podHash && existingResourceMapKey) {
         //update resource map key with podHash if the resource has a pod hash ( deployment, replicaset, deploymentconig, etc )
         //this is going to be used to link pods with this parent resource
-        resourceMap[`pod-${podHash}`] = resourceMap[`pod-${name}`]
+        resourceMap[`pod-${podHash}`] = resourceMap[existingResourceMapKey]
       }
 
       let resourceMapForObject = resourceMap[name]

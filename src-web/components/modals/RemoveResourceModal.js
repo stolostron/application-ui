@@ -111,27 +111,18 @@ class RemoveResourceModal extends React.Component {
               }
             })
           ).then(() => {
-            const resourceKinds = [
-              { kind: 'channels', label: '[Channel]' },
-              { kind: 'rules', label: '[Rule]' }
-            ]
             // For each removable subscription, go through its channels and rules
             removableSubs.forEach(subscription => {
-              resourceKinds.forEach(res => {
-                _.map(_.get(subscription, res.kind, []), curr => {
-                  const currName = curr.metadata.name
-                  const currNamespace = curr.metadata.namespace
-                  subResources.push({
-                    id: `${res.kind}-${currNamespace}-${currName}`,
-                    name: currName,
-                    namespace: currNamespace,
-                    selfLink: curr.metadata.selfLink,
-                    label: `${currName} ${res.label}`,
-                    type:
-                      res.kind === 'rules'
-                        ? RESOURCE_TYPES.HCM_PLACEMENT_RULES
-                        : RESOURCE_TYPES.HCM_CHANNELS
-                  })
+              _.map(_.get(subscription, 'rules', []), curr => {
+                const currName = curr.metadata.name
+                const currNamespace = curr.metadata.namespace
+                subResources.push({
+                  id: `rules-${currNamespace}-${currName}`,
+                  name: currName,
+                  namespace: currNamespace,
+                  selfLink: curr.metadata.selfLink,
+                  label: `${currName} [Rule]`,
+                  type: RESOURCE_TYPES.HCM_PLACEMENT_RULES
                 })
               })
             })

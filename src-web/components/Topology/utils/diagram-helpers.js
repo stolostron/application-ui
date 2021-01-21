@@ -26,6 +26,7 @@ import {
   getClusterHost,
   getPulseStatusForSubscription
 } from './diagram-helpers-utils'
+import { getYamlEdit } from '../../../../lib/client/resource-helper'
 
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
@@ -531,6 +532,13 @@ export const computeNodeStatus = node => {
   return pulse
 }
 
+export const createSelfLink = node => {
+  const name = _.get(node, 'name')
+  const namespace = _.get(node, 'namespace')
+  const __typename = _.get(node, 'specs.raw.kind')
+  return getYamlEdit({ name, namespace, __typename })
+}
+
 export const createDeployableYamlLink = (node, details) => {
   //returns yaml for the deployable
   if (
@@ -542,7 +550,7 @@ export const createDeployableYamlLink = (node, details) => {
       'subscription'
     ])
   ) {
-    const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
+    const selfLink = createSelfLink(node)
     selfLink &&
       details.push({
         type: 'link',
@@ -1041,6 +1049,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
 
       //for service
       addNodeServiceLocation(node, clusterName, details)
+      const selfLink = createSelfLink(node)
 
       details.push({
         type: 'link',
@@ -1049,7 +1058,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
           data: {
             action: showResourceYaml,
             cluster: res.cluster,
-            selfLink: res.selfLink
+            selfLink: selfLink
           }
         },
         indent: true
@@ -1382,6 +1391,9 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
         })
 
       setClusterWindowStatus(windowStatusArray, subscription, details)
+      const name = _.get(subscription, 'name')
+      const namespace = _.get(subscription, 'namespace')
+      const __typename = _.capitalize(_.get(subscription, 'kind'))
 
       details.push({
         type: 'link',
@@ -1390,7 +1402,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
           data: {
             action: showResourceYaml,
             cluster: subscription.cluster,
-            selfLink: subscription.selfLink
+            selfLink: getYamlEdit({ name, namespace, __typename })
           }
         },
         indent: true
@@ -1728,7 +1740,7 @@ export const processResourceActionLink = resource => {
     targetLink = `/resources/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
     break
   case showResourceYaml:
-    targetLink = `/resources/${cluster}${selfLink}`
+    targetLink = `/resources?cluster=${cluster}&${selfLink}`
     break
   case 'show_search':
     targetLink = `/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`

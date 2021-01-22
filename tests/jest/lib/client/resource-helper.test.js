@@ -530,14 +530,6 @@ describe("getYamlEdit", () => {
   });
 });
 
-// describe("getEditLink", () => {
-//   it("returns an edit link using the item.selfLink", () => {
-//     expect(getEditLink({ selfLink: "/api/foo" })).toEqual(
-//       "/resources/local-cluster/api/foo"
-//     );
-//   });
-// });
-
 describe("createEditLink", () => {
   it("returns an a tag using the item.name and item.selfLink", () => {
     expect(

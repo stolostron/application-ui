@@ -769,15 +769,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
             timeout: 30 * 1000
           })
           .click();
-        cy
-          .get(".bx--list-box__label")
-          .invoke("text")
-          .then(stdout => {
-            Cypress.env("existingRule", stdout);
-            console.log(`inside: ${Cypress.env("existingRule")}`);
-          });
       });
-
       cy
         .get(uniqueClusterID, {
           timeout: 30 * 1000
@@ -922,7 +914,7 @@ export const addNewSubscription = (name, data, clusterName) => {
     createHelm(clusterName, data, true);
   }
   if (data.new[0].deployment.existing) {
-    verifyYamlTemplate(Cypress.env("existingRule"));
+    verifyYamlTemplate(`${name}-placement-1`);
   }
 
   submitSave(true);

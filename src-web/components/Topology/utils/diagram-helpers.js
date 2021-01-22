@@ -535,8 +535,9 @@ export const computeNodeStatus = node => {
 export const createSelfLink = node => {
   const name = _.get(node, 'name')
   const namespace = _.get(node, 'namespace')
-  const __typename = _.get(node, 'specs.raw.kind')
-  return getYamlEdit({ name, namespace, __typename })
+  const kind =
+    _.get(node, 'specs.raw.kind') || _.capitalize(_.get(node, 'kind'))
+  return getYamlEdit({ name, namespace, __typename: kind })
 }
 
 export const createDeployableYamlLink = (node, details) => {
@@ -1197,6 +1198,7 @@ export const setPodDeployStatus = (
             status: statusStr
           }
         ])
+        const selfLink = createSelfLink(pod)
         clusterDetails.push({
           type: 'link',
           value: {
@@ -1204,7 +1206,7 @@ export const setPodDeployStatus = (
             data: {
               action: showResourceYaml,
               cluster: pod.cluster,
-              selfLink: pod.selfLink
+              selfLink: selfLink
             }
           },
           indent: true
@@ -1391,9 +1393,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
         })
 
       setClusterWindowStatus(windowStatusArray, subscription, details)
-      const name = _.get(subscription, 'name')
-      const namespace = _.get(subscription, 'namespace')
-      const __typename = _.capitalize(_.get(subscription, 'kind'))
+      const selfLink = createSelfLink(subscription)
 
       details.push({
         type: 'link',
@@ -1402,7 +1402,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
           data: {
             action: showResourceYaml,
             cluster: subscription.cluster,
-            selfLink: getYamlEdit({ name, namespace, __typename })
+            selfLink: selfLink
           }
         },
         indent: true
@@ -1736,9 +1736,6 @@ export const processResourceActionLink = resource => {
   const { name, namespace, cluster, selfLink, kind } = resource
   const nsData = namespace ? ` namespace:${namespace}` : ''
   switch (linkPath) {
-  case 'show_pod_log':
-    targetLink = `/resources/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
-    break
   case showResourceYaml:
     targetLink = `/resources?cluster=${cluster}&${selfLink}`
     break

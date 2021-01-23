@@ -8,6 +8,54 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
+export const placementControlData = {
+  id: "placementrulecombo",
+  type: "singleselect",
+  groupControlData: [
+    {
+      id: "selectedRuleName",
+      type: "hidden"
+    },
+    {
+      id: "existingrule-checkbox",
+      controlId: "existingrule-checkbox",
+      type: "checkbox",
+      available: [],
+      groupControlData: [
+        {
+          id: "local-cluster-checkbox",
+          type: "checkbox"
+        },
+        {
+          id: "placementrulecombo",
+          type: "singleselect"
+        },
+        {
+          id: "online-cluster-only-checkbox",
+          type: "checkbox"
+        },
+        {
+          id: "selectedRuleName",
+          type: "hidden"
+        },
+        {
+          id: "clusterSelector",
+          controlId: "clusterSelector",
+          type: "hidden",
+          active: {}
+        }
+      ]
+    }
+  ]
+};
+
+export const emptyTemplateObject = {
+  Application: [],
+  Channel: [],
+  PlacementRule: [],
+  Subscription: []
+};
+
 export const templateObject = {
   Application: [
     {

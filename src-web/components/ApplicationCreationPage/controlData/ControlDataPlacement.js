@@ -215,13 +215,8 @@ export const reverseExistingRule = (control, templateObject) => {
       ({ id }) => id === 'selectedRuleName'
     )
     selectedRuleName.active = active.$v
-    const existingRuleCb = groupControlData.find(
-      ({ id }) => id === existingRuleCheckbox
-    )
-    existingRuleCb.active = true
-    return updateDisplayForPlacementControls(existingRuleCb, groupControlData)
   }
-  return null
+  return control
 }
 
 export const reverseOnline = (control, templateObject) => {

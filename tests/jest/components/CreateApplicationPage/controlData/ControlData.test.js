@@ -17,7 +17,7 @@ import {
   reverseExistingRule
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
 
-import { templateObject } from "./TestData";
+import { templateObject, placementControlData } from "./TestData";
 
 import {
   updateGitCredentials,
@@ -671,7 +671,7 @@ describe("setAvailableRules", () => {
     }
   };
   const result = {
-    active: true,
+    active: null,
     available: ["dev-clusters"],
     availableData: {
       "dev-clusters": { metadata: { name: "dev-clusters", namespace: "aa-ns" } }
@@ -1026,20 +1026,18 @@ describe("updatePlacementControls with controls", () => {
   });
 });
 
-describe("reverseExistingRule with no subscription and no app", () => {
-  const placementControl = {
-    id: "placementrulecombo",
-    type: "singleselect",
+describe("reverseExistingRule with template data", () => {
+  const result = {
+    active: "-placement-1",
     groupControlData: [
       {
+        active: "-placement-1",
         id: "selectedRuleName",
         type: "hidden"
       },
       {
-        id: "existingrule-checkbox",
-        controlId: "existingrule-checkbox",
-        type: "checkbox",
         available: [],
+        controlId: "existingrule-checkbox",
         groupControlData: [
           {
             id: "local-cluster-checkbox",
@@ -1058,56 +1056,21 @@ describe("reverseExistingRule with no subscription and no app", () => {
             type: "hidden"
           },
           {
-            id: "clusterSelector",
+            active: {},
             controlId: "clusterSelector",
+            id: "clusterSelector",
             type: "hidden"
           }
-        ]
+        ],
+        id: "existingrule-checkbox",
+        type: "checkbox"
       }
-    ]
+    ],
+    id: "placementrulecombo",
+    type: "singleselect"
   };
-
-  const result = [
-    {
-      id: "selectedRuleName",
-      type: "hidden",
-      active: "-placement-1"
-    },
-    {
-      id: "existingrule-checkbox",
-      controlId: "existingrule-checkbox",
-      type: "checkbox",
-      available: [],
-      groupControlData: [
-        {
-          id: "local-cluster-checkbox",
-          type: "hidden",
-          active: false
-        },
-        {
-          id: "placementrulecombo",
-          type: "singleselect"
-        },
-        {
-          id: "online-cluster-only-checkbox",
-          type: "hidden",
-          active: false
-        },
-        {
-          id: "selectedRuleName",
-          type: "hidden"
-        },
-        {
-          id: "clusterSelector",
-          controlId: "clusterSelector",
-          type: "hidden"
-        }
-      ],
-      active: true
-    }
-  ];
-  it("should return null", () => {
-    expect(reverseExistingRule(placementControl, templateObject)).toEqual(
+  it("should return non null", () => {
+    expect(reverseExistingRule(placementControlData, templateObject)).toEqual(
       result
     );
   });

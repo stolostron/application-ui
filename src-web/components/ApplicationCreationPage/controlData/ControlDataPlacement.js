@@ -119,6 +119,7 @@ export const updateDisplayForPlacementControls = (
       delete clusterSelectorControl.showData
     }
   })
+  return controlGlobal
 }
 
 export const updatePlacementControlsForLocal = placementControl => {
@@ -206,7 +207,7 @@ export const reverseExistingRule = (control, templateObject) => {
     templateObject,
     getSourcePath('Subscription[0].spec.placement.placementRef.name')
   )
-  if (active && control.active===undefined) {
+  if (active && control.active === undefined) {
     control.active = active.$v
 
     const { groupControlData } = control
@@ -218,8 +219,9 @@ export const reverseExistingRule = (control, templateObject) => {
       ({ id }) => id === existingRuleCheckbox
     )
     existingRuleCb.active = true
-    updateDisplayForPlacementControls(existingRuleCb, groupControlData)
+    return updateDisplayForPlacementControls(existingRuleCb, groupControlData)
   }
+  return null
 }
 
 export const reverseOnline = (control, templateObject) => {

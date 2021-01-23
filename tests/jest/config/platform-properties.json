@@ -100,6 +100,7 @@
   "creation.app.section.settings": "Settings: Specify application behavior",
   "creation.app.section.techPreview": "Tech preview",
   "creation.app.settings.existingRule": "Select an existing placement configuration",
+  "select.existing.placement.rule": "Select existing placement rule",
   "creation.app.settings.localClusters": "Deploy on local cluster",
   "creation.app.settings.onlineClusters": "Deploy to all online clusters and local cluster",
   "creation.app.settings.onlineClustersOnly": "Deploy to all online clusters",

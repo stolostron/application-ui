@@ -18,7 +18,9 @@ import {
   validateSubscriptionDetails,
   submitSave,
   selectTimeWindow,
-  validateDeployables
+  validateDeployables,
+  selectClusterDeployment,
+  verifyYamlTemplate
 } from "./common";
 
 import { channelsInformation, checkExistingUrls } from "./resources.js";
@@ -920,17 +922,6 @@ export const addNewSubscription = (name, data, clusterName) => {
   submitSave(true);
 };
 
-export const verifyYamlTemplate = text => {
-  cy.log(
-    "Verify that the existing placement selection is updated in yaml editor upon editing an application..."
-  );
-  cy.get("#template-editor-search-application").type(text);
-  cy
-    .get(".view-lines", { timeout: 20 * 1000 })
-    .invoke("text")
-    .should("contains", text);
-};
-
 export const verifyEditAfterDeleteSubscription = (name, data) => {
   if (data.config.length > 1) {
     edit(name);
@@ -946,6 +937,8 @@ export const verifyEditAfterDeleteSubscription = (name, data) => {
       `verify subscription cannot be deleted for ${name} since this application has only one subscription`
     );
     cy.get(".creation-view-controls-delete-button").should("not.exist");
+
+    verifyApplicationData(name, data, "delete");
   }
 };
 

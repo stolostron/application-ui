@@ -208,3 +208,19 @@ export const getPulseStatusForSubscription = node => {
 
   return pulse
 }
+
+export const getExistingResourceMapKey = (resourceMap, name, relatedKind) => {
+  const keys = Object.keys(resourceMap)
+
+  let i
+  for (i = 0; i < keys.length; i++) {
+    if (
+      keys[i].indexOf(name) > -1 &&
+      keys[i].indexOf(relatedKind.cluster) > -1
+    ) {
+      return keys[i]
+    }
+  }
+
+  return null
+}

@@ -402,6 +402,11 @@ export const setAvailableRules = (control, result) => {
     if (placementrules.length > 0) {
       control.availableData = _.keyBy(placementrules, 'metadata.name')
       control.available = Object.keys(control.availableData).sort()
+      //remove default placement rule name if this is not on the list of available placements
+      //in that case the name was set by the reverse function on control initialization
+      if (control.active && !control.available.includes(control.active)) {
+        control.active = null
+      }
     } else {
       control.availableData = []
     }

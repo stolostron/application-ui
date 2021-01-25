@@ -520,6 +520,7 @@ describe("getNodeDetails deployment node", () => {
     cluster: null,
     clusterName: null,
     type: "deployment",
+    apiVersion: "v1",
     clusters: {
       specs: {
         clusters: [
@@ -563,6 +564,7 @@ describe("getNodeDetails deployment node", () => {
             "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
           name: "mortgagedc-deploy-1-q9b5r",
           namespace: "default",
+          apiVersion: "v1",
           podIP: "10.128.2.80",
           restarts: 0,
           selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
@@ -574,6 +576,7 @@ describe("getNodeDetails deployment node", () => {
           hostIP: "1.1.1.1",
           image: "fxiang/mortgage:0.4.0",
           kind: "pod",
+          apiVersion: "v1",
           label:
             "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
           name: "mortgagedc-deploy-1-q9b5rr",
@@ -587,6 +590,7 @@ describe("getNodeDetails deployment node", () => {
       raw: {
         apiVersion: "apps/v1",
         kind: "Deployment",
+        apiVersion: "v1",
         metadata: {
           labels: { app: "mortgage-app-mortgage" },
           name: "mortgage-app-deploy",
@@ -635,12 +639,14 @@ describe("getNodeDetails deployment node", () => {
     topology: null,
     labels: null,
     __typename: "Resource",
+    apiVersion: "v1",
     layout: {
       hasPods: true,
       uid:
         "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
       type: "deployment",
       label: "mortgage-app-↵deploy",
+      apiVersion: "v1",
       compactLabel: "mortgage-app-↵deploy",
       nodeStatus: "",
       isDisabled: false,
@@ -681,6 +687,7 @@ describe("getNodeDetails deployment node", () => {
           name: "pod1",
           namespace: "default",
           type: "pod",
+          apiVersion: "v1",
           layout: {
             type: "layout1"
           },
@@ -718,7 +725,7 @@ describe("getNodeDetails deployment node", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "apps/v1"
+      value: "v1"
     },
     {
       indent: undefined,
@@ -1037,7 +1044,7 @@ describe("getNodeDetails placement rules node with error", () => {
     type: "placements",
     specs: {
       raw: {
-        apiVersion: "app.ibm.com/v1alpha1",
+        apiVersion: "apps.open-cluster-management.io/v1",
         kind: "PlacementRule",
         metadata: {
           labels: { app: "mortgage-app-mortgage" },
@@ -1085,7 +1092,7 @@ describe("getNodeDetails placement rules node with error", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "app.ibm.com/v1alpha1"
+      value: "apps.open-cluster-management.io/v1"
     },
     {
       indent: undefined,
@@ -1142,7 +1149,7 @@ describe("getNodeDetails placement rules node with success", () => {
     type: "placements",
     specs: {
       raw: {
-        apiVersion: "app.ibm.com/v1alpha1",
+        apiVersion: "apps.open-cluster-management.io/v1",
         kind: "PlacementRule",
         metadata: {
           labels: { app: "mortgage-app-mortgage" },
@@ -1193,7 +1200,7 @@ describe("getNodeDetails placement rules node with success", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "app.ibm.com/v1alpha1"
+      value: "apps.open-cluster-management.io/v1"
     },
     {
       indent: undefined,

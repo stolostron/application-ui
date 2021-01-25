@@ -785,6 +785,10 @@ describe("createDeployableYamlLink for application with selflink", () => {
   const node = {
     type: "application",
     id: "id",
+    name: "test",
+    namespace: "test-ns",
+    apiversion: "app.k8s.io/v1beta1",
+    kind: "Application",
     specs: {
       raw: {
         metadata: {
@@ -800,7 +804,8 @@ describe("createDeployableYamlLink for application with selflink", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local-cluster",
-          selfLink: "apiversion=v1&kind="
+          selfLink:
+            "apiversion=app.k8s.io%2Fv1beta1&kind=Application&name=test&namespace=test-ns"
         },
         label: "View Resource YAML"
       }
@@ -1040,6 +1045,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
     type: "subscription",
     name: "name",
     namespace: "ns",
+    apiversion: "apps.open-cluster-management.io/v1",
     specs: {
       subscriptionModel: {
         sub1: {
@@ -1049,12 +1055,16 @@ describe("setSubscriptionDeployStatus with time window ", () => {
         }
       },
       raw: {
+        apiversion: "apps.open-cluster-management.io/v1",
+        kind: "Subscription",
         status: {
           message: " local:Blocked, other: Active"
         },
         spec: {
           placement: {
-            local: true
+            local: true,
+            apiversion: "apps.open-cluster-management.io/v1",
+            kind: "Subscription"
           },
           timewindow: {
             location: "America/Toronto",
@@ -1101,8 +1111,10 @@ describe("setSubscriptionDeployStatus with time window ", () => {
 describe("setSubscriptionDeployStatus with local hub subscription error ", () => {
   const node = {
     type: "subscription",
+    kind: "Subscription",
     name: "name",
     namespace: "ns",
+    apiversion: "test",
     specs: {
       subscriptionModel: {
         sub1: {
@@ -1112,6 +1124,7 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
         }
       },
       raw: {
+        apiVersion: "test",
         spec: {
           placement: {
             local: true
@@ -3754,6 +3767,8 @@ describe("setPodDeployStatus - pod as desired with green filter", () => {
     },
     specs: {
       raw: {
+        kind: "Pod",
+        apiVersion: "v1",
         spec: {
           template: {
             spec: {

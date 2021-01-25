@@ -537,12 +537,9 @@ describe("createEditLink", () => {
         name: "foo",
         selfLink: "/api/bar",
         namespace: "boo",
-        id: "id",
-        specs: {
-          raw: {
-            kind: "Application"
-          }
-        }
+        apiVersion: "app.k8s.io/v1beta1",
+        kind: "Application",
+        id: "id"
       })
     ).toMatchSnapshot();
   });

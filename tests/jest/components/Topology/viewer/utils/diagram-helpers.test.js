@@ -752,13 +752,31 @@ describe("createDeployableYamlLink for application no selflink", () => {
   const details = [];
   const node = {
     type: "application",
+    name: "test-1",
+    namespace: "test-1-ns",
     id: "id",
     specs: {
-      row: 20
+      row: 20,
+      raw: {
+        kind: "Application"
+      }
     }
   };
   it("createDeployableYamlLink for application selflink", () => {
-    expect(createDeployableYamlLink(node, details)).toEqual([]);
+    expect(createDeployableYamlLink(node, details)).toEqual([
+      {
+        type: "link",
+        value: {
+          data: {
+            action: "show_resource_yaml",
+            cluster: "local-cluster",
+            selfLink:
+              "apiversion=app.k8s.io%2Fv1beta1&kind=Application&name=test-1&namespace=test-1-ns"
+          },
+          label: "View Resource YAML"
+        }
+      }
+    ]);
   });
 });
 
@@ -782,7 +800,7 @@ describe("createDeployableYamlLink for application with selflink", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local-cluster",
-          selfLink: "appLink"
+          selfLink: "apiversion=v1&kind="
         },
         label: "View Resource YAML"
       }
@@ -1067,7 +1085,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: undefined
+          selfLink: "apiversion=v1&kind="
         },
         label: "View Resource YAML"
       }
@@ -1115,7 +1133,7 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: undefined
+          selfLink: "apiversion=v1&kind="
         },
         label: "View Resource YAML"
       }
@@ -1154,7 +1172,7 @@ describe("setSubscriptionDeployStatus with hub error", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: undefined
+          selfLink: "apiversion=v1&kind="
         },
         label: "View Resource YAML"
       }
@@ -1234,7 +1252,7 @@ describe("setSubscriptionDeployStatus with error", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: undefined
+          selfLink: "apiversion=v1&kind="
         },
         label: "View Resource YAML"
       }
@@ -1278,7 +1296,7 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: undefined
+          selfLink: "apiversion=v1&kind="
         },
         label: "View Resource YAML"
       }
@@ -1326,7 +1344,7 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "remote1",
-          selfLink: undefined
+          selfLink: "apiversion=v1&kind="
         },
         label: "View Resource YAML"
       }
@@ -2891,7 +2909,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: undefined,
-          selfLink: undefined
+          selfLink: "apiversion=v1&kind=&name=bigjoblaunch&namespace=default"
         },
         label: "View Resource YAML"
       }
@@ -2961,7 +2979,8 @@ describe("setResourceDeployStatus 2 ", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          selfLink:
+            "apiversion=v1&kind=&name=mortgage-app-svc&namespace=default"
         },
         label: "View Resource YAML"
       }
@@ -3027,7 +3046,8 @@ describe("setResourceDeployStatus 2 with filter green", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          selfLink:
+            "apiversion=v1&kind=&name=mortgage-app-svc&namespace=default"
         },
         label: "View Resource YAML"
       }
@@ -3470,7 +3490,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          selfLink: "apiversion=v1&kind="
         },
         label: "View Pod YAML and Logs"
       }
@@ -3626,7 +3646,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          selfLink: "apiversion=v1&kind="
         },
         label: "View Pod YAML and Logs"
       }
@@ -3671,7 +3691,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          selfLink: "apiversion=v1&kind="
         },
         label: "View Pod YAML and Logs"
       }
@@ -3787,7 +3807,7 @@ describe("setPodDeployStatus - pod as desired with green filter", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          selfLink: "apiversion=v1&kind="
         },
         label: "View Pod YAML and Logs"
       }
@@ -4536,26 +4556,12 @@ describe("processResourceActionLink openRemoteresourceYaml", () => {
   const openRemoteresourceYaml = {
     action: "show_resource_yaml",
     cluster: "possiblereptile",
-    selfLink: "/api/v1/namespaces/open-cluster-management/services/frontend"
+    selfLink: "apiversion=abc&kind=Application&name=ui-git&namespace=ns-123"
   };
   const result =
-    "/resources/possiblereptile/api/v1/namespaces/open-cluster-management/services/frontend";
+    "/resources?cluster=possiblereptile&apiversion=abc&kind=Application&name=ui-git&namespace=ns-123";
   it("processResourceActionLink openRemoteresourceYaml", () => {
     expect(processResourceActionLink(openRemoteresourceYaml)).toEqual(result);
-  });
-});
-
-describe("processResourceActionLink openPodLog", () => {
-  const openPodLog = {
-    action: "show_pod_log",
-    cluster: "braveman",
-    name: "frontend-6cb7f8bd65-8d9x2",
-    namespace: "open-cluster-management"
-  };
-  const result =
-    "/resources/braveman/api/v1/namespaces/open-cluster-management/pods/frontend-6cb7f8bd65-8d9x2/logs";
-  it("processResourceActionLink openPodLog", () => {
-    expect(processResourceActionLink(openPodLog)).toEqual(result);
   });
 });
 

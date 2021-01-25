@@ -102,10 +102,12 @@ describe("getNodeDetails application node", () => {
     },
     name: "nginx-app-3",
     namespace: "ns-sub-1",
+    __typename: "PlacementRule",
     specs: {
       isDesign: true,
       row: 0,
       raw: {
+        kind: "PlacementRule",
         metadata: {
           namespace: "ns-sub-1"
         }
@@ -118,6 +120,18 @@ describe("getNodeDetails application node", () => {
   };
 
   const expectedResult = [
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local-cluster",
+          selfLink:
+            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=nginx-app-3&namespace=ns-sub-1"
+        },
+        label: "View Resource YAML"
+      }
+    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
     { type: "spacer" },
@@ -770,7 +784,8 @@ describe("getNodeDetails deployment node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
-          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r"
+          selfLink:
+            "apiversion=v1&kind=Pod&name=mortgagedc-deploy-1-q9b5r&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }
@@ -823,7 +838,8 @@ describe("getNodeDetails deployment node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
-          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r"
+          selfLink:
+            "apiversion=v1&kind=Pod&name=mortgagedc-deploy-1-q9b5rr&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }
@@ -1040,6 +1056,18 @@ describe("getNodeDetails placement rules node with error", () => {
   };
 
   const expectedResult = [
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local-cluster",
+          selfLink:
+            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=mortgage-rule"
+        },
+        label: "View Resource YAML"
+      }
+    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
     { type: "spacer" },
@@ -1136,6 +1164,18 @@ describe("getNodeDetails placement rules node with success", () => {
   };
 
   const expectedResult = [
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local-cluster",
+          selfLink:
+            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=mortgage-rule"
+        },
+        label: "View Resource YAML"
+      }
+    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
     { type: "spacer" },

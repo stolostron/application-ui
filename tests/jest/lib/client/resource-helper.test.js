@@ -5,6 +5,7 @@
 import lodash from "lodash";
 import moment from "moment";
 import {
+  RESOURCE_TYPES,
   transform,
   createEditLink,
   getLabelsToList,
@@ -13,6 +14,7 @@ import {
   getClusterCount,
   getClusterCountString,
   getEditLink,
+  getYamlEdit,
   getSearchLink,
   getShortDateTime
 } from "../../../../lib/client/resource-helper";
@@ -514,10 +516,16 @@ describe("getSearchLink", () => {
   });
 });
 
-describe("getEditLink", () => {
-  it("returns an edit link using the item.selfLink", () => {
-    expect(getEditLink({ selfLink: "/api/foo" })).toEqual(
-      "/resources/local-cluster/api/foo"
+describe("getYamlEdit", () => {
+  it("returns a url endpoint", () => {
+    expect(
+      getYamlEdit({
+        name: "test-1",
+        namespace: "test-1-ns",
+        __typename: "Application"
+      })
+    ).toEqual(
+      "apiversion=app.k8s.io%2Fv1beta1&kind=Application&name=test-1&namespace=test-1-ns"
     );
   });
 });
@@ -525,7 +533,17 @@ describe("getEditLink", () => {
 describe("createEditLink", () => {
   it("returns an a tag using the item.name and item.selfLink", () => {
     expect(
-      createEditLink({ name: "foo", selfLink: "/api/bar" })
+      createEditLink({
+        name: "foo",
+        selfLink: "/api/bar",
+        namespace: "boo",
+        id: "id",
+        specs: {
+          raw: {
+            kind: "Application"
+          }
+        }
+      })
     ).toMatchSnapshot();
   });
 });

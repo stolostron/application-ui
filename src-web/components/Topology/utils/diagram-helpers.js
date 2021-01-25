@@ -538,7 +538,9 @@ export const createSelfLink = node => {
   const namespace = _.get(node, 'namespace')
   const kind =
     _.get(node, 'specs.raw.kind') || _.capitalize(_.get(node, 'kind'))
-  return getYamlEdit({ name, namespace, __typename: kind })
+  const apiVersion =
+    _.get(node, 'specs.raw.apiVersion') || _.get(node, 'apiversion')
+  return getYamlEdit({ name, namespace, __typename: kind, apiVersion })
 }
 
 export const createDeployableYamlLink = (node, details) => {

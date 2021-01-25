@@ -202,6 +202,9 @@ export const updatePlacementControlsForAllOnline = placementControl => {
   return groupControlData
 }
 
+//when loading an existing app, pass to the control the placement value that is currently stored by the app
+//the reverse() function retrieves this the value out of the existing app template
+//the editor needs the existing value to know whether or not the user changed that value
 export const reverseExistingRule = (control, templateObject) => {
   const active = _.get(
     templateObject,

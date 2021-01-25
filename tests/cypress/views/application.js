@@ -18,7 +18,9 @@ import {
   validateSubscriptionDetails,
   submitSave,
   selectTimeWindow,
-  validateDeployables
+  validateDeployables,
+  selectClusterDeployment,
+  verifyYamlTemplate
 } from "./common";
 
 import { channelsInformation, checkExistingUrls } from "./resources.js";
@@ -722,115 +724,6 @@ export const selectPrePostTasks = (value, key) => {
   });
 };
 
-export const selectClusterDeployment = (deployment, clusterName, key) => {
-  cy.log(
-    `Execute selectClusterDeployment with options clusterName=${clusterName} deployment=${deployment} and key=${key}`
-  );
-  if (deployment) {
-    const { local, online, matchingLabel, existing } = deployment;
-    cy.log(
-      `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel} existing=${existing}`
-    );
-    const clusterDeploymentCss = indexedCSS(
-      {
-        localClusterID: "#local-cluster-checkbox",
-        onlineClusterID: "#online-cluster-only-checkbox",
-        uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
-        existingClusterID: "#existingrule-checkbox",
-        existingRuleComboID: "#placementrulecombo",
-        labelNameID: "#labelName-0-clusterSelector",
-        labelValueID: "#labelValue-0-clusterSelector"
-      },
-      key
-    );
-    const {
-      localClusterID,
-      onlineClusterID,
-      uniqueClusterID,
-      existingClusterID,
-      existingRuleComboID,
-      labelNameID,
-      labelValueID
-    } = clusterDeploymentCss;
-    cy.log(
-      `existingClusterID=${existingClusterID} existingRuleCombo=${existingRuleComboID} existing=${existing}`
-    );
-    if (existing) {
-      cy.log(`Select to deploy using existing placement ${existing}`);
-      cy
-        .get(existingClusterID, { timeout: 50 * 1000 })
-        .click({ force: true })
-        .trigger("mouseover", { force: true });
-
-      cy.get(existingRuleComboID).within($rules => {
-        cy.get("[type='button']").click();
-        cy
-          .get(".bx--list-box__menu-item:first-of-type", {
-            timeout: 30 * 1000
-          })
-          .click();
-        cy
-          .get(".bx--list-box__label")
-          .invoke("text")
-          .then(stdout => {
-            Cypress.env("existingRule", stdout);
-            console.log(`inside: ${Cypress.env("existingRule")}`);
-          });
-      });
-
-      cy
-        .get(uniqueClusterID, {
-          timeout: 30 * 1000
-        })
-        .should("be.disabled");
-      cy
-        .get(labelNameID, {
-          timeout: 30 * 1000
-        })
-        .should("be.disabled");
-      cy
-        .get(labelValueID, {
-          timeout: 30 * 1000
-        })
-        .should("be.disabled");
-    } else if (online) {
-      cy.log("Select to deploy to all online clusters including local cluster");
-      cy
-        .get(onlineClusterID, { timeout: 50 * 1000 })
-        .click({ force: true })
-        .trigger("mouseover", { force: true });
-    } else if (local) {
-      cy.log("Select to deploy to local cluster only");
-      cy
-        .get(localClusterID, { timeout: 50 * 1000 })
-        .click({ force: true })
-        .trigger("mouseover", { force: true });
-    } else {
-      cy.log(
-        "Select Deploy application resources only on clusters matching specified labels, which is the default"
-      );
-      cy.log(`deploying app to cluster-${clusterName}`),
-        selectMatchingLabel(clusterName, key);
-    }
-  } else {
-    throw new Error(
-      "no available imported OCP clusters to deploy applications"
-    );
-  }
-};
-
-export const selectMatchingLabel = (cluster, key) => {
-  const matchingLabelCSS = indexedCSS(
-    {
-      labelName: "#labelName-0-clusterSelector",
-      labelValue: "#labelValue-0-clusterSelector"
-    },
-    key
-  );
-  const { labelName, labelValue } = matchingLabelCSS;
-  cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
-};
-
 export const edit = name => {
   cy
     .intercept({
@@ -922,21 +815,10 @@ export const addNewSubscription = (name, data, clusterName) => {
     createHelm(clusterName, data, true);
   }
   if (data.new[0].deployment.existing) {
-    verifyYamlTemplate(Cypress.env("existingRule"));
+    verifyYamlTemplate(`${name}-placement-1`);
   }
 
   submitSave(true);
-};
-
-export const verifyYamlTemplate = text => {
-  cy.log(
-    "Verify that the existing placement selection is updated in yaml editor upon editing an application..."
-  );
-  cy.get("#template-editor-search-application").type(text);
-  cy
-    .get(".view-lines", { timeout: 20 * 1000 })
-    .invoke("text")
-    .should("contains", text);
 };
 
 export const verifyEditAfterDeleteSubscription = (name, data) => {
@@ -954,6 +836,8 @@ export const verifyEditAfterDeleteSubscription = (name, data) => {
       `verify subscription cannot be deleted for ${name} since this application has only one subscription`
     );
     cy.get(".creation-view-controls-delete-button").should("not.exist");
+
+    verifyApplicationData(name, data, "delete");
   }
 };
 

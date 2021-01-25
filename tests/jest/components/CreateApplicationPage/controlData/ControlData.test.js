@@ -14,7 +14,8 @@ import { updateNSControls } from "../../../../../src-web/components/ApplicationC
 
 import {
   updatePlacementControlsForLocal,
-  reverseExistingRule
+  reverseExistingRule,
+  updateDisplayForPlacementControls
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
 
 import { templateObject, placementControlData } from "./TestData";
@@ -1073,5 +1074,72 @@ describe("reverseExistingRule with template data", () => {
     expect(reverseExistingRule(placementControlData, templateObject)).toEqual(
       result
     );
+  });
+});
+
+describe("updateDisplayForPlacementControls", () => {
+  const existingRuleCb = placementControlData.groupControlData.find(
+    ({ id }) => id === "existingrule-checkbox"
+  );
+  const result = [
+    {
+      active: "-placement-1",
+      id: "selectedRuleName",
+      type: "hidden"
+    },
+    {
+      available: [],
+      controlId: "existingrule-checkbox",
+      groupControlData: [
+        {
+          active: false,
+          id: "local-cluster-checkbox",
+          type: "checkbox"
+        },
+        {
+          active: "",
+          id: "placementrulecombo",
+          type: "hidden"
+        },
+        {
+          active: false,
+          disabled: false,
+          id: "online-cluster-only-checkbox",
+          type: "checkbox"
+        },
+        {
+          active: "",
+          id: "selectedRuleName",
+          type: "hidden"
+        },
+        {
+          active: {
+            clusterLabelsList: [
+              {
+                id: 0,
+                labelName: "",
+                labelValue: "",
+                validValue: false
+              }
+            ],
+            clusterLabelsListID: 1,
+            mode: true
+          },
+          controlId: "clusterSelector",
+          id: "clusterSelector",
+          type: "custom"
+        }
+      ],
+      id: "existingrule-checkbox",
+      type: "checkbox"
+    }
+  ];
+  it("should return placement rule with selected placement rule combo hidden", () => {
+    expect(
+      updateDisplayForPlacementControls(
+        existingRuleCb,
+        placementControlData.groupControlData
+      )
+    ).toEqual(result);
   });
 });

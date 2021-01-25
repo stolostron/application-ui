@@ -127,7 +127,7 @@ describe("getNodeDetails application node", () => {
           action: "show_resource_yaml",
           cluster: "local-cluster",
           selfLink:
-            "apiversion=apps.open-cluster-management.io/v1&kind=PlacementRule&name=nginx-app-3&namespace=ns-sub-1"
+            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=nginx-app-3&namespace=ns-sub-1"
         },
         label: "View Resource YAML"
       }
@@ -1063,7 +1063,7 @@ describe("getNodeDetails placement rules node with error", () => {
           action: "show_resource_yaml",
           cluster: "local-cluster",
           selfLink:
-            "apiversion=apps.open-cluster-management.io/v1&kind=PlacementRule&name=mortgage-rule"
+            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=mortgage-rule"
         },
         label: "View Resource YAML"
       }
@@ -1171,7 +1171,7 @@ describe("getNodeDetails placement rules node with success", () => {
           action: "show_resource_yaml",
           cluster: "local-cluster",
           selfLink:
-            "apiversion=apps.open-cluster-management.io/v1&kind=PlacementRule&name=mortgage-rule"
+            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=mortgage-rule"
         },
         label: "View Resource YAML"
       }

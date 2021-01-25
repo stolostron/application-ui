@@ -525,7 +525,7 @@ describe("getYamlEdit", () => {
         __typename: "Application"
       })
     ).toEqual(
-      "apiversion=app.k8s.io/v1beta1&kind=Application&name=test-1&namespace=test-1-ns"
+      "apiversion=app.k8s.io%2Fv1beta1&kind=Application&name=test-1&namespace=test-1-ns"
     );
   });
 });

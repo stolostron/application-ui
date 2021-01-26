@@ -916,12 +916,18 @@ export const setupResourceModel = (
         //update resource map key with podHash if the resource has a pod hash ( deployment, replicaset, deploymentconig, etc )
         //this is going to be used to link pods with this parent resource
         resourceMap[`pod-${podHash}`] = resourceMap[existingResourceMapKey]
+      } else if (deployableName && existingResourceMapKey) {
+        resourceMap[`pod-deploymentconfig-${deployableName}`] =
+          resourceMap[existingResourceMapKey]
       }
 
       let resourceMapForObject = resourceMap[name]
       if (!resourceMapForObject && kind === 'pod' && podHash) {
         //just found a pod object, try to map it to the parent resource using the podHash
         resourceMapForObject = resourceMap[`pod-${podHash}`]
+      } else if (!resourceMapForObject && kind === 'pod' && deployableName) {
+        resourceMapForObject =
+          resourceMap[`pod-deploymentconfig-${deployableName}`]
       }
 
       if (resourceMapForObject) {

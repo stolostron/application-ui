@@ -279,7 +279,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                     >
                       <a
                         className="details-item-link"
-                        href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Aapplication%20name%3Asamplebook-gbapp%20namespace%3Asample\\"}"
+                        href="/search?filters={\\"textsearch\\":\\"kind%3Aapplication%20name%3Asamplebook-gbapp%20namespace%3Asample\\"}"
                         id="app-search-link"
                         rel="noreferrer"
                         target="_blank"

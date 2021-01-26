@@ -2,7 +2,7 @@
 
 exports[`createEditLink returns an a tag using the item.name and item.selfLink 1`] = `
 <a
-  href="/multicloud/details/local-cluster/api/bar"
+  href="/resources?cluster=local-cluster&apiversion=v1&name=foo&namespace=boo"
 >
   foo
 </a>
@@ -13,7 +13,7 @@ exports[`getClusterCount returns 'None' when there are no remote or local cluste
 exports[`getClusterCount returns a string that does not include 'local' when localDeployment is false, with link 1`] = `
 <a
   className="cluster-count-link"
-  href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp%20namespace%3Athenamespace%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+  href="/search?filters={\\"textsearch\\":\\"name%3Aapp%20namespace%3Athenamespace%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
 >
   {0} Remote
 </a>
@@ -24,7 +24,7 @@ exports[`getClusterCount returns a string that does not include 'remote' when th
 exports[`getClusterCount returns a string that includes both remote and local clusters when applicable, with link 1`] = `
 <a
   className="cluster-count-link"
-  href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Aapp%20namespace%3Athenamespace%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+  href="/search?filters={\\"textsearch\\":\\"name%3Aapp%20namespace%3Athenamespace%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
 >
   {0} Remote, 1 Local
 </a>

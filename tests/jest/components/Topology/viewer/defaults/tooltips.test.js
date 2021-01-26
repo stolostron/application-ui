@@ -6,7 +6,7 @@
 import { getNodeTooltips } from "../../../../../../src-web/components/Topology/viewer/defaults/tooltips";
 
 const locale = "en-US";
-const searchUrl = "https://localhost/multicloud/search";
+const searchUrl = "https://localhost/search";
 
 describe("getNodeTooltips PV orange", () => {
   const pvNodeOrange = {
@@ -22,7 +22,7 @@ describe("getNodeTooltips PV orange", () => {
     { name: "Persistent Volume", value: "mynode" },
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:default"}',
+        'https://localhost/search?filters={"textsearch":"kind:namespace name:default"}',
       name: "Namespace",
       value: "default"
     }
@@ -44,13 +44,13 @@ describe("getNodeTooltips PV", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:persistentvolume name:mynode namespace:default"}',
+        'https://localhost/search?filters={"textsearch":"kind:persistentvolume name:mynode namespace:default"}',
       name: "Persistent Volume",
       value: "mynode"
     },
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:default"}',
+        'https://localhost/search?filters={"textsearch":"kind:namespace name:default"}',
       name: "Namespace",
       value: "default"
     }
@@ -70,13 +70,13 @@ describe("getNodeTooltips PVC", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:persistentvolumeclaim name:foonode namespace:microservice"}',
+        'https://localhost/search?filters={"textsearch":"kind:persistentvolumeclaim name:foonode namespace:microservice"}',
       name: "Persistent Volume Claim",
       value: "foonode"
     },
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:microservice"}',
+        'https://localhost/search?filters={"textsearch":"kind:namespace name:microservice"}',
       name: "Namespace",
       value: "microservice"
     }
@@ -96,13 +96,13 @@ describe("getNodeTooltips placements", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:placementrule name:barnode namespace:bar"}',
+        'https://localhost/search?filters={"textsearch":"kind:placementrule name:barnode namespace:bar"}',
       name: "Placements",
       value: "barnode"
     },
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:bar"}',
+        'https://localhost/search?filters={"textsearch":"kind:namespace name:bar"}',
       name: "Namespace",
       value: "bar"
     }
@@ -123,7 +123,7 @@ describe("getNodeTooltips helmrelease", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:helmrelease nginx-ingress"}',
+        'https://localhost/search?filters={"textsearch":"kind:helmrelease nginx-ingress"}',
       name: "Helmrelease",
       value: "nginx-ingress"
     }
@@ -151,13 +151,13 @@ describe("getNodeTooltips cluster", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode"}',
+        'https://localhost/search?filters={"textsearch":"kind:cluster name:foonode"}',
       name: "Cluster",
       value: "foonode"
     },
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:foo"}',
+        'https://localhost/search?filters={"textsearch":"kind:namespace name:foo"}',
       name: "Namespace",
       value: "foo"
     }
@@ -184,13 +184,13 @@ describe("getNodeTooltips clusterList", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode,foonode2,foonode3"}',
+        'https://localhost/search?filters={"textsearch":"kind:cluster name:foonode,foonode2,foonode3"}',
       name: "Cluster",
       value: "foonode, foonode2, foonode3"
     },
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:foo"}',
+        'https://localhost/search?filters={"textsearch":"kind:namespace name:foo"}',
       name: "Namespace",
       value: "foo"
     }
@@ -228,13 +228,13 @@ describe("getNodeTooltips clusters", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode"}',
+        'https://localhost/search?filters={"textsearch":"kind:cluster name:foonode"}',
       name: "Cluster",
       value: "foonode"
     },
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:foo"}',
+        'https://localhost/search?filters={"textsearch":"kind:namespace name:foo"}',
       name: "Namespace",
       value: "foo"
     }
@@ -256,13 +256,13 @@ describe("getNodeTooltips default", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:application name:defaultnode namespace:defaultnode"}',
+        'https://localhost/search?filters={"textsearch":"kind:application name:defaultnode namespace:defaultnode"}',
       name: "Application",
       value: "defaultnode"
     },
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:defaultnode"}',
+        'https://localhost/search?filters={"textsearch":"kind:namespace name:defaultnode"}',
       name: "Namespace",
       value: "defaultnode"
     }

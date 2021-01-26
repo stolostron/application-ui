@@ -225,7 +225,7 @@ class ChannelControl extends React.Component {
     const { allChannels } = channelControl
     let { activeChannel } = channelControl
     const { fetchChannel } = this.state
-    activeChannel = fetchChannel || activeChannel
+    activeChannel = fetchChannel || activeChannel || allChannels[0]
 
     const channelMap = this.getSubChannels(allChannels)
 
@@ -342,8 +342,7 @@ class ChannelControl extends React.Component {
         // Update channel control variables for when refresh state is done
         let { activeChannel } = channelControl
         const { fetchChannel } = this.state
-        activeChannel = fetchChannel || activeChannel
-
+        activeChannel = fetchChannel || activeChannel || allChannels[0]
         const channelMap = this.getSubChannels(allChannels)
         showMainChannel = Object.keys(channelMap).length > 0
 

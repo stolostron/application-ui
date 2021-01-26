@@ -4,7 +4,6 @@
  ****************************************************************************** */
 
 /// <reference types="cypress" />
-
 import {
   pageLoader,
   resourceTable,
@@ -20,17 +19,24 @@ import {
   submitSave,
   selectTimeWindow,
   validateDeployables,
-  validateRbacAlert
+  validateRbacAlert,
+  selectClusterDeployment,
+  verifyYamlTemplate
 } from "./common";
 
 import { channelsInformation, checkExistingUrls } from "./resources.js";
 
-export const createApplication = (clusterName, data, type, namespace='default') => {
+export const createApplication = (
+  clusterName,
+  data,
+  type,
+  namespace = "default"
+) => {
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
   cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
   const { name, config } = data;
-  namespace == 'default' ? (namespace = `${name}-ns`): namespace
+  namespace == "default" ? (namespace = `${name}-ns`) : namespace;
   cy.log(`Test create application ${name}`);
   cy.get(".bx--detail-page-header-title-container").should("exist");
   cy.get("#name", { timeout: 50 * 1000 }).type(name);
@@ -87,7 +93,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   if (url.indexOf("github.com") >= 0) {
     cy.get(gitBranch, { timeout: 50 * 1000 }).click();
-    cy.contains(".bx--list-box__menu-item", branch).click();
+    cy.contains(".bx--list-box__menu-item", new RegExp(`^${branch}$`)).click();
   } else {
     cy
       .get(gitBranch, { timeout: 50 * 1000 })
@@ -98,7 +104,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   if (url.indexOf("github.com") >= 0) {
     cy.get(gitPath, { timeout: 20 * 1000 }).click();
-    cy.contains(".bx--list-box__menu-item", path).click();
+    cy.contains(".bx--list-box__menu-item", new RegExp(`^${path}$`)).click();
   } else {
     cy
       .get(gitPath, { timeout: 20 * 1000 })
@@ -111,6 +117,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
       .type(gitReconcileOption)
       .blur();
   }
+  selectPrePostTasks(value, key);
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
@@ -287,6 +294,7 @@ export const validateAdvancedTables = (
     const { local } = subscriptionItem.deployment;
     channelsInformation(name, key).then(({ channelName }) => {
       let resourceTypes = {
+        channels: channelName, //validate channels table first to allow subscriptions time to propagate
         subscriptions: `${name}-subscription-${parseInt(key) + 1}`,
         placementrules: `${name}-placement-${parseInt(key) + 1}`
       };
@@ -361,9 +369,12 @@ export const validateTopology = (
   );
 
   cy
-    .get(".pf-l-grid__item", { timeout: 120 * 1000 })
-    .last()
-    .contains(appDetails.clusterData);
+    .get("#app-search-link")
+    .invoke("attr", "href")
+    .should(
+      "include",
+      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${name}-ns"}`
+    );
 
   validateSubscriptionDetails(name, data, type, opType);
 
@@ -389,7 +400,7 @@ export const validateTopology = (
     //ignore as only one subscription exists
     if (opType !== "delete") {
       if (data.config.length > 1 || opType == "add") {
-        cy.get(".channelsCombo").within($channels => {
+        cy.get(".channelsCombo", { timeout: 60 * 1000 }).within($channels => {
           cy.get(".bx--list-box__field", { timeout: 20 * 1000 }).click();
           //select all subscriptions
           cy
@@ -397,6 +408,12 @@ export const validateTopology = (
             .first()
             .click();
         });
+
+        cy
+          .get(".pf-c-spinner", { timeout: 50 * 1000 })
+          .should("not.be.visible", {
+            timeout: 100 * 1000
+          });
       }
     }
     if (opType == "delete" && key == 0) {
@@ -415,6 +432,13 @@ export const validateTopology = (
             "cluster and placement nodes will not be created as the application is deployed locally"
           );
     }
+  }
+
+  if (opType == "create") {
+    cy
+      .get(".pf-l-grid__item", { timeout: 120 * 1000 })
+      .last()
+      .contains(appDetails.clusterData);
   }
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
@@ -622,8 +646,8 @@ export const deleteResourceUI = (name, type) => {
   );
 };
 
-export const deleteApplicationUI = (name,namespace='default') => {
-  namespace == 'default' ? (namespace = getNamespace(name)): namespace
+export const deleteApplicationUI = (name, namespace = "default") => {
+  namespace == "default" ? (namespace = getNamespace(name)) : namespace;
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
     const resourceKey = getResourceKey(name, namespace);
@@ -659,92 +683,59 @@ export const deleteApplicationUI = (name,namespace='default') => {
   }
 };
 
-export const selectClusterDeployment = (deployment, clusterName, key) => {
-  cy.log(
-    `Execute selectClusterDeployment with options clusterName=${clusterName} deployment=${deployment} and key=${key}`
-  );
-  if (deployment) {
-    const { local, online, matchingLabel, existing } = deployment;
-    cy.log(
-      `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel} existing=${existing}`
-    );
-    const clusterDeploymentCss = indexedCSS(
-      {
-        localClusterID: "#local-cluster-checkbox",
-        onlineClusterID: "#online-cluster-only-checkbox",
-        uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
-        existingClusterID: "#existingrule-checkbox",
-        existingRuleComboID: "#placementrulecombo"
-      },
-      key
-    );
-    const {
-      localClusterID,
-      onlineClusterID,
-      existingClusterID,
-      existingRuleComboID
-    } = clusterDeploymentCss;
-    cy.log(
-      `existingClusterID=${existingClusterID} existingRuleCombo=${existingRuleComboID} existing=${existing}`
-    );
-    if (existing) {
-      cy.log(`Select to deploy using existing placement ${existing}`);
-      cy
-        .get(existingClusterID, { timeout: 50 * 1000 })
-        .click({ force: true })
-        .trigger("mouseover", { force: true });
-
-      cy.get(existingRuleComboID).within($rules => {
-        cy.get("[type='button']").click();
-        cy
-          .get(".bx--list-box__menu-item:first-of-type", {
-            timeout: 30 * 1000
-          })
-          .click();
-      });
-    } else if (online) {
-      cy.log("Select to deploy to all online clusters including local cluster");
-      cy
-        .get(onlineClusterID, { timeout: 50 * 1000 })
-        .click({ force: true })
-        .trigger("mouseover", { force: true });
-    } else if (local) {
-      cy.log("Select to deploy to local cluster only");
-      cy
-        .get(localClusterID, { timeout: 50 * 1000 })
-        .click({ force: true })
-        .trigger("mouseover", { force: true });
-    } else {
-      cy.log(
-        "Select Deploy application resources only on clusters matching specified labels, which is the default"
-      );
-      cy.log(`deploying app to cluster-${clusterName}`),
-        selectMatchingLabel(clusterName, key);
-    }
-  } else {
-    throw new Error(
-      "no available imported OCP clusters to deploy applications"
-    );
+export const selectPrePostTasks = (value, key) => {
+  const { ansibleSecretName, ansibleHost, ansibleToken } = value;
+  if (!ansibleSecretName) {
+    cy.log("PrePost SecretName not available, ignore this section");
+    return;
   }
+  let prePostCss = {
+    gitAnsibleSecret: "#ansibleSecretName",
+    gitAnsibleHost: "#ansibleTowerHost",
+    gitAnsibleToken: "#ansibleTowerToken"
+  };
+  key == 0
+    ? prePostCss
+    : Object.keys(prePostCss).forEach(k => {
+        prePostCss[k] = prePostCss[k] + `grp${key}`;
+      });
+  const { gitAnsibleSecret, gitAnsibleHost, gitAnsibleToken } = prePostCss;
+
+  key == 0
+    ? cy.get("#perpostsection-set-pre-and-post-deployment-tasks").click()
+    : cy
+        .get(`#perpostsectiongrp${key}-set-pre-and-post-deployment-tasks`)
+        .click();
+
+  cy.get(gitAnsibleSecret, { timeout: 20 * 1000 }).click();
+
+  cy.get(".bx--list-box__menu", { timeout: 20 * 1000 }).then($listbox => {
+    if ($listbox.find(".bx--list-box__menu-item").length) {
+      // Ansible secret alraedy exists in this namespace
+      cy.contains(".bx--list-box__menu-item", ansibleSecretName).click();
+    } else {
+      // Create new ansible secret in this namespace
+      cy
+        .get(gitAnsibleSecret, { timeout: 20 * 1000 })
+        .type(ansibleSecretName, { timeout: 50 * 1000 })
+        .blur();
+
+      if (ansibleHost && ansibleToken) {
+        cy
+          .get(gitAnsibleHost, { timeout: 20 * 1000 })
+          .paste(ansibleHost, { log: false, timeout: 20 * 1000 });
+        cy
+          .get(gitAnsibleToken, { timeout: 20 * 1000 })
+          .paste(ansibleToken, { log: false, timeout: 20 * 1000 });
+      }
+    }
+  });
 };
 
-export const selectMatchingLabel = (cluster, key) => {
-  const matchingLabelCSS = indexedCSS(
-    {
-      labelName: "#labelName-0-clusterSelector",
-      labelValue: "#labelValue-0-clusterSelector"
-    },
-    key
-  );
-  const { labelName, labelValue } = matchingLabelCSS;
-  cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
-};
-
-export const edit = (name, namespace='default') => {
-  namespace == 'default' ? (namespace = getNamespace(name)): namespace
+export const edit = (name, namespace = "default") => {
+  namespace == "default" ? (namespace = getNamespace(name)) : namespace;
   cy
-    .server()
-    .route({
+    .intercept({
       method: "POST", // Route all POST requests
       url: `/multicloud/applications/graphql`
     })
@@ -756,17 +747,16 @@ export const edit = (name, namespace='default') => {
   resourceTable.menuClick("edit");
   cy.url().should("include", `/${name}`);
   // as soon as edit button is shown we can proceed
-  cy.get("#edit-yaml", { timeout: 20 * 1000 });
   cy.wait(["@graphql", "@graphql"], {
     timeout: 50 * 1000
   });
+  cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
 };
 
 export const editApplication = (name, data) => {
   edit(name);
   cy.log("Verify name and namespace fields are disabled");
   cy.get(".bx--detail-page-header-title-container", { timeout: 20 * 1000 });
-  cy.get("#edit-yaml", { timeout: 100 * 1000 }).click({ force: true });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
   cy
     .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
@@ -787,8 +777,8 @@ export const editApplication = (name, data) => {
   verifyApplicationData(name, data, "create");
 };
 
-export const deleteFirstSubscription = (name, data, namespace='default') => {
-  namespace == 'default' ? (namespace = `${name}-ns`): namespace
+export const deleteFirstSubscription = (name, data, namespace = "default") => {
+  namespace == "default" ? (namespace = `${name}-ns`) : namespace;
   edit(name, namespace);
   if (data.config.length > 1) {
     cy.log(`Verified that ${name} has ${data.config.length} subscriptions`);
@@ -823,9 +813,14 @@ export const deleteFirstSubscription = (name, data, namespace='default') => {
   }
 };
 
-export const addNewSubscription = (name, data, clusterName, namespace='default') => {
+export const addNewSubscription = (
+  name,
+  data,
+  clusterName,
+  namespace = "default"
+) => {
   cy.log(`Verify that a new subscription can be added to ${name} application`);
-  namespace == 'default' ? (namespace = `${name}-ns`): namespace
+  namespace == "default" ? (namespace = `${name}-ns`) : namespace;
   edit(name, namespace);
 
   if (data.type === "git") {
@@ -835,6 +830,10 @@ export const addNewSubscription = (name, data, clusterName, namespace='default')
   } else if (data.type === "helm") {
     createHelm(clusterName, data, true);
   }
+  if (data.new[0].deployment.existing) {
+    verifyYamlTemplate(`${name}-placement-1`);
+  }
+
   submitSave(true);
 };
 
@@ -853,6 +852,8 @@ export const verifyEditAfterDeleteSubscription = (name, data) => {
       `verify subscription cannot be deleted for ${name} since this application has only one subscription`
     );
     cy.get(".creation-view-controls-delete-button").should("not.exist");
+
+    verifyApplicationData(name, data, "delete");
   }
 };
 
@@ -884,16 +885,17 @@ export const verifyInsecureSkipAfterNewSubscription = name => {
   });
 };
 
-export const verifyUnauthorizedApplicationDelete = (name,namespace) => {
-
-  cy.visit("/multicloud/applications")
-  const resourceKey = getResourceKey(name,namespace);
+export const verifyUnauthorizedApplicationDelete = (name, namespace) => {
+  cy.visit("/multicloud/applications");
+  const resourceKey = getResourceKey(name, namespace);
   resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
   resourceTable.openRowMenu(name, resourceKey);
   resourceTable.menuClick("delete");
   validateRbacAlert();
   cy
-    .get("[data-ouia-component-id=OUIA-Generated-Button-danger-1]",{ timeout: 20 * 1000 })
+    .get("[data-ouia-component-id=OUIA-Generated-Button-danger-1]", {
+      timeout: 20 * 1000
+    })
     .contains("Delete application")
-    .should('be.disabled')
+    .should("be.disabled");
 };

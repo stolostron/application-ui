@@ -1,12 +1,13 @@
-FROM golang:1.14 as builder
+FROM registry.access.redhat.com/ubi8/go-toolset:latest as builder
 # get yq
 RUN go get github.com/mikefarah/yq
 
-FROM cypress/included:4.5.0 as production
+# FROM cypress/included:6.2.1 as production
+FROM quay.io/kcormier/cypress-included:latest as production
 
 USER root
 
-COPY --from=builder /go/bin/yq /usr/bin/yq
+COPY --from=builder /opt/app-root/src/go/bin/yq /usr/bin/yq
 
 WORKDIR /usr/src/app
 

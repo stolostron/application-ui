@@ -225,7 +225,7 @@ export default class NodeHelper {
     })
   };
 
-  createNodeShapes = (nodes, nodeDragHandler) => {
+  addElementsForNodes = (nodes, nodeDragHandler) => {
     nodes
       .append('use')
       .attrs(d => {
@@ -260,6 +260,35 @@ export default class NodeHelper {
             }
           })
       )
+  };
+
+  createNodeShapes = (nodes, nodeDragHandler) => {
+    this.addElementsForNodes(nodes, nodeDragHandler)
+
+    //Make sure the subscription node updates
+    const subscriptionNode = this.svg
+      .select('g.nodes')
+      .selectAll('g.node')
+      .filter(d => {
+        const { layout } = d
+        return (
+          layout.type === 'subscription' ||
+          layout.type === 'subscriptionblocked'
+        )
+      })
+    subscriptionNode.select('use.shape').remove()
+    const subscriptionNodeShape = subscriptionNode
+      .selectAll('use.shape')
+      .data(({ specs, layout }) => {
+        const data = {
+          specs: specs,
+          layout: layout
+        }
+        return [data]
+      })
+    const subscriptionNodeShapeEnter = subscriptionNodeShape.enter()
+
+    this.addElementsForNodes(subscriptionNodeShapeEnter, nodeDragHandler)
   };
 
   createTitles = (draw, nodes) => {

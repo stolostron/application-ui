@@ -691,7 +691,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                           >
                             <a
                               class="cluster-count-link"
-                              href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Amortgage-app%20namespace%3Adefault%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+                              href="/search?filters={\\"textsearch\\":\\"name%3Amortgage-app%20namespace%3Adefault%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
                             >
                               {0} Remote
                             </a>
@@ -1665,7 +1665,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                           >
                             <a
                               class="cluster-count-link"
-                              href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Amortgage-app%20namespace%3Adefault%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+                              href="/search?filters={\\"textsearch\\":\\"name%3Amortgage-app%20namespace%3Adefault%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
                             >
                               {0} Remote
                             </a>
@@ -2639,7 +2639,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                           >
                             <a
                               class="cluster-count-link"
-                              href="/multicloud/search?filters={\\"textsearch\\":\\"name%3Amortgage-app%20namespace%3Adefault%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
+                              href="/search?filters={\\"textsearch\\":\\"name%3Amortgage-app%20namespace%3Adefault%20kind%3Aapplication%20apigroup%3Aapp.k8s.io\\"}&showrelated=cluster"
                             >
                               {0} Remote
                             </a>

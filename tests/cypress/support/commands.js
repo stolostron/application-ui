@@ -29,10 +29,11 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-var apiUrl =
-  Cypress.env("OC_CLUSTER_URL") ||
-  Cypress.config().baseUrl.replace("multicloud-console.apps", "api") + ":6443";
-var authUrl = Cypress.config().baseUrl.replace(
+const apiUrl = !Cypress.config().baseUrl.includes("localhost")
+  ? Cypress.config().baseUrl.replace("multicloud-console.apps", "api") + ":6443"
+  : Cypress.env("OC_CLUSTER_URL");
+
+const authUrl = Cypress.config().baseUrl.replace(
   "multicloud-console",
   "oauth-openshift"
 );
@@ -252,6 +253,25 @@ Cypress.Commands.add("get$", selector => {
   return cy.wrap(Cypress.$(selector)).should("have.length.gte", 1);
 });
 
+Cypress.Commands.add("ocLogin", role => {
+  const { users } = Cypress.env("USER_CONFIG");
+  let user;
+  if (role !== "kubeadmin") {
+    cy.addUserIfNotCreatedBySuite();
+    user = Cypress.env("OC_CLUSTER_USER", users[role]);
+  }
+  const loginUserDetails = {
+    api: apiUrl,
+    user: user || "kubeadmin",
+    password: Cypress.env("OC_CLUSTER_PASS")
+  };
+  cy.exec(
+    `oc login --server=${loginUserDetails.api} -u ${loginUserDetails.user} -p ${
+      loginUserDetails.password
+    }`
+  );
+});
+
 Cypress.Commands.add("logInAsRole", role => {
   // reading users and idp  object values from users.yaml file
   const { users, idp } = Cypress.env("USER_CONFIG");
@@ -278,7 +298,7 @@ Cypress.Commands.add("logInAsRole", role => {
         }
       });
   };
-  cy.visit("/");
+  cy.visit("/multicloud/applications");
   cy.get("body").then(body => {
     if (body.find("#header").length !== 0) {
       cy.log(

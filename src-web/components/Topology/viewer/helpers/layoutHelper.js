@@ -11,7 +11,11 @@
 
 import cytoscape from 'cytoscape'
 import cycola from 'cytoscape-cola'
-import { getWrappedNodeLabel, getHashCode } from '../../utils/diagram-helpers'
+import {
+  getWrappedNodeLabel,
+  getHashCode,
+  computeNodeStatus
+} from '../../utils/diagram-helpers'
 import { layoutEdges, setDraggedLineData } from './linkHelper'
 import { getNodeGroups } from '../defaults/grouping'
 import FilterHelper from './filterHelper'
@@ -93,7 +97,7 @@ export default class LayoutHelper {
     //identify hubs
     this.markHubs(groups)
 
-    // set the node's description
+    // set the node's description and recompute node status
     nodes.forEach(node => {
       if (node.layout) {
         if (this.getNodeTitle) {
@@ -103,6 +107,7 @@ export default class LayoutHelper {
           node.layout.description = this.getNodeDescription(node)
         }
       }
+      computeNodeStatus(node)
     })
 
     // create cytoscape element collections

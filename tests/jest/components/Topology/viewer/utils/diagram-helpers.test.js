@@ -770,8 +770,7 @@ describe("createDeployableYamlLink for application no selflink", () => {
           data: {
             action: "show_resource_yaml",
             cluster: "local-cluster",
-            selfLink:
-              "apiversion=app.k8s.io%2Fv1beta1&kind=Application&name=test-1&namespace=test-1-ns"
+            selfLink: "kind=Application&name=test-1&namespace=test-1-ns"
           },
           label: "View Resource YAML"
         }
@@ -1095,7 +1094,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: "apiversion=v1&kind="
+          selfLink: "kind="
         },
         label: "View Resource YAML"
       }
@@ -1146,7 +1145,7 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: "apiversion=v1&kind="
+          selfLink: "kind="
         },
         label: "View Resource YAML"
       }
@@ -1185,7 +1184,7 @@ describe("setSubscriptionDeployStatus with hub error", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: "apiversion=v1&kind="
+          selfLink: "kind="
         },
         label: "View Resource YAML"
       }
@@ -1265,7 +1264,7 @@ describe("setSubscriptionDeployStatus with error", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: "apiversion=v1&kind="
+          selfLink: "kind="
         },
         label: "View Resource YAML"
       }
@@ -1309,7 +1308,7 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: "apiversion=v1&kind="
+          selfLink: "kind="
         },
         label: "View Resource YAML"
       }
@@ -1357,7 +1356,7 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "remote1",
-          selfLink: "apiversion=v1&kind="
+          selfLink: "kind="
         },
         label: "View Resource YAML"
       }
@@ -2922,7 +2921,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: undefined,
-          selfLink: "apiversion=v1&kind=&name=bigjoblaunch&namespace=default"
+          selfLink: "kind="
         },
         label: "View Resource YAML"
       }
@@ -2992,8 +2991,7 @@ describe("setResourceDeployStatus 2 ", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink:
-            "apiversion=v1&kind=&name=mortgage-app-svc&namespace=default"
+          selfLink: "kind=Service&name=mortgage-app-svc&namespace=default"
         },
         label: "View Resource YAML"
       }
@@ -3059,8 +3057,7 @@ describe("setResourceDeployStatus 2 with filter green", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink:
-            "apiversion=v1&kind=&name=mortgage-app-svc&namespace=default"
+          selfLink: "kind=Service&name=mortgage-app-svc&namespace=default"
         },
         label: "View Resource YAML"
       }
@@ -3503,7 +3500,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: "apiversion=v1&kind="
+          selfLink: "kind="
         },
         label: "View Pod YAML and Logs"
       }
@@ -3659,7 +3656,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: "apiversion=v1&kind="
+          selfLink: "kind="
         },
         label: "View Pod YAML and Logs"
       }
@@ -3704,7 +3701,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: "apiversion=v1&kind="
+          selfLink: "kind="
         },
         label: "View Pod YAML and Logs"
       }
@@ -3822,7 +3819,7 @@ describe("setPodDeployStatus - pod as desired with green filter", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: "apiversion=v1&kind="
+          selfLink: "kind="
         },
         label: "View Pod YAML and Logs"
       }

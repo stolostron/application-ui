@@ -126,8 +126,7 @@ describe("getNodeDetails application node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local-cluster",
-          selfLink:
-            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=nginx-app-3&namespace=ns-sub-1"
+          selfLink: "kind=PlacementRule&name=nginx-app-3&namespace=ns-sub-1"
         },
         label: "View Resource YAML"
       }
@@ -791,8 +790,7 @@ describe("getNodeDetails deployment node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
-          selfLink:
-            "apiversion=v1&kind=Pod&name=mortgagedc-deploy-1-q9b5r&namespace=default"
+          selfLink: "kind=Pod&name=mortgagedc-deploy-1-q9b5r&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }
@@ -845,8 +843,7 @@ describe("getNodeDetails deployment node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
-          selfLink:
-            "apiversion=v1&kind=Pod&name=mortgagedc-deploy-1-q9b5rr&namespace=default"
+          selfLink: "kind=Pod&name=mortgagedc-deploy-1-q9b5rr&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }

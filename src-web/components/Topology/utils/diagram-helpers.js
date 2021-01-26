@@ -538,8 +538,14 @@ export const createSelfLink = node => {
   const namespace = _.get(node, 'namespace')
   const kind =
     _.get(node, 'specs.raw.kind') || _.capitalize(_.get(node, 'kind'))
-  const apiVersion =
-    _.get(node, 'specs.raw.apiVersion') || _.get(node, 'apiversion')
+  const apigroup = _.get(node, 'apigroup')
+  const apiversion = _.get(node, 'apiversion')
+  let apiVersion = _.get(node, 'specs.raw.apiVersion')
+  if (!apiVersion) {
+    apiVersion =
+      apigroup && apiversion ? apigroup + '/' + apiversion : apiversion
+  }
+
   return getYamlEdit({ name, namespace, __typename: kind, apiVersion })
 }
 
@@ -1058,7 +1064,12 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
 
       //for service
       addNodeServiceLocation(node, clusterName, details)
-      const selfLink = createSelfLink(node)
+
+      // add apiversion if not exist
+      if (!res.apiversion) {
+        _.assign(res, { apiversion: _.get(node, 'specs.raw.apiVersion') })
+      }
+      const selfLink = createSelfLink(res)
 
       details.push({
         type: 'link',
@@ -1709,6 +1720,7 @@ export const addNodeInfoPerCluster = (
 ) => {
   const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
+
   const locationDetails = []
   const typeObject = resourceMap[`${resourceName}-${clusterName}`]
 

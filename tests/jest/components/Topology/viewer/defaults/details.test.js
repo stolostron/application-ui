@@ -38,8 +38,7 @@ describe("getNodeDetails no clusters or violation", () => {
         {
           name: "Cluster",
           value: "c1",
-          href:
-            "/multicloud/search?filters={'textsearch':'kind:cluster name:c1'}"
+          href: "/search?filters={'textsearch':'kind:cluster name:c1'}"
         }
       ],
       x: 76.5,
@@ -103,10 +102,12 @@ describe("getNodeDetails application node", () => {
     },
     name: "nginx-app-3",
     namespace: "ns-sub-1",
+    __typename: "PlacementRule",
     specs: {
       isDesign: true,
       row: 0,
       raw: {
+        kind: "PlacementRule",
         metadata: {
           namespace: "ns-sub-1"
         }
@@ -119,6 +120,18 @@ describe("getNodeDetails application node", () => {
   };
 
   const expectedResult = [
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local-cluster",
+          selfLink:
+            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=nginx-app-3&namespace=ns-sub-1"
+        },
+        label: "View Resource YAML"
+      }
+    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
     { type: "spacer" },
@@ -166,7 +179,7 @@ describe("getNodeDetails application node", () => {
         data: {
           action: "open_link",
           targetLink:
-            '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3Ans-sub-1%20cluster%3Alocal-cluster"}'
+            '/search?filters={"textsearch":"kind%3Asubscription%20namespace%3Ans-sub-1%20cluster%3Alocal-cluster"}'
         },
         id: "application--nginx-app-3-subscrSearch",
         label: "View all subscriptions in {0} namespace"
@@ -240,8 +253,7 @@ describe("getNodeDetails cluster node 1", () => {
         {
           name: "Cluster",
           value: "feng",
-          href:
-            "/multicloud/search?filters={'textsearch':'kind:cluster name:feng'}"
+          href: "/search?filters={'textsearch':'kind:cluster name:feng'}"
         }
       ],
       x: 76.5,
@@ -379,8 +391,7 @@ describe("getNodeDetails clusters node", () => {
         {
           name: "Cluster",
           value: "feng",
-          href:
-            "/multicloud/search?filters={'textsearch':'kind:cluster name:feng'}"
+          href: "/search?filters={'textsearch':'kind:cluster name:feng'}"
         }
       ],
       x: 76.5,
@@ -640,7 +651,7 @@ describe("getNodeDetails deployment node", () => {
           name: "Deployment",
           value: "mortgage-app-deploy",
           href:
-            "/multicloud/search?filters={'textsearch':'kind:deployment name:mortgage-app-deploy'}"
+            "/search?filters={'textsearch':'kind:deployment name:mortgage-app-deploy'}"
         }
       ],
       x: 151.5,
@@ -773,7 +784,8 @@ describe("getNodeDetails deployment node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
-          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r"
+          selfLink:
+            "apiversion=v1&kind=Pod&name=mortgagedc-deploy-1-q9b5r&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }
@@ -826,7 +838,8 @@ describe("getNodeDetails deployment node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
-          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r"
+          selfLink:
+            "apiversion=v1&kind=Pod&name=mortgagedc-deploy-1-q9b5rr&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }
@@ -1043,6 +1056,18 @@ describe("getNodeDetails placement rules node with error", () => {
   };
 
   const expectedResult = [
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local-cluster",
+          selfLink:
+            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=mortgage-rule"
+        },
+        label: "View Resource YAML"
+      }
+    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
     { type: "spacer" },
@@ -1139,6 +1164,18 @@ describe("getNodeDetails placement rules node with success", () => {
   };
 
   const expectedResult = [
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local-cluster",
+          selfLink:
+            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=mortgage-rule"
+        },
+        label: "View Resource YAML"
+      }
+    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
     { type: "spacer" },

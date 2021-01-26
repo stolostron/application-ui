@@ -34,6 +34,7 @@ export const GET_ACTION_MODAL_STATE = gql`
         list
       }
       data {
+        apiVersion
         name
         namespace
         clusterName

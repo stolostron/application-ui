@@ -5,6 +5,7 @@
 import lodash from "lodash";
 import moment from "moment";
 import {
+  RESOURCE_TYPES,
   transform,
   createEditLink,
   getLabelsToList,
@@ -13,6 +14,7 @@ import {
   getClusterCount,
   getClusterCountString,
   getEditLink,
+  getYamlEdit,
   getSearchLink,
   getShortDateTime
 } from "../../../../lib/client/resource-helper";
@@ -491,14 +493,14 @@ describe("getResourceType", () => {
 
 describe("getSearchLink", () => {
   it("returns a bare link to search with no properties", () => {
-    expect(getSearchLink()).toEqual("/multicloud/search");
+    expect(getSearchLink()).toEqual("/search");
   });
 
   it("handles multiple properties", () => {
     expect(
       getSearchLink({ properties: { name: "testing", kind: "resource" } })
     ).toEqual(
-      '/multicloud/search?filters={"textsearch":"name%3Atesting%20kind%3Aresource"}'
+      '/search?filters={"textsearch":"name%3Atesting%20kind%3Aresource"}'
     );
   });
 
@@ -509,15 +511,21 @@ describe("getSearchLink", () => {
         showRelated: "subscriptions"
       })
     ).toEqual(
-      '/multicloud/search?filters={"textsearch":"name%3Atesting"}&showrelated=subscriptions'
+      '/search?filters={"textsearch":"name%3Atesting"}&showrelated=subscriptions'
     );
   });
 });
 
-describe("getEditLink", () => {
-  it("returns an edit link using the item.selfLink", () => {
-    expect(getEditLink({ selfLink: "/api/foo" })).toEqual(
-      "/multicloud/details/local-cluster/api/foo"
+describe("getYamlEdit", () => {
+  it("returns a url endpoint", () => {
+    expect(
+      getYamlEdit({
+        name: "test-1",
+        namespace: "test-1-ns",
+        __typename: "Application"
+      })
+    ).toEqual(
+      "apiversion=app.k8s.io%2Fv1beta1&kind=Application&name=test-1&namespace=test-1-ns"
     );
   });
 });
@@ -525,7 +533,17 @@ describe("getEditLink", () => {
 describe("createEditLink", () => {
   it("returns an a tag using the item.name and item.selfLink", () => {
     expect(
-      createEditLink({ name: "foo", selfLink: "/api/bar" })
+      createEditLink({
+        name: "foo",
+        selfLink: "/api/bar",
+        namespace: "boo",
+        id: "id",
+        specs: {
+          raw: {
+            kind: "Application"
+          }
+        }
+      })
     ).toMatchSnapshot();
   });
 });

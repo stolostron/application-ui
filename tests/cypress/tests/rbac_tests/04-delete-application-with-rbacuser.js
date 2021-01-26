@@ -35,7 +35,8 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Delete application 
         application ${data.name} from UI`, () => {
          
           const namespace  = Cypress.env("managedCluster");
-          cy.logInAsRole(mngdTestViewRole)
+          // cy.logInAsRole(mngdTestViewRole)
+          cy.rbacSwitchUser(mngdTestViewRole)
           verifyUnauthorizedApplicationDelete(name,namespace)
 
         });
@@ -44,7 +45,8 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Delete application 
         it(`[P1][Sev1][app-lifecycle-ui][RBAC] Verify application ${
           data.name
         } is deleted from UI with role: ${mngdTestAdminRoles} `, () => {
-          cy.logInAsRole(mngdTestAdminRoles)
+          // cy.logInAsRole(mngdTestAdminRoles)
+          cy.rbacSwitchUser(mngdTestAdminRoles)
           const namespace  = Cypress.env("managedCluster");
           deleteApplicationUI(data.name,namespace);
         });

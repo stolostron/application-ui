@@ -24,8 +24,10 @@ import {
   filterSubscriptionObject,
   getOnlineClusters,
   getClusterHost,
-  getPulseStatusForSubscription
+  getPulseStatusForSubscription,
+  getExistingResourceMapKey
 } from './diagram-helpers-utils'
+import { getYamlEdit } from '../../../../lib/client/resource-helper'
 
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
@@ -531,6 +533,14 @@ export const computeNodeStatus = node => {
   return pulse
 }
 
+export const createSelfLink = node => {
+  const name = _.get(node, 'name')
+  const namespace = _.get(node, 'namespace')
+  const kind =
+    _.get(node, 'specs.raw.kind') || _.capitalize(_.get(node, 'kind'))
+  return getYamlEdit({ name, namespace, __typename: kind })
+}
+
 export const createDeployableYamlLink = (node, details) => {
   //returns yaml for the deployable
   if (
@@ -542,7 +552,7 @@ export const createDeployableYamlLink = (node, details) => {
       'subscription'
     ])
   ) {
-    const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
+    const selfLink = createSelfLink(node)
     selfLink &&
       details.push({
         type: 'link',
@@ -897,10 +907,15 @@ export const setupResourceModel = (
         name = _.trimEnd(name, '-local')
       }
 
-      if (podHash && resourceMap[`pod-${name}`]) {
+      const existingResourceMapKey = getExistingResourceMapKey(
+        resourceMap,
+        name,
+        relatedKind
+      )
+      if (podHash && existingResourceMapKey) {
         //update resource map key with podHash if the resource has a pod hash ( deployment, replicaset, deploymentconig, etc )
         //this is going to be used to link pods with this parent resource
-        resourceMap[`pod-${podHash}`] = resourceMap[`pod-${name}`]
+        resourceMap[`pod-${podHash}`] = resourceMap[existingResourceMapKey]
       }
 
       let resourceMapForObject = resourceMap[name]
@@ -1041,6 +1056,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
 
       //for service
       addNodeServiceLocation(node, clusterName, details)
+      const selfLink = createSelfLink(node)
 
       details.push({
         type: 'link',
@@ -1049,7 +1065,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
           data: {
             action: showResourceYaml,
             cluster: res.cluster,
-            selfLink: res.selfLink
+            selfLink: selfLink
           }
         },
         indent: true
@@ -1188,6 +1204,7 @@ export const setPodDeployStatus = (
             status: statusStr
           }
         ])
+        const selfLink = createSelfLink(pod)
         clusterDetails.push({
           type: 'link',
           value: {
@@ -1195,7 +1212,7 @@ export const setPodDeployStatus = (
             data: {
               action: showResourceYaml,
               cluster: pod.cluster,
-              selfLink: pod.selfLink
+              selfLink: selfLink
             }
           },
           indent: true
@@ -1382,6 +1399,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
         })
 
       setClusterWindowStatus(windowStatusArray, subscription, details)
+      const selfLink = createSelfLink(subscription)
 
       details.push({
         type: 'link',
@@ -1390,7 +1408,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
           data: {
             action: showResourceYaml,
             cluster: subscription.cluster,
-            selfLink: subscription.selfLink
+            selfLink: selfLink
           }
         },
         indent: true
@@ -1415,7 +1433,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
       value: msgs.get('resource.subscription.placed.error', [node.namespace]),
       status: failureStatus
     })
-    const ruleSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3A${
+    const ruleSearchLink = `/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3A${
       node.namespace
     }%20cluster%3A${LOCAL_HUB_NAME}"}`
     details.push({
@@ -1483,7 +1501,7 @@ export const setApplicationDeployStatus = (node, details) => {
       value: msgs.get('resource.application.error.msg', [appNS]),
       status: failureStatus
     })
-    const subscrSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
+    const subscrSearchLink = `/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
     details.push({
       type: 'link',
       value: {
@@ -1724,14 +1742,11 @@ export const processResourceActionLink = resource => {
   const { name, namespace, cluster, selfLink, kind } = resource
   const nsData = namespace ? ` namespace:${namespace}` : ''
   switch (linkPath) {
-  case 'show_pod_log':
-    targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
-    break
   case showResourceYaml:
-    targetLink = `/multicloud/details/${cluster}${selfLink}`
+    targetLink = `/resources?cluster=${cluster}&${selfLink}`
     break
   case 'show_search':
-    targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`
+    targetLink = `/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`
     break
   default:
     targetLink = R.pathOr('', ['targetLink'])(resource)

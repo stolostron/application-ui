@@ -48,7 +48,8 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Application Creatio
         } can be created from resource type ${type} by role: ${mngdTestAdminRoles}`, () => {
           const clusterName = Cypress.env("managedCluster");
           const namespace = clusterName
-          cy.logInAsRole(mngdTestAdminRoles)
+          // cy.logInAsRole(mngdTestAdminRoles)
+          cy.rbacSwitchUser(mngdTestAdminRoles)
           createApplication(clusterName, data, type, namespace);
         });
 
@@ -82,14 +83,21 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Application Creatio
       }
     })
   }}
+
 // }
 
   it(`Verify a user with view only role: ${viewRole} cannot create application`,() => {
-    cy.logInAsRole(viewRole)
+    // cy.logInAsRole(viewRole)
+    cy.rbacSwitchUser(viewRole)
     cy.visit("/multicloud/applications")
+    const alertMessage =
+      "You are not authorized to complete this action. See "+
+      "your cluster administrator for role-based "+
+      "access control information."
     cy
-      .get("[data-test-create-application=false]",{ timeout: 50 * 1000 })
-      .should('be.disabled')
+      .get('#definition-tooltip-4',{ timeout: 50 * 1000 })
+      .invoke("text")
+      .should("eq", alertMessage);
   })
 }
   else{

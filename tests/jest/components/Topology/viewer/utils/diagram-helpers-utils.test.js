@@ -12,7 +12,8 @@ import {
   getActiveFilterCodes,
   filterSubscriptionObject,
   getClusterHost,
-  getPulseStatusForSubscription
+  getPulseStatusForSubscription,
+  getExistingResourceMapKey
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
 
 describe("getClusterName node id undefined", () => {
@@ -315,5 +316,45 @@ describe("getPulseStatusForSubscription no subscriptionItem.status", () => {
 
   it("getPulseStatusForSubscription no subscriptionItem.status", () => {
     expect(getPulseStatusForSubscription(node)).toEqual("yellow");
+  });
+});
+
+describe("getExistingResourceMapKey", () => {
+  const resourceMap = {
+    "pod-replicaset-nginx-placement-cluster1, cluster2": "test"
+  };
+
+  const relatedKind = {
+    cluster: "cluster1"
+  };
+
+  const relatedKindBadCluster = {
+    cluster: "cluster3"
+  };
+
+  it("should get key from resourceMap", () => {
+    expect(
+      getExistingResourceMapKey(
+        resourceMap,
+        "replicaset-nginx-placement",
+        relatedKind
+      )
+    ).toEqual("pod-replicaset-nginx-placement-cluster1, cluster2");
+  });
+
+  it("should not get key from resourceMap", () => {
+    expect(
+      getExistingResourceMapKey(resourceMap, "non-existent-name", relatedKind)
+    ).toEqual(null);
+  });
+
+  it("should not get key from resourceMap - non-existent cluster", () => {
+    expect(
+      getExistingResourceMapKey(
+        resourceMap,
+        "replicaset-nginx-placement",
+        relatedKindBadCluster
+      )
+    ).toEqual(null);
   });
 });

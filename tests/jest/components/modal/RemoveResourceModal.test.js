@@ -57,6 +57,78 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
       };
       return Promise.resolve(childAppData);
     }
+    if (name === "helloworld-simple") {
+      const simpleAppData = {
+        data: {
+          application: {
+            metadata: {
+              annotations: {},
+              name: "helloworld-simple",
+              namespace: "helloworld-simple-ns",
+              uid: "7e2f0485-9109-4d39-b25b-529c57c20b0a",
+              __typename: "Metadata"
+            },
+            name: "helloworld-simple",
+            namespace: "helloworld-simple-ns",
+            app: {
+              apiVersion: "app.k8s.io/v1beta1",
+              kind: "Application",
+              metadata: {
+                annotations: {},
+                name: "helloworld-simple",
+                namespace: "helloworld-simple-ns",
+                uid: "7e2f0485-9109-4d39-b25b-529c57c20b0a"
+              }
+            },
+            subscriptions: [
+              {
+                apiVersion: "apps.open-cluster-management.io/v1",
+                kind: "Subscription",
+                metadata: {
+                  name: "helloworld-simple-subscription-1",
+                  namespace: "helloworld-simple-ns",
+                  uid: "fd3dfc08-5d41-4449-b450-527bebc2509d"
+                },
+                spec: {
+                  channel:
+                    "ggithubcom-fxiang1-app-samples-ns/ggithubcom-fxiang1-app-samples",
+                  placement: {
+                    placementRef: {
+                      kind: "PlacementRule",
+                      name: "helloworld-simple-placement-1"
+                    }
+                  }
+                },
+                channels: [
+                  {
+                    apiVersion: "apps.open-cluster-management.io/v1",
+                    kind: "Channel",
+                    metadata: {
+                      name: "ggithubcom-fxiang1-app-samples",
+                      namespace: "ggithubcom-fxiang1-app-samples-ns",
+                      uid: "5ffea57f-a6a0-4a05-9606-3f1bb75ccdab"
+                    }
+                  }
+                ],
+                rules: [
+                  {
+                    apiVersion: "apps.open-cluster-management.io/v1",
+                    kind: "PlacementRule",
+                    metadata: {
+                      name: "helloworld-simple-placement-1",
+                      namespace: "helloworld-simple-ns",
+                      uid: "7cf37292-8c27-4231-89da-f04c5ed78b8c"
+                    }
+                  }
+                ]
+              }
+            ],
+            __typename: "Application"
+          }
+        }
+      };
+      return Promise.resolve(simpleAppData);
+    }
     if (name === "multiLevelApp") {
       const multiLevelAppData = {
         data: {
@@ -167,8 +239,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                 }
               ]
             }
-          },
-          subscriptions: []
+          }
         }
       },
       loading: false,
@@ -182,6 +253,140 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
     const resourceName = variables.input[0].filters.filter(
       f => f.property === "name"
     )[0].values[0];
+    if (resourceName.includes("helloworld-simple-subscription-1")) {
+      const simpleSubRelated1 = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  _uid: "local-cluster/fd3dfc08-5d41-4449-b450-527bebc2509d",
+                  apigroup: "apps.open-cluster-management.io",
+                  namespace: "helloworld-simple-ns",
+                  _rbac:
+                    "helloworld-simple-ns_apps.open-cluster-management.io_subscriptions",
+                  channel:
+                    "ggithubcom-fxiang1-app-samples-ns/ggithubcom-fxiang1-app-samples",
+                  _gitbranch: "master",
+                  localPlacement: "false",
+                  _hubClusterResource: "true",
+                  label: "app=helloworld-simple",
+                  cluster: "local-cluster",
+                  kind: "subscription",
+                  name: "helloworld-simple-subscription-1",
+                  _gitpath: "helloworld",
+                  apiversion: "v1"
+                }
+              ],
+              related: [
+                {
+                  kind: "application",
+                  items: [
+                    {
+                      _uid:
+                        "local-cluster/7e2f0485-9109-4d39-b25b-529c57c20b0a",
+                      namespace: "helloworld-simple-ns",
+                      cluster: "local-cluster",
+                      apigroup: "app.k8s.io",
+                      kind: "application",
+                      name: "helloworld-simple",
+                      _rbac: "helloworld-simple-ns_app.k8s.io_applications",
+                      apiversion: "v1beta1",
+                      _hubClusterResource: "true"
+                    },
+                    {
+                      _uid:
+                        "local-cluster/7e2f0485-9109-4d39-b25b-529c57c20b0a",
+                      namespace: "helloworld-simple-ns",
+                      cluster: "local-cluster",
+                      apigroup: "app.k8s.io",
+                      kind: "application",
+                      name: "helloworld-simple",
+                      _rbac: "helloworld-simple-ns_app.k8s.io_applications",
+                      apiversion: "v1beta1",
+                      _hubClusterResource: "true"
+                    }
+                  ],
+                  __typename: "SearchRelatedResult"
+                },
+                {
+                  kind: "subscription",
+                  items: [
+                    {
+                      _uid:
+                        "local-cluster/ad656683-b320-424a-aaf7-acaf2b64ba44",
+                      channel:
+                        "ggithubcom-fxiang1-app-samples-ns/ggithubcom-fxiang1-app-samples",
+                      _gitpath: "helloworld",
+                      _hostingDeployable:
+                        "local-cluster/helloworld-simple-subscription-1-deployable-kkgkh",
+                      _hubClusterResource: "true",
+                      _gitbranch: "master",
+                      _hostingSubscription:
+                        "helloworld-simple-ns/helloworld-simple-subscription-1",
+                      timeWindow: "none",
+                      _rbac:
+                        "helloworld-simple-ns_apps.open-cluster-management.io_subscriptions",
+                      apigroup: "apps.open-cluster-management.io",
+                      label:
+                        "app=helloworld-simple; hosting-deployable-name=helloworld-simple-subscription-1-deployable; subscription-pause=false",
+                      namespace: "helloworld-simple-ns",
+                      name: "helloworld-simple-subscription-1-local",
+                      apiversion: "v1",
+                      kind: "subscription",
+                      localPlacement: "true",
+                      cluster: "local-cluster"
+                    }
+                  ],
+                  __typename: "SearchRelatedResult"
+                },
+                {
+                  kind: "placementrule",
+                  items: [
+                    {
+                      _uid:
+                        "local-cluster/7cf37292-8c27-4231-89da-f04c5ed78b8c",
+                      _hubClusterResource: "true",
+                      kind: "placementrule",
+                      name: "helloworld-simple-placement-1",
+                      apigroup: "apps.open-cluster-management.io",
+                      namespace: "helloworld-simple-ns",
+                      cluster: "local-cluster",
+                      apiversion: "v1",
+                      label: "app=helloworld-simple",
+                      _rbac:
+                        "helloworld-simple-ns_apps.open-cluster-management.io_placementrules"
+                    }
+                  ],
+                  __typename: "SearchRelatedResult"
+                },
+                {
+                  kind: "channel",
+                  items: [
+                    {
+                      _uid:
+                        "local-cluster/5ffea57f-a6a0-4a05-9606-3f1bb75ccdab",
+                      type: "Git",
+                      _hubClusterResource: "true",
+                      apigroup: "apps.open-cluster-management.io",
+                      namespace: "ggithubcom-fxiang1-app-samples-ns",
+                      pathname: "https://github.com/fxiang1/app-samples.git",
+                      cluster: "local-cluster",
+                      kind: "channel",
+                      name: "ggithubcom-fxiang1-app-samples",
+                      _rbac:
+                        "ggithubcom-fxiang1-app-samples-ns_apps.open-cluster-management.io_channels",
+                      apiversion: "v1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      };
+      return Promise.resolve(simpleSubRelated1);
+    }
     if (resourceName.includes("subscription-1")) {
       const subRelated1 = {
         data: {
@@ -372,6 +577,56 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
       };
       return Promise.resolve(subRelated2);
     }
+    if (resourceName.includes("helloworld-simple-placement-1")) {
+      const simplePRRelated1 = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  _uid: "local-cluster/7cf37292-8c27-4231-89da-f04c5ed78b8c",
+                  _hubClusterResource: "true",
+                  kind: "placementrule",
+                  name: "helloworld-simple-placement-1",
+                  apigroup: "apps.open-cluster-management.io",
+                  namespace: "helloworld-simple-ns",
+                  cluster: "local-cluster",
+                  apiversion: "v1",
+                  _rbac:
+                    "helloworld-simple-ns_apps.open-cluster-management.io_placementrules"
+                }
+              ],
+              related: [
+                {
+                  kind: "subscription",
+                  items: [
+                    {
+                      _uid:
+                        "local-cluster/fd3dfc08-5d41-4449-b450-527bebc2509d",
+                      apigroup: "apps.open-cluster-management.io",
+                      namespace: "helloworld-simple-ns",
+                      _rbac:
+                        "helloworld-simple-ns_apps.open-cluster-management.io_subscriptions",
+                      channel:
+                        "ggithubcom-fxiang1-app-samples-ns/ggithubcom-fxiang1-app-samples",
+                      _gitbranch: "master",
+                      localPlacement: "false",
+                      _hubClusterResource: "true",
+                      cluster: "local-cluster",
+                      kind: "subscription",
+                      name: "helloworld-simple-subscription-1",
+                      _gitpath: "helloworld",
+                      apiversion: "v1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      };
+      return Promise.resolve(simplePRRelated1);
+    }
     if (resourceName.includes("placement-1")) {
       const prRelated1 = {
         data: {
@@ -512,6 +767,7 @@ import {
   resourceModalData,
   resourceModalDataDel2,
   resourceModalDataChildApp,
+  resourceModalDataSimpleApp,
   resourceModalDataMultiLevelApp,
   resourceModalLabels,
   resourceModalLabelsDummy
@@ -533,6 +789,23 @@ describe("RemoveResourceModal test", () => {
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))
   );
+
+  it("renders as expected without data", () => {
+    const component = mount(
+      <BrowserRouter>
+        <RemoveResourceModal
+          handleClose={handleModalClose}
+          handleSubmit={handleModalSubmit}
+          label={resourceModalLabels}
+          locale={"en"}
+          open={true}
+          resourceType={resourceType}
+          store={store}
+        />
+      </BrowserRouter>
+    );
+    expect(toJson(component)).toMatchSnapshot();
+  });
 
   it("renders as expected with mocked apollo client data", () => {
     const component = mount(
@@ -659,6 +932,24 @@ describe("RemoveResourceModal test", () => {
       <BrowserRouter>
         <RemoveResourceModal
           data={resourceModalDataMultiLevelApp}
+          handleClose={handleModalClose}
+          handleSubmit={handleModalSubmit}
+          label={resourceModalLabels}
+          locale={"en"}
+          open={true}
+          resourceType={resourceType}
+          store={store}
+        />
+      </BrowserRouter>
+    );
+    expect(toJson(component)).toMatchSnapshot();
+  });
+
+  it("renders as expected for simple application with removable subscription and placementrule", () => {
+    const component = mount(
+      <BrowserRouter>
+        <RemoveResourceModal
+          data={resourceModalDataSimpleApp}
           handleClose={handleModalClose}
           handleSubmit={handleModalSubmit}
           label={resourceModalLabels}

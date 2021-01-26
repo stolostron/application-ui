@@ -40,7 +40,8 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Validate view appli
         it(`[P1][Sev1][app-lifecycle-ui] Verify  application ${
           data.name
         } is displayed on UI and viewable by role: ${mngdTestRoles[loginrole]}`, () => {
-            cy.logInAsRole(mngdTestRoles[loginrole])
+            // cy.logInAsRole(mngdTestRoles[loginrole])
+            cy.rbacSwitchUser(mngdTestRoles[loginrole])
         cy.visit("/multicloud/applications")
         const selectorkey = `${Cypress.env("managedCluster")}/${name}`
         resourceTable.rowShouldExist(data.name,selectorkey)

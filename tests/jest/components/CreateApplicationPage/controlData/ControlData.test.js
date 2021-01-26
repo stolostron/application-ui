@@ -12,7 +12,13 @@
 
 import { updateNSControls } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlData";
 
-import { updatePlacementControlsForLocal } from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
+import {
+  updatePlacementControlsForLocal,
+  reverseExistingRule,
+  updateDisplayForPlacementControls
+} from "../../../../../src-web/components/ApplicationCreationPage/controlData/ControlDataPlacement";
+
+import { templateObject, placementControlData } from "./TestData";
 
 import {
   updateGitCredentials,
@@ -666,7 +672,7 @@ describe("setAvailableRules", () => {
     }
   };
   const result = {
-    active: true,
+    active: null,
     available: ["dev-clusters"],
     availableData: {
       "dev-clusters": { metadata: { name: "dev-clusters", namespace: "aa-ns" } }
@@ -1018,5 +1024,122 @@ describe("updatePlacementControls with controls", () => {
   ];
   it("should return local only", () => {
     expect(updatePlacementControlsForLocal(placementControl)).toEqual(result);
+  });
+});
+
+describe("reverseExistingRule with template data", () => {
+  const result = {
+    active: "-placement-1",
+    groupControlData: [
+      {
+        active: "-placement-1",
+        id: "selectedRuleName",
+        type: "hidden"
+      },
+      {
+        available: [],
+        controlId: "existingrule-checkbox",
+        groupControlData: [
+          {
+            id: "local-cluster-checkbox",
+            type: "checkbox"
+          },
+          {
+            id: "placementrulecombo",
+            type: "singleselect"
+          },
+          {
+            id: "online-cluster-only-checkbox",
+            type: "checkbox"
+          },
+          {
+            id: "selectedRuleName",
+            type: "hidden"
+          },
+          {
+            active: {},
+            controlId: "clusterSelector",
+            id: "clusterSelector",
+            type: "hidden"
+          }
+        ],
+        id: "existingrule-checkbox",
+        type: "checkbox"
+      }
+    ],
+    id: "placementrulecombo",
+    type: "singleselect"
+  };
+  it("should return non null", () => {
+    expect(reverseExistingRule(placementControlData, templateObject)).toEqual(
+      result
+    );
+  });
+});
+
+describe("updateDisplayForPlacementControls", () => {
+  const existingRuleCb = placementControlData.groupControlData.find(
+    ({ id }) => id === "existingrule-checkbox"
+  );
+  const result = [
+    {
+      active: "-placement-1",
+      id: "selectedRuleName",
+      type: "hidden"
+    },
+    {
+      available: [],
+      controlId: "existingrule-checkbox",
+      groupControlData: [
+        {
+          active: false,
+          id: "local-cluster-checkbox",
+          type: "checkbox"
+        },
+        {
+          active: "",
+          id: "placementrulecombo",
+          type: "hidden"
+        },
+        {
+          active: false,
+          disabled: false,
+          id: "online-cluster-only-checkbox",
+          type: "checkbox"
+        },
+        {
+          active: "",
+          id: "selectedRuleName",
+          type: "hidden"
+        },
+        {
+          active: {
+            clusterLabelsList: [
+              {
+                id: 0,
+                labelName: "",
+                labelValue: "",
+                validValue: false
+              }
+            ],
+            clusterLabelsListID: 1,
+            mode: true
+          },
+          controlId: "clusterSelector",
+          id: "clusterSelector",
+          type: "custom"
+        }
+      ],
+      id: "existingrule-checkbox",
+      type: "checkbox"
+    }
+  ];
+  it("should return placement rule with selected placement rule combo hidden", () => {
+    expect(
+      updateDisplayForPlacementControls(
+        existingRuleCb,
+        placementControlData.groupControlData
+      )
+    ).toEqual(result);
   });
 });

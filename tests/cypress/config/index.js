@@ -69,6 +69,18 @@ exports.getConfig = () => {
             }
           }
 
+          if (key === "git" && config.length > 0) {
+            const givenConfig = config[0];
+            if (
+              givenConfig.ansibleSecretName &&
+              process.env.ANSIBLE_URL &&
+              process.env.ANSIBLE_TOKEN
+            ) {
+              givenConfig.ansibleHost = process.env.ANSIBLE_URL;
+              givenConfig.ansibleToken = process.env.ANSIBLE_TOKEN;
+            }
+          }
+
           // attach travis job id to the new subscription url
           if (data.new) {
             data.new.forEach(instance => {

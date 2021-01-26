@@ -23,8 +23,8 @@ oc patch OAuthClient multicloudingress --type json -p "[{\"op\": \"add\", \"path
 SERVICEACCT_TOKEN=$(oc whoami -t)
 API_SERVER_URL=$(oc whoami --show-server)
 headerUrl=$OCM_ADDRESS
-hcmUiApiUrl=$OCM_ADDRESS/multicloud/graphql
-searchApiUrl=$OCM_ADDRESS/multicloud/search/graphql
+hcmUiApiUrl=$OCM_ADDRESS/multicloud/applications/graphql
+searchApiUrl=$OCM_ADDRESS/multicloud/applications/search/graphql
 
 echo
 echo '"env": {'

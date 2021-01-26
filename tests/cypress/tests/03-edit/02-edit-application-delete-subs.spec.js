@@ -22,7 +22,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Edit application delete s
         if (data.config.length > 1) {
           it(`Verify ${
             data.name
-          } is valid after first subscription is deleted`, () => {
+          } is valid after first subscription is deleted and selecting new placement rule, defect #7359`, () => {
             verifyEditAfterDeleteSubscription(data.name, data);
           });
         }

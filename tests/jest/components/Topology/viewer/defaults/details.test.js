@@ -126,7 +126,8 @@ describe("getNodeDetails application node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local-cluster",
-          selfLink: "kind=PlacementRule&name=nginx-app-3&namespace=ns-sub-1"
+          editLink:
+            "/resources?cluster=local-cluster&kind=PlacementRule&name=nginx-app-3&namespace=ns-sub-1"
         },
         label: "View Resource YAML"
       }
@@ -519,7 +520,6 @@ describe("getNodeDetails deployment node", () => {
     cluster: null,
     clusterName: null,
     type: "deployment",
-    apiVersion: "v1",
     clusters: {
       specs: {
         clusters: [
@@ -563,7 +563,6 @@ describe("getNodeDetails deployment node", () => {
             "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
           name: "mortgagedc-deploy-1-q9b5r",
           namespace: "default",
-          apiVersion: "v1",
           podIP: "10.128.2.80",
           restarts: 0,
           selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
@@ -575,7 +574,6 @@ describe("getNodeDetails deployment node", () => {
           hostIP: "1.1.1.1",
           image: "fxiang/mortgage:0.4.0",
           kind: "pod",
-          apiVersion: "v1",
           label:
             "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
           name: "mortgagedc-deploy-1-q9b5rr",
@@ -589,7 +587,6 @@ describe("getNodeDetails deployment node", () => {
       raw: {
         apiVersion: "apps/v1",
         kind: "Deployment",
-        apiVersion: "v1",
         metadata: {
           labels: { app: "mortgage-app-mortgage" },
           name: "mortgage-app-deploy",
@@ -724,7 +721,7 @@ describe("getNodeDetails deployment node", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "v1"
+      value: "apps/v1"
     },
     {
       indent: undefined,
@@ -790,7 +787,8 @@ describe("getNodeDetails deployment node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
-          selfLink: "kind=Pod&name=mortgagedc-deploy-1-q9b5r&namespace=default"
+          editLink:
+            "/resources?cluster=feng&kind=Pod&name=mortgagedc-deploy-1-q9b5r&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }
@@ -843,7 +841,8 @@ describe("getNodeDetails deployment node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
-          selfLink: "kind=Pod&name=mortgagedc-deploy-1-q9b5rr&namespace=default"
+          editLink:
+            "/resources?cluster=feng&kind=Pod&name=mortgagedc-deploy-1-q9b5rr&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }
@@ -1066,8 +1065,8 @@ describe("getNodeDetails placement rules node with error", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local-cluster",
-          selfLink:
-            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=mortgage-rule"
+          editLink:
+            "/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=PlacementRule&name=mortgage-rule"
         },
         label: "View Resource YAML"
       }
@@ -1174,8 +1173,8 @@ describe("getNodeDetails placement rules node with success", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local-cluster",
-          selfLink:
-            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=mortgage-rule"
+          editLink:
+            "/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=PlacementRule&name=mortgage-rule"
         },
         label: "View Resource YAML"
       }

@@ -14,7 +14,6 @@ import {
   getClusterCount,
   getClusterCountString,
   getEditLink,
-  getYamlEdit,
   getSearchLink,
   getShortDateTime
 } from "../../../../lib/client/resource-helper";
@@ -516,15 +515,19 @@ describe("getSearchLink", () => {
   });
 });
 
-describe("getYamlEdit", () => {
+describe("getEditLink should return editLink", () => {
   it("returns a url endpoint", () => {
     expect(
-      getYamlEdit({
+      getEditLink({
         name: "test-1",
         namespace: "test-1-ns",
-        __typename: "Application"
+        kind: "Application",
+        cluster: "magchen-test",
+        apiVersion: "v1"
       })
-    ).toEqual("kind=Application&name=test-1&namespace=test-1-ns");
+    ).toEqual(
+      "/resources?apiversion=v1&cluster=magchen-test&kind=Application&name=test-1&namespace=test-1-ns"
+    );
   });
 });
 

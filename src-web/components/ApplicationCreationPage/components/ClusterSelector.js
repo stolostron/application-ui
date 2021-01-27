@@ -162,9 +162,11 @@ export class ClusterSelector extends React.Component {
       }
 
       control.active.clusterLabelsList.map(item => {
-        const { id, labelName, labelValue } = item
-        const invalidLabel = !labelName || labelName.length === 0
-        const invalidValue = !labelValue || labelValue.length === 0
+        const { id, labelName, labelValue, validValue } = item
+        const invalidLabel =
+          (validValue || id === 0) && (!labelName || labelName.length === 0)
+        const invalidValue =
+          (validValue || id === 0) && (!labelValue || labelValue.length === 0)
 
         // Add exception if no input for labels or values
         if (invalidLabel) {

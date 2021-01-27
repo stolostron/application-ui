@@ -534,8 +534,7 @@ export const computeNodeStatus = node => {
 }
 
 export const createEditLink = node => {
-  const kind =
-    _.get(node, 'specs.raw.kind') || _.capitalize(_.get(node, 'kind'))
+  const kind = _.get(node, 'specs.raw.kind') || _.get(node, 'kind')
   const apigroup = _.get(node, 'apigroup')
   const apiversion = _.get(node, 'apiversion')
   const cluster = _.get(node, 'cluster')
@@ -548,7 +547,7 @@ export const createEditLink = node => {
   return getEditLink({
     name: _.get(node, 'name'),
     namespace: _.get(node, 'namespace'),
-    kind,
+    kind: kind ? kind.toLowerCase() : undefined,
     apiVersion,
     cluster: cluster ? cluster : undefined
   })

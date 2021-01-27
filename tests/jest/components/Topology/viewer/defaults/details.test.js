@@ -127,7 +127,7 @@ describe("getNodeDetails application node", () => {
           action: "show_resource_yaml",
           cluster: "local-cluster",
           editLink:
-            "/resources?cluster=local-cluster&kind=PlacementRule&name=nginx-app-3&namespace=ns-sub-1"
+            "/resources?cluster=local-cluster&kind=placementrule&name=nginx-app-3&namespace=ns-sub-1"
         },
         label: "View Resource YAML"
       }
@@ -788,7 +788,7 @@ describe("getNodeDetails deployment node", () => {
           action: "show_resource_yaml",
           cluster: "feng",
           editLink:
-            "/resources?cluster=feng&kind=Pod&name=mortgagedc-deploy-1-q9b5r&namespace=default"
+            "/resources?cluster=feng&kind=pod&name=mortgagedc-deploy-1-q9b5r&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }
@@ -842,7 +842,7 @@ describe("getNodeDetails deployment node", () => {
           action: "show_resource_yaml",
           cluster: "feng",
           editLink:
-            "/resources?cluster=feng&kind=Pod&name=mortgagedc-deploy-1-q9b5rr&namespace=default"
+            "/resources?cluster=feng&kind=pod&name=mortgagedc-deploy-1-q9b5rr&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }
@@ -1066,7 +1066,7 @@ describe("getNodeDetails placement rules node with error", () => {
           action: "show_resource_yaml",
           cluster: "local-cluster",
           editLink:
-            "/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=PlacementRule&name=mortgage-rule"
+            "/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=placementrule&name=mortgage-rule"
         },
         label: "View Resource YAML"
       }
@@ -1174,7 +1174,7 @@ describe("getNodeDetails placement rules node with success", () => {
           action: "show_resource_yaml",
           cluster: "local-cluster",
           editLink:
-            "/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=PlacementRule&name=mortgage-rule"
+            "/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=placementrule&name=mortgage-rule"
         },
         label: "View Resource YAML"
       }

@@ -771,7 +771,7 @@ describe("createDeployableYamlLink for application no selflink", () => {
             action: "show_resource_yaml",
             cluster: "local-cluster",
             editLink:
-              "/resources?cluster=local-cluster&kind=Application&name=test-1&namespace=test-1-ns"
+              "/resources?cluster=local-cluster&kind=application&name=test-1&namespace=test-1-ns"
           },
           label: "View Resource YAML"
         }
@@ -805,7 +805,7 @@ describe("createDeployableYamlLink for application with editLink", () => {
           action: "show_resource_yaml",
           cluster: "local-cluster",
           editLink:
-            "/resources?apiversion=app.k8s.io%2Fv1beta1&cluster=local-cluster&kind=Application&name=test&namespace=test-ns"
+            "/resources?apiversion=app.k8s.io%2Fv1beta1&cluster=local-cluster&kind=application&name=test&namespace=test-ns"
         },
         label: "View Resource YAML"
       }
@@ -1095,7 +1095,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          editLink: "/resources?cluster=local&kind="
+          editLink: "/resources?cluster=local"
         },
         label: "View Resource YAML"
       }
@@ -1146,7 +1146,7 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          editLink: "/resources?cluster=local&kind="
+          editLink: "/resources?cluster=local"
         },
         label: "View Resource YAML"
       }
@@ -1185,7 +1185,7 @@ describe("setSubscriptionDeployStatus with hub error", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          editLink: "/resources?cluster=local&kind="
+          editLink: "/resources?cluster=local"
         },
         label: "View Resource YAML"
       }
@@ -1265,7 +1265,7 @@ describe("setSubscriptionDeployStatus with error", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          editLink: "/resources?cluster=local&kind="
+          editLink: "/resources?cluster=local"
         },
         label: "View Resource YAML"
       }
@@ -1309,7 +1309,7 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          editLink: "/resources?cluster=local&kind="
+          editLink: "/resources?cluster=local"
         },
         label: "View Resource YAML"
       }
@@ -1357,7 +1357,7 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "remote1",
-          editLink: "/resources?cluster=remote1&kind="
+          editLink: "/resources?cluster=remote1"
         },
         label: "View Resource YAML"
       }
@@ -2922,7 +2922,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: undefined,
-          editLink: "/resources?cluster=local-cluster&kind="
+          editLink: "/resources?cluster=local-cluster"
         },
         label: "View Resource YAML"
       }
@@ -2993,7 +2993,7 @@ describe("setResourceDeployStatus 2 ", () => {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
           editLink:
-            "/resources?cluster=possiblereptile&kind=Service&name=mortgage-app-svc&namespace=default"
+            "/resources?cluster=possiblereptile&kind=service&name=mortgage-app-svc&namespace=default"
         },
         label: "View Resource YAML"
       }
@@ -3060,7 +3060,7 @@ describe("setResourceDeployStatus 2 with filter green", () => {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
           editLink:
-            "/resources?cluster=possiblereptile&kind=Service&name=mortgage-app-svc&namespace=default"
+            "/resources?cluster=possiblereptile&kind=service&name=mortgage-app-svc&namespace=default"
         },
         label: "View Resource YAML"
       }
@@ -3503,7 +3503,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          editLink: "/resources?cluster=possiblereptile&kind="
+          editLink: "/resources?cluster=possiblereptile"
         },
         label: "View Pod YAML and Logs"
       }
@@ -3659,7 +3659,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          editLink: "/resources?cluster=possiblereptile&kind="
+          editLink: "/resources?cluster=possiblereptile"
         },
         label: "View Pod YAML and Logs"
       }
@@ -3704,7 +3704,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          editLink: "/resources?cluster=possiblereptile&kind="
+          editLink: "/resources?cluster=possiblereptile"
         },
         label: "View Pod YAML and Logs"
       }
@@ -3822,7 +3822,7 @@ describe("setPodDeployStatus - pod as desired with green filter", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          editLink: "/resources?cluster=possiblereptile&kind="
+          editLink: "/resources?cluster=possiblereptile"
         },
         label: "View Pod YAML and Logs"
       }

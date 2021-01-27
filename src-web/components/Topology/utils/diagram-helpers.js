@@ -25,7 +25,8 @@ import {
   getOnlineClusters,
   getClusterHost,
   getPulseStatusForSubscription,
-  getExistingResourceMapKey
+  getExistingResourceMapKey,
+  syncControllerRevisionPodStatusMap
 } from './diagram-helpers-utils'
 import { getYamlEdit } from '../../../../lib/client/resource-helper'
 
@@ -811,7 +812,11 @@ export const getNameWithoutPodHash = relatedKind => {
     const values = R.split('=')(resLabel)
     if (values.length === 2) {
       const labelKey = values[0].trim()
-      if (labelKey === 'pod-template-hash') {
+      if (
+        labelKey === 'pod-template-hash' ||
+        labelKey === 'controller-revision-hash' ||
+        labelKey === 'controller.kubernetes.io/hash'
+      ) {
         podHash = values[1].trim()
         nameNoHash = R.replace(`-${podHash}`, '')(nameNoHash)
       }
@@ -868,6 +873,8 @@ export const setupResourceModel = (
     [{ kind: 'deployable' }, { kind: 'cluster' }],
     'kind'
   )
+  const controllerRevisionSyncArr = []
+
   orderedList.forEach(kindArray => {
     const relatedKindList = R.pathOr([], ['items'])(kindArray)
     relatedKindList.forEach(relatedKind => {
@@ -896,6 +903,10 @@ export const setupResourceModel = (
         nameWithoutChartRelease,
         isClusterGrouped
       )
+
+      if (kind === 'controllerrevision') {
+        controllerRevisionSyncArr.push(name)
+      }
 
       if (
         kind === 'subscription' &&
@@ -958,6 +969,10 @@ export const setupResourceModel = (
     })
   })
 
+  // need to preprocess and sync up podStatusMap for controllerrevision to parent
+  if (controllerRevisionSyncArr.length > 0) {
+    syncControllerRevisionPodStatusMap(resourceMap, controllerRevisionSyncArr)
+  }
   return resourceMap
 }
 

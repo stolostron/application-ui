@@ -41,7 +41,8 @@ export const nodeMustHavePods = node => {
       'statefulset',
       'replicationcontroller',
       'deployment',
-      'deploymentconfig'
+      'deploymentconfig',
+      'controllerrevision'
     ])
   ) {
     //pod deployables must have pods
@@ -223,4 +224,34 @@ export const getExistingResourceMapKey = (resourceMap, name, relatedKind) => {
   }
 
   return null
+}
+
+// The controllerrevision resource doesn't contain any desired pod count so
+// we need to get it from the parent; either a daemonset or statefulset
+export const syncControllerRevisionPodStatusMap = (
+  resourceMap,
+  controllerRevisionArr
+) => {
+  controllerRevisionArr.forEach(crName => {
+    const controllerRevision = resourceMap[crName]
+    const parentName = _.get(controllerRevision, 'specs.parent.parentName', '')
+    const parentType = _.get(controllerRevision, 'specs.parent.parentType', '')
+    const parentId = _.get(controllerRevision, 'specs.parent.parentId', '')
+    const clusterName = getClusterName(parentId)
+    const parentResource =
+      resourceMap[`${parentType}-${parentName}-${clusterName}`]
+    const parentPodModel = {
+      ..._.get(parentResource, `specs.${parentResource.type}Model`, '')
+    }
+
+    if (parentPodModel) {
+      _.set(
+        controllerRevision,
+        'specs.controllerrevisionModel',
+        parentPodModel
+      )
+    }
+  })
+
+  return
 }

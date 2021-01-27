@@ -72,7 +72,6 @@ exports.getConfig = () => {
                 }
                 break;
             }
-            console.log("SET KEY for ", key, givenConfig);
           }
 
           if (key === "git" && config.length > 0) {
@@ -108,7 +107,6 @@ exports.getConfig = () => {
   } catch (e) {
     throw new Error(e);
   }
-  console.log("RETURN", JSON.stringify(config));
   return JSON.stringify(config);
 };
 

@@ -85,7 +85,13 @@ const makeGetTransformedItemsSelector = resourceType => {
           )
         }
       })
-      item.transformed = transformed
+      item.transformed = transformed;
+      // Augment with extra fields
+      ['kind', 'apiVersion'].forEach(property => {
+        if (resourceType[property]) {
+          item[property] = resourceType[property]
+        }
+      })
       return item
     })
   })

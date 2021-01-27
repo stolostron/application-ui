@@ -27,7 +27,7 @@ import {
   getPulseStatusForSubscription,
   getExistingResourceMapKey
 } from './diagram-helpers-utils'
-import { getYamlEdit } from '../../../../lib/client/resource-helper'
+import { getEditLink } from '../../../../lib/client/resource-helper'
 
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
@@ -533,12 +533,24 @@ export const computeNodeStatus = node => {
   return pulse
 }
 
-export const createSelfLink = node => {
-  const name = _.get(node, 'name')
-  const namespace = _.get(node, 'namespace')
-  const kind =
-    _.get(node, 'specs.raw.kind') || _.capitalize(_.get(node, 'kind'))
-  return getYamlEdit({ name, namespace, __typename: kind })
+export const createEditLink = node => {
+  const kind = _.get(node, 'specs.raw.kind') || _.get(node, 'kind')
+  const apigroup = _.get(node, 'apigroup')
+  const apiversion = _.get(node, 'apiversion')
+  const cluster = _.get(node, 'cluster')
+  let apiVersion = _.get(node, 'specs.raw.apiVersion')
+  if (!apiVersion) {
+    apiVersion =
+      apigroup && apiversion ? apigroup + '/' + apiversion : apiversion
+  }
+
+  return getEditLink({
+    name: _.get(node, 'name'),
+    namespace: _.get(node, 'namespace'),
+    kind: kind ? kind.toLowerCase() : undefined,
+    apiVersion,
+    cluster: cluster ? cluster : undefined
+  })
 }
 
 export const createDeployableYamlLink = (node, details) => {
@@ -552,8 +564,8 @@ export const createDeployableYamlLink = (node, details) => {
       'subscription'
     ])
   ) {
-    const selfLink = createSelfLink(node)
-    selfLink &&
+    const editLink = createEditLink(node)
+    editLink &&
       details.push({
         type: 'link',
         value: {
@@ -561,7 +573,7 @@ export const createDeployableYamlLink = (node, details) => {
           data: {
             action: showResourceYaml,
             cluster: LOCAL_HUB_NAME,
-            selfLink: selfLink
+            editLink: editLink
           }
         }
       })
@@ -1062,7 +1074,11 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
 
       //for service
       addNodeServiceLocation(node, clusterName, details)
-      const selfLink = createSelfLink(node)
+
+      // add apiversion if not exist
+      if (!res.apiversion) {
+        _.assign(res, { apiversion: _.get(node, 'specs.raw.apiVersion') })
+      }
 
       details.push({
         type: 'link',
@@ -1071,7 +1087,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
           data: {
             action: showResourceYaml,
             cluster: res.cluster,
-            selfLink: selfLink
+            editLink: createEditLink(res)
           }
         },
         indent: true
@@ -1210,7 +1226,6 @@ export const setPodDeployStatus = (
             status: statusStr
           }
         ])
-        const selfLink = createSelfLink(pod)
         clusterDetails.push({
           type: 'link',
           value: {
@@ -1218,7 +1233,7 @@ export const setPodDeployStatus = (
             data: {
               action: showResourceYaml,
               cluster: pod.cluster,
-              selfLink: selfLink
+              editLink: createEditLink(pod)
             }
           },
           indent: true
@@ -1405,7 +1420,6 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
         })
 
       setClusterWindowStatus(windowStatusArray, subscription, details)
-      const selfLink = createSelfLink(subscription)
 
       details.push({
         type: 'link',
@@ -1414,7 +1428,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
           data: {
             action: showResourceYaml,
             cluster: subscription.cluster,
-            selfLink: selfLink
+            editLink: createEditLink(subscription)
           }
         },
         indent: true
@@ -1713,6 +1727,7 @@ export const addNodeInfoPerCluster = (
 ) => {
   const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
+
   const locationDetails = []
   const typeObject = resourceMap[`${resourceName}-${clusterName}`]
 
@@ -1745,11 +1760,11 @@ export const addNodeServiceLocationForCluster = (node, typeObject, details) => {
 export const processResourceActionLink = resource => {
   let targetLink = ''
   const linkPath = R.pathOr('', ['action'])(resource)
-  const { name, namespace, cluster, selfLink, kind } = resource
+  const { name, namespace, editLink, kind } = resource
   const nsData = namespace ? ` namespace:${namespace}` : ''
   switch (linkPath) {
   case showResourceYaml:
-    targetLink = `/resources?cluster=${cluster}&${selfLink}`
+    targetLink = editLink
     break
   case 'show_search':
     targetLink = `/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`

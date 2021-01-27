@@ -14,7 +14,6 @@ import {
   getClusterCount,
   getClusterCountString,
   getEditLink,
-  getYamlEdit,
   getSearchLink,
   getShortDateTime
 } from "../../../../lib/client/resource-helper";
@@ -516,16 +515,18 @@ describe("getSearchLink", () => {
   });
 });
 
-describe("getYamlEdit", () => {
+describe("getEditLink should return editLink", () => {
   it("returns a url endpoint", () => {
     expect(
-      getYamlEdit({
+      getEditLink({
         name: "test-1",
         namespace: "test-1-ns",
-        __typename: "Application"
+        kind: "Application",
+        cluster: "magchen-test",
+        apiVersion: "v1"
       })
     ).toEqual(
-      "apiversion=app.k8s.io%2Fv1beta1&kind=Application&name=test-1&namespace=test-1-ns"
+      "/resources?apiversion=v1&cluster=magchen-test&kind=Application&name=test-1&namespace=test-1-ns"
     );
   });
 });
@@ -537,12 +538,9 @@ describe("createEditLink", () => {
         name: "foo",
         selfLink: "/api/bar",
         namespace: "boo",
-        id: "id",
-        specs: {
-          raw: {
-            kind: "Application"
-          }
-        }
+        apiVersion: "app.k8s.io/v1beta1",
+        kind: "Application",
+        id: "id"
       })
     ).toMatchSnapshot();
   });

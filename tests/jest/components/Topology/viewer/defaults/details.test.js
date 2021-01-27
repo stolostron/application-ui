@@ -126,8 +126,8 @@ describe("getNodeDetails application node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local-cluster",
-          selfLink:
-            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=nginx-app-3&namespace=ns-sub-1"
+          editLink:
+            "/resources?cluster=local-cluster&kind=placementrule&name=nginx-app-3&namespace=ns-sub-1"
         },
         label: "View Resource YAML"
       }
@@ -635,12 +635,14 @@ describe("getNodeDetails deployment node", () => {
     topology: null,
     labels: null,
     __typename: "Resource",
+    apiVersion: "v1",
     layout: {
       hasPods: true,
       uid:
         "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
       type: "deployment",
       label: "mortgage-app-↵deploy",
+      apiVersion: "v1",
       compactLabel: "mortgage-app-↵deploy",
       nodeStatus: "",
       isDisabled: false,
@@ -681,6 +683,7 @@ describe("getNodeDetails deployment node", () => {
           name: "pod1",
           namespace: "default",
           type: "pod",
+          apiVersion: "v1",
           layout: {
             type: "layout1"
           },
@@ -784,8 +787,8 @@ describe("getNodeDetails deployment node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
-          selfLink:
-            "apiversion=v1&kind=Pod&name=mortgagedc-deploy-1-q9b5r&namespace=default"
+          editLink:
+            "/resources?cluster=feng&kind=pod&name=mortgagedc-deploy-1-q9b5r&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }
@@ -838,8 +841,8 @@ describe("getNodeDetails deployment node", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
-          selfLink:
-            "apiversion=v1&kind=Pod&name=mortgagedc-deploy-1-q9b5rr&namespace=default"
+          editLink:
+            "/resources?cluster=feng&kind=pod&name=mortgagedc-deploy-1-q9b5rr&namespace=default"
         },
         label: "View Pod YAML and Logs"
       }
@@ -1037,7 +1040,7 @@ describe("getNodeDetails placement rules node with error", () => {
     type: "placements",
     specs: {
       raw: {
-        apiVersion: "app.ibm.com/v1alpha1",
+        apiVersion: "apps.open-cluster-management.io/v1",
         kind: "PlacementRule",
         metadata: {
           labels: { app: "mortgage-app-mortgage" },
@@ -1062,8 +1065,8 @@ describe("getNodeDetails placement rules node with error", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local-cluster",
-          selfLink:
-            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=mortgage-rule"
+          editLink:
+            "/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=placementrule&name=mortgage-rule"
         },
         label: "View Resource YAML"
       }
@@ -1085,7 +1088,7 @@ describe("getNodeDetails placement rules node with error", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "app.ibm.com/v1alpha1"
+      value: "apps.open-cluster-management.io/v1"
     },
     {
       indent: undefined,
@@ -1142,7 +1145,7 @@ describe("getNodeDetails placement rules node with success", () => {
     type: "placements",
     specs: {
       raw: {
-        apiVersion: "app.ibm.com/v1alpha1",
+        apiVersion: "apps.open-cluster-management.io/v1",
         kind: "PlacementRule",
         metadata: {
           labels: { app: "mortgage-app-mortgage" },
@@ -1170,8 +1173,8 @@ describe("getNodeDetails placement rules node with success", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local-cluster",
-          selfLink:
-            "apiversion=apps.open-cluster-management.io%2Fv1&kind=PlacementRule&name=mortgage-rule"
+          editLink:
+            "/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=placementrule&name=mortgage-rule"
         },
         label: "View Resource YAML"
       }
@@ -1193,7 +1196,7 @@ describe("getNodeDetails placement rules node with success", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "app.ibm.com/v1alpha1"
+      value: "apps.open-cluster-management.io/v1"
     },
     {
       indent: undefined,

@@ -27,8 +27,10 @@ exports.getConfig = () => {
           process.env.CYPRESS_JOB_ID ? (name = name + "-" + job_id) : name;
           data.name = name;
 
-          // inject private credentials if given for the first subscription only if we have multiple subscriptions
-          if (config.length > 1) {
+          // inject private credentials if given for the first subscription
+          //only if we have multiple subscriptions
+          //or this is an object store subscription
+          if (config.length > 1 || key == "objectstore") {
             const givenConfig = config[0];
             switch (key) {
               case "git":
@@ -48,9 +50,12 @@ exports.getConfig = () => {
                   process.env.OBJECTSTORE_SECRET_KEY &&
                   process.env.OBJECTSTORE_PRIVATE_URL
                 ) {
-                  givenConfig.url = process.env.OBJECTSTORE_PRIVATE_URL;
-                  givenConfig.accessKey = process.env.OBJECTSTORE_ACCESS_KEY;
-                  givenConfig.secretKey = process.env.OBJECTSTORE_SECRET_KEY;
+                  //we want to set the private object store info for all
+                  config.forEach(item => {
+                    item.url = process.env.OBJECTSTORE_PRIVATE_URL;
+                    item.accessKey = process.env.OBJECTSTORE_ACCESS_KEY;
+                    item.secretKey = process.env.OBJECTSTORE_SECRET_KEY;
+                  });
                 }
                 break;
               case "helm":
@@ -67,6 +72,7 @@ exports.getConfig = () => {
                 }
                 break;
             }
+            console.log("SET KEY for ", key, givenConfig);
           }
 
           if (key === "git" && config.length > 0) {
@@ -102,6 +108,7 @@ exports.getConfig = () => {
   } catch (e) {
     throw new Error(e);
   }
+  console.log("RETURN", JSON.stringify(config));
   return JSON.stringify(config);
 };
 

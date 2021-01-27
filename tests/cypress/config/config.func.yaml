@@ -94,10 +94,13 @@ objectstore:
             setting: true
             type: activeinterval
             date:
+              - Thursday
               - Friday
             hours:
-              - start: "18:00"
-                end: "22:00"
+              - start: "09:00"
+                end: "12:00"
+              - start: "15:00"
+                end: "18:00"
           deployment:
             existing: true
             local: false
@@ -107,22 +110,6 @@ objectstore:
         - url: http://ec2-dummy/dev1
           accessKey: dummy1
           secretKey: dummy2
-          timeWindow:
-            setting: true
-            type: blockinterval
-            date:
-              - Monday
-              - Tuesday
-              - Wednesday
-              - Thursday
-              - Friday
-            hours:
-              - start: "08:00"
-                end: "12:00"
-              - start: "14:00"
-                end: "16:00"
-              - start: "18:00"
-                end: "22:00"
           deployment:
             local: false
             online: false
@@ -135,21 +122,16 @@ objectstore:
             setting: true
             type: activeinterval
             date:
-              - Monday
-              - Tuesday
-              - Wednesday
               - Thursday
               - Friday
             hours:
-              - start: "08:00"
-                end: "12:00"
-              - start: "14:00"
-                end: "16:00"
-              - start: "18:00"
-                end: "22:00"
+              - start: "09:10"
+                end: "09:11"
+              - start: "15:10"
+                end: "15:11"
           deployment:
-            local: false
-            online: true
+            local: true
+            online: false
             matchingLabel: false
 helm:
   data:

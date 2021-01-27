@@ -2,7 +2,7 @@
  * Licensed Materials - Property of Red Hat, Inc.
  * Copyright (c) 2020 Red Hat, Inc.
  ****************************************************************************** */
-
+const atob = require("atob");
 const fs = require("fs");
 const path = require("path");
 const jsYaml = require("js-yaml");
@@ -27,8 +27,10 @@ exports.getConfig = () => {
           process.env.CYPRESS_JOB_ID ? (name = name + "-" + job_id) : name;
           data.name = name;
 
-          // inject private credentials if given for the first subscription only if we have multiple subscriptions
-          if (config.length > 1) {
+          // inject private credentials if given for the first subscription
+          //only if we have multiple subscriptions
+          //or this is an object store subscription
+          if (config.length > 1 || key == "objectstore") {
             const givenConfig = config[0];
             switch (key) {
               case "git":
@@ -48,9 +50,16 @@ exports.getConfig = () => {
                   process.env.OBJECTSTORE_SECRET_KEY &&
                   process.env.OBJECTSTORE_PRIVATE_URL
                 ) {
-                  givenConfig.url = process.env.OBJECTSTORE_PRIVATE_URL;
-                  givenConfig.accessKey = process.env.OBJECTSTORE_ACCESS_KEY;
-                  givenConfig.secretKey = process.env.OBJECTSTORE_SECRET_KEY;
+                  //secret is base64 encoded to allow any character
+                  const decodedSecret = atob(
+                    process.env.OBJECTSTORE_SECRET_KEY
+                  );
+                  //we want to set the private object store info for all
+                  config.forEach(item => {
+                    item.url = process.env.OBJECTSTORE_PRIVATE_URL;
+                    item.accessKey = process.env.OBJECTSTORE_ACCESS_KEY;
+                    item.secretKey = decodedSecret;
+                  });
                 }
                 break;
               case "helm":

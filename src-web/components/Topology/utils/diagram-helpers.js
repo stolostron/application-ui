@@ -847,6 +847,16 @@ const addResourceToModel = (
   _.set(resourceMapObject, `specs.${kind}Model`, kindModel)
 }
 
+// reduce complexity for code smell
+export const checkNotOrObjects = (obj1, obj2) => {
+  return !obj1 || !obj2
+}
+
+// reduce complexity for code smell
+export const checkAndObjects = (obj1, obj2) => {
+  return obj1 && obj2
+}
+
 //creates a map with all related kinds for this app, not only pod types
 export const setupResourceModel = (
   list,
@@ -854,7 +864,7 @@ export const setupResourceModel = (
   isClusterGrouped,
   isHelmRelease
 ) => {
-  if (!list || !resourceMap) {
+  if (checkNotOrObjects(list, resourceMap)) {
     return resourceMap
   }
   const podIndex = _.findIndex(list, ['kind', 'pod'])
@@ -923,11 +933,11 @@ export const setupResourceModel = (
         name,
         relatedKind
       )
-      if (podHash && existingResourceMapKey) {
+      if (checkAndObjects(podHash, existingResourceMapKey)) {
         //update resource map key with podHash if the resource has a pod hash ( deployment, replicaset, deploymentconig, etc )
         //this is going to be used to link pods with this parent resource
         resourceMap[`pod-${podHash}`] = resourceMap[existingResourceMapKey]
-      } else if (deployableName && existingResourceMapKey) {
+      } else if (checkAndObjects(deployableName, existingResourceMapKey)) {
         resourceMap[`pod-deploymentconfig-${deployableName}`] =
           resourceMap[existingResourceMapKey]
       }

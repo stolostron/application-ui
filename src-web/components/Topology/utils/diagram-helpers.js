@@ -818,6 +818,11 @@ export const getNameWithoutPodHash = relatedKind => {
         labelKey === 'controller.kubernetes.io/hash'
       ) {
         podHash = values[1].trim()
+        if (podHash.indexOf('-') > -1) {
+          // for hashes that include prefix
+          const hashValues = R.split('-')(podHash)
+          podHash = hashValues[1]
+        }
         nameNoHash = R.replace(`-${podHash}`, '')(nameNoHash)
       }
       if (

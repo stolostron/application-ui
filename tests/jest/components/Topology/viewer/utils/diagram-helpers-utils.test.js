@@ -13,7 +13,8 @@ import {
   filterSubscriptionObject,
   getClusterHost,
   getPulseStatusForSubscription,
-  getExistingResourceMapKey
+  getExistingResourceMapKey,
+  syncControllerRevisionPodStatusMap
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
 
 describe("getClusterName node id undefined", () => {
@@ -356,5 +357,110 @@ describe("getExistingResourceMapKey", () => {
         relatedKindBadCluster
       )
     ).toEqual(null);
+  });
+});
+
+describe("syncControllerRevisionPodStatusMap", () => {
+  const resourceMap = {
+    "daemonset-mortgageds-deploy-fxiang-eks": {
+      specs: {
+        daemonsetModel: {
+          "mortgageds-deploy-fxiang-eks": {
+            apigroup: "apps",
+            apiversion: "v1",
+            available: 6,
+            cluster: "fxiang-eks",
+            created: "2021-01-25T21:53:12Z",
+            current: 6,
+            desired: 6,
+            kind: "daemonset",
+            label: "app=mortgageds-mortgage",
+            name: "mortgageds-deploy",
+            namespace: "feng",
+            ready: 6,
+            selfLink:
+              "/apis/apps/v1/namespaces/feng/daemonsets/mortgageds-deploy",
+            updated: 6,
+            _clusterNamespace: "fxiang-eks",
+            _hostingDeployable:
+              "mortgageds-ch/mortgageds-channel-DaemonSet-mortgageds-deploy",
+            _hostingSubscription: "feng/mortgageds-subscription",
+            _rbac: "fxiang-eks_apps_daemonsets",
+            _uid: "fxiang-eks/ff6fb8f2-d3ec-433a-93d4-3d4389a8c4b4"
+          }
+        }
+      }
+    },
+    "controllerrevision-mortgageds-deploy-fxiang-eks": {
+      specs: {
+        parent: {
+          parentId:
+            "member--member--deployable--member--clusters--fxiang-eks--feng--mortgageds-subscription-mortgageds-mortgageds-deploy-daemonset--daemonset--mortgageds-deploy",
+          parentName: "mortgageds-deploy",
+          parentType: "daemonset"
+        }
+      }
+    }
+  };
+
+  const resourceMapNoParentPodModel = {
+    "daemonset-mortgageds-deploy-fxiang-eks": {
+      specs: {
+        daemonsetModel: {
+          "mortgageds-deploy-fxiang-eks": {
+            apigroup: "apps",
+            apiversion: "v1",
+            available: 6,
+            cluster: "fxiang-eks",
+            created: "2021-01-25T21:53:12Z",
+            current: 6,
+            desired: 6,
+            kind: "daemonset",
+            label: "app=mortgageds-mortgage",
+            name: "mortgageds-deploy",
+            namespace: "feng",
+            ready: 6,
+            selfLink:
+              "/apis/apps/v1/namespaces/feng/daemonsets/mortgageds-deploy",
+            updated: 6,
+            _clusterNamespace: "fxiang-eks",
+            _hostingDeployable:
+              "mortgageds-ch/mortgageds-channel-DaemonSet-mortgageds-deploy",
+            _hostingSubscription: "feng/mortgageds-subscription",
+            _rbac: "fxiang-eks_apps_daemonsets",
+            _uid: "fxiang-eks/ff6fb8f2-d3ec-433a-93d4-3d4389a8c4b4"
+          }
+        }
+      }
+    },
+    "controllerrevision-mortgageds-deploy-fxiang-eks": {
+      specs: {
+        parent: {
+          parentId:
+            "member--member--deployable--member--clusters--fxiang-eks--feng--mortgageds-subscription-mortgageds-mortgageds-deploy-daemonset--daemonset--mortgageds-deploy",
+          parentName: "mortgageds-deploy",
+          parentType: "daemonset"
+        }
+      }
+    }
+  };
+
+  const controllerRevisionArr = [
+    "controllerrevision-mortgageds-deploy-fxiang-eks"
+  ];
+
+  it("should sync controllerRevision resource", () => {
+    expect(
+      syncControllerRevisionPodStatusMap(resourceMap, controllerRevisionArr)
+    ).toEqual(undefined);
+  });
+
+  it("should not sync controllerRevision resource", () => {
+    expect(
+      syncControllerRevisionPodStatusMap(
+        resourceMapNoParentPodModel,
+        controllerRevisionArr
+      )
+    ).toEqual(undefined);
   });
 });

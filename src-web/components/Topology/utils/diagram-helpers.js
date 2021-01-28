@@ -25,7 +25,8 @@ import {
   getOnlineClusters,
   getClusterHost,
   getPulseStatusForSubscription,
-  getExistingResourceMapKey
+  getExistingResourceMapKey,
+  syncControllerRevisionPodStatusMap
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 
@@ -823,8 +824,17 @@ export const getNameWithoutPodHash = relatedKind => {
     const values = R.split('=')(resLabel)
     if (values.length === 2) {
       const labelKey = values[0].trim()
-      if (labelKey === 'pod-template-hash') {
+      if (
+        labelKey === 'pod-template-hash' ||
+        labelKey === 'controller-revision-hash' ||
+        labelKey === 'controller.kubernetes.io/hash'
+      ) {
         podHash = values[1].trim()
+        if (podHash.indexOf('-') > -1) {
+          // for hashes that include prefix
+          const hashValues = R.split('-')(podHash)
+          podHash = hashValues[1]
+        }
         nameNoHash = R.replace(`-${podHash}`, '')(nameNoHash)
       }
       if (
@@ -854,6 +864,16 @@ const addResourceToModel = (
   _.set(resourceMapObject, `specs.${kind}Model`, kindModel)
 }
 
+// reduce complexity for code smell
+export const checkNotOrObjects = (obj1, obj2) => {
+  return !obj1 || !obj2
+}
+
+// reduce complexity for code smell
+export const checkAndObjects = (obj1, obj2) => {
+  return obj1 && obj2
+}
+
 //creates a map with all related kinds for this app, not only pod types
 export const setupResourceModel = (
   list,
@@ -861,7 +881,7 @@ export const setupResourceModel = (
   isClusterGrouped,
   isHelmRelease
 ) => {
-  if (!list || !resourceMap) {
+  if (checkNotOrObjects(list, resourceMap)) {
     return resourceMap
   }
   const podIndex = _.findIndex(list, ['kind', 'pod'])
@@ -880,6 +900,8 @@ export const setupResourceModel = (
     [{ kind: 'deployable' }, { kind: 'cluster' }],
     'kind'
   )
+  const controllerRevisionSyncArr = []
+
   orderedList.forEach(kindArray => {
     const relatedKindList = R.pathOr([], ['items'])(kindArray)
     relatedKindList.forEach(relatedKind => {
@@ -909,6 +931,10 @@ export const setupResourceModel = (
         isClusterGrouped
       )
 
+      if (kind === 'controllerrevision') {
+        controllerRevisionSyncArr.push(name)
+      }
+
       if (
         kind === 'subscription' &&
         _.get(relatedKind, 'cluster', '') === LOCAL_HUB_NAME &&
@@ -924,11 +950,11 @@ export const setupResourceModel = (
         name,
         relatedKind
       )
-      if (podHash && existingResourceMapKey) {
+      if (checkAndObjects(podHash, existingResourceMapKey)) {
         //update resource map key with podHash if the resource has a pod hash ( deployment, replicaset, deploymentconig, etc )
         //this is going to be used to link pods with this parent resource
         resourceMap[`pod-${podHash}`] = resourceMap[existingResourceMapKey]
-      } else if (deployableName && existingResourceMapKey) {
+      } else if (checkAndObjects(deployableName, existingResourceMapKey)) {
         resourceMap[`pod-deploymentconfig-${deployableName}`] =
           resourceMap[existingResourceMapKey]
       }
@@ -976,6 +1002,10 @@ export const setupResourceModel = (
     })
   })
 
+  // need to preprocess and sync up podStatusMap for controllerrevision to parent
+  if (controllerRevisionSyncArr.length > 0) {
+    syncControllerRevisionPodStatusMap(resourceMap, controllerRevisionSyncArr)
+  }
   return resourceMap
 }
 

@@ -28,7 +28,9 @@ import {
   getPodState,
   getNameWithoutChartRelease,
   removeReleaseGeneratedSuffix,
-  getPulseStatusForCluster
+  getPulseStatusForCluster,
+  checkNotOrObjects,
+  checkAndObjects
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const ansibleSuccess = {
@@ -4747,5 +4749,33 @@ describe("getPulseStatusForCluster all some ok", () => {
   };
   it("should process cluster node", () => {
     expect(getPulseStatusForCluster(clusterNode)).toEqual("yellow");
+  });
+});
+
+describe("checkNotOrObjects", () => {
+  const definedObj1 = {};
+  const definedObj2 = {};
+  const undefinedObj = undefined;
+
+  it("should return false", () => {
+    expect(checkNotOrObjects(definedObj1, definedObj2)).toEqual(false);
+  });
+
+  it("should return true", () => {
+    expect(checkNotOrObjects(definedObj1, undefinedObj)).toEqual(true);
+  });
+});
+
+describe("checkAndObjects", () => {
+  const definedObj1 = { name: "mortgage" };
+  const definedObj2 = { name: "mortgage" };
+  const undefinedObj = undefined;
+
+  it("should check objects", () => {
+    expect(checkAndObjects(definedObj1, undefinedObj)).toEqual(undefinedObj);
+  });
+
+  it("should check objects", () => {
+    expect(checkAndObjects(definedObj1, definedObj2)).toEqual(definedObj1);
   });
 });

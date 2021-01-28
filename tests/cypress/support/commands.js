@@ -344,3 +344,20 @@ Cypress.Commands.add(
       });
   }
 );
+
+Cypress.Commands.add("rbacSwitchUser", role => {
+  const { users } = Cypress.env("USER_CONFIG");
+  if (Cypress.config().baseUrl.includes("localhost")) {
+    cy.ocLogin(role);
+    cy.exec("oc whoami -t").then(res => {
+      cy.setCookie("acm-access-token-cookie", res.stdout);
+      Cypress.env("token", res.stdout);
+    });
+  } else {
+    cy.addUserIfNotCreatedBySuite();
+    cy.logInAsRole(role);
+    cy.acquireToken().then(token => {
+      Cypress.env("token", token);
+    });
+  }
+});

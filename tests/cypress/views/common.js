@@ -999,6 +999,17 @@ export const validateDeployables = data => {
   }
 };
 
+export const validateRbacAlert = () => {
+  const alertMessage =
+    "Danger alert:You are not authorized to complete this action. See " +
+    "your cluster administrator for role-based " +
+    "access control information.";
+  cy
+    .get(".pf-c-alert__title", { timeout: 20 * 1000 })
+    .invoke("text")
+    .should("eq", alertMessage);
+};
+
 export const validateDefect7696 = () => {
   cy.log(
     "verify defect 7696 - resources still show in topology view after moving from Editor tab to Overview"

@@ -134,6 +134,11 @@ class ResourceList extends React.Component {
       return React.cloneElement(action, { resourceType })
     })
 
+    function refetch() {
+      window.alert('fetch!')
+      return null
+    }
+
     const stackItems = []
     if (deleteStatus === REQUEST_STATUS.DONE) {
       stackItems.push(
@@ -177,7 +182,8 @@ class ResourceList extends React.Component {
           isLoaded,
           isReloading,
           timestamp,
-          locale
+          locale,
+          refetch
         )}
         <Stack hasGutter>{stackItems}</Stack>
       </div>

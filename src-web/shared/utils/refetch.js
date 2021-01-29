@@ -3,11 +3,14 @@
  *******************************************************************************/
 
 import R from 'ramda'
-import msgs from '../../../nls/platform.properties'
 import React from 'react'
 import { Loading } from 'carbon-components-react'
-import RefreshTimeSelect from '../../components/common/RefreshTimeSelect'
 import { REFRESH_TIMES } from '../../../lib/shared/constants'
+import {
+  AcmActionGroup,
+  AcmAutoRefreshSelect,
+  AcmRefreshTime
+} from '@open-cluster-management/ui-components'
 
 export const startPolling = (component, setInterval) => {
   if (R.pathOr(-1, ['refetch', 'interval'], component.props) > 0) {
@@ -75,14 +78,12 @@ export const renderRefreshTime = (
   isLoaded,
   isReloading,
   timestamp,
-  locale
+  locale,
+  refetch
 ) => {
+
+
   if (isLoaded) {
-    const time = msgs.get(
-      'overview.menu.last.update',
-      [new Date(timestamp).toLocaleTimeString(locale)],
-      locale
-    )
     return (
       <div className="refresh-time-div">
         <div className="refresh-time-container">
@@ -91,11 +92,17 @@ export const renderRefreshTime = (
               <Loading withOverlay={false} small />
             </div>
           )}
-          <RefreshTimeSelect
+          {/* <RefreshTimeSelect
             refreshValues={REFRESH_TIMES}
             refetchIntervalUpdate={refetchIntervalUpdateDispatch}
-          />
-          <div>{time}</div>
+          /> */}
+          <AcmActionGroup>
+            <AcmAutoRefreshSelect
+              refetch={refetch}
+              refreshIntervals={REFRESH_TIMES}
+            />
+          </AcmActionGroup>
+          <AcmRefreshTime timestamp={timestamp} reloading={isReloading} />
         </div>
       </div>
     )

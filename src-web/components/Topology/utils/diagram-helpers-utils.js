@@ -253,3 +253,17 @@ export const syncControllerRevisionPodStatusMap = (
     }
   })
 }
+
+//for items with pods and not getting ready or available state, default those values to the current state
+//this is a workaround for defect 8935, search doesn't return ready and available state for resources such as StatefulSets
+export const fixMissingStateOptions = item => {
+  if (item) {
+    if (_.get(item, 'available') === undefined) {
+      item.available = item.current //default to current state
+    }
+    if (_.get(item, 'ready') === undefined) {
+      item.ready = item.current //default to current state
+    }
+  }
+  return item
+}

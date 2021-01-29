@@ -26,7 +26,8 @@ import {
   getClusterHost,
   getPulseStatusForSubscription,
   getExistingResourceMapKey,
-  syncControllerRevisionPodStatusMap
+  syncControllerRevisionPodStatusMap,
+  fixMissingStateOptions
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 
@@ -409,7 +410,9 @@ export const getPulseForNodeWithPodStatus = node => {
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
 
-    const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
+    const resourceItem = fixMissingStateOptions(
+      resourceMap[`${resourceName}-${clusterName}`]
+    )
     const processItem = Object.keys(podList).length === 0 && resourceItem
 
     if (resourceItem && resourceItem.kind === 'daemonset') {

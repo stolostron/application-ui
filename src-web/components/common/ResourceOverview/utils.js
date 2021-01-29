@@ -54,12 +54,28 @@ const getSubCardData = (subData, node) => {
   gitBranch = _.get(
     subData,
     ['metadata', 'annotations', 'apps.open-cluster-management.io/git-branch'],
-    ''
+    _.get(
+      subData,
+      [
+        'metadata',
+        'annotations',
+        'apps.open-cluster-management.io/github-branch'
+      ],
+      ''
+    )
   )
   gitPath = _.get(
     subData,
     ['metadata', 'annotations', 'apps.open-cluster-management.io/git-path'],
-    ''
+    _.get(
+      subData,
+      [
+        'metadata',
+        'annotations',
+        'apps.open-cluster-management.io/github-path'
+      ],
+      ''
+    )
   )
   packageName = _.get(subData, 'spec.name', '')
   packageFilterVersion = _.get(subData, 'spec.packageFilter.version', '')

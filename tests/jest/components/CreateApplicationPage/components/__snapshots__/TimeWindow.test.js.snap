@@ -88,7 +88,7 @@ exports[`TimeWindow component renders as expected 1`] = `
     >
       <dt>
         <button
-          aria-expanded={false}
+          aria-expanded=""
           className="pf-c-accordion__toggle"
           id="time-window-header"
           onClick={[Function]}
@@ -346,15 +346,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                           id="pf-select-toggle-id-0-select-typeahead"
                           onChange={[Function]}
                           onClick={[Function]}
-                          placeholder={
-                            <span
-                              style={
-                                Object {
-                                  "color": "#666",
-                                }
-                              }
-                            />
-                          }
+                          placeholder="Choose a location"
                           type="text"
                           value=""
                         />
@@ -401,10 +393,28 @@ exports[`TimeWindow component renders as expected 1`] = `
               className="config-time-section"
             >
               <div
+                className="time-picker-title"
+              >
+                <div
+                  className="config-title"
+                >
+                  Start Time
+                   
+                  *
+                </div>
+                <div
+                  className="config-title"
+                >
+                  End Time
+                   
+                  *
+                </div>
+              </div>
+              <div
                 className="config-time-container"
               >
                 <div
-                  className="config-start-time"
+                  className="config-input-time"
                 >
                   <div
                     className="bx--form-item"
@@ -415,12 +425,6 @@ exports[`TimeWindow component renders as expected 1`] = `
                       <div
                         className="bx--time-picker__input"
                       >
-                        <label
-                          className="bx--label"
-                          htmlFor="start-time-0"
-                        >
-                          Start Time
-                        </label>
                         <input
                           className="bx--time-picker__input-field"
                           disabled={true}
@@ -440,7 +444,7 @@ exports[`TimeWindow component renders as expected 1`] = `
                   </div>
                 </div>
                 <div
-                  className="config-end-time"
+                  className="config-input-time"
                 >
                   <div
                     className="bx--form-item"
@@ -451,12 +455,6 @@ exports[`TimeWindow component renders as expected 1`] = `
                       <div
                         className="bx--time-picker__input"
                       >
-                        <label
-                          className="bx--label"
-                          htmlFor="end-time-0"
-                        >
-                          End Time
-                        </label>
                         <input
                           className="bx--time-picker__input-field"
                           disabled={true}

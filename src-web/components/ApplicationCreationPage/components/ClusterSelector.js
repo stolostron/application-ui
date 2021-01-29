@@ -63,20 +63,11 @@ export class ClusterSelector extends React.Component {
     const onToggle = toggleStatus => {
       this.setState({ isExpanded: !toggleStatus })
     }
-
-    // if (!this.props.control.active) {
-    //   this.props.control.active = {
-    //     mode: true,
-    //     clusterLabelsList: [
-    //       { id: 0, labelName: '', labelValue: '', validValue: false }
-    //     ],
-    //     clusterLabelsListID: 1
-    //   }
-    // }
     const { controlId, locale, control } = this.props
     const { name, active, validation = {} } = control
     const modeSelected = active && active.mode === true
-    const isReadOnly = _.get(this.props, 'control.showData', []).length > 0
+    const isExistingRule = _.get(this.props, 'control.showData', []).length > 0
+    const isReadOnly = isExistingRule || !modeSelected
     const showLabels = modeSelected && isExpanded
 
     return (
@@ -94,7 +85,7 @@ export class ClusterSelector extends React.Component {
             <Checkbox
               className="clusterSelector-checkbox"
               isChecked={modeSelected}
-              isDisabled={isReadOnly}
+              isDisabled={isExistingRule}
               id={`clusterSelector-checkbox-${controlId}`}
               label={msgs.get(
                 'tooltip.creation.app.settings.clusterSelector',
@@ -226,7 +217,9 @@ export class ClusterSelector extends React.Component {
                         : ''
                     }
                     value={labelName === '' ? '' : labelName}
-                    placeholder={msgs.get('clusterSelector.label.placeholder.field')}
+                    placeholder={msgs.get(
+                      'clusterSelector.label.placeholder.field'
+                    )}
                     isDisabled={isReadOnly}
                     onChange={value =>
                       this.handleChange(value, 'labelName', id)
@@ -244,7 +237,9 @@ export class ClusterSelector extends React.Component {
                         : ''
                     }
                     value={labelValue === '' ? '' : labelValue}
-                    placeholder={msgs.get('clusterSelector.value.placeholder.field')}
+                    placeholder={msgs.get(
+                      'clusterSelector.value.placeholder.field'
+                    )}
                     isDisabled={isReadOnly}
                     onChange={value =>
                       this.handleChange(value, 'labelValue', id)

@@ -153,19 +153,46 @@ exports[`ClusterSelector component renders as expected 1`] = `
                     <div
                       className="pf-c-form__group-label"
                     >
-                      Value*
-                    </label>
-                    <input
-                      className="bx--text-input text-input"
-                      disabled={false}
-                      id="labelValue-0-undefined"
-                      name="labelValue"
-                      onChange={[Function]}
-                      onClick={[Function]}
-                      placeholder="Label value"
-                      type="text"
-                      value="Dev"
-                    />
+                      <label
+                        className="pf-c-form__label"
+                        htmlFor="labelValue-0-undefined"
+                      >
+                        <span
+                          className="pf-c-form__label-text"
+                        >
+                          Value
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="pf-c-form__label-required"
+                        >
+                           
+                          *
+                        </span>
+                      </label>
+                       
+                    </div>
+                    <div
+                      className="pf-c-form__group-control"
+                    >
+                      <input
+                        aria-invalid={false}
+                        aria-label={null}
+                        className="pf-c-form-control text-input"
+                        disabled={false}
+                        id="labelValue-0-undefined"
+                        label="Value"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Label value"
+                        readOnly={false}
+                        required={true}
+                        type="text"
+                        value="Dev"
+                      />
+                      
+                    </div>
                   </div>
                 </div>
                 
@@ -211,17 +238,28 @@ exports[`ClusterSelector component renders as expected 1`] = `
                     className="pf-c-form__group"
                     id="labelValue-1-undefined-label"
                   >
-                    <input
-                      className="bx--text-input text-input"
-                      disabled={false}
-                      id="labelValue-1-undefined"
-                      name="labelValue"
-                      onChange={[Function]}
-                      onClick={[Function]}
-                      placeholder="Label value"
-                      type="text"
-                      value="AWS"
-                    />
+                    
+                    <div
+                      className="pf-c-form__group-control"
+                    >
+                      <input
+                        aria-invalid={false}
+                        aria-label={null}
+                        className="pf-c-form-control text-input"
+                        disabled={false}
+                        id="labelValue-1-undefined"
+                        label=""
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Label value"
+                        readOnly={false}
+                        required={true}
+                        type="text"
+                        value="AWS"
+                      />
+                      
+                    </div>
                   </div>
                 </div>
                 <div

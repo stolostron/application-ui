@@ -38,10 +38,6 @@ export class TimeWindow extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      timezoneCache: { isSelected: false, tz: '' },
-      isExpanded: false
-    }
     if (_.isEmpty(this.props.control.active)) {
       this.props.control.active = {
         mode: '',
@@ -51,6 +47,10 @@ export class TimeWindow extends React.Component {
         timeList: [{ id: 0, start: '', end: '', validTime: true }],
         timeListID: 1
       }
+    }
+    this.state = {
+      timezoneCache: { isSelected: false, tz: '' },
+      isExpanded: this.props.control.active.mode
     }
     this.props.control.validation = this.validation.bind(this)
 
@@ -105,22 +105,10 @@ export class TimeWindow extends React.Component {
     const onToggle = toggleStatus => {
       this.setState({ isExpanded: !toggleStatus })
     }
-
-    // if (!this.props.control.active) {
-    //   this.props.control.active = {
-    //     mode: '',
-    //     days: [],
-    //     timezone: '',
-    //     showTimeSection: false,
-    //     timeList: [{ id: 0, start: '', end: '', validTime: true }],
-    //     timeListID: 1
-    //   }
-    // }
     const { controlId, locale, control } = this.props
     const { name, active, validation = {} } = control
     const modeSelected = active && active.mode ? true : false
     const { mode, days = [], timezone } = this.props.control.active
-    const showConfig = modeSelected || isExpanded
 
     return (
       <React.Fragment>
@@ -175,14 +163,14 @@ export class TimeWindow extends React.Component {
               <AccordionItem>
                 <AccordionToggle
                   onClick={() => {
-                    onToggle(showConfig)
+                    onToggle(isExpanded)
                   }}
-                  isExpanded={showConfig}
+                  isExpanded={isExpanded}
                   id="time-window-header"
                 >
                   {msgs.get('creation.app.settings.timeWindow.config', locale)}
                 </AccordionToggle>
-                <AccordionContent isHidden={!showConfig}>
+                <AccordionContent isHidden={!isExpanded}>
                   <div
                     className="timeWindow-config-container"
                     id="timeWindow-config"
@@ -232,14 +220,10 @@ export class TimeWindow extends React.Component {
                       <AcmSelect
                         id="timeZoneSelect"
                         variant={SelectVariant.typeahead}
-                        // typeAheadAriaLabel={msgs.get(
-                        //   'timeWindow.label.timezone.placeholder',
-                        //   locale
-                        // )}
                         inlineFilterPlaceholderText="Select a state"
                         aria-label="timezoneComboBox"
                         className="config-timezone-combo-box"
-                        placeholderText={msgs.get(
+                        placeholder={msgs.get(
                           'timeWindow.label.timezone.placeholder',
                           locale
                         )}
@@ -324,6 +308,7 @@ export class TimeWindow extends React.Component {
   };
 
   renderTimes = (control, modeSelected) => {
+    const { locale } = this.props
     return (
       control.active &&
       control.active.timeList.map(item => {
@@ -332,23 +317,41 @@ export class TimeWindow extends React.Component {
         if (validTime) {
           return (
             <React.Fragment key={id}>
+              {id === 0 ? (
+                <div className="time-picker-title">
+                  <div className="config-title">
+                    {msgs.get(
+                      'creation.app.settings.timeWindow.config.timezone.startTime',
+                      locale
+                    )}{' '}
+                    *
+                  </div>
+                  <div className="config-title">
+                    {msgs.get(
+                      'creation.app.settings.timeWindow.config.timezone.endTime',
+                      locale
+                    )}{' '}
+                    *
+                  </div>
+                </div>
+              ) : (
+                ''
+              )}
               <div className="config-time-container">
-                <div className="config-start-time">
+                <div className="config-input-time">
                   <TimePicker
                     id={`start-time-${id}`}
                     name="start-time"
-                    labelText={id === 0 ? 'Start Time' : ''}
                     type="time"
                     value={this.state.startTime || to24(start) || ''}
                     disabled={!modeSelected}
                     onChange={this.handleTimeRange.bind(this)}
                   />
                 </div>
-                <div className="config-end-time">
+                <div className="config-input-time">
                   <TimePicker
                     id={`end-time-${id}`}
                     name="end-time"
-                    labelText={id === 0 ? 'End Time' : ''}
                     type="time"
                     value={this.state.endTime || to24(end) || ''}
                     disabled={!modeSelected}
@@ -358,10 +361,14 @@ export class TimeWindow extends React.Component {
                 {id !== 0 ? ( // Option to remove added times
                   <div
                     id={id}
-                    className="remove-time-btn"
+                    className={`remove-time-btn ${
+                      !modeSelected ? 'btn-disabled' : ''
+                    }`}
                     tabIndex="0"
                     role={'button'}
-                    onClick={() => this.removeTimeFromList(control, item)}
+                    onClick={() =>
+                      this.removeTimeFromList(control, item, modeSelected)
+                    }
                     onKeyPress={this.removeTimeKeyPress.bind(this)}
                   >
                     <TimesCircleIcon color="#06c" key="remove-time" />
@@ -413,13 +420,15 @@ export class TimeWindow extends React.Component {
     }
   };
 
-  removeTimeFromList = (control, item) => {
-    // Removed times are no longer valid
-    control.active.timeList[item.id].validTime = false
+  removeTimeFromList = (control, item, modeSelected) => {
+    if (modeSelected) {
+      // Removed times are no longer valid
+      control.active.timeList[item.id].validTime = false
 
-    // Update UI and yaml editor
-    this.forceUpdate()
-    this.handleChange({})
+      // Update UI and yaml editor
+      this.forceUpdate()
+      this.handleChange({})
+    }
   };
 
   removeTimeKeyPress = e => {
@@ -503,6 +512,7 @@ export class TimeWindow extends React.Component {
           control.active.timezone = timezoneCache.tz
         }
         control.active.mode = (event.target.value || '').replace(/"/g, '')
+        this.setState({ isExpanded: control.active.mode })
       } else if (targetName.startsWith('days-selector')) {
         if (checked) {
           control.active.days.push(event.target.value)

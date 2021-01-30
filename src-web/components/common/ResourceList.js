@@ -114,7 +114,7 @@ class ResourceList extends React.Component {
       sort,
       sortTableFn
     } = this.props
-console.log('ResourceList render', this.props)
+    console.log('ResourceList render', this.props)
     const { isLoaded = true, isReloading = false } = fetchTableResources
     const { timestamp = new Date().toString() } = this.state
 

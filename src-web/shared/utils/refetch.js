@@ -81,8 +81,6 @@ export const renderRefreshTime = (
   locale,
   refetch
 ) => {
-
-
   if (isLoaded) {
     return (
       <div className="refresh-time-div">

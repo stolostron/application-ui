@@ -114,7 +114,7 @@ class ResourceList extends React.Component {
       sort,
       sortTableFn
     } = this.props
-
+console.log('ResourceList render', this.props)
     const { isLoaded = true, isReloading = false } = fetchTableResources
     const { timestamp = new Date().toString() } = this.state
 
@@ -135,7 +135,7 @@ class ResourceList extends React.Component {
     })
 
     function refetch() {
-      window.alert('fetch!')
+      //window.alert('fetch!')
       return null
     }
 
@@ -235,6 +235,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { updateBrowserURL, resourceType } = ownProps
+  console.log('RES List mapDispatchToProps !!!!', resourceType)
   return {
     fetchTableResources: selectedFilters => {
       dispatch(fetchResources(resourceType, combineFilters(selectedFilters)))

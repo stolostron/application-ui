@@ -10,6 +10,8 @@
 // seems to be an issue with this rule and redux
 /* eslint-disable import/no-named-as-default */
 
+import { AcmButton } from '@open-cluster-management/ui-components'
+
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -20,6 +22,21 @@ import resources from '../../lib/shared/resources'
 import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
+
+import {
+  getSelectedId
+} from '../components/common/QuerySwitcher'
+import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import {
+  fetchResources
+} from '../actions/common'
+import { combineFilters } from '../actions/filters'
+import { fetchTopology } from '../actions/topology'
+
+import { 
+  AcmPageHeader,
+  AcmAutoRefreshSelect
+ } from '@open-cluster-management/ui-components'
 
 export const ActionModalApollo = loadable(() =>
   import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo')
@@ -81,7 +98,7 @@ class App extends React.Component {
 
   render() {
     const serverProps = this.getServerProps()
-    const { locale, match } = this.props
+    const { locale, match, location, fetchAppTopology, fetchTableResources } = this.props
 
     const BASE_PAGE_PATH = match.url.replace(/\/$/, '')
     const allApplicationsTabs = [
@@ -102,6 +119,37 @@ class App extends React.Component {
     const getSingleApplicationBasePath = params => {
       return `${BASE_PAGE_PATH}/${params.namespace}/${params.name}`
     }
+    const defaultOption = location.pathname.includes('multicloud/applications/advanced') 
+    ? 'subscriptions' : 'applications'
+    const options = [
+      { id: 'applications', resourceType: RESOURCE_TYPES.QUERY_APPLICATIONS },
+      { id: 'subscriptions', resourceType: RESOURCE_TYPES.QUERY_SUBSCRIPTIONS },
+      { id: 'placementrules', resourceType: RESOURCE_TYPES.QUERY_PLACEMENTRULES },
+      { id: 'channels', resourceType: RESOURCE_TYPES.QUERY_CHANNELS }
+    ]
+
+    const refetch = () => {
+
+      const selectedId = getSelectedId({ location, options, defaultOption })
+      //console.log('REFETCH', this.props, selectedId)
+
+      let resourceType = options.find(o => o.id === selectedId).resourceType
+      const appInfo = location.pathname.split('/')
+      console.log('REFETCH', selectedId, resourceType, defaultOption, appInfo)
+
+      if(defaultOption === 'applications' && location.pathname.split('/').length === 5) {
+        console.log('THIS IS THE SINGLE APP')
+        
+        fetchAppTopology(appInfo[4], appInfo[3], [], true)
+        
+      
+      } else {
+
+        console.log('THIS IS A TABLE')
+        fetchTableResources(resourceType, [])
+      }
+
+    }
 
     const getSingleApplicationTabs = params => {
       const SINGLE_APP_BASE_PAGE_PATH = getSingleApplicationBasePath(params)
@@ -118,12 +166,19 @@ class App extends React.Component {
         }
       ]
     }
-
     const applicationsTitle = 'routes.applications'
-
+    const headerArgs = {
+    title: 'Page title - Applications',
+    titleTooltip: 'Doc link',         
+      controls: <AcmAutoRefreshSelect refetch={refetch} refreshIntervals={[15, 30, 60, 5 * 60, 30 * 60, 0]} />,
+      actions: <AcmButton>Create</AcmButton>
+  }
+   
     return (
       <div className="expand-vertically">
+        <AcmPageHeader {...headerArgs}/>
         <SecondaryHeader />
+        
         <Switch>
           <Route
             exact
@@ -219,6 +274,7 @@ App.propTypes = {
 }
 
 App.childContextTypes = {
+  fetchResourcesForType: PropTypes.func,
   locale: PropTypes.string
 }
 
@@ -228,8 +284,24 @@ const mapStateToProps = state => {
   }
 }
 
+const mapDispatchToProps = (dispatch, ownProps) => {
+  console.log('APPPPPPPPPP !!!!', ownProps)
+  return {
+    fetchTableResources: (resourceType, selectedFilters) => {
+      dispatch(fetchResources(resourceType, combineFilters(selectedFilters)))
+    },
+    fetchAppTopology: (name, namespace, fetchChannel, reloading) => {
+      const fetchFilters = {
+        application: { name, namespace, channel: fetchChannel }
+      }
+      dispatch(
+        fetchTopology({ filter: { ...fetchFilters } }, fetchFilters, reloading)
+      )
+    },    
+  }
+}
 const Container = Component =>
-  withRouter(withLocale(connect(mapStateToProps)(Component)))
+  withRouter(withLocale(connect(mapStateToProps, mapDispatchToProps)(Component)))
 const AppContainer = Container(App)
 
 const AppComponent = props => (
@@ -243,3 +315,4 @@ const AppComponent = props => (
 )
 AppComponent.displayName = 'AppComponent'
 export default AppComponent
+

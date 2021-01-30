@@ -109,6 +109,7 @@ class ApplicationTopologyModule extends React.Component {
 
   UNSAFE_componentWillMount() {
     const { restoreSavedDiagramFilters, resetFilters, params } = this.props
+    console.log('TOPOLOGY', this.props)
     restoreSavedDiagramFilters()
     resetFilters()
     const name = decodeURIComponent(params.name)
@@ -140,6 +141,7 @@ class ApplicationTopologyModule extends React.Component {
   // call to actually refetch the new data
   reload() {
     const { fetchAppTopology, activeChannel } = this.props
+
     fetchAppTopology(activeChannel, true)
   }
 

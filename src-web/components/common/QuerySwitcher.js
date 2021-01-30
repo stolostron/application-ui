@@ -17,6 +17,7 @@ export const getSelectedId = ({
   if (!query) {
     query = queryString.parse(location.search)
   }
+  console.log('getSelectedId', query, queryParam, location)
   const validOptionIds = options.map(o => o.id)
   return validOptionIds.includes(query[queryParam])
     ? query[queryParam]

@@ -96,6 +96,7 @@ export const renderRefreshTime = (
             refreshValues={REFRESH_TIMES}
             refetchIntervalUpdate={refetchIntervalUpdateDispatch}
           /> */}
+          {/*
           <AcmActionGroup>
             <AcmAutoRefreshSelect
               refetch={refetch}
@@ -103,6 +104,7 @@ export const renderRefreshTime = (
             />
           </AcmActionGroup>
           <AcmRefreshTime timestamp={timestamp} reloading={isReloading} />
+          */}
         </div>
       </div>
     )

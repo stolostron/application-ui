@@ -19,6 +19,19 @@ import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
 import SecondaryHeaderTooltip from './SecondaryHeaderTooltip'
 import classNames from 'classnames'
+import {
+  getSelectedId
+} from './common/QuerySwitcher'
+import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import {
+  fetchResources
+} from '../actions/common'
+import { combineFilters } from '../actions/filters'
+
+import { 
+  AcmPageHeader,
+  AcmAutoRefreshSelect
+ } from '@open-cluster-management/ui-components'
 
 resources(() => {
   require('../../scss/secondary-header.scss')
@@ -60,13 +73,30 @@ export class SecondaryHeader extends React.Component {
       breadcrumbItems,
       links,
       mainButton,
-      actions
+      actions,
+      fetchTableResources
     } = this.props
     const { locale } = this.context
     if (
       (tabs && tabs.length > 0) ||
       (breadcrumbItems && breadcrumbItems.length > 0)
     ) {
+      const defaultOption = this.props.location.pathname.includes('multicloud/applications/advanced') 
+            ? 'subscriptions' : 'applications'
+      const options = [
+        { id: 'applications', resourceType: RESOURCE_TYPES.QUERY_APPLICATIONS },
+        { id: 'subscriptions', resourceType: RESOURCE_TYPES.QUERY_SUBSCRIPTIONS },
+        { id: 'placementrules', resourceType: RESOURCE_TYPES.QUERY_PLACEMENTRULES },
+        { id: 'channels', resourceType: RESOURCE_TYPES.QUERY_CHANNELS }
+      ]
+      const refetch = () => {
+        const selectedId = getSelectedId({ location, options, defaultOption })
+        const resourceType = options.find(o => o.id === selectedId).resourceType
+
+        console.log('REFETCH', selectedId, resourceType, this.props.location, this.props)
+        fetchTableResources(resourceType, [])
+      }
+  
       return (
         <div
           className={classNames({
@@ -83,6 +113,8 @@ export class SecondaryHeader extends React.Component {
             }`}
           >
             <React.Fragment>
+            {/*<AcmAutoRefreshSelect refetch={refetch} refreshIntervals={[15, 30, 60, 5 * 60, 30 * 60, 0]} />*/}
+
               <DetailPageHeader
                 hasTabs={true}
                 title={decodeURIComponent(title)}
@@ -132,6 +164,7 @@ export class SecondaryHeader extends React.Component {
               )}
             </React.Fragment>
             {actions && this.renderActions()}
+
           </div>
           {links &&
             links.length > 0 && (
@@ -297,6 +330,7 @@ export class SecondaryHeader extends React.Component {
 SecondaryHeader.propTypes = {
   actions: PropTypes.array,
   breadcrumbItems: PropTypes.array,
+  fetchTableResources: PropTypes.func,
   history: PropTypes.object,
   links: PropTypes.array,
   location: PropTypes.object,
@@ -308,6 +342,15 @@ SecondaryHeader.propTypes = {
 
 SecondaryHeader.contextTypes = {
   locale: PropTypes.string
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  //console.log('Secondary header mapDispatchToProps !!!!', ownProps)
+  return {
+    fetchTableResources: (resourceType, selectedFilters) => {
+      dispatch(fetchResources(resourceType, combineFilters(selectedFilters)))
+    },
+  }
 }
 
 const mapStateToProps = state => {
@@ -323,4 +366,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(SecondaryHeader))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SecondaryHeader))

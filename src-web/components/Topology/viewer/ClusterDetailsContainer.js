@@ -423,17 +423,17 @@ class ClusterDetailsContainer extends React.Component {
       const parentDivStyle =
         i === startIdx
           ? {
-            'border-top': solidLineStyle,
-            'border-bottom': solidLineStyle
+            borderTop: solidLineStyle,
+            borderBottom: solidLineStyle
           }
-          : { 'border-bottom': solidLineStyle }
+          : { borderBottom: solidLineStyle }
       const toggleItemNum = i % perPage
       const namespaceStyle = {
         color: '#5A6872',
-        'font-family': 'RedHatText',
-        'font-size': '12px',
-        'line-height': '21px',
-        'text-align': 'left',
+        fontFamily: 'RedHatText',
+        fontSize: '12px',
+        lineHeight: '21px',
+        textAlign: 'left',
         display: 'block'
       }
       const outerNamespaceStyle = expandSectionToggleMap.has(toggleItemNum)
@@ -455,8 +455,8 @@ class ClusterDetailsContainer extends React.Component {
             <span
               className={labelClass}
               style={{
-                'padding-left': '1rem',
-                'font-size': '1rem'
+                paddingLeft: '1rem',
+                fontSize: '1rem'
               }}
             >
               {msgs.get('prop.details.section', locale)}
@@ -531,30 +531,34 @@ class ClusterDetailsContainer extends React.Component {
           ))}
         </Select>
         <div className="spacer" />
-        <Pagination
-          itemCount={displayClusterList.length}
-          perPage={perPage}
-          page={page}
-          widgetId="pagination-options-menu-top"
-          onFirstClick={this.handleFirstClick}
-          onLastClick={this.handleLastClick}
-          onNextClick={this.handleNextClick}
-          onPreviousClick={this.handlePreviousClick}
-          onPageInput={this.handlePageInput}
-        />
+        {this.props.clusterList.length > 5 && (
+          <Pagination
+            itemCount={displayClusterList.length}
+            perPage={perPage}
+            page={page}
+            widgetId="pagination-options-menu-top"
+            onFirstClick={this.handleFirstClick}
+            onLastClick={this.handleLastClick}
+            onNextClick={this.handleNextClick}
+            onPreviousClick={this.handlePreviousClick}
+            onPageInput={this.handlePageInput}
+          />
+        )}
         <div className="spacer" />
         {clusterItems}
-        <Pagination
-          itemCount={displayClusterList.length}
-          perPage={perPage}
-          page={page}
-          widgetId="pagination-options-menu-bottom"
-          onFirstClick={this.handleFirstClick}
-          onLastClick={this.handleLastClick}
-          onNextClick={this.handleNextClick}
-          onPreviousClick={this.handlePreviousClick}
-          onPageInput={this.handlePageInput}
-        />
+        {this.props.clusterList.length > 5 && (
+          <Pagination
+            itemCount={displayClusterList.length}
+            perPage={perPage}
+            page={page}
+            widgetId="pagination-options-menu-bottom"
+            onFirstClick={this.handleFirstClick}
+            onLastClick={this.handleLastClick}
+            onNextClick={this.handleNextClick}
+            onPreviousClick={this.handlePreviousClick}
+            onPageInput={this.handlePageInput}
+          />
+        )}
       </div>
     )
   }

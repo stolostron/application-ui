@@ -7,6 +7,23 @@ const fs = require("fs");
 const path = require("path");
 const jsYaml = require("js-yaml");
 
+const updateObjectStoreInfo = (process, config) => {
+  if (
+    process.env.OBJECTSTORE_ACCESS_KEY &&
+    process.env.OBJECTSTORE_SECRET_KEY &&
+    process.env.OBJECTSTORE_PRIVATE_URL
+  ) {
+    //secret is base64 encoded to allow any character
+    const decodedSecret = atob(process.env.OBJECTSTORE_SECRET_KEY);
+    //we want to set the private object store info for all
+    config.forEach(item => {
+      item.url = process.env.OBJECTSTORE_PRIVATE_URL;
+      item.accessKey = process.env.OBJECTSTORE_ACCESS_KEY;
+      item.secretKey = decodedSecret;
+    });
+  }
+};
+
 exports.getConfig = () => {
   let config;
   if (process.env.CYPRESS_TEST_MODE === "e2e") {
@@ -27,6 +44,11 @@ exports.getConfig = () => {
           process.env.CYPRESS_JOB_ID ? (name = name + "-" + job_id) : name;
           data.name = name;
 
+          if (key == "objectstore" && data.new) {
+            //update object store repo info for new subscription
+            updateObjectStoreInfo(process, data.new);
+          }
+
           // inject private credentials if given for the first subscription
           //only if we have multiple subscriptions
           //or this is an object store subscription
@@ -45,22 +67,7 @@ exports.getConfig = () => {
                 }
                 break;
               case "objectstore":
-                if (
-                  process.env.OBJECTSTORE_ACCESS_KEY &&
-                  process.env.OBJECTSTORE_SECRET_KEY &&
-                  process.env.OBJECTSTORE_PRIVATE_URL
-                ) {
-                  //secret is base64 encoded to allow any character
-                  const decodedSecret = atob(
-                    process.env.OBJECTSTORE_SECRET_KEY
-                  );
-                  //we want to set the private object store info for all
-                  config.forEach(item => {
-                    item.url = process.env.OBJECTSTORE_PRIVATE_URL;
-                    item.accessKey = process.env.OBJECTSTORE_ACCESS_KEY;
-                    item.secretKey = decodedSecret;
-                  });
-                }
+                updateObjectStoreInfo(process, config);
                 break;
               case "helm":
                 if (

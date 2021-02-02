@@ -392,6 +392,16 @@ export const getPulseForNodeWithPodStatus = node => {
   if (node.type === 'pod') {
     desired = 1
   }
+  if (
+    node.type === 'controllerrevision' &&
+    resourceMap &&
+    Object.keys(resourceMap).length > 0
+  ) {
+    desired = resourceMap[Object.keys(resourceMap)[0]].desired
+      ? resourceMap[Object.keys(resourceMap)[0]].desired
+      : 'NA'
+  }
+
   const resourceName = _.get(node, metadataName, '')
   const clusterNames = R.split(',', getClusterName(node.id))
   const clusterObjs = _.get(node, clusterObjsPath, [])
@@ -834,9 +844,9 @@ export const getNameWithoutPodHash = relatedKind => {
       ) {
         podHash = values[1].trim()
         if (podHash.indexOf('-') > -1) {
-          // for hashes that include prefix
+          // for hashes that include prefix, always take last section
           const hashValues = R.split('-')(podHash)
-          podHash = hashValues[1]
+          podHash = hashValues[hashValues.length - 1]
         }
         nameNoHash = R.replace(`-${podHash}`, '')(nameNoHash)
       }

@@ -365,6 +365,217 @@ describe("getPulseForNodeWithPodStatus ", () => {
   });
 });
 
+describe("getPulseForNodeWithPodStatus controllerrevision type", () => {
+  const podItem = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--controllerrevision--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--controllerrevision--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    type: "controllerrevision",
+    specs: {
+      podModel: {
+        "mortgage-app-deploy-55c65b9c8f-6v9bn": {
+          cluster: "feng",
+          hostIP: "1.1.1.1",
+          status: "Error",
+          startedAt: "2020-04-20T22:03:52Z",
+          restarts: 0,
+          podIP: "1.1.1.1"
+        }
+      },
+      controllerrevisionModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 2,
+          desired: 3,
+          unavailable: 1
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      raw: {
+        apiVersion: "apps/v1",
+        kind: "ControllerRevision",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          replicas: 1,
+          selector: {
+            matchLabels: { app: "mortgage-app-mortgage" }
+          },
+          template: {
+            metadata: {
+              labels: { app: "mortgage-app-mortgage" }
+            },
+            spec: {
+              containers: [
+                {
+                  image: "fxiang/mortgage:0.4.0",
+                  imagePullPolicy: "Always",
+                  name: "mortgage-app-mortgage",
+                  ports: [
+                    {
+                      containerPort: 9080
+                    }
+                  ],
+                  resources: {
+                    limits: { cpu: "200m", memory: "256Mi" },
+                    request: { cpu: "200m", memory: "256Mi" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      deployStatuses: [
+        {
+          phase: "Subscribed",
+          resourceStatus: {
+            availableReplicas: 1
+          }
+        }
+      ]
+    }
+  };
+
+  it("getPulseForNodeWithPodStatus pulse red controllerrevision type", () => {
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("red");
+  });
+});
+
+describe("getPulseForNodeWithPodStatus controllerrevision type no desired", () => {
+  const podItem = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--controllerrevision--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--controllerrevision--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    type: "controllerrevision",
+    specs: {
+      podModel: {
+        "mortgage-app-deploy-55c65b9c8f-6v9bn": {
+          cluster: "feng",
+          hostIP: "1.1.1.1",
+          status: "Error",
+          startedAt: "2020-04-20T22:03:52Z",
+          restarts: 0,
+          podIP: "1.1.1.1"
+        }
+      },
+      controllerrevisionModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 2,
+          unavailable: 1
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      raw: {
+        apiVersion: "apps/v1",
+        kind: "ControllerRevision",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          replicas: 1,
+          selector: {
+            matchLabels: { app: "mortgage-app-mortgage" }
+          },
+          template: {
+            metadata: {
+              labels: { app: "mortgage-app-mortgage" }
+            },
+            spec: {
+              containers: [
+                {
+                  image: "fxiang/mortgage:0.4.0",
+                  imagePullPolicy: "Always",
+                  name: "mortgage-app-mortgage",
+                  ports: [
+                    {
+                      containerPort: 9080
+                    }
+                  ],
+                  resources: {
+                    limits: { cpu: "200m", memory: "256Mi" },
+                    request: { cpu: "200m", memory: "256Mi" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      deployStatuses: [
+        {
+          phase: "Subscribed",
+          resourceStatus: {
+            availableReplicas: 1
+          }
+        }
+      ]
+    }
+  };
+
+  it("getPulseForNodeWithPodStatus pulse red controllerrevision type no desired", () => {
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("red");
+  });
+});
+
 describe("getPulseForNodeWithPodStatus no replica", () => {
   const podItem = {
     id:

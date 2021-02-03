@@ -14,6 +14,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Breadcrumb, Tabs, Tab, Button } from 'carbon-components-react'
 import { DetailPageHeader } from 'carbon-addons-cloud-react'
+import {
+  AcmPageHeader,
+  AcmAutoRefreshSelect
+} from '@open-cluster-management/ui-components'
 import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
@@ -63,81 +67,101 @@ export class SecondaryHeader extends React.Component {
       actions
     } = this.props
     const { locale } = this.context
+    const refetch = () => {}
+
+    const headerArgs = {
+      title: 'Applications',
+      titleTooltip: 'Doc link',
+      controls: (
+        <AcmAutoRefreshSelect
+          refetch={refetch}
+          refreshIntervals={[15, 30, 60, 5 * 60, 30 * 60, 0]}
+        />
+      )
+    }
     if (
       (tabs && tabs.length > 0) ||
       (breadcrumbItems && breadcrumbItems.length > 0)
     ) {
       return (
-        <div
-          className={classNames({
-            'secondary-header-wrapper': true,
-            'with-tabs': tabs && tabs.length > 0,
-            'with-breadcrumbs': breadcrumbItems && breadcrumbItems.length > 0
-          })}
-          role="region"
-          aria-label={title}
-        >
+        <React.Fragment>
           <div
-            className={`secondary-header ${
-              actions && !tabs ? 'detailed-header-override' : ''
-            }`}
+            className={classNames({
+              'secondary-header-wrapper': true,
+              'with-tabs': tabs && tabs.length > 0,
+              'with-breadcrumbs': breadcrumbItems && breadcrumbItems.length > 0
+            })}
+            role="region"
+            aria-label={title}
           >
-            <React.Fragment>
-              <DetailPageHeader
-                hasTabs={true}
-                title={decodeURIComponent(title)}
-                statusText={null}
-                statusContent={this.renderTooltip()}
-                aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
-              >
-                {breadcrumbItems && (
-                  <Breadcrumb>{this.renderBreadCrumb()}</Breadcrumb>
+            <div
+              className={`secondary-header ${
+                actions && !tabs ? 'detailed-header-override' : ''
+              }`}
+            >
+              <React.Fragment>
+                <DetailPageHeader
+                  hasTabs={true}
+                  title={decodeURIComponent(title)}
+                  statusText={null}
+                  statusContent={this.renderTooltip()}
+                  aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
+                >
+                  {breadcrumbItems && (
+                    <Breadcrumb>{this.renderBreadCrumb()}</Breadcrumb>
+                  )}
+                </DetailPageHeader>
+                {this.state.shadowPresent && (
+                  <React.Fragment>
+                    <div
+                      className={
+                        breadcrumbItems
+                          ? 'header-box-shadow--tall'
+                          : 'header-box-shadow'
+                      }
+                    />
+                  </React.Fragment>
                 )}
-              </DetailPageHeader>
-              {this.state.shadowPresent && (
-                <React.Fragment>
-                  <div
-                    className={
-                      breadcrumbItems
-                        ? 'header-box-shadow--tall'
-                        : 'header-box-shadow'
-                    }
-                  />
-                </React.Fragment>
-              )}
-              {tabs &&
-                tabs.length > 0 && (
-                  <div className="tab-container">
-                    <Tabs
-                      className={classNames({
-                        'cluster-tabs--long': breadcrumbItems,
-                        'cluster-tabs': !breadcrumbItems
-                      })}
-                      selected={this.getSelectedTab() || 0}
-                      aria-label={`${title} ${msgs.get('tabs.label', locale)}`}
-                    >
-                      {this.renderTabs()}
-                    </Tabs>
-                    {mainButton && (
-                      <div
+                {tabs &&
+                  tabs.length > 0 && (
+                    <div className="tab-container">
+                      <Tabs
                         className={classNames({
-                          'main-button-container': true,
-                          'with-breadcrumbs': breadcrumbItems
+                          'cluster-tabs--long': breadcrumbItems,
+                          'cluster-tabs': !breadcrumbItems
                         })}
+                        selected={this.getSelectedTab() || 0}
+                        aria-label={`${title} ${msgs.get(
+                          'tabs.label',
+                          locale
+                        )}`}
                       >
-                        {mainButton}
-                      </div>
-                    )}
-                  </div>
-              )}
-            </React.Fragment>
-            {actions && this.renderActions()}
+                        {this.renderTabs()}
+                      </Tabs>
+                      {mainButton && (
+                        <div
+                          className={classNames({
+                            'main-button-container': true,
+                            'with-breadcrumbs': breadcrumbItems
+                          })}
+                        >
+                          {mainButton}
+                        </div>
+                      )}
+                    </div>
+                )}
+              </React.Fragment>
+              {actions && this.renderActions()}
+            </div>
+            {links &&
+              links.length > 0 && (
+                <div className="secondary-header-links">
+                  {this.renderLinks()}
+                </div>
+            )}
           </div>
-          {links &&
-            links.length > 0 && (
-              <div className="secondary-header-links">{this.renderLinks()}</div>
-          )}
-        </div>
+          <AcmPageHeader {...headerArgs} />
+        </React.Fragment>
       )
     } else {
       return (

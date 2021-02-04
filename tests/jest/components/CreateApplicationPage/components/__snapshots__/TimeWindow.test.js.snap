@@ -417,28 +417,50 @@ exports[`TimeWindow component renders as expected 1`] = `
                   className="config-input-time"
                 >
                   <div
-                    className="bx--form-item"
+                    className="pf-c-date-picker"
                   >
                     <div
-                      className="bx--time-picker"
+                      className="pf-c-date-picker__input"
+                      style={
+                        Object {
+                          "--pf-c-date-picker__input--c-form-control--Width": "140px",
+                        }
+                      }
                     >
                       <div
-                        className="bx--time-picker__input"
+                        className="pf-c-input-group"
                       >
-                        <input
-                          className="bx--time-picker__input-field"
-                          disabled={true}
+                        <div
+                          className="pf-c-select"
                           id="start-time-0"
-                          maxLength={5}
-                          name="start-time"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onClick={[Function]}
-                          pattern="(1[012]|[1-9]):[0-5][0-9](\\\\s)?(?i)"
-                          placeholder="hh:mm"
-                          type="time"
-                          value=""
-                        />
+                        >
+                          <div
+                            className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                            style={
+                              Object {
+                                "paddingLeft": "0",
+                              }
+                            }
+                          >
+                            <input
+                              aria-invalid={false}
+                              aria-label="Time picker"
+                              autoComplete="off"
+                              className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              disabled={true}
+                              id="start-time-0-input"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              placeholder="hh:mm"
+                              readOnly={false}
+                              required={false}
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -447,28 +469,50 @@ exports[`TimeWindow component renders as expected 1`] = `
                   className="config-input-time"
                 >
                   <div
-                    className="bx--form-item"
+                    className="pf-c-date-picker"
                   >
                     <div
-                      className="bx--time-picker"
+                      className="pf-c-date-picker__input"
+                      style={
+                        Object {
+                          "--pf-c-date-picker__input--c-form-control--Width": "140px",
+                        }
+                      }
                     >
                       <div
-                        className="bx--time-picker__input"
+                        className="pf-c-input-group"
                       >
-                        <input
-                          className="bx--time-picker__input-field"
-                          disabled={true}
+                        <div
+                          className="pf-c-select"
                           id="end-time-0"
-                          maxLength={5}
-                          name="end-time"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onClick={[Function]}
-                          pattern="(1[012]|[1-9]):[0-5][0-9](\\\\s)?(?i)"
-                          placeholder="hh:mm"
-                          type="time"
-                          value=""
-                        />
+                        >
+                          <div
+                            className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                            style={
+                              Object {
+                                "paddingLeft": "0",
+                              }
+                            }
+                          >
+                            <input
+                              aria-invalid={false}
+                              aria-label="Time picker"
+                              autoComplete="off"
+                              className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              disabled={true}
+                              id="end-time-0-input"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              placeholder="hh:mm"
+                              readOnly={false}
+                              required={false}
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

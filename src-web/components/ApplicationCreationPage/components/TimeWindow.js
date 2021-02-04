@@ -5,7 +5,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
-import { TimePicker } from 'carbon-components-react'
 import { AcmSelect } from '@open-cluster-management/ui-components'
 import {
   Radio,
@@ -15,7 +14,8 @@ import {
   AccordionToggle,
   AccordionContent,
   SelectOption,
-  SelectVariant
+  SelectVariant,
+  TimePicker
 } from '@patternfly/react-core'
 import PlusCircleIcon from '@patternfly/react-icons/dist/js/icons/plus-circle-icon'
 import TimesCircleIcon from '@patternfly/react-icons/dist/js/icons/times-circle-icon'
@@ -93,6 +93,20 @@ export class TimeWindow extends React.Component {
         exceptions.push({
           row: 1,
           text: msgs.get('creation.missing.timeWindow.timezone', locale),
+          type: 'error',
+          controlId: 'timeWindow-config'
+        })
+      }
+      // Add exception if no timezone selected
+      if (
+        !control.active.timeList ||
+        control.active.timeList.length === 0 ||
+        control.active.timeList[0].start === '' ||
+        control.active.timeList[0].end === ''
+      ) {
+        exceptions.push({
+          row: 1,
+          text: msgs.get('creation.missing.timeWindow.timelist', locale),
           type: 'error',
           controlId: 'timeWindow-config'
         })
@@ -312,7 +326,7 @@ export class TimeWindow extends React.Component {
     return (
       control.active &&
       control.active.timeList.map(item => {
-        const { id, start, end, validTime } = item
+        const { id, existingStart, existingEnd, validTime } = item
         // Don't show deleted time invertals
         if (validTime) {
           return (
@@ -341,21 +355,19 @@ export class TimeWindow extends React.Component {
                 <div className="config-input-time">
                   <TimePicker
                     id={`start-time-${id}`}
-                    name="start-time"
-                    type="time"
-                    value={this.state.startTime || to24(start) || ''}
-                    disabled={!modeSelected}
+                    defaultTime={existingStart ? existingStart : ''}
+                    isDisabled={!modeSelected}
                     onChange={this.handleTimeRange.bind(this)}
+                    width={'140px'}
                   />
                 </div>
                 <div className="config-input-time">
                   <TimePicker
                     id={`end-time-${id}`}
-                    name="end-time"
-                    type="time"
-                    value={this.state.endTime || to24(end) || ''}
-                    disabled={!modeSelected}
+                    defaultTime={existingEnd ? existingEnd : ''}
+                    isDisabled={!modeSelected}
                     onChange={this.handleTimeRange.bind(this)}
+                    width={'140px'}
                   />
                 </div>
                 {id !== 0 ? ( // Option to remove added times
@@ -385,14 +397,25 @@ export class TimeWindow extends React.Component {
     )
   };
 
-  // Convert 24-hour format to 12-hour format
-  convertTimeFormat = time => {
-    if (time !== '') {
-      const hour24 = +time.substring(0, 2)
-      let hour12 = hour24 % 12 || 12
-      hour12 = hour12 < 10 ? '0' + hour12 : hour12
-      const period = hour24 < 12 ? 'AM' : 'PM'
-      return hour12 + time.substring(2) + period
+  getRegExp = () => new RegExp('\\b\\d\\d?:?[0-5]\\d\\s?([AaPp][Mm])?\\b');
+
+  validateTime = time => {
+    // hours only valid if they are [0-12]
+    const hours = parseInt(time.split(':')[0])
+    const validHours = hours >= 0 && hours <= 12
+    return this.getRegExp().test(time) && validHours
+  };
+
+  parseTime = time => {
+    if (time !== '' && this.validateTime(time)) {
+      if (
+        !time.toLowerCase().includes('am') &&
+        !time.toLowerCase().includes('pm')
+      ) {
+        return `${time}${new Date().getHours() > 11 ? 'pm' : 'am'}` // if currently morning append am, otherwise pm
+      } else {
+        return time.toLowerCase()
+      }
     } else {
       return ''
     }
@@ -455,36 +478,26 @@ export class TimeWindow extends React.Component {
     handleChange(control)
   };
 
-  handleTimeRange(event) {
+  handleTimeRange(value, event) {
     const { control, handleChange } = this.props
 
-    let targetName = ''
+    let targetID = ''
     try {
-      targetName = event.target.name
+      targetID = event.target.id
     } catch (e) {
-      targetName = ''
+      targetID = ''
     }
 
-    switch (targetName) {
-    case 'start-time':
-      {
-        const startTimeID = parseInt(event.target.id.split('-')[2], 10)
-        const convertedTime = this.convertTimeFormat(event.target.value)
-        // As long as first start-time is entered, all times will show
-        if (startTimeID === 0) {
-          control.active.showTimeSection = convertedTime ? true : false
-        }
-        control.active.timeList[startTimeID].start = convertedTime
+    const timeID = parseInt(targetID.split('-')[2], 10)
+    if (targetID.includes('start-time')) {
+      // As long as first start-time is entered, all times will show
+      const parsedTime = this.parseTime(value)
+      if (timeID === 0) {
+        control.active.showTimeSection = parsedTime ? true : false
       }
-      break
-    case 'end-time':
-      {
-        const endTimeID = parseInt(event.target.id.split('-')[2], 10)
-        control.active.timeList[endTimeID].end = this.convertTimeFormat(
-          event.target.value
-        )
-      }
-      break
+      control.active.timeList[timeID].start = parsedTime
+    } else if (targetID.includes('end-time')) {
+      control.active.timeList[timeID].end = this.parseTime(value)
     }
 
     handleChange(control)
@@ -558,6 +571,8 @@ export const reverse = (control, templateObject) => {
       timeList = timeList.map(({ start, end }, id) => {
         return {
           id,
+          existingStart: start,
+          existingEnd: end,
           start,
           end,
           validTime: true
@@ -592,21 +607,4 @@ export const summarize = (control, controlData, summary) => {
   } else {
     summary.push('No time window')
   }
-}
-
-// Convert 12-hour format to 24-hour format
-const to24 = time => {
-  const match = /((1[0-2]|0?[1-9]):([0-5][0-9])([AP][M]))/.exec(time)
-  if (match) {
-    const [, , hour12, minute, period] = match
-    let hour = parseInt(hour12, 10)
-    if (hour < 12 && period === 'PM') {
-      hour += 12
-    }
-    if (hour < 10) {
-      hour = `0${hour}`
-    }
-    return `${hour}:${minute}`
-  }
-  return time
 }

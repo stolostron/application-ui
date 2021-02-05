@@ -34,6 +34,7 @@ export const mapSingleApplication = application => {
       }
 
   result.related = application.related || []
+  
   items.forEach(item => {
     //if this is an argo app, the related kinds query should be built from the items section
     //for argo we ask for namespace:targetNamespace label:appLabel kind:<comma separated string of resource kind>
@@ -45,23 +46,22 @@ export const mapSingleApplication = application => {
       return
     }
 
-    const relatedList = _.get(result, 'related', [])
+    //find under the related array an object matching this kind
     const queryKind = _.filter(
-      relatedList,
+      result.related,
       filtertype => _.get(filtertype, 'kind', '') === kind
     )
-    if (!result.related) {
-      result.related = relatedList
-    }
+    //if that kind section was found add this object to it, otherwise create a new kind object for it
     const kindSection =
-      !queryKind || queryKind.length > 0 ? queryKind : { kind, items: [item] }
+      queryKind && queryKind.length > 0 ? queryKind : { kind, items: [item] }
     if (!queryKind || queryKind.length == 0) {
-      //link it to the app
+      //link this kind section directly to the results array
       result.related.push(kindSection)
     } else {
-      kindSection.items.push(item)
+      kindSection[0].items.push(item)
     }
   })
+  
   console.log('RESULT IS ', result)
   return [result]
 }

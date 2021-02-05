@@ -84,17 +84,26 @@ export const getResourceData = nodes => {
   const nodeTypes = []
 
   let isArgoApp = false
-  let targetNamespaces = []
+  const targetNamespaces = []
   const appNode = nodes.find(r => r.type === 'application')
-  if(appNode) {
-      isArgoApp = lodash.get(appNode, ['specs', 'raw', 'apiVersion'], '').indexOf('argo') !== -1
-      //get argo app destination namespaces
-      targetNamespaces.push(lodash.get(appNode, ['specs', 'raw', 'spec', 'destination', 'namespace'], ''))
+  if (appNode) {
+    isArgoApp =
+      lodash
+        .get(appNode, ['specs', 'raw', 'apiVersion'], '')
+        .indexOf('argo') !== -1
+    //get argo app destination namespaces
+    targetNamespaces.push(
+      lodash.get(
+        appNode,
+        ['specs', 'raw', 'spec', 'destination', 'namespace'],
+        ''
+      )
+    )
   }
 
   nodes.forEach(node => {
     const nodeType = lodash.get(node, 'type', '')
-    if(!(isArgoApp && lodash.includes(['application', 'cluster'], nodeType))) {
+    if (!(isArgoApp && lodash.includes(['application', 'cluster'], nodeType))) {
       nodeTypes.push(nodeType) //ask for this related object type
     }
     if (nodeMustHavePods(node)) {

@@ -150,7 +150,8 @@ export const getDiagramElements = (
   const topologyLoadError = status === REQUEST_STATUS.ERROR
   const appLoaded = applicationDetails && applicationDetails.status === 'DONE'
   const specsActiveChannel = 'specs.activeChannel'
-  if (loaded && !topologyLoadError) { // && appLoaded) {
+  if (loaded && !topologyLoadError) {
+    // && appLoaded) {
     // topology from api will have raw k8 objects, pods status
     const { topo_links, topo_nodes } = getTopologyElements(topology)
     // create yaml and what row links to what node
@@ -228,7 +229,7 @@ export const getDiagramElements = (
       yaml: yamlStr
     })
 
-    if(appLoaded) {
+    if (appLoaded) {
       // details are requested separately for faster load
       // if loaded, we add those details now
       addDiagramDetails(

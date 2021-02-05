@@ -77,7 +77,10 @@ export const getClusterName = nodeId => {
   if (clusterIndex !== -1) {
     const startPos = nodeId.indexOf('--clusters--') + 12
     const endPos = nodeId.indexOf('--', startPos)
-    const clusterName = nodeId.slice(startPos, endPos > 0 ? endPos : nodeId.length)
+    const clusterName = nodeId.slice(
+      startPos,
+      endPos > 0 ? endPos : nodeId.length
+    )
     console.log('clusterName', clusterName)
     return nodeId.slice(startPos, endPos > 0 ? endPos : nodeId.length)
   }

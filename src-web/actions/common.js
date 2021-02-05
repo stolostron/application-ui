@@ -124,24 +124,24 @@ export const getQueryStringForResources = resourcename => {
 
 export const getQueryStringForResource = (resourcename, name, namespace) => {
   let resource = ''
-  let nameForQuery = name ? `name:${name}` : ''
-  let namespaceForQuery = namespace ? ` namespace:${namespace}` : ''
-  if(resourcename) {
+  const nameForQuery = name ? `name:${name}` : ''
+  const namespaceForQuery = namespace ? ` namespace:${namespace}` : ''
+  if (resourcename) {
     switch (resourcename) {
-      case 'HCMChannel':
-        resource = 'kind:channel '
-        break
-      case 'HCMSubscription':
-        resource = 'kind:subscription '
-        break
-      case 'HCMApplication':
-        resource = 'kind:application '
-        break
-      case 'HCMPlacementRule':
-        resource = 'kind:placementrule '
-        break
-      default:
-        resource = `kind:${resourcename} `  
+    case 'HCMChannel':
+      resource = 'kind:channel '
+      break
+    case 'HCMSubscription':
+      resource = 'kind:subscription '
+      break
+    case 'HCMApplication':
+      resource = 'kind:application '
+      break
+    case 'HCMPlacementRule':
+      resource = 'kind:placementrule '
+      break
+    default:
+      resource = `kind:${resourcename} `
     }
   }
   return convertStringToQuery(`${resource}${nameForQuery}${namespaceForQuery}`)
@@ -259,12 +259,16 @@ export const fetchResources = resourceType => {
 export const fetchResource = (resourceType, namespace, name, querySettings) => {
   let query = getQueryStringForResource(resourceType.name, name, namespace)
   if (querySettings) {
-
-    if(querySettings.isArgoApp) {
-
-      const argoKinds = querySettings.relatedKinds ? querySettings.relatedKinds.toString() : null
+    if (querySettings.isArgoApp) {
+      const argoKinds = querySettings.relatedKinds
+        ? querySettings.relatedKinds.toString()
+        : null
       //get all resources from the target namespace since they are not linked to the argo application
-      query = getQueryStringForResource(argoKinds, null, querySettings.targetNamespaces[0]);
+      query = getQueryStringForResource(
+        argoKinds,
+        null,
+        querySettings.targetNamespaces[0]
+      )
       //SEARCH FAILS if adding the filter: TODO TO OPEN A DEFECT FOR SEARCH
       //query.filters.push({property: "label", values: ['app=helloworld-app']})
       query.relatedKinds.push('cluster')
@@ -285,7 +289,6 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
         query.relatedKinds = querySettings.relatedKinds
       }
     }
-
   }
   return dispatch => {
     dispatch(requestResource(resourceType))

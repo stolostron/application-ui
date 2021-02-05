@@ -10,25 +10,28 @@
 import _ from 'lodash'
 
 // @flow
-export const mapSingleApplication = (application) => {
+export const mapSingleApplication = application => {
   console.log('mapSingleApplication ', application)
   const items = _.get(application, 'items', [])
 
-  let result = items.length > 0 ? items[0] : {
-    name: '',
-    namespace: '',
-    dashboard: '',
-    selfLink: '',
-    _uid: '',
-    created: '',
-    apigroup: '',
-    cluster: '',
-    kind: '',
-    label: '',
-    _hubClusterResource: '',
-    _rbac: '',
-    related: []
-  }
+  const result =
+    items.length > 0
+      ? items[0]
+      : {
+        name: '',
+        namespace: '',
+        dashboard: '',
+        selfLink: '',
+        _uid: '',
+        created: '',
+        apigroup: '',
+        cluster: '',
+        kind: '',
+        label: '',
+        _hubClusterResource: '',
+        _rbac: '',
+        related: []
+      }
 
   result.related = application.related || []
   items.forEach(item => {
@@ -37,26 +40,28 @@ export const mapSingleApplication = (application) => {
     //this code moves all these items under the related section
     const kind = _.get(item, 'kind')
 
-    if(kind === 'application' || kind === 'subscription') {
+    if (kind === 'application' || kind === 'subscription') {
       //this is a legit app object , just leave it
       return
     }
 
     const relatedList = _.get(result, 'related', [])
-    const queryKind = _.filter(relatedList, (filtertype) => _.get(filtertype, 'kind', '') === kind)
-    if(!result.related) {
+    const queryKind = _.filter(
+      relatedList,
+      filtertype => _.get(filtertype, 'kind', '') === kind
+    )
+    if (!result.related) {
       result.related = relatedList
     }
-    const kindSection = !queryKind || queryKind.length > 0 ? queryKind : {kind, items: [item]}
-    if(!queryKind || queryKind.length == 0) {
+    const kindSection =
+      !queryKind || queryKind.length > 0 ? queryKind : { kind, items: [item] }
+    if (!queryKind || queryKind.length == 0) {
       //link it to the app
       result.related.push(kindSection)
     } else {
       kindSection.items.push(item)
     }
-    
-
   })
-console.log('RESULT IS ', result)
+  console.log('RESULT IS ', result)
   return [result]
 }

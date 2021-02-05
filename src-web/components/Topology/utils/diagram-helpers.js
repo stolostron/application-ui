@@ -968,7 +968,12 @@ export const setupResourceModel = (
       }
 
       let resourceMapForObject = resourceMap[name]
-      console.log('RESOURCE MAP FOR OBJECT', name, resourceMapForObject, resourceMap)
+      console.log(
+        'RESOURCE MAP FOR OBJECT',
+        name,
+        resourceMapForObject,
+        resourceMap
+      )
       if (!resourceMapForObject && kind === 'pod' && podHash) {
         //just found a pod object, try to map it to the parent resource using the podHash
         resourceMapForObject = resourceMap[`pod-${podHash}`]

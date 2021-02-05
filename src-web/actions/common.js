@@ -123,29 +123,28 @@ export const getQueryStringForResources = resourcename => {
 }
 
 export const getQueryStringForResource = (resourcename, name, namespace) => {
-  switch (resourcename) {
-  case 'HCMChannel':
-    return convertStringToQuery(
-      `kind:channel name:${name} namespace:${namespace}`
-    )
-  case 'HCMSubscription':
-    return convertStringToQuery(
-      //get only hub subscriptions
-      `kind:subscription name:${name} namespace:${namespace} cluster:local-cluster`
-    )
-  case 'HCMApplication':
-    return convertStringToQuery(
-      `kind:application name:${name} namespace:${namespace}`
-    )
-  case 'HCMPlacementRule':
-    return convertStringToQuery(
-      `kind:placementrule name:${name} namespace:${namespace}`
-    )
-  default:
-    return convertStringToQuery(
-      `kind:application name:${name} namespace:${namespace}`
-    )
+  let resource = ''
+  let nameForQuery = name ? `name:${name}` : ''
+  let namespaceForQuery = namespace ? ` namespace:${namespace}` : ''
+  if(resourcename) {
+    switch (resourcename) {
+      case 'HCMChannel':
+        resource = 'kind:channel '
+        break
+      case 'HCMSubscription':
+        resource = 'kind:subscription '
+        break
+      case 'HCMApplication':
+        resource = 'kind:application '
+        break
+      case 'HCMPlacementRule':
+        resource = 'kind:placementrule '
+        break
+      default:
+        resource = `kind:${resourcename} `  
+    }
   }
+  return convertStringToQuery(`${resource}${nameForQuery}${namespaceForQuery}`)
 }
 
 const getResourceQuery = resourceType => {
@@ -260,20 +259,33 @@ export const fetchResources = resourceType => {
 export const fetchResource = (resourceType, namespace, name, querySettings) => {
   let query = getQueryStringForResource(resourceType.name, name, namespace)
   if (querySettings) {
-    //query asking for a subset of related kinds and possibly for one subscription only
-    if (querySettings.subscription) {
-      //get related resources only for the selected subscription
-      query = getQueryStringForResource(
-        RESOURCE_TYPES.HCM_SUBSCRIPTIONS.name,
-        querySettings.subscription,
-        namespace
-      )
-      //ask only for these type of resources
-      query.relatedKinds = querySettings.relatedKinds
+
+    if(querySettings.isArgoApp) {
+
+      const argoKinds = querySettings.relatedKinds ? querySettings.relatedKinds.toString() : null
+      //get all resources from the target namespace since they are not linked to the argo application
+      query = getQueryStringForResource(argoKinds, null, querySettings.targetNamespaces[0]);
+      //SEARCH FAILS if adding the filter: TODO TO OPEN A DEFECT FOR SEARCH
+      //query.filters.push({property: "label", values: ['app=helloworld-app']})
+      query.relatedKinds.push('cluster')
+      console.log('getting argo app !', querySettings, query)
     } else {
-      //get related resources for the application, but only this subset
-      query.relatedKinds = querySettings.relatedKinds
+      //query asking for a subset of related kinds and possibly for one subscription only
+      if (querySettings.subscription) {
+        //get related resources only for the selected subscription
+        query = getQueryStringForResource(
+          RESOURCE_TYPES.HCM_SUBSCRIPTIONS.name,
+          querySettings.subscription,
+          namespace
+        )
+        //ask only for these type of resources
+        query.relatedKinds = querySettings.relatedKinds
+      } else {
+        //get related resources for the application, but only this subset
+        query.relatedKinds = querySettings.relatedKinds
+      }
     }
+
   }
   return dispatch => {
     dispatch(requestResource(resourceType))

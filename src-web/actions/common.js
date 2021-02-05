@@ -267,10 +267,9 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
       query = getQueryStringForResource(
         argoKinds,
         null,
-        querySettings.targetNamespaces[0]
+        querySettings.targetNamespaces.toString()
       )
-      //SEARCH FAILS if adding the filter: TODO TO OPEN A DEFECT FOR SEARCH
-      //query.filters.push({property: "label", values: ['app=helloworld-app']})
+      //get the cluster for each target namespace
       query.relatedKinds.push('cluster')
     } else {
       //query asking for a subset of related kinds and possibly for one subscription only

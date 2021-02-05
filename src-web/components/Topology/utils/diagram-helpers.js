@@ -977,6 +977,7 @@ export const setupResourceModel = (
           resourceMap[`pod-deploymentconfig-${deployableName}`]
       }
 
+      let notFound = true
       if (resourceMapForObject) {
         addResourceToModel(
           resourceMapForObject,
@@ -984,6 +985,7 @@ export const setupResourceModel = (
           relatedKind,
           nameWithoutChartRelease
         )
+        notFound = false
       } else {
         //get resource by looking at the cluster grouping
         Object.keys(resourceMap).forEach(key => {
@@ -1005,8 +1007,12 @@ export const setupResourceModel = (
               relatedKind,
               nameWithoutChartRelease
             )
+            notFound = false
           }
         })
+      }
+      if(notFound) {
+        console.log('NOT FOUND !!!', kind, relatedKind)
       }
     })
   })

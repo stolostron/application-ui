@@ -272,7 +272,6 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
       //SEARCH FAILS if adding the filter: TODO TO OPEN A DEFECT FOR SEARCH
       //query.filters.push({property: "label", values: ['app=helloworld-app']})
       query.relatedKinds.push('cluster')
-      //console.log('getting argo app !', querySettings, query)
     } else {
       //query asking for a subset of related kinds and possibly for one subscription only
       if (querySettings.subscription) {

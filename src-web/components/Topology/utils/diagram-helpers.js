@@ -392,7 +392,7 @@ export const getPulseForNodeWithPodStatus = node => {
   if (node.type === 'pod') {
     desired = 1
   }
-  if ( (desired === 'NA' || 
+  if ( (desired === 'NA' || desired === 0 ||
     node.type === 'controllerrevision') &&
     resourceMap &&
     Object.keys(resourceMap).length > 0
@@ -423,8 +423,6 @@ export const getPulseForNodeWithPodStatus = node => {
     const resourceItem = fixMissingStateOptions(
       resourceMap[`${resourceName}-${clusterName}`]
     )
-
-    console.log('checking for cluster', clusterName, resourceItem)
 
     const processItem = Object.keys(podList).length === 0 && resourceItem
 

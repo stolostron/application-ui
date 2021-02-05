@@ -81,7 +81,7 @@ export const getClusterName = nodeId => {
       startPos,
       endPos > 0 ? endPos : nodeId.length
     )
-    console.log('clusterName', clusterName)
+    //console.log('clusterName', clusterName)
     return nodeId.slice(startPos, endPos > 0 ? endPos : nodeId.length)
   }
 
@@ -172,6 +172,9 @@ export const getOnlineClusters = (clusterNames, clusterObjs) => {
 }
 
 export const getClusterHost = consoleURL => {
+  if(!consoleURL) {
+    return ''
+  }
   const consoleURLInstance = new URL(consoleURL)
   const ocpIdx = consoleURL ? consoleURLInstance.host.indexOf('.') : -1
   if (ocpIdx < 0) {

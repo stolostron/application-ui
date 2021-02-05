@@ -392,8 +392,8 @@ export const getPulseForNodeWithPodStatus = node => {
   if (node.type === 'pod') {
     desired = 1
   }
-  if (
-    node.type === 'controllerrevision' &&
+  if ( (desired === 'NA' || 
+    node.type === 'controllerrevision') &&
     resourceMap &&
     Object.keys(resourceMap).length > 0
   ) {
@@ -423,6 +423,9 @@ export const getPulseForNodeWithPodStatus = node => {
     const resourceItem = fixMissingStateOptions(
       resourceMap[`${resourceName}-${clusterName}`]
     )
+
+    console.log('checking for cluster', clusterName, resourceItem)
+
     const processItem = Object.keys(podList).length === 0 && resourceItem
 
     if (resourceItem && resourceItem.kind === 'daemonset') {
@@ -968,12 +971,6 @@ export const setupResourceModel = (
       }
 
       let resourceMapForObject = resourceMap[name]
-      console.log(
-        'RESOURCE MAP FOR OBJECT',
-        name,
-        resourceMapForObject,
-        resourceMap
-      )
       if (!resourceMapForObject && kind === 'pod' && podHash) {
         //just found a pod object, try to map it to the parent resource using the podHash
         resourceMapForObject = resourceMap[`pod-${podHash}`]
@@ -1013,7 +1010,6 @@ export const setupResourceModel = (
           }
         })
       }
-      console.log('NOT FOUND', kind, name, relatedKind, resourceMap)
     })
   })
 
@@ -1661,7 +1657,8 @@ export const addNodeOCPRouteLocationForCluster = (
     : 'http'
   hostLink = `${transport}://${hostName}/`
 
-  details.push({
+  //argo app doesn't have spec info
+  hostName && details.push({
     type: 'link',
     value: {
       label: hostLink,

@@ -278,3 +278,20 @@ export const fixMissingStateOptions = item => {
   }
   return item
 }
+
+//last attempt to match the resource namespace with the server target namespace ( argo )
+export const namespaceMatchTargetServer = (relatedKind, resourceMapForObject) => {
+
+  const namespace = _.get(relatedKind, 'namespace', '')
+  const findTargetClustersByNS = _.filter(
+    _.get(resourceMapForObject, 'clusters.specs.clusters', []),
+    filtertype => _.get(filtertype, 'destination.namespace', '') === namespace
+  )
+ //console.log('findTargetClustersByNS', findTargetClustersByNS)
+  //fix up the cluster on this object
+  if(findTargetClustersByNS.length > 0) {
+    relatedKind.cluster = _.get(findTargetClustersByNS[0], 'metadata.name', '')
+  }
+  return findTargetClustersByNS.length > 0
+
+}

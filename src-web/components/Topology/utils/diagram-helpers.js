@@ -27,7 +27,8 @@ import {
   getPulseStatusForSubscription,
   getExistingResourceMapKey,
   syncControllerRevisionPodStatusMap,
-  fixMissingStateOptions
+  fixMissingStateOptions,
+  namespaceMatchTargetServer
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 
@@ -893,7 +894,8 @@ export const setupResourceModel = (
   list,
   resourceMap,
   isClusterGrouped,
-  isHelmRelease
+  isHelmRelease,
+  topology
 ) => {
   if (checkNotOrObjects(list, resourceMap)) {
     return resourceMap
@@ -914,7 +916,25 @@ export const setupResourceModel = (
     [{ kind: 'deployable' }, { kind: 'cluster' }],
     'kind'
   )
-
+/*
+  //for argoApp, to map objects with servers not mapping to remote clusters
+  const clusterMapToTargetNS = {}
+  let clustersDetails = []
+  const clusterNodes = _.filter(
+    topology.nodes,
+    filtertype => _.get(filtertype, 'type', '') === 'cluster'
+  )
+console.log('PPPPPPPP', clusterNodes)
+  if(clusterNodes && clusterNodes.length > 0) {
+    clustersDetails = _.get(clusterNodes[0], 'specs.clusters', [])
+    console.log('CLUSTER', clustersDetails)
+    clustersDetails.forEach(detail => {
+      clusterMapToTargetNS[_.get(detail, 'metadata.name', '')] = _.get(detail, 'destination.namespace', '')
+    })
+  }
+  
+  console.log('clusterMapToTargetNS !!!!!!', clusterMapToTargetNS)
+*/
   orderedList.forEach(kindArray => {
     const relatedKindList = R.pathOr([], ['items'])(kindArray)
     relatedKindList.forEach(relatedKind => {
@@ -988,10 +1008,10 @@ export const setupResourceModel = (
         notFound = false
       } else {
         //get resource by looking at the cluster grouping
-        Object.keys(resourceMap).forEach(key => {
+        Object.keys(resourceMap).forEach(key => {          
           resourceMapForObject = resourceMap[key]
           if (
-            _.startsWith(key, name) &&
+            _.startsWith(key, name) && (
             _.includes(
               _.get(
                 resourceMapForObject,
@@ -1000,6 +1020,10 @@ export const setupResourceModel = (
               ),
               _.get(relatedKind, 'cluster')
             )
+            ||
+            namespaceMatchTargetServer(relatedKind, resourceMapForObject)
+            )
+            
           ) {
             addResourceToModel(
               resourceMapForObject,
@@ -1019,7 +1043,7 @@ export const setupResourceModel = (
 
   // need to preprocess and sync up podStatusMap for controllerrevision to parent
   syncControllerRevisionPodStatusMap(resourceMap)
-
+console.log(resourceMap)
   return resourceMap
 }
 

@@ -92,13 +92,15 @@ export const getResourceData = nodes => {
         .get(appNode, ['specs', 'raw', 'apiVersion'], '')
         .indexOf('argo') !== -1
     //get argo app destination namespaces
-    targetNamespaces.push(
-      lodash.get(
-        appNode,
-        ['specs', 'raw', 'spec', 'destination', 'namespace'],
-        ''
-      )
+
+    const targetNamespacesInfo = lodash.get(
+      appNode,
+      ['specs', 'raw', 'spec', 'destinations'], []
     )
+    targetNamespacesInfo.forEach(targetNS => {
+      const ns = _.get(targetNS, 'namespace');
+      ns && targetNamespaces.push(ns)
+    })
   }
 
   nodes.forEach(node => {

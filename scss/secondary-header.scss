@@ -154,14 +154,14 @@
     min-height: 40px;
 
     &.cluster-tabs {
-      top: 65px;
+      // top: 65px;
       background-color: $color__white;
       height: 40px;
       width: 100%;
 
       &--long {
         @extend .cluster-tabs;
-        top: 90px;
+        // top: 90px;
       }
     }
   }
@@ -170,7 +170,7 @@
     display: flex;
 
     .main-button-container {
-      top: 65px;
+      // top: 65px;
       background-color: #fff;
       vertical-align: bottom;
       padding-top: 3px;

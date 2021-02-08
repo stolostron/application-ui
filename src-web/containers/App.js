@@ -14,12 +14,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SecondaryHeader from '../components/SecondaryHeader'
+// import { Router } from 'react-router'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { withLocale } from '../providers/LocaleProvider'
 import resources from '../../lib/shared/resources'
 import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
+// import createBrowserHistory from 'history/createBrowserHistory'
 
 export const ActionModalApollo = loadable(() =>
   import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo')
@@ -120,10 +122,12 @@ class App extends React.Component {
     }
 
     const applicationsTitle = 'routes.applications'
+    // const history = createBrowserHistory();
 
     return (
       <div className="expand-vertically">
         <SecondaryHeader />
+        {/* <Router history={history}> */}
         <Switch>
           <Route
             exact
@@ -199,6 +203,7 @@ class App extends React.Component {
           />
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
+        {/* </Router> */}
         <ActionModalApollo locale={serverProps.context.locale} />
         <input
           type="hidden"

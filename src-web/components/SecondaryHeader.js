@@ -13,6 +13,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Breadcrumb, Tabs, Tab, Button } from 'carbon-components-react'
+import { AcmPageHeader } from '@open-cluster-management/ui-components'
 import { DetailPageHeader } from 'carbon-addons-cloud-react'
 import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
@@ -63,6 +64,43 @@ export class SecondaryHeader extends React.Component {
       actions
     } = this.props
     const { locale } = this.context
+
+    const headerArgs = {
+      title: decodeURIComponent(title),
+      breadcrumb: breadcrumbItems && [
+        { text: 'section1', to: '/section1' },
+        { text: 'section2', to: '/section2' }
+      ],
+      // breadcrumb: (breadcrumbItems &&
+      //   <Breadcrumb>{this.renderBreadCrumb()}</Breadcrumb>
+      // ),
+      navigation: tabs &&
+        tabs.length > 0 && (
+          <Tabs
+            className={classNames({
+              'cluster-tabs--long': breadcrumbItems,
+              'cluster-tabs': !breadcrumbItems
+            })}
+            selected={this.getSelectedTab() || 0}
+            aria-label={`${title} ${msgs.get('tabs.label', locale)}`}
+          >
+            {this.renderTabs()}
+          </Tabs>
+      ),
+      actions: tabs &&
+        tabs.length > 0 &&
+        mainButton && (
+          <div
+            className={classNames({
+              'main-button-container': true,
+              'with-breadcrumbs': breadcrumbItems
+            })}
+          >
+            {mainButton}
+          </div>
+      )
+    }
+
     if (
       (tabs && tabs.length > 0) ||
       (breadcrumbItems && breadcrumbItems.length > 0)
@@ -82,7 +120,8 @@ export class SecondaryHeader extends React.Component {
               actions && !tabs ? 'detailed-header-override' : ''
             }`}
           >
-            <React.Fragment>
+            <AcmPageHeader {...headerArgs} />
+            {/* <React.Fragment>
               <DetailPageHeader
                 hasTabs={true}
                 title={decodeURIComponent(title)}
@@ -130,7 +169,7 @@ export class SecondaryHeader extends React.Component {
                     )}
                   </div>
               )}
-            </React.Fragment>
+            </React.Fragment> */}
             {actions && this.renderActions()}
           </div>
           {links &&

@@ -136,8 +136,6 @@ export const getDiagramElements = (
   inamespace,
   applicationDetails
 ) => {
-  console.log('get diagram details', applicationDetails, topology)
-
   const {
     status,
     loaded,

@@ -77,14 +77,8 @@ export const getClusterName = nodeId => {
   if (clusterIndex !== -1) {
     const startPos = nodeId.indexOf('--clusters--') + 12
     const endPos = nodeId.indexOf('--', startPos)
-    const clusterName = nodeId.slice(
-      startPos,
-      endPos > 0 ? endPos : nodeId.length
-    )
-    //console.log('clusterName', clusterName)
     return nodeId.slice(startPos, endPos > 0 ? endPos : nodeId.length)
   }
-
   //node must be deployed locally on hub, such as ansible jobs
   return LOCAL_HUB_NAME
 }
@@ -287,7 +281,6 @@ export const namespaceMatchTargetServer = (relatedKind, resourceMapForObject) =>
     _.get(resourceMapForObject, 'clusters.specs.clusters', []),
     filtertype => _.get(filtertype, 'destination.namespace', '') === namespace
   )
- //console.log('findTargetClustersByNS', findTargetClustersByNS)
   //fix up the cluster on this object
   if(findTargetClustersByNS.length > 0) {
     relatedKind.cluster = _.get(findTargetClustersByNS[0], 'metadata.name', '')

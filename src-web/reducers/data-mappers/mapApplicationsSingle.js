@@ -11,7 +11,6 @@ import _ from 'lodash'
 
 // @flow
 export const mapSingleApplication = application => {
-  console.log('mapSingleApplication ', application)
   const items = _.get(application, 'items', [])
 
   const result =
@@ -61,7 +60,5 @@ export const mapSingleApplication = application => {
       kindSection[0].items.push(item)
     }
   })
-
-  console.log('RESULT IS ', result)
   return [result]
 }

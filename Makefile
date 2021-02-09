@@ -71,8 +71,8 @@ run-test-image:
 	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
 
 .PHONY: run-test-image-pr
-run-test-image-pr:
-	docker run \
+run-test-image-pr: # Suppress output as this contains sensitive information
+	@docker run \
 	-v $(shell pwd)/results/:/results/ \
 	--network host \
 	-e BROWSER=$(BROWSER) \

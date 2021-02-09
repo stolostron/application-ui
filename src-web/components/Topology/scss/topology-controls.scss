@@ -13,16 +13,16 @@
 .topology-controls {
   display: flex;
   flex-wrap: wrap;
-  margin: 0rem 1rem 5px 0rem;
+  margin-bottom: 5px;
   justify-content: space-between;
 
   .topology-control-container {
+    width: 100%;
     display: flex;
     align-items: center;
 
     > div {
-      width: 90vw;
-      margin-right: 20px;
+      width: 100%;
       background-color: #fff;
     }
 

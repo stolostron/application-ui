@@ -230,7 +230,7 @@ export const getNodePropery = (node, propPath, key, defaultValue, status) => {
     data = R.replace(/:/g, '=', R.toString(data))
     data = R.replace(/{/g, '', data)
     data = R.replace(/}/g, '', data)
-    data = R.replace(/'/g, '', data)
+    data = R.replace(/"/g, '', data)
     data = R.replace(/ /g, '', data)
     data = R.replace(/\/\//g, ',', data)
   } else {

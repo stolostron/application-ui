@@ -213,28 +213,6 @@ export class SecondaryHeader extends React.Component {
       : null
   }
 
-  // renderBreadCrumb() {
-  //   const { breadcrumbItems } = this.props
-  //   return (
-  //     breadcrumbItems &&
-  //     breadcrumbItems.map((breadcrumb, index) => {
-  //       const key = `${breadcrumb}-${index}`
-  //       return (
-  //         <React.Fragment key={key}>
-  //           <div
-  //             className="bx--breadcrumb-item"
-  //             title={decodeURIComponent(breadcrumb.label)}
-  //           >
-  //             <Link to={breadcrumb.url} className="bx--link">
-  //               {decodeURIComponent(breadcrumb.label)}
-  //             </Link>
-  //           </div>
-  //         </React.Fragment>
-  //       )
-  //     })
-  //   )
-  // }
-
   renderLinks() {
     const { links } = this.props,
           { locale } = this.context

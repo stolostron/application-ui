@@ -63,15 +63,7 @@ describe("data-mappers testing for mapSingleApplication", () => {
 
     const result = [
       {
-        _hubClusterResource: "",
-        _rbac: "",
-        _uid: "",
-        apigroup: "",
-        cluster: "",
-        created: "",
-        dashboard: "",
         kind: "application",
-        label: "",
         name: "samplebook-gbapp",
         namespace: "sample",
         related: [

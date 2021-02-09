@@ -666,7 +666,7 @@ describe("getPulseForNodeWithPodStatus no replica", () => {
   };
 
   it("getPulseForNodeWithPodStatus pulse no replica", () => {
-    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("red");
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("yellow");
   });
 });
 
@@ -2923,10 +2923,10 @@ describe("computeNodeStatus ", () => {
     expect(computeNodeStatus(deploymentNodeYellow)).toEqual("yellow");
   });
   it("return computeNodeStatus deploymentNodeRed", () => {
-    expect(computeNodeStatus(deploymentNodeRed)).toEqual("red");
+    expect(computeNodeStatus(deploymentNodeRed)).toEqual("yellow");
   });
   it("return computeNodeStatus deploymentNodeRed2", () => {
-    expect(computeNodeStatus(deploymentNodeRed2)).toEqual("red");
+    expect(computeNodeStatus(deploymentNodeRed2)).toEqual("yellow");
   });
   it("return computeNodeStatus deploymentNodeYellow2", () => {
     expect(computeNodeStatus(deploymentNodeYellow2)).toEqual("yellow");

@@ -393,6 +393,7 @@ export const getPulseForNodeWithPodStatus = node => {
   if (node.type === 'pod') {
     desired = 1
   }
+  //if desired info is missing use the desired value returned by search
   if (
     (desired === 'NA' || desired === 0 || node.type === 'controllerrevision') &&
     resourceMap &&
@@ -420,7 +421,6 @@ export const getPulseForNodeWithPodStatus = node => {
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
-
     const resourceItem = fixMissingStateOptions(
       resourceMap[`${resourceName}-${clusterName}`]
     )
@@ -1491,9 +1491,9 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
       value: msgs.get('resource.subscription.placed.error', [node.namespace]),
       status: failureStatus
     })
-    const ruleSearchLink = `/search?filters={'textsearch':'kind%3Aplacementrule%20namespace%3A${
+    const ruleSearchLink = `/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3A${
       node.namespace
-    }%20cluster%3A${LOCAL_HUB_NAME}'}`
+    }%20cluster%3A${LOCAL_HUB_NAME}"}`
     details.push({
       type: 'link',
       value: {
@@ -1559,7 +1559,7 @@ export const setApplicationDeployStatus = (node, details) => {
       value: msgs.get('resource.application.error.msg', [appNS]),
       status: failureStatus
     })
-    const subscrSearchLink = `/search?filters={'textsearch':'kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}'}`
+    const subscrSearchLink = `/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
     details.push({
       type: 'link',
       value: {
@@ -1656,19 +1656,18 @@ export const addNodeOCPRouteLocationForCluster = (
   hostLink = `${transport}://${hostName}/`
 
   //argo app doesn't have spec info
-  hostName &&
-    details.push({
-      type: 'link',
-      value: {
-        label: hostLink,
-        id: `${linkId}-location`,
-        data: {
-          action: 'open_link',
-          targetLink: hostLink
-        }
-      },
-      indent: true
-    })
+  details.push({
+    type: 'link',
+    value: {
+      label: hostLink,
+      id: `${linkId}-location`,
+      data: {
+        action: 'open_link',
+        targetLink: hostLink
+      }
+    },
+    indent: true
+  })
 
   !typeObject &&
     details.push({
@@ -1807,7 +1806,7 @@ export const processResourceActionLink = resource => {
     targetLink = editLink
     break
   case 'show_search':
-    targetLink = `/search?filters={'textsearch':'kind:${kind}${nsData} name:${name}'}`
+    targetLink = `/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`
     break
   default:
     targetLink = R.pathOr('', ['targetLink'])(resource)

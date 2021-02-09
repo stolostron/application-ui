@@ -53,12 +53,9 @@ module.exports = {
         test: [/\.jsx$/, /\.js$/],
         exclude: [
           {
-            test: [
-              /\.scss$/,
-              path.resolve(__dirname, './node_modules'),
-            ],
+            test: [/\.scss$/, path.resolve(__dirname, "./node_modules")],
             exclude: [
-              path.resolve(__dirname, './node_modules/fuse.js'),
+              path.resolve(__dirname, "./node_modules/fuse.js")
               //path.resolve(__dirname, './node_modules/temptifly'),
             ]
           }
@@ -105,12 +102,15 @@ module.exports = {
         loader: "file-loader?name=fonts/[name].[ext]"
       },
       {
-      test: /\.css$/,
+        test: /\.css$/,
         include: [
-         path.resolve(__dirname, './node_modules/temptifly'),
-         path.resolve(__dirname, './node_modules/monaco-editor'),
-         path.resolve(__dirname, '../temptifly/node_modules/monaco-editor/'),
-         path.resolve(__dirname, './node_modules/@open-cluster-management/ui-components')
+          path.resolve(__dirname, "./node_modules/temptifly"),
+          path.resolve(__dirname, "./node_modules/monaco-editor"),
+          path.resolve(__dirname, "../temptifly/node_modules/monaco-editor/"),
+          path.resolve(
+            __dirname,
+            "./node_modules/@open-cluster-management/ui-components"
+          )
         ],
         use: ["style-loader", "css-loader"]
       },
@@ -234,6 +234,9 @@ module.exports = {
   resolve: {
     alias: {
       handlebars: "handlebars/dist/handlebars.min.js"
+    },
+    alias: {
+      "react-router-dom": path.resolve("./node_modules/react-router-dom")
     }
   },
   resolveLoader: {

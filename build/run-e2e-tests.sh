@@ -37,7 +37,7 @@ echo "Running pull-test-image..."
 make pull-test-image
 
 # Use setup script to set variables
-. application-ui/setup-env.sh > /dev/null
+. ./setup-env.sh > /dev/null
 
 docker run --network test-network -d --ip 10.10.0.6 -t -i -p 3001:3001 --name application-ui \
 -e NODE_ENV=development \

@@ -228,13 +228,10 @@ export const getExistingResourceMapKey = (resourceMap, name, relatedKind) => {
 
 // The controllerrevision resource doesn't contain any desired pod count so
 // we need to get it from the parent; either a daemonset or statefulset
-export const syncControllerRevisionPodStatusMap = (
-  resourceMap,
-  controllerRevisionArr
-) => {
-  controllerRevisionArr.forEach(crName => {
-    const controllerRevision = resourceMap[crName]
-    if (controllerRevision) {
+export const syncControllerRevisionPodStatusMap = resourceMap => {
+  Object.keys(resourceMap).forEach(resourceName => {
+    if (resourceName.startsWith('controllerrevision-')) {
+      const controllerRevision = resourceMap[resourceName]
       const parentName = _.get(
         controllerRevision,
         'specs.parent.parentName',
@@ -249,16 +246,12 @@ export const syncControllerRevisionPodStatusMap = (
       const clusterName = getClusterName(parentId)
       const parentResource =
         resourceMap[`${parentType}-${parentName}-${clusterName}`]
-      const parentPodModel = {
+      const parentModel = {
         ..._.get(parentResource, `specs.${parentResource.type}Model`, '')
       }
 
-      if (parentPodModel) {
-        _.set(
-          controllerRevision,
-          'specs.controllerrevisionModel',
-          parentPodModel
-        )
+      if (parentModel) {
+        _.set(controllerRevision, 'specs.controllerrevisionModel', parentModel)
       }
     }
   })

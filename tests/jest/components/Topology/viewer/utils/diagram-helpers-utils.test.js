@@ -446,22 +446,13 @@ describe("syncControllerRevisionPodStatusMap", () => {
     }
   };
 
-  const controllerRevisionArr = [
-    "controllerrevision-mortgageds-deploy-fxiang-eks"
-  ];
-
   it("should sync controllerRevision resource", () => {
-    expect(
-      syncControllerRevisionPodStatusMap(resourceMap, controllerRevisionArr)
-    ).toEqual(undefined);
+    expect(syncControllerRevisionPodStatusMap(resourceMap)).toEqual(undefined);
   });
 
   it("should not sync controllerRevision resource", () => {
     expect(
-      syncControllerRevisionPodStatusMap(
-        resourceMapNoParentPodModel,
-        controllerRevisionArr
-      )
+      syncControllerRevisionPodStatusMap(resourceMapNoParentPodModel)
     ).toEqual(undefined);
   });
 });

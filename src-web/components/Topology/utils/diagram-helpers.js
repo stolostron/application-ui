@@ -913,7 +913,6 @@ export const setupResourceModel = (
     [{ kind: 'deployable' }, { kind: 'cluster' }],
     'kind'
   )
-  const controllerRevisionSyncArr = []
 
   orderedList.forEach(kindArray => {
     const relatedKindList = R.pathOr([], ['items'])(kindArray)
@@ -943,10 +942,6 @@ export const setupResourceModel = (
         nameWithoutChartRelease,
         isClusterGrouped
       )
-
-      if (kind === 'controllerrevision') {
-        controllerRevisionSyncArr.push(name)
-      }
 
       if (
         kind === 'subscription' &&
@@ -1016,9 +1011,8 @@ export const setupResourceModel = (
   })
 
   // need to preprocess and sync up podStatusMap for controllerrevision to parent
-  if (controllerRevisionSyncArr.length > 0) {
-    syncControllerRevisionPodStatusMap(resourceMap, controllerRevisionSyncArr)
-  }
+  syncControllerRevisionPodStatusMap(resourceMap)
+
   return resourceMap
 }
 

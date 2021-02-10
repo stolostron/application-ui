@@ -36,24 +36,21 @@ docker network create --subnet 10.10.0.0/16 test-network
 echo "Running pull-test-image..."
 make pull-test-image
 
-export TEST_LOCAL=true
-export USE_USER=kube:admin
-export SERVICEACCT_TOKEN=`${BUILD_HARNESS_PATH}/vendor/oc whoami --show-token`
-echo "SERVICEACCT_TOKEN=$SERVICEACCT_TOKEN"
+# Use setup script to set variables
+. ./setup-env.sh > /dev/null
 
-#application-ui
 docker run --network test-network -d --ip 10.10.0.6 -t -i -p 3001:3001 --name application-ui \
 -e NODE_ENV=development \
--e SERVICEACCT_TOKEN=$SERVICEACCT_TOKEN \
 -e headerUrl=$headerUrl \
--e OAUTH2_REDIRECT_URL=https://localhost:3001/multicloud/applications/auth/callback \
 -e hcmUiApiUrl=$hcmUiApiUrl \
 -e searchApiUrl=$searchApiUrl \
--e PLATFORM_IDENTITY_PROVIDER_URL=$PLATFORM_IDENTITY_PROVIDER_URL \
--e cfcRouterUrl=$cfcRouterUrl \
--e OAUTH2_CLIENT_ID=multicloudingress \
--e OAUTH2_CLIENT_SECRET=multicloudingresssecret \
--e API_SERVER_URL=$OC_CLUSTER_URL $UI_CURRENT_IMAGE
+-e API_SERVER_URL=$API_SERVER_URL \
+-e SERVICEACCT_TOKEN=$SERVICEACCT_TOKEN \
+-e OAUTH2_REDIRECT_URL=$OAUTH2_REDIRECT_URL \
+-e OAUTH2_CLIENT_ID=$OAUTH2_CLIENT_ID \
+-e OAUTH2_CLIENT_SECRET=$OAUTH2_CLIENT_SECRET \
+$UI_CURRENT_IMAGE
+
 docker container ls -a
 
 fold_end test-setup

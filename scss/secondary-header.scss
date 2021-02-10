@@ -53,46 +53,6 @@
     }
   }
 
-  header {
-    .bx--breadcrumb {
-      min-height: 15px;
-      padding-top: 10px;
-    }
-
-    .breadcrumb-item:last-child {
-      &:after {
-        display: none;
-      }
-    }
-
-    .bx--detail-page-header-content {
-      width: 100%;
-
-      .bx--detail-page-header-icon-container {
-        display: none;
-      }
-
-      .bx--detail-page-header-status-container {
-        display: inline-block;
-        z-index: 6002;
-
-        .bx--detail-page-header-status-icon {
-          display: none;
-        }
-
-        .bx--detail-page-header-status-text {
-          display: flex;
-        }
-      }
-
-      .bx--detail-page-header-title-container {
-        min-height: 66px;
-        display: flex;
-        align-items: center;
-      }
-    }
-  }
-
   .secondary-header-actions {
     .bx--btn {
       width: unset;
@@ -106,19 +66,6 @@
     background-color: #fff;
     height: $secondary-header-min-height;
     padding: 0.75rem 5% 0;
-  }
-
-  .bx--detail-page-header--with-tabs {
-    top: unset;
-    display: flex;
-    justify-content: space-between;
-    position: fixed;
-    z-index: 1001;
-    min-height: $secondary-header-min-height;
-    background-color: #fff;
-    padding: .75rem 3% 0;
-    left: 0;
-    width: 100%;
   }
 
   @media screen and (min-width: 768px) {
@@ -143,48 +90,6 @@
 
     .bx--btn {
       width: 108px;
-    }
-  }
-
-  .bx--tabs__nav {
-    bottom: 0;
-
-    &.bx--tabs__nav--hidden {
-      padding-left: calc(5vw);
-      margin-left: unset;
-    }
-  }
-
-  .bx--tabs {
-    min-height: 40px;
-
-    &.cluster-tabs {
-      top: 65px;
-      background-color: $color__white;
-      height: 40px;
-      width: 100%;
-
-      &--long {
-        @extend .cluster-tabs;
-        top: 90px;
-      }
-    }
-  }
-
-  .tab-container {
-    display: flex;
-
-    .main-button-container {
-      top: 65px;
-      background-color: #fff;
-      vertical-align: bottom;
-      padding-top: 3px;
-      padding-right: calc(5vw);
-      position: relative;
-
-      &.with-breadcrumbs {
-        top: 90px;
-      }
     }
   }
 }

@@ -38,7 +38,7 @@ router.get('/logout', (req, res) => {
   var redirectUrl =
     process.env.NODE_ENV !== 'development' && callbackUrl
       ? `https://${callbackUrl}${LOGOUT_API}`
-      : `${config.get('cfcRouterUrl')}${LOGOUT_API}`
+      : `${config.get('headerUrl')}${LOGOUT_API}`
   logger.debug('Final logout url:' + redirectUrl)
   return res.send({ redirectUrl })
 })

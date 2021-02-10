@@ -26,14 +26,6 @@ import { updateResourceFilters, combineFilters } from '../../actions/filters'
 import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
-import {
-  renderRefreshTime,
-  startPolling,
-  stopPolling,
-  handleRefreshPropertiesChanged,
-  handleVisibilityChanged
-} from '../../shared/utils/refetch'
-import { refetchIntervalUpdate } from '../../actions/refetch'
 import { withLocale } from '../../providers/LocaleProvider'
 import { AcmAlert } from '@open-cluster-management/ui-components'
 import { Stack, StackItem } from '@patternfly/react-core'
@@ -62,35 +54,10 @@ class ResourceList extends React.Component {
 
     const { fetchTableResources } = this.props
     fetchTableResources([])
-
-    document.addEventListener('visibilitychange', this.onVisibilityChange)
-    startPolling(this, setInterval)
-  }
-
-  componentWillUnmount() {
-    stopPolling(this.state, clearInterval)
-    document.removeEventListener('visibilitychange', this.onVisibilityChange)
-    this.mutateFinished()
   }
 
   mutateFinished() {
     this.props.deleteSuccessFinished()
-  }
-
-  onVisibilityChange = () => {
-    handleVisibilityChanged(this, clearInterval, setInterval)
-  };
-
-  componentDidUpdate(prevProps) {
-    handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
-  }
-
-  reload() {
-    if (this.props.status === REQUEST_STATUS.DONE) {
-      this.setState({ xhrPoll: true })
-      const { fetchTableResources } = this.props
-      fetchTableResources([])
-    }
   }
 
   render() {
@@ -105,8 +72,6 @@ class ResourceList extends React.Component {
       resourceType,
       err,
       children,
-      fetchTableResources,
-      refetchIntervalUpdateDispatch,
       page,
       changeTablePageFn,
       searchValue,
@@ -114,9 +79,6 @@ class ResourceList extends React.Component {
       sort,
       sortTableFn
     } = this.props
-
-    const { isLoaded = true, isReloading = false } = fetchTableResources
-    const { timestamp = new Date().toString() } = this.state
 
     if (status === REQUEST_STATUS.ERROR && !this.state.xhrPoll) {
       //eslint-disable-next-line no-console
@@ -172,13 +134,6 @@ class ResourceList extends React.Component {
 
     return (
       <div id="resource-list">
-        {renderRefreshTime(
-          refetchIntervalUpdateDispatch,
-          isLoaded,
-          isReloading,
-          timestamp,
-          locale
-        )}
         <Stack hasGutter>{stackItems}</Stack>
       </div>
     )
@@ -222,8 +177,7 @@ const mapStateToProps = (state, ownProps) => {
     err: state[typeListName].err,
     deleteStatus: state[typeListName].deleteStatus,
     deleteMsg: state[typeListName].deleteMsg,
-    forceReload: state[typeListName].forceReload,
-    refetch: state.refetch
+    forceReload: state[typeListName].forceReload
   }
 }
 
@@ -251,8 +205,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(updateResourceFilters(resourceType, selectedFilters))
     },
     deleteSuccessFinished: () =>
-      dispatch(delResourceSuccessFinished(ownProps.resourceType)),
-    refetchIntervalUpdateDispatch: data => dispatch(refetchIntervalUpdate(data))
+      dispatch(delResourceSuccessFinished(ownProps.resourceType))
   }
 }
 
@@ -269,7 +222,6 @@ ResourceList.propTypes = {
   locale: PropTypes.string,
   mainButton: PropTypes.object,
   page: PropTypes.number,
-  refetchIntervalUpdateDispatch: PropTypes.func,
   resourceType: PropTypes.object,
   searchTableFn: PropTypes.func,
   searchValue: PropTypes.string,

@@ -1165,25 +1165,6 @@ describe("ApplicationTopologyModule with selected node ID", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it("ApplicationTopologyModule sets new interval value after interval changed", () => {
-    const wrapper = mount(
-      <BrowserRouter>
-        <Provider store={store}>
-          <ApplicationTopologyModule
-            selectedNodeId={nodeID}
-            showExpandedTopology={true}
-            params={params}
-            locale={locale}
-          />
-        </Provider>
-      </BrowserRouter>
-    );
-
-    wrapper.setProps({ refetch: { interval: 30000, doRefetch: false } });
-    wrapper.setProps({ refetch: { interval: 30000, doRefetch: true } });
-    wrapper.setProps({ refetch: { interval: 15000, doRefetch: false } });
-  });
-
   const actions = {
     setShowExpandedTopology: jest.fn()
   };

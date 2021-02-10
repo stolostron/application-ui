@@ -22,7 +22,6 @@ import './scss/topology-details.scss'
 import './scss/topology-diagram.scss'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
-import { renderRefreshTime } from '../../shared/utils/refetch'
 
 class Topology extends React.Component {
   static propTypes = {
@@ -35,8 +34,7 @@ class Topology extends React.Component {
     fetchControl: PropTypes.shape({
       isLoaded: PropTypes.bool,
       isReloading: PropTypes.bool,
-      isFailed: PropTypes.bool,
-      refetch: PropTypes.func
+      isFailed: PropTypes.bool
     }),
     handleLegendClose: PropTypes.func,
     links: PropTypes.array.isRequired,
@@ -45,7 +43,6 @@ class Topology extends React.Component {
     options: PropTypes.object,
     portals: PropTypes.object,
     processActionLink: PropTypes.func,
-    refetchIntervalUpdateDispatch: PropTypes.func,
     searchUrl: PropTypes.string,
     selectionControl: PropTypes.shape({
       selectedNode: PropTypes.object,
@@ -174,7 +171,6 @@ class Topology extends React.Component {
       selectionControl = {},
       channelControl = {},
       processActionLink,
-      refetchIntervalUpdateDispatch,
       locale
     } = this.props
     const { isLoaded = true, isReloading = false } = fetchControl
@@ -186,17 +182,9 @@ class Topology extends React.Component {
       availableFilters,
       showChannelsControl
     } = this.state
-    const { timestamp = new Date().toString() } = this.state
 
     return (
       <div className="topologyDiagramContainer">
-        {renderRefreshTime(
-          refetchIntervalUpdateDispatch,
-          true,
-          isReloading,
-          timestamp,
-          locale
-        )}
         {this.renderResourceFilterModule()}
         {this.renderSearchName()}
         {this.renderTypeFilterBar()}

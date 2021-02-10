@@ -23,6 +23,11 @@ import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
 import SecondaryHeaderTooltip from './SecondaryHeaderTooltip'
 import classNames from 'classnames'
+import loadable from 'loadable-components'
+
+const AutoRefreshSelect = loadable(() =>
+  import(/* webpackChunkName: "autoRefreshSelect" */ './common/AutoRefreshSelect')
+)
 
 resources(() => {
   require('../../scss/secondary-header.scss')
@@ -94,7 +99,7 @@ export class SecondaryHeader extends React.Component {
             </AcmSecondaryNav>
           </React.Fragment>
       ),
-      controls: 'Refresh component',
+      controls: <AutoRefreshSelect {...this.props} />,
       actions: tabs &&
         tabs.length > 0 &&
         mainButton && (

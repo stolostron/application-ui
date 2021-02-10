@@ -335,6 +335,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                     data-ouia-component-id="OUIA-Generated-Card-1"
                                     data-ouia-component-type="PF4/Card"
                                     data-ouia-safe="true"
+                                    id=""
                                   >
                                     <div
                                       class="pf-c-card__body"
@@ -364,11 +365,21 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                               />
                                             </span>
                                           </div>
-                                          <h4
-                                            class="pf-c-title pf-m-lg"
+                                          <div
+                                            class="makeStyles-max-1"
                                           >
-                                            Loading
-                                          </h4>
+                                            <h4
+                                              class="pf-c-title pf-m-lg"
+                                            >
+                                              Loading
+                                            </h4>
+                                            <div
+                                              class="pf-c-empty-state__body"
+                                            />
+                                          </div>
+                                          <div
+                                            class="pf-c-empty-state__secondary"
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -459,6 +470,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                             }
                           }
                           paused={false}
+                          preventScrollOnDeactivate={false}
                         >
                           <div
                             className="pf-l-bullseye"
@@ -594,6 +606,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                                   data-ouia-component-id="OUIA-Generated-Card-1"
                                                   data-ouia-component-type="PF4/Card"
                                                   data-ouia-safe={true}
+                                                  id=""
                                                 >
                                                   <CardBody>
                                                     <div
@@ -632,16 +645,30 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                                                 </Spinner>
                                                               </div>
                                                             </EmptyStateIcon>
-                                                            <Title
-                                                              headingLevel="h4"
-                                                              size="lg"
+                                                            <div
+                                                              className="makeStyles-max-1"
                                                             >
-                                                              <h4
-                                                                className="pf-c-title pf-m-lg"
+                                                              <Title
+                                                                headingLevel="h4"
+                                                                size="lg"
                                                               >
-                                                                Loading
-                                                              </h4>
-                                                            </Title>
+                                                                <h4
+                                                                  className="pf-c-title pf-m-lg"
+                                                                >
+                                                                  Loading
+                                                                </h4>
+                                                              </Title>
+                                                              <EmptyStateBody>
+                                                                <div
+                                                                  className="pf-c-empty-state__body"
+                                                                />
+                                                              </EmptyStateBody>
+                                                            </div>
+                                                            <EmptyStateSecondaryActions>
+                                                              <div
+                                                                className="pf-c-empty-state__secondary"
+                                                              />
+                                                            </EmptyStateSecondaryActions>
                                                           </div>
                                                         </div>
                                                       </EmptyState>
@@ -1055,6 +1082,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                     data-ouia-component-id="OUIA-Generated-Card-1"
                                     data-ouia-component-type="PF4/Card"
                                     data-ouia-safe="true"
+                                    id=""
                                   >
                                     <div
                                       class="pf-c-card__body"
@@ -1084,11 +1112,21 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                               />
                                             </span>
                                           </div>
-                                          <h4
-                                            class="pf-c-title pf-m-lg"
+                                          <div
+                                            class="makeStyles-max-1"
                                           >
-                                            Loading
-                                          </h4>
+                                            <h4
+                                              class="pf-c-title pf-m-lg"
+                                            >
+                                              Loading
+                                            </h4>
+                                            <div
+                                              class="pf-c-empty-state__body"
+                                            />
+                                          </div>
+                                          <div
+                                            class="pf-c-empty-state__secondary"
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -1179,6 +1217,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                             }
                           }
                           paused={false}
+                          preventScrollOnDeactivate={false}
                         >
                           <div
                             className="pf-l-bullseye"
@@ -1314,6 +1353,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                                   data-ouia-component-id="OUIA-Generated-Card-1"
                                                   data-ouia-component-type="PF4/Card"
                                                   data-ouia-safe={true}
+                                                  id=""
                                                 >
                                                   <CardBody>
                                                     <div
@@ -1352,16 +1392,30 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                                                 </Spinner>
                                                               </div>
                                                             </EmptyStateIcon>
-                                                            <Title
-                                                              headingLevel="h4"
-                                                              size="lg"
+                                                            <div
+                                                              className="makeStyles-max-1"
                                                             >
-                                                              <h4
-                                                                className="pf-c-title pf-m-lg"
+                                                              <Title
+                                                                headingLevel="h4"
+                                                                size="lg"
                                                               >
-                                                                Loading
-                                                              </h4>
-                                                            </Title>
+                                                                <h4
+                                                                  className="pf-c-title pf-m-lg"
+                                                                >
+                                                                  Loading
+                                                                </h4>
+                                                              </Title>
+                                                              <EmptyStateBody>
+                                                                <div
+                                                                  className="pf-c-empty-state__body"
+                                                                />
+                                                              </EmptyStateBody>
+                                                            </div>
+                                                            <EmptyStateSecondaryActions>
+                                                              <div
+                                                                className="pf-c-empty-state__secondary"
+                                                              />
+                                                            </EmptyStateSecondaryActions>
                                                           </div>
                                                         </div>
                                                       </EmptyState>

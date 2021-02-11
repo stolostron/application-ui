@@ -63,6 +63,12 @@ export OC_CLUSTER_URL=$(echo $HUB_CREDS | jq -r '.api_url')
 export OC_CLUSTER_USER=$(echo $HUB_CREDS | jq -r '.username')
 export OC_CLUSTER_PASS=$(echo $HUB_CREDS | jq -r '.password')
 
+# Workaround for "error: x509: certificate signed by unknown authority" problem with oc login
+mkdir -p ${HOME}/certificates
+OAUTH_POD=$(oc -n openshift-authentication get pods -o jsonpath='{.items[0].metadata.name}')
+export OC_CLUSTER_INGRESS_CA=/certificates/ingress-ca.crt
+oc rsh -n openshift-authentication $OAUTH_POD cat /run/secrets/kubernetes.io/serviceaccount/ca.crt > ${HOME}${OC_CLUSTER_INGRESS_CA}
+
 MANAGED_CREDS=$(cm creds -f $CLUSTERPOOL_MANAGED)
 export CYPRESS_MANAGED_OCP_URL=$(echo $MANAGED_CREDS | jq -r '.api_url')
 export CYPRESS_MANAGED_OCP_USER=$(echo $MANAGED_CREDS | jq -r '.username')

@@ -99,7 +99,7 @@ export class SecondaryHeader extends React.Component {
             </AcmSecondaryNav>
           </React.Fragment>
       ),
-      controls: <AutoRefreshSelect {...this.props} />,
+      controls: <AutoRefreshSelect location={this.props.location} />,
       actions: tabs &&
         tabs.length > 0 &&
         mainButton && (

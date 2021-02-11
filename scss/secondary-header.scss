@@ -30,6 +30,21 @@
     }
   }
 
+  // PF dropdown
+  #refresh-icon,
+  #refresh-dropdown,
+  .pf-c-dropdown__menu-item {
+    font-size: var(--pf-global--FontSize--sm);
+  }
+
+  .pf-c-dropdown__toggle-icon {
+    margin-left: 0.5rem;
+  }
+
+  div[class*="makeStyles-timestamp"] > p{
+    font-size: var(--pf-global--FontSize--xs);
+  }
+
   .bx--detail-page-header-title {
     display: inline-block;
     font-size: 1.75rem;

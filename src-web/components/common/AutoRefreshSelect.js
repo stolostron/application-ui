@@ -77,7 +77,7 @@ class AutoRefreshSelect extends Component {
         this.props.status !== 'INCEPTION'
       ) {
         if (this.props.resourceType === RESOURCE_TYPES.HCM_APPLICATIONS) {
-          fetchAppTopology(this.props.fetchFilters, this.props.reloading)
+          fetchAppTopology(this.props.fetchFilters, true)
         } else {
           fetchTableResources(this.props.resourceType, [])
         }
@@ -102,7 +102,6 @@ class AutoRefreshSelect extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const resourceType = getResourceTypeForLocation(ownProps.location)
-
   const routePaths = location ? _.get(location, 'pathname', '').split('/') : []
   const isEditTab =
     routePaths.length === 6 || //edit app
@@ -113,8 +112,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   let fetchFilters = _.get(state, 'topology.fetchFilters', {})
-  let reloading = _.get(state, 'topology.reloading')
-
   if (resourceType === RESOURCE_TYPES.HCM_APPLICATIONS) {
     //make sure the topology stored by state matches the application route
     //if going to the editor from the app table then switch to the Topology tab,
@@ -128,7 +125,6 @@ const mapStateToProps = (state, ownProps) => {
     ) {
       //need to rebase the state topology to the router app
       fetchFilters = { application: { name, namespace, channel: '' } }
-      reloading = undefined
     }
   }
   const typeListName = resourceType.list
@@ -138,7 +134,6 @@ const mapStateToProps = (state, ownProps) => {
     resourceType,
     status,
     fetchFilters,
-    reloading,
     forceReload: state[typeListName].forceReload,
     isEditTab: false
   }
@@ -162,7 +157,6 @@ AutoRefreshSelect.propTypes = {
   fetchFilters: PropTypes.object,
   fetchTableResources: PropTypes.func,
   isEditTab: PropTypes.bool,
-  reloading: PropTypes.bool,
   resourceType: PropTypes.object,
   status: PropTypes.string,
   timestamp: PropTypes.number

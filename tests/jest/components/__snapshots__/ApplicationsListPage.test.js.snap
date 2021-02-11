@@ -10,81 +10,6 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
       id="resource-list"
     >
       <div
-        class="refresh-time-div"
-      >
-        <div
-          class="refresh-time-container"
-        >
-          <div
-            class="refresh-time-selection"
-          >
-            <div
-              aria-label="Refresh"
-              class="button"
-              id="refreshButton"
-              role="button"
-              tabindex="0"
-              title="Refresh"
-            >
-              <svg
-                class="button-icon"
-              >
-                <use
-                  href="#diagramIcons_autoRefresh"
-                />
-              </svg>
-            </div>
-            <div
-              aria-label="Choose refresh"
-              class="bx--dropdown selection bx--list-box"
-              role="listbox"
-              tabindex="0"
-            >
-              <div
-                aria-expanded="false"
-                aria-haspopup="true"
-                aria-label="open menu"
-                class="bx--list-box__field"
-                data-toggle="true"
-                role="button"
-                tabindex="0"
-                type="button"
-              >
-                <span
-                  class="bx--list-box__label"
-                  for="refreshDropdown-input"
-                >
-                  Disable refresh
-                </span>
-                <div
-                  class="bx--list-box__menu-icon"
-                >
-                  <svg
-                    alt="Open menu"
-                    aria-label="Open menu"
-                    fill-rule="evenodd"
-                    height="5"
-                    role="img"
-                    viewBox="0 0 10 5"
-                    width="10"
-                  >
-                    <title>
-                      Open menu
-                    </title>
-                    <path
-                      d="M0 0l5 4.998L10 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            Last update: {0}
-          </div>
-        </div>
-      </div>
-      <div
         class="pf-l-stack pf-m-gutter"
       >
         <div
@@ -141,7 +66,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                       aria-disabled="false"
                       aria-label="Close Success alert: alert: Success"
                       class="pf-c-button pf-m-plain"
-                      data-ouia-component-id="OUIA-Generated-Button-plain-19"
+                      data-ouia-component-id="OUIA-Generated-Button-plain-13"
                       data-ouia-component-type="PF4/Button"
                       data-ouia-safe="true"
                       type="button"
@@ -821,7 +746,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to first page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="first"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-24"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-15"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""
@@ -850,7 +775,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to previous page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="previous"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-25"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-16"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""
@@ -897,7 +822,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to next page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="next"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-26"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-17"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""
@@ -926,7 +851,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to last page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="last"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-27"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-18"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""
@@ -968,81 +893,6 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
     <div
       id="resource-list"
     >
-      <div
-        class="refresh-time-div"
-      >
-        <div
-          class="refresh-time-container"
-        >
-          <div
-            class="refresh-time-selection"
-          >
-            <div
-              aria-label="Refresh"
-              class="button"
-              id="refreshButton"
-              role="button"
-              tabindex="0"
-              title="Refresh"
-            >
-              <svg
-                class="button-icon"
-              >
-                <use
-                  href="#diagramIcons_autoRefresh"
-                />
-              </svg>
-            </div>
-            <div
-              aria-label="Choose refresh"
-              class="bx--dropdown selection bx--list-box"
-              role="listbox"
-              tabindex="0"
-            >
-              <div
-                aria-expanded="false"
-                aria-haspopup="true"
-                aria-label="open menu"
-                class="bx--list-box__field"
-                data-toggle="true"
-                role="button"
-                tabindex="0"
-                type="button"
-              >
-                <span
-                  class="bx--list-box__label"
-                  for="refreshDropdown-input"
-                >
-                  Disable refresh
-                </span>
-                <div
-                  class="bx--list-box__menu-icon"
-                >
-                  <svg
-                    alt="Open menu"
-                    aria-label="Open menu"
-                    fill-rule="evenodd"
-                    height="5"
-                    role="img"
-                    viewBox="0 0 10 5"
-                    width="10"
-                  >
-                    <title>
-                      Open menu
-                    </title>
-                    <path
-                      d="M0 0l5 4.998L10 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            Last update: {0}
-          </div>
-        </div>
-      </div>
       <div
         class="pf-l-stack pf-m-gutter"
       >
@@ -1780,7 +1630,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to first page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="first"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-6"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-3"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""
@@ -1809,7 +1659,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to previous page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="previous"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-7"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-4"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""
@@ -1856,7 +1706,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to next page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="next"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-8"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-5"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""
@@ -1885,7 +1735,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to last page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="last"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-9"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-6"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""
@@ -1927,81 +1777,6 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
     <div
       id="resource-list"
     >
-      <div
-        class="refresh-time-div"
-      >
-        <div
-          class="refresh-time-container"
-        >
-          <div
-            class="refresh-time-selection"
-          >
-            <div
-              aria-label="Refresh"
-              class="button"
-              id="refreshButton"
-              role="button"
-              tabindex="0"
-              title="Refresh"
-            >
-              <svg
-                class="button-icon"
-              >
-                <use
-                  href="#diagramIcons_autoRefresh"
-                />
-              </svg>
-            </div>
-            <div
-              aria-label="Choose refresh"
-              class="bx--dropdown selection bx--list-box"
-              role="listbox"
-              tabindex="0"
-            >
-              <div
-                aria-expanded="false"
-                aria-haspopup="true"
-                aria-label="open menu"
-                class="bx--list-box__field"
-                data-toggle="true"
-                role="button"
-                tabindex="0"
-                type="button"
-              >
-                <span
-                  class="bx--list-box__label"
-                  for="refreshDropdown-input"
-                >
-                  Disable refresh
-                </span>
-                <div
-                  class="bx--list-box__menu-icon"
-                >
-                  <svg
-                    alt="Open menu"
-                    aria-label="Open menu"
-                    fill-rule="evenodd"
-                    height="5"
-                    role="img"
-                    viewBox="0 0 10 5"
-                    width="10"
-                  >
-                    <title>
-                      Open menu
-                    </title>
-                    <path
-                      d="M0 0l5 4.998L10 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            Last update: {0}
-          </div>
-        </div>
-      </div>
       <div
         class="pf-l-stack pf-m-gutter"
       >
@@ -2059,7 +1834,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                       aria-disabled="false"
                       aria-label="Close Success alert: alert: Success"
                       class="pf-c-button pf-m-plain"
-                      data-ouia-component-id="OUIA-Generated-Button-plain-10"
+                      data-ouia-component-id="OUIA-Generated-Button-plain-7"
                       data-ouia-component-type="PF4/Button"
                       data-ouia-safe="true"
                       type="button"
@@ -2739,7 +2514,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to first page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="first"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-15"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-9"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""
@@ -2768,7 +2543,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to previous page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="previous"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-16"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-10"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""
@@ -2815,7 +2590,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to next page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="next"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-17"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-11"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""
@@ -2844,7 +2619,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                         aria-label="Go to last page"
                         class="pf-c-button pf-m-plain pf-m-disabled"
                         data-action="last"
-                        data-ouia-component-id="OUIA-Generated-Button-plain-18"
+                        data-ouia-component-id="OUIA-Generated-Button-plain-12"
                         data-ouia-component-type="PF4/Button"
                         data-ouia-safe="true"
                         disabled=""

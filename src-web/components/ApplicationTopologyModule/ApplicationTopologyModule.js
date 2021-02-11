@@ -34,13 +34,6 @@ import { Topology } from '../Topology'
 import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
-import {
-  startPolling,
-  stopPolling,
-  handleRefreshPropertiesChanged,
-  handleVisibilityChanged
-} from '../../shared/utils/refetch'
-import { refetchIntervalUpdate } from '../../actions/refetch'
 
 resources(() => {
   require('./style.scss')
@@ -78,8 +71,6 @@ class ApplicationTopologyModule extends React.Component {
     locale: PropTypes.string,
     nodes: PropTypes.array,
     params: PropTypes.object,
-    refetch: PropTypes.object,
-    refetchIntervalUpdateDispatch: PropTypes.func,
     resetFilters: PropTypes.func,
     restoreSavedDiagramFilters: PropTypes.func,
     storedVersion: PropTypes.bool,
@@ -104,7 +95,6 @@ class ApplicationTopologyModule extends React.Component {
       selectedNode: undefined,
       showLegendView: false
     }
-    this.reload = this.reload.bind(this)
   }
 
   UNSAFE_componentWillMount() {
@@ -117,30 +107,6 @@ class ApplicationTopologyModule extends React.Component {
     const activeChannel = getActiveChannel(localStoreKey)
     this.props.fetchAppTopology(activeChannel)
     this.setState({ activeChannel })
-  }
-
-  componentDidMount() {
-    document.addEventListener('visibilitychange', this.onVisibilityChange)
-    startPolling(this, setInterval)
-  }
-
-  componentWillUnmount() {
-    stopPolling(this.state, clearInterval)
-    document.removeEventListener('visibilitychange', this.onVisibilityChange)
-  }
-
-  onVisibilityChange = () => {
-    handleVisibilityChanged(this, clearInterval, setInterval)
-  };
-
-  componentDidUpdate(prevProps) {
-    handleRefreshPropertiesChanged(prevProps, this, clearInterval, setInterval)
-  }
-
-  // call to actually refetch the new data
-  reload() {
-    const { fetchAppTopology, activeChannel } = this.props
-    fetchAppTopology(activeChannel, true)
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -158,8 +124,7 @@ class ApplicationTopologyModule extends React.Component {
         detailsLoaded,
         detailsReloading,
         storedVersion,
-        fetchError,
-        refetch
+        fetchError
       } = nextProps
 
       const showSpinner =
@@ -196,8 +161,7 @@ class ApplicationTopologyModule extends React.Component {
         showSpinner,
         lastTimeUpdate,
         topologyLoaded: nextProps.topologyLoaded,
-        topologyLoadError: nextProps.topologyLoadError,
-        refetch
+        topologyLoadError: nextProps.topologyLoadError
       }
     })
   }
@@ -240,11 +204,6 @@ class ApplicationTopologyModule extends React.Component {
       this.props.storedVersion !== nextProps.storedVersion ||
       !_.isEqual(this.props.channels, nextProps.channels)
 
-    const updateIntervalChanged =
-      this.state.lastTimeUpdate !== nextState.lastTimeUpdate ||
-      this.props.refetch.interval !== nextState.refetch.interval ||
-      this.props.refetch.doRefetch !== nextState.refetch.doRefetch
-
     const genericChange =
       !_.isEqual(this.state.exceptions, nextState.exceptions) ||
       this.state.updateMessage !== nextState.updateMessage ||
@@ -255,7 +214,6 @@ class ApplicationTopologyModule extends React.Component {
       isDiagramChanged ||
       loadedInfoChanged ||
       channelInfoChanged ||
-      updateIntervalChanged ||
       genericChange
     )
   }
@@ -273,12 +231,7 @@ class ApplicationTopologyModule extends React.Component {
   handleUpdateMessageClosed = () => this.setState({ updateMessage: '' });
 
   render() {
-    const {
-      channels,
-      refetchIntervalUpdateDispatch,
-      locale,
-      HCMApplicationList
-    } = this.props
+    const { channels, locale, HCMApplicationList } = this.props
     const {
       nodes,
       links,
@@ -301,8 +254,7 @@ class ApplicationTopologyModule extends React.Component {
       const fetchControl = {
         isLoaded: topologyLoaded,
         isFailed: isLoadError,
-        isReloading: showSpinner,
-        refetch: this.refetch
+        isReloading: showSpinner
       }
       const channelControl = {
         allChannels: channels,
@@ -335,7 +287,6 @@ class ApplicationTopologyModule extends React.Component {
           locale={locale}
           showLegendView={showLegendView}
           handleLegendClose={this.handleLegendClose.bind(this)}
-          refetchIntervalUpdateDispatch={refetchIntervalUpdateDispatch}
         />
       )
     }
@@ -423,7 +374,7 @@ class ApplicationTopologyModule extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { params } = ownProps
-  const { HCMApplicationList, refetch } = state
+  const { HCMApplicationList } = state
   const name = decodeURIComponent(params.name)
   const namespace = decodeURIComponent(params.namespace)
   let { topology } = state
@@ -464,16 +415,13 @@ const mapStateToProps = (state, ownProps) => {
     fetchFilters,
     fetchError,
     diagramFilters,
-    HCMApplicationList,
-    refetch
+    HCMApplicationList
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { params: { namespace, name } } = ownProps
   return {
-    refetchIntervalUpdateDispatch: data =>
-      dispatch(refetchIntervalUpdate(data)),
     resetFilters: () => {
       dispatch({
         type: TOPOLOGY_SET_ACTIVE_FILTERS,

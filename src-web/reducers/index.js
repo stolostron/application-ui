@@ -95,4 +95,3 @@ export const userInfoList = createResourceReducer(
 
 export { topology } from './topology'
 export { resourceFilters } from './filter'
-export { refetch } from './refetch'

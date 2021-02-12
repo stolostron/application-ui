@@ -22,6 +22,8 @@ import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSi
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import msgs from '../../nls/platform.properties'
 
+const kindApplication = 'kind:application'
+
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
   page,
@@ -114,11 +116,11 @@ export const getQueryStringForResources = resourcename => {
   case 'HCMSubscription':
     return convertStringToQuery('kind:subscription')
   case 'HCMApplication':
-    return convertStringToQuery('kind:application')
+    return convertStringToQuery(kindApplication)
   case 'HCMPlacementRule':
     return convertStringToQuery('kind:placementrule')
   default:
-    return convertStringToQuery('kind:application')
+    return convertStringToQuery(kindApplication)
   }
 }
 
@@ -135,7 +137,7 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
       resource = 'kind:subscription '
       break
     case 'HCMApplication':
-      resource = 'kind:application '
+      resource = `${kindApplication} `
       break
     case 'HCMPlacementRule':
       resource = 'kind:placementrule '

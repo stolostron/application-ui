@@ -129,6 +129,10 @@ export const processNodeData = (
   }
 }
 
+export const evaluateSingleAnd = (operand1, operand2) => {
+  return operand1 && operand2
+}
+
 export const getDiagramElements = (
   topology,
   localStoreKey,
@@ -147,7 +151,7 @@ export const getDiagramElements = (
   const topologyLoadError = status === REQUEST_STATUS.ERROR
   const appLoaded = applicationDetails && applicationDetails.status === 'DONE'
   const specsActiveChannel = 'specs.activeChannel'
-  if (loaded && !topologyLoadError) {
+  if (evaluateSingleAnd(loaded, !topologyLoadError)) {
     // topology from api will have raw k8 objects, pods status
     const { topo_links, topo_nodes } = getTopologyElements(topology)
     // create yaml and what row links to what node
@@ -167,7 +171,9 @@ export const getDiagramElements = (
     topo_nodes.forEach(node => {
       const { id, type } = node
 
-      if (type === 'application' && id.startsWith('application')) {
+      if (
+        evaluateSingleAnd(type === 'application', id.startsWith('application'))
+      ) {
         channelsList = _.get(node, 'specs.channels', [])
         // set default active channel
         const channelListNoAllChannels = channelsList.filter(
@@ -184,8 +190,10 @@ export const getDiagramElements = (
         }
         //active channel not found in the list of channel, remove it
         if (
-          activeChannelInfo &&
-          channelsList.indexOf(activeChannelInfo) === -1
+          evaluateSingleAnd(
+            activeChannelInfo,
+            channelsList.indexOf(activeChannelInfo) === -1
+          )
         ) {
           _.set(node, specsActiveChannel, defaultActiveChannel)
           activeChannelInfo = defaultActiveChannel
@@ -277,7 +285,7 @@ export const getDiagramElements = (
     'fetchFilters.application.channel',
     activeChannelInfo2
   )
-  if (activeChannelInfo2 && loaded) {
+  if (evaluateSingleAnd(activeChannelInfo2, loaded)) {
     //skip this if topology is not loaded ( disable refresh for example)
     const storedElements = getStoredObject(
       `${localStoreKey}-${activeChannelInfo2}`

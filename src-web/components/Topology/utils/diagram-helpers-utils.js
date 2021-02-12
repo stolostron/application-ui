@@ -15,6 +15,11 @@ const checkmarkCode = 3
 const warningCode = 2
 const pendingCode = 1
 const failureCode = 0
+const checkmarkStatus = 'checkmark'
+const warningStatus = 'warning'
+const pendingStatus = 'pending'
+const failureStatus = 'failure'
+const pulseValueArr = ['red', 'orange', 'yellow', 'green']
 
 export const isDeployableResource = node => {
   //check if this node has been created using a deployable object
@@ -288,4 +293,103 @@ export const namespaceMatchTargetServer = (
     relatedKind.cluster = _.get(findTargetClustersByNS[0], 'metadata.name', '')
   }
   return findTargetClustersByNS.length > 0
+}
+
+export const setArgoApplicationDeployStatus = (node, details) => {
+  const appLink = _.get(node, 'specs.raw.spec.appURL')
+  const linkId = _.get(node, 'uid')
+  const relatedArgoApps = _.get(node, 'specs.apps')
+
+  details.push({
+    type: 'link',
+    value: {
+      label: appLink,
+      id: `${linkId}-location`,
+      data: {
+        action: 'open_link',
+        targetLink: appLink
+      }
+    },
+    indent: true
+  })
+
+  details.push({
+    type: 'spacer'
+  })
+  // related Argo apps
+  details.push({
+    type: 'label',
+    labelKey: 'resource.related.apps'
+  })
+
+  details.push({
+    type: 'spacer'
+  })
+  relatedArgoApps.forEach(app => {
+    const relatedAppName = _.get(app, 'metadata.name')
+    const relatedLinkId = `application--${relatedAppName}`
+    const relatedAppHealth = _.get(app, 'status.health.status')
+    const relatedAppLink = _.get(app, 'spec.appURL')
+
+    const statusStr = getStatusForArgoApp(relatedAppHealth)
+
+    details.push({
+      labelKey: 'resource.name',
+      value: relatedAppName,
+      status: statusStr
+    })
+
+    details.push({
+      type: 'link',
+      value: {
+        label: relatedAppLink,
+        id: `${relatedLinkId}-location`,
+        data: {
+          action: 'open_link',
+          targetLink: relatedAppLink
+        }
+      },
+      indent: true
+    })
+  })
+}
+
+export const getStatusForArgoApp = healthStatus => {
+  if (healthStatus === 'Healthy') {
+    return checkmarkStatus
+  }
+  if (healthStatus === 'Progressing') {
+    return pendingStatus
+  }
+  if (healthStatus === 'Unknown') {
+    return failureStatus
+  }
+  return warningStatus
+}
+
+export const translateArgoHealthStatus = healthStatus => {
+  if (healthStatus === 'Healthy') {
+    return 3
+  }
+  if (healthStatus === 'Progressing') {
+    return 1
+  }
+  if (healthStatus === 'Unknown') {
+    return 0
+  }
+  return 2
+}
+
+export const getPulseStatusForArgoApp = node => {
+  const appHealth = _.get(node, 'specs.raw.status.health.status')
+  const healthArr = [translateArgoHealthStatus(appHealth)]
+  const relatedApps = _.get(node, 'specs.apps')
+
+  relatedApps.forEach(app => {
+    const relatedAppHealth = _.get(app, 'status.health.status')
+    healthArr.push(translateArgoHealthStatus(relatedAppHealth))
+  })
+
+  const minPulse = Math.min.apply(null, healthArr)
+  return pulseValueArr[minPulse]
 }

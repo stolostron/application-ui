@@ -28,7 +28,9 @@ import {
   getExistingResourceMapKey,
   syncControllerRevisionPodStatusMap,
   fixMissingStateOptions,
-  namespaceMatchTargetServer
+  namespaceMatchTargetServer,
+  setArgoApplicationDeployStatus,
+  getPulseStatusForArgoApp
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 
@@ -505,6 +507,7 @@ export const getShapeTypeForSubscription = node => {
 export const computeNodeStatus = node => {
   let pulse = 'green'
   let shapeType = node.type
+  let apiVersion
 
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
@@ -516,10 +519,15 @@ export const computeNodeStatus = node => {
   const isDeployable = isDeployableResource(node)
   switch (node.type) {
   case 'application':
-    if (isDeployable) {
-      pulse = getPulseStatusForGenericNode(node)
-    } else if (!_.get(node, 'specs.channels')) {
-      pulse = 'red'
+    apiVersion = _.get(node, 'specs.raw.apiVersion')
+    if (apiVersion && apiVersion.indexOf('argoproj.io') > -1) {
+      pulse = getPulseStatusForArgoApp(node)
+    } else {
+      if (isDeployable) {
+        pulse = getPulseStatusForGenericNode(node)
+      } else if (!_.get(node, 'specs.channels')) {
+        pulse = 'red'
+      }
     }
     break
   case 'placements':
@@ -1535,42 +1543,48 @@ export const setApplicationDeployStatus = (node, details) => {
   if (node.type !== 'application') {
     return details
   }
-  addPropertyToList(
-    details,
-    getNodePropery(
-      node,
-      ['specs', 'raw', 'spec', 'selector'],
-      'spec.selector.matchExpressions',
-      msgs.get('spec.selector.matchExpressions.err'),
-      true
+
+  const apiVersion = _.get(node, 'specs.raw.apiVersion')
+  if (apiVersion && apiVersion.indexOf('argoproj.io') > -1) {
+    setArgoApplicationDeployStatus(node, details)
+  } else {
+    addPropertyToList(
+      details,
+      getNodePropery(
+        node,
+        ['specs', 'raw', 'spec', 'selector'],
+        'spec.selector.matchExpressions',
+        msgs.get('spec.selector.matchExpressions.err'),
+        true
+      )
     )
-  )
-
-  details.push({
-    type: 'spacer'
-  })
-
-  //show error if no channel, meaning there is no linked subscription
-  if (!isDeployableResource(node) && !_.get(node, 'specs.channels')) {
-    const appNS = _.get(node, metadataNamespace, 'NA')
 
     details.push({
-      labelKey: 'resource.rule.clusters.error.label',
-      value: msgs.get('resource.application.error.msg', [appNS]),
-      status: failureStatus
+      type: 'spacer'
     })
-    const subscrSearchLink = `/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get('props.show.yaml.subscr.ns', [appNS]),
-        id: `${node.id}-subscrSearch`,
-        data: {
-          action: 'open_link',
-          targetLink: subscrSearchLink
+
+    //show error if no channel, meaning there is no linked subscription
+    if (!isDeployableResource(node) && !_.get(node, 'specs.channels')) {
+      const appNS = _.get(node, metadataNamespace, 'NA')
+
+      details.push({
+        labelKey: 'resource.rule.clusters.error.label',
+        value: msgs.get('resource.application.error.msg', [appNS]),
+        status: failureStatus
+      })
+      const subscrSearchLink = `/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get('props.show.yaml.subscr.ns', [appNS]),
+          id: `${node.id}-subscrSearch`,
+          data: {
+            action: 'open_link',
+            targetLink: subscrSearchLink
+          }
         }
-      }
-    })
+      })
+    }
   }
 
   return details

@@ -24,6 +24,7 @@ import msgs from '../../nls/platform.properties'
 import SecondaryHeaderTooltip from './SecondaryHeaderTooltip'
 import classNames from 'classnames'
 import loadable from 'loadable-components'
+import _ from 'lodash'
 
 const AutoRefreshSelect = loadable(() =>
   import(/* webpackChunkName: "autoRefreshSelect" */ './common/AutoRefreshSelect')
@@ -72,8 +73,11 @@ export class SecondaryHeader extends React.Component {
     } = this.props
     const { locale } = this.context
 
-    const headerHeight = document.getElementsByClassName('secondary-header')[0]
-      .clientHeight
+    const headerHeight = _.get(
+      document.getElementsByClassName('secondary-header'),
+      '[0].clientHeight',
+      0
+    )
     const headerArgs = {
       breadcrumb: breadcrumbItems && this.getBreadcrumbs(),
       title: decodeURIComponent(title),
@@ -84,7 +88,6 @@ export class SecondaryHeader extends React.Component {
               'cluster-tabs--long': breadcrumbItems,
               'cluster-tabs': !breadcrumbItems
             })}
-            // selected={this.getSelectedTab() || 0}
             aria-label={`${title} ${msgs.get('tabs.label', locale)}`}
           >
             {this.renderTabs()}

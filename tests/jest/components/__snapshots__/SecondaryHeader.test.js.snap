@@ -65,6 +65,21 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
             >
               hello world
             </h1>
+            <div
+              style={
+                Object {
+                  "paddingLeft": "8px",
+                }
+              }
+            >
+              <div
+                className="switch-controls"
+              >
+                <div
+                  id="edit-button-portal-id"
+                />
+              </div>
+            </div>
           </div>
           <div
             style={
@@ -226,6 +241,21 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
             >
               hello world
             </h1>
+            <div
+              style={
+                Object {
+                  "paddingLeft": "8px",
+                }
+              }
+            >
+              <div
+                className="switch-controls"
+              >
+                <div
+                  id="edit-button-portal-id"
+                />
+              </div>
+            </div>
           </div>
           <div
             style={

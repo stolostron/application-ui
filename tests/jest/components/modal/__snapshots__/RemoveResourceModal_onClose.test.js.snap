@@ -219,7 +219,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               isOpen={true}
               onClose={[Function]}
               position="top"
-              positionOffset="200px"
+              positionOffset="225px"
               showClose={true}
               title="Delete application"
               variant="large"
@@ -253,7 +253,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                 onClose={[Function]}
                 ouiaSafe={true}
                 position="top"
-                positionOffset="200px"
+                positionOffset="225px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -450,7 +450,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                     ouiaId="OUIA-Generated-Modal-large-1"
                     ouiaSafe={true}
                     position="top"
-                    positionOffset="200px"
+                    positionOffset="225px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -485,10 +485,10 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                               data-ouia-safe={true}
                               id="remove-resource-modal"
                               position="top"
-                              positionOffset="200px"
+                              positionOffset="225px"
                               style={
                                 Object {
-                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  "--pf-c-modal-box--m-align-top--spacer": "225px",
                                 }
                               }
                               variant="large"
@@ -506,7 +506,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                 role="dialog"
                                 style={
                                   Object {
-                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                    "--pf-c-modal-box--m-align-top--spacer": "225px",
                                   }
                                 }
                               >
@@ -966,7 +966,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               isOpen={true}
               onClose={[Function]}
               position="top"
-              positionOffset="200px"
+              positionOffset="225px"
               showClose={true}
               title="Delete application"
               variant="large"
@@ -1000,7 +1000,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                 onClose={[Function]}
                 ouiaSafe={true}
                 position="top"
-                positionOffset="200px"
+                positionOffset="225px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -1197,7 +1197,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                     ouiaId="OUIA-Generated-Modal-large-1"
                     ouiaSafe={true}
                     position="top"
-                    positionOffset="200px"
+                    positionOffset="225px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -1232,10 +1232,10 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                               data-ouia-safe={true}
                               id="remove-resource-modal"
                               position="top"
-                              positionOffset="200px"
+                              positionOffset="225px"
                               style={
                                 Object {
-                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  "--pf-c-modal-box--m-align-top--spacer": "225px",
                                 }
                               }
                               variant="large"
@@ -1253,7 +1253,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                 role="dialog"
                                 style={
                                   Object {
-                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                    "--pf-c-modal-box--m-align-top--spacer": "225px",
                                   }
                                 }
                               >

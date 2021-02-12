@@ -17,35 +17,33 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
 }));
 
 import React from "react";
-import renderer from "react-test-renderer";
+import { mount } from "enzyme";
+import toJson from "enzyme-to-json";
 import { BrowserRouter } from "react-router-dom";
 import CreateApplicationButton from "../../../../src-web/components/common/CreateApplicationButton";
 
 describe("CreateApplicationButton", () => {
   mockUserAccessAnyNamespaces = true;
-  const componentEnabled = renderer.create(
+  const wrapper = mount(
     <BrowserRouter>
       <CreateApplicationButton />
     </BrowserRouter>
   );
 
   it("renders correctly when enabled", () => {
-    const buttonClasses = componentEnabled.root.findByType("button").props
-      .className;
-    expect(buttonClasses).not.toContain("pf-m-disabled");
-    expect(buttonClasses).not.toContain("pf-m-aria-disabled");
+    wrapper.update();
+    expect(toJson(wrapper.render())).toMatchSnapshot();
   });
 
   mockUserAccessAnyNamespaces = false;
-  const componentDisabled = renderer.create(
+  const wrapperDisabled = mount(
     <BrowserRouter>
       <CreateApplicationButton />
     </BrowserRouter>
   );
 
   it("renders correctly when disabled", () => {
-    const buttonClasses = componentDisabled.root.findByType("button").props
-      .className;
-    expect(buttonClasses).toContain("pf-m-aria-disabled");
+    wrapperDisabled.update();
+    expect(toJson(wrapperDisabled.render())).toMatchSnapshot();
   });
 });

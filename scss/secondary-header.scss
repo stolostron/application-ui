@@ -19,15 +19,9 @@
   .header-box-shadow {
     position: fixed;
     width: 100%;
-    height: 32px;
-    top: 175px;
     box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.05);
     left: 0px;
-
-    &--tall {
-      @extend .header-box-shadow;
-      top: 157px;
-    }
+    z-index: -1;
   }
 
   // PF dropdown
@@ -43,6 +37,12 @@
 
   div[class*="makeStyles-timestamp"] > p {
     font-size: var(--pf-global--FontSize--xs);
+  }
+
+  // YAML toggle
+  .edit-template-switch {
+    position: absolute;
+    top: 35px;
   }
 
   .bx--detail-page-header-title {

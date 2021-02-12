@@ -24,6 +24,7 @@ import msgs from '../../nls/platform.properties'
 import SecondaryHeaderTooltip from './SecondaryHeaderTooltip'
 import classNames from 'classnames'
 import loadable from 'loadable-components'
+import _ from 'lodash'
 
 const AutoRefreshSelect = loadable(() =>
   import(/* webpackChunkName: "autoRefreshSelect" */ './common/AutoRefreshSelect')
@@ -72,32 +73,25 @@ export class SecondaryHeader extends React.Component {
     } = this.props
     const { locale } = this.context
 
+    const headerHeight = _.get(
+      document.getElementsByClassName('secondary-header'),
+      '[0].clientHeight',
+      0
+    )
     const headerArgs = {
       breadcrumb: breadcrumbItems && this.getBreadcrumbs(),
       title: decodeURIComponent(title),
       navigation: tabs &&
         tabs.length > 0 && (
-          <React.Fragment>
-            {this.state.shadowPresent && (
-              <div
-                className={
-                  breadcrumbItems
-                    ? 'header-box-shadow--tall'
-                    : 'header-box-shadow'
-                }
-              />
-            )}
-            <AcmSecondaryNav
-              className={classNames({
-                'cluster-tabs--long': breadcrumbItems,
-                'cluster-tabs': !breadcrumbItems
-              })}
-              // selected={this.getSelectedTab() || 0}
-              aria-label={`${title} ${msgs.get('tabs.label', locale)}`}
-            >
-              {this.renderTabs()}
-            </AcmSecondaryNav>
-          </React.Fragment>
+          <AcmSecondaryNav
+            className={classNames({
+              'cluster-tabs--long': breadcrumbItems,
+              'cluster-tabs': !breadcrumbItems
+            })}
+            aria-label={`${title} ${msgs.get('tabs.label', locale)}`}
+          >
+            {this.renderTabs()}
+          </AcmSecondaryNav>
       ),
       controls: <AutoRefreshSelect route={this.props.location} />,
       actions: tabs &&
@@ -111,6 +105,11 @@ export class SecondaryHeader extends React.Component {
           >
             {mainButton}
           </div>
+      ),
+      switches: (
+        <div className="switch-controls">
+          <div id="edit-button-portal-id" />
+        </div>
       )
     }
 
@@ -133,56 +132,15 @@ export class SecondaryHeader extends React.Component {
               actions && !tabs ? 'detailed-header-override' : ''
             }`}
           >
+            {this.state.shadowPresent && (
+              <div
+                className="header-box-shadow"
+                style={{
+                  height: headerHeight
+                }}
+              />
+            )}
             <AcmPageHeader {...headerArgs} />
-            {/* <React.Fragment>
-              <DetailPageHeader
-                hasTabs={true}
-                title={decodeURIComponent(title)}
-                statusText={null}
-                statusContent={this.renderTooltip()}
-                aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
-              >
-                {breadcrumbItems && (
-                  <Breadcrumb>{this.renderBreadCrumb()}</Breadcrumb>
-                )}
-              </DetailPageHeader>
-              {this.state.shadowPresent && (
-                <React.Fragment>
-                  <div
-                    className={
-                      breadcrumbItems
-                        ? 'header-box-shadow--tall'
-                        : 'header-box-shadow'
-                    }
-                  />
-                </React.Fragment>
-              )}
-              {tabs &&
-                tabs.length > 0 && (
-                  <div className="tab-container">
-                    <Tabs
-                      className={classNames({
-                        'cluster-tabs--long': breadcrumbItems,
-                        'cluster-tabs': !breadcrumbItems
-                      })}
-                      selected={this.getSelectedTab() || 0}
-                      aria-label={`${title} ${msgs.get('tabs.label', locale)}`}
-                    >
-                      {this.renderTabs()}
-                    </Tabs>
-                    {mainButton && (
-                      <div
-                        className={classNames({
-                          'main-button-container': true,
-                          'with-breadcrumbs': breadcrumbItems
-                        })}
-                      >
-                        {mainButton}
-                      </div>
-                    )}
-                  </div>
-              )}
-            </React.Fragment> */}
             {actions && this.renderActions()}
           </div>
           {links &&

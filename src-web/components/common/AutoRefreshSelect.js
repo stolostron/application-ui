@@ -101,7 +101,8 @@ class AutoRefreshSelect extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const resourceType = getResourceTypeForLocation(ownProps.location)
+  const location = ownProps.route
+  const resourceType = getResourceTypeForLocation(location)
   const routePaths = location ? _.get(location, 'pathname', '').split('/') : []
   const isEditTab =
     routePaths.length === 6 || //edit app

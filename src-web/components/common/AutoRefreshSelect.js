@@ -26,7 +26,7 @@ import { fetchResources } from '../../actions/common'
 import { combineFilters } from '../../actions/filters'
 import { fetchTopology } from '../../actions/topology'
 
-export const getResourceTypeForLocation = location => {
+const getResourceTypeForLocation = location => {
   const defaultOption = location.pathname.includes(
     'multicloud/applications/advanced'
   )
@@ -72,14 +72,11 @@ class AutoRefreshSelect extends Component {
     const refetch = () => {
       //don't call refresh if the page is still refreshing from the previous call
       //or this is the initial call
-      if (
-        this.props.status !== 'IN_PROGRESS' &&
-        this.props.status !== 'INCEPTION'
-      ) {
+      if (!_.includes(['IN_PROGRESS', 'INCEPTION'], this.props.status)) {
         if (this.props.resourceType === RESOURCE_TYPES.HCM_APPLICATIONS) {
-          fetchAppTopology(this.props.fetchFilters, true)
+          fetchAppTopology(this.props.fetchFilters, true) //fetch single app
         } else {
-          fetchTableResources(this.props.resourceType, [])
+          fetchTableResources(this.props.resourceType, []) //fetch table resources
         }
       }
     }

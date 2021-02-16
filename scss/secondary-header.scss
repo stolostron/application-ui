@@ -1,87 +1,159 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
- * US Government Users Restricted Rights - Use, duplication or disclosure 
- * restricted by GSA ADP Schedule Contract with IBM Corp.
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'variables';
 
-// animation
-$animation__ease-in: cubic-bezier(0.25, 0, 1, 1) !default;
-$animation__ease-out: cubic-bezier(0, 0, 0.25, 1) !default;
-$animation__standard: cubic-bezier(0.5, 0, 0.1, 1) !default;
+.secondary-header {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: inherit;
+  background-color: $color__white;
 
-// secondary header
-$secondary-header-top: 4.082rem !default;
-$secondary-header-min-height: 4.125rem !default;
-$secondary-header-no-tabs-height: 5.5rem !default;
-$secondary-header-max-height: 7.75rem !default;
+  .header-box-shadow {
+    position: fixed;
+    width: 100%;
+    height: inherit;
+    box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.05);
+    left: 0px;
+    z-index: -1;
+  }
 
-// secondary header wrapper height
-$secondary-header-min-wrapper: 5.75rem !default;
-$secondary-header-med-wrapper: 8.2rem !default;
-$secondary-header-max-wrapper: 7.05rem !default;
+  // PF dropdown
+  #refresh-icon,
+  #refresh-dropdown,
+  .pf-c-dropdown__menu-item {
+    font-size: var(--pf-global--FontSize--sm);
+  }
 
-// mcm overview cards
-$overview-column-width: 10px !default; /* card width must be multiple of this */
-// also change CARD_SPACING in constants.js
-$overview-card-margin-right: 20px !default; /* margin around cards */
-$overview-card-margin-bottom: 46px !default; /* margin around cards */
-$mcm__color__gray: #6f7878 !default;
-$mcm__color__gray_text: #5d6a74 !default;
-$mcm__color__critical: #e0182d !default;
-$mcm__available_color: #047cc0 !default;
-$mcm__used_color: #40d5bb !default;
-$mcm_color_green: #8cd211 !default;
-$mcm_color_gray: #8c9ba5 !default;
-$mcm_color_yellow: #efc199 !default;
-$mcm_color_red: #e71d32 !default;
-$mcm_color_blue_gray: #5a6872 !default;
-$mcm_color_drak_blue: #30588c !default;
-$mcm_heat_red: #ff4253 !default;
-$mcm_heat_yellow: #ffcb00 !default;
-$mcm_heat_blue: #92eeee !default;
-$mcm_view_filter: #dfebf1 !default;
-$mcm_background_color: #f4f7fb !default;
-$mcm_provider_card_background_color: #fafafa !default;
-$mcm_search_suggested: #04a091 !default;
-$mcm_search_icp_bright_blue: #3e69f5 !default;
+  .pf-c-dropdown__toggle-icon {
+    margin-left: 0.5rem;
+  }
 
-//These are grc own colors not in carbon
-$grc__color__gray: #6f7878 !default;
-$grc__color__critical: #e0182d !default;
-$grc_view_filter: #dfebf1 !default;
-$grc_color_blue: #3f71ec !default;
-$grc_color_light_gray: #cccccc !default;
-$grc_color_dark_blue: #30588c !default;
-$grc_color_radar_blue: #0082c1 !default;
-$grc_color_radar_green: #13b9b9 !default;
-$grc_color_radar_legend: #50565b !default;
-$grc_color_finding_high: #e62325 !default;
-$grc_color_finding_medium: #fec233 !default;
-$grc_color_finding_low: #a0a0a0 !default;
-$grc_highlight_background: rgba(85, 150, 230, 0.1) !default;
-$grc_highlight_background_2: rgba(85, 150, 230, 0.02) !default;
-$grc_focus_shaldow_color: #7cc7ff !default;
-$grc_focus_shaldow_width: 0.1875rem;
+  div[class*="makeStyles-timestamp"] > p {
+    font-size: var(--pf-global--FontSize--xs);
+  }
 
-//These are carbon colors in previous version but will not in latest carbon 10
-$ibm-colors__gray--40: #a4a4a4 !default;
-$color__blue-51: #3d70b2 !default;
-$color__gray-1: #dfe3e6 !default;
-$color__navy-gray-8: #dfe6eb !default;
-$color__green-40: #5aa700 !default;
-$color__white: #ffffff !default;
-$color__red-50: #e71d32 !default;
-$color__blue-50: #4178be !default;
-$color__blue-30: #5aaafa !default;
-$color__yellow-30: #efc100 !default;
-$color__blue-40: #5596e6 !default;
-$color__teal-20: #6eedd8 !default;
-$color__blue-90: #152935 !default;
-$color__navy-gray-6: #5a6872 !default;
-$color__navy-gray-7: #8c9ba5 !default;
+  // YAML toggle
+  .edit-template-switch {
+    position: absolute;
+    top: 35px;
+  }
 
-// acm background
-$acm_background_color: #f0f0f0 !default;
+  .bx--detail-page-header-title {
+    display: inline-block;
+    font-size: 1.75rem;
+  }
+
+  &-links {
+    position: fixed;
+    right: 5%;
+    top: 7.25rem;
+    display: flex;
+    z-index: 6001;
+    top: 7rem;
+
+    .bx--btn--primary,
+    .bx--btn--secondary {
+      min-height: 1.875rem;
+    }
+
+    .portal {
+      padding-left: 1rem;
+    }
+  }
+
+  .secondary-header-actions {
+    .bx--btn {
+      width: unset;
+      min-width: 108px;
+    }
+  }
+
+  &.simple-header {
+    position: fixed;
+    width: 100%;
+    background-color: #fff;
+    height: $secondary-header-min-height;
+    padding: 0.75rem 5% 0;
+  }
+
+  @media screen and (min-width: 768px) {
+    .bx--detail-page-header--with-tabs {
+      padding: 0 5% 0;
+      //height: 90px;
+    }
+  }
+
+  &.detailed-header-override {
+    .bx--detail-page-header--with-tabs[data-header-active="false"] {
+      height: 90px;
+    }
+  }
+
+  &-actions {
+    position: fixed;
+    float: right;
+    top: 7rem;
+    right: 5%;
+    z-index: 6001;
+
+    .bx--btn {
+      width: 108px;
+    }
+  }
+}
+
+.secondary-header-links .bx--btn--primary:focus {
+  // box-shadow: 0 0 0 $grc_focus_shaldow_width $grc_focus_shaldow_color;
+  outline: 0.0625rem solid transparent;
+  border: none;
+}
+
+.secondary-header-wrapper {
+  position: relative;
+  width: 100%;
+  z-index: 1000;
+}
+
+.secondary-header-wrapper-min {
+  @extend .secondary-header-wrapper;
+  height: $secondary-header-min-wrapper;
+}
+
+.secondary-header-wrapper.with-breadcrumbs {
+  @extend .secondary-header-wrapper;
+  height: $secondary-header-min-wrapper;
+}
+
+.secondary-header-wrapper.with-tabs {
+  @extend .secondary-header-wrapper;
+  height: $secondary-header-med-wrapper;
+}
+
+.secondary-header-wrapper.with-tabs.with-breadcrumbs {
+  @extend .secondary-header-wrapper;
+  height: $secondary-header-max-wrapper;
+}
+
+.secondary-header-tooltip-icon {
+  margin-left: 1rem;
+}
+
+.secondary-header-tooltip {
+  transform: translateY(0.5rem);
+
+  .secondary-header-tooltip-content,
+  .secondary-header-tooltip-link {
+    display: block;
+    padding: 0.5rem;
+  }
+}
+ 

@@ -24,7 +24,6 @@ import msgs from '../../nls/platform.properties'
 import SecondaryHeaderTooltip from './SecondaryHeaderTooltip'
 import classNames from 'classnames'
 import loadable from 'loadable-components'
-import _ from 'lodash'
 
 const AutoRefreshSelect = loadable(() =>
   import(/* webpackChunkName: "autoRefreshSelect" */ './common/AutoRefreshSelect')
@@ -73,11 +72,6 @@ export class SecondaryHeader extends React.Component {
     } = this.props
     const { locale } = this.context
 
-    const headerHeight = _.get(
-      document.getElementsByClassName('secondary-header'),
-      '[0].clientHeight',
-      0
-    )
     const headerArgs = {
       breadcrumb: breadcrumbItems && this.getBreadcrumbs(),
       title: decodeURIComponent(title),
@@ -134,10 +128,11 @@ export class SecondaryHeader extends React.Component {
           >
             {this.state.shadowPresent && (
               <div
-                className="header-box-shadow"
-                style={{
-                  height: headerHeight
-                }}
+                className={
+                  breadcrumbItems
+                    ? 'header-box-shadow--tall'
+                    : 'header-box-shadow'
+                }
               />
             )}
             <AcmPageHeader {...headerArgs} />

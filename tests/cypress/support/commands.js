@@ -265,10 +265,17 @@ Cypress.Commands.add("ocLogin", role => {
     user: user || "kubeadmin",
     password: Cypress.env("OC_CLUSTER_PASS")
   };
+  // Workaround for "error: x509: certificate signed by unknown authority" problem with oc login
+  let certificateAuthority = "";
+  if (Cypress.env("OC_CLUSTER_INGRESS_CA")) {
+    certificateAuthority = ` --certificate-authority=${Cypress.env(
+      "OC_CLUSTER_INGRESS_CA"
+    )}`;
+  }
   cy.exec(
     `oc login --server=${loginUserDetails.api} -u ${loginUserDetails.user} -p ${
       loginUserDetails.password
-    }`
+    }${certificateAuthority}`
   );
 });
 

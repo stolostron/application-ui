@@ -19,10 +19,16 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
     cy.get(".pf-c-search-input__text-input").type("charts-v1");
 
     // Go to 2nd page of Subscriptions
-    cy.get('button[aria-label="Go to next page"]').click();
+    cy
+      .get('button[aria-label="Go to next page"]')
+      .scrollIntoView()
+      .click();
 
     // Switch to Channels
-    cy.get("#channels").click();
+    cy
+      .get("#channels")
+      .scrollIntoView()
+      .click();
 
     // Go to app creation, then cancel
     cy.get("button[data-test-create-application]").click();
@@ -41,18 +47,33 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
     cy.get(".pf-c-search-input__text-input").should("have.value", "charts-v1");
 
     // Change page size
-    cy.get('button[aria-label="Items per page"]').click();
-    cy.get('button[data-action="per-page-20"]').click();
+    cy
+      .get('button[aria-label="Items per page"]')
+      .scrollIntoView()
+      .click();
+    cy
+      .get('button[data-action="per-page-20"]')
+      .scrollIntoView()
+      .click();
 
     // Switch to Placement Rules
-    cy.get("#placementrules").click();
+    cy
+      .get("#placementrules")
+      .scrollIntoView()
+      .click();
 
     // Verify page size change applied to Placement Rules
-    cy.get('button[aria-label="Items per page"]').click();
+    cy
+      .get('button[aria-label="Items per page"]')
+      .scrollIntoView()
+      .click();
     cy.get('button[data-action="per-page-20"].pf-m-selected');
 
     // Switch back to Applications tables
-    cy.get("#overview").click();
+    cy
+      .get("#overview")
+      .scrollIntoView()
+      .click();
 
     // Verify Applications table is still sorted by Created column
     cy.get('[data-label="Created"][aria-sort="ascending"]');

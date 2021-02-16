@@ -126,15 +126,7 @@ export class SecondaryHeader extends React.Component {
               actions && !tabs ? 'detailed-header-override' : ''
             }`}
           >
-            {this.state.shadowPresent && (
-              <div
-                className={
-                  breadcrumbItems
-                    ? 'header-box-shadow--tall'
-                    : 'header-box-shadow'
-                }
-              />
-            )}
+            {this.state.shadowPresent && <div className="header-box-shadow" />}
             <AcmPageHeader {...headerArgs} />
             {actions && this.renderActions()}
           </div>

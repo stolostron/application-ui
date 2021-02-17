@@ -743,22 +743,25 @@ export const getNameWithoutChartRelease = (
   const savedName = name
   const labelAttr = _.get(relatedKind, 'label', '')
   const labels = _.split(labelAttr, ';')
+  const labelMap = {}
   let foundReleaseLabel = false
   labels.forEach(label => {
     const splitLabelContent = _.split(label, '=')
-    if (
-      splitLabelContent.length === 2 &&
-      _.trim(splitLabelContent[0]) === 'release'
-    ) {
-      //get label for release name
-      foundReleaseLabel = true
-      const releaseName = _.trim(splitLabelContent[1])
-      name = _.replace(name, `${releaseName}-`, '')
-      name = _.replace(name, releaseName, '')
 
-      if (name.length === 0) {
-        // release name is used as name, need to strip generated suffix
-        name = removeReleaseGeneratedSuffix(savedName)
+    if (splitLabelContent.length === 2) {
+      const splitLabelTrimmed = _.trim(splitLabelContent[0])
+      labelMap[splitLabelTrimmed] = splitLabelContent[1]
+      if (splitLabelTrimmed === 'release') {
+        //get label for release name
+        foundReleaseLabel = true
+        const releaseName = _.trim(splitLabelContent[1])
+        name = _.replace(name, `${releaseName}-`, '')
+        name = _.replace(name, releaseName, '')
+
+        if (name.length === 0) {
+          // release name is used as name, need to strip generated suffix
+          name = removeReleaseGeneratedSuffix(savedName)
+        }
       }
     }
   })
@@ -783,6 +786,14 @@ export const getNameWithoutChartRelease = (
       //take the last value which is the version
       name = `${resourceNameNoHash}-${values[values.length - 1]}`
     }
+  }
+
+  if (
+    !foundReleaseLabel &&
+    kind !== 'helmrelease' &&
+    labelMap['app.kubernetes.io/name']
+  ) {
+    name = labelMap['app.kubernetes.io/name']
   }
 
   return name

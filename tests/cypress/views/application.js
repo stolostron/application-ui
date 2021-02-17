@@ -38,7 +38,7 @@ export const createApplication = (
   const { name, config } = data;
   namespace == "default" ? (namespace = `${name}-ns`) : namespace;
   cy.log(`Test create application ${name}`);
-  cy.get(".bx--detail-page-header-title-container").should("exist");
+  cy.get(".pf-c-title").should("exist");
   cy.get("#name", { timeout: 50 * 1000 }).type(name);
   cy.get("#namespace", { timeout: 50 * 1000 }).type(namespace);
   if (type === "git") {
@@ -756,7 +756,7 @@ export const edit = (name, namespace = "default") => {
 export const editApplication = (name, data) => {
   edit(name);
   cy.log("Verify name and namespace fields are disabled");
-  cy.get(".bx--detail-page-header-title-container", { timeout: 20 * 1000 });
+  cy.get(".pf-c-title", { timeout: 20 * 1000 });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
   cy
     .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
@@ -837,7 +837,11 @@ export const addNewSubscription = (
   submitSave(true);
 };
 
-export const verifyEditAfterDeleteSubscription = (name, data, namespace = "default") => {
+export const verifyEditAfterDeleteSubscription = (
+  name,
+  data,
+  namespace = "default"
+) => {
   namespace == "default" ? (namespace = `${name}-ns`) : namespace;
   if (data.config.length > 1) {
     edit(name, namespace);

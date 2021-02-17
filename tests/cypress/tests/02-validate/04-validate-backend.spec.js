@@ -6,10 +6,14 @@ const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import {
   apiResources,
   targetResource,
-  validateTimewindow
+  validateTimewindow,
+  getManagedClusterName
 } from "../../views/resources";
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application application backend resources exist", () => {
+  it(`get the name of the managed OCP cluster`, () => {
+    getManagedClusterName();
+  });
   for (const type in config) {
     const apps = config[type].data;
     apps.forEach(data => {

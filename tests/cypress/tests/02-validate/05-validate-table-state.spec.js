@@ -15,9 +15,6 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
     // Switch to advanced tables
     cy.get("#advanced").click();
 
-    // Filter Subscriptions table
-    cy.get(".pf-c-search-input__text-input").type("charts-v1");
-
     // Go to 2nd page of Subscriptions
     cy
       .get('button[aria-label="Go to next page"]')
@@ -30,6 +27,9 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
       .scrollIntoView()
       .click();
 
+    // Filter Channels table
+    cy.get(".pf-c-search-input__text-input").type("charts-v1");
+
     // Go to app creation, then cancel
     cy.get("button[data-test-create-application]").click();
     cy.get("button#cancel-button-portal-id").click();
@@ -37,14 +37,14 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
     // Verify still on Channels table
     cy.get("#channels.pf-m-selected");
 
+    // Verify still filtered by "charts-v1"
+    cy.get(".pf-c-search-input__text-input").should("have.value", "charts-v1");
+
     // Switch to Subscriptions
     cy.get("#subscriptions").click();
 
     // Verify still on page 2
     cy.get('input[aria-label="Current page"]').should("have.value", "2");
-
-    // Verify still filtered by "charts-v1"
-    cy.get(".pf-c-search-input__text-input").should("have.value", "charts-v1");
 
     // Change page size
     cy

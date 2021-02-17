@@ -139,7 +139,9 @@ class ApplicationTopologyModule extends React.Component {
 
   // call to actually refetch the new data
   reload() {
-    const { fetchAppTopology, activeChannel } = this.props
+    // fetch activeChannel from state
+    const { fetchAppTopology } = this.props
+    const { activeChannel } = this.state
     fetchAppTopology(activeChannel, true)
   }
 

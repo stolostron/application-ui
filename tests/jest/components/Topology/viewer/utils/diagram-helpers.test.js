@@ -1910,7 +1910,7 @@ describe("computeNodeStatus ", () => {
     }
   };
 
-  const deploymentNodeRed = {
+  const deploymentNodeYellow3 = {
     id:
       "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
     uid:
@@ -1955,7 +1955,7 @@ describe("computeNodeStatus ", () => {
     }
   };
 
-  const deploymentNodeRed2 = {
+  const deploymentNodeYellow4 = {
     id:
       "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
     uid:
@@ -2922,11 +2922,11 @@ describe("computeNodeStatus ", () => {
   it("return computeNodeStatus deploymentNodeYellow", () => {
     expect(computeNodeStatus(deploymentNodeYellow)).toEqual("yellow");
   });
-  it("return computeNodeStatus deploymentNodeRed", () => {
-    expect(computeNodeStatus(deploymentNodeRed)).toEqual("yellow");
+  it("return computeNodeStatus deploymentNodeYellow3", () => {
+    expect(computeNodeStatus(deploymentNodeYellow3)).toEqual("yellow");
   });
-  it("return computeNodeStatus deploymentNodeRed2", () => {
-    expect(computeNodeStatus(deploymentNodeRed2)).toEqual("yellow");
+  it("return computeNodeStatus deploymentNodeYellow4", () => {
+    expect(computeNodeStatus(deploymentNodeYellow4)).toEqual("yellow");
   });
   it("return computeNodeStatus deploymentNodeYellow2", () => {
     expect(computeNodeStatus(deploymentNodeYellow2)).toEqual("yellow");

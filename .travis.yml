@@ -44,21 +44,22 @@ env:
 
 stages:
   - build
-  - build-test
   - unit-test
-  - test-e2e
+  - name: test-e2e
+    if: env(USE_CLUSTERPOOL) IS blank
+  - name: test-e2e-clusterpool
+    if: env(USE_CLUSTERPOOL) IS present
   - release-ff
   - publish
 
 before_script:
   - make init
-  - chmod +x keep_alive.sh
   - ./keep_alive.sh
 
 jobs:
   include:
     - stage: build
-      name: "Build the component and test images and push it"
+      name: "Build the component and test images and push them"
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
         - make
@@ -71,23 +72,30 @@ jobs:
       name: "Build and run unit tests"
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
-        - chmod +x copyright-check.sh
+        - make
         - make copyright-check TRAVIS_BRANCH=${TRAVIS_BRANCH}
         - make sonar/js/jest-init
-        - |
-          make 
-          make component/pull         
-          make component/test/unit
+        - make 
+        - make component/pull         
+        - make component/test/unit
         - make sonar/js
     - stage: test-e2e
       name: "Deploy the image to a cluster and run e2e tests"
       if: type = pull_request
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
-        - |
-          make
-          make component/pull
-          make component/test/e2e
+        - make
+        - make component/pull
+        - make component/test/e2e
+    - stage: test-e2e-clusterpool
+      name: "Deploy the image to a ClusterPool cluster and run e2e tests"
+      if: type = pull_request
+      script:
+        - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
+        - export COMPONENT_E2E_TEST_COMMAND=${TRAVIS_BUILD_DIR}/build/run-e2e-tests-clusterpool.sh
+        - make
+        - make component/pull
+        - make component/test/e2e
     - stage: release-ff
       name: "Push commits to current release branch"
       if: type = push AND branch =~ /^master$/
@@ -98,9 +106,8 @@ jobs:
       name: "Publish the image to quay with an official version/sha tag and publish entry to integration pipeline stage"
       if: type = push AND branch =~ /^release-[0-9]+\..*$/
       script:
-        - |
-          make 
-          make pipeline-manifest/update PIPELINE_MANIFEST_COMPONENT_SHA256=${TRAVIS_COMMIT} PIPELINE_MANIFEST_COMPONENT_REPO=${TRAVIS_REPO_SLUG} PIPELINE_MANIFEST_BRANCH=${TRAVIS_BRANCH}
-          rm -rf pipeline
-          echo "Waiting 120s before publishing test image..." && sleep 120
-          make publish-test-image
+        - make 
+        - make pipeline-manifest/update PIPELINE_MANIFEST_COMPONENT_SHA256=${TRAVIS_COMMIT} PIPELINE_MANIFEST_COMPONENT_REPO=${TRAVIS_REPO_SLUG} PIPELINE_MANIFEST_BRANCH=${TRAVIS_BRANCH}
+        - rm -rf pipeline
+        - echo "Waiting 120s before publishing test image..." && sleep 120
+        - make publish-test-image

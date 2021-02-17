@@ -1016,7 +1016,11 @@ export const validateDefect7696 = () => {
   );
 
   cy.log("Select Editor tab");
-  cy.get("#editor", { timeout: 20 * 1000 }).click({ force: true });
+  cy
+    .get("[data-ouia-component-id=OUIA-Generated-NavItem-2]", {
+      timeout: 20 * 1000
+    })
+    .click();
 
   cy.log(
     "Verify defect 8055 - Temptifly 0.1.15 no longer shows yaml toggler for app-ui"
@@ -1024,6 +1028,7 @@ export const validateDefect7696 = () => {
   cy.get("#edit-button-portal-id", { timeout: 20 * 1000 }).should("be.visible");
 
   cy.log("show YAML");
+  cy.get("#edit-yaml", { timeout: 20 * 1000 }).should("be.visible");
   cy.get("#edit-yaml", { timeout: 2 * 1000 }).should("not.be.checked");
   cy.get("#edit-yaml", { timeout: 2 * 1000 }).click({ force: true });
   cy.get("#edit-yaml", { timeout: 2 * 1000 }).should("be.checked");
@@ -1034,7 +1039,11 @@ export const validateDefect7696 = () => {
   cy.log(
     "move back to topology view and check resources still show up - defect 7696"
   );
-  cy.get("#overview", { timeout: 20 * 1000 }).click({ force: true });
+  cy
+    .get("[data-ouia-component-id=OUIA-Generated-NavItem-1]", {
+      timeout: 20 * 1000
+    })
+    .click();
 
   cy.log("Verify deployables show up");
   cy.get("#diagramShapes_pod", { timeout: 30 * 1000 }).should("exist");

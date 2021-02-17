@@ -13,7 +13,7 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
     cy.get('[data-label="Created"] > .pf-c-table__button').click();
 
     // Switch to advanced tables
-    cy.get("#advanced").click();
+    cy.get("[data-ouia-component-id=OUIA-Generated-NavItem-2]").click();
 
     // Go to 2nd page of Subscriptions
     cy
@@ -70,10 +70,7 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
     cy.get('button[data-action="per-page-20"].pf-m-selected');
 
     // Switch back to Applications tables
-    cy
-      .get("#overview")
-      .scrollIntoView()
-      .click();
+    cy.get("[data-ouia-component-id=OUIA-Generated-NavItem-1]").click();
 
     // Verify Applications table is still sorted by Created column
     cy.get('[data-label="Created"][aria-sort="ascending"]');

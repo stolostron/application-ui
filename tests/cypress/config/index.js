@@ -146,5 +146,6 @@ exports.getUsers = () => {
     users: userData.users,
     idp: userData.idp
   };
+  console.log("getUsers returns ", userList);
   return userList;
 };

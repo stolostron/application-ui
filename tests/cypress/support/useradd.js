@@ -91,7 +91,7 @@ Cypress.Commands.add("addUsers", () => {
 
   const { users } = Cypress.env("USER_CONFIG");
   const secret = secretValue;
-  cy.log(`Secrtet values ${secret}`);
+  cy.log(`secret values ${secret}`);
   const cmdGetSecrets =
     "oc get secret -n openshift-config -o jsonpath='{.items[*].metadata.name}'";
   const cmdCreateSecrets = `oc create secret generic ${secret} --from-file=htpasswd=${filename} -n openshift-config`;

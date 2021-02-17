@@ -4,7 +4,7 @@
 # restricted by GSA ADP Schedule Contract with IBM Corp.
 
 # Release Tag
-if [ "$TRAVIS_BRANCH" = "master" ]; then
+if [ "$TRAVIS_BRANCH" = "main" ]; then
     RELEASE_TAG=latest
 else
     RELEASE_TAG="${TRAVIS_BRANCH#release-}-latest"

@@ -788,10 +788,12 @@ export const getNameWithoutChartRelease = (
     }
   }
 
-  if (!foundReleaseLabel && kind !== 'helmrelease') {
-    if (labelMap['app.kubernetes.io/name']) {
-      name = labelMap['app.kubernetes.io/name']
-    }
+  if (
+    !foundReleaseLabel &&
+    kind !== 'helmrelease' &&
+    labelMap['app.kubernetes.io/name']
+  ) {
+    name = labelMap['app.kubernetes.io/name']
   }
 
   return name

@@ -5,6 +5,14 @@ function errEcho {
   echo >&2 "$@"
 }
 
+function usage {
+  errEcho "usage: $(basename ${0}) [-l] HUB MANAGED"
+  errEcho
+  errEcho "    You must supply the name of the ClusterClaims for a hub and managed cluster."
+  errEcho "    Use the -l option to run against localhost."
+  exit 1
+}
+
 if ! jq --version > /dev/null 2>&1; then
   errEcho "Missing dependency: jq"
   exit 1
@@ -16,15 +24,19 @@ elif ! cm current > /dev/null 2>&1; then
   exit 1
 fi
 
+while getopts :l o 
+do case "$o" in
+  l)  LOCAL="true";;
+  [?]) usage;;
+  esac
+done
+shift $(($OPTIND - 1))
+
 HUB=$1
 MANAGED=$2
 if [[ -z $HUB || -z $MANAGED ]]
 then
-  errEcho "usage: $(basename ${0}) HUB MANAGED"
-  errEcho
-  errEcho "    You must supply the name of the ClusterClaims for a hub and managed cluster."
-  errEcho
-  exit 1
+  usage
 fi
 
 set -e
@@ -47,7 +59,12 @@ fi
 
 if [[ -z $CYPRESS_BASE_URL ]]
 then
-  export CYPRESS_BASE_URL=$(cm acm -d $HUB)
+  if [[ -n $LOCAL ]]
+  then
+    export CYPRESS_BASE_URL=https://localhost:3001
+  else
+    export CYPRESS_BASE_URL=$(cm acm -d $HUB)
+  fi
 fi
 
 if [[ -z $CYPRESS_OC_CLUSTER_URL ]]

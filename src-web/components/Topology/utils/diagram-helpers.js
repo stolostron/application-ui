@@ -59,6 +59,7 @@ const failureCode = 0
 const podErrorStates = ['err', 'off', 'invalid', 'kill']
 const podWarningStates = [pendingStatus, 'creating']
 const podSuccessStates = ['run']
+const apiVersionPath = 'specs.raw.apiVersion'
 
 import {
   showAnsibleJobDetails,
@@ -519,7 +520,7 @@ export const computeNodeStatus = node => {
   const isDeployable = isDeployableResource(node)
   switch (node.type) {
   case 'application':
-    apiVersion = _.get(node, 'specs.raw.apiVersion')
+    apiVersion = _.get(node, apiVersionPath)
     if (apiVersion && apiVersion.indexOf('argoproj.io') > -1) {
       pulse = getPulseStatusForArgoApp(node)
     } else {
@@ -562,7 +563,7 @@ export const createEditLink = node => {
   const apigroup = _.get(node, 'apigroup')
   const apiversion = _.get(node, 'apiversion')
   const cluster = _.get(node, 'cluster')
-  let apiVersion = _.get(node, 'specs.raw.apiVersion')
+  let apiVersion = _.get(node, apiVersionPath)
   if (!apiVersion) {
     apiVersion =
       apigroup && apiversion ? apigroup + '/' + apiversion : apiversion
@@ -1123,7 +1124,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
 
       // add apiversion if not exist
       if (!res.apiversion) {
-        _.assign(res, { apiversion: _.get(node, 'specs.raw.apiVersion') })
+        _.assign(res, { apiversion: _.get(node, apiVersionPath) })
       }
 
       details.push({
@@ -1544,7 +1545,7 @@ export const setApplicationDeployStatus = (node, details) => {
     return details
   }
 
-  const apiVersion = _.get(node, 'specs.raw.apiVersion')
+  const apiVersion = _.get(node, apiVersionPath)
   if (apiVersion && apiVersion.indexOf('argoproj.io') > -1) {
     setArgoApplicationDeployStatus(node, details)
   } else {

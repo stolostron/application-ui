@@ -20,6 +20,7 @@ const warningStatus = 'warning'
 const pendingStatus = 'pending'
 const failureStatus = 'failure'
 const pulseValueArr = ['red', 'orange', 'yellow', 'green']
+const metadataName = 'metadata.name'
 
 export const isDeployableResource = node => {
   //check if this node has been created using a deployable object
@@ -154,7 +155,7 @@ export const getOnlineClusters = (clusterNames, clusterObjs) => {
       return
     }
     for (let i = 0; i < clusterObjs.length; i++) {
-      const clusterObjName = _.get(clusterObjs[i], 'metadata.name')
+      const clusterObjName = _.get(clusterObjs[i], metadataName)
       if (clusterObjName === clsName.trim()) {
         if (
           clusterObjs[i].status === 'ok' ||
@@ -290,7 +291,7 @@ export const namespaceMatchTargetServer = (
   )
   //fix up the cluster on this object
   if (findTargetClustersByNS.length > 0) {
-    relatedKind.cluster = _.get(findTargetClustersByNS[0], 'metadata.name', '')
+    relatedKind.cluster = _.get(findTargetClustersByNS[0], metadataName, '')
   }
   return findTargetClustersByNS.length > 0
 }
@@ -326,7 +327,7 @@ export const setArgoApplicationDeployStatus = (node, details) => {
     type: 'spacer'
   })
   relatedArgoApps.forEach(app => {
-    const relatedAppName = _.get(app, 'metadata.name')
+    const relatedAppName = _.get(app, metadataName)
     const relatedLinkId = `application--${relatedAppName}`
     const relatedAppHealth = _.get(app, 'status.health.status')
     const relatedAppLink = _.get(app, 'spec.appURL')

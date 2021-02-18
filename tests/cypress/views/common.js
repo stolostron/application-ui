@@ -232,7 +232,7 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
         onlineClusterID: "#online-cluster-only-checkbox",
         uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
         existingClusterID: "#existingrule-checkbox",
-        existingRuleComboID: "#placementrulecombo",
+        existingRuleComboID: "#placementrulecombo-label",
         labelNameID: "#labelName-0-clusterSelector",
         labelValueID: "#labelValue-0-clusterSelector"
       },
@@ -258,9 +258,9 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
         .trigger("mouseover", { force: true });
 
       cy.get(existingRuleComboID).within($rules => {
-        cy.get("[type='button']").click();
+        cy.get(".pf-c-select__toggle-button").click();
         cy
-          .get(".bx--list-box__menu-item:first-of-type", {
+          .get(".pf-c-select__menu-item:first", {
             timeout: 30 * 1000
           })
           .click();
@@ -974,6 +974,9 @@ export const indexedCSS = (cssMap, index) =>
             break;
           case "#channel-repository-types":
             selector = `#channelgrp${index}-repository-types`;
+            break;
+          case "#placementrulecombo-label":
+            selector = `#placementrulecombogrp${index}-label`;
             break;
           default:
             selector = `${cssMap[key]}grp${index}`;

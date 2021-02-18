@@ -401,10 +401,10 @@ export const validateTopology = (
     if (opType !== "delete") {
       if (data.config.length > 1 || opType == "add") {
         cy.get(".channelsCombo", { timeout: 60 * 1000 }).within($channels => {
-          cy.get(".tf--list-box__field", { timeout: 20 * 1000 }).click();
+          cy.get(".bx--list-box__field", { timeout: 20 * 1000 }).click();
           //select all subscriptions
           cy
-            .get(".tf--list-box__menu-item", { timeout: 20 * 1000 })
+            .get(".bx--list-box__menu-item", { timeout: 20 * 1000 })
             .first()
             .click();
         });

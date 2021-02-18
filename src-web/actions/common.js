@@ -22,6 +22,8 @@ import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSi
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import msgs from '../../nls/platform.properties'
 
+const kindApplication = 'kind:application'
+
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
   page,
@@ -114,38 +116,37 @@ export const getQueryStringForResources = resourcename => {
   case 'HCMSubscription':
     return convertStringToQuery('kind:subscription')
   case 'HCMApplication':
-    return convertStringToQuery('kind:application')
+    return convertStringToQuery(kindApplication)
   case 'HCMPlacementRule':
     return convertStringToQuery('kind:placementrule')
   default:
-    return convertStringToQuery('kind:application')
+    return convertStringToQuery(kindApplication)
   }
 }
 
 export const getQueryStringForResource = (resourcename, name, namespace) => {
-  switch (resourcename) {
-  case 'HCMChannel':
-    return convertStringToQuery(
-      `kind:channel name:${name} namespace:${namespace}`
-    )
-  case 'HCMSubscription':
-    return convertStringToQuery(
-      //get only hub subscriptions
-      `kind:subscription name:${name} namespace:${namespace} cluster:local-cluster`
-    )
-  case 'HCMApplication':
-    return convertStringToQuery(
-      `kind:application name:${name} namespace:${namespace}`
-    )
-  case 'HCMPlacementRule':
-    return convertStringToQuery(
-      `kind:placementrule name:${name} namespace:${namespace}`
-    )
-  default:
-    return convertStringToQuery(
-      `kind:application name:${name} namespace:${namespace}`
-    )
+  let resource = ''
+  const nameForQuery = name ? `name:${name}` : ''
+  const namespaceForQuery = namespace ? ` namespace:${namespace}` : ''
+  if (resourcename) {
+    switch (resourcename) {
+    case 'HCMChannel':
+      resource = 'kind:channel '
+      break
+    case 'HCMSubscription':
+      resource = 'kind:subscription '
+      break
+    case 'HCMApplication':
+      resource = `${kindApplication} `
+      break
+    case 'HCMPlacementRule':
+      resource = 'kind:placementrule '
+      break
+    default:
+      resource = `kind:${resourcename} `
+    }
   }
+  return convertStringToQuery(`${resource}${nameForQuery}${namespaceForQuery}`)
 }
 
 const getResourceQuery = resourceType => {
@@ -260,19 +261,33 @@ export const fetchResources = resourceType => {
 export const fetchResource = (resourceType, namespace, name, querySettings) => {
   let query = getQueryStringForResource(resourceType.name, name, namespace)
   if (querySettings) {
-    //query asking for a subset of related kinds and possibly for one subscription only
-    if (querySettings.subscription) {
-      //get related resources only for the selected subscription
+    if (querySettings.isArgoApp) {
+      const argoKinds = querySettings.relatedKinds
+        ? querySettings.relatedKinds.toString()
+        : null
+      //get all resources from the target namespace since they are not linked to the argo application
       query = getQueryStringForResource(
-        RESOURCE_TYPES.HCM_SUBSCRIPTIONS.name,
-        querySettings.subscription,
-        namespace
+        argoKinds,
+        null,
+        querySettings.targetNamespaces.toString()
       )
-      //ask only for these type of resources
-      query.relatedKinds = querySettings.relatedKinds
+      //get the cluster for each target namespace
+      query.relatedKinds.push('cluster')
     } else {
-      //get related resources for the application, but only this subset
-      query.relatedKinds = querySettings.relatedKinds
+      //query asking for a subset of related kinds and possibly for one subscription only
+      if (querySettings.subscription) {
+        //get related resources only for the selected subscription
+        query = getQueryStringForResource(
+          RESOURCE_TYPES.HCM_SUBSCRIPTIONS.name,
+          querySettings.subscription,
+          namespace
+        )
+        //ask only for these type of resources
+        query.relatedKinds = querySettings.relatedKinds
+      } else {
+        //get related resources for the application, but only this subset
+        query.relatedKinds = querySettings.relatedKinds
+      }
     }
   }
   return dispatch => {

@@ -11,41 +11,54 @@ import _ from 'lodash'
 
 // @flow
 export const mapSingleApplication = application => {
-  if (_.get(application, 'items', []).length > 0) {
-    const items = application.items[0]
-    return [
-      {
-        name: items.name || '',
-        namespace: items.namespace || '',
-        dashboard: items.dashboard || '',
-        selfLink: items.selfLink || '',
-        _uid: items._uid || '',
-        created: items.created || '',
-        apigroup: items.apigroup || '',
-        cluster: items.cluster || '',
-        kind: items.kind || '',
-        label: items.label || '',
-        _hubClusterResource: items._hubClusterResource || '',
-        _rbac: items._rbac || '',
-        related: application.related || []
+  const items = application ? _.get(application, 'items', []) : []
+
+  const result =
+    items.length > 0
+      ? items[0]
+      : {
+        name: '',
+        namespace: '',
+        dashboard: '',
+        selfLink: '',
+        _uid: '',
+        created: '',
+        apigroup: '',
+        cluster: '',
+        kind: '',
+        label: '',
+        _hubClusterResource: '',
+        _rbac: '',
+        related: []
       }
-    ]
-  }
-  return [
-    {
-      name: '',
-      namespace: '',
-      dashboard: '',
-      selfLink: '',
-      _uid: '',
-      created: '',
-      apigroup: '',
-      cluster: '',
-      kind: '',
-      label: '',
-      _hubClusterResource: '',
-      _rbac: '',
-      related: []
+
+  result.related = application ? application.related || [] : []
+
+  items.forEach(item => {
+    //if this is an argo app, the related kinds query should be built from the items section
+    //for argo we ask for namespace:targetNamespace label:appLabel kind:<comma separated string of resource kind>
+    //this code moves all these items under the related section
+    const kind = _.get(item, 'kind')
+
+    if (kind === 'application' || kind === 'subscription') {
+      //this is a legit app object , just leave it
+      return
     }
-  ]
+
+    //find under the related array an object matching this kind
+    const queryKind = _.filter(
+      result.related,
+      filtertype => _.get(filtertype, 'kind', '') === kind
+    )
+    //if that kind section was found add this object to it, otherwise create a new kind object for it
+    const kindSection =
+      queryKind && queryKind.length > 0 ? queryKind : { kind, items: [item] }
+    if (!queryKind || queryKind.length === 0) {
+      //link this kind section directly to the results array
+      result.related.push(kindSection)
+    } else {
+      kindSection[0].items.push(item)
+    }
+  })
+  return [result]
 }

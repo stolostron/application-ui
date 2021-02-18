@@ -73,25 +73,6 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
           className="refresh-time-container"
         >
           <div
-            className="reloading-container"
-          >
-            <div
-              aria-live="assertive"
-              className="bx--loading bx--loading--small"
-            >
-              <svg
-                className="bx--loading__svg"
-                viewBox="-75 -75 150 150"
-              >
-                <circle
-                  cx="0"
-                  cy="0"
-                  r="37.5"
-                />
-              </svg>
-            </div>
-          </div>
-          <div
             className="refresh-time-selection"
           >
             <div

@@ -394,10 +394,6 @@ describe("common actions ", () => {
         {
           property: "namespace",
           values: ["default-ns"]
-        },
-        {
-          property: "cluster",
-          values: ["local-cluster"]
         }
       ],
       keywords: [],
@@ -443,7 +439,7 @@ describe("common actions ", () => {
   it("should return getQueryStringForResource app 1", () => {
     const expectedValue = {
       filters: [
-        { property: "kind", values: ["application"] },
+        { property: "kind", values: ["somename"] },
         { property: "name", values: ["name"] },
         { property: "namespace", values: ["default-ns"] }
       ],

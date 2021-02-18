@@ -1028,7 +1028,6 @@ export const validateDefect7696 = () => {
   cy.get("#edit-button-portal-id", { timeout: 20 * 1000 }).should("be.visible");
 
   cy.log("show YAML");
-  cy.get("#edit-yaml", { timeout: 20 * 1000 }).should("be.visible");
   cy.get("#edit-yaml", { timeout: 2 * 1000 }).should("not.be.checked");
   cy.get("#edit-yaml", { timeout: 2 * 1000 }).click({ force: true });
   cy.get("#edit-yaml", { timeout: 2 * 1000 }).should("be.checked");

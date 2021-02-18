@@ -129,6 +129,10 @@ export const processNodeData = (
   }
 }
 
+export const evaluateSingleAnd = (operand1, operand2) => {
+  return operand1 && operand2
+}
+
 export const getDiagramElements = (
   topology,
   localStoreKey,
@@ -141,14 +145,13 @@ export const getDiagramElements = (
     loaded,
     reloading,
     willLoadDetails,
-    detailsLoaded,
     detailsReloading
   } = topology
   const topologyReloading = reloading
   const topologyLoadError = status === REQUEST_STATUS.ERROR
   const appLoaded = applicationDetails && applicationDetails.status === 'DONE'
   const specsActiveChannel = 'specs.activeChannel'
-  if (loaded && !topologyLoadError && appLoaded) {
+  if (evaluateSingleAnd(loaded, !topologyLoadError)) {
     // topology from api will have raw k8 objects, pods status
     const { topo_links, topo_nodes } = getTopologyElements(topology)
     // create yaml and what row links to what node
@@ -168,7 +171,9 @@ export const getDiagramElements = (
     topo_nodes.forEach(node => {
       const { id, type } = node
 
-      if (type === 'application' && id.startsWith('application')) {
+      if (
+        evaluateSingleAnd(type === 'application', id.startsWith('application'))
+      ) {
         channelsList = _.get(node, 'specs.channels', [])
         // set default active channel
         const channelListNoAllChannels = channelsList.filter(
@@ -185,8 +190,10 @@ export const getDiagramElements = (
         }
         //active channel not found in the list of channel, remove it
         if (
-          activeChannelInfo &&
-          channelsList.indexOf(activeChannelInfo) === -1
+          evaluateSingleAnd(
+            activeChannelInfo,
+            channelsList.indexOf(activeChannelInfo) === -1
+          )
         ) {
           _.set(node, specsActiveChannel, defaultActiveChannel)
           activeChannelInfo = defaultActiveChannel
@@ -226,21 +233,23 @@ export const getDiagramElements = (
       yaml: yamlStr
     })
 
-    // details are requested separately for faster load
-    // if loaded, we add those details now
-    addDiagramDetails(
-      topology,
-      allResourcesMap,
-      activeChannelInfo,
-      localStoreKey,
-      isClusterGrouped,
-      isHelmRelease,
-      applicationDetails
-    )
+    if (appLoaded) {
+      // details are requested separately for faster load
+      // if loaded, we add those details now
+      addDiagramDetails(
+        topology,
+        allResourcesMap,
+        activeChannelInfo,
+        localStoreKey,
+        isClusterGrouped,
+        isHelmRelease,
+        applicationDetails
+      )
 
-    topo_nodes.forEach(node => {
-      computeNodeStatus(node)
-    })
+      topo_nodes.forEach(node => {
+        computeNodeStatus(node)
+      })
+    }
 
     return {
       clusters: clustersList,
@@ -256,7 +265,7 @@ export const getDiagramElements = (
       topologyLoadError,
       topologyReloading,
       willLoadDetails,
-      detailsLoaded,
+      detailsLoaded: appLoaded,
       detailsReloading
     }
   }
@@ -276,7 +285,7 @@ export const getDiagramElements = (
     'fetchFilters.application.channel',
     activeChannelInfo2
   )
-  if (activeChannelInfo2 && loaded) {
+  if (evaluateSingleAnd(activeChannelInfo2, loaded)) {
     //skip this if topology is not loaded ( disable refresh for example)
     const storedElements = getStoredObject(
       `${localStoreKey}-${activeChannelInfo2}`

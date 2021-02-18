@@ -15,7 +15,12 @@ import {
   getPulseStatusForSubscription,
   getExistingResourceMapKey,
   syncControllerRevisionPodStatusMap,
-  fixMissingStateOptions
+  fixMissingStateOptions,
+  namespaceMatchTargetServer,
+  setArgoApplicationDeployStatus,
+  getStatusForArgoApp,
+  translateArgoHealthStatus,
+  getPulseStatusForArgoApp
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
 
 describe("getClusterName node id undefined", () => {
@@ -512,8 +517,7 @@ describe("fixMissingStateOptions", () => {
       "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
     _clusterNamespace: "fxiang-eks",
     _rbac: "fxiang-eks_apps_statefulsets",
-    available: 1,
-    ready: 1
+    available: 1
   };
 
   it("should get complete item when no available and ready set", () => {
@@ -530,5 +534,72 @@ describe("fixMissingStateOptions", () => {
 
   it("should return undefined", () => {
     expect(fixMissingStateOptions(undefined)).toEqual(undefined);
+  });
+});
+
+describe("namespaceMatchTargetServer", () => {
+  const relatedKind = {
+    apigroup: "route.openshift.io",
+    apiversion: "v1",
+    cluster: "ui-dev-remote",
+    created: "2021-02-10T02:32:02Z",
+    kind: "route",
+    label: "app.kubernetes.io/instance=helloworld-remote; app=helloworld-app",
+    name: "helloworld-app-route",
+    namespace: "argo-helloworld",
+    selfLink:
+      "/apis/route.openshift.io/v1/namespaces/argo-helloworld/routes/helloworld-app-route",
+    _clusterNamespace: "ui-dev-remote",
+    _rbac: "ui-dev-remote_route.openshift.io_routes",
+    _uid: "ui-dev-remote/ee84f8f5-bb3e-4c67-a918-2804e74f3f67"
+  };
+
+  const resourceMapForObject = {
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            destination: {
+              namespace: "argo-helloworld",
+              server: "https://kubernetes.default.svc"
+            },
+            metadata: {
+              name: "local-cluster",
+              namespace: "local-cluster"
+            },
+            status: "ok"
+          },
+          {
+            destination: {
+              namespace: "argo-helloworld",
+              server:
+                "https://api.app-aws-4615-zhl45.dev06.red-chesterfield.com:6443"
+            },
+            metadata: {
+              name: "app-aws-4615-zhl45",
+              namespace: "app-aws-4615-zhl45"
+            },
+            status: "ok"
+          },
+          {
+            destination: {
+              name: "ui-dev-remote",
+              namespace: "argo-helloworld2"
+            },
+            metadata: {
+              name: "ui-dev-remote",
+              namespace: "ui-dev-remote"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    }
+  };
+
+  it("should match the target server", () => {
+    expect(
+      namespaceMatchTargetServer(relatedKind, resourceMapForObject)
+    ).toEqual(true);
   });
 });

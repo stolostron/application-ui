@@ -27,7 +27,10 @@ import {
   getPulseStatusForSubscription,
   getExistingResourceMapKey,
   syncControllerRevisionPodStatusMap,
-  fixMissingStateOptions
+  fixMissingStateOptions,
+  namespaceMatchTargetServer,
+  setArgoApplicationDeployStatus,
+  getPulseStatusForArgoApp
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 
@@ -56,6 +59,7 @@ const failureCode = 0
 const podErrorStates = ['err', 'off', 'invalid', 'kill']
 const podWarningStates = [pendingStatus, 'creating']
 const podSuccessStates = ['run']
+const apiVersionPath = 'specs.raw.apiVersion'
 
 import {
   showAnsibleJobDetails,
@@ -392,8 +396,9 @@ export const getPulseForNodeWithPodStatus = node => {
   if (node.type === 'pod') {
     desired = 1
   }
+  //if desired info is missing use the desired value returned by search
   if (
-    node.type === 'controllerrevision' &&
+    (desired === 'NA' || desired === 0 || node.type === 'controllerrevision') &&
     resourceMap &&
     Object.keys(resourceMap).length > 0
   ) {
@@ -419,10 +424,10 @@ export const getPulseForNodeWithPodStatus = node => {
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
-
     const resourceItem = fixMissingStateOptions(
       resourceMap[`${resourceName}-${clusterName}`]
     )
+
     const processItem = Object.keys(podList).length === 0 && resourceItem
 
     if (resourceItem && resourceItem.kind === 'daemonset') {
@@ -503,6 +508,7 @@ export const getShapeTypeForSubscription = node => {
 export const computeNodeStatus = node => {
   let pulse = 'green'
   let shapeType = node.type
+  let apiVersion
 
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
@@ -514,10 +520,15 @@ export const computeNodeStatus = node => {
   const isDeployable = isDeployableResource(node)
   switch (node.type) {
   case 'application':
-    if (isDeployable) {
-      pulse = getPulseStatusForGenericNode(node)
-    } else if (!_.get(node, 'specs.channels')) {
-      pulse = 'red'
+    apiVersion = _.get(node, apiVersionPath)
+    if (apiVersion && apiVersion.indexOf('argoproj.io') > -1) {
+      pulse = getPulseStatusForArgoApp(node)
+    } else {
+      if (isDeployable) {
+        pulse = getPulseStatusForGenericNode(node)
+      } else if (!_.get(node, 'specs.channels')) {
+        pulse = 'red'
+      }
     }
     break
   case 'placements':
@@ -552,7 +563,7 @@ export const createEditLink = node => {
   const apigroup = _.get(node, 'apigroup')
   const apiversion = _.get(node, 'apiversion')
   const cluster = _.get(node, 'cluster')
-  let apiVersion = _.get(node, 'specs.raw.apiVersion')
+  let apiVersion = _.get(node, apiVersionPath)
   if (!apiVersion) {
     apiVersion =
       apigroup && apiversion ? apigroup + '/' + apiversion : apiversion
@@ -924,7 +935,6 @@ export const setupResourceModel = (
     [{ kind: 'deployable' }, { kind: 'cluster' }],
     'kind'
   )
-
   orderedList.forEach(kindArray => {
     const relatedKindList = R.pathOr([], ['items'])(kindArray)
     relatedKindList.forEach(relatedKind => {
@@ -1000,14 +1010,15 @@ export const setupResourceModel = (
           resourceMapForObject = resourceMap[key]
           if (
             _.startsWith(key, name) &&
-            _.includes(
+            (_.includes(
               _.get(
                 resourceMapForObject,
                 'clusters.specs.sortedClusterNames',
                 [LOCAL_HUB_NAME] // if no cluster found for this resource, this could be a local deployment
               ),
               _.get(relatedKind, 'cluster')
-            )
+            ) ||
+              namespaceMatchTargetServer(relatedKind, resourceMapForObject))
           ) {
             addResourceToModel(
               resourceMapForObject,
@@ -1023,7 +1034,6 @@ export const setupResourceModel = (
 
   // need to preprocess and sync up podStatusMap for controllerrevision to parent
   syncControllerRevisionPodStatusMap(resourceMap)
-
   return resourceMap
 }
 
@@ -1125,7 +1135,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
 
       // add apiversion if not exist
       if (!res.apiversion) {
-        _.assign(res, { apiversion: _.get(node, 'specs.raw.apiVersion') })
+        _.assign(res, { apiversion: _.get(node, apiVersionPath) })
       }
 
       details.push({
@@ -1545,42 +1555,48 @@ export const setApplicationDeployStatus = (node, details) => {
   if (node.type !== 'application') {
     return details
   }
-  addPropertyToList(
-    details,
-    getNodePropery(
-      node,
-      ['specs', 'raw', 'spec', 'selector'],
-      'spec.selector.matchExpressions',
-      msgs.get('spec.selector.matchExpressions.err'),
-      true
+
+  const apiVersion = _.get(node, apiVersionPath)
+  if (apiVersion && apiVersion.indexOf('argoproj.io') > -1) {
+    setArgoApplicationDeployStatus(node, details)
+  } else {
+    addPropertyToList(
+      details,
+      getNodePropery(
+        node,
+        ['specs', 'raw', 'spec', 'selector'],
+        'spec.selector.matchExpressions',
+        msgs.get('spec.selector.matchExpressions.err'),
+        true
+      )
     )
-  )
-
-  details.push({
-    type: 'spacer'
-  })
-
-  //show error if no channel, meaning there is no linked subscription
-  if (!isDeployableResource(node) && !_.get(node, 'specs.channels')) {
-    const appNS = _.get(node, metadataNamespace, 'NA')
 
     details.push({
-      labelKey: 'resource.rule.clusters.error.label',
-      value: msgs.get('resource.application.error.msg', [appNS]),
-      status: failureStatus
+      type: 'spacer'
     })
-    const subscrSearchLink = `/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get('props.show.yaml.subscr.ns', [appNS]),
-        id: `${node.id}-subscrSearch`,
-        data: {
-          action: 'open_link',
-          targetLink: subscrSearchLink
+
+    //show error if no channel, meaning there is no linked subscription
+    if (!isDeployableResource(node) && !_.get(node, 'specs.channels')) {
+      const appNS = _.get(node, metadataNamespace, 'NA')
+
+      details.push({
+        labelKey: 'resource.rule.clusters.error.label',
+        value: msgs.get('resource.application.error.msg', [appNS]),
+        status: failureStatus
+      })
+      const subscrSearchLink = `/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get('props.show.yaml.subscr.ns', [appNS]),
+          id: `${node.id}-subscrSearch`,
+          data: {
+            action: 'open_link',
+            targetLink: subscrSearchLink
+          }
         }
-      }
-    })
+      })
+    }
   }
 
   return details
@@ -1665,6 +1681,7 @@ export const addNodeOCPRouteLocationForCluster = (
     : 'http'
   hostLink = `${transport}://${hostName}/`
 
+  //argo app doesn't have spec info
   details.push({
     type: 'link',
     value: {

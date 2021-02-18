@@ -1,4 +1,4 @@
-# application-ui [![Build Status](https://travis-ci.com/open-cluster-management/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=master)](https://travis-ci.com/open-cluster-management/application-ui)
+# application-ui [![Build Status](https://travis-ci.com/open-cluster-management/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=main)](https://travis-ci.com/open-cluster-management/application-ui)
 The UI service for Application Lifecycle
 
 ## Design

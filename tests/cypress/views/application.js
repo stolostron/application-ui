@@ -425,18 +425,12 @@ export const validateTopology = (
       const { local, online } =
         key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
       cy.log(`key=${key}, type=${opType}`);
-      if (!local) {
-        if (opType !== "add") {
-          validatePlacementNode(name, key);
-        }
-        if (!online) {
-          validateClusterNode(clusterName); //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
-        }
-      } else {
-        cy.log(
-          "cluster and placement nodes will not be created as the application is deployed locally"
-        );
-      }
+      !local
+        ? (validatePlacementNode(name, key),
+          !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
+        : cy.log(
+            "cluster and placement nodes will not be created as the application is deployed locally"
+          );
     }
   }
 

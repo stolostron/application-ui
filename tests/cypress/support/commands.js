@@ -254,21 +254,43 @@ Cypress.Commands.add("get$", selector => {
 });
 
 Cypress.Commands.add("ocLogin", role => {
+  cy.log(
+    `STEP 1 ocLogin with role=${role} ROLE MUST BE SET in users.yaml ( use KEY, not value from users.yaml!)`
+  );
   const { users } = Cypress.env("USER_CONFIG");
   let user;
   if (role !== "kubeadmin") {
     cy.addUserIfNotCreatedBySuite();
-    user = Cypress.env("OC_CLUSTER_USER", users[role]);
+    user = users[role];
+    if (!user) {
+      user = role;
+      cy.log(
+        `This user role was not found in users.yaml, try to recover and use the role as the user name`
+      );
+    }
+    Cypress.env("OC_CLUSTER_USER", user);
+    cy.log(
+      `Role is not kubeadmin, adding user=${user} to Cypress.env("OC_CLUSTER_USER"), which is the users[${role}]`
+    );
   }
+  cy.log("OC_CLUSTER_USER", Cypress.env("OC_CLUSTER_USER"));
+
   const loginUserDetails = {
     api: apiUrl,
     user: user || "kubeadmin",
     password: Cypress.env("OC_CLUSTER_PASS")
   };
+  // Workaround for "error: x509: certificate signed by unknown authority" problem with oc login
+  let certificateAuthority = "";
+  if (Cypress.env("OC_CLUSTER_INGRESS_CA")) {
+    certificateAuthority = ` --certificate-authority=${Cypress.env(
+      "OC_CLUSTER_INGRESS_CA"
+    )}`;
+  }
   cy.exec(
     `oc login --server=${loginUserDetails.api} -u ${loginUserDetails.user} -p ${
       loginUserDetails.password
-    }`
+    }${certificateAuthority}`
   );
 });
 
@@ -280,6 +302,7 @@ Cypress.Commands.add("logInAsRole", role => {
 
   // Cypress.env("OC_CLUSTER_PASS",Cypress.env("OC_CLUSTER_USER_PASS"))
   Cypress.env("OC_IDP", idp);
+  cy.log(`logInAsRole, role=${role}, user=${user}, idp=${idp}`);
 
   // login only if user is not looged In
   const logInIfRequired = () => {
@@ -346,6 +369,9 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add("rbacSwitchUser", role => {
+  cy.log(
+    `rbacSwitchUser role=${role}, USER_CONFIG env=${Cypress.env("USER_CONFIG")}`
+  );
   const { users } = Cypress.env("USER_CONFIG");
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.ocLogin(role);

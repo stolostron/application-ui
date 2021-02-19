@@ -39,8 +39,8 @@ export const createApplication = (
   namespace == "default" ? (namespace = `${name}-ns`) : namespace;
   cy.log(`Test create application ${name}`);
   cy.get(".bx--detail-page-header-title-container").should("exist");
-  cy.get("#name", { timeout: 50 * 1000 }).type(name);
-  cy.get("#namespace", { timeout: 50 * 1000 }).type(namespace);
+  cy.get("#eman", { timeout: 50 * 1000 }).type(name);
+  cy.get("#emanspace", { timeout: 50 * 1000 }).type(namespace);
   if (type === "git") {
     createGit(clusterName, config);
   } else if (type === "objectstore") {
@@ -93,7 +93,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   if (url.indexOf("github.com") >= 0) {
     cy.get(gitBranch, { timeout: 50 * 1000 }).click();
-    cy.contains(".bx--list-box__menu-item", new RegExp(`^${branch}$`)).click();
+    cy.contains(".tf--list-box__menu-item", new RegExp(`^${branch}$`)).click();
   } else {
     cy
       .get(gitBranch, { timeout: 50 * 1000 })
@@ -104,7 +104,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   if (url.indexOf("github.com") >= 0) {
     cy.get(gitPath, { timeout: 20 * 1000 }).click();
-    cy.contains(".bx--list-box__menu-item", new RegExp(`^${path}$`)).click();
+    cy.contains(".tf--list-box__menu-item", new RegExp(`^${path}$`)).click();
   } else {
     cy
       .get(gitPath, { timeout: 20 * 1000 })
@@ -709,10 +709,10 @@ export const selectPrePostTasks = (value, key) => {
 
   cy.get(gitAnsibleSecret, { timeout: 20 * 1000 }).click();
 
-  cy.get(".bx--list-box__menu", { timeout: 20 * 1000 }).then($listbox => {
-    if ($listbox.find(".bx--list-box__menu-item").length) {
+  cy.get(".tf--list-box__menu", { timeout: 20 * 1000 }).then($listbox => {
+    if ($listbox.find(".tf--list-box__menu-item").length) {
       // Ansible secret alraedy exists in this namespace
-      cy.contains(".bx--list-box__menu-item", ansibleSecretName).click();
+      cy.contains(".tf--list-box__menu-item", ansibleSecretName).click();
     } else {
       // Create new ansible secret in this namespace
       cy
@@ -758,16 +758,14 @@ export const editApplication = (name, data) => {
   cy.log("Verify name and namespace fields are disabled");
   cy.get(".bx--detail-page-header-title-container", { timeout: 20 * 1000 });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
+  cy.get("#eman", { timeout: 20 * 1000 }).should("be.disabled");
   cy
-    .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
-    .should("be.disabled");
-  cy
-    .get(".bx--text-input.bx--text__input", { timeout: 20 * 1000 })
+    .get("#eman", { timeout: 20 * 1000 })
     .invoke("val")
     .should("eq", name);
-  cy.get("#namespace", { timeout: 20 * 1000 }).should("be.disabled");
+  cy.get("#emanspace", { timeout: 20 * 1000 }).should("be.disabled");
   cy
-    .get("#namespace", { timeout: 20 * 1000 })
+    .get("#emanspace", { timeout: 20 * 1000 })
     .invoke("val")
     .should("eq", `${name}-ns`);
   cy.log("Verify Update button is disabled");

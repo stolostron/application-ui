@@ -97,13 +97,20 @@ export class TimeWindow extends React.Component {
           controlId: 'timeWindow-config'
         })
       }
-      // Add exception if no timezone selected
-      if (
-        !control.active.timeList ||
-        control.active.timeList.length === 0 ||
-        control.active.timeList[0].start === '' ||
-        control.active.timeList[0].end === ''
-      ) {
+      // Add exception if no timelist selected
+      if (control.active.timeList && control.active.timeList.length > 0) {
+        const invalidTimeRange = timeRange =>
+          timeRange.validTime &&
+          (timeRange.start === '' || timeRange.end === '')
+        if (control.active.timeList.some(invalidTimeRange)) {
+          exceptions.push({
+            row: 1,
+            text: msgs.get('creation.missing.timeWindow.timelist', locale),
+            type: 'error',
+            controlId: 'timeWindow-config'
+          })
+        }
+      } else {
         exceptions.push({
           row: 1,
           text: msgs.get('creation.missing.timeWindow.timelist', locale),
@@ -489,15 +496,15 @@ export class TimeWindow extends React.Component {
     }
 
     const timeID = parseInt(targetID.split('-')[2], 10)
+    const parsedTime = this.parseTime(value)
     if (targetID.includes('start-time')) {
       // As long as first start-time is entered, all times will show
-      const parsedTime = this.parseTime(value)
       if (timeID === 0) {
         control.active.showTimeSection = parsedTime ? true : false
       }
       control.active.timeList[timeID].start = parsedTime
     } else if (targetID.includes('end-time')) {
-      control.active.timeList[timeID].end = this.parseTime(value)
+      control.active.timeList[timeID].end = parsedTime
     }
 
     handleChange(control)

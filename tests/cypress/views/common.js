@@ -317,7 +317,11 @@ export const selectMatchingLabel = (cluster, key) => {
     key
   );
   const { labelName, labelValue } = matchingLabelCSS;
-  cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
+  cy
+    .get(labelName)
+    .scrollIntoView()
+    .type("name"),
+    cy.get(labelValue).type(cluster);
 };
 
 export const verifyYamlTemplate = text => {

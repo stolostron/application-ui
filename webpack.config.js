@@ -106,7 +106,6 @@ module.exports = {
         include: [
           path.resolve(__dirname, "./node_modules/temptifly"),
           path.resolve(__dirname, "./node_modules/monaco-editor"),
-          path.resolve(__dirname, "../temptifly/node_modules/monaco-editor/"),
           path.resolve(
             __dirname,
             "./node_modules/@open-cluster-management/ui-components"

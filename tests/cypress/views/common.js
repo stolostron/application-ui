@@ -856,7 +856,10 @@ export const testInvalidApplicationInput = () => {
   testDefect7080();
 
   //enter a valid deployment value
-  cy.get("#labelName-0-clusterSelector").type("label");
+  cy
+    .get("#labelName-0-clusterSelector")
+    .scrollIntoView()
+    .type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
 
   cy.get("#githubURL-helper").should("exist");
@@ -905,7 +908,10 @@ export const testInvalidApplicationInput = () => {
     .type(invalidValue)
     .blur();
   //enter a valid deployment value and a chart name
-  cy.get("#labelName-0-clusterSelector").type("label");
+  cy
+    .get("#labelName-0-clusterSelector")
+    .scrollIntoView()
+    .type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
   cy.get("#helmChartName").type("chartName");
 
@@ -937,7 +943,10 @@ export const testInvalidApplicationInput = () => {
     .type(invalidValue)
     .blur();
   //enter a valid deployment value
-  cy.get("#labelName-0-clusterSelector").type("label");
+  cy
+    .get("#labelName-0-clusterSelector")
+    .scrollIntoView()
+    .type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
 
   cy.get("#objectstoreURL-helper").should("exist");

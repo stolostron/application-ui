@@ -320,8 +320,8 @@ export const selectMatchingLabel = (cluster, key) => {
   cy
     .get(labelName)
     .scrollIntoView()
-    .type("name"),
-    cy.get(labelValue).type(cluster);
+    .type("name");
+  cy.get(labelValue).type(cluster);
 };
 
 export const verifyYamlTemplate = text => {

@@ -27,7 +27,7 @@ fold_start install-tools "Install oc and Cluster Manager"
 echo "Running oc/install..."
 make oc/install
 echo "Cloning Cluster Manager"
-git clone git@github.com:open-cluster-management/cluster-manager.git
+git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/open-cluster-management/cluster-manager.git
 pushd cluster-manager
 cat > user.env << EOF
 CLUSTERPOOL_CLUSTER=$CLUSTERPOOL_CLUSTER

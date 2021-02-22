@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/nodejs-14:1
+FROM registry.ci.openshift.org/open-cluster-management/builder:nodejs14-linux-amd64 AS builder
 
 # Root needed for yum update, gets reset to 1001 below.
 USER root

@@ -1,21 +1,23 @@
+# application-ui [![Build Status](https://travis-ci.com/open-cluster-management/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=main)](https://travis-ci.com/open-cluster-management/application-ui)
+The UI service for Application Lifecycle
+
+------
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [application-ui *](#application-ui-)
-  - [Community, discussion, contribution, and support](#community-discussion-contribution-and-support)
-  - [Getting Started](#getting-started)
-  - [Design](#design)
-  - [Build](#build)
-  - [Running](#running)
-  - [Testing](#testing)
-  - [NPM Commands](#npm-commands)
-  - [Links](#links)
+- [Community, discussion, contribution, and support](#community-discussion-contribution-and-support)
+- [Getting Started](#getting-started)
+- [Design](#design)
+- [Build](#build)
+- [Running](#running)
+- [Testing](#testing)
+- [NPM Commands](#npm-commands)
+- [Links](#links)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# application-ui [![Build Status](https://travis-ci.com/open-cluster-management/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=main)](https://travis-ci.com/open-cluster-management/application-ui)
-The UI service for Application Lifecycle
 
 ## Community, discussion, contribution, and support
 

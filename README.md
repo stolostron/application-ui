@@ -1,9 +1,35 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [application-ui *](#application-ui-)
+  - [Community, discussion, contribution, and support](#community-discussion-contribution-and-support)
+  - [Getting Started](#getting-started)
+  - [Design](#design)
+  - [Build](#build)
+  - [Running](#running)
+  - [Testing](#testing)
+  - [NPM Commands](#npm-commands)
+  - [Links](#links)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # application-ui [![Build Status](https://travis-ci.com/open-cluster-management/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=main)](https://travis-ci.com/open-cluster-management/application-ui)
 The UI service for Application Lifecycle
 
+## Community, discussion, contribution, and support
+
+Check the [CONTRIBUTING Doc](CONTRIBUTING.md) for how to contribute to the repo.
+
+------
+
+## Getting Started
+
+This is a guide on how to build and run open-cluster-management application-ui from code.
+
 ## Design
 
-The UI Platform is developed as an isomorphic react application.  The following major components are used to build this service. Test
+The UI Platform is developed as an isomorphic react application.  The following major components are used to build this service.
 
 * NodeJS
 * Express
@@ -13,10 +39,8 @@ The UI Platform is developed as an isomorphic react application.  The following 
 * Webpack
 * Babel
 * Apollo/GraphQL
-* IBM Carbon Design System
 * Red Hat PatternFly
 * Jest
-
 
 ## Build
 
@@ -109,12 +133,6 @@ npm run start
 
 7. Open a browser to `https://localhost:3001/multicloud/applications`, and you should already be logged in.
 
-## Storybook
-<pre>
-npm run storybook
-</pre>
-Launch storybook at: http://localhost:6006/
-
 ## Testing
 
 The following will run all unit tests.
@@ -141,7 +159,6 @@ The full list of npm scripts are described below.
 | `npm run lint`                   | Runs linting on the code base.                                                                                                   |
 | `npm run lint:fix`               | Attempts to fix any linting errors automatically.                                                                                |
 | `npm run shrinkwrap:clean`       | Regenerates a clean `npm-shrinkwrap.json` - THIS COMMAND SHOULD ONLY BE USED IN EXTREME CIRCUMSTANCES.                           |
-| `npm run storybook`              | Start the storybook  |
 
 > Note: The build process leverages the Dll and DllReference plugins to extract out vendor plugins for faster build times and improved browser caching.  A separate bundle is created for 3rd-party client-side libraries.  The generated bundle is sourced (_public/dll.vendor.js_) along with its manifest (_vendor-manifest.json_).  If new client dependencies are added or existing versions of dependencies are updated this module needs be regenerated and recommitted back into source control via  `npm run build:dll`.
 
@@ -149,8 +166,9 @@ The full list of npm scripts are described below.
 
 These are a few useful links that will help provide technical reference and best practices when developing for the platform.
 
-- [Carbon Components](https://github.com/carbon-design-system/carbon-components)
-- [Carbon React Components](https://github.com/carbon-design-system/carbon-components-react)
+- [temptifly](https://github.com/open-cluster-management/temptifly)
+- [ui-components](https://github.com/open-cluster-management/ui-components)
+- [PatternFly](https://www.patternfly.org)
 - [Webpack](https://webpack.js.org)
 - [React Docs](https://facebook.github.io/react/docs/hello-world.html)
 - [Thinking in React](https://facebook.github.io/react/docs/thinking-in-react.html)

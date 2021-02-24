@@ -4,6 +4,7 @@
  ****************************************************************************** */
 
 /// <reference types="cypress" />
+import { checkExistingUrls } from "./resources.js";
 
 export const pageLoader = {
   shouldExist: () =>
@@ -791,6 +792,65 @@ export const testDefect7080 = () => {
 
   cy.log("Test defect 7080 - now go back to default option");
   cy.get("#local-cluster-checkbox").click({ force: true });
+};
+
+//verify that as we select the git api, we get the branch and path information
+export const testGitApiInput = data => {
+  const { config } = data;
+  const { url, branch, path, username, token } = config[0];
+  const gitCss = {
+    gitUrl: "#githubURL",
+    gitUser: "#githubUser",
+    gitKey: "#githubAccessId",
+    gitBranch: "#githubBranch",
+    gitPath: "#githubPath",
+    merge: "#gitReconcileOption",
+    insecureSkipVerify: "#gitInsecureSkipVerify"
+  };
+
+  const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
+
+  cy.visit("/multicloud/applications");
+  // wait for create button to be enabled
+  cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
+  cy.get(".bx--detail-page-header-title-container").should("exist");
+
+  cy.log("Select git url");
+  cy
+    .get("#git", { timeout: 20 * 1000 })
+    .click({ force: true })
+    .trigger("mouseover");
+
+  cy
+    .get(gitUrl, { timeout: 20 * 1000 })
+    .type(url, { timeout: 50 * 1000 })
+    .blur();
+  checkExistingUrls(gitUser, username, gitKey, token, url);
+
+  // check branch and path info shows up
+  cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitBranch, { timeout: 50 * 1000 }).click();
+    cy.contains(".tf--list-box__menu-item", new RegExp(`^${branch}$`)).click();
+  } else {
+    cy.log("Nothing to test");
+    cy
+      .get(gitBranch, { timeout: 50 * 1000 })
+      .type(branch, { timeout: 50 * 1000 })
+      .blur();
+  }
+
+  cy.wait(1000);
+  cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitPath, { timeout: 20 * 1000 }).click();
+    cy.contains(".tf--list-box__menu-item", new RegExp(`^${path}$`)).click();
+  } else {
+    cy
+      .get(gitPath, { timeout: 20 * 1000 })
+      .type(path, { timeout: 30 * 1000 })
+      .blur();
+  }
 };
 
 export const testInvalidApplicationInput = () => {

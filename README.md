@@ -85,7 +85,7 @@ npm run build:production
    (Add "- https://localhost:3001/multicloud/applications/auth/callback" to "redirectURIs:" list)
    </pre>
 
-3. The following environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
+3. The following environment variables need to be set.
    <pre>
    export OAUTH2_CLIENT_ID=
    export OAUTH2_CLIENT_SECRET=

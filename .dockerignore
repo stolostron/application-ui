@@ -22,7 +22,6 @@ README.md
 Makefile*
 Dockerfile*
 build-harness
-copyright-check.sh
 jest.config.js
 manifest.yaml
 test-output

@@ -72,7 +72,6 @@ jobs:
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
         - make
-        - make copyright-check TRAVIS_BRANCH=${TRAVIS_BRANCH}
         - make sonar/js/jest-init
         - make 
         - make component/pull         

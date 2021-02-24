@@ -27,10 +27,6 @@ default::
 
 install:
 	npm install
-
-.PHONY: copyright-check
-copyright-check:
-	./copyright-check.sh $(TRAVIS_BRANCH)
 	
 lint:
 	npm run lint

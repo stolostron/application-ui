@@ -24,7 +24,6 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Application Creatio
     
     const mngdTestAdminRoles = 'admin-managed-cluster'
     const viewRole = 'view-managed-cluster'
-    // for (const loginrole in mngdTestRoles ){
 
   
     for (const type in config) {
@@ -84,7 +83,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Application Creatio
     })
   }}
 
-// }
+
 
   it(`Verify a user with view only role: ${viewRole} cannot create application`,() => {
     // cy.logInAsRole(viewRole)
@@ -94,10 +93,13 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Application Creatio
       "You are not authorized to complete this action. See "+
       "your cluster administrator for role-based "+
       "access control information."
+    // # Open Gitbacklog for tooltip message validation as a test Improvement
+
     cy
-      .get('#definition-tooltip-4',{ timeout: 50 * 1000 })
-      .invoke("text")
-      .should("eq", alertMessage);
+      .get('#CreateAppButton').trigger('mouseover',{ bubbles: true })
+      .should('have.attr', 'aria-disabled', 'true')
+      .and('have.attr', 'data-test-create-application', 'false')
+
   })
 }
   else{

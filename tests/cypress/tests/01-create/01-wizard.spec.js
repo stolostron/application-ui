@@ -1,6 +1,4 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { createApplication } from "../../views/application";

@@ -1,6 +1,4 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
 "use strict";
 
 import { getUpdates } from "../../../../../src-web/components/ApplicationTopologyModule/deployers/hcm-application-deployer";

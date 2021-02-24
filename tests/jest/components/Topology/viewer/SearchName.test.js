@@ -1,6 +1,4 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
 "use strict";
 
 import Search from "../../../../../src-web/components/Topology/viewer/SearchName";

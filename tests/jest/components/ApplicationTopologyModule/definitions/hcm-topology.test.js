@@ -1,6 +1,4 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
 
 import { getTopologyElements } from "../../../../../src-web/components/ApplicationTopologyModule/definitions/hcm-topology";
 

@@ -20,13 +20,13 @@ function fold_end() {
 }
 
 ###############################################################################
-# Install oc and Cluster Manager
+# Install oc and Cluster Keeper
 ###############################################################################
-fold_start install-tools "Install oc and Cluster Manager"
+fold_start install-tools "Install oc and Cluster Keeper"
 
 echo "Running oc/install..."
 make oc/install
-echo "Cloning Cluster Manager"
+echo "Cloning Cluster Keeper"
 git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/open-cluster-management/cluster-keeper.git
 pushd cluster-keeper
 cat > user.env << EOF

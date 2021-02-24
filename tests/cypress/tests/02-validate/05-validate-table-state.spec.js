@@ -4,6 +4,12 @@
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 
+// Only affects this spec file
+// See https://docs.cypress.io/api/cypress-api/config.html#Syntax
+Cypress.config({
+  defaultCommandTimeout: 30000 // Wait up to 30s for table loads
+});
+
 describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", () => {
   it(`maintain their state across SPA navigation`, () => {
     // Open Applications table

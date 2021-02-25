@@ -120,7 +120,6 @@ export const resourceTable = {
       .get(".pf-c-search-input__text-input", {
         timeout: 30 * 10000
       })
-      .scrollIntoView({ offset: { top: -100, left: 0 } })
       .type(name);
   },
   openRowMenu: function(name, key) {

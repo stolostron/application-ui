@@ -303,6 +303,13 @@ export const validateAdvancedTables = (
         } else {
           cy.log(`Validating ${tableType} on Advanced Tables`);
           cy.visit(`/multicloud/applications/advanced?resource=${tableType}`);
+
+          //search is not properly scrolled to view; attempt to move it lower on the page
+          //by asking the terminology to show
+          cy
+            .get("#ApplicationDeploymentHighlightsTerminology")
+            .scrollIntoView();
+
           resourceTable.rowShouldExist(
             resourceTypes[tableType],
             getResourceKey(

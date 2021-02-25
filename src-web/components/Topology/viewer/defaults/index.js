@@ -1,26 +1,48 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
- *******************************************************************************/
+ ****************************************************************************** */
 'use strict'
 
-import {defaultShapes} from './shapes'
-import {getConnectedLayoutOptions, getUnconnectedLayoutOptions} from '../layouts'
-import {getNodeGroups} from './grouping'
-import {getNodeTooltips} from './tooltips'
-import {getNodeDescription} from './descriptions'
-import {getNodeTitle, getSectionTitles} from './titles'
-import {getNodeDetails} from './details.js'
-import {updateNodeIcons, updateNodeStatus} from './status.js'
-import {getAllFilters, getAvailableFilters, getSearchFilter, filterNodes} from './filtering.js'
+import { defaultShapes } from './shapes'
+import {
+  getConnectedLayoutOptions,
+  getUnconnectedLayoutOptions
+} from '../layouts'
+import { getNodeGroups } from './grouping'
+import { getNodeTooltips } from './tooltips'
+import { getNodeDescription } from './descriptions'
+import { getNodeTitle, getSectionTitles } from './titles'
+import { getNodeDetails } from './details.js'
+import { updateNodeIcons, updateNodeStatus } from './status.js'
+import {
+  getAllFilters,
+  getAvailableFilters,
+  getSearchFilter,
+  filterNodes
+} from './filtering.js'
 
-export const getResourceDefinitions = (styles={}, options={}, searchUrl) => {
-  const typeToShapeMap = {...defaultShapes, ...(styles.shapes||{})}
-  const shapeTypeOrder = ['internet', 'host', 'service', 'deployment', 'daemonset', 'statefulset', 'cronjob', 'pod', 'container']
+export const getResourceDefinitions = (
+  styles = {},
+  options = {},
+  searchUrl
+) => {
+  const typeToShapeMap = { ...defaultShapes, ...(styles.shapes || {}) }
+  const shapeTypeOrder = [
+    'internet',
+    'host',
+    'service',
+    'deployment',
+    'daemonset',
+    'statefulset',
+    'cronjob',
+    'pod',
+    'container'
+  ]
   const def = {
     diagramCloneTypes: ['internet', 'host'],
     shapeTypeOrder,
@@ -38,8 +60,12 @@ export const getResourceDefinitions = (styles={}, options={}, searchUrl) => {
     getNodeGroups: getNodeGroups.bind(null, options.filtering),
     getSearchFilter: getSearchFilter.bind(null, options.filtering),
     filterNodes: filterNodes.bind(null, options.filtering),
-    getConnectedLayoutOptions: getConnectedLayoutOptions.bind(null, options.layout, typeToShapeMap),
-    getUnconnectedLayoutOptions,
+    getConnectedLayoutOptions: getConnectedLayoutOptions.bind(
+      null,
+      options.layout,
+      typeToShapeMap
+    ),
+    getUnconnectedLayoutOptions
   }
 
   // overrides

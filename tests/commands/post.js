@@ -1,4 +1,4 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
@@ -6,34 +6,34 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-const util = require('util')
-const events = require('events')
+const util = require("util");
+const events = require("events");
 
 function post() {}
-util.inherits(post, events.EventEmitter)
+util.inherits(post, events.EventEmitter);
 
 post.prototype.command = function(url, body, auth, cb) {
-  const self = this
-  const request = require('../../lib/server/request')
+  const self = this;
+  const request = require("../../lib/server/request");
 
   const options = {
     url,
-    method: 'POST',
+    method: "POST",
     json: body
-  }
+  };
 
   if (auth) {
     if (!options.headers) {
-      options.headers = {}
+      options.headers = {};
     }
-    options.headers.Authorization = auth
+    options.headers.Authorization = auth;
   }
 
   request(options, null, [200, 201, 204], (err, res) => {
-    if (err) return cb(err, null)
-    cb(err, res.statusCode)
-    self.emit('complete')
-  })
-}
+    if (err) return cb(err, null);
+    cb(err, res.statusCode);
+    self.emit("complete");
+  });
+};
 
-module.exports = post
+module.exports = post;

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
@@ -47,7 +47,7 @@ const StructuredListModule = ({ headerRows, rows, data, url }, context) => (
             ? data.map((item, index) => (
               <StructuredListRow
                 key={rows[0].cells[0].resourceKey + `Row ${index}`}
-              >
+                >
                 {rows[0].cells.map(cell => (
                   <StructuredListCell key={cell.resourceKey + 'Cell'}>
                     <p>

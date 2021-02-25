@@ -1,4 +1,4 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
@@ -6,4 +6,6 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-export {default as ApplicationTopologyModule} from './ApplicationTopologyModule'
+export {
+  default as ApplicationTopologyModule
+} from './ApplicationTopologyModule'

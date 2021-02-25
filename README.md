@@ -117,7 +117,6 @@ npm run build:production
            "hcmUiApiUrl": "https://localhost:4000/hcmuiapi",
            "searchApiUrl": "https://localhost:4010/searchapi",
            "NODE_ENV": "",
-           "leftNav": "",
            "headerUrl": "",
            "OAUTH2_REDIRECT_URL": "https://localhost:3001/multicloud/applications/auth/callback",
            "OAUTH2_CLIENT_ID": "",

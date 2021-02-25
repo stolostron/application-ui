@@ -1,7 +1,4 @@
-/*******************************************************************************
- * Licensed Materials - Property of Red Hat
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
 
 const React = require("../../../../../node_modules/react");
 

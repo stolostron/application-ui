@@ -5,8 +5,8 @@
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
- * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
 
 /// <reference types="cypress" />
 // ***********************************************************
@@ -85,13 +85,12 @@ module.exports = (on, config) => {
     }
   });
 
-
-  on("task",{
-    readFileMaybe (filename) {
+  on("task", {
+    readFileMaybe(filename) {
       if (fs.existsSync(filename)) {
-        return fs.readFileSync(filename, 'utf8')
+        return fs.readFileSync(filename, "utf8");
       }
-      return false
+      return false;
     }
   });
 

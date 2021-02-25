@@ -1,6 +1,4 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
 "use strict";
 
 import { FilterButton } from "../../../../../src-web/components/Topology/viewer/TypeFilterBar";

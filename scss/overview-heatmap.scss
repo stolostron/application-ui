@@ -11,7 +11,7 @@
 $overview-heat-collapsed: 120px !default;
 $heatmap-selection-container-width-value: 180;
 
-/* *********************  heat map card ************************ */
+/* *********************  heat map card *************************/
 
 .heat-card {
   display: flex;
@@ -169,7 +169,7 @@ $heatmap-selection-container-width-value: 180;
  }
 }
 
-/* *********************  collapsed ************************ */
+/* *********************  collapsed *************************/
 
 svg.heatMap {
   height: 100%;
@@ -202,7 +202,7 @@ svg.heatMap {
 
 }
 
-/* *********************  expanded ************************ */
+/* *********************  expanded *************************/
 
 div.heatMap {
   display: flex;

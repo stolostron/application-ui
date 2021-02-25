@@ -1,7 +1,5 @@
-/*******************************************************************************
- * Licensed Materials - Property of Red Hat
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 jest.mock("../../../../lib/client/apollo-client", () => ({
   getSearchClient: jest.fn(() => {

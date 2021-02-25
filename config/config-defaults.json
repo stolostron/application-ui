@@ -13,8 +13,7 @@
         "fullDashboard": false,
         "liveUpdates": 2,
         "liveUpdatesPollInterval": 15000,
-        "search": true,
-        "enableAppcues": false
+        "search": true
     },
     "OAUTH2_CLIENT_ID": "",
     "OAUTH2_CLIENT_SECRET": "",

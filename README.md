@@ -1,9 +1,6 @@
 # application-ui [![Build Status](https://travis-ci.com/open-cluster-management/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=main)](https://travis-ci.com/open-cluster-management/application-ui)
 The UI service for Application Lifecycle
 
-# Work in Progress
-We are in the process of enabling this repo for community contribution. See wiki [here](https://open-cluster-management.io/concepts/architecture/).
-
 ------
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -24,6 +21,8 @@ We are in the process of enabling this repo for community contribution. See wiki
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Work in Progress
+We are in the process of enabling this repo for community contribution. See wiki [here](https://open-cluster-management.io/concepts/architecture/).
 
 ## Community, discussion, contribution, and support
 

@@ -21,14 +21,14 @@ The UI service for Application Lifecycle
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+------
+
 ## Work in Progress
 We are in the process of enabling this repo for community contribution. See wiki [here](https://open-cluster-management.io/concepts/architecture/).
 
 ## Community, discussion, contribution, and support
 
 Check the [CONTRIBUTING Doc](CONTRIBUTING.md) for how to contribute to the repo.
-
-------
 
 ## Getting Started
 

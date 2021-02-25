@@ -14,14 +14,9 @@
         "liveUpdates": 2,
         "liveUpdatesPollInterval": 15000,
         "search": true,
-        "enableAppcues": false,
-        "appcuesScript": "38105.js"
+        "enableAppcues": false
     },
     "OAUTH2_CLIENT_ID": "",
     "OAUTH2_CLIENT_SECRET": "",
-    "OAUTH2_REDIRECT_URL": "",
-    "tests": {
-        "user": "admin",
-        "password": "all-ansible-aardvarks-advance-appropriately"
-    }
+    "OAUTH2_REDIRECT_URL": ""
 }

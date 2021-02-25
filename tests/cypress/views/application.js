@@ -91,26 +91,22 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   }
   // type in branch and path
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
-  if (url.indexOf("github.com") >= 0) {
-    cy.get(gitBranch, { timeout: 50 * 1000 }).click();
-    cy.contains(".tf--list-box__menu-item", new RegExp(`^${branch}$`)).click();
-  } else {
-    cy
-      .get(gitBranch, { timeout: 50 * 1000 })
-      .type(branch, { timeout: 50 * 1000 })
-      .blur();
-  }
+  //type in branch name here instead of trying to select one
+  // the git api is unreliable and we don't want to fail all git app tests
+  //if the branch doesn't show up
+  cy
+    .get(gitBranch, { timeout: 50 * 1000 })
+    .type(branch, { timeout: 50 * 1000 })
+    .blur();
+
   cy.wait(1000);
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
-  if (url.indexOf("github.com") >= 0) {
-    cy.get(gitPath, { timeout: 20 * 1000 }).click();
-    cy.contains(".tf--list-box__menu-item", new RegExp(`^${path}$`)).click();
-  } else {
-    cy
-      .get(gitPath, { timeout: 20 * 1000 })
-      .type(path, { timeout: 30 * 1000 })
-      .blur();
-  }
+  //type in folder name here instead of trying to select one, same reason as above, for branch
+  cy
+    .get(gitPath, { timeout: 20 * 1000 })
+    .type(path, { timeout: 30 * 1000 })
+    .blur();
+
   if (gitReconcileOption) {
     cy
       .get(merge)

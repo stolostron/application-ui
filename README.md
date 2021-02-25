@@ -1,6 +1,9 @@
 # application-ui [![Build Status](https://travis-ci.com/open-cluster-management/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=main)](https://travis-ci.com/open-cluster-management/application-ui)
 The UI service for Application Lifecycle
 
+# Work in Progress
+We are in the process of enabling this repo for community contribution. See wiki [here](https://open-cluster-management.io/concepts/architecture/).
+
 ------
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -30,7 +33,7 @@ Check the [CONTRIBUTING Doc](CONTRIBUTING.md) for how to contribute to the repo.
 
 ## Getting Started
 
-The Application UI runs only on the hub cluster. It defines the user interface used to create and manage application resources deployed on your managed clusters through the use of Application lifecycle subscription operators. This console component, application-ui, does not have any direct dependencies on backend components provided by Application lifecycle. Instead, it depends on the console-api and search-api components to work with the custom Kubernetes resources of the Application lifecycle model. The application-ui component is packaged as a Helm chart using the application-chart module. This is a guide on how to build and run open-cluster-management application-ui from code.
+The Application UI runs only on the hub cluster. It defines the user interface used to create and manage application resources deployed on your managed clusters through the use of Application lifecycle subscription operators. This console component, application-ui, does not have any direct dependencies on backend components provided by Application lifecycle. Instead, it depends on the console-api and search-api components to work with the custom Kubernetes resources of the Application lifecycle model. The application-ui component is packaged as a Helm chart using the application-chart module. This is a guide on how to build and run open-cluster-management application-ui.
 
 ## Design
 

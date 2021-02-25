@@ -11,8 +11,10 @@
 // On app create page
 .page-content-container {
   .temptifly {
+    margin: 10px 0 -9.125rem 0;
+
     &.showEditor {
-      margin: -24px 0 -3.125rem 0;
+      margin: 10px 0 -3.125rem 0;
     }
 
     .creation-view-split-container {
@@ -31,8 +33,10 @@
 // On app edit page
 .secondary-header-wrapper.with-tabs.with-breadcrumbs ~ .page-content-container {
   .temptifly {
+    margin: 10px 0 -9.125rem 0;
+
     &.showEditor {
-      margin: -21px 0 -9.125rem 0;
+      margin: 10px 0 -9.125rem 0;
     }
 
     .creation-view-split-container {

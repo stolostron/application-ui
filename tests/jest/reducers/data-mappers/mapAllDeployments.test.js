@@ -5,7 +5,7 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-
+// Copyright Contributors to the Open Cluster Management project
 import mapAllDeployments from "../../../../src-web/reducers/data-mappers/mapAllDeployments";
 
 describe("data-mappers testing for mapAllDeployments", () => {

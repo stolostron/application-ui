@@ -5,6 +5,7 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+// Copyright Contributors to the Open Cluster Management project
 import * as Actions from './index'
 import loginClient from '../../lib/client/login-client'
 

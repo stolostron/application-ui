@@ -132,7 +132,7 @@ npm run build:production
    }
    </pre>
 
-4. If you are working on changes to `console-ui`, run `console-api` locally following the instructions from https://github.com/open-cluster-management/console-api
+4. If you are working on changes to `console-api`, run `console-api` locally following the instructions from https://github.com/open-cluster-management/console-api
 
 5. Start the server for production
    <pre>

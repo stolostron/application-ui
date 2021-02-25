@@ -6,6 +6,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  
  Copyright (c) 2020 Red Hat, Inc.
+ Copyright Copyright Contributors to the Open Cluster Management project
 !}
 
 {>"page" title="{title}" id="mcm-ui" trackAnalytics="true"/}

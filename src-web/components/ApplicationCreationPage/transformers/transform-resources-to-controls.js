@@ -1,4 +1,4 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
@@ -8,6 +8,7 @@
 
  *******************************************************************************/
 // Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 
 import { initializeControls, getSourcePath, getResourceID } from 'temptifly'

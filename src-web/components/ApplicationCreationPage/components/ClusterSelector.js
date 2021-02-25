@@ -1,4 +1,5 @@
 // Copyright (c) 2020 Red Hat, Inc. All Rights Reserved.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 
 import React from 'react'

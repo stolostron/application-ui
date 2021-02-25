@@ -7,6 +7,7 @@
  * Contract with IBM Corp.
  ****************************************************************************** */
 // Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 import React from 'react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'

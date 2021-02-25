@@ -1,4 +1,5 @@
 # Copyright (c) 2020 Red Hat, Inc.
+# Copyright Contributors to the Open Cluster Management project
 
 if ! jq --version > /dev/null 2>&1; then
   echo "Missing dependency: jq"

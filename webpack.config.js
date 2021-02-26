@@ -234,6 +234,9 @@ module.exports = {
   resolve: {
     alias: {
       handlebars: "handlebars/dist/handlebars.min.js"
+    },
+    alias: {
+      "react-router-dom": path.resolve("./node_modules/react-router-dom")
     }
   },
   resolveLoader: {

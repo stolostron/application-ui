@@ -36,7 +36,7 @@ export const createApplication = (
   const { name, config } = data;
   namespace == "default" ? (namespace = `${name}-ns`) : namespace;
   cy.log(`Test create application ${name}`);
-  cy.get(".bx--detail-page-header-title-container").should("exist");
+  cy.get(".pf-c-title").should("exist");
   cy.get("#eman", { timeout: 50 * 1000 }).type(name);
   cy.get("#emanspace", { timeout: 50 * 1000 }).type(namespace);
   if (type === "git") {
@@ -303,6 +303,13 @@ export const validateAdvancedTables = (
         } else {
           cy.log(`Validating ${tableType} on Advanced Tables`);
           cy.visit(`/multicloud/applications/advanced?resource=${tableType}`);
+
+          //search is not properly scrolled to view; attempt to move it lower on the page
+          //by asking the terminology to show
+          cy
+            .get("#ApplicationDeploymentHighlightsTerminology")
+            .scrollIntoView();
+
           resourceTable.rowShouldExist(
             resourceTypes[tableType],
             getResourceKey(
@@ -750,7 +757,7 @@ export const edit = (name, namespace = "default") => {
 export const editApplication = (name, data) => {
   edit(name);
   cy.log("Verify name and namespace fields are disabled");
-  cy.get(".bx--detail-page-header-title-container", { timeout: 20 * 1000 });
+  cy.get(".pf-c-title", { timeout: 20 * 1000 });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
   cy.get("#eman", { timeout: 20 * 1000 }).should("be.disabled");
   cy

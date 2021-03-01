@@ -3,12 +3,12 @@
 # (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
 # US Government Users Restricted Rights - Use, duplication or disclosure 
 # restricted by GSA ADP Schedule Contract with IBM Corp.
-# Copyright (c) 2020 Red Hat, Inc.
 #
 # Contributors:
 #  IBM Corporation - initial API and implementation
 ###############################################################################
-
+# Copyright (c) 2020 Red Hat, Inc.
+# Copyright Contributors to the Open Cluster Management project
 include build/Configfile
 
 BROWSER ?= chrome
@@ -28,10 +28,6 @@ default::
 
 install:
 	npm install
-
-.PHONY: copyright-check
-copyright-check:
-	./copyright-check.sh $(TRAVIS_BRANCH)
 	
 lint:
 	npm run lint
@@ -71,9 +67,10 @@ run-test-image:
 	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
 
 .PHONY: run-test-image-pr
-run-test-image-pr:
-	docker run \
+run-test-image-pr: # Suppress output as this contains sensitive information
+	@docker run \
 	-v $(shell pwd)/results/:/results/ \
+	-v $(HOME)/certificates/:/certificates/ \
 	--network host \
 	-e BROWSER=$(BROWSER) \
 	-e USER=$(shell git log -1 --format='%ae') \
@@ -82,12 +79,14 @@ run-test-image-pr:
 	-e TRAVIS_BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
 	-e TRAVIS_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
 	-e TRAVIS_PULL_REQUEST=$(TRAVIS_PULL_REQUEST) \
+	-e CYPRESS_RBAC_TEST=$(CYPRESS_RBAC_TEST) \
 	-e CYPRESS_TEST_MODE=functional \
+	-e CYPRESS_JOB_ID=$(TRAVIS_JOB_ID) \
 	-e CYPRESS_BASE_URL=https://localhost:3001 \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \
-	-e CYPRESS_JOB_ID=$(TRAVIS_JOB_ID) \
 	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \
 	-e CYPRESS_OC_CLUSTER_PASS=$(OC_CLUSTER_PASS) \
+	-e CYPRESS_OC_CLUSTER_INGRESS_CA=$(OC_CLUSTER_INGRESS_CA) \
 	-e CYPRESS_OC_IDP=$(CYPRESS_OC_IDP) \
 	-e CYPRESS_MANAGED_OCP_URL=$(CYPRESS_MANAGED_OCP_URL) \
 	-e CYPRESS_MANAGED_OCP_USER=$(CYPRESS_MANAGED_OCP_USER) \

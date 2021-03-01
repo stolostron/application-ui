@@ -1,7 +1,5 @@
-/*******************************************************************************
- * Licensed Materials - Property of Red Hat
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 jest.mock("../../../../lib/client/apollo-client", () => ({
   getSearchClient: jest.fn(() => {
@@ -1163,25 +1161,6 @@ describe("ApplicationTopologyModule with selected node ID", () => {
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
-  });
-
-  it("ApplicationTopologyModule sets new interval value after interval changed", () => {
-    const wrapper = mount(
-      <BrowserRouter>
-        <Provider store={store}>
-          <ApplicationTopologyModule
-            selectedNodeId={nodeID}
-            showExpandedTopology={true}
-            params={params}
-            locale={locale}
-          />
-        </Provider>
-      </BrowserRouter>
-    );
-
-    wrapper.setProps({ refetch: { interval: 30000, doRefetch: false } });
-    wrapper.setProps({ refetch: { interval: 30000, doRefetch: true } });
-    wrapper.setProps({ refetch: { interval: 15000, doRefetch: false } });
   });
 
   const actions = {

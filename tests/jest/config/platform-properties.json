@@ -363,6 +363,7 @@
   "resource.pods.deployed": "Deployed these pods",
   "resource.pods": "Pods",
   "resource.reason": "Reason",
+  "resource.related.apps": "Related applications",
   "resource.release": "Release",
   "resource.replicas": "Replicas",
   "resource.resource.status": "Resource status",

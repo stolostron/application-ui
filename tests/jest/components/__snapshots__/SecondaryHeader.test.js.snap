@@ -27,134 +27,169 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
   <div
     className="secondary-header "
   >
-    <header
-      aria-label="hello world secondary"
-      className="bx--detail-page-header bx--detail-page-header--with-tabs"
-      data-header-active={false}
-      role="banner"
+    <section
+      className="pf-c-page__main-section pf-m-no-padding pf-m-light"
     >
       <div
-        className="bx--detail-page-header-content"
+        style={
+          Object {
+            "display": "flex",
+            "paddingRight": "24px",
+            "paddingTop": "16px",
+          }
+        }
       >
         <div
-          className="bx--detail-page-header-title-container"
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "column",
+              "flexGrow": 1,
+            }
+          }
         >
           <div
-            className="bx--detail-page-header-icon-container"
+            style={
+              Object {
+                "alignItems": "center",
+                "display": "flex",
+                "flexGrow": 1,
+                "paddingBottom": "8px",
+                "paddingLeft": "24px",
+                "paddingTop": "8px",
+              }
+            }
           >
-            <svg
-              height="24"
-              viewBox="0 0 24 24"
-              width="24"
+            <h1
+              className="pf-c-title pf-m-2xl"
             >
-              <path
-                d="M0 0h24v24H0z"
-                fill="#D8D8D8"
-                fillRule="evenodd"
-              />
-            </svg>
-          </div>
-          <h1
-            className="bx--detail-page-header-title"
-          >
-            hello world
-          </h1>
-          <div
-            className="bx--detail-page-header-status-container"
-          >
+              hello world
+            </h1>
             <div
-              className="bx--detail-page-header-status-icon"
               style={
                 Object {
-                  "backgroundColor": undefined,
+                  "paddingLeft": "8px",
                 }
               }
-            />
-             
-            <span
-              className="bx--detail-page-header-status-text"
-            />
+            >
+              <div
+                className="switch-controls"
+              >
+                <div
+                  id="edit-button-portal-id"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            style={
+              Object {
+                "paddingLeft": "8px",
+              }
+            }
+          >
+            <nav
+              aria-label="Local"
+              className="pf-c-nav pf-m-horizontal pf-m-tertiary"
+              data-ouia-component-id="OUIA-Generated-Nav-tertiary-1"
+              data-ouia-component-type="PF4/Nav"
+              data-ouia-safe={true}
+            >
+              <button
+                aria-label="Scroll left"
+                className="pf-c-nav__scroll-button"
+                disabled={false}
+                onClick={[Function]}
+                tabIndex={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  aria-labelledby={null}
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 256 512"
+                  width="1em"
+                >
+                  <path
+                    d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"
+                  />
+                </svg>
+              </button>
+              <ul
+                className="pf-c-nav__list"
+                onScroll={[Function]}
+              >
+                <li
+                  className="pf-c-nav__item"
+                  data-ouia-component-id="OUIA-Generated-NavItem-1"
+                  data-ouia-component-type="PF4/NavItem"
+                  data-ouia-safe={true}
+                >
+                  <a
+                    aria-current="page"
+                    className="pf-c-nav__link pf-m-current"
+                    href="/multicloud/dashboard"
+                    onClick={[Function]}
+                  >
+                    Application
+                  </a>
+                </li>
+              </ul>
+              <button
+                aria-label="Scroll right"
+                className="pf-c-nav__scroll-button"
+                disabled={false}
+                onClick={[Function]}
+                tabIndex={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  aria-labelledby={null}
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 256 512"
+                  width="1em"
+                >
+                  <path
+                    d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                  />
+                </svg>
+              </button>
+            </nav>
           </div>
         </div>
-      </div>
-      <div
-        className="bx--detail-page-header-menu"
-      />
-    </header>
-    <div
-      className="tab-container"
-    >
-      <nav
-        aria-label="hello world undefined"
-        className="bx--tabs cluster-tabs"
-        role="navigation"
-        selected={0}
-      >
         <div
-          aria-label="listbox"
-          className="bx--tabs-trigger"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="listbox"
-          tabIndex={0}
+          style={
+            Object {
+              "alignItems": "flex-end",
+              "display": "flex",
+              "flexDirection": "column",
+              "paddingBottom": "16px",
+            }
+          }
         >
-          <a
-            className="bx--tabs-trigger-text"
-            href="#"
-            onClick={[Function]}
-            tabIndex={-1}
-          >
-            Application
-          </a>
-          <svg
-            alt="show menu options"
-            aria-label="show menu options"
-            fillRule="evenodd"
-            height="5"
-            role="img"
-            viewBox="0 0 10 5"
-            width="10"
-          >
-            <title>
-              show menu options
-            </title>
-            <path
-              d="M0 0l5 4.998L10 0z"
-            />
-          </svg>
+          <div
+            style={
+              Object {
+                "flexGrow": 1,
+              }
+            }
+          />
         </div>
-        <ul
-          className="bx--tabs__nav bx--tabs__nav--hidden"
-          role="tablist"
-        >
-          <li
-            className="bx--tabs__nav-item bx--tabs__nav-item--selected"
-            id="dashboard-application"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            role="presentation"
-            selected={true}
-            tabIndex={-1}
-          >
-            <a
-              aria-selected={true}
-              className="bx--tabs__nav-link"
-              href="/multicloud/dashboard"
-              role="tab"
-              tabIndex={0}
-            >
-              Application
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div
-        aria-hidden={false}
-        className="tab-content"
-        hidden={false}
-        selected={true}
-      />
-    </div>
+      </div>
+    </section>
   </div>
 </div>
 `;
@@ -168,159 +203,182 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
   <div
     className="secondary-header "
   >
-    <header
-      aria-label="hello world secondary"
-      className="bx--detail-page-header bx--detail-page-header--with-tabs"
-      data-header-active={false}
-      role="banner"
+    <section
+      className="pf-c-page__main-section pf-m-no-padding pf-m-light"
     >
       <div
-        className="bx--detail-page-header-content"
+        style={
+          Object {
+            "display": "flex",
+            "paddingRight": "24px",
+            "paddingTop": "16px",
+          }
+        }
       >
         <div
-          className="bx--detail-page-header-title-container"
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "column",
+              "flexGrow": 1,
+            }
+          }
         >
           <div
-            className="bx--detail-page-header-icon-container"
+            style={
+              Object {
+                "alignItems": "center",
+                "display": "flex",
+                "flexGrow": 1,
+                "paddingBottom": "8px",
+                "paddingLeft": "24px",
+                "paddingTop": "8px",
+              }
+            }
           >
-            <svg
-              height="24"
-              viewBox="0 0 24 24"
-              width="24"
+            <h1
+              className="pf-c-title pf-m-2xl"
             >
-              <path
-                d="M0 0h24v24H0z"
-                fill="#D8D8D8"
-                fillRule="evenodd"
-              />
-            </svg>
-          </div>
-          <h1
-            className="bx--detail-page-header-title"
-          >
-            hello world
-          </h1>
-          <div
-            className="bx--detail-page-header-status-container"
-          >
+              hello world
+            </h1>
             <div
-              className="bx--detail-page-header-status-icon"
               style={
                 Object {
-                  "backgroundColor": undefined,
+                  "paddingLeft": "8px",
                 }
               }
-            />
-             
-            <span
-              className="bx--detail-page-header-status-text"
-            />
+            >
+              <div
+                className="switch-controls"
+              >
+                <div
+                  id="edit-button-portal-id"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            style={
+              Object {
+                "paddingLeft": "8px",
+              }
+            }
+          >
+            <nav
+              aria-label="Local"
+              className="pf-c-nav pf-m-horizontal pf-m-tertiary"
+              data-ouia-component-id="OUIA-Generated-Nav-tertiary-2"
+              data-ouia-component-type="PF4/Nav"
+              data-ouia-safe={true}
+            >
+              <button
+                aria-label="Scroll left"
+                className="pf-c-nav__scroll-button"
+                disabled={false}
+                onClick={[Function]}
+                tabIndex={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  aria-labelledby={null}
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 256 512"
+                  width="1em"
+                >
+                  <path
+                    d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"
+                  />
+                </svg>
+              </button>
+              <ul
+                className="pf-c-nav__list"
+                onScroll={[Function]}
+              >
+                <li
+                  className="pf-c-nav__item"
+                  data-ouia-component-id="OUIA-Generated-NavItem-2"
+                  data-ouia-component-type="PF4/NavItem"
+                  data-ouia-safe={true}
+                >
+                  <a
+                    aria-current={null}
+                    className="pf-c-nav__link"
+                    href="/multicloud/dashboard"
+                    onClick={[Function]}
+                  >
+                    Application
+                  </a>
+                </li>
+                <li
+                  className="pf-c-nav__item"
+                  data-ouia-component-id="OUIA-Generated-NavItem-3"
+                  data-ouia-component-type="PF4/NavItem"
+                  data-ouia-safe={true}
+                >
+                  <a
+                    aria-current="page"
+                    className="pf-c-nav__link pf-m-current"
+                    href="/hello"
+                    onClick={[Function]}
+                  />
+                </li>
+              </ul>
+              <button
+                aria-label="Scroll right"
+                className="pf-c-nav__scroll-button"
+                disabled={false}
+                onClick={[Function]}
+                tabIndex={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  aria-labelledby={null}
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 256 512"
+                  width="1em"
+                >
+                  <path
+                    d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                  />
+                </svg>
+              </button>
+            </nav>
           </div>
         </div>
-      </div>
-      <div
-        className="bx--detail-page-header-menu"
-      />
-    </header>
-    <div
-      className="tab-container"
-    >
-      <nav
-        aria-label="hello world undefined"
-        className="bx--tabs cluster-tabs"
-        role="navigation"
-        selected={1}
-      >
         <div
-          aria-label="listbox"
-          className="bx--tabs-trigger"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="listbox"
-          tabIndex={0}
+          style={
+            Object {
+              "alignItems": "flex-end",
+              "display": "flex",
+              "flexDirection": "column",
+              "paddingBottom": "16px",
+            }
+          }
         >
-          <a
-            className="bx--tabs-trigger-text"
-            href="#"
-            onClick={[Function]}
-            tabIndex={-1}
-          >
-            provide a label
-          </a>
-          <svg
-            alt="show menu options"
-            aria-label="show menu options"
-            fillRule="evenodd"
-            height="5"
-            role="img"
-            viewBox="0 0 10 5"
-            width="10"
-          >
-            <title>
-              show menu options
-            </title>
-            <path
-              d="M0 0l5 4.998L10 0z"
-            />
-          </svg>
+          <div
+            style={
+              Object {
+                "flexGrow": 1,
+              }
+            }
+          />
         </div>
-        <ul
-          className="bx--tabs__nav bx--tabs__nav--hidden"
-          role="tablist"
-        >
-          <li
-            className="bx--tabs__nav-item"
-            id="logs-tab1"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            role="presentation"
-            selected={false}
-            tabIndex={-1}
-          >
-            <a
-              aria-selected={false}
-              className="bx--tabs__nav-link"
-              href="/multicloud/dashboard"
-              role="tab"
-              tabIndex={0}
-            >
-              Application
-            </a>
-          </li>
-          <li
-            className="bx--tabs__nav-item bx--tabs__nav-item--selected"
-            id="logs-tab2"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            role="presentation"
-            selected={true}
-            tabIndex={-1}
-          >
-            <a
-              aria-selected={true}
-              className="bx--tabs__nav-link"
-              href="/hello"
-              role="tab"
-              tabIndex={0}
-            >
-              provide a label
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div
-        aria-hidden={true}
-        className="tab-content"
-        hidden={true}
-        selected={false}
-      />
-      <div
-        aria-hidden={false}
-        className="tab-content"
-        hidden={false}
-        selected={true}
-      />
-    </div>
+      </div>
+    </section>
   </div>
 </div>
 `;

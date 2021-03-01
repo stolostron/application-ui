@@ -5,17 +5,23 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 "use strict";
 
 import React from "react";
 import renderer from "react-test-renderer";
+import { BrowserRouter } from "react-router-dom";
 
 import { SecondaryHeader } from "../../../src-web/components/SecondaryHeader";
 
 describe("SecondaryHeader component 1", () => {
   it("renders as expected", () => {
-    const component = renderer.create(<SecondaryHeader title="hello world" />);
+    const component = renderer.create(
+      <BrowserRouter>
+        <SecondaryHeader title="hello world" />
+      </BrowserRouter>
+    );
     expect(component.toJSON()).toMatchSnapshot();
   });
 });
@@ -30,7 +36,9 @@ describe("SecondaryHeader component 2", () => {
   ];
   it("renders as expected", () => {
     const component = renderer.create(
-      <SecondaryHeader title="hello world" tabs={tabs} />
+      <BrowserRouter>
+        <SecondaryHeader title="hello world" tabs={tabs} />
+      </BrowserRouter>
     );
     expect(component.toJSON()).toMatchSnapshot();
   });
@@ -55,7 +63,9 @@ describe("SecondaryHeader component 3", () => {
   it("renders as expected", () => {
     const component = renderer.create(
       //eslint-disable-next-line
-      <SecondaryHeader title="hello world" tabs={tabs} location={location} />
+      <BrowserRouter>
+        <SecondaryHeader title="hello world" tabs={tabs} location={location} />
+      </BrowserRouter>
     );
     expect(component.toJSON()).toMatchSnapshot();
   });

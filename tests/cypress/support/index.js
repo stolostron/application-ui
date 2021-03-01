@@ -38,9 +38,12 @@ Cypress.Cookies.defaults({
 });
 
 before(() => {
-  // Use kubeadmin user to install ansible operator
+  // Use given user to install ansible operator
   cy.ocLogin(Cypress.env("OC_CLUSTER_USER"));
   cy.installAnsibleOperator();
+});
+
+beforeEach(() => {
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.ocLogin("cluster-manager-admin");
     cy.exec("oc whoami -t").then(res => {

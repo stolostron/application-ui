@@ -1,7 +1,5 @@
-/** *****************************************************************************
- * Licensed Materials - Property of Red Hat, Inc.
- * Copyright (c) 2020 Red Hat, Inc.
- ****************************************************************************** */
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 /// <reference types="cypress" />
 import {
@@ -38,7 +36,7 @@ export const createApplication = (
   const { name, config } = data;
   namespace == "default" ? (namespace = `${name}-ns`) : namespace;
   cy.log(`Test create application ${name}`);
-  cy.get(".bx--detail-page-header-title-container").should("exist");
+  cy.get(".pf-c-title").should("exist");
   cy.get("#eman", { timeout: 50 * 1000 }).type(name);
   cy.get("#emanspace", { timeout: 50 * 1000 }).type(namespace);
   if (type === "git") {
@@ -91,26 +89,22 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   }
   // type in branch and path
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
-  if (url.indexOf("github.com") >= 0) {
-    cy.get(gitBranch, { timeout: 50 * 1000 }).click();
-    cy.contains(".tf--list-box__menu-item", new RegExp(`^${branch}$`)).click();
-  } else {
-    cy
-      .get(gitBranch, { timeout: 50 * 1000 })
-      .type(branch, { timeout: 50 * 1000 })
-      .blur();
-  }
+  //type in branch name here instead of trying to select one
+  // the git api is unreliable and we don't want to fail all git app tests
+  //if the branch doesn't show up
+  cy
+    .get(gitBranch, { timeout: 50 * 1000 })
+    .type(branch, { timeout: 50 * 1000 })
+    .blur();
+
   cy.wait(1000);
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
-  if (url.indexOf("github.com") >= 0) {
-    cy.get(gitPath, { timeout: 20 * 1000 }).click();
-    cy.contains(".tf--list-box__menu-item", new RegExp(`^${path}$`)).click();
-  } else {
-    cy
-      .get(gitPath, { timeout: 20 * 1000 })
-      .type(path, { timeout: 30 * 1000 })
-      .blur();
-  }
+  //type in folder name here instead of trying to select one, same reason as above, for branch
+  cy
+    .get(gitPath, { timeout: 20 * 1000 })
+    .type(path, { timeout: 30 * 1000 })
+    .blur();
+
   if (gitReconcileOption) {
     cy
       .get(merge)
@@ -309,6 +303,13 @@ export const validateAdvancedTables = (
         } else {
           cy.log(`Validating ${tableType} on Advanced Tables`);
           cy.visit(`/multicloud/applications/advanced?resource=${tableType}`);
+
+          //search is not properly scrolled to view; attempt to move it lower on the page
+          //by asking the terminology to show
+          cy
+            .get("#ApplicationDeploymentHighlightsTerminology")
+            .scrollIntoView();
+
           resourceTable.rowShouldExist(
             resourceTypes[tableType],
             getResourceKey(
@@ -756,7 +757,7 @@ export const edit = (name, namespace = "default") => {
 export const editApplication = (name, data) => {
   edit(name);
   cy.log("Verify name and namespace fields are disabled");
-  cy.get(".bx--detail-page-header-title-container", { timeout: 20 * 1000 });
+  cy.get(".pf-c-title", { timeout: 20 * 1000 });
   cy.get(".creation-view-yaml", { timeout: 20 * 1000 });
   cy.get("#eman", { timeout: 20 * 1000 }).should("be.disabled");
   cy
@@ -835,7 +836,11 @@ export const addNewSubscription = (
   submitSave(true);
 };
 
-export const verifyEditAfterDeleteSubscription = (name, data, namespace = "default") => {
+export const verifyEditAfterDeleteSubscription = (
+  name,
+  data,
+  namespace = "default"
+) => {
   namespace == "default" ? (namespace = `${name}-ns`) : namespace;
   if (data.config.length > 1) {
     edit(name, namespace);

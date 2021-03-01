@@ -3,12 +3,12 @@
 # (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
 # US Government Users Restricted Rights - Use, duplication or disclosure 
 # restricted by GSA ADP Schedule Contract with IBM Corp.
-# Copyright (c) 2020 Red Hat, Inc.
 #
 # Contributors:
 #  IBM Corporation - initial API and implementation
 ###############################################################################
-
+# Copyright (c) 2020 Red Hat, Inc.
+# Copyright Contributors to the Open Cluster Management project
 include build/Configfile
 
 BROWSER ?= chrome
@@ -28,10 +28,6 @@ default::
 
 install:
 	npm install
-
-.PHONY: copyright-check
-copyright-check:
-	./copyright-check.sh $(TRAVIS_BRANCH)
 	
 lint:
 	npm run lint

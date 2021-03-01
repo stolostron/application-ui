@@ -1,6 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { validateResourceTable } from "../../views/application";

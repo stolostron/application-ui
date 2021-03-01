@@ -1,6 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 "use strict";
 
 import { getUpdates } from "../../../../../src-web/components/ApplicationTopologyModule/deployers/hcm-application-deployer";

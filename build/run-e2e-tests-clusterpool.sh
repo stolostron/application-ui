@@ -5,8 +5,9 @@
 # U.S. Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule
 # Contract with IBM Corp.
 # Licensed Materials - Property of IBM
-# Copyright (c) 2021 Red Hat, Inc.
 ###############################################################################
+# Copyright (c) 2021 Red Hat, Inc.
+# Copyright Contributors to the Open Cluster Management project
 set -e
 
 UI_CURRENT_IMAGE=$1
@@ -20,15 +21,15 @@ function fold_end() {
 }
 
 ###############################################################################
-# Install oc and Cluster Manager
+# Install oc and Cluster Keeper
 ###############################################################################
-fold_start install-tools "Install oc and Cluster Manager"
+fold_start install-tools "Install oc and Cluster Keeper"
 
 echo "Running oc/install..."
 make oc/install
-echo "Cloning Cluster Manager"
-git clone git@github.com:open-cluster-management/cluster-manager.git
-pushd cluster-manager
+echo "Cloning Cluster Keeper"
+git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/open-cluster-management/cluster-keeper.git
+pushd cluster-keeper
 cat > user.env << EOF
 CLUSTERPOOL_CLUSTER=$CLUSTERPOOL_CLUSTER
 CLUSTERPOOL_TARGET_NAMESPACE=$CLUSTERPOOL_TARGET_NAMESPACE
@@ -46,10 +47,10 @@ fold_start cp-lock "ClusterPool Lock"
 
 LOCK_ID="travis-${TRAVIS_JOB_ID:(-5)}"
 oc login --token $CLUSTERPOOL_TOKEN $CLUSTERPOOL_CLUSTER --insecure-skip-tls-verify
-cm lock -i $LOCK_ID $CLUSTERPOOL_HUB
-cm lock -i $LOCK_ID $CLUSTERPOOL_MANAGED
-cm run -f $CLUSTERPOOL_MANAGED
-cm use -f $CLUSTERPOOL_HUB
+ck lock -i $LOCK_ID $CLUSTERPOOL_HUB
+ck lock -i $LOCK_ID $CLUSTERPOOL_MANAGED
+ck run -f $CLUSTERPOOL_MANAGED
+ck use -f $CLUSTERPOOL_HUB
 
 fold_end cp-lock
 
@@ -58,7 +59,7 @@ fold_end cp-lock
 ###############################################################################
 fold_start test-setup "Test Setup"
 
-HUB_CREDS=$(cm creds -f $CLUSTERPOOL_HUB)
+HUB_CREDS=$(ck creds -f $CLUSTERPOOL_HUB)
 export OC_CLUSTER_URL=$(echo $HUB_CREDS | jq -r '.api_url')
 export OC_CLUSTER_USER=$(echo $HUB_CREDS | jq -r '.username')
 export OC_CLUSTER_PASS=$(echo $HUB_CREDS | jq -r '.password')
@@ -69,7 +70,7 @@ OAUTH_POD=$(oc -n openshift-authentication get pods -o jsonpath='{.items[0].meta
 export OC_CLUSTER_INGRESS_CA=/certificates/ingress-ca.crt
 oc rsh -n openshift-authentication $OAUTH_POD cat /run/secrets/kubernetes.io/serviceaccount/ca.crt > ${HOME}${OC_CLUSTER_INGRESS_CA}
 
-MANAGED_CREDS=$(cm creds -f $CLUSTERPOOL_MANAGED)
+MANAGED_CREDS=$(ck creds -f $CLUSTERPOOL_MANAGED)
 export CYPRESS_MANAGED_OCP_URL=$(echo $MANAGED_CREDS | jq -r '.api_url')
 export CYPRESS_MANAGED_OCP_USER=$(echo $MANAGED_CREDS | jq -r '.username')
 export CYPRESS_MANAGED_OCP_PASS=$(echo $MANAGED_CREDS | jq -r '.password')
@@ -113,8 +114,8 @@ fold_end cypress
 # ClusterPool Unlock
 ###############################################################################
 fold_start cp-unlock "ClusterPool Unlock"
-cm unlock -i $LOCK_ID $CLUSTERPOOL_HUB
-cm unlock -i $LOCK_ID $CLUSTERPOOL_MANAGED
+ck unlock -i $LOCK_ID $CLUSTERPOOL_HUB
+ck unlock -i $LOCK_ID $CLUSTERPOOL_MANAGED
 
 SLEEP_ON_DAY=6 # Saturday and Sunday
 SLEEP_BEFORE=7 # 7 am
@@ -130,8 +131,8 @@ then
   echo Attempting to hibernate clusters
   # Attempt to hibernate; do not force and ignore error in case still locked by others
   set +e
-  cm hibernate $CLUSTERPOOL_MANAGED
-  cm hibernate $CLUSTERPOOL_HUB
+  ck hibernate $CLUSTERPOOL_MANAGED
+  ck hibernate $CLUSTERPOOL_HUB
   set -e
 fi
 

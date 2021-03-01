@@ -1,9 +1,8 @@
-/** *****************************************************************************
- * Licensed Materials - Property of Red Hat, Inc.
- * Copyright (c) 2020 Red Hat, Inc.
- ****************************************************************************** */
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 /// <reference types="cypress" />
+import { checkExistingUrls } from "./resources.js";
 
 export const pageLoader = {
   shouldExist: () =>
@@ -316,7 +315,11 @@ export const selectMatchingLabel = (cluster, key) => {
     key
   );
   const { labelName, labelValue } = matchingLabelCSS;
-  cy.get(labelName).type("name"), cy.get(labelValue).type(cluster);
+  cy
+    .get(labelName)
+    .scrollIntoView({ offset: { top: -100, left: 0 } })
+    .type("name"),
+    cy.get(labelValue).type(cluster);
 };
 
 export const verifyYamlTemplate = text => {
@@ -793,6 +796,65 @@ export const testDefect7080 = () => {
   cy.get("#local-cluster-checkbox").click({ force: true });
 };
 
+//verify that as we select the git api, we get the branch and path information
+export const testGitApiInput = data => {
+  const { config } = data;
+  const { url, branch, path, username, token } = config[0];
+  const gitCss = {
+    gitUrl: "#githubURL",
+    gitUser: "#githubUser",
+    gitKey: "#githubAccessId",
+    gitBranch: "#githubBranch",
+    gitPath: "#githubPath",
+    merge: "#gitReconcileOption",
+    insecureSkipVerify: "#gitInsecureSkipVerify"
+  };
+
+  const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
+
+  cy.visit("/multicloud/applications");
+  // wait for create button to be enabled
+  cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
+  cy.get(".pf-c-title").should("exist");
+
+  cy.log("Select git url");
+  cy
+    .get("#git", { timeout: 20 * 1000 })
+    .click({ force: true })
+    .trigger("mouseover");
+
+  cy
+    .get(gitUrl, { timeout: 20 * 1000 })
+    .type(url, { timeout: 50 * 1000 })
+    .blur();
+  checkExistingUrls(gitUser, username, gitKey, token, url);
+
+  // check branch and path info shows up
+  cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitBranch, { timeout: 50 * 1000 }).click();
+    cy.contains(".tf--list-box__menu-item", new RegExp(`^${branch}$`)).click();
+  } else {
+    cy.log("Nothing to test");
+    cy
+      .get(gitBranch, { timeout: 50 * 1000 })
+      .type(branch, { timeout: 50 * 1000 })
+      .blur();
+  }
+
+  cy.wait(1000);
+  cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitPath, { timeout: 20 * 1000 }).click();
+    cy.contains(".tf--list-box__menu-item", new RegExp(`^${path}$`)).click();
+  } else {
+    cy
+      .get(gitPath, { timeout: 20 * 1000 })
+      .type(path, { timeout: 30 * 1000 })
+      .blur();
+  }
+};
+
 export const testInvalidApplicationInput = () => {
   const validURL = "http://a.com";
   const invalidValue = "INVALID VALUE";
@@ -801,7 +863,7 @@ export const testInvalidApplicationInput = () => {
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
   cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
-  cy.get(".bx--detail-page-header-title-container").should("exist");
+  cy.get(".pf-c-title").should("exist");
 
   //enter a valid ns
   cy
@@ -855,7 +917,10 @@ export const testInvalidApplicationInput = () => {
   testDefect7080();
 
   //enter a valid deployment value
-  cy.get("#labelName-0-clusterSelector").type("label");
+  cy
+    .get("#labelName-0-clusterSelector")
+    .scrollIntoView()
+    .type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
 
   cy.get("#githubURL-helper").should("exist");
@@ -904,7 +969,10 @@ export const testInvalidApplicationInput = () => {
     .type(invalidValue)
     .blur();
   //enter a valid deployment value and a chart name
-  cy.get("#labelName-0-clusterSelector").type("label");
+  cy
+    .get("#labelName-0-clusterSelector")
+    .scrollIntoView()
+    .type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
   cy.get("#helmChartName").type("chartName");
 
@@ -936,7 +1004,10 @@ export const testInvalidApplicationInput = () => {
     .type(invalidValue)
     .blur();
   //enter a valid deployment value
-  cy.get("#labelName-0-clusterSelector").type("label");
+  cy
+    .get("#labelName-0-clusterSelector")
+    .scrollIntoView()
+    .type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
 
   cy.get("#objectstoreURL-helper").should("exist");
@@ -1023,7 +1094,11 @@ export const validateDefect7696 = () => {
   );
 
   cy.log("Select Editor tab");
-  cy.get("#editor", { timeout: 20 * 1000 }).click({ force: true });
+  cy
+    .get("[data-ouia-component-id=OUIA-Generated-NavItem-2]", {
+      timeout: 20 * 1000
+    })
+    .click();
 
   cy.log(
     "Verify defect 8055 - Temptifly 0.1.15 no longer shows yaml toggler for app-ui"
@@ -1041,7 +1116,11 @@ export const validateDefect7696 = () => {
   cy.log(
     "move back to topology view and check resources still show up - defect 7696"
   );
-  cy.get("#overview", { timeout: 20 * 1000 }).click({ force: true });
+  cy
+    .get("[data-ouia-component-id=OUIA-Generated-NavItem-1]", {
+      timeout: 20 * 1000
+    })
+    .click();
 
   cy.log("Verify deployables show up");
   cy.get("#diagramShapes_pod", { timeout: 30 * 1000 }).should("exist");

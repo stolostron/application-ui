@@ -1,10 +1,11 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure 
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+// Copyright Contributors to the Open Cluster Management project 
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
@@ -73,7 +74,7 @@ $overview-heat-collapsed: 90px !default;
   }
 }
 
-/* *********************  filter close button ************************ */
+/* *********************  filter close button *************************/
 .filter-bar, .provider-banner {
  .bx--tag.bx--tag--custom {
     margin-left: 10px;
@@ -96,7 +97,7 @@ $overview-heat-collapsed: 90px !default;
   margin: 10px auto 0;
 }
 
-/* *********************  base card ************************ */
+/* *********************  base card *************************/
 
 @keyframes appear {
   0% {

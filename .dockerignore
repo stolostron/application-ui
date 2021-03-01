@@ -23,7 +23,6 @@ Makefile*
 Dockerfile*
 build-harness
 jest.config.js
-manifest.yaml
 test-output
 .dockerignore
 .eslint*

@@ -32,7 +32,9 @@ Check the [CONTRIBUTING Doc](CONTRIBUTING.md) for how to contribute to the repo.
 
 ## Getting Started
 
-The Application UI runs only on the hub cluster. It defines the user interface used to create and manage application resources deployed on your managed clusters through the use of Application lifecycle subscription operators. This console component, application-ui, does not have any direct dependencies on backend components provided by Application lifecycle. Instead, it depends on the console-api and search-api components to work with the custom Kubernetes resources of the Application lifecycle model. The application-ui component is packaged as a Helm chart using the application-chart module. This is a guide on how to build and run open-cluster-management application-ui.
+The Application console runs only on the hub cluster. It defines the user interface used to create and manage application resources deployed on your managed clusters through the use of Application lifecycle subscription operators. This console component, application-ui, does not have any direct dependencies on backend components provided by Application lifecycle. Instead, it depends on the console-api and search-api components to work with the custom Kubernetes resources of the Application lifecycle model. The application-ui component is packaged as a Helm chart using the application-chart module. This is a guide on how to build and run open-cluster-management application-ui.
+
+![application-ui architecture](graphics/application-ui-arch.png)
 
 ## Design
 

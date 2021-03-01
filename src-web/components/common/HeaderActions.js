@@ -1,11 +1,5 @@
-/*******************************************************************************
- * Licensed Materials - Property of IBM
- * Copyright (c) 2020 Red Hat, Inc.
- *
- * US Government Users Restricted Rights - Use, duplication or disclosure
- * restricted by GSA ADP Schedule Contract with IBM Corp.
- *******************************************************************************/
-
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 import React from 'react'
 import { withLocale } from '../../providers/LocaleProvider'
 

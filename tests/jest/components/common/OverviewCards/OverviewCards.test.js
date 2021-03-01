@@ -1,7 +1,8 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *  Copyright (c) 2020 Red Hat, Inc.
+ * Copyright Contributors to the Open Cluster Management project
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -170,22 +171,5 @@ describe("OverviewCards", () => {
     wrapper
       .find({ id: "app-search-link" })
       .simulate("keypress", { key: "Enter" });
-  });
-
-  it("OverviewCards successfully handles change in props to refetch", () => {
-    const wrapper = mount(
-      <Provider store={storeApp}>
-        <OverviewCards
-          selectedAppName="mortgage-app"
-          selectedAppNS="default"
-          serverProps={serverProps}
-        />
-      </Provider>
-    );
-
-    // change interval to 30000
-    wrapper.setState({ refetch: { doRefetch: false, interval: 30000 } });
-    // manual refetch data
-    wrapper.setState({ refetch: { doRefetch: true, interval: 30000 } });
   });
 });

@@ -1,11 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
-const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { testInvalidApplicationInput } from "../../views/common";
 
-describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Creation Validate invalid input Test", () => {
+describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application Creation Validate invalid input Test", () => {
   it(`Verify invalid input is rejected`, () => {
     testInvalidApplicationInput();
   });

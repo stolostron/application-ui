@@ -2084,6 +2084,9 @@ export const reduxStoreAllAppsPipeline = {
   AppDeployments: {
     displaySubscriptionModal: false
   },
+  location: {
+    pathname: "/multicloud/applications/"
+  },
   resourceFilters: {
     filters: {},
     selectedFilters: {}

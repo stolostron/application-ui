@@ -435,7 +435,7 @@ class RemoveResourceModal extends React.Component {
           onClose={this.handleClose.bind(this)}
           variant={ModalVariant.large}
           position="top"
-          positionOffset="200px"
+          positionOffset="225px"
           actions={[
             <Button
               key="confirm"

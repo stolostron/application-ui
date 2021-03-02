@@ -1,11 +1,12 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 import * as actions from "../../../src-web/actions/common";
 
 const resourceType = {
@@ -394,10 +395,6 @@ describe("common actions ", () => {
         {
           property: "namespace",
           values: ["default-ns"]
-        },
-        {
-          property: "cluster",
-          values: ["local-cluster"]
         }
       ],
       keywords: [],
@@ -443,7 +440,7 @@ describe("common actions ", () => {
   it("should return getQueryStringForResource app 1", () => {
     const expectedValue = {
       filters: [
-        { property: "kind", values: ["application"] },
+        { property: "kind", values: ["somename"] },
         { property: "name", values: ["name"] },
         { property: "namespace", values: ["default-ns"] }
       ],

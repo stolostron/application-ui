@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Copyright (c) 2020 Red Hat, Inc.
+# Copyright Contributors to the Open Cluster Management project
 
 echo "Initiating tests..."
 
@@ -33,9 +34,10 @@ else
 fi
 
 if [[ -z $CYPRESS_MANAGED_OCP_URL || -z $CYPRESS_MANAGED_OCP_USER || -z $CYPRESS_MANAGED_OCP_PASS ]]; then	
-   echo 'one or more variables are undefined'
+   echo 'One or more variables are undefined. Copying kubeconfigs...'
+   cp -r ~/resources/extra-import-kubeconfigs/* ./cypress/config/import-kubeconfig
 else	
-  echo "Logging into the managed cluster..."
+  echo "Logging into the managed cluster using credentials and generating the kubeconfig..."
   mkdir ./import-kubeconfig && touch ./import-kubeconfig/kubeconfig
   export KUBECONFIG=$(pwd)/import-kubeconfig/kubeconfig
   oc login --server=$CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify

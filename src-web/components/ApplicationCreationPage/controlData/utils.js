@@ -1,12 +1,14 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
- * Copyright (c) 2020 Red Hat, Inc.
+
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 
 import React from 'react'
@@ -402,6 +404,11 @@ export const setAvailableRules = (control, result) => {
     if (placementrules.length > 0) {
       control.availableData = _.keyBy(placementrules, 'metadata.name')
       control.available = Object.keys(control.availableData).sort()
+      //remove default placement rule name if this is not on the list of available placements
+      //in that case the name was set by the reverse function on control initialization
+      if (control.active && !control.available.includes(control.active)) {
+        control.active = null
+      }
     } else {
       control.availableData = []
     }

@@ -1,9 +1,8 @@
-/** *****************************************************************************
- * Licensed Materials - Property of Red Hat, Inc.
- * Copyright (c) 2020 Red Hat, Inc.
- ****************************************************************************** */
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 /// <reference types="cypress" />
+import { checkExistingUrls } from "./resources.js";
 
 export const pageLoader = {
   shouldExist: () =>
@@ -90,7 +89,7 @@ export const submitSave = successState => {
       .location("pathname", { timeout: 10 * 1000 })
       .should("include", `${name}`);
   } else {
-    notification.shouldExist("error");
+    notification.shouldExist("danger");
     cy.log("Verify Save button is disabled");
     modal.shouldBeDisabled();
   }
@@ -172,15 +171,21 @@ export const modal = {
       .should("not.be.visible"),
   shouldNotBeDisabled: () =>
     cy
-      .get(".bx--btn.bx--btn--primary", { timeout: 20000 })
+      .get(".bx--btn.bx--btn--primary, .pf-c-button.pf-m-primary", {
+        timeout: 20000
+      })
       .should("not.be.disabled"),
   shouldBeDisabled: () =>
     cy
-      .get(".bx--btn.bx--btn--primary", { timeout: 20000 })
+      .get(".bx--btn.bx--btn--primary, .pf-c-button.pf-m-primary", {
+        timeout: 20000
+      })
       .should("be.disabled"),
   clickSubmit: () =>
     cy
-      .get(".bx--btn.bx--btn--primary", { timeout: 20000 })
+      .get(".bx--btn.bx--btn--primary, .pf-c-button.pf-m-primary", {
+        timeout: 20000
+      })
       .click({ force: true }),
   clickResources: () =>
     cy.get("#remove-app-resources", { timeout: 20000 }).click({ force: true }),
@@ -204,13 +209,128 @@ export const modal = {
 
 export const notification = {
   shouldExist: type =>
-    cy
-      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 10 * 1000 })
-      .should("exist"),
+    cy.get(`.pf-c-alert.pf-m-${type}`, { timeout: 10 * 1000 }).should("exist"),
   shouldNotExist: type =>
     cy
-      .get(`.bx--inline-notification[kind="${type}"]`, { timeout: 5 * 1000 })
+      .get(`.pf-c-alert.pf-m-${type}`, { timeout: 5 * 1000 })
       .should("not.exist")
+};
+
+export const selectClusterDeployment = (deployment, clusterName, key) => {
+  cy.log(
+    `Execute selectClusterDeployment with options clusterName=${clusterName} deployment=${deployment} and key=${key}`
+  );
+  if (deployment) {
+    const { local, online, matchingLabel, existing } = deployment;
+    cy.log(
+      `cluster options are  local=${local} online=${online} matchingLabel=${matchingLabel} existing=${existing}`
+    );
+    const clusterDeploymentCss = indexedCSS(
+      {
+        localClusterID: "#local-cluster-checkbox",
+        onlineClusterID: "#online-cluster-only-checkbox",
+        uniqueClusterID: "#clusterSelector-checkbox-clusterSelector",
+        existingClusterID: "#existingrule-checkbox",
+        existingRuleComboID: "#placementrulecombo-label",
+        labelNameID: "#labelName-0-clusterSelector",
+        labelValueID: "#labelValue-0-clusterSelector"
+      },
+      key
+    );
+    const {
+      localClusterID,
+      onlineClusterID,
+      uniqueClusterID,
+      existingClusterID,
+      existingRuleComboID,
+      labelNameID,
+      labelValueID
+    } = clusterDeploymentCss;
+    cy.log(
+      `existingClusterID=${existingClusterID} existingRuleCombo=${existingRuleComboID} existing=${existing}`
+    );
+    if (existing) {
+      cy.log(`Select to deploy using existing placement ${existing}`);
+      cy
+        .get(existingClusterID, { timeout: 50 * 1000 })
+        .click({ force: true })
+        .trigger("mouseover", { force: true });
+
+      cy.get(existingRuleComboID).within($rules => {
+        cy.get(".pf-c-select__toggle-button").click();
+        cy
+          .get(".pf-c-select__menu-item:first", {
+            timeout: 30 * 1000
+          })
+          .click();
+      });
+
+      cy
+        .get(uniqueClusterID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
+      cy
+        .get(labelNameID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
+      cy
+        .get(labelValueID, {
+          timeout: 30 * 1000
+        })
+        .should("be.disabled");
+    } else if (online) {
+      cy.log("Select to deploy to all online clusters including local cluster");
+      cy
+        .get(onlineClusterID, { timeout: 50 * 1000 })
+        .click({ force: true })
+        .trigger("mouseover", { force: true });
+    } else if (local) {
+      cy.log("Select to deploy to local cluster only");
+      cy
+        .get(localClusterID, { timeout: 50 * 1000 })
+        .click({ force: true })
+        .trigger("mouseover", { force: true });
+    } else {
+      cy.log(
+        "Select Deploy application resources only on clusters matching specified labels, which is the default"
+      );
+      cy.log(`deploying app to cluster-${clusterName}`),
+        selectMatchingLabel(clusterName, key);
+    }
+  } else {
+    throw new Error(
+      "no available imported OCP clusters to deploy applications"
+    );
+  }
+};
+
+export const selectMatchingLabel = (cluster, key) => {
+  const matchingLabelCSS = indexedCSS(
+    {
+      labelName: "#labelName-0-clusterSelector",
+      labelValue: "#labelValue-0-clusterSelector"
+    },
+    key
+  );
+  const { labelName, labelValue } = matchingLabelCSS;
+  cy
+    .get(labelName)
+    .scrollIntoView({ offset: { top: -100, left: 0 } })
+    .type("name"),
+    cy.get(labelValue).type(cluster);
+};
+
+export const verifyYamlTemplate = text => {
+  cy.log(
+    `Verify that the existing placement selection is updated in yaml editor upon editing an application, new value must be ${text}`
+  );
+  cy.get("#template-editor-search-application").type(text);
+  cy
+    .get(".view-lines", { timeout: 20 * 1000 })
+    .invoke("text")
+    .should("contains", text);
 };
 
 /*
@@ -381,13 +501,20 @@ export const getSingleAppClusterTimeDetails = (
 };
 
 export const verifyApplicationData = (name, data, opType) => {
-  cy.log(`Verify application settings for ${name}`);
+  cy.log(`Verify application settings for ${name} opType=${opType}`);
   cy.get(".creation-view-controls-section").within($section => {
     for (const [key, itemConfig] of Object.entries(data.config)) {
       let item = itemConfig;
       if (opType == "add") {
         item = key == 0 ? data.config[1] : data.new[0]; // here we assume first subscription was removed by the delete test and then added a new one
       }
+      if (opType == "delete") {
+        item = key == 0 ? data.config[1] : null; // here we assume first subscription was removed and not added back, so check only second subscription
+      }
+      if (item == null) {
+        continue; //skip deleted subscription
+      }
+
       cy
         .get(".creation-view-group-container")
         .eq(key)
@@ -471,9 +598,31 @@ export const verifyApplicationData = (name, data, opType) => {
             cy
               .get(localClusterId, { timeout: 20 * 1000 })
               .should("not.be.checked");
+
+          if (opType == "delete") {
+            cy.log(
+              "Validate existing subscription can select another placement rule, bug #7359"
+            );
+            cy.get(prSectionId).click(); //close the section, it will be opened again by selectClusterDeployment
+            selectClusterDeployment(
+              {
+                existing: true,
+                local: false,
+                online: false,
+                matchingLabel: false
+              },
+              "",
+              0
+            );
+          }
         });
     }
   });
+
+  if (opType == "delete") {
+    //verify the second subscription can select placement rule 1, bug #7359
+    verifyYamlTemplate(`${name}-placement-1`);
+  }
 };
 
 const convertTimeFormat = time => {
@@ -647,6 +796,65 @@ export const testDefect7080 = () => {
   cy.get("#local-cluster-checkbox").click({ force: true });
 };
 
+//verify that as we select the git api, we get the branch and path information
+export const testGitApiInput = data => {
+  const { config } = data;
+  const { url, branch, path, username, token } = config[0];
+  const gitCss = {
+    gitUrl: "#githubURL",
+    gitUser: "#githubUser",
+    gitKey: "#githubAccessId",
+    gitBranch: "#githubBranch",
+    gitPath: "#githubPath",
+    merge: "#gitReconcileOption",
+    insecureSkipVerify: "#gitInsecureSkipVerify"
+  };
+
+  const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
+
+  cy.visit("/multicloud/applications");
+  // wait for create button to be enabled
+  cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
+  cy.get(".pf-c-title").should("exist");
+
+  cy.log("Select git url");
+  cy
+    .get("#git", { timeout: 20 * 1000 })
+    .click({ force: true })
+    .trigger("mouseover");
+
+  cy
+    .get(gitUrl, { timeout: 20 * 1000 })
+    .type(url, { timeout: 50 * 1000 })
+    .blur();
+  checkExistingUrls(gitUser, username, gitKey, token, url);
+
+  // check branch and path info shows up
+  cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitBranch, { timeout: 50 * 1000 }).click();
+    cy.contains(".tf--list-box__menu-item", new RegExp(`^${branch}$`)).click();
+  } else {
+    cy.log("Nothing to test");
+    cy
+      .get(gitBranch, { timeout: 50 * 1000 })
+      .type(branch, { timeout: 50 * 1000 })
+      .blur();
+  }
+
+  cy.wait(1000);
+  cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
+  if (url.indexOf("github.com") >= 0) {
+    cy.get(gitPath, { timeout: 20 * 1000 }).click();
+    cy.contains(".tf--list-box__menu-item", new RegExp(`^${path}$`)).click();
+  } else {
+    cy
+      .get(gitPath, { timeout: 20 * 1000 })
+      .type(path, { timeout: 30 * 1000 })
+      .blur();
+  }
+};
+
 export const testInvalidApplicationInput = () => {
   const validURL = "http://a.com";
   const invalidValue = "INVALID VALUE";
@@ -655,44 +863,44 @@ export const testInvalidApplicationInput = () => {
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
   cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
-  cy.get(".bx--detail-page-header-title-container").should("exist");
+  cy.get(".pf-c-title").should("exist");
 
   //enter a valid ns
   cy
-    .get("#namespace", { timeout: 50 * 1000 })
+    .get("#emanspace", { timeout: 50 * 1000 })
     .click()
     .clear()
     .type("default")
     .blur();
 
   cy.log("Test invalid name");
-  cy.get("#name", { timeout: 50 * 1000 }).type(invalidValue);
-  cy.get("#name-error-msg").should("exist");
+  cy.get("#eman", { timeout: 50 * 1000 }).type(invalidValue);
+  cy.get("#eman-helper").should("exist");
 
   submitSave(false); //test save error
 
   cy
-    .get("#name", { timeout: 50 * 1000 })
+    .get("#eman", { timeout: 50 * 1000 })
     .clear()
     .type(validValue);
-  cy.get("#name-error-msg").should("not.exist");
+  cy.get("#eman-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid namespace");
   cy
-    .get("#namespace", { timeout: 50 * 1000 })
+    .get("#emanspace", { timeout: 50 * 1000 })
     .type(invalidValue)
     .blur();
-  cy.get("[data-invalid=true]", { timeout: 2 * 1000 }).should("exist");
+  cy.get("#emanspace-helper").should("exist");
   submitSave(false); //test save error
 
   cy
-    .get("#namespace", { timeout: 50 * 1000 })
+    .get("#emanspace", { timeout: 50 * 1000 })
     .click()
     .clear()
     .type("default")
     .blur();
-  cy.get("[data-invalid=true]").should("not.exist");
+  cy.get("#emanspace-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid git url");
@@ -709,10 +917,13 @@ export const testInvalidApplicationInput = () => {
   testDefect7080();
 
   //enter a valid deployment value
-  cy.get("#labelName-0-clusterSelector").type("label");
+  cy
+    .get("#labelName-0-clusterSelector")
+    .scrollIntoView()
+    .type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
 
-  cy.get("[data-invalid=true]").should("exist");
+  cy.get("#githubURL-helper").should("exist");
   cy.wait(1000);
   submitSave(false); //test save error
 
@@ -722,7 +933,7 @@ export const testInvalidApplicationInput = () => {
     .clear()
     .type(validURL)
     .blur();
-  cy.get("[data-invalid=true]").should("not.exist");
+  cy.get("#githubURL-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
   cy
@@ -730,7 +941,7 @@ export const testInvalidApplicationInput = () => {
     .trigger("mouseover")
     .type(invalidValue)
     .blur();
-  cy.get("[data-invalid=true]").should("exist");
+  cy.get("#githubBranch-helper").should("exist");
   cy.wait(2000);
 
   cy
@@ -738,7 +949,7 @@ export const testInvalidApplicationInput = () => {
     .trigger("mouseover")
     .type(validValue)
     .blur();
-  cy.get("[data-invalid=true]").should("not.exist");
+  cy.get("#githubBranch-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
   cy.wait(2000);
 
@@ -758,11 +969,14 @@ export const testInvalidApplicationInput = () => {
     .type(invalidValue)
     .blur();
   //enter a valid deployment value and a chart name
-  cy.get("#labelName-0-clusterSelector").type("label");
+  cy
+    .get("#labelName-0-clusterSelector")
+    .scrollIntoView()
+    .type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
   cy.get("#helmChartName").type("chartName");
 
-  cy.get("[data-invalid=true]").should("exist");
+  cy.get("#helmURL-helper").should("exist");
   cy.wait(1000);
   submitSave(false); //test save error
 
@@ -772,7 +986,7 @@ export const testInvalidApplicationInput = () => {
     .clear()
     .type(validURL)
     .blur();
-  cy.get("[data-invalid=true]").should("not.exist");
+  cy.get("#helmURL-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid object store url");
@@ -790,10 +1004,13 @@ export const testInvalidApplicationInput = () => {
     .type(invalidValue)
     .blur();
   //enter a valid deployment value
-  cy.get("#labelName-0-clusterSelector").type("label");
+  cy
+    .get("#labelName-0-clusterSelector")
+    .scrollIntoView()
+    .type("label");
   cy.get("#labelValue-0-clusterSelector").type("value");
 
-  cy.get("[data-invalid=true]").should("exist");
+  cy.get("#objectstoreURL-helper").should("exist");
   cy.wait(1000);
   submitSave(false); //test save error
 
@@ -803,7 +1020,7 @@ export const testInvalidApplicationInput = () => {
     .clear()
     .type(validURL)
     .blur();
-  cy.get("[data-invalid=true]").should("not.exist");
+  cy.get("#objectstoreURL-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid time window");
@@ -828,6 +1045,9 @@ export const indexedCSS = (cssMap, index) =>
             break;
           case "#channel-repository-types":
             selector = `#channelgrp${index}-repository-types`;
+            break;
+          case "#placementrulecombo-label":
+            selector = `#placementrulecombogrp${index}-label`;
             break;
           default:
             selector = `${cssMap[key]}grp${index}`;
@@ -857,13 +1077,28 @@ export const validateDeployables = data => {
   }
 };
 
+export const validateRbacAlert = () => {
+  const alertMessage =
+    "Danger alert:You are not authorized to complete this action. See " +
+    "your cluster administrator for role-based " +
+    "access control information.";
+  cy
+    .get(".pf-c-alert__title", { timeout: 20 * 1000 })
+    .invoke("text")
+    .should("eq", alertMessage);
+};
+
 export const validateDefect7696 = () => {
   cy.log(
     "verify defect 7696 - resources still show in topology view after moving from Editor tab to Overview"
   );
 
   cy.log("Select Editor tab");
-  cy.get("#editor", { timeout: 20 * 1000 }).click({ force: true });
+  cy
+    .get("[data-ouia-component-id=OUIA-Generated-NavItem-2]", {
+      timeout: 20 * 1000
+    })
+    .click();
 
   cy.log(
     "Verify defect 8055 - Temptifly 0.1.15 no longer shows yaml toggler for app-ui"
@@ -881,7 +1116,11 @@ export const validateDefect7696 = () => {
   cy.log(
     "move back to topology view and check resources still show up - defect 7696"
   );
-  cy.get("#overview", { timeout: 20 * 1000 }).click({ force: true });
+  cy
+    .get("[data-ouia-component-id=OUIA-Generated-NavItem-1]", {
+      timeout: 20 * 1000
+    })
+    .click();
 
   cy.log("Verify deployables show up");
   cy.get("#diagramShapes_pod", { timeout: 30 * 1000 }).should("exist");

@@ -1,24 +1,25 @@
-/** *****************************************************************************
- * Licensed Materials - Property of Red Hat, Inc.
- * Copyright (c) 2020 Red Hat, Inc.
- ****************************************************************************** */
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 /// <reference types="cypress" />
 
 export const targetResource = data => {
   const name = data.name;
   const config = data.config;
+  const clusterName = Cypress.env("managedCluster");
   const kubeconfigs = Cypress.env("KUBE_CONFIG");
   if (kubeconfigs) {
-    kubeconfigs.forEach(kubeconfig => {
-      cy.log(`cluster - ${kubeconfig}`);
-      for (const [key, value] of Object.entries(config)) {
-        cy.log(`instance-${key}`);
-        !value.deployment.local
-          ? subscription(key, name, kubeconfig, "contain")
-          : cy.log(`${name} has been deployed locally`);
-      }
-    });
+    const kubeconfig =
+      kubeconfigs.length > 1
+        ? kubeconfigs.find(kube => kube.includes(clusterName))
+        : kubeconfigs[0];
+    cy.log(`cluster - ${kubeconfig}`);
+    for (const [key, value] of Object.entries(config)) {
+      cy.log(`instance-${key}`);
+      !value.deployment.local
+        ? subscription(key, name, kubeconfig, "contain")
+        : cy.log(`${name} has been deployed locally`);
+    }
   } else {
     cy.log(
       `skipping validating resource on managed cluster as no kubeconfig is provided`
@@ -75,12 +76,14 @@ export const getSavedPathname = () => {
     });
 };
 
-export const channelsInformation = (name, key) => {
+export const channelsInformation = (name, key, namespace = "default") => {
   // Return a Cypress chain with channel name/namespace from subscription
+  namespace == "default" ? (namespace = `${name}-ns`) : namespace;
   return cy
     .exec(
-      `oc -n ${name}-ns get subscription ${name}-subscription-${parseInt(key) +
-        1} -o=jsonpath='{.spec.channel}'`,
+      `oc -n ${namespace} get subscription ${name}-subscription-${parseInt(
+        key
+      ) + 1} -o=jsonpath='{.spec.channel}'`,
       { timeout: 10 * 1000 }
     )
     .then(({ stdout }) => {

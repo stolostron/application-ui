@@ -1,7 +1,5 @@
-/*******************************************************************************
- * Licensed Materials - Property of Red Hat, Inc.
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import {
@@ -32,7 +30,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Edit application validate
             verifyEditAfterNewSubscription(data.name, data);
           });
           if (type === "git" || type === "helm") {
-            it(`[P1][Sev1][app-lifecycle-ui] Verify insecureSkipVerify option in new channel for app ${
+            it(`Verify insecureSkipVerify option in new channel for app ${
               data.name
             } was selected`, () => {
               verifyInsecureSkipAfterNewSubscription(data.name);

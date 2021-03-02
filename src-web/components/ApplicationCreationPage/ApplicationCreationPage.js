@@ -1,13 +1,13 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
-
+ ****************************************************************************** */
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 import React from 'react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
@@ -30,7 +30,6 @@ import { getApplicationResources } from './transformers/transform-data-to-resour
 import config from '../../../lib/shared/config'
 import _ from 'lodash'
 
-
 // include monaco editor
 import TemplateEditor from 'temptifly'
 import 'temptifly/dist/styles.css'
@@ -48,14 +47,14 @@ if (window.monaco) {
       { token: 'number', foreground: 'ace12e' },
       { token: 'type', foreground: '73bcf7' },
       { token: 'string', foreground: 'f0ab00' },
-      { token: 'keyword', foreground: 'cbc0ff' },
+      { token: 'keyword', foreground: 'cbc0ff' }
     ],
     colors: {
       'editor.background': editorBackground.value,
       'editorGutter.background': '#292e34', // no pf token defined
       'editorLineNumber.activeForeground': '#fff',
-      'editorLineNumber.foreground': '#f0f0f0',
-    },
+      'editorLineNumber.foreground': '#f0f0f0'
+    }
   })
 }
 
@@ -65,13 +64,11 @@ window.MonacoEnvironment = {
   }
 }
 
-
 const Portals = Object.freeze({
   editBtn: 'edit-button-portal-id',
   cancelBtn: 'cancel-button-portal-id',
   createBtn: 'create-button-portal-id'
 })
-
 
 resources(() => {
   require('./style.scss')
@@ -231,10 +228,7 @@ class ApplicationCreationPage extends React.Component {
   renderEditor(fetchControl) {
     const { locale } = this.context
     const { controlData, hasPermissions } = this.state
-    const {
-      mutateStatus,
-      mutateErrorMsgs,
-    } = this.props
+    const { mutateStatus, mutateErrorMsgs } = this.props
     const createControl = {
       hasPermissions,
       createResource: this.handleCreate.bind(this),

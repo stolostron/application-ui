@@ -1,11 +1,12 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 
 import R from 'ramda'
@@ -24,8 +25,15 @@ import {
   filterSubscriptionObject,
   getOnlineClusters,
   getClusterHost,
-  getPulseStatusForSubscription
+  getPulseStatusForSubscription,
+  getExistingResourceMapKey,
+  syncControllerRevisionPodStatusMap,
+  fixMissingStateOptions,
+  namespaceMatchTargetServer,
+  setArgoApplicationDeployStatus,
+  getPulseStatusForArgoApp
 } from './diagram-helpers-utils'
+import { getEditLink } from '../../../../lib/client/resource-helper'
 
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
@@ -52,6 +60,7 @@ const failureCode = 0
 const podErrorStates = ['err', 'off', 'invalid', 'kill']
 const podWarningStates = [pendingStatus, 'creating']
 const podSuccessStates = ['run']
+const apiVersionPath = 'specs.raw.apiVersion'
 
 import {
   showAnsibleJobDetails,
@@ -388,6 +397,17 @@ export const getPulseForNodeWithPodStatus = node => {
   if (node.type === 'pod') {
     desired = 1
   }
+  //if desired info is missing use the desired value returned by search
+  if (
+    (desired === 'NA' || desired === 0 || node.type === 'controllerrevision') &&
+    resourceMap &&
+    Object.keys(resourceMap).length > 0
+  ) {
+    desired = resourceMap[Object.keys(resourceMap)[0]].desired
+      ? resourceMap[Object.keys(resourceMap)[0]].desired
+      : 'NA'
+  }
+
   const resourceName = _.get(node, metadataName, '')
   const clusterNames = R.split(',', getClusterName(node.id))
   const clusterObjs = _.get(node, clusterObjsPath, [])
@@ -405,8 +425,10 @@ export const getPulseForNodeWithPodStatus = node => {
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
+    const resourceItem = fixMissingStateOptions(
+      resourceMap[`${resourceName}-${clusterName}`]
+    )
 
-    const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
     const processItem = Object.keys(podList).length === 0 && resourceItem
 
     if (resourceItem && resourceItem.kind === 'daemonset') {
@@ -487,6 +509,7 @@ export const getShapeTypeForSubscription = node => {
 export const computeNodeStatus = node => {
   let pulse = 'green'
   let shapeType = node.type
+  let apiVersion
 
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
@@ -498,10 +521,15 @@ export const computeNodeStatus = node => {
   const isDeployable = isDeployableResource(node)
   switch (node.type) {
   case 'application':
-    if (isDeployable) {
-      pulse = getPulseStatusForGenericNode(node)
-    } else if (!_.get(node, 'specs.channels')) {
-      pulse = 'red'
+    apiVersion = _.get(node, apiVersionPath)
+    if (apiVersion && apiVersion.indexOf('argoproj.io') > -1) {
+      pulse = getPulseStatusForArgoApp(node)
+    } else {
+      if (isDeployable) {
+        pulse = getPulseStatusForGenericNode(node)
+      } else if (!_.get(node, 'specs.channels')) {
+        pulse = 'red'
+      }
     }
     break
   case 'placements':
@@ -531,6 +559,26 @@ export const computeNodeStatus = node => {
   return pulse
 }
 
+export const createEditLink = node => {
+  const kind = _.get(node, 'specs.raw.kind') || _.get(node, 'kind')
+  const apigroup = _.get(node, 'apigroup')
+  const apiversion = _.get(node, 'apiversion')
+  const cluster = _.get(node, 'cluster')
+  let apiVersion = _.get(node, apiVersionPath)
+  if (!apiVersion) {
+    apiVersion =
+      apigroup && apiversion ? apigroup + '/' + apiversion : apiversion
+  }
+
+  return getEditLink({
+    name: _.get(node, 'name'),
+    namespace: _.get(node, 'namespace'),
+    kind: kind ? kind.toLowerCase() : undefined,
+    apiVersion,
+    cluster: cluster ? cluster : undefined
+  })
+}
+
 export const createDeployableYamlLink = (node, details) => {
   //returns yaml for the deployable
   if (
@@ -542,8 +590,8 @@ export const createDeployableYamlLink = (node, details) => {
       'subscription'
     ])
   ) {
-    const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
-    selfLink &&
+    const editLink = createEditLink(node)
+    editLink &&
       details.push({
         type: 'link',
         value: {
@@ -551,7 +599,7 @@ export const createDeployableYamlLink = (node, details) => {
           data: {
             action: showResourceYaml,
             cluster: LOCAL_HUB_NAME,
-            selfLink: selfLink
+            editLink: editLink
           }
         }
       })
@@ -707,22 +755,25 @@ export const getNameWithoutChartRelease = (
   const savedName = name
   const labelAttr = _.get(relatedKind, 'label', '')
   const labels = _.split(labelAttr, ';')
+  const labelMap = {}
   let foundReleaseLabel = false
   labels.forEach(label => {
     const splitLabelContent = _.split(label, '=')
-    if (
-      splitLabelContent.length === 2 &&
-      _.trim(splitLabelContent[0]) === 'release'
-    ) {
-      //get label for release name
-      foundReleaseLabel = true
-      const releaseName = _.trim(splitLabelContent[1])
-      name = _.replace(name, `${releaseName}-`, '')
-      name = _.replace(name, releaseName, '')
 
-      if (name.length === 0) {
-        // release name is used as name, need to strip generated suffix
-        name = removeReleaseGeneratedSuffix(savedName)
+    if (splitLabelContent.length === 2) {
+      const splitLabelTrimmed = _.trim(splitLabelContent[0])
+      labelMap[splitLabelTrimmed] = splitLabelContent[1]
+      if (splitLabelTrimmed === 'release') {
+        //get label for release name
+        foundReleaseLabel = true
+        const releaseName = _.trim(splitLabelContent[1])
+        name = _.replace(name, `${releaseName}-`, '')
+        name = _.replace(name, releaseName, '')
+
+        if (name.length === 0) {
+          // release name is used as name, need to strip generated suffix
+          name = removeReleaseGeneratedSuffix(savedName)
+        }
       }
     }
   })
@@ -747,6 +798,14 @@ export const getNameWithoutChartRelease = (
       //take the last value which is the version
       name = `${resourceNameNoHash}-${values[values.length - 1]}`
     }
+  }
+
+  if (
+    !foundReleaseLabel &&
+    kind !== 'helmrelease' &&
+    labelMap['app.kubernetes.io/name']
+  ) {
+    name = labelMap['app.kubernetes.io/name']
   }
 
   return name
@@ -801,8 +860,17 @@ export const getNameWithoutPodHash = relatedKind => {
     const values = R.split('=')(resLabel)
     if (values.length === 2) {
       const labelKey = values[0].trim()
-      if (labelKey === 'pod-template-hash') {
+      if (
+        labelKey === 'pod-template-hash' ||
+        labelKey === 'controller-revision-hash' ||
+        labelKey === 'controller.kubernetes.io/hash'
+      ) {
         podHash = values[1].trim()
+        if (podHash.indexOf('-') > -1) {
+          // for hashes that include prefix, always take last section
+          const hashValues = R.split('-')(podHash)
+          podHash = hashValues[hashValues.length - 1]
+        }
         nameNoHash = R.replace(`-${podHash}`, '')(nameNoHash)
       }
       if (
@@ -832,6 +900,16 @@ const addResourceToModel = (
   _.set(resourceMapObject, `specs.${kind}Model`, kindModel)
 }
 
+// reduce complexity for code smell
+export const checkNotOrObjects = (obj1, obj2) => {
+  return !obj1 || !obj2
+}
+
+// reduce complexity for code smell
+export const checkAndObjects = (obj1, obj2) => {
+  return obj1 && obj2
+}
+
 //creates a map with all related kinds for this app, not only pod types
 export const setupResourceModel = (
   list,
@@ -839,7 +917,7 @@ export const setupResourceModel = (
   isClusterGrouped,
   isHelmRelease
 ) => {
-  if (!list || !resourceMap) {
+  if (checkNotOrObjects(list, resourceMap)) {
     return resourceMap
   }
   const podIndex = _.findIndex(list, ['kind', 'pod'])
@@ -897,16 +975,27 @@ export const setupResourceModel = (
         name = _.trimEnd(name, '-local')
       }
 
-      if (podHash && resourceMap[`pod-${name}`]) {
+      const existingResourceMapKey = getExistingResourceMapKey(
+        resourceMap,
+        name,
+        relatedKind
+      )
+      if (checkAndObjects(podHash, existingResourceMapKey)) {
         //update resource map key with podHash if the resource has a pod hash ( deployment, replicaset, deploymentconig, etc )
         //this is going to be used to link pods with this parent resource
-        resourceMap[`pod-${podHash}`] = resourceMap[`pod-${name}`]
+        resourceMap[`pod-${podHash}`] = resourceMap[existingResourceMapKey]
+      } else if (checkAndObjects(deployableName, existingResourceMapKey)) {
+        resourceMap[`pod-deploymentconfig-${deployableName}`] =
+          resourceMap[existingResourceMapKey]
       }
 
       let resourceMapForObject = resourceMap[name]
       if (!resourceMapForObject && kind === 'pod' && podHash) {
         //just found a pod object, try to map it to the parent resource using the podHash
         resourceMapForObject = resourceMap[`pod-${podHash}`]
+      } else if (!resourceMapForObject && kind === 'pod' && deployableName) {
+        resourceMapForObject =
+          resourceMap[`pod-deploymentconfig-${deployableName}`]
       }
 
       if (resourceMapForObject) {
@@ -922,14 +1011,15 @@ export const setupResourceModel = (
           resourceMapForObject = resourceMap[key]
           if (
             _.startsWith(key, name) &&
-            _.includes(
+            (_.includes(
               _.get(
                 resourceMapForObject,
                 'clusters.specs.sortedClusterNames',
                 [LOCAL_HUB_NAME] // if no cluster found for this resource, this could be a local deployment
               ),
               _.get(relatedKind, 'cluster')
-            )
+            ) ||
+              namespaceMatchTargetServer(relatedKind, resourceMapForObject))
           ) {
             addResourceToModel(
               resourceMapForObject,
@@ -943,6 +1033,8 @@ export const setupResourceModel = (
     })
   })
 
+  // need to preprocess and sync up podStatusMap for controllerrevision to parent
+  syncControllerRevisionPodStatusMap(resourceMap)
   return resourceMap
 }
 
@@ -1042,6 +1134,11 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       //for service
       addNodeServiceLocation(node, clusterName, details)
 
+      // add apiversion if not exist
+      if (!res.apiversion) {
+        _.assign(res, { apiversion: _.get(node, apiVersionPath) })
+      }
+
       details.push({
         type: 'link',
         value: {
@@ -1049,7 +1146,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
           data: {
             action: showResourceYaml,
             cluster: res.cluster,
-            selfLink: res.selfLink
+            editLink: createEditLink(res)
           }
         },
         indent: true
@@ -1195,7 +1292,7 @@ export const setPodDeployStatus = (
             data: {
               action: showResourceYaml,
               cluster: pod.cluster,
-              selfLink: pod.selfLink
+              editLink: createEditLink(pod)
             }
           },
           indent: true
@@ -1390,7 +1487,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
           data: {
             action: showResourceYaml,
             cluster: subscription.cluster,
-            selfLink: subscription.selfLink
+            editLink: createEditLink(subscription)
           }
         },
         indent: true
@@ -1459,42 +1556,48 @@ export const setApplicationDeployStatus = (node, details) => {
   if (node.type !== 'application') {
     return details
   }
-  addPropertyToList(
-    details,
-    getNodePropery(
-      node,
-      ['specs', 'raw', 'spec', 'selector'],
-      'spec.selector.matchExpressions',
-      msgs.get('spec.selector.matchExpressions.err'),
-      true
+
+  const apiVersion = _.get(node, apiVersionPath)
+  if (apiVersion && apiVersion.indexOf('argoproj.io') > -1) {
+    setArgoApplicationDeployStatus(node, details)
+  } else {
+    addPropertyToList(
+      details,
+      getNodePropery(
+        node,
+        ['specs', 'raw', 'spec', 'selector'],
+        'spec.selector.matchExpressions',
+        msgs.get('spec.selector.matchExpressions.err'),
+        true
+      )
     )
-  )
-
-  details.push({
-    type: 'spacer'
-  })
-
-  //show error if no channel, meaning there is no linked subscription
-  if (!isDeployableResource(node) && !_.get(node, 'specs.channels')) {
-    const appNS = _.get(node, metadataNamespace, 'NA')
 
     details.push({
-      labelKey: 'resource.rule.clusters.error.label',
-      value: msgs.get('resource.application.error.msg', [appNS]),
-      status: failureStatus
+      type: 'spacer'
     })
-    const subscrSearchLink = `/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get('props.show.yaml.subscr.ns', [appNS]),
-        id: `${node.id}-subscrSearch`,
-        data: {
-          action: 'open_link',
-          targetLink: subscrSearchLink
+
+    //show error if no channel, meaning there is no linked subscription
+    if (!isDeployableResource(node) && !_.get(node, 'specs.channels')) {
+      const appNS = _.get(node, metadataNamespace, 'NA')
+
+      details.push({
+        labelKey: 'resource.rule.clusters.error.label',
+        value: msgs.get('resource.application.error.msg', [appNS]),
+        status: failureStatus
+      })
+      const subscrSearchLink = `/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3A${LOCAL_HUB_NAME}"}`
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get('props.show.yaml.subscr.ns', [appNS]),
+          id: `${node.id}-subscrSearch`,
+          data: {
+            action: 'open_link',
+            targetLink: subscrSearchLink
+          }
         }
-      }
-    })
+      })
+    }
   }
 
   return details
@@ -1579,6 +1682,7 @@ export const addNodeOCPRouteLocationForCluster = (
     : 'http'
   hostLink = `${transport}://${hostName}/`
 
+  //argo app doesn't have spec info
   details.push({
     type: 'link',
     value: {
@@ -1689,6 +1793,7 @@ export const addNodeInfoPerCluster = (
 ) => {
   const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
+
   const locationDetails = []
   const typeObject = resourceMap[`${resourceName}-${clusterName}`]
 
@@ -1721,14 +1826,11 @@ export const addNodeServiceLocationForCluster = (node, typeObject, details) => {
 export const processResourceActionLink = resource => {
   let targetLink = ''
   const linkPath = R.pathOr('', ['action'])(resource)
-  const { name, namespace, cluster, selfLink, kind } = resource
+  const { name, namespace, editLink, kind } = resource
   const nsData = namespace ? ` namespace:${namespace}` : ''
   switch (linkPath) {
-  case 'show_pod_log':
-    targetLink = `/resources/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
-    break
   case showResourceYaml:
-    targetLink = `/resources/${cluster}${selfLink}`
+    targetLink = editLink
     break
   case 'show_search':
     targetLink = `/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`

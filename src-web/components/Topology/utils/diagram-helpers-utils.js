@@ -1,11 +1,12 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 import R from 'ramda'
 import _ from 'lodash'
@@ -15,6 +16,12 @@ const checkmarkCode = 3
 const warningCode = 2
 const pendingCode = 1
 const failureCode = 0
+const checkmarkStatus = 'checkmark'
+const warningStatus = 'warning'
+const pendingStatus = 'pending'
+const failureStatus = 'failure'
+const pulseValueArr = ['red', 'orange', 'yellow', 'green']
+const metadataName = 'metadata.name'
 
 export const isDeployableResource = node => {
   //check if this node has been created using a deployable object
@@ -41,7 +48,8 @@ export const nodeMustHavePods = node => {
       'statefulset',
       'replicationcontroller',
       'deployment',
-      'deploymentconfig'
+      'deploymentconfig',
+      'controllerrevision'
     ])
   ) {
     //pod deployables must have pods
@@ -76,9 +84,8 @@ export const getClusterName = nodeId => {
   if (clusterIndex !== -1) {
     const startPos = nodeId.indexOf('--clusters--') + 12
     const endPos = nodeId.indexOf('--', startPos)
-    return nodeId.slice(startPos, endPos)
+    return nodeId.slice(startPos, endPos > 0 ? endPos : nodeId.length)
   }
-
   //node must be deployed locally on hub, such as ansible jobs
   return LOCAL_HUB_NAME
 }
@@ -149,7 +156,7 @@ export const getOnlineClusters = (clusterNames, clusterObjs) => {
       return
     }
     for (let i = 0; i < clusterObjs.length; i++) {
-      const clusterObjName = _.get(clusterObjs[i], 'metadata.name')
+      const clusterObjName = _.get(clusterObjs[i], metadataName)
       if (clusterObjName === clsName.trim()) {
         if (
           clusterObjs[i].status === 'ok' ||
@@ -166,6 +173,9 @@ export const getOnlineClusters = (clusterNames, clusterObjs) => {
 }
 
 export const getClusterHost = consoleURL => {
+  if (!consoleURL) {
+    return ''
+  }
   const consoleURLInstance = new URL(consoleURL)
   const ocpIdx = consoleURL ? consoleURLInstance.host.indexOf('.') : -1
   if (ocpIdx < 0) {
@@ -207,4 +217,181 @@ export const getPulseStatusForSubscription = node => {
   }
 
   return pulse
+}
+
+export const getExistingResourceMapKey = (resourceMap, name, relatedKind) => {
+  const keys = Object.keys(resourceMap)
+
+  let i
+  for (i = 0; i < keys.length; i++) {
+    if (
+      keys[i].indexOf(name) > -1 &&
+      keys[i].indexOf(relatedKind.cluster) > -1
+    ) {
+      return keys[i]
+    }
+  }
+
+  return null
+}
+
+// The controllerrevision resource doesn't contain any desired pod count so
+// we need to get it from the parent; either a daemonset or statefulset
+export const syncControllerRevisionPodStatusMap = resourceMap => {
+  Object.keys(resourceMap).forEach(resourceName => {
+    if (resourceName.startsWith('controllerrevision-')) {
+      const controllerRevision = resourceMap[resourceName]
+      const parentName = _.get(
+        controllerRevision,
+        'specs.parent.parentName',
+        ''
+      )
+      const parentType = _.get(
+        controllerRevision,
+        'specs.parent.parentType',
+        ''
+      )
+      const parentId = _.get(controllerRevision, 'specs.parent.parentId', '')
+      const clusterName = getClusterName(parentId)
+      const parentResource =
+        resourceMap[`${parentType}-${parentName}-${clusterName}`]
+      const parentModel = {
+        ..._.get(parentResource, `specs.${parentResource.type}Model`, '')
+      }
+
+      if (parentModel) {
+        _.set(controllerRevision, 'specs.controllerrevisionModel', parentModel)
+      }
+    }
+  })
+}
+
+//for items with pods and not getting ready or available state, default those values to the current state
+//this is a workaround for defect 8935, search doesn't return ready and available state for resources such as StatefulSets
+export const fixMissingStateOptions = item => {
+  if (item) {
+    if (_.get(item, 'available') === undefined) {
+      item.available = item.current //default to current state
+    }
+    if (_.get(item, 'ready') === undefined) {
+      item.ready = item.current //default to current state
+    }
+  }
+  return item
+}
+
+//last attempt to match the resource namespace with the server target namespace ( argo )
+export const namespaceMatchTargetServer = (
+  relatedKind,
+  resourceMapForObject
+) => {
+  const namespace = _.get(relatedKind, 'namespace', '')
+  const findTargetClustersByNS = _.filter(
+    _.get(resourceMapForObject, 'clusters.specs.clusters', []),
+    filtertype => _.get(filtertype, 'destination.namespace', '') === namespace
+  )
+  //fix up the cluster on this object
+  if (findTargetClustersByNS.length > 0) {
+    relatedKind.cluster = _.get(findTargetClustersByNS[0], metadataName, '')
+  }
+  return findTargetClustersByNS.length > 0
+}
+
+export const setArgoApplicationDeployStatus = (node, details) => {
+  const appLink = _.get(node, 'specs.raw.spec.appURL')
+  const linkId = _.get(node, 'uid')
+  const relatedArgoApps = _.get(node, 'specs.apps')
+
+  details.push({
+    type: 'link',
+    value: {
+      label: appLink,
+      id: `${linkId}-location`,
+      data: {
+        action: 'open_link',
+        targetLink: appLink
+      }
+    },
+    indent: true
+  })
+
+  details.push({
+    type: 'spacer'
+  })
+  // related Argo apps
+  details.push({
+    type: 'label',
+    labelKey: 'resource.related.apps'
+  })
+
+  details.push({
+    type: 'spacer'
+  })
+  relatedArgoApps.forEach(app => {
+    const relatedAppName = _.get(app, metadataName)
+    const relatedLinkId = `application--${relatedAppName}`
+    const relatedAppHealth = _.get(app, 'status.health.status')
+    const relatedAppLink = _.get(app, 'spec.appURL')
+
+    const statusStr = getStatusForArgoApp(relatedAppHealth)
+
+    details.push({
+      labelKey: 'resource.name',
+      value: relatedAppName,
+      status: statusStr
+    })
+
+    details.push({
+      type: 'link',
+      value: {
+        label: relatedAppLink,
+        id: `${relatedLinkId}-location`,
+        data: {
+          action: 'open_link',
+          targetLink: relatedAppLink
+        }
+      },
+      indent: true
+    })
+  })
+}
+
+export const getStatusForArgoApp = healthStatus => {
+  if (healthStatus === 'Healthy') {
+    return checkmarkStatus
+  }
+  if (healthStatus === 'Progressing') {
+    return pendingStatus
+  }
+  if (healthStatus === 'Unknown') {
+    return failureStatus
+  }
+  return warningStatus
+}
+
+export const translateArgoHealthStatus = healthStatus => {
+  if (healthStatus === 'Healthy') {
+    return 3
+  }
+  if (healthStatus === 'Progressing') {
+    return 1
+  }
+  if (healthStatus === 'Unknown') {
+    return 0
+  }
+  return 2
+}
+
+export const getPulseStatusForArgoApp = node => {
+  const appHealth = _.get(node, 'specs.raw.status.health.status')
+  const healthArr = [translateArgoHealthStatus(appHealth)]
+  const relatedApps = _.get(node, 'specs.apps')
+
+  relatedApps.forEach(app => {
+    const relatedAppHealth = _.get(app, 'status.health.status')
+    healthArr.push(translateArgoHealthStatus(relatedAppHealth))
+  })
+
+  const minPulse = Math.min.apply(null, healthArr)
+  return pulseValueArr[minPulse]
 }

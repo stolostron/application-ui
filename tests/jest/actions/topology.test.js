@@ -1,6 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 "use strict";
 
 import {
@@ -211,8 +210,10 @@ describe("topology actions", () => {
       }
     ];
     const expectedValue = {
+      isArgoApp: false,
       relatedKinds: ["application", "subscription", "route"],
-      subscription: "subs1"
+      subscription: "subs1",
+      targetNamespaces: []
     };
 
     expect(getResourceData(nodes)).toEqual(expectedValue);
@@ -234,8 +235,10 @@ describe("topology actions", () => {
       }
     ];
     const expectedValue = {
+      isArgoApp: false,
       relatedKinds: ["application", "subscription", "deployment", "pod"],
-      subscription: "subs1"
+      subscription: "subs1",
+      targetNamespaces: []
     };
 
     expect(getResourceData(nodes)).toEqual(expectedValue);
@@ -261,8 +264,10 @@ describe("topology actions", () => {
       }
     ];
     const expectedValue = {
+      isArgoApp: false,
       relatedKinds: ["application", "subscription", "route"],
-      subscription: null
+      subscription: null,
+      targetNamespaces: []
     };
 
     expect(getResourceData(nodes)).toEqual(expectedValue);

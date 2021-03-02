@@ -1,12 +1,13 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2020. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+ ****************************************************************************** */
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 /// <reference types="cypress" />
 // ***********************************************************
@@ -85,13 +86,12 @@ module.exports = (on, config) => {
     }
   });
 
-
-  on("task",{
-    readFileMaybe (filename) {
+  on("task", {
+    readFileMaybe(filename) {
       if (fs.existsSync(filename)) {
-        return fs.readFileSync(filename, 'utf8')
+        return fs.readFileSync(filename, "utf8");
       }
-      return false
+      return false;
     }
   });
 

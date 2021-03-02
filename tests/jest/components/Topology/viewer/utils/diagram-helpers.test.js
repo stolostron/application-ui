@@ -1,6 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 "use strict";
 
 import {
@@ -28,7 +27,9 @@ import {
   getPodState,
   getNameWithoutChartRelease,
   removeReleaseGeneratedSuffix,
-  getPulseStatusForCluster
+  getPulseStatusForCluster,
+  checkNotOrObjects,
+  checkAndObjects
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const ansibleSuccess = {
@@ -363,6 +364,217 @@ describe("getPulseForNodeWithPodStatus ", () => {
   });
 });
 
+describe("getPulseForNodeWithPodStatus controllerrevision type", () => {
+  const podItem = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--controllerrevision--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--controllerrevision--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    type: "controllerrevision",
+    specs: {
+      podModel: {
+        "mortgage-app-deploy-55c65b9c8f-6v9bn": {
+          cluster: "feng",
+          hostIP: "1.1.1.1",
+          status: "Error",
+          startedAt: "2020-04-20T22:03:52Z",
+          restarts: 0,
+          podIP: "1.1.1.1"
+        }
+      },
+      controllerrevisionModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 2,
+          desired: 3,
+          unavailable: 1
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      raw: {
+        apiVersion: "apps/v1",
+        kind: "ControllerRevision",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          replicas: 1,
+          selector: {
+            matchLabels: { app: "mortgage-app-mortgage" }
+          },
+          template: {
+            metadata: {
+              labels: { app: "mortgage-app-mortgage" }
+            },
+            spec: {
+              containers: [
+                {
+                  image: "fxiang/mortgage:0.4.0",
+                  imagePullPolicy: "Always",
+                  name: "mortgage-app-mortgage",
+                  ports: [
+                    {
+                      containerPort: 9080
+                    }
+                  ],
+                  resources: {
+                    limits: { cpu: "200m", memory: "256Mi" },
+                    request: { cpu: "200m", memory: "256Mi" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      deployStatuses: [
+        {
+          phase: "Subscribed",
+          resourceStatus: {
+            availableReplicas: 1
+          }
+        }
+      ]
+    }
+  };
+
+  it("getPulseForNodeWithPodStatus pulse red controllerrevision type", () => {
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("red");
+  });
+});
+
+describe("getPulseForNodeWithPodStatus controllerrevision type no desired", () => {
+  const podItem = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--controllerrevision--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--controllerrevision--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "feng"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster1"
+            },
+            status: "ok"
+          },
+          {
+            metadata: {
+              name: "cluster2"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    },
+    type: "controllerrevision",
+    specs: {
+      podModel: {
+        "mortgage-app-deploy-55c65b9c8f-6v9bn": {
+          cluster: "feng",
+          hostIP: "1.1.1.1",
+          status: "Error",
+          startedAt: "2020-04-20T22:03:52Z",
+          restarts: 0,
+          podIP: "1.1.1.1"
+        }
+      },
+      controllerrevisionModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 2,
+          unavailable: 1
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      raw: {
+        apiVersion: "apps/v1",
+        kind: "ControllerRevision",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          replicas: 1,
+          selector: {
+            matchLabels: { app: "mortgage-app-mortgage" }
+          },
+          template: {
+            metadata: {
+              labels: { app: "mortgage-app-mortgage" }
+            },
+            spec: {
+              containers: [
+                {
+                  image: "fxiang/mortgage:0.4.0",
+                  imagePullPolicy: "Always",
+                  name: "mortgage-app-mortgage",
+                  ports: [
+                    {
+                      containerPort: 9080
+                    }
+                  ],
+                  resources: {
+                    limits: { cpu: "200m", memory: "256Mi" },
+                    request: { cpu: "200m", memory: "256Mi" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      deployStatuses: [
+        {
+          phase: "Subscribed",
+          resourceStatus: {
+            availableReplicas: 1
+          }
+        }
+      ]
+    }
+  };
+
+  it("getPulseForNodeWithPodStatus pulse red controllerrevision type no desired", () => {
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("red");
+  });
+});
+
 describe("getPulseForNodeWithPodStatus no replica", () => {
   const podItem = {
     id:
@@ -453,7 +665,7 @@ describe("getPulseForNodeWithPodStatus no replica", () => {
   };
 
   it("getPulseForNodeWithPodStatus pulse no replica", () => {
-    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("red");
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("yellow");
   });
 });
 
@@ -752,21 +964,43 @@ describe("createDeployableYamlLink for application no selflink", () => {
   const details = [];
   const node = {
     type: "application",
+    name: "test-1",
+    namespace: "test-1-ns",
     id: "id",
     specs: {
-      row: 20
+      row: 20,
+      raw: {
+        kind: "Application"
+      }
     }
   };
-  it("createDeployableYamlLink for application selflink", () => {
-    expect(createDeployableYamlLink(node, details)).toEqual([]);
+  it("createDeployableYamlLink for application editLink", () => {
+    expect(createDeployableYamlLink(node, details)).toEqual([
+      {
+        type: "link",
+        value: {
+          data: {
+            action: "show_resource_yaml",
+            cluster: "local-cluster",
+            editLink:
+              "/resources?cluster=local-cluster&kind=application&name=test-1&namespace=test-1-ns"
+          },
+          label: "View Resource YAML"
+        }
+      }
+    ]);
   });
 });
 
-describe("createDeployableYamlLink for application with selflink", () => {
+describe("createDeployableYamlLink for application with editLink", () => {
   const details = [];
   const node = {
     type: "application",
     id: "id",
+    name: "test",
+    namespace: "test-ns",
+    apiversion: "app.k8s.io/v1beta1",
+    kind: "Application",
     specs: {
       raw: {
         metadata: {
@@ -782,7 +1016,8 @@ describe("createDeployableYamlLink for application with selflink", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local-cluster",
-          selfLink: "appLink"
+          editLink:
+            "/resources?apiversion=app.k8s.io%2Fv1beta1&cluster=local-cluster&kind=application&name=test&namespace=test-ns"
         },
         label: "View Resource YAML"
       }
@@ -1022,6 +1257,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
     type: "subscription",
     name: "name",
     namespace: "ns",
+    apiversion: "apps.open-cluster-management.io/v1",
     specs: {
       subscriptionModel: {
         sub1: {
@@ -1031,12 +1267,16 @@ describe("setSubscriptionDeployStatus with time window ", () => {
         }
       },
       raw: {
+        apiversion: "apps.open-cluster-management.io/v1",
+        kind: "Subscription",
         status: {
           message: " local:Blocked, other: Active"
         },
         spec: {
           placement: {
-            local: true
+            local: true,
+            apiversion: "apps.open-cluster-management.io/v1",
+            kind: "Subscription"
           },
           timewindow: {
             location: "America/Toronto",
@@ -1067,7 +1307,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: undefined
+          editLink: "/resources?cluster=local"
         },
         label: "View Resource YAML"
       }
@@ -1083,8 +1323,10 @@ describe("setSubscriptionDeployStatus with time window ", () => {
 describe("setSubscriptionDeployStatus with local hub subscription error ", () => {
   const node = {
     type: "subscription",
+    kind: "Subscription",
     name: "name",
     namespace: "ns",
+    apiversion: "test",
     specs: {
       subscriptionModel: {
         sub1: {
@@ -1094,6 +1336,7 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
         }
       },
       raw: {
+        apiVersion: "test",
         spec: {
           placement: {
             local: true
@@ -1115,7 +1358,7 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: undefined
+          editLink: "/resources?cluster=local"
         },
         label: "View Resource YAML"
       }
@@ -1154,7 +1397,7 @@ describe("setSubscriptionDeployStatus with hub error", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: undefined
+          editLink: "/resources?cluster=local"
         },
         label: "View Resource YAML"
       }
@@ -1234,7 +1477,7 @@ describe("setSubscriptionDeployStatus with error", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: undefined
+          editLink: "/resources?cluster=local"
         },
         label: "View Resource YAML"
       }
@@ -1278,7 +1521,7 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "local",
-          selfLink: undefined
+          editLink: "/resources?cluster=local"
         },
         label: "View Resource YAML"
       }
@@ -1326,7 +1569,7 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "remote1",
-          selfLink: undefined
+          editLink: "/resources?cluster=remote1"
         },
         label: "View Resource YAML"
       }
@@ -1666,7 +1909,7 @@ describe("computeNodeStatus ", () => {
     }
   };
 
-  const deploymentNodeRed = {
+  const deploymentNodeYellow3 = {
     id:
       "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
     uid:
@@ -1711,7 +1954,7 @@ describe("computeNodeStatus ", () => {
     }
   };
 
-  const deploymentNodeRed2 = {
+  const deploymentNodeYellow4 = {
     id:
       "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
     uid:
@@ -2678,11 +2921,11 @@ describe("computeNodeStatus ", () => {
   it("return computeNodeStatus deploymentNodeYellow", () => {
     expect(computeNodeStatus(deploymentNodeYellow)).toEqual("yellow");
   });
-  it("return computeNodeStatus deploymentNodeRed", () => {
-    expect(computeNodeStatus(deploymentNodeRed)).toEqual("red");
+  it("return computeNodeStatus deploymentNodeYellow3", () => {
+    expect(computeNodeStatus(deploymentNodeYellow3)).toEqual("yellow");
   });
-  it("return computeNodeStatus deploymentNodeRed2", () => {
-    expect(computeNodeStatus(deploymentNodeRed2)).toEqual("red");
+  it("return computeNodeStatus deploymentNodeYellow4", () => {
+    expect(computeNodeStatus(deploymentNodeYellow4)).toEqual("yellow");
   });
   it("return computeNodeStatus deploymentNodeYellow2", () => {
     expect(computeNodeStatus(deploymentNodeYellow2)).toEqual("yellow");
@@ -2891,7 +3134,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
         data: {
           action: "show_resource_yaml",
           cluster: undefined,
-          selfLink: undefined
+          editLink: "/resources?cluster=local-cluster"
         },
         label: "View Resource YAML"
       }
@@ -2961,7 +3204,8 @@ describe("setResourceDeployStatus 2 ", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          editLink:
+            "/resources?cluster=possiblereptile&kind=service&name=mortgage-app-svc&namespace=default"
         },
         label: "View Resource YAML"
       }
@@ -3027,7 +3271,8 @@ describe("setResourceDeployStatus 2 with filter green", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          editLink:
+            "/resources?cluster=possiblereptile&kind=service&name=mortgage-app-svc&namespace=default"
         },
         label: "View Resource YAML"
       }
@@ -3470,7 +3715,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          editLink: "/resources?cluster=possiblereptile"
         },
         label: "View Pod YAML and Logs"
       }
@@ -3626,7 +3871,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          editLink: "/resources?cluster=possiblereptile"
         },
         label: "View Pod YAML and Logs"
       }
@@ -3671,7 +3916,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          editLink: "/resources?cluster=possiblereptile"
         },
         label: "View Pod YAML and Logs"
       }
@@ -3734,6 +3979,8 @@ describe("setPodDeployStatus - pod as desired with green filter", () => {
     },
     specs: {
       raw: {
+        kind: "Pod",
+        apiVersion: "v1",
         spec: {
           template: {
             spec: {
@@ -3787,7 +4034,7 @@ describe("setPodDeployStatus - pod as desired with green filter", () => {
         data: {
           action: "show_resource_yaml",
           cluster: "possiblereptile",
-          selfLink: undefined
+          editLink: "/resources?cluster=possiblereptile"
         },
         label: "View Pod YAML and Logs"
       }
@@ -4536,26 +4783,13 @@ describe("processResourceActionLink openRemoteresourceYaml", () => {
   const openRemoteresourceYaml = {
     action: "show_resource_yaml",
     cluster: "possiblereptile",
-    selfLink: "/api/v1/namespaces/open-cluster-management/services/frontend"
+    editLink:
+      "/resources?cluster=possiblereptile&apiversion=abc&kind=Application&name=ui-git&namespace=ns-123"
   };
   const result =
-    "/resources/possiblereptile/api/v1/namespaces/open-cluster-management/services/frontend";
+    "/resources?cluster=possiblereptile&apiversion=abc&kind=Application&name=ui-git&namespace=ns-123";
   it("processResourceActionLink openRemoteresourceYaml", () => {
     expect(processResourceActionLink(openRemoteresourceYaml)).toEqual(result);
-  });
-});
-
-describe("processResourceActionLink openPodLog", () => {
-  const openPodLog = {
-    action: "show_pod_log",
-    cluster: "braveman",
-    name: "frontend-6cb7f8bd65-8d9x2",
-    namespace: "open-cluster-management"
-  };
-  const result =
-    "/resources/braveman/api/v1/namespaces/open-cluster-management/pods/frontend-6cb7f8bd65-8d9x2/logs";
-  it("processResourceActionLink openPodLog", () => {
-    expect(processResourceActionLink(openPodLog)).toEqual(result);
   });
 });
 
@@ -4725,5 +4959,33 @@ describe("getPulseStatusForCluster all some ok", () => {
   };
   it("should process cluster node", () => {
     expect(getPulseStatusForCluster(clusterNode)).toEqual("yellow");
+  });
+});
+
+describe("checkNotOrObjects", () => {
+  const definedObj1 = {};
+  const definedObj2 = {};
+  const undefinedObj = undefined;
+
+  it("should return false", () => {
+    expect(checkNotOrObjects(definedObj1, definedObj2)).toEqual(false);
+  });
+
+  it("should return true", () => {
+    expect(checkNotOrObjects(definedObj1, undefinedObj)).toEqual(true);
+  });
+});
+
+describe("checkAndObjects", () => {
+  const definedObj1 = { name: "mortgage" };
+  const definedObj2 = { name: "mortgage" };
+  const undefinedObj = undefined;
+
+  it("should check objects", () => {
+    expect(checkAndObjects(definedObj1, undefinedObj)).toEqual(undefinedObj);
+  });
+
+  it("should check objects", () => {
+    expect(checkAndObjects(definedObj1, definedObj2)).toEqual(definedObj1);
   });
 });

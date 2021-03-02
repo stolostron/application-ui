@@ -223,7 +223,7 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
               isOpen={true}
               onClose={[Function]}
               position="top"
-              positionOffset="200px"
+              positionOffset="225px"
               showClose={true}
               title="Delete application"
               variant="large"
@@ -257,7 +257,7 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                 onClose={[Function]}
                 ouiaSafe={true}
                 position="top"
-                positionOffset="200px"
+                positionOffset="225px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -339,6 +339,7 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                                     data-ouia-component-id="OUIA-Generated-Card-3"
                                     data-ouia-component-type="PF4/Card"
                                     data-ouia-safe="true"
+                                    id=""
                                   >
                                     <div
                                       class="pf-c-card__body"
@@ -368,11 +369,21 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                                               />
                                             </span>
                                           </div>
-                                          <h4
-                                            class="pf-c-title pf-m-lg"
+                                          <div
+                                            class="makeStyles-max-1"
                                           >
-                                            Loading
-                                          </h4>
+                                            <h4
+                                              class="pf-c-title pf-m-lg"
+                                            >
+                                              Loading
+                                            </h4>
+                                            <div
+                                              class="pf-c-empty-state__body"
+                                            />
+                                          </div>
+                                          <div
+                                            class="pf-c-empty-state__secondary"
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -443,7 +454,7 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                     ouiaId="OUIA-Generated-Modal-large-3"
                     ouiaSafe={true}
                     position="top"
-                    positionOffset="200px"
+                    positionOffset="225px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -463,6 +474,7 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                             }
                           }
                           paused={false}
+                          preventScrollOnDeactivate={false}
                         >
                           <div
                             className="pf-l-bullseye"
@@ -477,10 +489,10 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                               data-ouia-safe={true}
                               id="remove-resource-modal"
                               position="top"
-                              positionOffset="200px"
+                              positionOffset="225px"
                               style={
                                 Object {
-                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  "--pf-c-modal-box--m-align-top--spacer": "225px",
                                 }
                               }
                               variant="large"
@@ -498,7 +510,7 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                                 role="dialog"
                                 style={
                                   Object {
-                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                    "--pf-c-modal-box--m-align-top--spacer": "225px",
                                   }
                                 }
                               >
@@ -598,6 +610,7 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                                                   data-ouia-component-id="OUIA-Generated-Card-3"
                                                   data-ouia-component-type="PF4/Card"
                                                   data-ouia-safe={true}
+                                                  id=""
                                                 >
                                                   <CardBody>
                                                     <div
@@ -636,16 +649,30 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                                                                 </Spinner>
                                                               </div>
                                                             </EmptyStateIcon>
-                                                            <Title
-                                                              headingLevel="h4"
-                                                              size="lg"
+                                                            <div
+                                                              className="makeStyles-max-1"
                                                             >
-                                                              <h4
-                                                                className="pf-c-title pf-m-lg"
+                                                              <Title
+                                                                headingLevel="h4"
+                                                                size="lg"
                                                               >
-                                                                Loading
-                                                              </h4>
-                                                            </Title>
+                                                                <h4
+                                                                  className="pf-c-title pf-m-lg"
+                                                                >
+                                                                  Loading
+                                                                </h4>
+                                                              </Title>
+                                                              <EmptyStateBody>
+                                                                <div
+                                                                  className="pf-c-empty-state__body"
+                                                                />
+                                                              </EmptyStateBody>
+                                                            </div>
+                                                            <EmptyStateSecondaryActions>
+                                                              <div
+                                                                className="pf-c-empty-state__secondary"
+                                                              />
+                                                            </EmptyStateSecondaryActions>
                                                           </div>
                                                         </div>
                                                       </EmptyState>
@@ -907,7 +934,7 @@ exports[`RemoveResourceModal test renders as expected child application with war
               isOpen={true}
               onClose={[Function]}
               position="top"
-              positionOffset="200px"
+              positionOffset="225px"
               showClose={true}
               title="Delete application"
               variant="large"
@@ -941,7 +968,7 @@ exports[`RemoveResourceModal test renders as expected child application with war
                 onClose={[Function]}
                 ouiaSafe={true}
                 position="top"
-                positionOffset="200px"
+                positionOffset="225px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -1023,6 +1050,7 @@ exports[`RemoveResourceModal test renders as expected child application with war
                                     data-ouia-component-id="OUIA-Generated-Card-5"
                                     data-ouia-component-type="PF4/Card"
                                     data-ouia-safe="true"
+                                    id=""
                                   >
                                     <div
                                       class="pf-c-card__body"
@@ -1052,11 +1080,21 @@ exports[`RemoveResourceModal test renders as expected child application with war
                                               />
                                             </span>
                                           </div>
-                                          <h4
-                                            class="pf-c-title pf-m-lg"
+                                          <div
+                                            class="makeStyles-max-1"
                                           >
-                                            Loading
-                                          </h4>
+                                            <h4
+                                              class="pf-c-title pf-m-lg"
+                                            >
+                                              Loading
+                                            </h4>
+                                            <div
+                                              class="pf-c-empty-state__body"
+                                            />
+                                          </div>
+                                          <div
+                                            class="pf-c-empty-state__secondary"
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -1127,7 +1165,7 @@ exports[`RemoveResourceModal test renders as expected child application with war
                     ouiaId="OUIA-Generated-Modal-large-5"
                     ouiaSafe={true}
                     position="top"
-                    positionOffset="200px"
+                    positionOffset="225px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -1147,6 +1185,7 @@ exports[`RemoveResourceModal test renders as expected child application with war
                             }
                           }
                           paused={false}
+                          preventScrollOnDeactivate={false}
                         >
                           <div
                             className="pf-l-bullseye"
@@ -1161,10 +1200,10 @@ exports[`RemoveResourceModal test renders as expected child application with war
                               data-ouia-safe={true}
                               id="remove-resource-modal"
                               position="top"
-                              positionOffset="200px"
+                              positionOffset="225px"
                               style={
                                 Object {
-                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  "--pf-c-modal-box--m-align-top--spacer": "225px",
                                 }
                               }
                               variant="large"
@@ -1182,7 +1221,7 @@ exports[`RemoveResourceModal test renders as expected child application with war
                                 role="dialog"
                                 style={
                                   Object {
-                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                    "--pf-c-modal-box--m-align-top--spacer": "225px",
                                   }
                                 }
                               >
@@ -1282,6 +1321,7 @@ exports[`RemoveResourceModal test renders as expected child application with war
                                                   data-ouia-component-id="OUIA-Generated-Card-5"
                                                   data-ouia-component-type="PF4/Card"
                                                   data-ouia-safe={true}
+                                                  id=""
                                                 >
                                                   <CardBody>
                                                     <div
@@ -1320,16 +1360,30 @@ exports[`RemoveResourceModal test renders as expected child application with war
                                                                 </Spinner>
                                                               </div>
                                                             </EmptyStateIcon>
-                                                            <Title
-                                                              headingLevel="h4"
-                                                              size="lg"
+                                                            <div
+                                                              className="makeStyles-max-1"
                                                             >
-                                                              <h4
-                                                                className="pf-c-title pf-m-lg"
+                                                              <Title
+                                                                headingLevel="h4"
+                                                                size="lg"
                                                               >
-                                                                Loading
-                                                              </h4>
-                                                            </Title>
+                                                                <h4
+                                                                  className="pf-c-title pf-m-lg"
+                                                                >
+                                                                  Loading
+                                                                </h4>
+                                                              </Title>
+                                                              <EmptyStateBody>
+                                                                <div
+                                                                  className="pf-c-empty-state__body"
+                                                                />
+                                                              </EmptyStateBody>
+                                                            </div>
+                                                            <EmptyStateSecondaryActions>
+                                                              <div
+                                                                className="pf-c-empty-state__secondary"
+                                                              />
+                                                            </EmptyStateSecondaryActions>
                                                           </div>
                                                         </div>
                                                       </EmptyState>
@@ -1621,7 +1675,7 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
               isOpen={true}
               onClose={[Function]}
               position="top"
-              positionOffset="200px"
+              positionOffset="225px"
               showClose={true}
               variant="large"
             >
@@ -1652,7 +1706,7 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                 onClose={[Function]}
                 ouiaSafe={true}
                 position="top"
-                positionOffset="200px"
+                positionOffset="225px"
                 showClose={true}
                 title=""
                 titleIconVariant={null}
@@ -1718,6 +1772,7 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                                     data-ouia-component-id="OUIA-Generated-Card-4"
                                     data-ouia-component-type="PF4/Card"
                                     data-ouia-safe="true"
+                                    id=""
                                   >
                                     <div
                                       class="pf-c-card__body"
@@ -1747,11 +1802,21 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                                               />
                                             </span>
                                           </div>
-                                          <h4
-                                            class="pf-c-title pf-m-lg"
+                                          <div
+                                            class="makeStyles-max-1"
                                           >
-                                            Loading
-                                          </h4>
+                                            <h4
+                                              class="pf-c-title pf-m-lg"
+                                            >
+                                              Loading
+                                            </h4>
+                                            <div
+                                              class="pf-c-empty-state__body"
+                                            />
+                                          </div>
+                                          <div
+                                            class="pf-c-empty-state__secondary"
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -1818,7 +1883,7 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                     ouiaId="OUIA-Generated-Modal-large-4"
                     ouiaSafe={true}
                     position="top"
-                    positionOffset="200px"
+                    positionOffset="225px"
                     showClose={true}
                     title=""
                     titleIconVariant={null}
@@ -1838,6 +1903,7 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                             }
                           }
                           paused={false}
+                          preventScrollOnDeactivate={false}
                         >
                           <div
                             className="pf-l-bullseye"
@@ -1852,10 +1918,10 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                               data-ouia-safe={true}
                               id="remove-resource-modal"
                               position="top"
-                              positionOffset="200px"
+                              positionOffset="225px"
                               style={
                                 Object {
-                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  "--pf-c-modal-box--m-align-top--spacer": "225px",
                                 }
                               }
                               variant="large"
@@ -1873,7 +1939,7 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                                 role="dialog"
                                 style={
                                   Object {
-                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                    "--pf-c-modal-box--m-align-top--spacer": "225px",
                                   }
                                 }
                               >
@@ -1948,6 +2014,7 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                                                   data-ouia-component-id="OUIA-Generated-Card-4"
                                                   data-ouia-component-type="PF4/Card"
                                                   data-ouia-safe={true}
+                                                  id=""
                                                 >
                                                   <CardBody>
                                                     <div
@@ -1986,16 +2053,30 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                                                                 </Spinner>
                                                               </div>
                                                             </EmptyStateIcon>
-                                                            <Title
-                                                              headingLevel="h4"
-                                                              size="lg"
+                                                            <div
+                                                              className="makeStyles-max-1"
                                                             >
-                                                              <h4
-                                                                className="pf-c-title pf-m-lg"
+                                                              <Title
+                                                                headingLevel="h4"
+                                                                size="lg"
                                                               >
-                                                                Loading
-                                                              </h4>
-                                                            </Title>
+                                                                <h4
+                                                                  className="pf-c-title pf-m-lg"
+                                                                >
+                                                                  Loading
+                                                                </h4>
+                                                              </Title>
+                                                              <EmptyStateBody>
+                                                                <div
+                                                                  className="pf-c-empty-state__body"
+                                                                />
+                                                              </EmptyStateBody>
+                                                            </div>
+                                                            <EmptyStateSecondaryActions>
+                                                              <div
+                                                                className="pf-c-empty-state__secondary"
+                                                              />
+                                                            </EmptyStateSecondaryActions>
                                                           </div>
                                                         </div>
                                                       </EmptyState>
@@ -2258,7 +2339,7 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
               isOpen={true}
               onClose={[Function]}
               position="top"
-              positionOffset="200px"
+              positionOffset="225px"
               showClose={true}
               title="Delete application"
               variant="large"
@@ -2292,7 +2373,7 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                 onClose={[Function]}
                 ouiaSafe={true}
                 position="top"
-                positionOffset="200px"
+                positionOffset="225px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -2374,6 +2455,7 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                                     data-ouia-component-id="OUIA-Generated-Card-7"
                                     data-ouia-component-type="PF4/Card"
                                     data-ouia-safe="true"
+                                    id=""
                                   >
                                     <div
                                       class="pf-c-card__body"
@@ -2403,11 +2485,21 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                                               />
                                             </span>
                                           </div>
-                                          <h4
-                                            class="pf-c-title pf-m-lg"
+                                          <div
+                                            class="makeStyles-max-1"
                                           >
-                                            Loading
-                                          </h4>
+                                            <h4
+                                              class="pf-c-title pf-m-lg"
+                                            >
+                                              Loading
+                                            </h4>
+                                            <div
+                                              class="pf-c-empty-state__body"
+                                            />
+                                          </div>
+                                          <div
+                                            class="pf-c-empty-state__secondary"
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -2478,7 +2570,7 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                     ouiaId="OUIA-Generated-Modal-large-7"
                     ouiaSafe={true}
                     position="top"
-                    positionOffset="200px"
+                    positionOffset="225px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -2498,6 +2590,7 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                             }
                           }
                           paused={false}
+                          preventScrollOnDeactivate={false}
                         >
                           <div
                             className="pf-l-bullseye"
@@ -2512,10 +2605,10 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                               data-ouia-safe={true}
                               id="remove-resource-modal"
                               position="top"
-                              positionOffset="200px"
+                              positionOffset="225px"
                               style={
                                 Object {
-                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  "--pf-c-modal-box--m-align-top--spacer": "225px",
                                 }
                               }
                               variant="large"
@@ -2533,7 +2626,7 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                                 role="dialog"
                                 style={
                                   Object {
-                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                    "--pf-c-modal-box--m-align-top--spacer": "225px",
                                   }
                                 }
                               >
@@ -2633,6 +2726,7 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                                                   data-ouia-component-id="OUIA-Generated-Card-7"
                                                   data-ouia-component-type="PF4/Card"
                                                   data-ouia-safe={true}
+                                                  id=""
                                                 >
                                                   <CardBody>
                                                     <div
@@ -2671,16 +2765,30 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                                                                 </Spinner>
                                                               </div>
                                                             </EmptyStateIcon>
-                                                            <Title
-                                                              headingLevel="h4"
-                                                              size="lg"
+                                                            <div
+                                                              className="makeStyles-max-1"
                                                             >
-                                                              <h4
-                                                                className="pf-c-title pf-m-lg"
+                                                              <Title
+                                                                headingLevel="h4"
+                                                                size="lg"
                                                               >
-                                                                Loading
-                                                              </h4>
-                                                            </Title>
+                                                                <h4
+                                                                  className="pf-c-title pf-m-lg"
+                                                                >
+                                                                  Loading
+                                                                </h4>
+                                                              </Title>
+                                                              <EmptyStateBody>
+                                                                <div
+                                                                  className="pf-c-empty-state__body"
+                                                                />
+                                                              </EmptyStateBody>
+                                                            </div>
+                                                            <EmptyStateSecondaryActions>
+                                                              <div
+                                                                className="pf-c-empty-state__secondary"
+                                                              />
+                                                            </EmptyStateSecondaryActions>
                                                           </div>
                                                         </div>
                                                       </EmptyState>
@@ -2942,7 +3050,7 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
               isOpen={true}
               onClose={[Function]}
               position="top"
-              positionOffset="200px"
+              positionOffset="225px"
               showClose={true}
               title="Delete application"
               variant="large"
@@ -2976,7 +3084,7 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                 onClose={[Function]}
                 ouiaSafe={true}
                 position="top"
-                positionOffset="200px"
+                positionOffset="225px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -3058,6 +3166,7 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                                     data-ouia-component-id="OUIA-Generated-Card-6"
                                     data-ouia-component-type="PF4/Card"
                                     data-ouia-safe="true"
+                                    id=""
                                   >
                                     <div
                                       class="pf-c-card__body"
@@ -3087,11 +3196,21 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                                               />
                                             </span>
                                           </div>
-                                          <h4
-                                            class="pf-c-title pf-m-lg"
+                                          <div
+                                            class="makeStyles-max-1"
                                           >
-                                            Loading
-                                          </h4>
+                                            <h4
+                                              class="pf-c-title pf-m-lg"
+                                            >
+                                              Loading
+                                            </h4>
+                                            <div
+                                              class="pf-c-empty-state__body"
+                                            />
+                                          </div>
+                                          <div
+                                            class="pf-c-empty-state__secondary"
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -3162,7 +3281,7 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                     ouiaId="OUIA-Generated-Modal-large-6"
                     ouiaSafe={true}
                     position="top"
-                    positionOffset="200px"
+                    positionOffset="225px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -3182,6 +3301,7 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                             }
                           }
                           paused={false}
+                          preventScrollOnDeactivate={false}
                         >
                           <div
                             className="pf-l-bullseye"
@@ -3196,10 +3316,10 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                               data-ouia-safe={true}
                               id="remove-resource-modal"
                               position="top"
-                              positionOffset="200px"
+                              positionOffset="225px"
                               style={
                                 Object {
-                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  "--pf-c-modal-box--m-align-top--spacer": "225px",
                                 }
                               }
                               variant="large"
@@ -3217,7 +3337,7 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                                 role="dialog"
                                 style={
                                   Object {
-                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                    "--pf-c-modal-box--m-align-top--spacer": "225px",
                                   }
                                 }
                               >
@@ -3317,6 +3437,7 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                                                   data-ouia-component-id="OUIA-Generated-Card-6"
                                                   data-ouia-component-type="PF4/Card"
                                                   data-ouia-safe={true}
+                                                  id=""
                                                 >
                                                   <CardBody>
                                                     <div
@@ -3355,16 +3476,30 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                                                                 </Spinner>
                                                               </div>
                                                             </EmptyStateIcon>
-                                                            <Title
-                                                              headingLevel="h4"
-                                                              size="lg"
+                                                            <div
+                                                              className="makeStyles-max-1"
                                                             >
-                                                              <h4
-                                                                className="pf-c-title pf-m-lg"
+                                                              <Title
+                                                                headingLevel="h4"
+                                                                size="lg"
                                                               >
-                                                                Loading
-                                                              </h4>
-                                                            </Title>
+                                                                <h4
+                                                                  className="pf-c-title pf-m-lg"
+                                                                >
+                                                                  Loading
+                                                                </h4>
+                                                              </Title>
+                                                              <EmptyStateBody>
+                                                                <div
+                                                                  className="pf-c-empty-state__body"
+                                                                />
+                                                              </EmptyStateBody>
+                                                            </div>
+                                                            <EmptyStateSecondaryActions>
+                                                              <div
+                                                                className="pf-c-empty-state__secondary"
+                                                              />
+                                                            </EmptyStateSecondaryActions>
                                                           </div>
                                                         </div>
                                                       </EmptyState>
@@ -3659,7 +3794,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
               isOpen={true}
               onClose={[Function]}
               position="top"
-              positionOffset="200px"
+              positionOffset="225px"
               showClose={true}
               title="Delete application"
               variant="large"
@@ -3693,7 +3828,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                 onClose={[Function]}
                 ouiaSafe={true}
                 position="top"
-                positionOffset="200px"
+                positionOffset="225px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -3775,6 +3910,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                                     data-ouia-component-id="OUIA-Generated-Card-2"
                                     data-ouia-component-type="PF4/Card"
                                     data-ouia-safe="true"
+                                    id=""
                                   >
                                     <div
                                       class="pf-c-card__body"
@@ -3804,11 +3940,21 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                                               />
                                             </span>
                                           </div>
-                                          <h4
-                                            class="pf-c-title pf-m-lg"
+                                          <div
+                                            class="makeStyles-max-1"
                                           >
-                                            Loading
-                                          </h4>
+                                            <h4
+                                              class="pf-c-title pf-m-lg"
+                                            >
+                                              Loading
+                                            </h4>
+                                            <div
+                                              class="pf-c-empty-state__body"
+                                            />
+                                          </div>
+                                          <div
+                                            class="pf-c-empty-state__secondary"
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -3879,7 +4025,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                     ouiaId="OUIA-Generated-Modal-large-2"
                     ouiaSafe={true}
                     position="top"
-                    positionOffset="200px"
+                    positionOffset="225px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -3899,6 +4045,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                             }
                           }
                           paused={false}
+                          preventScrollOnDeactivate={false}
                         >
                           <div
                             className="pf-l-bullseye"
@@ -3913,10 +4060,10 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                               data-ouia-safe={true}
                               id="remove-resource-modal"
                               position="top"
-                              positionOffset="200px"
+                              positionOffset="225px"
                               style={
                                 Object {
-                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  "--pf-c-modal-box--m-align-top--spacer": "225px",
                                 }
                               }
                               variant="large"
@@ -3934,7 +4081,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                                 role="dialog"
                                 style={
                                   Object {
-                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                    "--pf-c-modal-box--m-align-top--spacer": "225px",
                                   }
                                 }
                               >
@@ -4034,6 +4181,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                                                   data-ouia-component-id="OUIA-Generated-Card-2"
                                                   data-ouia-component-type="PF4/Card"
                                                   data-ouia-safe={true}
+                                                  id=""
                                                 >
                                                   <CardBody>
                                                     <div
@@ -4072,16 +4220,30 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                                                                 </Spinner>
                                                               </div>
                                                             </EmptyStateIcon>
-                                                            <Title
-                                                              headingLevel="h4"
-                                                              size="lg"
+                                                            <div
+                                                              className="makeStyles-max-1"
                                                             >
-                                                              <h4
-                                                                className="pf-c-title pf-m-lg"
+                                                              <Title
+                                                                headingLevel="h4"
+                                                                size="lg"
                                                               >
-                                                                Loading
-                                                              </h4>
-                                                            </Title>
+                                                                <h4
+                                                                  className="pf-c-title pf-m-lg"
+                                                                >
+                                                                  Loading
+                                                                </h4>
+                                                              </Title>
+                                                              <EmptyStateBody>
+                                                                <div
+                                                                  className="pf-c-empty-state__body"
+                                                                />
+                                                              </EmptyStateBody>
+                                                            </div>
+                                                            <EmptyStateSecondaryActions>
+                                                              <div
+                                                                className="pf-c-empty-state__secondary"
+                                                              />
+                                                            </EmptyStateSecondaryActions>
                                                           </div>
                                                         </div>
                                                       </EmptyState>
@@ -4316,7 +4478,7 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
               isOpen={true}
               onClose={[Function]}
               position="top"
-              positionOffset="200px"
+              positionOffset="225px"
               showClose={true}
               title="Delete application"
               variant="large"
@@ -4350,7 +4512,7 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                 onClose={[Function]}
                 ouiaSafe={true}
                 position="top"
-                positionOffset="200px"
+                positionOffset="225px"
                 showClose={true}
                 title="Delete application"
                 titleIconVariant={null}
@@ -4432,6 +4594,7 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                                     data-ouia-component-id="OUIA-Generated-Card-1"
                                     data-ouia-component-type="PF4/Card"
                                     data-ouia-safe="true"
+                                    id=""
                                   >
                                     <div
                                       class="pf-c-card__body"
@@ -4461,11 +4624,21 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                                               />
                                             </span>
                                           </div>
-                                          <h4
-                                            class="pf-c-title pf-m-lg"
+                                          <div
+                                            class="makeStyles-max-1"
                                           >
-                                            Loading
-                                          </h4>
+                                            <h4
+                                              class="pf-c-title pf-m-lg"
+                                            >
+                                              Loading
+                                            </h4>
+                                            <div
+                                              class="pf-c-empty-state__body"
+                                            />
+                                          </div>
+                                          <div
+                                            class="pf-c-empty-state__secondary"
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -4536,7 +4709,7 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                     ouiaId="OUIA-Generated-Modal-large-1"
                     ouiaSafe={true}
                     position="top"
-                    positionOffset="200px"
+                    positionOffset="225px"
                     showClose={true}
                     title="Delete application"
                     titleIconVariant={null}
@@ -4556,6 +4729,7 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                             }
                           }
                           paused={false}
+                          preventScrollOnDeactivate={false}
                         >
                           <div
                             className="pf-l-bullseye"
@@ -4570,10 +4744,10 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                               data-ouia-safe={true}
                               id="remove-resource-modal"
                               position="top"
-                              positionOffset="200px"
+                              positionOffset="225px"
                               style={
                                 Object {
-                                  "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                  "--pf-c-modal-box--m-align-top--spacer": "225px",
                                 }
                               }
                               variant="large"
@@ -4591,7 +4765,7 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                                 role="dialog"
                                 style={
                                   Object {
-                                    "--pf-c-modal-box--m-align-top--spacer": "200px",
+                                    "--pf-c-modal-box--m-align-top--spacer": "225px",
                                   }
                                 }
                               >
@@ -4691,6 +4865,7 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                                                   data-ouia-component-id="OUIA-Generated-Card-1"
                                                   data-ouia-component-type="PF4/Card"
                                                   data-ouia-safe={true}
+                                                  id=""
                                                 >
                                                   <CardBody>
                                                     <div
@@ -4729,16 +4904,30 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                                                                 </Spinner>
                                                               </div>
                                                             </EmptyStateIcon>
-                                                            <Title
-                                                              headingLevel="h4"
-                                                              size="lg"
+                                                            <div
+                                                              className="makeStyles-max-1"
                                                             >
-                                                              <h4
-                                                                className="pf-c-title pf-m-lg"
+                                                              <Title
+                                                                headingLevel="h4"
+                                                                size="lg"
                                                               >
-                                                                Loading
-                                                              </h4>
-                                                            </Title>
+                                                                <h4
+                                                                  className="pf-c-title pf-m-lg"
+                                                                >
+                                                                  Loading
+                                                                </h4>
+                                                              </Title>
+                                                              <EmptyStateBody>
+                                                                <div
+                                                                  className="pf-c-empty-state__body"
+                                                                />
+                                                              </EmptyStateBody>
+                                                            </div>
+                                                            <EmptyStateSecondaryActions>
+                                                              <div
+                                                                className="pf-c-empty-state__secondary"
+                                                              />
+                                                            </EmptyStateSecondaryActions>
                                                           </div>
                                                         </div>
                                                       </EmptyState>

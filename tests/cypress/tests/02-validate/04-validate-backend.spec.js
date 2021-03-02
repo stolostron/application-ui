@@ -16,7 +16,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application application b
     const apps = config[type].data;
     apps.forEach(data => {
       if (data.enable) {
-        it(`[P1][Sev1][app-lifecycle-ui] Verify that the apps ${
+        it(`Verify that the apps ${
           data.name
         } channels, subscription and placementrule are valid - ${type}: ${
           data.name

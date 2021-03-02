@@ -490,31 +490,6 @@ class ChannelControl extends React.Component {
     return null
   }
 
-  renderView({ style, ...props }) {
-    style.marginBottom = -17
-    return <div {...props} style={{ ...style }} />
-  }
-
-  renderThumbHorizontal() {
-    return <div />
-  }
-
-  renderThumbVertical({ style, ...props }) {
-    const finalStyle = {
-      ...style,
-      cursor: 'pointer',
-      borderRadius: 'inherit',
-      backgroundColor: 'rgba(0,0,0,.2)'
-    }
-    return (
-      <div
-        className={'channel-controls-scrollbar'}
-        style={finalStyle}
-        {...props}
-      />
-    )
-  }
-
   changeSubscriptionChannels(fetchChannel) {
     const { channelControl = {} } = this.props
     const { changeTheChannel } = channelControl

@@ -15,6 +15,13 @@ import { mount } from "enzyme";
 
 import ChannelController from "../../../../../src-web/components/Topology/viewer/ChannelControl";
 
+const channelControllerNoAllChannels = {
+  activeChannel: "__ALL__/__ALL__//__ALL__/__ALL__",
+  isChangingChannel: undefined,
+  changeTheChannel: jest.fn,
+  allChannels: []
+};
+
 const channelController = {
   activeChannel: "__ALL__/__ALL__//__ALL__/__ALL__",
   isChangingChannel: undefined,
@@ -59,6 +66,18 @@ const channelController4 = {
     "helloworld-demo-ns/helloworld-demo-subscription-2//multilevel-channel/multilevel-channel"
   ]
 };
+
+describe("ChannelController with noAllChannels", () => {
+  it("default", () => {
+    const component = shallow(
+      <ChannelController
+        channelControl={channelControllerNoAllChannels}
+        locale={"en-US"}
+      />
+    );
+    expect(component).toMatchSnapshot();
+  });
+});
 
 describe("ChannelController components 1", () => {
   it("default", () => {

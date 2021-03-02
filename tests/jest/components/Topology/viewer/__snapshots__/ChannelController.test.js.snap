@@ -2305,3 +2305,492 @@ ShallowWrapper {
   Symbol(enzyme.__childContext__): null,
 }
 `;
+
+exports[`ChannelController with noAllChannels default 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ChannelControl
+    channelControl={
+      Object {
+        "activeChannel": "__ALL__/__ALL__//__ALL__/__ALL__",
+        "allChannels": Array [],
+        "changeTheChannel": [Function],
+        "isChangingChannel": undefined,
+      }
+    }
+    locale="en-US"
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="channels"
+        >
+          <div
+            className="subscription label"
+          >
+            Subscription
+             
+            (1 of {0})
+            <Tooltip
+              content={
+                <span
+                  className="showPagesTooltip"
+                >
+                  Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                </span>
+              }
+              isContentLeftAligned={true}
+            >
+              <OutlinedQuestionCircleIcon
+                className="channel-controls-help-icon"
+                color="currentColor"
+                noVerticalAlign={false}
+                size="sm"
+              />
+            </Tooltip>
+          </div>
+          <div
+            className="channelsCombo"
+          >
+            <AcmDropdown
+              dropdownItems={Array []}
+              id="comboChannel"
+              isDisabled={true}
+              isPlain={false}
+              isPrimary={false}
+              onSelect={[Function]}
+              position="left"
+            />
+          </div>
+        </div>,
+        false,
+      ],
+      "className": "channel-controls-container",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="subscription label"
+            >
+              Subscription
+               
+              (1 of {0})
+              <Tooltip
+                content={
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                  </span>
+                }
+                isContentLeftAligned={true}
+              >
+                <OutlinedQuestionCircleIcon
+                  className="channel-controls-help-icon"
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                />
+              </Tooltip>
+            </div>,
+            <div
+              className="channelsCombo"
+            >
+              <AcmDropdown
+                dropdownItems={Array []}
+                id="comboChannel"
+                isDisabled={true}
+                isPlain={false}
+                isPrimary={false}
+                onSelect={[Function]}
+                position="left"
+              />
+            </div>,
+          ],
+          "className": "channels",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                "Subscription",
+                " ",
+                "(1 of {0})",
+                <Tooltip
+                  content={
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                    </span>
+                  }
+                  isContentLeftAligned={true}
+                >
+                  <OutlinedQuestionCircleIcon
+                    className="channel-controls-help-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                  />
+                </Tooltip>,
+              ],
+              "className": "subscription label",
+            },
+            "ref": null,
+            "rendered": Array [
+              "Subscription",
+              " ",
+              "(1 of {0})",
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": <OutlinedQuestionCircleIcon
+                    className="channel-controls-help-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                  />,
+                  "content": <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                  </span>,
+                  "isContentLeftAligned": true,
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "className": "channel-controls-help-icon",
+                    "color": "currentColor",
+                    "noVerticalAlign": false,
+                    "size": "sm",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <AcmDropdown
+                dropdownItems={Array []}
+                id="comboChannel"
+                isDisabled={true}
+                isPlain={false}
+                isPrimary={false}
+                onSelect={[Function]}
+                position="left"
+              />,
+              "className": "channelsCombo",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "dropdownItems": Array [],
+                "id": "comboChannel",
+                "isDisabled": true,
+                "isPlain": false,
+                "isPrimary": false,
+                "onSelect": [Function],
+                "position": "left",
+                "text": undefined,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      false,
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="channels"
+          >
+            <div
+              className="subscription label"
+            >
+              Subscription
+               
+              (1 of {0})
+              <Tooltip
+                content={
+                  <span
+                    className="showPagesTooltip"
+                  >
+                    Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                  </span>
+                }
+                isContentLeftAligned={true}
+              >
+                <OutlinedQuestionCircleIcon
+                  className="channel-controls-help-icon"
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                />
+              </Tooltip>
+            </div>
+            <div
+              className="channelsCombo"
+            >
+              <AcmDropdown
+                dropdownItems={Array []}
+                id="comboChannel"
+                isDisabled={true}
+                isPlain={false}
+                isPrimary={false}
+                onSelect={[Function]}
+                position="left"
+              />
+            </div>
+          </div>,
+          false,
+        ],
+        "className": "channel-controls-container",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="subscription label"
+              >
+                Subscription
+                 
+                (1 of {0})
+                <Tooltip
+                  content={
+                    <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                    </span>
+                  }
+                  isContentLeftAligned={true}
+                >
+                  <OutlinedQuestionCircleIcon
+                    className="channel-controls-help-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                  />
+                </Tooltip>
+              </div>,
+              <div
+                className="channelsCombo"
+              >
+                <AcmDropdown
+                  dropdownItems={Array []}
+                  id="comboChannel"
+                  isDisabled={true}
+                  isPlain={false}
+                  isPrimary={false}
+                  onSelect={[Function]}
+                  position="left"
+                />
+              </div>,
+            ],
+            "className": "channels",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  "Subscription",
+                  " ",
+                  "(1 of {0})",
+                  <Tooltip
+                    content={
+                      <span
+                        className="showPagesTooltip"
+                      >
+                        Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                      </span>
+                    }
+                    isContentLeftAligned={true}
+                  >
+                    <OutlinedQuestionCircleIcon
+                      className="channel-controls-help-icon"
+                      color="currentColor"
+                      noVerticalAlign={false}
+                      size="sm"
+                    />
+                  </Tooltip>,
+                ],
+                "className": "subscription label",
+              },
+              "ref": null,
+              "rendered": Array [
+                "Subscription",
+                " ",
+                "(1 of {0})",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <OutlinedQuestionCircleIcon
+                      className="channel-controls-help-icon"
+                      color="currentColor"
+                      noVerticalAlign={false}
+                      size="sm"
+                    />,
+                    "content": <span
+                      className="showPagesTooltip"
+                    >
+                      Displays the list of subscriptions created by this application. Click the drop-down menu to select a subscription and view its deployed resources in the topology. All Subscriptions option is only available if all resources can be displayed on one page.
+                    </span>,
+                    "isContentLeftAligned": true,
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "className": "channel-controls-help-icon",
+                      "color": "currentColor",
+                      "noVerticalAlign": false,
+                      "size": "sm",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <AcmDropdown
+                  dropdownItems={Array []}
+                  id="comboChannel"
+                  isDisabled={true}
+                  isPlain={false}
+                  isPrimary={false}
+                  onSelect={[Function]}
+                  position="left"
+                />,
+                "className": "channelsCombo",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "dropdownItems": Array [],
+                  "id": "comboChannel",
+                  "isDisabled": true,
+                  "isPlain": false,
+                  "isPrimary": false,
+                  "onSelect": [Function],
+                  "position": "left",
+                  "text": undefined,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        false,
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+    Symbol(enzyme.__providerValues__): undefined,
+  },
+  Symbol(enzyme.__providerValues__): Map {},
+  Symbol(enzyme.__childContext__): null,
+}
+`;

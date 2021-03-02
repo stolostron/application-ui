@@ -137,49 +137,21 @@ describe("ChannelController components 2. 2", () => {
 
 describe("ChannelController components 3", () => {
   it("ChannelController components 3", () => {
-    const wrapper = mount(
+    const wrapper = shallow(
       <ChannelController channelControl={channelController3} locale={"en-US"} />
     );
 
-    wrapper
-      .find("#comboChannel")
-      .at(0)
-      .simulate(
-        "change",
-        ("blue-nginx-subscription",
-        [
-          {
-            chn: "nginx-blue/blue-nginx-subscription//demo/gitops",
-            id: "blue-nginx-subscription",
-            subchannels: [],
-            text: "blue-nginx-subscription"
-          }
-        ])
-      );
+    wrapper.find("AcmDropdown").simulate("select", "blue-nginx-subscription");
   });
 });
 
 describe("ChannelController components 4", () => {
   it("ChannelController components 4", () => {
-    const wrapper = mount(
+    const wrapper = shallow(
       <ChannelController channelControl={channelController4} locale={"en-US"} />
     );
-
     wrapper
-      .find("#comboChannel")
-      .at(0)
-      .simulate(
-        "change",
-        ("helloworld-demo-subscription-1",
-        [
-          {
-            chn:
-              "helloworld-demo-ns/helloworld-demo-subscription-1//rhacm-nginx-app-channel/nginx-app-channel",
-            id: "helloworld-demo-subscription-1",
-            subchannels: [],
-            text: "helloworld-demo-subscription-1"
-          }
-        ])
-      );
+      .find("AcmDropdown")
+      .simulate("select", "helloworld-demo-subscription-1");
   });
 });

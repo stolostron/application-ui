@@ -32,7 +32,7 @@ Check the [CONTRIBUTING Doc](CONTRIBUTING.md) for how to contribute to the repo.
 
 ## Getting Started
 
-The Application console runs only on the hub cluster. It defines the user interface used to create and manage application resources deployed on your managed clusters through the use of Application lifecycle subscription operators. This console component, application-ui, does not have any direct dependencies on backend components provided by Application lifecycle. Instead, it depends on the console-api and search-api components to work with the custom Kubernetes resources of the Application lifecycle model. The application-ui component is packaged as a Helm chart using the application-chart module. This is a guide on how to build and run open-cluster-management application-ui.
+The Application console runs only on the hub cluster. It defines the user interface used to create and manage application resources deployed on your managed clusters through the use of Application lifecycle subscription operators. This console component, application-ui, does not have any direct dependencies on backend components provided by Application lifecycle. Instead, it depends on the [console-api](https://github.com/open-cluster-management/console-api) and [search-api components](https://github.com/open-cluster-management/search) to work with the custom Kubernetes resources of the Application lifecycle model. The application-ui component is packaged as a Helm chart using the [application-chart](https://github.com/open-cluster-management/application-chart) module. This is a guide on how to build and run open-cluster-management application-ui.
 
 ![application-ui architecture](graphics/application-ui-arch.png)
 
@@ -54,10 +54,9 @@ This UI Platform is developed as an isomorphic react application.  The following
 # Setting up Your Dev Environment
 
 ## Prerequiste Tools
-* Install Git
-* Install Node v12+
-* Install Watch (Optional)
-* Install Docker (Optional)
+* [Git](https://git-scm.com/downloads)
+* [Node](https://nodejs.org/en/download/) v12+
+* [Docker](https://www.docker.com/products/docker-desktop) (Optional)
 
 ## Building for Development
 <pre>
@@ -67,7 +66,7 @@ npm install
 npm run build:production
 </pre>
 
-## Running locally with an OKD cluster
+## Running locally with an OKD cluster OCM environment
 
 1. To run your local `application-ui` code against an existing OCM installation, make sure you are logged in using `oc` then source the `setup-env.sh` script.
    ```
@@ -105,7 +104,7 @@ npm run build:production
    export hcmUiApiUrl=`<searchAPIRouteEndpoint>/hcmuiapi`
    </pre>
 
-   For vscode users, these variables can be set in your local VS Code enviroment using the launch.json in the .vscode directory. To create a launch.json file, open your project folder in VS Code (File > Open Folder) and then select the Configure gear icon on the Run view top bar.  If you go back to the File Explorer view (Ctrl+Shift+E), you'll see that VS Code has created a .vscode folder and added the launch.json file to your workspace.
+   For VS Code users, these variables can be set in your local VS Code enviroment using the launch.json in the .vscode directory. To create a launch.json file, open your project folder in VS Code (File > Open Folder) and then select the Configure gear icon on the Run view top bar.  If you go back to the File Explorer view (Ctrl+Shift+E), you'll see that VS Code has created a .vscode folder and added the launch.json file to your workspace.
 
    Use a map, `env:{}` , in launch.json to contain your environment variables.
    <pre>
@@ -173,7 +172,7 @@ To run a particular test.
 <pre>
 npm run test:unit -- &lt;test_file&gt;
 
-# for exmaple
+# for example
 npm run test:unit -- ApplicationTopology.test.js
 </pre>
 

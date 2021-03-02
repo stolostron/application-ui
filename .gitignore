@@ -4,6 +4,7 @@
 .DS_Store
 node_modules
 public
+options.yaml
 dll
 test-reports
 coverage
@@ -18,6 +19,7 @@ tests/jest/config/platform-properties.json
 tests/cypress/tests/test.js
 tests/cypress/test-artifacts/*
 tests/cypress/config/import-kubeconfig/*
+tests/cypress/config/certificates/*
 build-harness-extensions/
 build-harness/
 .build-harness-bootstrap

@@ -1,21 +1,21 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
- *******************************************************************************/
+ ****************************************************************************** */
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
-import { Checkbox } from 'carbon-components-react'
 import { TimesIcon } from '@patternfly/react-icons'
-import { Chip, ChipGroup } from '@patternfly/react-core'
+import { Checkbox, Chip, ChipGroup } from '@patternfly/react-core'
 import { Scrollbars } from 'react-custom-scrollbars'
 import '../scss/resource-filter-view.scss'
 import '../../../../graphics/diagramIcons.svg'
@@ -88,8 +88,8 @@ const FilterSection = ({
             id={key}
             key={key}
             className="filter-section-checkbox"
-            labelText={label}
-            checked={checked}
+            label={label}
+            isChecked={checked}
             onChange={onChange}
           />
         )

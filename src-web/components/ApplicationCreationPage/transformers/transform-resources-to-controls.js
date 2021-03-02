@@ -1,18 +1,17 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
- * Copyright (c) 2020 Red Hat, Inc.
+
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 
-import {
-  initializeControls,
-  getSourcePath
-} from 'temptifly'
+import { initializeControls, getSourcePath, getResourceID } from 'temptifly'
 import _ from 'lodash'
 
 //only called when editing an existing application
@@ -24,13 +23,12 @@ export const discoverGroupsFromSource = (
   editor,
   i18n
 ) => {
+  const applicationResource = _.get(templateObject, 'Application[0].$raw')
+
   // get application selflink
   const selfLinkControl = cd.find(({ id }) => id === 'selfLink')
-  const selfLink = _.get(
-    templateObject,
-    'Application[0].$raw.metadata.selfLink'
-  )
-  selfLinkControl.active = selfLink
+  const selfLink = getResourceID(applicationResource)
+  selfLinkControl['active'] = selfLink
 
   // find groups
   const { controlData: groupData, prompts: { nameId, baseName } } = control
@@ -196,11 +194,10 @@ export const shiftTemplateObject = (templateObject, selfLinksControl) => {
   // pop the subscription off of all subscriptions
   let subscription = _.get(templateObject, 'Subscription')
   if (subscription) {
-    let selfLink
     subscription = subscription.shift()
     if (selfLinksControl) {
-      selfLink = _.get(subscription, '$raw.metadata.selfLink')
-      _.set(selfLinksControl, 'active.Subscription', selfLink)
+      const subscriptionSelfLink = getResourceID(subscription.$raw)
+      _.set(selfLinksControl, 'active.Subscription', subscriptionSelfLink)
     }
 
     // if this subscription pointed to a channel in this template
@@ -218,8 +215,8 @@ export const shiftTemplateObject = (templateObject, selfLinksControl) => {
       if (inx !== -1) {
         const channel = templateObject.Channel.splice(inx, 1)[0]
         if (selfLinksControl) {
-          selfLink = _.get(channel, '$raw.metadata.selfLink')
-          _.set(selfLinksControl, 'active.Channel', selfLink)
+          const channelSelfLink = getResourceID(channel.$raw)
+          _.set(selfLinksControl, 'active.Channel', channelSelfLink)
         }
       }
     }
@@ -238,8 +235,8 @@ export const shiftTemplateObject = (templateObject, selfLinksControl) => {
       if (inx !== -1) {
         const rule = templateObject.PlacementRule.splice(inx, 1)[0]
         if (selfLinksControl) {
-          selfLink = _.get(rule, '$raw.metadata.selfLink')
-          _.set(selfLinksControl, 'active.PlacementRule', selfLink)
+          const ruleSelfLink = getResourceID(rule.$raw)
+          _.set(selfLinksControl, 'active.PlacementRule', ruleSelfLink)
         }
       }
     }

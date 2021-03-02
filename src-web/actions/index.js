@@ -1,11 +1,12 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 /*
  * action types
  *
@@ -96,8 +97,6 @@ export const USER_LOGOUT_REQUEST = 'USER_LOGOUT_REQUEST'
 
 export const RESOURCE_FORCE_RELOAD = 'RESOURCE_FORCE_RELOAD'
 export const RESOURCE_FORCE_RELOAD_FINISHED = 'RESOURCE_FORCE_RELOAD_FINISHED'
-
-export const REFETCH_INTERVAL_UPDATE = 'REFETCH_INTERVAL_UPDATE'
 
 /*
  * other constants specific to particular actions

@@ -1,11 +1,12 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 
 import * as d3 from 'd3'
@@ -225,7 +226,7 @@ export default class NodeHelper {
     })
   };
 
-  createNodeShapes = (nodes, nodeDragHandler) => {
+  addElementsForNodes = (nodes, nodeDragHandler) => {
     nodes
       .append('use')
       .attrs(d => {
@@ -260,6 +261,35 @@ export default class NodeHelper {
             }
           })
       )
+  };
+
+  createNodeShapes = (nodes, nodeDragHandler) => {
+    this.addElementsForNodes(nodes, nodeDragHandler)
+
+    //Make sure the subscription node updates
+    const subscriptionNode = this.svg
+      .select('g.nodes')
+      .selectAll('g.node')
+      .filter(d => {
+        const { layout } = d
+        return (
+          layout.type === 'subscription' ||
+          layout.type === 'subscriptionblocked'
+        )
+      })
+    subscriptionNode.select('use.shape').remove()
+    const subscriptionNodeShape = subscriptionNode
+      .selectAll('use.shape')
+      .data(({ specs, layout }) => {
+        const data = {
+          specs: specs,
+          layout: layout
+        }
+        return [data]
+      })
+    const subscriptionNodeShapeEnter = subscriptionNodeShape.enter()
+
+    this.addElementsForNodes(subscriptionNodeShapeEnter, nodeDragHandler)
   };
 
   createTitles = (draw, nodes) => {

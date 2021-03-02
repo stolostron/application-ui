@@ -61,29 +61,31 @@ git:
             local: true
             online: false
             matchingLabel: false
-#    - enable: true
-#      name: ui-git-ansible
-#      type: git
-#      config:
-#        - url: https://github.com/fxiang1/app-samples.git
-#          resources: ["configmap", "ansiblejob"] #the type of resources this application must deploy
-#          username: ""
-#          token: ""
-#          branch: master
-#          path: ansible
-#          gitReconcileOption: merge
-#          ansibleSecretName: ui-git-ansible-secret
-#          ansibleHost: ""
-#          ansibleToken: ""
-#          deployment:
-#            local: false
-#            online: true
-#            matchingLabel: false
+    - enable: true
+      name: ui-git-ansible
+      type: git
+      successNumber: 2
+      config:
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["configmap", "ansiblejob"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: master
+          path: ansible
+          gitReconcileOption: merge
+          ansibleSecretName: ui-git-ansible-secret
+          ansibleHost: ""
+          ansibleToken: ""
+          deployment:
+            local: false
+            online: true
+            matchingLabel: false
 objectstore:
   data:
     - enable: true
       name: ui-obj
       type: objectstore
+      successNumber: 1 #should have at least this many resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
       new: # used when we add new subscriptions after app creation
         - url: http://ec2-dummy/dev1
           accessKey: dummy1
@@ -92,10 +94,13 @@ objectstore:
             setting: true
             type: activeinterval
             date:
+              - Thursday
               - Friday
             hours:
-              - start: "18:00"
-                end: "22:00"
+              - start: "09:00"
+                end: "12:00"
+              - start: "15:00"
+                end: "18:00"
           deployment:
             existing: true
             local: false
@@ -105,48 +110,28 @@ objectstore:
         - url: http://ec2-dummy/dev1
           accessKey: dummy1
           secretKey: dummy2
-          timeWindow:
-            setting: true
-            type: blockinterval
-            date:
-              - Monday
-              - Tuesday
-              - Wednesday
-              - Thursday
-              - Friday
-            hours:
-              - start: "08:00"
-                end: "12:00"
-              - start: "14:00"
-                end: "16:00"
-              - start: "18:00"
-                end: "22:00"
           deployment:
             local: false
             online: false
             matchingLabel: true
         - url: http://ec2-dummy/dev2
+          resources: ["configmap", "deployment", "replicaset"] #the type of resources this application must deploy
           accessKey: dummy11
           secretKey: dummy22
           timeWindow:
             setting: true
             type: activeinterval
             date:
-              - Monday
-              - Tuesday
-              - Wednesday
               - Thursday
               - Friday
             hours:
-              - start: "08:00"
-                end: "12:00"
-              - start: "14:00"
-                end: "16:00"
-              - start: "18:00"
-                end: "22:00"
+              - start: "09:10"
+                end: "09:11"
+              - start: "15:10"
+                end: "15:11"
           deployment:
-            local: false
-            online: true
+            local: true
+            online: false
             matchingLabel: false
 helm:
   data:

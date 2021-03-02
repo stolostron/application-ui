@@ -1,11 +1,5 @@
-/*******************************************************************************
- * Licensed Materials - Property of IBM
- * Copyright (c) 2020 Red Hat, Inc. All Rights Reserved.
- *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc. All Rights Reserved.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 
 import React from 'react'
@@ -162,9 +156,11 @@ export class ClusterSelector extends React.Component {
       }
 
       control.active.clusterLabelsList.map(item => {
-        const { id, labelName, labelValue } = item
-        const invalidLabel = !labelName || labelName.length === 0
-        const invalidValue = !labelValue || labelValue.length === 0
+        const { id, labelName, labelValue, validValue } = item
+        const invalidLabel =
+          (validValue || id === 0) && (!labelName || labelName.length === 0)
+        const invalidValue =
+          (validValue || id === 0) && (!labelValue || labelValue.length === 0)
 
         // Add exception if no input for labels or values
         if (invalidLabel) {
@@ -221,7 +217,9 @@ export class ClusterSelector extends React.Component {
                         : ''
                     }
                     value={labelName === '' ? '' : labelName}
-                    placeholder={msgs.get('clusterSelector.label.field')}
+                    placeholder={msgs.get(
+                      'clusterSelector.label.placeholder.field'
+                    )}
                     disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}
                   />
@@ -239,7 +237,9 @@ export class ClusterSelector extends React.Component {
                         : ''
                     }
                     value={labelValue === '' ? '' : labelValue}
-                    placeholder={msgs.get('clusterSelector.label.field')}
+                    placeholder={msgs.get(
+                      'clusterSelector.value.placeholder.field'
+                    )}
                     disabled={isReadOnly}
                     onChange={this.handleChange.bind(this)}
                   />

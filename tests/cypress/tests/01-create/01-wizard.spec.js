@@ -1,14 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { createApplication } from "../../views/application";
-import {
-  getManagedClusterName,
-  channelsInformation
-} from "../../views/resources";
-import { getResourceKey, resourceTable } from "../../views/common";
+import { getManagedClusterName } from "../../views/resources";
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Creation Test", () => {
   it(`get the name of the managed OCP cluster`, () => {

@@ -1,6 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 "use strict";
 
 import {
@@ -12,7 +11,15 @@ import {
   getActiveFilterCodes,
   filterSubscriptionObject,
   getClusterHost,
-  getPulseStatusForSubscription
+  getPulseStatusForSubscription,
+  getExistingResourceMapKey,
+  syncControllerRevisionPodStatusMap,
+  fixMissingStateOptions,
+  namespaceMatchTargetServer,
+  setArgoApplicationDeployStatus,
+  getStatusForArgoApp,
+  translateArgoHealthStatus,
+  getPulseStatusForArgoApp
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
 
 describe("getClusterName node id undefined", () => {
@@ -315,5 +322,283 @@ describe("getPulseStatusForSubscription no subscriptionItem.status", () => {
 
   it("getPulseStatusForSubscription no subscriptionItem.status", () => {
     expect(getPulseStatusForSubscription(node)).toEqual("yellow");
+  });
+});
+
+describe("getExistingResourceMapKey", () => {
+  const resourceMap = {
+    "pod-replicaset-nginx-placement-cluster1, cluster2": "test"
+  };
+
+  const relatedKind = {
+    cluster: "cluster1"
+  };
+
+  const relatedKindBadCluster = {
+    cluster: "cluster3"
+  };
+
+  it("should get key from resourceMap", () => {
+    expect(
+      getExistingResourceMapKey(
+        resourceMap,
+        "replicaset-nginx-placement",
+        relatedKind
+      )
+    ).toEqual("pod-replicaset-nginx-placement-cluster1, cluster2");
+  });
+
+  it("should not get key from resourceMap", () => {
+    expect(
+      getExistingResourceMapKey(resourceMap, "non-existent-name", relatedKind)
+    ).toEqual(null);
+  });
+
+  it("should not get key from resourceMap - non-existent cluster", () => {
+    expect(
+      getExistingResourceMapKey(
+        resourceMap,
+        "replicaset-nginx-placement",
+        relatedKindBadCluster
+      )
+    ).toEqual(null);
+  });
+});
+
+describe("syncControllerRevisionPodStatusMap", () => {
+  const resourceMap = {
+    "daemonset-mortgageds-deploy-fxiang-eks": {
+      specs: {
+        daemonsetModel: {
+          "mortgageds-deploy-fxiang-eks": {
+            apigroup: "apps",
+            apiversion: "v1",
+            available: 6,
+            cluster: "fxiang-eks",
+            created: "2021-01-25T21:53:12Z",
+            current: 6,
+            desired: 6,
+            kind: "daemonset",
+            label: "app=mortgageds-mortgage",
+            name: "mortgageds-deploy",
+            namespace: "feng",
+            ready: 6,
+            selfLink:
+              "/apis/apps/v1/namespaces/feng/daemonsets/mortgageds-deploy",
+            updated: 6,
+            _clusterNamespace: "fxiang-eks",
+            _hostingDeployable:
+              "mortgageds-ch/mortgageds-channel-DaemonSet-mortgageds-deploy",
+            _hostingSubscription: "feng/mortgageds-subscription",
+            _rbac: "fxiang-eks_apps_daemonsets",
+            _uid: "fxiang-eks/ff6fb8f2-d3ec-433a-93d4-3d4389a8c4b4"
+          }
+        }
+      }
+    },
+    "controllerrevision-mortgageds-deploy-fxiang-eks": {
+      specs: {
+        parent: {
+          parentId:
+            "member--member--deployable--member--clusters--fxiang-eks--feng--mortgageds-subscription-mortgageds-mortgageds-deploy-daemonset--daemonset--mortgageds-deploy",
+          parentName: "mortgageds-deploy",
+          parentType: "daemonset"
+        }
+      }
+    }
+  };
+
+  const resourceMapNoParentPodModel = {
+    "daemonset-mortgageds-deploy-fxiang-eks": {
+      specs: {
+        daemonsetModel: {
+          "mortgageds-deploy-fxiang-eks": {
+            apigroup: "apps",
+            apiversion: "v1",
+            available: 6,
+            cluster: "fxiang-eks",
+            created: "2021-01-25T21:53:12Z",
+            current: 6,
+            desired: 6,
+            kind: "daemonset",
+            label: "app=mortgageds-mortgage",
+            name: "mortgageds-deploy",
+            namespace: "feng",
+            ready: 6,
+            selfLink:
+              "/apis/apps/v1/namespaces/feng/daemonsets/mortgageds-deploy",
+            updated: 6,
+            _clusterNamespace: "fxiang-eks",
+            _hostingDeployable:
+              "mortgageds-ch/mortgageds-channel-DaemonSet-mortgageds-deploy",
+            _hostingSubscription: "feng/mortgageds-subscription",
+            _rbac: "fxiang-eks_apps_daemonsets",
+            _uid: "fxiang-eks/ff6fb8f2-d3ec-433a-93d4-3d4389a8c4b4"
+          }
+        }
+      }
+    },
+    "controllerrevision-mortgageds-deploy-fxiang-eks": {
+      specs: {
+        parent: {
+          parentId:
+            "member--member--deployable--member--clusters--fxiang-eks--feng--mortgageds-subscription-mortgageds-mortgageds-deploy-daemonset--daemonset--mortgageds-deploy",
+          parentName: "mortgageds-deploy",
+          parentType: "daemonset"
+        }
+      }
+    }
+  };
+
+  it("should sync controllerRevision resource", () => {
+    expect(syncControllerRevisionPodStatusMap(resourceMap)).toEqual(undefined);
+  });
+
+  it("should not sync controllerRevision resource", () => {
+    expect(
+      syncControllerRevisionPodStatusMap(resourceMapNoParentPodModel)
+    ).toEqual(undefined);
+  });
+});
+
+describe("fixMissingStateOptions", () => {
+  const itemNoAvailableReady = {
+    _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
+    apiversion: "v1",
+    created: "2021-01-28T19:24:10Z",
+    current: 1,
+    apigroup: "apps",
+    kind: "statefulset",
+    name: "mariadb",
+    namespace: "val-mariadb-helm",
+    selfLink: "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
+    cluster: "fxiang-eks",
+    desired: 1,
+    label:
+      "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
+    _clusterNamespace: "fxiang-eks",
+    _rbac: "fxiang-eks_apps_statefulsets"
+  };
+
+  const itemNoAvailable = {
+    _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
+    apiversion: "v1",
+    created: "2021-01-28T19:24:10Z",
+    current: 1,
+    apigroup: "apps",
+    kind: "statefulset",
+    name: "mariadb",
+    namespace: "val-mariadb-helm",
+    selfLink: "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
+    cluster: "fxiang-eks",
+    desired: 1,
+    ready: 1,
+    label:
+      "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
+    _clusterNamespace: "fxiang-eks",
+    _rbac: "fxiang-eks_apps_statefulsets"
+  };
+
+  const itemComplete = {
+    _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
+    apiversion: "v1",
+    created: "2021-01-28T19:24:10Z",
+    current: 1,
+    apigroup: "apps",
+    kind: "statefulset",
+    name: "mariadb",
+    namespace: "val-mariadb-helm",
+    selfLink: "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
+    cluster: "fxiang-eks",
+    desired: 1,
+    ready: 1,
+    label:
+      "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
+    _clusterNamespace: "fxiang-eks",
+    _rbac: "fxiang-eks_apps_statefulsets",
+    available: 1
+  };
+
+  it("should get complete item when no available and ready set", () => {
+    expect(fixMissingStateOptions(itemNoAvailableReady)).toEqual(itemComplete);
+  });
+
+  it("should get complete item when no available", () => {
+    expect(fixMissingStateOptions(itemNoAvailable)).toEqual(itemComplete);
+  });
+
+  it("should get complete item when full data set", () => {
+    expect(fixMissingStateOptions(itemComplete)).toEqual(itemComplete);
+  });
+
+  it("should return undefined", () => {
+    expect(fixMissingStateOptions(undefined)).toEqual(undefined);
+  });
+});
+
+describe("namespaceMatchTargetServer", () => {
+  const relatedKind = {
+    apigroup: "route.openshift.io",
+    apiversion: "v1",
+    cluster: "ui-dev-remote",
+    created: "2021-02-10T02:32:02Z",
+    kind: "route",
+    label: "app.kubernetes.io/instance=helloworld-remote; app=helloworld-app",
+    name: "helloworld-app-route",
+    namespace: "argo-helloworld",
+    selfLink:
+      "/apis/route.openshift.io/v1/namespaces/argo-helloworld/routes/helloworld-app-route",
+    _clusterNamespace: "ui-dev-remote",
+    _rbac: "ui-dev-remote_route.openshift.io_routes",
+    _uid: "ui-dev-remote/ee84f8f5-bb3e-4c67-a918-2804e74f3f67"
+  };
+
+  const resourceMapForObject = {
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            destination: {
+              namespace: "argo-helloworld",
+              server: "https://kubernetes.default.svc"
+            },
+            metadata: {
+              name: "local-cluster",
+              namespace: "local-cluster"
+            },
+            status: "ok"
+          },
+          {
+            destination: {
+              namespace: "argo-helloworld",
+              server:
+                "https://api.app-aws-4615-zhl45.dev06.red-chesterfield.com:6443"
+            },
+            metadata: {
+              name: "app-aws-4615-zhl45",
+              namespace: "app-aws-4615-zhl45"
+            },
+            status: "ok"
+          },
+          {
+            destination: {
+              name: "ui-dev-remote",
+              namespace: "argo-helloworld2"
+            },
+            metadata: {
+              name: "ui-dev-remote",
+              namespace: "ui-dev-remote"
+            },
+            status: "ok"
+          }
+        ]
+      }
+    }
+  };
+
+  it("should match the target server", () => {
+    expect(
+      namespaceMatchTargetServer(relatedKind, resourceMapForObject)
+    ).toEqual(true);
   });
 });

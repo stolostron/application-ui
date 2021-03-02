@@ -1,12 +1,14 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
- * Copyright (c) 2020 Red Hat, Inc.
+
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 
 // seems to be an issue with this rule and redux
@@ -109,14 +111,17 @@ export const updateDisplayForPlacementControls = (
     //reset all values
     _.set(localClusterControl, 'active', false)
     _.set(onlineControl, 'active', false)
-    clusterSelectorControl.active.clusterLabelsListID = 1
-    delete clusterSelectorControl.active.clusterLabelsList
-    clusterSelectorControl.active.clusterLabelsList = [
-      { id: 0, labelName: '', labelValue: '', validValue: false }
-    ]
-    clusterSelectorControl.active.mode = true
-    delete clusterSelectorControl.showData
+    if (clusterSelectorControl.active) {
+      clusterSelectorControl.active.clusterLabelsListID = 1
+      delete clusterSelectorControl.active.clusterLabelsList
+      clusterSelectorControl.active.clusterLabelsList = [
+        { id: 0, labelName: '', labelValue: '', validValue: false }
+      ]
+      clusterSelectorControl.active.mode = true
+      delete clusterSelectorControl.showData
+    }
   })
+  return controlGlobal
 }
 
 export const updatePlacementControlsForLocal = placementControl => {
@@ -197,6 +202,26 @@ export const updatePlacementControlsForAllOnline = placementControl => {
   }
 
   return groupControlData
+}
+
+//when loading an existing app, pass to the control the placement value that is currently stored by the app
+//the reverse() function retrieves this the value out of the existing app template
+//the editor needs the existing value to know whether or not the user changed that value
+export const reverseExistingRule = (control, templateObject) => {
+  const active = _.get(
+    templateObject,
+    getSourcePath('Subscription[0].spec.placement.placementRef.name')
+  )
+  if (active && control.active === undefined) {
+    control.active = active.$v
+
+    const { groupControlData } = control
+    const selectedRuleName = groupControlData.find(
+      ({ id }) => id === 'selectedRuleName'
+    )
+    selectedRuleName.active = active.$v
+  }
+  return control
 }
 
 export const reverseOnline = (control, templateObject) => {
@@ -286,6 +311,8 @@ const placementData = async () => [
     tooltip: 'tooltip.creation.app.existingRuleCombo',
     id: 'placementrulecombo',
     type: 'hidden',
+    placeholder: 'select.existing.placement.rule',
+    reverse: reverseExistingRule,
     fetchAvailable: loadExistingPlacementRules(),
     onSelect: updateNewRuleControls,
     validation: {}

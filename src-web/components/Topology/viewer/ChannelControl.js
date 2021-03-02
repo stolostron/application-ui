@@ -1,12 +1,13 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
- *******************************************************************************/
+ ****************************************************************************** */
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 
 import React from 'react'
@@ -225,7 +226,7 @@ class ChannelControl extends React.Component {
     const { allChannels } = channelControl
     let { activeChannel } = channelControl
     const { fetchChannel } = this.state
-    activeChannel = fetchChannel || activeChannel
+    activeChannel = fetchChannel || activeChannel || allChannels[0]
 
     const channelMap = this.getSubChannels(allChannels)
 
@@ -341,8 +342,7 @@ class ChannelControl extends React.Component {
         // Update channel control variables for when refresh state is done
         let { activeChannel } = channelControl
         const { fetchChannel } = this.state
-        activeChannel = fetchChannel || activeChannel
-
+        activeChannel = fetchChannel || activeChannel || allChannels[0]
         const channelMap = this.getSubChannels(allChannels)
         showMainChannel = Object.keys(channelMap).length > 0
 

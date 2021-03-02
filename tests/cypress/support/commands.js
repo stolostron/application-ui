@@ -1,7 +1,5 @@
-/** *****************************************************************************
- * Licensed Materials - Property of Red Hat, Inc.
- * Copyright (c) 2020 Red Hat, Inc.
- ****************************************************************************** */
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 // ***********************************************
 // This example commands.js shows you how to
@@ -29,9 +27,10 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-const apiUrl =
-  Cypress.env("OC_CLUSTER_URL") ||
-  Cypress.config().baseUrl.replace("multicloud-console.apps", "api") + ":6443";
+const apiUrl = !Cypress.config().baseUrl.includes("localhost")
+  ? Cypress.config().baseUrl.replace("multicloud-console.apps", "api") + ":6443"
+  : Cypress.env("OC_CLUSTER_URL");
+
 const authUrl = Cypress.config().baseUrl.replace(
   "multicloud-console",
   "oauth-openshift"
@@ -253,17 +252,43 @@ Cypress.Commands.add("get$", selector => {
 });
 
 Cypress.Commands.add("ocLogin", role => {
+  cy.log(
+    `STEP 1 ocLogin with role=${role} ROLE MUST BE SET in users.yaml ( use KEY, not value from users.yaml!)`
+  );
   const { users } = Cypress.env("USER_CONFIG");
-  cy.addUserIfNotCreatedBySuite();
+  let user;
+  if (role !== "kubeadmin") {
+    cy.addUserIfNotCreatedBySuite();
+    user = users[role];
+    if (!user) {
+      user = role;
+      cy.log(
+        `This user role was not found in users.yaml, try to recover and use the role as the user name`
+      );
+    }
+    Cypress.env("OC_CLUSTER_USER", user);
+    cy.log(
+      `Role is not kubeadmin, adding user=${user} to Cypress.env("OC_CLUSTER_USER"), which is the users[${role}]`
+    );
+  }
+  cy.log("OC_CLUSTER_USER", Cypress.env("OC_CLUSTER_USER"));
+
   const loginUserDetails = {
     api: apiUrl,
-    user: Cypress.env("OC_CLUSTER_USER", users[role]),
+    user: user || "kubeadmin",
     password: Cypress.env("OC_CLUSTER_PASS")
   };
+  // Workaround for "error: x509: certificate signed by unknown authority" problem with oc login
+  let certificateAuthority = "";
+  if (Cypress.env("OC_CLUSTER_INGRESS_CA")) {
+    certificateAuthority = ` --certificate-authority=${Cypress.env(
+      "OC_CLUSTER_INGRESS_CA"
+    )}`;
+  }
   cy.exec(
     `oc login --server=${loginUserDetails.api} -u ${loginUserDetails.user} -p ${
       loginUserDetails.password
-    }`
+    }${certificateAuthority}`
   );
 });
 
@@ -275,6 +300,7 @@ Cypress.Commands.add("logInAsRole", role => {
 
   // Cypress.env("OC_CLUSTER_PASS",Cypress.env("OC_CLUSTER_USER_PASS"))
   Cypress.env("OC_IDP", idp);
+  cy.log(`logInAsRole, role=${role}, user=${user}, idp=${idp}`);
 
   // login only if user is not looged In
   const logInIfRequired = () => {
@@ -339,3 +365,23 @@ Cypress.Commands.add(
       });
   }
 );
+
+Cypress.Commands.add("rbacSwitchUser", role => {
+  cy.log(
+    `rbacSwitchUser role=${role}, USER_CONFIG env=${Cypress.env("USER_CONFIG")}`
+  );
+  const { users } = Cypress.env("USER_CONFIG");
+  if (Cypress.config().baseUrl.includes("localhost")) {
+    cy.ocLogin(role);
+    cy.exec("oc whoami -t").then(res => {
+      cy.setCookie("acm-access-token-cookie", res.stdout);
+      Cypress.env("token", res.stdout);
+    });
+  } else {
+    cy.addUserIfNotCreatedBySuite();
+    cy.logInAsRole(role);
+    cy.acquireToken().then(token => {
+      Cypress.env("token", token);
+    });
+  }
+});

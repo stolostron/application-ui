@@ -134,7 +134,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                       name="labelValue"
                       onChange={[Function]}
                       onClick={[Function]}
-                      placeholder="Label name"
+                      placeholder="Label value"
                       type="text"
                       value="Dev"
                     />
@@ -177,7 +177,7 @@ exports[`ClusterSelector component renders as expected 1`] = `
                       name="labelValue"
                       onChange={[Function]}
                       onClick={[Function]}
-                      placeholder="Label name"
+                      placeholder="Label value"
                       type="text"
                       value="AWS"
                     />

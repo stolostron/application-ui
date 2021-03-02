@@ -1,11 +1,12 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 'use strict'
 
 import _ from 'lodash'
@@ -46,8 +47,6 @@ class RemoveResourceModal extends React.Component {
     this.state = {
       canRemove: false,
       name: '',
-      cluster: '',
-      selfLink: '',
       errors: undefined,
       warnings: undefined,
       loading: true,
@@ -60,27 +59,22 @@ class RemoveResourceModal extends React.Component {
   UNSAFE_componentWillMount() {
     if (this.props.data) {
       const { data } = this.props
-      const kind = data.selfLink.split('/')
-      const apiGroup = kind[1] === 'apis' ? kind[2] : ''
-      canCallAction(
-        kind[kind.length - 2],
-        'delete',
-        data.namespace,
-        apiGroup
-      ).then(response => {
-        const allowed = _.get(response, 'data.userAccess.allowed')
-        this.setState({
-          canRemove: allowed,
-          errors: allowed
-            ? undefined
-            : msgs.get('table.actions.remove.unauthorized', this.props.locale)
-        })
-        this.getChildResources(data.name, data.namespace)
-      })
+      const kind = data.kind
+      const [group, version] = data.apiVersion.split('/')
+      canCallAction(kind, 'delete', data.namespace, group, version).then(
+        response => {
+          const allowed = _.get(response, 'data.userAccess.allowed')
+          this.setState({
+            canRemove: allowed,
+            errors: allowed
+              ? undefined
+              : msgs.get('table.actions.remove.unauthorized', this.props.locale)
+          })
+          this.getChildResources(data.name, data.namespace)
+        }
+      )
       this.setState({
-        name: data.name,
-        cluster: data.clusterName,
-        selfLink: data.selfLink
+        name: data.name
       })
     }
   }
@@ -145,7 +139,10 @@ class RemoveResourceModal extends React.Component {
                 )
                 children.push({
                   id: `subscriptions-${subNamespace}-${subName}`,
-                  selfLink: subscription.metadata.selfLink,
+                  name: subscription.metadata.name,
+                  namespace: subscription.metadata.namespace,
+                  kind: subscription.kind,
+                  apiVersion: subscription.apiVersion,
                   label: `${subName} [Subscription]`,
                   subChildResources: subChildResources
                 })
@@ -167,7 +164,8 @@ class RemoveResourceModal extends React.Component {
                   id: `rules-${currNamespace}-${currName}`,
                   name: currName,
                   namespace: currNamespace,
-                  selfLink: curr.metadata.selfLink,
+                  kind: curr.kind,
+                  apiVersion: curr.apiVersion,
                   label: `${currName} [PlacementRule]`,
                   type: RESOURCE_TYPES.HCM_PLACEMENT_RULES
                 })
@@ -244,7 +242,8 @@ class RemoveResourceModal extends React.Component {
             clusterName: '',
             selfLink: '',
             _uid: '',
-            kind: ''
+            kind: '',
+            apiVersion: ''
           }
         }
       })
@@ -252,8 +251,8 @@ class RemoveResourceModal extends React.Component {
   }
 
   handleSubmit() {
-    const { locale } = this.props
-    const { selfLink, cluster, selected, removeAppResources } = this.state
+    const { locale, data } = this.props
+    const { selected, removeAppResources } = this.state
     this.setState({
       loading: true
     })
@@ -266,15 +265,17 @@ class RemoveResourceModal extends React.Component {
     this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
     this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
     this.props.deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
-    if (!selfLink) {
+    if (!data.name) {
       this.setState({
         errors: msgs.get('modal.errors.querying.resource', locale)
       })
     } else {
       apolloClient
         .remove({
-          cluster,
-          selfLink,
+          apiVersion: data.apiVersion,
+          kind: data.kind,
+          name: data.name,
+          namespace: data.namespace,
           childResources: removeAppResources ? selected : []
         })
         .then(res => {
@@ -434,7 +435,7 @@ class RemoveResourceModal extends React.Component {
           onClose={this.handleClose.bind(this)}
           variant={ModalVariant.large}
           position="top"
-          positionOffset="200px"
+          positionOffset="225px"
           actions={[
             <Button
               key="confirm"

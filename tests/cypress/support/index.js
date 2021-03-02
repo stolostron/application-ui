@@ -1,12 +1,13 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2020. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+ ****************************************************************************** */
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 // ***********************************************************
 // This example support/index.js is processed and
@@ -35,7 +36,14 @@ import "./ansibleoperator";
 Cypress.Cookies.defaults({
   preserve: ["acm-access-token-cookie", "_oauth_proxy", "XSRF-TOKEN", "_csrf"]
 });
+
 before(() => {
+  // Use given user to install ansible operator
+  cy.ocLogin(Cypress.env("OC_CLUSTER_USER"));
+  cy.installAnsibleOperator();
+});
+
+beforeEach(() => {
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.ocLogin("cluster-manager-admin");
     cy.exec("oc whoami -t").then(res => {
@@ -48,7 +56,6 @@ before(() => {
     cy.acquireToken().then(token => {
       Cypress.env("token", token);
     });
-    //cy.installAnsibleOperator();
   }
 });
 

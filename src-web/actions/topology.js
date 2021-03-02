@@ -1,11 +1,12 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 import lodash from 'lodash'
 
@@ -83,9 +84,31 @@ export const getResourceData = nodes => {
   let resurceMustHavePods = false
   const nodeTypes = []
 
+  let isArgoApp = false
+  const targetNamespaces = []
+  const appNode = nodes.find(r => r.type === 'application')
+  if (appNode) {
+    isArgoApp =
+      lodash
+        .get(appNode, ['specs', 'raw', 'apiVersion'], '')
+        .indexOf('argo') !== -1
+    //get argo app destination namespacescase 'show_search':
+    const targetNamespacesInfo = lodash.get(
+      appNode,
+      ['specs', 'raw', 'spec', 'destinations'],
+      []
+    )
+    targetNamespacesInfo.forEach(targetNS => {
+      const ns = lodash.get(targetNS, 'namespace')
+      ns && targetNamespaces.push(ns)
+    })
+  }
+
   nodes.forEach(node => {
     const nodeType = lodash.get(node, 'type', '')
-    nodeTypes.push(nodeType) //ask for this related object type
+    if (!(isArgoApp && lodash.includes(['application', 'cluster'], nodeType))) {
+      nodeTypes.push(nodeType) //ask for this related object type
+    }
     if (nodeMustHavePods(node)) {
       //request pods when asking for related resources, this resource can have pods
       resurceMustHavePods = true
@@ -104,7 +127,9 @@ export const getResourceData = nodes => {
     //if only one subscription, ask for resources only related to that subscription
     subscription: nbOfSubscriptions === 1 ? subscriptionName : null,
     //ask only for these type of resources since only those are displayed
-    relatedKinds: lodash.uniq(nodeTypes)
+    relatedKinds: lodash.uniq(nodeTypes),
+    isArgoApp,
+    targetNamespaces
   }
 }
 

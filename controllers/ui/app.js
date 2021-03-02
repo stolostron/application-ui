@@ -1,12 +1,12 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-/* Copyright (c) 2020 Red Hat, Inc.
-*/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 'use strict'
 
@@ -38,7 +38,7 @@ router.get('/logout', (req, res) => {
   var redirectUrl =
     process.env.NODE_ENV !== 'development' && callbackUrl
       ? `https://${callbackUrl}${LOGOUT_API}`
-      : `${config.get('cfcRouterUrl')}${LOGOUT_API}`
+      : `${config.get('headerUrl')}${LOGOUT_API}`
   logger.debug('Final logout url:' + redirectUrl)
   return res.send({ redirectUrl })
 })

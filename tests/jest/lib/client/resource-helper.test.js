@@ -1,10 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 import lodash from "lodash";
 import moment from "moment";
 import {
+  RESOURCE_TYPES,
   transform,
   createEditLink,
   getLabelsToList,
@@ -514,10 +514,18 @@ describe("getSearchLink", () => {
   });
 });
 
-describe("getEditLink", () => {
-  it("returns an edit link using the item.selfLink", () => {
-    expect(getEditLink({ selfLink: "/api/foo" })).toEqual(
-      "/resources/local-cluster/api/foo"
+describe("getEditLink should return editLink", () => {
+  it("returns a url endpoint", () => {
+    expect(
+      getEditLink({
+        name: "test-1",
+        namespace: "test-1-ns",
+        kind: "Application",
+        cluster: "magchen-test",
+        apiVersion: "v1"
+      })
+    ).toEqual(
+      "/resources?apiversion=v1&cluster=magchen-test&kind=Application&name=test-1&namespace=test-1-ns"
     );
   });
 });
@@ -525,7 +533,14 @@ describe("getEditLink", () => {
 describe("createEditLink", () => {
   it("returns an a tag using the item.name and item.selfLink", () => {
     expect(
-      createEditLink({ name: "foo", selfLink: "/api/bar" })
+      createEditLink({
+        name: "foo",
+        selfLink: "/api/bar",
+        namespace: "boo",
+        apiVersion: "app.k8s.io/v1beta1",
+        kind: "Application",
+        id: "id"
+      })
     ).toMatchSnapshot();
   });
 });

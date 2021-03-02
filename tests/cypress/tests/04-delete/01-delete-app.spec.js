@@ -1,7 +1,5 @@
-/*******************************************************************************
- * Licensed Materials - Property of Red Hat, Inc.
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { deleteApplicationUI } from "../../views/application";
@@ -17,7 +15,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Delete application Test",
     apps.forEach(data => {
       if (data.enable) {
         if (data.new && (type === "git" || type === "helm")) {
-          it(`[P2][Sev2][app-lifecycle-ui] Try to delete channel with insecureSkipVerify option for application ${
+          it(`Try to delete channel with insecureSkipVerify option for application ${
             data.name
           }`, () => {
             const key = 2; // our tests use the invalidate option on add new subscription, which has index 2
@@ -41,9 +39,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Delete application Test",
             );
           });
         }
-        it(`[P1][Sev1][app-lifecycle-ui] Verify application ${
-          data.name
-        } is deleted from UI`, () => {
+        it(`Verify application ${data.name} is deleted from UI`, () => {
           deleteApplicationUI(data.name);
         });
       } else {

@@ -1,7 +1,5 @@
-/*******************************************************************************
- * Licensed Materials - Property of Red Hat
- * Copyright (c) 2020 Red Hat, Inc.
- *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
 
 let mockUserAccessAnyNamespaces = true;
 
@@ -33,7 +31,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
     }
 
     return Promise.resolve({ response: "invalid resonse" });
-  }),
+  })
 }));
 
 const React = require("../../../../node_modules/react");
@@ -74,11 +72,14 @@ describe("ApplicationCreationPage creating application", () => {
       .create(
         <BrowserRouter>
           <Provider store={store}>
-              <ApplicationCreationPage
-                params={params}
-                serverProps={{"title":"Red Hat Advanced Cluster Management for Kubernetes","context":{"locale":"en-US"}}}
-                secondaryHeaderProps={{ title: 'application.create.title' }}
-              />
+            <ApplicationCreationPage
+              params={params}
+              serverProps={{
+                title: "Red Hat Advanced Cluster Management for Kubernetes",
+                context: { locale: "en-US" }
+              }}
+              secondaryHeaderProps={{ title: "application.create.title" }}
+            />
           </Provider>
         </BrowserRouter>
       )

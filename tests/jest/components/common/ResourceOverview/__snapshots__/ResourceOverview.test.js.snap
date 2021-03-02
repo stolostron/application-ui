@@ -224,7 +224,6 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                       Cluster resource status
                        
                       <svg
-                        aria-describedby="pf-tooltip-2"
                         aria-hidden={true}
                         aria-labelledby={null}
                         className="resource-status-help-icon"

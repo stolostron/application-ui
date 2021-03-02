@@ -227,7 +227,6 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                         Cluster resource status
                          
                         <svg
-                          aria-describedby="pf-tooltip-1"
                           aria-hidden={true}
                           aria-labelledby={null}
                           className="resource-status-help-icon"

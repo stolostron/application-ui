@@ -144,7 +144,7 @@ describe("ApplicationsListPage", () => {
       .simulate("click");
     // clear search
     tree
-      .find('button[aria-label="Clear"]')
+      .find('button[aria-label="Reset"]')
       .at(0)
       .simulate("click");
   });

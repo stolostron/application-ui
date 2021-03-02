@@ -2,7 +2,6 @@
 
 exports[`CreateApplicationButton renders correctly when disabled 1`] = `
 <a
-  aria-describedby="pf-tooltip-3"
   href="undefined/create"
 >
   <button

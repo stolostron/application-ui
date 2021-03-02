@@ -49,6 +49,17 @@ const channelController3 = {
   ]
 };
 
+const channelController4 = {
+  activeChannel: undefined,
+  isChangingChannel: false,
+  changeTheChannel: jest.fn,
+  allChannels: [
+    "__ALL__/__ALL__//__ALL__/__ALL__",
+    "helloworld-demo-ns/helloworld-demo-subscription-1//rhacm-nginx-app-channel/nginx-app-channel",
+    "helloworld-demo-ns/helloworld-demo-subscription-2//multilevel-channel/multilevel-channel"
+  ]
+};
+
 describe("ChannelController components 1", () => {
   it("default", () => {
     const component = shallow(
@@ -142,6 +153,31 @@ describe("ChannelController components 3", () => {
             id: "blue-nginx-subscription",
             subchannels: [],
             text: "blue-nginx-subscription"
+          }
+        ])
+      );
+  });
+});
+
+describe("ChannelController components 4", () => {
+  it("ChannelController components 4", () => {
+    const wrapper = mount(
+      <ChannelController channelControl={channelController4} locale={"en-US"} />
+    );
+
+    wrapper
+      .find("#comboChannel")
+      .at(0)
+      .simulate(
+        "change",
+        ("helloworld-demo-subscription-1",
+        [
+          {
+            chn:
+              "helloworld-demo-ns/helloworld-demo-subscription-1//rhacm-nginx-app-channel/nginx-app-channel",
+            id: "helloworld-demo-subscription-1",
+            subchannels: [],
+            text: "helloworld-demo-subscription-1"
           }
         ])
       );

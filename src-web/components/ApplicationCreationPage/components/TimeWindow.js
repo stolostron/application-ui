@@ -408,7 +408,7 @@ export class TimeWindow extends React.Component {
 
   validateTime = time => {
     // hours only valid if they are [0-12]
-    const hours = parseInt(time.split(':')[0])
+    const hours = parseInt(time.split(':')[0], 10)
     const validHours = hours >= 0 && hours <= 12
     return this.getRegExp().test(time) && validHours
   };

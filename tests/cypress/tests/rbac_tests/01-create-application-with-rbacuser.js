@@ -19,9 +19,11 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Application Creatio
       getManagedClusterName();
     });
 
-    const mngdTestAdminRoles = "admin-managed-cluster";
-    const viewRole = "view-managed-cluster";
-    // for (const loginrole in mngdTestRoles ){
+
+    
+    const mngdTestAdminRoles = 'admin-managed-cluster'
+    const viewRole = 'view-managed-cluster'
+
 
     for (const type in config) {
       if (type == "git") {
@@ -86,24 +88,30 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Application Creatio
       }
     }
 
-    // }
 
-    it(`Verify a user with view only role: ${viewRole} cannot create application`, () => {
-      // cy.logInAsRole(viewRole)
-      cy.rbacSwitchUser(viewRole);
-      cy.visit("/multicloud/applications");
-      const alertMessage =
-        "You are not authorized to complete this action. See " +
-        "your cluster administrator for role-based " +
-        "access control information.";
-      cy
-        .get("#definition-tooltip-4", { timeout: 50 * 1000 })
-        .invoke("text")
-        .should("eq", alertMessage);
-    });
-  } else {
-    it("Skipping RBAC Test as of Now to execute test set export CYPRESS_RBAC_TEST=`true`", () => {
-      cy.log("set export CYPRESS_RBAC_TEST=`true`");
-    });
+
+  it(`Verify a user with view only role: ${viewRole} cannot create application`,() => {
+    // cy.logInAsRole(viewRole)
+    cy.rbacSwitchUser(viewRole)
+    cy.visit("/multicloud/applications")
+    const alertMessage =
+      "You are not authorized to complete this action. See "+
+      "your cluster administrator for role-based "+
+      "access control information."
+    // # Open Gitbacklog for tooltip message validation as a test Improvement
+
+    cy
+      .get('#CreateAppButton').trigger('mouseover',{ bubbles: true })
+      .should('have.attr', 'aria-disabled', 'true')
+      .and('have.attr', 'data-test-create-application', 'false')
+
+  })
+}
+  else{
+      
+        it('Skipping RBAC Test as of Now to execute test set export CYPRESS_RBAC_TEST=`true`',() => {
+          cy.log('set export CYPRESS_RBAC_TEST=`true`')
+          
+        })
   }
 });

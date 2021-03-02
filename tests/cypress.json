@@ -16,8 +16,7 @@
   "ignoreTestFiles": "**/ignoredTestFiles/*.js",
   "env": {
     "OC_IDP": "kube:admin",
-    "OC_CLUSTER_USER": "kubeadmin",
-    "RBAC_TEST": true
+    "OC_CLUSTER_USER": "kubeadmin"
   },
   "reporter": "cypress-multi-reporters",
   "reporterOptions": {

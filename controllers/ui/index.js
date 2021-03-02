@@ -13,11 +13,9 @@ var express = require('express'),
 
 //controllers
 var app = require('./app'),
-    tokenController = require('./token'),
-    serviceDiscovery = require('./serviceDiscovery')
+    tokenController = require('./token')
 
 router.all('/token', tokenController)
-router.all('/servicediscovery/*', serviceDiscovery)
 router.all(['/', '/*'], inspect.ui(), app)
 
 module.exports = router

@@ -17,6 +17,18 @@ import renderer from "react-test-renderer";
 import _ from "lodash";
 import { shallow } from "enzyme";
 
+const handleChange = jest.fn((checked, event) => {
+  return null;
+});
+
+const validation = jest.fn(exceptions => {
+  return null;
+});
+
+const summarizeFn = jest.fn(() => {
+  return null;
+});
+
 const controlNoWindow = {
   active: {
     days: [],
@@ -30,21 +42,37 @@ const controlNoWindow = {
 
 const controlActive = {
   active: {
-    days: [],
+    days: ['"Monday"'],
     mode: "active",
     showTimeSection: false,
-    timeList: [{ id: 0, start: "", end: "", validTime: true }],
-    timeListID: 1,
-    timezone: ""
-  }
+    timeList: [
+      { id: 0, start: "11:20am", end: "11:30am", validTime: true },
+      { id: 1, start: "12:20am", end: "12:30am", validTime: true }
+    ],
+    timeListID: 2,
+    timezone: '"America/Toronto"'
+  },
+  validation: validation,
+  summarize: summarizeFn
 };
-
-const handleChange = jest.fn((checked, event) => {
-  return null;
-});
 
 describe("TimeWindow component default, no-window selected", () => {
   it("basic UI snapshot validation", () => {
+    const component = renderer.create(
+      <TimeWindow
+        locale="en-US"
+        type="custom"
+        available={[]}
+        control={controlNoWindow}
+        handleChange={handleChange}
+      />
+    );
+    expect(component.toJSON()).toMatchSnapshot();
+  });
+});
+
+describe("TimeWindow component default, window selected", () => {
+  it("snapshot validation with time window set", () => {
     const component = renderer.create(
       <TimeWindow
         locale="en-US"
@@ -120,6 +148,11 @@ describe("TimeWindow component, active window selected", () => {
     wrapper
       .find(".config-timezone-combo-box")
       .at(0)
+      .simulate("change", '"America/Toronto"');
+
+    wrapper
+      .find(".config-timezone-combo-box")
+      .at(0)
       .simulate("filter", evt);
 
     wrapper
@@ -137,22 +170,44 @@ describe("TimeWindow component, active window selected", () => {
       .at(0)
       .simulate("change", false, evtDaySelector);
 
-    //start-time-0-input
     wrapper.find("#start-time-0").simulate("click", true, evt);
 
     const evtTimeSelector = {
       target: {
         name: "time-selector",
-        value: "11:20",
+        value: "11:20am",
         id: "start-time-0-input"
       }
     };
-    //pf-m-clock
+    //test time picker
+    wrapper
+      .find("TimePicker")
+      .at(0)
+      .simulate("change", "11:20am", evtTimeSelector);
     wrapper
       .find("TimePicker")
       .at(0)
       .simulate("change", "11:20", evtTimeSelector);
+    wrapper
+      .find("TimePicker")
+      .at(0)
+      .simulate("change", "", evtTimeSelector);
+    wrapper
+      .find("TimePicker")
+      .at(0)
+      .simulate("change", "badTime", evtTimeSelector);
 
     wrapper.find(".add-time-btn").simulate("click", true, evtTimeSelector);
+
+    //test time picker
+    wrapper
+      .find(".remove-time-btn")
+      .at(0)
+      .simulate("click", evtTimeSelector);
+
+    wrapper
+      .find(".remove-time-btn")
+      .at(0)
+      .simulate("keypress", evtTimeSelector);
   });
 });

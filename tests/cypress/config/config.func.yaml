@@ -53,10 +53,10 @@ git:
               - Thursday
               - Friday
             hours:
-              - start: "09:10"
-                end: "09:11"
-              - start: "15:10"
-                end: "15:11"
+              - start: "09:10am"
+                end: "09:11am"
+              - start: "3:10pm"
+                end: "3:11pm"
           deployment:
             local: true
             online: false
@@ -125,10 +125,10 @@ objectstore:
               - Thursday
               - Friday
             hours:
-              - start: "09:10"
-                end: "09:11"
-              - start: "15:10"
-                end: "15:11"
+              - start: "09:10am"
+                end: "09:11am"
+              - start: "15:10pm"
+                end: "15:11pm"
           deployment:
             local: true
             online: false

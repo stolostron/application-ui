@@ -5,16 +5,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
+import { AcmSelect } from '@open-cluster-management/ui-components'
 import {
+  Radio,
+  Checkbox,
   Accordion,
   AccordionItem,
-  Checkbox,
-  ComboBox,
-  Icon,
-  RadioButton,
-  RadioButtonGroup,
+  AccordionToggle,
+  AccordionContent,
+  SelectOption,
+  SelectVariant,
   TimePicker
-} from 'carbon-components-react'
+} from '@patternfly/react-core'
+import PlusCircleIcon from '@patternfly/react-icons/dist/js/icons/plus-circle-icon'
+import TimesCircleIcon from '@patternfly/react-icons/dist/js/icons/times-circle-icon'
 import { Tooltip, getSourcePath, removeVs } from 'temptifly'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -34,9 +38,6 @@ export class TimeWindow extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      timezoneCache: { isSelected: false, tz: '' }
-    }
     if (_.isEmpty(this.props.control.active)) {
       this.props.control.active = {
         mode: '',
@@ -47,7 +48,31 @@ export class TimeWindow extends React.Component {
         timeListID: 1
       }
     }
+    this.state = {
+      timezoneCache: { isSelected: false, tz: '' },
+      isExpanded: this.props.control.active.mode
+    }
     this.props.control.validation = this.validation.bind(this)
+
+    this.timezoneList = this.renderTimezones(
+      moment.tz.names(),
+      moment.tz.guess(true),
+      'timezone-dropdown'
+    ).map(tz => (
+      <SelectOption key={tz.key} value={tz.value}>
+        {tz.label}
+      </SelectOption>
+    ))
+
+    this.daysMap = new Map([
+      ['mon', 'Monday'],
+      ['tue', 'Tuesday'],
+      ['wed', 'Wednesday'],
+      ['thu', 'Thursday'],
+      ['fri', 'Friday'],
+      ['sat', 'Saturday'],
+      ['sun', 'Sunday']
+    ])
   }
 
   validation(exceptions) {
@@ -72,29 +97,39 @@ export class TimeWindow extends React.Component {
           controlId: 'timeWindow-config'
         })
       }
+      // Add exception if no timelist selected
+      if (control.active.timeList && control.active.timeList.length > 0) {
+        const invalidTimeRange = timeRange =>
+          timeRange.validTime &&
+          (timeRange.start === '' || timeRange.end === '')
+        if (control.active.timeList.some(invalidTimeRange)) {
+          exceptions.push({
+            row: 1,
+            text: msgs.get('creation.missing.timeWindow.timelist', locale),
+            type: 'error',
+            controlId: 'timeWindow-config'
+          })
+        }
+      } else {
+        exceptions.push({
+          row: 1,
+          text: msgs.get('creation.missing.timeWindow.timelist', locale),
+          type: 'error',
+          controlId: 'timeWindow-config'
+        })
+      }
     }
   }
 
   render() {
-    if (!this.props.control.active) {
-      this.props.control.active = {
-        mode: '',
-        days: [],
-        timezone: '',
-        showTimeSection: false,
-        timeList: [{ id: 0, start: '', end: '', validTime: true }],
-        timeListID: 1
-      }
+    const { isExpanded } = this.state
+    const onToggle = toggleStatus => {
+      this.setState({ isExpanded: !toggleStatus })
     }
     const { controlId, locale, control } = this.props
     const { name, active, validation = {} } = control
     const modeSelected = active && active.mode ? true : false
-    const daysSelectorID = 'days-selector'
-    const timezoneDropdownID = 'timezone-dropdown'
     const { mode, days = [], timezone } = this.props.control.active
-
-    const timezoneList = moment.tz.names()
-    const localTimezone = moment.tz.guess(true)
 
     return (
       <React.Fragment>
@@ -108,206 +143,161 @@ export class TimeWindow extends React.Component {
           </div>
 
           <div className="timeWindow-container">
-            <RadioButtonGroup
-              key={`mode${mode}`}
-              className="timeWindow-mode-container"
+            <Radio
+              className="mode-btn"
               name={`timeWindow-mode-container-${controlId}`}
-              defaultSelected={mode ? `"${mode}"` : ''}
-              id={controlId}
-            >
-              <RadioButton
-                className="mode-btn"
-                id={`default-mode-${controlId}`}
-                labelText={msgs.get(
-                  'creation.app.settings.timeWindow.defaultMode',
-                  locale
-                )}
-                value=""
-                onClick={this.handleChange.bind(this)}
-              />
-              <RadioButton
-                className="mode-btn"
-                id={`active-mode-${controlId}`}
-                labelText={msgs.get(
-                  'creation.app.settings.timeWindow.activeMode',
-                  locale
-                )}
-                value="&quot;active&quot;"
-                onClick={this.handleChange.bind(this)}
-              />
-              <RadioButton
-                className="mode-btn"
-                id={`blocked-mode-${controlId}`}
-                labelText={msgs.get(
-                  'creation.app.settings.timeWindow.blockedMode',
-                  locale
-                )}
-                value="&quot;blocked&quot;"
-                onClick={this.handleChange.bind(this)}
-              />
-            </RadioButtonGroup>
+              id={`default-mode-${controlId}`}
+              label={msgs.get(
+                'creation.app.settings.timeWindow.defaultMode',
+                locale
+              )}
+              value=""
+              onChange={this.handleChange.bind(this)}
+              defaultChecked={!mode}
+            />
+            <Radio
+              className="mode-btn"
+              name={`timeWindow-mode-container-${controlId}`}
+              id={`active-mode-${controlId}`}
+              label={msgs.get(
+                'creation.app.settings.timeWindow.activeMode',
+                locale
+              )}
+              value="&quot;active&quot;"
+              onChange={this.handleChange.bind(this)}
+              defaultChecked={mode === 'active'}
+            />
+            <Radio
+              className="mode-btn"
+              name={`timeWindow-mode-container-${controlId}`}
+              id={`blocked-mode-${controlId}`}
+              label={msgs.get(
+                'creation.app.settings.timeWindow.blockedMode',
+                locale
+              )}
+              value="&quot;blocked&quot;"
+              onChange={this.handleChange.bind(this)}
+              defaultChecked={mode === 'blocked'}
+            />
 
             <Accordion>
-              <AccordionItem
-                open={modeSelected}
-                title={msgs.get(
-                  'creation.app.settings.timeWindow.config',
-                  locale
-                )}
-              >
-                <div
-                  className="timeWindow-config-container"
-                  id="timeWindow-config"
+              <AccordionItem>
+                <AccordionToggle
+                  onClick={() => {
+                    onToggle(isExpanded)
+                  }}
+                  isExpanded={isExpanded}
+                  id="time-window-header"
                 >
-                  <div className="config-days-section">
-                    <div className="config-title">
-                      {msgs.get(
-                        'creation.app.settings.timeWindow.config.days.title',
-                        locale
-                      )}{' '}
-                      *
-                    </div>
-                    <div className="config-descr">
-                      {msgs.get(
-                        'creation.app.settings.timeWindow.config.days.descr',
-                        locale
-                      )}
-                    </div>
-                    <div className="config-days-selector">
-                      <div className="first-col">
-                        <Checkbox
-                          checked={days.includes('"Monday"')}
-                          labelText="Monday"
-                          name={daysSelectorID}
-                          id={`mon-${controlId}`}
-                          value="&quot;Monday&quot;"
-                          disabled={!modeSelected}
-                          onClick={this.handleChange.bind(this)}
-                        />
-                        <Checkbox
-                          checked={days.includes('"Tuesday"')}
-                          labelText="Tuesday"
-                          name={daysSelectorID}
-                          id={`tue-${controlId}`}
-                          value="&quot;Tuesday&quot;"
-                          disabled={!modeSelected}
-                          onClick={this.handleChange.bind(this)}
-                        />
-                        <Checkbox
-                          checked={days.includes('"Wednesday"')}
-                          labelText="Wednesday"
-                          name={daysSelectorID}
-                          id={`wed-${controlId}`}
-                          value="&quot;Wednesday&quot;"
-                          disabled={!modeSelected}
-                          onClick={this.handleChange.bind(this)}
-                        />
-                        <Checkbox
-                          checked={days.includes('"Thursday"')}
-                          labelText="Thursday"
-                          name={daysSelectorID}
-                          id={`thu-${controlId}`}
-                          value="&quot;Thursday&quot;"
-                          disabled={!modeSelected}
-                          onClick={this.handleChange.bind(this)}
-                        />
-                        <Checkbox
-                          checked={days.includes('"Friday"')}
-                          labelText="Friday"
-                          name={daysSelectorID}
-                          id={`fri-${controlId}`}
-                          value="&quot;Friday&quot;"
-                          disabled={!modeSelected}
-                          onClick={this.handleChange.bind(this)}
-                        />
-                      </div>
-                      <div className="second-col">
-                        <Checkbox
-                          checked={days.includes('"Saturday"')}
-                          labelText="Saturday"
-                          name={daysSelectorID}
-                          id={`sat-${controlId}`}
-                          value="&quot;Saturday&quot;"
-                          disabled={!modeSelected}
-                          onClick={this.handleChange.bind(this)}
-                        />
-                        <Checkbox
-                          checked={days.includes('"Sunday"')}
-                          labelText="Sunday"
-                          name={daysSelectorID}
-                          id={`sun-${controlId}`}
-                          value="&quot;Sunday&quot;"
-                          disabled={!modeSelected}
-                          onClick={this.handleChange.bind(this)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="config-timezone-section">
-                    <div className="config-title">
-                      {msgs.get(
-                        'creation.app.settings.timeWindow.config.timezone.title',
-                        locale
-                      )}{' '}
-                      *
-                    </div>
-                    <ComboBox
-                      ariaLabel="timezoneComboBox"
-                      label={msgs.get(
-                        'timeWindow.label.timezone.label',
-                        locale
-                      )}
-                      className="config-timezone-combo-box"
-                      placeholder={msgs.get(
-                        'timeWindow.label.timezone.placeholder',
-                        locale
-                      )}
-                      initialSelectedItem={timezone || ''}
-                      items={this.renderTimezones(
-                        timezoneList,
-                        localTimezone,
-                        timezoneDropdownID
-                      )}
-                      disabled={!modeSelected}
-                      shouldFilterItem={({ inputValue, item }) => {
-                        return (
-                          inputValue.length === 0 ||
-                          item.label
-                            .toLowerCase()
-                            .indexOf(inputValue.toLowerCase()) !== -1
-                        )
-                      }}
-                      onChange={this.handleChange.bind(this)}
-                    />
-                  </div>
-
-                  <div className="config-time-section">
-                    {this.renderTimes(control, modeSelected)}
-                    <div
-                      className={`add-time-btn ${
-                        !modeSelected ? 'btn-disabled' : ''
-                      }`}
-                      tabIndex="0"
-                      role={'button'}
-                      onClick={() => this.addTimeToList(control, modeSelected)}
-                      onKeyPress={this.addTimeKeyPress.bind(this)}
-                    >
-                      <Icon
-                        name="icon--add--glyph"
-                        fill="#3d70b2"
-                        description=""
-                        className="add-time-btn-icon"
-                      />
-                      <div className="add-time-btn-text">
+                  {msgs.get('creation.app.settings.timeWindow.config', locale)}
+                </AccordionToggle>
+                <AccordionContent isHidden={!isExpanded}>
+                  <div
+                    className="timeWindow-config-container"
+                    id="timeWindow-config"
+                  >
+                    <div className="config-days-section">
+                      <div className="config-title">
                         {msgs.get(
-                          'creation.app.settings.timeWindow.config.time.add',
+                          'creation.app.settings.timeWindow.config.days.title',
+                          locale
+                        )}{' '}
+                        <div className="config-title-required">*</div>
+                      </div>
+                      <div className="config-descr">
+                        {msgs.get(
+                          'creation.app.settings.timeWindow.config.days.descr',
                           locale
                         )}
                       </div>
+                      <div className="config-days-selector">
+                        <div className="first-col">
+                          {Array.from(this.daysMap, ([key, value]) => {
+                            return (
+                              <Checkbox
+                                isChecked={days.includes(`"${value}"`)}
+                                label={value}
+                                name={`days-selector-${key}`}
+                                id={`${key}-${controlId}`}
+                                key={`${key}-${controlId}`}
+                                value={`"${value}"`}
+                                isDisabled={!modeSelected}
+                                onChange={this.handleChange.bind(this)}
+                              />
+                            )
+                          })}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="config-timezone-section">
+                      <div className="config-title">
+                        {msgs.get(
+                          'creation.app.settings.timeWindow.config.timezone.title',
+                          locale
+                        )}{' '}
+                        <div className="config-title-required">*</div>
+                      </div>
+                      <AcmSelect
+                        id="timeZoneSelect"
+                        variant={SelectVariant.typeahead}
+                        inlineFilterPlaceholderText="Select a state"
+                        aria-label="timezoneComboBox"
+                        className="config-timezone-combo-box"
+                        placeholder={msgs.get(
+                          'timeWindow.label.timezone.placeholder',
+                          locale
+                        )}
+                        value={timezone || ''}
+                        isDisabled={!modeSelected}
+                        maxHeight={180}
+                        onFilter={e => {
+                          let input
+                          try {
+                            input = new RegExp(e.target.value, 'i')
+                          } catch (err) {
+                            // Nothing to do
+                          }
+                          return e.target.value !== ''
+                            ? this.timezoneList.filter(child =>
+                              input.test(child.props.value)
+                            )
+                            : this.timezoneList
+                        }}
+                        onChange={this.handleTimeZone}
+                      >
+                        {this.timezoneList}
+                      </AcmSelect>
+                    </div>
+
+                    <div className="config-time-section">
+                      {this.renderTimes(control, modeSelected)}
+                      <div
+                        className={`add-time-btn ${
+                          !modeSelected ? 'btn-disabled' : ''
+                        }`}
+                        tabIndex="0"
+                        role={'button'}
+                        onClick={() =>
+                          this.addTimeToList(control, modeSelected)
+                        }
+                        onKeyPress={this.addTimeKeyPress.bind(this)}
+                      >
+                        <PlusCircleIcon
+                          color="#06c"
+                          key="add-time"
+                          className="add-time-btn-icon"
+                        />
+                        <div className="add-time-btn-text">
+                          {msgs.get(
+                            'creation.app.settings.timeWindow.config.time.add',
+                            locale
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </AccordionContent>
               </AccordionItem>
             </Accordion>
           </div>
@@ -320,7 +310,7 @@ export class TimeWindow extends React.Component {
     const timezoneObjList = [
       {
         label: localTimezone,
-        name: id,
+        key: `${localTimezone}-${id}`,
         value: `"${localTimezone}"`
       }
     ]
@@ -330,7 +320,7 @@ export class TimeWindow extends React.Component {
     timezoneList.forEach(tz => {
       timezoneObjList.push({
         label: tz,
-        name: id,
+        key: `${tz}-${id}`,
         value: `"${tz}"`
       })
     })
@@ -339,51 +329,68 @@ export class TimeWindow extends React.Component {
   };
 
   renderTimes = (control, modeSelected) => {
+    const { locale, controlId } = this.props
     return (
       control.active &&
       control.active.timeList.map(item => {
-        const { id, start, end, validTime } = item
+        const { id, existingStart, existingEnd, validTime } = item
         // Don't show deleted time invertals
         if (validTime) {
           return (
             <React.Fragment key={id}>
+              {id === 0 ? (
+                <div className="time-picker-title">
+                  <div className="config-title">
+                    {msgs.get(
+                      'creation.app.settings.timeWindow.config.timezone.startTime',
+                      locale
+                    )}{' '}
+                    <div className="config-title-required">*</div>
+                  </div>
+                  <div className="config-title">
+                    {msgs.get(
+                      'creation.app.settings.timeWindow.config.timezone.endTime',
+                      locale
+                    )}{' '}
+                    <div className="config-title-required">*</div>
+                  </div>
+                </div>
+              ) : (
+                ''
+              )}
               <div className="config-time-container">
-                <div className="config-start-time">
+                <div className="config-input-time">
                   <TimePicker
-                    id={`start-time-${id}`}
-                    name="start-time"
-                    labelText={id === 0 ? 'Start Time' : ''}
-                    type="time"
-                    value={this.state.startTime || to24(start) || ''}
-                    disabled={!modeSelected}
-                    onChange={this.handleChange.bind(this)}
+                    id={`start-time-${id}-${controlId}`}
+                    defaultTime={existingStart ? existingStart : ''}
+                    isDisabled={!modeSelected}
+                    onChange={this.handleTimeRange.bind(this)}
+                    width={'140px'}
                   />
                 </div>
-                <div className="config-end-time">
+                <div className="config-input-time">
                   <TimePicker
-                    id={`end-time-${id}`}
-                    name="end-time"
-                    labelText={id === 0 ? 'End Time' : ''}
-                    type="time"
-                    value={this.state.endTime || to24(end) || ''}
-                    disabled={!modeSelected}
-                    onChange={this.handleChange.bind(this)}
+                    id={`end-time-${id}-${controlId}`}
+                    defaultTime={existingEnd ? existingEnd : ''}
+                    isDisabled={!modeSelected}
+                    onChange={this.handleTimeRange.bind(this)}
+                    width={'140px'}
                   />
                 </div>
                 {id !== 0 ? ( // Option to remove added times
                   <div
                     id={id}
-                    className="remove-time-btn"
+                    className={`remove-time-btn ${
+                      !modeSelected ? 'btn-disabled' : ''
+                    }`}
                     tabIndex="0"
                     role={'button'}
-                    onClick={() => this.removeTimeFromList(control, item)}
+                    onClick={() =>
+                      this.removeTimeFromList(control, item, modeSelected)
+                    }
                     onKeyPress={this.removeTimeKeyPress.bind(this)}
                   >
-                    <Icon
-                      name="icon--close--glyph"
-                      fill="#3d70b2"
-                      className="remove-time-btn-icon"
-                    />
+                    <TimesCircleIcon color="#06c" key="remove-time" />
                   </div>
                 ) : (
                   ''
@@ -397,14 +404,25 @@ export class TimeWindow extends React.Component {
     )
   };
 
-  // Convert 24-hour format to 12-hour format
-  convertTimeFormat = time => {
-    if (time !== '') {
-      const hour24 = +time.substring(0, 2)
-      let hour12 = hour24 % 12 || 12
-      hour12 = hour12 < 10 ? '0' + hour12 : hour12
-      const period = hour24 < 12 ? 'AM' : 'PM'
-      return hour12 + time.substring(2) + period
+  getRegExp = () => new RegExp('\\b\\d\\d?:?[0-5]\\d\\s?([AaPp][Mm])?\\b');
+
+  validateTime = time => {
+    // hours only valid if they are [0-12]
+    const hours = parseInt(time.split(':')[0], 10)
+    const validHours = hours >= 0 && hours <= 12
+    return this.getRegExp().test(time) && validHours
+  };
+
+  parseTime = time => {
+    if (time !== '' && this.validateTime(time)) {
+      if (
+        !time.toLowerCase().includes('am') &&
+        !time.toLowerCase().includes('pm')
+      ) {
+        return `${time}${new Date().getHours() > 11 ? 'pm' : 'am'}` // if currently morning append am, otherwise pm
+      } else {
+        return time.toLowerCase()
+      }
     } else {
       return ''
     }
@@ -432,13 +450,15 @@ export class TimeWindow extends React.Component {
     }
   };
 
-  removeTimeFromList = (control, item) => {
-    // Removed times are no longer valid
-    control.active.timeList[item.id].validTime = false
+  removeTimeFromList = (control, item, modeSelected) => {
+    if (modeSelected) {
+      // Removed times are no longer valid
+      control.active.timeList[item.id].validTime = false
 
-    // Update UI and yaml editor
-    this.forceUpdate()
-    this.handleChange({})
+      // Update UI and yaml editor
+      this.forceUpdate()
+      this.handleChange({})
+    }
   };
 
   removeTimeKeyPress = e => {
@@ -447,7 +467,50 @@ export class TimeWindow extends React.Component {
     }
   };
 
-  handleChange(event) {
+  handleTimeZone = value => {
+    const { control, handleChange } = this.props
+
+    if (value) {
+      // Set timezone on select and set cached tz for repopulating yaml
+      control.active.timezone = value
+      this.setState({
+        timezoneCache: { isSelected: true, tz: value }
+      })
+    } else {
+      // Reset timezone and reset cached tz
+      control.active.timezone = ''
+      this.setState({ timezoneCache: { isSelected: false, tz: '' } })
+    }
+
+    handleChange(control)
+  };
+
+  handleTimeRange(value, event) {
+    const { control, handleChange } = this.props
+
+    let targetID = ''
+    try {
+      targetID = event.target.id
+    } catch (e) {
+      targetID = ''
+    }
+
+    const timeID = parseInt(targetID.split('-')[2], 10)
+    const parsedTime = this.parseTime(value)
+    if (targetID.includes('start-time')) {
+      // As long as first start-time is entered, all times will show
+      if (timeID === 0) {
+        control.active.showTimeSection = parsedTime ? true : false
+      }
+      control.active.timeList[timeID].start = parsedTime
+    } else if (targetID.includes('end-time')) {
+      control.active.timeList[timeID].end = parsedTime
+    }
+
+    handleChange(control)
+  }
+
+  handleChange(checked, event) {
     const { control, handleChange } = this.props
     const { timezoneCache } = this.state
 
@@ -469,50 +532,15 @@ export class TimeWindow extends React.Component {
           control.active.timezone = timezoneCache.tz
         }
         control.active.mode = (event.target.value || '').replace(/"/g, '')
-      } else {
-        switch (targetName) {
-        case 'days-selector':
-          if (event.target.checked === true) {
-            control.active.days.push(event.target.value)
-          } else {
-            const index = control.active.days.indexOf(event.target.value)
-            control.active.days.splice(index, 1)
-          }
-          break
-        case 'start-time':
-          {
-            const startTimeID = parseInt(event.target.id.split('-')[2], 10)
-            const convertedTime = this.convertTimeFormat(event.target.value)
-            // As long as first start-time is entered, all times will show
-            if (startTimeID === 0) {
-              control.active.showTimeSection = convertedTime ? true : false
-            }
-            control.active.timeList[startTimeID].start = convertedTime
-          }
-          break
-        case 'end-time':
-          {
-            const endTimeID = parseInt(event.target.id.split('-')[2], 10)
-            control.active.timeList[endTimeID].end = this.convertTimeFormat(
-              event.target.value
-            )
-          }
-          break
+        this.setState({ isExpanded: control.active.mode })
+      } else if (targetName.startsWith('days-selector')) {
+        if (checked) {
+          control.active.days.push(event.target.value)
+        } else {
+          const index = control.active.days.indexOf(event.target.value)
+          control.active.days.splice(index, 1)
         }
       }
-    } else if (
-      event.selectedItem &&
-      event.selectedItem.name === 'timezone-dropdown'
-    ) {
-      // Set timezone on select and set cached tz for repopulating yaml
-      control.active.timezone = event.selectedItem.value
-      this.setState({
-        timezoneCache: { isSelected: true, tz: event.selectedItem.value }
-      })
-    } else if (event.selectedItem === null) {
-      // Reset timezone and reset cached tz
-      control.active.timezone = ''
-      this.setState({ timezoneCache: { isSelected: false, tz: '' } })
     }
 
     handleChange(control)
@@ -550,6 +578,8 @@ export const reverse = (control, templateObject) => {
       timeList = timeList.map(({ start, end }, id) => {
         return {
           id,
+          existingStart: start,
+          existingEnd: end,
           start,
           end,
           validTime: true
@@ -584,21 +614,4 @@ export const summarize = (control, controlData, summary) => {
   } else {
     summary.push('No time window')
   }
-}
-
-// Convert 12-hour format to 24-hour format
-const to24 = time => {
-  const match = /((1[0-2]|0?[1-9]):([0-5][0-9])([AP][M]))/.exec(time)
-  if (match) {
-    const [, , hour12, minute, period] = match
-    let hour = parseInt(hour12, 10)
-    if (hour < 12 && period === 'PM') {
-      hour += 12
-    }
-    if (hour < 10) {
-      hour = `0${hour}`
-    }
-    return `${hour}:${minute}`
-  }
-  return time
 }

@@ -43,24 +43,28 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
       .click({ force: true });
     selectDate(date, key);
 
-    cy
-      .get(".bx--combo-box.config-timezone-combo-box.bx--list-box")
-      .within($timezone => {
-        cy.get("[type='button']").click();
-        cy
-          .get(".bx--list-box__menu-item:first-of-type", {
-            timeout: 30 * 1000
-          })
-          .click();
-      });
+    cy.get(".pf-c-select.config-timezone-combo-box").within($timezone => {
+      cy.get("[type='button']").click();
+      cy
+        .get(".pf-c-select__menu-item:first", {
+          timeout: 30 * 1000
+        })
+        .click();
+    });
 
     if (hours) {
+      const group = key != 0 ? `grp${key}` : "";
       hours.forEach((interval, idx) => {
-        cy.get(`#start-time-${idx}`).type(interval.start);
-        cy.get(`#end-time-${idx}`).type(interval.end);
+        const startTime = `#start-time-${idx}-timeWindow${group}-input`;
+        const endTime = `#end-time-${idx}-timeWindow${group}-input`;
+        cy.get(startTime).type(interval.start);
+        cy.get(endTime).type(interval.end);
 
         if (idx < hours.length - 1) {
-          cy.get(".add-time-btn", { timeout: 10 * 1000 }).click();
+          cy
+            .get(".add-time-btn", { timeout: 10 * 1000 })
+            .scrollIntoView()
+            .click({ force: true });
         }
       });
     }

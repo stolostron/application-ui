@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TimeWindow component renders as expected 1`] = `
+exports[`TimeWindow component default, no-window selected basic UI snapshot validation 1`] = `
 <div
   className="creation-view-controls-labels"
 >
@@ -11,123 +11,125 @@ exports[`TimeWindow component renders as expected 1`] = `
     className="timeWindow-container"
   >
     <div
-      className="bx--form-item"
+      className="pf-c-radio mode-btn"
     >
-      <div
-        className="timeWindow-mode-container"
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-1"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={true}
+        disabled={false}
+        id="default-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value=""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="default-mode-undefined"
       >
-        <div
-          className="radioButtonWrapper mode-btn"
-        >
-          <input
-            checked={true}
-            className="bx--radio-button"
-            id="default-mode-undefined"
-            name="timeWindow-mode-container-undefined"
-            onChange={[Function]}
-            onClick={[Function]}
-            type="radio"
-            value=""
-          />
-          <label
-            className="bx--radio-button__label"
-            htmlFor="default-mode-undefined"
-          >
-            <span
-              className="bx--radio-button__appearance"
-            />
-            Always active
-          </label>
-        </div>
-        <div
-          className="radioButtonWrapper mode-btn"
-        >
-          <input
-            checked={false}
-            className="bx--radio-button"
-            id="active-mode-undefined"
-            name="timeWindow-mode-container-undefined"
-            onChange={[Function]}
-            onClick={[Function]}
-            type="radio"
-            value="\\"active\\""
-          />
-          <label
-            className="bx--radio-button__label"
-            htmlFor="active-mode-undefined"
-          >
-            <span
-              className="bx--radio-button__appearance"
-            />
-            Active within specified interval
-          </label>
-        </div>
-        <div
-          className="radioButtonWrapper mode-btn"
-        >
-          <input
-            checked={false}
-            className="bx--radio-button"
-            id="blocked-mode-undefined"
-            name="timeWindow-mode-container-undefined"
-            onChange={[Function]}
-            onClick={[Function]}
-            type="radio"
-            value="\\"blocked\\""
-          />
-          <label
-            className="bx--radio-button__label"
-            htmlFor="blocked-mode-undefined"
-          >
-            <span
-              className="bx--radio-button__appearance"
-            />
-            Blocked within specified interval
-          </label>
-        </div>
-      </div>
+        Always active
+      </label>
     </div>
-    <ul
-      className="bx--accordion"
+    <div
+      className="pf-c-radio mode-btn"
     >
-      <li
-        className="bx--accordion__item"
-        onClick={[Function]}
-        onKeyPress={[Function]}
-        open={false}
-        role="presentation"
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-2"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={false}
+        disabled={false}
+        id="active-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value="\\"active\\""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="active-mode-undefined"
       >
+        Active within specified interval
+      </label>
+    </div>
+    <div
+      className="pf-c-radio mode-btn"
+    >
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-3"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={false}
+        disabled={false}
+        id="blocked-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value="\\"blocked\\""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="blocked-mode-undefined"
+      >
+        Blocked within specified interval
+      </label>
+    </div>
+    <dl
+      aria-label=""
+      className="pf-c-accordion"
+    >
+      <dt>
         <button
-          aria-expanded={false}
-          className="bx--accordion__heading"
+          aria-expanded=""
+          className="pf-c-accordion__toggle"
+          id="time-window-header"
           onClick={[Function]}
-          type="button"
         >
-          <svg
-            alt="Expand/Collapse"
-            aria-label="Expand/Collapse"
-            className="bx--accordion__arrow"
-            fillRule="evenodd"
-            height="12"
-            role={null}
-            viewBox="0 0 7 12"
-            width="7"
-          >
-            <title>
-              Expand/Collapse
-            </title>
-            <path
-              d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
-            />
-          </svg>
-          <div
-            className="bx--accordion__title"
+          <span
+            className="pf-c-accordion__toggle-text"
           >
             Time window configuration
-          </div>
+          </span>
+          <span
+            className="pf-c-accordion__toggle-icon"
+          >
+            <svg
+              aria-hidden={true}
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+              />
+            </svg>
+          </span>
         </button>
+      </dt>
+      <dd
+        aria-label=""
+        className="pf-c-accordion__expanded-content"
+        hidden={true}
+        id=""
+      >
         <div
-          className="bx--accordion__content"
+          className="pf-c-accordion__expanded-content-body"
         >
           <div
             className="timeWindow-config-container"
@@ -141,7 +143,11 @@ exports[`TimeWindow component renders as expected 1`] = `
               >
                 Days of the week
                  
-                *
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
               </div>
               <div
                 className="config-descr"
@@ -155,189 +161,150 @@ exports[`TimeWindow component renders as expected 1`] = `
                   className="first-col"
                 >
                   <div
-                    className="bx--form-item bx--checkbox-wrapper"
+                    className="pf-c-check"
                   >
                     <input
+                      aria-invalid={false}
                       checked={false}
-                      className="bx--checkbox"
+                      className="pf-c-check__input"
                       disabled={true}
                       id="mon-undefined"
-                      name="days-selector"
+                      name="days-selector-mon"
                       onChange={[Function]}
-                      onClick={[Function]}
                       type="checkbox"
                       value="\\"Monday\\""
                     />
                     <label
-                      className="bx--checkbox-label"
+                      className="pf-c-check__label pf-m-disabled"
                       htmlFor="mon-undefined"
-                      title={null}
                     >
-                      <span
-                        className=""
-                      >
-                        Monday
-                      </span>
+                      Monday
                     </label>
                   </div>
                   <div
-                    className="bx--form-item bx--checkbox-wrapper"
+                    className="pf-c-check"
                   >
                     <input
+                      aria-invalid={false}
                       checked={false}
-                      className="bx--checkbox"
+                      className="pf-c-check__input"
                       disabled={true}
                       id="tue-undefined"
-                      name="days-selector"
+                      name="days-selector-tue"
                       onChange={[Function]}
-                      onClick={[Function]}
                       type="checkbox"
                       value="\\"Tuesday\\""
                     />
                     <label
-                      className="bx--checkbox-label"
+                      className="pf-c-check__label pf-m-disabled"
                       htmlFor="tue-undefined"
-                      title={null}
                     >
-                      <span
-                        className=""
-                      >
-                        Tuesday
-                      </span>
+                      Tuesday
                     </label>
                   </div>
                   <div
-                    className="bx--form-item bx--checkbox-wrapper"
+                    className="pf-c-check"
                   >
                     <input
+                      aria-invalid={false}
                       checked={false}
-                      className="bx--checkbox"
+                      className="pf-c-check__input"
                       disabled={true}
                       id="wed-undefined"
-                      name="days-selector"
+                      name="days-selector-wed"
                       onChange={[Function]}
-                      onClick={[Function]}
                       type="checkbox"
                       value="\\"Wednesday\\""
                     />
                     <label
-                      className="bx--checkbox-label"
+                      className="pf-c-check__label pf-m-disabled"
                       htmlFor="wed-undefined"
-                      title={null}
                     >
-                      <span
-                        className=""
-                      >
-                        Wednesday
-                      </span>
+                      Wednesday
                     </label>
                   </div>
                   <div
-                    className="bx--form-item bx--checkbox-wrapper"
+                    className="pf-c-check"
                   >
                     <input
+                      aria-invalid={false}
                       checked={false}
-                      className="bx--checkbox"
+                      className="pf-c-check__input"
                       disabled={true}
                       id="thu-undefined"
-                      name="days-selector"
+                      name="days-selector-thu"
                       onChange={[Function]}
-                      onClick={[Function]}
                       type="checkbox"
                       value="\\"Thursday\\""
                     />
                     <label
-                      className="bx--checkbox-label"
+                      className="pf-c-check__label pf-m-disabled"
                       htmlFor="thu-undefined"
-                      title={null}
                     >
-                      <span
-                        className=""
-                      >
-                        Thursday
-                      </span>
+                      Thursday
                     </label>
                   </div>
                   <div
-                    className="bx--form-item bx--checkbox-wrapper"
+                    className="pf-c-check"
                   >
                     <input
+                      aria-invalid={false}
                       checked={false}
-                      className="bx--checkbox"
+                      className="pf-c-check__input"
                       disabled={true}
                       id="fri-undefined"
-                      name="days-selector"
+                      name="days-selector-fri"
                       onChange={[Function]}
-                      onClick={[Function]}
                       type="checkbox"
                       value="\\"Friday\\""
                     />
                     <label
-                      className="bx--checkbox-label"
+                      className="pf-c-check__label pf-m-disabled"
                       htmlFor="fri-undefined"
-                      title={null}
                     >
-                      <span
-                        className=""
-                      >
-                        Friday
-                      </span>
+                      Friday
                     </label>
                   </div>
-                </div>
-                <div
-                  className="second-col"
-                >
                   <div
-                    className="bx--form-item bx--checkbox-wrapper"
+                    className="pf-c-check"
                   >
                     <input
+                      aria-invalid={false}
                       checked={false}
-                      className="bx--checkbox"
+                      className="pf-c-check__input"
                       disabled={true}
                       id="sat-undefined"
-                      name="days-selector"
+                      name="days-selector-sat"
                       onChange={[Function]}
-                      onClick={[Function]}
                       type="checkbox"
                       value="\\"Saturday\\""
                     />
                     <label
-                      className="bx--checkbox-label"
+                      className="pf-c-check__label pf-m-disabled"
                       htmlFor="sat-undefined"
-                      title={null}
                     >
-                      <span
-                        className=""
-                      >
-                        Saturday
-                      </span>
+                      Saturday
                     </label>
                   </div>
                   <div
-                    className="bx--form-item bx--checkbox-wrapper"
+                    className="pf-c-check"
                   >
                     <input
+                      aria-invalid={false}
                       checked={false}
-                      className="bx--checkbox"
+                      className="pf-c-check__input"
                       disabled={true}
                       id="sun-undefined"
-                      name="days-selector"
+                      name="days-selector-sun"
                       onChange={[Function]}
-                      onClick={[Function]}
                       type="checkbox"
                       value="\\"Sunday\\""
                     />
                     <label
-                      className="bx--checkbox-label"
+                      className="pf-c-check__label pf-m-disabled"
                       htmlFor="sun-undefined"
-                      title={null}
                     >
-                      <span
-                        className=""
-                      >
-                        Sunday
-                      </span>
+                      Sunday
                     </label>
                   </div>
                 </div>
@@ -351,62 +318,82 @@ exports[`TimeWindow component renders as expected 1`] = `
               >
                 Time zone
                  
-                *
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
               </div>
               <div
-                aria-label="Choose an item"
-                className="bx--combo-box config-timezone-combo-box bx--list-box bx--list-box--disabled"
-                onClick={[Function]}
-                onKeyDown={[Function]}
-                role="listbox"
-                tabIndex="0"
+                className="pf-c-form__group"
+                id="timeZoneSelect-label"
               >
                 <div
-                  aria-expanded={false}
-                  aria-haspopup={true}
-                  aria-label="open menu"
-                  className="bx--list-box__field"
-                  data-toggle={true}
-                  disabled={true}
-                  role="button"
-                  tabIndex="0"
-                  type="button"
+                  className="pf-c-form__group-control"
                 >
-                  <input
-                    aria-activedescendant={null}
-                    aria-autocomplete="list"
-                    aria-expanded={false}
-                    aria-label="timezoneComboBox"
-                    autoComplete="off"
-                    className="bx--text-input"
-                    disabled={true}
-                    id="downshift-0-input"
-                    label="Time zone combo box menu options"
-                    placeholder="Choose a location"
-                    role="combobox"
-                    value=""
-                  />
-                  
                   <div
-                    className="bx--list-box__menu-icon"
+                    className="pf-c-select config-timezone-combo-box"
+                    data-ouia-component-id="OUIA-Generated-Select-typeahead-1"
+                    data-ouia-component-type="PF4/Select"
+                    data-ouia-safe={true}
                   >
-                    <svg
-                      alt="Open menu"
-                      aria-label="Open menu"
-                      fillRule="evenodd"
-                      height="5"
-                      role="img"
-                      viewBox="0 0 10 5"
-                      width="10"
+                    <div
+                      className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
                     >
-                      <title>
-                        Open menu
-                      </title>
-                      <path
-                        d="M0 0l5 4.998L10 0z"
-                      />
-                    </svg>
+                      <div
+                        className="pf-c-select__toggle-wrapper"
+                      >
+                        <input
+                          aria-activedescendant={null}
+                          aria-label=""
+                          autoComplete="off"
+                          className="pf-c-form-control pf-c-select__toggle-typeahead"
+                          disabled={true}
+                          id="pf-select-toggle-id-0-select-typeahead"
+                          onChange={[Function]}
+                          onClick={[Function]}
+                          placeholder="Choose a location"
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                      <button
+                        aria-expanded={false}
+                        aria-haspopup="listbox"
+                        aria-label="Options menu"
+                        aria-labelledby="timeZoneSelect-label pf-select-toggle-id-0"
+                        className="pf-c-button pf-c-select__toggle-button pf-m-plain"
+                        disabled={true}
+                        id="pf-select-toggle-id-0"
+                        onClick={[Function]}
+                        tabIndex={-1}
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden={true}
+                          aria-labelledby={null}
+                          className="pf-c-select__toggle-arrow"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style={
+                            Object {
+                              "verticalAlign": "-0.125em",
+                            }
+                          }
+                          viewBox="0 0 320 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
+                  
                 </div>
               </div>
             </div>
@@ -414,76 +401,134 @@ exports[`TimeWindow component renders as expected 1`] = `
               className="config-time-section"
             >
               <div
+                className="time-picker-title"
+              >
+                <div
+                  className="config-title"
+                >
+                  Start Time
+                   
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
+                </div>
+                <div
+                  className="config-title"
+                >
+                  End Time
+                   
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
+                </div>
+              </div>
+              <div
                 className="config-time-container"
               >
                 <div
-                  className="config-start-time"
+                  className="config-input-time"
                 >
                   <div
-                    className="bx--form-item"
+                    className="pf-c-date-picker"
                   >
                     <div
-                      className="bx--time-picker"
+                      className="pf-c-date-picker__input"
+                      style={
+                        Object {
+                          "--pf-c-date-picker__input--c-form-control--Width": "140px",
+                        }
+                      }
                     >
                       <div
-                        className="bx--time-picker__input"
+                        className="pf-c-input-group"
                       >
-                        <label
-                          className="bx--label"
-                          htmlFor="start-time-0"
+                        <div
+                          className="pf-c-select"
+                          id="start-time-0-undefined"
                         >
-                          Start Time
-                        </label>
-                        <input
-                          className="bx--time-picker__input-field"
-                          disabled={true}
-                          id="start-time-0"
-                          maxLength={5}
-                          name="start-time"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onClick={[Function]}
-                          pattern="(1[012]|[1-9]):[0-5][0-9](\\\\s)?(?i)"
-                          placeholder="hh:mm"
-                          type="time"
-                          value=""
-                        />
+                          <div
+                            className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                            style={
+                              Object {
+                                "paddingLeft": "0",
+                              }
+                            }
+                          >
+                            <input
+                              aria-invalid={false}
+                              aria-label="Time picker"
+                              autoComplete="off"
+                              className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              disabled={true}
+                              id="start-time-0-undefined-input"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              placeholder="hh:mm"
+                              readOnly={false}
+                              required={false}
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div
-                  className="config-end-time"
+                  className="config-input-time"
                 >
                   <div
-                    className="bx--form-item"
+                    className="pf-c-date-picker"
                   >
                     <div
-                      className="bx--time-picker"
+                      className="pf-c-date-picker__input"
+                      style={
+                        Object {
+                          "--pf-c-date-picker__input--c-form-control--Width": "140px",
+                        }
+                      }
                     >
                       <div
-                        className="bx--time-picker__input"
+                        className="pf-c-input-group"
                       >
-                        <label
-                          className="bx--label"
-                          htmlFor="end-time-0"
+                        <div
+                          className="pf-c-select"
+                          id="end-time-0-undefined"
                         >
-                          End Time
-                        </label>
-                        <input
-                          className="bx--time-picker__input-field"
-                          disabled={true}
-                          id="end-time-0"
-                          maxLength={5}
-                          name="end-time"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onClick={[Function]}
-                          pattern="(1[012]|[1-9]):[0-5][0-9](\\\\s)?(?i)"
-                          placeholder="hh:mm"
-                          type="time"
-                          value=""
-                        />
+                          <div
+                            className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                            style={
+                              Object {
+                                "paddingLeft": "0",
+                              }
+                            }
+                          >
+                            <input
+                              aria-invalid={false}
+                              aria-label="Time picker"
+                              autoComplete="off"
+                              className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              disabled={true}
+                              id="end-time-0-undefined-input"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              placeholder="hh:mm"
+                              readOnly={false}
+                              required={false}
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -498,22 +543,22 @@ exports[`TimeWindow component renders as expected 1`] = `
                 tabIndex="0"
               >
                 <svg
-                  alt=""
-                  aria-label=""
+                  aria-hidden={true}
+                  aria-labelledby={null}
                   className="add-time-btn-icon"
-                  fill="#3d70b2"
-                  fillRule="evenodd"
-                  height="16"
-                  name="icon--add--glyph"
+                  fill="#06c"
+                  height="1em"
                   role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 512 512"
+                  width="1em"
                 >
-                  <title>
-                    
-                  </title>
                   <path
-                    d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4 9H9v3H7V9H4V7h3V4h2v3h3v2z"
+                    d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
                   />
                 </svg>
                 <div
@@ -525,8 +570,584 @@ exports[`TimeWindow component renders as expected 1`] = `
             </div>
           </div>
         </div>
-      </li>
-    </ul>
+      </dd>
+    </dl>
+  </div>
+</div>
+`;
+
+exports[`TimeWindow component default, window selected snapshot validation with time window set 1`] = `
+<div
+  className="creation-view-controls-labels"
+>
+  <div
+    className="creation-view-controls-textarea-title"
+  />
+  <div
+    className="timeWindow-container"
+  >
+    <div
+      className="pf-c-radio mode-btn"
+    >
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-4"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={true}
+        disabled={false}
+        id="default-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value=""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="default-mode-undefined"
+      >
+        Always active
+      </label>
+    </div>
+    <div
+      className="pf-c-radio mode-btn"
+    >
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-5"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={false}
+        disabled={false}
+        id="active-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value="\\"active\\""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="active-mode-undefined"
+      >
+        Active within specified interval
+      </label>
+    </div>
+    <div
+      className="pf-c-radio mode-btn"
+    >
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-6"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={false}
+        disabled={false}
+        id="blocked-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value="\\"blocked\\""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="blocked-mode-undefined"
+      >
+        Blocked within specified interval
+      </label>
+    </div>
+    <dl
+      aria-label=""
+      className="pf-c-accordion"
+    >
+      <dt>
+        <button
+          aria-expanded=""
+          className="pf-c-accordion__toggle"
+          id="time-window-header"
+          onClick={[Function]}
+        >
+          <span
+            className="pf-c-accordion__toggle-text"
+          >
+            Time window configuration
+          </span>
+          <span
+            className="pf-c-accordion__toggle-icon"
+          >
+            <svg
+              aria-hidden={true}
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+              />
+            </svg>
+          </span>
+        </button>
+      </dt>
+      <dd
+        aria-label=""
+        className="pf-c-accordion__expanded-content"
+        hidden={true}
+        id=""
+      >
+        <div
+          className="pf-c-accordion__expanded-content-body"
+        >
+          <div
+            className="timeWindow-config-container"
+            id="timeWindow-config"
+          >
+            <div
+              className="config-days-section"
+            >
+              <div
+                className="config-title"
+              >
+                Days of the week
+                 
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
+              </div>
+              <div
+                className="config-descr"
+              >
+                Select at least one day to create a time window.
+              </div>
+              <div
+                className="config-days-selector"
+              >
+                <div
+                  className="first-col"
+                >
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      disabled={true}
+                      id="mon-undefined"
+                      name="days-selector-mon"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Monday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="mon-undefined"
+                    >
+                      Monday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      disabled={true}
+                      id="tue-undefined"
+                      name="days-selector-tue"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Tuesday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="tue-undefined"
+                    >
+                      Tuesday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      disabled={true}
+                      id="wed-undefined"
+                      name="days-selector-wed"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Wednesday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="wed-undefined"
+                    >
+                      Wednesday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      disabled={true}
+                      id="thu-undefined"
+                      name="days-selector-thu"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Thursday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="thu-undefined"
+                    >
+                      Thursday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      disabled={true}
+                      id="fri-undefined"
+                      name="days-selector-fri"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Friday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="fri-undefined"
+                    >
+                      Friday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      disabled={true}
+                      id="sat-undefined"
+                      name="days-selector-sat"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Saturday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="sat-undefined"
+                    >
+                      Saturday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      disabled={true}
+                      id="sun-undefined"
+                      name="days-selector-sun"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Sunday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="sun-undefined"
+                    >
+                      Sunday
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="config-timezone-section"
+            >
+              <div
+                className="config-title"
+              >
+                Time zone
+                 
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
+              </div>
+              <div
+                className="pf-c-form__group"
+                id="timeZoneSelect-label"
+              >
+                <div
+                  className="pf-c-form__group-control"
+                >
+                  <div
+                    className="pf-c-select config-timezone-combo-box"
+                    data-ouia-component-id="OUIA-Generated-Select-typeahead-2"
+                    data-ouia-component-type="PF4/Select"
+                    data-ouia-safe={true}
+                  >
+                    <div
+                      className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                    >
+                      <div
+                        className="pf-c-select__toggle-wrapper"
+                      >
+                        <input
+                          aria-activedescendant={null}
+                          aria-label=""
+                          autoComplete="off"
+                          className="pf-c-form-control pf-c-select__toggle-typeahead"
+                          disabled={true}
+                          id="pf-select-toggle-id-1-select-typeahead"
+                          onChange={[Function]}
+                          onClick={[Function]}
+                          placeholder="Choose a location"
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                      <button
+                        aria-expanded={false}
+                        aria-haspopup="listbox"
+                        aria-label="Options menu"
+                        aria-labelledby="timeZoneSelect-label pf-select-toggle-id-1"
+                        className="pf-c-button pf-c-select__toggle-button pf-m-plain"
+                        disabled={true}
+                        id="pf-select-toggle-id-1"
+                        onClick={[Function]}
+                        tabIndex={-1}
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden={true}
+                          aria-labelledby={null}
+                          className="pf-c-select__toggle-arrow"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style={
+                            Object {
+                              "verticalAlign": "-0.125em",
+                            }
+                          }
+                          viewBox="0 0 320 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              className="config-time-section"
+            >
+              <div
+                className="time-picker-title"
+              >
+                <div
+                  className="config-title"
+                >
+                  Start Time
+                   
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
+                </div>
+                <div
+                  className="config-title"
+                >
+                  End Time
+                   
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
+                </div>
+              </div>
+              <div
+                className="config-time-container"
+              >
+                <div
+                  className="config-input-time"
+                >
+                  <div
+                    className="pf-c-date-picker"
+                  >
+                    <div
+                      className="pf-c-date-picker__input"
+                      style={
+                        Object {
+                          "--pf-c-date-picker__input--c-form-control--Width": "140px",
+                        }
+                      }
+                    >
+                      <div
+                        className="pf-c-input-group"
+                      >
+                        <div
+                          className="pf-c-select"
+                          id="start-time-0-undefined"
+                        >
+                          <div
+                            className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                            style={
+                              Object {
+                                "paddingLeft": "0",
+                              }
+                            }
+                          >
+                            <input
+                              aria-invalid={false}
+                              aria-label="Time picker"
+                              autoComplete="off"
+                              className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              disabled={true}
+                              id="start-time-0-undefined-input"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              placeholder="hh:mm"
+                              readOnly={false}
+                              required={false}
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="config-input-time"
+                >
+                  <div
+                    className="pf-c-date-picker"
+                  >
+                    <div
+                      className="pf-c-date-picker__input"
+                      style={
+                        Object {
+                          "--pf-c-date-picker__input--c-form-control--Width": "140px",
+                        }
+                      }
+                    >
+                      <div
+                        className="pf-c-input-group"
+                      >
+                        <div
+                          className="pf-c-select"
+                          id="end-time-0-undefined"
+                        >
+                          <div
+                            className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                            style={
+                              Object {
+                                "paddingLeft": "0",
+                              }
+                            }
+                          >
+                            <input
+                              aria-invalid={false}
+                              aria-label="Time picker"
+                              autoComplete="off"
+                              className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              disabled={true}
+                              id="end-time-0-undefined-input"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              placeholder="hh:mm"
+                              readOnly={false}
+                              required={false}
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div
+                className="add-time-btn btn-disabled"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <svg
+                  aria-hidden={true}
+                  aria-labelledby={null}
+                  className="add-time-btn-icon"
+                  fill="#06c"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 512 512"
+                  width="1em"
+                >
+                  <path
+                    d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                  />
+                </svg>
+                <div
+                  className="add-time-btn-text"
+                >
+                  Add another time range
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </dd>
+    </dl>
   </div>
 </div>
 `;

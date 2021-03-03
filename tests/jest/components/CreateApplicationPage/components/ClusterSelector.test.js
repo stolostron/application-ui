@@ -15,9 +15,41 @@ import React from "react";
 import { ClusterSelector } from "../../../../../src-web/components/ApplicationCreationPage/components/ClusterSelector";
 import renderer from "react-test-renderer";
 import _ from "lodash";
-import { mount } from "enzyme";
+import { shallow } from "enzyme";
 
-const control = {
+const handleChange = jest.fn((value, targetName, targetID) => {
+  return null;
+});
+
+const validation = jest.fn(exceptions => {
+  return null;
+});
+
+const summarizeFn = jest.fn(() => {
+  return null;
+});
+
+const emptyControl = {
+  active: {},
+  validation: validation,
+  summarize: summarizeFn
+};
+
+const emptyControlShowData = {
+  active: {},
+  showData: [
+    {
+      id: 0,
+      labelName: "name",
+      labelValue: "ui-e2e-remote",
+      validValue: true
+    }
+  ],
+  validation: validation,
+  summarize: summarizeFn
+};
+
+const controlActive = {
   active: {
     mode: true,
     clusterLabelsList: [
@@ -33,18 +65,48 @@ const control = {
         labelValue: "AWS",
         validValue: true
       }
-    ]
-  }
+    ],
+    clusterLabelsListID: 2
+  },
+  validation: validation,
+  summarize: summarizeFn
 };
 
 describe("ClusterSelector component", () => {
-  it("renders as expected", () => {
+  it("renders full control", () => {
     const component = renderer.create(
       <ClusterSelector
         locale="en-US"
         type="custom"
         available={[]}
-        control={control}
+        control={controlActive}
+        handleChange={handleChange}
+      />
+    );
+    expect(component.toJSON()).toMatchSnapshot();
+  });
+
+  it("renders empty control", () => {
+    const component = renderer.create(
+      <ClusterSelector
+        locale="en-US"
+        type="custom"
+        available={[]}
+        control={emptyControl}
+        handleChange={handleChange}
+      />
+    );
+    expect(component.toJSON()).toMatchSnapshot();
+  });
+
+  it("renders empty control with data set", () => {
+    const component = renderer.create(
+      <ClusterSelector
+        locale="en-US"
+        type="custom"
+        available={[]}
+        control={emptyControlShowData}
+        handleChange={handleChange}
       />
     );
     expect(component.toJSON()).toMatchSnapshot();
@@ -52,13 +114,14 @@ describe("ClusterSelector component", () => {
 });
 
 describe("on control change function", () => {
-  it("renders as expected", () => {
-    const wrapper = mount(
+  it("renders active control", () => {
+    const wrapper = shallow(
       <ClusterSelector
         locale="en-US"
         type="custom"
         available={[]}
-        control={control}
+        control={controlActive}
+        handleChange={handleChange}
       />
     );
     const evt = {
@@ -71,7 +134,7 @@ describe("on control change function", () => {
     wrapper
       .find("#clusterSelector-checkbox-undefined")
       .at(0)
-      .simulate("change", evt);
+      .simulate("change", true);
     wrapper
       .find("#labels-header")
       .at(0)
@@ -81,5 +144,17 @@ describe("on control change function", () => {
       .find("#labels-header")
       .at(0)
       .simulate("click", evt);
+
+    wrapper.find(".add-label-btn").simulate("click", true, controlActive);
+    wrapper.find(".add-label-btn").simulate("keypress", { type: "click" });
+
+    wrapper.find("#labelName-0-undefined").simulate("change", true);
+    wrapper.find("#labelValue-0-undefined").simulate("change", true);
+
+    //
+    wrapper
+      .find(".remove-label-btn")
+      .at(0)
+      .simulate("click", true);
   });
 });

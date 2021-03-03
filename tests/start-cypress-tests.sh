@@ -14,23 +14,9 @@ if [ -z "$BROWSER" ]; then
   export BROWSER="chrome"
 fi
 
-# check and load options.yaml
-OPTIONS_FILE=/resources/options.yaml
-if [ -f $OPTIONS_FILE ]; then
-  echo "Processing options file..."
-  BASE_DOMAIN=`yq r $OPTIONS_FILE 'options.hub.baseDomain'`
-  export CYPRESS_BASE_URL="https://multicloud-console.apps.$BASE_DOMAIN"
-  export CYPRESS_OCP_CLUSTER_URL="https://api.$BASE_DOMAIN:6443"
-  export CYPRESS_OC_CLUSTER_USER=`yq r $OPTIONS_FILE 'options.hub.user'`
-  export CYPRESS_OC_CLUSTER_PASS=`yq r $OPTIONS_FILE 'options.hub.password'`
-  export CYPRESS_OC_IDP=`yq r $OPTIONS_FILE 'options.hub.idp'`
-
-  cp $OPTIONS_FILE ./cypress/config/config.e2e.yaml
-else
-  if [ $CYPRESS_TEST_MODE != "functional" ]; then
-    echo "Options file not found..."
-    exit 1
-  fi
+if [ $CYPRESS_TEST_MODE != "functional" ]; then
+  echo "Options file not found..."
+  exit 1
 fi
 
 if [[ -z $CYPRESS_MANAGED_OCP_URL || -z $CYPRESS_MANAGED_OCP_USER || -z $CYPRESS_MANAGED_OCP_PASS ]]; then	

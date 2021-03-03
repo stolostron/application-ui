@@ -53,9 +53,12 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
     });
 
     if (hours) {
+      const group = key != 0 ? `grp${key}` : "";
       hours.forEach((interval, idx) => {
-        cy.get(`#start-time-${idx}-input`).type(interval.start);
-        cy.get(`#end-time-${idx}-input`).type(interval.end);
+        const startTime = `#start-time-${idx}-timeWindow${group}-input`;
+        const endTime = `#end-time-${idx}-timeWindow${group}-input`;
+        cy.get(startTime).type(interval.start);
+        cy.get(endTime).type(interval.end);
 
         if (idx < hours.length - 1) {
           cy

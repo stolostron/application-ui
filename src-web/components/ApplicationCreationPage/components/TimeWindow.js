@@ -329,7 +329,7 @@ export class TimeWindow extends React.Component {
   };
 
   renderTimes = (control, modeSelected) => {
-    const { locale } = this.props
+    const { locale, controlId } = this.props
     return (
       control.active &&
       control.active.timeList.map(item => {
@@ -361,7 +361,7 @@ export class TimeWindow extends React.Component {
               <div className="config-time-container">
                 <div className="config-input-time">
                   <TimePicker
-                    id={`start-time-${id}`}
+                    id={`start-time-${id}-${controlId}`}
                     defaultTime={existingStart ? existingStart : ''}
                     isDisabled={!modeSelected}
                     onChange={this.handleTimeRange.bind(this)}
@@ -370,7 +370,7 @@ export class TimeWindow extends React.Component {
                 </div>
                 <div className="config-input-time">
                   <TimePicker
-                    id={`end-time-${id}`}
+                    id={`end-time-${id}-${controlId}`}
                     defaultTime={existingEnd ? existingEnd : ''}
                     isDisabled={!modeSelected}
                     onChange={this.handleTimeRange.bind(this)}

@@ -170,13 +170,13 @@ describe("TimeWindow component, active window selected", () => {
       .at(0)
       .simulate("change", false, evtDaySelector);
 
-    wrapper.find("#start-time-0").simulate("click", true, evt);
+    wrapper.find("#start-time-0-undefined").simulate("click", true, evt);
 
     const evtTimeSelector = {
       target: {
         name: "time-selector",
         value: "11:20am",
-        id: "start-time-0-input"
+        id: "start-time-0-undefined-input"
       }
     };
     //test time picker

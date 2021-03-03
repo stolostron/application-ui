@@ -448,7 +448,7 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                       >
                         <div
                           className="pf-c-select"
-                          id="start-time-0"
+                          id="start-time-0-undefined"
                         >
                           <div
                             className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
@@ -464,7 +464,7 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                               autoComplete="off"
                               className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
                               disabled={true}
-                              id="start-time-0-input"
+                              id="start-time-0-undefined-input"
                               onBlur={[Function]}
                               onChange={[Function]}
                               onClick={[Function]}
@@ -500,7 +500,7 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                       >
                         <div
                           className="pf-c-select"
-                          id="end-time-0"
+                          id="end-time-0-undefined"
                         >
                           <div
                             className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
@@ -516,7 +516,7 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                               autoComplete="off"
                               className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
                               disabled={true}
-                              id="end-time-0-input"
+                              id="end-time-0-undefined-input"
                               onBlur={[Function]}
                               onChange={[Function]}
                               onClick={[Function]}
@@ -1024,7 +1024,7 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                       >
                         <div
                           className="pf-c-select"
-                          id="start-time-0"
+                          id="start-time-0-undefined"
                         >
                           <div
                             className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
@@ -1040,7 +1040,7 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                               autoComplete="off"
                               className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
                               disabled={true}
-                              id="start-time-0-input"
+                              id="start-time-0-undefined-input"
                               onBlur={[Function]}
                               onChange={[Function]}
                               onClick={[Function]}
@@ -1076,7 +1076,7 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                       >
                         <div
                           className="pf-c-select"
-                          id="end-time-0"
+                          id="end-time-0-undefined"
                         >
                           <div
                             className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
@@ -1092,7 +1092,7 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                               autoComplete="off"
                               className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
                               disabled={true}
-                              id="end-time-0-input"
+                              id="end-time-0-undefined-input"
                               onBlur={[Function]}
                               onChange={[Function]}
                               onClick={[Function]}

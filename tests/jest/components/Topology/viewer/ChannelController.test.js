@@ -15,6 +15,13 @@ import { mount } from "enzyme";
 
 import ChannelController from "../../../../../src-web/components/Topology/viewer/ChannelControl";
 
+const channelControllerNoAllChannels = {
+  activeChannel: "__ALL__/__ALL__//__ALL__/__ALL__",
+  isChangingChannel: undefined,
+  changeTheChannel: jest.fn,
+  allChannels: []
+};
+
 const channelController = {
   activeChannel: "__ALL__/__ALL__//__ALL__/__ALL__",
   isChangingChannel: undefined,
@@ -48,6 +55,29 @@ const channelController3 = {
     "nginx-blue/ingress-nginx-subscription-blue//demo/gitops"
   ]
 };
+
+const channelController4 = {
+  activeChannel: undefined,
+  isChangingChannel: false,
+  changeTheChannel: jest.fn,
+  allChannels: [
+    "__ALL__/__ALL__//__ALL__/__ALL__",
+    "helloworld-demo-ns/helloworld-demo-subscription-1//rhacm-nginx-app-channel/nginx-app-channel",
+    "helloworld-demo-ns/helloworld-demo-subscription-2//multilevel-channel/multilevel-channel"
+  ]
+};
+
+describe("ChannelController with noAllChannels", () => {
+  it("default", () => {
+    const component = shallow(
+      <ChannelController
+        channelControl={channelControllerNoAllChannels}
+        locale={"en-US"}
+      />
+    );
+    expect(component).toMatchSnapshot();
+  });
+});
 
 describe("ChannelController components 1", () => {
   it("default", () => {
@@ -126,25 +156,21 @@ describe("ChannelController components 2. 2", () => {
 
 describe("ChannelController components 3", () => {
   it("ChannelController components 3", () => {
-    const wrapper = mount(
+    const wrapper = shallow(
       <ChannelController channelControl={channelController3} locale={"en-US"} />
     );
 
+    wrapper.find("AcmDropdown").simulate("select", "blue-nginx-subscription");
+  });
+});
+
+describe("ChannelController components 4", () => {
+  it("ChannelController components 4", () => {
+    const wrapper = shallow(
+      <ChannelController channelControl={channelController4} locale={"en-US"} />
+    );
     wrapper
-      .find("#comboChannel")
-      .at(0)
-      .simulate("change", {
-        selectedItem: {
-          chn: "nginx-blue/blue-nginx-subscription//demo/gitops",
-          hasSubchannels: false,
-          splitChn: [
-            "nginx-blue/blue-nginx-subscription//demo/gitops",
-            "nginx-blue",
-            "blue-nginx-subscription",
-            "demo",
-            "gitops"
-          ]
-        }
-      });
+      .find("AcmDropdown")
+      .simulate("select", "helloworld-demo-subscription-1");
   });
 });

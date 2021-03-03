@@ -13,7 +13,7 @@
 import React from 'react'
 import R from 'ramda'
 import PropTypes from 'prop-types'
-import { DropdownV2 } from 'carbon-components-react'
+import { AcmDropdown } from '@open-cluster-management/ui-components'
 import { Tooltip } from '@patternfly/react-core'
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import msgs from '../../../../nls/platform.properties'
@@ -74,11 +74,11 @@ class ChannelControl extends React.Component {
     )
   }
 
-  handleSubscriptionChange = e => {
-    const channel = e.selectedItem.chn
-    this.changeSubscriptionChannels(channel)
+  handleSubscriptionChange = (e, displayChannels) => {
+    const selectedItem = displayChannels.find(chn => chn.id === e)
+    this.changeSubscriptionChannels(selectedItem.chn)
     // Set the current channel to the selected channel
-    this.setState({ currentChannel: e.selectedItem })
+    this.setState({ currentChannel: selectedItem })
   };
 
   selectChannelByNumber(channelNb) {
@@ -137,21 +137,21 @@ class ChannelControl extends React.Component {
     let mainSubscriptionName //name as showing in the combo; pages from the same subscription share the same main name
 
     Object.values(channelMap).forEach(({ chnl, splitChn, subchannels }) => {
-      const hasSubchannels = subchannels.length > 0
       let channelLabel = splitChn && splitChn[2] ? splitChn[2] : 'unknown'
       if (channelLabel === '__ALL__') {
         channelLabel = msgs.get('combo.subscription.all')
       }
+      const channelID = channelLabel.replace(/\s+/g, '-').toLowerCase()
+
       displayChannels.push({
-        label: channelLabel,
+        id: channelID,
+        text: channelLabel,
         chn: chnl,
-        splitChn,
-        hasSubchannels,
         subchannels
       })
       if (
         chnl === activeChannel ||
-        (hasSubchannels &&
+        (subchannels.length > 0 &&
           subchannels.findIndex(
             ({ chnl: subchannel }) => subchannel === activeChannel
           ) !== -1)
@@ -164,7 +164,7 @@ class ChannelControl extends React.Component {
       displayChannels.length === 1 || !mainSubscriptionName
         ? 0
         : displayChannels.findIndex(
-          ({ label }) => label === mainSubscriptionName
+          ({ text }) => text === mainSubscriptionName
         )
     if (selectedIdx < 0) {
       selectedIdx = displayChannels.findIndex(({ chn }) => !!chn)
@@ -333,7 +333,6 @@ class ChannelControl extends React.Component {
       let displayChannels = []
       let isRefreshing = true
 
-      const comboLabel = msgs.get('combo.subscription.choose', locale)
       const back1 = '<<'
       const back2 = '<'
       const fwd1 = '>'
@@ -356,7 +355,7 @@ class ChannelControl extends React.Component {
         const selectedIdx = channelsData[1]
 
         selectedSubscriptionIsPaged =
-          displayChannels[selectedIdx].hasSubchannels
+          displayChannels[selectedIdx].subchannels.length > 0
         selectedSubscriptionPages = selectedSubscriptionIsPaged
           ? displayChannels[selectedIdx].subchannels.length
           : 0
@@ -392,15 +391,17 @@ class ChannelControl extends React.Component {
               </div>
 
               <div className="channelsCombo">
-                <DropdownV2
-                  items={displayChannels}
+                <AcmDropdown
+                  isDisabled={isRefreshing}
                   id="comboChannel"
-                  label={comboLabel}
-                  ariaLabel={comboLabel}
-                  inline={true}
-                  onChange={this.handleSubscriptionChange}
-                  selectedItem={currentChannel}
-                  disabled={isRefreshing}
+                  onSelect={e =>
+                    this.handleSubscriptionChange(e, displayChannels)
+                  }
+                  text={currentChannel.text}
+                  dropdownItems={displayChannels}
+                  position="left"
+                  isPlain={false}
+                  isPrimary={false}
                 />
               </div>
             </div>
@@ -487,31 +488,6 @@ class ChannelControl extends React.Component {
       )
     }
     return null
-  }
-
-  renderView({ style, ...props }) {
-    style.marginBottom = -17
-    return <div {...props} style={{ ...style }} />
-  }
-
-  renderThumbHorizontal() {
-    return <div />
-  }
-
-  renderThumbVertical({ style, ...props }) {
-    const finalStyle = {
-      ...style,
-      cursor: 'pointer',
-      borderRadius: 'inherit',
-      backgroundColor: 'rgba(0,0,0,.2)'
-    }
-    return (
-      <div
-        className={'channel-controls-scrollbar'}
-        style={finalStyle}
-        {...props}
-      />
-    )
   }
 
   changeSubscriptionChannels(fetchChannel) {

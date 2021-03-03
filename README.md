@@ -117,7 +117,7 @@ npm run build:production
            "name": "",
            "program": "${workspaceFolder}/app.js",
            "env": {
-           "hcmUiApiUrl": "https://localhost:4000/hcmuiapi",
+           "hcmUiApiUrl": "http://localhost:4000/hcmuiapi",
            "searchApiUrl": "https://localhost:4010/searchapi",
            "NODE_ENV": "",
            "headerUrl": "",

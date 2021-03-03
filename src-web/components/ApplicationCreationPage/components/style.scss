@@ -25,6 +25,7 @@
   .pf-c-check__label {
     font-size: 14px;
     font-weight: 700;
+    color: #152935;
   }
 
   // Show Time window config section only when expanded
@@ -47,7 +48,7 @@
 
   // Cluster label checkbox
   .clusterSelector-checkbox {
-    font-weight: 600;
+    font-weight: 700;
   }
 
   // Cluster label description
@@ -182,6 +183,13 @@
     margin-bottom: 20px;
   }
 
+  .config-title-required {
+    font-weight: 400;
+    color: #c9190b;
+    display: inline;
+    margin-left: 0.25rem;
+  }
+
   .config-title {
     font-weight: 600;
     font-size: 14px;
@@ -192,7 +200,7 @@
     display: flex;
 
     .config-title {
-      padding-right: 77px;
+      padding-right: 71px;
     }
   }
 

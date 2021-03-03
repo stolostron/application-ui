@@ -143,7 +143,11 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
               >
                 Days of the week
                  
-                *
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
               </div>
               <div
                 className="config-descr"
@@ -314,7 +318,11 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
               >
                 Time zone
                  
-                *
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
               </div>
               <div
                 className="pf-c-form__group"
@@ -400,14 +408,22 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                 >
                   Start Time
                    
-                  *
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
                 </div>
                 <div
                   className="config-title"
                 >
                   End Time
                    
-                  *
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
                 </div>
               </div>
               <div

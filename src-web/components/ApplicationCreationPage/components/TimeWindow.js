@@ -202,7 +202,7 @@ export class TimeWindow extends React.Component {
                           'creation.app.settings.timeWindow.config.days.title',
                           locale
                         )}{' '}
-                        *
+                        <div className="config-title-required">*</div>
                       </div>
                       <div className="config-descr">
                         {msgs.get(
@@ -236,7 +236,7 @@ export class TimeWindow extends React.Component {
                           'creation.app.settings.timeWindow.config.timezone.title',
                           locale
                         )}{' '}
-                        *
+                        <div className="config-title-required">*</div>
                       </div>
                       <AcmSelect
                         id="timeZoneSelect"
@@ -345,14 +345,14 @@ export class TimeWindow extends React.Component {
                       'creation.app.settings.timeWindow.config.timezone.startTime',
                       locale
                     )}{' '}
-                    *
+                    <div className="config-title-required">*</div>
                   </div>
                   <div className="config-title">
                     {msgs.get(
                       'creation.app.settings.timeWindow.config.timezone.endTime',
                       locale
                     )}{' '}
-                    *
+                    <div className="config-title-required">*</div>
                   </div>
                 </div>
               ) : (

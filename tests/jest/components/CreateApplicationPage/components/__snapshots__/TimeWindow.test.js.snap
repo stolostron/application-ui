@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TimeWindow component renders as expected 1`] = `
+exports[`TimeWindow component default, no-window selected basic UI snapshot validation 1`] = `
 <div
   className="creation-view-controls-labels"
 >

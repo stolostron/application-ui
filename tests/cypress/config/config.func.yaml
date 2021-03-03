@@ -19,10 +19,10 @@ git:
               - Thursday
               - Friday
             hours:
-              - start: "09:00"
-                end: "12:00"
-              - start: "15:00"
-                end: "18:00"
+              - start: "09:00am"
+                end: "12:00pm"
+              - start: "3:00pm"
+                end: "6:00pm"
           deployment:
             existing: true
             local: false
@@ -97,10 +97,10 @@ objectstore:
               - Thursday
               - Friday
             hours:
-              - start: "09:00"
-                end: "12:00"
-              - start: "15:00"
-                end: "18:00"
+              - start: "09:00am"
+                end: "12:00pm"
+              - start: "3:00pm"
+                end: "6:00pm"
           deployment:
             existing: true
             local: false
@@ -151,8 +151,8 @@ helm:
             date:
               - Monday
             hours:
-              - start: "08:00"
-                end: "12:00"
+              - start: "08:00am"
+                end: "12:00pm"
           deployment:
             existing: true
             local: false
@@ -180,8 +180,8 @@ helm:
             date:
               - Monday
             hours:
-              - start: "08:10"
-                end: "08:11"
+              - start: "08:10am"
+                end: "08:11am"
           deployment:
             local: true
             online: false

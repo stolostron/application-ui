@@ -719,7 +719,11 @@ exports[`TimeWindow component default, window selected snapshot validation with 
               >
                 Days of the week
                  
-                *
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
               </div>
               <div
                 className="config-descr"
@@ -890,7 +894,11 @@ exports[`TimeWindow component default, window selected snapshot validation with 
               >
                 Time zone
                  
-                *
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
               </div>
               <div
                 className="pf-c-form__group"
@@ -976,14 +984,22 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                 >
                   Start Time
                    
-                  *
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
                 </div>
                 <div
                   className="config-title"
                 >
                   End Time
                    
-                  *
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
                 </div>
               </div>
               <div

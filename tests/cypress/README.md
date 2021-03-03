@@ -104,7 +104,6 @@ There are two ways of adding private credentials when inserting new subscription
      -v $(pwd)/results/:/results/ \
      $(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
    ```
-
 1. After running, the XML results, screenshots and videos will be copied from inside the Docker container into /application-ui/results/
 
 ## Code Coverage

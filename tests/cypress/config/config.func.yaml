@@ -127,8 +127,8 @@ objectstore:
             hours:
               - start: "09:10am"
                 end: "09:11am"
-              - start: "15:10pm"
-                end: "15:11pm"
+              - start: "3:10pm"
+                end: "3:11pm"
           deployment:
             local: true
             online: false

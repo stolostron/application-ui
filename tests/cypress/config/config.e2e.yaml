@@ -56,7 +56,7 @@ git:
               - start: "09:10am"
                 end: "09:11am"
               - start: "3:10pm"
-                end: "3:11"
+                end: "3:11pm"
           deployment:
             local: true
             online: false

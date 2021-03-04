@@ -128,7 +128,7 @@ export const resourceTable = {
         timeout: 20 * 10000
       })
       .scrollIntoView()
-      .click();
+      .click({ force: true });
   },
   getMenuButton: function(action) {
     return cy.contains("button", action, {

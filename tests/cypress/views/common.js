@@ -131,7 +131,8 @@ export const resourceTable = {
       .get(`${getPFTableRowSelector(key)} .pf-c-dropdown__toggle`, {
         timeout: 20 * 10000
       })
-      .click();
+      .scrollIntoView()
+      .click({ force: true });
   },
   getMenuButton: function(action) {
     return cy.contains("button", action, {

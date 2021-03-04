@@ -85,6 +85,7 @@ make pull-test-image
 mkdir sslcert
 echo "$SERVER_KEY" > sslcert/server.key
 echo "$SERVER_CRT" > sslcert/server.crt
+echo "Line count for server.key is $(wc -l sslcert/server.key)"
 export CYPRESS_BASE_URL=https://localhost:3001
 
 # Use setup script to set variables

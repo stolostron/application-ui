@@ -42,7 +42,7 @@ The environment variables are similar to running on the live cluster, however in
 2. `oc login` to the hub cluster the local environment is pointing to. For local instances, an authenticated token is required.
    - Example: `oc login --token=xxxxxxx --server=https://api.{clusterName}.dev06.red-chesterfield.com:6443`
 3. Export the following environment variables:
-   - `export CYPRESS_BASE_URL=https://localhost:3001`
+   - `export CYPRESS_BASE_URL=http://localhost:3001`
    - `export CYPRESS_OC_CLUSTER_USER=kubeadmin`
    - `export CYPRESS_OC_CLUSTER_PASS=xxxxxxxxx`
    - `export CYPRESS_OC_CLUSTER_URL=https://api.{clusterName}.dev06.red-chesterfield.com:6443` (API of the cluster that the local env points to needs to be specified)

@@ -62,7 +62,7 @@ if [[ -z $CYPRESS_BASE_URL ]]
 then
   if [[ -n $LOCAL ]]
   then
-    export CYPRESS_BASE_URL=https://localhost:3001
+    export CYPRESS_BASE_URL=http://localhost:3001
   else
     export CYPRESS_BASE_URL=$(ck acm -d $HUB)
   fi

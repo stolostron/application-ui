@@ -81,7 +81,7 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-e CYPRESS_RBAC_TEST=$(CYPRESS_RBAC_TEST) \
 	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_JOB_ID=$(TRAVIS_JOB_ID) \
-	-e CYPRESS_BASE_URL=http://localhost:3001 \
+	-e CYPRESS_BASE_URL=$(CYPRESS_BASE_URL) \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \
 	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \
 	-e CYPRESS_OC_CLUSTER_PASS=$(OC_CLUSTER_PASS) \

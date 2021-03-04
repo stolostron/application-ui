@@ -81,6 +81,12 @@ docker network create --subnet 10.10.0.0/16 test-network
 echo "Running pull-test-image..."
 make pull-test-image
 
+# Set up HTTPS
+mkdir sslcert
+echo "$SERVER_KEY" > sslcert/server.key
+echo "$SERVER_CRT" > sslcert/server.crt
+export CYPRESS_BASE_URL=https://localhost:3001
+
 # Use setup script to set variables
 . ./setup-env.sh > /dev/null
 

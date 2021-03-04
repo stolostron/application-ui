@@ -1092,10 +1092,23 @@ export const validateRbacAlert = () => {
     .should("eq", alertMessage);
 };
 
-export const validateDefect7696 = () => {
+export const validateDefect7696 = name => {
   cy.log(
     "verify defect 7696 - resources still show in topology view after moving from Editor tab to Overview"
   );
+  cy.visit(`/multicloud/applications/${name}-ns/${name}`);
+  cy.reload();
+  cy
+    .get(".search-query-card-loading", { timeout: 50 * 1000 })
+    .should("not.exist");
+  cy
+    .get(".pf-l-grid__item")
+    .first()
+    .contains(name);
+  cy
+    .get(".pf-l-grid__item")
+    .first()
+    .contains(`${name}-ns`);
 
   cy.log("Select Editor tab");
   cy
@@ -1107,6 +1120,18 @@ export const validateDefect7696 = () => {
   cy.log(
     "Verify defect 8055 - Temptifly 0.1.15 no longer shows yaml toggler for app-ui"
   );
+
+  cy
+    .intercept({
+      method: "POST", // Route all POST requests
+      url: `/multicloud/applications/graphql`
+    })
+    .as("graphql");
+  // as soon as edit button is shown we can proceed
+  cy.wait(["@graphql", "@graphql"], {
+    timeout: 50 * 1000
+  });
+
   cy.get("#edit-button-portal-id", { timeout: 20 * 1000 }).should("be.visible");
 
   cy.log("show YAML");

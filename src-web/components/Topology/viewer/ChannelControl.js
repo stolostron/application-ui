@@ -14,7 +14,7 @@ import React from 'react'
 import R from 'ramda'
 import PropTypes from 'prop-types'
 import { AcmDropdown } from '@open-cluster-management/ui-components'
-import { Tooltip } from '@patternfly/react-core'
+import { Pagination, Tooltip } from '@patternfly/react-core'
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -256,7 +256,7 @@ class ChannelControl extends React.Component {
     return { selectedSubscription, selectedPageForCurrentSubs }
   };
 
-  handlePageClick = e => {
+  handlePagination = (e, action, pageLimit) => {
     const { channelControl = {} } = this.props
     const {
       selectedSubscription,
@@ -268,15 +268,22 @@ class ChannelControl extends React.Component {
       return
     }
     let newPageSelection = null
-    switch (e.target.id) {
-    case 'p1': {
+    switch (action) {
+    case 'input': {
+      if (e.target.value > 0 && e.target.value <= pageLimit) {
+        newPageSelection =
+            selectedSubscription.subchannels[e.target.value - 1]
+      }
+      break
+    }
+    case 'first': {
       //move to the first page
       if (selectedSubscription.subchannels.length > 0) {
         newPageSelection = selectedSubscription.subchannels[0]
       }
       break
     }
-    case 'p2': {
+    case 'prev': {
       //move one page down
       if (
         selectedSubscription.subchannels.length > 0 &&
@@ -287,7 +294,7 @@ class ChannelControl extends React.Component {
       }
       break
     }
-    case 'p3': {
+    case 'next': {
       //move one page up
       if (
         selectedSubscription.subchannels.length > selectedPageForCurrentSubs
@@ -297,7 +304,7 @@ class ChannelControl extends React.Component {
       }
       break
     }
-    case 'p4': {
+    case 'last': {
       //up to the last page
       if (selectedSubscription.subchannels.length > 0) {
         newPageSelection =
@@ -332,11 +339,7 @@ class ChannelControl extends React.Component {
       let selectedChannelIndex = 0
       let displayChannels = []
       let isRefreshing = true
-
-      const back1 = '<<'
-      const back2 = '<'
-      const fwd1 = '>'
-      const fwd2 = '>>'
+      const maxNodesPerPage = 100
 
       if (allChannels.length > 1) {
         // Update channel control variables for when refresh state is done
@@ -372,7 +375,14 @@ class ChannelControl extends React.Component {
 
       return (
         // show subscription names only when more than one
-        <div className="channel-controls-container">
+        <div
+          className="channel-controls-container"
+          style={
+            selectedSubscriptionIsPaged
+              ? { height: '174px' }
+              : { height: '150px' }
+          }
+        >
           {showMainChannel && (
             <div className="channels">
               <div className="subscription label">
@@ -424,63 +434,18 @@ class ChannelControl extends React.Component {
                 </div>
               </div>
               <div className="mainPagination">
-                <span
-                  id="p1"
-                  role="button"
-                  className="label pageLabel labelLink"
-                  onClick={this.handlePageClick}
-                  onKeyPress={this.handlePageClick}
-                  tabIndex="0"
-                >
-                  {back1}
-                </span>
-                <span
-                  id="p2"
-                  role="button"
-                  className="label pageLabel labelLink"
-                  onClick={this.handlePageClick}
-                  onKeyPress={this.handlePageClick}
-                  tabIndex="0"
-                >
-                  {back2}
-                </span>
-                <input
-                  className="label pageInput"
-                  id="valuePage"
-                  onChange={this.handlePageClick}
-                  onKeyPress={this.handlePageClick}
-                  aria-label="Current page"
-                  type="number"
-                  min="1"
-                  max="{selectedSubscriptionPages}"
-                  value={selectedChannelIndex}
-                  tabIndex="0"
+                <Pagination
+                  itemCount={selectedSubscriptionPages * maxNodesPerPage}
+                  perPage={maxNodesPerPage}
+                  page={selectedChannelIndex}
+                  onFirstClick={e => this.handlePagination(e, 'first')}
+                  onLastClick={e => this.handlePagination(e, 'last')}
+                  onNextClick={e => this.handlePagination(e, 'next')}
+                  onPreviousClick={e => this.handlePagination(e, 'prev')}
+                  onPageInput={e =>
+                    this.handlePagination(e, 'input', selectedSubscriptionPages)
+                  }
                 />
-                <span className="label pageLabel">
-                  {msgs.get('subscription.page.nb', [
-                    selectedSubscriptionPages
-                  ])}
-                </span>
-                <span
-                  id="p3"
-                  role="button"
-                  className="label pageLabel labelLink"
-                  onClick={this.handlePageClick}
-                  onKeyPress={this.handlePageClick}
-                  tabIndex="0"
-                >
-                  {fwd1}
-                </span>
-                <span
-                  id="p4"
-                  role="button"
-                  className="label pageLabel labelLink"
-                  onClick={this.handlePageClick}
-                  onKeyPress={this.handlePageClick}
-                  tabIndex="0"
-                >
-                  {fwd2}
-                </span>
               </div>
             </div>
           )}

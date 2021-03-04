@@ -104,51 +104,51 @@ describe("ChannelController components 2. 2", () => {
     );
 
     wrapper
-      .find("#p1")
+      .find('[aria-label="Go to first page"]')
       .at(0)
       .simulate("click");
 
     wrapper
-      .find("#p1")
+      .find('[aria-label="Go to first page"]')
       .at(0)
       .simulate("keypress");
 
     wrapper
-      .find("#p2")
+      .find(`[aria-label="Go to previous page"]`)
       .at(0)
       .simulate("click");
 
     wrapper
-      .find("#p2")
+      .find(`[aria-label="Go to previous page"]`)
       .at(0)
       .simulate("keypress");
 
     wrapper
-      .find("#p3")
+      .find(`[aria-label="Go to next page"]`)
       .at(0)
       .simulate("click");
 
     wrapper
-      .find("#p3")
+      .find(`[aria-label="Go to next page"]`)
       .at(0)
       .simulate("keypress");
 
     wrapper
-      .find("#p4")
+      .find(`[aria-label="Go to last page"]`)
       .at(0)
       .simulate("click");
 
     wrapper
-      .find("#p4")
+      .find(`[aria-label="Go to last page"]`)
       .at(0)
       .simulate("keypress");
 
     wrapper
-      .find("#valuePage")
+      .find(".pf-c-form-control")
       .at(0)
       .simulate("keypress");
     wrapper
-      .find("#valuePage")
+      .find(".pf-c-form-control")
       .at(0)
       .simulate("click");
   });

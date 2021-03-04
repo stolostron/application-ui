@@ -127,6 +127,7 @@ export const resourceTable = {
       .get(`${getPFTableRowSelector(key)} .pf-c-dropdown__toggle`, {
         timeout: 20 * 10000
       })
+      .scrollIntoView()
       .click();
   },
   getMenuButton: function(action) {

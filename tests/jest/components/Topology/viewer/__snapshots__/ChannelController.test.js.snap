@@ -103,6 +103,9 @@ ShallowWrapper {
         false,
       ],
       "className": "channel-controls-container",
+      "style": Object {
+        "height": "150px",
+      },
     },
     "ref": null,
     "rendered": Array [
@@ -423,6 +426,9 @@ ShallowWrapper {
           false,
         ],
         "className": "channel-controls-container",
+        "style": Object {
+          "height": "150px",
+        },
       },
       "ref": null,
       "rendered": Array [
@@ -828,67 +834,73 @@ ShallowWrapper {
           <div
             className="mainPagination"
           >
-            <span
-              className="label pageLabel labelLink"
-              id="p1"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              &lt;&lt;
-            </span>
-            <span
-              className="label pageLabel labelLink"
-              id="p2"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              &lt;
-            </span>
-            <input
-              aria-label="Current page"
-              className="label pageInput"
-              id="valuePage"
-              max="{selectedSubscriptionPages}"
-              min="1"
-              onChange={[Function]}
-              onKeyPress={[Function]}
-              tabIndex="0"
-              type="number"
-              value={2}
+            <Pagination
+              className=""
+              defaultToFullPage={false}
+              firstPage={1}
+              isCompact={false}
+              isDisabled={false}
+              isSticky={false}
+              itemCount={300}
+              itemsEnd={null}
+              itemsStart={null}
+              offset={0}
+              onFirstClick={[Function]}
+              onLastClick={[Function]}
+              onNextClick={[Function]}
+              onPageInput={[Function]}
+              onPerPageSelect={[Function]}
+              onPreviousClick={[Function]}
+              onSetPage={[Function]}
+              ouiaSafe={true}
+              page={2}
+              perPage={100}
+              perPageOptions={
+                Array [
+                  Object {
+                    "title": "10",
+                    "value": 10,
+                  },
+                  Object {
+                    "title": "20",
+                    "value": 20,
+                  },
+                  Object {
+                    "title": "50",
+                    "value": 50,
+                  },
+                  Object {
+                    "title": "100",
+                    "value": 100,
+                  },
+                ]
+              }
+              titles={
+                Object {
+                  "currPage": "Current page",
+                  "items": "",
+                  "itemsPerPage": "Items per page",
+                  "optionsToggle": "Items per page",
+                  "page": "",
+                  "paginationTitle": "Pagination",
+                  "perPageSuffix": "per page",
+                  "toFirstPage": "Go to first page",
+                  "toLastPage": "Go to last page",
+                  "toNextPage": "Go to next page",
+                  "toPreviousPage": "Go to previous page",
+                }
+              }
+              toggleTemplate={[Function]}
+              variant="top"
+              widgetId="pagination-options-menu"
             />
-            <span
-              className="label pageLabel"
-            >
-              of {0}
-            </span>
-            <span
-              className="label pageLabel labelLink"
-              id="p3"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              &gt;
-            </span>
-            <span
-              className="label pageLabel labelLink"
-              id="p4"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex="0"
-            >
-              &gt;&gt;
-            </span>
           </div>
         </div>,
       ],
       "className": "channel-controls-container",
+      "style": Object {
+        "height": "174px",
+      },
     },
     "ref": null,
     "rendered": Array [
@@ -1160,63 +1172,66 @@ ShallowWrapper {
             <div
               className="mainPagination"
             >
-              <span
-                className="label pageLabel labelLink"
-                id="p1"
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="button"
-                tabIndex="0"
-              >
-                &lt;&lt;
-              </span>
-              <span
-                className="label pageLabel labelLink"
-                id="p2"
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="button"
-                tabIndex="0"
-              >
-                &lt;
-              </span>
-              <input
-                aria-label="Current page"
-                className="label pageInput"
-                id="valuePage"
-                max="{selectedSubscriptionPages}"
-                min="1"
-                onChange={[Function]}
-                onKeyPress={[Function]}
-                tabIndex="0"
-                type="number"
-                value={2}
+              <Pagination
+                className=""
+                defaultToFullPage={false}
+                firstPage={1}
+                isCompact={false}
+                isDisabled={false}
+                isSticky={false}
+                itemCount={300}
+                itemsEnd={null}
+                itemsStart={null}
+                offset={0}
+                onFirstClick={[Function]}
+                onLastClick={[Function]}
+                onNextClick={[Function]}
+                onPageInput={[Function]}
+                onPerPageSelect={[Function]}
+                onPreviousClick={[Function]}
+                onSetPage={[Function]}
+                ouiaSafe={true}
+                page={2}
+                perPage={100}
+                perPageOptions={
+                  Array [
+                    Object {
+                      "title": "10",
+                      "value": 10,
+                    },
+                    Object {
+                      "title": "20",
+                      "value": 20,
+                    },
+                    Object {
+                      "title": "50",
+                      "value": 50,
+                    },
+                    Object {
+                      "title": "100",
+                      "value": 100,
+                    },
+                  ]
+                }
+                titles={
+                  Object {
+                    "currPage": "Current page",
+                    "items": "",
+                    "itemsPerPage": "Items per page",
+                    "optionsToggle": "Items per page",
+                    "page": "",
+                    "paginationTitle": "Pagination",
+                    "perPageSuffix": "per page",
+                    "toFirstPage": "Go to first page",
+                    "toLastPage": "Go to last page",
+                    "toNextPage": "Go to next page",
+                    "toPreviousPage": "Go to previous page",
+                  }
+                }
+                toggleTemplate={[Function]}
+                variant="top"
+                widgetId="pagination-options-menu"
               />
-              <span
-                className="label pageLabel"
-              >
-                of {0}
-              </span>
-              <span
-                className="label pageLabel labelLink"
-                id="p3"
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="button"
-                tabIndex="0"
-              >
-                &gt;
-              </span>
-              <span
-                className="label pageLabel labelLink"
-                id="p4"
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="button"
-                tabIndex="0"
-              >
-                &gt;&gt;
-              </span>
             </div>,
           ],
           "className": "pagination",
@@ -1327,170 +1342,134 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": Array [
-                <span
-                  className="label pageLabel labelLink"
-                  id="p1"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  &lt;&lt;
-                </span>,
-                <span
-                  className="label pageLabel labelLink"
-                  id="p2"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  &lt;
-                </span>,
-                <input
-                  aria-label="Current page"
-                  className="label pageInput"
-                  id="valuePage"
-                  max="{selectedSubscriptionPages}"
-                  min="1"
-                  onChange={[Function]}
-                  onKeyPress={[Function]}
-                  tabIndex="0"
-                  type="number"
-                  value={2}
-                />,
-                <span
-                  className="label pageLabel"
-                >
-                  of {0}
-                </span>,
-                <span
-                  className="label pageLabel labelLink"
-                  id="p3"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  &gt;
-                </span>,
-                <span
-                  className="label pageLabel labelLink"
-                  id="p4"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  &gt;&gt;
-                </span>,
-              ],
+              "children": <Pagination
+                className=""
+                defaultToFullPage={false}
+                firstPage={1}
+                isCompact={false}
+                isDisabled={false}
+                isSticky={false}
+                itemCount={300}
+                itemsEnd={null}
+                itemsStart={null}
+                offset={0}
+                onFirstClick={[Function]}
+                onLastClick={[Function]}
+                onNextClick={[Function]}
+                onPageInput={[Function]}
+                onPerPageSelect={[Function]}
+                onPreviousClick={[Function]}
+                onSetPage={[Function]}
+                ouiaSafe={true}
+                page={2}
+                perPage={100}
+                perPageOptions={
+                  Array [
+                    Object {
+                      "title": "10",
+                      "value": 10,
+                    },
+                    Object {
+                      "title": "20",
+                      "value": 20,
+                    },
+                    Object {
+                      "title": "50",
+                      "value": 50,
+                    },
+                    Object {
+                      "title": "100",
+                      "value": 100,
+                    },
+                  ]
+                }
+                titles={
+                  Object {
+                    "currPage": "Current page",
+                    "items": "",
+                    "itemsPerPage": "Items per page",
+                    "optionsToggle": "Items per page",
+                    "page": "",
+                    "paginationTitle": "Pagination",
+                    "perPageSuffix": "per page",
+                    "toFirstPage": "Go to first page",
+                    "toLastPage": "Go to last page",
+                    "toNextPage": "Go to next page",
+                    "toPreviousPage": "Go to previous page",
+                  }
+                }
+                toggleTemplate={[Function]}
+                variant="top"
+                widgetId="pagination-options-menu"
+              />,
               "className": "mainPagination",
             },
             "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": "<<",
-                  "className": "label pageLabel labelLink",
-                  "id": "p1",
-                  "onClick": [Function],
-                  "onKeyPress": [Function],
-                  "role": "button",
-                  "tabIndex": "0",
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": null,
+                "className": "",
+                "defaultToFullPage": false,
+                "firstPage": 1,
+                "isCompact": false,
+                "isDisabled": false,
+                "isSticky": false,
+                "itemCount": 300,
+                "itemsEnd": null,
+                "itemsStart": null,
+                "offset": 0,
+                "onFirstClick": [Function],
+                "onLastClick": [Function],
+                "onNextClick": [Function],
+                "onPageInput": [Function],
+                "onPerPageSelect": [Function],
+                "onPreviousClick": [Function],
+                "onSetPage": [Function],
+                "ouiaSafe": true,
+                "page": 2,
+                "perPage": 100,
+                "perPageOptions": Array [
+                  Object {
+                    "title": "10",
+                    "value": 10,
+                  },
+                  Object {
+                    "title": "20",
+                    "value": 20,
+                  },
+                  Object {
+                    "title": "50",
+                    "value": 50,
+                  },
+                  Object {
+                    "title": "100",
+                    "value": 100,
+                  },
+                ],
+                "titles": Object {
+                  "currPage": "Current page",
+                  "items": "",
+                  "itemsPerPage": "Items per page",
+                  "optionsToggle": "Items per page",
+                  "page": "",
+                  "paginationTitle": "Pagination",
+                  "perPageSuffix": "per page",
+                  "toFirstPage": "Go to first page",
+                  "toLastPage": "Go to last page",
+                  "toNextPage": "Go to next page",
+                  "toPreviousPage": "Go to previous page",
                 },
-                "ref": null,
-                "rendered": "<<",
-                "type": "span",
+                "toggleTemplate": [Function],
+                "variant": "top",
+                "widgetId": "pagination-options-menu",
               },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": "<",
-                  "className": "label pageLabel labelLink",
-                  "id": "p2",
-                  "onClick": [Function],
-                  "onKeyPress": [Function],
-                  "role": "button",
-                  "tabIndex": "0",
-                },
-                "ref": null,
-                "rendered": "<",
-                "type": "span",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "aria-label": "Current page",
-                  "className": "label pageInput",
-                  "id": "valuePage",
-                  "max": "{selectedSubscriptionPages}",
-                  "min": "1",
-                  "onChange": [Function],
-                  "onKeyPress": [Function],
-                  "tabIndex": "0",
-                  "type": "number",
-                  "value": 2,
-                },
-                "ref": null,
-                "rendered": null,
-                "type": "input",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": "of {0}",
-                  "className": "label pageLabel",
-                },
-                "ref": null,
-                "rendered": "of {0}",
-                "type": "span",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": ">",
-                  "className": "label pageLabel labelLink",
-                  "id": "p3",
-                  "onClick": [Function],
-                  "onKeyPress": [Function],
-                  "role": "button",
-                  "tabIndex": "0",
-                },
-                "ref": null,
-                "rendered": ">",
-                "type": "span",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": ">>",
-                  "className": "label pageLabel labelLink",
-                  "id": "p4",
-                  "onClick": [Function],
-                  "onKeyPress": [Function],
-                  "role": "button",
-                  "tabIndex": "0",
-                },
-                "ref": null,
-                "rendered": ">>",
-                "type": "span",
-              },
-            ],
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
             "type": "div",
           },
         ],
@@ -1604,67 +1583,73 @@ ShallowWrapper {
             <div
               className="mainPagination"
             >
-              <span
-                className="label pageLabel labelLink"
-                id="p1"
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="button"
-                tabIndex="0"
-              >
-                &lt;&lt;
-              </span>
-              <span
-                className="label pageLabel labelLink"
-                id="p2"
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="button"
-                tabIndex="0"
-              >
-                &lt;
-              </span>
-              <input
-                aria-label="Current page"
-                className="label pageInput"
-                id="valuePage"
-                max="{selectedSubscriptionPages}"
-                min="1"
-                onChange={[Function]}
-                onKeyPress={[Function]}
-                tabIndex="0"
-                type="number"
-                value={2}
+              <Pagination
+                className=""
+                defaultToFullPage={false}
+                firstPage={1}
+                isCompact={false}
+                isDisabled={false}
+                isSticky={false}
+                itemCount={300}
+                itemsEnd={null}
+                itemsStart={null}
+                offset={0}
+                onFirstClick={[Function]}
+                onLastClick={[Function]}
+                onNextClick={[Function]}
+                onPageInput={[Function]}
+                onPerPageSelect={[Function]}
+                onPreviousClick={[Function]}
+                onSetPage={[Function]}
+                ouiaSafe={true}
+                page={2}
+                perPage={100}
+                perPageOptions={
+                  Array [
+                    Object {
+                      "title": "10",
+                      "value": 10,
+                    },
+                    Object {
+                      "title": "20",
+                      "value": 20,
+                    },
+                    Object {
+                      "title": "50",
+                      "value": 50,
+                    },
+                    Object {
+                      "title": "100",
+                      "value": 100,
+                    },
+                  ]
+                }
+                titles={
+                  Object {
+                    "currPage": "Current page",
+                    "items": "",
+                    "itemsPerPage": "Items per page",
+                    "optionsToggle": "Items per page",
+                    "page": "",
+                    "paginationTitle": "Pagination",
+                    "perPageSuffix": "per page",
+                    "toFirstPage": "Go to first page",
+                    "toLastPage": "Go to last page",
+                    "toNextPage": "Go to next page",
+                    "toPreviousPage": "Go to previous page",
+                  }
+                }
+                toggleTemplate={[Function]}
+                variant="top"
+                widgetId="pagination-options-menu"
               />
-              <span
-                className="label pageLabel"
-              >
-                of {0}
-              </span>
-              <span
-                className="label pageLabel labelLink"
-                id="p3"
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="button"
-                tabIndex="0"
-              >
-                &gt;
-              </span>
-              <span
-                className="label pageLabel labelLink"
-                id="p4"
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="button"
-                tabIndex="0"
-              >
-                &gt;&gt;
-              </span>
             </div>
           </div>,
         ],
         "className": "channel-controls-container",
+        "style": Object {
+          "height": "174px",
+        },
       },
       "ref": null,
       "rendered": Array [
@@ -1936,63 +1921,66 @@ ShallowWrapper {
               <div
                 className="mainPagination"
               >
-                <span
-                  className="label pageLabel labelLink"
-                  id="p1"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  &lt;&lt;
-                </span>
-                <span
-                  className="label pageLabel labelLink"
-                  id="p2"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  &lt;
-                </span>
-                <input
-                  aria-label="Current page"
-                  className="label pageInput"
-                  id="valuePage"
-                  max="{selectedSubscriptionPages}"
-                  min="1"
-                  onChange={[Function]}
-                  onKeyPress={[Function]}
-                  tabIndex="0"
-                  type="number"
-                  value={2}
+                <Pagination
+                  className=""
+                  defaultToFullPage={false}
+                  firstPage={1}
+                  isCompact={false}
+                  isDisabled={false}
+                  isSticky={false}
+                  itemCount={300}
+                  itemsEnd={null}
+                  itemsStart={null}
+                  offset={0}
+                  onFirstClick={[Function]}
+                  onLastClick={[Function]}
+                  onNextClick={[Function]}
+                  onPageInput={[Function]}
+                  onPerPageSelect={[Function]}
+                  onPreviousClick={[Function]}
+                  onSetPage={[Function]}
+                  ouiaSafe={true}
+                  page={2}
+                  perPage={100}
+                  perPageOptions={
+                    Array [
+                      Object {
+                        "title": "10",
+                        "value": 10,
+                      },
+                      Object {
+                        "title": "20",
+                        "value": 20,
+                      },
+                      Object {
+                        "title": "50",
+                        "value": 50,
+                      },
+                      Object {
+                        "title": "100",
+                        "value": 100,
+                      },
+                    ]
+                  }
+                  titles={
+                    Object {
+                      "currPage": "Current page",
+                      "items": "",
+                      "itemsPerPage": "Items per page",
+                      "optionsToggle": "Items per page",
+                      "page": "",
+                      "paginationTitle": "Pagination",
+                      "perPageSuffix": "per page",
+                      "toFirstPage": "Go to first page",
+                      "toLastPage": "Go to last page",
+                      "toNextPage": "Go to next page",
+                      "toPreviousPage": "Go to previous page",
+                    }
+                  }
+                  toggleTemplate={[Function]}
+                  variant="top"
+                  widgetId="pagination-options-menu"
                 />
-                <span
-                  className="label pageLabel"
-                >
-                  of {0}
-                </span>
-                <span
-                  className="label pageLabel labelLink"
-                  id="p3"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  &gt;
-                </span>
-                <span
-                  className="label pageLabel labelLink"
-                  id="p4"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="0"
-                >
-                  &gt;&gt;
-                </span>
               </div>,
             ],
             "className": "pagination",
@@ -2103,170 +2091,134 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": Array [
-                  <span
-                    className="label pageLabel labelLink"
-                    id="p1"
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
-                    role="button"
-                    tabIndex="0"
-                  >
-                    &lt;&lt;
-                  </span>,
-                  <span
-                    className="label pageLabel labelLink"
-                    id="p2"
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
-                    role="button"
-                    tabIndex="0"
-                  >
-                    &lt;
-                  </span>,
-                  <input
-                    aria-label="Current page"
-                    className="label pageInput"
-                    id="valuePage"
-                    max="{selectedSubscriptionPages}"
-                    min="1"
-                    onChange={[Function]}
-                    onKeyPress={[Function]}
-                    tabIndex="0"
-                    type="number"
-                    value={2}
-                  />,
-                  <span
-                    className="label pageLabel"
-                  >
-                    of {0}
-                  </span>,
-                  <span
-                    className="label pageLabel labelLink"
-                    id="p3"
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
-                    role="button"
-                    tabIndex="0"
-                  >
-                    &gt;
-                  </span>,
-                  <span
-                    className="label pageLabel labelLink"
-                    id="p4"
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
-                    role="button"
-                    tabIndex="0"
-                  >
-                    &gt;&gt;
-                  </span>,
-                ],
+                "children": <Pagination
+                  className=""
+                  defaultToFullPage={false}
+                  firstPage={1}
+                  isCompact={false}
+                  isDisabled={false}
+                  isSticky={false}
+                  itemCount={300}
+                  itemsEnd={null}
+                  itemsStart={null}
+                  offset={0}
+                  onFirstClick={[Function]}
+                  onLastClick={[Function]}
+                  onNextClick={[Function]}
+                  onPageInput={[Function]}
+                  onPerPageSelect={[Function]}
+                  onPreviousClick={[Function]}
+                  onSetPage={[Function]}
+                  ouiaSafe={true}
+                  page={2}
+                  perPage={100}
+                  perPageOptions={
+                    Array [
+                      Object {
+                        "title": "10",
+                        "value": 10,
+                      },
+                      Object {
+                        "title": "20",
+                        "value": 20,
+                      },
+                      Object {
+                        "title": "50",
+                        "value": 50,
+                      },
+                      Object {
+                        "title": "100",
+                        "value": 100,
+                      },
+                    ]
+                  }
+                  titles={
+                    Object {
+                      "currPage": "Current page",
+                      "items": "",
+                      "itemsPerPage": "Items per page",
+                      "optionsToggle": "Items per page",
+                      "page": "",
+                      "paginationTitle": "Pagination",
+                      "perPageSuffix": "per page",
+                      "toFirstPage": "Go to first page",
+                      "toLastPage": "Go to last page",
+                      "toNextPage": "Go to next page",
+                      "toPreviousPage": "Go to previous page",
+                    }
+                  }
+                  toggleTemplate={[Function]}
+                  variant="top"
+                  widgetId="pagination-options-menu"
+                />,
                 "className": "mainPagination",
               },
               "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "<<",
-                    "className": "label pageLabel labelLink",
-                    "id": "p1",
-                    "onClick": [Function],
-                    "onKeyPress": [Function],
-                    "role": "button",
-                    "tabIndex": "0",
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": null,
+                  "className": "",
+                  "defaultToFullPage": false,
+                  "firstPage": 1,
+                  "isCompact": false,
+                  "isDisabled": false,
+                  "isSticky": false,
+                  "itemCount": 300,
+                  "itemsEnd": null,
+                  "itemsStart": null,
+                  "offset": 0,
+                  "onFirstClick": [Function],
+                  "onLastClick": [Function],
+                  "onNextClick": [Function],
+                  "onPageInput": [Function],
+                  "onPerPageSelect": [Function],
+                  "onPreviousClick": [Function],
+                  "onSetPage": [Function],
+                  "ouiaSafe": true,
+                  "page": 2,
+                  "perPage": 100,
+                  "perPageOptions": Array [
+                    Object {
+                      "title": "10",
+                      "value": 10,
+                    },
+                    Object {
+                      "title": "20",
+                      "value": 20,
+                    },
+                    Object {
+                      "title": "50",
+                      "value": 50,
+                    },
+                    Object {
+                      "title": "100",
+                      "value": 100,
+                    },
+                  ],
+                  "titles": Object {
+                    "currPage": "Current page",
+                    "items": "",
+                    "itemsPerPage": "Items per page",
+                    "optionsToggle": "Items per page",
+                    "page": "",
+                    "paginationTitle": "Pagination",
+                    "perPageSuffix": "per page",
+                    "toFirstPage": "Go to first page",
+                    "toLastPage": "Go to last page",
+                    "toNextPage": "Go to next page",
+                    "toPreviousPage": "Go to previous page",
                   },
-                  "ref": null,
-                  "rendered": "<<",
-                  "type": "span",
+                  "toggleTemplate": [Function],
+                  "variant": "top",
+                  "widgetId": "pagination-options-menu",
                 },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "<",
-                    "className": "label pageLabel labelLink",
-                    "id": "p2",
-                    "onClick": [Function],
-                    "onKeyPress": [Function],
-                    "role": "button",
-                    "tabIndex": "0",
-                  },
-                  "ref": null,
-                  "rendered": "<",
-                  "type": "span",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "aria-label": "Current page",
-                    "className": "label pageInput",
-                    "id": "valuePage",
-                    "max": "{selectedSubscriptionPages}",
-                    "min": "1",
-                    "onChange": [Function],
-                    "onKeyPress": [Function],
-                    "tabIndex": "0",
-                    "type": "number",
-                    "value": 2,
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": "input",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "of {0}",
-                    "className": "label pageLabel",
-                  },
-                  "ref": null,
-                  "rendered": "of {0}",
-                  "type": "span",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": ">",
-                    "className": "label pageLabel labelLink",
-                    "id": "p3",
-                    "onClick": [Function],
-                    "onKeyPress": [Function],
-                    "role": "button",
-                    "tabIndex": "0",
-                  },
-                  "ref": null,
-                  "rendered": ">",
-                  "type": "span",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": ">>",
-                    "className": "label pageLabel labelLink",
-                    "id": "p4",
-                    "onClick": [Function],
-                    "onKeyPress": [Function],
-                    "role": "button",
-                    "tabIndex": "0",
-                  },
-                  "ref": null,
-                  "rendered": ">>",
-                  "type": "span",
-                },
-              ],
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
               "type": "div",
             },
           ],
@@ -2379,6 +2331,9 @@ ShallowWrapper {
         false,
       ],
       "className": "channel-controls-container",
+      "style": Object {
+        "height": "150px",
+      },
     },
     "ref": null,
     "rendered": Array [
@@ -2597,6 +2552,9 @@ ShallowWrapper {
           false,
         ],
         "className": "channel-controls-container",
+        "style": Object {
+          "height": "150px",
+        },
       },
       "ref": null,
       "rendered": Array [

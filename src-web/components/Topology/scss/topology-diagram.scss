@@ -60,7 +60,6 @@
     border-radius: 3px;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
     width: 282px;
-    height: 160px;
     margin-top: 30px;
 
     .channels {
@@ -96,6 +95,10 @@
       }
     }
 
+    .pf-c-options-menu {
+      display: none;
+    }
+
     .label {
       color: #152935;
       font-family: RedHatText;
@@ -103,10 +106,10 @@
       font-weight: bold;
       line-height: 18px;
       text-align: left;
+      padding-left: 10px;
     }
 
     .subscription {
-      left: 10px;
       top: 5px;
       position: absolute;
     }
@@ -123,11 +126,6 @@
       margin-bottom: 5px;
     }
 
-    .mainPagination {
-      margin-left: 10px;
-      top: 5px;
-    }
-
     .show-subscription-pages-icon {
       align-items: center;
     }
@@ -135,24 +133,6 @@
     .channel-controls-help-icon {
       fill: #0066cc;
       margin-left: 4px;
-      cursor: pointer;
-    }
-
-    .pageInput {
-      align-items: center;
-      width: 35px;
-      height: 25px;
-      left: 5px;
-      right: 5px;
-      top: 20px;
-    }
-
-    .pageLabel {
-      margin-left: 5px;
-      margin-right: 10px;
-    }
-
-    .labelLink {
       cursor: pointer;
     }
 

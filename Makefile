@@ -102,7 +102,7 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-e HELM_PASSWORD=$(GITHUB_TOKEN) \
 	-e HELM_CHART_NAME=mychart \
 	-e ANSIBLE_URL="${ANSIBLE_URL}" \
-  	-e ANSIBLE_TOKEN="${ANSIBLE_TOKEN}" \
+  -e ANSIBLE_TOKEN="${ANSIBLE_TOKEN}" \
 	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
 
 .PHONY: push-test-image

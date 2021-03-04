@@ -85,13 +85,15 @@ make pull-test-image
 mkdir sslcert
 echo "$SERVER_KEY" > sslcert/server.key
 echo "$SERVER_CRT" > sslcert/server.crt
-echo "Line count for server.key is $(wc -l sslcert/server.key)"
 export CYPRESS_BASE_URL=https://localhost:3001
 
 # Use setup script to set variables
 . ./setup-env.sh > /dev/null
 
 docker run --network test-network -d --ip 10.10.0.6 -t -i -p 3001:3001 --name application-ui \
+-v $(pwd)/sslcert/:/sslcert/ \
+-e serverKey=/sslcert/server.key \
+-e serverCrt=/sslcert/server.crt \
 -e NODE_ENV=development \
 -e headerUrl=$headerUrl \
 -e hcmUiApiUrl=$hcmUiApiUrl \

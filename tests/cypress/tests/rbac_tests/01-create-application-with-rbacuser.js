@@ -9,28 +9,20 @@ import {
 } from "../../views/resources";
 import { getResourceKey, resourceTable } from "../../views/common";
 
-const mngdTestAdminRoles = "admin-managed-cluster";
-const mngdTestViewRole = "view-managed-cluster";
-const mngdTestEditRole = "edit-managed-cluster";
-
 describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Application Creation Test", () => {
   if (Cypress.env("RBAC_TEST")) {
     it(`get the name of the managed OCP cluster`, () => {
       getManagedClusterName();
     });
-
-
-    
-    const mngdTestAdminRoles = 'admin-managed-cluster'
-    const viewRole = 'view-managed-cluster'
-
+    const mngdTestAdminRoles = "admin-managed-cluster";
+    const viewRole = "view-managed-cluster";
 
     for (const type in config) {
       if (type == "git") {
         const apps = config[type].data;
         // console.log(apps)
         apps.forEach(data => {
-          if (data.enable) {
+          if (data.enable && data.config.length > 1) {
             if (data.config)
               data.config.forEach(configDeployment => {
                 if (
@@ -88,30 +80,25 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Application Creatio
       }
     }
 
+    it(`Verify a user with view only role: ${viewRole} cannot create application`, () => {
+      // cy.logInAsRole(viewRole)
+      cy.rbacSwitchUser(viewRole);
+      cy.visit("/multicloud/applications");
+      const alertMessage =
+        "You are not authorized to complete this action. See " +
+        "your cluster administrator for role-based " +
+        "access control information.";
+      // # Open Gitbacklog for tooltip message validation as a test Improvement
 
-
-  it(`Verify a user with view only role: ${viewRole} cannot create application`,() => {
-    // cy.logInAsRole(viewRole)
-    cy.rbacSwitchUser(viewRole)
-    cy.visit("/multicloud/applications")
-    const alertMessage =
-      "You are not authorized to complete this action. See "+
-      "your cluster administrator for role-based "+
-      "access control information."
-    // # Open Gitbacklog for tooltip message validation as a test Improvement
-
-    cy
-      .get('#CreateAppButton').trigger('mouseover',{ bubbles: true })
-      .should('have.attr', 'aria-disabled', 'true')
-      .and('have.attr', 'data-test-create-application', 'false')
-
-  })
-}
-  else{
-      
-        it('Skipping RBAC Test as of Now to execute test set export CYPRESS_RBAC_TEST=`true`',() => {
-          cy.log('set export CYPRESS_RBAC_TEST=`true`')
-          
-        })
+      cy
+        .get("#CreateAppButton")
+        .trigger("mouseover", { bubbles: true })
+        .should("have.attr", "aria-disabled", "true")
+        .and("have.attr", "data-test-create-application", "false");
+    });
+  } else {
+    it("Skipping RBAC Test as of Now to execute test set export CYPRESS_RBAC_TEST=`true`", () => {
+      cy.log("set export CYPRESS_RBAC_TEST=`true`");
+    });
   }
 });

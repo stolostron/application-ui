@@ -2,18 +2,9 @@
 // Copyright Contributors to the Open Cluster Management project
 
 const config = JSON.parse(Cypress.env("TEST_CONFIG"));
-import {
-  channelsInformation,
-  deleteChannel,
-  deleteNamespaceHub,
-  getManagedClusterName
-} from "../../views/resources";
+import { getManagedClusterName } from "../../views/resources";
 
 import { resourceTable } from "../../views/common";
-
-const mngdTestAdminRoles = "admin-managed-cluster";
-const mngdTestViewRole = "view-managed-cluster";
-const mngdTestEditRole = "edit-managed-cluster";
 
 const mngdTestRoles = [
   "admin-managed-cluster",
@@ -31,9 +22,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Validate view appli
       if (type == "git") {
         const apps = config[type].data;
         apps.forEach(data => {
-          if (data.enable) {
-            const clusterName = Cypress.env("managedCluster");
-            const namespace = clusterName;
+          if (data.enable && data.config.length > 1) {
             const name = data.name;
 
             for (const loginrole in mngdTestRoles) {
@@ -49,10 +38,6 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Validate view appli
                 resourceTable.rowShouldExist(data.name, selectorkey);
               });
             }
-          } else {
-            it(`Verify disable view on resource ${data.name} ${type}`, () => {
-              cy.log(`skipping ${type} - ${data.name}`);
-            });
           }
         });
       }

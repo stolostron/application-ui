@@ -15,7 +15,13 @@ OCM_ADDRESS=https://`oc -n $OCM_NAMESPACE get route $OCM_ROUTE -o json | jq -r '
 
 OAUTH2_CLIENT_ID=multicloudingress
 OAUTH2_CLIENT_SECRET=multicloudingresssecret
-OAUTH2_REDIRECT_URL=https://localhost:3001/multicloud/applications/auth/callback
+
+PROTOCOL=http
+if [[ ($serverKey || -f './sslcert/server.key') && ($serverCert || -f './sslcert/server.crt') ]]
+then
+  PROTOCOL=https
+fi
+OAUTH2_REDIRECT_URL=${PROTOCOL}://localhost:3001/multicloud/applications/auth/callback
 
 # Patch ingress with redirect URL
 REDIRECT_URIS=$(oc get OAuthClient $OAUTH2_CLIENT_ID -o json | jq -c "[.redirectURIs[], \"$OAUTH2_REDIRECT_URL\"] | unique")

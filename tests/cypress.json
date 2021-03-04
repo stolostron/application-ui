@@ -9,7 +9,7 @@
   "screenshotsFolder": "cypress/screenshots",
   "supportFile": "cypress/support/index.js",
   "videosFolder": "cypress/videos",
-  "baseUrl": "https://localhost:3001",
+  "baseUrl": "http://localhost:3001",
   "nodeVersion": "system",
   "viewportWidth": 1240,
   "viewportHeight": 700,

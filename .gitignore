@@ -27,3 +27,4 @@ build-harness/
 !vbh/build-harness-extensions
 tests/userCreatedByTestSuite
 userCreatedByTestSuite
+sslcert

@@ -110,7 +110,7 @@ app.use(
     next()
   },
   createProxyMiddleware({
-    target: appConfig.get('hcmUiApiUrl') || 'https://localhost:4000/hcmuiapi',
+    target: appConfig.get('hcmUiApiUrl') || 'http://localhost:4000/hcmuiapi',
     changeOrigin: true,
     pathRewrite: {
       [`^${appConfig.get('contextPath')}/graphql`]: '/graphql'
@@ -269,31 +269,44 @@ app.get('/favicon.ico', (req, res) => res.sendStatus(204))
 app.locals.config = require('./lib/shared/config')
 app.locals.manifest = require('./public/webpack-assets.json')
 
-let server, privateKey, certificate, credentials
+let privateKey, certificate, credentials
+const http = require('http')
 const https = require('https')
 
 if (process.env.NODE_ENV === 'development') {
-  // use self-signed cert for local development
-  privateKey = fs.readFileSync('./sslcert/server.key', 'utf8')
-  certificate = fs.readFileSync('./sslcert/server.crt', 'utf8')
-  credentials = { key: privateKey, cert: certificate }
-  server = https.createServer(credentials, app)
+  try {
+    privateKey = fs.readFileSync(
+      process.env.serverKey || './sslcert/server.key',
+      'utf8'
+    )
+    certificate = fs.readFileSync(
+      process.env.serverCert || './sslcert/server.crt',
+      'utf8'
+    )
+    credentials = { key: privateKey, cert: certificate }
+  } catch (err) {
+    // in development mode; ignore and fall back to http
+  }
 } else {
   // NOTE: In production, SSL is provided by the ICP ingress.
   privateKey = fs.readFileSync('/certs/applicationui.key', 'utf8')
   certificate = fs.readFileSync('/certs/applicationui.crt', 'utf8')
   credentials = { key: privateKey, cert: certificate }
-  server = https.createServer(credentials, app)
 }
 
+const server = credentials
+  ? https.createServer(credentials, app)
+  : http.createServer(app)
+
 var port = process.env.PORT || appConfig.get('httpsPort')
+const url = `${
+  credentials ? 'https://' : 'http://'
+}localhost:${port}${CONTEXT_PATH}`
 
 // start server
 logger.info('Starting express server.')
 server.listen(port, () => {
-  logger.info(
-    `Application Lifecycle is now running on https://localhost:${port}${CONTEXT_PATH}`
-  )
+  logger.info(`Application Lifecycle is now running on ${url}`)
 })
 
 process.on('SIGTERM', () => {

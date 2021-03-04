@@ -68,7 +68,15 @@ npm run build:production
 
 ## Running locally with an OKD cluster OCM environment
 
-1. To run your local `application-ui` code against an existing OCM installation, make sure you are logged in using `oc` then source the `setup-env.sh` script.
+By default the server runs in development mode using **insecure** HTTP connections. To use HTTPS, you must either:
+- set the environment variables `serverKey` and `serverCert` with the full path of the key and certificate files
+- provide a key and certificate in the `./sslcert/server.key` and `./sslcert/server.crt` files
+
+To run in production mode, set `NODE_ENV` to `production` and provide a key and certificate in `./certs/applicationui.key` and `./certs/applicationui.crt`.
+
+To run your local `application-ui` code against an existing OCM installation:
+
+1. Make sure you are logged in using `oc` then source the `setup-env.sh` script.
    ```
    . ./setup-env.sh
    ```
@@ -85,23 +93,23 @@ npm run build:production
    <pre>
    oc edit oauthclient multicloudingress -n open-cluster-management
 
-   (Add "- https://localhost:3001/multicloud/applications/auth/callback" to "redirectURIs:" list)
+   (Add "- http://localhost:3001/multicloud/applications/auth/callback" to "redirectURIs:" list)
    </pre>
 
 3. The following environment variables need to be set.
    <pre>
    export OAUTH2_CLIENT_ID=
    export OAUTH2_CLIENT_SECRET=
-   export OAUTH2_REDIRECT_URL=https://localhost:3001/multicloud/applications/auth/callback
+   export OAUTH2_REDIRECT_URL=http://localhost:3001/multicloud/applications/auth/callback
 
    \# for local testing, from okd login token
    export API_SERVER_URL=
    export SERVICEACCT_TOKEN=
    export NODE_ENV=development
 
-   \# search and mcm-ui-api
-   export searchApiUrl=`<searchAPIRouteEndpoint>/searchapi/graphql`
-   export hcmUiApiUrl=`<searchAPIRouteEndpoint>/hcmuiapi`
+   \# search and console-api
+   export searchApiUrl=`<OCMRouteEndpoint>/multicloud/applications/search/graphql`
+   export hcmUiApiUrl=`<OCMRouteEndpoint>/multicloud/applications/graphql`
    </pre>
 
    For VS Code users, these variables can be set in your local VS Code enviroment using the launch.json in the .vscode directory. To create a launch.json file, open your project folder in VS Code (File > Open Folder) and then select the Configure gear icon on the Run view top bar.  If you go back to the File Explorer view (Ctrl+Shift+E), you'll see that VS Code has created a .vscode folder and added the launch.json file to your workspace.
@@ -117,11 +125,11 @@ npm run build:production
            "name": "",
            "program": "${workspaceFolder}/app.js",
            "env": {
-           "hcmUiApiUrl": "https://localhost:4000/hcmuiapi",
+           "hcmUiApiUrl": "http://localhost:4000/hcmuiapi",
            "searchApiUrl": "https://localhost:4010/searchapi",
            "NODE_ENV": "",
            "headerUrl": "",
-           "OAUTH2_REDIRECT_URL": "https://localhost:3001/multicloud/applications/auth/callback",
+           "OAUTH2_REDIRECT_URL": "http://localhost:3001/multicloud/applications/auth/callback",
            "OAUTH2_CLIENT_ID": "",
            "OAUTH2_CLIENT_SECRET": "",
            "SERVICEACCT_TOKEN": "",
@@ -145,7 +153,7 @@ npm run build:production
    npm run start
    </pre>
 
-7. Open a browser to `https://localhost:3001/multicloud/applications`. If prompted for password, use your OKD credentials.
+7. Open a browser to `https://localhost:3001/multicloud/applications` or `http://localhost:3001/multicloud/applications`, depending on whether you are using a certificate for HTTPS or not. If prompted for password, use your OKD credentials.
 
 ## Building a local image
 <pre>

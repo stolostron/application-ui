@@ -81,7 +81,7 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-e CYPRESS_RBAC_TEST=$(CYPRESS_RBAC_TEST) \
 	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_JOB_ID=$(TRAVIS_JOB_ID) \
-	-e CYPRESS_BASE_URL=https://localhost:3001 \
+	-e CYPRESS_BASE_URL=$(CYPRESS_BASE_URL) \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \
 	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \
 	-e CYPRESS_OC_CLUSTER_PASS=$(OC_CLUSTER_PASS) \
@@ -101,7 +101,7 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-e HELM_PASSWORD=$(GITHUB_TOKEN) \
 	-e HELM_CHART_NAME=mychart \
 	-e ANSIBLE_URL="${ANSIBLE_URL}" \
-  	-e ANSIBLE_TOKEN="${ANSIBLE_TOKEN}" \
+  -e ANSIBLE_TOKEN="${ANSIBLE_TOKEN}" \
 	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
 
 .PHONY: push-test-image

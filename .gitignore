@@ -28,3 +28,4 @@ build-harness/
 tests/userCreatedByTestSuite
 userCreatedByTestSuite
 sslcert
+Dockerfile.tmp

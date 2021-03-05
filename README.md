@@ -7,13 +7,15 @@ The UI service for Application Lifecycle
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
+  - [Work in Progress](#work-in-progress)
   - [Community, discussion, contribution, and support](#community-discussion-contribution-and-support)
+  - [License](#license)
   - [Getting Started](#getting-started)
   - [Design](#design)
 - [Setting up Your Dev Environment](#setting-up-your-dev-environment)
   - [Prerequiste Tools](#prerequiste-tools)
   - [Building for Development](#building-for-development)
-  - [Running locally with an OKD cluster](#running-locally-with-an-okd-cluster)
+  - [Running locally with an OKD cluster OCM environment](#running-locally-with-an-okd-cluster-ocm-environment)
   - [Building a local image](#building-a-local-image)
 - [Testing](#testing)
 - [NPM Commands](#npm-commands)
@@ -29,6 +31,12 @@ We are in the process of enabling this repo for community contribution. See wiki
 ## Community, discussion, contribution, and support
 
 Check the [CONTRIBUTING Doc](CONTRIBUTING.md) for how to contribute to the repo.
+
+## License
+
+This project is licensed under the *Apache License 2.0*. A copy of the license can be found in [LICENSE](LICENSE).
+
+Included fonts are licensed under the *SIL Open Font License 1.1*, and copies of this license can be found along side the corresponding fonts in the [./fonts](fonts) directory.
 
 ## Getting Started
 

@@ -161,10 +161,15 @@ git clone https://github.com/open-cluster-management/application-ui.git
 cd application-ui
 export GITHUB_USER=&lt;github_user&gt;
 export GITHUB_TOKEN=&lt;github_token&gt;
+
+# optional image tag
+export COMPONENT_TAG_EXTENSION=&lt;image_tag&gt;
+
+export COMPONENT_BUILD_COMMAND=./build/build.sh
+export COMPONENT_INIT_COMMAND=./build/install-dependencies.sh
 make
 make install
-make build-prod
-make build-test-image
+make component/build
 </pre>
 
 # Testing

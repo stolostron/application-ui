@@ -14,7 +14,7 @@ OCM_ROUTE=multicloud-console
 OCM_ADDRESS=https://`oc -n $OCM_NAMESPACE get route $OCM_ROUTE -o json | jq -r '.spec.host'`
 
 OAUTH2_CLIENT_ID=multicloudingress
-OAUTH2_CLIENT_SECRET=multicloudingresssecret
+OAUTH2_CLIENT_SECRET=$(oc get OAuthClient $OAUTH2_CLIENT_ID -o json | jq -r '.secret')
 
 PROTOCOL=http
 if [[ ($serverKey || -f './sslcert/server.key') && ($serverCert || -f './sslcert/server.crt') ]]

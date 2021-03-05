@@ -80,7 +80,7 @@ fi
 
 if [[ -z $CYPRESS_OC_CLUSTER_USER ]]
 then
-  export CYPRESS_OC_CLUSTER_USER=$(ck creds -p username $HUB) 
+  export CYPRESS_OC_CLUSTER_USER=$(ck creds -p username $HUB)
 fi
 
 if [[ -z $CYPRESS_OC_CLUSTER_PASS ]]

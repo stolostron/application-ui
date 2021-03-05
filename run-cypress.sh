@@ -62,7 +62,12 @@ if [[ -z $CYPRESS_BASE_URL ]]
 then
   if [[ -n $LOCAL ]]
   then
-    export CYPRESS_BASE_URL=http://localhost:3001
+    PROTOCOL=http
+    if [[ ($serverKey || -f '../sslcert/server.key') && ($serverCert || -f '../sslcert/server.crt') ]]
+    then
+      PROTOCOL=https
+    fi
+    export CYPRESS_BASE_URL=${PROTOCOL}://localhost:3001
   else
     export CYPRESS_BASE_URL=$(ck acm -d $HUB)
   fi
@@ -75,7 +80,7 @@ fi
 
 if [[ -z $CYPRESS_OC_CLUSTER_USER ]]
 then
-  export CYPRESS_OC_CLUSTER_USER=$(ck creds -p username $HUB)
+  export CYPRESS_OC_CLUSTER_USER=$(ck creds -p username $HUB) 
 fi
 
 if [[ -z $CYPRESS_OC_CLUSTER_PASS ]]

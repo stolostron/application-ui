@@ -159,17 +159,14 @@ To run your local `application-ui` code against an existing OCM installation:
 <pre>
 git clone https://github.com/open-cluster-management/application-ui.git
 cd application-ui
-export GITHUB_USER=&lt;github_user&gt;
-export GITHUB_TOKEN=&lt;github_token&gt;
-
-# optional image tag
-export COMPONENT_TAG_EXTENSION=&lt;image_tag&gt;
-
-export COMPONENT_BUILD_COMMAND=./build/build.sh
-export COMPONENT_INIT_COMMAND=./build/install-dependencies.sh
-make
+export COMPONENT_DOCKER_REPO=&lt;docker_repo&gt;
+export COMPONENT_NAME=application-ui
+export IMAGE_TAG=&lt;image_tag&gt;
 make install
-make component/build
+make build-prod
+make lint
+make prune
+make build-image
 </pre>
 
 # Testing

@@ -44,7 +44,22 @@ RUN mkdir -p /opt/app-root/src/application-ui
 RUN mkdir -p /opt/app-root/licenses
 WORKDIR /opt/app-root/src/application-ui
 
-COPY . /opt/app-root/src/application-ui
+COPY .babelrc /opt/app-root/src/application-ui/.babelrc
+COPY LICENSE /opt/app-root/src/application-ui/LICENSE
+COPY app.js /opt/app-root/src/application-ui/app.js
+COPY config /opt/app-root/src/application-ui/config
+COPY controllers /opt/app-root/src/application-ui/controllers
+COPY dll /opt/app-root/src/application-ui/dll
+COPY fonts /opt/app-root/src/application-ui/fonts
+COPY graphics /opt/app-root/src/application-ui/graphics
+COPY lib /opt/app-root/src/application-ui/lib
+COPY middleware /opt/app-root/src/application-ui/middleware
+COPY nls /opt/app-root/src/application-ui/nls
+COPY node_modules /opt/app-root/src/application-ui/node_modules
+COPY public /opt/app-root/src/application-ui/public
+COPY src-web /opt/app-root/src/application-ui/src-web
+COPY templates /opt/app-root/src/application-ui/templates
+COPY views /opt/app-root/src/application-ui/views
 
 EXPOSE 3000
 

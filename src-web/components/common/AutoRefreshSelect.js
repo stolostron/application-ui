@@ -13,7 +13,11 @@ import {
 } from '@open-cluster-management/ui-components'
 
 import { getSelectedId } from './QuerySwitcher'
-import { RESOURCE_TYPES, REFRESH_TIMES } from '../../../lib/shared/constants'
+import {
+  RESOURCE_TYPES,
+  REFRESH_TIMES,
+  DEFAULT_REFRESH_TIME
+} from '../../../lib/shared/constants'
 import { fetchResources } from '../../actions/common'
 import { combineFilters } from '../../actions/filters'
 import { fetchTopology } from '../../actions/topology'
@@ -79,6 +83,7 @@ class AutoRefreshSelect extends Component {
           <AcmAutoRefreshSelect
             refetch={refetch}
             refreshIntervals={REFRESH_TIMES}
+            pollInterval={DEFAULT_REFRESH_TIME}
           />
         )}
         {!isEditTab && (

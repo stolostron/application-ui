@@ -159,7 +159,6 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     deployment,
     insecureSkipVerifyOption
   } = value;
-  cy.log("helmTasks !!!!!!", chartName, packageAlias, value);
   const {
     helmURL,
     helmUsername,
@@ -186,7 +185,6 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .get(helmChartName, { timeout: 20 * 1000 })
     .type(chartName)
     .blur();
-  cy.log("AAAAAAA", helmPackageAlias, packageAlias);
   packageAlias && cy.get(helmPackageAlias, { timeout: 20 * 1000 }).clear();
   packageAlias &&
     cy

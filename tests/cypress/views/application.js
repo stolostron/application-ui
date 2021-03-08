@@ -122,6 +122,7 @@ export const createHelm = (clusterName, configs, addOperation) => {
     helmUsername: "#helmUser",
     helmPassword: "#helmPassword",
     helmChartName: "#helmChartName",
+    helmPackageAlias: "#helmPackageAlias",
     helmPackageVersion: "#helmPackageVersion",
     insecureSkipVerify: "#helmInsecureSkipVerify"
   };
@@ -152,16 +153,19 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     username,
     password,
     chartName,
+    packageAlias,
     packageVersion,
     timeWindow,
     deployment,
     insecureSkipVerifyOption
   } = value;
+  cy.log("helmTasks !!!!!!", chartName, packageAlias, value);
   const {
     helmURL,
     helmUsername,
     helmPassword,
     helmChartName,
+    helmPackageAlias,
     helmPackageVersion,
     insecureSkipVerify
   } = css;
@@ -182,6 +186,14 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .get(helmChartName, { timeout: 20 * 1000 })
     .type(chartName)
     .blur();
+  cy.log("AAAAAAA", helmPackageAlias, packageAlias);
+  packageAlias && cy.get(helmPackageAlias, { timeout: 20 * 1000 }).clear();
+  packageAlias &&
+    cy
+      .get(helmPackageAlias, { timeout: 20 * 1000 })
+      .type(packageAlias)
+      .blur();
+
   packageVersion &&
     cy
       .get(helmPackageVersion, { timeout: 20 * 1000 })

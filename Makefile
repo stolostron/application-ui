@@ -116,3 +116,10 @@ pull-test-image:
 publish-test-image:
 	rm -rf pipeline
 	make pipeline-manifest/update COMPONENT_NAME=$(COMPONENT_NAME)-tests PIPELINE_MANIFEST_COMPONENT_SHA256=${TRAVIS_COMMIT} PIPELINE_MANIFEST_COMPONENT_REPO=${TRAVIS_REPO_SLUG} PIPELINE_MANIFEST_BRANCH=${TRAVIS_BRANCH}
+
+.PHONY: build-image
+build-image:
+	@echo "Building $(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME):$(IMAGE_TAG)"
+	docker build . \
+	-f Dockerfile \
+	-t $(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME):$(IMAGE_TAG) \

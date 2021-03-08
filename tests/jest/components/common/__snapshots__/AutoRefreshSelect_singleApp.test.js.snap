@@ -59,7 +59,7 @@ Array [
         <span
           className="pf-c-dropdown__toggle-text"
         >
-          Refresh every 1m
+          Refresh every 15s
         </span>
         <span
           className="pf-c-dropdown__toggle-icon"

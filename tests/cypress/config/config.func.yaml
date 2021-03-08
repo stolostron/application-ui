@@ -138,7 +138,7 @@ helm:
     - enable: true
       name: ui-helm
       type: helm
-      successNumber: 4 #should have at least 3 resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
+      successNumber: 4 #should have at least this many resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
       new: # used when we add new subscriptions after app creation
         - url: https://dummy/helminsecureSkipVerifyOption
           username: ""
@@ -163,6 +163,7 @@ helm:
           username: ""
           password: ""
           chartName: redis
+          packageAlias: alias-for-redis
           packageVersion: 12.2.4
           deployment:
             local: false
@@ -173,6 +174,7 @@ helm:
           username: ""
           password: ""
           chartName: minio
+          packageAlias: my-minio-alias
           packageVersion: 4.1.9
           timeWindow:
             setting: true

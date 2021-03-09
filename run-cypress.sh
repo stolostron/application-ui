@@ -6,6 +6,10 @@ function errEcho {
   echo >&2 "$@"
 }
 
+function test {
+  echo "I'm testing prow"
+}
+
 function usage {
   errEcho "usage: $(basename ${0}) [-l] HUB MANAGED"
   errEcho

@@ -73,6 +73,7 @@ const ansibleError = {
     "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
   specs: {
     raw: {
+      hookType: "pre-hook",
       metadata: {
         name: "bigjoblaunch",
         namespace: "default"
@@ -93,6 +94,7 @@ const ansibleError2 = {
     "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
   specs: {
     raw: {
+      hookType: "pre-hook",
       metadata: {
         name: "bigjoblaunch",
         namespace: "default"
@@ -3004,6 +3006,7 @@ describe("setResourceDeployStatus ansiblejob ", () => {
       "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
     specs: {
       raw: {
+        hookType: "pre-hook",
         metadata: {
           name: "bigjoblaunch",
           namespace: "default"
@@ -3065,6 +3068,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
       "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
     specs: {
       raw: {
+        hookType: "pre-hook",
         metadata: {
           name: "bigjoblaunch",
           namespace: "default"

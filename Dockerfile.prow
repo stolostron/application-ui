@@ -17,6 +17,7 @@ RUN mkdir -p /opt/app-root/licenses
 WORKDIR /opt/app-root/src/application-ui
 
 COPY . /opt/app-root/src/application-ui
+RUN ls /opt/app-root/src/application-ui
 
 EXPOSE 3000
 

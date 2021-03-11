@@ -3,6 +3,12 @@ FROM registry.ci.openshift.org/open-cluster-management/builder:nodejs14-linux-am
 # Root needed for yum update, gets reset to 1001 below.
 USER root
 RUN yum -y update
+RUN mkdir -p /opt/app-root/src/application-ui
+RUN mkdir -p /opt/app-root/licenses
+WORKDIR /opt/app-root/src/application-ui
+RUN cd /opt/app-root/src/application-ui/ && npm ci && npm run build:production
+
+RUN ls /opt/app-root/src/application-ui
 
 FROM registry.access.redhat.com/ubi8/nodejs-14:1
 USER root
@@ -11,10 +17,6 @@ RUN yum -y remove nodejs-nodemon
 ENV BABEL_DISABLE_CACHE=1 \
     NODE_ENV=production \
     USER_UID=1001
-
-RUN mkdir -p /opt/app-root/src/application-ui
-RUN mkdir -p /opt/app-root/licenses
-WORKDIR /opt/app-root/src/application-ui
 
 COPY . /opt/app-root/src/application-ui
 RUN ls /opt/app-root/src/application-ui

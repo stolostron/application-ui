@@ -48,7 +48,7 @@
   "author": "",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
-    "@open-cluster-management/ui-components": "^0.1.223",
+    "@open-cluster-management/ui-components": "^0.1.225",
     "@patternfly/patternfly": "^4.90.5",
     "@patternfly/react-core": "^4.101.3",
     "@patternfly/react-icons": "^4.9.2",

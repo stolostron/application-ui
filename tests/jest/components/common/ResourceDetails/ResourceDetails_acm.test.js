@@ -14,7 +14,39 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
   getResource: jest.fn(resourceType => {
     const data = {
       data: {
-        items: []
+        topology: {
+          resources: [
+            {
+              id: "application--helloworld-local",
+              type: "application",
+              specs: {
+                raw: {
+                  apiVersion: "app.k8s.io/v1beta1",
+                  kind: "Application",
+                  metadata: {
+                    name: "helloworld-local",
+                    namespace: "acm"
+                  },
+                  spec: {}
+                }
+              }
+            },
+            {
+              id: "application--helloworld-local",
+              type: "service",
+              specs: {
+                raw: {
+                  apiVersion: "v1",
+                  kind: "Service",
+                  metadata: {
+                    name: "helloworld-app-svc",
+                    namespace: "argo-helloworld"
+                  }
+                }
+              }
+            }
+          ]
+        }
       }
     };
     return Promise.resolve(data);
@@ -27,7 +59,14 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
     };
     return Promise.resolve(data);
   }),
-  search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
+  search: jest.fn(resourceType => {
+    const data = {
+      data: {
+        searchResult: []
+      }
+    };
+    return Promise.resolve(data);
+  })
 }));
 
 jest.mock("../../../../../lib/client/access-helper.js", () => ({

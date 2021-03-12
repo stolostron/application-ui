@@ -212,8 +212,7 @@ describe("topology actions", () => {
     const expectedValue = {
       isArgoApp: false,
       relatedKinds: ["application", "subscription", "route"],
-      subscription: "subs1",
-      targetNamespaces: []
+      subscription: "subs1"
     };
 
     expect(getResourceData(nodes)).toEqual(expectedValue);
@@ -237,8 +236,7 @@ describe("topology actions", () => {
     const expectedValue = {
       isArgoApp: false,
       relatedKinds: ["application", "subscription", "deployment", "pod"],
-      subscription: "subs1",
-      targetNamespaces: []
+      subscription: "subs1"
     };
 
     expect(getResourceData(nodes)).toEqual(expectedValue);
@@ -266,8 +264,7 @@ describe("topology actions", () => {
     const expectedValue = {
       isArgoApp: false,
       relatedKinds: ["application", "subscription", "route"],
-      subscription: null,
-      targetNamespaces: []
+      subscription: null
     };
 
     expect(getResourceData(nodes)).toEqual(expectedValue);

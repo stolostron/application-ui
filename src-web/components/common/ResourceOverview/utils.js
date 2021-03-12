@@ -39,6 +39,17 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
+export const getSearchLinkForArgoApplication = appNode => {
+  const source = _.get(appNode, ['specs', 'raw', 'spec', 'source'], '')
+  if (source && source.repoURL && source.path) {
+    const textsearch = `kind:application apigroup:argoproj.io repoURL:${
+      source.repoURL
+    } path:${source.path}`
+    return `/search?filters={"textsearch":"${encodeURIComponent(textsearch)}"}`
+  }
+  return ''
+}
+
 const getSubCardData = (subData, node) => {
   let resourceType = ''
   let resourcePath = ''
@@ -145,6 +156,8 @@ export const getAppOverviewCardsData = (
     }
   }
 
+  let apiGroup = 'app.k8s.io'
+
   if (
     typeof topologyData.loaded !== 'undefined' &&
     typeof topologyData.nodes !== 'undefined' &&
@@ -155,6 +168,7 @@ export const getAppOverviewCardsData = (
     let creationTimestamp = ''
     const nodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
     const subsList = []
+    let clusterNames = []
 
     let clusterData = {
       remoteCount: 0,
@@ -181,8 +195,18 @@ export const getAppOverviewCardsData = (
         allSubscriptions.forEach(subs => {
           subsList.push(getSubCardData(subs, node))
         })
+
+        const isArgoApp =
+          _.get(node, ['specs', 'raw', 'apiVersion'], '').indexOf('argo') !==
+          -1
+        if (isArgoApp) {
+          // set argocd api group
+          apiGroup = 'argoproj.io'
+          // set argo app cluster names
+          clusterNames = _.get(node, ['specs', 'clusterNames'], [])
+        }
       }
-      //get pulse for all objects generated from a ddeployable
+      //get pulse for all objects generated from a deployable
       if (
         _.get(node, 'id', '').indexOf('--deployable') !== -1 &&
         _.get(node, 'specs.pulse')
@@ -199,7 +223,9 @@ export const getAppOverviewCardsData = (
       localClusterDeploy: clusterData.isLocal,
       nodeStatuses: nodeStatuses,
       targetLink: targetLink,
-      subsList: subsList
+      subsList: subsList,
+      apiGroup: apiGroup,
+      clusterNames: clusterNames
     }
   } else {
     return {
@@ -210,7 +236,9 @@ export const getAppOverviewCardsData = (
       localClusterDeploy: false,
       nodeStatuses: -1,
       targetLink: targetLink,
-      subsList: -1
+      subsList: -1,
+      apiGroup: apiGroup,
+      clusterNames: []
     }
   }
 }

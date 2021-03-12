@@ -10,6 +10,7 @@
 
 import {
   getSearchLinkForOneApplication,
+  getSearchLinkForArgoApplication,
   getAppOverviewCardsData
 } from "../../../../../src-web/components/common/ResourceOverview/utils";
 import {
@@ -212,6 +213,40 @@ const data2 = {
   related: []
 };
 
+describe("getSearchLinkForArgoApplication", () => {
+  const appNode = {
+    id: "application--helloworld-local",
+    uid: "application--helloworld-local",
+    type: "application",
+    specs: {
+      raw: {
+        apiVersion: "argoproj.io/v1alpha1",
+        kind: "Application",
+        spec: {
+          destination: {
+            namespace: "argo-helloworld",
+            server: "https://kubernetes.default.svc"
+          },
+          project: "default",
+          source: {
+            path: "helloworld",
+            repoURL: "https://github.com/fxiang1/app-samples",
+            targetRevision: "HEAD"
+          }
+        }
+      }
+    }
+  };
+  it("should return search link for Argo application", () => {
+    const result =
+      '/search?filters={"textsearch":"kind%3Aapplication%20apigroup%3Aargoproj.io%20repoURL%3Ahttps%3A%2F%2Fgithub.com%2Ffxiang1%2Fapp-samples%20path%3Ahelloworld"}';
+    expect(getSearchLinkForArgoApplication(appNode)).toEqual(result);
+  });
+  it("should return empty string for undefined app node", () => {
+    expect(getSearchLinkForArgoApplication(undefined)).toEqual("");
+  });
+});
+
 describe("getSearchLinkForOneApplication", () => {
   const appName = "test-app";
   const appNamespace = "default";
@@ -261,8 +296,10 @@ describe("getAppOverviewCardsData", () => {
       targetLink
     );
     const result = {
+      apiGroup: "app.k8s.io",
       appName: "mortgage-app",
       appNamespace: "default",
+      clusterNames: [],
       creationTimestamp: "Aug 13 2018, 3:23 pm",
       remoteClusterCount: 1,
       localClusterDeploy: false,
@@ -299,8 +336,10 @@ describe("getAppOverviewCardsData", () => {
       targetLink
     );
     const result = {
+      apiGroup: "app.k8s.io",
       appName: "mortgage-app",
       appNamespace: "default",
+      clusterNames: [],
       creationTimestamp: "Aug 13 2018, 3:23 pm",
       remoteClusterCount: 1,
       localClusterDeploy: false,

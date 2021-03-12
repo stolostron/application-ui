@@ -5,7 +5,10 @@ const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { testGitApiInput } from "../../views/common";
 
 describe("Application UI: [P3][Sev3][app-lifecycle-ui] Application Creation Validate git api Test", () => {
-  if (Cypress.config().baseUrl.includes("localhost")) {
+  if (
+    Cypress.config().baseUrl.includes("localhost") &&
+    Cypress.env("TEST_MODE") !== "smoke"
+  ) {
     //run this test only on PRs
     it(`Verify git api can access git branches`, () => {
       cy.log("Test cluster", Cypress.config().baseUrl);

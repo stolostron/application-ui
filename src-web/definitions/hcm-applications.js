@@ -120,7 +120,9 @@ export function createApplicationLink(item = {}, ...param) {
   }
   const link = `${config.contextPath}/${encodeURIComponent(
     namespace
-  )}/${encodeURIComponent(name)}`
+  )}/${encodeURIComponent(name)}?apiVersion=${encodeURIComponent(
+    item.apiVersion
+  )}`
   return <Link to={link}>{name}</Link>
 }
 

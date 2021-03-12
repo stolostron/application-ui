@@ -34,7 +34,8 @@ const query_data1 = {
       status: "Propagated",
       channel: "default/mortgage-channel"
     }
-  ]
+  ],
+  apiVersion: "app.k8s.io/v1beta1"
 };
 
 const query_data2 = {
@@ -212,7 +213,11 @@ describe("createApplicationLink", () => {
       _owner: null,
       _store: {},
       key: null,
-      props: { children: "val", replace: false, to: "undefined/default/val" },
+      props: {
+        children: "val",
+        replace: false,
+        to: "undefined/default/val?apiVersion=app.k8s.io%2Fv1beta1"
+      },
       ref: null
     };
     expect(

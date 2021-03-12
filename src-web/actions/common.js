@@ -272,6 +272,13 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
         null,
         querySettings.targetNamespaces.toString()
       )
+      //if cluster info, add that to query
+      if (querySettings.clusterInfo.length > 0) {
+        query.filters.push({
+          property: 'cluster',
+          values: querySettings.clusterInfo
+        })
+      }
       //get the cluster for each target namespace
       query.relatedKinds.push('cluster')
     } else {

@@ -45,6 +45,7 @@ exports[`SearchName search render as expected 1`] = `
           <input
             aria-label="Search-input"
             className="pf-c-search-input__text-input"
+            disabled={false}
             onChange={[Function]}
             placeholder="Find [+Find]"
             value="test"

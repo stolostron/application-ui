@@ -48,8 +48,9 @@
   "author": "",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
-    "@open-cluster-management/ui-components": "^0.1.201",
-    "@patternfly/react-core": "^4.97.2",
+    "@open-cluster-management/ui-components": "^0.1.225",
+    "@patternfly/patternfly": "^4.90.5",
+    "@patternfly/react-core": "^4.101.3",
     "@patternfly/react-icons": "^4.9.2",
     "@patternfly/react-tokens": "^4.10.2",
     "apollo-boost": "^0.1.20",

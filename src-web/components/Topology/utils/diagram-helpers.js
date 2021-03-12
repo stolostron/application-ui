@@ -294,7 +294,11 @@ export const getPulseStatusForCluster = node => {
 
 const getPulseStatusForGenericNode = node => {
   //ansible job status
-  if (_.get(node, 'type', '') === 'ansiblejob') {
+  if (
+    _.get(node, 'type', '') === 'ansiblejob' &&
+    _.get(node, 'specs.raw.hookType')
+  ) {
+    // process here only ansible hooks
     return getPulseStatusForAnsibleNode(node)
   }
   let pulse = _.get(node, specPulse, 'green')
@@ -1069,7 +1073,11 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
-  if (_.get(node, 'type', '') === 'ansiblejob') {
+  if (
+    _.get(node, 'type', '') === 'ansiblejob' &&
+    _.get(node, 'specs.raw.hookType')
+  ) {
+    // process here only ansible hooks
     showAnsibleJobDetails(node, details)
 
     if (!_.get(node, 'specs.raw.spec')) {
@@ -1092,7 +1100,11 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     clusterName = R.trim(clusterName)
     let res = resourceMap[`${resourceName}-${clusterName}`]
 
-    if (_.get(node, 'type', '') !== 'ansiblejob') {
+    if (
+      _.get(node, 'type', '') !== 'ansiblejob' ||
+      !_.get(node, 'specs.raw.hookType')
+    ) {
+      // process here only regular ansible tasks
       const deployedKey = res
         ? node.type === 'namespace' ? deployedNSStr : deployedStr
         : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr

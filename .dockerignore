@@ -27,10 +27,8 @@ test-output
 .dockerignore
 .eslint*
 .nvmrc
-package.json
 travis-scripts
 copy.sh
-webpack*
 version.ejs
 setup-env.sh
 state

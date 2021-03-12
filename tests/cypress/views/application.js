@@ -122,6 +122,7 @@ export const createHelm = (clusterName, configs, addOperation) => {
     helmUsername: "#helmUser",
     helmPassword: "#helmPassword",
     helmChartName: "#helmChartName",
+    helmPackageAlias: "#helmPackageAlias",
     helmPackageVersion: "#helmPackageVersion",
     insecureSkipVerify: "#helmInsecureSkipVerify"
   };
@@ -152,6 +153,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     username,
     password,
     chartName,
+    packageAlias,
     packageVersion,
     timeWindow,
     deployment,
@@ -162,6 +164,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     helmUsername,
     helmPassword,
     helmChartName,
+    helmPackageAlias,
     helmPackageVersion,
     insecureSkipVerify
   } = css;
@@ -182,6 +185,13 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .get(helmChartName, { timeout: 20 * 1000 })
     .type(chartName)
     .blur();
+  packageAlias && cy.get(helmPackageAlias, { timeout: 20 * 1000 }).clear();
+  packageAlias &&
+    cy
+      .get(helmPackageAlias, { timeout: 20 * 1000 })
+      .type(packageAlias)
+      .blur();
+
   packageVersion &&
     cy
       .get(helmPackageVersion, { timeout: 20 * 1000 })
@@ -422,16 +432,6 @@ export const validateTopology = (
     } else {
       //if opType is create, the first subscription was removed by the delete subs test, use the new config option
       validateDeployables(opType == "add" ? data.new[0] : value);
-
-      const { local, online } =
-        key == 0 && opType == "add" ? data.new[0].deployment : value.deployment;
-      cy.log(`key=${key}, type=${opType}`);
-      !local
-        ? (validatePlacementNode(name, key),
-          !online && validateClusterNode(clusterName)) //ignore online placements since the app is deployed on all online clusters here and we don't know for sure how many remote clusters the hub has
-        : cy.log(
-            "cluster and placement nodes will not be created as the application is deployed locally"
-          );
     }
   }
 
@@ -454,13 +454,6 @@ export const validateTopology = (
       .then(parseInt)
       .should("be.gte", successNumber);
   }
-};
-
-export const validateClusterNode = clusterName => {
-  cy.log(`validating the cluster... ${clusterName}`);
-  cy
-    .get(`g[type="${clusterName}"]`, { timeout: 25 * 1000 })
-    .should("be.visible");
 };
 
 export const validatePlacementNode = (name, key) => {

@@ -421,7 +421,10 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const { params: { namespace, name } } = ownProps
+  const { params: { namespace, name }, location: { search } } = ownProps
+  const searchItems = search ? new URLSearchParams(search) : undefined
+  const apiVersion = searchItems ? searchItems.get('apiVersion') : undefined
+  const cluster = searchItems ? searchItems.get('cluster') : undefined
   return {
     resetFilters: () => {
       dispatch({
@@ -431,7 +434,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     fetchAppTopology: (fetchChannel, reloading) => {
       const fetchFilters = {
-        application: { name, namespace, channel: fetchChannel }
+        application: {
+          name,
+          namespace,
+          channel: fetchChannel,
+          apiVersion,
+          cluster
+        }
       }
       dispatch(
         fetchTopology({ filter: { ...fetchFilters } }, fetchFilters, reloading)

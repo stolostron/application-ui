@@ -25,6 +25,7 @@ import msgs from '../../../../nls/platform.properties'
 import config from '../../../../lib/shared/config'
 import {
   getSearchLinkForOneApplication,
+  getSearchLinkForArgoApplication,
   getAppOverviewCardsData
 } from '../ResourceOverview/utils'
 import ChannelLabels from '../ChannelLabels'
@@ -111,10 +112,23 @@ class OverviewCards extends React.Component {
     let getUrl = window.location.href
     getUrl = getUrl.substring(0, getUrl.indexOf('/multicloud/applications/'))
 
-    const targetLink = getSearchLinkForOneApplication({
+    let targetLink = getSearchLinkForOneApplication({
       name: encodeURIComponent(selectedAppName),
       namespace: encodeURIComponent(selectedAppNS)
     })
+
+    let appNode = false
+    if (topology && topology.nodes) {
+      appNode = topology.nodes.find(r => r.type === 'application')
+    }
+    if (appNode) {
+      const isArgoApp =
+        _.get(appNode, ['specs', 'raw', 'apiVersion'], '').indexOf('argo') !==
+        -1
+      if (isArgoApp) {
+        targetLink = getSearchLinkForArgoApplication(appNode)
+      }
+    }
 
     const appOverviewCardsData = getAppOverviewCardsData(
       HCMApplicationList,
@@ -132,7 +146,8 @@ class OverviewCards extends React.Component {
       name: selectedAppName,
       namespace: selectedAppNS,
       kind: 'application',
-      apigroup: 'app.k8s.io'
+      apigroup: appOverviewCardsData.apiGroup,
+      clusterNames: appOverviewCardsData.clusterNames
     })
 
     const disableBtn =

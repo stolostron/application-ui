@@ -598,7 +598,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             data-label="Name"
                           >
                             <a
-                              href="undefined/default/mortgage-app"
+                              href="undefined/default/mortgage-app?apiVersion=app.k8s.io%2Fv1beta1"
                             >
                               mortgage-app
                             </a>
@@ -1487,7 +1487,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             data-label="Name"
                           >
                             <a
-                              href="undefined/default/mortgage-app"
+                              href="undefined/default/mortgage-app?apiVersion=app.k8s.io%2Fv1beta1"
                             >
                               mortgage-app
                             </a>
@@ -2376,7 +2376,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             data-label="Name"
                           >
                             <a
-                              href="undefined/default/mortgage-app"
+                              href="undefined/default/mortgage-app?apiVersion=app.k8s.io%2Fv1beta1"
                             >
                               mortgage-app
                             </a>

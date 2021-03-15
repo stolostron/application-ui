@@ -41,5 +41,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application application b
         }
       });
     }
+  } else {
+    it("Skipping this test in smoke test mode", () => {});
   }
 });

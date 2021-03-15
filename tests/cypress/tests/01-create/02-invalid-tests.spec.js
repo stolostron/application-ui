@@ -8,5 +8,7 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application Creation Vali
     it(`Verify invalid input is rejected`, () => {
       testInvalidApplicationInput();
     });
+  } else {
+    it("Skipping this test in smoke test mode", () => {});
   }
 });

@@ -22,7 +22,7 @@ describe("Application UI: [P3][Sev3][app-lifecycle-ui] Application Creation Vali
       }
     });
   } else {
-    it("Skipping git api validation test, this test is only run against localhost, PR execution", () => {
+    it("Skipping git api validation test, this test is only run against localhost, PR execution and is not run in smoke test mode", () => {
       cy.log(
         "Cypress.config().baseUrl should include localhost to execute this test"
       );

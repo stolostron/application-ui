@@ -512,6 +512,23 @@ describe("getSearchLink", () => {
       '/search?filters={"textsearch":"name%3Atesting"}&showrelated=subscriptions'
     );
   });
+
+  it("handles Argo app properties", () => {
+    expect(
+      getSearchLink({
+        properties: {
+          name: "helloworld-local",
+          namespace: "argocd",
+          kind: "application",
+          apigroup: "argoproj.io"
+        },
+        showRelated: "cluster",
+        clusterNames: ["local-cluster", "ui-dev-remote"]
+      })
+    ).toEqual(
+      '/search?filters={"textsearch":"kind%3Acluster%20name%3Alocal-cluster%2Cui-dev-remote"}'
+    );
+  });
 });
 
 describe("getEditLink should return editLink", () => {

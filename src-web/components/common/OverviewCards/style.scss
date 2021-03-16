@@ -63,6 +63,26 @@
     vertical-align: top;
   }
 
+  .app-name-container {
+    display: flex;
+    line-height: 18px;
+  }
+
+  .app-name {
+    margin-right: 12px;
+  }
+
+  .argo-icon-container {
+    background-color: #fdf7e7;
+    border: 1px solid #f9e0a2;
+    border-radius: 12px;
+    width: 70px;
+    height: 22px;
+    color: #3d2c00;
+    font-size: 14px;
+    text-align: center;
+  }
+
   // Search resource link
   .details-item-link {
     color: #0066cc;

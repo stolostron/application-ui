@@ -25,7 +25,6 @@ import msgs from '../../../../nls/platform.properties'
 import config from '../../../../lib/shared/config'
 import {
   getSearchLinkForOneApplication,
-  getSearchLinkForArgoApplication,
   getAppOverviewCardsData
 } from '../ResourceOverview/utils'
 import ChannelLabels from '../ChannelLabels'
@@ -112,23 +111,10 @@ class OverviewCards extends React.Component {
     let getUrl = window.location.href
     getUrl = getUrl.substring(0, getUrl.indexOf('/multicloud/applications/'))
 
-    let targetLink = getSearchLinkForOneApplication({
+    const targetLink = getSearchLinkForOneApplication({
       name: encodeURIComponent(selectedAppName),
       namespace: encodeURIComponent(selectedAppNS)
     })
-
-    let appNode = false
-    if (topology && topology.nodes) {
-      appNode = topology.nodes.find(r => r.type === 'application')
-    }
-    if (appNode) {
-      const isArgoApp =
-        _.get(appNode, ['specs', 'raw', 'apiVersion'], '').indexOf('argo') !==
-        -1
-      if (isArgoApp) {
-        targetLink = getSearchLinkForArgoApplication(appNode)
-      }
-    }
 
     const appOverviewCardsData = getAppOverviewCardsData(
       HCMApplicationList,
@@ -164,7 +150,23 @@ class OverviewCards extends React.Component {
           leftItems={[
             {
               key: msgs.get('dashboard.card.overview.cards.name', locale),
-              value: appOverviewCardsData.appName
+              value: (
+                <React.Fragment>
+                  <div className="app-name-container">
+                    <div className="app-name">
+                      {appOverviewCardsData.appName}
+                    </div>
+                    {this.renderData(
+                      appOverviewCardsData.argoSource,
+                      this.createArgoAppIcon(
+                        appOverviewCardsData.isArgoApp,
+                        locale
+                      ),
+                      '30%'
+                    )}
+                  </div>
+                </React.Fragment>
+              )
             },
             {
               key: msgs.get('dashboard.card.overview.cards.namespace', locale),
@@ -232,24 +234,47 @@ class OverviewCards extends React.Component {
             {
               key: (
                 <React.Fragment>
-                  <a
-                    className="details-item-link"
-                    id="app-search-link"
-                    href={getUrl + appOverviewCardsData.targetLink}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <div>
-                      {msgs.get(
-                        'dashboard.card.overview.cards.search.resource',
+                  {this.renderData(
+                    appOverviewCardsData.argoSource,
+                    appOverviewCardsData.isArgoApp
+                      ? msgs.get(
+                        'dashboard.card.overview.cards.repoResource.label',
                         locale
-                      )}
-                      <ArrowRightIcon className="details-item-link-icon" />
-                    </div>
-                  </a>
+                      )
+                      : this.createTargetLink(
+                        getUrl + appOverviewCardsData.targetLink,
+                        locale
+                      ),
+                    '30%'
+                  )}
                 </React.Fragment>
               ),
-              value: ''
+              value: (
+                <React.Fragment>
+                  {this.renderData(
+                    appOverviewCardsData.argoSource,
+                    appOverviewCardsData.isArgoApp ? (
+                      <ChannelLabels
+                        channels={[
+                          {
+                            type: 'GitHub',
+                            pathname: appOverviewCardsData.argoSource
+                              ? appOverviewCardsData.argoSource.repoURL
+                              : '',
+                            gitPath: appOverviewCardsData.argoSource
+                              ? appOverviewCardsData.argoSource.path
+                              : ''
+                          }
+                        ]}
+                        locale={locale}
+                      />
+                    ) : (
+                      ''
+                    ),
+                    '30%'
+                  )}
+                </React.Fragment>
+              )
             }
           ]}
         />
@@ -289,6 +314,37 @@ class OverviewCards extends React.Component {
       showData
     ) : (
       <Skeleton width={width} className="loading-skeleton-text" />
+    )
+  };
+
+  createTargetLink = (link, locale) => {
+    return (
+      <a
+        className="details-item-link"
+        id="app-search-link"
+        href={link}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <div>
+          {msgs.get('dashboard.card.overview.cards.search.resource', locale)}
+          <ArrowRightIcon className="details-item-link-icon" />
+        </div>
+      </a>
+    )
+  };
+
+  createArgoAppIcon = (isArgoApp, locale) => {
+    return (
+      <React.Fragment>
+        {isArgoApp ? (
+          <div className="argo-icon-container" id="argo-app-icon">
+            {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
+          </div>
+        ) : (
+          ''
+        )}
+      </React.Fragment>
     )
   };
 

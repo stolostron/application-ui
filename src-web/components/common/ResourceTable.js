@@ -50,7 +50,6 @@ class ResourceTable extends React.Component {
           items={this.getResources()}
           columns={this.getColumns()}
           keyFn={item => `${item.namespace}/${item.name}`}
-          tableActions={[]}
           rowActions={this.getRowActions()}
           emptyState={
             <AcmEmptyState
@@ -58,7 +57,9 @@ class ResourceTable extends React.Component {
               message={staticResourceData.emptyMessage(locale)}
             />
           }
-          extraToolbarControls={actions}
+          extraToolbarControls={
+            actions && actions.length > 0 ? actions : undefined
+          }
           page={page}
           setPage={setPage}
           search={search}

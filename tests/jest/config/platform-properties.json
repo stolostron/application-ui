@@ -38,6 +38,7 @@
   "channel.type.helmrepo": "Helm",
   "channel.type.label.gitBranch": "Branch",
   "channel.type.label.gitPath": "Path",
+  "channel.type.label.targetRevision": "Revision",
   "channel.type.label.noData": "Not selected",
   "channel.type.label.package": "Chart name",
   "channel.type.label.packageFilterVersion": "Package version",

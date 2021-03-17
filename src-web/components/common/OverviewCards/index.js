@@ -263,10 +263,14 @@ class OverviewCards extends React.Component {
                               : '',
                             gitPath: appOverviewCardsData.argoSource
                               ? appOverviewCardsData.argoSource.path
+                              : '',
+                            targetRevision: appOverviewCardsData.argoSource
+                              ? appOverviewCardsData.argoSource.targetRevision
                               : ''
                           }
                         ]}
                         locale={locale}
+                        isArgoApp={true}
                       />
                     ) : (
                       ''
@@ -444,6 +448,7 @@ class OverviewCards extends React.Component {
                       }
                     ]}
                     locale={locale}
+                    isArgoApp={false}
                   />
                 </div>
               </div>

@@ -29,7 +29,8 @@ resources(() => {
 const ChannelLabels = ({
   channels,
   locale,
-  showSubscriptionAttributes = true
+  showSubscriptionAttributes = true,
+  isArgoApp = false
 }) => {
   const channelMap = groupByChannelType(channels || [])
   // Create sorting function for channels
@@ -72,6 +73,9 @@ const ChannelLabels = ({
                 if (showSubscriptionAttributes) {
                   if (chType === 'git') {
                     channelTypeAttributes = ['gitBranch', 'gitPath']
+                    if (isArgoApp) {
+                      channelTypeAttributes.push('targetRevision')
+                    }
                   } else if (chType === 'helmrepo') {
                     channelTypeAttributes = ['package', 'packageFilterVersion']
                   }
@@ -140,6 +144,7 @@ const ChannelLabels = ({
 
 ChannelLabels.propTypes = {
   channels: PropTypes.arrayOf(PropTypes.object),
+  isArgoApp: PropTypes.bool,
   locale: PropTypes.string,
   showSubscriptionAttributes: PropTypes.bool
 }

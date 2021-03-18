@@ -144,9 +144,7 @@ export class SecondaryHeader extends React.Component {
           aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
         >
           <div className="secondary-header simple-header">
-            <h1 className="bx--detail-page-header-title">
-              {decodeURIComponent(title)}
-            </h1>
+            <h1>{decodeURIComponent(title)}</h1>
             {this.renderTooltip()}
           </div>
         </div>

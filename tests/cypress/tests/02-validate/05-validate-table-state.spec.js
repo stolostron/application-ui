@@ -23,6 +23,7 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
     // Go to 2nd page of Subscriptions
     cy
       .get('button[aria-label="Go to next page"]')
+      .first()
       .scrollIntoView()
       .click();
 
@@ -63,6 +64,7 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
     // Change page size
     cy
       .get('button[aria-label="Items per page"]')
+      .first()
       .scrollIntoView()
       .click();
     cy
@@ -79,6 +81,7 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
     // Verify page size change applied to Placement Rules
     cy
       .get('button[aria-label="Items per page"]')
+      .first()
       .scrollIntoView()
       .click();
     cy.get('button[data-action="per-page-20"].pf-m-selected');

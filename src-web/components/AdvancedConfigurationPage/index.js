@@ -20,7 +20,13 @@ import {
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import { withRouter } from 'react-router-dom'
 import AdvancedConfigurationLists from '../AdvancedConfigurationLists'
-import { Stack, StackItem } from '@patternfly/react-core'
+import {
+  Card,
+  CardBody,
+  PageSection,
+  Stack,
+  StackItem
+} from '@patternfly/react-core'
 
 /* eslint-disable react/prop-types */
 
@@ -65,18 +71,22 @@ class AdvancedConfigurationPage extends React.Component {
     const { secondaryHeaderProps } = this.props
 
     return (
-      <React.Fragment>
+      <PageSection>
         <Stack hasGutter>
           <StackItem>
             <ApplicationDeploymentHighlights />
           </StackItem>
           <StackItem>
-            <AdvancedConfigurationLists
-              secondaryHeaderProps={secondaryHeaderProps}
-            />
+            <Card>
+              <CardBody>
+                <AdvancedConfigurationLists
+                  secondaryHeaderProps={secondaryHeaderProps}
+                />
+              </CardBody>
+            </Card>
           </StackItem>
         </Stack>
-      </React.Fragment>
+      </PageSection>
     )
   }
 }

@@ -18,7 +18,6 @@ import {
   getSingleResourceItem,
   resourceItemByName
 } from '../../../reducers/common'
-import { loadingComponent } from './utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import OverviewCards from '../OverviewCards'
@@ -29,22 +28,18 @@ resources(() => {
 })
 
 const ResourceOverview = withLocale(
-  ({ params, actions, showExpandedTopology, loading }) => {
+  ({ params, actions, showExpandedTopology }) => {
     const serverProps = {}
     return (
       <div id="resource-overview" className="overview-content">
         <HeaderActions />
         <React.Fragment>
           <div className="overview-content-bottom overview-content-with-padding">
-            {loading ? (
-              loadingComponent()
-            ) : (
-              <OverviewCards
-                selectedAppName={params.name}
-                selectedAppNS={params.namespace}
-                serverProps={serverProps}
-              />
-            )}
+            <OverviewCards
+              selectedAppName={params.name}
+              selectedAppNS={params.namespace}
+              serverProps={serverProps}
+            />
           </div>
 
           <div className="overview-content-bottom overview-content-with-padding">

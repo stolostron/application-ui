@@ -9,15 +9,13 @@
 // Copyright Contributors to the Open Cluster Management project
 var path = require('path'),
     webpack = require('webpack'),
-    UglifyJSPlugin = require('uglifyjs-webpack-plugin'),
+    TerserPlugin = require('terser-webpack-plugin'),
     AssetsPlugin = require('assets-webpack-plugin'),
-    WebpackMd5Hash = require('webpack-md5-hash'),
     CompressionPlugin = require('compression-webpack-plugin')
 
-var NO_OP = () => {},
-    PRODUCTION = process.env.BUILD_ENV
-      ? /production/.test(process.env.BUILD_ENV)
-      : false
+var PRODUCTION = process.env.BUILD_ENV
+  ? /production/.test(process.env.BUILD_ENV)
+  : false
 
 process.env.BABEL_ENV = 'client'
 
@@ -26,6 +24,7 @@ const overpassTest = /overpass-.*\.(woff2?|ttf|eot|otf)(\?.*$|$)/
 module.exports = {
   entry: {
     vendorhcm: [
+      '@loadable/component',
       '@patternfly/react-core',
       '@patternfly/react-icons',
       '@patternfly/react-tokens',
@@ -33,7 +32,6 @@ module.exports = {
       'cytoscape',
       'cytoscape-cola',
       'd3',
-      'loadable-components',
       'lodash',
       'moment',
       'normalizr',
@@ -94,6 +92,14 @@ module.exports = {
     filename: PRODUCTION ? 'dll.[name].[chunkhash].js' : 'dll.[name].js',
     library: '[name]'
   },
+
+  optimization: {
+    minimize: PRODUCTION,
+    minimizer: [new TerserPlugin({
+      parallel: true,
+    })],
+  },
+
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -108,15 +114,10 @@ module.exports = {
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 5
     }),
-    PRODUCTION
-      ? new UglifyJSPlugin({
-        sourceMap: true
-      })
-      : NO_OP,
     new CompressionPlugin({
-      asset: '[path].gz[query]',
+      filename: '[path].gz',
       algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/
+      test: /\.js$|\.css$|\.html$/,
     }),
     new AssetsPlugin({
       path: path.join(__dirname, 'public'),
@@ -126,8 +127,7 @@ module.exports = {
     }),
     PRODUCTION
       ? new webpack.HashedModuleIdsPlugin()
-      : new webpack.NamedModulesPlugin(),
-    new WebpackMd5Hash()
+      : new webpack.NamedModulesPlugin()
   ],
   resolve: {
     modules: [path.join(__dirname, 'node_modules')]

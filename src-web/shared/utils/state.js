@@ -8,11 +8,11 @@
 // Copyright Contributors to the Open Cluster Management project
 
 // @flow
-import type { ActionT } from '../../../lib/types/ReduxT'
+//import type { ActionT } from '../../../lib/types/ReduxT'
 
 // Create flux standard action.
-type ActionCreatorT = (payload: string, meta: string) => ActionT;
-export const createAction = (type: string): ActionCreatorT => {
+//type ActionCreatorT = (payload: string, meta: string) => ActionT;
+export const createAction = (type) => {
   return (payload, meta) => ({
     type,
     ...(payload !== undefined ? { payload } : {}),

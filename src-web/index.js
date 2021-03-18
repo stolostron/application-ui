@@ -13,20 +13,14 @@ import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import { Router } from 'react-router-dom'
 import { ApolloProvider } from 'react-apollo'
 import App from './containers/App'
 import ScrollToTop from './components/common/ScrollToTop'
 import * as reducers from './reducers'
 import config from '../lib/shared/config'
 import apolloClient from '../lib/client/apollo-client'
-import history from 'history'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
-window.SHARED_HISTORY = window.SHARED_HISTORY
-  ? window.SHARED_HISTORY
-  : history.createBrowserHistory()
 
 const loggerMiddleware = createLogger()
 // Grab the state from a global variable injected into the server-generated HTML
@@ -49,15 +43,16 @@ const store = createStore(
   preloadedState,
   composeEnhancers(applyMiddleware(...middleware))
 )
+import { BrowserRouter } from 'react-router-dom'
 
 hydrate(
   <ApolloProvider client={apolloClient.getClient()}>
     <Provider store={store}>
-      <Router history={window.SHARED_HISTORY}>
+      <BrowserRouter>
         <ScrollToTop>
           <App />
         </ScrollToTop>
-      </Router>
+      </BrowserRouter>
     </Provider>
   </ApolloProvider>,
   document.getElementById('page')

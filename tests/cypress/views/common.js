@@ -176,19 +176,19 @@ export const modal = {
       .should("not.be.visible"),
   shouldNotBeDisabled: () =>
     cy
-      .get(".bx--btn.bx--btn--primary, .pf-c-button.pf-m-primary", {
+      .get(".pf-c-button.pf-m-primary", {
         timeout: 20000
       })
       .should("not.be.disabled"),
   shouldBeDisabled: () =>
     cy
-      .get(".bx--btn.bx--btn--primary, .pf-c-button.pf-m-primary", {
+      .get(".pf-c-button.pf-m-primary", {
         timeout: 20000
       })
       .should("be.disabled"),
   clickSubmit: () =>
     cy
-      .get(".bx--btn.bx--btn--primary, .pf-c-button.pf-m-primary", {
+      .get(".pf-c-button.pf-m-primary", {
         timeout: 20000
       })
       .click({ force: true }),
@@ -198,17 +198,13 @@ export const modal = {
     cy.get(".pf-m-danger", { timeout: 20000 }).click({ force: true }),
   clickPrimary: () =>
     cy
-      .get(".bx--btn.bx--btn--sm.bx--btn--primary, .pf-c-button.pf-m-primary", {
+      .get(".pf-c-button.pf-m-primary", {
         timeout: 20 * 1000
       })
       .then($el => {
         Cypress.dom.isDetached($el); // false
       })
       .click({ force: true }),
-  clickSecondary: () =>
-    cy
-      .get(".bx--btn.bx--btn--sm.bx--btn--secondary", { timeout: 20000 })
-      .click(),
   confirmAction: text => cy.get("#confirm-action").type(text)
 };
 

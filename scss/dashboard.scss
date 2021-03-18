@@ -6,7 +6,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 // Copyright Contributors to the Open Cluster Management project
- @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import './variables.scss';
 
 .dashboard-section-title {
     margin-bottom: .625rem;
@@ -73,9 +73,6 @@
 
 .dashboard-pie-chart {
     text-align: center;
-    .bx--graph-container {
-        margin: auto
-    }
 }
 
 .dashboard-bar-chart {

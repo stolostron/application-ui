@@ -25,292 +25,25 @@ initialize {
                 "children": Array [
                   Object {
                     "attribs": Object {
-                      "alt": "Provide a description that will be used as the title",
-                      "aria-label": "Provide a description that will be used as the title",
-                      "fill-rule": "evenodd",
-                      "height": "16",
-                      "name": "icon--launch",
+                      "aria-hidden": "true",
+                      "fill": "currentColor",
+                      "height": "1em",
                       "role": "img",
-                      "viewBox": "0 0 16 16",
-                      "width": "16",
+                      "style": "vertical-align: -0.125em;",
+                      "viewBox": "0 0 512 512",
+                      "width": "1em",
                     },
                     "children": Array [
                       Object {
-                        "attribs": Object {},
-                        "children": Array [
-                          Object {
-                            "data": "Provide a description that will be used as the title",
-                            "next": null,
-                            "parent": [Circular],
-                            "prev": null,
-                            "type": "text",
-                          },
-                        ],
-                        "name": "title",
-                        "namespace": "http://www.w3.org/2000/svg",
-                        "next": Object {
-                          "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": Object {
-                              "attribs": Object {
-                                "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                              },
-                              "children": Array [],
-                              "name": "path",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": null,
-                              "parent": [Circular],
-                              "prev": [Circular],
-                              "type": "tag",
-                              "x-attribsNamespace": Object {
-                                "d": undefined,
-                              },
-                              "x-attribsPrefix": Object {
-                                "d": undefined,
-                              },
-                            },
-                            "parent": [Circular],
-                            "prev": [Circular],
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "parent": [Circular],
-                          "prev": [Circular],
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        "parent": [Circular],
-                        "prev": null,
-                        "type": "tag",
-                        "x-attribsNamespace": Object {},
-                        "x-attribsPrefix": Object {},
-                      },
-                      Object {
                         "attribs": Object {
-                          "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                        },
-                        "children": Array [],
-                        "name": "path",
-                        "namespace": "http://www.w3.org/2000/svg",
-                        "next": Object {
-                          "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": Object {
-                            "attribs": Object {
-                              "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": null,
-                            "parent": [Circular],
-                            "prev": [Circular],
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "parent": [Circular],
-                          "prev": [Circular],
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        "parent": [Circular],
-                        "prev": Object {
-                          "attribs": Object {},
-                          "children": Array [
-                            Object {
-                              "data": "Provide a description that will be used as the title",
-                              "next": null,
-                              "parent": [Circular],
-                              "prev": null,
-                              "type": "text",
-                            },
-                          ],
-                          "name": "title",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": [Circular],
-                          "parent": [Circular],
-                          "prev": null,
-                          "type": "tag",
-                          "x-attribsNamespace": Object {},
-                          "x-attribsPrefix": Object {},
-                        },
-                        "type": "tag",
-                        "x-attribsNamespace": Object {
-                          "d": undefined,
-                        },
-                        "x-attribsPrefix": Object {
-                          "d": undefined,
-                        },
-                      },
-                      Object {
-                        "attribs": Object {
-                          "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                        },
-                        "children": Array [],
-                        "name": "path",
-                        "namespace": "http://www.w3.org/2000/svg",
-                        "next": Object {
-                          "attribs": Object {
-                            "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": null,
-                          "parent": [Circular],
-                          "prev": [Circular],
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        "parent": [Circular],
-                        "prev": Object {
-                          "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": [Circular],
-                          "parent": [Circular],
-                          "prev": Object {
-                            "attribs": Object {},
-                            "children": Array [
-                              Object {
-                                "data": "Provide a description that will be used as the title",
-                                "next": null,
-                                "parent": [Circular],
-                                "prev": null,
-                                "type": "text",
-                              },
-                            ],
-                            "name": "title",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": [Circular],
-                            "parent": [Circular],
-                            "prev": null,
-                            "type": "tag",
-                            "x-attribsNamespace": Object {},
-                            "x-attribsPrefix": Object {},
-                          },
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        "type": "tag",
-                        "x-attribsNamespace": Object {
-                          "d": undefined,
-                        },
-                        "x-attribsPrefix": Object {
-                          "d": undefined,
-                        },
-                      },
-                      Object {
-                        "attribs": Object {
-                          "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
+                          "d": "M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z",
                         },
                         "children": Array [],
                         "name": "path",
                         "namespace": "http://www.w3.org/2000/svg",
                         "next": null,
                         "parent": [Circular],
-                        "prev": Object {
-                          "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": [Circular],
-                          "parent": [Circular],
-                          "prev": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": [Circular],
-                            "parent": [Circular],
-                            "prev": Object {
-                              "attribs": Object {},
-                              "children": Array [
-                                Object {
-                                  "data": "Provide a description that will be used as the title",
-                                  "next": null,
-                                  "parent": [Circular],
-                                  "prev": null,
-                                  "type": "text",
-                                },
-                              ],
-                              "name": "title",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": [Circular],
-                              "parent": [Circular],
-                              "prev": null,
-                              "type": "tag",
-                              "x-attribsNamespace": Object {},
-                              "x-attribsPrefix": Object {},
-                            },
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
+                        "prev": null,
                         "type": "tag",
                         "x-attribsNamespace": Object {
                           "d": undefined,
@@ -327,22 +60,20 @@ initialize {
                     "prev": null,
                     "type": "tag",
                     "x-attribsNamespace": Object {
-                      "alt": undefined,
-                      "aria-label": undefined,
-                      "fill-rule": undefined,
+                      "aria-hidden": undefined,
+                      "fill": undefined,
                       "height": undefined,
-                      "name": undefined,
                       "role": undefined,
+                      "style": undefined,
                       "viewBox": undefined,
                       "width": undefined,
                     },
                     "x-attribsPrefix": Object {
-                      "alt": undefined,
-                      "aria-label": undefined,
-                      "fill-rule": undefined,
+                      "aria-hidden": undefined,
+                      "fill": undefined,
                       "height": undefined,
-                      "name": undefined,
                       "role": undefined,
+                      "style": undefined,
                       "viewBox": undefined,
                       "width": undefined,
                     },
@@ -378,292 +109,25 @@ initialize {
                   "children": Array [
                     Object {
                       "attribs": Object {
-                        "alt": "Provide a description that will be used as the title",
-                        "aria-label": "Provide a description that will be used as the title",
-                        "fill-rule": "evenodd",
-                        "height": "16",
-                        "name": "icon--launch",
+                        "aria-hidden": "true",
+                        "fill": "currentColor",
+                        "height": "1em",
                         "role": "img",
-                        "viewBox": "0 0 16 16",
-                        "width": "16",
+                        "style": "vertical-align: -0.125em;",
+                        "viewBox": "0 0 512 512",
+                        "width": "1em",
                       },
                       "children": Array [
                         Object {
-                          "attribs": Object {},
-                          "children": Array [
-                            Object {
-                              "data": "Provide a description that will be used as the title",
-                              "next": null,
-                              "parent": [Circular],
-                              "prev": null,
-                              "type": "text",
-                            },
-                          ],
-                          "name": "title",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": Object {
-                              "attribs": Object {
-                                "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                              },
-                              "children": Array [],
-                              "name": "path",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": Object {
-                                "attribs": Object {
-                                  "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                                },
-                                "children": Array [],
-                                "name": "path",
-                                "namespace": "http://www.w3.org/2000/svg",
-                                "next": null,
-                                "parent": [Circular],
-                                "prev": [Circular],
-                                "type": "tag",
-                                "x-attribsNamespace": Object {
-                                  "d": undefined,
-                                },
-                                "x-attribsPrefix": Object {
-                                  "d": undefined,
-                                },
-                              },
-                              "parent": [Circular],
-                              "prev": [Circular],
-                              "type": "tag",
-                              "x-attribsNamespace": Object {
-                                "d": undefined,
-                              },
-                              "x-attribsPrefix": Object {
-                                "d": undefined,
-                              },
-                            },
-                            "parent": [Circular],
-                            "prev": [Circular],
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "parent": [Circular],
-                          "prev": null,
-                          "type": "tag",
-                          "x-attribsNamespace": Object {},
-                          "x-attribsPrefix": Object {},
-                        },
-                        Object {
                           "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": Object {
-                              "attribs": Object {
-                                "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                              },
-                              "children": Array [],
-                              "name": "path",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": null,
-                              "parent": [Circular],
-                              "prev": [Circular],
-                              "type": "tag",
-                              "x-attribsNamespace": Object {
-                                "d": undefined,
-                              },
-                              "x-attribsPrefix": Object {
-                                "d": undefined,
-                              },
-                            },
-                            "parent": [Circular],
-                            "prev": [Circular],
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "parent": [Circular],
-                          "prev": Object {
-                            "attribs": Object {},
-                            "children": Array [
-                              Object {
-                                "data": "Provide a description that will be used as the title",
-                                "next": null,
-                                "parent": [Circular],
-                                "prev": null,
-                                "type": "text",
-                              },
-                            ],
-                            "name": "title",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": [Circular],
-                            "parent": [Circular],
-                            "prev": null,
-                            "type": "tag",
-                            "x-attribsNamespace": Object {},
-                            "x-attribsPrefix": Object {},
-                          },
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        Object {
-                          "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": Object {
-                            "attribs": Object {
-                              "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": null,
-                            "parent": [Circular],
-                            "prev": [Circular],
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "parent": [Circular],
-                          "prev": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": [Circular],
-                            "parent": [Circular],
-                            "prev": Object {
-                              "attribs": Object {},
-                              "children": Array [
-                                Object {
-                                  "data": "Provide a description that will be used as the title",
-                                  "next": null,
-                                  "parent": [Circular],
-                                  "prev": null,
-                                  "type": "text",
-                                },
-                              ],
-                              "name": "title",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": [Circular],
-                              "parent": [Circular],
-                              "prev": null,
-                              "type": "tag",
-                              "x-attribsNamespace": Object {},
-                              "x-attribsPrefix": Object {},
-                            },
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        Object {
-                          "attribs": Object {
-                            "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
+                            "d": "M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z",
                           },
                           "children": Array [],
                           "name": "path",
                           "namespace": "http://www.w3.org/2000/svg",
                           "next": null,
                           "parent": [Circular],
-                          "prev": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": [Circular],
-                            "parent": [Circular],
-                            "prev": Object {
-                              "attribs": Object {
-                                "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                              },
-                              "children": Array [],
-                              "name": "path",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": [Circular],
-                              "parent": [Circular],
-                              "prev": Object {
-                                "attribs": Object {},
-                                "children": Array [
-                                  Object {
-                                    "data": "Provide a description that will be used as the title",
-                                    "next": null,
-                                    "parent": [Circular],
-                                    "prev": null,
-                                    "type": "text",
-                                  },
-                                ],
-                                "name": "title",
-                                "namespace": "http://www.w3.org/2000/svg",
-                                "next": [Circular],
-                                "parent": [Circular],
-                                "prev": null,
-                                "type": "tag",
-                                "x-attribsNamespace": Object {},
-                                "x-attribsPrefix": Object {},
-                              },
-                              "type": "tag",
-                              "x-attribsNamespace": Object {
-                                "d": undefined,
-                              },
-                              "x-attribsPrefix": Object {
-                                "d": undefined,
-                              },
-                            },
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
+                          "prev": null,
                           "type": "tag",
                           "x-attribsNamespace": Object {
                             "d": undefined,
@@ -680,22 +144,20 @@ initialize {
                       "prev": null,
                       "type": "tag",
                       "x-attribsNamespace": Object {
-                        "alt": undefined,
-                        "aria-label": undefined,
-                        "fill-rule": undefined,
+                        "aria-hidden": undefined,
+                        "fill": undefined,
                         "height": undefined,
-                        "name": undefined,
                         "role": undefined,
+                        "style": undefined,
                         "viewBox": undefined,
                         "width": undefined,
                       },
                       "x-attribsPrefix": Object {
-                        "alt": undefined,
-                        "aria-label": undefined,
-                        "fill-rule": undefined,
+                        "aria-hidden": undefined,
+                        "fill": undefined,
                         "height": undefined,
-                        "name": undefined,
                         "role": undefined,
+                        "style": undefined,
                         "viewBox": undefined,
                         "width": undefined,
                       },
@@ -810,292 +272,25 @@ initialize {
                 "children": Array [
                   Object {
                     "attribs": Object {
-                      "alt": "Provide a description that will be used as the title",
-                      "aria-label": "Provide a description that will be used as the title",
-                      "fill-rule": "evenodd",
-                      "height": "16",
-                      "name": "icon--launch",
+                      "aria-hidden": "true",
+                      "fill": "currentColor",
+                      "height": "1em",
                       "role": "img",
-                      "viewBox": "0 0 16 16",
-                      "width": "16",
+                      "style": "vertical-align: -0.125em;",
+                      "viewBox": "0 0 512 512",
+                      "width": "1em",
                     },
                     "children": Array [
                       Object {
-                        "attribs": Object {},
-                        "children": Array [
-                          Object {
-                            "data": "Provide a description that will be used as the title",
-                            "next": null,
-                            "parent": [Circular],
-                            "prev": null,
-                            "type": "text",
-                          },
-                        ],
-                        "name": "title",
-                        "namespace": "http://www.w3.org/2000/svg",
-                        "next": Object {
-                          "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": Object {
-                              "attribs": Object {
-                                "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                              },
-                              "children": Array [],
-                              "name": "path",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": null,
-                              "parent": [Circular],
-                              "prev": [Circular],
-                              "type": "tag",
-                              "x-attribsNamespace": Object {
-                                "d": undefined,
-                              },
-                              "x-attribsPrefix": Object {
-                                "d": undefined,
-                              },
-                            },
-                            "parent": [Circular],
-                            "prev": [Circular],
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "parent": [Circular],
-                          "prev": [Circular],
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        "parent": [Circular],
-                        "prev": null,
-                        "type": "tag",
-                        "x-attribsNamespace": Object {},
-                        "x-attribsPrefix": Object {},
-                      },
-                      Object {
                         "attribs": Object {
-                          "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                        },
-                        "children": Array [],
-                        "name": "path",
-                        "namespace": "http://www.w3.org/2000/svg",
-                        "next": Object {
-                          "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": Object {
-                            "attribs": Object {
-                              "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": null,
-                            "parent": [Circular],
-                            "prev": [Circular],
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "parent": [Circular],
-                          "prev": [Circular],
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        "parent": [Circular],
-                        "prev": Object {
-                          "attribs": Object {},
-                          "children": Array [
-                            Object {
-                              "data": "Provide a description that will be used as the title",
-                              "next": null,
-                              "parent": [Circular],
-                              "prev": null,
-                              "type": "text",
-                            },
-                          ],
-                          "name": "title",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": [Circular],
-                          "parent": [Circular],
-                          "prev": null,
-                          "type": "tag",
-                          "x-attribsNamespace": Object {},
-                          "x-attribsPrefix": Object {},
-                        },
-                        "type": "tag",
-                        "x-attribsNamespace": Object {
-                          "d": undefined,
-                        },
-                        "x-attribsPrefix": Object {
-                          "d": undefined,
-                        },
-                      },
-                      Object {
-                        "attribs": Object {
-                          "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                        },
-                        "children": Array [],
-                        "name": "path",
-                        "namespace": "http://www.w3.org/2000/svg",
-                        "next": Object {
-                          "attribs": Object {
-                            "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": null,
-                          "parent": [Circular],
-                          "prev": [Circular],
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        "parent": [Circular],
-                        "prev": Object {
-                          "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": [Circular],
-                          "parent": [Circular],
-                          "prev": Object {
-                            "attribs": Object {},
-                            "children": Array [
-                              Object {
-                                "data": "Provide a description that will be used as the title",
-                                "next": null,
-                                "parent": [Circular],
-                                "prev": null,
-                                "type": "text",
-                              },
-                            ],
-                            "name": "title",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": [Circular],
-                            "parent": [Circular],
-                            "prev": null,
-                            "type": "tag",
-                            "x-attribsNamespace": Object {},
-                            "x-attribsPrefix": Object {},
-                          },
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        "type": "tag",
-                        "x-attribsNamespace": Object {
-                          "d": undefined,
-                        },
-                        "x-attribsPrefix": Object {
-                          "d": undefined,
-                        },
-                      },
-                      Object {
-                        "attribs": Object {
-                          "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
+                          "d": "M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z",
                         },
                         "children": Array [],
                         "name": "path",
                         "namespace": "http://www.w3.org/2000/svg",
                         "next": null,
                         "parent": [Circular],
-                        "prev": Object {
-                          "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": [Circular],
-                          "parent": [Circular],
-                          "prev": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": [Circular],
-                            "parent": [Circular],
-                            "prev": Object {
-                              "attribs": Object {},
-                              "children": Array [
-                                Object {
-                                  "data": "Provide a description that will be used as the title",
-                                  "next": null,
-                                  "parent": [Circular],
-                                  "prev": null,
-                                  "type": "text",
-                                },
-                              ],
-                              "name": "title",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": [Circular],
-                              "parent": [Circular],
-                              "prev": null,
-                              "type": "tag",
-                              "x-attribsNamespace": Object {},
-                              "x-attribsPrefix": Object {},
-                            },
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
+                        "prev": null,
                         "type": "tag",
                         "x-attribsNamespace": Object {
                           "d": undefined,
@@ -1112,22 +307,20 @@ initialize {
                     "prev": null,
                     "type": "tag",
                     "x-attribsNamespace": Object {
-                      "alt": undefined,
-                      "aria-label": undefined,
-                      "fill-rule": undefined,
+                      "aria-hidden": undefined,
+                      "fill": undefined,
                       "height": undefined,
-                      "name": undefined,
                       "role": undefined,
+                      "style": undefined,
                       "viewBox": undefined,
                       "width": undefined,
                     },
                     "x-attribsPrefix": Object {
-                      "alt": undefined,
-                      "aria-label": undefined,
-                      "fill-rule": undefined,
+                      "aria-hidden": undefined,
+                      "fill": undefined,
                       "height": undefined,
-                      "name": undefined,
                       "role": undefined,
+                      "style": undefined,
                       "viewBox": undefined,
                       "width": undefined,
                     },
@@ -1163,292 +356,25 @@ initialize {
                   "children": Array [
                     Object {
                       "attribs": Object {
-                        "alt": "Provide a description that will be used as the title",
-                        "aria-label": "Provide a description that will be used as the title",
-                        "fill-rule": "evenodd",
-                        "height": "16",
-                        "name": "icon--launch",
+                        "aria-hidden": "true",
+                        "fill": "currentColor",
+                        "height": "1em",
                         "role": "img",
-                        "viewBox": "0 0 16 16",
-                        "width": "16",
+                        "style": "vertical-align: -0.125em;",
+                        "viewBox": "0 0 512 512",
+                        "width": "1em",
                       },
                       "children": Array [
                         Object {
-                          "attribs": Object {},
-                          "children": Array [
-                            Object {
-                              "data": "Provide a description that will be used as the title",
-                              "next": null,
-                              "parent": [Circular],
-                              "prev": null,
-                              "type": "text",
-                            },
-                          ],
-                          "name": "title",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": Object {
-                              "attribs": Object {
-                                "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                              },
-                              "children": Array [],
-                              "name": "path",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": Object {
-                                "attribs": Object {
-                                  "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                                },
-                                "children": Array [],
-                                "name": "path",
-                                "namespace": "http://www.w3.org/2000/svg",
-                                "next": null,
-                                "parent": [Circular],
-                                "prev": [Circular],
-                                "type": "tag",
-                                "x-attribsNamespace": Object {
-                                  "d": undefined,
-                                },
-                                "x-attribsPrefix": Object {
-                                  "d": undefined,
-                                },
-                              },
-                              "parent": [Circular],
-                              "prev": [Circular],
-                              "type": "tag",
-                              "x-attribsNamespace": Object {
-                                "d": undefined,
-                              },
-                              "x-attribsPrefix": Object {
-                                "d": undefined,
-                              },
-                            },
-                            "parent": [Circular],
-                            "prev": [Circular],
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "parent": [Circular],
-                          "prev": null,
-                          "type": "tag",
-                          "x-attribsNamespace": Object {},
-                          "x-attribsPrefix": Object {},
-                        },
-                        Object {
                           "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": Object {
-                              "attribs": Object {
-                                "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                              },
-                              "children": Array [],
-                              "name": "path",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": null,
-                              "parent": [Circular],
-                              "prev": [Circular],
-                              "type": "tag",
-                              "x-attribsNamespace": Object {
-                                "d": undefined,
-                              },
-                              "x-attribsPrefix": Object {
-                                "d": undefined,
-                              },
-                            },
-                            "parent": [Circular],
-                            "prev": [Circular],
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "parent": [Circular],
-                          "prev": Object {
-                            "attribs": Object {},
-                            "children": Array [
-                              Object {
-                                "data": "Provide a description that will be used as the title",
-                                "next": null,
-                                "parent": [Circular],
-                                "prev": null,
-                                "type": "text",
-                              },
-                            ],
-                            "name": "title",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": [Circular],
-                            "parent": [Circular],
-                            "prev": null,
-                            "type": "tag",
-                            "x-attribsNamespace": Object {},
-                            "x-attribsPrefix": Object {},
-                          },
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        Object {
-                          "attribs": Object {
-                            "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                          },
-                          "children": Array [],
-                          "name": "path",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "next": Object {
-                            "attribs": Object {
-                              "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": null,
-                            "parent": [Circular],
-                            "prev": [Circular],
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "parent": [Circular],
-                          "prev": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": [Circular],
-                            "parent": [Circular],
-                            "prev": Object {
-                              "attribs": Object {},
-                              "children": Array [
-                                Object {
-                                  "data": "Provide a description that will be used as the title",
-                                  "next": null,
-                                  "parent": [Circular],
-                                  "prev": null,
-                                  "type": "text",
-                                },
-                              ],
-                              "name": "title",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": [Circular],
-                              "parent": [Circular],
-                              "prev": null,
-                              "type": "tag",
-                              "x-attribsNamespace": Object {},
-                              "x-attribsPrefix": Object {},
-                            },
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
-                          "type": "tag",
-                          "x-attribsNamespace": Object {
-                            "d": undefined,
-                          },
-                          "x-attribsPrefix": Object {
-                            "d": undefined,
-                          },
-                        },
-                        Object {
-                          "attribs": Object {
-                            "d": "M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z",
+                            "d": "M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z",
                           },
                           "children": Array [],
                           "name": "path",
                           "namespace": "http://www.w3.org/2000/svg",
                           "next": null,
                           "parent": [Circular],
-                          "prev": Object {
-                            "attribs": Object {
-                              "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                            },
-                            "children": Array [],
-                            "name": "path",
-                            "namespace": "http://www.w3.org/2000/svg",
-                            "next": [Circular],
-                            "parent": [Circular],
-                            "prev": Object {
-                              "attribs": Object {
-                                "d": "M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z",
-                              },
-                              "children": Array [],
-                              "name": "path",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "next": [Circular],
-                              "parent": [Circular],
-                              "prev": Object {
-                                "attribs": Object {},
-                                "children": Array [
-                                  Object {
-                                    "data": "Provide a description that will be used as the title",
-                                    "next": null,
-                                    "parent": [Circular],
-                                    "prev": null,
-                                    "type": "text",
-                                  },
-                                ],
-                                "name": "title",
-                                "namespace": "http://www.w3.org/2000/svg",
-                                "next": [Circular],
-                                "parent": [Circular],
-                                "prev": null,
-                                "type": "tag",
-                                "x-attribsNamespace": Object {},
-                                "x-attribsPrefix": Object {},
-                              },
-                              "type": "tag",
-                              "x-attribsNamespace": Object {
-                                "d": undefined,
-                              },
-                              "x-attribsPrefix": Object {
-                                "d": undefined,
-                              },
-                            },
-                            "type": "tag",
-                            "x-attribsNamespace": Object {
-                              "d": undefined,
-                            },
-                            "x-attribsPrefix": Object {
-                              "d": undefined,
-                            },
-                          },
+                          "prev": null,
                           "type": "tag",
                           "x-attribsNamespace": Object {
                             "d": undefined,
@@ -1465,22 +391,20 @@ initialize {
                       "prev": null,
                       "type": "tag",
                       "x-attribsNamespace": Object {
-                        "alt": undefined,
-                        "aria-label": undefined,
-                        "fill-rule": undefined,
+                        "aria-hidden": undefined,
+                        "fill": undefined,
                         "height": undefined,
-                        "name": undefined,
                         "role": undefined,
+                        "style": undefined,
                         "viewBox": undefined,
                         "width": undefined,
                       },
                       "x-attribsPrefix": Object {
-                        "alt": undefined,
-                        "aria-label": undefined,
-                        "fill-rule": undefined,
+                        "aria-hidden": undefined,
+                        "fill": undefined,
                         "height": undefined,
-                        "name": undefined,
                         "role": undefined,
+                        "style": undefined,
                         "viewBox": undefined,
                         "width": undefined,
                       },

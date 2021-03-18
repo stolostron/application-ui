@@ -29,7 +29,6 @@ module.exports = {
       '@patternfly/react-core',
       '@patternfly/react-icons',
       '@patternfly/react-tokens',
-      'carbon-components-react',
       'cytoscape',
       'cytoscape-cola',
       'd3',

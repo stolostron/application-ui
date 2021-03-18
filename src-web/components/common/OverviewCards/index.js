@@ -253,28 +253,25 @@ class OverviewCards extends React.Component {
                 <React.Fragment>
                   {this.renderData(
                     appOverviewCardsData.argoSource,
-                    appOverviewCardsData.isArgoApp ? (
+                    appOverviewCardsData.isArgoApp &&
+                    appOverviewCardsData.argoSource ? (
                       <ChannelLabels
                         channels={[
                           {
-                            type: 'GitHub',
-                            pathname: appOverviewCardsData.argoSource
-                              ? appOverviewCardsData.argoSource.repoURL
-                              : '',
-                            gitPath: appOverviewCardsData.argoSource
-                              ? appOverviewCardsData.argoSource.path
-                              : '',
-                            targetRevision: appOverviewCardsData.argoSource
-                              ? appOverviewCardsData.argoSource.targetRevision
-                              : ''
+                            type: appOverviewCardsData.argoSource.repoType,
+                            pathname: appOverviewCardsData.argoSource.repoURL,
+                            gitPath: appOverviewCardsData.argoSource.path,
+                            chart: appOverviewCardsData.argoSource.chart,
+                            targetRevision:
+                              appOverviewCardsData.argoSource.targetRevision
                           }
                         ]}
                         locale={locale}
                         isArgoApp={true}
                       />
-                    ) : (
-                      ''
-                    ),
+                      ) : (
+                        ''
+                      ),
                     '30%'
                   )}
                 </React.Fragment>

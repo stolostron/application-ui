@@ -9,6 +9,7 @@
  *******************************************************************************/
 
 import {
+  getRepoTypeForArgoApplication,
   getSearchLinkForOneApplication,
   getSearchLinkForArgoApplication,
   getAppOverviewCardsData
@@ -213,15 +214,41 @@ const data2 = {
   related: []
 };
 
+describe("getRepoTypeForArgoApplication", () => {
+  it("should return git repo type for Argo application", () => {
+    expect(getRepoTypeForArgoApplication({ path: "helloworld" })).toEqual(
+      "git"
+    );
+  });
+  it("should return helm repo type for Argo application", () => {
+    expect(getRepoTypeForArgoApplication({ chart: "redis" })).toEqual(
+      "helmrepo"
+    );
+  });
+  it("should return empty string for Argo application repo type", () => {
+    expect(getRepoTypeForArgoApplication({})).toEqual("");
+  });
+});
+
 describe("getSearchLinkForArgoApplication", () => {
-  const source = {
-    path: "helloworld",
-    repoURL: "https://github.com/fxiang1/app-samples",
-    targetRevision: "HEAD"
-  };
   it("should return search link for Argo application", () => {
+    const source = {
+      path: "helloworld",
+      repoURL: "https://github.com/fxiang1/app-samples",
+      targetRevision: "HEAD"
+    };
     const result =
       '/search?filters={"textsearch":"kind%3Aapplication%20apigroup%3Aargoproj.io%20repoURL%3Ahttps%3A%2F%2Fgithub.com%2Ffxiang1%2Fapp-samples%20path%3Ahelloworld"}';
+    expect(getSearchLinkForArgoApplication(source)).toEqual(result);
+  });
+  it("should return search link for Argo application", () => {
+    const source = {
+      repoURL: "https://charts.bitnami.com/bitnami",
+      targetRevision: "12.2.4",
+      chart: "redis"
+    };
+    const result =
+      '/search?filters={"textsearch":"kind%3Aapplication%20apigroup%3Aargoproj.io%20repoURL%3Ahttps%3A%2F%2Fcharts.bitnami.com%2Fbitnami%20chart%3Aredis"}';
     expect(getSearchLinkForArgoApplication(source)).toEqual(result);
   });
   it("should return empty string for undefined app node", () => {
@@ -281,7 +308,7 @@ describe("getAppOverviewCardsData", () => {
       apiGroup: "app.k8s.io",
       appName: "mortgage-app",
       appNamespace: "default",
-      argoSource: "",
+      argoSource: {},
       clusterNames: [],
       creationTimestamp: "Aug 13 2018, 3:23 pm",
       isArgoApp: false,
@@ -323,7 +350,7 @@ describe("getAppOverviewCardsData", () => {
       apiGroup: "app.k8s.io",
       appName: "mortgage-app",
       appNamespace: "default",
-      argoSource: "",
+      argoSource: {},
       clusterNames: [],
       creationTimestamp: "Aug 13 2018, 3:23 pm",
       isArgoApp: false,

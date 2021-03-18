@@ -72,12 +72,20 @@ const ChannelLabels = ({
                 let channelTypeAttributes = []
                 if (showSubscriptionAttributes) {
                   if (chType === 'git') {
-                    channelTypeAttributes = ['gitBranch', 'gitPath']
                     if (isArgoApp) {
-                      channelTypeAttributes.push('targetRevision')
+                      channelTypeAttributes = ['targetRevision', 'gitPath']
+                    } else {
+                      channelTypeAttributes = ['gitBranch', 'gitPath']
                     }
                   } else if (chType === 'helmrepo') {
-                    channelTypeAttributes = ['package', 'packageFilterVersion']
+                    if (isArgoApp) {
+                      channelTypeAttributes = ['targetRevision', 'chart']
+                    } else {
+                      channelTypeAttributes = [
+                        'package',
+                        'packageFilterVersion'
+                      ]
+                    }
                   }
                 }
                 return (

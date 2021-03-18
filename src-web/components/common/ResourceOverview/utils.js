@@ -40,11 +40,25 @@ export const getSearchLinkForOneApplication = params => {
 }
 
 export const getSearchLinkForArgoApplication = source => {
-  if (source && source.repoURL && source.path) {
-    const textsearch = `kind:application apigroup:argoproj.io repoURL:${
+  if (source && source.repoURL) {
+    let textsearch = `kind:application apigroup:argoproj.io repoURL:${
       source.repoURL
-    } path:${source.path}`
+    }`
+    if (source.path) {
+      textsearch = `${textsearch} path:${source.path}`
+    } else if (source.chart) {
+      textsearch = `${textsearch} chart:${source.chart}`
+    }
     return `/search?filters={"textsearch":"${encodeURIComponent(textsearch)}"}`
+  }
+  return ''
+}
+
+export const getRepoTypeForArgoApplication = source => {
+  if (source && source.path) {
+    return 'git'
+  } else if (source && source.chart) {
+    return 'helmrepo'
   }
   return ''
 }
@@ -169,7 +183,7 @@ export const getAppOverviewCardsData = (
     const nodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
     const subsList = []
     let clusterNames = []
-    let argoSource = ''
+    let argoSource = {}
     let isArgoApp = false
     let clusterData = {
       remoteCount: 0,
@@ -205,7 +219,8 @@ export const getAppOverviewCardsData = (
           apiGroup = 'argoproj.io'
           // set argo app cluster names
           clusterNames = _.get(node, ['specs', 'clusterNames'], [])
-          argoSource = _.get(node, ['specs', 'raw', 'spec', 'source'], '')
+          argoSource = _.get(node, ['specs', 'raw', 'spec', 'source'], {})
+          argoSource.repoType = getRepoTypeForArgoApplication(argoSource)
           targetLink = getSearchLinkForArgoApplication(argoSource)
         }
       }

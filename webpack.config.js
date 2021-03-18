@@ -220,10 +220,6 @@ module.exports = {
     new FileManagerPlugin({
       onEnd: {
         copy: [
-          {
-            source: "node_modules/carbon-icons/dist/carbon-icons.svg",
-            destination: "public/graphics"
-          },
           { source: "graphics/*.svg", destination: "public/graphics" },
           { source: "graphics/*.png", destination: "public/graphics" },
           { source: "fonts", destination: "public/fonts" }

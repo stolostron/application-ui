@@ -191,7 +191,7 @@ const resourceList = [
     items: [
       {
         kind: "route",
-        name: "route-unsecured",
+        name: "unsecured",
         namespace: "default",
         cluster: "braveman"
       }
@@ -257,7 +257,18 @@ const modelResult = {
     type: "subscription"
   },
   "mortgagedc-svc-braveman": {},
-  "route-unsecured-braveman": {}
+  "route-unsecured-braveman": {
+    specs: {
+      routeModel: {
+        "unsecured-braveman": {
+          cluster: "braveman",
+          kind: "route",
+          name: "unsecured",
+          namespace: "default"
+        }
+      }
+    }
+  }
 };
 
 describe("getPulseForNodeWithPodStatus ", () => {
@@ -826,8 +837,107 @@ describe("computeResourceName node with pods with _hostingDeployable", () => {
   });
 });
 
-describe("getNameWithoutChartRelease node with pods no _hostingDeployable", () => {
+describe("getNameWithoutChartRelease", () => {
+  const nodeNameSameAsChartRelease = {
+    _uid: "ui-dev-remote/679d65a8-8091-4aa9-87c8-0c9a568ca793",
+    cluster: "ui-dev-remote",
+    selfLink: "/api/v1/namespaces/val-helm-alias2-ns/secrets/my-redis",
+    _clusterNamespace: "ui-dev-remote",
+    created: "2021-03-17",
+    kind: "secret",
+    name: "my-redis",
+    namespace: "val-helm-alias2-ns",
+    apiversion: "v1",
+    label:
+      "app.kubernetes.io/managed-by=Helm; app=redis; chart=redis-12.8.3; heritage=Helm; release=my-redis",
+    _rbac: "ui-dev-remote_null_secrets"
+  };
+
   const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label:
+      "app=nginx-ingress; chart=nginx-ingress-1.36.3; component=default-backend; heritage=Helm; release=nginx-ingress-edafb",
+    name: "nginx-ingress-edafb-default-backend",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+
+  const nodePod = {
+    _uid: "local-cluster/d1332a59-0cdf-4bec-b034-7406e912ef58",
+    name: "nginx-7697f9fd6d-qnf6s",
+    selfLink: "/api/v1/namespaces/vb-helm-nginx-ns/pods/nginx-7697f9fd6d-qnf6s",
+    kind: "pod",
+    _rbac: "vb-helm-nginx-ns_null_pods",
+    image: ["docker.io/bitnami/nginx:1.19.8-debian-10-r0"],
+    _hubClusterResource: "true",
+    restarts: 0,
+    label:
+      "app.kubernetes.io/instance=nginx; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=nginx; helm.sh/chart=nginx-8.7.1; pod-template-hash=7697f9fd6d",
+    status: "Running",
+    cluster: "local-cluster",
+    apiversion: "v1",
+    container: "nginx",
+    namespace: "vb-helm-nginx-ns"
+  };
+
+  const nodeWithReleaseNameInTheName = {
+    apigroup: "apps",
+    apiversion: "v1",
+    cluster: "local-cluster",
+    created: "2021-03-18T13:08:54Z",
+    kind: "controllerrevision",
+    label:
+      "app=redis; chart=redis-12.2.4; controller.kubernetes.io/hash=7f77dbc994; release=redis; role=master",
+    name: "redis-master-7f77dbc994",
+    namespace: "helm-app2-demo-ns",
+    selfLink:
+      "/apis/apps/v1/namespaces/helm-app2-demo-ns/controllerrevisions/redis-master-7f77dbc994",
+    _hubClusterResource: "true",
+    _rbac: "helm-app2-demo-ns_apps_controllerrevisions",
+    _uid: "local-cluster/abb053a5-4e32-4c18-bc09-42af449ffdb2"
+  };
+
+  it("returns unchanged name for pod with no deployable", () => {
+    expect(
+      getNameWithoutChartRelease(node, "nginx-ingress-edafb-default-backend", {
+        value: false
+      })
+    ).toEqual("nginx-ingress-edafb-default-backend");
+  });
+
+  it("returns chart name for a related object, name same as the chart release name", () => {
+    expect(
+      getNameWithoutChartRelease(nodeNameSameAsChartRelease, "my-redis", {
+        value: true
+      })
+    ).toEqual("my-redis");
+  });
+
+  it("returns last string for a pod object, pod name - without hash - same as the release name", () => {
+    expect(
+      getNameWithoutChartRelease(nodePod, "nginx-qnf6s", {
+        value: true
+      })
+    ).toEqual("qnf6s");
+  });
+
+  it("returns name with release for resource with release name- contained by the resource name", () => {
+    expect(
+      getNameWithoutChartRelease(nodeWithReleaseNameInTheName, "redis-master", {
+        value: false
+      })
+    ).toEqual("redis-master");
+  });
+
+  const nodePodNoDeployable = {
     apiversion: "v1",
     cluster: "sharingpenguin",
     container: "slave",
@@ -846,37 +956,14 @@ describe("getNameWithoutChartRelease node with pods no _hostingDeployable", () =
 
   it("getNameWithoutChartRelease for pod with no deployable", () => {
     expect(
-      getNameWithoutChartRelease(node, "nginx-ingress-edafb-default-backend", {
-        value: false
-      })
+      getNameWithoutChartRelease(
+        nodePodNoDeployable,
+        "nginx-ingress-edafb-default-backend",
+        {
+          value: false
+        }
+      )
     ).toEqual("nginx-ingress-edafb-default-backend");
-  });
-});
-
-describe("getNameWithoutChartRelease node with the pod name same as the release name", () => {
-  const node = {
-    apiversion: "v1",
-    cluster: "sharingpenguin",
-    container: "slave",
-    created: "2020-05-26T19:18:21Z",
-    kind: "pod",
-    label:
-      "app=nginx-ingress; chart=nginx-ingress-1.36.3; component=default-backend; heritage=Helm; release=nginx-ingress-edafb",
-    name: "nginx-ingress-edafb",
-    namespace: "app-guestbook-git-ns",
-    restarts: 0,
-    selfLink:
-      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
-    startedAt: "2020-05-26T19:18:21Z",
-    status: "Running"
-  };
-
-  it("getNameWithoutChartRelease for pod name same as the release name", () => {
-    expect(
-      getNameWithoutChartRelease(node, "nginx-ingress-edafb", {
-        value: true
-      })
-    ).toEqual("nginx-ingress");
   });
 });
 

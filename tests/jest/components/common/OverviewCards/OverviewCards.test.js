@@ -167,7 +167,6 @@ describe("OverviewCards", () => {
       </Provider>
     );
 
-    wrapper.find({ id: "app-search-link" }).simulate("click");
     wrapper
       .find({ id: "app-search-link" })
       .simulate("keypress", { key: "Enter" });

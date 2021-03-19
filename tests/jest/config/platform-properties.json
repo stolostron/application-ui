@@ -144,6 +144,7 @@
   "dashboard.card.overview.cards.name": "Name",
   "dashboard.card.overview.cards.namespace": "Namespace",
   "dashboard.card.overview.cards.repoResource.label": "Repository resource",
+  "dashboard.card.overview.cards.search.argocd.launch": "Launch Argo CD editor",
   "dashboard.card.overview.cards.search.resource": "Search resource",
   "dashboard.card.overview.cards.subs.btn.hide": "Hide subscription details",
   "dashboard.card.overview.cards.subs.btn.show": "Show subscription details",

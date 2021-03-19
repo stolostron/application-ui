@@ -110,7 +110,26 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                       <div
                         className="pf-c-description-list__text"
                       >
-                        -
+                        <div
+                          className="app-name-container"
+                        >
+                          <div
+                            className="app-name"
+                          />
+                          <div
+                            className="pf-c-skeleton loading-skeleton-text"
+                            style={
+                              Object {
+                                "--pf-c-skeleton--Height": undefined,
+                                "--pf-c-skeleton--Width": "30%",
+                              }
+                            }
+                          >
+                            <span
+                              className="pf-u-screen-reader"
+                            />
+                          </div>
+                        </div>
                       </div>
                     </dd>
                   </div>
@@ -278,36 +297,19 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                       <span
                         className="pf-c-description-list__text"
                       >
-                        <a
-                          className="details-item-link"
-                          href="/search?filters={\\"textsearch\\":\\"kind%3Aapplication%20name%3Aundefined%20namespace%3Aundefined\\"}"
-                          id="app-search-link"
-                          rel="noreferrer"
-                          target="_blank"
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
                         >
-                          <div>
-                            Search resource
-                            <svg
-                              aria-hidden={true}
-                              aria-labelledby={null}
-                              className="details-item-link-icon"
-                              fill="currentColor"
-                              height="1em"
-                              role="img"
-                              style={
-                                Object {
-                                  "verticalAlign": "-0.125em",
-                                }
-                              }
-                              viewBox="0 0 448 512"
-                              width="1em"
-                            >
-                              <path
-                                d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"
-                              />
-                            </svg>
-                          </div>
-                        </a>
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
                          
                       </span>
                     </dt>
@@ -317,7 +319,19 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                       <div
                         className="pf-c-description-list__text"
                       >
-                        
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
                       </div>
                     </dd>
                   </div>

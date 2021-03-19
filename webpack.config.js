@@ -178,10 +178,6 @@ module.exports = {
     path: __dirname + '/public',
     publicPath: config.get('contextPath').replace(/\/?$/, '/'),
     jsonpFunction: 'webpackJsonpFunctionApp',
-    //filename: PRODUCTION ? "js/[name].[hash].min.js" : "js/[name].min.js", // needs to be hash for production (vs chunckhash) in order to cache bust references to chunks
-    //chunkFilename: PRODUCTION ? "js/[name].[chunkhash].min.js" : "js/[name].min.js",
-    //path: `${__dirname}/public`,
-    //publicPath: config.get("contextPath").replace(/\/?$/, "/")
   },
 
   plugins: [
@@ -219,9 +215,6 @@ module.exports = {
       prettyPrint: true,
       update: true
     }),
-    PRODUCTION
-      ? new webpack.HashedModuleIdsPlugin()
-      : new webpack.NamedModulesPlugin(),
     new CopyPlugin({
       patterns: [
         { from: 'node_modules/carbon-icons/dist/carbon-icons.svg', to: 'graphics' },

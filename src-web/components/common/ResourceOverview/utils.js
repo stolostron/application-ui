@@ -39,13 +39,26 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
-export const getSearchLinkForArgoApplication = appNode => {
-  const source = _.get(appNode, ['specs', 'raw', 'spec', 'source'], '')
-  if (source && source.repoURL && source.path) {
-    const textsearch = `kind:application apigroup:argoproj.io repoURL:${
+export const getSearchLinkForArgoApplication = source => {
+  if (source && source.repoURL) {
+    let textsearch = `kind:application apigroup:argoproj.io repoURL:${
       source.repoURL
-    } path:${source.path}`
+    }`
+    if (source.path) {
+      textsearch = `${textsearch} path:${source.path}`
+    } else if (source.chart) {
+      textsearch = `${textsearch} chart:${source.chart}`
+    }
     return `/search?filters={"textsearch":"${encodeURIComponent(textsearch)}"}`
+  }
+  return ''
+}
+
+export const getRepoTypeForArgoApplication = source => {
+  if (source && source.path) {
+    return 'git'
+  } else if (source && source.chart) {
+    return 'helmrepo'
   }
   return ''
 }
@@ -152,11 +165,11 @@ export const getAppOverviewCardsData = (
       localClusterDeploy: false,
       nodeStatuses: -1,
       targetLink: targetLink,
-      subsList: -1
+      subsList: -1,
+      isArgoApp: false,
+      argoSource: -1
     }
   }
-
-  let apiGroup = 'app.k8s.io'
 
   if (
     typeof topologyData.loaded !== 'undefined' &&
@@ -165,11 +178,13 @@ export const getAppOverviewCardsData = (
     appData.name === appName &&
     appData.namespace === appNamespace
   ) {
+    let apiGroup = 'app.k8s.io'
     let creationTimestamp = ''
     const nodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
     const subsList = []
     let clusterNames = []
-
+    let argoSource = {}
+    let isArgoApp = false
     let clusterData = {
       remoteCount: 0,
       isLocal: false
@@ -196,7 +211,7 @@ export const getAppOverviewCardsData = (
           subsList.push(getSubCardData(subs, node))
         })
 
-        const isArgoApp =
+        isArgoApp =
           _.get(node, ['specs', 'raw', 'apiVersion'], '').indexOf('argo') !==
           -1
         if (isArgoApp) {
@@ -204,6 +219,9 @@ export const getAppOverviewCardsData = (
           apiGroup = 'argoproj.io'
           // set argo app cluster names
           clusterNames = _.get(node, ['specs', 'clusterNames'], [])
+          argoSource = _.get(node, ['specs', 'raw', 'spec', 'source'], {})
+          argoSource.repoType = getRepoTypeForArgoApplication(argoSource)
+          targetLink = getSearchLinkForArgoApplication(argoSource)
         }
       }
       //get pulse for all objects generated from a deployable
@@ -225,7 +243,9 @@ export const getAppOverviewCardsData = (
       targetLink: targetLink,
       subsList: subsList,
       apiGroup: apiGroup,
-      clusterNames: clusterNames
+      clusterNames: clusterNames,
+      isArgoApp: isArgoApp,
+      argoSource: argoSource
     }
   } else {
     return {
@@ -237,8 +257,10 @@ export const getAppOverviewCardsData = (
       nodeStatuses: -1,
       targetLink: targetLink,
       subsList: -1,
-      apiGroup: apiGroup,
-      clusterNames: []
+      apiGroup: 'app.k8s.io',
+      clusterNames: [],
+      isArgoApp: false,
+      argoSource: -1
     }
   }
 }

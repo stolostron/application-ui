@@ -220,8 +220,9 @@ export const getPulseStatusForSubscription = node => {
 }
 
 export const getExistingResourceMapKey = (resourceMap, name, relatedKind) => {
-  const keys = Object.keys(resourceMap)
-
+  // bofore loop, find all items with the same type as relatedKind
+  const isSameType = item => item.indexOf(`${relatedKind.kind}-`) === 0
+  const keys = R.filter(isSameType, Object.keys(resourceMap))
   let i
   for (i = 0; i < keys.length; i++) {
     if (

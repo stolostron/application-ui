@@ -9,7 +9,7 @@
 'use strict'
 var express = require('express'),
     router = express.Router(),
-    inspect = require('security-middleware')
+    inspect = require('@open-cluster-management/security-middleware')
 
 //controllers
 var app = require('./app'),

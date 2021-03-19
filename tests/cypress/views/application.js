@@ -443,16 +443,25 @@ export const validateTopology = (
   }
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
-  if (opType == "create" && successNumber) {
-    cy.log(
-      `Verify that the deployed resources number with status success is at least ${successNumber}`
-    );
+  if (opType == "create") {
+    if (successNumber) {
+      cy.log(
+        `Verify that the deployed resources number with status success is at least ${successNumber}`
+      );
+      cy
+        .get("#green-resources", { timeout: 120 * 1000 })
+        .children(".status-count")
+        .invoke("text")
+        .then(parseInt)
+        .should("be.gte", successNumber);
+    }
+    cy.log("Validate there are no resources showing as not deployed");
     cy
-      .get("#green-resources", { timeout: 120 * 1000 })
+      .get("#orange-resources", { timeout: 120 * 1000 })
       .children(".status-count")
       .invoke("text")
       .then(parseInt)
-      .should("be.gte", successNumber);
+      .should("be", 0);
   }
 };
 

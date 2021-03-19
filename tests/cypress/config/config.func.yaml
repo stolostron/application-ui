@@ -163,7 +163,7 @@ helm:
           username: ""
           password: ""
           chartName: redis
-          packageAlias: redis #alias-for-redis
+          packageAlias: redis
           packageVersion: 12.2.4
           deployment:
             local: false
@@ -174,7 +174,7 @@ helm:
           username: ""
           password: ""
           chartName: minio
-          packageAlias: minio #my-minio-alias
+          packageAlias: my-minio-alias
           packageVersion: 4.1.9
           timeWindow:
             setting: true
@@ -193,10 +193,11 @@ helm:
       type: helm
       config:
         - url: https://charts.bitnami.com/bitnami
-          resources: ["service", "secret", "configmap"] #the type of resources this application must deploy
+          resources: ["service", "configmap", "deployment", "replicaset"] #the type of resources this application must deploy
           username: ""
           password: ""
-          chartName: redis
+          chartName: nginx
+          packageAlias: nginx-alias
           packageVersion: 12.2.4
           deployment:
             local: false

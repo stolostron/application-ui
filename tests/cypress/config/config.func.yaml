@@ -198,7 +198,6 @@ helm:
           password: ""
           chartName: nginx
           packageAlias: nginx-alias
-          packageVersion: 12.2.4
           deployment:
             local: false
             online: true

@@ -11,6 +11,7 @@
 import R from 'ramda'
 import _ from 'lodash'
 import { LOCAL_HUB_NAME } from '../../../../lib/shared/constants'
+import msgs from '../../../../nls/platform.properties'
 
 const checkmarkCode = 3
 const warningCode = 2
@@ -300,40 +301,31 @@ export const namespaceMatchTargetServer = (
 
 export const setArgoApplicationDeployStatus = (node, details) => {
   const appLink = _.get(node, 'specs.raw.spec.appURL')
-  const linkId = _.get(node, 'uid')
-  const relatedArgoApps = _.get(node, 'specs.apps')
+  const appCluster = _.get(node, 'specs.raw.cluster', 'local-cluster')
+  const relatedArgoApps = _.get(node, 'specs.relatedApps')
 
-  details.push({
-    type: 'link',
-    value: {
-      label: appLink,
-      id: `${linkId}-location`,
-      data: {
-        action: 'open_link',
-        targetLink: appLink
-      }
-    },
-    indent: true
-  })
-
-  details.push({
-    type: 'spacer'
-  })
   // related Argo apps
   details.push({
     type: 'label',
-    labelKey: 'resource.related.apps'
+    labelValue: msgs.get('resource.related.apps', [relatedArgoApps.length])
   })
 
   details.push({
     type: 'spacer'
   })
-  relatedArgoApps.forEach(app => {
-    const relatedAppName = _.get(app, metadataName)
-    const relatedLinkId = `application--${relatedAppName}`
-    const relatedAppHealth = _.get(app, 'status.health.status')
-    const relatedAppLink = _.get(app, 'spec.appURL')
 
+  const sortByNameCaseInsensitive = R.sortBy(
+    R.compose(R.toLower, R.prop('name'))
+  )
+  sortByNameCaseInsensitive(relatedArgoApps).forEach(app => {
+    const relatedAppName = app.name
+    const relatedLinkId = `application--${relatedAppName}`
+    const relatedAppHealth = _.get(app, 'status.health.status', 'Healthy')
+    let relatedAppLink = 'https://toDOForRemote'
+
+    if (_.get(app, 'cluster') === appCluster) {
+      relatedAppLink = `${appLink}\\${app.name}`
+    }
     const statusStr = getStatusForArgoApp(relatedAppHealth)
 
     details.push({
@@ -341,18 +333,37 @@ export const setArgoApplicationDeployStatus = (node, details) => {
       value: relatedAppName,
       status: statusStr
     })
+    relatedAppLink &&
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get('props.show.argocd.editor'),
+          id: `${relatedLinkId}-location`,
+          data: {
+            action: 'open_link',
+            targetLink: relatedAppLink
+          }
+        },
+        indent: true
+      })
 
     details.push({
-      type: 'link',
-      value: {
-        label: relatedAppLink,
-        id: `${relatedLinkId}-location`,
-        data: {
-          action: 'open_link',
-          targetLink: relatedAppLink
-        }
-      },
+      labelKey: 'resource.argo.app.cluster',
+      value: _.get(app, 'cluster'),
       indent: true
+    })
+    details.push({
+      labelKey: 'resource.argo.app.target.cluster',
+      value: _.get(app, 'destinationCluster'),
+      indent: true
+    })
+    details.push({
+      labelKey: 'resource.argo.app.target.cluster.ns',
+      value: _.get(app, 'destinationNamespace'),
+      indent: true
+    })
+    details.push({
+      type: 'spacer'
     })
   })
 }

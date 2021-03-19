@@ -272,15 +272,12 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
         null,
         querySettings.targetNamespaces.toString()
       )
-      //if cluster info, add that to query
-      if (querySettings.clusterInfo.length > 0) {
-        query.filters.push({
-          property: 'cluster',
-          values: querySettings.clusterInfo
-        })
-      }
-      //get the cluster for each target namespace
-      query.relatedKinds.push('cluster')
+      query.filters.push({
+        property: 'label',
+        values: querySettings.argoAppsLabelNames
+      })
+      //get the cluster for each target namespace and all pods related to this objects only
+      query.relatedKinds.push('cluster', 'pod')
     } else {
       //query asking for a subset of related kinds and possibly for one subscription only
       if (querySettings.subscription) {

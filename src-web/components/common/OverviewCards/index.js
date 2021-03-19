@@ -75,7 +75,9 @@ class OverviewCards extends React.Component {
     const namespace = this.props.selectedAppNS
     getArgoRoute({ namespace }).then(response => {
       this.setState({
-        argoLink: _.get(response, `data.argoRoute.${namespace}`)
+        argoLink:
+          _.get(response, `data.argoRoute.${namespace}`) +
+          `/applications/${this.props.selectedAppName}`
       })
     })
   }

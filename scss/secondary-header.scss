@@ -15,16 +15,9 @@
   flex-direction: column;
   position: fixed;
   width: 100%;
-  height: inherit;
-  background-color: $color__white;
 
-  .header-box-shadow {
-    position: fixed;
-    width: 100%;
-    height: inherit;
-    box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.05);
-    left: 0px;
-    z-index: -1;
+  .pf-c-divider {
+    z-index: 1;
   }
 
   // PF dropdown
@@ -43,13 +36,11 @@
   }
 
   // YAML toggle
-  .edit-template-switch {
+  .switch-controls {
     position: absolute;
-  }
-
-  #edit-button-portal-id {
-    width: 162px;
-    height: 24px;
+    display: inline-flex;
+    width: 100%;
+    padding-top: 6px;
   }
 
   &-links {

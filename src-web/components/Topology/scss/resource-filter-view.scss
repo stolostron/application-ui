@@ -17,7 +17,7 @@ $filter_sidebar_animation_duration: 100ms;
 .resource-filter-button {
   display: flex;
   position: fixed;
-  top: 6.4rem;
+  top: calc(5.25rem + var(--pf-c-page__main-section--PaddingTop));
   right: 13.5rem;
   z-index: 1004;
 }

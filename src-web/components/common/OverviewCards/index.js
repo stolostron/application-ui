@@ -13,11 +13,21 @@ import { connect } from 'react-redux'
 import { withLocale } from '../../../providers/LocaleProvider'
 import {
   ArrowRightIcon,
+  ExternalLinkAltIcon,
   OutlinedQuestionCircleIcon
 } from '@patternfly/react-icons'
-import { Button, Skeleton, Tooltip } from '@patternfly/react-core'
 import {
+  Button,
+  ButtonVariant,
+  Card,
+  CardBody,
+  Skeleton,
+  Tooltip
+} from '@patternfly/react-core'
+import {
+  AcmActionGroup,
   AcmAlert,
+  AcmButton,
   AcmDescriptionList
 } from '@open-cluster-management/ui-components'
 import resources from '../../../../lib/shared/resources'
@@ -32,6 +42,7 @@ import ChannelLabels from '../ChannelLabels'
 import TimeWindowLabels from '../TimeWindowLabels'
 import { getClusterCount } from '../../../../lib/client/resource-helper'
 import { REQUEST_STATUS } from '../../../actions'
+import { canGetRoute } from '../../../../lib/client/access-helper'
 import _ from 'lodash'
 
 /* eslint-disable react/prop-types */
@@ -118,11 +129,12 @@ class OverviewCards extends React.Component {
     })
 
     let appNode = false
+    let isArgoApp = false
     if (topology && topology.nodes) {
       appNode = topology.nodes.find(r => r.type === 'application')
     }
     if (appNode) {
-      const isArgoApp =
+      isArgoApp =
         _.get(appNode, ['specs', 'raw', 'apiVersion'], '').indexOf('argo') !==
         -1
       if (isArgoApp) {
@@ -149,6 +161,21 @@ class OverviewCards extends React.Component {
       apigroup: appOverviewCardsData.apiGroup,
       clusterNames: appOverviewCardsData.clusterNames
     })
+
+    // const launchLink = async(namespace) => {
+    //   let route;
+    //   canGetRoute({namespace: namespace}).then(response => {
+    //     route = _.get(response, `data.argoRoute.${namespace}`)
+    //   })
+    //   debugger;
+    //   return route;
+    // }
+
+    function getLaunchLink(namespace) {
+      return canGetRoute({ namespace: namespace }).then(response => {
+        return _.get(response, `data.argoRoute.${namespace}`)
+      })
+    }
 
     const disableBtn =
       appOverviewCardsData.subsList &&
@@ -228,58 +255,78 @@ class OverviewCards extends React.Component {
                   )}
                 </React.Fragment>
               )
-            },
-            {
-              key: (
-                <React.Fragment>
-                  <a
-                    className="details-item-link"
-                    id="app-search-link"
-                    href={getUrl + appOverviewCardsData.targetLink}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <div>
-                      {msgs.get(
-                        'dashboard.card.overview.cards.search.resource',
-                        locale
-                      )}
-                      <ArrowRightIcon className="details-item-link-icon" />
-                    </div>
-                  </a>
-                </React.Fragment>
-              ),
-              value: ''
             }
           ]}
         />
+        {isArgoApp && (
+          <Card>
+            <CardBody>
+              <AcmActionGroup>
+                <AcmButton
+                  href="#"
+                  // href={getLaunchLink(selectedAppNS)}
+                  variant={ButtonVariant.link}
+                  id="launch-argocd-editor"
+                  component="a"
+                  rel="noreferrer"
+                  icon={<ExternalLinkAltIcon />}
+                  iconPosition="right"
+                  onClick={() =>
+                    (window.location.href = getLaunchLink(selectedAppNS))
+                  }
+                >
+                  {msgs.get(
+                    'dashboard.card.overview.cards.search.argocd.launch',
+                    locale
+                  )}
+                </AcmButton>
+                <AcmButton
+                  href={getUrl + appOverviewCardsData.targetLink}
+                  variant={ButtonVariant.link}
+                  id="app-search-link"
+                  component="a"
+                  rel="noreferrer"
+                  icon={<ArrowRightIcon />}
+                  iconPosition="right"
+                >
+                  {msgs.get(
+                    'dashboard.card.overview.cards.search.resource',
+                    locale
+                  )}
+                </AcmButton>
+              </AcmActionGroup>
+            </CardBody>
+          </Card>
+        )}
 
-        <div className="overview-cards-subs-section">
-          {showSubCards && !disableBtn
-            ? this.createSubsCards(appOverviewCardsData.subsList, locale)
-            : ''}
-          <Button
-            className="toggle-subs-btn"
-            variant="secondary"
-            isDisabled={disableBtn}
-            data-test-subscription-details={!disableBtn}
-            onClick={() => this.toggleSubsBtn(showSubCards)}
-          >
-            {this.renderData(
-              appOverviewCardsData.subsList,
-              (showSubCards
-                ? msgs.get(
-                  'dashboard.card.overview.cards.subs.btn.hide',
-                  locale
-                )
-                : msgs.get(
-                  'dashboard.card.overview.cards.subs.btn.show',
-                  locale
-                )) + ` (${appOverviewCardsData.subsList.length})`,
-              '70%'
-            )}
-          </Button>
-        </div>
+        {!isArgoApp && (
+          <div className="overview-cards-subs-section">
+            {showSubCards && !disableBtn
+              ? this.createSubsCards(appOverviewCardsData.subsList, locale)
+              : ''}
+            <Button
+              className="toggle-subs-btn"
+              variant="secondary"
+              isDisabled={disableBtn}
+              data-test-subscription-details={!disableBtn}
+              onClick={() => this.toggleSubsBtn(showSubCards)}
+            >
+              {this.renderData(
+                appOverviewCardsData.subsList,
+                (showSubCards
+                  ? msgs.get(
+                    'dashboard.card.overview.cards.subs.btn.hide',
+                    locale
+                  )
+                  : msgs.get(
+                    'dashboard.card.overview.cards.subs.btn.show',
+                    locale
+                  )) + ` (${appOverviewCardsData.subsList.length})`,
+                '70%'
+              )}
+            </Button>
+          </div>
+        )}
       </div>
     )
   }

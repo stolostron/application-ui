@@ -95,7 +95,8 @@ module.exports = (on, config) => {
     }
   });
 
-  if (config.env.TEST_MODE === "functional") config.videoUploadOnPasses = false; // disable video compression for passing spec files
+  if (config.env.TEST_MODE === "functional" || config.env.TEST_MODE === "smoke")
+    config.videoUploadOnPasses = false; // disable video compression for passing spec files
 
   config.env.TEST_CONFIG = testConfig;
   config.env.KUBE_CONFIG = kubeConfig;

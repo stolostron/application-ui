@@ -41,7 +41,7 @@ import ChannelLabels from '../ChannelLabels'
 import TimeWindowLabels from '../TimeWindowLabels'
 import { getClusterCount } from '../../../../lib/client/resource-helper'
 import { REQUEST_STATUS } from '../../../actions'
-import { canGetRoute } from '../../../../lib/client/access-helper'
+import { getArgoRoute } from '../../../../lib/client/access-helper'
 import _ from 'lodash'
 
 /* eslint-disable react/prop-types */
@@ -61,17 +61,23 @@ const mapStateToProps = state => {
 class OverviewCards extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      showSubCards: false
-    }
-  }
-
-  UNSAFE_componentWillMount() {
     // update cards every 1s to pick up side-effect in
     // redux state (calculation of node statuses) created by
     // topology code
     const intervalId = setInterval(this.reload.bind(this), 1000)
-    this.setState({ intervalId: intervalId })
+    this.state = {
+      intervalId,
+      showSubCards: false
+    }
+  }
+
+  componentDidMount() {
+    const namespace = this.props.selectedAppNS
+    getArgoRoute({ namespace }).then(response => {
+      this.setState({
+        argoLink: _.get(response, `data.argoRoute.${namespace}`)
+      })
+    })
   }
 
   reload() {
@@ -146,21 +152,6 @@ class OverviewCards extends React.Component {
       apigroup: appOverviewCardsData.apiGroup,
       clusterNames: appOverviewCardsData.clusterNames
     })
-
-    // const launchLink = async(namespace) => {
-    //   let route;
-    //   canGetRoute({namespace: namespace}).then(response => {
-    //     route = _.get(response, `data.argoRoute.${namespace}`)
-    //   })
-    //   debugger;
-    //   return route;
-    // }
-
-    function getLaunchLink(namespace) {
-      return canGetRoute({ namespace: namespace }).then(response => {
-        return _.get(response, `data.argoRoute.${namespace}`)
-      })
-    }
 
     const disableBtn =
       appOverviewCardsData.subsList &&
@@ -256,8 +247,6 @@ class OverviewCards extends React.Component {
                   )}
                 </React.Fragment>
               )
-              // <<<<<<< HEAD
-              // =======
             },
             {
               key: (
@@ -312,17 +301,13 @@ class OverviewCards extends React.Component {
             <CardBody>
               <AcmActionGroup>
                 <AcmButton
-                  href="#"
-                  // href={getLaunchLink(selectedAppNS)}
+                  href={this.state.argoLink}
                   variant={ButtonVariant.link}
                   id="launch-argocd-editor"
                   component="a"
                   rel="noreferrer"
                   icon={<ExternalLinkAltIcon />}
                   iconPosition="right"
-                  onClick={() =>
-                    (window.location.href = getLaunchLink(selectedAppNS))
-                  }
                 >
                   {msgs.get(
                     'dashboard.card.overview.cards.search.argocd.launch',

@@ -26,6 +26,8 @@ exports.getConfig = () => {
   let config;
   if (process.env.CYPRESS_TEST_MODE === "e2e") {
     config = fs.readFileSync(path.join(__dirname, "config.e2e.yaml"));
+  } else if (process.env.CYPRESS_TEST_MODE === "smoke") {
+    config = fs.readFileSync(path.join(__dirname, "config.smoke.yaml"));
   } else {
     config = fs.readFileSync(path.join(__dirname, "config.func.yaml"));
   }

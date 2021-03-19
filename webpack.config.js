@@ -17,8 +17,7 @@ let path = require("path"),
   MonacoWebpackPlugin = require("monaco-editor-webpack-plugin"),
   TerserPlugin = require('terser-webpack-plugin');
 
-let NO_OP = () => {},
-  PRODUCTION = process.env.BUILD_ENV
+let PRODUCTION = process.env.BUILD_ENV
     ? /production/.test(process.env.BUILD_ENV)
     : false;
 
@@ -178,7 +177,7 @@ module.exports = {
     // chunkFilename: PRODUCTION ? 'js/[name].[chunkhash].min.js' : 'js/[name].js',
     path: __dirname + '/public',
     publicPath: config.get('contextPath').replace(/\/?$/, '/'),
-    jsonpFunction: 'webpackJsonpFunctionGrc',
+    jsonpFunction: 'webpackJsonpFunctionApp',
     //filename: PRODUCTION ? "js/[name].[hash].min.js" : "js/[name].min.js", // needs to be hash for production (vs chunckhash) in order to cache bust references to chunks
     //chunkFilename: PRODUCTION ? "js/[name].[chunkhash].min.js" : "js/[name].min.js",
     //path: `${__dirname}/public`,

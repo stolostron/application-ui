@@ -327,11 +327,12 @@ describe("getPulseStatusForSubscription no subscriptionItem.status", () => {
 
 describe("getExistingResourceMapKey", () => {
   const resourceMap = {
-    "pod-replicaset-nginx-placement-cluster1, cluster2": "test"
+    "replicaset-nginx-placement-cluster1, cluster2": "test"
   };
 
   const relatedKind = {
-    cluster: "cluster1"
+    cluster: "cluster1",
+    kind: "replicaset"
   };
 
   const relatedKindBadCluster = {
@@ -345,7 +346,7 @@ describe("getExistingResourceMapKey", () => {
         "replicaset-nginx-placement",
         relatedKind
       )
-    ).toEqual("pod-replicaset-nginx-placement-cluster1, cluster2");
+    ).toEqual("replicaset-nginx-placement-cluster1, cluster2");
   });
 
   it("should not get key from resourceMap", () => {

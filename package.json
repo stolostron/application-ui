@@ -48,7 +48,8 @@
   "author": "",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
-    "@open-cluster-management/ui-components": "^0.1.225",
+    "@open-cluster-management/security-middleware": "^1.0.2",
+    "@open-cluster-management/ui-components": "^0.1.242",
     "@patternfly/patternfly": "^4.90.5",
     "@patternfly/react-core": "^4.101.3",
     "@patternfly/react-icons": "^4.9.2",
@@ -142,7 +143,6 @@
     "request": "^2.88.2",
     "requestretry": "^4.1.1",
     "reselect": "^3.0.1",
-    "security-middleware": "github:open-cluster-management/security-middleware",
     "svg-loader": "0.0.2",
     "svg-react-loader": "^0.4.6",
     "svg-sprite-loader": "^5.0.0",

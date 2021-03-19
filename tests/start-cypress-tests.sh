@@ -14,11 +14,6 @@ if [ -z "$BROWSER" ]; then
   export BROWSER="chrome"
 fi
 
-if [ $CYPRESS_TEST_MODE != "functional" ]; then
-  echo "Options file not found..."
-  exit 1
-fi
-
 if [[ -z $CYPRESS_MANAGED_OCP_URL || -z $CYPRESS_MANAGED_OCP_USER || -z $CYPRESS_MANAGED_OCP_PASS ]]; then	
    echo 'One or more variables are undefined. Copying kubeconfigs...'
    cp -r ~/resources/extra-import-kubeconfigs/* ./cypress/config/import-kubeconfig

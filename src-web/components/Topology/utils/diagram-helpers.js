@@ -771,6 +771,9 @@ export const getNameWithoutChartRelease = (
         //get label for release name
         foundReleaseLabel = true
         const releaseName = _.trim(splitLabelContent[1])
+        if (name === releaseName) {
+          return name //name identical with release name, no extra processing needed, exit
+        }
         name = _.replace(name, `${releaseName}-`, '')
         name = _.replace(name, releaseName, '')
 
@@ -807,9 +810,13 @@ export const getNameWithoutChartRelease = (
   if (
     !foundReleaseLabel &&
     kind !== 'helmrelease' &&
-    labelMap['app.kubernetes.io/name']
+    labelMap['app.kubernetes.io/instance']
   ) {
-    name = labelMap['app.kubernetes.io/name']
+    //if name = alias-resourceName, remove alias- from name
+    name =
+      name.indexOf(`${labelMap['app.kubernetes.io/instance']}-`) === 0
+        ? name.substring(labelMap['app.kubernetes.io/instance'].length + 1)
+        : name
   }
 
   return name

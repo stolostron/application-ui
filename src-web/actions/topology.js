@@ -17,6 +17,7 @@ import { fetchResource } from './common'
 import { nodeMustHavePods } from '../components/Topology/utils/diagram-helpers-utils'
 import { SEARCH_QUERY } from '../apollo-client/queries/SearchQueries'
 import { convertStringToQuery } from '../../lib/client/search-helper'
+import msgs from '../../nls/platform.properties'
 
 export const requestResource = (resourceType, fetchFilters, reloading) => ({
   type: Actions.RESOURCE_REQUEST,
@@ -128,6 +129,47 @@ export const getResourceData = nodes => {
   result.relatedKinds = lodash.uniq(nodeTypes)
 
   return result
+}
+
+//fetch argo app editor url
+export const fetchArgoCDEditorUrl = (cluster, namespace) => {
+  const query = convertStringToQuery(
+    `kind:route namespace:${namespace} cluster:${cluster}`
+  )
+  apolloClient
+    .search(SEARCH_QUERY, { input: [query] })
+    .then(result => {
+      if (result.errors) {
+        return { error: result.errors[0] }
+      } else {
+        const searchResult = lodash.get(result, 'data.searchResult', [])
+        if (searchResult.length > 0) {
+          const routes = lodash.get(searchResult[0], 'items', [])
+          const route = routes.length > 0 ? routes[0] : null
+          if (!route) {
+            return {
+              error: msgs.get('resource.argo.app.route.err', [
+                namespace,
+                cluster
+              ])
+            }
+          } else {
+            //get route object info
+            apolloClient
+              .argoRoute(route)
+              .then(routeResult => {
+                return { url: routeResult } //this must be the Argo CD route url
+              })
+              .catch(err => {
+                return { error: err.msg }
+              })
+          }
+        }
+      }
+    })
+    .catch(err => {
+      return { error: err.msg }
+    })
 }
 
 //fetch all deployed objects linked to this topology nodes

@@ -3556,6 +3556,151 @@ describe("setPlacementRuleDeployStatus 1 ", () => {
   });
 });
 
+describe("setApplicationDeployStatus for ARGO ", () => {
+  const nodeWithRelatedApps = {
+    type: "application",
+    name: "cassandra",
+    cluster: "local-cluster",
+    namespace: "default",
+    specs: {
+      relatedApps: [
+        {
+          name: "app1",
+          namespace: "app1-ns",
+          destinationCluster: "local-cluster",
+          cluster: "remote-cluster",
+          destinationNamespace: "app1-remote-ns"
+        },
+        {
+          name: "app2",
+          namespace: "app2-ns",
+          cluster: "local-cluster",
+          destinationCluster: "remote-cluster2",
+          destinationNamespace: "app2-remote-ns"
+        }
+      ],
+      raw: {
+        apiVersion: "argoproj.io/v1alpha1",
+        cluster: "local-cluster",
+        spec: {
+          appURL: "https://test"
+        }
+      }
+    }
+  };
+  const resultWithRelatedApps = [
+    {
+      labelValue: "Related applications ({0})",
+      type: "label"
+    },
+    {
+      type: "spacer"
+    },
+    {
+      labelKey: "resource.name",
+      status: "checkmark",
+      value: "app1"
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "open_argo_editor",
+          cluster: "remote-cluster",
+          namespace: "app1-ns"
+        },
+        id: "application--app1-argo-editor",
+        label: "Launch Argo CD editor"
+      }
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.cluster",
+      value: "remote-cluster"
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.target.cluster",
+      value: "local-cluster"
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.target.cluster.ns",
+      value: "app1-remote-ns"
+    },
+    {
+      type: "spacer"
+    },
+    {
+      labelKey: "resource.name",
+      status: "checkmark",
+      value: "app2"
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "open_argo_editor",
+          cluster: "local-cluster",
+          namespace: "app2-ns"
+        },
+        id: "application--app2-argo-editor",
+        label: "Launch Argo CD editor"
+      }
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.cluster",
+      value: "local-cluster"
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.target.cluster",
+      value: "remote-cluster2"
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.target.cluster.ns",
+      value: "app2-remote-ns"
+    },
+    {
+      type: "spacer"
+    }
+  ];
+  it("setApplicationDeployStatus for argo app with multiple related apps", () => {
+    expect(setApplicationDeployStatus(nodeWithRelatedApps, [])).toEqual(
+      resultWithRelatedApps
+    );
+  });
+
+  const nodeWithNORelatedApps = {
+    type: "application",
+    name: "cassandra",
+    namespace: "default",
+    specs: {
+      relatedApps: [],
+      raw: {
+        apiVersion: "argoproj.io/v1alpha1",
+        cluster: "local-cluster",
+        spec: {
+          appURL: "https://test"
+        }
+      }
+    }
+  };
+  const resultWithNoRelatedApps = [
+    { labelValue: "Related applications ({0})", type: "label" },
+    { type: "spacer" }
+  ];
+  it("setApplicationDeployStatus for argo app with no related apps", () => {
+    expect(setApplicationDeployStatus(nodeWithNORelatedApps, [])).toEqual(
+      resultWithNoRelatedApps
+    );
+  });
+});
+
 describe("setApplicationDeployStatus 1 ", () => {
   const node = {
     type: "service",

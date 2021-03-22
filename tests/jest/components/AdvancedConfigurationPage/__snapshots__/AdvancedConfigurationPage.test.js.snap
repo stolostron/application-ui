@@ -456,7 +456,7 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
                             data-ouia-component-type="PF4/Pagination"
                             data-ouia-safe="true"
                             id="pagination-options-menu-9"
-                            style="padding-right: 0px;"
+                            style="padding-right: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
                           >
                             <div
                               class="pf-c-pagination__total-items"
@@ -1042,7 +1042,7 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
                 </span>
                 <span
                   class="pf-c-accordion__toggle-icon"
-               >
+                >
                   <svg
                     aria-hidden="true"
                     fill="currentColor"
@@ -1465,7 +1465,7 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
                             data-ouia-component-type="PF4/Pagination"
                             data-ouia-safe="true"
                             id="pagination-options-menu-5"
-                            style="padding-right: 0px;"
+                            style="padding-right: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
                           >
                             <div
                               class="pf-c-pagination__total-items"
@@ -2405,7 +2405,7 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
                             data-ouia-component-type="PF4/Pagination"
                             data-ouia-safe="true"
                             id="pagination-options-menu-1"
-                            style="padding-right: 0px;"
+                            style="padding-right: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
                           >
                             <div
                               class="pf-c-pagination__total-items"

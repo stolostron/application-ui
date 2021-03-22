@@ -180,10 +180,6 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
         </button>
       </nav>
     </section>
-    <div
-      className="pf-c-divider"
-      role="separator"
-    />
   </div>
 </div>
 `;
@@ -365,10 +361,6 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
         </button>
       </nav>
     </section>
-    <div
-      className="pf-c-divider"
-      role="separator"
-    />
   </div>
 </div>
 `;

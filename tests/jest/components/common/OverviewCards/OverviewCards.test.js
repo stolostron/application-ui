@@ -110,19 +110,6 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
   search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
 }));
 
-jest.mock("../../../../../lib/client/access-helper.js", () => ({
-  getArgoRoute: jest.fn(() => {
-    const data = {
-      data: {
-        argoRoute: {
-          "test-ns": "http://argocd.fakeurl.com"
-        }
-      }
-    };
-    return Promise.resolve(data);
-  })
-}));
-
 const React = require("../../../../../node_modules/react");
 
 import OverviewCards from "../../../../../src-web/components/common/OverviewCards";

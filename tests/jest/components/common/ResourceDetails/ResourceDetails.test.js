@@ -40,16 +40,6 @@ jest.mock("../../../../../lib/client/access-helper.js", () => ({
       }
     };
     return Promise.resolve(data);
-  }),
-  getArgoRoute: jest.fn(() => {
-    const data = {
-      data: {
-        argoRoute: {
-          "test-ns": "http://argocd.fakeurl.com"
-        }
-      }
-    };
-    return Promise.resolve(data);
   })
 }));
 

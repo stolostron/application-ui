@@ -41,7 +41,6 @@ import ChannelLabels from '../ChannelLabels'
 import TimeWindowLabels from '../TimeWindowLabels'
 import { getClusterCount } from '../../../../lib/client/resource-helper'
 import { REQUEST_STATUS } from '../../../actions'
-import { getArgoRoute } from '../../../../lib/client/access-helper'
 import _ from 'lodash'
 
 /* eslint-disable react/prop-types */
@@ -69,17 +68,6 @@ class OverviewCards extends React.Component {
       intervalId,
       showSubCards: false
     }
-  }
-
-  componentDidMount() {
-    const namespace = this.props.selectedAppNS
-    getArgoRoute({ namespace }).then(response => {
-      this.setState({
-        argoLink:
-          _.get(response, `data.argoRoute.${namespace}`) +
-          `/applications/${this.props.selectedAppName}`
-      })
-    })
   }
 
   reload() {
@@ -303,13 +291,16 @@ class OverviewCards extends React.Component {
             <CardBody>
               <AcmActionGroup>
                 <AcmButton
-                  href={this.state.argoLink}
                   variant={ButtonVariant.link}
                   id="launch-argocd-editor"
                   component="a"
+                  target="_blank"
                   rel="noreferrer"
                   icon={<ExternalLinkAltIcon />}
                   iconPosition="right"
+                  onClick={() =>
+                    alert('This feature is working in progress...')
+                  }
                 >
                   {msgs.get(
                     'dashboard.card.overview.cards.search.argocd.launch',
@@ -321,6 +312,7 @@ class OverviewCards extends React.Component {
                   variant={ButtonVariant.link}
                   id="app-search-link"
                   component="a"
+                  target="_blank"
                   rel="noreferrer"
                   icon={<ArrowRightIcon />}
                   iconPosition="right"

@@ -31,9 +31,9 @@ import config from '../../../lib/shared/config'
 import _ from 'lodash'
 
 // include monaco editor
-import TemplateEditor from 'temptifly'
-import 'temptifly/dist/styles.css'
-//import TemplateEditor from 'C:/Users/jswanke/git2/temptifly/src' //'temptifly'
+//import TemplateEditor from 'temptifly'
+//import 'temptifly/dist/styles.css'
+import TemplateEditor from 'C:/Users/jswanke/git2/temptifly/src' //'temptifly'
 import MonacoEditor from 'react-monaco-editor'
 import 'monaco-editor/esm/vs/editor/editor.all.js'
 import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand.js'
@@ -262,11 +262,11 @@ class ApplicationCreationPage extends React.Component {
       const { handleCreateApplication, handleUpdateApplication } = this.props
       const editApplication = this.getEditApplication()
       if (editApplication) {
-        handleUpdateApplication(resourceJSON)
+        handleUpdateApplication([...resourceJSON.createResources, ...resourceJSON.deleteResources])
       } else {
-        handleCreateApplication(resourceJSON)
+        handleCreateApplication(resourceJSON.createResources)
       }
-      const map = _.keyBy(resourceJSON, 'kind')
+      const map = _.keyBy(resourceJSON.createResources, 'kind')
       this.applicationNamespace = _.get(map, 'Application.metadata.namespace')
       this.applicationName = _.get(map, 'Application.metadata.name')
     }

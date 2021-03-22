@@ -137,7 +137,7 @@ Array [
       >
         <div
           class="MuiCollapse-container"
-          style="min-height: 0px; height: 0px; transition-duration: 200ms;"
+          style="min-height: 0px; height: 0px; transition-duration: 150ms;"
         >
           <div
             class="MuiCollapse-wrapper"
@@ -447,7 +447,7 @@ Array [
                           data-ouia-component-type="PF4/Pagination"
                           data-ouia-safe="true"
                           id="pagination-options-menu-9"
-                          style="padding-right: 0px;"
+                          style="padding-right: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
                         >
                           <div
                             class="pf-c-pagination__total-items"
@@ -1136,7 +1136,7 @@ Array [
       >
         <div
           class="MuiCollapse-container"
-          style="min-height: 0px; height: 0px; transition-duration: 200ms;"
+          style="min-height: 0px; height: 0px; transition-duration: 150ms;"
         >
           <div
             class="MuiCollapse-wrapper"
@@ -1446,7 +1446,7 @@ Array [
                           data-ouia-component-type="PF4/Pagination"
                           data-ouia-safe="true"
                           id="pagination-options-menu-5"
-                          style="padding-right: 0px;"
+                          style="padding-right: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
                         >
                           <div
                             class="pf-c-pagination__total-items"
@@ -2066,7 +2066,7 @@ Array [
       >
         <div
           class="MuiCollapse-container"
-          style="min-height: 0px; height: 0px; transition-duration: 200ms;"
+          style="min-height: 0px; height: 0px; transition-duration: 150ms;"
         >
           <div
             class="MuiCollapse-wrapper"
@@ -2376,7 +2376,7 @@ Array [
                           data-ouia-component-type="PF4/Pagination"
                           data-ouia-safe="true"
                           id="pagination-options-menu-1"
-                          style="padding-right: 0px;"
+                          style="padding-right: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
                         >
                           <div
                             class="pf-c-pagination__total-items"

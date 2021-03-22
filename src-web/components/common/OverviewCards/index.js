@@ -41,6 +41,7 @@ import ChannelLabels from '../ChannelLabels'
 import TimeWindowLabels from '../TimeWindowLabels'
 import { getClusterCount } from '../../../../lib/client/resource-helper'
 import { REQUEST_STATUS } from '../../../actions'
+import { openArgoCDEditor } from '../../../actions/topology'
 import _ from 'lodash'
 
 /* eslint-disable react/prop-types */
@@ -97,6 +98,7 @@ class OverviewCards extends React.Component {
       locale
     } = this.props
     const { showSubCards } = this.state
+
 
     if (HCMApplicationList.status === REQUEST_STATUS.ERROR) {
       const errMessage = _.get(
@@ -294,12 +296,16 @@ class OverviewCards extends React.Component {
                   variant={ButtonVariant.link}
                   id="launch-argocd-editor"
                   component="a"
-                  target="_blank"
                   rel="noreferrer"
                   icon={<ExternalLinkAltIcon />}
                   iconPosition="right"
                   onClick={() =>
-                    alert('This feature is working in progress...')
+                    // launch a new tab to argocd route
+                    openArgoCDEditor(
+                      appOverviewCardsData.clusterNames,
+                      selectedAppNS,
+                      selectedAppName
+                    )
                   }
                 >
                   {msgs.get(
@@ -310,7 +316,7 @@ class OverviewCards extends React.Component {
                 <AcmButton
                   href={getUrl + appOverviewCardsData.targetLink}
                   variant={ButtonVariant.link}
-                  id="app-search-link"
+                  id="app-search-resource-link"
                   component="a"
                   target="_blank"
                   rel="noreferrer"

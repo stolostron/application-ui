@@ -3608,7 +3608,8 @@ describe("setApplicationDeployStatus for ARGO ", () => {
         data: {
           action: "open_argo_editor",
           cluster: "remote-cluster",
-          namespace: "app1-ns"
+          namespace: "app1-ns",
+          name: "app1"
         },
         id: "application--app1-argo-editor",
         label: "Launch Argo CD editor"
@@ -3644,7 +3645,8 @@ describe("setApplicationDeployStatus for ARGO ", () => {
         data: {
           action: "open_argo_editor",
           cluster: "local-cluster",
-          namespace: "app2-ns"
+          namespace: "app2-ns",
+          name: "app2"
         },
         id: "application--app2-argo-editor",
         label: "Launch Argo CD editor"

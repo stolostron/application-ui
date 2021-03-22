@@ -34,7 +34,7 @@ import {
   getPulseStatusForArgoApp
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
-import { fetchArgoCDEditorUrl } from '../../../actions/topology'
+import { openArgoCDEditor } from '../../../actions/topology'
 
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
@@ -1856,8 +1856,8 @@ export const processResourceActionLink = resource => {
     targetLink = `/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`
     break
   case 'open_argo_editor': {
-    const { url } = fetchArgoCDEditorUrl(cluster, namespace)
-    targetLink = url
+    openArgoCDEditor(cluster, namespace, name) // the editor opens here
+    targetLink = ''
     break
   }
   default:

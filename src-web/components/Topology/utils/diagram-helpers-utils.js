@@ -334,7 +334,8 @@ export const setArgoApplicationDeployStatus = (node, details) => {
         data: {
           action: 'open_argo_editor',
           cluster: _.get(app, 'cluster'),
-          namespace: _.get(app, 'namespace')
+          namespace: _.get(app, 'namespace'),
+          name: relatedAppName
         }
       },
       indent: true

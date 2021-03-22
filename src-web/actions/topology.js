@@ -131,8 +131,8 @@ export const getResourceData = nodes => {
   return result
 }
 
-//fetch argo app editor url
-export const fetchArgoCDEditorUrl = (cluster, namespace) => {
+//open argo app editor url for this Argo app, in a separate window
+export const openArgoCDEditor = (cluster, namespace, name) => {
   const query = convertStringToQuery(
     `kind:route namespace:${namespace} cluster:${cluster}`
   )
@@ -140,7 +140,8 @@ export const fetchArgoCDEditorUrl = (cluster, namespace) => {
     .search(SEARCH_QUERY, { input: [query] })
     .then(result => {
       if (result.errors) {
-        return { error: result.errors[0] }
+        window.alert(`Error: ${result.errors[0].message}`)
+        return
       } else {
         const searchResult = lodash.get(result, 'data.searchResult', [])
         if (searchResult.length > 0) {
@@ -155,20 +156,33 @@ export const fetchArgoCDEditorUrl = (cluster, namespace) => {
             }
           } else {
             //get route object info
+            const routeRequest = {
+              name: route.name,
+              namespace: route.namespace,
+              cluster: route.cluster,
+              apiVersion: `${route.apigroup}/${route.apiversion}`
+            }
             apolloClient
-              .getArgoAppRouteURL(route.cluster, route.namespace, route.name)
+              .getArgoAppRouteURL(routeRequest)
               .then(routeURLResult => {
-                return { url: routeURLResult } //this must be the Argo CD route url
+                if (routeURLResult.errors) {
+                  window.alert(`Error: ${routeURLResult.errors[0].message}`)
+                } else {
+                  window.open(
+                    `${routeURLResult.data.argoAppRouteURL}/${name}`,
+                    '_blank'
+                  )
+                }
               })
               .catch(err => {
-                return { error: err.msg }
+                window.alert(`Error: ${err.msg}`)
               })
           }
         }
       }
     })
     .catch(err => {
-      return { error: err.msg }
+      window.alert(`Error: ${err.msg}`)
     })
 }
 

@@ -11,6 +11,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withLocale } from '../../../providers/LocaleProvider'
+import { withRouter } from 'react-router-dom'
 import {
   ArrowRightIcon,
   OutlinedQuestionCircleIcon
@@ -499,9 +500,14 @@ class OverviewCards extends React.Component {
     })
   };
 
-  toggleEditorTab = () => {
-    document.getElementById('editor').click()
-  };
+  toggleEditorTab() {
+    const { location, history } = this.props
+    const editPath =
+      location.pathname +
+      (location.pathname.slice(-1) === '/' ? 'edit' : '/edit')
+
+    history.push(editPath)
+  }
 
   toggleSubsBtn = showSubCards => {
     this.setState({ showSubCards: !showSubCards })
@@ -510,4 +516,4 @@ class OverviewCards extends React.Component {
 
 OverviewCards.propTypes = {}
 
-export default withLocale(connect(mapStateToProps)(OverviewCards))
+export default withLocale(withRouter(connect(mapStateToProps)(OverviewCards)))

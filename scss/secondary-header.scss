@@ -8,23 +8,16 @@
  ****************************************************************************** */
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
 .secondary-header {
   display: flex;
+  flex-direction: column;
   position: fixed;
   width: 100%;
-  height: inherit;
-  background-color: $color__white;
 
-  .header-box-shadow {
-    position: fixed;
-    width: 100%;
-    height: inherit;
-    box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.05);
-    left: 0px;
-    z-index: -1;
+  .pf-c-divider {
+    z-index: 1;
   }
 
   // PF dropdown
@@ -43,18 +36,11 @@
   }
 
   // YAML toggle
-  .edit-template-switch {
+  .switch-controls {
     position: absolute;
-  }
-
-  #edit-button-portal-id {
-    width: 162px;
-    height: 24px;
-  }
-
-  .bx--detail-page-header-title {
-    display: inline-block;
-    font-size: 1.75rem;
+    display: inline-flex;
+    width: 100%;
+    padding-top: 6px;
   }
 
   &-links {
@@ -65,20 +51,8 @@
     z-index: 6001;
     top: 7rem;
 
-    .bx--btn--primary,
-    .bx--btn--secondary {
-      min-height: 1.875rem;
-    }
-
     .portal {
       padding-left: 1rem;
-    }
-  }
-
-  .secondary-header-actions {
-    .bx--btn {
-      width: unset;
-      min-width: 108px;
     }
   }
 
@@ -90,36 +64,13 @@
     padding: 0.75rem 5% 0;
   }
 
-  @media screen and (min-width: 768px) {
-    .bx--detail-page-header--with-tabs {
-      padding: 0 5% 0;
-      //height: 90px;
-    }
-  }
-
-  &.detailed-header-override {
-    .bx--detail-page-header--with-tabs[data-header-active="false"] {
-      height: 90px;
-    }
-  }
-
   &-actions {
     position: fixed;
     float: right;
     top: 7rem;
     right: 5%;
     z-index: 6001;
-
-    .bx--btn {
-      width: 108px;
-    }
   }
-}
-
-.secondary-header-links .bx--btn--primary:focus {
-  // box-shadow: 0 0 0 $grc_focus_shaldow_width $grc_focus_shaldow_color;
-  outline: 0.0625rem solid transparent;
-  border: none;
 }
 
 .secondary-header-wrapper {

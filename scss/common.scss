@@ -7,12 +7,8 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-@import 'node_modules/carbon-components/scss/globals/scss/styles';
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import 'node_modules/carbon-components/scss/globals/scss/_helper-mixins';
 @import '../node_modules/@patternfly/patternfly/patternfly.css';
 @import '../node_modules/@patternfly/patternfly/patternfly-addons.css';
-@import 'header-carbon-v9-migration';
 @import './variables.scss';
 @import '_red-hat-font';
 @include redhat-font-face;
@@ -101,19 +97,6 @@ video {
   font-family: RedHatText;
 }
 
-.bx--link,
-.bx--label,
-.bx--search-input,
-.bx--overflow-menu-options__btn,
-.bx--pagination__text,
-.bx--text-input,
-.bx--tooltip--icon__top::before,
-.bx--tooltip--icon__top::after,
-.bx--tooltip--icon__bottom::before,
-.bx--tooltip--icon__bottom::after {
-  font-family: RedHatText;
-}
-
 html {
   height: 100%;
 }
@@ -125,28 +108,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $acm-background-color;
-
-  .bx--data-table-v2 {
-    thead {
-      background-color: $acm-background-color;
-    }
-  }
-
-  .bx--tooltip--shown {
-    font-size: .875rem;
-  }
 }
 
 .page-content-container {
   display: flex;
   flex-direction: column;
   padding: 1.5rem 24px 2rem;
-
-  .bx--select--inline {
-    svg.bx--select__arrow {
-      position: absolute;
-    }
-  }
 }
 
 .content-spinner {
@@ -159,10 +126,6 @@ body {
 .resource-list-filter {
   margin-top: -1.5rem;
   padding-bottom: 3rem;
-}
-
-.bx--loading-overlay {
-  z-index: 10000; // need higher z-index with modals open
 }
 
 .expand-vertically {
@@ -252,15 +215,6 @@ body {
       color: $color__blue-51;
     }
   }
-
-  .bx--btn {
-    height: 40px;
-    margin: 19px auto;
-    padding: 0 15px;
-    font-family: 'RedHatText';
-    font-size: 14px;
-    font-weight: 600;
-  }
 }
 
 .yamlEditorContainer {
@@ -294,16 +248,4 @@ body {
   cursor: pointer;
   z-index: 1000;
   background: url("data:image/svg+xml;utf8, <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='14' height='14'><g fill='red'><circle cx='8' cy='8' r='8' fill='white' fill-opacity='1'/><path d='M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM5.1 13.3L3.5 12 11 2.6l1.5 1.2-7.4 9.5z'/> </g></svg>");
-}
-
-.bx--tooltip--definition .bx--tooltip__trigger {
-  border-bottom: none;
-}
-
-.bx--tooltip--definition .bx--tooltip__trigger:hover {
-  border-bottom: none;
-}
-
-.bx--tooltip--definition .bx--tooltip__trigger:hover + .bx--tooltip--definition__bottom {
-  min-width: 150px;
 }

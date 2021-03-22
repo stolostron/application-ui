@@ -26,14 +26,9 @@ import {
 import { updateResourceFilters, combineFilters } from '../../actions/filters'
 import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
-import resources from '../../../lib/shared/resources'
 import { withLocale } from '../../providers/LocaleProvider'
 import { AcmAlert } from '@open-cluster-management/ui-components'
 import { Stack, StackItem } from '@patternfly/react-core'
-
-resources(() => {
-  require('../../../scss/resource-list.scss')
-})
 
 class ResourceList extends React.Component {
   constructor(props) {

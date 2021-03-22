@@ -7,7 +7,6 @@ import {
   RESOURCE_TYPES,
   transform,
   createEditLink,
-  getLabelsToList,
   getAge,
   getResourceType,
   getClusterCount,
@@ -135,115 +134,6 @@ describe("transform", () => {
     };
     const output = transform(resource, key, locale, undefined);
     expect(output).toEqual("transfomred default");
-  });
-});
-
-describe("getLabelsToList", () => {
-  const item = {
-    name: "guestbook-app",
-    namespace: "default",
-    dashboard: "",
-    selfLink:
-      "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
-    _uid: "local-cluster/0221dae9-b6b9-40cb-8cba-473011a750e0",
-    created: "2020-04-06T22:27:05Z",
-    apigroup: "app.k8s.io",
-    cluster: "local-cluster",
-    kind: "application",
-    label: "",
-    _hubClusterResource: "true",
-    _rbac: "default_app.k8s.io_applications",
-    related: [
-      {
-        kind: "placementrule",
-        items: [
-          {
-            kind: "placementrule",
-            name: "dev-clusters",
-            namespace: "default",
-            selfLink:
-              "/apis/apps.open-cluster-management.io/v1/namespaces/default/placementrules/dev-clusters",
-            apigroup: "apps.open-cluster-management.io",
-            apiversion: "v1",
-            _hubClusterResource: "true",
-            _rbac: "default_apps.open-cluster-management.io_placementrules",
-            _uid: "local-cluster/a4d4460d-5a08-4594-9161-6fb3c8b3efea",
-            created: "2020-04-06T22:26:46Z",
-            cluster: "local-cluster"
-          }
-        ],
-        __typename: "SearchRelatedResult"
-      }
-    ],
-    custom: {
-      name: {
-        key: null,
-        ref: null,
-        props: {
-          to: "/multicloud/applications/default/guestbook-app",
-          children: "guestbook-app",
-          replace: false
-        },
-        _owner: null,
-        _store: {}
-      },
-      clusters: 0,
-      subscriptions: {
-        type: "ul",
-        key: null,
-        ref: null,
-        props: {
-          children: [
-            {
-              key: "1",
-              ref: null,
-              props: { labelText: 0 },
-              _owner: null,
-              _store: {}
-            },
-            false,
-            {
-              key: "2",
-              ref: null,
-              props: {
-                labelText: 0,
-                iconName: "failed-status",
-                description: "Failed"
-              },
-              _owner: null,
-              _store: {}
-            },
-            {
-              key: "3",
-              ref: null,
-              props: {
-                labelText: 0,
-                iconName: "no-status",
-                description: "No status"
-              },
-              _owner: null,
-              _store: {}
-            }
-          ]
-        },
-        _owner: null,
-        _store: {}
-      },
-      created: "20 hours ago"
-    }
-  };
-  const locale = "en-US";
-
-  it("return resourceKey value", () => {
-    const labelsKey = "selector";
-    const output = getLabelsToList(item, locale, labelsKey);
-    expect(output).toEqual("-");
-  });
-
-  it("return undefined value", () => {
-    const labelsKey = "annotations";
-    const output = getLabelsToList(item, locale, labelsKey);
-    expect(output).toEqual("-");
   });
 });
 

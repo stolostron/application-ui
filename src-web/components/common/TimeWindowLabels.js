@@ -3,7 +3,7 @@
 'use strict'
 
 import React from 'react'
-import { Icon } from 'carbon-components-react'
+import { PencilAltIcon } from '@patternfly/react-icons'
 import PropTypes from 'prop-types'
 import LabelWithPopover from './LabelWithPopover'
 import msgs from '../../../nls/platform.properties'
@@ -89,12 +89,7 @@ const TimeWindowLabels = ({ timeWindow, locale }) => {
               'dashboard.card.overview.cards.timeWindow.edit.label',
               locale
             )}
-            <Icon
-              name="icon--edit"
-              fill="#0066cc"
-              description=""
-              className="edit-time-window-btn-icon"
-            />
+            <PencilAltIcon className="edit-time-window-btn-icon" />
           </div>
         </div>
       </LabelWithPopover>

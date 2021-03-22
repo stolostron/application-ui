@@ -23,29 +23,39 @@ $overview-column-width: 10px !default; /* card width must be multiple of this */
 $overview-card-margin-right: 20px !default; /* margin around cards */
 $overview-card-margin-bottom: 25px !default; /* margin around cards */
 
-$mcm__color__gray: #6f7878 !default;
-$mcm__color__critical: #e0182d !default;
-
-$mcm__available_color: #047cc0 !default;
-$mcm__used_color: #40d5bb !default;
-
-$mcm_color_green: #8cd211 !default;
-$mcm_color_gray: #8c9ba5 !default;
-$mcm_color_yellow: #EFC199 !default;
-$mcm_color_red: #E71D32 !default;
-
-$mcm_heat_red: #FF4253 !default;
-$mcm_heat_yellow: #FFCB00 !default;
-$mcm_heat_blue: #92eeee !default;
-
-$mcm_view_filter: #DFEBF1 !default;
-
-$mcm_background_color: #f4f7fb !default;
-$mcm_provider_card_background_color: #fafafa !default;
-
 
 $ibm-colors__gray--40: #a4a4a4 !default;
 $mcm_color_blue: #3F71EC !default;
-$mcm_color_blue_gray: #5A6872 !default;
-$mcm_color_gray_20: #152935 !default;
 
+//These are carbon colors in previous version but will not in latest carbon 10
+$ibm-colors__gray--40: #a4a4a4 !default;
+
+
+
+
+
+$color__blue-30: #5aaafa !default;
+$color__blue-40: #5596e6 !default;
+$color__blue-50: #4178be !default;
+$color__blue-51: #3d70b2 !default;
+$color__blue-60: #325c80 !default;
+$color__blue-90: #152935 !default;
+$color__gray-1: #DFE3E6 !default;
+$color__gray-3: #f5f7fa !default;
+$color__green-40: #5aa700 !default;
+$color__navy-gray-4: #394b54 !default;
+$color__navy-gray-5: #42535c !default;
+$color__navy-gray-6: #5A6872 !default;
+$color__navy-gray-7: #8c9ba5 !default;
+$color__navy-gray-8: #dfe6eb !default; 
+$color__purple-30: #ba8ff7 !default;
+$color__purple-60: #734098 !default;
+$color__red-50: #e71d32 !default;
+$color__teal-20: #6eedd8 !default;
+$color__teal-40: #00b4a0 !default;
+$color__teal-60: #006d5d !default;
+$color__white: #ffffff !default;
+$color__yellow-30: #efc100 !default;
+
+// acm background
+$acm_background_color: #F0F0F0 !default;

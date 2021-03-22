@@ -16,7 +16,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { NumberInput, MultiSelect, Button } from 'carbon-components-react'
 import { TimesIcon } from '@patternfly/react-icons'
 import jsYaml from 'js-yaml'
 import '../../../../graphics/diagramShapes.svg'
@@ -131,12 +130,6 @@ class DetailsView extends React.Component {
       return this.renderSpacer()
     case 'link':
       return this.renderLink(detail, true)
-    case 'number':
-      return this.renderNumber(detail, locale)
-    case 'selector':
-      return this.renderSelector(detail, locale)
-    case 'submit':
-      return this.renderSubmit(detail, locale)
     case 'snippet':
       return this.renderSnippet(detail, locale)
     case 'clusterdetailcombobox':
@@ -260,60 +253,9 @@ class DetailsView extends React.Component {
     )
   }
 
-  renderNumber({ labelKey, value }, locale) {
-    return (
-      <div className="sectionContent form" key={Math.random()}>
-        {labelKey && (
-          <span className="label">{msgs.get(labelKey, locale)}: </span>
-        )}
-        <NumberInput
-          id={labelKey}
-          label={''}
-          value={value}
-          min={1}
-          max={10}
-          step={1}
-          onChange={this.enableSubmitBtn.bind(this)}
-        />
-      </div>
-    )
-  }
-
-  renderSelector({ labelKey, value, other }, locale) {
-    return (
-      <div className="sectionContent form" key={Math.random()}>
-        {labelKey && (
-          <span className="label">{msgs.get(labelKey, locale)}: </span>
-        )}
-        <MultiSelect.Filterable
-          items={other}
-          initialSelectedItems={value}
-          placeholder={value.join(', ')}
-          itemToString={item => item}
-          onChange={this.enableSubmitBtn.bind(this)}
-        />
-      </div>
-    )
-  }
-
   setSubmitBtn = ref => {
     this.submitBtn = ref
   };
-  renderSubmit() {
-    return (
-      <div className="sectionContent submit" key={Math.random()}>
-        <Button
-          small
-          id="edit-button"
-          disabled
-          ref={this.setSubmitBtn}
-          onClick={this.onSubmit}
-        >
-          {msgs.get('modal.button.submit', this.props.locale)}
-        </Button>
-      </div>
-    )
-  }
 
   enableSubmitBtn() {
     this.submitBtn.disabled = false

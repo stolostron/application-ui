@@ -494,7 +494,7 @@ export const validateAppTableMenu = (name, resourceTable) => {
   //validate Edit menu
   resourceTable.openRowMenu(name, resourceKey);
   resourceTable.menuClick("edit");
-  cy.get(".bx--detail-page-header-title").should("exist", {
+  cy.get(".secondary-header").should("exist", {
     timeout: 60 * 1000
   });
   //get back to app page

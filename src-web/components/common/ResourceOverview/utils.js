@@ -8,22 +8,7 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 import _ from 'lodash'
-
-import React from 'react'
-import { SkeletonText } from 'carbon-components-react'
-import { Module } from 'carbon-addons-cloud-react'
 import { getShortDateTime } from '../../../../lib/client/resource-helper'
-
-export const loadingComponent = () => {
-  return (
-    <Module className={'bx--tile search-query-card-loading'} size="single">
-      <div className="search-query-card-loading">
-        <SkeletonText />
-        <SkeletonText />
-      </div>
-    </Module>
-  )
-}
 
 export const getSearchLinkForOneApplication = params => {
   if (params && params.name) {

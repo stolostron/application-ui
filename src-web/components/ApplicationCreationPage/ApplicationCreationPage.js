@@ -9,12 +9,12 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 import React from 'react'
+import { PageSection } from '@patternfly/react-core'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import { Query } from 'react-apollo'
 import { getApplication } from '../../../lib/client/queries'
 import PropTypes from 'prop-types'
-import Page from '../common/Page'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
@@ -191,39 +191,37 @@ class ApplicationCreationPage extends React.Component {
       // if editing an existing app, grab it first
       const { selectedAppName, selectedAppNamespace } = editApplication
       return (
-        <Page>
-          <Query
-            query={getApplication}
-            variables={{
-              name: selectedAppName,
-              namespace: selectedAppNamespace
-            }}
-          >
-            {result => {
-              const { loading } = result
-              const { data = {} } = result
-              const { application } = data
-              const errored = application ? false : true
-              const error = application ? null : result.error
-              if (!loading && error) {
-                const errorName = result.error.graphQLErrors[0].name
-                  ? result.error.graphQLErrors[0].name
-                  : error.name
-                error.name = errorName
-              }
-              const fetchControl = {
-                resources: getApplicationResources(application),
-                isLoaded: !loading,
-                isFailed: errored,
-                error: error
-              }
-              return this.renderEditor(fetchControl)
-            }}
-          </Query>
-        </Page>
+        <Query
+          query={getApplication}
+          variables={{
+            name: selectedAppName,
+            namespace: selectedAppNamespace
+          }}
+        >
+          {result => {
+            const { loading } = result
+            const { data = {} } = result
+            const { application } = data
+            const errored = application ? false : true
+            const error = application ? null : result.error
+            if (!loading && error) {
+              const errorName = result.error.graphQLErrors[0].name
+                ? result.error.graphQLErrors[0].name
+                : error.name
+              error.name = errorName
+            }
+            const fetchControl = {
+              resources: getApplicationResources(application),
+              isLoaded: !loading,
+              isFailed: errored,
+              error: error
+            }
+            return this.renderEditor(fetchControl)
+          }}
+        </Query>
       )
     }
-    return <Page>{this.renderEditor()}</Page>
+    return this.renderEditor()
   }
 
   renderEditor(fetchControl) {
@@ -242,17 +240,19 @@ class ApplicationCreationPage extends React.Component {
     }
     return (
       controlData && (
-        <TemplateEditor
-          type={'application'}
-          title={msgs.get('creation.app.yaml', locale)}
-          template={createTemplate}
-          controlData={controlData}
-          monacoEditor={<MonacoEditor />}
-          portals={Portals}
-          fetchControl={fetchControl}
-          createControl={createControl}
-          i18n={i18n}
-        />
+        <PageSection>
+          <TemplateEditor
+            type={'application'}
+            title={msgs.get('creation.app.yaml', locale)}
+            template={createTemplate}
+            controlData={controlData}
+            monacoEditor={<MonacoEditor />}
+            portals={Portals}
+            fetchControl={fetchControl}
+            createControl={createControl}
+            i18n={i18n}
+          />
+        </PageSection>
       )
     )
   }

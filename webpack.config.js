@@ -224,7 +224,7 @@ module.exports = {
       options: {
         concurrency: 100,
       },
-   })
+    })
   ],
   resolve: {
     alias: {

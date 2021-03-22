@@ -15,7 +15,7 @@ import ResourceDetails from './ResourceDetails'
 import ResourceList from './ResourceList'
 import getResourceDefinitions from '../../definitions'
 import { makeGetVisibleTableItemsSelector } from '../../reducers/common'
-import Page from './Page'
+import { PageSection } from '@patternfly/react-core'
 
 const WrappedResourceList = props => (
   <div>
@@ -55,17 +55,15 @@ const typedResourcePageList = (resourceType, buttons, routes, modules) => {
 
     render() {
       return (
-        <Page>
-          <WrappedResourceList
-            {...this.props}
-            routes={routes}
-            resourceType={resourceType}
-            staticResourceData={staticResourceData}
-            getVisibleResources={getVisibleResources}
-            buttons={buttons}
-            modules={modules}
-          />
-        </Page>
+        <WrappedResourceList
+          {...this.props}
+          routes={routes}
+          resourceType={resourceType}
+          staticResourceData={staticResourceData}
+          getVisibleResources={getVisibleResources}
+          buttons={buttons}
+          modules={modules}
+        />
       )
     }
   }
@@ -83,7 +81,7 @@ const typedResourcePageDetails = (resourceType, buttons, routes, modules) => {
 
     render() {
       return (
-        <Page>
+        <PageSection>
           <WrappedResourceDetails
             {...this.props}
             routes={routes}
@@ -93,7 +91,7 @@ const typedResourcePageDetails = (resourceType, buttons, routes, modules) => {
             buttons={buttons}
             modules={modules}
           />
-        </Page>
+        </PageSection>
       )
     }
   }

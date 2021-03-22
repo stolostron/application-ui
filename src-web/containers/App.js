@@ -14,6 +14,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { AcmPage } from '@open-cluster-management/ui-components'
 import SecondaryHeader from '../components/SecondaryHeader'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { withLocale } from '../providers/LocaleProvider'
@@ -124,28 +125,28 @@ class App extends React.Component {
 
     return (
       <div className="expand-vertically">
-        <SecondaryHeader />
-        <Switch>
-          <Route
-            exact
-            path={`${BASE_PAGE_PATH}`}
-            render={params => (
-              <ApplicationsListPage
-                params={params}
-                serverProps={this.getServerProps()}
-                secondaryHeaderProps={{
-                  title: applicationsTitle,
-                  tabs: allApplicationsTabs,
-                  mainButton: createApplicationButton
-                }}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={`${BASE_PAGE_PATH}/advanced`}
-            render={params => (
-              <div className="page-content-container">
+        <AcmPage>
+          <SecondaryHeader />
+          <Switch>
+            <Route
+              exact
+              path={`${BASE_PAGE_PATH}`}
+              render={params => (
+                <ApplicationsListPage
+                  params={params}
+                  serverProps={this.getServerProps()}
+                  secondaryHeaderProps={{
+                    title: applicationsTitle,
+                    tabs: allApplicationsTabs,
+                    mainButton: createApplicationButton
+                  }}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={`${BASE_PAGE_PATH}/advanced`}
+              render={params => (
                 <AdvancedConfigurationPage
                   params={params}
                   serverProps={serverProps}
@@ -156,57 +157,57 @@ class App extends React.Component {
                   }}
                   locale={locale}
                 />
-              </div>
-            )}
+              )}
+            />
+            <Route
+              exact
+              path={`${BASE_PAGE_PATH}/create`}
+              render={params => (
+                <ApplicationCreationPage
+                  params={params}
+                  serverProps={this.getServerProps()}
+                  secondaryHeaderProps={{ title: 'application.create.title' }}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={`${BASE_PAGE_PATH}/:namespace/:name`}
+              render={params => (
+                <ApplicationDetailsPage
+                  params={params}
+                  serverProps={this.getServerProps()}
+                  secondaryHeaderProps={{
+                    title: applicationsTitle,
+                    tabs: getSingleApplicationTabs(params.match.params)
+                  }}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={`${BASE_PAGE_PATH}/:namespace/:name/edit`}
+              render={params => (
+                <ApplicationCreationPage
+                  params={params}
+                  serverProps={this.getServerProps()}
+                  secondaryHeaderProps={{
+                    title: 'application.create.title',
+                    tabs: getSingleApplicationTabs(params.match.params)
+                  }}
+                />
+              )}
+            />
+            <Redirect to={`${config.contextPath}/welcome`} />
+          </Switch>
+          <ActionModalApollo locale={serverProps.context.locale} />
+          <input
+            type="hidden"
+            id="app-access"
+            style={{ display: 'none' }}
+            value={serverProps.xsrfToken.toString('base64')}
           />
-          <Route
-            exact
-            path={`${BASE_PAGE_PATH}/create`}
-            render={params => (
-              <ApplicationCreationPage
-                params={params}
-                serverProps={this.getServerProps()}
-                secondaryHeaderProps={{ title: 'application.create.title' }}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={`${BASE_PAGE_PATH}/:namespace/:name`}
-            render={params => (
-              <ApplicationDetailsPage
-                params={params}
-                serverProps={this.getServerProps()}
-                secondaryHeaderProps={{
-                  title: applicationsTitle,
-                  tabs: getSingleApplicationTabs(params.match.params)
-                }}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={`${BASE_PAGE_PATH}/:namespace/:name/edit`}
-            render={params => (
-              <ApplicationCreationPage
-                params={params}
-                serverProps={this.getServerProps()}
-                secondaryHeaderProps={{
-                  title: 'application.create.title',
-                  tabs: getSingleApplicationTabs(params.match.params)
-                }}
-              />
-            )}
-          />
-          <Redirect to={`${config.contextPath}/welcome`} />
-        </Switch>
-        <ActionModalApollo locale={serverProps.context.locale} />
-        <input
-          type="hidden"
-          id="app-access"
-          style={{ display: 'none' }}
-          value={serverProps.xsrfToken.toString('base64')}
-        />
+        </AcmPage>
       </div>
     )
   }

@@ -13,7 +13,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button } from 'carbon-components-react'
+import { Button } from '@patternfly/react-core'
 import {
   AcmPageHeader,
   AcmSecondaryNav,
@@ -22,7 +22,6 @@ import {
 import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
-import SecondaryHeaderTooltip from './SecondaryHeaderTooltip'
 import classNames from 'classnames'
 import loadable from '@loadable/component'
 
@@ -145,9 +144,7 @@ export class SecondaryHeader extends React.Component {
           aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
         >
           <div className="secondary-header simple-header">
-            <h1 className="bx--detail-page-header-title">
-              {decodeURIComponent(title)}
-            </h1>
+            <h1>{decodeURIComponent(title)}</h1>
             {this.renderTooltip()}
           </div>
         </div>
@@ -233,30 +230,7 @@ export class SecondaryHeader extends React.Component {
   }
 
   renderTooltip() {
-    const { tooltip } = this.props
-    const { locale } = this.context
-    const { links = [] } = this.props
-    return (
-      <React.Fragment>
-        {tooltip && (
-          <SecondaryHeaderTooltip
-            text={tooltip.text}
-            link={tooltip.link}
-            linkText={msgs.get('tooltip.link', locale)}
-          />
-        )}
-        {links &&
-          links.map(link => {
-            const { id, kind, title } = link
-            // if portal, react component will create the button using a portal
-            if (kind === 'portal' && title) {
-              return <div key={id} id={id} className="portal" />
-            } else {
-              return null
-            }
-          })}
-      </React.Fragment>
-    )
+    // Not used
   }
 
   getSelectedTab() {

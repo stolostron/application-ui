@@ -7,9 +7,6 @@
  *******************************************************************************/
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import 'scss/variables';
-
 .resourceDiagramSourceContainer {
   position: relative;
 
@@ -55,10 +52,6 @@
       margin-left: 9px;
     }
 
-    .bx--tooltip__trigger svg {
-      height: 14px;
-    }
-
     /* filter bar */
     .diagram-controls-container {
       background-color: #fff;
@@ -101,14 +94,6 @@
       align-items: center;
       margin-top: 26px;
     }
-
-    .bx--inline-notification {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      z-index: 1000;
-      background-color: white;
-    }
   }
 
   /* when editor is open */
@@ -149,12 +134,6 @@
     align-items: center;
     font-size: 9px;
     line-height: 12px;
-
-    .bx--loading--small {
-      width: 1rem;
-      height: 1rem;
-      margin: -2px 0;
-    }
   }
 
   /* when view is split, show details view on other side of diagram */

@@ -1039,6 +1039,7 @@ describe("getNodeDetails placement rules node with error", () => {
     clusterName: null,
     type: "placements",
     specs: {
+      isDesign: true,
       raw: {
         apiVersion: "apps.open-cluster-management.io/v1",
         kind: "PlacementRule",
@@ -1144,6 +1145,7 @@ describe("getNodeDetails placement rules node with success", () => {
     clusterName: null,
     type: "placements",
     specs: {
+      isDesign: true,
       raw: {
         apiVersion: "apps.open-cluster-management.io/v1",
         kind: "PlacementRule",

@@ -156,9 +156,9 @@ export const fetchArgoCDEditorUrl = (cluster, namespace) => {
           } else {
             //get route object info
             apolloClient
-              .argoRoute(route)
-              .then(routeResult => {
-                return { url: routeResult } //this must be the Argo CD route url
+              .getArgoAppRouteURL(route.cluster, route.namespace, route.name)
+              .then(routeURLResult => {
+                return { url: routeURLResult } //this must be the Argo CD route url
               })
               .catch(err => {
                 return { error: err.msg }

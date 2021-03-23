@@ -24,15 +24,11 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
-export const getSearchLinkForArgoApplication = source => {
-  if (source && source.repoURL) {
-    let textsearch = `kind:application apigroup:argoproj.io repoURL:${
-      source.repoURL
-    }`
-    if (source.path) {
-      textsearch = `${textsearch} path:${source.path}`
-    } else if (source.chart) {
-      textsearch = `${textsearch} chart:${source.chart}`
+export const getSearchLinkForArgoApplications = source => {
+  if (source) {
+    let textsearch = 'kind:application apigroup:argoproj.io'
+    for (const [key, value] of Object.entries(source)) {
+      textsearch = `${textsearch} ${key}:${value}`
     }
     return `/search?filters={"textsearch":"${encodeURIComponent(textsearch)}"}`
   }
@@ -206,7 +202,7 @@ export const getAppOverviewCardsData = (
           clusterNames = _.get(node, ['specs', 'clusterNames'], [])
           argoSource = _.get(node, ['specs', 'raw', 'spec', 'source'], {})
           argoSource.repoType = getRepoTypeForArgoApplication(argoSource)
-          targetLink = getSearchLinkForArgoApplication(argoSource)
+          targetLink = getSearchLinkForArgoApplications(argoSource)
         }
       }
       //get pulse for all objects generated from a deployable

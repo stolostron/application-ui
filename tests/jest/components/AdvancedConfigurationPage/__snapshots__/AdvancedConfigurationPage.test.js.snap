@@ -159,7 +159,7 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
               >
                 <div
                   class="MuiCollapse-container"
-                  style="min-height: 0px; height: 0px; transition-duration: 200ms;"
+                  style="min-height: 0px; height: 0px; transition-duration: 150ms;"
                 >
                   <div
                     class="MuiCollapse-wrapper"
@@ -1168,7 +1168,7 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
               >
                 <div
                   class="MuiCollapse-container"
-                  style="min-height: 0px; height: 0px; transition-duration: 200ms;"
+                  style="min-height: 0px; height: 0px; transition-duration: 150ms;"
                 >
                   <div
                     class="MuiCollapse-wrapper"
@@ -2108,7 +2108,7 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
               >
                 <div
                   class="MuiCollapse-container"
-                  style="min-height: 0px; height: 0px; transition-duration: 200ms;"
+                  style="min-height: 0px; height: 0px; transition-duration: 150ms;"
                 >
                   <div
                     class="MuiCollapse-wrapper"

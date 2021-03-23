@@ -109,6 +109,7 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
   }),
   search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
 }));
+
 const React = require("../../../../../node_modules/react");
 
 import OverviewCards from "../../../../../src-web/components/common/OverviewCards";
@@ -167,7 +168,6 @@ describe("OverviewCards", () => {
       </Provider>
     );
 
-    wrapper.find({ id: "app-search-link" }).simulate("click");
     wrapper
       .find({ id: "app-search-link" })
       .simulate("keypress", { key: "Enter" });

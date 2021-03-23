@@ -201,8 +201,6 @@ export const getAppOverviewCardsData = (
           // set argo app cluster names
           clusterNames = _.get(node, ['specs', 'clusterNames'], [])
           argoSource = _.get(node, ['specs', 'raw', 'spec', 'source'], {})
-          argoSource.repoType = getRepoTypeForArgoApplication(argoSource)
-          targetLink = getSearchLinkForArgoApplications(argoSource)
         }
       }
       //get pulse for all objects generated from a deployable

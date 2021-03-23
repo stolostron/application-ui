@@ -1088,6 +1088,28 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     showAnsibleJobDetails(node, details)
 
     if (!_.get(node, 'specs.raw.spec')) {
+      const res = {
+        name: name,
+        namespace: _.get(node, metadataNamespace, ''),
+        kind: 'ansiblejob',
+        apigroup: 'tower.ansible.com',
+        apiversion: 'v1alpha1'
+      }
+      details.push({
+        type: 'spacer'
+      })
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get(specsPropsYaml),
+          data: {
+            action: showResourceYaml,
+            cluster: res.cluster,
+            editLink: createEditLink(res)
+          }
+        },
+        indent: true
+      })
       return details // no other status info so return here
     }
   } else {

@@ -1058,6 +1058,7 @@ describe("createDeployableYamlLink for application no selflink", () => {
     id: "id",
     specs: {
       row: 20,
+      isDesign: true,
       raw: {
         kind: "Application"
       }
@@ -1091,6 +1092,7 @@ describe("createDeployableYamlLink for application with editLink", () => {
     apiversion: "app.k8s.io/v1beta1",
     kind: "Application",
     specs: {
+      isDesign: true,
       raw: {
         metadata: {
           selfLink: "appLink"
@@ -1113,6 +1115,29 @@ describe("createDeployableYamlLink for application with editLink", () => {
     }
   ];
   it("createDeployableYamlLink for application with selflink", () => {
+    expect(createDeployableYamlLink(node, details)).toEqual(result);
+  });
+});
+
+describe("createDeployableYamlLink for child application", () => {
+  const details = [];
+  const node = {
+    type: "application",
+    id: "id",
+    name: "test",
+    namespace: "test-ns",
+    apiversion: "app.k8s.io/v1beta1",
+    kind: "Application",
+    specs: {
+      raw: {
+        metadata: {
+          selfLink: "appLink"
+        }
+      }
+    }
+  };
+  const result = [];
+  it("does not add a link", () => {
     expect(createDeployableYamlLink(node, details)).toEqual(result);
   });
 });

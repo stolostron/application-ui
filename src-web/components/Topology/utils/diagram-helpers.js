@@ -593,7 +593,8 @@ export const createDeployableYamlLink = (node, details) => {
       'application',
       'placements',
       'subscription'
-    ])
+    ]) &&
+    node.specs.isDesign // only for top-level resources
   ) {
     const editLink = createEditLink(node)
     editLink &&

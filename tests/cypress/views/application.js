@@ -463,9 +463,12 @@ export const validateTopology = (
 
 export const validateClusterNode = clusterName => {
   cy.log(`validating the cluster... ${clusterName}`);
-  cy
-    .get(`g[type="${clusterName}"]`, { timeout: 25 * 1000 })
-    .should("be.visible");
+  if (clusterName == "local-cluster") {
+    // only check local-cluster due to issue #9557
+    cy
+      .get(`g[type="${clusterName}"]`, { timeout: 25 * 1000 })
+      .should("be.visible");
+  }
 };
 
 export const validatePlacementNode = (name, key) => {

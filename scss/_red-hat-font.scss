@@ -8,7 +8,7 @@
 }
 
 @mixin printRedHatFont($weightValue: 400, $weightName: normal, $familyName: "RedHatText", $style: "normal",) {
-  $filePath: $font-path + "/RedHatText/" + $familyName + "-" + $weightName;
+  $filePath: $font-path + "/" + $familyName + "-" + $weightName;
 
   @font-face {
     font-family: $familyName;

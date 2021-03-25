@@ -99,15 +99,6 @@ class OverviewCards extends React.Component {
     } = this.props
     const { showSubCards } = this.state
 
-
-    if (HCMApplicationList.status === REQUEST_STATUS.ERROR) {
-      const errMessage = _.get(
-        HCMApplicationList,
-        'err.message',
-        msgs.get('resource.error')
-      )
-      return <AcmAlert variant="danger" title={errMessage} noClose />
-    }
     if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
       const infoMessage = _.get(
         HCMApplicationList,

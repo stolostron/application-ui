@@ -401,16 +401,23 @@ class ClusterDetailsContainer extends React.Component {
         metadata = {},
         capacity = {},
         allocatable = {},
-        status,
         consoleURL
       } = displayClusterList[i]
-      const {
-        name: clusterName,
-        namespace: clusterNamespace,
-        creationTimestamp
-      } = metadata
-      const { cpu: cc, memory: cm } = capacity
-      const { cpu: ac, memory: am } = allocatable
+
+      const status = displayClusterList[i].status || 'unknown'
+      const clusterName = displayClusterList[i].name || metadata.name
+      const clusterNamespace =
+        displayClusterList[i]._clusterNamespace || metadata.namespace
+      const creationTimestamp =
+        displayClusterList[i].created || metadata.creationTimestamp
+      const cc = displayClusterList[i].cpu
+        ? displayClusterList[i].cpu.toString()
+        : capacity.cpu
+      const cm = displayClusterList[i].memory
+        ? displayClusterList[i].memory.toString()
+        : capacity.memory
+      const am = allocatable.memory || ''
+      const ac = allocatable.cpu || ''
       const resource = {
         action: 'open_link',
         targetLink: consoleURL
@@ -524,8 +531,8 @@ class ClusterDetailsContainer extends React.Component {
         >
           {this.props.clusterList.map(cluster => (
             <SelectOption
-              key={cluster.metadata.name}
-              value={cluster.metadata.name}
+              key={cluster.name || cluster.metadata.name}
+              value={cluster.name || cluster.metadata.name}
             />
           ))}
         </Select>

@@ -59,7 +59,6 @@ const options = {
 
 class ApplicationTopologyModule extends React.Component {
   static propTypes = {
-    HCMApplicationList: PropTypes.object,
     activeChannel: PropTypes.string,
     channels: PropTypes.array,
     clusters: PropTypes.array,
@@ -232,7 +231,7 @@ class ApplicationTopologyModule extends React.Component {
   handleUpdateMessageClosed = () => this.setState({ updateMessage: '' });
 
   render() {
-    const { channels, locale, HCMApplicationList } = this.props
+    const { channels, locale } = this.props
     const {
       nodes,
       links,
@@ -245,8 +244,7 @@ class ApplicationTopologyModule extends React.Component {
 
     const diagramTitle = msgs.get('application.diagram', locale)
 
-    const isLoadError =
-      topologyLoadError || HCMApplicationList.status === REQUEST_STATUS.ERROR
+    const isLoadError = topologyLoadError
     const diagramClasses = classNames({
       resourceDiagramSourceContainer: true,
       showExpandedTopology: false

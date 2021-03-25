@@ -343,6 +343,38 @@ export const validateAdvancedTables = (
   }
 };
 
+export const verifyDetails = (name, namespace, apiVersion) => {
+  cy.visit(
+    `/multicloud/applications/${namespace}/${name}${
+      apiVersion ? apiVersion : ""
+    }`
+  );
+  cy.reload();
+  cy
+    .get(".search-query-card-loading", { timeout: 50 * 1000 })
+    .should("not.exist");
+  cy
+    .get(".pf-l-grid__item")
+    .first()
+    .contains(name);
+  cy
+    .get(".pf-l-grid__item")
+    .first()
+    .contains(namespace);
+};
+
+export const validateArgoTopology = (name, namespace) => {
+  const apiVersion = "?apiVersion=argoproj.io/v1alpha1";
+  verifyDetails(name, namespace, apiVersion);
+  cy
+    .get("#app-search-link", { timeout: 20 * 1000 })
+    .invoke("attr", "href")
+    .should(
+      "include",
+      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${namespace}"}`
+    );
+};
+
 /*
 opType = 'create' if run afer app creation step
 opType = 'delete' if run afer delete subs step
@@ -356,19 +388,8 @@ export const validateTopology = (
   numberOfRemoteClusters,
   opType
 ) => {
-  cy.visit(`/multicloud/applications/${name}-ns/${name}`);
-  cy.reload();
-  cy
-    .get(".search-query-card-loading", { timeout: 50 * 1000 })
-    .should("not.exist");
-  cy
-    .get(".pf-l-grid__item")
-    .first()
-    .contains(name);
-  cy
-    .get(".pf-l-grid__item")
-    .first()
-    .contains(`${name}-ns`);
+  const namespace = `${name}-ns`;
+  verifyDetails(name, namespace);
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,

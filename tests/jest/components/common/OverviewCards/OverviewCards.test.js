@@ -117,6 +117,7 @@ import OverviewCards from "../../../../../src-web/components/common/OverviewCard
 import { mount } from "enzyme";
 import renderer from "react-test-renderer";
 import * as reducers from "../../../../../src-web/reducers";
+import { BrowserRouter } from "react-router-dom";
 
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
@@ -145,7 +146,23 @@ window.open = () => {}; // provide an empty implementation for window.open
 describe("OverviewCards", () => {
   it("OverviewCards makes apollo calls with success return", () => {
     renderer.create(
-      <MockedProvider mocks={[]} addTypename={false}>
+      <BrowserRouter>
+        <MockedProvider mocks={[]} addTypename={false}>
+          <Provider store={storeApp}>
+            <OverviewCards
+              selectedAppName="mortgage-app"
+              selectedAppNS="default"
+              serverProps={serverProps}
+            />
+          </Provider>
+        </MockedProvider>
+      </BrowserRouter>
+    );
+  });
+
+  it("has functioning onclick, one app", () => {
+    const wrapper = mount(
+      <BrowserRouter>
         <Provider store={storeApp}>
           <OverviewCards
             selectedAppName="mortgage-app"
@@ -153,19 +170,7 @@ describe("OverviewCards", () => {
             serverProps={serverProps}
           />
         </Provider>
-      </MockedProvider>
-    );
-  });
-
-  it("has functioning onclick, one app", () => {
-    const wrapper = mount(
-      <Provider store={storeApp}>
-        <OverviewCards
-          selectedAppName="mortgage-app"
-          selectedAppNS="default"
-          serverProps={serverProps}
-        />
-      </Provider>
+      </BrowserRouter>
     );
 
     wrapper

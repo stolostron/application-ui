@@ -11,7 +11,7 @@
 import {
   getRepoTypeForArgoApplication,
   getSearchLinkForOneApplication,
-  getSearchLinkForArgoApplication,
+  getSearchLinkForArgoApplications,
   getAppOverviewCardsData
 } from "../../../../../src-web/components/common/ResourceOverview/utils";
 import {
@@ -230,7 +230,7 @@ describe("getRepoTypeForArgoApplication", () => {
   });
 });
 
-describe("getSearchLinkForArgoApplication", () => {
+describe("getSearchLinkForArgoApplications", () => {
   it("should return search link for Argo application", () => {
     const source = {
       path: "helloworld",
@@ -238,8 +238,8 @@ describe("getSearchLinkForArgoApplication", () => {
       targetRevision: "HEAD"
     };
     const result =
-      '/search?filters={"textsearch":"kind%3Aapplication%20apigroup%3Aargoproj.io%20repoURL%3Ahttps%3A%2F%2Fgithub.com%2Ffxiang1%2Fapp-samples%20path%3Ahelloworld"}';
-    expect(getSearchLinkForArgoApplication(source)).toEqual(result);
+      '/search?filters={"textsearch":"kind%3Aapplication%20apigroup%3Aargoproj.io%20path%3Ahelloworld%20repoURL%3Ahttps%3A%2F%2Fgithub.com%2Ffxiang1%2Fapp-samples%20targetRevision%3AHEAD"}';
+    expect(getSearchLinkForArgoApplications(source)).toEqual(result);
   });
   it("should return search link for Argo application", () => {
     const source = {
@@ -248,11 +248,16 @@ describe("getSearchLinkForArgoApplication", () => {
       chart: "redis"
     };
     const result =
-      '/search?filters={"textsearch":"kind%3Aapplication%20apigroup%3Aargoproj.io%20repoURL%3Ahttps%3A%2F%2Fcharts.bitnami.com%2Fbitnami%20chart%3Aredis"}';
-    expect(getSearchLinkForArgoApplication(source)).toEqual(result);
+      '/search?filters={"textsearch":"kind%3Aapplication%20apigroup%3Aargoproj.io%20repoURL%3Ahttps%3A%2F%2Fcharts.bitnami.com%2Fbitnami%20targetRevision%3A12.2.4%20chart%3Aredis"}';
+    expect(getSearchLinkForArgoApplications(source)).toEqual(result);
   });
-  it("should return empty string for undefined app node", () => {
-    expect(getSearchLinkForArgoApplication(undefined)).toEqual("");
+  it("should return empty string for undefined resource", () => {
+    expect(getSearchLinkForArgoApplications(undefined)).toEqual("");
+  });
+  it("should return basic url for empty resource", () => {
+    const result =
+      '/search?filters={"textsearch":"kind%3Aapplication%20apigroup%3Aargoproj.io"}';
+    expect(getSearchLinkForArgoApplications({})).toEqual(result);
   });
 });
 

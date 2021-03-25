@@ -1058,6 +1058,7 @@ describe("createDeployableYamlLink for application no selflink", () => {
     id: "id",
     specs: {
       row: 20,
+      isDesign: true,
       raw: {
         kind: "Application"
       }
@@ -1091,6 +1092,7 @@ describe("createDeployableYamlLink for application with editLink", () => {
     apiversion: "app.k8s.io/v1beta1",
     kind: "Application",
     specs: {
+      isDesign: true,
       raw: {
         metadata: {
           selfLink: "appLink"
@@ -1113,6 +1115,29 @@ describe("createDeployableYamlLink for application with editLink", () => {
     }
   ];
   it("createDeployableYamlLink for application with selflink", () => {
+    expect(createDeployableYamlLink(node, details)).toEqual(result);
+  });
+});
+
+describe("createDeployableYamlLink for child application", () => {
+  const details = [];
+  const node = {
+    type: "application",
+    id: "id",
+    name: "test",
+    namespace: "test-ns",
+    apiversion: "app.k8s.io/v1beta1",
+    kind: "Application",
+    specs: {
+      raw: {
+        metadata: {
+          selfLink: "appLink"
+        }
+      }
+    }
+  };
+  const result = [];
+  it("does not add a link", () => {
     expect(createDeployableYamlLink(node, details)).toEqual(result);
   });
 });
@@ -3146,6 +3171,62 @@ describe("setResourceDeployStatus ansiblejob ", () => {
   });
 });
 
+describe("setResourceDeployStatus ansiblejob no specs.raw.spec", () => {
+  const node = {
+    type: "ansiblejob",
+    name: "bigjoblaunch",
+    namespace: "default",
+    id:
+      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+    specs: {
+      raw: {
+        hookType: "pre-hook",
+        metadata: {
+          name: "bigjoblaunch",
+          namespace: "default"
+        }
+      },
+      ansiblejobModel: {
+        "bigjoblaunch-local-cluster": {
+          label: "tower_job_id=999999999"
+        }
+      }
+    }
+  };
+  const result = [
+    { type: "spacer" },
+    {
+      labelValue: "AnsibleJob Initialization status",
+      status: "pending",
+      value:
+        "Ansible task was not executed. Check the Subscription YAML for status errors."
+    },
+    { type: "spacer" },
+    {
+      labelValue: "Ansible Tower Job status",
+      status: "pending",
+      value: "Ansible Tower job was not executed."
+    },
+    { type: "spacer" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          editLink:
+            "/resources?apiversion=tower.ansible.com%2Fv1alpha1&cluster=local-cluster&kind=ansiblejob&name=bigjoblaunch&namespace=default"
+        },
+        label: "View Resource YAML"
+      }
+    }
+  ];
+  it("setResourceDeployStatus ansiblejob no specs.raw.spec", () => {
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
+  });
+});
+
 describe("setResourceDeployStatus ansiblejob no status", () => {
   const node = {
     type: "ansiblejob",
@@ -3181,6 +3262,20 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
       labelValue: "Ansible Tower Job status",
       status: "pending",
       value: "Ansible Tower job was not executed."
+    },
+    { type: "spacer" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          editLink:
+            "/resources?apiversion=tower.ansible.com%2Fv1alpha1&cluster=local-cluster&kind=ansiblejob&name=bigjoblaunch&namespace=default"
+        },
+        label: "View Resource YAML"
+      }
     }
   ];
 
@@ -3197,6 +3292,20 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
       labelValue: "Ansible Tower Job status",
       status: "pending",
       value: "Ansible Tower job was not executed."
+    },
+    { type: "spacer" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          editLink:
+            "/resources?apiversion=tower.ansible.com%2Fv1alpha1&cluster=local-cluster&kind=ansiblejob&name=bigjoblaunch&namespace=default"
+        },
+        label: "View Resource YAML"
+      }
     }
   ];
   const result2 = [

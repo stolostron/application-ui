@@ -11,6 +11,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withLocale } from '../../../providers/LocaleProvider'
+import { withRouter } from 'react-router-dom'
 import {
   ArrowRightIcon,
   ExternalLinkAltIcon,
@@ -35,7 +36,9 @@ import msgs from '../../../../nls/platform.properties'
 import config from '../../../../lib/shared/config'
 import {
   getSearchLinkForOneApplication,
-  getAppOverviewCardsData
+  getAppOverviewCardsData,
+  getRepoTypeForArgoApplication,
+  getSearchLinkForArgoApplications
 } from '../ResourceOverview/utils'
 import ChannelLabels from '../ChannelLabels'
 import TimeWindowLabels from '../TimeWindowLabels'
@@ -258,7 +261,9 @@ class OverviewCards extends React.Component {
                       <ChannelLabels
                         channels={[
                           {
-                            type: appOverviewCardsData.argoSource.repoType,
+                            type: getRepoTypeForArgoApplication(
+                              appOverviewCardsData.argoSource
+                            ),
                             pathname: appOverviewCardsData.argoSource.repoURL,
                             gitPath: appOverviewCardsData.argoSource.path,
                             chart: appOverviewCardsData.argoSource.chart,
@@ -316,6 +321,26 @@ class OverviewCards extends React.Component {
                 >
                   {msgs.get(
                     'dashboard.card.overview.cards.search.resource',
+                    locale
+                  )}
+                </AcmButton>
+                <AcmButton
+                  href={
+                    getUrl +
+                    getSearchLinkForArgoApplications(
+                      appOverviewCardsData.argoSource
+                    )
+                  }
+                  variant={ButtonVariant.link}
+                  id="app-search-argo-apps-link"
+                  component="a"
+                  target="_blank"
+                  rel="noreferrer"
+                  icon={<ArrowRightIcon />}
+                  iconPosition="right"
+                >
+                  {msgs.get(
+                    'dashboard.card.overview.cards.search.argocd.apps',
                     locale
                   )}
                 </AcmButton>
@@ -545,9 +570,14 @@ class OverviewCards extends React.Component {
     })
   };
 
-  toggleEditorTab = () => {
-    document.getElementById('editor').click()
-  };
+  toggleEditorTab() {
+    const { location, history } = this.props
+    const editPath =
+      location.pathname +
+      (location.pathname.slice(-1) === '/' ? 'edit' : '/edit')
+
+    history.push(editPath)
+  }
 
   toggleSubsBtn = showSubCards => {
     this.setState({ showSubCards: !showSubCards })
@@ -556,4 +586,4 @@ class OverviewCards extends React.Component {
 
 OverviewCards.propTypes = {}
 
-export default withLocale(connect(mapStateToProps)(OverviewCards))
+export default withLocale(withRouter(connect(mapStateToProps)(OverviewCards)))

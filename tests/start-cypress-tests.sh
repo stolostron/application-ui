@@ -28,7 +28,17 @@ else
 fi
 
 echo "Logging into Kube API server..."
+touch ./import-kubeconfig/hub-kubeconfig
+export KUBECONFIG=$(pwd)/import-kubeconfig/hub-kubeconfig
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
+unset KUBECONFIG
+echo "Copying hub cluster kubeconfig to ./cypress/config/import-kubeconfig ..."
+cp ./import-kubeconfig/hub-kubeconfig ./cypress/config/import-kubeconfig/hub-kubeconfig
+
+if [ $CYPRESS_ARGOCD_TEST ]; then
+ echo "Installing Argo CD server and CLI..."
+ sh ./tests/cypress/scripts/argocd-integration.sh
+fi
 
 echo "Running tests on $CYPRESS_BASE_URL in $CYPRESS_TEST_MODE mode..."
 testCode=0

@@ -17,6 +17,7 @@ import { fetchResource } from './common'
 import { nodeMustHavePods } from '../components/Topology/utils/diagram-helpers-utils'
 import { SEARCH_QUERY } from '../apollo-client/queries/SearchQueries'
 import { convertStringToQuery } from '../../lib/client/search-helper'
+import msgs from '../../nls/platform.properties'
 
 export const requestResource = (resourceType, fetchFilters, reloading) => ({
   type: Actions.RESOURCE_REQUEST,
@@ -128,6 +129,61 @@ export const getResourceData = nodes => {
   result.relatedKinds = lodash.uniq(nodeTypes)
 
   return result
+}
+
+//open argo app editor url for this Argo app, in a separate window
+export const openArgoCDEditor = (cluster, namespace, name) => {
+  const query = convertStringToQuery(
+    `kind:route namespace:${namespace} cluster:${cluster}`
+  )
+  apolloClient
+    .search(SEARCH_QUERY, { input: [query] })
+    .then(result => {
+      if (result.errors) {
+        window.alert(`Error: ${result.errors[0].message}`)
+        return
+      } else {
+        const searchResult = lodash.get(result, 'data.searchResult', [])
+        if (searchResult.length > 0) {
+          const routes = lodash.get(searchResult[0], 'items', [])
+          const route = routes.length > 0 ? routes[0] : null
+          if (!route) {
+            return {
+              error: msgs.get('resource.argo.app.route.err', [
+                namespace,
+                cluster
+              ])
+            }
+          } else {
+            //get route object info
+            const routeRequest = {
+              name: route.name,
+              namespace: route.namespace,
+              cluster: route.cluster,
+              apiVersion: `${route.apigroup}/${route.apiversion}`
+            }
+            apolloClient
+              .getArgoAppRouteURL(routeRequest)
+              .then(routeURLResult => {
+                if (routeURLResult.errors) {
+                  window.alert(`Error: ${routeURLResult.errors[0].message}`)
+                } else {
+                  window.open(
+                    `${routeURLResult.data.argoAppRouteURL}/${name}`,
+                    '_blank'
+                  )
+                }
+              })
+              .catch(err => {
+                window.alert(`Error: ${err.msg}`)
+              })
+          }
+        }
+      }
+    })
+    .catch(err => {
+      window.alert(`Error: ${err.msg}`)
+    })
 }
 
 //fetch all deployed objects linked to this topology nodes

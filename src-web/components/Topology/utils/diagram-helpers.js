@@ -34,6 +34,7 @@ import {
   getPulseStatusForArgoApp
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
+import { openArgoCDEditor } from '../../../actions/topology'
 
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
@@ -592,7 +593,8 @@ export const createDeployableYamlLink = (node, details) => {
       'application',
       'placements',
       'subscription'
-    ])
+    ]) &&
+    node.specs.isDesign // only for top-level resources
   ) {
     const editLink = createEditLink(node)
     editLink &&
@@ -1088,6 +1090,28 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     showAnsibleJobDetails(node, details)
 
     if (!_.get(node, 'specs.raw.spec')) {
+      const res = {
+        name: name,
+        namespace: _.get(node, metadataNamespace, ''),
+        kind: 'ansiblejob',
+        apigroup: 'tower.ansible.com',
+        apiversion: 'v1alpha1'
+      }
+      details.push({
+        type: 'spacer'
+      })
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get(specsPropsYaml),
+          data: {
+            action: showResourceYaml,
+            cluster: res.cluster,
+            editLink: createEditLink(res)
+          }
+        },
+        indent: true
+      })
       return details // no other status info so return here
     }
   } else {
@@ -1845,7 +1869,7 @@ export const addNodeServiceLocationForCluster = (node, typeObject, details) => {
 export const processResourceActionLink = resource => {
   let targetLink = ''
   const linkPath = R.pathOr('', ['action'])(resource)
-  const { name, namespace, editLink, kind } = resource
+  const { name, namespace, cluster, editLink, kind } = resource
   const nsData = namespace ? ` namespace:${namespace}` : ''
   switch (linkPath) {
   case showResourceYaml:
@@ -1854,6 +1878,11 @@ export const processResourceActionLink = resource => {
   case 'show_search':
     targetLink = `/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`
     break
+  case 'open_argo_editor': {
+    openArgoCDEditor(cluster, namespace, name) // the editor opens here
+    targetLink = ''
+    break
+  }
   default:
     targetLink = R.pathOr('', ['targetLink'])(resource)
   }

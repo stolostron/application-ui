@@ -380,7 +380,7 @@ export const validateTopology = (
   );
 
   cy
-    .get("#app-search-link")
+    .get("#app-search-link", { timeout: 20 * 1000 })
     .invoke("attr", "href")
     .should(
       "include",

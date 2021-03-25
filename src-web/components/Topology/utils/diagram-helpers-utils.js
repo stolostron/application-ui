@@ -300,7 +300,7 @@ export const namespaceMatchTargetServer = (
 }
 
 export const setArgoApplicationDeployStatus = (node, details) => {
-  const relatedArgoApps = _.get(node, 'specs.relatedApps')
+  const relatedArgoApps = _.get(node, 'specs.relatedApps', [])
 
   // related Argo apps
   details.push({
@@ -391,7 +391,7 @@ export const translateArgoHealthStatus = healthStatus => {
 export const getPulseStatusForArgoApp = node => {
   const appHealth = _.get(node, 'specs.raw.status.health.status')
   const healthArr = [translateArgoHealthStatus(appHealth)]
-  const relatedApps = _.get(node, 'specs.relatedApps')
+  const relatedApps = _.get(node, 'specs.relatedApps', [])
 
   relatedApps.forEach(app => {
     const relatedAppHealth = _.get(app, 'status.health.status', 'Healthy')

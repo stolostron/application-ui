@@ -277,7 +277,14 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
         values: querySettings.argoAppsLabelNames
       })
       //get the cluster for each target namespace and all pods related to this objects only
-      query.relatedKinds.push('cluster', 'pod')
+      //always ask for related pods, replicaset and replocationcontroller because they are tagged by the app instance
+      // we'll get them if any are linked to the objects returned above
+      query.relatedKinds.push(
+        'cluster',
+        'pod',
+        'replicaset',
+        'replicationcontroller'
+      )
     } else {
       //query asking for a subset of related kinds and possibly for one subscription only
       if (querySettings.subscription) {

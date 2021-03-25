@@ -134,7 +134,7 @@ export const getAppOverviewCardsData = (
   const appData = _.get(topologyData, 'activeFilters.application')
   if (
     !selectedAppData ||
-    selectedAppData.status !== 'DONE' ||
+    (selectedAppData.status !== 'DONE' && selectedAppData.status !== 'ERROR') || //allow search microservice to not be found
     topologyData.status !== 'DONE' ||
     topologyData.detailsLoaded !== true
   ) {

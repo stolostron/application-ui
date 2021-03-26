@@ -315,7 +315,7 @@ const getPulseStatusForGenericNode = node => {
       : name
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
-  const clusterNames = R.split(',', getClusterName(node.id, node))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
   if (!resourceMap || onlineClusters.length === 0) {
@@ -414,7 +414,7 @@ export const getPulseForNodeWithPodStatus = node => {
   }
 
   const resourceName = _.get(node, metadataName, '')
-  const clusterNames = R.split(',', getClusterName(node.id, node))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
@@ -1124,7 +1124,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   const resourceName =
     !isDeployable && channel.length > 0 ? `${channel}-${name}` : name
 
-  const clusterNames = R.split(',', getClusterName(node.id, node))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
@@ -1170,7 +1170,6 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       labelKey: 'resource.deploy.statuses'
     })
   }
-
   clusterNames.forEach(clusterName => {
     details.push({
       type: 'spacer'
@@ -1286,7 +1285,7 @@ export const setPodDeployStatus = (
   const podStatusModel = _.get(updatedNode, 'podStatusMap', {})
   const podDataPerCluster = {} //pod details list for each cluster name
 
-  const clusterNames = R.split(',', getClusterName(node.id, node))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 

@@ -61,7 +61,8 @@ git:
             local: true
             online: false
             matchingLabel: false
-      - name: ui-git-ansible
+    - enable: false
+      name: ui-git-ansible
       type: git
       successNumber: 3 #success number includes the two ansible hooks and the ansible regular task
       config:

@@ -32,6 +32,8 @@ import {
   checkAndObjects
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
+import { topology } from "./../../../TestingData";
+
 const ansibleSuccess = {
   type: "ansiblejob",
   name: "bigjoblaunch",
@@ -1759,23 +1761,23 @@ describe("setSubscriptionDeployStatus for node type different then subscription 
 
 describe("setupResourceModel ", () => {
   it("setupResourceModel", () => {
-    expect(setupResourceModel(resourceList, resourceMap, false, false)).toEqual(
-      modelResult
-    );
+    expect(
+      setupResourceModel(resourceList, resourceMap, false, false, topology)
+    ).toEqual(modelResult);
   });
 });
 
 describe("setupResourceModel ", () => {
   it("return setupResourceModel for grouped objects", () => {
-    expect(setupResourceModel(resourceList, resourceMap, true, false)).toEqual(
-      modelResult
-    );
+    expect(
+      setupResourceModel(resourceList, resourceMap, true, false, topology)
+    ).toEqual(modelResult);
   });
 });
 
 describe("setupResourceModel undefined 1", () => {
   it("return setupResourceModel for undefined 1 ", () => {
-    expect(setupResourceModel(undefined, resourceMap, true)).toEqual(
+    expect(setupResourceModel(undefined, resourceMap, true, topology)).toEqual(
       modelResult
     );
   });
@@ -1783,7 +1785,7 @@ describe("setupResourceModel undefined 1", () => {
 
 describe("setupResourceModel undefined 2", () => {
   it("return setupResourceModel for undefined 2 ", () => {
-    expect(setupResourceModel(resourceList, undefined, true)).toEqual(
+    expect(setupResourceModel(resourceList, undefined, true, topology)).toEqual(
       undefined
     );
   });

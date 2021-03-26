@@ -77,7 +77,12 @@ export const nodeMustHavePods = node => {
   return false
 }
 
-export const getClusterName = nodeId => {
+export const getClusterName = (nodeId, node) => {
+  if (node && _.get(node, 'clusters.id', '') === 'member--clusters--') {
+    //cluster info is not set on the node id, get it from here
+    return _.get(node, 'specs.clustersNames', []).join(',')
+  }
+
   if (nodeId === undefined) {
     return ''
   }
@@ -152,18 +157,19 @@ export const getOnlineClusters = (clusterNames, clusterObjs) => {
   const onlineClusters = []
 
   clusterNames.forEach(clsName => {
-    if (clsName.trim() === LOCAL_HUB_NAME) {
-      onlineClusters.push(clsName)
+    const cluster = clsName.trim()
+    if (cluster === LOCAL_HUB_NAME) {
+      onlineClusters.push(cluster)
       return
     }
     for (let i = 0; i < clusterObjs.length; i++) {
       const clusterObjName = _.get(clusterObjs[i], metadataName)
-      if (clusterObjName === clsName.trim()) {
+      if (clusterObjName === cluster) {
         if (
           clusterObjs[i].status === 'ok' ||
           clusterObjs[i].status === 'pendingimport'
         ) {
-          onlineClusters.push(clsName)
+          onlineClusters.push(cluster)
         }
         break
       }
@@ -226,9 +232,15 @@ export const getExistingResourceMapKey = (resourceMap, name, relatedKind) => {
   const keys = R.filter(isSameType, Object.keys(resourceMap))
   let i
   for (i = 0; i < keys.length; i++) {
+    const keyObject = resourceMap[keys[i]]
     if (
-      keys[i].indexOf(name) > -1 &&
-      keys[i].indexOf(relatedKind.cluster) > -1
+      (keys[i].indexOf(name) > -1 &&
+        keys[i].indexOf(relatedKind.cluster) > -1) || //node id doesn't contain cluster name, match cluster using the object type
+      (_.includes(
+        _.get(keyObject, 'specs.clustersNames', []),
+        relatedKind.cluster
+      ) &&
+        name.indexOf(`${keyObject.type}-${keyObject.name}`) === 0)
     ) {
       return keys[i]
     }

@@ -278,13 +278,8 @@ class ApplicationCreationPage extends React.Component {
       // Came from the "Create application" button, or "Edit application" table action; go back
       history.goBack()
     } else if (editApplication && location.state && location.state.tabChange) {
-      // Came from changing tabs from "Overview" to "YAML" or clicking "Edit application" button; change tabs back
-      const { selectedAppName, selectedAppNamespace } = editApplication
-      history.replace(
-        `${config.contextPath}/${encodeURIComponent(
-          selectedAppNamespace
-        )}/${encodeURIComponent(selectedAppName)}`
-      )
+      // Came from changing tabs from "Overview" to "Editor"; change tabs back
+      history.replace(location.state.tabChange)
     } else {
       // Otherwise, navigate to applications
       history.push(config.contextPath)

@@ -315,7 +315,7 @@ const getPulseStatusForGenericNode = node => {
       : name
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
-  const clusterNames = R.split(',', getClusterName(node.id))
+  const clusterNames = R.split(',', getClusterName(node.id, node))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
   if (!resourceMap || onlineClusters.length === 0) {
@@ -414,7 +414,7 @@ export const getPulseForNodeWithPodStatus = node => {
   }
 
   const resourceName = _.get(node, metadataName, '')
-  const clusterNames = R.split(',', getClusterName(node.id))
+  const clusterNames = R.split(',', getClusterName(node.id, node))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
@@ -928,11 +928,34 @@ export const setupResourceModel = (
   list,
   resourceMap,
   isClusterGrouped,
-  isHelmRelease
+  isHelmRelease,
+  topology
 ) => {
   if (checkNotOrObjects(list, resourceMap)) {
     return resourceMap
   }
+  // store cluster objects and cluster names as returned by search; these are clusters related to the app
+  const clustersList = R.find(R.propEq('kind', 'cluster'))(list) || {}
+  const clustersObjects = R.pathOr([], ['items'])(clustersList)
+  const clusterNamesList = R.sortBy(R.identity)(
+    R.pluck('name')(clustersObjects)
+  )
+
+  topology.nodes &&
+    topology.nodes.forEach(node => {
+      const nodeId = _.get(node, 'id', '')
+      if (nodeId === 'member--clusters--') {
+        //cluster node, set search found clusters objects here
+        _.set(node, 'specs.clusters', clustersObjects)
+      }
+      _.set(
+        node,
+        'specs.clustersNames',
+        getClusterName(nodeId)
+          ? getClusterName(nodeId).split(',')
+          : clusterNamesList
+      )
+    })
   const podIndex = _.findIndex(list, ['kind', 'pod'])
   //move pods last in the list to be processed after all resources producing pods have been processed
   //we want to add the pods to the map by using the pod hash
@@ -1002,7 +1025,9 @@ export const setupResourceModel = (
           resourceMap[existingResourceMapKey]
       }
 
-      let resourceMapForObject = resourceMap[name]
+      let resourceMapForObject =
+        resourceMap[name] ||
+        (existingResourceMapKey && resourceMap[existingResourceMapKey])
       if (!resourceMapForObject && kind === 'pod' && podHash) {
         //just found a pod object, try to map it to the parent resource using the podHash
         resourceMapForObject = resourceMap[`pod-${podHash}`]
@@ -1027,7 +1052,7 @@ export const setupResourceModel = (
             (_.includes(
               _.get(
                 resourceMapForObject,
-                'clusters.specs.sortedClusterNames',
+                'clusters.specs.clustersNames',
                 [LOCAL_HUB_NAME] // if no cluster found for this resource, this could be a local deployment
               ),
               _.get(relatedKind, 'cluster')
@@ -1077,7 +1102,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   const resourceName =
     !isDeployable && channel.length > 0 ? `${channel}-${name}` : name
 
-  const clusterNames = R.split(',', getClusterName(node.id))
+  const clusterNames = R.split(',', getClusterName(node.id, node))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
@@ -1124,11 +1149,20 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     })
   }
 
-  onlineClusters.forEach(clusterName => {
+  clusterNames.forEach(clusterName => {
     details.push({
       type: 'spacer'
     })
     clusterName = R.trim(clusterName)
+    if (!_.includes(onlineClusters, clusterName)) {
+      details.push({
+        labelValue: clusterName,
+        value: msgs.get('resource.cluster.offline'),
+        status: warningStatus
+      })
+      // offline cluster, skip
+      return
+    }
     let res = resourceMap[`${resourceName}-${clusterName}`]
 
     if (
@@ -1230,12 +1264,21 @@ export const setPodDeployStatus = (
   const podStatusModel = _.get(updatedNode, 'podStatusMap', {})
   const podDataPerCluster = {} //pod details list for each cluster name
 
-  const clusterNames = R.split(',', getClusterName(node.id))
+  const clusterNames = R.split(',', getClusterName(node.id, node))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
-  onlineClusters.forEach(clusterName => {
+  clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
+    if (!_.includes(onlineClusters, clusterName)) {
+      details.push({
+        labelValue: clusterName,
+        value: msgs.get('resource.cluster.offline'),
+        status: warningStatus
+      })
+      // offline cluster, skip
+      return
+    }
     const res = podStatusModel[clusterName]
     let pulse = 'orange'
     if (res) {

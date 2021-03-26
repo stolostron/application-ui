@@ -190,6 +190,10 @@ describe("hcm-application-diagram-tests", () => {
   it("getDiagramElements with pods container info", () => {
     const nodes = [
       {
+        id: "member--clusters--",
+        type: "cluster"
+      },
+      {
         id:
           "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
         type: "cluster",
@@ -236,8 +240,7 @@ describe("hcm-application-diagram-tests", () => {
       },
       {
         type: "deployment",
-        id:
-          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
+        id: "--clusters---depl",
         name: "depl",
         cluster: null,
         clusterName: null,
@@ -245,9 +248,7 @@ describe("hcm-application-diagram-tests", () => {
           specs: {
             clusters: [
               {
-                metadata: {
-                  name: "possiblereptile"
-                },
+                name: "possiblereptile",
                 status: "ok"
               },
               {
@@ -368,6 +369,15 @@ describe("hcm-application-diagram-tests", () => {
           name: "mortgage-app",
           namespace: "default",
           related: [
+            {
+              kind: "cluster",
+              items: [
+                {
+                  name: "sharingpenguin",
+                  status: "ok"
+                }
+              ]
+            },
             {
               items: [
                 {
@@ -546,6 +556,21 @@ describe("hcm-application-diagram-tests", () => {
     };
     const res = [
       {
+        id: "member--clusters--",
+        specs: {
+          clusters: [
+            {
+              name: "sharingpenguin",
+              status: "ok"
+            }
+          ],
+          clustersNames: ["sharingpenguin"],
+          pulse: "green",
+          shapeType: "cluster"
+        },
+        type: "cluster"
+      },
+      {
         id:
           "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
         specs: {
@@ -575,6 +600,12 @@ describe("hcm-application-diagram-tests", () => {
               status: "ok"
             }
           ],
+          clustersNames: [
+            "possiblereptile",
+            " braveman",
+            " sharingpenguin",
+            " relievedox"
+          ],
           pulse: "green",
           shapeType: "cluster"
         },
@@ -591,6 +622,12 @@ describe("hcm-application-diagram-tests", () => {
         name: "aa",
         namespace: "ns",
         specs: {
+          clustersNames: [
+            "possiblereptile",
+            " braveman",
+            " sharingpenguin",
+            " relievedox"
+          ],
           pulse: "red",
           shapeType: "application"
         },
@@ -599,45 +636,11 @@ describe("hcm-application-diagram-tests", () => {
       {
         cluster: null,
         clusterName: null,
-        clusters: {
-          id:
-            "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
-          specs: {
-            clusters: [
-              {
-                metadata: {
-                  name: "possiblereptile"
-                },
-                status: "ok"
-              },
-              {
-                metadata: {
-                  name: "braveman"
-                },
-                status: "ok"
-              },
-              {
-                metadata: {
-                  name: "sharingpenguin"
-                },
-                status: "ok"
-              },
-              {
-                metadata: {
-                  name: "relievedox"
-                },
-                status: "ok"
-              }
-            ],
-            pulse: "green",
-            shapeType: "cluster"
-          },
-          type: "cluster"
-        },
-        id:
-          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
+        clusters: undefined,
+        id: "--clusters---depl",
         name: "depl",
         specs: {
+          clustersNames: ["-depl"],
           pulse: "orange",
           raw: {
             spec: {
@@ -688,6 +691,12 @@ describe("hcm-application-diagram-tests", () => {
                 status: "ok"
               }
             ],
+            clustersNames: [
+              "possiblereptile",
+              " braveman",
+              " sharingpenguin",
+              " relievedox"
+            ],
             pulse: "green",
             shapeType: "cluster"
           },
@@ -697,6 +706,12 @@ describe("hcm-application-diagram-tests", () => {
           "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
         name: "depl2",
         specs: {
+          clustersNames: [
+            "possiblereptile",
+            " braveman",
+            " sharingpenguin",
+            " relievedox"
+          ],
           pulse: "orange",
           raw: {
             spec: {
@@ -747,6 +762,12 @@ describe("hcm-application-diagram-tests", () => {
                 status: "ok"
               }
             ],
+            clustersNames: [
+              "possiblereptile",
+              " braveman",
+              " sharingpenguin",
+              " relievedox"
+            ],
             pulse: "green",
             shapeType: "cluster"
           },
@@ -756,6 +777,12 @@ describe("hcm-application-diagram-tests", () => {
           "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--subs",
         name: "subsname",
         specs: {
+          clustersNames: [
+            "possiblereptile",
+            " braveman",
+            " sharingpenguin",
+            " relievedox"
+          ],
           pulse: "orange",
           raw: {
             spec: {

@@ -314,9 +314,11 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
         }
         const searchResult = lodash.get(response, 'data.searchResult', [])
         if (
-          searchResult.length === 0 ||
-          lodash.get(searchResult[0], 'items', []).length === 0
+          !querySettings.isArgoApp &&
+          (searchResult.length === 0 ||
+            lodash.get(searchResult[0], 'items', []).length === 0)
         ) {
+          //ignore this for argo apps, if we got to this point the app exists
           //app not found
           const err = {
             err: msgs.get(

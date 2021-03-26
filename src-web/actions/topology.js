@@ -11,7 +11,7 @@
 import lodash from 'lodash'
 
 import * as Actions from './index'
-import { RESOURCE_TYPES, LOCAL_HUB_NAME } from '../../lib/shared/constants'
+import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import apolloClient from '../../lib/client/apollo-client'
 import { fetchResource } from './common'
 import { nodeMustHavePods } from '../components/Topology/utils/diagram-helpers-utils'
@@ -223,16 +223,14 @@ const fetchApplicationRelatedObjects = (
 //try to find the name of the remote clusters using the server path
 const findMatchingCluster = argoApp => {
   const serverApi = lodash.get(argoApp, 'destinationServer')
-
-  let clusterName
   if (
     (serverApi && serverApi === 'https://kubernetes.default.svc') ||
     lodash.get(argoApp, 'destinationName', '') === 'in-cluster'
   ) {
     // TODO: replace this with the cluster mapping once we have that
-    clusterName = argoApp.cluster //target is the same as the argo app cluster
+    return argoApp.cluster //target is the same as the argo app cluster
   }
-  return clusterName
+  return serverApi
 }
 
 //get all argo applications using the same source repo as the selected app
@@ -297,13 +295,6 @@ const fetchArgoApplications = (
         //desired deployment state
         lodash.set(firstNode, 'specs.clusterNames', appData.clusterInfo)
         lodash.set(topoClusterNode, 'specs.appClusters', appData.clusterInfo)
-        const isLocal = appData.clusterInfo.indexOf(LOCAL_HUB_NAME) !== -1
-        lodash.set(firstNode, 'specs.allClusters', {
-          isLocal,
-          remoteCount: isLocal
-            ? appData.clusterInfo.length - 1
-            : appData.clusterInfo.length
-        })
       }
       fetchApplicationRelatedObjects(
         dispatch,

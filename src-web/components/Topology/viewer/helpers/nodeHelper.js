@@ -32,6 +32,9 @@ const gClusterCountText = 'g.clusterCountText'
 const useNodeIcon = 'use.nodeIcon'
 const useClusterCountIcon = 'use.clusterCountIcon'
 const dotClusterCountIcon = '.clusterCountIcon'
+const gArgoAppCountText = 'g.argoAppCountText'
+const useArgoAppCountIcon = 'use.argoAppCountIcon'
+const dotArgoAppCountIcon = '.argoAppCountIcon'
 
 // fix d3-selection-multi not added to d3
 import 'd3-selection-multi'
@@ -199,6 +202,9 @@ export default class NodeHelper {
 
     // cluster count text
     this.createClusterCountText(draw, newNodes)
+
+    // argo app count text
+    this.createArgoAppCountText(draw, newNodes)
   };
 
   createNodePulse = nodes => {
@@ -403,6 +409,34 @@ export default class NodeHelper {
       .call(fixedD3.drag().on('drag', this.dragNode))
   };
 
+  // Only for argo app nodes, put the app count text
+  createArgoAppCountText = (draw, nodes) => {
+    const argoAppNode = nodes.filter(d => {
+      const { layout } = d
+      return layout.type === 'application'
+    })
+
+    argoAppNode
+      .append('g')
+      .attr('class', 'argoAppCountText')
+      .html(({ layout }) => {
+        const argoAppTextGroup = draw.group()
+        // Generate text SVG on the fly
+        argoAppTextGroup.text(add => {
+          if (layout.argoAppCount) {
+            add
+              .tspan(layout.argoAppCount)
+              .addClass('count')
+              .font({ fill: 'white', 'font-weight': 'bold' })
+              .newLine()
+          }
+        })
+
+        return argoAppTextGroup.svg()
+      })
+      .call(fixedD3.drag().on('drag', this.dragNode))
+  };
+
   layoutBackgroundRect = selectionB => {
     selectionB.each(({ layout }, i, ns) => {
       layout.textBBox = ns[i].getBBox()
@@ -450,7 +484,7 @@ export default class NodeHelper {
         }
       })
 
-    //special icon for the cluster node count
+    // special icon for the cluster node count
     const clusterNode = this.svg
       .select('g.nodes')
       .selectAll('g.node')
@@ -474,6 +508,33 @@ export default class NodeHelper {
           'pointer-events': 'none',
           tabindex: -1,
           class: `clusterCountIcon ${classType}`
+        }
+      })
+
+    // special icon for the cluster node count
+    const appNode = this.svg
+      .select('g.nodes')
+      .selectAll('g.node')
+      .filter(d => {
+        const { layout } = d
+        return layout.type === 'application'
+      })
+    const appSVGIcon = appNode
+      .selectAll(useArgoAppCountIcon)
+      .data(({ layout: { argoAppCountIcon } }) => {
+        return argoAppCountIcon ? [argoAppCountIcon] : []
+      })
+    appSVGIcon
+      .enter()
+      .append('use')
+      .attrs(({ icon, classType, width, height }) => {
+        return {
+          'xlink:href': `#diagramIcons_${icon}`,
+          width: `${width}px`,
+          height: `${height}px`,
+          'pointer-events': 'none',
+          tabindex: -1,
+          class: `argoAppCountIcon ${classType}`
         }
       })
 
@@ -653,6 +714,9 @@ export default class NodeHelper {
     // move cluster count icon
     this.moveIcons(nodeLayer, dotClusterCountIcon)
 
+    // move argo app count icon
+    this.moveIcons(nodeLayer, dotArgoAppCountIcon)
+
     if (this.showsShapeTitles) {
       moveTitles(this.svg)
     }
@@ -660,6 +724,8 @@ export default class NodeHelper {
     moveLabels(this.svg)
     // move clusterCountText
     moveClusterCountText(this.svg)
+    // move argoAppCountText
+    moveArgoAppCountText(this.svg)
   };
 
   moveIcons = (nodeLayer, iconClass) => {
@@ -727,6 +793,9 @@ export default class NodeHelper {
       // drag cluster count icon
       this.dragIcons(node, dotClusterCountIcon)
 
+      // drag argo app count icon
+      this.dragIcons(node, dotArgoAppCountIcon)
+
       // drag status message
       node.selectAll(textNodeStatus).attrs(({ textBBox: { dy } }, i, ns) => {
         const { layout: { x, y } } = d3.select(ns[i].parentNode).datum()
@@ -761,6 +830,38 @@ export default class NodeHelper {
       //drag cluster count text
       const clusterCountText = node.selectAll(gClusterCountText)
       clusterCountText.each((d, i, ns) => {
+        d3
+          .select(ns[i])
+          .selectAll('text')
+          .attr('x', () => {
+            return layout.x + NODE_RADIUS - 2
+          })
+          .attr('y', () => {
+            return layout.y + 4 * (layout.scale || 1)
+          })
+        d3
+          .select(ns[i])
+          .selectAll('rect')
+          .attr('x', () => {
+            return layout.x - layout.textBBox.width / 2
+          })
+          .attr('y', () => {
+            return layout.y + NODE_RADIUS * (layout.scale || 1) + 2
+          })
+        d3
+          .select(ns[i])
+          .selectAll('tspan')
+          .attr('x', () => {
+            return layout.x + NODE_RADIUS - 2
+          })
+          .attr('y', () => {
+            return layout.y + 4 * (layout.scale || 1)
+          })
+      })
+
+      //drag argo app count text
+      const argoAppCountText = node.selectAll(gArgoAppCountText)
+      argoAppCountText.each((d, i, ns) => {
         d3
           .select(ns[i])
           .selectAll('text')
@@ -966,6 +1067,9 @@ export const counterZoomLabels = (svg, currentZoom) => {
 
     // cluster count icon
     setIconVisibility(nodeLayer, useClusterCountIcon)
+
+    // argo app count icon
+    setIconVisibility(nodeLayer, useArgoAppCountIcon)
 
     ///////// STATUS //////////////////
     nodeLayer
@@ -1193,6 +1297,33 @@ export const moveClusterCountText = svg => {
         }
       })
       clusterCountText.selectAll('tspan.count').attrs(() => {
+        return {
+          x: x + NODE_RADIUS - 2,
+          y: y + 4,
+          dy: 0
+        }
+      })
+    })
+}
+
+export const moveArgoAppCountText = svg => {
+  svg
+    .select('g.nodes')
+    .selectAll(gArgoAppCountText)
+    .filter(({ layout: { x, y } }) => {
+      return x !== undefined && y !== undefined
+    })
+    .each(({ layout }, i, ns) => {
+      const { x, y } = layout
+      const argoAppCountText = d3.select(ns[i])
+
+      argoAppCountText.selectAll('text').attrs(() => {
+        return {
+          x: x + NODE_RADIUS - 2,
+          y: y + 4
+        }
+      })
+      argoAppCountText.selectAll('tspan.count').attrs(() => {
         return {
           x: x + NODE_RADIUS - 2,
           y: y + 4,

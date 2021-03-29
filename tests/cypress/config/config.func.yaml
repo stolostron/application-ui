@@ -1,4 +1,23 @@
 ---
+argo:
+  data:
+    - enable: true
+      name: helloworld-local
+      namespace: openshift-operators
+      type: git
+      successNumber: 3
+      config:
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: master
+          path: helloworld
+          gitReconcileOption: merge
+          deployment:
+            local: false
+            online: false
+            matchingLabel: true
 git:
   data:
     - enable: true

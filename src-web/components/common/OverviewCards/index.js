@@ -312,7 +312,7 @@ class OverviewCards extends React.Component {
                 <AcmButton
                   href={getUrl + appOverviewCardsData.targetLink}
                   variant={ButtonVariant.link}
-                  id="app-search-resource-link"
+                  id="app-search-link"
                   component="a"
                   target="_blank"
                   rel="noreferrer"

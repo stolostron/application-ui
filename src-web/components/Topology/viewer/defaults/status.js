@@ -10,7 +10,11 @@
 // Copyright Contributors to the Open Cluster Management project
 'use strict'
 
-import { StatusIcon, ClusterCountIcon } from '../constants.js'
+import {
+  StatusIcon,
+  ClusterCountIcon,
+  ArgoAppCountIcon
+} from '../constants.js'
 import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -152,15 +156,22 @@ const getStd = array => {
 export const updateNodeIcons = nodes => {
   nodes.forEach(node => {
     const nodeIcons = {}
-    const { type, layout = {} } = node
+    const { type, layout = {}, specs = {} } = node
 
     // status icon
     let nodeStatus = ''
     let disabled = false
 
+    if (
+      type === 'application' &&
+      (specs.raw && specs.raw.apiVersion.indexOf('argoproj.io') > -1)
+    ) {
+      layout.argoAppCountIcon = ArgoAppCountIcon
+      layout.argoAppCount = specs.relatedApps.length
+    }
+
     if (type === 'cluster') {
       // determine icon
-      const { specs = {} } = node
       if (specs.clusterStatus) {
         const {
           hasWarning,

@@ -252,7 +252,9 @@ class DetailsView extends React.Component {
     return (
       <div className={mainSectionClasses} key={Math.random()}>
         <span
-          className={`${linkLabelClasses} ${loadingArgoLink && 'loadingLink'}`}
+          className={`${linkLabelClasses} ${
+            loadingArgoLink ? 'loadingLink' : ''
+          }`}
           id="linkForNodeAction"
           tabIndex="0"
           role={'button'}

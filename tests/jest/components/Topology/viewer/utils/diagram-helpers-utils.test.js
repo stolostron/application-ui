@@ -22,6 +22,40 @@ import {
   getPulseStatusForArgoApp
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
 
+describe("getOnlineClusters", () => {
+  const clusterNames = ["local-cluster", "ui-managed"];
+  const clusterObjectsFromSearchOffLine = [
+    {
+      name: "local-cluster",
+      status: "OK"
+    },
+    {
+      name: "ui-managed",
+      ManagedClusterConditionAvailable: "Unknown"
+    }
+  ];
+  const clusterObjectsFromSearchAllAvailable = [
+    {
+      name: "local-cluster",
+      status: "OK"
+    },
+    {
+      name: "ui-managed",
+      ManagedClusterConditionAvailable: "True"
+    }
+  ];
+  it("returns only local cluster", () => {
+    expect(
+      getOnlineClusters(clusterNames, clusterObjectsFromSearchOffLine)
+    ).toEqual(["local-cluster"]);
+  });
+  it("returns all clusters", () => {
+    expect(
+      getOnlineClusters(clusterNames, clusterObjectsFromSearchAllAvailable)
+    ).toEqual(["local-cluster", "ui-managed"]);
+  });
+});
+
 describe("getClusterName node id undefined", () => {
   it("should return empty string", () => {
     expect(getClusterName(undefined)).toEqual("");

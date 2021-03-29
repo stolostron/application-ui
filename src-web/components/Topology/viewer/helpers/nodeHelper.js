@@ -204,7 +204,7 @@ export default class NodeHelper {
     this.createClusterCountText(draw, newNodes)
 
     // argo app count text
-    this.createArgoAppCountText(draw, newNodes)
+    this.createArgoAppCountText(draw, nodes)
   };
 
   createNodePulse = nodes => {

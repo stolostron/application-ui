@@ -261,7 +261,8 @@ class ApplicationCreationPage extends React.Component {
       const { handleCreateApplication, handleUpdateApplication } = this.props
       const editApplication = this.getEditApplication()
       if (editApplication) {
-        handleUpdateApplication([...resourceJSON.createResources, ...resourceJSON.deleteResources])
+        resourceJSON.createResources.push({ deleteLinks: [...resourceJSON.deleteResources] })
+        handleUpdateApplication(resourceJSON.createResources)
       } else {
         handleCreateApplication(resourceJSON.createResources)
       }

@@ -155,6 +155,23 @@ function getClusterCounts(item) {
 }
 
 function createClustersLink(item = {}, locale = '') {
+  if (isArgoApp(item)) {
+    return item.destinationCluster ? (
+      <a
+        className="cluster-count-link"
+        href={getSearchLink({
+          properties: {
+            name: item.destinationCluster,
+            kind: 'cluster'
+          }
+        })}
+      >
+        {item.destinationCluster}
+      </a>
+    ) : (
+      msgs.get('cluster.name.unknown', locale)
+    )
+  }
   const { remoteCount, localPlacement } = getClusterCounts(item)
   return getClusterCount({
     locale,
@@ -168,6 +185,9 @@ function createClustersLink(item = {}, locale = '') {
 }
 
 function createClustersText(item = {}, locale = '') {
+  if (isArgoApp(item)) {
+    return item.destinationCluster || msgs.get('cluster.name.unknown', locale)
+  }
   const { remoteCount, localPlacement } = getClusterCounts(item)
   return getClusterCountString(locale, remoteCount, localPlacement)
 }

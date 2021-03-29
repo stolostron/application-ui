@@ -297,6 +297,9 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
         //ask only for these type of resources
         query.relatedKinds = querySettings.relatedKinds
       } else {
+        //filter out any argo app with the same name and ns, we are looking here for acm apps
+        query.filters.push({ property: 'apigroup', values: ['!argoproj.io'] })
+
         //get related resources for the application, but only this subset
         query.relatedKinds = querySettings.relatedKinds
       }

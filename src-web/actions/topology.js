@@ -148,12 +148,12 @@ export const openArgoCDEditor = (cluster, namespace, name) => {
           const routes = lodash.get(searchResult[0], 'items', [])
           const route = routes.length > 0 ? routes[0] : null
           if (!route) {
-            return {
-              error: msgs.get('resource.argo.app.route.err', [
-                namespace,
-                cluster
-              ])
-            }
+            const errMsg = msgs.get('resource.argo.app.route.err', [
+              namespace,
+              cluster
+            ])
+            window.alert(errMsg)
+            return
           } else {
             //get route object info
             const routeRequest = {

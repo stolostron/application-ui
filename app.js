@@ -47,7 +47,7 @@ var express = require('express'),
 require('node-i18n-util')
 
 process.env.BABEL_ENV = 'server'
-require('babel-register')
+require('@babel/register')
 // Ignore required CSS in PatternFly components
 require('ignore-styles')
 

@@ -225,7 +225,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                           data-ouia-component-type="PF4/Pagination"
                           data-ouia-safe="true"
                           id="pagination-options-menu-10"
-                          style="padding-right: 0px;"
+                          style="padding-right: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
                         >
                           <div
                             class="pf-c-pagination__total-items"
@@ -834,7 +834,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 data-ouia-component-type="PF4/Pagination"
                 data-ouia-safe="true"
                 id="pagination-options-menu-11"
-                style="padding-right: 0px; padding-bottom: 0px;"
+                style="padding-right: 0px; padding-bottom: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
               >
                 <div
                   class="pf-c-options-menu pf-m-top"
@@ -1260,7 +1260,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                           data-ouia-component-type="PF4/Pagination"
                           data-ouia-safe="true"
                           id="pagination-options-menu-2"
-                          style="padding-right: 0px;"
+                          style="padding-right: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
                         >
                           <div
                             class="pf-c-pagination__total-items"
@@ -1869,7 +1869,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 data-ouia-component-type="PF4/Pagination"
                 data-ouia-safe="true"
                 id="pagination-options-menu-3"
-                style="padding-right: 0px; padding-bottom: 0px;"
+                style="padding-right: 0px; padding-bottom: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
               >
                 <div
                   class="pf-c-options-menu pf-m-top"
@@ -2295,7 +2295,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                           data-ouia-component-type="PF4/Pagination"
                           data-ouia-safe="true"
                           id="pagination-options-menu-6"
-                          style="padding-right: 0px;"
+                          style="padding-right: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
                         >
                           <div
                             class="pf-c-pagination__total-items"
@@ -2904,7 +2904,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                 data-ouia-component-type="PF4/Pagination"
                 data-ouia-safe="true"
                 id="pagination-options-menu-7"
-                style="padding-right: 0px; padding-bottom: 0px;"
+                style="padding-right: 0px; padding-bottom: 0px; --pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
               >
                 <div
                   class="pf-c-options-menu pf-m-top"

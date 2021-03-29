@@ -20,7 +20,7 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { withLocale } from '../providers/LocaleProvider'
 import resources from '../../lib/shared/resources'
 import client from '../../lib/shared/client'
-import loadable from 'loadable-components'
+import loadable from '@loadable/component'
 import config from '../../lib/shared/config'
 import _ from 'lodash'
 

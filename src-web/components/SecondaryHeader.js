@@ -23,7 +23,7 @@ import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
 import classNames from 'classnames'
-import loadable from 'loadable-components'
+import loadable from '@loadable/component'
 
 const AutoRefreshSelect = loadable(() =>
   import(/* webpackChunkName: "autoRefreshSelect" */ './common/AutoRefreshSelect')

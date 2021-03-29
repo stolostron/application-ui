@@ -363,16 +363,29 @@ export const verifyDetails = (name, namespace, apiVersion) => {
     .contains(namespace);
 };
 
-export const validateArgoTopology = (name, namespace) => {
-  const apiVersion = "?apiVersion=argoproj.io/v1alpha1";
-  verifyDetails(name, namespace, apiVersion);
+export const validateArgoTopology = data => {
+  const { path } = data.config;
+
+  // verify search resource
   cy
-    .get("#app-search-link", { timeout: 20 * 1000 })
+    .get("#app-search-resource-link", { timeout: 20 * 1000 })
     .invoke("attr", "href")
     .should(
       "include",
       `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${namespace}"}`
     );
+
+  // cluster and placement
+  for (const [key, value] of Object.entries(data.config)) {
+    //ignore as only one subscription exists
+    console.log(`value: ${value}`);
+  }
+
+  // verify related applications
+  cy
+    .get("#app-search-argo-apps-link", { timeout: 20 * 1000 })
+    .invoke("attr", "href")
+    .should("include", path);
 };
 
 /*
@@ -386,10 +399,14 @@ export const validateTopology = (
   type,
   clusterName,
   numberOfRemoteClusters,
-  opType
+  opType,
+  namespace
 ) => {
-  const namespace = `${name}-ns`;
-  verifyDetails(name, namespace);
+  const apiVersion = "?apiVersion=argoproj.io/v1alpha1";
+  if (!namespace) {
+    namespace = `${name}-ns`;
+  }
+  verifyDetails(name, namespace, apiVersion);
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
@@ -400,6 +417,7 @@ export const validateTopology = (
     `Verify cluster deploy status on app card is ${appDetails.clusterData}`
   );
 
+  // verify search resource
   cy
     .get("#app-search-link", { timeout: 20 * 1000 })
     .invoke("attr", "href")

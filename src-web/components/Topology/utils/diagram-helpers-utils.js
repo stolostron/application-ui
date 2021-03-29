@@ -77,9 +77,16 @@ export const nodeMustHavePods = node => {
   return false
 }
 
-export const getClusterName = (nodeId, node) => {
+export const getClusterName = (nodeId, node, findAll) => {
   if (node && _.get(node, 'clusters.id', '') === 'member--clusters--') {
     //cluster info is not set on the node id, get it from here
+    if (findAll) {
+      //get all cluster names as set by argo target, ignore deplaybale status
+      return _.union(
+        _.get(node, 'specs.clustersNames', []),
+        _.get(node, 'clusters.specs.appClusters', [])
+      ).join(',')
+    }
     return _.get(node, 'specs.clustersNames', []).join(',')
   }
 

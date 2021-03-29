@@ -180,8 +180,12 @@ export const updateNodeIcons = nodes => {
         nodeStatus = status
         disabled = isDisabled
       }
+      const clustersCount =
+        _.get(specs, 'clusters', []).length ||
+        _.get(specs, 'appClusters', []).length ||
+        _.get(specs, 'clustersNames', []).length
       layout.clusterCountIcon = ClusterCountIcon
-      layout.clusterCount = specs.clusters.length
+      layout.clusterCount = clustersCount
     }
 
     const pulse = _.get(node, 'specs.pulse', '')

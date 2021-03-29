@@ -404,7 +404,7 @@ class ClusterDetailsContainer extends React.Component {
         consoleURL
       } = displayClusterList[i]
 
-      const status = displayClusterList[i].status || 'offline'
+      const status = displayClusterList[i].status || 'unknown'
       const clusterName = displayClusterList[i].name || metadata.name
       const clusterNamespace =
         displayClusterList[i]._clusterNamespace || metadata.namespace

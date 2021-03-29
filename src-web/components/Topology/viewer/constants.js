@@ -79,6 +79,16 @@ export const ClusterCountIcon = {
   dy: 0
 }
 
+// icon for containing the argo app count
+export const ArgoAppCountIcon = {
+  icon: 'clusterCount',
+  classType: 'argoAppCount',
+  width: 22,
+  height: 18,
+  dx: 26,
+  dy: 0
+}
+
 //if controller contains a pod
 export const PodIcon = {
   icon: 'circle',

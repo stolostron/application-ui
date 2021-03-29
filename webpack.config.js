@@ -97,9 +97,9 @@ module.exports = {
               }
             }
           ]
-     },
+      },
       {
-        test: /\.woff2?$/,
+        test: /\.(woff2?|eot)(\?.*$|$)/,
         loader: "file-loader?name=fonts/[name].[ext]"
       },
       {
@@ -143,7 +143,7 @@ module.exports = {
         loader: "js-yaml-loader"
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg|woff2?|ttf|eot|otf)(\?.*$|$)/,
+        test: /\.(png|jpg|jpeg|gif|svg|ttf|otf)(\?.*$|$)/,
         exclude: [overpassTest, path.resolve(__dirname, "./graphics")],
         loader: "file-loader",
         options: {
@@ -218,7 +218,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: 'graphics', to: 'graphics' },
-        { from: 'fonts', to: 'fonts' },
+        { from: 'fonts', to: 'fonts'},
       ],
       options: {
         concurrency: 100,

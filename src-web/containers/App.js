@@ -22,6 +22,7 @@ import resources from '../../lib/shared/resources'
 import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
+import _ from 'lodash'
 
 export const ActionModalApollo = loadable(() =>
   import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo')
@@ -83,7 +84,7 @@ class App extends React.Component {
 
   render() {
     const serverProps = this.getServerProps()
-    const { locale, match } = this.props
+    const { locale, location, match } = this.props
 
     const BASE_PAGE_PATH = match.url.replace(/\/$/, '')
     const allApplicationsTabs = [
@@ -106,19 +107,24 @@ class App extends React.Component {
     }
 
     const getSingleApplicationTabs = params => {
+      const isArgoApp = _.get(location, 'search').indexOf('argoproj.io') !== -1
       const SINGLE_APP_BASE_PAGE_PATH = getSingleApplicationBasePath(params)
-      return [
+      const overviewTab = [
         {
           id: 'overview',
           label: 'description.title.overview',
           url: SINGLE_APP_BASE_PAGE_PATH
-        },
-        {
+        }
+      ]
+      if (isArgoApp) {
+        return overviewTab
+      } else {
+        return _.concat(overviewTab, {
           id: 'editor',
           label: 'description.title.editor',
           url: `${SINGLE_APP_BASE_PAGE_PATH}/edit`
-        }
-      ]
+        })
+      }
     }
 
     const applicationsTitle = 'routes.applications'
@@ -215,6 +221,7 @@ class App extends React.Component {
 
 App.propTypes = {
   locale: PropTypes.object,
+  location: PropTypes.object,
   match: PropTypes.object,
   serverProps: PropTypes.object,
   staticContext: PropTypes.object

@@ -132,13 +132,17 @@ export const getResourceData = nodes => {
 }
 
 //open argo app editor url for this Argo app, in a separate window
-export const openArgoCDEditor = (cluster, namespace, name) => {
+export const openArgoCDEditor = (cluster, namespace, name, toggleLoading) => {
+  // toggle loading to true
+  toggleLoading()
   const query = convertStringToQuery(
     `kind:route namespace:${namespace} cluster:${cluster}`
   )
   apolloClient
     .search(SEARCH_QUERY, { input: [query] })
     .then(result => {
+      // toggle loading to false
+      toggleLoading()
       if (result.errors) {
         window.alert(`Error: ${result.errors[0].message}`)
         return

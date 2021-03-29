@@ -287,6 +287,11 @@
     &:hover {
       text-decoration: underline;
     }
+
+    &.loadingLink {
+      pointer-events: none;
+      color: $color__navy-gray-6;
+    }
   }
 
   .open-out-icon {

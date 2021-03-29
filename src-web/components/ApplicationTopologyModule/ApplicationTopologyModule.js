@@ -362,8 +362,8 @@ class ApplicationTopologyModule extends React.Component {
     this.props.fetchAppTopology(fetchChannel)
   }
 
-  processActionLink = resource => {
-    processResourceActionLink(resource)
+  processActionLink = (resource, toggleLoading) => {
+    processResourceActionLink(resource, toggleLoading)
   };
 
   handleLegendClose = () => {

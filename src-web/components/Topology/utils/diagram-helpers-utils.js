@@ -162,27 +162,30 @@ export const filterSubscriptionObject = (resourceMap, activeFilterCodes) => {
 
 export const getOnlineClusters = (clusterNames, clusterObjs) => {
   const onlineClusters = []
-
   clusterNames.forEach(clsName => {
     const cluster = clsName.trim()
     if (cluster === LOCAL_HUB_NAME) {
       onlineClusters.push(cluster)
-      return
-    }
-    for (let i = 0; i < clusterObjs.length; i++) {
-      const clusterObjName = _.get(clusterObjs[i], metadataName)
-      if (clusterObjName === cluster) {
-        if (
-          clusterObjs[i].status === 'ok' ||
-          clusterObjs[i].status === 'pendingimport'
-        ) {
-          onlineClusters.push(cluster)
-        }
-        break
+    } else {
+      const matchingCluster = _.find(
+        clusterObjs,
+        cls =>
+          _.get(cls, 'name', '') === cluster ||
+          _.get(cls, metadataName, '') === cluster
+      )
+      if (
+        matchingCluster &&
+        (_.includes(
+          ['ok', 'pendingimport', 'OK'],
+          _.get(matchingCluster, 'status', '')
+        ) ||
+          _.get(matchingCluster, 'ManagedClusterConditionAvailable', '') ===
+            'True')
+      ) {
+        onlineClusters.push(cluster)
       }
     }
   })
-
   return onlineClusters
 }
 

@@ -60,8 +60,8 @@ export default {
       msgKey: 'table.header.resource',
       tooltipKey: 'table.header.application.resource.tooltip',
       resourceKey: 'hubChannels',
-      transformFunction: getChannels,
-      textFunction: getChannelsText
+      transformFunction: createChannels,
+      textFunction: createChannelsText
     },
     {
       msgKey: 'table.header.timeWindow',
@@ -200,11 +200,9 @@ function isArgoApp(item = {}) {
   return item.apiVersion && item.apiVersion.includes('argoproj.io')
 }
 
-function getChannels(item = {}, locale = '') {
-  let channels = []
-  const argoApp = isArgoApp(item)
-  if (item.repoURL) {
-    channels = [
+function getChannels(item = {}) {
+  if (isArgoApp(item)) {
+    return [
       {
         type: item.chart ? 'helmrepo' : 'git',
         pathname: item.repoURL,
@@ -213,23 +211,30 @@ function getChannels(item = {}, locale = '') {
         targetRevision: item.targetRevision
       }
     ]
-  } else {
-    channels = (R.path(['hubChannels'], item) || []).map(ch => ({
-      type: ch['ch.type'],
-      pathname: ch['ch.pathname'],
-      gitBranch: ch['sub._gitbranch'],
-      gitPath: ch['sub._gitpath'],
-      package: ch['sub.package'],
-      packageFilterVersion: ch['sub.packageFilterVersion']
-    }))
   }
+  return (R.path(['hubChannels'], item) || []).map(ch => ({
+    type: ch['ch.type'],
+    pathname: ch['ch.pathname'],
+    gitBranch: ch['sub._gitbranch'],
+    gitPath: ch['sub._gitpath'],
+    package: ch['sub.package'],
+    packageFilterVersion: ch['sub.packageFilterVersion']
+  }))
+}
+
+function createChannels(item = {}, locale = '') {
+  const channels = getChannels(item)
   return (
-    <ChannelLabels channels={channels} locale={locale} isArgoApp={argoApp} />
+    <ChannelLabels
+      channels={channels}
+      locale={locale}
+      isArgoApp={isArgoApp(item)}
+    />
   )
 }
 
-function getChannelsText(item = {}, locale = '') {
-  const channels = (R.path(['hubChannels'], item) || []).map(ch => ({
+function createChannelsText(item = {}, locale = '') {
+  const channels = getChannels(item).map(ch => ({
     type: ch['ch.type']
   }))
   const channelMap = groupByChannelType(channels || [])

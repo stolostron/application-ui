@@ -34,6 +34,7 @@ import {
   getPulseStatusForArgoApp
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
+import { openArgoCDEditor } from '../../../actions/topology'
 
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
@@ -314,7 +315,7 @@ const getPulseStatusForGenericNode = node => {
       : name
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
-  const clusterNames = R.split(',', getClusterName(node.id))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
   if (!resourceMap || onlineClusters.length === 0) {
@@ -413,7 +414,7 @@ export const getPulseForNodeWithPodStatus = node => {
   }
 
   const resourceName = _.get(node, metadataName, '')
-  const clusterNames = R.split(',', getClusterName(node.id))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
@@ -592,7 +593,8 @@ export const createDeployableYamlLink = (node, details) => {
       'application',
       'placements',
       'subscription'
-    ])
+    ]) &&
+    node.specs.isDesign // only for top-level resources
   ) {
     const editLink = createEditLink(node)
     editLink &&
@@ -652,9 +654,20 @@ export const getPercentage = (value, total) => {
 export const setClusterStatus = (node, details) => {
   const { id } = node
   const specs = _.get(node, 'specs', {})
-  const { cluster, clusters = [] } = specs
-  const clusterArr = cluster ? [cluster] : clusters
+  const { cluster, clusters = [], appClusters = [] } = specs
 
+  const clusterArr = cluster ? [cluster] : clusters
+  //add now all potential argo servers (appClusters array) not covered by the deployed resources clusters ( clusters array)
+  appClusters.forEach(appCls => {
+    if (_.findIndex(clusters, obj => _.get(obj, 'name') === appCls) === -1) {
+      //target cluster not deployed on
+      clusterArr.push({
+        name: appCls,
+        namespace: appCls === LOCAL_HUB_NAME ? appCls : '',
+        status: appCls === LOCAL_HUB_NAME ? 'ok' : ''
+      })
+    }
+  })
   details.push({
     type: 'label',
     labelValue: `Clusters (${clusterArr.length})`
@@ -926,11 +939,45 @@ export const setupResourceModel = (
   list,
   resourceMap,
   isClusterGrouped,
-  isHelmRelease
+  isHelmRelease,
+  topology
 ) => {
   if (checkNotOrObjects(list, resourceMap)) {
     return resourceMap
   }
+  // store cluster objects and cluster names as returned by search; these are clusters related to the app
+  const clustersList = R.find(R.propEq('kind', 'cluster'))(list) || {}
+  const clustersObjects = R.pathOr([], ['items'])(clustersList)
+  const clusterNamesList = R.sortBy(R.identity)(
+    R.pluck('name')(clustersObjects)
+  )
+
+  topology.nodes &&
+    topology.nodes.forEach(node => {
+      const nodeId = _.get(node, 'id', '')
+      if (nodeId === 'member--clusters--') {
+        //cluster node, set search found clusters objects here
+        _.set(node, 'specs.clusters', clustersObjects)
+        // set clusters status on the app node, this is an argo app
+        // we have all clusters information here
+        const appNode = topology.nodes[0]
+        // search returns clusters information, use it here
+        const isLocal = clusterNamesList.indexOf(LOCAL_HUB_NAME) !== -1
+        _.set(appNode, 'specs.allClusters', {
+          isLocal,
+          remoteCount: isLocal
+            ? clusterNamesList.length - 1
+            : clusterNamesList.length
+        })
+      }
+      _.set(
+        node,
+        'specs.clustersNames',
+        getClusterName(nodeId)
+          ? getClusterName(nodeId).split(',')
+          : clusterNamesList
+      )
+    })
   const podIndex = _.findIndex(list, ['kind', 'pod'])
   //move pods last in the list to be processed after all resources producing pods have been processed
   //we want to add the pods to the map by using the pod hash
@@ -1000,7 +1047,9 @@ export const setupResourceModel = (
           resourceMap[existingResourceMapKey]
       }
 
-      let resourceMapForObject = resourceMap[name]
+      let resourceMapForObject =
+        resourceMap[name] ||
+        (existingResourceMapKey && resourceMap[existingResourceMapKey])
       if (!resourceMapForObject && kind === 'pod' && podHash) {
         //just found a pod object, try to map it to the parent resource using the podHash
         resourceMapForObject = resourceMap[`pod-${podHash}`]
@@ -1025,7 +1074,7 @@ export const setupResourceModel = (
             (_.includes(
               _.get(
                 resourceMapForObject,
-                'clusters.specs.sortedClusterNames',
+                'clusters.specs.clustersNames',
                 [LOCAL_HUB_NAME] // if no cluster found for this resource, this could be a local deployment
               ),
               _.get(relatedKind, 'cluster')
@@ -1075,7 +1124,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   const resourceName =
     !isDeployable && channel.length > 0 ? `${channel}-${name}` : name
 
-  const clusterNames = R.split(',', getClusterName(node.id))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
@@ -1088,6 +1137,28 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     showAnsibleJobDetails(node, details)
 
     if (!_.get(node, 'specs.raw.spec')) {
+      const res = {
+        name: name,
+        namespace: _.get(node, metadataNamespace, ''),
+        kind: 'ansiblejob',
+        apigroup: 'tower.ansible.com',
+        apiversion: 'v1alpha1'
+      }
+      details.push({
+        type: 'spacer'
+      })
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get(specsPropsYaml),
+          data: {
+            action: showResourceYaml,
+            cluster: res.cluster,
+            editLink: createEditLink(res)
+          }
+        },
+        indent: true
+      })
       return details // no other status info so return here
     }
   } else {
@@ -1099,12 +1170,20 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       labelKey: 'resource.deploy.statuses'
     })
   }
-
-  onlineClusters.forEach(clusterName => {
+  clusterNames.forEach(clusterName => {
     details.push({
       type: 'spacer'
     })
     clusterName = R.trim(clusterName)
+    if (!_.includes(onlineClusters, clusterName)) {
+      details.push({
+        labelValue: clusterName,
+        value: msgs.get('resource.cluster.offline'),
+        status: warningStatus
+      })
+      // offline cluster, skip
+      return
+    }
     let res = resourceMap[`${resourceName}-${clusterName}`]
 
     if (
@@ -1206,12 +1285,21 @@ export const setPodDeployStatus = (
   const podStatusModel = _.get(updatedNode, 'podStatusMap', {})
   const podDataPerCluster = {} //pod details list for each cluster name
 
-  const clusterNames = R.split(',', getClusterName(node.id))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
-  onlineClusters.forEach(clusterName => {
+  clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
+    if (!_.includes(onlineClusters, clusterName)) {
+      details.push({
+        labelValue: clusterName,
+        value: msgs.get('resource.cluster.offline'),
+        status: warningStatus
+      })
+      // offline cluster, skip
+      return
+    }
     const res = podStatusModel[clusterName]
     let pulse = 'orange'
     if (res) {
@@ -1845,7 +1933,7 @@ export const addNodeServiceLocationForCluster = (node, typeObject, details) => {
 export const processResourceActionLink = resource => {
   let targetLink = ''
   const linkPath = R.pathOr('', ['action'])(resource)
-  const { name, namespace, editLink, kind } = resource
+  const { name, namespace, cluster, editLink, kind } = resource
   const nsData = namespace ? ` namespace:${namespace}` : ''
   switch (linkPath) {
   case showResourceYaml:
@@ -1854,6 +1942,11 @@ export const processResourceActionLink = resource => {
   case 'show_search':
     targetLink = `/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`
     break
+  case 'open_argo_editor': {
+    openArgoCDEditor(cluster, namespace, name) // the editor opens here
+    targetLink = ''
+    break
+  }
   default:
     targetLink = R.pathOr('', ['targetLink'])(resource)
   }

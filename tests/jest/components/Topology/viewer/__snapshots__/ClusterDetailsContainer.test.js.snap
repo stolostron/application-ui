@@ -190,6 +190,199 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
         <span
           className="pf-c-expandable-section__toggle-text"
         >
+          argo-fxiang-eks
+        </span>
+      </button>
+      <div
+        className="pf-c-expandable-section__content"
+        hidden={true}
+      >
+        <span
+          style={
+            Object {
+              "color": "#5A6872",
+              "display": "block",
+              "fontFamily": "RedHatText",
+              "fontSize": "12px",
+              "lineHeight": "21px",
+              "textAlign": "left",
+            }
+          }
+        >
+          Namespace: undefined
+        </span>
+        <span
+          className="label sectionLabel"
+          style={
+            Object {
+              "fontSize": "1rem",
+              "paddingLeft": "1rem",
+            }
+          }
+        >
+          Details
+        </span>
+        <div
+          className="spacer"
+        />
+        <div
+          className="sectionContent borderLeft"
+        >
+          <span
+            className="label sectionLabel"
+          >
+            Name
+            :
+             
+          </span>
+          <span
+            className="value"
+          >
+            argo-fxiang-eks
+          </span>
+        </div>
+        <div
+          className="sectionContent borderLeft"
+        >
+          <span
+            className="label sectionLabel"
+          >
+            Namespace
+            :
+             
+          </span>
+          <span
+            className="value"
+          />
+        </div>
+        <div
+          className="sectionContent borderLeft"
+        >
+          <span
+            className="label sectionLabel"
+          >
+            Status
+            :
+             
+          </span>
+          <span
+            className="value"
+          >
+            ok
+          </span>
+        </div>
+        <div
+          className="sectionContent borderLeft"
+        >
+          <span
+            className="label sectionLabel"
+          >
+            CPU
+            :
+             
+          </span>
+          <span
+            className="value"
+          >
+            100
+            %
+          </span>
+        </div>
+        <div
+          className="sectionContent borderLeft"
+        >
+          <span
+            className="label sectionLabel"
+          >
+            Memory
+            :
+             
+          </span>
+          <span
+            className="value"
+          >
+            100
+            %
+          </span>
+        </div>
+        <div
+          className="sectionContent borderLeft"
+        >
+          <span
+            className="label sectionLabel"
+          >
+            Created
+            :
+             
+          </span>
+          <span
+            className="value"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="spacer"
+        />
+      </div>
+    </div>
+    <span
+      style={
+        Object {
+          "color": "#5A6872",
+          "display": "block",
+          "fontFamily": "RedHatText",
+          "fontSize": "12px",
+          "lineHeight": "21px",
+          "textAlign": "left",
+        }
+      }
+    >
+      Namespace: undefined
+    </span>
+  </div>
+  <div
+    className="clusterDetailItem"
+    style={
+      Object {
+        "borderBottom": "1px solid #D2D2D2",
+      }
+    }
+  >
+    <div
+      className="pf-c-expandable-section"
+    >
+      <button
+        aria-expanded={false}
+        className="pf-c-expandable-section__toggle"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="pf-c-expandable-section__toggle-icon"
+        >
+          <svg
+            aria-hidden={true}
+            aria-labelledby={null}
+            fill="currentColor"
+            height="1em"
+            role="img"
+            style={
+              Object {
+                "verticalAlign": "-0.125em",
+              }
+            }
+            viewBox="0 0 256 512"
+            width="1em"
+          >
+            <path
+              d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+            />
+          </svg>
+        </span>
+        <span
+          className="pf-c-expandable-section__toggle-text"
+        >
           fxiang-eks
         </span>
       </button>

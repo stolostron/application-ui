@@ -19,7 +19,7 @@
     {+head/}
 </head>
 
-<body aria-label={title}>
+<body aria-label="{title}">
    <div id="header">
      {header|s}
     </div>

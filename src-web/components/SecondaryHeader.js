@@ -209,7 +209,7 @@ export class SecondaryHeader extends React.Component {
   }
 
   renderTabs() {
-    const { tabs } = this.props,
+    const { tabs, location } = this.props,
           { locale } = this.context
     return tabs.map((tab, idx) => {
       return (
@@ -217,13 +217,18 @@ export class SecondaryHeader extends React.Component {
           key={tab.id}
           id={tab.id}
           isActive={(this.getSelectedTab() || 0) === idx}
-          onClick={
-            tab.handleClick
-              ? tab.handleClick
-              : this.clickTab.bind(this, tab.url)
-          }
+          onClick={tab.handleClick || undefined}
         >
-          <Link to={tab.url}>{msgs.get(tab.label, locale)}</Link>
+          <Link
+            to={{
+              ...location,
+              pathname: tab.url,
+              state: { tabChange: location }
+            }}
+            replace={true}
+          >
+            {msgs.get(tab.label, locale)}
+          </Link>
         </AcmSecondaryNavItem>
       )
     })
@@ -247,10 +252,6 @@ export class SecondaryHeader extends React.Component {
         return location.pathname.startsWith(tab.url)
       })
     return selectedTab[0] && selectedTab[0].index
-  }
-
-  clickTab(url) {
-    this.props.history.replace(url, { tabChange: true })
   }
 }
 

@@ -32,6 +32,8 @@ import {
   checkAndObjects
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
+import { topology } from "./../../../TestingData";
+
 const ansibleSuccess = {
   type: "ansiblejob",
   name: "bigjoblaunch",
@@ -1058,6 +1060,7 @@ describe("createDeployableYamlLink for application no selflink", () => {
     id: "id",
     specs: {
       row: 20,
+      isDesign: true,
       raw: {
         kind: "Application"
       }
@@ -1091,6 +1094,7 @@ describe("createDeployableYamlLink for application with editLink", () => {
     apiversion: "app.k8s.io/v1beta1",
     kind: "Application",
     specs: {
+      isDesign: true,
       raw: {
         metadata: {
           selfLink: "appLink"
@@ -1113,6 +1117,29 @@ describe("createDeployableYamlLink for application with editLink", () => {
     }
   ];
   it("createDeployableYamlLink for application with selflink", () => {
+    expect(createDeployableYamlLink(node, details)).toEqual(result);
+  });
+});
+
+describe("createDeployableYamlLink for child application", () => {
+  const details = [];
+  const node = {
+    type: "application",
+    id: "id",
+    name: "test",
+    namespace: "test-ns",
+    apiversion: "app.k8s.io/v1beta1",
+    kind: "Application",
+    specs: {
+      raw: {
+        metadata: {
+          selfLink: "appLink"
+        }
+      }
+    }
+  };
+  const result = [];
+  it("does not add a link", () => {
     expect(createDeployableYamlLink(node, details)).toEqual(result);
   });
 });
@@ -1734,23 +1761,23 @@ describe("setSubscriptionDeployStatus for node type different then subscription 
 
 describe("setupResourceModel ", () => {
   it("setupResourceModel", () => {
-    expect(setupResourceModel(resourceList, resourceMap, false, false)).toEqual(
-      modelResult
-    );
+    expect(
+      setupResourceModel(resourceList, resourceMap, false, false, topology)
+    ).toEqual(modelResult);
   });
 });
 
 describe("setupResourceModel ", () => {
   it("return setupResourceModel for grouped objects", () => {
-    expect(setupResourceModel(resourceList, resourceMap, true, false)).toEqual(
-      modelResult
-    );
+    expect(
+      setupResourceModel(resourceList, resourceMap, true, false, topology)
+    ).toEqual(modelResult);
   });
 });
 
 describe("setupResourceModel undefined 1", () => {
   it("return setupResourceModel for undefined 1 ", () => {
-    expect(setupResourceModel(undefined, resourceMap, true)).toEqual(
+    expect(setupResourceModel(undefined, resourceMap, true, topology)).toEqual(
       modelResult
     );
   });
@@ -1758,7 +1785,7 @@ describe("setupResourceModel undefined 1", () => {
 
 describe("setupResourceModel undefined 2", () => {
   it("return setupResourceModel for undefined 2 ", () => {
-    expect(setupResourceModel(resourceList, undefined, true)).toEqual(
+    expect(setupResourceModel(resourceList, undefined, true, topology)).toEqual(
       undefined
     );
   });
@@ -3146,6 +3173,62 @@ describe("setResourceDeployStatus ansiblejob ", () => {
   });
 });
 
+describe("setResourceDeployStatus ansiblejob no specs.raw.spec", () => {
+  const node = {
+    type: "ansiblejob",
+    name: "bigjoblaunch",
+    namespace: "default",
+    id:
+      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+    specs: {
+      raw: {
+        hookType: "pre-hook",
+        metadata: {
+          name: "bigjoblaunch",
+          namespace: "default"
+        }
+      },
+      ansiblejobModel: {
+        "bigjoblaunch-local-cluster": {
+          label: "tower_job_id=999999999"
+        }
+      }
+    }
+  };
+  const result = [
+    { type: "spacer" },
+    {
+      labelValue: "AnsibleJob Initialization status",
+      status: "pending",
+      value:
+        "Ansible task was not executed. Check the Subscription YAML for status errors."
+    },
+    { type: "spacer" },
+    {
+      labelValue: "Ansible Tower Job status",
+      status: "pending",
+      value: "Ansible Tower job was not executed."
+    },
+    { type: "spacer" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          editLink:
+            "/resources?apiversion=tower.ansible.com%2Fv1alpha1&cluster=local-cluster&kind=ansiblejob&name=bigjoblaunch&namespace=default"
+        },
+        label: "View Resource YAML"
+      }
+    }
+  ];
+  it("setResourceDeployStatus ansiblejob no specs.raw.spec", () => {
+    expect(setResourceDeployStatus(node, [], {})).toEqual(result);
+  });
+});
+
 describe("setResourceDeployStatus ansiblejob no status", () => {
   const node = {
     type: "ansiblejob",
@@ -3181,6 +3264,20 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
       labelValue: "Ansible Tower Job status",
       status: "pending",
       value: "Ansible Tower job was not executed."
+    },
+    { type: "spacer" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          editLink:
+            "/resources?apiversion=tower.ansible.com%2Fv1alpha1&cluster=local-cluster&kind=ansiblejob&name=bigjoblaunch&namespace=default"
+        },
+        label: "View Resource YAML"
+      }
     }
   ];
 
@@ -3197,6 +3294,20 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
       labelValue: "Ansible Tower Job status",
       status: "pending",
       value: "Ansible Tower job was not executed."
+    },
+    { type: "spacer" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          editLink:
+            "/resources?apiversion=tower.ansible.com%2Fv1alpha1&cluster=local-cluster&kind=ansiblejob&name=bigjoblaunch&namespace=default"
+        },
+        label: "View Resource YAML"
+      }
     }
   ];
   const result2 = [
@@ -3553,6 +3664,153 @@ describe("setPlacementRuleDeployStatus 1 ", () => {
   ];
   it("setPlacementRuleDeployStatus deployed 1", () => {
     expect(setPlacementRuleDeployStatus(node, [])).toEqual(result);
+  });
+});
+
+describe("setApplicationDeployStatus for ARGO ", () => {
+  const nodeWithRelatedApps = {
+    type: "application",
+    name: "cassandra",
+    cluster: "local-cluster",
+    namespace: "default",
+    specs: {
+      relatedApps: [
+        {
+          name: "app1",
+          namespace: "app1-ns",
+          destinationCluster: "local-cluster",
+          cluster: "remote-cluster",
+          destinationNamespace: "app1-remote-ns"
+        },
+        {
+          name: "app2",
+          namespace: "app2-ns",
+          cluster: "local-cluster",
+          destinationCluster: "remote-cluster2",
+          destinationNamespace: "app2-remote-ns"
+        }
+      ],
+      raw: {
+        apiVersion: "argoproj.io/v1alpha1",
+        cluster: "local-cluster",
+        spec: {
+          appURL: "https://test"
+        }
+      }
+    }
+  };
+  const resultWithRelatedApps = [
+    {
+      labelValue: "Related applications ({0})",
+      type: "label"
+    },
+    {
+      type: "spacer"
+    },
+    {
+      labelKey: "resource.name",
+      status: "checkmark",
+      value: "app1"
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "open_argo_editor",
+          cluster: "remote-cluster",
+          namespace: "app1-ns",
+          name: "app1"
+        },
+        id: "application--app1-argo-editor",
+        label: "Launch Argo CD editor"
+      }
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.cluster",
+      value: "remote-cluster"
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.target.cluster",
+      value: "local-cluster"
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.target.cluster.ns",
+      value: "app1-remote-ns"
+    },
+    {
+      type: "spacer"
+    },
+    {
+      labelKey: "resource.name",
+      status: "checkmark",
+      value: "app2"
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "open_argo_editor",
+          cluster: "local-cluster",
+          namespace: "app2-ns",
+          name: "app2"
+        },
+        id: "application--app2-argo-editor",
+        label: "Launch Argo CD editor"
+      }
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.cluster",
+      value: "local-cluster"
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.target.cluster",
+      value: "remote-cluster2"
+    },
+    {
+      indent: true,
+      labelKey: "resource.argo.app.target.cluster.ns",
+      value: "app2-remote-ns"
+    },
+    {
+      type: "spacer"
+    }
+  ];
+  it("setApplicationDeployStatus for argo app with multiple related apps", () => {
+    expect(setApplicationDeployStatus(nodeWithRelatedApps, [])).toEqual(
+      resultWithRelatedApps
+    );
+  });
+
+  const nodeWithNORelatedApps = {
+    type: "application",
+    name: "cassandra",
+    namespace: "default",
+    specs: {
+      relatedApps: [],
+      raw: {
+        apiVersion: "argoproj.io/v1alpha1",
+        cluster: "local-cluster",
+        spec: {
+          appURL: "https://test"
+        }
+      }
+    }
+  };
+  const resultWithNoRelatedApps = [
+    { labelValue: "Related applications ({0})", type: "label" },
+    { type: "spacer" }
+  ];
+  it("setApplicationDeployStatus for argo app with no related apps", () => {
+    expect(setApplicationDeployStatus(nodeWithNORelatedApps, [])).toEqual(
+      resultWithNoRelatedApps
+    );
   });
 });
 

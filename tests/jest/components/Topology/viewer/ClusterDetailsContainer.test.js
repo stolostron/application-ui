@@ -39,6 +39,13 @@ describe("ClusterDetailsContainer with some clusters", () => {
   const mockData = {
     clusters: [
       {
+        cpu: "12",
+        memory: "23308Mi",
+        name: "argo-fxiang-eks",
+        namespace: "argo-fxiang-eks",
+        status: "ok"
+      },
+      {
         allocatable: { cpu: "11580m", memory: "20056Mi" },
         capacity: { cpu: "12", memory: "23308Mi" },
         metadata: {

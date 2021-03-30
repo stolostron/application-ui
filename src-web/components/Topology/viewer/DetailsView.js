@@ -17,6 +17,12 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { TimesIcon } from '@patternfly/react-icons'
+import {
+  Alert,
+  AlertGroup,
+  AlertActionCloseButton,
+  Spinner
+} from '@patternfly/react-core'
 import jsYaml from 'js-yaml'
 import '../../../../graphics/diagramShapes.svg'
 import '../../../../graphics/diagramIcons.svg'
@@ -46,22 +52,42 @@ DetailsViewDecorator.propTypes = {
 class DetailsView extends React.Component {
   constructor(props) {
     super(props)
+    this.toggleLinkLoading = this.toggleLinkLoading.bind(this)
+    this.handleLinkError = this.handleLinkError.bind(this)
+
+    this.state = {
+      errMsg: '',
+      isLoading: false,
+      linkID: ''
+    }
   }
 
   handleClick(value) {
+    this.setState({ linkID: value.id })
     this.processActionLink(value)
   }
 
   handleKeyPress(value, e) {
     if (e.key === 'Enter') {
+      this.setState({ linkID: value.id })
       this.processActionLink(value)
     }
+  }
+
+  handleLinkError(err) {
+    this.setState({ errMsg: err })
+  }
+
+  toggleLinkLoading() {
+    this.setState(prevState => ({
+      isLoading: !prevState.isLoading
+    }))
   }
 
   processActionLink(value) {
     const { processActionLink } = this.props
     const { data } = value
-    processActionLink(data)
+    processActionLink(data, this.toggleLinkLoading, this.handleLinkError)
   }
 
   render() {
@@ -212,6 +238,8 @@ class DetailsView extends React.Component {
     if (!value) {
       return <div />
     }
+    const { errMsg, isLoading, linkID } = this.state
+    const loadingArgoLink = isLoading && value.id === linkID
     const handleClick = this.handleClick.bind(this, value)
     const handleKeyPress = this.handleKeyPress.bind(this, value)
     const showLaunchOutIcon = !R.pathOr(false, ['data', 'specs', 'isDesign'])(
@@ -234,14 +262,33 @@ class DetailsView extends React.Component {
 
     return (
       <div className={mainSectionClasses} key={Math.random()}>
+        {errMsg && (
+          <AlertGroup isToast className="errMsgAlert">
+            <Alert
+              variant="danger"
+              title={errMsg}
+              actionClose={
+                <AlertActionCloseButton
+                  title={errMsg}
+                  variantLabel="danger alert"
+                  onClose={() => this.removeAlert()}
+                />
+              }
+              key={errMsg}
+            />
+          </AlertGroup>
+        )}
         <span
-          className={linkLabelClasses}
+          className={`${linkLabelClasses} ${
+            loadingArgoLink ? 'loadingLink' : ''
+          }`}
           id="linkForNodeAction"
           tabIndex="0"
           role={'button'}
           onClick={handleClick}
           onKeyPress={handleKeyPress}
         >
+          {loadingArgoLink && <Spinner size="sm" />}
           {value.label}
           {showLaunchOutIcon && (
             <svg width="11px" height="8px" style={{ marginLeft: '9px' }}>
@@ -251,6 +298,10 @@ class DetailsView extends React.Component {
         </span>
       </div>
     )
+  }
+
+  removeAlert() {
+    this.setState({ errMsg: '' })
   }
 
   setSubmitBtn = ref => {

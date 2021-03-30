@@ -46,8 +46,9 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         <div
           className="sectionContent"
         >
+          
           <span
-            className="link"
+            className="link "
             id="linkForNodeAction"
             onClick={[Function]}
             onKeyPress={[Function]}
@@ -154,8 +155,9 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
       <div
         className="sectionContent"
       >
+        
         <span
-          className="link"
+          className="link "
           id="linkForNodeAction"
           onClick={[Function]}
           onKeyPress={[Function]}
@@ -182,8 +184,9 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
       <div
         className="sectionContent"
       >
+        
         <span
-          className="link"
+          className="link "
           id="linkForNodeAction"
           onClick={[Function]}
           onKeyPress={[Function]}
@@ -408,8 +411,9 @@ exports[`DetailsView no components renders as expected 1`] = `
         <div
           className="sectionContent"
         >
+          
           <span
-            className="link"
+            className="link "
             id="linkForNodeAction"
             onClick={[Function]}
             onKeyPress={[Function]}

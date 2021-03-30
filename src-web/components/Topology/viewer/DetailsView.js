@@ -316,6 +316,8 @@ class DetailsView extends React.Component {
       <div className="sectionContent" key={Math.random()}>
         <ClusterDetailsContainer
           clusterList={comboboxdata.clusterList}
+          sortedClusterNames={comboboxdata.sortedClusterNames}
+          searchClusters={comboboxdata.searchClusters}
           clusterID={comboboxdata.clusterID}
           locale={locale}
           clusterDetailsContainerControl={clusterDetailsContainerControl}

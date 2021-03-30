@@ -315,7 +315,7 @@ const getPulseStatusForGenericNode = node => {
       : name
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
-  const clusterNames = R.split(',', getClusterName(node.id, node))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
   if (!resourceMap || onlineClusters.length === 0) {
@@ -414,7 +414,7 @@ export const getPulseForNodeWithPodStatus = node => {
   }
 
   const resourceName = _.get(node, metadataName, '')
-  const clusterNames = R.split(',', getClusterName(node.id, node))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 
@@ -654,9 +654,20 @@ export const getPercentage = (value, total) => {
 export const setClusterStatus = (node, details) => {
   const { id } = node
   const specs = _.get(node, 'specs', {})
-  const { cluster, clusters = [] } = specs
-  const clusterArr = cluster ? [cluster] : clusters
+  const { cluster, clusters = [], appClusters = [] } = specs
 
+  const clusterArr = cluster ? [cluster] : clusters
+  //add now all potential argo servers (appClusters array) not covered by the deployed resources clusters ( clusters array)
+  appClusters.forEach(appCls => {
+    if (_.findIndex(clusters, obj => _.get(obj, 'name') === appCls) === -1) {
+      //target cluster not deployed on
+      clusterArr.push({
+        name: appCls,
+        namespace: appCls === LOCAL_HUB_NAME ? appCls : '',
+        status: appCls === LOCAL_HUB_NAME ? 'ok' : ''
+      })
+    }
+  })
   details.push({
     type: 'label',
     labelValue: `Clusters (${clusterArr.length})`
@@ -947,6 +958,17 @@ export const setupResourceModel = (
       if (nodeId === 'member--clusters--') {
         //cluster node, set search found clusters objects here
         _.set(node, 'specs.clusters', clustersObjects)
+        // set clusters status on the app node, this is an argo app
+        // we have all clusters information here
+        const appNode = topology.nodes[0]
+        // search returns clusters information, use it here
+        const isLocal = clusterNamesList.indexOf(LOCAL_HUB_NAME) !== -1
+        _.set(appNode, 'specs.allClusters', {
+          isLocal,
+          remoteCount: isLocal
+            ? clusterNamesList.length - 1
+            : clusterNamesList.length
+        })
       }
       _.set(
         node,
@@ -1102,7 +1124,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   const resourceName =
     !isDeployable && channel.length > 0 ? `${channel}-${name}` : name
 
-  const clusterNames = R.split(',', getClusterName(node.id, node))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
@@ -1148,7 +1170,6 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       labelKey: 'resource.deploy.statuses'
     })
   }
-
   clusterNames.forEach(clusterName => {
     details.push({
       type: 'spacer'
@@ -1264,7 +1285,7 @@ export const setPodDeployStatus = (
   const podStatusModel = _.get(updatedNode, 'podStatusMap', {})
   const podDataPerCluster = {} //pod details list for each cluster name
 
-  const clusterNames = R.split(',', getClusterName(node.id, node))
+  const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
 

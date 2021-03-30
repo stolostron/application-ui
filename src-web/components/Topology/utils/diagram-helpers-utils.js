@@ -77,9 +77,16 @@ export const nodeMustHavePods = node => {
   return false
 }
 
-export const getClusterName = (nodeId, node) => {
+export const getClusterName = (nodeId, node, findAll) => {
   if (node && _.get(node, 'clusters.id', '') === 'member--clusters--') {
     //cluster info is not set on the node id, get it from here
+    if (findAll) {
+      //get all cluster names as set by argo target, ignore deplaybale status
+      return _.union(
+        _.get(node, 'specs.clustersNames', []),
+        _.get(node, 'clusters.specs.appClusters', [])
+      ).join(',')
+    }
     return _.get(node, 'specs.clustersNames', []).join(',')
   }
 
@@ -155,27 +162,30 @@ export const filterSubscriptionObject = (resourceMap, activeFilterCodes) => {
 
 export const getOnlineClusters = (clusterNames, clusterObjs) => {
   const onlineClusters = []
-
   clusterNames.forEach(clsName => {
     const cluster = clsName.trim()
     if (cluster === LOCAL_HUB_NAME) {
       onlineClusters.push(cluster)
-      return
-    }
-    for (let i = 0; i < clusterObjs.length; i++) {
-      const clusterObjName = _.get(clusterObjs[i], metadataName)
-      if (clusterObjName === cluster) {
-        if (
-          clusterObjs[i].status === 'ok' ||
-          clusterObjs[i].status === 'pendingimport'
-        ) {
-          onlineClusters.push(cluster)
-        }
-        break
+    } else {
+      const matchingCluster = _.find(
+        clusterObjs,
+        cls =>
+          _.get(cls, 'name', '') === cluster ||
+          _.get(cls, metadataName, '') === cluster
+      )
+      if (
+        matchingCluster &&
+        (_.includes(
+          ['ok', 'pendingimport', 'OK'],
+          _.get(matchingCluster, 'status', '')
+        ) ||
+          _.get(matchingCluster, 'ManagedClusterConditionAvailable', '') ===
+            'True')
+      ) {
+        onlineClusters.push(cluster)
       }
     }
   })
-
   return onlineClusters
 }
 

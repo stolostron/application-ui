@@ -8,6 +8,7 @@ import { shallow } from "enzyme";
 import ClusterDetailsContainer from "../../../../../src-web/components/Topology/viewer/ClusterDetailsContainer";
 
 const locale = "US-en";
+window.open = () => {}; // provide an empty implementation for window.open
 
 describe("ClusterDetailsContainer with no clusters", () => {
   const mockData = {

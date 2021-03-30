@@ -256,16 +256,14 @@ const fetchArgoApplications = (
       const searchResult = lodash.get(app_response, 'data.searchResult', [])
       if (searchResult.length > 0) {
         allApps = lodash.get(searchResult[0], 'items', [])
-        const targetNS = new Set()
-        const targetClusters = new Set()
-        const argoAppsNS = new Set()
-        const argoAppsClusters = new Set()
-        const argoAppsLabelNames = new Set()
+        const targetNS = []
+        const targetClusters = []
+        const argoAppsLabelNames = []
         allApps.forEach(argoApp => {
           //get destination and clusters information
-          argoAppsLabelNames.add(`app.kubernetes.io/instance=${argoApp.name}`)
+          argoAppsLabelNames.push(`app.kubernetes.io/instance=${argoApp.name}`)
           const argoNS = argoApp.destinationNamespace
-          argoNS && targetNS.add(argoNS)
+          argoNS && targetNS.push(argoNS)
           const argoServerDest = findMatchingCluster(argoApp)
           const argoServerNameDest = argoServerDest || argoApp.destinationName
           lodash.set(
@@ -273,14 +271,12 @@ const fetchArgoApplications = (
             'destinationCluster',
             argoServerNameDest || argoApp.destinationServer
           )
-          argoServerNameDest && targetClusters.add(argoServerNameDest) //add the name as is
-          argoServerDest && targetClusters.add(argoServerDest)
+          argoServerNameDest && targetClusters.push(argoServerNameDest) //add the name as is
+          argoServerDest && targetClusters.push(argoServerDest)
         })
-        appData.targetNamespaces = [...targetNS]
-        appData.clusterInfo = [...targetClusters]
-        appData.appsClusters = [...argoAppsClusters]
-        appData.appsNS = [...argoAppsNS]
-        appData.argoAppsLabelNames = [...argoAppsLabelNames]
+        appData.targetNamespaces = lodash.uniq(targetNS)
+        appData.clusterInfo = lodash.uniq(targetClusters)
+        appData.argoAppsLabelNames = lodash.uniq(argoAppsLabelNames)
         //store all argo apps and destination clusters info on the first app
         const topoResources = lodash.get(
           response,

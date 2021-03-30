@@ -132,7 +132,13 @@ export const getResourceData = nodes => {
 }
 
 //open argo app editor url for this Argo app, in a separate window
-export const openArgoCDEditor = (cluster, namespace, name, toggleLoading) => {
+export const openArgoCDEditor = (
+  cluster,
+  namespace,
+  name,
+  toggleLoading,
+  handleLinkError
+) => {
   // toggle loading to true
   toggleLoading()
   const query = convertStringToQuery(
@@ -144,7 +150,7 @@ export const openArgoCDEditor = (cluster, namespace, name, toggleLoading) => {
       // toggle loading to false
       toggleLoading()
       if (result.errors) {
-        window.alert(`Error: ${result.errors[0].message}`)
+        handleLinkError(`Error: ${result.errors[0].message}`)
         return
       } else {
         const searchResult = lodash.get(result, 'data.searchResult', [])
@@ -156,7 +162,7 @@ export const openArgoCDEditor = (cluster, namespace, name, toggleLoading) => {
               namespace,
               cluster
             ])
-            window.alert(errMsg)
+            handleLinkError(errMsg)
             return
           } else {
             //get route object info
@@ -170,7 +176,7 @@ export const openArgoCDEditor = (cluster, namespace, name, toggleLoading) => {
               .getArgoAppRouteURL(routeRequest)
               .then(routeURLResult => {
                 if (routeURLResult.errors) {
-                  window.alert(`Error: ${routeURLResult.errors[0].message}`)
+                  handleLinkError(`Error: ${routeURLResult.errors[0].message}`)
                 } else {
                   if (routeURLResult.data.argoAppRouteURL) {
                     window.open(
@@ -178,7 +184,7 @@ export const openArgoCDEditor = (cluster, namespace, name, toggleLoading) => {
                       '_blank'
                     )
                   } else {
-                    window.alert(
+                    handleLinkError(
                       msgs.get('resource.argo.app.route.err', [
                         namespace,
                         cluster
@@ -188,14 +194,14 @@ export const openArgoCDEditor = (cluster, namespace, name, toggleLoading) => {
                 }
               })
               .catch(err => {
-                window.alert(`Error: ${err.msg}`)
+                handleLinkError(`Error: ${err.msg}`)
               })
           }
         }
       }
     })
     .catch(err => {
-      window.alert(`Error: ${err.msg}`)
+      handleLinkError(`Error: ${err.msg}`)
     })
 }
 

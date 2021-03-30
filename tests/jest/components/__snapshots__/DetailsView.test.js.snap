@@ -46,6 +46,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         <div
           className="sectionContent"
         >
+          
           <span
             className="link "
             id="linkForNodeAction"
@@ -154,6 +155,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
       <div
         className="sectionContent"
       >
+        
         <span
           className="link "
           id="linkForNodeAction"
@@ -182,6 +184,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
       <div
         className="sectionContent"
       >
+        
         <span
           className="link "
           id="linkForNodeAction"
@@ -408,6 +411,7 @@ exports[`DetailsView no components renders as expected 1`] = `
         <div
           className="sectionContent"
         >
+          
           <span
             className="link "
             id="linkForNodeAction"

@@ -28,6 +28,7 @@
 import "./commands";
 import "./useradd";
 import "./ansibleoperator";
+import "./argocdoperator";
 // import '@cypress/code-coverage/support'
 
 // Alternatively you can use CommonJS syntax:
@@ -38,9 +39,12 @@ Cypress.Cookies.defaults({
 });
 
 before(() => {
-  // Use given user to install ansible operator
+  // Use given user to install ansible and argocd operator
   cy.ocLogin(Cypress.env("OC_CLUSTER_USER"));
   cy.installAnsibleOperator();
+  if (Cypress.config().baseUrl.includes("localhost")) {
+    cy.installArgoCDOperator();
+  }
 });
 
 beforeEach(() => {

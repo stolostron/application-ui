@@ -311,6 +311,7 @@ export const getDiagramElements = (
   // create application node
   const appId = `application--${iname}`
   nodes2.push({
+    id: appId,
     name: iname,
     namespace: inamespace,
     type: 'application',

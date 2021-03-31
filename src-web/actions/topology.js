@@ -142,7 +142,7 @@ export const openArgoCDEditor = (
   // toggle loading to true
   toggleLoading()
   const query = convertStringToQuery(
-    `kind:route namespace:${namespace} cluster:${cluster}`
+    `kind:route namespace:${namespace} cluster:${cluster} label:app.kubernetes.io/part-of=argocd`
   )
   apolloClient
     .search(SEARCH_QUERY, { input: [query] })

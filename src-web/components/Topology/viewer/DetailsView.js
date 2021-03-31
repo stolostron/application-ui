@@ -263,7 +263,7 @@ class DetailsView extends React.Component {
     return (
       <div className={mainSectionClasses} key={Math.random()}>
         {errMsg && (
-          <AlertGroup isToast className="errMsgAlert">
+          <AlertGroup isToast className="errMsgAlert topologyAlert">
             <Alert
               variant="danger"
               title={errMsg}

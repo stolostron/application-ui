@@ -71,6 +71,12 @@
     margin-right: 12px;
   }
 
+  // Argo link
+  .argoLinkLoading {
+    pointer-events: none;
+    color: #5A6872;
+  }
+
   .argo-icon-container {
     background-color: #fdf7e7;
     border: 1px solid #f9e0a2;

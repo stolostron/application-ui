@@ -322,6 +322,20 @@ export const namespaceMatchTargetServer = (
 }
 
 export const setArgoApplicationDeployStatus = (node, details) => {
+  // show error if app is not healthy
+  const appHealth = _.get(node, 'specs.raw.status.health.status')
+  const appStatusConditions = _.get(node, 'specs.raw.status.conditions')
+
+  if (
+    (appHealth === 'Unknown' || appHealth === 'Error') &&
+    appStatusConditions
+  ) {
+    details.push({
+      labelKey: 'resource.rule.clusters.error.label',
+      value: msgs.get('resource.argo.application.error.msg'),
+      status: failureStatus
+    })
+  }
   const relatedArgoApps = _.get(node, 'specs.relatedApps', [])
 
   // related Argo apps

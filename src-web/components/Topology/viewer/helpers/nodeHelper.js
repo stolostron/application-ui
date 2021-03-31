@@ -15,6 +15,7 @@ import { counterZoom, getTooltip } from '../../utils/diagram-helpers'
 import '../../../../../graphics/diagramShapes.svg'
 import '../../../../../graphics/diagramIcons.svg'
 import _ from 'lodash'
+import { kubeNaming } from '../defaults/titles'
 
 import {
   FilterResults,
@@ -329,15 +330,13 @@ export default class NodeHelper {
         // normal label
         nodeLabelGroup
           .text(add => {
-            layout.label.split('\n').forEach(line => {
-              if (line) {
-                add
-                  .tspan(line)
-                  .addClass('counter-zoom beg')
-                  .font({ 'font-weight': 'bold' })
-                  .newLine()
-              }
-            })
+            if (layout.type) {
+              add
+                .tspan(kubeNaming(layout.type))
+                .addClass('counter-zoom beg')
+                .font({ 'font-weight': 'bold' })
+                .newLine()
+            }
             if (layout.description) {
               layout.description.split('\n').forEach(line => {
                 if (line) {

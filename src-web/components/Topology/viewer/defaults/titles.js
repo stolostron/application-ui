@@ -92,3 +92,31 @@ export const getLegendTitle = (type, locale) => {
     return type.charAt(0).toUpperCase() + type.slice(1)
   }
 }
+
+// Converts types to OpenShift/Kube entities
+export function kubeNaming(type) {
+  if (type === undefined) {
+    return ''
+  }
+  switch (type) {
+  case 'deploymentconfig':
+  case 'replicationcontroller':
+  case 'daemonset':
+  case 'replicaset':
+  case 'configmap':
+  case 'ansiblejob':
+  case 'customresource':
+  case 'statefulset':
+  case 'storageclass':
+  case 'serviceaccount':
+  case 'securitycontextconstraints':
+  case 'inmemorychannel':
+  case 'integrationplatform':
+  case 'persistentvolumeclaim':
+  case 'imagestream':
+    return msgs.get(`topology.legend.title.${type}`)
+
+  default:
+    return type.charAt(0).toUpperCase() + type.slice(1)
+  }
+}

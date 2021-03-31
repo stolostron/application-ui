@@ -22,6 +22,7 @@ import {
   ButtonVariant,
   Card,
   CardBody,
+  Label,
   Skeleton,
   Tooltip
 } from '@patternfly/react-core'
@@ -410,9 +411,9 @@ class OverviewCards extends React.Component {
     return (
       <React.Fragment>
         {isArgoApp ? (
-          <div className="argo-icon-container" id="argo-app-icon">
+          <Label color="blue">
             {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
-          </div>
+          </Label>
         ) : (
           ''
         )}

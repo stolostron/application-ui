@@ -140,7 +140,8 @@ class ResourceTable extends React.Component {
             selfLink: _.get(item, 'selfLink', ''),
             _uid: _.get(item, '_uid', ''),
             kind: _.get(resourceType, 'kind', ''),
-            apiVersion: _.get(resourceType, 'apiVersion', '')
+            apiVersion:
+              _.get(item, 'apiVersion') || _.get(resourceType, 'apiVersion', '')
           }
         }
       })

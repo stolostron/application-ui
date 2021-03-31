@@ -497,62 +497,71 @@ describe("syncControllerRevisionPodStatusMap", () => {
 });
 
 describe("fixMissingStateOptions", () => {
-  const itemNoAvailableReady = {
-    _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
-    apiversion: "v1",
-    created: "2021-01-28T19:24:10Z",
-    current: 1,
-    apigroup: "apps",
-    kind: "statefulset",
-    name: "mariadb",
-    namespace: "val-mariadb-helm",
-    selfLink: "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
-    cluster: "fxiang-eks",
-    desired: 1,
-    label:
-      "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
-    _clusterNamespace: "fxiang-eks",
-    _rbac: "fxiang-eks_apps_statefulsets"
-  };
+  const itemNoAvailableReady = [
+    {
+      _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
+      apiversion: "v1",
+      created: "2021-01-28T19:24:10Z",
+      current: 1,
+      apigroup: "apps",
+      kind: "statefulset",
+      name: "mariadb",
+      namespace: "val-mariadb-helm",
+      selfLink:
+        "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
+      cluster: "fxiang-eks",
+      desired: 1,
+      label:
+        "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
+      _clusterNamespace: "fxiang-eks",
+      _rbac: "fxiang-eks_apps_statefulsets"
+    }
+  ];
 
-  const itemNoAvailable = {
-    _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
-    apiversion: "v1",
-    created: "2021-01-28T19:24:10Z",
-    current: 1,
-    apigroup: "apps",
-    kind: "statefulset",
-    name: "mariadb",
-    namespace: "val-mariadb-helm",
-    selfLink: "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
-    cluster: "fxiang-eks",
-    desired: 1,
-    ready: 1,
-    label:
-      "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
-    _clusterNamespace: "fxiang-eks",
-    _rbac: "fxiang-eks_apps_statefulsets"
-  };
+  const itemNoAvailable = [
+    {
+      _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
+      apiversion: "v1",
+      created: "2021-01-28T19:24:10Z",
+      current: 1,
+      apigroup: "apps",
+      kind: "statefulset",
+      name: "mariadb",
+      namespace: "val-mariadb-helm",
+      selfLink:
+        "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
+      cluster: "fxiang-eks",
+      desired: 1,
+      ready: 1,
+      label:
+        "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
+      _clusterNamespace: "fxiang-eks",
+      _rbac: "fxiang-eks_apps_statefulsets"
+    }
+  ];
 
-  const itemComplete = {
-    _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
-    apiversion: "v1",
-    created: "2021-01-28T19:24:10Z",
-    current: 1,
-    apigroup: "apps",
-    kind: "statefulset",
-    name: "mariadb",
-    namespace: "val-mariadb-helm",
-    selfLink: "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
-    cluster: "fxiang-eks",
-    desired: 1,
-    ready: 1,
-    label:
-      "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
-    _clusterNamespace: "fxiang-eks",
-    _rbac: "fxiang-eks_apps_statefulsets",
-    available: 1
-  };
+  const itemComplete = [
+    {
+      _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
+      apiversion: "v1",
+      created: "2021-01-28T19:24:10Z",
+      current: 1,
+      apigroup: "apps",
+      kind: "statefulset",
+      name: "mariadb",
+      namespace: "val-mariadb-helm",
+      selfLink:
+        "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
+      cluster: "fxiang-eks",
+      desired: 1,
+      ready: 1,
+      label:
+        "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
+      _clusterNamespace: "fxiang-eks",
+      _rbac: "fxiang-eks_apps_statefulsets",
+      available: 1
+    }
+  ];
 
   it("should get complete item when no available and ready set", () => {
     expect(fixMissingStateOptions(itemNoAvailableReady)).toEqual(itemComplete);
@@ -564,10 +573,6 @@ describe("fixMissingStateOptions", () => {
 
   it("should get complete item when full data set", () => {
     expect(fixMissingStateOptions(itemComplete)).toEqual(itemComplete);
-  });
-
-  it("should return undefined", () => {
-    expect(fixMissingStateOptions(undefined)).toEqual(undefined);
   });
 });
 

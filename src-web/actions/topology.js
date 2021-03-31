@@ -259,6 +259,7 @@ const fetchArgoApplications = (
         const targetNS = []
         const targetClusters = []
         const argoAppsLabelNames = []
+        const targetNSForClusters = {} //keep track of what namespaces each cluster must deploy on
         allApps.forEach(argoApp => {
           //get destination and clusters information
           argoAppsLabelNames.push(`app.kubernetes.io/instance=${argoApp.name}`)
@@ -271,8 +272,22 @@ const fetchArgoApplications = (
             'destinationCluster',
             argoServerNameDest || argoApp.destinationServer
           )
-          argoServerNameDest && targetClusters.push(argoServerNameDest) //add the name as is
-          argoServerDest && targetClusters.push(argoServerDest)
+          const targetClusterName = argoServerNameDest
+            ? argoServerNameDest
+            : argoServerDest ? argoServerDest : null
+          if (targetClusterName) {
+            targetClusters.push(targetClusterName)
+            //add namespace to target list
+            if (!targetNSForClusters[targetClusterName]) {
+              targetNSForClusters[targetClusterName] = []
+            }
+            if (
+              argoNS &&
+              !lodash.includes(targetNSForClusters[targetClusterName], argoNS)
+            ) {
+              targetNSForClusters[targetClusterName].push(argoNS)
+            }
+          }
         })
         appData.targetNamespaces = lodash.uniq(targetNS)
         appData.clusterInfo = lodash.uniq(targetClusters)
@@ -291,6 +306,11 @@ const fetchArgoApplications = (
         //desired deployment state
         lodash.set(firstNode, 'specs.clusterNames', appData.clusterInfo)
         lodash.set(topoClusterNode, 'specs.appClusters', appData.clusterInfo)
+        lodash.set(
+          topoClusterNode,
+          'specs.targetNamespaces',
+          targetNSForClusters
+        )
       }
       fetchApplicationRelatedObjects(
         dispatch,

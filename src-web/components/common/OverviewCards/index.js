@@ -18,11 +18,15 @@ import {
   OutlinedQuestionCircleIcon
 } from '@patternfly/react-icons'
 import {
+  Alert,
+  AlertGroup,
+  AlertActionCloseButton,
   Button,
   ButtonVariant,
   Card,
   CardBody,
   Skeleton,
+  Spinner,
   Tooltip
 } from '@patternfly/react-core'
 import {
@@ -68,7 +72,12 @@ class OverviewCards extends React.Component {
     // redux state (calculation of node statuses) created by
     // topology code
     const intervalId = setInterval(this.reload.bind(this), 1000)
+    this.toggleArgoLinkLoading = this.toggleArgoLinkLoading.bind(this)
+    this.handleArgoLinkError = this.handleArgoLinkError.bind(this)
+
     this.state = {
+      argoLinkErrMsg: '',
+      argoLinkLoading: false,
       intervalId,
       showSubCards: false
     }
@@ -85,7 +94,8 @@ class OverviewCards extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return !(
       (nextState.pollToggle === this.state.pollToggle &&
-        nextState.showSubCards === this.state.showSubCards) ||
+        nextState.showSubCards === this.state.showSubCards &&
+        nextState.argoLinkErrMsg === this.state.argoLinkErrMsg) ||
       _.get(nextProps, 'topology.status', '') === REQUEST_STATUS.IN_PROGRESS ||
       _.get(nextProps, 'HCMApplicationList.status', '') ===
         REQUEST_STATUS.IN_PROGRESS
@@ -100,7 +110,7 @@ class OverviewCards extends React.Component {
       selectedAppNS,
       locale
     } = this.props
-    const { showSubCards } = this.state
+    const { argoLinkErrMsg, argoLinkLoading, showSubCards } = this.state
 
     if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
       const infoMessage = _.get(
@@ -284,12 +294,29 @@ class OverviewCards extends React.Component {
             }
           ]}
         />
+        {argoLinkErrMsg && (
+          <AlertGroup isToast className="errMsgAlert">
+            <Alert
+              variant="danger"
+              title={argoLinkErrMsg}
+              actionClose={
+                <AlertActionCloseButton
+                  title={argoLinkErrMsg}
+                  variantLabel="danger alert"
+                  onClose={() => this.removeAlert()}
+                />
+              }
+              key={argoLinkErrMsg}
+            />
+          </AlertGroup>
+        )}
         {appOverviewCardsData.isArgoApp && (
           <Card>
             <CardBody>
               <AcmActionGroup>
                 <AcmButton
                   variant={ButtonVariant.link}
+                  className={`${argoLinkLoading ? 'argoLinkLoading' : ''}`}
                   id="launch-argocd-editor"
                   component="a"
                   rel="noreferrer"
@@ -300,10 +327,13 @@ class OverviewCards extends React.Component {
                     openArgoCDEditor(
                       appOverviewCardsData.clusterNames,
                       selectedAppNS,
-                      selectedAppName
+                      selectedAppName,
+                      this.toggleArgoLinkLoading,
+                      this.handleArgoLinkError
                     )
                   }
                 >
+                  {argoLinkLoading && <Spinner size="sm" />}
                   {msgs.get(
                     'dashboard.card.overview.cards.search.argocd.launch',
                     locale
@@ -388,6 +418,20 @@ class OverviewCards extends React.Component {
       <Skeleton width={width} className="loading-skeleton-text" />
     )
   };
+
+  toggleArgoLinkLoading() {
+    this.setState(prevState => ({
+      argoLinkLoading: !prevState.argoLinkLoading
+    }))
+  }
+
+  handleArgoLinkError(err) {
+    this.setState({ argoLinkErrMsg: err })
+  }
+
+  removeAlert() {
+    this.setState({ argoLinkErrMsg: '' })
+  }
 
   createTargetLink = (link, locale) => {
     return (

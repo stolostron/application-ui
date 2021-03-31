@@ -14,7 +14,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { AcmPage } from '@open-cluster-management/ui-components'
+import {
+  AcmHeader,
+  AcmPage,
+  AcmRoute
+} from '@open-cluster-management/ui-components'
 import SecondaryHeader from '../components/SecondaryHeader'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { withLocale } from '../providers/LocaleProvider'
@@ -241,14 +245,27 @@ const Container = Component =>
   withRouter(withLocale(connect(mapStateToProps)(Component)))
 const AppContainer = Container(App)
 
+const getAcmRoute = props => {
+  let path = ''
+  if (client) {
+    path = window.location.pathname
+  } else {
+    path = props.url
+  }
+  if (path.includes(config.contextPath)) {
+    return AcmRoute.Applications
+  }
+  return AcmRoute.Welcome
+}
+
 const AppComponent = props => (
-  <div className="expand-vertically">
+  <AcmHeader route={getAcmRoute(props)}>
     <Route
       path={config.contextPath}
       serverProps={props}
-      render={() => <AppContainer {...props} />}
+      component={AppContainer}
     />
-  </div>
+  </AcmHeader>
 )
 AppComponent.displayName = 'AppComponent'
 export default AppComponent

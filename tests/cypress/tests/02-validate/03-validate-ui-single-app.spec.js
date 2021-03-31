@@ -1,13 +1,25 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-
-const config = JSON.parse(Cypress.env("TEST_CONFIG"));
+import _ from "lodash";
 import { validateTopology } from "../../views/application";
 import { validateDefect7696 } from "../../views/common";
 import {
   getManagedClusterName,
   getNumberOfManagedClusters
 } from "../../views/resources";
+
+let config;
+if (Cypress.config().baseUrl.includes("localhost")) {
+  config = JSON.parse(Cypress.env("TEST_CONFIG"));
+} else {
+  // exclude argo config
+  config = _.pickBy(JSON.parse(Cypress.env("TEST_CONFIG")), function(
+    value,
+    key
+  ) {
+    return !_.startsWith(key, "argo");
+  });
+}
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Test for single application page, topology ", () => {
   it(`get the name of the managed OCP cluster`, () => {
@@ -33,7 +45,8 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Te
             type,
             clusterName,
             numberOfRemoteClusters,
-            "create"
+            "create",
+            data.namespace
           );
         });
         if (data.type == "git") {

@@ -2,8 +2,8 @@
 argo:
   data:
     - enable: true
-      name: helloworld-local
-      namespace: openshift-operators
+      name: helloworld-argo-app-1
+      namespace: argocd
       type: git
       successNumber: 3
       config:
@@ -17,7 +17,7 @@ argo:
           deployment:
             local: false
             online: false
-            matchingLabel: true
+            matchingLabel: false
 git:
   data:
     - enable: true

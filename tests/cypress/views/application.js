@@ -363,31 +363,6 @@ export const verifyDetails = (name, namespace, apiVersion) => {
     .contains(namespace);
 };
 
-export const validateArgoTopology = data => {
-  const { path } = data.config;
-
-  // verify search resource
-  cy
-    .get("#app-search-resource-link", { timeout: 20 * 1000 })
-    .invoke("attr", "href")
-    .should(
-      "include",
-      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${namespace}"}`
-    );
-
-  // cluster and placement
-  for (const [key, value] of Object.entries(data.config)) {
-    //ignore as only one subscription exists
-    console.log(`value: ${value}`);
-  }
-
-  // verify related applications
-  cy
-    .get("#app-search-argo-apps-link", { timeout: 20 * 1000 })
-    .invoke("attr", "href")
-    .should("include", path);
-};
-
 /*
 opType = 'create' if run afer app creation step
 opType = 'delete' if run afer delete subs step
@@ -406,6 +381,9 @@ export const validateTopology = (
   if (!namespace) {
     namespace = `${name}-ns`;
   }
+
+  const searchLinkID =
+    type === "argo" ? "#app-search-resource-link" : "#app-search-link";
   verifyDetails(name, namespace, apiVersion);
 
   const appDetails = getSingleAppClusterTimeDetails(
@@ -419,12 +397,16 @@ export const validateTopology = (
 
   // verify search resource
   cy
-    .get("#app-search-link", { timeout: 20 * 1000 })
+    .get(searchLinkID, { timeout: 20 * 1000 })
     .invoke("attr", "href")
     .should(
       "include",
-      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${name}-ns"}`
+      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${namespace}"}`
     );
+
+  if (type === "argo") {
+    validateArgoLinks(data.config);
+  }
 
   validateSubscriptionDetails(name, data, type, opType);
 
@@ -438,12 +420,16 @@ export const validateTopology = (
   cy.log("validate the application...");
   cy.get(`g[type=${name}]`, { timeout: 25 * 1000 }).should("be.visible");
 
-  //subscription
-  cy.log("validate the subscription...");
-  const subsIndex = opType == "create" ? 1 : 2; //add new subs or delete subs
-  cy
-    .get(`g[type="${name}-subscription-${subsIndex}"]`, { timeout: 25 * 1000 })
-    .should("be.visible");
+  if (type !== "argo") {
+    //subscription
+    cy.log("validate the subscription...");
+    const subsIndex = opType == "create" ? 1 : 2; //add new subs or delete subs
+    cy
+      .get(`g[type="${name}-subscription-${subsIndex}"]`, {
+        timeout: 25 * 1000
+      })
+      .should("be.visible");
+  }
 
   // cluster and placement
   for (const [key, value] of Object.entries(data.config)) {
@@ -502,6 +488,18 @@ export const validatePlacementNode = (name, key) => {
         timeout: 25 * 1000
       })
       .should("be.visible");
+};
+
+export const validateArgoLinks = config => {
+  const { path } = config[0];
+  // search all related applications
+  cy
+    .get("#app-search-argo-apps-link", { timeout: 20 * 1000 })
+    .invoke("attr", "href")
+    .should("include", path);
+
+  // should get element launch argocd editor
+  cy.get("#launch-argocd-editor", { timeout: 20 * 1000 });
 };
 
 export const validateAppTableMenu = (name, resourceTable) => {

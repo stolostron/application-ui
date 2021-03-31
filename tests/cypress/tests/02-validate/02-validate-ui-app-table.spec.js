@@ -1,7 +1,14 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-const config = JSON.parse(Cypress.env("TEST_CONFIG"));
+import _ from "lodash";
+// exclude argo config
+const config = _.pickBy(JSON.parse(Cypress.env("TEST_CONFIG")), function(
+  value,
+  key
+) {
+  return !_.startsWith(key, "argo");
+});
 import { validateResourceTable } from "../../views/application";
 import { getNumberOfManagedClusters } from "../../views/resources";
 

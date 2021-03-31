@@ -1,7 +1,14 @@
 // Copyright (c) 2021 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-const config = JSON.parse(Cypress.env("TEST_CONFIG"));
+import _ from "lodash";
+// exclude argo config
+const config = _.pickBy(JSON.parse(Cypress.env("TEST_CONFIG")), function(
+  value,
+  key
+) {
+  return !_.startsWith(key, "argo");
+});
 import { testGitApiInput } from "../../views/common";
 
 describe("Application UI: [P3][Sev3][app-lifecycle-ui] Application Creation Validate git api Test", () => {

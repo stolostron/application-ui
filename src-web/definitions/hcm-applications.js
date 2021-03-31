@@ -127,7 +127,7 @@ function getApplicationLink(item = {}, edit = false) {
   )}/${encodeURIComponent(name)}${edit ? '/edit' : ''}?${params}`
 }
 
-export function createApplicationLink(item = {}) {
+export function createApplicationLink(item = {}, locale) {
   const { name } = item
   return (
     <Split hasGutter style={{ alignItems: 'baseline' }}>
@@ -136,7 +136,9 @@ export function createApplicationLink(item = {}) {
       </SplitItem>
       {isArgoApp(item) && (
         <SplitItem>
-          <Label color="blue">Argo CD</Label>
+          <Label color="blue">
+            {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
+          </Label>
         </SplitItem>
       )}
     </Split>

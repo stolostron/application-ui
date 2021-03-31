@@ -39,7 +39,7 @@ waitForRes() {
         if [[ $(echo $operatorRes | grep "${running}") ]]; then
             echo "* ${resName} is running"
             break
-        elif [[ (-n "${operatorRes}") && ("${resKinds}" == "deployments") ]]; then
+        elif [[ ("${operatorRes}" > "") && ("${resKinds}" == "deployments") ]]; then
             echo "* ${resKinds} created: ${operatorRes}"
             break
         elif [ "$operatorRes" == "" ]; then

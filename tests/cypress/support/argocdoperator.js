@@ -28,7 +28,7 @@ Cypress.Commands.add("installArgoCDOperator", () => {
               } else if (stdout.includes("deleted")) {
                 cy.log(`argocd namespace deleted.`);
               }
-              cy.exec(`/bin/sh ${ARGOCD_FILE_PATH}`, {
+              cy.exec(`/bin/bash ${ARGOCD_FILE_PATH}`, {
                 timeout: 200 * 1000
               });
             });

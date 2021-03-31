@@ -295,7 +295,7 @@ class OverviewCards extends React.Component {
           ]}
         />
         {argoLinkErrMsg && (
-          <AlertGroup isToast className="errMsgAlert">
+          <AlertGroup isToast className="errMsgAlert detailsCardAlert">
             <Alert
               variant="danger"
               title={argoLinkErrMsg}

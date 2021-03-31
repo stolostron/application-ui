@@ -339,7 +339,15 @@
 .errMsgAlert {
   margin-top: 2rem;
 
-  .pf-c-alert {
-    box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.10);
+  &.topologyAlert {
+    .pf-c-alert {
+      box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.10);
+    }
+  }
+
+  &.detailsCardAlert {
+    .pf-c-alert {
+      box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.40);
+    }
   }
 }

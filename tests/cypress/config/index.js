@@ -31,7 +31,6 @@ exports.getConfig = () => {
   } else {
     config = fs.readFileSync(path.join(__dirname, "config.func.yaml"));
   }
-
   try {
     config = jsYaml.safeLoad(config);
     for (const [key, value] of Object.entries(config)) {

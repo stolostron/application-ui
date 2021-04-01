@@ -145,18 +145,22 @@ export const getActiveFilterCodes = resourceStatuses => {
 
 export const filterSubscriptionObject = (resourceMap, activeFilterCodes) => {
   const filteredObject = {}
-  Object.entries(resourceMap).forEach(([key, value]) => {
-    if (value.status === 'Subscribed' && activeFilterCodes.has(checkmarkCode)) {
-      filteredObject[key] = value
-    }
-    if (value.status === 'Propagated' && activeFilterCodes.has(warningCode)) {
-      filteredObject[key] = value
-    }
-    if (value.status === 'Fail' && activeFilterCodes.has(failureCode)) {
-      filteredObject[key] = value
-    }
+  Object.entries(resourceMap).forEach(([key, values]) => {
+    values.forEach(value => {
+      if (
+        value.status === 'Subscribed' &&
+        activeFilterCodes.has(checkmarkCode)
+      ) {
+        filteredObject[key] = value
+      }
+      if (value.status === 'Propagated' && activeFilterCodes.has(warningCode)) {
+        filteredObject[key] = value
+      }
+      if (value.status === 'Fail' && activeFilterCodes.has(failureCode)) {
+        filteredObject[key] = value
+      }
+    })
   })
-
   return filteredObject
 }
 
@@ -209,25 +213,25 @@ export const getPulseStatusForSubscription = node => {
     pulse = 'orange' //resource not available
     return pulse
   }
-
   let isPlaced = false
-  Object.values(resourceMap).forEach(subscriptionItem => {
-    if (subscriptionItem.status) {
-      if (R.contains('Failed', subscriptionItem.status)) {
-        pulse = 'red'
+  Object.values(resourceMap).forEach(subscriptionItemArray => {
+    subscriptionItemArray.forEach(subscriptionItem => {
+      if (subscriptionItem.status) {
+        if (R.contains('Failed', subscriptionItem.status)) {
+          pulse = 'red'
+        }
+        if (subscriptionItem.status === 'Subscribed') {
+          isPlaced = true // at least one cluster placed
+        }
+        if (
+          subscriptionItem.status !== 'Subscribed' &&
+          subscriptionItem.status !== 'Propagated' &&
+          pulse !== 'red'
+        ) {
+          pulse = 'yellow' // anything but failed or subscribed
+        }
       }
-      if (subscriptionItem.status === 'Subscribed') {
-        isPlaced = true // at least one cluster placed
-      }
-
-      if (
-        subscriptionItem.status !== 'Subscribed' &&
-        subscriptionItem.status !== 'Propagated' &&
-        pulse !== 'red'
-      ) {
-        pulse = 'yellow' // anything but failed or subscribed
-      }
-    }
+    })
   })
   if (pulse === 'green' && !isPlaced) {
     pulse = 'yellow' // set to yellow if not placed

@@ -1616,69 +1616,71 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
   if (resourceStatuses.size > 0) {
     resourceMap = filteredResourceMap
   }
-  Object.values(resourceMap).forEach(subscription => {
-    const isLocalFailedSubscription =
-      subscription._hubClusterResource &&
-      R.contains('Fail', R.pathOr('Fail', ['status'])(subscription))
-    if (isLocalFailedSubscription) {
-      localSubscriptionFailed = true
-    }
-    const isLinkedLocalPlacementSubs =
-      isLocalPlacementSubs ||
-      (_.get(subscription, 'localPlacement', '') === 'true' &&
-        _.get(subscription, 'cluster', '') === LOCAL_HUB_NAME)
-    if (
-      isLinkedLocalPlacementSubs ||
-      !subscription._hubClusterResource ||
-      isLocalFailedSubscription
-    ) {
-      const subscriptionPulse = R.contains(
-        'Fail',
-        R.pathOr('', ['status'])(subscription)
-      )
-        ? failureStatus
-        : R.pathOr(null, ['status'])(subscription) === null
-          ? warningStatus
-          : checkmarkStatus
+  Object.values(resourceMap).forEach(subscriptions => {
+    subscriptions.forEach(subscription => {
+      const isLocalFailedSubscription =
+        subscription._hubClusterResource &&
+        R.contains('Fail', R.pathOr('Fail', ['status'])(subscription))
+      if (isLocalFailedSubscription) {
+        localSubscriptionFailed = true
+      }
+      const isLinkedLocalPlacementSubs =
+        isLocalPlacementSubs ||
+        (_.get(subscription, 'localPlacement', '') === 'true' &&
+          _.get(subscription, 'cluster', '') === LOCAL_HUB_NAME)
+      if (
+        isLinkedLocalPlacementSubs ||
+        !subscription._hubClusterResource ||
+        isLocalFailedSubscription
+      ) {
+        const subscriptionPulse = R.contains(
+          'Fail',
+          R.pathOr('', ['status'])(subscription)
+        )
+          ? failureStatus
+          : R.pathOr(null, ['status'])(subscription) === null
+            ? warningStatus
+            : checkmarkStatus
 
-      //if subscription has not status show an error message
-      const emptyStatusErrorMsg = subscription._hubClusterResource
-        ? msgs.get('resource.subscription.nostatus.hub', ['Propagated'])
-        : msgs.get('resource.subscription.nostatus.remote', ['Subscribed'])
+        //if subscription has not status show an error message
+        const emptyStatusErrorMsg = subscription._hubClusterResource
+          ? msgs.get('resource.subscription.nostatus.hub', ['Propagated'])
+          : msgs.get('resource.subscription.nostatus.remote', ['Subscribed'])
 
-      const subscriptionStatus = R.pathOr(emptyStatusErrorMsg, ['status'])(
-        subscription
-      )
-      details.push({
-        labelValue: subscription.cluster,
-        value: subscriptionStatus,
-        status: subscriptionPulse
-      })
-      !isLocalPlacementSubs &&
-        isLinkedLocalPlacementSubs &&
+        const subscriptionStatus = R.pathOr(emptyStatusErrorMsg, ['status'])(
+          subscription
+        )
         details.push({
-          labelKey: 'resource.subscription.local',
-          value: 'true'
+          labelValue: subscription.cluster,
+          value: subscriptionStatus,
+          status: subscriptionPulse
         })
+        !isLocalPlacementSubs &&
+          isLinkedLocalPlacementSubs &&
+          details.push({
+            labelKey: 'resource.subscription.local',
+            value: 'true'
+          })
 
-      setClusterWindowStatus(windowStatusArray, subscription, details)
+        setClusterWindowStatus(windowStatusArray, subscription, details)
+
+        details.push({
+          type: 'link',
+          value: {
+            label: msgs.get(specsPropsYaml),
+            data: {
+              action: showResourceYaml,
+              cluster: subscription.cluster,
+              editLink: createEditLink(subscription)
+            }
+          },
+          indent: true
+        })
+      }
 
       details.push({
-        type: 'link',
-        value: {
-          label: msgs.get(specsPropsYaml),
-          data: {
-            action: showResourceYaml,
-            cluster: subscription.cluster,
-            editLink: createEditLink(subscription)
-          }
-        },
-        indent: true
+        type: 'spacer'
       })
-    }
-
-    details.push({
-      type: 'spacer'
     })
   })
 

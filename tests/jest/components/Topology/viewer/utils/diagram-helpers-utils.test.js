@@ -315,19 +315,32 @@ describe("getActiveFilterCodes all statuses filtered", () => {
 
 describe("filterSubscriptionObject simple subscription object", () => {
   const subs = {
-    sub1: {
-      status: "Subscribed"
-    },
-    sub2: {
-      status: "Propagated"
-    },
-    sub3: {
-      status: "Fail"
-    }
+    sub1: [
+      {
+        status: "Subscribed"
+      }
+    ],
+    sub2: [
+      {
+        status: "Propagated"
+      }
+    ],
+    sub3: [
+      {
+        status: "Fail"
+      }
+    ]
+  };
+  const resultSubs = {
+    sub1: { status: "Subscribed" },
+    sub2: { status: "Propagated" },
+    sub3: { status: "Fail" }
   };
 
   it("should filter object", () => {
-    expect(filterSubscriptionObject(subs, new Set([3, 2, 0]))).toEqual(subs);
+    expect(filterSubscriptionObject(subs, new Set([3, 2, 0]))).toEqual(
+      resultSubs
+    );
   });
 });
 
@@ -346,8 +359,8 @@ describe("getPulseStatusForSubscription no subscriptionItem.status", () => {
     specs: {
       raw: { spec: {} },
       subscriptionModel: {
-        "mortgagedc-subscription-braveman": {},
-        "mortgagedc-subscription-braveman2": {}
+        "mortgagedc-subscription-braveman": [],
+        "mortgagedc-subscription-braveman2": []
       },
       row: 12
     },

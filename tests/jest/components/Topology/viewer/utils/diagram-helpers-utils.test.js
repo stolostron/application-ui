@@ -16,11 +16,61 @@ import {
   syncControllerRevisionPodStatusMap,
   fixMissingStateOptions,
   namespaceMatchTargetServer,
-  setArgoApplicationDeployStatus,
-  getStatusForArgoApp,
-  translateArgoHealthStatus,
-  getPulseStatusForArgoApp
+  updateAppClustersMatchingSearch
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
+
+describe("updateAppClustersMatchingSearch", () => {
+  const searchClusters = [
+    {
+      name: "local-cluster",
+      consoleURL: "https://console-openshift-console.apps.app-abcd.com"
+    },
+    {
+      name: "ui-managed",
+      consoleURL: "https://console-openshift-console.apps.app-abcd.managed.com"
+    }
+  ];
+  const clsNode1 = {
+    specs: {
+      appClusters: [
+        "local-cluster",
+        "ui-managed",
+        "https://api.app-abcd.com:1234",
+        "https://api.app-abcd.managed_no_match.com:6999",
+        "https://api.app-abcd.managed.com:6999"
+      ],
+      targetNamespaces: {
+        "https://api.app-abcd.com:1234": ["localNS1", "localNS2"],
+        "https://api.app-abcd.managed_no_match.com:6999": ["a", "b"],
+        "https://api.app-abcd.managed.com:6999": ["namespace1", "namespace2"],
+        "ui-managed": ["namespace1", "namespace3"],
+        "local-cluster": ["namespace4"]
+      }
+    }
+  };
+  const resultNode1 = {
+    specs: {
+      clusters: searchClusters,
+      appClusters: [
+        "https://api.app-abcd.managed_no_match.com:6999",
+        "local-cluster",
+        "ui-managed"
+      ],
+      targetNamespaces: {
+        "https://api.app-abcd.com:1234": ["localNS1", "localNS2"],
+        "https://api.app-abcd.managed_no_match.com:6999": ["a", "b"],
+        "https://api.app-abcd.managed.com:6999": ["namespace1", "namespace2"],
+        "ui-managed": ["namespace1", "namespace2", "namespace3"],
+        "local-cluster": ["localNS1", "localNS2", "namespace4"]
+      }
+    }
+  };
+  it("groups namespaces to clusters; adds namespace2 ns to ui-managed; adds localNS1,localNS2 to local cluster", () => {
+    expect(updateAppClustersMatchingSearch(clsNode1, searchClusters)).toEqual(
+      resultNode1
+    );
+  });
+});
 
 describe("getOnlineClusters", () => {
   const clusterNames = ["local-cluster", "ui-managed"];

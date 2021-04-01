@@ -439,3 +439,43 @@ export const getPulseStatusForArgoApp = node => {
   const minPulse = Math.min.apply(null, healthArr)
   return pulseValueArr[minPulse]
 }
+
+// try to match app destination clusters with hub clusters using search data
+export const updateAppClustersMatchingSearch = (node, searchClusters) => {
+  //get only clusters in a url format looking like a cluster api url
+  const appClusters = _.get(node, 'specs.appClusters', [])
+  const appClustersUsingURL = _.filter(appClusters, cls =>
+    _.startsWith(cls, 'https://api.')
+  )
+
+  appClustersUsingURL.forEach(appCls => {
+    try {
+      const clsUrl = new URL(appCls)
+      const clusterMatchName = clsUrl.hostname.substring(3) //remove api
+
+      const possibleMatch = _.find(searchClusters, cls =>
+        _.endsWith(_.get(cls, 'consoleURL', ''), clusterMatchName)
+      )
+      if (possibleMatch) {
+        //found the cluster matching the app destination server url, use the cluster name
+        const matchedClusterName = _.get(possibleMatch, 'name', '')
+        _.pull(appClusters, appCls)
+        if (!_.includes(appClusters, matchedClusterName)) {
+          appClusters.push(matchedClusterName)
+        }
+        //now move all target namespaces to this cluster name
+        const targetNamespaces = _.get(node, 'specs.targetNamespaces', {})
+        const targetNSForAppCls = targetNamespaces[appCls]
+        const targetNSForMatchedName = targetNamespaces[matchedClusterName]
+        targetNamespaces[matchedClusterName] = _.sortBy(
+          _.union(targetNSForAppCls, targetNSForMatchedName)
+        )
+      }
+    } catch (err) {
+      //ignore error
+    }
+  })
+  _.set(node, 'specs.appClusters', _.sortBy(appClusters))
+  _.set(node, 'specs.clusters', searchClusters)
+  return node
+}

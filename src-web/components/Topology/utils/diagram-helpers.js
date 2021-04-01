@@ -31,7 +31,8 @@ import {
   fixMissingStateOptions,
   namespaceMatchTargetServer,
   setArgoApplicationDeployStatus,
-  getPulseStatusForArgoApp
+  getPulseStatusForArgoApp,
+  updateAppClustersMatchingSearch
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor } from '../../../actions/topology'
@@ -998,7 +999,7 @@ export const setupResourceModel = (
       const nodeId = _.get(node, 'id', '')
       if (nodeId === 'member--clusters--') {
         //cluster node, set search found clusters objects here
-        _.set(node, 'specs.clusters', clustersObjects)
+        updateAppClustersMatchingSearch(node, clustersObjects)
         // set clusters status on the app node, this is an argo app
         // we have all clusters information here
         const appNode = topology.nodes[0]

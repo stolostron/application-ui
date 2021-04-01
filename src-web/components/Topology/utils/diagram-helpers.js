@@ -2024,7 +2024,7 @@ export const addNodeServiceLocationForCluster = (node, typeObject, details) => {
 export const processResourceActionLink = (
   resource,
   toggleLoading,
-  handleLinkError
+  handleErrorMsg
 ) => {
   let targetLink = ''
   const linkPath = R.pathOr('', ['action'])(resource)
@@ -2038,13 +2038,7 @@ export const processResourceActionLink = (
     targetLink = `/search?filters={"textsearch":"kind:${kind}${nsData} name:${name}"}`
     break
   case 'open_argo_editor': {
-    openArgoCDEditor(
-      cluster,
-      namespace,
-      name,
-      toggleLoading,
-      handleLinkError
-    ) // the editor opens here
+    openArgoCDEditor(cluster, namespace, name, toggleLoading, handleErrorMsg) // the editor opens here
     targetLink = ''
     break
   }

@@ -308,6 +308,7 @@ const getPulseStatusForGenericNode = node => {
     return pulse //no need to check anything else, return red
   }
   const name = _.get(node, metadataName, '')
+  const namespace = _.get(node, metadataNamespace, '')
   const channel = _.get(node, 'specs.raw.spec.channel', '')
   const resourceName =
     !isDeployableResource(node) && channel.length > 0
@@ -327,16 +328,29 @@ const getPulseStatusForGenericNode = node => {
     pulse = 'yellow'
     return pulse
   }
-
+  // list of target namespaces per cluster
+  const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
-    const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
-
-    if (!resourceItem) {
-      // resource not created on a cluster
-      pulse = 'yellow'
-    }
+    const resourcesForCluster =
+      resourceMap[`${resourceName}-${clusterName}`] || []
+    //get target cluster namespaces
+    const targetNSList = targetNamespaces[clusterName] ||
+      (resourcesForCluster.length > 0 &&
+        _.uniq(_.map(resourcesForCluster, 'namespace'))) || [namespace]
+    targetNSList.forEach(targetNS => {
+      if (
+        !_.find(
+          resourcesForCluster,
+          obj => _.get(obj, 'namespace', '') === targetNS
+        )
+      ) {
+        // resource not created on this cluster for the required target namespace
+        pulse = 'yellow'
+        return pulse
+      }
+    })
   })
 
   return pulse
@@ -408,12 +422,13 @@ export const getPulseForNodeWithPodStatus = node => {
     resourceMap &&
     Object.keys(resourceMap).length > 0
   ) {
-    desired = resourceMap[Object.keys(resourceMap)[0]].desired
-      ? resourceMap[Object.keys(resourceMap)[0]].desired
+    desired = resourceMap[Object.keys(resourceMap)[0]][0].desired
+      ? resourceMap[Object.keys(resourceMap)[0]][0].desired
       : 'NA'
   }
 
   const resourceName = _.get(node, metadataName, '')
+  const namespace = _.get(node, metadataNamespace, '')
   const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
@@ -425,71 +440,94 @@ export const getPulseForNodeWithPodStatus = node => {
 
   //must have pods, set the pods status here
   const podStatusMap = {}
-  const podList = _.get(node, 'specs.podModel', {})
+  const podList = _.get(node, 'specs.podModel', [])
 
+  // list of target namespaces per cluster
+  const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
-    const resourceItem = fixMissingStateOptions(
-      resourceMap[`${resourceName}-${clusterName}`]
+    const resourceItems = fixMissingStateOptions(
+      resourceMap[`${resourceName}-${clusterName}`] || []
     )
 
-    const processItem = Object.keys(podList).length === 0 && resourceItem
-
-    if (resourceItem && resourceItem.kind === 'daemonset') {
-      desired = resourceItem.desired
-    }
-
-    let podsReady = 0
-    let podsUnavailable = 0
-    //find pods status and pulse from pods model, if available
-    Object.values(podList).forEach(podItem => {
-      podsUnavailable =
-        podsUnavailable + getPodState(podItem, clusterName, podErrorStates) //podsUnavailable + 1
-      podsReady =
-        podsReady + getPodState(podItem, clusterName, podSuccessStates)
-    })
-
-    podStatusMap[clusterName] = {
-      available: 0,
-      current: 0,
-      desired: desired,
-      ready: podsReady,
-      unavailable: podsUnavailable
-    }
-
-    pulse = getPulseForData(pulse, podsReady, desired, podsUnavailable)
-    if (processItem) {
-      //no pods linked to the resource, check if we have enough information on the actual resource
-      podStatusMap[clusterName] = {
-        available: resourceItem.available || 0,
-        current: resourceItem.current || 0,
-        desired: resourceItem.desired || 0,
-        ready: resourceItem.ready || 0
-      }
-
-      pulse = getPulseForData(
-        pulse,
-        resourceItem.available ? resourceItem.available : 0,
-        resourceItem.desired,
-        0
+    //get cluster target namespaces
+    const targetNSList = targetNamespaces[clusterName] ||
+      (resourceItems.length > 0 &&
+        _.uniq(_.map(resourceItems, 'namespace'))) || [namespace]
+    targetNSList.forEach(targetNS => {
+      const resourceItemsForNS = _.filter(
+        resourceItems,
+        obj => _.get(obj, 'namespace', '') === targetNS
       )
-    }
-    // assign a number to each pulse with lowest number being most critical
-    if (pulse === 'green') {
-      pulseArr.push(3)
-    } else if (pulse === 'yellow') {
-      pulseArr.push(2)
-    } else if (pulse === 'orange') {
-      pulseArr.push(1)
-    } else if (pulse === 'red') {
-      pulseArr.push(0)
-    }
+
+      const podObjects = _.flatten(Object.values(podList))
+      resourceItemsForNS.forEach(resourceItem => {
+        //process item if there are no pods in the same ns - cluster as resource item
+        const processItem =
+          resourceItem &&
+          _.filter(
+            Object.values(podObjects),
+            obj =>
+              _.get(obj, 'namespace', '') === targetNS &&
+              _.get(obj, 'cluster', '') === clusterName
+          ).length === 0
+        if (resourceItem && resourceItem.kind === 'daemonset') {
+          desired = resourceItem.desired
+        }
+
+        let podsReady = 0
+        let podsUnavailable = 0
+        //find pods status and pulse from pods model, if available
+        Object.values(podObjects).forEach(podItem => {
+          podsUnavailable =
+            podsUnavailable + getPodState(podItem, clusterName, podErrorStates) //podsUnavailable + 1
+          podsReady =
+            podsReady + getPodState(podItem, clusterName, podSuccessStates)
+        })
+
+        podStatusMap[`${clusterName}-${targetNS}`] = {
+          available: 0,
+          current: 0,
+          desired: desired,
+          ready: podsReady,
+          unavailable: podsUnavailable
+        }
+
+        pulse = getPulseForData(pulse, podsReady, desired, podsUnavailable)
+        if (processItem) {
+          //no pods linked to the resource, check if we have enough information on the actual resource
+          podStatusMap[`${clusterName}-${targetNS}`] = {
+            available: resourceItem.available || 0,
+            current: resourceItem.current || 0,
+            desired: resourceItem.desired || 0,
+            ready: resourceItem.ready || 0
+          }
+
+          pulse = getPulseForData(
+            pulse,
+            resourceItem.available ? resourceItem.available : 0,
+            resourceItem.desired,
+            0
+          )
+        }
+        // assign a number to each pulse with lowest number being most critical
+        if (pulse === 'green') {
+          pulseArr.push(3)
+        } else if (pulse === 'yellow') {
+          pulseArr.push(2)
+        } else if (pulse === 'orange') {
+          pulseArr.push(1)
+        } else if (pulse === 'red') {
+          pulseArr.push(0)
+        }
+      })
+    })
   })
 
   // set node icon to the most critical status
   const minPulse = Math.min.apply(null, pulseArr)
-  pulse = pulseValueArr[minPulse]
+  pulse = pulseValueArr[minPulse] || pulseValueArr[2] //show orange is no pods
   _.set(node, 'podStatusMap', podStatusMap)
 
   if (onlineClusters.length < clusterNames.length) {
@@ -710,7 +748,7 @@ export const createResourceSearchLink = node => {
     const kindModel = _.get(node, `specs.${nodeType}Model`, {})
     let computedNameList = []
     let computedNSList = []
-    Object.values(kindModel).forEach(item => {
+    _.flatten(Object.values(kindModel)).forEach(item => {
       computedNameList = R.union(computedNameList, [item.name])
       computedNSList = R.union(computedNSList, [item.namespace])
     })
@@ -920,7 +958,10 @@ const addResourceToModel = (
   nameWithoutChartRelease
 ) => {
   const kindModel = _.get(resourceMapObject, `specs.${kind}Model`, {})
-  kindModel[`${nameWithoutChartRelease}-${relatedKind.cluster}`] = relatedKind
+  const kindList =
+    kindModel[`${nameWithoutChartRelease}-${relatedKind.cluster}`] || []
+  kindList.push(relatedKind)
+  kindModel[`${nameWithoutChartRelease}-${relatedKind.cluster}`] = kindList
   _.set(resourceMapObject, `specs.${kind}Model`, kindModel)
 }
 
@@ -1120,6 +1161,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     return details
   }
   const name = _.get(node, metadataName, '')
+  const namespace = _.get(node, metadataNamespace, '')
   const channel = _.get(node, 'specs.raw.spec.channel', '')
   const resourceName =
     !isDeployable && channel.length > 0 ? `${channel}-${name}` : name
@@ -1128,6 +1170,8 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
+  // list of target namespaces per cluster
+  const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
 
   if (
     _.get(node, 'type', '') === 'ansiblejob' &&
@@ -1184,72 +1228,86 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       // offline cluster, skip
       return
     }
-    let res = resourceMap[`${resourceName}-${clusterName}`]
+    details.push({
+      labelValue: msgs.get('topology.filter.category.clustername'),
+      value: clusterName
+    })
+    const resourcesForCluster =
+      resourceMap[`${resourceName}-${clusterName}`] || []
+    //get cluster target namespaces
+    const targetNSList = targetNamespaces[clusterName] ||
+      (resourcesForCluster.length > 0 &&
+        _.uniq(_.map(resourcesForCluster, 'namespace'))) || [namespace]
+    targetNSList.forEach(targetNS => {
+      let res = _.find(
+        resourcesForCluster,
+        obj => _.get(obj, 'namespace', '') === targetNS
+      )
+      if (
+        _.get(node, 'type', '') !== 'ansiblejob' ||
+        !_.get(node, 'specs.raw.hookType')
+      ) {
+        // process here only regular ansible tasks
+        const deployedKey = res
+          ? node.type === 'namespace' ? deployedNSStr : deployedStr
+          : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr
+        const statusStr =
+          deployedKey === deployedStr || deployedKey === deployedNSStr
+            ? checkmarkStatus
+            : pendingStatus
 
-    if (
-      _.get(node, 'type', '') !== 'ansiblejob' ||
-      !_.get(node, 'specs.raw.hookType')
-    ) {
-      // process here only regular ansible tasks
-      const deployedKey = res
-        ? node.type === 'namespace' ? deployedNSStr : deployedStr
-        : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr
-      const statusStr =
-        deployedKey === deployedStr || deployedKey === deployedNSStr
-          ? checkmarkStatus
-          : pendingStatus
-
-      let addItemToDetails = false
-      if (resourceStatuses.size > 0) {
-        if (
-          (statusStr === checkmarkStatus &&
-            activeFilterCodes.has(checkmarkCode)) ||
-          (statusStr === pendingStatus &&
-            (activeFilterCodes.has(pendingCode) ||
-              activeFilterCodes.has(warningCode)))
-        ) {
+        let addItemToDetails = false
+        if (resourceStatuses.size > 0) {
+          if (
+            (statusStr === checkmarkStatus &&
+              activeFilterCodes.has(checkmarkCode)) ||
+            (statusStr === pendingStatus &&
+              (activeFilterCodes.has(pendingCode) ||
+                activeFilterCodes.has(warningCode)))
+          ) {
+            addItemToDetails = true
+          }
+        } else {
           addItemToDetails = true
         }
-      } else {
-        addItemToDetails = true
+
+        if (addItemToDetails) {
+          details.push({
+            labelValue: targetNS,
+            value: deployedKey,
+            status: statusStr
+          })
+        } else {
+          res = null
+        }
       }
 
-      if (addItemToDetails) {
+      if (res) {
+        //for open shift routes show location info
+        addOCPRouteLocation(node, clusterName, targetNS, details)
+
+        //for service
+        addNodeServiceLocation(node, clusterName, targetNS, details)
+
+        // add apiversion if not exist
+        if (!res.apiversion) {
+          _.assign(res, { apiversion: _.get(node, apiVersionPath) })
+        }
+
         details.push({
-          labelValue: clusterName,
-          value: deployedKey,
-          status: statusStr
+          type: 'link',
+          value: {
+            label: msgs.get(specsPropsYaml),
+            data: {
+              action: showResourceYaml,
+              cluster: res.cluster,
+              editLink: createEditLink(res)
+            }
+          },
+          indent: true
         })
-      } else {
-        res = null
       }
-    }
-
-    if (res) {
-      //for open shift routes show location info
-      addOCPRouteLocation(node, clusterName, details)
-
-      //for service
-      addNodeServiceLocation(node, clusterName, details)
-
-      // add apiversion if not exist
-      if (!res.apiversion) {
-        _.assign(res, { apiversion: _.get(node, apiVersionPath) })
-      }
-
-      details.push({
-        type: 'link',
-        value: {
-          label: msgs.get(specsPropsYaml),
-          data: {
-            action: showResourceYaml,
-            cluster: res.cluster,
-            editLink: createEditLink(res)
-          }
-        },
-        indent: true
-      })
-    }
+    })
   })
 
   details.push({
@@ -1281,9 +1339,12 @@ export const setPodDeployStatus = (
     labelKey: 'resource.deploy.pods.statuses'
   })
 
-  const podModel = _.get(node, 'specs.podModel', {})
+  const podModel = _.get(node, 'specs.podModel', [])
+  const podObjects = _.flatten(Object.values(podModel))
   const podStatusModel = _.get(updatedNode, 'podStatusMap', {})
   const podDataPerCluster = {} //pod details list for each cluster name
+  // list of target namespaces per cluster
+  const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
 
   const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
@@ -1300,62 +1361,73 @@ export const setPodDeployStatus = (
       // offline cluster, skip
       return
     }
-    const res = podStatusModel[clusterName]
-    let pulse = 'orange'
-    if (res) {
-      pulse = getPulseForData('', res.ready, res.desired, res.unavailable)
-    }
-    const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
+    details.push({
+      labelValue: msgs.get('topology.filter.category.clustername'),
+      value: clusterName
+    })
+    //get cluster target namespaces
+    const targetNSList = targetNamespaces[clusterName] ||
+      (podObjects.length > 0 && _.uniq(_.map(podObjects, 'namespace', ''))) || [
+      _.get(node, 'namespace', '')
+    ]
+    targetNSList.forEach(targetNS => {
+      const res = podStatusModel[`${clusterName}-${targetNS}`]
+      let pulse = 'orange'
+      if (res) {
+        pulse = getPulseForData('', res.ready, res.desired, res.unavailable)
+      }
+      const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
 
-    let statusStr
-    switch (pulse) {
-    case 'red':
-      statusStr = failureStatus
-      break
-    case 'yellow':
-      statusStr = warningStatus
-      break
-    case 'orange':
-      statusStr = pendingStatus
-      break
-    default:
-      statusStr = checkmarkStatus
-      break
-    }
+      let statusStr
+      switch (pulse) {
+      case 'red':
+        statusStr = failureStatus
+        break
+      case 'yellow':
+        statusStr = warningStatus
+        break
+      case 'orange':
+        statusStr = pendingStatus
+        break
+      default:
+        statusStr = checkmarkStatus
+        break
+      }
 
-    let addItemToDetails = false
-    if (resourceStatuses.size > 0) {
-      const pendingOrWanrning =
-        statusStr === pendingStatus || statusStr === warningStatus
-      if (
-        (statusStr === checkmarkStatus &&
-          activeFilterCodes.has(checkmarkCode)) ||
-        (statusStr === warningStatus && activeFilterCodes.has(warningCode)) ||
-        (pendingOrWanrning && activeFilterCodes.has(pendingCode)) ||
-        (statusStr === failureStatus && activeFilterCodes.has(failureCode))
-      ) {
+      let addItemToDetails = false
+      if (resourceStatuses.size > 0) {
+        const pendingOrWanrning =
+          statusStr === pendingStatus || statusStr === warningStatus
+        if (
+          (statusStr === checkmarkStatus &&
+            activeFilterCodes.has(checkmarkCode)) ||
+          (statusStr === warningStatus && activeFilterCodes.has(warningCode)) ||
+          (pendingOrWanrning && activeFilterCodes.has(pendingCode)) ||
+          (statusStr === failureStatus && activeFilterCodes.has(failureCode))
+        ) {
+          addItemToDetails = true
+        }
+      } else {
         addItemToDetails = true
       }
-    } else {
-      addItemToDetails = true
-    }
 
-    if (addItemToDetails) {
-      details.push({
-        labelValue: clusterName,
-        value: valueStr,
-        status: statusStr
-      })
-    }
+      if (addItemToDetails) {
+        details.push({
+          labelValue: targetNS,
+          value: valueStr,
+          status: statusStr
+        })
+      }
 
-    podDataPerCluster[clusterName] = []
+      podDataPerCluster[clusterName] = []
+    })
   })
 
   details.push({
     type: 'spacer'
   })
 
-  Object.values(podModel).forEach(pod => {
+  podObjects.forEach(pod => {
     const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
 
     const podError = getPodState(pod, undefined, podErrorStates)
@@ -1385,6 +1457,10 @@ export const setPodDeployStatus = (
           {
             labelKey: 'resource.pod',
             value: pod.name
+          },
+          {
+            labelKey: 'resource.namespace',
+            value: pod.namespace
           },
           {
             labelKey: 'resource.status',
@@ -1540,69 +1616,71 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
   if (resourceStatuses.size > 0) {
     resourceMap = filteredResourceMap
   }
-  Object.values(resourceMap).forEach(subscription => {
-    const isLocalFailedSubscription =
-      subscription._hubClusterResource &&
-      R.contains('Fail', R.pathOr('Fail', ['status'])(subscription))
-    if (isLocalFailedSubscription) {
-      localSubscriptionFailed = true
-    }
-    const isLinkedLocalPlacementSubs =
-      isLocalPlacementSubs ||
-      (_.get(subscription, 'localPlacement', '') === 'true' &&
-        _.get(subscription, 'cluster', '') === LOCAL_HUB_NAME)
-    if (
-      isLinkedLocalPlacementSubs ||
-      !subscription._hubClusterResource ||
-      isLocalFailedSubscription
-    ) {
-      const subscriptionPulse = R.contains(
-        'Fail',
-        R.pathOr('', ['status'])(subscription)
-      )
-        ? failureStatus
-        : R.pathOr(null, ['status'])(subscription) === null
-          ? warningStatus
-          : checkmarkStatus
+  Object.values(resourceMap).forEach(subscriptions => {
+    subscriptions.forEach(subscription => {
+      const isLocalFailedSubscription =
+        subscription._hubClusterResource &&
+        R.contains('Fail', R.pathOr('Fail', ['status'])(subscription))
+      if (isLocalFailedSubscription) {
+        localSubscriptionFailed = true
+      }
+      const isLinkedLocalPlacementSubs =
+        isLocalPlacementSubs ||
+        (_.get(subscription, 'localPlacement', '') === 'true' &&
+          _.get(subscription, 'cluster', '') === LOCAL_HUB_NAME)
+      if (
+        isLinkedLocalPlacementSubs ||
+        !subscription._hubClusterResource ||
+        isLocalFailedSubscription
+      ) {
+        const subscriptionPulse = R.contains(
+          'Fail',
+          R.pathOr('', ['status'])(subscription)
+        )
+          ? failureStatus
+          : R.pathOr(null, ['status'])(subscription) === null
+            ? warningStatus
+            : checkmarkStatus
 
-      //if subscription has not status show an error message
-      const emptyStatusErrorMsg = subscription._hubClusterResource
-        ? msgs.get('resource.subscription.nostatus.hub', ['Propagated'])
-        : msgs.get('resource.subscription.nostatus.remote', ['Subscribed'])
+        //if subscription has not status show an error message
+        const emptyStatusErrorMsg = subscription._hubClusterResource
+          ? msgs.get('resource.subscription.nostatus.hub', ['Propagated'])
+          : msgs.get('resource.subscription.nostatus.remote', ['Subscribed'])
 
-      const subscriptionStatus = R.pathOr(emptyStatusErrorMsg, ['status'])(
-        subscription
-      )
-      details.push({
-        labelValue: subscription.cluster,
-        value: subscriptionStatus,
-        status: subscriptionPulse
-      })
-      !isLocalPlacementSubs &&
-        isLinkedLocalPlacementSubs &&
+        const subscriptionStatus = R.pathOr(emptyStatusErrorMsg, ['status'])(
+          subscription
+        )
         details.push({
-          labelKey: 'resource.subscription.local',
-          value: 'true'
+          labelValue: subscription.cluster,
+          value: subscriptionStatus,
+          status: subscriptionPulse
         })
+        !isLocalPlacementSubs &&
+          isLinkedLocalPlacementSubs &&
+          details.push({
+            labelKey: 'resource.subscription.local',
+            value: 'true'
+          })
 
-      setClusterWindowStatus(windowStatusArray, subscription, details)
+        setClusterWindowStatus(windowStatusArray, subscription, details)
+
+        details.push({
+          type: 'link',
+          value: {
+            label: msgs.get(specsPropsYaml),
+            data: {
+              action: showResourceYaml,
+              cluster: subscription.cluster,
+              editLink: createEditLink(subscription)
+            }
+          },
+          indent: true
+        })
+      }
 
       details.push({
-        type: 'link',
-        value: {
-          label: msgs.get(specsPropsYaml),
-          data: {
-            action: showResourceYaml,
-            cluster: subscription.cluster,
-            editLink: createEditLink(subscription)
-          }
-        },
-        indent: true
+        type: 'spacer'
       })
-    }
-
-    details.push({
-      type: 'spacer'
     })
   })
 
@@ -1775,10 +1853,11 @@ export const addNodeOCPRouteLocationForCluster = (
   if (!hostName && typeObject) {
     //build up the name using <route_name>-<ns>.router.default.svc.cluster.local
     Object.values(clustersList).forEach(clusterObject => {
-      if (
-        R.pathOr('NA', ['metadata', 'name'])(clusterObject) ===
-        _.get(typeObject, 'cluster', '')
-      ) {
+      const clusterName =
+        _.get(clusterObject, 'metadata.name') ||
+        _.get(clusterObject, 'name') ||
+        ''
+      if (clusterName === _.get(typeObject, 'cluster', '')) {
         const clusterHost = getClusterHost(clusterObject.consoleURL)
         hostName = `${node.name}-${node.namespace}.${clusterHost}`
       }
@@ -1812,11 +1891,12 @@ export const addNodeOCPRouteLocationForCluster = (
 }
 
 //route
-export const addOCPRouteLocation = (node, clusterName, details) => {
+export const addOCPRouteLocation = (node, clusterName, targetNS, details) => {
   if (R.pathOr('', ['specs', 'raw', 'kind'])(node) === 'Route') {
     return addNodeInfoPerCluster(
       node,
       clusterName,
+      targetNS,
       details,
       addNodeOCPRouteLocationForCluster
     )
@@ -1879,11 +1959,17 @@ export const addIngressNodeInfo = (node, details) => {
 }
 
 //for service
-export const addNodeServiceLocation = (node, clusterName, details) => {
+export const addNodeServiceLocation = (
+  node,
+  clusterName,
+  targetNS,
+  details
+) => {
   if (R.pathOr('', ['specs', 'raw', 'kind'])(node) === 'Service') {
     return addNodeInfoPerCluster(
       node,
       clusterName,
+      targetNS,
       details,
       addNodeServiceLocationForCluster
     ) //process only services
@@ -1895,6 +1981,7 @@ export const addNodeServiceLocation = (node, clusterName, details) => {
 export const addNodeInfoPerCluster = (
   node,
   clusterName,
+  targetNS,
   details,
   getDetailsFunction
 ) => {
@@ -1902,8 +1989,12 @@ export const addNodeInfoPerCluster = (
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 
   const locationDetails = []
-  const typeObject = resourceMap[`${resourceName}-${clusterName}`]
-
+  const resourcesForCluster =
+    resourceMap[`${resourceName}-${clusterName}`] || []
+  const typeObject = _.find(
+    resourcesForCluster,
+    obj => _.get(obj, 'namespace', '') === targetNS
+  )
   if (typeObject) {
     getDetailsFunction(node, typeObject, locationDetails)
   }

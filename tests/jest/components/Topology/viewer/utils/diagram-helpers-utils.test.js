@@ -315,19 +315,32 @@ describe("getActiveFilterCodes all statuses filtered", () => {
 
 describe("filterSubscriptionObject simple subscription object", () => {
   const subs = {
-    sub1: {
-      status: "Subscribed"
-    },
-    sub2: {
-      status: "Propagated"
-    },
-    sub3: {
-      status: "Fail"
-    }
+    sub1: [
+      {
+        status: "Subscribed"
+      }
+    ],
+    sub2: [
+      {
+        status: "Propagated"
+      }
+    ],
+    sub3: [
+      {
+        status: "Fail"
+      }
+    ]
+  };
+  const resultSubs = {
+    sub1: { status: "Subscribed" },
+    sub2: { status: "Propagated" },
+    sub3: { status: "Fail" }
   };
 
   it("should filter object", () => {
-    expect(filterSubscriptionObject(subs, new Set([3, 2, 0]))).toEqual(subs);
+    expect(filterSubscriptionObject(subs, new Set([3, 2, 0]))).toEqual(
+      resultSubs
+    );
   });
 });
 
@@ -346,8 +359,8 @@ describe("getPulseStatusForSubscription no subscriptionItem.status", () => {
     specs: {
       raw: { spec: {} },
       subscriptionModel: {
-        "mortgagedc-subscription-braveman": {},
-        "mortgagedc-subscription-braveman2": {}
+        "mortgagedc-subscription-braveman": [],
+        "mortgagedc-subscription-braveman2": []
       },
       row: 12
     },
@@ -497,62 +510,71 @@ describe("syncControllerRevisionPodStatusMap", () => {
 });
 
 describe("fixMissingStateOptions", () => {
-  const itemNoAvailableReady = {
-    _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
-    apiversion: "v1",
-    created: "2021-01-28T19:24:10Z",
-    current: 1,
-    apigroup: "apps",
-    kind: "statefulset",
-    name: "mariadb",
-    namespace: "val-mariadb-helm",
-    selfLink: "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
-    cluster: "fxiang-eks",
-    desired: 1,
-    label:
-      "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
-    _clusterNamespace: "fxiang-eks",
-    _rbac: "fxiang-eks_apps_statefulsets"
-  };
+  const itemNoAvailableReady = [
+    {
+      _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
+      apiversion: "v1",
+      created: "2021-01-28T19:24:10Z",
+      current: 1,
+      apigroup: "apps",
+      kind: "statefulset",
+      name: "mariadb",
+      namespace: "val-mariadb-helm",
+      selfLink:
+        "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
+      cluster: "fxiang-eks",
+      desired: 1,
+      label:
+        "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
+      _clusterNamespace: "fxiang-eks",
+      _rbac: "fxiang-eks_apps_statefulsets"
+    }
+  ];
 
-  const itemNoAvailable = {
-    _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
-    apiversion: "v1",
-    created: "2021-01-28T19:24:10Z",
-    current: 1,
-    apigroup: "apps",
-    kind: "statefulset",
-    name: "mariadb",
-    namespace: "val-mariadb-helm",
-    selfLink: "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
-    cluster: "fxiang-eks",
-    desired: 1,
-    ready: 1,
-    label:
-      "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
-    _clusterNamespace: "fxiang-eks",
-    _rbac: "fxiang-eks_apps_statefulsets"
-  };
+  const itemNoAvailable = [
+    {
+      _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
+      apiversion: "v1",
+      created: "2021-01-28T19:24:10Z",
+      current: 1,
+      apigroup: "apps",
+      kind: "statefulset",
+      name: "mariadb",
+      namespace: "val-mariadb-helm",
+      selfLink:
+        "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
+      cluster: "fxiang-eks",
+      desired: 1,
+      ready: 1,
+      label:
+        "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
+      _clusterNamespace: "fxiang-eks",
+      _rbac: "fxiang-eks_apps_statefulsets"
+    }
+  ];
 
-  const itemComplete = {
-    _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
-    apiversion: "v1",
-    created: "2021-01-28T19:24:10Z",
-    current: 1,
-    apigroup: "apps",
-    kind: "statefulset",
-    name: "mariadb",
-    namespace: "val-mariadb-helm",
-    selfLink: "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
-    cluster: "fxiang-eks",
-    desired: 1,
-    ready: 1,
-    label:
-      "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
-    _clusterNamespace: "fxiang-eks",
-    _rbac: "fxiang-eks_apps_statefulsets",
-    available: 1
-  };
+  const itemComplete = [
+    {
+      _uid: "fxiang-eks/7c30f5d2-a522-40be-a8a6-5e833012b17b",
+      apiversion: "v1",
+      created: "2021-01-28T19:24:10Z",
+      current: 1,
+      apigroup: "apps",
+      kind: "statefulset",
+      name: "mariadb",
+      namespace: "val-mariadb-helm",
+      selfLink:
+        "/apis/apps/v1/namespaces/val-mariadb-helm/statefulsets/mariadb",
+      cluster: "fxiang-eks",
+      desired: 1,
+      ready: 1,
+      label:
+        "app.kubernetes.io/component=primary; app.kubernetes.io/instance=mariadb; app.kubernetes.io/managed-by=Helm; app.kubernetes.io/name=mariadb; helm.sh/chart=mariadb-9.3.0",
+      _clusterNamespace: "fxiang-eks",
+      _rbac: "fxiang-eks_apps_statefulsets",
+      available: 1
+    }
+  ];
 
   it("should get complete item when no available and ready set", () => {
     expect(fixMissingStateOptions(itemNoAvailableReady)).toEqual(itemComplete);
@@ -564,10 +586,6 @@ describe("fixMissingStateOptions", () => {
 
   it("should get complete item when full data set", () => {
     expect(fixMissingStateOptions(itemComplete)).toEqual(itemComplete);
-  });
-
-  it("should return undefined", () => {
-    expect(fixMissingStateOptions(undefined)).toEqual(undefined);
   });
 });
 

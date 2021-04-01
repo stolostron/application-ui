@@ -642,136 +642,146 @@ export const validateSubscriptionDetails = (name, data, type, opType) => {
     //ignore this
     return;
   }
-  // as soon as details button is enabled we can proceed
-  cy
-    .get("[data-test-subscription-details=true]", { timeout: 50 * 1000 })
-    .scrollIntoView()
-    .click();
-  for (const [key, itemConfig] of Object.entries(data.config)) {
-    let value = itemConfig;
-    if (opType == "add") {
-      value = key == 0 ? data.config[1] : data.new[0]; // here we assume first subscription was removed by the delete test and then added a new one
-    }
 
-    // some subscriptions might not have time window
-    const type = value.timeWindow ? value.timeWindow.type : "active"; //if not defined is always active
-    cy.log(`Validate subscriptions cards for ${name} key=${key}`);
-
-    // Get "Repository resource" info
-    let repoInfo = value.url;
-    if (value.branch && value.branch.length > 0) {
-      repoInfo = `${repoInfo}Branch:${value.branch}`;
-    }
-    if (value.path && value.path.length > 0) {
-      repoInfo = `${repoInfo}Path:${value.path}`;
-    }
-
-    // Get "Time window" info
-    let timeWindowInfo = {};
-    if (value.timeWindow) {
-      timeWindowInfo["date"] = `Days of the week${value.timeWindow.date.join(
-        ", "
-      )}`;
-
-      if (value.timeWindow.hours) {
-        let timeRangeString = "";
-        value.timeWindow.hours.forEach((range, i) => {
-          timeRangeString =
-            `${timeRangeString}${convertTimeFormat(
-              range.start
-            )} - ${convertTimeFormat(range.end)}` +
-            `${i < value.timeWindow.hours.length - 1 ? ", " : ""}`;
-        });
-        timeWindowInfo["hours"] = `Time range${timeRangeString}`;
+  if (type !== "argo") {
+    // as soon as details button is enabled we can proceed
+    cy
+      .get("[data-test-subscription-details=true]", { timeout: 50 * 1000 })
+      .scrollIntoView()
+      .click();
+    for (const [key, itemConfig] of Object.entries(data.config)) {
+      let value = itemConfig;
+      if (opType == "add") {
+        value = key == 0 ? data.config[1] : data.new[0]; // here we assume first subscription was removed by the delete test and then added a new one
       }
-    }
-    const keywords = {
-      blockinterval: "Blocked",
-      activeinterval: "Active",
-      active: "Set time window"
-    };
 
-    // 1. Check "Repository resource" button and popover
-    cy
-      .get(".overview-cards-subs-section", { timeout: 120 * 1000 })
-      .children()
-      .eq(key)
-      .within($subcards => {
-        cy.log("Validate subscription repository info");
-        let repositoryText =
-          data.type === "objectstore"
-            ? "Object storage"
-            : data.type === "helm" ? "Helm" : "Git";
+      // some subscriptions might not have time window
+      const type = value.timeWindow ? value.timeWindow.type : "active"; //if not defined is always active
+      cy.log(`Validate subscriptions cards for ${name} key=${key}`);
 
-        //get repository popup info
-        cy
-          .get(".add-right-border", { timeout: 20 * 1000 })
-          .eq(1)
-          .within($repo => {
-            cy
-              .get(".pf-c-label__content", { timeout: 120 * 1000 })
-              .invoke("text")
-              .should("include", repositoryText);
+      // Get "Repository resource" info
+      let repoInfo = value.url;
+      if (value.branch && value.branch.length > 0) {
+        repoInfo = `${repoInfo}Branch:${value.branch}`;
+      }
+      if (value.path && value.path.length > 0) {
+        repoInfo = `${repoInfo}Path:${value.path}`;
+      }
+
+      // Get "Time window" info
+      let timeWindowInfo = {};
+      if (value.timeWindow) {
+        timeWindowInfo["date"] = `Days of the week${value.timeWindow.date.join(
+          ", "
+        )}`;
+
+        if (value.timeWindow.hours) {
+          let timeRangeString = "";
+          value.timeWindow.hours.forEach((range, i) => {
+            timeRangeString =
+              `${timeRangeString}${convertTimeFormat(
+                range.start
+              )} - ${convertTimeFormat(range.end)}` +
+              `${i < value.timeWindow.hours.length - 1 ? ", " : ""}`;
           });
-
-        cy.log("Validate Repository popup");
-        let repoInfo = value.url;
-        if (value.branch && value.branch.length > 0) {
-          repoInfo = `${repoInfo}Branch:${value.branch}`;
+          timeWindowInfo["hours"] = `Time range${timeRangeString}`;
         }
-        if (value.path && value.path.length > 0) {
-          repoInfo = `${repoInfo}Path:${value.path}`;
-        }
-        cy
-          .get(".pf-c-label")
-          .first()
-          .click({ force: true });
-      });
-    // Validate info in popover
-    cy
-      .get(".channel-labels-popover-content .channel-entry", {
-        timeout: 20 * 1000
-      })
-      .invoke("text")
-      .should("include", repoInfo);
-    cy
-      .get(".subs-icon")
-      .first()
-      .click(); // Close any popovers
+      }
+      const keywords = {
+        blockinterval: "Blocked",
+        activeinterval: "Active",
+        active: "Set time window"
+      };
 
-    // 2. Check "Time window" button and popover
-    cy
-      .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
-      .children()
-      .eq(key)
-      .within($subcards => {
-        cy.log(`Validate time window for subscription is ${keywords[type]}`);
-        type == "active"
-          ? cy
-              .get(".set-time-window-link", { timeout: 20 * 1000 })
-              .contains(keywords[type])
-          : cy
-              .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
-              .contains(keywords[type].toLowerCase());
-
-        if (type !== "active") {
-          cy.log("Validate time window popup");
-          cy
-            .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
-            .click({ force: true });
-        }
-      });
-    // Validate info in popover
-    if (type !== "active") {
+      // 1. Check "Repository resource" button and popover
       cy
-        .get(".timeWindow-labels-popover-content", { timeout: 20 * 1000 })
+        .get(".overview-cards-subs-section", { timeout: 120 * 1000 })
+        .children()
+        .eq(key)
+        .within($subcards => {
+          cy.log("Validate subscription repository info");
+          let repositoryText =
+            data.type === "objectstore"
+              ? "Object storage"
+              : data.type === "helm" ? "Helm" : "Git";
+
+          //get repository popup info
+          cy
+            .get(".add-right-border", { timeout: 20 * 1000 })
+            .eq(1)
+            .within($repo => {
+              cy
+                .get(".pf-c-label__content", { timeout: 120 * 1000 })
+                .invoke("text")
+                .should("include", repositoryText);
+            });
+
+          cy.log("Validate Repository popup");
+          let repoInfo = value.url;
+          if (value.branch && value.branch.length > 0) {
+            repoInfo = `${repoInfo}Branch:${value.branch}`;
+          }
+          if (value.path && value.path.length > 0) {
+            repoInfo = `${repoInfo}Path:${value.path}`;
+          }
+          cy
+            .get(".pf-c-label")
+            .first()
+            .click({ force: true });
+        });
+      // Validate info in popover
+      cy
+        .get(".channel-labels-popover-content .channel-entry", {
+          timeout: 20 * 1000
+        })
         .invoke("text")
-        .should("include", "Edit time window");
+        .should("include", repoInfo);
       cy
         .get(".subs-icon")
         .first()
         .click(); // Close any popovers
+
+      // 2. Check "Time window" button and popover
+      cy
+        .get(".overview-cards-subs-section", { timeout: 20 * 1000 })
+        .children()
+        .eq(key)
+        .within($subcards => {
+          cy.log(`Validate time window for subscription is ${keywords[type]}`);
+          type == "active"
+            ? cy
+                .get(".set-time-window-link", { timeout: 20 * 1000 })
+                .contains(keywords[type])
+            : cy
+                .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
+                .contains(keywords[type].toLowerCase());
+
+          if (type !== "active") {
+            cy.log("Validate time window popup");
+            cy
+              .get(".timeWindow-status-icon", { timeout: 20 * 1000 })
+              .click({ force: true });
+          }
+        });
+      // Validate info in popover
+      if (type !== "active") {
+        cy
+          .get(".timeWindow-labels-popover-content", { timeout: 20 * 1000 })
+          .invoke("text")
+          .should("include", "Edit time window");
+        cy
+          .get(".subs-icon")
+          .first()
+          .click(); // Close any popovers
+      }
     }
+  } else {
+    cy.log(
+      `${name} is an argoCD application. Show subscription details should be hidden.`
+    );
+    cy
+      .get("[data-test-subscription-details=true]", { timeout: 50 * 1000 })
+      .should("not.exist");
   }
 };
 

@@ -58,7 +58,7 @@ Cypress.Commands.add("login", (idp, user, password) => {
           .get("#inputPassword", { timeout: 20000 })
           .click()
           .focused()
-          .type(password);
+          .type(password, { log: false });
         cy.get('button[type="submit"]', { timeout: 20000 }).click();
         cy.get("#header", { timeout: 30000 }).should("exist");
       }

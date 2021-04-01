@@ -214,24 +214,22 @@ export const getPulseStatusForSubscription = node => {
     return pulse
   }
   let isPlaced = false
-  Object.values(resourceMap).forEach(subscriptionItemArray => {
-    subscriptionItemArray.forEach(subscriptionItem => {
-      if (subscriptionItem.status) {
-        if (R.contains('Failed', subscriptionItem.status)) {
-          pulse = 'red'
-        }
-        if (subscriptionItem.status === 'Subscribed') {
-          isPlaced = true // at least one cluster placed
-        }
-        if (
-          subscriptionItem.status !== 'Subscribed' &&
-          subscriptionItem.status !== 'Propagated' &&
-          pulse !== 'red'
-        ) {
-          pulse = 'yellow' // anything but failed or subscribed
-        }
+  _.flatten(Object.values(resourceMap)).forEach(subscriptionItem => {
+    if (subscriptionItem.status) {
+      if (R.contains('Failed', subscriptionItem.status)) {
+        pulse = 'red'
       }
-    })
+      if (subscriptionItem.status === 'Subscribed') {
+        isPlaced = true // at least one cluster placed
+      }
+      if (
+        subscriptionItem.status !== 'Subscribed' &&
+        subscriptionItem.status !== 'Propagated' &&
+        pulse !== 'red'
+      ) {
+        pulse = 'yellow' // anything but failed or subscribed
+      }
+    }
   })
   if (pulse === 'green' && !isPlaced) {
     pulse = 'yellow' // set to yellow if not placed

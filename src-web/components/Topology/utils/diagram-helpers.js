@@ -748,7 +748,7 @@ export const createResourceSearchLink = node => {
     const kindModel = _.get(node, `specs.${nodeType}Model`, {})
     let computedNameList = []
     let computedNSList = []
-    Object.values(kindModel).forEach(item => {
+    _.flatten(Object.values(kindModel)).forEach(item => {
       computedNameList = R.union(computedNameList, [item.name])
       computedNSList = R.union(computedNSList, [item.namespace])
     })

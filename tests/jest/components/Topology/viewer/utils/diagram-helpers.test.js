@@ -1414,11 +1414,13 @@ describe("setSubscriptionDeployStatus with time window ", () => {
     apiversion: "apps.open-cluster-management.io/v1",
     specs: {
       subscriptionModel: {
-        sub1: {
-          cluster: "local",
-          status: "Failed",
-          _hubClusterResource: "true"
-        }
+        sub1: [
+          {
+            cluster: "local",
+            status: "Failed",
+            _hubClusterResource: "true"
+          }
+        ]
       },
       raw: {
         apiversion: "apps.open-cluster-management.io/v1",
@@ -1483,11 +1485,13 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
     apiversion: "test",
     specs: {
       subscriptionModel: {
-        sub1: {
-          cluster: "local",
-          status: "Failed",
-          _hubClusterResource: "true"
-        }
+        sub1: [
+          {
+            cluster: "local",
+            status: "Failed",
+            _hubClusterResource: "true"
+          }
+        ]
       },
       raw: {
         apiVersion: "test",
@@ -1532,11 +1536,13 @@ describe("setSubscriptionDeployStatus with hub error", () => {
     namespace: "ns",
     specs: {
       subscriptionModel: {
-        sub1: {
-          cluster: "local",
-          status: "Failed",
-          _hubClusterResource: "true"
-        }
+        sub1: [
+          {
+            cluster: "local",
+            status: "Failed",
+            _hubClusterResource: "true"
+          }
+        ]
       }
     }
   };
@@ -1570,7 +1576,7 @@ describe("setSubscriptionDeployStatus with no sub error", () => {
     name: "name",
     namespace: "ns",
     specs: {
-      subscriptionModel: {}
+      subscriptionModel: []
     }
   };
   const response = [
@@ -1608,15 +1614,19 @@ describe("setSubscriptionDeployStatus with error", () => {
     namespace: "ns",
     specs: {
       subscriptionModel: {
-        sub1: {
-          cluster: "local",
-          status: "Failed"
-        },
-        sub2: {
-          cluster: "local",
-          status: "Propagated",
-          _hubClusterResource: true
-        }
+        sub1: [
+          {
+            cluster: "local",
+            status: "Failed"
+          }
+        ],
+        sub2: [
+          {
+            cluster: "local",
+            status: "Propagated",
+            _hubClusterResource: true
+          }
+        ]
       }
     }
   };
@@ -1652,10 +1662,12 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
     namespace: "ns",
     specs: {
       subscriptionModel: {
-        sub1: {
-          cluster: "local",
-          _hubClusterResource: "true"
-        }
+        sub1: [
+          {
+            cluster: "local",
+            _hubClusterResource: "true"
+          }
+        ]
       }
     }
   };
@@ -1695,14 +1707,18 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
     namespace: "ns",
     specs: {
       subscriptionModel: {
-        sub1: {
-          cluster: "local",
-          status: "Propagated",
-          _hubClusterResource: "true"
-        },
-        sub2: {
-          cluster: "remote1"
-        }
+        sub1: [
+          {
+            cluster: "local",
+            status: "Propagated",
+            _hubClusterResource: "true"
+          }
+        ],
+        sub2: [
+          {
+            cluster: "remote1"
+          }
+        ]
       }
     }
   };
@@ -1742,7 +1758,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
     name: "name",
     namespace: "ns",
     specs: {
-      subscriptionModel: {}
+      subscriptionModel: []
     }
   };
   const response = [
@@ -1780,15 +1796,19 @@ describe("setSubscriptionDeployStatus for node type different then subscription 
     namespace: "ns",
     specs: {
       subscriptionModel: {
-        sub1: {
-          cluster: "local",
-          status: "Failed"
-        },
-        sub2: {
-          cluster: "local-cluster",
-          status: "Failed",
-          name: "sub2-local"
-        }
+        sub1: [
+          {
+            cluster: "local",
+            status: "Failed"
+          }
+        ],
+        sub2: [
+          {
+            cluster: "local-cluster",
+            status: "Failed",
+            name: "sub2-local"
+          }
+        ]
       }
     }
   };
@@ -1822,7 +1842,7 @@ describe("setupResourceModel undefined 2", () => {
 });
 
 describe("computeNodeStatus ", () => {
-  const subscriptionInputGreen = {
+  const subscriptionInputRed1 = {
     id: "member--subscription--default--mortgagedc-subscription",
     name: "mortgagedc",
     specs: {
@@ -1830,34 +1850,38 @@ describe("computeNodeStatus ", () => {
         spec: { template: { spec: { containers: [{ name: "c1" }] } } }
       },
       subscriptionModel: {
-        "mortgagedc-subscription-braveman": {
-          apigroup: "apps.open-cluster-management.io",
-          apiversion: "v1",
-          channel: "mortgagedc-ch/mortgagedc-channel",
-          cluster: "braveman",
-          created: "2020-04-20T22:02:46Z",
-          kind: "subscription",
-          label:
-            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
-          name: "mortgagedc-subscription",
-          namespace: "default",
-          status: "Subscribed",
-          _clusterNamespace: "braveman-ns"
-        },
-        "mortgagedc-subscription-braveman2": {
-          apigroup: "apps.open-cluster-management.io",
-          apiversion: "v1",
-          channel: "mortgagedc-ch/mortgagedc-channel",
-          cluster: "braveman2",
-          created: "2020-04-20T22:02:46Z",
-          kind: "subscription",
-          label:
-            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
-          name: "mortgagedc-subscription",
-          namespace: "default",
-          status: "SubscribedFailed",
-          _clusterNamespace: "braveman-ns"
-        }
+        "mortgagedc-subscription-braveman": [
+          {
+            apigroup: "apps.open-cluster-management.io",
+            apiversion: "v1",
+            channel: "mortgagedc-ch/mortgagedc-channel",
+            cluster: "braveman",
+            created: "2020-04-20T22:02:46Z",
+            kind: "subscription",
+            label:
+              "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+            name: "mortgagedc-subscription",
+            namespace: "default",
+            status: "Subscribed",
+            _clusterNamespace: "braveman-ns"
+          }
+        ],
+        "mortgagedc-subscription-braveman2": [
+          {
+            apigroup: "apps.open-cluster-management.io",
+            apiversion: "v1",
+            channel: "mortgagedc-ch/mortgagedc-channel",
+            cluster: "braveman2",
+            created: "2020-04-20T22:02:46Z",
+            kind: "subscription",
+            label:
+              "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+            name: "mortgagedc-subscription",
+            namespace: "default",
+            status: "SubscribedFailed",
+            _clusterNamespace: "braveman-ns"
+          }
+        ]
       },
       row: 12
     },
@@ -1882,34 +1906,38 @@ describe("computeNodeStatus ", () => {
         spec: { template: { spec: { containers: [{ name: "c1" }] } } }
       },
       subscriptionModel: {
-        "mortgagedc-subscription-braveman": {
-          apigroup: "apps.open-cluster-management.io",
-          apiversion: "v1",
-          channel: "mortgagedc-ch/mortgagedc-channel",
-          cluster: "braveman",
-          created: "2020-04-20T22:02:46Z",
-          kind: "subscription",
-          label:
-            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
-          name: "mortgagedc-subscription",
-          namespace: "default",
-          status: "Subscribed",
-          _clusterNamespace: "braveman-ns"
-        },
-        "mortgagedc-subscription-braveman2": {
-          apigroup: "apps.open-cluster-management.io",
-          apiversion: "v1",
-          channel: "mortgagedc-ch/mortgagedc-channel",
-          cluster: "braveman2",
-          created: "2020-04-20T22:02:46Z",
-          kind: "subscription",
-          label:
-            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
-          name: "mortgagedc-subscription",
-          namespace: "default",
-          status: "SomeOtherState",
-          _clusterNamespace: "braveman-ns"
-        }
+        "mortgagedc-subscription-braveman": [
+          {
+            apigroup: "apps.open-cluster-management.io",
+            apiversion: "v1",
+            channel: "mortgagedc-ch/mortgagedc-channel",
+            cluster: "braveman",
+            created: "2020-04-20T22:02:46Z",
+            kind: "subscription",
+            label:
+              "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+            name: "mortgagedc-subscription",
+            namespace: "default",
+            status: "Subscribed",
+            _clusterNamespace: "braveman-ns"
+          }
+        ],
+        "mortgagedc-subscription-braveman2": [
+          {
+            apigroup: "apps.open-cluster-management.io",
+            apiversion: "v1",
+            channel: "mortgagedc-ch/mortgagedc-channel",
+            cluster: "braveman2",
+            created: "2020-04-20T22:02:46Z",
+            kind: "subscription",
+            label:
+              "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+            name: "mortgagedc-subscription",
+            namespace: "default",
+            status: "SomeOtherState",
+            _clusterNamespace: "braveman-ns"
+          }
+        ]
       },
       row: 12
     },
@@ -1923,7 +1951,7 @@ describe("computeNodeStatus ", () => {
       raw: {
         spec: { template: { spec: { containers: [{ name: "c1" }] } } }
       },
-      subscriptionModel: {},
+      subscriptionModel: [],
       row: 12
     },
     type: "subscription"
@@ -1937,34 +1965,38 @@ describe("computeNodeStatus ", () => {
         spec: { template: { spec: { containers: [{ name: "c1" }] } } }
       },
       subscriptionModel: {
-        "mortgagedc-subscription-braveman": {
-          apigroup: "apps.open-cluster-management.io",
-          apiversion: "v1",
-          channel: "mortgagedc-ch/mortgagedc-channel",
-          cluster: "braveman",
-          created: "2020-04-20T22:02:46Z",
-          kind: "subscription",
-          label:
-            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
-          name: "mortgagedc-subscription",
-          namespace: "default",
-          status: "Subscribed",
-          _clusterNamespace: "braveman-ns"
-        },
-        "mortgagedc-subscription-braveman2": {
-          apigroup: "apps.open-cluster-management.io",
-          apiversion: "v1",
-          channel: "mortgagedc-ch/mortgagedc-channel",
-          cluster: "braveman2",
-          created: "2020-04-20T22:02:46Z",
-          kind: "subscription",
-          label:
-            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
-          name: "mortgagedc-subscription",
-          namespace: "default",
-          status: "Propagated",
-          _clusterNamespace: "braveman-ns"
-        }
+        "mortgagedc-subscription-braveman": [
+          {
+            apigroup: "apps.open-cluster-management.io",
+            apiversion: "v1",
+            channel: "mortgagedc-ch/mortgagedc-channel",
+            cluster: "braveman",
+            created: "2020-04-20T22:02:46Z",
+            kind: "subscription",
+            label:
+              "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+            name: "mortgagedc-subscription",
+            namespace: "default",
+            status: "Subscribed",
+            _clusterNamespace: "braveman-ns"
+          }
+        ],
+        "mortgagedc-subscription-braveman2": [
+          {
+            apigroup: "apps.open-cluster-management.io",
+            apiversion: "v1",
+            channel: "mortgagedc-ch/mortgagedc-channel",
+            cluster: "braveman2",
+            created: "2020-04-20T22:02:46Z",
+            kind: "subscription",
+            label:
+              "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+            name: "mortgagedc-subscription",
+            namespace: "default",
+            status: "Propagated",
+            _clusterNamespace: "braveman-ns"
+          }
+        ]
       },
       row: 12
     },
@@ -2966,7 +2998,7 @@ describe("computeNodeStatus ", () => {
     specs: {}
   };
 
-  const appNoChannelRed1 = {
+  const appNoChannelGreen = {
     name: "mortgage-app-deploy",
     cluster: null,
     clusterName: null,
@@ -3048,11 +3080,11 @@ describe("computeNodeStatus ", () => {
     expect(computeNodeStatus(appNoChannelRed)).toEqual("red");
   });
 
-  it("return appNnoChannelRed1 green", () => {
-    expect(computeNodeStatus(appNoChannelRed1)).toEqual("green");
+  it("return appNoChannelGreen green", () => {
+    expect(computeNodeStatus(appNoChannelGreen)).toEqual("green");
   });
   it("return computeNodeStatus red", () => {
-    expect(computeNodeStatus(subscriptionInputGreen)).toEqual("red");
+    expect(computeNodeStatus(subscriptionInputRed1)).toEqual("red");
   });
 
   it("return computeNodeStatus orange", () => {

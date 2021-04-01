@@ -137,7 +137,7 @@ export const openArgoCDEditor = (
   namespace,
   name,
   toggleLoading,
-  handleLinkError
+  handleErrorMsg
 ) => {
   // toggle loading to true
   toggleLoading()
@@ -150,7 +150,7 @@ export const openArgoCDEditor = (
       // toggle loading to false
       toggleLoading()
       if (result.errors) {
-        handleLinkError(`Error: ${result.errors[0].message}`)
+        handleErrorMsg(`Error: ${result.errors[0].message}`)
         return
       } else {
         const searchResult = lodash.get(result, 'data.searchResult', [])
@@ -162,7 +162,7 @@ export const openArgoCDEditor = (
               namespace,
               cluster
             ])
-            handleLinkError(errMsg)
+            handleErrorMsg(errMsg)
             return
           } else {
             //get route object info
@@ -176,7 +176,7 @@ export const openArgoCDEditor = (
               .getArgoAppRouteURL(routeRequest)
               .then(routeURLResult => {
                 if (routeURLResult.errors) {
-                  handleLinkError(`Error: ${routeURLResult.errors[0].message}`)
+                  handleErrorMsg(`Error: ${routeURLResult.errors[0].message}`)
                 } else {
                   if (routeURLResult.data.argoAppRouteURL) {
                     window.open(
@@ -184,7 +184,7 @@ export const openArgoCDEditor = (
                       '_blank'
                     )
                   } else {
-                    handleLinkError(
+                    handleErrorMsg(
                       msgs.get('resource.argo.app.route.err', [
                         namespace,
                         cluster
@@ -194,14 +194,14 @@ export const openArgoCDEditor = (
                 }
               })
               .catch(err => {
-                handleLinkError(`Error: ${err.msg}`)
+                handleErrorMsg(`Error: ${err.msg}`)
               })
           }
         }
       }
     })
     .catch(err => {
-      handleLinkError(`Error: ${err.msg}`)
+      handleErrorMsg(`Error: ${err.msg}`)
     })
 }
 

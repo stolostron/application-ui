@@ -1,6 +1,5 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-import _ from "lodash";
 import { validateTopology } from "../../views/application";
 import { validateDefect7696 } from "../../views/common";
 import {

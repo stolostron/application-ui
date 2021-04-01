@@ -1,14 +1,7 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-import _ from "lodash";
-// exclude argo config
-const config = _.pickBy(JSON.parse(Cypress.env("TEST_CONFIG")), function(
-  value,
-  key
-) {
-  return !_.startsWith(key, "argo");
-});
+const config = Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
 import { apiResources } from "../../views/resources";
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application backend validation that app hub resources have been removed", () => {

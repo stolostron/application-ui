@@ -7,14 +7,7 @@ import {
   getManagedClusterName
 } from "../../views/resources";
 
-import _ from "lodash";
-// exclude argo config
-const config = _.pickBy(JSON.parse(Cypress.env("TEST_CONFIG")), function(
-  value,
-  key
-) {
-  return !_.startsWith(key, "argo");
-});
+const config = Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application application backend resources exist", () => {
   if (Cypress.env("TEST_MODE") !== "smoke") {

@@ -8,18 +8,9 @@ import {
   getNumberOfManagedClusters
 } from "../../views/resources";
 
-let config;
-if (Cypress.config().baseUrl.includes("localhost")) {
-  config = JSON.parse(Cypress.env("TEST_CONFIG"));
-} else {
-  // exclude argo config
-  config = _.pickBy(JSON.parse(Cypress.env("TEST_CONFIG")), function(
-    value,
-    key
-  ) {
-    return !_.startsWith(key, "argo");
-  });
-}
+const config = Cypress.config().baseUrl.includes("localhost")
+  ? Cypress.env("TEST_CONFIG")
+  : Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Test for single application page, topology ", () => {
   it(`get the name of the managed OCP cluster`, () => {
@@ -49,7 +40,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Te
             data.namespace
           );
         });
-        if (data.type == "git") {
+        if (data.type == "git" && type !== "argo") {
           it("Verify defects 7696 and 8055", () => {
             validateDefect7696(data.name);
           });

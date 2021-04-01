@@ -377,13 +377,13 @@ export const validateTopology = (
   opType,
   namespace
 ) => {
-  const apiVersion = "?apiVersion=argoproj.io/v1alpha1";
+  const apiVersion = `?apiVersion=${
+    type === "argo" ? "argoproj.io/v1alpha1" : "app.k8s.io%2Fv1beta1"
+  }`;
   if (!namespace) {
     namespace = `${name}-ns`;
   }
 
-  const searchLinkID =
-    type === "argo" ? "#app-search-resource-link" : "#app-search-link";
   verifyDetails(name, namespace, apiVersion);
 
   const appDetails = getSingleAppClusterTimeDetails(
@@ -397,7 +397,7 @@ export const validateTopology = (
 
   // verify search resource
   cy
-    .get(searchLinkID, { timeout: 20 * 1000 })
+    .get("#app-search-link", { timeout: 20 * 1000 })
     .invoke("attr", "href")
     .should(
       "include",

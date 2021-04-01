@@ -261,11 +261,12 @@ class ApplicationCreationPage extends React.Component {
       const { handleCreateApplication, handleUpdateApplication } = this.props
       const editApplication = this.getEditApplication()
       if (editApplication) {
-        handleUpdateApplication(resourceJSON)
+        resourceJSON.createResources.push({ deleteLinks: [...resourceJSON.deleteResources] })
+        handleUpdateApplication(resourceJSON.createResources)
       } else {
-        handleCreateApplication(resourceJSON)
+        handleCreateApplication(resourceJSON.createResources)
       }
-      const map = _.keyBy(resourceJSON, 'kind')
+      const map = _.keyBy(resourceJSON.createResources, 'kind')
       this.applicationNamespace = _.get(map, 'Application.metadata.namespace')
       this.applicationName = _.get(map, 'Application.metadata.name')
     }

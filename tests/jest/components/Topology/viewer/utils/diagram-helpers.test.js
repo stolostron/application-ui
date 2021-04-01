@@ -34,6 +34,8 @@ import {
 
 import { topology } from "./../../../TestingData";
 
+window.open = () => {}; // provide an empty implementation for window.open
+
 const ansibleSuccess = {
   type: "ansiblejob",
   name: "bigjoblaunch",

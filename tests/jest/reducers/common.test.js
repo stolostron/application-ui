@@ -359,24 +359,6 @@ describe("resourceReducerFunction", () => {
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });
-  it("should return a state for RESOURCE_MUTATE action", () => {
-    const state = {
-      pendingActions: {}
-    };
-    const action = {
-      type: "RESOURCE_MUTATE",
-      resourceName: "aaa",
-      item: {
-        name: "test"
-      }
-    };
-    const expectedValue = {
-      mutateErrorMsg: null,
-      mutateStatus: "IN_PROGRESS",
-      pendingActions: [{ action: "RESOURCE_MUTATE", name: "aaa" }]
-    };
-    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
-  });
 
   it("should return a state for RESOURCE_MUTATE_FAILURE action", () => {
     const state = {

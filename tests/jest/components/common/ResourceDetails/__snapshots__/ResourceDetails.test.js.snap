@@ -340,6 +340,7 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
             </div>
           </div>
         </article>
+        
         <div
           className="overview-cards-subs-section"
         >

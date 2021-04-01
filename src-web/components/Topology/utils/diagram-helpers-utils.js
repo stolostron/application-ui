@@ -162,27 +162,30 @@ export const filterSubscriptionObject = (resourceMap, activeFilterCodes) => {
 
 export const getOnlineClusters = (clusterNames, clusterObjs) => {
   const onlineClusters = []
-
   clusterNames.forEach(clsName => {
     const cluster = clsName.trim()
     if (cluster === LOCAL_HUB_NAME) {
       onlineClusters.push(cluster)
-      return
-    }
-    for (let i = 0; i < clusterObjs.length; i++) {
-      const clusterObjName = _.get(clusterObjs[i], metadataName)
-      if (clusterObjName === cluster) {
-        if (
-          clusterObjs[i].status === 'ok' ||
-          clusterObjs[i].status === 'pendingimport'
-        ) {
-          onlineClusters.push(cluster)
-        }
-        break
+    } else {
+      const matchingCluster = _.find(
+        clusterObjs,
+        cls =>
+          _.get(cls, 'name', '') === cluster ||
+          _.get(cls, metadataName, '') === cluster
+      )
+      if (
+        matchingCluster &&
+        (_.includes(
+          ['ok', 'pendingimport', 'OK'],
+          _.get(matchingCluster, 'status', '')
+        ) ||
+          _.get(matchingCluster, 'ManagedClusterConditionAvailable', '') ===
+            'True')
+      ) {
+        onlineClusters.push(cluster)
       }
     }
   })
-
   return onlineClusters
 }
 
@@ -319,6 +322,20 @@ export const namespaceMatchTargetServer = (
 }
 
 export const setArgoApplicationDeployStatus = (node, details) => {
+  // show error if app is not healthy
+  const appHealth = _.get(node, 'specs.raw.status.health.status')
+  const appStatusConditions = _.get(node, 'specs.raw.status.conditions')
+
+  if (
+    (appHealth === 'Unknown' || appHealth === 'Error') &&
+    appStatusConditions
+  ) {
+    details.push({
+      labelKey: 'resource.rule.clusters.error.label',
+      value: msgs.get('resource.argo.application.error.msg'),
+      status: failureStatus
+    })
+  }
   const relatedArgoApps = _.get(node, 'specs.relatedApps', [])
 
   // related Argo apps

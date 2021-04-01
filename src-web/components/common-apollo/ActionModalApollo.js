@@ -12,7 +12,7 @@
 import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
-import loadable from 'loadable-components'
+import loadable from '@loadable/component'
 import { GET_ACTION_MODAL_STATE } from '../../apollo-client/queries/StateQueries'
 import { Query } from 'react-apollo'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'

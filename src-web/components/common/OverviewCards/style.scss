@@ -64,11 +64,17 @@
 
   .app-name-container {
     display: flex;
-    line-height: 18px;
+    align-items: baseline;
   }
 
   .app-name {
     margin-right: 12px;
+  }
+
+  // Argo link
+  .argoLinkLoading {
+    pointer-events: none;
+    color: #5A6872;
   }
 
   .argo-icon-container {

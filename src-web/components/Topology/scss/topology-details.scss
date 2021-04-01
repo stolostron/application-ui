@@ -287,6 +287,11 @@
     &:hover {
       text-decoration: underline;
     }
+
+    &.loadingLink {
+      pointer-events: none;
+      color: $color__navy-gray-6;
+    }
   }
 
   .open-out-icon {
@@ -327,6 +332,22 @@
   &:hover {
     .details-view-scrollbar {
       visibility: visible;
+    }
+  }
+}
+
+.errMsgAlert {
+  margin-top: 2rem;
+
+  &.topologyAlert {
+    .pf-c-alert {
+      box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.10);
+    }
+  }
+
+  &.detailsCardAlert {
+    .pf-c-alert {
+      box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.40);
     }
   }
 }

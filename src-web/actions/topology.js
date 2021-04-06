@@ -316,6 +316,7 @@ const fetchArgoApplications = (
         //desired deployment state
         lodash.set(firstNode, 'specs.clusterNames', appData.clusterInfo)
         lodash.set(topoClusterNode, 'specs.appClusters', appData.clusterInfo)
+        lodash.set(topoClusterNode, 'specs.clusters', appData.clusterInfo)
         lodash.set(
           topoClusterNode,
           'specs.targetNamespaces',

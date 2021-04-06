@@ -272,11 +272,14 @@ export const getPulseStatusForCluster = node => {
       offlineCount = 0
 
   clusters.forEach(cluster => {
-    if (cluster.status === 'ok') {
+    if (
+      _.get(cluster, 'status', '').toLowerCase() === 'ok' ||
+      _.get(cluster, 'ManagedClusterConditionAvailable', '') === 'True'
+    ) {
       okCount++
-    } else if (cluster.status === 'pendingimport') {
+    } else if (_.get(cluster, 'status', '') === 'pendingimport') {
       pendingCount++
-    } else if (cluster.status === 'offline') {
+    } else if (_.get(cluster, 'status', '') === 'offline') {
       offlineCount++
     }
   })

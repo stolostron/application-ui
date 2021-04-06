@@ -14,7 +14,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { AcmPage } from '@open-cluster-management/ui-components'
+import {
+  AcmHeader,
+  AcmPage,
+  AcmRoute
+} from '@open-cluster-management/ui-components'
 import SecondaryHeader from '../components/SecondaryHeader'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { withLocale } from '../providers/LocaleProvider'
@@ -207,12 +211,6 @@ class App extends React.Component {
             <Redirect to={`${config.contextPath}/welcome`} />
           </Switch>
           <ActionModalApollo locale={serverProps.context.locale} />
-          <input
-            type="hidden"
-            id="app-access"
-            style={{ display: 'none' }}
-            value={serverProps.xsrfToken.toString('base64')}
-          />
         </AcmPage>
       </div>
     )
@@ -237,18 +235,38 @@ const mapStateToProps = state => {
   }
 }
 
+const getAcmRoute = props => {
+  let path = ''
+  if (client) {
+    path = window.location.pathname
+  } else {
+    path = props.url
+  }
+  if (path.includes(config.contextPath)) {
+    return AcmRoute.Applications
+  }
+  return AcmRoute.Welcome
+}
+
 const Container = Component =>
   withRouter(withLocale(connect(mapStateToProps)(Component)))
 const AppContainer = Container(App)
 
 const AppComponent = props => (
-  <div className="expand-vertically">
+  <AcmHeader route={getAcmRoute(props)}>
     <Route
       path={config.contextPath}
       serverProps={props}
-      render={() => <AppContainer {...props} />}
+      component={AppContainer}
     />
-  </div>
+  </AcmHeader>
+  // <div className="expand-vertically">
+  //   <Route
+  //     path={config.contextPath}
+  //     serverProps={props}
+  //     render={() => <AppContainer {...props} />}
+  //   />
+  // </div>
 )
 AppComponent.displayName = 'AppComponent'
 export default AppComponent

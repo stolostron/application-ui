@@ -11,6 +11,7 @@
 import R from 'ramda'
 import _ from 'lodash'
 import { LOCAL_HUB_NAME } from '../../../../lib/shared/constants'
+import msgs from '../../../../nls/platform.properties'
 
 const checkmarkCode = 3
 const warningCode = 2
@@ -76,7 +77,19 @@ export const nodeMustHavePods = node => {
   return false
 }
 
-export const getClusterName = nodeId => {
+export const getClusterName = (nodeId, node, findAll) => {
+  if (node && _.get(node, 'clusters.id', '') === 'member--clusters--') {
+    //cluster info is not set on the node id, get it from here
+    if (findAll) {
+      //get all cluster names as set by argo target, ignore deplaybale status
+      return _.union(
+        _.get(node, 'specs.clustersNames', []),
+        _.get(node, 'clusters.specs.appClusters', [])
+      ).join(',')
+    }
+    return _.get(node, 'specs.clustersNames', []).join(',')
+  }
+
   if (nodeId === undefined) {
     return ''
   }
@@ -132,43 +145,51 @@ export const getActiveFilterCodes = resourceStatuses => {
 
 export const filterSubscriptionObject = (resourceMap, activeFilterCodes) => {
   const filteredObject = {}
-  Object.entries(resourceMap).forEach(([key, value]) => {
-    if (value.status === 'Subscribed' && activeFilterCodes.has(checkmarkCode)) {
-      filteredObject[key] = value
-    }
-    if (value.status === 'Propagated' && activeFilterCodes.has(warningCode)) {
-      filteredObject[key] = value
-    }
-    if (value.status === 'Fail' && activeFilterCodes.has(failureCode)) {
-      filteredObject[key] = value
-    }
+  Object.entries(resourceMap).forEach(([key, values]) => {
+    values.forEach(value => {
+      if (
+        value.status === 'Subscribed' &&
+        activeFilterCodes.has(checkmarkCode)
+      ) {
+        filteredObject[key] = value
+      }
+      if (value.status === 'Propagated' && activeFilterCodes.has(warningCode)) {
+        filteredObject[key] = value
+      }
+      if (value.status === 'Fail' && activeFilterCodes.has(failureCode)) {
+        filteredObject[key] = value
+      }
+    })
   })
-
   return filteredObject
 }
 
 export const getOnlineClusters = (clusterNames, clusterObjs) => {
   const onlineClusters = []
-
   clusterNames.forEach(clsName => {
-    if (clsName.trim() === LOCAL_HUB_NAME) {
-      onlineClusters.push(clsName)
-      return
-    }
-    for (let i = 0; i < clusterObjs.length; i++) {
-      const clusterObjName = _.get(clusterObjs[i], metadataName)
-      if (clusterObjName === clsName.trim()) {
-        if (
-          clusterObjs[i].status === 'ok' ||
-          clusterObjs[i].status === 'pendingimport'
-        ) {
-          onlineClusters.push(clsName)
-        }
-        break
+    const cluster = clsName.trim()
+    if (cluster === LOCAL_HUB_NAME) {
+      onlineClusters.push(cluster)
+    } else {
+      const matchingCluster = _.find(
+        clusterObjs,
+        cls =>
+          _.get(cls, 'name', '') === cluster ||
+          _.get(cls, metadataName, '') === cluster
+      )
+      if (
+        matchingCluster &&
+        (_.includes(
+          ['ok', 'pendingimport', 'OK'],
+          _.get(matchingCluster, 'status', '')
+        ) ||
+          _.get(matchingCluster, 'ManagedClusterConditionAvailable', '') ===
+            'True')
+      ) {
+        onlineClusters.push(cluster)
       }
     }
   })
-
   return onlineClusters
 }
 
@@ -192,9 +213,8 @@ export const getPulseStatusForSubscription = node => {
     pulse = 'orange' //resource not available
     return pulse
   }
-
   let isPlaced = false
-  Object.values(resourceMap).forEach(subscriptionItem => {
+  _.flatten(Object.values(resourceMap)).forEach(subscriptionItem => {
     if (subscriptionItem.status) {
       if (R.contains('Failed', subscriptionItem.status)) {
         pulse = 'red'
@@ -202,7 +222,6 @@ export const getPulseStatusForSubscription = node => {
       if (subscriptionItem.status === 'Subscribed') {
         isPlaced = true // at least one cluster placed
       }
-
       if (
         subscriptionItem.status !== 'Subscribed' &&
         subscriptionItem.status !== 'Propagated' &&
@@ -220,13 +239,20 @@ export const getPulseStatusForSubscription = node => {
 }
 
 export const getExistingResourceMapKey = (resourceMap, name, relatedKind) => {
-  const keys = Object.keys(resourceMap)
-
+  // bofore loop, find all items with the same type as relatedKind
+  const isSameType = item => item.indexOf(`${relatedKind.kind}-`) === 0
+  const keys = R.filter(isSameType, Object.keys(resourceMap))
   let i
   for (i = 0; i < keys.length; i++) {
+    const keyObject = resourceMap[keys[i]]
     if (
-      keys[i].indexOf(name) > -1 &&
-      keys[i].indexOf(relatedKind.cluster) > -1
+      (keys[i].indexOf(name) > -1 &&
+        keys[i].indexOf(relatedKind.cluster) > -1) || //node id doesn't contain cluster name, match cluster using the object type
+      (_.includes(
+        _.get(keyObject, 'specs.clustersNames', []),
+        relatedKind.cluster
+      ) &&
+        name.indexOf(`${keyObject.type}-${keyObject.name}`) === 0)
     ) {
       return keys[i]
     }
@@ -268,16 +294,16 @@ export const syncControllerRevisionPodStatusMap = resourceMap => {
 
 //for items with pods and not getting ready or available state, default those values to the current state
 //this is a workaround for defect 8935, search doesn't return ready and available state for resources such as StatefulSets
-export const fixMissingStateOptions = item => {
-  if (item) {
+export const fixMissingStateOptions = items => {
+  items.forEach(item => {
     if (_.get(item, 'available') === undefined) {
       item.available = item.current //default to current state
     }
     if (_.get(item, 'ready') === undefined) {
       item.ready = item.current //default to current state
     }
-  }
-  return item
+  })
+  return items
 }
 
 //last attempt to match the resource namespace with the server target namespace ( argo )
@@ -298,41 +324,39 @@ export const namespaceMatchTargetServer = (
 }
 
 export const setArgoApplicationDeployStatus = (node, details) => {
-  const appLink = _.get(node, 'specs.raw.spec.appURL')
-  const linkId = _.get(node, 'uid')
-  const relatedArgoApps = _.get(node, 'specs.apps')
+  // show error if app is not healthy
+  const appHealth = _.get(node, 'specs.raw.status.health.status')
+  const appStatusConditions = _.get(node, 'specs.raw.status.conditions')
 
-  details.push({
-    type: 'link',
-    value: {
-      label: appLink,
-      id: `${linkId}-location`,
-      data: {
-        action: 'open_link',
-        targetLink: appLink
-      }
-    },
-    indent: true
-  })
+  if (
+    (appHealth === 'Unknown' || appHealth === 'Error') &&
+    appStatusConditions
+  ) {
+    details.push({
+      labelKey: 'resource.rule.clusters.error.label',
+      value: msgs.get('resource.argo.application.error.msg'),
+      status: failureStatus
+    })
+  }
+  const relatedArgoApps = _.get(node, 'specs.relatedApps', [])
 
-  details.push({
-    type: 'spacer'
-  })
   // related Argo apps
   details.push({
     type: 'label',
-    labelKey: 'resource.related.apps'
+    labelValue: msgs.get('resource.related.apps', [relatedArgoApps.length])
   })
 
   details.push({
     type: 'spacer'
   })
-  relatedArgoApps.forEach(app => {
-    const relatedAppName = _.get(app, metadataName)
-    const relatedLinkId = `application--${relatedAppName}`
-    const relatedAppHealth = _.get(app, 'status.health.status')
-    const relatedAppLink = _.get(app, 'spec.appURL')
 
+  const sortByNameCaseInsensitive = R.sortBy(
+    R.compose(R.toLower, R.prop('name'))
+  )
+  sortByNameCaseInsensitive(relatedArgoApps).forEach(app => {
+    const relatedAppName = app.name
+    const relatedLinkId = `application--${relatedAppName}`
+    const relatedAppHealth = _.get(app, 'status.health.status', 'Healthy')
     const statusStr = getStatusForArgoApp(relatedAppHealth)
 
     details.push({
@@ -340,18 +364,38 @@ export const setArgoApplicationDeployStatus = (node, details) => {
       value: relatedAppName,
       status: statusStr
     })
-
     details.push({
       type: 'link',
       value: {
-        label: relatedAppLink,
-        id: `${relatedLinkId}-location`,
+        label: msgs.get('props.show.argocd.editor'),
+        id: `${relatedLinkId}-argo-editor`,
         data: {
-          action: 'open_link',
-          targetLink: relatedAppLink
+          action: 'open_argo_editor',
+          cluster: _.get(app, 'cluster'),
+          namespace: _.get(app, 'namespace'),
+          name: relatedAppName
         }
       },
       indent: true
+    })
+
+    details.push({
+      labelKey: 'resource.argo.app.cluster',
+      value: _.get(app, 'cluster'),
+      indent: true
+    })
+    details.push({
+      labelKey: 'resource.argo.app.target.cluster',
+      value: _.get(app, 'destinationCluster'),
+      indent: true
+    })
+    details.push({
+      labelKey: 'resource.argo.app.target.cluster.ns',
+      value: _.get(app, 'destinationNamespace'),
+      indent: true
+    })
+    details.push({
+      type: 'spacer'
     })
   })
 }
@@ -385,13 +429,53 @@ export const translateArgoHealthStatus = healthStatus => {
 export const getPulseStatusForArgoApp = node => {
   const appHealth = _.get(node, 'specs.raw.status.health.status')
   const healthArr = [translateArgoHealthStatus(appHealth)]
-  const relatedApps = _.get(node, 'specs.apps')
+  const relatedApps = _.get(node, 'specs.relatedApps', [])
 
   relatedApps.forEach(app => {
-    const relatedAppHealth = _.get(app, 'status.health.status')
+    const relatedAppHealth = _.get(app, 'status.health.status', 'Healthy')
     healthArr.push(translateArgoHealthStatus(relatedAppHealth))
   })
 
   const minPulse = Math.min.apply(null, healthArr)
   return pulseValueArr[minPulse]
+}
+
+// try to match app destination clusters with hub clusters using search data
+export const updateAppClustersMatchingSearch = (node, searchClusters) => {
+  //get only clusters in a url format looking like a cluster api url
+  const appClusters = _.get(node, 'specs.appClusters', [])
+  const appClustersUsingURL = _.filter(appClusters, cls =>
+    _.startsWith(cls, 'https://api.')
+  )
+
+  appClustersUsingURL.forEach(appCls => {
+    try {
+      const clsUrl = new URL(appCls)
+      const clusterMatchName = clsUrl.hostname.substring(3) //remove api
+
+      const possibleMatch = _.find(searchClusters, cls =>
+        _.endsWith(_.get(cls, 'consoleURL', ''), clusterMatchName)
+      )
+      if (possibleMatch) {
+        //found the cluster matching the app destination server url, use the cluster name
+        const matchedClusterName = _.get(possibleMatch, 'name', '')
+        _.pull(appClusters, appCls)
+        if (!_.includes(appClusters, matchedClusterName)) {
+          appClusters.push(matchedClusterName)
+        }
+        //now move all target namespaces to this cluster name
+        const targetNamespaces = _.get(node, 'specs.targetNamespaces', {})
+        const targetNSForAppCls = targetNamespaces[appCls]
+        const targetNSForMatchedName = targetNamespaces[matchedClusterName]
+        targetNamespaces[matchedClusterName] = _.sortBy(
+          _.union(targetNSForAppCls, targetNSForMatchedName)
+        )
+      }
+    } catch (err) {
+      //ignore error
+    }
+  })
+  _.set(node, 'specs.appClusters', _.sortBy(appClusters))
+  _.set(node, 'specs.clusters', searchClusters)
+  return node
 }

@@ -13,7 +13,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button } from 'carbon-components-react'
+import { Button } from '@patternfly/react-core'
 import {
   AcmPageHeader,
   AcmSecondaryNav,
@@ -22,9 +22,8 @@ import {
 import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
-import SecondaryHeaderTooltip from './SecondaryHeaderTooltip'
 import classNames from 'classnames'
-import loadable from 'loadable-components'
+import loadable from '@loadable/component'
 
 const AutoRefreshSelect = loadable(() =>
   import(/* webpackChunkName: "autoRefreshSelect" */ './common/AutoRefreshSelect')
@@ -145,9 +144,7 @@ export class SecondaryHeader extends React.Component {
           aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
         >
           <div className="secondary-header simple-header">
-            <h1 className="bx--detail-page-header-title">
-              {decodeURIComponent(title)}
-            </h1>
+            <h1>{decodeURIComponent(title)}</h1>
             {this.renderTooltip()}
           </div>
         </div>
@@ -212,7 +209,7 @@ export class SecondaryHeader extends React.Component {
   }
 
   renderTabs() {
-    const { tabs } = this.props,
+    const { tabs, location } = this.props,
           { locale } = this.context
     return tabs.map((tab, idx) => {
       return (
@@ -220,43 +217,25 @@ export class SecondaryHeader extends React.Component {
           key={tab.id}
           id={tab.id}
           isActive={(this.getSelectedTab() || 0) === idx}
-          onClick={
-            tab.handleClick
-              ? tab.handleClick
-              : this.clickTab.bind(this, tab.url)
-          }
+          onClick={tab.handleClick || undefined}
         >
-          <Link to={tab.url}>{msgs.get(tab.label, locale)}</Link>
+          <Link
+            to={{
+              ...location,
+              pathname: tab.url,
+              state: { tabChange: location }
+            }}
+            replace={true}
+          >
+            {msgs.get(tab.label, locale)}
+          </Link>
         </AcmSecondaryNavItem>
       )
     })
   }
 
   renderTooltip() {
-    const { tooltip } = this.props
-    const { locale } = this.context
-    const { links = [] } = this.props
-    return (
-      <React.Fragment>
-        {tooltip && (
-          <SecondaryHeaderTooltip
-            text={tooltip.text}
-            link={tooltip.link}
-            linkText={msgs.get('tooltip.link', locale)}
-          />
-        )}
-        {links &&
-          links.map(link => {
-            const { id, kind, title } = link
-            // if portal, react component will create the button using a portal
-            if (kind === 'portal' && title) {
-              return <div key={id} id={id} className="portal" />
-            } else {
-              return null
-            }
-          })}
-      </React.Fragment>
-    )
+    // Not used
   }
 
   getSelectedTab() {
@@ -273,10 +252,6 @@ export class SecondaryHeader extends React.Component {
         return location.pathname.startsWith(tab.url)
       })
     return selectedTab[0] && selectedTab[0].index
-  }
-
-  clickTab(url) {
-    this.props.history.replace(url, { tabChange: true })
   }
 }
 

@@ -7,26 +7,16 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import '../../../../scss/variables';
 
 #ResourceDetails {
   .app-info-and-dashboard-links {
     position: fixed;
-    top: 6.3rem;
+    top: calc(5.1rem + var(--pf-c-page__main-section--PaddingTop));
     right: 12.75rem;
     z-index: 1001;
     background-color: $color__white;
     display: inline-block;
-  }
-
-  .app-info-and-dashboard-links .bx--link {
-    text-decoration: none;
-    color: #3d70b2;
-    font-family: "RedHatText";
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 20px;
   }
 
   .app-info-and-dashboard-links-separator {
@@ -69,4 +59,8 @@
     top: calc(2.082rem);
     right: 0%;
   }
+}
+
+.toastErrorMsg {
+  margin-top: 2rem;
 }

@@ -19,7 +19,7 @@
     {+head/}
 </head>
 
-<body class="bx--global-light-ui" aria-label={title}>
+<body aria-label="{title}">
    <div id="header">
      {header|s}
     </div>

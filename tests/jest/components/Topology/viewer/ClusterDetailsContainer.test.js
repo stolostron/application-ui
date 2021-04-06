@@ -8,6 +8,7 @@ import { shallow } from "enzyme";
 import ClusterDetailsContainer from "../../../../../src-web/components/Topology/viewer/ClusterDetailsContainer";
 
 const locale = "US-en";
+window.open = () => {}; // provide an empty implementation for window.open
 
 describe("ClusterDetailsContainer with no clusters", () => {
   const mockData = {
@@ -38,6 +39,13 @@ describe("ClusterDetailsContainer with no clusters", () => {
 describe("ClusterDetailsContainer with some clusters", () => {
   const mockData = {
     clusters: [
+      {
+        cpu: "12",
+        memory: "23308Mi",
+        name: "argo-fxiang-eks",
+        namespace: "argo-fxiang-eks",
+        status: "ok"
+      },
       {
         allocatable: { cpu: "11580m", memory: "20056Mi" },
         capacity: { cpu: "12", memory: "23308Mi" },

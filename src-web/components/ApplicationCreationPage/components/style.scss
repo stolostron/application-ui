@@ -7,15 +7,10 @@
  *******************************************************************************/
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'scss/variables';
 
 .creation-view-controls-labels {
   padding: 0 0.3125rem 1.125rem 0 !important;
-
-  .bx--form-item.bx--checkbox-wrapper:last-of-type {
-    margin-bottom: 10px;
-  }
 }
 
 .clusterSelector-container {
@@ -26,24 +21,6 @@
     font-size: 14px;
     font-weight: 700;
     color: #152935;
-  }
-
-  // Show Time window config section only when expanded
-  .bx--accordion__content {
-    display: none;
-  }
-
-  .bx--accordion__item--active {
-    .bx--accordion__content {
-      width: 100%;
-      max-width: 645px;
-      display: inline-block;
-      background-color: white;
-      border-left: 5px solid #dee3e6;
-      padding: 1rem;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
-    }
   }
 
   // Cluster label checkbox
@@ -154,30 +131,6 @@
     margin: 5px 0;
   }
 
-  // Time window config accordion
-  .bx--accordion__title {
-    font-weight: 600;
-    font-size: 14px;
-  }
-
-  // Show Time window config section only when expanded
-  .bx--accordion__content {
-    display: none;
-  }
-
-  .bx--accordion__item--active {
-    .bx--accordion__content {
-      width: 100%;
-      max-width: 645px;
-      display: inline-block;
-      background-color: white;
-      border-left: 5px solid #dee3e6;
-      padding: 1rem;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
-    }
-  }
-
   // Time window config - Days of the week section
   .config-days-section {
     margin-bottom: 20px;
@@ -233,15 +186,6 @@
     background-color: $acm_background_color;
   }
 
-  .bx--list-box__label {
-    color: #3d70b2;
-  }
-
-  // Add bottom border to differenciate user's local timezone from the list
-  .bx--list-box__menu-item:first-of-type {
-    border-bottom: 1px solid #dfe3e6;
-  }
-
   // Time window config - Start/End time section
   .config-time-section {
     display: block;
@@ -255,23 +199,6 @@
   .config-input-time {
     float: left;
     margin-right: 10px;
-  }
-
-  .bx--label {
-    font-weight: 400;
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-
-  .bx--time-picker__input-field {
-    width: 140px;
-    background-color: $acm_background_color;
-  }
-
-  .bx--select--inline {
-    svg.bx--select__arrow {
-      position: relative;
-    }
   }
 
   .add-time-btn {

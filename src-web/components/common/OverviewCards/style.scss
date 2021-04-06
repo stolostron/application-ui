@@ -6,8 +6,6 @@
  *******************************************************************************/
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import 'scss/variables';
 
 .overview-cards-container {
   .loading-skeleton-text {
@@ -31,7 +29,7 @@
     width: 40px;
     height: 24px;
     border-radius: 12px;
-    padding: 6px 2px 6px 6px;
+    padding: 1px 2px 1px 6px;
     margin-right: 8px;
   }
 
@@ -60,7 +58,34 @@
     display: inline-block;
     font-size: 12px;
     margin-left: 4px;
+    padding-top: 2px;
     vertical-align: top;
+  }
+
+  .app-name-container {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .app-name {
+    margin-right: 12px;
+  }
+
+  // Argo link
+  .argoLinkLoading {
+    pointer-events: none;
+    color: #5A6872;
+  }
+
+  .argo-icon-container {
+    background-color: #fdf7e7;
+    border: 1px solid #f9e0a2;
+    border-radius: 12px;
+    width: 60px;
+    height: 20px;
+    color: #3d2c00;
+    font-size: 12px;
+    text-align: center;
   }
 
   // Search resource link

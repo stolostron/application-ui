@@ -7,7 +7,7 @@
  *******************************************************************************/
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+
 @import '../../../../scss/variables';
 
 .overview-content {
@@ -17,46 +17,19 @@
   margin-left: -.625rem;
   margin-right: -.625rem;
 
-  .bx--module {
-    flex: 1 0 50%;
-    max-width: 100%;
+  .yaml-editor-button {
+    position: relative;
+    float: right;
+    margin: -2.5rem 0.5rem 0 0;
 
-    .bx--module__inner {
-      flex: 1 0 50%;
-      position: relative;
-      min-height: 250px;
-      overflow: auto;
+    button {
+      margin: 0 0.3rem;
+      width: 5.5rem;
+      font-size: 0.7rem;
+    }
 
-      .yaml-editor-button {
-        position: relative;
-        float: right;
-        margin: -2.5rem 0.5rem 0 0;
-
-        button {
-          margin: 0 0.3rem;
-          width: 5.5rem;
-          font-size: 0.7rem;
-        }
-
-        .read-only-button {
-          background-color: $ibm-colors__gray--40;
-        }
-      }
-
-      .bx--module__content {
-        .bx--structured-list-tbody {
-          .bx--structured-list-row {
-            .bx--structured-list-td:nth-child(2) {
-              max-width: 20rem;
-              word-wrap: break-word;
-            }
-          }
-        }
-      }
-
-      .bx--structured-list-th:first-child {
-        min-width: 150px;
-      }
+    .read-only-button {
+      background-color: $ibm-colors__gray--40;
     }
   }
 
@@ -69,31 +42,8 @@
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 
-    .bx--accordion__title {
-      color: #3d70b2;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .bx--accordion__item {
-      border-bottom: none;
-    }
-
-    .bx--accordion__content {
+    .overview-content {
       padding: 0;
-    }
-
-    .overview-content,
-    .bx--module {
-      padding: 0;
-    }
-
-    .bx--accordion__item--active > .bx--accordion__content {
-      padding: 1rem 0rem 1.5rem;
-    }
-
-    .bx--accordion__arrow {
-      fill: #3d70b2;
     }
   }
 
@@ -110,10 +60,6 @@
     flex: 1 0 50%;
     display: flex;
     flex-direction: column;
-
-    .bx--module {
-      min-height: 25rem;
-    }
 
     .yamlEditorContainer {
       height: calc(100% - 3rem);
@@ -153,9 +99,5 @@
 
   code {
     font-size: .6rem;
-  }
-
-  .bx--snippet.bx--snippet--code {
-    margin-bottom: .3rem;
   }
 }

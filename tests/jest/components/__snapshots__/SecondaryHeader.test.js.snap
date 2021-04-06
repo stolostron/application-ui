@@ -9,9 +9,7 @@ exports[`SecondaryHeader component 1 renders as expected 1`] = `
   <div
     className="secondary-header simple-header"
   >
-    <h1
-      className="bx--detail-page-header-title"
-    >
+    <h1>
       hello world
     </h1>
   </div>
@@ -28,167 +26,159 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
     className="secondary-header "
   >
     <section
-      className="pf-c-page__main-section pf-m-no-padding pf-m-light"
+      className="pf-c-page__main-section pf-m-light"
     >
       <div
-        style={
-          Object {
-            "display": "flex",
-            "paddingRight": "24px",
-            "paddingTop": "16px",
-          }
-        }
+        className="pf-l-split pf-m-gutter"
       >
         <div
-          style={
-            Object {
-              "display": "flex",
-              "flexDirection": "column",
-              "flexGrow": 1,
-            }
-          }
+          className="pf-l-split__item pf-m-fill"
         >
           <div
-            style={
-              Object {
-                "alignItems": "center",
-                "display": "flex",
-                "flexGrow": 1,
-                "paddingBottom": "8px",
-                "paddingLeft": "24px",
-                "paddingTop": "8px",
-              }
-            }
+            className="pf-l-stack pf-m-gutter"
           >
-            <h1
-              className="pf-c-title pf-m-2xl"
-            >
-              hello world
-            </h1>
             <div
-              style={
-                Object {
-                  "paddingLeft": "8px",
-                }
-              }
+              className="pf-l-stack__item"
             >
               <div
-                className="switch-controls"
+                className="pf-c-content"
               >
-                <div
-                  id="edit-button-portal-id"
-                />
+                <h1
+                  className="pf-c-title pf-m-2xl"
+                >
+                  hello world
+                  <span
+                    style={
+                      Object {
+                        "paddingLeft": "48px",
+                      }
+                    }
+                  >
+                    <div
+                      className="switch-controls"
+                    >
+                      <div
+                        id="edit-button-portal-id"
+                      />
+                    </div>
+                  </span>
+                </h1>
               </div>
             </div>
           </div>
-          <div
-            style={
-              Object {
-                "paddingLeft": "8px",
-              }
-            }
-          >
-            <nav
-              aria-label="Local"
-              className="pf-c-nav pf-m-horizontal pf-m-tertiary"
-              data-ouia-component-id="OUIA-Generated-Nav-tertiary-1"
-              data-ouia-component-type="PF4/Nav"
-              data-ouia-safe={true}
-            >
-              <button
-                aria-label="Scroll left"
-                className="pf-c-nav__scroll-button"
-                disabled={false}
-                onClick={[Function]}
-                tabIndex={null}
-              >
-                <svg
-                  aria-hidden={true}
-                  aria-labelledby={null}
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style={
-                    Object {
-                      "verticalAlign": "-0.125em",
-                    }
-                  }
-                  viewBox="0 0 256 512"
-                  width="1em"
-                >
-                  <path
-                    d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"
-                  />
-                </svg>
-              </button>
-              <ul
-                className="pf-c-nav__list"
-                onScroll={[Function]}
-              >
-                <li
-                  className="pf-c-nav__item"
-                  data-ouia-component-id="OUIA-Generated-NavItem-1"
-                  data-ouia-component-type="PF4/NavItem"
-                  data-ouia-safe={true}
-                >
-                  <a
-                    aria-current="page"
-                    className="pf-c-nav__link pf-m-current"
-                    href="/multicloud/dashboard"
-                    onClick={[Function]}
-                  >
-                    Application
-                  </a>
-                </li>
-              </ul>
-              <button
-                aria-label="Scroll right"
-                className="pf-c-nav__scroll-button"
-                disabled={false}
-                onClick={[Function]}
-                tabIndex={null}
-              >
-                <svg
-                  aria-hidden={true}
-                  aria-labelledby={null}
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style={
-                    Object {
-                      "verticalAlign": "-0.125em",
-                    }
-                  }
-                  viewBox="0 0 256 512"
-                  width="1em"
-                >
-                  <path
-                    d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
-                  />
-                </svg>
-              </button>
-            </nav>
-          </div>
         </div>
         <div
-          style={
-            Object {
-              "alignItems": "flex-end",
-              "display": "flex",
-              "flexDirection": "column",
-              "paddingBottom": "16px",
-            }
-          }
+          className="pf-l-split__item"
         >
           <div
-            style={
-              Object {
-                "flexGrow": 1,
+            className="pf-l-stack pf-m-gutter"
+          >
+            <div
+              className="pf-l-stack__item"
+              style={
+                Object {
+                  "alignItems": "flex-end",
+                  "display": "flex",
+                  "flexDirection": "column",
+                }
               }
-            }
-          />
+            />
+          </div>
         </div>
       </div>
+    </section>
+    <div
+      className="pf-c-divider"
+      role="separator"
+    />
+    <section
+      className="pf-c-page__main-nav pf-m-light"
+      style={
+        Object {
+          "paddingTop": 0,
+        }
+      }
+    >
+      <nav
+        aria-label="Local"
+        className="pf-c-nav pf-m-horizontal pf-m-tertiary"
+        data-ouia-component-id="OUIA-Generated-Nav-tertiary-1"
+        data-ouia-component-type="PF4/Nav"
+        data-ouia-safe={true}
+      >
+        <button
+          aria-label="Scroll left"
+          className="pf-c-nav__scroll-button"
+          disabled={false}
+          onClick={[Function]}
+          tabIndex={null}
+        >
+          <svg
+            aria-hidden={true}
+            aria-labelledby={null}
+            fill="currentColor"
+            height="1em"
+            role="img"
+            style={
+              Object {
+                "verticalAlign": "-0.125em",
+              }
+            }
+            viewBox="0 0 256 512"
+            width="1em"
+          >
+            <path
+              d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"
+            />
+          </svg>
+        </button>
+        <ul
+          className="pf-c-nav__list"
+          onScroll={[Function]}
+        >
+          <li
+            className="pf-c-nav__item"
+            data-ouia-component-id="OUIA-Generated-NavItem-1"
+            data-ouia-component-type="PF4/NavItem"
+            data-ouia-safe={true}
+          >
+            <a
+              aria-current="page"
+              className="pf-c-nav__link pf-m-current"
+              href="/multicloud/dashboard"
+              onClick={[Function]}
+            >
+              Application
+            </a>
+          </li>
+        </ul>
+        <button
+          aria-label="Scroll right"
+          className="pf-c-nav__scroll-button"
+          disabled={false}
+          onClick={[Function]}
+          tabIndex={null}
+        >
+          <svg
+            aria-hidden={true}
+            aria-labelledby={null}
+            fill="currentColor"
+            height="1em"
+            role="img"
+            style={
+              Object {
+                "verticalAlign": "-0.125em",
+              }
+            }
+            viewBox="0 0 256 512"
+            width="1em"
+          >
+            <path
+              d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+            />
+          </svg>
+        </button>
+      </nav>
     </section>
   </div>
 </div>
@@ -204,180 +194,172 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
     className="secondary-header "
   >
     <section
-      className="pf-c-page__main-section pf-m-no-padding pf-m-light"
+      className="pf-c-page__main-section pf-m-light"
     >
       <div
-        style={
-          Object {
-            "display": "flex",
-            "paddingRight": "24px",
-            "paddingTop": "16px",
-          }
-        }
+        className="pf-l-split pf-m-gutter"
       >
         <div
-          style={
-            Object {
-              "display": "flex",
-              "flexDirection": "column",
-              "flexGrow": 1,
-            }
-          }
+          className="pf-l-split__item pf-m-fill"
         >
           <div
-            style={
-              Object {
-                "alignItems": "center",
-                "display": "flex",
-                "flexGrow": 1,
-                "paddingBottom": "8px",
-                "paddingLeft": "24px",
-                "paddingTop": "8px",
-              }
-            }
+            className="pf-l-stack pf-m-gutter"
           >
-            <h1
-              className="pf-c-title pf-m-2xl"
-            >
-              hello world
-            </h1>
             <div
-              style={
-                Object {
-                  "paddingLeft": "8px",
-                }
-              }
+              className="pf-l-stack__item"
             >
               <div
-                className="switch-controls"
+                className="pf-c-content"
               >
-                <div
-                  id="edit-button-portal-id"
-                />
+                <h1
+                  className="pf-c-title pf-m-2xl"
+                >
+                  hello world
+                  <span
+                    style={
+                      Object {
+                        "paddingLeft": "48px",
+                      }
+                    }
+                  >
+                    <div
+                      className="switch-controls"
+                    >
+                      <div
+                        id="edit-button-portal-id"
+                      />
+                    </div>
+                  </span>
+                </h1>
               </div>
             </div>
           </div>
-          <div
-            style={
-              Object {
-                "paddingLeft": "8px",
-              }
-            }
-          >
-            <nav
-              aria-label="Local"
-              className="pf-c-nav pf-m-horizontal pf-m-tertiary"
-              data-ouia-component-id="OUIA-Generated-Nav-tertiary-2"
-              data-ouia-component-type="PF4/Nav"
-              data-ouia-safe={true}
-            >
-              <button
-                aria-label="Scroll left"
-                className="pf-c-nav__scroll-button"
-                disabled={false}
-                onClick={[Function]}
-                tabIndex={null}
-              >
-                <svg
-                  aria-hidden={true}
-                  aria-labelledby={null}
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style={
-                    Object {
-                      "verticalAlign": "-0.125em",
-                    }
-                  }
-                  viewBox="0 0 256 512"
-                  width="1em"
-                >
-                  <path
-                    d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"
-                  />
-                </svg>
-              </button>
-              <ul
-                className="pf-c-nav__list"
-                onScroll={[Function]}
-              >
-                <li
-                  className="pf-c-nav__item"
-                  data-ouia-component-id="OUIA-Generated-NavItem-2"
-                  data-ouia-component-type="PF4/NavItem"
-                  data-ouia-safe={true}
-                >
-                  <a
-                    aria-current={null}
-                    className="pf-c-nav__link"
-                    href="/multicloud/dashboard"
-                    onClick={[Function]}
-                  >
-                    Application
-                  </a>
-                </li>
-                <li
-                  className="pf-c-nav__item"
-                  data-ouia-component-id="OUIA-Generated-NavItem-3"
-                  data-ouia-component-type="PF4/NavItem"
-                  data-ouia-safe={true}
-                >
-                  <a
-                    aria-current="page"
-                    className="pf-c-nav__link pf-m-current"
-                    href="/hello"
-                    onClick={[Function]}
-                  />
-                </li>
-              </ul>
-              <button
-                aria-label="Scroll right"
-                className="pf-c-nav__scroll-button"
-                disabled={false}
-                onClick={[Function]}
-                tabIndex={null}
-              >
-                <svg
-                  aria-hidden={true}
-                  aria-labelledby={null}
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style={
-                    Object {
-                      "verticalAlign": "-0.125em",
-                    }
-                  }
-                  viewBox="0 0 256 512"
-                  width="1em"
-                >
-                  <path
-                    d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
-                  />
-                </svg>
-              </button>
-            </nav>
-          </div>
         </div>
         <div
-          style={
-            Object {
-              "alignItems": "flex-end",
-              "display": "flex",
-              "flexDirection": "column",
-              "paddingBottom": "16px",
-            }
-          }
+          className="pf-l-split__item"
         >
           <div
-            style={
-              Object {
-                "flexGrow": 1,
+            className="pf-l-stack pf-m-gutter"
+          >
+            <div
+              className="pf-l-stack__item"
+              style={
+                Object {
+                  "alignItems": "flex-end",
+                  "display": "flex",
+                  "flexDirection": "column",
+                }
               }
-            }
-          />
+            />
+          </div>
         </div>
       </div>
+    </section>
+    <div
+      className="pf-c-divider"
+      role="separator"
+    />
+    <section
+      className="pf-c-page__main-nav pf-m-light"
+      style={
+        Object {
+          "paddingTop": 0,
+        }
+      }
+    >
+      <nav
+        aria-label="Local"
+        className="pf-c-nav pf-m-horizontal pf-m-tertiary"
+        data-ouia-component-id="OUIA-Generated-Nav-tertiary-2"
+        data-ouia-component-type="PF4/Nav"
+        data-ouia-safe={true}
+      >
+        <button
+          aria-label="Scroll left"
+          className="pf-c-nav__scroll-button"
+          disabled={false}
+          onClick={[Function]}
+          tabIndex={null}
+        >
+          <svg
+            aria-hidden={true}
+            aria-labelledby={null}
+            fill="currentColor"
+            height="1em"
+            role="img"
+            style={
+              Object {
+                "verticalAlign": "-0.125em",
+              }
+            }
+            viewBox="0 0 256 512"
+            width="1em"
+          >
+            <path
+              d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"
+            />
+          </svg>
+        </button>
+        <ul
+          className="pf-c-nav__list"
+          onScroll={[Function]}
+        >
+          <li
+            className="pf-c-nav__item"
+            data-ouia-component-id="OUIA-Generated-NavItem-2"
+            data-ouia-component-type="PF4/NavItem"
+            data-ouia-safe={true}
+          >
+            <a
+              aria-current={null}
+              className="pf-c-nav__link"
+              href="/multicloud/dashboard"
+              onClick={[Function]}
+            >
+              Application
+            </a>
+          </li>
+          <li
+            className="pf-c-nav__item"
+            data-ouia-component-id="OUIA-Generated-NavItem-3"
+            data-ouia-component-type="PF4/NavItem"
+            data-ouia-safe={true}
+          >
+            <a
+              aria-current="page"
+              className="pf-c-nav__link pf-m-current"
+              href="/hello"
+              onClick={[Function]}
+            />
+          </li>
+        </ul>
+        <button
+          aria-label="Scroll right"
+          className="pf-c-nav__scroll-button"
+          disabled={false}
+          onClick={[Function]}
+          tabIndex={null}
+        >
+          <svg
+            aria-hidden={true}
+            aria-labelledby={null}
+            fill="currentColor"
+            height="1em"
+            role="img"
+            style={
+              Object {
+                "verticalAlign": "-0.125em",
+              }
+            }
+            viewBox="0 0 256 512"
+            width="1em"
+          >
+            <path
+              d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+            />
+          </svg>
+        </button>
+      </nav>
     </section>
   </div>
 </div>

@@ -59,7 +59,6 @@ const options = {
 
 class ApplicationTopologyModule extends React.Component {
   static propTypes = {
-    HCMApplicationList: PropTypes.object,
     activeChannel: PropTypes.string,
     channels: PropTypes.array,
     clusters: PropTypes.array,
@@ -68,6 +67,7 @@ class ApplicationTopologyModule extends React.Component {
     diagramFilters: PropTypes.array,
     fetchAppTopology: PropTypes.func,
     fetchError: PropTypes.object,
+    handleErrorMsg: PropTypes.func,
     links: PropTypes.array,
     locale: PropTypes.string,
     nodes: PropTypes.array,
@@ -232,7 +232,7 @@ class ApplicationTopologyModule extends React.Component {
   handleUpdateMessageClosed = () => this.setState({ updateMessage: '' });
 
   render() {
-    const { channels, locale, HCMApplicationList } = this.props
+    const { channels, locale } = this.props
     const {
       nodes,
       links,
@@ -245,8 +245,7 @@ class ApplicationTopologyModule extends React.Component {
 
     const diagramTitle = msgs.get('application.diagram', locale)
 
-    const isLoadError =
-      topologyLoadError || HCMApplicationList.status === REQUEST_STATUS.ERROR
+    const isLoadError = topologyLoadError
     const diagramClasses = classNames({
       resourceDiagramSourceContainer: true,
       showExpandedTopology: false
@@ -364,8 +363,9 @@ class ApplicationTopologyModule extends React.Component {
     this.props.fetchAppTopology(fetchChannel)
   }
 
-  processActionLink = resource => {
-    processResourceActionLink(resource)
+  processActionLink = (resource, toggleLoading) => {
+    const { handleErrorMsg } = this.props
+    processResourceActionLink(resource, toggleLoading, handleErrorMsg)
   };
 
   handleLegendClose = () => {
@@ -421,7 +421,10 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const { params: { namespace, name } } = ownProps
+  const { params: { namespace, name }, location: { search } } = ownProps
+  const searchItems = search ? new URLSearchParams(search) : undefined
+  const apiVersion = searchItems ? searchItems.get('apiVersion') : undefined
+  const cluster = searchItems ? searchItems.get('cluster') : undefined
   return {
     resetFilters: () => {
       dispatch({
@@ -431,7 +434,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     fetchAppTopology: (fetchChannel, reloading) => {
       const fetchFilters = {
-        application: { name, namespace, channel: fetchChannel }
+        application: {
+          name,
+          namespace,
+          channel: fetchChannel,
+          apiVersion,
+          cluster
+        }
       }
       dispatch(
         fetchTopology({ filter: { ...fetchFilters } }, fetchFilters, reloading)

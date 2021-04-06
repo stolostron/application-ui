@@ -16,8 +16,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { NumberInput, MultiSelect, Button } from 'carbon-components-react'
 import { TimesIcon } from '@patternfly/react-icons'
+import { Spinner } from '@patternfly/react-core'
 import jsYaml from 'js-yaml'
 import '../../../../graphics/diagramShapes.svg'
 import '../../../../graphics/diagramIcons.svg'
@@ -47,22 +47,36 @@ DetailsViewDecorator.propTypes = {
 class DetailsView extends React.Component {
   constructor(props) {
     super(props)
+    this.toggleLinkLoading = this.toggleLinkLoading.bind(this)
+
+    this.state = {
+      isLoading: false,
+      linkID: ''
+    }
   }
 
   handleClick(value) {
+    this.setState({ linkID: value.id })
     this.processActionLink(value)
   }
 
   handleKeyPress(value, e) {
     if (e.key === 'Enter') {
+      this.setState({ linkID: value.id })
       this.processActionLink(value)
     }
+  }
+
+  toggleLinkLoading() {
+    this.setState(prevState => ({
+      isLoading: !prevState.isLoading
+    }))
   }
 
   processActionLink(value) {
     const { processActionLink } = this.props
     const { data } = value
-    processActionLink(data)
+    processActionLink(data, this.toggleLinkLoading)
   }
 
   render() {
@@ -131,12 +145,6 @@ class DetailsView extends React.Component {
       return this.renderSpacer()
     case 'link':
       return this.renderLink(detail, true)
-    case 'number':
-      return this.renderNumber(detail, locale)
-    case 'selector':
-      return this.renderSelector(detail, locale)
-    case 'submit':
-      return this.renderSubmit(detail, locale)
     case 'snippet':
       return this.renderSnippet(detail, locale)
     case 'clusterdetailcombobox':
@@ -219,6 +227,8 @@ class DetailsView extends React.Component {
     if (!value) {
       return <div />
     }
+    const { isLoading, linkID } = this.state
+    const loadingArgoLink = isLoading && value.id === linkID
     const handleClick = this.handleClick.bind(this, value)
     const handleKeyPress = this.handleKeyPress.bind(this, value)
     const showLaunchOutIcon = !R.pathOr(false, ['data', 'specs', 'isDesign'])(
@@ -242,13 +252,16 @@ class DetailsView extends React.Component {
     return (
       <div className={mainSectionClasses} key={Math.random()}>
         <span
-          className={linkLabelClasses}
+          className={`${linkLabelClasses} ${
+            loadingArgoLink ? 'loadingLink' : ''
+          }`}
           id="linkForNodeAction"
           tabIndex="0"
           role={'button'}
           onClick={handleClick}
           onKeyPress={handleKeyPress}
         >
+          {loadingArgoLink && <Spinner size="sm" />}
           {value.label}
           {showLaunchOutIcon && (
             <svg width="11px" height="8px" style={{ marginLeft: '9px' }}>
@@ -260,60 +273,9 @@ class DetailsView extends React.Component {
     )
   }
 
-  renderNumber({ labelKey, value }, locale) {
-    return (
-      <div className="sectionContent form" key={Math.random()}>
-        {labelKey && (
-          <span className="label">{msgs.get(labelKey, locale)}: </span>
-        )}
-        <NumberInput
-          id={labelKey}
-          label={''}
-          value={value}
-          min={1}
-          max={10}
-          step={1}
-          onChange={this.enableSubmitBtn.bind(this)}
-        />
-      </div>
-    )
-  }
-
-  renderSelector({ labelKey, value, other }, locale) {
-    return (
-      <div className="sectionContent form" key={Math.random()}>
-        {labelKey && (
-          <span className="label">{msgs.get(labelKey, locale)}: </span>
-        )}
-        <MultiSelect.Filterable
-          items={other}
-          initialSelectedItems={value}
-          placeholder={value.join(', ')}
-          itemToString={item => item}
-          onChange={this.enableSubmitBtn.bind(this)}
-        />
-      </div>
-    )
-  }
-
   setSubmitBtn = ref => {
     this.submitBtn = ref
   };
-  renderSubmit() {
-    return (
-      <div className="sectionContent submit" key={Math.random()}>
-        <Button
-          small
-          id="edit-button"
-          disabled
-          ref={this.setSubmitBtn}
-          onClick={this.onSubmit}
-        >
-          {msgs.get('modal.button.submit', this.props.locale)}
-        </Button>
-      </div>
-    )
-  }
 
   enableSubmitBtn() {
     this.submitBtn.disabled = false
@@ -354,6 +316,8 @@ class DetailsView extends React.Component {
       <div className="sectionContent" key={Math.random()}>
         <ClusterDetailsContainer
           clusterList={comboboxdata.clusterList}
+          sortedClusterNames={comboboxdata.sortedClusterNames}
+          searchClusters={comboboxdata.searchClusters}
           clusterID={comboboxdata.clusterID}
           locale={locale}
           clusterDetailsContainerControl={clusterDetailsContainerControl}

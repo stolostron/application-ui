@@ -9,17 +9,15 @@
 // Copyright Contributors to the Open Cluster Management project
 let path = require("path"),
   webpack = require("webpack"),
-  ExtractTextPlugin = require("extract-text-webpack-plugin"),
-  UglifyJSPlugin = require("uglifyjs-webpack-plugin"),
+  MiniCssExtractPlugin = require('mini-css-extract-plugin'),
   AssetsPlugin = require("assets-webpack-plugin"),
-  WebpackMd5Hash = require("webpack-md5-hash"),
-  FileManagerPlugin = require("filemanager-webpack-plugin"),
+  CopyPlugin = require('copy-webpack-plugin'),
   config = require("./config"),
   CompressionPlugin = require("compression-webpack-plugin"),
-  MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
+  MonacoWebpackPlugin = require("monaco-editor-webpack-plugin"),
+  TerserPlugin = require('terser-webpack-plugin');
 
-let NO_OP = () => {},
-  PRODUCTION = process.env.BUILD_ENV
+let PRODUCTION = process.env.BUILD_ENV
     ? /production/.test(process.env.BUILD_ENV)
     : false;
 
@@ -34,7 +32,7 @@ module.exports = {
   devtool: PRODUCTION ? "source-map" : "cheap-module-source-map",
   stats: { children: false },
   entry: {
-    main: ["babel-polyfill", "./src-web/index.js"]
+    main: ["@babel/polyfill", "./src-web/index.js"]
   },
 
   externals: Object.assign(PRODUCTION ? prodExternals : {}, {
@@ -61,24 +59,27 @@ module.exports = {
             ]
           }
         ],
-        loader: "babel-loader?cacheDirectory"
+        loader: "babel-loader?cacheDirectory",
+        options: {
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+          plugins: ['@babel/plugin-proposal-class-properties']
+        }
       },
       {
         test: [/\.s?css$/],
         exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: [
+        use: [
+            MiniCssExtractPlugin.loader,
             {
-              loader: "css-loader?sourceMap",
+              loader: "css-loader",
               options: {
-                minimize: !!PRODUCTION
+                sourceMap: true,
               }
             },
             {
               loader: "postcss-loader?sourceMap",
               options: {
-                plugins() {
+                plugins: function() {
                   return [require("autoprefixer")];
                 }
               }
@@ -92,14 +93,13 @@ module.exports = {
             {
               loader: "sass-loader?sourceMap",
               options: {
-                data: `$font-path: "${config.get("contextPath")}/fonts";`
+              prependData: '$font-path: "'+ config.get('contextPath') + '/fonts";'
               }
             }
           ]
-        })
       },
       {
-        test: /\.woff2?$/,
+        test: /\.(woff2?|eot)(\?.*$|$)/,
         loader: "file-loader?name=fonts/[name].[ext]"
       },
       {
@@ -143,7 +143,7 @@ module.exports = {
         loader: "js-yaml-loader"
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg|woff2?|ttf|eot|otf)(\?.*$|$)/,
+        test: /\.(png|jpg|jpeg|gif|svg|ttf|otf)(\?.*$|$)/,
         exclude: [overpassTest, path.resolve(__dirname, "./graphics")],
         loader: "file-loader",
         options: {
@@ -164,13 +164,20 @@ module.exports = {
     ]
   },
 
+  optimization: {
+    minimize: PRODUCTION,
+    minimizer: [new TerserPlugin({
+      parallel: true,
+    })],
+  },
+
+
   output: {
-    filename: PRODUCTION ? "js/[name].[hash].min.js" : "js/[name].min.js", // needs to be hash for production (vs chunckhash) in order to cache bust references to chunks
-    chunkFilename: PRODUCTION
-      ? "js/[name].[chunkhash].min.js"
-      : "js/[name].min.js",
-    path: `${__dirname}/public`,
-    publicPath: config.get("contextPath").replace(/\/?$/, "/")
+    filename: PRODUCTION ? 'js/[name].[contenthash].min.js' : 'js/[name].js',
+    // chunkFilename: PRODUCTION ? 'js/[name].[chunkhash].min.js' : 'js/[name].js',
+    path: __dirname + '/public',
+    publicPath: config.get('contextPath').replace(/\/?$/, '/'),
+    jsonpFunction: 'webpackJsonpFunctionApp',
   },
 
   plugins: [
@@ -184,25 +191,20 @@ module.exports = {
       context: process.env.STORYBOOK ? path.join(__dirname, "..") : __dirname,
       manifest: require("./dll/vendorhcm-manifest.json")
     }),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: PRODUCTION ? "css/[name].[contenthash].css" : "css/[name].css",
       allChunks: true
     }),
-    PRODUCTION
-      ? new UglifyJSPlugin({
-          sourceMap: true
-        })
-      : NO_OP,
     new webpack.LoaderOptionsPlugin({
       options: {
         context: __dirname
       }
     }),
     new CompressionPlugin({
-      asset: "[path].gz[query]",
-      algorithm: "gzip",
+      filename: '[path].gz',
+      algorithm: 'gzip',
       test: /\.js$|\.css$/,
-      minRatio: 1
+      minRatio: 1,
     }),
     new MonacoWebpackPlugin({
       languages: ["yaml"]
@@ -213,22 +215,14 @@ module.exports = {
       prettyPrint: true,
       update: true
     }),
-    PRODUCTION
-      ? new webpack.HashedModuleIdsPlugin()
-      : new webpack.NamedModulesPlugin(),
-    new WebpackMd5Hash(),
-    new FileManagerPlugin({
-      onEnd: {
-        copy: [
-          {
-            source: "node_modules/carbon-icons/dist/carbon-icons.svg",
-            destination: "public/graphics"
-          },
-          { source: "graphics/*.svg", destination: "public/graphics" },
-          { source: "graphics/*.png", destination: "public/graphics" },
-          { source: "fonts", destination: "public/fonts" }
-        ]
-      }
+    new CopyPlugin({
+      patterns: [
+        { from: 'graphics', to: 'graphics' },
+        { from: 'fonts', to: 'fonts'},
+      ],
+      options: {
+        concurrency: 100,
+      },
     })
   ],
   resolve: {

@@ -11,14 +11,9 @@
 import React from 'react'
 
 import { connect } from 'react-redux'
-import resources from '../../../lib/shared/resources'
 import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology'
 
 /* eslint-disable react/prop-types */
-
-resources(() => {
-  require('./style.scss')
-})
 
 const mapStateToProps = state => {
   const { QueryApplicationList, secondaryHeader } = state

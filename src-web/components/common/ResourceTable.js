@@ -16,8 +16,7 @@ import _ from 'lodash'
 import React from 'react'
 import {
   AcmEmptyState,
-  AcmTable,
-  AcmPageCard
+  AcmTable
 } from '@open-cluster-management/ui-components'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
@@ -44,29 +43,29 @@ class ResourceTable extends React.Component {
       locale
     } = this.props
     return [
-      <AcmPageCard key="data-table">
-        <AcmTable
-          plural={msgs.get(staticResourceData.pluralKey, locale)}
-          items={this.getResources()}
-          columns={this.getColumns()}
-          keyFn={item => `${item.namespace}/${item.name}`}
-          tableActions={[]}
-          rowActions={this.getRowActions()}
-          emptyState={
-            <AcmEmptyState
-              title={staticResourceData.emptyTitle(locale)}
-              message={staticResourceData.emptyMessage(locale)}
-            />
-          }
-          extraToolbarControls={actions}
-          page={page}
-          setPage={setPage}
-          search={search}
-          setSearch={setSearch}
-          sort={sort}
-          setSort={setSort}
-        />
-      </AcmPageCard>
+      <AcmTable
+        key="data-table"
+        plural={msgs.get(staticResourceData.pluralKey, locale)}
+        items={this.getResources()}
+        columns={this.getColumns()}
+        keyFn={item => `${item.namespace}/${item.name}`}
+        rowActions={this.getRowActions()}
+        emptyState={
+          <AcmEmptyState
+            title={staticResourceData.emptyTitle(locale)}
+            message={staticResourceData.emptyMessage(locale)}
+          />
+        }
+        extraToolbarControls={
+          actions && actions.length > 0 ? actions : undefined
+        }
+        page={page}
+        setPage={setPage}
+        search={search}
+        setSearch={setSearch}
+        sort={sort}
+        setSort={setSort}
+      />
     ]
   }
 
@@ -141,7 +140,8 @@ class ResourceTable extends React.Component {
             selfLink: _.get(item, 'selfLink', ''),
             _uid: _.get(item, '_uid', ''),
             kind: _.get(resourceType, 'kind', ''),
-            apiVersion: _.get(resourceType, 'apiVersion', '')
+            apiVersion:
+              _.get(item, 'apiVersion') || _.get(resourceType, 'apiVersion', '')
           }
         }
       })

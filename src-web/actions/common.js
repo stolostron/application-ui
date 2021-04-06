@@ -272,8 +272,19 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
         null,
         querySettings.targetNamespaces.toString()
       )
-      //get the cluster for each target namespace
-      query.relatedKinds.push('cluster')
+      query.filters.push({
+        property: 'label',
+        values: querySettings.argoAppsLabelNames
+      })
+      //get the cluster for each target namespace and all pods related to this objects only
+      //always ask for related pods, replicaset and replocationcontroller because they are tagged by the app instance
+      // we'll get them if any are linked to the objects returned above
+      query.relatedKinds.push(
+        'cluster',
+        'pod',
+        'replicaset',
+        'replicationcontroller'
+      )
     } else {
       //query asking for a subset of related kinds and possibly for one subscription only
       if (querySettings.subscription) {
@@ -286,6 +297,9 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
         //ask only for these type of resources
         query.relatedKinds = querySettings.relatedKinds
       } else {
+        //filter out any argo app with the same name and ns, we are looking here for acm apps
+        query.filters.push({ property: 'apigroup', values: ['!argoproj.io'] })
+
         //get related resources for the application, but only this subset
         query.relatedKinds = querySettings.relatedKinds
       }
@@ -303,9 +317,11 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
         }
         const searchResult = lodash.get(response, 'data.searchResult', [])
         if (
-          searchResult.length === 0 ||
-          lodash.get(searchResult[0], 'items', []).length === 0
+          !querySettings.isArgoApp &&
+          (searchResult.length === 0 ||
+            lodash.get(searchResult[0], 'items', []).length === 0)
         ) {
+          //ignore this for argo apps, if we got to this point the app exists
           //app not found
           const err = {
             err: msgs.get(

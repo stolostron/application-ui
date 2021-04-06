@@ -3,7 +3,7 @@
 "use strict";
 
 import React from "react";
-import { Icon } from "carbon-components-react";
+import { ExternalLinkAltIcon } from "@patternfly/react-icons";
 import LabelWithPopover from "../../../../src-web/components/common/LabelWithPopover";
 import { mount } from "enzyme";
 
@@ -11,7 +11,7 @@ describe("LabelWithPopover", () => {
   it("renders as expected", () => {
     const component = mount(
       <LabelWithPopover
-        labelIcon={<Icon name="icon--launch" />}
+        labelIcon={<ExternalLinkAltIcon />}
         labelContent="TheLabel"
       >
         <p>ThePopoverContent</p>
@@ -27,7 +27,7 @@ describe("LabelWithPopover", () => {
   it("renders as expected in red", () => {
     const component = mount(
       <LabelWithPopover
-        labelIcon={<Icon name="icon--launch" />}
+        labelIcon={<ExternalLinkAltIcon />}
         labelContent="TheLabel"
         labelColor="red"
       >

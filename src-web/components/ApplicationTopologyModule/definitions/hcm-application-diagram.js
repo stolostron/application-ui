@@ -92,7 +92,7 @@ export const processNodeData = (
       : name
 
   let podsKeyForThisNode = null
-  const clusterName = getClusterName(node.id)
+  const clusterName = getClusterName(node.id, node)
   if (type === 'subscription') {
     //don't use cluster name when grouping subscriptions
     topoResourceMap[name] = node
@@ -311,6 +311,7 @@ export const getDiagramElements = (
   // create application node
   const appId = `application--${iname}`
   nodes2.push({
+    id: appId,
     name: iname,
     namespace: inamespace,
     type: 'application',

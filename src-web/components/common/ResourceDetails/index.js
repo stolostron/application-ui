@@ -13,6 +13,11 @@ import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { AcmAlert } from '@open-cluster-management/ui-components'
 import { updateSecondaryHeader } from '../../../actions/common'
+import {
+  Alert,
+  AlertGroup,
+  AlertActionCloseButton
+} from '@patternfly/react-core'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -94,6 +99,7 @@ class ResourceDetails extends React.Component {
   constructor(props) {
     super(props)
     this.getBreadcrumb = this.getBreadcrumb.bind(this)
+    this.handleErrorMsg = this.handleErrorMsg.bind(this)
 
     this.otherBinding = {}
     const { routes } = this.props
@@ -101,6 +107,14 @@ class ResourceDetails extends React.Component {
     routes.forEach(route => {
       this.otherBinding[route] = this.renderOther.bind(this, route)
     })
+
+    this.state = {
+      errorMsg: ''
+    }
+  }
+
+  handleErrorMsg(err) {
+    this.setState({ errorMsg: err })
   }
 
   UNSAFE_componentWillMount() {
@@ -163,8 +177,25 @@ class ResourceDetails extends React.Component {
       actions,
       children
     } = this.props
+    const { errorMsg } = this.state
     return (
       <div id="ResourceDetails">
+        {errorMsg && (
+          <AlertGroup isToast className="toastErrorMsg">
+            <Alert
+              variant="danger"
+              title={errorMsg}
+              actionClose={
+                <AlertActionCloseButton
+                  title={errorMsg}
+                  variantLabel="danger alert"
+                  onClose={() => this.handleErrorMsg('')}
+                />
+              }
+              key={errorMsg}
+            />
+          </AlertGroup>
+        )}
         <OverviewTab
           resourceType={resourceType}
           params={match.params}
@@ -173,6 +204,7 @@ class ResourceDetails extends React.Component {
           modules={children}
           selectedNodeId={selectedNodeId}
           showExpandedTopology={showExpandedTopology}
+          handleErrorMsg={this.handleErrorMsg}
         />
       </div>
     )

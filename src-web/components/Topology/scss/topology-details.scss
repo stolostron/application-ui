@@ -8,7 +8,7 @@
  ****************************************************************************** */
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'variables';
 
 .topologyDetails {
   position: absolute;
@@ -186,17 +186,6 @@
     &.form {
       height: 4rem;
       margin-top: 10px;
-
-      .bx--multi-select {
-        .bx--list-box__menu {
-          max-height: 15rem;
-        }
-
-        &.bx--combo-box input::placeholder {
-          color: $color__navy-gray-6;
-          text-overflow: ellipsis;
-        }
-      }
     }
 
     &.submit {
@@ -297,6 +286,11 @@
 
     &:hover {
       text-decoration: underline;
+    }
+
+    &.loadingLink {
+      pointer-events: none;
+      color: $color__navy-gray-6;
     }
   }
 

@@ -27,6 +27,7 @@
  * @type {Cypress.PluginConfig}
  */
 
+const _ = require("lodash");
 const fs = require("fs");
 const yaml = require("js-yaml");
 const dir = "./cypress/test-artifacts/";
@@ -97,7 +98,13 @@ module.exports = (on, config) => {
 
   if (config.env.TEST_MODE === "functional") config.videoUploadOnPasses = false; // disable video compression for passing spec files
 
-  config.env.TEST_CONFIG = testConfig;
+  config.env.TEST_CONFIG = JSON.parse(testConfig);
+  config.env.TEST_CONFIG_EXCLUDE_ARGO = _.pickBy(
+    JSON.parse(testConfig),
+    function(value, key) {
+      return !_.startsWith(key, "argo");
+    }
+  );
   config.env.KUBE_CONFIG = kubeConfig;
   config.env.USER_CONFIG = getUsers;
 

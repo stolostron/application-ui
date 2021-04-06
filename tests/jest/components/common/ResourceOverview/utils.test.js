@@ -9,7 +9,9 @@
  *******************************************************************************/
 
 import {
+  getRepoTypeForArgoApplication,
   getSearchLinkForOneApplication,
+  getSearchLinkForArgoApplications,
   getAppOverviewCardsData
 } from "../../../../../src-web/components/common/ResourceOverview/utils";
 import {
@@ -212,6 +214,53 @@ const data2 = {
   related: []
 };
 
+describe("getRepoTypeForArgoApplication", () => {
+  it("should return git repo type for Argo application", () => {
+    expect(getRepoTypeForArgoApplication({ path: "helloworld" })).toEqual(
+      "git"
+    );
+  });
+  it("should return helm repo type for Argo application", () => {
+    expect(getRepoTypeForArgoApplication({ chart: "redis" })).toEqual(
+      "helmrepo"
+    );
+  });
+  it("should return empty string for Argo application repo type", () => {
+    expect(getRepoTypeForArgoApplication({})).toEqual("");
+  });
+});
+
+describe("getSearchLinkForArgoApplications", () => {
+  it("should return search link for Argo application", () => {
+    const source = {
+      path: "helloworld",
+      repoURL: "https://github.com/fxiang1/app-samples",
+      targetRevision: "HEAD"
+    };
+    const result =
+      '/search?filters={"textsearch":"kind%3Aapplication%20apigroup%3Aargoproj.io%20path%3Ahelloworld%20repoURL%3Ahttps%3A%2F%2Fgithub.com%2Ffxiang1%2Fapp-samples%20targetRevision%3AHEAD"}';
+    expect(getSearchLinkForArgoApplications(source)).toEqual(result);
+  });
+  it("should return search link for Argo application", () => {
+    const source = {
+      repoURL: "https://charts.bitnami.com/bitnami",
+      targetRevision: "12.2.4",
+      chart: "redis"
+    };
+    const result =
+      '/search?filters={"textsearch":"kind%3Aapplication%20apigroup%3Aargoproj.io%20repoURL%3Ahttps%3A%2F%2Fcharts.bitnami.com%2Fbitnami%20targetRevision%3A12.2.4%20chart%3Aredis"}';
+    expect(getSearchLinkForArgoApplications(source)).toEqual(result);
+  });
+  it("should return empty string for undefined resource", () => {
+    expect(getSearchLinkForArgoApplications(undefined)).toEqual("");
+  });
+  it("should return basic url for empty resource", () => {
+    const result =
+      '/search?filters={"textsearch":"kind%3Aapplication%20apigroup%3Aargoproj.io"}';
+    expect(getSearchLinkForArgoApplications({})).toEqual(result);
+  });
+});
+
 describe("getSearchLinkForOneApplication", () => {
   const appName = "test-app";
   const appNamespace = "default";
@@ -261,9 +310,13 @@ describe("getAppOverviewCardsData", () => {
       targetLink
     );
     const result = {
+      apiGroup: "app.k8s.io",
       appName: "mortgage-app",
       appNamespace: "default",
+      argoSource: {},
+      clusterNames: [],
       creationTimestamp: "Aug 13 2018, 3:23 pm",
+      isArgoApp: false,
       remoteClusterCount: 1,
       localClusterDeploy: false,
       nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 3 },
@@ -299,9 +352,13 @@ describe("getAppOverviewCardsData", () => {
       targetLink
     );
     const result = {
+      apiGroup: "app.k8s.io",
       appName: "mortgage-app",
       appNamespace: "default",
+      argoSource: {},
+      clusterNames: [],
       creationTimestamp: "Aug 13 2018, 3:23 pm",
+      isArgoApp: false,
       remoteClusterCount: 1,
       localClusterDeploy: false,
       nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 3 },
@@ -339,7 +396,9 @@ describe("getAppOverviewCardsData", () => {
     const result = {
       appName: "mortgage-app",
       appNamespace: "default",
+      argoSource: -1,
       creationTimestamp: -1,
+      isArgoApp: false,
       remoteClusterCount: -1,
       localClusterDeploy: false,
       nodeStatuses: -1,

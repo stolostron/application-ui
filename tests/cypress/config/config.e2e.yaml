@@ -64,7 +64,7 @@ git:
     - enable: true
       name: ui-git-ansible
       type: git
-      successNumber: 2
+      successNumber: 3 #success number includes the two ansible hooks and the ansible regular task
       config:
         - url: https://github.com/fxiang1/app-samples.git
           resources: ["configmap", "ansiblejob"] #the type of resources this application must deploy
@@ -77,8 +77,8 @@ git:
           ansibleHost: ""
           ansibleToken: ""
           deployment:
-            local: false
-            online: true
+            local: true
+            online: false
             matchingLabel: false
 objectstore:
   data:
@@ -163,7 +163,7 @@ helm:
           username: ""
           password: ""
           chartName: redis
-          packageAlias: alias-for-redis
+          packageAlias: redis
           packageVersion: 12.2.4
           deployment:
             local: false
@@ -174,7 +174,6 @@ helm:
           username: ""
           password: ""
           chartName: minio
-          packageAlias: my-minio-alias
           packageVersion: 4.1.9
           timeWindow:
             setting: true
@@ -193,11 +192,11 @@ helm:
       type: helm
       config:
         - url: https://charts.bitnami.com/bitnami
-          resources: ["service", "secret", "configmap"] #the type of resources this application must deploy
+          resources: ["service", "deployment", "configmap", "replicaset"] #the type of resources this application must deploy
           username: ""
           password: ""
-          chartName: redis
-          packageVersion: 12.2.4
+          chartName: nginx
+          packageAlias: alias-nginx
           deployment:
             local: false
             online: true

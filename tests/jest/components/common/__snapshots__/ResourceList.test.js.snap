@@ -10,86 +10,38 @@ exports[`ResourceList renders correctly 1`] = `
     <div
       className="pf-l-stack__item"
     >
-      <section
-        className="pf-c-page__main-section"
+      <div
+        className="pf-c-empty-state"
       >
-        <article
-          className="pf-c-card"
-          data-ouia-component-id="OUIA-Generated-Card-1"
-          data-ouia-component-type="PF4/Card"
-          data-ouia-safe={true}
-          id=""
+        <div
+          className="pf-c-empty-state__content"
         >
           <div
-            className="pf-c-card__body"
+            className="pf-c-empty-state__icon"
           >
-            <div
-              className="pf-c-toolbar"
-              id="pf-random-id-0"
+            <span
+              aria-valuetext="Loading..."
+              className="pf-c-spinner pf-m-xl"
+              role="progressbar"
             >
-              <div
-                className="pf-c-toolbar__content"
-              >
-                <div
-                  className="pf-c-toolbar__content-section"
-                >
-                  <div
-                    className="pf-c-toolbar__item pf-m-align-right"
-                  />
-                </div>
-                <div
-                  className="pf-c-toolbar__expandable-content"
-                  id="pf-random-id-0-expandable-content-1"
-                >
-                  <div
-                    className="pf-c-toolbar__group"
-                  />
-                </div>
-              </div>
-              <div
-                className="pf-c-toolbar__content pf-m-hidden"
-                hidden={true}
-              >
-                <div
-                  className="pf-c-toolbar__group"
-                />
-              </div>
-            </div>
-            <div
-              className="pf-c-empty-state"
-            >
-              <div
-                className="pf-c-empty-state__content"
-              >
-                <div
-                  className="pf-c-empty-state__icon"
-                >
-                  <span
-                    aria-valuetext="Loading..."
-                    className="pf-c-spinner pf-m-xl"
-                    role="progressbar"
-                  >
-                    <span
-                      className="pf-c-spinner__clipper"
-                    />
-                    <span
-                      className="pf-c-spinner__lead-ball"
-                    />
-                    <span
-                      className="pf-c-spinner__tail-ball"
-                    />
-                  </span>
-                </div>
-                <h4
-                  className="pf-c-title pf-m-lg"
-                >
-                  Loading
-                </h4>
-              </div>
-            </div>
+              <span
+                className="pf-c-spinner__clipper"
+              />
+              <span
+                className="pf-c-spinner__lead-ball"
+              />
+              <span
+                className="pf-c-spinner__tail-ball"
+              />
+            </span>
           </div>
-        </article>
-      </section>
+          <h4
+            className="pf-c-title pf-m-lg"
+          >
+            Loading
+          </h4>
+        </div>
+      </div>
     </div>
   </div>
 </div>

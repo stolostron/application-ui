@@ -36,7 +36,6 @@ const dotClusterCountIcon = '.clusterCountIcon'
 const gArgoAppCountText = 'g.argoAppCountText'
 const useArgoAppCountIcon = 'use.argoAppCountIcon'
 const dotArgoAppCountIcon = '.argoAppCountIcon'
-const maxTitleSize = 18
 
 // fix d3-selection-multi not added to d3
 import 'd3-selection-multi'
@@ -339,7 +338,7 @@ export default class NodeHelper {
         nodeLabelGroup
           .text(add => {
             if (layout.type) {
-              titleBeautify(maxTitleSize, kubeNaming(layout.type))
+              titleBeautify(layout.label.indexOf('\n'), kubeNaming(layout.type))
                 .split('\n')
                 .forEach(line => {
                   add

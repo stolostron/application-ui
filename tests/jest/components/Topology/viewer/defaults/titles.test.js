@@ -8,8 +8,8 @@ const locale = "en-US";
 
 describe("getLegendTitle", () => {
   const titleMap = new Map([
-    ["deploymentconfig", "Deployment config"],
-    ["replicationcontroller", "Replication controller"],
+    ["deploymentconfig", "DeploymentConfig"],
+    ["replicationcontroller", "ReplicationController"],
     ["daemonset", "DaemonSet"],
     ["replicaset", "ReplicaSet"],
     ["configmap", "ConfigMap"],
@@ -18,7 +18,7 @@ describe("getLegendTitle", () => {
     ["storageclass", "StorageClass"],
     ["serviceaccount", "ServiceAccount"],
     ["securitycontextconstraints", "SecurityContextConstraints"],
-    ["inmemorychannel", "In memory channel"],
+    ["inmemorychannel", "InMemoryChannel"],
     ["integrationplatform", "IntegrationPlatform"],
     ["persistentvolumeclaim", "PersistentVolumeClaim"],
     ["application", "Application"],

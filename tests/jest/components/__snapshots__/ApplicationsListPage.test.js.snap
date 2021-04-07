@@ -521,7 +521,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
+                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo CD application, the name of the destination cluster is shown. Click to search for the clusters."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-27"
                                 data-ouia-component-type="PF4/Button"
@@ -1556,7 +1556,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
+                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo CD application, the name of the destination cluster is shown. Click to search for the clusters."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-5"
                                 data-ouia-component-type="PF4/Button"
@@ -2591,7 +2591,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. Click to search for the remote clusters."
+                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo CD application, the name of the destination cluster is shown. Click to search for the clusters."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-16"
                                 data-ouia-component-type="PF4/Button"

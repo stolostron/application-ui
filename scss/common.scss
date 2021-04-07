@@ -110,6 +110,10 @@ body {
   background-color: $acm-background-color;
 }
 
+#page {
+  height: 100%;
+}
+
 .page-content-container {
   display: flex;
   flex-direction: column;

@@ -3866,7 +3866,7 @@ describe("setApplicationDeployStatus for ARGO ", () => {
           name: "app1"
         },
         id: "application--app1-argo-editor",
-        label: "Launch Argo CD editor"
+        label: "Launch Argo editor"
       }
     },
     {
@@ -3903,7 +3903,7 @@ describe("setApplicationDeployStatus for ARGO ", () => {
           name: "app2"
         },
         id: "application--app2-argo-editor",
-        label: "Launch Argo CD editor"
+        label: "Launch Argo editor"
       }
     },
     {

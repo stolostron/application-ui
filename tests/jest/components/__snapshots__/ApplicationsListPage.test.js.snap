@@ -482,7 +482,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Shows the namespace of the application resource, which by default is where the application will deploy other resources. For Argo CD applications, this is the destination namespace."
+                                aria-label="Shows the namespace of the application resource, which by default is where the application will deploy other resources. For Argo applications, this is the destination namespace."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-29"
                                 data-ouia-component-type="PF4/Button"
@@ -551,7 +551,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo CD application, the name of the destination cluster is shown. Click to search for the clusters."
+                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo application, the name of the destination cluster is shown. Click to search for the clusters."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-30"
                                 data-ouia-component-type="PF4/Button"
@@ -1557,7 +1557,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Shows the namespace of the application resource, which by default is where the application will deploy other resources. For Argo CD applications, this is the destination namespace."
+                                aria-label="Shows the namespace of the application resource, which by default is where the application will deploy other resources. For Argo applications, this is the destination namespace."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-5"
                                 data-ouia-component-type="PF4/Button"
@@ -1626,7 +1626,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo CD application, the name of the destination cluster is shown. Click to search for the clusters."
+                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo application, the name of the destination cluster is shown. Click to search for the clusters."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-6"
                                 data-ouia-component-type="PF4/Button"
@@ -2632,7 +2632,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Shows the namespace of the application resource, which by default is where the application will deploy other resources. For Argo CD applications, this is the destination namespace."
+                                aria-label="Shows the namespace of the application resource, which by default is where the application will deploy other resources. For Argo applications, this is the destination namespace."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-17"
                                 data-ouia-component-type="PF4/Button"
@@ -2701,7 +2701,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo CD application, the name of the destination cluster is shown. Click to search for the clusters."
+                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo application, the name of the destination cluster is shown. Click to search for the clusters."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-18"
                                 data-ouia-component-type="PF4/Button"

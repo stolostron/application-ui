@@ -291,7 +291,7 @@ class OverviewCards extends React.Component {
           ]}
         />
         {appOverviewCardsData.isArgoApp && (
-          <Card>
+          <Card className="argo-links-container">
             <CardBody>
               <AcmActionGroup>
                 <AcmButton

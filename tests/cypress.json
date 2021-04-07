@@ -31,5 +31,6 @@
       "mochaFile": "test-output/cypress/xml/cypress-[hash].xml",
       "toConsole": true
     }
-  }
+  },
+  "chromeWebSecurity": false
 }

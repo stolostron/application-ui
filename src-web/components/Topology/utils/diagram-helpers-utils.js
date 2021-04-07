@@ -145,18 +145,22 @@ export const getActiveFilterCodes = resourceStatuses => {
 
 export const filterSubscriptionObject = (resourceMap, activeFilterCodes) => {
   const filteredObject = {}
-  Object.entries(resourceMap).forEach(([key, value]) => {
-    if (value.status === 'Subscribed' && activeFilterCodes.has(checkmarkCode)) {
-      filteredObject[key] = value
-    }
-    if (value.status === 'Propagated' && activeFilterCodes.has(warningCode)) {
-      filteredObject[key] = value
-    }
-    if (value.status === 'Fail' && activeFilterCodes.has(failureCode)) {
-      filteredObject[key] = value
-    }
+  Object.entries(resourceMap).forEach(([key, values]) => {
+    values.forEach(value => {
+      if (
+        value.status === 'Subscribed' &&
+        activeFilterCodes.has(checkmarkCode)
+      ) {
+        filteredObject[key] = value
+      }
+      if (value.status === 'Propagated' && activeFilterCodes.has(warningCode)) {
+        filteredObject[key] = value
+      }
+      if (value.status === 'Fail' && activeFilterCodes.has(failureCode)) {
+        filteredObject[key] = value
+      }
+    })
   })
-
   return filteredObject
 }
 
@@ -209,9 +213,8 @@ export const getPulseStatusForSubscription = node => {
     pulse = 'orange' //resource not available
     return pulse
   }
-
   let isPlaced = false
-  Object.values(resourceMap).forEach(subscriptionItem => {
+  _.flatten(Object.values(resourceMap)).forEach(subscriptionItem => {
     if (subscriptionItem.status) {
       if (R.contains('Failed', subscriptionItem.status)) {
         pulse = 'red'
@@ -219,7 +222,6 @@ export const getPulseStatusForSubscription = node => {
       if (subscriptionItem.status === 'Subscribed') {
         isPlaced = true // at least one cluster placed
       }
-
       if (
         subscriptionItem.status !== 'Subscribed' &&
         subscriptionItem.status !== 'Propagated' &&
@@ -292,16 +294,16 @@ export const syncControllerRevisionPodStatusMap = resourceMap => {
 
 //for items with pods and not getting ready or available state, default those values to the current state
 //this is a workaround for defect 8935, search doesn't return ready and available state for resources such as StatefulSets
-export const fixMissingStateOptions = item => {
-  if (item) {
+export const fixMissingStateOptions = items => {
+  items.forEach(item => {
     if (_.get(item, 'available') === undefined) {
       item.available = item.current //default to current state
     }
     if (_.get(item, 'ready') === undefined) {
       item.ready = item.current //default to current state
     }
-  }
-  return item
+  })
+  return items
 }
 
 //last attempt to match the resource namespace with the server target namespace ( argo )
@@ -322,6 +324,20 @@ export const namespaceMatchTargetServer = (
 }
 
 export const setArgoApplicationDeployStatus = (node, details) => {
+  // show error if app is not healthy
+  const appHealth = _.get(node, 'specs.raw.status.health.status')
+  const appStatusConditions = _.get(node, 'specs.raw.status.conditions')
+
+  if (
+    (appHealth === 'Unknown' || appHealth === 'Error') &&
+    appStatusConditions
+  ) {
+    details.push({
+      labelKey: 'resource.rule.clusters.error.label',
+      value: msgs.get('resource.argo.application.error.msg'),
+      status: failureStatus
+    })
+  }
   const relatedArgoApps = _.get(node, 'specs.relatedApps', [])
 
   // related Argo apps
@@ -422,4 +438,44 @@ export const getPulseStatusForArgoApp = node => {
 
   const minPulse = Math.min.apply(null, healthArr)
   return pulseValueArr[minPulse]
+}
+
+// try to match app destination clusters with hub clusters using search data
+export const updateAppClustersMatchingSearch = (node, searchClusters) => {
+  //get only clusters in a url format looking like a cluster api url
+  const appClusters = _.get(node, 'specs.appClusters', [])
+  const appClustersUsingURL = _.filter(appClusters, cls =>
+    _.startsWith(cls, 'https://api.')
+  )
+
+  appClustersUsingURL.forEach(appCls => {
+    try {
+      const clsUrl = new URL(appCls)
+      const clusterMatchName = clsUrl.hostname.substring(3) //remove api
+
+      const possibleMatch = _.find(searchClusters, cls =>
+        _.endsWith(_.get(cls, 'consoleURL', ''), clusterMatchName)
+      )
+      if (possibleMatch) {
+        //found the cluster matching the app destination server url, use the cluster name
+        const matchedClusterName = _.get(possibleMatch, 'name', '')
+        _.pull(appClusters, appCls)
+        if (!_.includes(appClusters, matchedClusterName)) {
+          appClusters.push(matchedClusterName)
+        }
+        //now move all target namespaces to this cluster name
+        const targetNamespaces = _.get(node, 'specs.targetNamespaces', {})
+        const targetNSForAppCls = targetNamespaces[appCls]
+        const targetNSForMatchedName = targetNamespaces[matchedClusterName]
+        targetNamespaces[matchedClusterName] = _.sortBy(
+          _.union(targetNSForAppCls, targetNSForMatchedName)
+        )
+      }
+    } catch (err) {
+      //ignore error
+    }
+  })
+  _.set(node, 'specs.appClusters', _.sortBy(appClusters))
+  _.set(node, 'specs.clusters', searchClusters)
+  return node
 }

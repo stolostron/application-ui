@@ -343,20 +343,12 @@ export const validateAdvancedTables = (
   }
 };
 
-/*
-opType = 'create' if run afer app creation step
-opType = 'delete' if run afer delete subs step
-opType = 'add' if run afer add subs step
-*/
-export const validateTopology = (
-  name,
-  data,
-  type,
-  clusterName,
-  numberOfRemoteClusters,
-  opType
-) => {
-  cy.visit(`/multicloud/applications/${name}-ns/${name}`);
+export const verifyDetails = (name, namespace, apiVersion) => {
+  cy.visit(
+    `/multicloud/applications/${namespace}/${name}${
+      apiVersion ? apiVersion : ""
+    }`
+  );
   cy.reload();
   cy
     .get(".search-query-card-loading", { timeout: 50 * 1000 })
@@ -368,7 +360,31 @@ export const validateTopology = (
   cy
     .get(".pf-l-grid__item")
     .first()
-    .contains(`${name}-ns`);
+    .contains(namespace);
+};
+
+/*
+opType = 'create' if run afer app creation step
+opType = 'delete' if run afer delete subs step
+opType = 'add' if run afer add subs step
+*/
+export const validateTopology = (
+  name,
+  data,
+  type,
+  clusterName,
+  numberOfRemoteClusters,
+  opType,
+  namespace
+) => {
+  const apiVersion = `?apiVersion=${
+    type === "argo" ? "argoproj.io/v1alpha1" : "app.k8s.io%2Fv1beta1"
+  }`;
+  if (!namespace) {
+    namespace = `${name}-ns`;
+  }
+
+  verifyDetails(name, namespace, apiVersion);
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
@@ -379,13 +395,18 @@ export const validateTopology = (
     `Verify cluster deploy status on app card is ${appDetails.clusterData}`
   );
 
+  // verify search resource
   cy
     .get("#app-search-link", { timeout: 20 * 1000 })
     .invoke("attr", "href")
     .should(
       "include",
-      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${name}-ns"}`
+      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${namespace}"}`
     );
+
+  if (type === "argo") {
+    validateArgoLinks(data.config);
+  }
 
   validateSubscriptionDetails(name, data, type, opType);
 
@@ -399,12 +420,16 @@ export const validateTopology = (
   cy.log("validate the application...");
   cy.get(`g[type=${name}]`, { timeout: 25 * 1000 }).should("be.visible");
 
-  //subscription
-  cy.log("validate the subscription...");
-  const subsIndex = opType == "create" ? 1 : 2; //add new subs or delete subs
-  cy
-    .get(`g[type="${name}-subscription-${subsIndex}"]`, { timeout: 25 * 1000 })
-    .should("be.visible");
+  if (type !== "argo") {
+    //subscription
+    cy.log("validate the subscription...");
+    const subsIndex = opType == "create" ? 1 : 2; //add new subs or delete subs
+    cy
+      .get(`g[type="${name}-subscription-${subsIndex}"]`, {
+        timeout: 25 * 1000
+      })
+      .should("be.visible");
+  }
 
   // cluster and placement
   for (const [key, value] of Object.entries(data.config)) {
@@ -463,6 +488,18 @@ export const validatePlacementNode = (name, key) => {
         timeout: 25 * 1000
       })
       .should("be.visible");
+};
+
+export const validateArgoLinks = config => {
+  const { path } = config[0];
+  // search all related applications
+  cy
+    .get("#app-search-argo-apps-link", { timeout: 20 * 1000 })
+    .invoke("attr", "href")
+    .should("include", path);
+
+  // should get element launch argocd editor
+  cy.get("#launch-argocd-editor", { timeout: 20 * 1000 });
 };
 
 export const validateAppTableMenu = (name, resourceTable) => {

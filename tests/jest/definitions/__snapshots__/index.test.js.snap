@@ -58,6 +58,9 @@ Object {
     Object {
       "msgKey": "table.header.namespace",
       "resourceKey": "namespace",
+      "textFunction": [Function],
+      "tooltipKey": "table.header.application.namespace.tooltip",
+      "transformFunction": [Function],
       "transforms": Array [
         [Function],
       ],
@@ -108,6 +111,9 @@ Array [
   Object {
     "msgKey": "table.header.namespace",
     "resourceKey": "namespace",
+    "textFunction": [Function],
+    "tooltipKey": "table.header.application.namespace.tooltip",
+    "transformFunction": [Function],
     "transforms": Array [
       [Function],
     ],

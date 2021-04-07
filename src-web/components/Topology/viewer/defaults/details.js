@@ -121,7 +121,7 @@ function addK8Details(node, updatedNode, details, activeFilters) {
   if (node && R.pathOr('', ['specs', 'pulse'])(node) !== 'orange') {
     const kindModel = _.get(node, `specs.${type}Model`, {})
     let computedNSList = []
-    Object.values(kindModel).forEach(item => {
+    _.flatten(Object.values(kindModel)).forEach(item => {
       computedNSList = R.union(computedNSList, [item.namespace])
     })
 

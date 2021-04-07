@@ -137,12 +137,12 @@ export const openArgoCDEditor = (
   namespace,
   name,
   toggleLoading,
-  handleLinkError
+  handleErrorMsg
 ) => {
   // toggle loading to true
   toggleLoading()
   const query = convertStringToQuery(
-    `kind:route namespace:${namespace} cluster:${cluster}`
+    `kind:route namespace:${namespace} cluster:${cluster} label:app.kubernetes.io/part-of=argocd`
   )
   apolloClient
     .search(SEARCH_QUERY, { input: [query] })
@@ -150,7 +150,7 @@ export const openArgoCDEditor = (
       // toggle loading to false
       toggleLoading()
       if (result.errors) {
-        handleLinkError(`Error: ${result.errors[0].message}`)
+        handleErrorMsg(`Error: ${result.errors[0].message}`)
         return
       } else {
         const searchResult = lodash.get(result, 'data.searchResult', [])
@@ -162,7 +162,7 @@ export const openArgoCDEditor = (
               namespace,
               cluster
             ])
-            handleLinkError(errMsg)
+            handleErrorMsg(errMsg)
             return
           } else {
             //get route object info
@@ -176,7 +176,7 @@ export const openArgoCDEditor = (
               .getArgoAppRouteURL(routeRequest)
               .then(routeURLResult => {
                 if (routeURLResult.errors) {
-                  handleLinkError(`Error: ${routeURLResult.errors[0].message}`)
+                  handleErrorMsg(`Error: ${routeURLResult.errors[0].message}`)
                 } else {
                   if (routeURLResult.data.argoAppRouteURL) {
                     window.open(
@@ -184,7 +184,7 @@ export const openArgoCDEditor = (
                       '_blank'
                     )
                   } else {
-                    handleLinkError(
+                    handleErrorMsg(
                       msgs.get('resource.argo.app.route.err', [
                         namespace,
                         cluster
@@ -194,14 +194,14 @@ export const openArgoCDEditor = (
                 }
               })
               .catch(err => {
-                handleLinkError(`Error: ${err.msg}`)
+                handleErrorMsg(`Error: ${err.msg}`)
               })
           }
         }
       }
     })
     .catch(err => {
-      handleLinkError(`Error: ${err.msg}`)
+      handleErrorMsg(`Error: ${err.msg}`)
     })
 }
 
@@ -269,6 +269,7 @@ const fetchArgoApplications = (
         const targetNS = []
         const targetClusters = []
         const argoAppsLabelNames = []
+        const targetNSForClusters = {} //keep track of what namespaces each cluster must deploy on
         allApps.forEach(argoApp => {
           //get destination and clusters information
           argoAppsLabelNames.push(`app.kubernetes.io/instance=${argoApp.name}`)
@@ -281,8 +282,22 @@ const fetchArgoApplications = (
             'destinationCluster',
             argoServerNameDest || argoApp.destinationServer
           )
-          argoServerNameDest && targetClusters.push(argoServerNameDest) //add the name as is
-          argoServerDest && targetClusters.push(argoServerDest)
+          const targetClusterName = argoServerNameDest
+            ? argoServerNameDest
+            : argoServerDest ? argoServerDest : null
+          if (targetClusterName) {
+            targetClusters.push(targetClusterName)
+            //add namespace to target list
+            if (!targetNSForClusters[targetClusterName]) {
+              targetNSForClusters[targetClusterName] = []
+            }
+            if (
+              argoNS &&
+              !lodash.includes(targetNSForClusters[targetClusterName], argoNS)
+            ) {
+              targetNSForClusters[targetClusterName].push(argoNS)
+            }
+          }
         })
         appData.targetNamespaces = lodash.uniq(targetNS)
         appData.clusterInfo = lodash.uniq(targetClusters)
@@ -301,6 +316,12 @@ const fetchArgoApplications = (
         //desired deployment state
         lodash.set(firstNode, 'specs.clusterNames', appData.clusterInfo)
         lodash.set(topoClusterNode, 'specs.appClusters', appData.clusterInfo)
+        lodash.set(topoClusterNode, 'specs.clusters', appData.clusterInfo)
+        lodash.set(
+          topoClusterNode,
+          'specs.targetNamespaces',
+          targetNSForClusters
+        )
       }
       fetchApplicationRelatedObjects(
         dispatch,

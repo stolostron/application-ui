@@ -1,7 +1,7 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-const config = JSON.parse(Cypress.env("TEST_CONFIG"));
+const config = Cypress.env("TEST_CONFIG");
 
 // Only affects this spec file
 // See https://docs.cypress.io/api/cypress-api/config.html#Syntax

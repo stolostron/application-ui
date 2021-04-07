@@ -28,7 +28,7 @@ resources(() => {
 })
 
 const ResourceOverview = withLocale(
-  ({ params, actions, showExpandedTopology }) => {
+  ({ params, actions, showExpandedTopology, handleErrorMsg }) => {
     const serverProps = {}
     return (
       <div id="resource-overview" className="overview-content">
@@ -39,6 +39,7 @@ const ResourceOverview = withLocale(
               selectedAppName={params.name}
               selectedAppNS={params.namespace}
               serverProps={serverProps}
+              handleErrorMsg={handleErrorMsg}
             />
           </div>
 
@@ -47,6 +48,7 @@ const ResourceOverview = withLocale(
               showExpandedTopology={showExpandedTopology}
               params={params}
               actions={actions}
+              handleErrorMsg={handleErrorMsg}
             />
           </div>
         </React.Fragment>

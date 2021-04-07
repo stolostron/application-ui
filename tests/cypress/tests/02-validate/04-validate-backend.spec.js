@@ -1,12 +1,13 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import {
   apiResources,
   targetResource,
   validateTimewindow,
   getManagedClusterName
 } from "../../views/resources";
+
+const config = Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application application backend resources exist", () => {
   if (Cypress.env("TEST_MODE") !== "smoke") {

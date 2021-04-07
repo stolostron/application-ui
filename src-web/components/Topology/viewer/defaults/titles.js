@@ -121,3 +121,19 @@ export function kubeNaming(type) {
     return type.charAt(0).toUpperCase() + type.slice(1)
   }
 }
+
+// Make nice carrige retun for long titles
+export function titleBeautify(maxStringLength, resouceName) {
+  const rx_regex = /[A-Z][a-z']+(?: [A-Z][a-z]+)*/g
+  const wordsList = resouceName.match(rx_regex)
+  if (resouceName.length > maxStringLength) {
+    let newString = ''
+    for (var idx = 0; newString.length < maxStringLength; idx++) {
+      newString += wordsList[idx]
+    }
+    wordsList.splice(idx, 0, '\n')
+    return wordsList.join('')
+  } else {
+    return resouceName
+  }
+}

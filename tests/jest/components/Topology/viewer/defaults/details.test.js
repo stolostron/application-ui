@@ -140,7 +140,7 @@ describe("getNodeDetails application node", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "application"
+      value: "Application"
     },
     {
       indent: undefined,
@@ -712,7 +712,7 @@ describe("getNodeDetails deployment node", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "deployment"
+      value: "Deployment"
     },
     {
       indent: undefined,
@@ -918,7 +918,7 @@ describe("getNodeDetails helm node", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "helmrelease"
+      value: "Helmrelease"
     },
     {
       indent: undefined,
@@ -1080,7 +1080,7 @@ describe("getNodeDetails placement rules node with error", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "placements"
+      value: "Placements"
     },
     {
       indent: undefined,
@@ -1189,7 +1189,7 @@ describe("getNodeDetails placement rules node with success", () => {
       labelValue: undefined,
       status: undefined,
       type: "label",
-      value: "placements"
+      value: "Placements"
     },
     {
       indent: undefined,

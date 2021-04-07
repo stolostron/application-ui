@@ -16,7 +16,7 @@ import { counterZoom, getTooltip } from '../../utils/diagram-helpers'
 import '../../../../../graphics/diagramShapes.svg'
 import '../../../../../graphics/diagramIcons.svg'
 import _ from 'lodash'
-import { kubeNaming } from '../defaults/titles'
+import { kubeNaming, titleBeautify } from '../defaults/titles'
 
 import {
   FilterResults,
@@ -36,6 +36,7 @@ const dotClusterCountIcon = '.clusterCountIcon'
 const gArgoAppCountText = 'g.argoAppCountText'
 const useArgoAppCountIcon = 'use.argoAppCountIcon'
 const dotArgoAppCountIcon = '.argoAppCountIcon'
+const maxTitleSize = 18
 
 // fix d3-selection-multi not added to d3
 import 'd3-selection-multi'
@@ -338,11 +339,15 @@ export default class NodeHelper {
         nodeLabelGroup
           .text(add => {
             if (layout.type) {
-              add
-                .tspan(kubeNaming(layout.type))
-                .addClass('counter-zoom beg')
-                .font({ 'font-weight': 'bold' })
-                .newLine()
+              titleBeautify(maxTitleSize, kubeNaming(layout.type))
+                .split('\n')
+                .forEach(line => {
+                  add
+                    .tspan(line)
+                    .addClass('counter-zoom beg')
+                    .font({ 'font-weight': 'bold' })
+                    .newLine()
+                })
             }
             if (layout.description) {
               layout.description.split('\n').forEach(line => {

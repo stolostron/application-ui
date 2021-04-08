@@ -122,18 +122,19 @@ export function kubeNaming(type) {
   }
 }
 
-// Make nice carrige retun for long titles
-export function titleBeautify(maxStringLength, resouceName) {
+// Make nice carriage return for long titles
+export function titleBeautify(maxStringLength, resourceName) {
   const rx_regex = /[A-Z][a-z']+(?: [A-Z][a-z]+)*/g
-  const wordsList = resouceName.match(rx_regex)
-  if (resouceName.length > maxStringLength) {
-    let newString = ''
-    for (var idx = 0; newString.length < maxStringLength; idx++) {
-      newString += wordsList[idx]
+  var wordsList = resourceName.match(rx_regex)
+  if (Math.max(0, maxStringLength) / resourceName.length > 0) {
+    for (let idx = wordsList.length - 1; idx > 0; idx--) {
+      if (wordsList.slice(0, idx).join('').length <= maxStringLength) {
+        wordsList.splice(idx, 0, '\n')
+        return wordsList.join('')
+      }
     }
-    wordsList.splice(idx, 0, '\n')
-    return wordsList.join('')
+    return resourceName
   } else {
-    return resouceName
+    return resourceName
   }
 }

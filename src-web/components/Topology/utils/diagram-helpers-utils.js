@@ -454,12 +454,10 @@ export const updateAppClustersMatchingSearch = (node, searchClusters) => {
       if (clusterIdx !== -1) {
         const kubeClusterName = appCls.substring(clusterIdx + 9)
         // this is a non ocp cluster, server destination set by name
-        possibleMatch = _.find(searchClusters, cls =>
-          _.includes(
-            [kubeClusterName, `${kubeClusterName}-cluster`],
-            _.get(cls, 'name', '_')
-          )
-        )
+        possibleMatch = _.find(searchClusters, cls => {
+          const clsName = _.get(cls, 'name', '_')
+          return _.includes([clsName, `${clsName}-cluster`], kubeClusterName)
+        })
       } else {
         const clusterMatchName = _.startsWith(appCls, 'https://api.')
           ? clsUrl.hostname.substring(3)

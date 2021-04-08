@@ -28,6 +28,13 @@ describe("updateAppClustersMatchingSearch", () => {
     {
       name: "ui-managed",
       consoleURL: "https://console-openshift-console.apps.app-abcd.managed.com"
+    },
+    {
+      HubAcceptedManagedCluster: "True",
+      ManagedClusterConditionAvailable: "True",
+      kind: "cluster",
+      label: "cloud=Amazon; environment=Dev; name=fxiang-eks; vendor=EKS",
+      name: "fxiang-eks"
     }
   ];
   const clsNode1 = {
@@ -37,9 +44,15 @@ describe("updateAppClustersMatchingSearch", () => {
         "ui-managed",
         "https://api.app-abcd.com:1234",
         "https://api.app-abcd.managed_no_match.com:6999",
-        "https://api.app-abcd.managed.com:6999"
+        "https://api.app-abcd.managed.com:6999",
+        "https://ABCD.gr7.123.eks.amazonaws.com",
+        "abcd:aws:eks:123:456:cluster/fxiang-eks",
+        "abcd:aws:eks:123:456:cluster/fxiang-eks-cluster"
       ],
       targetNamespaces: {
+        "https://ABCD.gr7.123.eks.amazonaws.com": ["default"],
+        "abcd:aws:eks:123:456:cluster/fxiang-eks": ["helloworld-eks2"],
+        "abcd:aws:eks:123:456:cluster/fxiang-eks-cluster": ["helloworld-eks3"],
         "https://api.app-abcd.com:1234": ["localNS1", "localNS2"],
         "https://api.app-abcd.managed_no_match.com:6999": ["a", "b"],
         "https://api.app-abcd.managed.com:6999": ["namespace1", "namespace2"],
@@ -51,17 +64,17 @@ describe("updateAppClustersMatchingSearch", () => {
   const resultNode1 = {
     specs: {
       clusters: searchClusters,
-      appClusters: [
-        "https://api.app-abcd.managed_no_match.com:6999",
-        "local-cluster",
-        "ui-managed"
-      ],
+      appClusters: ["fxiang-eks", "local-cluster", "ui-managed"],
       targetNamespaces: {
+        "https://ABCD.gr7.123.eks.amazonaws.com": ["default"],
+        "abcd:aws:eks:123:456:cluster/fxiang-eks": ["helloworld-eks2"],
+        "abcd:aws:eks:123:456:cluster/fxiang-eks-cluster": ["helloworld-eks3"],
         "https://api.app-abcd.com:1234": ["localNS1", "localNS2"],
         "https://api.app-abcd.managed_no_match.com:6999": ["a", "b"],
         "https://api.app-abcd.managed.com:6999": ["namespace1", "namespace2"],
         "ui-managed": ["namespace1", "namespace2", "namespace3"],
-        "local-cluster": ["localNS1", "localNS2", "namespace4"]
+        "local-cluster": ["localNS1", "localNS2", "namespace4"],
+        "fxiang-eks": ["helloworld-eks2", "helloworld-eks3"]
       }
     }
   };

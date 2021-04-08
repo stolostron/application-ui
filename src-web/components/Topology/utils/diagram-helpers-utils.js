@@ -81,7 +81,7 @@ export const getClusterName = (nodeId, node, findAll) => {
   if (node && _.get(node, 'clusters.id', '') === 'member--clusters--') {
     //cluster info is not set on the node id, get it from here
     if (findAll) {
-      //get all cluster names as set by argo target, ignore deplaybale status
+      //get all cluster names as set by argo target, ignore deployable status
       return _.union(
         _.get(node, 'specs.clustersNames', []),
         _.get(node, 'clusters.specs.appClusters', [])
@@ -446,22 +446,32 @@ export const getPulseStatusForArgoApp = node => {
 export const updateAppClustersMatchingSearch = (node, searchClusters) => {
   //get only clusters in a url format looking like a cluster api url
   const appClusters = _.get(node, 'specs.appClusters', [])
-  const appClustersUsingURL = _.filter(appClusters, cls =>
-    _.startsWith(cls, 'https://api.')
-  )
+  const appClustersUsingURL = _.filter(appClusters, cls => isValidHttpUrl(cls))
 
   appClustersUsingURL.forEach(appCls => {
     try {
+      let possibleMatch
       const clsUrl = new URL(appCls)
-      const clusterMatchName = clsUrl.hostname.substring(3) //remove api
-
-      const possibleMatch = _.find(searchClusters, cls =>
-        _.endsWith(_.get(cls, 'consoleURL', ''), clusterMatchName)
-      )
+      const clusterIdx = appCls.indexOf(':cluster/')
+      if (clusterIdx !== -1) {
+        const kubeClusterName = appCls.substring(clusterIdx + 9)
+        // this is a non ocp cluster, server destination set by name
+        possibleMatch = _.find(searchClusters, cls => {
+          const clsName = _.get(cls, 'name', '_')
+          return _.includes([clsName, `${clsName}-cluster`], kubeClusterName)
+        })
+      } else {
+        const clusterMatchName = _.startsWith(appCls, 'https://api.')
+          ? clsUrl.hostname.substring(3)
+          : 'unknown'
+        possibleMatch = _.find(searchClusters, cls =>
+          _.endsWith(_.get(cls, 'consoleURL', '_'), clusterMatchName)
+        )
+      }
+      _.pull(appClusters, appCls)
       if (possibleMatch) {
         //found the cluster matching the app destination server url, use the cluster name
         const matchedClusterName = _.get(possibleMatch, 'name', '')
-        _.pull(appClusters, appCls)
         if (!_.includes(appClusters, matchedClusterName)) {
           appClusters.push(matchedClusterName)
         }
@@ -480,4 +490,14 @@ export const updateAppClustersMatchingSearch = (node, searchClusters) => {
   _.set(node, 'specs.appClusters', _.sortBy(appClusters))
   _.set(node, 'specs.clusters', searchClusters)
   return node
+}
+
+export const isValidHttpUrl = value => {
+  let validUrl = true
+  try {
+    new URL(value)
+  } catch (err) {
+    validUrl = false
+  }
+  return validUrl
 }

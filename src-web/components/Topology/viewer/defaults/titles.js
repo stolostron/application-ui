@@ -93,3 +93,48 @@ export const getLegendTitle = (type, locale) => {
     return type.charAt(0).toUpperCase() + type.slice(1)
   }
 }
+
+// Convert types to OpenShift/Kube entities
+export function kubeNaming(type) {
+  if (type === undefined) {
+    return ''
+  }
+  switch (type) {
+  case 'deploymentconfig':
+  case 'replicationcontroller':
+  case 'daemonset':
+  case 'replicaset':
+  case 'configmap':
+  case 'ansiblejob':
+  case 'customresource':
+  case 'statefulset':
+  case 'storageclass':
+  case 'serviceaccount':
+  case 'securitycontextconstraints':
+  case 'inmemorychannel':
+  case 'integrationplatform':
+  case 'persistentvolumeclaim':
+  case 'imagestream':
+    return msgs.get(`topology.legend.title.${type}`)
+
+  default:
+    return type.charAt(0).toUpperCase() + type.slice(1)
+  }
+}
+
+// Make nice carriage return for long titles
+export function titleBeautify(maxStringLength, resourceName) {
+  const rx_regex = /[A-Z][a-z']+(?: [A-Z][a-z]+)*/g
+  var wordsList = resourceName.match(rx_regex)
+  if (Math.max(0, maxStringLength) / resourceName.length > 0) {
+    for (let idx = wordsList.length - 1; idx > 0; idx--) {
+      if (wordsList.slice(0, idx).join('').length <= maxStringLength) {
+        wordsList.splice(idx, 0, '\n')
+        return wordsList.join('')
+      }
+    }
+    return resourceName
+  } else {
+    return resourceName
+  }
+}

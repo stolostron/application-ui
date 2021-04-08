@@ -18,19 +18,6 @@ const express = require('express'),
       appUtil = require('../../lib/server/app-util'),
       router = express.Router({ mergeParams: true })
 
-// router.get('/logout', (req, res) => {
-//   var LOGOUT_API = '/v1/auth/logout'
-//   var callbackUrl = req.headers['host']
-//   cookieUtil.deleteAuthCookies(res)
-//   logger.debug('headers host:' + callbackUrl)
-//   var redirectUrl =
-//     process.env.NODE_ENV !== 'development' && callbackUrl
-//       ? `https://${callbackUrl}${LOGOUT_API}`
-//       : `${config.get('headerUrl')}${LOGOUT_API}`
-//   logger.debug('Final logout url:' + redirectUrl)
-//   return res.send({ redirectUrl })
-// })
-
 router.get('*', (req, res) => {
   const ctx = getContext(req)
   return res.render(

@@ -260,13 +260,6 @@ const AppComponent = props => (
       component={AppContainer}
     />
   </AcmHeader>
-  // <div className="expand-vertically">
-  //   <Route
-  //     path={config.contextPath}
-  //     serverProps={props}
-  //     render={() => <AppContainer {...props} />}
-  //   />
-  // </div>
 )
 AppComponent.displayName = 'AppComponent'
 export default AppComponent

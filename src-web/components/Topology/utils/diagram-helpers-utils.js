@@ -329,7 +329,9 @@ export const setArgoApplicationDeployStatus = (node, details) => {
   const appStatusConditions = _.get(node, 'specs.raw.status.conditions')
 
   if (
-    (appHealth === 'Unknown' || appHealth === 'Error') &&
+    (appHealth === 'Unknown' ||
+      appHealth === 'Degraded' ||
+      appHealth === 'Missing') &&
     appStatusConditions
   ) {
     details.push({
@@ -417,10 +419,10 @@ export const translateArgoHealthStatus = healthStatus => {
   if (healthStatus === 'Healthy') {
     return 3
   }
-  if (healthStatus === 'Progressing') {
+  if (healthStatus === 'Missing' || healthStatus === 'Unknown') {
     return 1
   }
-  if (healthStatus === 'Unknown') {
+  if (healthStatus === 'Degraded') {
     return 0
   }
   return 2

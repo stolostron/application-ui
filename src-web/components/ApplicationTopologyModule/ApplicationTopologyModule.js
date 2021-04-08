@@ -67,6 +67,7 @@ class ApplicationTopologyModule extends React.Component {
     diagramFilters: PropTypes.array,
     fetchAppTopology: PropTypes.func,
     fetchError: PropTypes.object,
+    handleErrorMsg: PropTypes.func,
     links: PropTypes.array,
     locale: PropTypes.string,
     nodes: PropTypes.array,
@@ -362,8 +363,9 @@ class ApplicationTopologyModule extends React.Component {
     this.props.fetchAppTopology(fetchChannel)
   }
 
-  processActionLink = (resource, toggleLoading, handleLinkError) => {
-    processResourceActionLink(resource, toggleLoading, handleLinkError)
+  processActionLink = (resource, toggleLoading) => {
+    const { handleErrorMsg } = this.props
+    processResourceActionLink(resource, toggleLoading, handleErrorMsg)
   };
 
   handleLegendClose = () => {

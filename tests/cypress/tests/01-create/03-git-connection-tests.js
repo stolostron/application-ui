@@ -1,7 +1,7 @@
 // Copyright (c) 2021 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-const config = JSON.parse(Cypress.env("TEST_CONFIG"));
+const config = Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
 import { testGitApiInput } from "../../views/common";
 
 describe("Application UI: [P3][Sev3][app-lifecycle-ui] Application Creation Validate git api Test", () => {

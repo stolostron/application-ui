@@ -419,6 +419,9 @@ export default class NodeHelper {
       return layout.type === 'application'
     })
 
+    const argoAppCountTextNodes = argoAppNode.selectAll(gArgoAppCountText)
+    argoAppCountTextNodes.remove()
+
     argoAppNode
       .append('g')
       .attr('class', 'argoAppCountText')

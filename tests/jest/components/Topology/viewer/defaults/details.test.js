@@ -545,43 +545,53 @@ describe("getNodeDetails deployment node", () => {
     },
     specs: {
       deploymentModel: {
-        "mortgage-app-deploy-feng": {
-          ready: 3,
-          desired: 3
-        },
-        "mortgage-app-deploy-cluster1": {}
+        "mortgage-app-deploy-feng": [
+          {
+            cluster: "feng",
+            namespace: "default",
+            ready: 3,
+            desired: 3
+          }
+        ],
+        "mortgage-app-deploy-cluster1": []
       },
       podModel: {
-        "mortgagedc-deploy-1-q9b5r-feng": {
-          cluster: "feng",
-          container: "mortgagedc-mortgage",
-          hostIP: "1.1.1.1",
-          image: "fxiang/mortgage:0.4.0",
-          kind: "pod",
-          label:
-            "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
-          name: "mortgagedc-deploy-1-q9b5r",
-          namespace: "default",
-          podIP: "10.128.2.80",
-          restarts: 0,
-          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
-          status: "Running"
-        },
-        "mortgagedc-deploy-1-q9b5rr-feng": {
-          cluster: "feng",
-          container: "mortgagedc-mortgage",
-          hostIP: "1.1.1.1",
-          image: "fxiang/mortgage:0.4.0",
-          kind: "pod",
-          label:
-            "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
-          name: "mortgagedc-deploy-1-q9b5rr",
-          namespace: "default",
-          podIP: "10.128.2.80",
-          restarts: 0,
-          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
-          status: "Running"
-        }
+        "mortgagedc-deploy-1-q9b5r-feng": [
+          {
+            cluster: "feng",
+            container: "mortgagedc-mortgage",
+            hostIP: "1.1.1.1",
+            image: "fxiang/mortgage:0.4.0",
+            kind: "pod",
+            label:
+              "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
+            name: "mortgagedc-deploy-1-q9b5r",
+            namespace: "default",
+            podIP: "10.128.2.80",
+            restarts: 0,
+            selfLink:
+              "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
+            status: "Running"
+          }
+        ],
+        "mortgagedc-deploy-1-q9b5rr-feng": [
+          {
+            cluster: "feng",
+            container: "mortgagedc-mortgage",
+            hostIP: "1.1.1.1",
+            image: "fxiang/mortgage:0.4.0",
+            kind: "pod",
+            label:
+              "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
+            name: "mortgagedc-deploy-1-q9b5rr",
+            namespace: "default",
+            podIP: "10.128.2.80",
+            restarts: 0,
+            selfLink:
+              "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
+            status: "Running"
+          }
+        ]
       },
       raw: {
         apiVersion: "apps/v1",
@@ -592,6 +602,11 @@ describe("getNodeDetails deployment node", () => {
           namespace: "default"
         },
         spec: {
+          metadata: {
+            labels: { app: "mortgage-app-mortgage" },
+            name: "mortgage-app-deploy",
+            namespace: "default"
+          },
           replicas: 1,
           selector: {
             matchLabels: { app: "mortgage-app-mortgage" }
@@ -688,13 +703,15 @@ describe("getNodeDetails deployment node", () => {
           },
           specs: {
             podModel: {
-              "mortgage-app-deploy-55c65b9c8f-6v9bn": {
-                cluster: "cluster1",
-                hostIP: "1.1.1.1",
-                status: "Running",
-                restarts: 0,
-                podIP: "1.1.1.1"
-              }
+              "mortgage-app-deploy-55c65b9c8f-6v9bn": [
+                {
+                  cluster: "cluster1",
+                  hostIP: "1.1.1.1",
+                  status: "Running",
+                  restarts: 0,
+                  podIP: "1.1.1.1"
+                }
+              ]
             }
           }
         }
@@ -703,174 +720,187 @@ describe("getNodeDetails deployment node", () => {
   };
 
   const expectedResult = [
-    { type: "spacer" },
-    { labelKey: "prop.details.section", type: "label" },
-    { type: "spacer" },
     {
-      indent: undefined,
-      labelKey: "resource.type",
-      labelValue: undefined,
-      status: undefined,
+      type: "spacer"
+    },
+    {
       type: "label",
+      labelKey: "prop.details.section"
+    },
+    {
+      type: "spacer"
+    },
+    {
+      type: "label",
+      labelKey: "resource.type",
       value: "Deployment"
     },
     {
-      indent: undefined,
-      labelKey: "resource.api.version",
-      labelValue: undefined,
-      status: undefined,
       type: "label",
+      labelKey: "resource.api.version",
       value: "apps/v1"
     },
     {
-      indent: undefined,
-      labelKey: "resource.namespace",
-      labelValue: undefined,
-      status: undefined,
       type: "label",
+      labelKey: "resource.namespace",
       value: "default"
     },
     {
-      indent: undefined,
-      labelKey: "raw.spec.metadata.label",
-      labelValue: undefined,
-      status: undefined,
       type: "label",
+      labelKey: "raw.spec.metadata.label",
       value: "app=mortgage-app-mortgage"
     },
     {
-      indent: undefined,
-      labelKey: "raw.spec.replicas",
-      labelValue: undefined,
-      status: undefined,
       type: "label",
+      labelKey: "raw.spec.replicas",
       value: "1"
     },
     {
-      indent: undefined,
-      labelKey: "raw.spec.selector",
-      labelValue: undefined,
-      status: undefined,
       type: "label",
+      labelKey: "raw.spec.selector",
       value: "app=mortgage-app-mortgage"
     },
-    { type: "spacer" },
-    { type: "spacer" },
-    { labelKey: "resource.deploy.pods.statuses", type: "label" },
-    { labelValue: "feng", status: "pending", value: "Not Deployed" },
-    { labelValue: "cluster1", status: "pending", value: "Not Deployed" },
-    { labelValue: "cluster2", status: "pending", value: "Not Deployed" },
-    { type: "spacer" },
-    { type: "spacer" },
-    { labelValue: "Pod details for {0}", type: "label" },
     {
-      indent: undefined,
-      labelKey: "resource.pod",
-      labelValue: undefined,
-      status: undefined,
+      type: "spacer"
+    },
+    {
+      type: "spacer"
+    },
+    {
       type: "label",
+      labelKey: "resource.deploy.pods.statuses"
+    },
+    {
+      labelValue: "Cluster name",
+      value: "feng"
+    },
+    {
+      labelValue: "default",
+      value: "Not Deployed",
+      status: "pending"
+    },
+    {
+      labelValue: "Cluster name",
+      value: "cluster1"
+    },
+    {
+      labelValue: "default",
+      value: "Not Deployed",
+      status: "pending"
+    },
+    {
+      labelValue: "Cluster name",
+      value: "cluster2"
+    },
+    {
+      labelValue: "default",
+      value: "Not Deployed",
+      status: "pending"
+    },
+    {
+      type: "spacer"
+    },
+    {
+      type: "spacer"
+    },
+    {
+      type: "label",
+      labelValue: "Pod details for {0}"
+    },
+    {
+      type: "label",
+      labelKey: "resource.pod",
       value: "mortgagedc-deploy-1-q9b5r"
     },
     {
-      indent: undefined,
-      labelKey: "resource.status",
-      labelValue: undefined,
-      status: "checkmark",
       type: "label",
-      value: "Running"
+      labelKey: "resource.namespace",
+      value: "default"
     },
     {
-      indent: true,
+      type: "label",
+      labelKey: "resource.status",
+      value: "Running",
+      status: "checkmark"
+    },
+    {
       type: "link",
       value: {
+        label: "View Pod YAML and Logs",
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
           editLink:
             "/resources?cluster=feng&kind=pod&name=mortgagedc-deploy-1-q9b5r&namespace=default"
-        },
-        label: "View Pod YAML and Logs"
-      }
+        }
+      },
+      indent: true
     },
     {
-      indent: undefined,
-      labelKey: "resource.restarts",
-      labelValue: undefined,
-      status: undefined,
       type: "label",
+      labelKey: "resource.restarts",
       value: "0"
     },
     {
-      indent: undefined,
-      labelKey: "resource.hostip",
-      labelValue: undefined,
-      status: undefined,
       type: "label",
+      labelKey: "resource.hostip",
       value: "1.1.1.1, 10.128.2.80"
     },
     {
-      indent: undefined,
-      labelKey: "resource.created",
-      labelValue: undefined,
-      status: undefined,
       type: "label",
+      labelKey: "resource.created",
       value: "-"
     },
-    { type: "spacer" },
     {
-      indent: undefined,
-      labelKey: "resource.pod",
-      labelValue: undefined,
-      status: undefined,
+      type: "spacer"
+    },
+    {
       type: "label",
+      labelKey: "resource.pod",
       value: "mortgagedc-deploy-1-q9b5rr"
     },
     {
-      indent: undefined,
-      labelKey: "resource.status",
-      labelValue: undefined,
-      status: "checkmark",
       type: "label",
-      value: "Running"
+      labelKey: "resource.namespace",
+      value: "default"
     },
     {
-      indent: true,
+      type: "label",
+      labelKey: "resource.status",
+      value: "Running",
+      status: "checkmark"
+    },
+    {
       type: "link",
       value: {
+        label: "View Pod YAML and Logs",
         data: {
           action: "show_resource_yaml",
           cluster: "feng",
           editLink:
             "/resources?cluster=feng&kind=pod&name=mortgagedc-deploy-1-q9b5rr&namespace=default"
-        },
-        label: "View Pod YAML and Logs"
-      }
+        }
+      },
+      indent: true
     },
     {
-      indent: undefined,
-      labelKey: "resource.restarts",
-      labelValue: undefined,
-      status: undefined,
       type: "label",
+      labelKey: "resource.restarts",
       value: "0"
     },
     {
-      indent: undefined,
-      labelKey: "resource.hostip",
-      labelValue: undefined,
-      status: undefined,
       type: "label",
+      labelKey: "resource.hostip",
       value: "1.1.1.1, 10.128.2.80"
     },
     {
-      indent: undefined,
-      labelKey: "resource.created",
-      labelValue: undefined,
-      status: undefined,
       type: "label",
+      labelKey: "resource.created",
       value: "-"
     },
-    { type: "spacer" }
+    {
+      type: "spacer"
+    }
   ];
 
   it("should process the node, deployment node", () => {
@@ -964,7 +994,8 @@ describe("getNodeDetails helm node", () => {
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
     { type: "spacer" },
-    { labelValue: "local-cluster", status: "pending", value: "Not Deployed" },
+    { labelValue: "Cluster name", value: "local-cluster" },
+    { labelValue: "default", status: "pending", value: "Not Deployed" },
     { type: "spacer" }
   ];
 

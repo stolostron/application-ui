@@ -214,9 +214,33 @@ describe("createApplicationLink", () => {
       _store: {},
       key: null,
       props: {
-        children: "val",
-        replace: false,
-        to: "undefined/default/val?apiVersion=app.k8s.io%2Fv1beta1"
+        children: [
+          {
+            _owner: null,
+            _store: {},
+            key: null,
+            props: {
+              align: "baseline",
+              children: {
+                _owner: null,
+                _store: {},
+                key: null,
+                props: {
+                  children: "val",
+                  replace: false,
+                  to: "undefined/default/val?apiVersion=app.k8s.io%2Fv1beta1"
+                },
+                ref: null
+              }
+            },
+            ref: null
+          },
+          false
+        ],
+        hasGutter: true,
+        style: {
+          alignItems: "baseline"
+        }
       },
       ref: null
     };

@@ -17,12 +17,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { TimesIcon } from '@patternfly/react-icons'
-import {
-  Alert,
-  AlertGroup,
-  AlertActionCloseButton,
-  Spinner
-} from '@patternfly/react-core'
+import { Spinner } from '@patternfly/react-core'
 import jsYaml from 'js-yaml'
 import '../../../../graphics/diagramShapes.svg'
 import '../../../../graphics/diagramIcons.svg'
@@ -53,10 +48,8 @@ class DetailsView extends React.Component {
   constructor(props) {
     super(props)
     this.toggleLinkLoading = this.toggleLinkLoading.bind(this)
-    this.handleLinkError = this.handleLinkError.bind(this)
 
     this.state = {
-      errMsg: '',
       isLoading: false,
       linkID: ''
     }
@@ -74,10 +67,6 @@ class DetailsView extends React.Component {
     }
   }
 
-  handleLinkError(err) {
-    this.setState({ errMsg: err })
-  }
-
   toggleLinkLoading() {
     this.setState(prevState => ({
       isLoading: !prevState.isLoading
@@ -87,7 +76,7 @@ class DetailsView extends React.Component {
   processActionLink(value) {
     const { processActionLink } = this.props
     const { data } = value
-    processActionLink(data, this.toggleLinkLoading, this.handleLinkError)
+    processActionLink(data, this.toggleLinkLoading)
   }
 
   render() {
@@ -238,7 +227,7 @@ class DetailsView extends React.Component {
     if (!value) {
       return <div />
     }
-    const { errMsg, isLoading, linkID } = this.state
+    const { isLoading, linkID } = this.state
     const loadingArgoLink = isLoading && value.id === linkID
     const handleClick = this.handleClick.bind(this, value)
     const handleKeyPress = this.handleKeyPress.bind(this, value)
@@ -262,22 +251,6 @@ class DetailsView extends React.Component {
 
     return (
       <div className={mainSectionClasses} key={Math.random()}>
-        {errMsg && (
-          <AlertGroup isToast className="errMsgAlert">
-            <Alert
-              variant="danger"
-              title={errMsg}
-              actionClose={
-                <AlertActionCloseButton
-                  title={errMsg}
-                  variantLabel="danger alert"
-                  onClose={() => this.removeAlert()}
-                />
-              }
-              key={errMsg}
-            />
-          </AlertGroup>
-        )}
         <span
           className={`${linkLabelClasses} ${
             loadingArgoLink ? 'loadingLink' : ''
@@ -298,10 +271,6 @@ class DetailsView extends React.Component {
         </span>
       </div>
     )
-  }
-
-  removeAlert() {
-    this.setState({ errMsg: '' })
   }
 
   setSubmitBtn = ref => {

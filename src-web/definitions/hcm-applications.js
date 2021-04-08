@@ -20,9 +20,11 @@ import {
 } from '../../lib/client/resource-helper'
 import { cellWidth } from '@patternfly/react-table'
 import { Link } from 'react-router-dom'
+import queryString from 'query-string'
 import config from '../../lib/shared/config'
 import msgs from '../../nls/platform.properties'
 import ChannelLabels from '../components/common/ChannelLabels'
+import { Label, Split, SplitItem } from '@patternfly/react-core'
 
 export default {
   defaultSortField: 'name',
@@ -41,8 +43,11 @@ export default {
     },
     {
       msgKey: 'table.header.namespace',
+      tooltipKey: 'table.header.application.namespace.tooltip',
       resourceKey: 'namespace',
-      transforms: [cellWidth(20)]
+      transforms: [cellWidth(20)],
+      transformFunction: createNamespaceText,
+      textFunction: createNamespaceText
     },
     {
       msgKey: 'table.header.clusters',
@@ -55,8 +60,8 @@ export default {
       msgKey: 'table.header.resource',
       tooltipKey: 'table.header.application.resource.tooltip',
       resourceKey: 'hubChannels',
-      transformFunction: getChannels,
-      textFunction: getChannelsText
+      transformFunction: createChannels,
+      textFunction: createChannelsText
     },
     {
       msgKey: 'table.header.timeWindow',
@@ -75,34 +80,32 @@ export default {
     {
       key: 'table.actions.applications.view',
       link: {
-        url: item =>
-          `/multicloud/applications/${encodeURIComponent(
-            item.namespace
-          )}/${encodeURIComponent(item.name)}`
+        url: item => getApplicationLink(item)
       }
     },
     {
       key: 'table.actions.applications.edit',
       link: {
-        url: item =>
-          `/multicloud/applications/${encodeURIComponent(
-            item.namespace
-          )}/${encodeURIComponent(item.name)}/edit`,
+        url: item => getApplicationLink(item, true),
         state: { cancelBack: true }
       }
     },
     {
       key: 'table.actions.applications.search',
       link: {
-        url: item =>
-          getSearchLink({
+        url: item => {
+          const [apigroup, apiversion] = item.apiVersion.split('/')
+          return getSearchLink({
             properties: {
               name: item.name,
               namespace: item.namespace,
-              kind: 'application',
-              apigroup: 'app.k8s.io'
+              cluster: item.cluster,
+              kind: item.kind,
+              apigroup,
+              apiversion
             }
           })
+        }
       }
     },
     {
@@ -113,17 +116,33 @@ export default {
   ]
 }
 
-export function createApplicationLink(item = {}, ...param) {
+function getApplicationLink(item = {}, edit = false) {
   const { name, namespace = 'default' } = item
-  if (param[2]) {
-    return item.name
-  }
-  const link = `${config.contextPath}/${encodeURIComponent(
+  const params = queryString.stringify({
+    apiVersion: item.apiVersion,
+    cluster: item.cluster === 'local-cluster' ? undefined : item.cluster
+  })
+  return `${config.contextPath}/${encodeURIComponent(
     namespace
-  )}/${encodeURIComponent(name)}?apiVersion=${encodeURIComponent(
-    item.apiVersion
-  )}`
-  return <Link to={link}>{name}</Link>
+  )}/${encodeURIComponent(name)}${edit ? '/edit' : ''}?${params}`
+}
+
+export function createApplicationLink(item = {}, locale) {
+  const { name } = item
+  return (
+    <Split hasGutter style={{ alignItems: 'baseline' }}>
+      <SplitItem align="baseline">
+        <Link to={getApplicationLink(item)}>{name}</Link>
+      </SplitItem>
+      {isArgoApp(item) && (
+        <SplitItem>
+          <Label color="blue">
+            {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
+          </Label>
+        </SplitItem>
+      )}
+    </Split>
+  )
 }
 
 function getClusterCounts(item) {
@@ -138,6 +157,23 @@ function getClusterCounts(item) {
 }
 
 function createClustersLink(item = {}, locale = '') {
+  if (isArgoApp(item)) {
+    return item.destinationCluster ? (
+      <a
+        className="cluster-count-link"
+        href={getSearchLink({
+          properties: {
+            name: item.destinationCluster,
+            kind: 'cluster'
+          }
+        })}
+      >
+        {item.destinationCluster}
+      </a>
+    ) : (
+      msgs.get('cluster.name.unknown', locale)
+    )
+  }
   const { remoteCount, localPlacement } = getClusterCounts(item)
   return getClusterCount({
     locale,
@@ -151,28 +187,56 @@ function createClustersLink(item = {}, locale = '') {
 }
 
 function createClustersText(item = {}, locale = '') {
+  if (isArgoApp(item)) {
+    return item.destinationCluster || msgs.get('cluster.name.unknown', locale)
+  }
   const { remoteCount, localPlacement } = getClusterCounts(item)
   return getClusterCountString(locale, remoteCount, localPlacement)
 }
 
-function getChannels(item = {}, locale = '') {
+function createNamespaceText(item = {}) {
+  return isArgoApp(item) ? item.destinationNamespace : item.namespace
+}
+
+function isArgoApp(item = {}) {
+  return item.apiVersion && item.apiVersion.includes('argoproj.io')
+}
+
+function getChannels(item = {}) {
+  if (isArgoApp(item)) {
+    return [
+      {
+        type: item.chart ? 'helmrepo' : 'git',
+        pathname: item.repoURL,
+        gitPath: item.path,
+        chart: item.chart,
+        targetRevision: item.targetRevision
+      }
+    ]
+  }
+  return (R.path(['hubChannels'], item) || []).map(ch => ({
+    type: ch['ch.type'],
+    pathname: ch['ch.pathname'],
+    gitBranch: ch['sub._gitbranch'],
+    gitPath: ch['sub._gitpath'],
+    package: ch['sub.package'],
+    packageFilterVersion: ch['sub.packageFilterVersion']
+  }))
+}
+
+function createChannels(item = {}, locale = '') {
+  const channels = getChannels(item)
   return (
     <ChannelLabels
-      channels={(R.path(['hubChannels'], item) || []).map(ch => ({
-        type: ch['ch.type'],
-        pathname: ch['ch.pathname'],
-        gitBranch: ch['sub._gitbranch'],
-        gitPath: ch['sub._gitpath'],
-        package: ch['sub.package'],
-        packageFilterVersion: ch['sub.packageFilterVersion']
-      }))}
+      channels={channels}
       locale={locale}
+      isArgoApp={isArgoApp(item)}
     />
   )
 }
 
-function getChannelsText(item = {}, locale = '') {
-  const channels = (R.path(['hubChannels'], item) || []).map(ch => ({
+function createChannelsText(item = {}, locale = '') {
+  const channels = getChannels(item).map(ch => ({
     type: ch['ch.type']
   }))
   const channelMap = groupByChannelType(channels || [])

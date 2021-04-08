@@ -1,13 +1,15 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-
-const config = JSON.parse(Cypress.env("TEST_CONFIG"));
 import { validateTopology } from "../../views/application";
 import { validateDefect7696 } from "../../views/common";
 import {
   getManagedClusterName,
   getNumberOfManagedClusters
 } from "../../views/resources";
+
+const config = Cypress.config().baseUrl.includes("localhost")
+  ? Cypress.env("TEST_CONFIG")
+  : Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Test for single application page, topology ", () => {
   it(`get the name of the managed OCP cluster`, () => {
@@ -33,10 +35,11 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Te
             type,
             clusterName,
             numberOfRemoteClusters,
-            "create"
+            "create",
+            data.namespace
           );
         });
-        if (data.type == "git") {
+        if (data.type == "git" && type !== "argo") {
           it("Verify defects 7696 and 8055", () => {
             validateDefect7696(data.name);
           });

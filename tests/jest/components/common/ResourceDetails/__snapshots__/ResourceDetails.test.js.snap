@@ -4,6 +4,7 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
 <div
   id="ResourceDetails"
 >
+  
   <div
     className="overview-content"
     id="resource-overview"

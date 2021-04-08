@@ -22,7 +22,9 @@ import {
   ButtonVariant,
   Card,
   CardBody,
+  Label,
   Skeleton,
+  Spinner,
   Tooltip
 } from '@patternfly/react-core'
 import {
@@ -68,7 +70,10 @@ class OverviewCards extends React.Component {
     // redux state (calculation of node statuses) created by
     // topology code
     const intervalId = setInterval(this.reload.bind(this), 1000)
+    this.toggleArgoLinkLoading = this.toggleArgoLinkLoading.bind(this)
+
     this.state = {
+      argoLinkLoading: false,
       intervalId,
       showSubCards: false
     }
@@ -94,13 +99,14 @@ class OverviewCards extends React.Component {
 
   render() {
     const {
+      handleErrorMsg,
       HCMApplicationList,
       topology,
       selectedAppName,
       selectedAppNS,
       locale
     } = this.props
-    const { showSubCards } = this.state
+    const { argoLinkLoading, showSubCards } = this.state
 
     if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
       const infoMessage = _.get(
@@ -285,11 +291,12 @@ class OverviewCards extends React.Component {
           ]}
         />
         {appOverviewCardsData.isArgoApp && (
-          <Card>
+          <Card className="argo-links-container">
             <CardBody>
               <AcmActionGroup>
                 <AcmButton
                   variant={ButtonVariant.link}
+                  className={`${argoLinkLoading ? 'argoLinkLoading' : ''}`}
                   id="launch-argocd-editor"
                   component="a"
                   rel="noreferrer"
@@ -300,10 +307,13 @@ class OverviewCards extends React.Component {
                     openArgoCDEditor(
                       appOverviewCardsData.clusterNames,
                       selectedAppNS,
-                      selectedAppName
+                      selectedAppName,
+                      this.toggleArgoLinkLoading,
+                      handleErrorMsg
                     )
                   }
                 >
+                  {argoLinkLoading && <Spinner size="sm" />}
                   {msgs.get(
                     'dashboard.card.overview.cards.search.argocd.launch',
                     locale
@@ -312,7 +322,7 @@ class OverviewCards extends React.Component {
                 <AcmButton
                   href={getUrl + appOverviewCardsData.targetLink}
                   variant={ButtonVariant.link}
-                  id="app-search-resource-link"
+                  id="app-search-link"
                   component="a"
                   target="_blank"
                   rel="noreferrer"
@@ -389,6 +399,12 @@ class OverviewCards extends React.Component {
     )
   };
 
+  toggleArgoLinkLoading() {
+    this.setState(prevState => ({
+      argoLinkLoading: !prevState.argoLinkLoading
+    }))
+  }
+
   createTargetLink = (link, locale) => {
     return (
       <a
@@ -410,9 +426,9 @@ class OverviewCards extends React.Component {
     return (
       <React.Fragment>
         {isArgoApp ? (
-          <div className="argo-icon-container" id="argo-app-icon">
+          <Label color="blue">
             {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
-          </div>
+          </Label>
         ) : (
           ''
         )}

@@ -1,4 +1,23 @@
 ---
+argo:
+  data:
+    - enable: true
+      name: helloworld-argo-app-1
+      namespace: argocd
+      type: git
+      successNumber: 0
+      config:
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: master
+          path: helloworld
+          gitReconcileOption: merge
+          deployment:
+            local: true
+            online: false
+            matchingLabel: false
 git:
   data:
     - enable: true
@@ -61,7 +80,7 @@ git:
             local: true
             online: false
             matchingLabel: false
-    - enable: false
+    - enable: true
       name: ui-git-ansible
       type: git
       successNumber: 3 #success number includes the two ansible hooks and the ansible regular task

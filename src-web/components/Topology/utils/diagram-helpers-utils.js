@@ -468,7 +468,7 @@ export const updateAppClustersMatchingSearch = (node, searchClusters) => {
           _.endsWith(_.get(cls, 'consoleURL', '_'), clusterMatchName)
         )
       }
-      _.pull(appClusters, appCls)
+      _.pull(appClusters, appCls) //remove the URL cluster destination
       if (possibleMatch) {
         //found the cluster matching the app destination server url, use the cluster name
         const matchedClusterName = _.get(possibleMatch, 'name', '')
@@ -500,4 +500,37 @@ export const isValidHttpUrl = value => {
     validUrl = false
   }
   return validUrl
+}
+
+//show warning when no deployed resources are not found by search on this cluster name
+export const showMissingClusterDetails = (clusterName, node, details) => {
+  if (clusterName.length === 0 || isValidHttpUrl(clusterName)) {
+    // this cluster name could not be mapped to a cluster name
+    // search clusters mapping fails when there are no deployed resources or clusters not found..
+    if (clusterName.length === 0) {
+      const clsNames = Object.keys(
+        _.get(node, 'clusters.specs.targetNamespaces', { unknown: [] })
+      )
+      clsNames.forEach(clsName => {
+        details.push({
+          labelValue: clsName,
+          value: msgs.get('spec.deploy.not.deployed'),
+          status: pendingStatus
+        })
+      })
+    } else {
+      details.push({
+        labelValue: clusterName,
+        value: msgs.get('resource.cluster.notmapped'),
+        status: pendingStatus
+      })
+    }
+  } else {
+    details.push({
+      labelValue: clusterName,
+      value: msgs.get('resource.cluster.offline'),
+      status: warningStatus
+    })
+  }
+  return details
 }

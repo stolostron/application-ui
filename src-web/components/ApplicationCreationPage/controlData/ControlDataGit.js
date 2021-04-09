@@ -11,7 +11,7 @@
 // Copyright Contributors to the Open Cluster Management project
 'use strict'
 
-import { VALID_REPOPATH, VALIDATE_URL } from 'temptifly'
+import { VALID_REPOPATH, VALIDATE_URL, getSourcePath } from 'temptifly'
 import placementData from './ControlDataPlacement'
 import prePostTasks from './ControlDataPrePostTasks'
 import {
@@ -103,6 +103,42 @@ export const updateGitCredentials = (
   return groupControlData
 }
 
+export const updateSubReconcileRate = subReconcileRateControl => {
+  const groupControlData = _.get(subReconcileRateControl, 'groupControlData')
+
+  const gitReconcileOption = groupControlData.find(
+    ({ id }) => id === 'gitReconcileOption'
+  )
+
+  if (subReconcileRateControl.active) {
+    gitReconcileOption.type = 'hidden'
+    gitReconcileOption.active = ''
+  } else {
+    gitReconcileOption.type = 'combobox'
+    gitReconcileOption.active = 'merge'
+  }
+}
+
+export const reverseSubReconcileRate = (control, templateObject) => {
+  const active = _.get(
+    templateObject,
+    getSourcePath(
+      'Subscription[0].metadata.annotations["apps.open-cluster-management.io/reconcile-rate"]'
+    )
+  )
+  if (active) {
+    control.active = true
+
+    const { groupControlData } = control
+    const gitReconcileOption = groupControlData.find(
+      ({ id }) => id === 'gitReconcileOption'
+    )
+    gitReconcileOption.type = 'hidden'
+    gitReconcileOption.active = ''
+  }
+  return control
+}
+
 const githubChannelData = async () => [
   ///////////////////////  github  /////////////////////////////////////
   {
@@ -187,6 +223,24 @@ const githubChannelData = async () => [
     cacheUserValueKey: 'create.app.github.path'
   },
   {
+    id: 'gitDesiredCommit',
+    type: 'text',
+    name: 'creation.app.github.desiredCommit',
+    tooltip: 'tooltip.creation.app.github.desiredCommit',
+    placeholder: 'app.enter.select.desiredCommit',
+    reverse:
+      'Subscription[0].metadata.annotations["apps.open-cluster-management.io/git-desired-commit"]'
+  },
+  {
+    id: 'gitTag',
+    type: 'text',
+    name: 'creation.app.github.tag',
+    tooltip: 'tooltip.creation.app.github.tag',
+    placeholder: 'app.enter.select.tag',
+    reverse:
+      'Subscription[0].metadata.annotations["apps.open-cluster-management.io/git-tag"]'
+  },
+  {
     id: 'gitReconcileOption',
     type: 'combobox',
     name: 'creation.app.github.reconcileOption',
@@ -195,6 +249,27 @@ const githubChannelData = async () => [
     available: ['merge', 'replace'],
     reverse:
       'Subscription[0].metadata.annotations["apps.open-cluster-management.io/reconcile-option"]'
+  },
+  {
+    id: 'gitReconcileRate',
+    type: 'combobox',
+    editing: { disabled: true }, // if editing existing app, disable this field
+    name: 'creation.app.reconcileRate',
+    tooltip: 'tooltip.creation.app.reconcileRate',
+    active: 'medium',
+    available: ['low', 'medium', 'high', 'off'],
+    reverse:
+      'Channel[0].metadata.annotations["apps.open-cluster-management.io/reconcile-rate"]'
+  },
+  {
+    id: 'gitSubReconcileRate',
+    type: 'checkbox',
+    name: 'creation.app.subReconcileRate',
+    tooltip: 'tooltip.creation.app.subReconcileRate',
+    active: false,
+    available: [],
+    onSelect: updateSubReconcileRate,
+    reverse: reverseSubReconcileRate
   },
   {
     id: 'gitInsecureSkipVerify',

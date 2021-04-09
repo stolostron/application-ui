@@ -343,6 +343,7 @@
   "resource.cluster": "Cluster",
   "resource.cluster.labels": "Cluster selector",
   "resource.cluster.offline": "Cluster is offline",
+  "resource.cluster.notmapped": "Could not locate a cluster for this URL. Using a cluster name when defining the Argo server destination could fix this issue.",
   "resource.clusterip": "Cluster IP",
   "resource.clustername": "Cluster",
   "resource.clusters": "Clusters",

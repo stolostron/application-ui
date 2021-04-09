@@ -134,85 +134,83 @@ class App extends React.Component {
     const applicationsTitle = 'routes.applications'
 
     return (
-      <div className="expand-vertically">
-        <AcmPage>
-          <SecondaryHeader />
-          <Switch>
-            <Route
-              exact
-              path={`${BASE_PAGE_PATH}`}
-              render={params => (
-                <ApplicationsListPage
-                  params={params}
-                  serverProps={this.getServerProps()}
-                  secondaryHeaderProps={{
-                    title: applicationsTitle,
-                    tabs: allApplicationsTabs,
-                    mainButton: createApplicationButton
-                  }}
-                />
-              )}
-            />
-            <Route
-              exact
-              path={`${BASE_PAGE_PATH}/advanced`}
-              render={params => (
-                <AdvancedConfigurationPage
-                  params={params}
-                  serverProps={serverProps}
-                  secondaryHeaderProps={{
-                    title: applicationsTitle,
-                    tabs: allApplicationsTabs,
-                    mainButton: createApplicationButton
-                  }}
-                  locale={locale}
-                />
-              )}
-            />
-            <Route
-              exact
-              path={`${BASE_PAGE_PATH}/create`}
-              render={params => (
-                <ApplicationCreationPage
-                  params={params}
-                  serverProps={this.getServerProps()}
-                  secondaryHeaderProps={{ title: 'application.create.title' }}
-                />
-              )}
-            />
-            <Route
-              exact
-              path={`${BASE_PAGE_PATH}/:namespace/:name`}
-              render={params => (
-                <ApplicationDetailsPage
-                  params={params}
-                  serverProps={this.getServerProps()}
-                  secondaryHeaderProps={{
-                    title: applicationsTitle,
-                    tabs: getSingleApplicationTabs(params.match.params)
-                  }}
-                />
-              )}
-            />
-            <Route
-              exact
-              path={`${BASE_PAGE_PATH}/:namespace/:name/edit`}
-              render={params => (
-                <ApplicationCreationPage
-                  params={params}
-                  serverProps={this.getServerProps()}
-                  secondaryHeaderProps={{
-                    title: 'application.create.title',
-                    tabs: getSingleApplicationTabs(params.match.params)
-                  }}
-                />
-              )}
-            />
-            <Redirect to={`${config.contextPath}/welcome`} />
-          </Switch>
-          <ActionModalApollo locale={serverProps.context.locale} />
-        </AcmPage>
-      </div>
+      <AcmPage>
+        <SecondaryHeader />
+        <Switch>
+          <Route
+            exact
+            path={`${BASE_PAGE_PATH}`}
+            render={params => (
+              <ApplicationsListPage
+                params={params}
+                serverProps={this.getServerProps()}
+                secondaryHeaderProps={{
+                  title: applicationsTitle,
+                  tabs: allApplicationsTabs,
+                  mainButton: createApplicationButton
+                }}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={`${BASE_PAGE_PATH}/advanced`}
+            render={params => (
+              <AdvancedConfigurationPage
+                params={params}
+                serverProps={serverProps}
+                secondaryHeaderProps={{
+                  title: applicationsTitle,
+                  tabs: allApplicationsTabs,
+                  mainButton: createApplicationButton
+                }}
+                locale={locale}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={`${BASE_PAGE_PATH}/create`}
+            render={params => (
+              <ApplicationCreationPage
+                params={params}
+                serverProps={this.getServerProps()}
+                secondaryHeaderProps={{ title: 'application.create.title' }}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={`${BASE_PAGE_PATH}/:namespace/:name`}
+            render={params => (
+              <ApplicationDetailsPage
+                params={params}
+                serverProps={this.getServerProps()}
+                secondaryHeaderProps={{
+                  title: applicationsTitle,
+                  tabs: getSingleApplicationTabs(params.match.params)
+                }}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={`${BASE_PAGE_PATH}/:namespace/:name/edit`}
+            render={params => (
+              <ApplicationCreationPage
+                params={params}
+                serverProps={this.getServerProps()}
+                secondaryHeaderProps={{
+                  title: 'application.create.title',
+                  tabs: getSingleApplicationTabs(params.match.params)
+                }}
+              />
+            )}
+          />
+          <Redirect to={`${config.contextPath}/welcome`} />
+        </Switch>
+        <ActionModalApollo locale={serverProps.context.locale} />
+      </AcmPage>
     )
   }
 }

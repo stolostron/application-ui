@@ -4,13 +4,6 @@
 /// <reference types="cypress" />
 import { checkExistingUrls } from "./resources.js";
 
-export const pageLoader = {
-  shouldExist: () =>
-    cy.get(".content-spinner", { timeout: 20000 }).should("exist"),
-  shouldNotExist: () =>
-    cy.get(".content-spinner", { timeout: 20000 }).should("not.exist")
-};
-
 export const selectDate = (date, key) => {
   date.forEach(d => {
     const { dateId } = indexedCSS(

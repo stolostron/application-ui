@@ -33,7 +33,7 @@ import {
   setArgoApplicationDeployStatus,
   getPulseStatusForArgoApp,
   updateAppClustersMatchingSearch,
-  isValidHttpUrl
+  showMissingClusterDetails
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor } from '../../../actions/topology'
@@ -707,11 +707,18 @@ export const getPercentage = (value, total) => {
 export const setClusterStatus = (node, details) => {
   const { id } = node
   const specs = _.get(node, 'specs', {})
-  const { cluster, clusters = [], appClusters = [] } = specs
+  const {
+    cluster,
+    targetNamespaces = {},
+    clusters = [],
+    appClusters = []
+  } = specs
 
   const clusterArr = cluster ? [cluster] : clusters
+  const appClustersList =
+    appClusters.length > 0 ? appClusters : Object.keys(targetNamespaces)
   //add now all potential argo servers (appClusters array) not covered by the deployed resources clusters ( clusters array)
-  appClusters.forEach(appCls => {
+  appClustersList.forEach(appCls => {
     if (_.findIndex(clusters, obj => _.get(obj, 'name') === appCls) === -1) {
       //target cluster not deployed on
       clusterArr.push({
@@ -1236,14 +1243,8 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     })
     clusterName = R.trim(clusterName)
     if (!_.includes(onlineClusters, clusterName)) {
-      !isValidHttpUrl(clusterName) &&
-        details.push({
-          labelValue: clusterName,
-          value: msgs.get('resource.cluster.offline'),
-          status: warningStatus
-        })
-      // offline cluster or argo destination server we could  not map to a cluster name, skip
-      return
+      // offline cluster or argo destination server we could  not map to a cluster name, so skip
+      return showMissingClusterDetails(clusterName, node, details)
     }
     details.push({
       labelValue: msgs.get('topology.filter.category.clustername'),
@@ -1379,14 +1380,8 @@ export const setPodDeployStatus = (
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
     if (!_.includes(onlineClusters, clusterName)) {
-      !isValidHttpUrl(clusterName) &&
-        details.push({
-          labelValue: clusterName,
-          value: msgs.get('resource.cluster.offline'),
-          status: warningStatus
-        })
       // offline cluster or argo destination server we could  not map to a cluster name, so skip
-      return
+      return showMissingClusterDetails(clusterName, node, details)
     }
     details.push({
       labelValue: msgs.get('topology.filter.category.clustername'),

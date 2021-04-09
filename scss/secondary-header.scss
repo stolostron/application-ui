@@ -13,8 +13,9 @@
 .secondary-header {
   display: flex;
   flex-direction: column;
-  position: fixed;
+  // position: fixed;
   // comment position: fixed will give you a ui where menu bar working fine
+  // although we should make it at a fixed position to stick the secondary header to the top
   width: 100%;
   border-bottom: 1px solid var(--pf-global--BorderColor--100);
 

@@ -551,13 +551,23 @@ export const validateAppTableMenu = (name, resourceTable) => {
   });
 };
 
-export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
+export const validateResourceTable = (
+  name,
+  data,
+  type,
+  numberOfRemoteClusters,
+  namespace
+) => {
+  if (!namespace) {
+    namespace = getNamespace(name);
+  }
+  console.log(namespace);
   cy.visit(`/multicloud/applications`);
   cy.get(".search-query-card-loading").should("not.exist", {
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
-  const resourceKey = getResourceKey(name, getNamespace(name));
+  const resourceKey = getResourceKey(name, namespace);
   resourceTable.rowShouldExist(name, resourceKey, 60 * 1000);
 
   //validate content
@@ -565,14 +575,23 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     resourceTable
       .getCell("Name")
       .invoke("text")
-      .should("eq", name)
+      .should("include", name)
   );
+
+  if (type === "argo") {
+    resourceTable.getRow(type, resourceKey).within(() =>
+      resourceTable
+        .getCell("Name")
+        .invoke("text")
+        .should("include", type)
+    );
+  }
 
   resourceTable.getRow(name, resourceKey).within(() =>
     resourceTable
       .getCell("Namespace")
       .invoke("text")
-      .should("eq", `${name}-ns`)
+      .should("include", namespace)
   );
 
   const appDetails = getSingleAppClusterTimeDetails(

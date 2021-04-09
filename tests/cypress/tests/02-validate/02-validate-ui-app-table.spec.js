@@ -1,7 +1,9 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-const config = Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
+const config = Cypress.config().baseUrl.includes("localhost")
+  ? Cypress.env("TEST_CONFIG")
+  : Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
 import { validateResourceTable } from "../../views/application";
 import { getNumberOfManagedClusters } from "../../views/resources";
 
@@ -17,7 +19,13 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Te
           data.name
         } info from applications table - ${type}: ${data.name}`, () => {
           const numberOfRemoteClusters = Cypress.env("numberOfManagedClusters");
-          validateResourceTable(data.name, data, numberOfRemoteClusters);
+          validateResourceTable(
+            data.name,
+            data,
+            type,
+            numberOfRemoteClusters,
+            data.namespace
+          );
         });
       } else {
         it(`disable validation on resource ${type}`, () => {

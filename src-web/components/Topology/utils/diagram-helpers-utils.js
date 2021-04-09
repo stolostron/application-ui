@@ -510,7 +510,19 @@ export const isValidHttpUrl = value => {
 
 //show warning when no deployed resources are not found by search on this cluster name
 export const showMissingClusterDetails = (clusterName, node, details) => {
-  if (isValidHttpUrl(clusterName)) {
+  if (clusterName.length === 0) {
+    // there are no deployed clusters for this app group
+    const clsNames = Object.keys(
+      _.get(node, 'clusters.specs.targetNamespaces', { unknown: [] })
+    )
+    clsNames.forEach(clsName => {
+      details.push({
+        labelValue: clsName,
+        value: msgs.get('spec.deploy.not.deployed'),
+        status: pendingStatus
+      })
+    })
+  } else if (isValidHttpUrl(clusterName)) {
     // this cluster name could not be mapped to a cluster name
     // search clusters mapping fails when there are no deployed resources or clusters not found..
     if (_.startsWith(clusterName, 'https://api.')) {
@@ -519,17 +531,6 @@ export const showMissingClusterDetails = (clusterName, node, details) => {
         labelValue: clusterName,
         value: msgs.get('spec.deploy.not.deployed'),
         status: pendingStatus
-      })
-    } else if (clusterName.length === 0) {
-      const clsNames = Object.keys(
-        _.get(node, 'clusters.specs.targetNamespaces', { unknown: [] })
-      )
-      clsNames.forEach(clsName => {
-        details.push({
-          labelValue: clsName,
-          value: msgs.get('spec.deploy.not.deployed'),
-          status: pendingStatus
-        })
       })
     } else {
       details.push({

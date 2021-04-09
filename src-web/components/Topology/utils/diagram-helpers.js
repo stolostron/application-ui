@@ -723,7 +723,7 @@ export const setClusterStatus = (node, details) => {
       //target cluster not deployed on
       clusterArr.push({
         name: appCls,
-        namespace: appCls === LOCAL_HUB_NAME ? appCls : '',
+        _clusterNamespace: appCls === LOCAL_HUB_NAME ? appCls : '_',
         status: appCls === LOCAL_HUB_NAME ? 'ok' : ''
       })
     }

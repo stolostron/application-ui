@@ -64,7 +64,12 @@ describe("updateAppClustersMatchingSearch", () => {
   const resultNode1 = {
     specs: {
       clusters: searchClusters,
-      appClusters: ["fxiang-eks", "local-cluster", "ui-managed"],
+      appClusters: [
+        "fxiang-eks",
+        "https://api.app-abcd.managed_no_match.com:6999",
+        "local-cluster",
+        "ui-managed"
+      ],
       targetNamespaces: {
         "https://ABCD.gr7.123.eks.amazonaws.com": ["default"],
         "abcd:aws:eks:123:456:cluster/fxiang-eks": ["helloworld-eks2"],

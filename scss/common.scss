@@ -122,8 +122,7 @@ body {
 }
 
 .pf-c-page__main {
-  overflow-x: visible;
-  overflow-y: visible;
+  display: inline;
 }
 
 .content-spinner {

@@ -91,6 +91,7 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
       .scrollIntoView()
       .click(); //close
 
+    //TODO : enable these steps
     // Switch back to Applications tables
     //cy.get("[data-ouia-component-id=OUIA-Generated-NavItem-8]").scrollIntoView().click();
 

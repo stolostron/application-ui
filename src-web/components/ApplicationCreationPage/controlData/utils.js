@@ -204,6 +204,25 @@ export const updateChannelControls = (
     namespaceControlExists.active = false
   }
 
+  // update reconcile rate based on selected channel url
+  // if existing channel, make channel reconcile rate readonly
+  // NOTE: existing channels with no reconcile rate set, will use the default medium rate
+  let rateValue = 'medium'
+  if (pathData && pathData.raw) {
+    rateValue = _.get(
+      pathData.raw,
+      'metadata.annotations["apps.open-cluster-management.io/reconcile-rate"]',
+      'medium'
+    )
+  }
+  const reconcileRate = groupControlData.find(
+    ({ id }) => id === 'gitReconcileRate' || id === 'helmReconcileRate'
+  )
+  if (reconcileRate) {
+    reconcileRate.active = rateValue
+    reconcileRate.disabled = existingChannel ? true : false
+  }
+
   let control
   // if existing channel, hide user/token controls; show it when using the same channel in the same app
   const type = !existingChannel || usingSameChannel ? 'text' : 'hidden'

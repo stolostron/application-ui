@@ -10,7 +10,7 @@
 // Copyright Contributors to the Open Cluster Management project
 @import 'variables';
 
-.secondary-header {
+.secondary-header ~ pf-c-page__sidebar {
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -20,12 +20,6 @@
   top: calc(1rem + var(--pf-c-page__header--Height));
   right: var(--pf-c-page__main-section--PaddingRight);
   left:  calc(var(--pf-c-page__main-section--PaddingLeft) + var(--pf-c-page__sidebar--Width));
-  
-  /*
-  top: calc(1rem + var(--pf-c-page__header--Height));
-  right : var(--pf-c-page__main-section--PaddingRight) ;
-  left :  calc(var(--pf-c-page__main-section--PaddingLeft) + var(--pf-c-page__sidebar--Width));
-  */
   border-bottom: 1px solid var(--pf-global--BorderColor--100);
 
   .pf-c-divider {

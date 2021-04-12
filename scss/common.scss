@@ -121,6 +121,10 @@ body {
   padding: 1.5rem 24px 2rem;
 }
 
+.pf-c-page__main {
+  overflow-x: visible;
+  overflow-y: visible;
+}
 
 .content-spinner {
   position: fixed;

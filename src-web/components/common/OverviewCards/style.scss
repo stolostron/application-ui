@@ -6,6 +6,7 @@
  *******************************************************************************/
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
+@import '../../../../scss/variables.scss';
 
 .overview-cards-container {
   .loading-skeleton-text {
@@ -71,21 +72,18 @@
     margin-right: 12px;
   }
 
-  // Argo link
+  // Argo links
+  .argo-links-container {
+    border-top: 1px solid rgba(0,0,0,0.1);
+  }
+
+  .pf-c-button.pf-m-link {
+    font-size: var(--pf-global--FontSize--sm);
+  }
+
   .argoLinkLoading {
     pointer-events: none;
     color: #5A6872;
-  }
-
-  .argo-icon-container {
-    background-color: #fdf7e7;
-    border: 1px solid #f9e0a2;
-    border-radius: 12px;
-    width: 60px;
-    height: 20px;
-    color: #3d2c00;
-    font-size: 12px;
-    text-align: center;
   }
 
   // Search resource link

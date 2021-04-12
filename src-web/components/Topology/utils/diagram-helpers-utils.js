@@ -81,7 +81,7 @@ export const getClusterName = (nodeId, node, findAll) => {
   if (node && _.get(node, 'clusters.id', '') === 'member--clusters--') {
     //cluster info is not set on the node id, get it from here
     if (findAll) {
-      //get all cluster names as set by argo target, ignore deplaybale status
+      //get all cluster names as set by argo target, ignore deployable status
       return _.union(
         _.get(node, 'specs.clustersNames', []),
         _.get(node, 'clusters.specs.appClusters', [])
@@ -329,7 +329,9 @@ export const setArgoApplicationDeployStatus = (node, details) => {
   const appStatusConditions = _.get(node, 'specs.raw.status.conditions')
 
   if (
-    (appHealth === 'Unknown' || appHealth === 'Error') &&
+    (appHealth === 'Unknown' ||
+      appHealth === 'Degraded' ||
+      appHealth === 'Missing') &&
     appStatusConditions
   ) {
     details.push({
@@ -417,10 +419,10 @@ export const translateArgoHealthStatus = healthStatus => {
   if (healthStatus === 'Healthy') {
     return 3
   }
-  if (healthStatus === 'Progressing') {
+  if (healthStatus === 'Missing' || healthStatus === 'Unknown') {
     return 1
   }
-  if (healthStatus === 'Unknown') {
+  if (healthStatus === 'Degraded') {
     return 0
   }
   return 2
@@ -444,22 +446,38 @@ export const getPulseStatusForArgoApp = node => {
 export const updateAppClustersMatchingSearch = (node, searchClusters) => {
   //get only clusters in a url format looking like a cluster api url
   const appClusters = _.get(node, 'specs.appClusters', [])
-  const appClustersUsingURL = _.filter(appClusters, cls =>
-    _.startsWith(cls, 'https://api.')
-  )
+  const appClustersUsingURL = _.filter(appClusters, cls => isValidHttpUrl(cls))
 
   appClustersUsingURL.forEach(appCls => {
     try {
+      let possibleMatch
       const clsUrl = new URL(appCls)
-      const clusterMatchName = clsUrl.hostname.substring(3) //remove api
-
-      const possibleMatch = _.find(searchClusters, cls =>
-        _.endsWith(_.get(cls, 'consoleURL', ''), clusterMatchName)
-      )
+      const isOCPUrl = _.startsWith(clsUrl.hostname, 'api')
+      const clusterIdx = appCls.indexOf(':cluster/')
+      if (clusterIdx !== -1) {
+        const kubeClusterName = appCls.substring(clusterIdx + 9)
+        // this is a non ocp cluster, server destination set by name
+        possibleMatch = _.find(searchClusters, cls => {
+          const clsName = _.get(cls, 'name', '_')
+          return _.includes([clsName, `${clsName}-cluster`], kubeClusterName)
+        })
+      } else {
+        if (isOCPUrl) {
+          possibleMatch = _.find(searchClusters, cls =>
+            _.endsWith(
+              _.get(cls, 'consoleURL', '_'),
+              clsUrl.hostname.substring(3)
+            )
+          )
+        }
+      }
+      if (possibleMatch || !isOCPUrl) {
+        // remove the URL cluster destination only for matched clusters or non ocp clusters
+        _.pull(appClusters, appCls)
+      }
       if (possibleMatch) {
         //found the cluster matching the app destination server url, use the cluster name
         const matchedClusterName = _.get(possibleMatch, 'name', '')
-        _.pull(appClusters, appCls)
         if (!_.includes(appClusters, matchedClusterName)) {
           appClusters.push(matchedClusterName)
         }
@@ -478,4 +496,55 @@ export const updateAppClustersMatchingSearch = (node, searchClusters) => {
   _.set(node, 'specs.appClusters', _.sortBy(appClusters))
   _.set(node, 'specs.clusters', searchClusters)
   return node
+}
+
+export const isValidHttpUrl = value => {
+  let validUrl = true
+  try {
+    new URL(value)
+  } catch (err) {
+    validUrl = false
+  }
+  return validUrl
+}
+
+//show warning when no deployed resources are not found by search on this cluster name
+export const showMissingClusterDetails = (clusterName, node, details) => {
+  if (clusterName.length === 0) {
+    // there are no deployed clusters for this app group
+    const clsNames = Object.keys(
+      _.get(node, 'clusters.specs.targetNamespaces', { unknown: [] })
+    )
+    clsNames.forEach(clsName => {
+      details.push({
+        labelValue: clsName,
+        value: msgs.get('spec.deploy.not.deployed'),
+        status: pendingStatus
+      })
+    })
+  } else if (isValidHttpUrl(clusterName)) {
+    // this cluster name could not be mapped to a cluster name
+    // search clusters mapping fails when there are no deployed resources or clusters not found..
+    if (_.startsWith(clusterName, 'https://api.')) {
+      // ocp cluster, mapping not found which means there is no deployment on this cluster
+      details.push({
+        labelValue: clusterName,
+        value: msgs.get('spec.deploy.not.deployed'),
+        status: pendingStatus
+      })
+    } else {
+      details.push({
+        labelValue: clusterName,
+        value: msgs.get('resource.cluster.notmapped'),
+        status: pendingStatus
+      })
+    }
+  } else {
+    details.push({
+      labelValue: clusterName,
+      value: msgs.get('resource.cluster.offline'),
+      status: warningStatus
+    })
+  }
+  return details
 }

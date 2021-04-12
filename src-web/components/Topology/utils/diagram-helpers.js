@@ -32,7 +32,8 @@ import {
   namespaceMatchTargetServer,
   setArgoApplicationDeployStatus,
   getPulseStatusForArgoApp,
-  updateAppClustersMatchingSearch
+  updateAppClustersMatchingSearch,
+  showMissingClusterDetails
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor } from '../../../actions/topology'
@@ -272,11 +273,14 @@ export const getPulseStatusForCluster = node => {
       offlineCount = 0
 
   clusters.forEach(cluster => {
-    if (cluster.status === 'ok') {
+    if (
+      _.get(cluster, 'status', '').toLowerCase() === 'ok' ||
+      _.get(cluster, 'ManagedClusterConditionAvailable', '') === 'True'
+    ) {
       okCount++
-    } else if (cluster.status === 'pendingimport') {
+    } else if (_.get(cluster, 'status', '') === 'pendingimport') {
       pendingCount++
-    } else if (cluster.status === 'offline') {
+    } else if (_.get(cluster, 'status', '') === 'offline') {
       offlineCount++
     }
   })
@@ -309,7 +313,8 @@ const getPulseStatusForGenericNode = node => {
     return pulse //no need to check anything else, return red
   }
   const name = _.get(node, metadataName, '')
-  const namespace = _.get(node, metadataNamespace, '')
+  const namespace =
+    _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
   const channel = _.get(node, 'specs.raw.spec.channel', '')
   const resourceName =
     !isDeployableResource(node) && channel.length > 0
@@ -337,9 +342,14 @@ const getPulseStatusForGenericNode = node => {
     const resourcesForCluster =
       resourceMap[`${resourceName}-${clusterName}`] || []
     //get target cluster namespaces
-    const targetNSList = targetNamespaces[clusterName] ||
-      (resourcesForCluster.length > 0 &&
-        _.uniq(_.map(resourcesForCluster, 'namespace'))) || [namespace]
+    const targetNSList = targetNamespaces[clusterName]
+      ? _.union(
+        targetNamespaces[clusterName],
+        _.uniq(_.map(resourcesForCluster, 'namespace'))
+      )
+      : resourcesForCluster.length > 0
+        ? _.uniq(_.map(resourcesForCluster, 'namespace'))
+        : [namespace]
     targetNSList.forEach(targetNS => {
       if (
         !_.find(
@@ -429,7 +439,8 @@ export const getPulseForNodeWithPodStatus = node => {
   }
 
   const resourceName = _.get(node, metadataName, '')
-  const namespace = _.get(node, metadataNamespace, '')
+  const namespace =
+    _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
   const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
   const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
@@ -453,26 +464,29 @@ export const getPulseForNodeWithPodStatus = node => {
     )
 
     //get cluster target namespaces
-    const targetNSList = targetNamespaces[clusterName] ||
-      (resourceItems.length > 0 &&
-        _.uniq(_.map(resourceItems, 'namespace'))) || [namespace]
+    const targetNSList = targetNamespaces[clusterName]
+      ? _.union(
+        targetNamespaces[clusterName],
+        _.uniq(_.map(resourceItems, 'namespace'))
+      )
+      : resourceItems.length > 0
+        ? _.uniq(_.map(resourceItems, 'namespace'))
+        : [namespace]
     targetNSList.forEach(targetNS => {
       const resourceItemsForNS = _.filter(
         resourceItems,
         obj => _.get(obj, 'namespace', '') === targetNS
       )
 
-      const podObjects = _.flatten(Object.values(podList))
+      const podObjects = _.filter(
+        _.flatten(Object.values(podList)),
+        obj =>
+          _.get(obj, 'namespace', '') === targetNS &&
+          _.get(obj, 'cluster', '') === clusterName
+      )
       resourceItemsForNS.forEach(resourceItem => {
         //process item if there are no pods in the same ns - cluster as resource item
-        const processItem =
-          resourceItem &&
-          _.filter(
-            Object.values(podObjects),
-            obj =>
-              _.get(obj, 'namespace', '') === targetNS &&
-              _.get(obj, 'cluster', '') === clusterName
-          ).length === 0
+        const processItem = resourceItem && podObjects.length === 0
         if (resourceItem && resourceItem.kind === 'daemonset') {
           desired = resourceItem.desired
         }
@@ -480,7 +494,7 @@ export const getPulseForNodeWithPodStatus = node => {
         let podsReady = 0
         let podsUnavailable = 0
         //find pods status and pulse from pods model, if available
-        Object.values(podObjects).forEach(podItem => {
+        podObjects.forEach(podItem => {
           podsUnavailable =
             podsUnavailable + getPodState(podItem, clusterName, podErrorStates) //podsUnavailable + 1
           podsReady =
@@ -693,16 +707,23 @@ export const getPercentage = (value, total) => {
 export const setClusterStatus = (node, details) => {
   const { id } = node
   const specs = _.get(node, 'specs', {})
-  const { cluster, clusters = [], appClusters = [] } = specs
+  const {
+    cluster,
+    targetNamespaces = {},
+    clusters = [],
+    appClusters = []
+  } = specs
 
   const clusterArr = cluster ? [cluster] : clusters
+  const appClustersList =
+    appClusters.length > 0 ? appClusters : Object.keys(targetNamespaces)
   //add now all potential argo servers (appClusters array) not covered by the deployed resources clusters ( clusters array)
-  appClusters.forEach(appCls => {
+  appClustersList.forEach(appCls => {
     if (_.findIndex(clusters, obj => _.get(obj, 'name') === appCls) === -1) {
       //target cluster not deployed on
       clusterArr.push({
         name: appCls,
-        namespace: appCls === LOCAL_HUB_NAME ? appCls : '',
+        _clusterNamespace: appCls === LOCAL_HUB_NAME ? appCls : '_',
         status: appCls === LOCAL_HUB_NAME ? 'ok' : ''
       })
     }
@@ -1162,7 +1183,8 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     return details
   }
   const name = _.get(node, metadataName, '')
-  const namespace = _.get(node, metadataNamespace, '')
+  const namespace =
+    _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
   const channel = _.get(node, 'specs.raw.spec.channel', '')
   const resourceName =
     !isDeployable && channel.length > 0 ? `${channel}-${name}` : name
@@ -1184,7 +1206,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     if (!_.get(node, 'specs.raw.spec')) {
       const res = {
         name: name,
-        namespace: _.get(node, metadataNamespace, ''),
+        namespace: namespace,
         kind: 'ansiblejob',
         apigroup: 'tower.ansible.com',
         apiversion: 'v1alpha1'
@@ -1221,13 +1243,8 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     })
     clusterName = R.trim(clusterName)
     if (!_.includes(onlineClusters, clusterName)) {
-      details.push({
-        labelValue: clusterName,
-        value: msgs.get('resource.cluster.offline'),
-        status: warningStatus
-      })
-      // offline cluster, skip
-      return
+      // offline cluster or argo destination server we could  not map to a cluster name, so skip
+      return showMissingClusterDetails(clusterName, node, details)
     }
     details.push({
       labelValue: msgs.get('topology.filter.category.clustername'),
@@ -1236,9 +1253,14 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     const resourcesForCluster =
       resourceMap[`${resourceName}-${clusterName}`] || []
     //get cluster target namespaces
-    const targetNSList = targetNamespaces[clusterName] ||
-      (resourcesForCluster.length > 0 &&
-        _.uniq(_.map(resourcesForCluster, 'namespace'))) || [namespace]
+    const targetNSList = targetNamespaces[clusterName]
+      ? _.union(
+        targetNamespaces[clusterName],
+        _.uniq(_.map(resourcesForCluster, 'namespace'))
+      )
+      : resourcesForCluster.length > 0
+        ? _.uniq(_.map(resourcesForCluster, 'namespace'))
+        : [namespace]
     targetNSList.forEach(targetNS => {
       let res = _.find(
         resourcesForCluster,
@@ -1346,6 +1368,10 @@ export const setPodDeployStatus = (
   const podDataPerCluster = {} //pod details list for each cluster name
   // list of target namespaces per cluster
   const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
+  const resourceName = _.get(node, 'name', '')
+  const resourceNamespace =
+    _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
+  const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 
   const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const clusterObjs = _.get(node, clusterObjsPath, [])
@@ -1354,23 +1380,24 @@ export const setPodDeployStatus = (
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
     if (!_.includes(onlineClusters, clusterName)) {
-      details.push({
-        labelValue: clusterName,
-        value: msgs.get('resource.cluster.offline'),
-        status: warningStatus
-      })
-      // offline cluster, skip
-      return
+      // offline cluster or argo destination server we could  not map to a cluster name, so skip
+      return showMissingClusterDetails(clusterName, node, details)
     }
     details.push({
       labelValue: msgs.get('topology.filter.category.clustername'),
       value: clusterName
     })
+    const resourcesForCluster =
+      resourceMap[`${resourceName}-${clusterName}`] || []
     //get cluster target namespaces
-    const targetNSList = targetNamespaces[clusterName] ||
-      (podObjects.length > 0 && _.uniq(_.map(podObjects, 'namespace', ''))) || [
-      _.get(node, 'namespace', '')
-    ]
+    const targetNSList = targetNamespaces[clusterName]
+      ? _.union(
+        targetNamespaces[clusterName],
+        _.uniq(_.map(resourcesForCluster, 'namespace'))
+      )
+      : resourcesForCluster.length > 0
+        ? _.uniq(_.map(resourcesForCluster, 'namespace'))
+        : [resourceNamespace]
     targetNSList.forEach(targetNS => {
       const res = podStatusModel[`${clusterName}-${targetNS}`]
       let pulse = 'orange'

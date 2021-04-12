@@ -3202,16 +3202,16 @@ describe("setResourceDeployStatus 1 ", () => {
     { type: "label", labelKey: "resource.deploy.statuses" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "braveman" },
-    { labelValue: "", value: "Not Deployed", status: "pending" },
+    { labelValue: "default", value: "Not Deployed", status: "pending" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "possiblereptile" },
-    { labelValue: "", value: "Not Deployed", status: "pending" },
+    { labelValue: "default", value: "Not Deployed", status: "pending" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "sharingpenguin" },
-    { labelValue: "", value: "Not Deployed", status: "pending" },
+    { labelValue: "default", value: "Not Deployed", status: "pending" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "relievedox" },
-    { labelValue: "", value: "Not Deployed", status: "pending" },
+    { labelValue: "default", value: "Not Deployed", status: "pending" },
     { type: "spacer" }
   ];
   it("setResourceDeployStatus not deployed 1", () => {
@@ -3866,7 +3866,7 @@ describe("setApplicationDeployStatus for ARGO ", () => {
           name: "app1"
         },
         id: "application--app1-argo-editor",
-        label: "Launch Argo CD editor"
+        label: "Launch Argo editor"
       }
     },
     {
@@ -3903,7 +3903,7 @@ describe("setApplicationDeployStatus for ARGO ", () => {
           name: "app2"
         },
         id: "application--app2-argo-editor",
-        label: "Launch Argo CD editor"
+        label: "Launch Argo editor"
       }
     },
     {

@@ -60,6 +60,11 @@ class ResourceTable extends React.Component {
           actions && actions.length > 0 ? actions : undefined
         }
         groupFn={staticResourceData.groupFn}
+        groupSummaryFn={
+          staticResourceData.groupSummaryFn
+            ? items => staticResourceData.groupSummaryFn(items, locale)
+            : undefined
+        }
         page={page}
         setPage={setPage}
         search={search}

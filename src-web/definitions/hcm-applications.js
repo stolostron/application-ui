@@ -45,6 +45,31 @@ export default {
     }
     return null
   },
+  groupSummaryFn: (items, locale) => {
+    if (items.length > 1) {
+      return {
+        cells: [
+          { title: createApplicationLink(items, locale) }, // pass full array for count
+          { title: createNamespaceText(items[0], locale) },
+          { title: createClustersLink(items, locale) }, // pass full array for all clusters
+          { title: createChannels(items[0], locale) },
+          { title: '' }, // Empty Time window
+          { title: '' } // Empty Created
+        ]
+      }
+    } else {
+      return {
+        cells: [
+          { title: createApplicationLink(items, locale) },
+          { title: createNamespaceText(items[0], locale) },
+          { title: createClustersLink(items[0], locale) },
+          { title: createChannels(items[0], locale) },
+          { title: getTimeWindow(items[0], locale) },
+          { title: getAge(items[0], locale) }
+        ]
+      }
+    }
+  },
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -71,7 +96,7 @@ export default {
       msgKey: 'table.header.resource',
       tooltipKey: 'table.header.application.resource.tooltip',
       resourceKey: 'hubChannels',
-      transformFunction: createChannels,
+      transformFunction: createChannelsRow,
       textFunction: createChannelsText
     },
     {
@@ -139,18 +164,21 @@ function getApplicationLink(item = {}, edit = false) {
 }
 
 export function createApplicationLink(item = {}, locale) {
-  const { name } = item
+  const group = Array.isArray(item)
+  const { name } = Array.isArray(item) ? item[0] : item
   return (
     <Split hasGutter style={{ alignItems: 'baseline' }}>
       <SplitItem align="baseline">
         <Link to={getApplicationLink(item)}>{name}</Link>
       </SplitItem>
-      {isArgoApp(item) && (
-        <SplitItem>
-          <Label color="blue">
-            {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
-          </Label>
-        </SplitItem>
+      {group &&
+        isArgoApp(item[0]) && (
+          <SplitItem>
+            <Label color="blue">
+              {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
+              {item.length > 1 ? ` (${item.length})` : ''}
+            </Label>
+          </SplitItem>
       )}
     </Split>
   )
@@ -168,24 +196,46 @@ function getClusterCounts(item) {
 }
 
 function createClustersLink(item = {}, locale = '') {
-  if (isArgoApp(item)) {
-    return item.destinationCluster ? (
-      <a
-        className="cluster-count-link"
-        href={getSearchLink({
-          properties: {
-            name: item.destinationCluster,
-            kind: 'cluster'
-          }
-        })}
-      >
-        {item.destinationCluster}
+  const multiArgo = Array.isArray(item)
+  if (!multiArgo && isArgoApp(item)) {
+    let link
+    if (item.destinationCluster) {
+      link = getSearchLink({
+        properties: {
+          name: item.destinationCluster,
+          kind: 'cluster'
+        }
+      })
+    }
+    const clusterText =
+      item.destinationCluster || msgs.get('cluster.name.unknown', locale)
+    return link ? (
+      <a className="cluster-count-link" href={link}>
+        {clusterText}
       </a>
     ) : (
-      msgs.get('cluster.name.unknown', locale)
+      clusterText
     )
   }
-  const { remoteCount, localPlacement } = getClusterCounts(item)
+
+  const [apigroup] = (multiArgo ? item[0] : item).apiVersion.split('/')
+  let remoteCount, localPlacement, clusterNames
+  if (multiArgo) {
+    const names = new Set()
+    item.forEach(i => {
+      if (i.destinationCluster) {
+        names.add(i.destinationCluster)
+      }
+    })
+    clusterNames = Array.from(names)
+    localPlacement = clusterNames.includes('local-cluster')
+    remoteCount = clusterNames.length - (localPlacement ? 1 : 0)
+  } else {
+    const clusterCounts = getClusterCounts(item)
+    localPlacement = clusterCounts.localPlacement
+    remoteCount = clusterCounts.remoteCount
+  }
+
   return getClusterCount({
     locale,
     remoteCount,
@@ -193,7 +243,8 @@ function createClustersLink(item = {}, locale = '') {
     name: item.name,
     namespace: item.namespace,
     kind: 'application',
-    apigroup: 'app.k8s.io'
+    apigroup,
+    clusterNames
   })
 }
 
@@ -244,6 +295,10 @@ function createChannels(item = {}, locale = '') {
       isArgoApp={isArgoApp(item)}
     />
   )
+}
+
+function createChannelsRow(item = {}, locale = '') {
+  return !isArgoApp(item) ? createChannels(item, locale) : null
 }
 
 function createChannelsText(item = {}, locale = '') {

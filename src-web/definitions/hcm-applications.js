@@ -25,6 +25,7 @@ import config from '../../lib/shared/config'
 import msgs from '../../nls/platform.properties'
 import ChannelLabels from '../components/common/ChannelLabels'
 import { Label, Split, SplitItem } from '@patternfly/react-core'
+import _ from 'lodash'
 
 export default {
   defaultSortField: 'name',
@@ -34,6 +35,16 @@ export default {
   pluralKey: 'table.plural.application',
   emptyTitle: getEmptyTitle,
   emptyMessage: getEmptyMessage,
+  groupFn: item => {
+    if (isArgoApp(item)) {
+      const key = _.pick(item, ['repoURL', 'path', 'chart', 'targetRevision'])
+      if (!key.targetRevision) {
+        key.targetRevision = 'HEAD'
+      }
+      return JSON.stringify(key)
+    }
+    return null
+  },
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -210,7 +221,7 @@ function getChannels(item = {}) {
         pathname: item.repoURL,
         gitPath: item.path,
         chart: item.chart,
-        targetRevision: item.targetRevision
+        targetRevision: item.targetRevision || 'HEAD'
       }
     ]
   }

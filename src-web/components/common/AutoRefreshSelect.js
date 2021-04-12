@@ -14,9 +14,9 @@ import {
 
 import { getSelectedId } from './QuerySwitcher'
 import {
+  INITIAL_REFRESH_TIME,
   RESOURCE_TYPES,
-  REFRESH_TIMES,
-  DEFAULT_REFRESH_TIME
+  REFRESH_TIMES
 } from '../../../lib/shared/constants'
 import { fetchResources } from '../../actions/common'
 import { combineFilters } from '../../actions/filters'
@@ -83,7 +83,7 @@ class AutoRefreshSelect extends Component {
           <AcmAutoRefreshSelect
             refetch={refetch}
             refreshIntervals={REFRESH_TIMES}
-            pollInterval={DEFAULT_REFRESH_TIME}
+            initRefreshTime={INITIAL_REFRESH_TIME}
           />
         )}
         {!isEditTab && (

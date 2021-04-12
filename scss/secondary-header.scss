@@ -10,7 +10,7 @@
 // Copyright Contributors to the Open Cluster Management project
 @import 'variables';
 
-.secondary-header ~ pf-c-page__sidebar {
+.secondary-header {
   display: flex;
   flex-direction: column;
   position: fixed;

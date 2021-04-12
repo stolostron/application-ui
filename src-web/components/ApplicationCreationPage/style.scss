@@ -31,7 +31,7 @@
 }
 
 // On app edit page
-.secondary-header-wrapper.with-tabs.with-breadcrumbs ~ .pf-c-page__main-section {
+.secondary-header-wrapper.with-tabs.with-breadcrumbs ~ .pf-c-page__main-section, pf-c-page__sidebar {
   .temptifly {
 
     &.showEditor {

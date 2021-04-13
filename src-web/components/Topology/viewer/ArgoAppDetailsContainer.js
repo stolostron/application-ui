@@ -25,7 +25,7 @@ class ArgoAppDetailsContainer extends React.Component {
     argoAppDetailsContainerControl: PropTypes.shape({
       argoAppDetailsContainerData: PropTypes.object,
       handleArgoAppDetailsContainerUpdate: PropTypes.func,
-      handleErrMsg: PropTypes.func
+      handleErrorMsg: PropTypes.func
     }),
     argoAppList: PropTypes.array,
     locale: PropTypes.string
@@ -70,8 +70,8 @@ class ArgoAppDetailsContainer extends React.Component {
   }
 
   processActionLink = resource => {
-    const { argoAppDetailsContainerControl: { handleErrMsg } } = this.props
-    processResourceActionLink(resource, this.toggleLinkLoading, handleErrMsg)
+    const { argoAppDetailsContainerControl: { handleErrorMsg } } = this.props
+    processResourceActionLink(resource, this.toggleLinkLoading, handleErrorMsg)
   };
 
   toggleLinkLoading = () => {

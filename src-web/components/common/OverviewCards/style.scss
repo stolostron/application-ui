@@ -127,11 +127,13 @@
   .subs-icon {
     width: 16px;
     height: 13px;
-    position: absolute;
+    position: relative;
   }
 
   .sub-card-content {
     margin-left: 30px;
+    margin-top: -20px;
+    position: relative;
   }
 
   .sub-card-title {

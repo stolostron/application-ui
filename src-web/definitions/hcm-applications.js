@@ -31,7 +31,10 @@ import {
   SplitItem,
   Tooltip
 } from '@patternfly/react-core'
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
+import {
+  InfoCircleIcon,
+  OutlinedQuestionCircleIcon
+} from '@patternfly/react-icons'
 import _ from 'lodash'
 
 export default {
@@ -186,10 +189,22 @@ export function createApplicationLink(item = {}, locale) {
       {group &&
         isArgoApp(item[0]) && (
           <SplitItem>
-            <Label color="blue">
-              {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
-              {item.length > 1 ? ` (${item.length})` : ''}
-            </Label>
+            {item.length > 1 ? (
+              <Tooltip
+                position="top"
+                content={msgs.get('application.argo.group', locale)}
+              >
+                <Label icon={<InfoCircleIcon />} color="blue">
+                  {msgs.get('dashboard.card.overview.cards.argo.app', locale)} ({
+                    item.length
+                  })
+                </Label>
+              </Tooltip>
+            ) : (
+              <Label color="blue">
+                {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
+              </Label>
+            )}
           </SplitItem>
       )}
       {remoteClusterString && (

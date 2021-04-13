@@ -59,12 +59,19 @@ class ResourceTable extends React.Component {
         extraToolbarControls={
           actions && actions.length > 0 ? actions : undefined
         }
+        groupFn={staticResourceData.groupFn}
+        groupSummaryFn={
+          staticResourceData.groupSummaryFn
+            ? items => staticResourceData.groupSummaryFn(items, locale)
+            : undefined
+        }
         page={page}
         setPage={setPage}
         search={search}
         setSearch={setSearch}
         sort={sort}
         setSort={setSort}
+        gridBreakPoint=""
       />
     ]
   }

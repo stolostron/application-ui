@@ -84,7 +84,7 @@ class AutoRefreshSelect extends Component {
             <AcmAutoRefreshSelect
               refetch={refetch}
               refreshIntervals={REFRESH_TIMES}
-              initRefreshTime={INITIAL_REFRESH_TIME}
+              initPollInterval={INITIAL_REFRESH_TIME}
             />
             <AcmRefreshTime
               timestamp={timestamp}

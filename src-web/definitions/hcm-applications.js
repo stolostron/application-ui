@@ -175,7 +175,8 @@ function getApplicationLink(item = {}, edit = false) {
 
 export function createApplicationLink(item = {}, locale) {
   const group = Array.isArray(item)
-  const { name, cluster } = Array.isArray(item) ? item[0] : item
+  const firstItem = group ? item[0] : item
+  const { name, cluster } = firstItem
   const remoteClusterString =
     cluster !== 'local-cluster' &&
     ((group && item.length == 1) || (!group && isArgoApp(item)))
@@ -184,7 +185,7 @@ export function createApplicationLink(item = {}, locale) {
   return (
     <Split hasGutter style={{ alignItems: 'baseline' }}>
       <SplitItem align="baseline">
-        <Link to={getApplicationLink(item)}>{name}</Link>
+        <Link to={getApplicationLink(firstItem)}>{name}</Link>
       </SplitItem>
       {group &&
         isArgoApp(item[0]) && (

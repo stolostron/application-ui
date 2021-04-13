@@ -3202,16 +3202,16 @@ describe("setResourceDeployStatus 1 ", () => {
     { type: "label", labelKey: "resource.deploy.statuses" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "braveman" },
-    { labelValue: "default", value: "Not Deployed", status: "pending" },
+    { labelValue: "*", value: "Not Deployed", status: "pending" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "possiblereptile" },
-    { labelValue: "default", value: "Not Deployed", status: "pending" },
+    { labelValue: "*", value: "Not Deployed", status: "pending" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "sharingpenguin" },
-    { labelValue: "default", value: "Not Deployed", status: "pending" },
+    { labelValue: "*", value: "Not Deployed", status: "pending" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "relievedox" },
-    { labelValue: "default", value: "Not Deployed", status: "pending" },
+    { labelValue: "*", value: "Not Deployed", status: "pending" },
     { type: "spacer" }
   ];
   it("setResourceDeployStatus not deployed 1", () => {
@@ -3649,7 +3649,7 @@ describe("setResourceDeployStatus 2 with filter yellow", () => {
     { labelKey: "resource.deploy.statuses", type: "label" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "possiblereptile" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" }
   ];
   it("setResourceDeployStatus deployed 2 - should filter resource", () => {
@@ -3694,7 +3694,7 @@ describe("setResourceDeployStatus 2 with filter orange", () => {
     { labelKey: "resource.deploy.statuses", type: "label" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "possiblereptile" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" }
   ];
   it("setResourceDeployStatus deployed 2 - should filter resource", () => {
@@ -3761,16 +3761,16 @@ describe("setResourceDeployStatus 3 ", () => {
     { labelKey: "resource.deploy.statuses", type: "label" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "braveman" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "possiblereptile" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "sharingpenguin" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "relievedox" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" }
   ];
   it("shows resources as not deployed", () => {

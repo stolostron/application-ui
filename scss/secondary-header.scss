@@ -18,8 +18,8 @@
   // although we should make it at a fixed position to stick the secondary header to the top
 
   top: calc(1rem + var(--pf-c-page__header--Height));
-  right: var(--pf-c-page__main-section--PaddingRight);
-  left:  calc(var(--pf-c-page__main-section--PaddingLeft) + var(--pf-c-page__sidebar--Width));
+  right: 0;
+  left:  var(--pf-c-page__sidebar--Width);
   border-bottom: 1px solid var(--pf-global--BorderColor--100);
 
   .pf-c-divider {

@@ -30,6 +30,7 @@
   "application.diagram": "Resource topology",
   "application.diagram.how.to.read": "How to read topology",
   "application.diagram.view.last.time": "Last update: {0}",
+  "application.remote.cluster": "This application is defined on the remote cluster {0}",
   "button.cancel": "Cancel",
   "button.copyButton.feedback": "Copied to clipboard",
   "button.create": "Save",

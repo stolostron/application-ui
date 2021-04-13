@@ -235,7 +235,8 @@ describe("createApplicationLink", () => {
             },
             ref: null
           },
-          false
+          false,
+          null
         ],
         hasGutter: true,
         style: {

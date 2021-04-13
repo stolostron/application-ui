@@ -24,7 +24,14 @@ import queryString from 'query-string'
 import config from '../../lib/shared/config'
 import msgs from '../../nls/platform.properties'
 import ChannelLabels from '../components/common/ChannelLabels'
-import { Label, Split, SplitItem } from '@patternfly/react-core'
+import {
+  Button,
+  Label,
+  Split,
+  SplitItem,
+  Tooltip
+} from '@patternfly/react-core'
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import _ from 'lodash'
 
 export default {
@@ -165,7 +172,12 @@ function getApplicationLink(item = {}, edit = false) {
 
 export function createApplicationLink(item = {}, locale) {
   const group = Array.isArray(item)
-  const { name } = Array.isArray(item) ? item[0] : item
+  const { name, cluster } = Array.isArray(item) ? item[0] : item
+  const remoteClusterString =
+    cluster !== 'local-cluster' &&
+    ((group && item.length == 1) || (!group && isArgoApp(item)))
+      ? msgs.get('application.remote.cluster', [cluster], locale)
+      : undefined
   return (
     <Split hasGutter style={{ alignItems: 'baseline' }}>
       <SplitItem align="baseline">
@@ -179,6 +191,17 @@ export function createApplicationLink(item = {}, locale) {
               {item.length > 1 ? ` (${item.length})` : ''}
             </Label>
           </SplitItem>
+      )}
+      {remoteClusterString && (
+        <SplitItem>
+          <Tooltip position="top" content={remoteClusterString}>
+            <span className="pf-c-table__column-help-action">
+              <Button variant="plain" aria-label={remoteClusterString}>
+                <OutlinedQuestionCircleIcon />
+              </Button>
+            </span>
+          </Tooltip>
+        </SplitItem>
       )}
     </Split>
   )

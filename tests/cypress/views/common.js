@@ -968,11 +968,13 @@ export const testInvalidApplicationInput = () => {
   cy.log("Test invalid HELM url");
   cy
     .get("#git")
+    .last()
     .click()
     .trigger("mouseover");
 
   cy
     .get("#helm")
+    .last()
     .click()
     .trigger("mouseover");
 

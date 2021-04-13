@@ -3851,78 +3851,25 @@ describe("setApplicationDeployStatus for ARGO ", () => {
       type: "spacer"
     },
     {
-      labelKey: "resource.name",
-      status: "checkmark",
-      value: "app1"
-    },
-    {
-      indent: true,
-      type: "link",
-      value: {
-        data: {
-          action: "open_argo_editor",
-          cluster: "remote-cluster",
-          namespace: "app1-ns",
-          name: "app1"
-        },
-        id: "application--app1-argo-editor",
-        label: "Launch Argo editor"
-      }
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.cluster",
-      value: "remote-cluster"
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.target.cluster",
-      value: "local-cluster"
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.target.cluster.ns",
-      value: "app1-remote-ns"
-    },
-    {
-      type: "spacer"
-    },
-    {
-      labelKey: "resource.name",
-      status: "checkmark",
-      value: "app2"
-    },
-    {
-      indent: true,
-      type: "link",
-      value: {
-        data: {
-          action: "open_argo_editor",
-          cluster: "local-cluster",
-          namespace: "app2-ns",
-          name: "app2"
-        },
-        id: "application--app2-argo-editor",
-        label: "Launch Argo editor"
-      }
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.cluster",
-      value: "local-cluster"
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.target.cluster",
-      value: "remote-cluster2"
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.target.cluster.ns",
-      value: "app2-remote-ns"
-    },
-    {
-      type: "spacer"
+      relatedargoappsdata: {
+        argoAppList: [
+          {
+            cluster: "remote-cluster",
+            destinationCluster: "local-cluster",
+            destinationNamespace: "app1-remote-ns",
+            name: "app1",
+            namespace: "app1-ns"
+          },
+          {
+            cluster: "local-cluster",
+            destinationCluster: "remote-cluster2",
+            destinationNamespace: "app2-remote-ns",
+            name: "app2",
+            namespace: "app2-ns"
+          }
+        ]
+      },
+      type: "relatedargoappdetails"
     }
   ];
   it("setApplicationDeployStatus for argo app with multiple related apps", () => {
@@ -3948,7 +3895,13 @@ describe("setApplicationDeployStatus for ARGO ", () => {
   };
   const resultWithNoRelatedApps = [
     { labelValue: "Related applications ({0})", type: "label" },
-    { type: "spacer" }
+    { type: "spacer" },
+    {
+      relatedargoappsdata: {
+        argoAppList: []
+      },
+      type: "relatedargoappdetails"
+    }
   ];
   it("setApplicationDeployStatus for argo app with no related apps", () => {
     expect(setApplicationDeployStatus(nodeWithNORelatedApps, [])).toEqual(

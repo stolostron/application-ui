@@ -352,53 +352,16 @@ export const setArgoApplicationDeployStatus = (node, details) => {
     type: 'spacer'
   })
 
+  // related Argo apps search and pagination
   const sortByNameCaseInsensitive = R.sortBy(
     R.compose(R.toLower, R.prop('name'))
   )
-  sortByNameCaseInsensitive(relatedArgoApps).forEach(app => {
-    const relatedAppName = app.name
-    const relatedLinkId = `application--${relatedAppName}`
-    const relatedAppHealth = _.get(app, 'status.health.status', 'Healthy')
-    const statusStr = getStatusForArgoApp(relatedAppHealth)
-
-    details.push({
-      labelKey: 'resource.name',
-      value: relatedAppName,
-      status: statusStr
-    })
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get('props.show.argocd.editor'),
-        id: `${relatedLinkId}-argo-editor`,
-        data: {
-          action: 'open_argo_editor',
-          cluster: _.get(app, 'cluster'),
-          namespace: _.get(app, 'namespace'),
-          name: relatedAppName
-        }
-      },
-      indent: true
-    })
-
-    details.push({
-      labelKey: 'resource.argo.app.cluster',
-      value: _.get(app, 'cluster'),
-      indent: true
-    })
-    details.push({
-      labelKey: 'resource.argo.app.target.cluster',
-      value: _.get(app, 'destinationCluster'),
-      indent: true
-    })
-    details.push({
-      labelKey: 'resource.argo.app.target.cluster.ns',
-      value: _.get(app, 'destinationNamespace'),
-      indent: true
-    })
-    details.push({
-      type: 'spacer'
-    })
+  const sortedRelatedArgoApps = sortByNameCaseInsensitive(relatedArgoApps)
+  details.push({
+    type: 'relatedargoappdetails',
+    relatedargoappsdata: {
+      argoAppList: sortedRelatedArgoApps
+    }
   })
 }
 

@@ -240,6 +240,90 @@
         }
       }
     }
+
+    .appDetails {
+      .pf-c-pagination {
+        .pf-c-pagination__total-items {
+          display: none;
+        }
+
+        .pf-c-pagination__nav {
+          .pf-c-pagination__nav-control {
+            .pf-c-button {
+              outline-width: 0px;
+            }
+          }
+        }
+
+        .pf-c-options-menu {
+          display: none;
+        }
+      }
+
+      .pf-c-select {
+        .pf-c-select__toggle {
+          .pf-c-select__toggle-wrapper {
+            .pf-c-form-control:focus {
+              outline-width: 0px;
+            }
+          }
+
+          .pf-c-button:focus {
+            outline-width: 0px;
+          }
+        }
+      }
+
+      .pf-c-accordion {
+        --pf-c-accordion__toggle--m-expanded--before--BackgroundColor: #FFFFFF;
+        --pf-c-accordion__toggle--hover__toggle-text--Color: #000000;
+        --pf-c-accordion__toggle--active__toggle-text--Color: #000000;
+        --pf-c-accordion__toggle--focus__toggle-text--Color: #000000;
+        --pf-c-accordion__toggle--active__toggle-text--FontWeight: normal;
+        --pf-c-accordion__toggle--focus__toggle-text--FontWeight: normal;
+        .appDetailItem {
+          .pf-c-accordion__toggle {
+            padding-left: 0px;
+          }
+
+          .pf-c-accordion__toggle.pf-m-expanded {
+            .pf-c-accordion__toggle-text {
+              color: #000000;
+              font-weight: normal;
+            }
+          }
+          .pf-c-accordion__toggle:hover {
+            background-color: #FFFFFF;
+          }
+
+          .pf-c-accordion__toggle:active {
+            background-color: #FFFFFF;
+          }
+
+          .pf-c-accordion__toggle:focus {
+            background-color: #FFFFFF;
+            outline-width: 0px;
+          }
+
+          .pf-c-accordion__toggle::after {
+            width: 0px;
+          }
+          
+          .pf-c-accordion__expanded-content.pf-m-expanded {
+            --pf-c-accordion__expanded-content-body--before--BackgroundColor: #FFFFFF;
+            .pf-c-accordion__expanded-content-body {
+              padding-left: 0px;
+              padding-top: 0px;
+            }
+            .pf-c-accordion__expanded-content-body::after {
+              width: 0px;
+            }
+          }
+        }
+      }
+
+      
+    }
   }
 
   .label {

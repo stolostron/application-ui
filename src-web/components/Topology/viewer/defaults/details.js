@@ -262,6 +262,16 @@ function addK8Details(node, updatedNode, details, activeFilters) {
     getNodePropery(node, ['specs', 'raw', 'spec', 'source'], 'raw.spec.source')
   )
 
+  //argo cd app status
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'status', 'health', 'status'],
+      'raw.status.health.status'
+    )
+  )
+
   addPropertyToList(
     mainDetails,
     getNodePropery(

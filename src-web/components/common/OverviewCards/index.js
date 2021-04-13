@@ -125,8 +125,7 @@ class OverviewCards extends React.Component {
 
     const targetLink = getSearchLinkForOneApplication({
       name: encodeURIComponent(selectedAppName),
-      namespace: encodeURIComponent(selectedAppNS),
-      cluster: encodeURIComponent(deployedCluster)
+      namespace: encodeURIComponent(selectedAppNS)
     })
 
     const appOverviewCardsData = getAppOverviewCardsData(
@@ -324,7 +323,14 @@ class OverviewCards extends React.Component {
                   )}
                 </AcmButton>
                 <AcmButton
-                  href={getUrl + appOverviewCardsData.targetLink}
+                  href={
+                    getUrl +
+                    this.getArgoSearchLink(
+                      selectedAppName,
+                      selectedAppNS,
+                      deployedCluster
+                    )
+                  }
                   variant={ButtonVariant.link}
                   id="app-search-link"
                   component="a"
@@ -394,6 +400,14 @@ class OverviewCards extends React.Component {
       </div>
     )
   }
+
+  getArgoSearchLink = (selectedAppName, selectedAppNS, deployedCluster) => {
+    return getSearchLinkForOneApplication({
+      name: encodeURIComponent(selectedAppName),
+      namespace: encodeURIComponent(selectedAppNS),
+      cluster: encodeURIComponent(deployedCluster)
+    })
+  };
 
   renderData = (checkData, showData, width) => {
     return checkData !== -1 ? (

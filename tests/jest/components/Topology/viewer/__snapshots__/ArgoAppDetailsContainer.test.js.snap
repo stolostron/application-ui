@@ -224,7 +224,7 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
               role="button"
               tabIndex="0"
             >
-              Launch Argo CD editor
+              Launch Argo editor
               <svg
                 height="8px"
                 style={
@@ -352,7 +352,7 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
           role="button"
           tabIndex="0"
         >
-          Launch Argo CD editor
+          Launch Argo editor
           <svg
             height="8px"
             style={
@@ -438,7 +438,7 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
               role="button"
               tabIndex="0"
             >
-              Launch Argo CD editor
+              Launch Argo editor
               <svg
                 height="8px"
                 style={
@@ -566,7 +566,7 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
           role="button"
           tabIndex="0"
         >
-          Launch Argo CD editor
+          Launch Argo editor
           <svg
             height="8px"
             style={

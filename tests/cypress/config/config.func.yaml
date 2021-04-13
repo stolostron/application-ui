@@ -5,7 +5,7 @@ argo:
       name: helloworld-argo-app-1
       namespace: argocd
       type: git
-      successNumber: 0
+      successNumber: 3
       config:
         - url: https://github.com/fxiang1/app-samples.git
           resources: ["route", "service", "replicaset"] #the type of resources this application must deploy

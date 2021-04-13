@@ -102,6 +102,27 @@ const helmReleaseChannelData = async () => [
     reverse: 'Subscription[0].spec.packageFilter.version'
   },
   {
+    id: 'helmReconcileRate',
+    type: 'combobox',
+    editing: { disabled: true }, // if editing existing app, disable this field
+    name: 'creation.app.reconcileRate',
+    tooltip: 'tooltip.creation.app.reconcileRate',
+    active: 'medium',
+    available: ['low', 'medium', 'high', 'off'],
+    reverse:
+      'Channel[0].metadata.annotations["apps.open-cluster-management.io/reconcile-rate"]'
+  },
+  {
+    id: 'helmSubReconcileRate',
+    type: 'checkbox',
+    name: 'creation.app.subReconcileRate',
+    tooltip: 'tooltip.creation.app.subReconcileRate',
+    active: false,
+    available: [],
+    reverse:
+      'Subscription[0].metadata.annotations["apps.open-cluster-management.io/reconcile-rate"]'
+  },
+  {
     id: 'helmInsecureSkipVerify',
     type: 'checkbox',
     name: 'creation.app.insecureSkipVerify.label',

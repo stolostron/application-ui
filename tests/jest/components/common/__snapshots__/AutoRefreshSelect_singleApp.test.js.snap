@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AutoRefreshSelect on single app renders correctly when visible on the single app page 1`] = `
-Array [
+<div
+  className="auto-refresh"
+>
   <div
     className="makeStyles-container-1"
   >
@@ -85,7 +87,7 @@ Array [
         </span>
       </button>
     </div>
-  </div>,
+  </div>
   <div
     className="makeStyles-timestamp-5"
   >
@@ -93,6 +95,6 @@ Array [
       Last update: 
       3:56:47 AM
     </p>
-  </div>,
-]
+  </div>
+</div>
 `;

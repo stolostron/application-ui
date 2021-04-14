@@ -582,6 +582,7 @@ export const validateResourceTable = (
   );
 
   if (type === "argo") {
+    // validate that argo icon exists
     resourceTable.getRow(type, resourceKey).within(() =>
       resourceTable
         .getCell("Name")
@@ -590,12 +591,15 @@ export const validateResourceTable = (
     );
   }
 
-  resourceTable.getRow(name, resourceKey).within(() =>
-    resourceTable
-      .getCell("Namespace")
-      .invoke("text")
-      .should("include", namespace)
-  );
+  if (type !== "argo") {
+    // will remove the condition when #11363 is in
+    resourceTable.getRow(name, resourceKey).within(() =>
+      resourceTable
+        .getCell("Namespace")
+        .invoke("text")
+        .should("include", namespace)
+    );
+  }
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
@@ -636,6 +640,7 @@ export const validateResourceTable = (
   );
 
   data.config.forEach(item => {
+    console.log(item);
     let repoInfo = `${item.url}`;
     if (item.branch && item.branch.length > 0) {
       repoInfo = `${repoInfo}Branch:${item.branch}`;

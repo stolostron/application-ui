@@ -11,7 +11,7 @@ argo:
           resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
           username: ""
           token: ""
-          branch: master
+          branch: ""
           path: helloworld
           gitReconcileOption: merge
           deployment:

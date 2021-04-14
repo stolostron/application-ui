@@ -922,6 +922,7 @@ export const testInvalidApplicationInput = () => {
 
   cy
     .get("#githubURL", { timeout: 20 * 1000 })
+    .scrollIntoView()
     .type(invalidValue)
     .blur();
 
@@ -967,11 +968,13 @@ export const testInvalidApplicationInput = () => {
   cy.log("Test invalid HELM url");
   cy
     .get("#git")
+    .last()
     .click()
     .trigger("mouseover");
 
   cy
     .get("#helm")
+    .last()
     .click()
     .trigger("mouseover");
 
@@ -1119,7 +1122,7 @@ export const validateDefect7696 = name => {
 
   cy.log("Select Editor tab");
   cy
-    .get("[data-ouia-component-id=OUIA-Generated-NavItem-2]", {
+    .get("[data-ouia-component-id=OUIA-Generated-NavItem-9]", {
       timeout: 20 * 1000
     })
     .click();
@@ -1153,7 +1156,7 @@ export const validateDefect7696 = name => {
     "move back to topology view and check resources still show up - defect 7696"
   );
   cy
-    .get("[data-ouia-component-id=OUIA-Generated-NavItem-1]", {
+    .get("[data-ouia-component-id=OUIA-Generated-NavItem-8]", {
       timeout: 20 * 1000
     })
     .click();

@@ -94,7 +94,16 @@ class ApplicationTopologyModule extends React.Component {
       updateMessage: '',
       topologyLoaded: false,
       selectedNode: undefined,
-      showLegendView: false
+      showLegendView: false,
+      argoAppDetailsContainerData: {
+        page: 1,
+        startIdx: 0,
+        argoAppSearchToggle: false,
+        expandSectionToggleMap: new Set(),
+        selected: undefined,
+        selectedArgoAppList: [],
+        isLoading: false
+      }
     }
   }
 
@@ -232,16 +241,19 @@ class ApplicationTopologyModule extends React.Component {
   handleUpdateMessageClosed = () => this.setState({ updateMessage: '' });
 
   render() {
-    const { channels, locale } = this.props
+    const { channels, locale, handleErrorMsg } = this.props
     const {
       nodes,
       links,
       selectedNode,
       topologyLoadError,
       activeChannel,
-      showLegendView
+      showLegendView,
+      topologyLoaded,
+      showSpinner,
+      changingChannel,
+      argoAppDetailsContainerData
     } = this.state
-    const { topologyLoaded, showSpinner, changingChannel } = this.state
 
     const diagramTitle = msgs.get('application.diagram', locale)
 
@@ -250,6 +262,12 @@ class ApplicationTopologyModule extends React.Component {
       resourceDiagramSourceContainer: true,
       showExpandedTopology: false
     })
+    const argoAppDetailsContainerControl = {
+      argoAppDetailsContainerData,
+      handleArgoAppDetailsContainerUpdate: this
+        .handleArgoAppDetailsContainerUpdate,
+      handleErrorMsg
+    }
     const renderTopology = () => {
       const fetchControl = {
         isLoaded: topologyLoaded,
@@ -287,6 +305,7 @@ class ApplicationTopologyModule extends React.Component {
           locale={locale}
           showLegendView={showLegendView}
           handleLegendClose={this.handleLegendClose.bind(this)}
+          argoAppDetailsContainerControl={argoAppDetailsContainerControl}
         />
       )
     }
@@ -370,6 +389,28 @@ class ApplicationTopologyModule extends React.Component {
 
   handleLegendClose = () => {
     this.setState({ showLegendView: false })
+  };
+
+  handleArgoAppDetailsContainerUpdate = (
+    page,
+    startIdx,
+    argoAppSearchToggle,
+    expandSectionToggleMap,
+    selected,
+    selectedArgoAppList,
+    isLoading
+  ) => {
+    this.setState({
+      argoAppDetailsContainerData: {
+        page,
+        startIdx,
+        argoAppSearchToggle,
+        expandSectionToggleMap,
+        selected,
+        selectedArgoAppList,
+        isLoading
+      }
+    })
   };
 }
 

@@ -477,7 +477,10 @@ export const getPulseForNodeWithPodStatus = node => {
         resourceItems,
         obj => _.get(obj, 'namespace', '') === targetNS
       )
-
+      if (resourceItemsForNS.length === 0) {
+        //one namespace has no deployments
+        pulseArr.push(2)
+      }
       const podObjects = _.filter(
         _.flatten(Object.values(podList)),
         obj =>
@@ -723,7 +726,7 @@ export const setClusterStatus = (node, details) => {
       //target cluster not deployed on
       clusterArr.push({
         name: appCls,
-        namespace: appCls === LOCAL_HUB_NAME ? appCls : '',
+        _clusterNamespace: appCls === LOCAL_HUB_NAME ? appCls : '_',
         status: appCls === LOCAL_HUB_NAME ? 'ok' : ''
       })
     }
@@ -1260,7 +1263,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       )
       : resourcesForCluster.length > 0
         ? _.uniq(_.map(resourcesForCluster, 'namespace'))
-        : [namespace]
+        : ['*']
     targetNSList.forEach(targetNS => {
       let res = _.find(
         resourcesForCluster,

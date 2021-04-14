@@ -78,10 +78,6 @@ export class SecondaryHeader extends React.Component {
       navigation: tabs &&
         tabs.length > 0 && (
           <AcmSecondaryNav
-            className={classNames({
-              'cluster-tabs--long': breadcrumbItems,
-              'cluster-tabs': !breadcrumbItems
-            })}
             aria-label={`${title} ${msgs.get('tabs.label', locale)}`}
           >
             {this.renderTabs()}

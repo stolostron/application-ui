@@ -74,6 +74,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
 
   cy
     .get(`#git`)
+    .last()
     .scrollIntoView()
     .click()
     .trigger("mouseover");
@@ -170,6 +171,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
   } = css;
   cy
     .get("#helm")
+    .last()
     .click()
     .trigger("mouseover");
   cy
@@ -265,6 +267,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
   const { objUrl, objAccess, objSecret } = css;
   cy
     .get("#object-storage")
+    .last()
     .click()
     .trigger("mouseover");
   cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });

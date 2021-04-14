@@ -333,6 +333,20 @@ describe("getClusterCount", () => {
       })
     ).toMatchSnapshot();
   });
+  it("handles Argo app properties", () => {
+    expect(
+      getClusterCount({
+        locale: "",
+        remoteCount: 1,
+        localPlacement: true,
+        name: "app",
+        namespace: "thenamespace",
+        kind: "application",
+        apigroup: "argoproj.io",
+        clusterNames: ["local-cluster", "ui-dev-remote"]
+      })
+    ).toMatchSnapshot();
+  });
 });
 
 describe("getClusterCountString", () => {
@@ -403,20 +417,19 @@ describe("getSearchLink", () => {
     );
   });
 
-  it("handles Argo app properties", () => {
+  it("handles array properties", () => {
     expect(
       getSearchLink({
         properties: {
-          name: "helloworld-local",
-          namespace: "argocd",
+          name: ["helloworld-local", "helloworld-remote"],
+          namespace: ["argocd", "openshift-gitops"],
           kind: "application",
           apigroup: "argoproj.io"
         },
-        showRelated: "cluster",
-        clusterNames: ["local-cluster", "ui-dev-remote"]
+        showRelated: "cluster"
       })
     ).toEqual(
-      '/search?filters={"textsearch":"kind%3Acluster%20name%3Alocal-cluster%2Cui-dev-remote"}'
+      '/search?filters={"textsearch":"name%3Ahelloworld-local%2Chelloworld-remote%20namespace%3Aargocd%2Copenshift-gitops%20kind%3Aapplication%20apigroup%3Aargoproj.io"}&showrelated=cluster'
     );
   });
 });

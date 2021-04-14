@@ -3202,16 +3202,16 @@ describe("setResourceDeployStatus 1 ", () => {
     { type: "label", labelKey: "resource.deploy.statuses" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "braveman" },
-    { labelValue: "default", value: "Not Deployed", status: "pending" },
+    { labelValue: "*", value: "Not Deployed", status: "pending" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "possiblereptile" },
-    { labelValue: "default", value: "Not Deployed", status: "pending" },
+    { labelValue: "*", value: "Not Deployed", status: "pending" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "sharingpenguin" },
-    { labelValue: "default", value: "Not Deployed", status: "pending" },
+    { labelValue: "*", value: "Not Deployed", status: "pending" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "relievedox" },
-    { labelValue: "default", value: "Not Deployed", status: "pending" },
+    { labelValue: "*", value: "Not Deployed", status: "pending" },
     { type: "spacer" }
   ];
   it("setResourceDeployStatus not deployed 1", () => {
@@ -3649,7 +3649,7 @@ describe("setResourceDeployStatus 2 with filter yellow", () => {
     { labelKey: "resource.deploy.statuses", type: "label" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "possiblereptile" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" }
   ];
   it("setResourceDeployStatus deployed 2 - should filter resource", () => {
@@ -3694,7 +3694,7 @@ describe("setResourceDeployStatus 2 with filter orange", () => {
     { labelKey: "resource.deploy.statuses", type: "label" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "possiblereptile" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" }
   ];
   it("setResourceDeployStatus deployed 2 - should filter resource", () => {
@@ -3761,16 +3761,16 @@ describe("setResourceDeployStatus 3 ", () => {
     { labelKey: "resource.deploy.statuses", type: "label" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "braveman" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "possiblereptile" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "sharingpenguin" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "relievedox" },
-    { labelValue: "default", status: "pending", value: "Not Deployed" },
+    { labelValue: "*", status: "pending", value: "Not Deployed" },
     { type: "spacer" }
   ];
   it("shows resources as not deployed", () => {
@@ -3851,78 +3851,25 @@ describe("setApplicationDeployStatus for ARGO ", () => {
       type: "spacer"
     },
     {
-      labelKey: "resource.name",
-      status: "checkmark",
-      value: "app1"
-    },
-    {
-      indent: true,
-      type: "link",
-      value: {
-        data: {
-          action: "open_argo_editor",
-          cluster: "remote-cluster",
-          namespace: "app1-ns",
-          name: "app1"
-        },
-        id: "application--app1-argo-editor",
-        label: "Launch Argo editor"
-      }
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.cluster",
-      value: "remote-cluster"
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.target.cluster",
-      value: "local-cluster"
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.target.cluster.ns",
-      value: "app1-remote-ns"
-    },
-    {
-      type: "spacer"
-    },
-    {
-      labelKey: "resource.name",
-      status: "checkmark",
-      value: "app2"
-    },
-    {
-      indent: true,
-      type: "link",
-      value: {
-        data: {
-          action: "open_argo_editor",
-          cluster: "local-cluster",
-          namespace: "app2-ns",
-          name: "app2"
-        },
-        id: "application--app2-argo-editor",
-        label: "Launch Argo editor"
-      }
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.cluster",
-      value: "local-cluster"
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.target.cluster",
-      value: "remote-cluster2"
-    },
-    {
-      indent: true,
-      labelKey: "resource.argo.app.target.cluster.ns",
-      value: "app2-remote-ns"
-    },
-    {
-      type: "spacer"
+      relatedargoappsdata: {
+        argoAppList: [
+          {
+            cluster: "remote-cluster",
+            destinationCluster: "local-cluster",
+            destinationNamespace: "app1-remote-ns",
+            name: "app1",
+            namespace: "app1-ns"
+          },
+          {
+            cluster: "local-cluster",
+            destinationCluster: "remote-cluster2",
+            destinationNamespace: "app2-remote-ns",
+            name: "app2",
+            namespace: "app2-ns"
+          }
+        ]
+      },
+      type: "relatedargoappdetails"
     }
   ];
   it("setApplicationDeployStatus for argo app with multiple related apps", () => {
@@ -3948,7 +3895,13 @@ describe("setApplicationDeployStatus for ARGO ", () => {
   };
   const resultWithNoRelatedApps = [
     { labelValue: "Related applications ({0})", type: "label" },
-    { type: "spacer" }
+    { type: "spacer" },
+    {
+      relatedargoappsdata: {
+        argoAppList: []
+      },
+      type: "relatedargoappdetails"
+    }
   ];
   it("setApplicationDeployStatus for argo app with no related apps", () => {
     expect(setApplicationDeployStatus(nodeWithNORelatedApps, [])).toEqual(

@@ -108,7 +108,12 @@ body {
   -webkit-font-smoothing: unset;
   -moz-osx-font-smoothing: unset;
   background-color: $acm-background-color;
+  #page {
+    height: 100%;
+  }
 }
+
+
 
 .page-content-container {
   display: flex;
@@ -117,8 +122,7 @@ body {
 }
 
 .pf-c-page__main {
-  overflow-x: visible;
-  overflow-y: visible;
+  display: inline;
 }
 
 .content-spinner {

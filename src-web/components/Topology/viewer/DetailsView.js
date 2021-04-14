@@ -25,6 +25,7 @@ import msgs from '../../../../nls/platform.properties'
 import { createResourceSearchLink } from '../utils/diagram-helpers'
 import { getLegendTitle } from './defaults/titles'
 import ClusterDetailsContainer from './ClusterDetailsContainer'
+import ArgoAppDetailsContainer from './ArgoAppDetailsContainer'
 
 const DetailsViewDecorator = ({ shape, className }) => {
   return (
@@ -149,6 +150,8 @@ class DetailsView extends React.Component {
       return this.renderSnippet(detail, locale)
     case 'clusterdetailcombobox':
       return this.renderClusterDetailComboBox(detail, locale)
+    case 'relatedargoappdetails':
+      return this.renderRelatedArgoAppDetails(detail, locale)
     default:
       return this.renderLabel(detail, locale)
     }
@@ -325,10 +328,28 @@ class DetailsView extends React.Component {
       </div>
     )
   }
+
+  renderRelatedArgoAppDetails({ relatedargoappsdata }, locale) {
+    const { argoAppDetailsContainerControl } = this.props
+    return (
+      <div className="sectionContent" key={Math.random()}>
+        <ArgoAppDetailsContainer
+          argoAppList={relatedargoappsdata.argoAppList}
+          locale={locale}
+          argoAppDetailsContainerControl={argoAppDetailsContainerControl}
+        />
+      </div>
+    )
+  }
 }
 
 DetailsView.propTypes = {
   activeFilters: PropTypes.object,
+  argoAppDetailsContainerControl: PropTypes.shape({
+    argoAppDetailsContainerData: PropTypes.object,
+    handleArgoAppDetailsContainerUpdate: PropTypes.func,
+    handleErrorMsg: PropTypes.func
+  }),
   clusterDetailsContainerControl: PropTypes.shape({
     clusterDetailsContainerData: PropTypes.object,
     handleClusterDetailsContainerUpdate: PropTypes.func

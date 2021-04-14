@@ -39,6 +39,11 @@ import { event as currentEvent } from 'd3-selection'
 class DiagramViewer extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
+    argoAppDetailsContainerControl: PropTypes.shape({
+      argoAppDetailsContainerData: PropTypes.object,
+      handleArgoAppDetailsContainerUpdate: PropTypes.func,
+      handleErrorMsg: PropTypes.func
+    }),
     availableFilters: PropTypes.object,
     channelControl: PropTypes.object,
     handleLegendClose: PropTypes.func,
@@ -260,7 +265,8 @@ class DiagramViewer extends React.Component {
       showLegendView,
       handleLegendClose,
       nodes,
-      activeFilters
+      activeFilters,
+      argoAppDetailsContainerControl
     } = this.props
 
     const {
@@ -277,6 +283,7 @@ class DiagramViewer extends React.Component {
       handleClusterDetailsContainerUpdate: this
         .handleClusterDetailsContainerUpdate
     }
+
     return (
       <div className="diagramViewerDiagram" ref={this.setContainerRef}>
         {title && <div className="diagramTitle">{title}</div>}
@@ -326,6 +333,7 @@ class DiagramViewer extends React.Component {
             processActionLink={processActionLink}
             nodes={nodes}
             clusterDetailsContainerControl={clusterDetailsContainerControl}
+            argoAppDetailsContainerControl={argoAppDetailsContainerControl}
             activeFilters={activeFilters}
           />
         )}

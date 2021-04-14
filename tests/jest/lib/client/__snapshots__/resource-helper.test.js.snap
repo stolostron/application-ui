@@ -8,6 +8,15 @@ exports[`createEditLink returns an a tag using the item.name and item.selfLink 1
 </a>
 `;
 
+exports[`getClusterCount handles Argo app properties 1`] = `
+<a
+  className="cluster-count-link"
+  href="/search?filters={\\"textsearch\\":\\"name%3Alocal-cluster%2Cui-dev-remote%20kind%3Acluster\\"}"
+>
+  {0} Remote, 1 Local
+</a>
+`;
+
 exports[`getClusterCount returns 'None' when there are no remote or local clusters 1`] = `"None"`;
 
 exports[`getClusterCount returns a string that does not include 'local' when localDeployment is false, with link 1`] = `

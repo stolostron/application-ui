@@ -72,6 +72,10 @@ exports[`ClusterDetailsContainer with no clusters renders as expected 1`] = `
   <div
     className="spacer"
   />
+  <dl
+    aria-label=""
+    className="pf-c-accordion"
+  />
 </div>
 `;
 
@@ -147,617 +151,685 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
   <div
     className="spacer"
   />
-  <div
-    className="clusterDetailItem"
-    style={
-      Object {
-        "borderBottom": "1px solid #D2D2D2",
-        "borderTop": "1px solid #D2D2D2",
-      }
-    }
+  <dl
+    aria-label=""
+    className="pf-c-accordion"
   >
     <div
-      className="pf-c-expandable-section"
-    >
-      <button
-        aria-expanded={false}
-        className="pf-c-expandable-section__toggle"
-        onClick={[Function]}
-        type="button"
-      >
-        <span
-          className="pf-c-expandable-section__toggle-icon"
-        >
-          <svg
-            aria-hidden={true}
-            aria-labelledby={null}
-            fill="currentColor"
-            height="1em"
-            role="img"
-            style={
-              Object {
-                "verticalAlign": "-0.125em",
-              }
-            }
-            viewBox="0 0 256 512"
-            width="1em"
-          >
-            <path
-              d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
-            />
-          </svg>
-        </span>
-        <span
-          className="pf-c-expandable-section__toggle-text"
-        >
-          argo-fxiang-eks
-        </span>
-      </button>
-      <div
-        className="pf-c-expandable-section__content"
-        hidden={true}
-      >
-        <span
-          style={
-            Object {
-              "color": "#5A6872",
-              "display": "block",
-              "fontFamily": "RedHatText",
-              "fontSize": "12px",
-              "lineHeight": "21px",
-              "textAlign": "left",
-            }
-          }
-        >
-          Namespace: undefined
-        </span>
-        <span
-          className="label sectionLabel"
-          style={
-            Object {
-              "fontSize": "1rem",
-              "paddingLeft": "1rem",
-            }
-          }
-        >
-          Details
-        </span>
-        <div
-          className="spacer"
-        />
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Name
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            argo-fxiang-eks
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Namespace
-            :
-             
-          </span>
-          <span
-            className="value"
-          />
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Status
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            ok
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            CPU
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            100
-            %
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Memory
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            100
-            %
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Created
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            -
-          </span>
-        </div>
-        <div
-          className="spacer"
-        />
-      </div>
-    </div>
-    <span
+      className="clusterDetailItem"
       style={
         Object {
-          "color": "#5A6872",
-          "display": "block",
-          "fontFamily": "RedHatText",
-          "fontSize": "12px",
-          "lineHeight": "21px",
-          "textAlign": "left",
+          "borderBottom": "1px solid #D2D2D2",
+          "borderTop": "1px solid #D2D2D2",
         }
       }
     >
-      Namespace: undefined
-    </span>
-  </div>
-  <div
-    className="clusterDetailItem"
-    style={
-      Object {
-        "borderBottom": "1px solid #D2D2D2",
-      }
-    }
-  >
-    <div
-      className="pf-c-expandable-section"
-    >
-      <button
-        aria-expanded={false}
-        className="pf-c-expandable-section__toggle"
-        onClick={[Function]}
-        type="button"
-      >
-        <span
-          className="pf-c-expandable-section__toggle-icon"
-        >
-          <svg
-            aria-hidden={true}
-            aria-labelledby={null}
-            fill="currentColor"
-            height="1em"
-            role="img"
-            style={
-              Object {
-                "verticalAlign": "-0.125em",
-              }
-            }
-            viewBox="0 0 256 512"
-            width="1em"
-          >
-            <path
-              d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
-            />
-          </svg>
-        </span>
-        <span
-          className="pf-c-expandable-section__toggle-text"
-        >
-          fxiang-eks
-        </span>
-      </button>
-      <div
-        className="pf-c-expandable-section__content"
-        hidden={true}
-      >
-        <span
-          style={
-            Object {
-              "color": "#5A6872",
-              "display": "block",
-              "fontFamily": "RedHatText",
-              "fontSize": "12px",
-              "lineHeight": "21px",
-              "textAlign": "left",
-            }
-          }
-        >
-          Namespace: fxiang-eks
-        </span>
-        <span
-          className="label sectionLabel"
-          style={
-            Object {
-              "fontSize": "1rem",
-              "paddingLeft": "1rem",
-            }
-          }
-        >
-          Details
-        </span>
-        <div
-          className="spacer"
-        />
-        <div
-          className="sectionContent borderLeft"
+      <dt>
+        <button
+          aria-expanded={false}
+          className="pf-c-accordion__toggle"
+          id="argo-fxiang-eks"
+          onClick={[Function]}
         >
           <span
-            className="label sectionLabel"
+            className="pf-c-accordion__toggle-text"
           >
-            Name
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            fxiang-eks
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Namespace
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            fxiang-eks
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Status
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            ok
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            CPU
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            3
-            %
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Memory
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            13
-            %
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Created
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            -
-          </span>
-        </div>
-        <div
-          className="spacer"
-        />
-      </div>
-    </div>
-    <span
-      style={
-        Object {
-          "color": "#5A6872",
-          "display": "block",
-          "fontFamily": "RedHatText",
-          "fontSize": "12px",
-          "lineHeight": "21px",
-          "textAlign": "left",
-        }
-      }
-    >
-      Namespace: fxiang-eks
-    </span>
-  </div>
-  <div
-    className="clusterDetailItem"
-    style={
-      Object {
-        "borderBottom": "1px solid #D2D2D2",
-      }
-    }
-  >
-    <div
-      className="pf-c-expandable-section"
-    >
-      <button
-        aria-expanded={false}
-        className="pf-c-expandable-section__toggle"
-        onClick={[Function]}
-        type="button"
-      >
-        <span
-          className="pf-c-expandable-section__toggle-icon"
-        >
-          <svg
-            aria-hidden={true}
-            aria-labelledby={null}
-            fill="currentColor"
-            height="1em"
-            role="img"
-            style={
-              Object {
-                "verticalAlign": "-0.125em",
-              }
-            }
-            viewBox="0 0 256 512"
-            width="1em"
-          >
-            <path
-              d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
-            />
-          </svg>
-        </span>
-        <span
-          className="pf-c-expandable-section__toggle-text"
-        >
-          vbirsan1-remote
-        </span>
-      </button>
-      <div
-        className="pf-c-expandable-section__content"
-        hidden={true}
-      >
-        <span
-          style={
-            Object {
-              "color": "#5A6872",
-              "display": "block",
-              "fontFamily": "RedHatText",
-              "fontSize": "12px",
-              "lineHeight": "21px",
-              "textAlign": "left",
-            }
-          }
-        >
-          Namespace: vbirsan1-remote
-        </span>
-        <span
-          className="label sectionLabel"
-          style={
-            Object {
-              "fontSize": "1rem",
-              "paddingLeft": "1rem",
-            }
-          }
-        >
-          Details
-        </span>
-        <div
-          className="spacer"
-        />
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Name
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            vbirsan1-remote
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Namespace
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            vbirsan1-remote
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="link sectionLabel"
-            id="linkForNodeAction"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            role="button"
-            tabIndex="0"
-          >
-            Open cluster console
             <svg
-              height="8px"
-              style={
-                Object {
-                  "marginLeft": "9px",
-                }
-              }
-              width="11px"
+              fill="#3E8635"
+              height="12px"
+              width="12px"
             >
               <use
                 className="label-icon"
-                href="#diagramIcons_carbonLaunch"
+                href="#diagramIcons_checkmark"
+              />
+            </svg>
+            <span
+              style={
+                Object {
+                  "paddingRight": "10px",
+                }
+              }
+            />
+            argo-fxiang-eks
+          </span>
+          <span
+            className="pf-c-accordion__toggle-icon"
+          >
+            <svg
+              aria-hidden={true}
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
               />
             </svg>
           </span>
-        </div>
+        </button>
+      </dt>
+      <dd
+        aria-label=""
+        className="pf-c-accordion__expanded-content"
+        hidden={true}
+        id=""
+      >
         <div
-          className="sectionContent borderLeft"
+          className="pf-c-accordion__expanded-content-body"
         >
           <span
-            className="label sectionLabel"
+            style={
+              Object {
+                "color": "#5A6872",
+                "display": "block",
+                "fontFamily": "RedHatText",
+                "fontSize": "12px",
+                "lineHeight": "21px",
+                "textAlign": "left",
+              }
+            }
           >
-            Status
-            :
-             
+            Namespace: undefined
           </span>
-          <span
-            className="value"
-          >
-            ok
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
           <span
             className="label sectionLabel"
+            style={
+              Object {
+                "fontSize": "1rem",
+                "paddingLeft": "1rem",
+              }
+            }
           >
-            CPU
-            :
-             
+            Details
           </span>
-          <span
-            className="value"
+          <div
+            className="spacer"
+          />
+          <div
+            className="sectionContent borderLeft"
           >
-            8
-            %
-          </span>
+            <span
+              className="label sectionLabel"
+            >
+              Name
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              argo-fxiang-eks
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Namespace
+              :
+               
+            </span>
+            <span
+              className="value"
+            />
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Status
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              ok
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              CPU
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              100
+              %
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Memory
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              100
+              %
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Created
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              -
+            </span>
+          </div>
+          <div
+            className="spacer"
+          />
         </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Memory
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            4
-            %
-          </span>
-        </div>
-        <div
-          className="sectionContent borderLeft"
-        >
-          <span
-            className="label sectionLabel"
-          >
-            Created
-            :
-             
-          </span>
-          <span
-            className="value"
-          >
-            -
-          </span>
-        </div>
-        <div
-          className="spacer"
-        />
-      </div>
+      </dd>
+      <span
+        style={
+          Object {
+            "color": "#5A6872",
+            "display": "block",
+            "fontFamily": "RedHatText",
+            "fontSize": "12px",
+            "lineHeight": "21px",
+            "textAlign": "left",
+          }
+        }
+      >
+        Namespace: undefined
+      </span>
     </div>
-    <span
+    <div
+      className="clusterDetailItem"
       style={
         Object {
-          "color": "#5A6872",
-          "display": "block",
-          "fontFamily": "RedHatText",
-          "fontSize": "12px",
-          "lineHeight": "21px",
-          "textAlign": "left",
+          "borderBottom": "1px solid #D2D2D2",
         }
       }
     >
-      Namespace: vbirsan1-remote
-    </span>
-  </div>
+      <dt>
+        <button
+          aria-expanded={false}
+          className="pf-c-accordion__toggle"
+          id="fxiang-eks"
+          onClick={[Function]}
+        >
+          <span
+            className="pf-c-accordion__toggle-text"
+          >
+            <svg
+              fill="#3E8635"
+              height="12px"
+              width="12px"
+            >
+              <use
+                className="label-icon"
+                href="#diagramIcons_checkmark"
+              />
+            </svg>
+            <span
+              style={
+                Object {
+                  "paddingRight": "10px",
+                }
+              }
+            />
+            fxiang-eks
+          </span>
+          <span
+            className="pf-c-accordion__toggle-icon"
+          >
+            <svg
+              aria-hidden={true}
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+              />
+            </svg>
+          </span>
+        </button>
+      </dt>
+      <dd
+        aria-label=""
+        className="pf-c-accordion__expanded-content"
+        hidden={true}
+        id=""
+      >
+        <div
+          className="pf-c-accordion__expanded-content-body"
+        >
+          <span
+            style={
+              Object {
+                "color": "#5A6872",
+                "display": "block",
+                "fontFamily": "RedHatText",
+                "fontSize": "12px",
+                "lineHeight": "21px",
+                "textAlign": "left",
+              }
+            }
+          >
+            Namespace: fxiang-eks
+          </span>
+          <span
+            className="label sectionLabel"
+            style={
+              Object {
+                "fontSize": "1rem",
+                "paddingLeft": "1rem",
+              }
+            }
+          >
+            Details
+          </span>
+          <div
+            className="spacer"
+          />
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Name
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              fxiang-eks
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Namespace
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              fxiang-eks
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Status
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              ok
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              CPU
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              3
+              %
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Memory
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              13
+              %
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Created
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              -
+            </span>
+          </div>
+          <div
+            className="spacer"
+          />
+        </div>
+      </dd>
+      <span
+        style={
+          Object {
+            "color": "#5A6872",
+            "display": "block",
+            "fontFamily": "RedHatText",
+            "fontSize": "12px",
+            "lineHeight": "21px",
+            "textAlign": "left",
+          }
+        }
+      >
+        Namespace: fxiang-eks
+      </span>
+    </div>
+    <div
+      className="clusterDetailItem"
+      style={
+        Object {
+          "borderBottom": "1px solid #D2D2D2",
+        }
+      }
+    >
+      <dt>
+        <button
+          aria-expanded={false}
+          className="pf-c-accordion__toggle"
+          id="vbirsan1-remote"
+          onClick={[Function]}
+        >
+          <span
+            className="pf-c-accordion__toggle-text"
+          >
+            <svg
+              fill="#3E8635"
+              height="12px"
+              width="12px"
+            >
+              <use
+                className="label-icon"
+                href="#diagramIcons_checkmark"
+              />
+            </svg>
+            <span
+              style={
+                Object {
+                  "paddingRight": "10px",
+                }
+              }
+            />
+            vbirsan1-remote
+          </span>
+          <span
+            className="pf-c-accordion__toggle-icon"
+          >
+            <svg
+              aria-hidden={true}
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+              />
+            </svg>
+          </span>
+        </button>
+      </dt>
+      <dd
+        aria-label=""
+        className="pf-c-accordion__expanded-content"
+        hidden={true}
+        id=""
+      >
+        <div
+          className="pf-c-accordion__expanded-content-body"
+        >
+          <span
+            style={
+              Object {
+                "color": "#5A6872",
+                "display": "block",
+                "fontFamily": "RedHatText",
+                "fontSize": "12px",
+                "lineHeight": "21px",
+                "textAlign": "left",
+              }
+            }
+          >
+            Namespace: vbirsan1-remote
+          </span>
+          <span
+            className="label sectionLabel"
+            style={
+              Object {
+                "fontSize": "1rem",
+                "paddingLeft": "1rem",
+              }
+            }
+          >
+            Details
+          </span>
+          <div
+            className="spacer"
+          />
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Name
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              vbirsan1-remote
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Namespace
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              vbirsan1-remote
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="link sectionLabel"
+              id="linkForNodeAction"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              tabIndex="0"
+            >
+              Open cluster console
+              <svg
+                height="8px"
+                style={
+                  Object {
+                    "marginLeft": "9px",
+                  }
+                }
+                width="11px"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_carbonLaunch"
+                />
+              </svg>
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Status
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              ok
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              CPU
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              8
+              %
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Memory
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              4
+              %
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Created
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              -
+            </span>
+          </div>
+          <div
+            className="spacer"
+          />
+        </div>
+      </dd>
+      <span
+        style={
+          Object {
+            "color": "#5A6872",
+            "display": "block",
+            "fontFamily": "RedHatText",
+            "fontSize": "12px",
+            "lineHeight": "21px",
+            "textAlign": "left",
+          }
+        }
+      >
+        Namespace: vbirsan1-remote
+      </span>
+    </div>
+  </dl>
 </div>
 `;

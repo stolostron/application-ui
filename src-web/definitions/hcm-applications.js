@@ -60,7 +60,7 @@ export default {
       return {
         cells: [
           { title: createApplicationLink(items, locale) }, // pass full array for count
-          { title: createNamespaceText(items[0], locale) },
+          { title: '' }, // Empty Namespace
           { title: createClustersLink(items, locale) }, // pass full array for all clusters
           { title: createChannels(items[0], locale) },
           { title: '' }, // Empty Time window
@@ -146,7 +146,7 @@ export default {
               name: item.name,
               namespace: item.namespace,
               cluster: item.cluster,
-              kind: item.kind,
+              kind: item.kind.toLowerCase(),
               apigroup,
               apiversion
             }

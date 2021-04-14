@@ -60,7 +60,7 @@ Cypress.Commands.add("login", (idp, user, password) => {
           .focused()
           .type(password, { log: false });
         cy.get('button[type="submit"]', { timeout: 20000 }).click();
-        cy.get("#header", { timeout: 30000 }).should("exist");
+        cy.get("#pf-c-page__header", { timeout: 30000 }).should("exist");
       }
     });
 });
@@ -321,13 +321,13 @@ Cypress.Commands.add("logInAsRole", role => {
   };
   cy.visit("/multicloud/applications");
   cy.get("body").then(body => {
-    if (body.find("#header").length !== 0) {
+    if (body.find("#pf-c-page__header").length !== 0) {
       cy.log(
         "User already logged in, check if required to logout and login again"
       );
       logInIfRequired();
     }
-    if (body.find("#header").length === 0) {
+    if (body.find("#pf-c-page__header").length === 0) {
       cy.login(idp, user, password);
       cy.log(`Logged in with user ${users[role]}`);
     }

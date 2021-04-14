@@ -13,6 +13,6 @@
   },
   "devDependencies": {
     "@slack/web-api": "^5.8.0",
-    "cypress": "^7.0.1"
+    "cypress": "^7.1.0"
   }
 }

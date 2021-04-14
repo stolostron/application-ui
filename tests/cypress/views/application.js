@@ -608,7 +608,6 @@ export const validateResourceTable = (
   if (!namespace) {
     namespace = getNamespace(name);
   }
-  console.log(namespace);
   cy.visit(`/multicloud/applications`);
   cy.get(".search-query-card-loading").should("not.exist", {
     timeout: 60 * 1000
@@ -684,7 +683,6 @@ export const validateResourceTable = (
   );
 
   data.config.forEach(item => {
-    console.log(item);
     let repoInfo = `${item.url}`;
     if (item.branch && item.branch.length > 0) {
       repoInfo = `${repoInfo}Branch:${item.branch}`;

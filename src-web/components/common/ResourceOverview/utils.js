@@ -16,10 +16,11 @@ export const getSearchLinkForOneApplication = params => {
     const namespace = params.namespace
       ? `%20namespace%3A${params.namespace}`
       : ''
+    const cluster = params.cluster ? `%20cluster%3A${params.cluster}` : ''
     const showRelated = params.showRelated
       ? `&showrelated=${params.showRelated}`
       : ''
-    return `/search?filters={"textsearch":"kind%3Aapplication${name}${namespace}"}${showRelated}`
+    return `/search?filters={"textsearch":"kind%3Aapplication${name}${namespace}${cluster}"}${showRelated}`
   }
   return ''
 }

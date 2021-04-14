@@ -404,7 +404,7 @@ export const validateTopology = (
     .invoke("attr", "href")
     .should(
       "include",
-      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${namespace}"}`
+      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${namespace}`
     );
 
   if (type === "argo") {

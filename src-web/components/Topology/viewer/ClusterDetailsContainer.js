@@ -10,7 +10,10 @@ import {
   SelectOption,
   SelectVariant,
   Pagination,
-  ExpandableSection
+  Accordion,
+  AccordionItem,
+  AccordionContent,
+  AccordionToggle
 } from '@patternfly/react-core'
 import {
   processResourceActionLink,
@@ -371,6 +374,57 @@ class ClusterDetailsContainer extends React.Component {
     )
   };
 
+  // This calculation is not accurate as search is not returning all the needed
+  // data from the managedcluster resource YAML
+  calculateClusterStatus = clusterData => {
+    let status
+    const clusterAccepted = clusterData.HubAcceptedManagedCluster
+    const clusterJoined = clusterData.ManagedClusterJoined
+    const clusterAvailable = clusterData.ManagedClusterConditionAvailable
+
+    if (!clusterAccepted) {
+      status = 'notaccepted'
+    } else if (!clusterJoined) {
+      status = 'pendingimport'
+    } else {
+      status = clusterAvailable ? 'ok' : 'offline'
+    }
+
+    return status
+  };
+
+  mapClusterStatusToIcon = status => {
+    let icon = 'checkmark'
+
+    if (
+      status.toLowerCase() === 'pendingimport' ||
+      status.toLowerCase() === 'detaching'
+    ) {
+      icon = 'pending'
+    } else if (status.toLowerCase() === 'notaccepted') {
+      icon = 'warning'
+    } else if (status.toLowerCase() === 'offline') {
+      icon = 'failure'
+    }
+
+    return icon
+  };
+
+  renderClusterStatusIcon = icon => {
+    const fillMap = new Map([
+      ['checkmark', '#3E8635'],
+      ['failure', '#C9190B'],
+      ['warning', '#F0AB00'],
+      ['pending', '#878D96']
+    ])
+    const iconFill = fillMap.get(icon)
+    return (
+      <svg width="12px" height="12px" fill={iconFill}>
+        <use href={`#diagramIcons_${icon}`} className="label-icon" />
+      </svg>
+    )
+  };
+
   render() {
     const {
       selected,
@@ -404,7 +458,11 @@ class ClusterDetailsContainer extends React.Component {
         consoleURL
       } = displayClusterList[i]
 
-      const status = displayClusterList[i].status || 'unknown'
+      const status =
+        displayClusterList[i].status ||
+        this.calculateClusterStatus(displayClusterList[i]) ||
+        'unknown'
+      const statusIcon = this.mapClusterStatusToIcon(status)
       const clusterName = displayClusterList[i].name || metadata.name
       const clusterNamespace =
         displayClusterList[i]._clusterNamespace || metadata.namespace
@@ -452,65 +510,74 @@ class ClusterDetailsContainer extends React.Component {
           style={parentDivStyle}
           key={clusterName}
         >
-          <ExpandableSection
-            toggleText={clusterName}
-            onToggle={() => this.handleExpandSectionToggle(toggleItemNum)}
-            isExpanded={expandSectionToggleMap.has(toggleItemNum)}
-          >
-            <span style={namespaceStyle}>{namespaceLabel}</span>
-            <span
-              className={labelClass}
-              style={{
-                paddingLeft: '1rem',
-                fontSize: '1rem'
-              }}
+          <AccordionItem>
+            <AccordionToggle
+              onClick={() => this.handleExpandSectionToggle(toggleItemNum)}
+              isExpanded={expandSectionToggleMap.has(toggleItemNum)}
+              id={clusterName}
             >
-              {msgs.get('prop.details.section', locale)}
-            </span>
-            <div className="spacer" />
-            <div className={divClass}>
-              <span className={labelClass}>
-                {msgs.get('resource.name', locale)}:{' '}
+              {this.renderClusterStatusIcon(statusIcon)}
+              <span style={{ paddingRight: '10px' }} />
+              {clusterName}
+            </AccordionToggle>
+            <AccordionContent
+              isHidden={!expandSectionToggleMap.has(toggleItemNum)}
+            >
+              <span style={namespaceStyle}>{namespaceLabel}</span>
+              <span
+                className={labelClass}
+                style={{
+                  paddingLeft: '1rem',
+                  fontSize: '1rem'
+                }}
+              >
+                {msgs.get('prop.details.section', locale)}
               </span>
-              <span className={valueClass}>{clusterName}</span>
-            </div>
-            <div className={divClass}>
-              <span className={labelClass}>
-                {msgs.get('resource.namespace', locale)}:{' '}
-              </span>
-              <span className={valueClass}>{clusterNamespace}</span>
-            </div>
-            {this.renderConsoleURLLink(consoleURL, resource, locale)}
-            <div className={divClass}>
-              <span className={labelClass}>
-                {msgs.get('resource.status', locale)}:{' '}
-              </span>
-              <span className={valueClass}>{status}</span>
-            </div>
-            <div className={divClass}>
-              <span className={labelClass}>
-                {msgs.get('resource.cpu', locale)}:{' '}
-              </span>
-              <span className={valueClass}>
-                {getPercentage(inflateKubeValue(ac), inflateKubeValue(cc))}%
-              </span>
-            </div>
-            <div className={divClass}>
-              <span className={labelClass}>
-                {msgs.get('resource.memory', locale)}:{' '}
-              </span>
-              <span className={valueClass}>
-                {getPercentage(inflateKubeValue(am), inflateKubeValue(cm))}%
-              </span>
-            </div>
-            <div className={divClass}>
-              <span className={labelClass}>
-                {msgs.get('resource.created', locale)}:{' '}
-              </span>
-              <span className={valueClass}>{getAge(creationTimestamp)}</span>
-            </div>
-            <div className="spacer" />
-          </ExpandableSection>
+              <div className="spacer" />
+              <div className={divClass}>
+                <span className={labelClass}>
+                  {msgs.get('resource.name', locale)}:{' '}
+                </span>
+                <span className={valueClass}>{clusterName}</span>
+              </div>
+              <div className={divClass}>
+                <span className={labelClass}>
+                  {msgs.get('resource.namespace', locale)}:{' '}
+                </span>
+                <span className={valueClass}>{clusterNamespace}</span>
+              </div>
+              {this.renderConsoleURLLink(consoleURL, resource, locale)}
+              <div className={divClass}>
+                <span className={labelClass}>
+                  {msgs.get('resource.status', locale)}:{' '}
+                </span>
+                <span className={valueClass}>{status}</span>
+              </div>
+              <div className={divClass}>
+                <span className={labelClass}>
+                  {msgs.get('resource.cpu', locale)}:{' '}
+                </span>
+                <span className={valueClass}>
+                  {getPercentage(inflateKubeValue(ac), inflateKubeValue(cc))}%
+                </span>
+              </div>
+              <div className={divClass}>
+                <span className={labelClass}>
+                  {msgs.get('resource.memory', locale)}:{' '}
+                </span>
+                <span className={valueClass}>
+                  {getPercentage(inflateKubeValue(am), inflateKubeValue(cm))}%
+                </span>
+              </div>
+              <div className={divClass}>
+                <span className={labelClass}>
+                  {msgs.get('resource.created', locale)}:{' '}
+                </span>
+                <span className={valueClass}>{getAge(creationTimestamp)}</span>
+              </div>
+              <div className="spacer" />
+            </AccordionContent>
+          </AccordionItem>
           <span style={outerNamespaceStyle}>{namespaceLabel}</span>
         </div>
       )
@@ -551,7 +618,7 @@ class ClusterDetailsContainer extends React.Component {
           />
         )}
         <div className="spacer" />
-        {clusterItems}
+        <Accordion>{clusterItems}</Accordion>
         {this.props.clusterList.length > 5 && (
           <Pagination
             itemCount={displayClusterList.length}

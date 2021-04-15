@@ -107,8 +107,7 @@ class OverviewCards extends React.Component {
       locale
     } = this.props
     const { argoLinkLoading, showSubCards } = this.state
-    const cluster =
-      _.get(topology, 'fetchFilters.application.cluster') || 'local-cluster'
+    const cluster = _.get(topology, 'activeFilters.application.cluster')
     if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
       const infoMessage = _.get(
         HCMApplicationList,

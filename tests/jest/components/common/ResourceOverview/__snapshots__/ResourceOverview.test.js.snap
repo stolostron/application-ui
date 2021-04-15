@@ -19,102 +19,164 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
       className="overview-cards-container"
     >
       <article
-        className="pf-c-card"
+        className="pf-c-card pf-m-expanded"
         data-ouia-component-id="OUIA-Generated-Card-1"
         data-ouia-component-type="PF4/Card"
         data-ouia-safe={true}
         id=""
       >
         <div
-          className="pf-l-split"
+          className="pf-c-card__header makeStyles-header-2 makeStyles-headerExpanded-3"
+          onClick={[Function]}
         >
           <div
-            className="pf-l-split__item"
-          >
-            <div
-              className="pf-c-card__title"
-            >
-              Details
-            </div>
-          </div>
-          <div
-            className="pf-l-split__item pf-m-fill"
-          />
-          <div
-            className="pf-l-split__item makeStyles-toggleContainer-2"
+            className="pf-c-card__header-toggle"
           >
             <button
               aria-disabled={false}
-              aria-label="toggle list open"
+              aria-expanded={true}
+              aria-label="Toggle details"
               className="pf-c-button pf-m-plain"
               data-ouia-component-id="OUIA-Generated-Button-plain-1"
               data-ouia-component-type="PF4/Button"
               data-ouia-safe={true}
               disabled={false}
+              id="toggle-button"
               onClick={[Function]}
               role={null}
               type="button"
             >
-              <svg
-                aria-hidden={true}
-                aria-labelledby={null}
-                fill="currentColor"
-                height="1em"
-                role="img"
-                style={
-                  Object {
-                    "verticalAlign": "-0.125em",
-                  }
-                }
-                viewBox="0 0 320 512"
-                width="1em"
+              <span
+                className="pf-c-card__header-toggle-icon"
               >
-                <path
-                  d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"
-                />
-              </svg>
+                <svg
+                  aria-hidden="true"
+                  aria-labelledby={null}
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 256 512"
+                  width="1em"
+                >
+                  <path
+                    d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                  />
+                </svg>
+              </span>
             </button>
+          </div>
+          <div
+            className="pf-c-card__title"
+          >
+            Details
           </div>
         </div>
         <div
-          className="pf-c-card__body makeStyles-cardBody-3"
+          className="pf-c-card__expandable-content makeStyles-body-4"
         >
           <div
-            className="pf-l-grid pf-m-all-12-col-on-sm pf-m-all-6-col-on-md"
+            className="pf-c-card__body"
           >
             <div
-              className="pf-l-grid__item makeStyles-leftCol-1"
+              className="pf-l-grid pf-m-all-12-col-on-sm pf-m-all-6-col-on-md"
             >
-              <dl
-                className="pf-c-description-list pf-m-horizontal"
+              <div
+                className="pf-l-grid__item makeStyles-leftCol-1"
               >
-                <div
-                  className="pf-c-description-list__group"
+                <dl
+                  className="pf-c-description-list pf-m-horizontal"
                 >
-                  <dt
-                    className="pf-c-description-list__term"
+                  <div
+                    className="pf-c-description-list__group"
                   >
-                    <span
-                      className="pf-c-description-list__text"
+                    <dt
+                      className="pf-c-description-list__term"
                     >
-                      Name
-                       
-                    </span>
-                  </dt>
-                  <dd
-                    className="pf-c-description-list__description"
-                  >
-                    <div
-                      className="pf-c-description-list__text"
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        Name
+                         
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
                     >
                       <div
-                        className="app-name-container"
+                        className="pf-c-description-list__text"
                       >
                         <div
-                          className="app-name"
+                          className="app-name-container"
                         >
-                          samplebook-gbapp
+                          <div
+                            className="app-name"
+                          >
+                            samplebook-gbapp
+                          </div>
+                          <div
+                            className="pf-c-skeleton loading-skeleton-text"
+                            style={
+                              Object {
+                                "--pf-c-skeleton--Height": undefined,
+                                "--pf-c-skeleton--Width": "30%",
+                              }
+                            }
+                          >
+                            <span
+                              className="pf-u-screen-reader"
+                            />
+                          </div>
                         </div>
+                      </div>
+                    </dd>
+                  </div>
+                  <div
+                    className="pf-c-description-list__group"
+                  >
+                    <dt
+                      className="pf-c-description-list__term"
+                    >
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        Namespace
+                         
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
+                    >
+                      <div
+                        className="pf-c-description-list__text"
+                      >
+                        sample
+                      </div>
+                    </dd>
+                  </div>
+                  <div
+                    className="pf-c-description-list__group"
+                  >
+                    <dt
+                      className="pf-c-description-list__term"
+                    >
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        Created
+                         
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
+                    >
+                      <div
+                        className="pf-c-description-list__text"
+                      >
                         <div
                           className="pf-c-skeleton loading-skeleton-text"
                           style={
@@ -129,212 +191,154 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                           />
                         </div>
                       </div>
-                    </div>
-                  </dd>
-                </div>
-                <div
-                  className="pf-c-description-list__group"
-                >
-                  <dt
-                    className="pf-c-description-list__term"
-                  >
-                    <span
-                      className="pf-c-description-list__text"
-                    >
-                      Namespace
-                       
-                    </span>
-                  </dt>
-                  <dd
-                    className="pf-c-description-list__description"
-                  >
-                    <div
-                      className="pf-c-description-list__text"
-                    >
-                      sample
-                    </div>
-                  </dd>
-                </div>
-                <div
-                  className="pf-c-description-list__group"
-                >
-                  <dt
-                    className="pf-c-description-list__term"
-                  >
-                    <span
-                      className="pf-c-description-list__text"
-                    >
-                      Created
-                       
-                    </span>
-                  </dt>
-                  <dd
-                    className="pf-c-description-list__description"
-                  >
-                    <div
-                      className="pf-c-description-list__text"
-                    >
-                      <div
-                        className="pf-c-skeleton loading-skeleton-text"
-                        style={
-                          Object {
-                            "--pf-c-skeleton--Height": undefined,
-                            "--pf-c-skeleton--Width": "30%",
-                          }
-                        }
-                      >
-                        <span
-                          className="pf-u-screen-reader"
-                        />
-                      </div>
-                    </div>
-                  </dd>
-                </div>
-              </dl>
-            </div>
-            <div
-              className="pf-l-grid__item"
-            >
-              <dl
-                className="pf-c-description-list pf-m-horizontal"
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+              <div
+                className="pf-l-grid__item"
               >
-                <div
-                  className="pf-c-description-list__group"
+                <dl
+                  className="pf-c-description-list pf-m-horizontal"
                 >
-                  <dt
-                    className="pf-c-description-list__term"
+                  <div
+                    className="pf-c-description-list__group"
                   >
-                    <span
-                      className="pf-c-description-list__text"
+                    <dt
+                      className="pf-c-description-list__term"
                     >
-                      Clusters
-                       
-                    </span>
-                  </dt>
-                  <dd
-                    className="pf-c-description-list__description"
-                  >
-                    <div
-                      className="pf-c-description-list__text"
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        Clusters
+                         
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
                     >
                       <div
-                        className="pf-c-skeleton loading-skeleton-text"
-                        style={
-                          Object {
-                            "--pf-c-skeleton--Height": undefined,
-                            "--pf-c-skeleton--Width": "30%",
-                          }
-                        }
+                        className="pf-c-description-list__text"
                       >
-                        <span
-                          className="pf-u-screen-reader"
-                        />
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </dd>
-                </div>
-                <div
-                  className="pf-c-description-list__group"
-                >
-                  <dt
-                    className="pf-c-description-list__term"
+                    </dd>
+                  </div>
+                  <div
+                    className="pf-c-description-list__group"
                   >
-                    <span
-                      className="pf-c-description-list__text"
+                    <dt
+                      className="pf-c-description-list__term"
                     >
-                      Cluster resource status
-                       
-                      <svg
-                        aria-hidden={true}
-                        aria-labelledby={null}
-                        className="resource-status-help-icon"
-                        fill="currentColor"
-                        height="1em"
-                        role="img"
-                        style={
-                          Object {
-                            "verticalAlign": "-0.125em",
-                          }
-                        }
-                        viewBox="0 0 512 512"
-                        width="1em"
+                      <span
+                        className="pf-c-description-list__text"
                       >
-                        <path
-                          d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
-                        />
-                      </svg>
-                    </span>
-                  </dt>
-                  <dd
-                    className="pf-c-description-list__description"
-                  >
-                    <div
-                      className="pf-c-description-list__text"
-                    >
-                      <div
-                        className="pf-c-skeleton loading-skeleton-text"
-                        style={
-                          Object {
-                            "--pf-c-skeleton--Height": undefined,
-                            "--pf-c-skeleton--Width": "30%",
+                        Cluster resource status
+                         
+                        <svg
+                          aria-hidden={true}
+                          aria-labelledby={null}
+                          className="resource-status-help-icon"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style={
+                            Object {
+                              "verticalAlign": "-0.125em",
+                            }
                           }
-                        }
-                      >
-                        <span
-                          className="pf-u-screen-reader"
-                        />
-                      </div>
-                    </div>
-                  </dd>
-                </div>
-                <div
-                  className="pf-c-description-list__group"
-                >
-                  <dt
-                    className="pf-c-description-list__term"
-                  >
-                    <span
-                      className="pf-c-description-list__text"
+                          viewBox="0 0 512 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
+                          />
+                        </svg>
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
                     >
                       <div
-                        className="pf-c-skeleton loading-skeleton-text"
-                        style={
-                          Object {
-                            "--pf-c-skeleton--Height": undefined,
-                            "--pf-c-skeleton--Width": "30%",
-                          }
-                        }
+                        className="pf-c-description-list__text"
                       >
-                        <span
-                          className="pf-u-screen-reader"
-                        />
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
                       </div>
-                       
-                    </span>
-                  </dt>
-                  <dd
-                    className="pf-c-description-list__description"
+                    </dd>
+                  </div>
+                  <div
+                    className="pf-c-description-list__group"
                   >
-                    <div
-                      className="pf-c-description-list__text"
+                    <dt
+                      className="pf-c-description-list__term"
+                    >
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                         
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
                     >
                       <div
-                        className="pf-c-skeleton loading-skeleton-text"
-                        style={
-                          Object {
-                            "--pf-c-skeleton--Height": undefined,
-                            "--pf-c-skeleton--Width": "30%",
-                          }
-                        }
+                        className="pf-c-description-list__text"
                       >
-                        <span
-                          className="pf-u-screen-reader"
-                        />
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </dd>
-                </div>
-              </dl>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
             </div>
           </div>
         </div>

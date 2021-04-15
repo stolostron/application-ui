@@ -465,7 +465,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const { params: { namespace, name }, location: { search } } = ownProps
   const searchItems = search ? new URLSearchParams(search) : undefined
   let cluster = 'local-cluster'
-  let apiVersion = 'app.k8s.io%2Fv1beta1'
+  let apiVersion = 'app.k8s.io/v1beta1'
   if (searchItems && searchItems.get('apiVersion')) {
     apiVersion = searchItems.get('apiVersion')
   }

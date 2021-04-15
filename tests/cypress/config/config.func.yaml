@@ -23,7 +23,7 @@ git:
     - enable: true
       name: ui-git
       type: git
-      successNumber: 3 #should have at least this many resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
+      successNumber: 0 #should have at least this many resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
       new: # used when we add new subscriptions after app creation
         - url: https://dummy/insecureSkipVerifyOption
           username: ""

@@ -16,7 +16,7 @@ import PropTypes from 'prop-types'
 import { AcmAlert } from '@open-cluster-management/ui-components'
 import SearchName from './viewer/SearchName'
 import TypeFilterBar, { setActiveTypeFilters } from './viewer/TypeFilterBar'
-import ResourceFilterModule from './viewer/ResourceFilterModule'
+import { ResourceFilterModule } from './viewer/ResourceFilterModule'
 import DiagramViewer from './viewer/DiagramViewer'
 import { getResourceDefinitions } from './viewer/defaults'
 import './scss/topology-details.scss'
@@ -26,6 +26,11 @@ import _ from 'lodash'
 
 class Topology extends React.Component {
   static propTypes = {
+    argoAppDetailsContainerControl: PropTypes.shape({
+      argoAppDetailsContainerData: PropTypes.object,
+      handleArgoAppDetailsContainerUpdate: PropTypes.func,
+      handleErrorMsg: PropTypes.func
+    }),
     channelControl: PropTypes.shape({
       allChannels: PropTypes.array,
       activeChannel: PropTypes.string,
@@ -172,7 +177,8 @@ class Topology extends React.Component {
       selectionControl = {},
       channelControl = {},
       processActionLink,
-      locale
+      locale,
+      argoAppDetailsContainerControl
     } = this.props
     const { isLoaded = true, isReloading = false } = fetchControl
     const { isChangingChannel = false } = channelControl
@@ -209,6 +215,7 @@ class Topology extends React.Component {
           showChannelsControl={showChannelsControl}
           showLegendView={showLegendView}
           handleLegendClose={handleLegendClose}
+          argoAppDetailsContainerControl={argoAppDetailsContainerControl}
         />
       </div>
     )

@@ -5,7 +5,7 @@ argo:
       name: helloworld-argo-app-1
       namespace: argocd
       type: git
-      successNumber: 0
+      successNumber: 3
       config:
         - url: https://github.com/fxiang1/app-samples.git
           resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
@@ -31,6 +31,7 @@ git:
           branch: master
           path: mortgagedc
           insecureSkipVerifyOption: true
+          disableAutoReconcileOption: true
           timeWindow:
             setting: true
             type: activeinterval
@@ -54,7 +55,9 @@ git:
           token: ""
           branch: master
           path: helloworld
+          commitHash: a95009282563d40521fe738b6e8ff1741bec528f
           gitReconcileOption: merge
+          repositoryReconcileRate: medium
           deployment:
             local: false
             online: false
@@ -65,6 +68,7 @@ git:
           token: ""
           branch: master
           path: mortgagepod
+          tag: v1.0
           timeWindow:
             setting: true
             type: activeinterval
@@ -164,6 +168,7 @@ helm:
           password: ""
           chartName: aerospike
           insecureSkipVerifyOption: true
+          disableAutoReconcileOption: true
           timeWindow:
             setting: true
             type: blockinterval
@@ -184,6 +189,7 @@ helm:
           chartName: redis
           packageAlias: redis
           packageVersion: 12.2.4
+          repositoryReconcileRate: medium
           deployment:
             local: false
             online: false

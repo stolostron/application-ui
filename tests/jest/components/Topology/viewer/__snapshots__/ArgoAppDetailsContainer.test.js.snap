@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ClusterDetailsContainer with no clusters renders as expected 1`] = `
+exports[`ArgoAppDetailsContainer with no apps renders as expected 1`] = `
 <div
-  className="clusterDetails"
+  className="appDetails"
 >
   <div
     className="pf-c-select"
@@ -20,14 +20,14 @@ exports[`ClusterDetailsContainer with no clusters renders as expected 1`] = `
       >
         <input
           aria-activedescendant={null}
-          aria-label="Find cluster"
+          aria-label="Find application"
           autoComplete="off"
           className="pf-c-form-control pf-c-select__toggle-typeahead"
           disabled={false}
           id="pf-select-toggle-id-0-select-typeahead"
           onChange={[Function]}
           onClick={[Function]}
-          placeholder="Find cluster"
+          placeholder="Find application"
           type="text"
           value=""
         />
@@ -36,7 +36,7 @@ exports[`ClusterDetailsContainer with no clusters renders as expected 1`] = `
         aria-expanded={false}
         aria-haspopup="listbox"
         aria-label="Options menu"
-        aria-labelledby="cluster-select-id-1 pf-select-toggle-id-0"
+        aria-labelledby="app-select-id-1 pf-select-toggle-id-0"
         className="pf-c-button pf-c-select__toggle-button pf-m-plain"
         disabled={false}
         id="pf-select-toggle-id-0"
@@ -79,9 +79,9 @@ exports[`ClusterDetailsContainer with no clusters renders as expected 1`] = `
 </div>
 `;
 
-exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
+exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
 <div
-  className="clusterDetails"
+  className="appDetails"
 >
   <div
     className="pf-c-select"
@@ -99,14 +99,14 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
       >
         <input
           aria-activedescendant={null}
-          aria-label="Find cluster"
+          aria-label="Find application"
           autoComplete="off"
           className="pf-c-form-control pf-c-select__toggle-typeahead"
           disabled={false}
           id="pf-select-toggle-id-1-select-typeahead"
           onChange={[Function]}
           onClick={[Function]}
-          placeholder="Find cluster"
+          placeholder="Find application"
           type="text"
           value=""
         />
@@ -115,7 +115,7 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
         aria-expanded={false}
         aria-haspopup="listbox"
         aria-label="Options menu"
-        aria-labelledby="cluster-select-id-1 pf-select-toggle-id-1"
+        aria-labelledby="app-select-id-1 pf-select-toggle-id-1"
         className="pf-c-button pf-c-select__toggle-button pf-m-plain"
         disabled={false}
         id="pf-select-toggle-id-1"
@@ -156,7 +156,7 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
     className="pf-c-accordion"
   >
     <div
-      className="clusterDetailItem"
+      className="appDetailItem"
       style={
         Object {
           "borderBottom": "1px solid #D2D2D2",
@@ -168,30 +168,13 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
         <button
           aria-expanded={false}
           className="pf-c-accordion__toggle"
-          id="argo-fxiang-eks"
+          id="test1"
           onClick={[Function]}
         >
           <span
             className="pf-c-accordion__toggle-text"
           >
-            <svg
-              fill="#3E8635"
-              height="12px"
-              width="12px"
-            >
-              <use
-                className="label-icon"
-                href="#diagramIcons_checkmark"
-              />
-            </svg>
-            <span
-              style={
-                Object {
-                  "paddingRight": "10px",
-                }
-              }
-            />
-            argo-fxiang-eks
+            test1
           </span>
           <span
             className="pf-c-accordion__toggle-icon"
@@ -229,22 +212,43 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
           <span
             style={
               Object {
-                "color": "#5A6872",
                 "display": "block",
-                "fontFamily": "RedHatText",
-                "fontSize": "12px",
-                "lineHeight": "21px",
-                "textAlign": "left",
               }
             }
           >
-            Namespace: undefined
+            <span
+              className="link sectionLabel"
+              id="linkForNodeAction"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              tabIndex="0"
+            >
+              Launch Argo editor
+              <svg
+                height="8px"
+                style={
+                  Object {
+                    "marginLeft": "9px",
+                  }
+                }
+                width="11px"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_carbonLaunch"
+                />
+              </svg>
+            </span>
           </span>
+          <div
+            className="spacer"
+          />
           <span
             className="label sectionLabel"
             style={
               Object {
-                "fontSize": "1rem",
+                "fontSize": "0.75rem",
                 "paddingLeft": "1rem",
               }
             }
@@ -254,468 +258,6 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
           <div
             className="spacer"
           />
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Name
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              argo-fxiang-eks
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Namespace
-              :
-               
-            </span>
-            <span
-              className="value"
-            />
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Status
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              ok
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              CPU
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              100
-              %
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Memory
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              100
-              %
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Created
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="spacer"
-          />
-        </div>
-      </dd>
-      <span
-        style={
-          Object {
-            "color": "#5A6872",
-            "display": "block",
-            "fontFamily": "RedHatText",
-            "fontSize": "12px",
-            "lineHeight": "21px",
-            "textAlign": "left",
-          }
-        }
-      >
-        Namespace: undefined
-      </span>
-    </div>
-    <div
-      className="clusterDetailItem"
-      style={
-        Object {
-          "borderBottom": "1px solid #D2D2D2",
-        }
-      }
-    >
-      <dt>
-        <button
-          aria-expanded={false}
-          className="pf-c-accordion__toggle"
-          id="fxiang-eks"
-          onClick={[Function]}
-        >
-          <span
-            className="pf-c-accordion__toggle-text"
-          >
-            <svg
-              fill="#3E8635"
-              height="12px"
-              width="12px"
-            >
-              <use
-                className="label-icon"
-                href="#diagramIcons_checkmark"
-              />
-            </svg>
-            <span
-              style={
-                Object {
-                  "paddingRight": "10px",
-                }
-              }
-            />
-            fxiang-eks
-          </span>
-          <span
-            className="pf-c-accordion__toggle-icon"
-          >
-            <svg
-              aria-hidden={true}
-              aria-labelledby={null}
-              fill="currentColor"
-              height="1em"
-              role="img"
-              style={
-                Object {
-                  "verticalAlign": "-0.125em",
-                }
-              }
-              viewBox="0 0 256 512"
-              width="1em"
-            >
-              <path
-                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
-              />
-            </svg>
-          </span>
-        </button>
-      </dt>
-      <dd
-        aria-label=""
-        className="pf-c-accordion__expanded-content"
-        hidden={true}
-        id=""
-      >
-        <div
-          className="pf-c-accordion__expanded-content-body"
-        >
-          <span
-            style={
-              Object {
-                "color": "#5A6872",
-                "display": "block",
-                "fontFamily": "RedHatText",
-                "fontSize": "12px",
-                "lineHeight": "21px",
-                "textAlign": "left",
-              }
-            }
-          >
-            Namespace: fxiang-eks
-          </span>
-          <span
-            className="label sectionLabel"
-            style={
-              Object {
-                "fontSize": "1rem",
-                "paddingLeft": "1rem",
-              }
-            }
-          >
-            Details
-          </span>
-          <div
-            className="spacer"
-          />
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Name
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              fxiang-eks
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Namespace
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              fxiang-eks
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Status
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              ok
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              CPU
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              3
-              %
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Memory
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              13
-              %
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Created
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="spacer"
-          />
-        </div>
-      </dd>
-      <span
-        style={
-          Object {
-            "color": "#5A6872",
-            "display": "block",
-            "fontFamily": "RedHatText",
-            "fontSize": "12px",
-            "lineHeight": "21px",
-            "textAlign": "left",
-          }
-        }
-      >
-        Namespace: fxiang-eks
-      </span>
-    </div>
-    <div
-      className="clusterDetailItem"
-      style={
-        Object {
-          "borderBottom": "1px solid #D2D2D2",
-        }
-      }
-    >
-      <dt>
-        <button
-          aria-expanded={false}
-          className="pf-c-accordion__toggle"
-          id="vbirsan1-remote"
-          onClick={[Function]}
-        >
-          <span
-            className="pf-c-accordion__toggle-text"
-          >
-            <svg
-              fill="#3E8635"
-              height="12px"
-              width="12px"
-            >
-              <use
-                className="label-icon"
-                href="#diagramIcons_checkmark"
-              />
-            </svg>
-            <span
-              style={
-                Object {
-                  "paddingRight": "10px",
-                }
-              }
-            />
-            vbirsan1-remote
-          </span>
-          <span
-            className="pf-c-accordion__toggle-icon"
-          >
-            <svg
-              aria-hidden={true}
-              aria-labelledby={null}
-              fill="currentColor"
-              height="1em"
-              role="img"
-              style={
-                Object {
-                  "verticalAlign": "-0.125em",
-                }
-              }
-              viewBox="0 0 256 512"
-              width="1em"
-            >
-              <path
-                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
-              />
-            </svg>
-          </span>
-        </button>
-      </dt>
-      <dd
-        aria-label=""
-        className="pf-c-accordion__expanded-content"
-        hidden={true}
-        id=""
-      >
-        <div
-          className="pf-c-accordion__expanded-content-body"
-        >
-          <span
-            style={
-              Object {
-                "color": "#5A6872",
-                "display": "block",
-                "fontFamily": "RedHatText",
-                "fontSize": "12px",
-                "lineHeight": "21px",
-                "textAlign": "left",
-              }
-            }
-          >
-            Namespace: vbirsan1-remote
-          </span>
-          <span
-            className="label sectionLabel"
-            style={
-              Object {
-                "fontSize": "1rem",
-                "paddingLeft": "1rem",
-              }
-            }
-          >
-            Details
-          </span>
-          <div
-            className="spacer"
-          />
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Name
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              vbirsan1-remote
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Namespace
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              vbirsan1-remote
-            </span>
-          </div>
           <div
             className="sectionContent borderLeft"
           >
@@ -727,7 +269,7 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
               role="button"
               tabIndex="0"
             >
-              Open cluster console
+              View Resource YAML
               <svg
                 height="8px"
                 style={
@@ -750,14 +292,14 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
             <span
               className="label sectionLabel"
             >
-              Status
+              Created on
               :
                
             </span>
             <span
               className="value"
             >
-              ok
+              local-cluster
             </span>
           </div>
           <div
@@ -766,15 +308,14 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
             <span
               className="label sectionLabel"
             >
-              CPU
+              Destination cluster
               :
                
             </span>
             <span
               className="value"
             >
-              8
-              %
+              cluster1
             </span>
           </div>
           <div
@@ -783,32 +324,13 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
             <span
               className="label sectionLabel"
             >
-              Memory
+              Destination namespace
               :
                
             </span>
             <span
               className="value"
-            >
-              4
-              %
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Created
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              -
-            </span>
+            />
           </div>
           <div
             className="spacer"
@@ -818,16 +340,248 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
       <span
         style={
           Object {
-            "color": "#5A6872",
             "display": "block",
-            "fontFamily": "RedHatText",
-            "fontSize": "12px",
-            "lineHeight": "21px",
-            "textAlign": "left",
           }
         }
       >
-        Namespace: vbirsan1-remote
+        <span
+          className="link sectionLabel"
+          id="linkForNodeAction"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          Launch Argo editor
+          <svg
+            height="8px"
+            style={
+              Object {
+                "marginLeft": "9px",
+              }
+            }
+            width="11px"
+          >
+            <use
+              className="label-icon"
+              href="#diagramIcons_carbonLaunch"
+            />
+          </svg>
+        </span>
+      </span>
+    </div>
+    <div
+      className="appDetailItem"
+      style={
+        Object {
+          "borderBottom": "1px solid #D2D2D2",
+        }
+      }
+    >
+      <dt>
+        <button
+          aria-expanded={false}
+          className="pf-c-accordion__toggle"
+          id="test2"
+          onClick={[Function]}
+        >
+          <span
+            className="pf-c-accordion__toggle-text"
+          >
+            test2
+          </span>
+          <span
+            className="pf-c-accordion__toggle-icon"
+          >
+            <svg
+              aria-hidden={true}
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+              />
+            </svg>
+          </span>
+        </button>
+      </dt>
+      <dd
+        aria-label=""
+        className="pf-c-accordion__expanded-content"
+        hidden={true}
+        id=""
+      >
+        <div
+          className="pf-c-accordion__expanded-content-body"
+        >
+          <span
+            style={
+              Object {
+                "display": "block",
+              }
+            }
+          >
+            <span
+              className="link sectionLabel"
+              id="linkForNodeAction"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              tabIndex="0"
+            >
+              Launch Argo editor
+              <svg
+                height="8px"
+                style={
+                  Object {
+                    "marginLeft": "9px",
+                  }
+                }
+                width="11px"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_carbonLaunch"
+                />
+              </svg>
+            </span>
+          </span>
+          <div
+            className="spacer"
+          />
+          <span
+            className="label sectionLabel"
+            style={
+              Object {
+                "fontSize": "0.75rem",
+                "paddingLeft": "1rem",
+              }
+            }
+          >
+            Details
+          </span>
+          <div
+            className="spacer"
+          />
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="link sectionLabel"
+              id="linkForNodeAction"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              tabIndex="0"
+            >
+              View Resource YAML
+              <svg
+                height="8px"
+                style={
+                  Object {
+                    "marginLeft": "9px",
+                  }
+                }
+                width="11px"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_carbonLaunch"
+                />
+              </svg>
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Created on
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              local-cluster
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Destination cluster
+              :
+               
+            </span>
+            <span
+              className="value"
+            >
+              cluster2
+            </span>
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Destination namespace
+              :
+               
+            </span>
+            <span
+              className="value"
+            />
+          </div>
+          <div
+            className="spacer"
+          />
+        </div>
+      </dd>
+      <span
+        style={
+          Object {
+            "display": "block",
+          }
+        }
+      >
+        <span
+          className="link sectionLabel"
+          id="linkForNodeAction"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          Launch Argo editor
+          <svg
+            height="8px"
+            style={
+              Object {
+                "marginLeft": "9px",
+              }
+            }
+            width="11px"
+          >
+            <use
+              className="label-icon"
+              href="#diagramIcons_carbonLaunch"
+            />
+          </svg>
+        </span>
       </span>
     </div>
   </dl>

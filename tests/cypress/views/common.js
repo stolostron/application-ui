@@ -525,6 +525,8 @@ export const verifyApplicationData = (name, data, opType) => {
             prSectionId,
             existingRuleId,
             reconcileKey,
+            commitHashKey,
+            tagKey,
             matchingLabelId,
             onlineId,
             localClusterId
@@ -534,6 +536,8 @@ export const verifyApplicationData = (name, data, opType) => {
               prSectionId: "#clustersection-select-clusters-to-deploy-to",
               existingRuleId: "#existingrule-checkbox",
               reconcileKey: "#gitReconcileOption",
+              commitHashKey: "#gitDesiredCommit",
+              tagKey: "#gitTag",
               matchingLabelId: "#clusterSelector-checkbox-clusterSelector",
               onlineId: "#online-cluster-only-checkbox",
               localClusterId: "#local-cluster-checkbox"
@@ -544,17 +548,68 @@ export const verifyApplicationData = (name, data, opType) => {
           cy.get(channelSectionId).click();
           if (data.type == "git") {
             cy.log(`Verify Git reconcile option for ${name}`);
-            item.gitReconcileOption &&
-              cy
-                .get(reconcileKey)
-                .invoke("val")
-                .should("eq", item.gitReconcileOption);
+            if (!item.disableAutoReconcileOption) {
+              item.gitReconcileOption &&
+                cy
+                  .get(reconcileKey)
+                  .invoke("val")
+                  .should("eq", item.gitReconcileOption);
 
-            !item.gitReconcileOption &&
+              !item.gitReconcileOption &&
+                cy
+                  .get(reconcileKey)
+                  .invoke("val")
+                  .should("eq", "merge"); //default is merge
+            } else {
+              cy.log(
+                `Git reconcile option for ${name} is hidden because auto-reconcilation is disabled`
+              );
+            }
+
+            cy.log(`Verify Git commit hash and tag for ${name}`);
+            item.commitHash &&
               cy
-                .get(reconcileKey)
+                .get(commitHashKey)
                 .invoke("val")
-                .should("eq", "merge"); //default is merge
+                .should("eq", item.commitHash);
+            item.tag &&
+              cy
+                .get(tagKey)
+                .invoke("val")
+                .should("eq", item.tag);
+          }
+
+          if (data.type == "git" || data.type == "helm") {
+            const { reconcileRate, subReconcileRate } = indexedCSS(
+              {
+                reconcileRate: `#${data.type}ReconcileRate`,
+                subReconcileRate: `#${data.type}SubReconcileRate`
+              },
+              key
+            );
+
+            cy.log(`Verify reconcile rate for ${name}`);
+            item.repositoryReconcileRate &&
+              cy
+                .get(reconcileRate)
+                .invoke("val")
+                .should("eq", item.repositoryReconcileRate);
+
+            !item.repositoryReconcileRate &&
+              cy
+                .get(reconcileRate)
+                .invoke("val")
+                .should("eq", "medium"); //default is medium
+
+            cy.log(`Verify auto reconcilation option for ${name}`);
+            item.disableAutoReconcileOption &&
+              cy
+                .get(subReconcileRate, { timeout: 20 * 1000 })
+                .should("be.checked");
+            !item.disableAutoReconcileOption &&
+              cy
+                .get(subReconcileRate, { timeout: 20 * 1000 })
+                .should("not.be.checked");
           }
 
           const { deployment } = item;
@@ -922,6 +977,7 @@ export const testInvalidApplicationInput = () => {
 
   cy
     .get("#githubURL", { timeout: 20 * 1000 })
+    .scrollIntoView()
     .type(invalidValue)
     .blur();
 
@@ -967,11 +1023,13 @@ export const testInvalidApplicationInput = () => {
   cy.log("Test invalid HELM url");
   cy
     .get("#git")
+    .last()
     .click()
     .trigger("mouseover");
 
   cy
     .get("#helm")
+    .last()
     .click()
     .trigger("mouseover");
 
@@ -1119,7 +1177,7 @@ export const validateDefect7696 = name => {
 
   cy.log("Select Editor tab");
   cy
-    .get("[data-ouia-component-id=OUIA-Generated-NavItem-2]", {
+    .get("[data-ouia-component-id=OUIA-Generated-NavItem-9]", {
       timeout: 20 * 1000
     })
     .click();
@@ -1153,7 +1211,7 @@ export const validateDefect7696 = name => {
     "move back to topology view and check resources still show up - defect 7696"
   );
   cy
-    .get("[data-ouia-component-id=OUIA-Generated-NavItem-1]", {
+    .get("[data-ouia-component-id=OUIA-Generated-NavItem-8]", {
       timeout: 20 * 1000
     })
     .click();

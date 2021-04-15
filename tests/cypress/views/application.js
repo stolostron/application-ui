@@ -56,9 +56,13 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     token,
     branch,
     path,
+    commitHash,
+    tag,
     timeWindow,
     deployment,
     gitReconcileOption,
+    repositoryReconcileRate,
+    disableAutoReconcileOption,
     insecureSkipVerifyOption
   } = value;
   cy.log(`gitTasks key=${key}, url=${url}, path=${path}`);
@@ -68,12 +72,17 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     gitKey,
     gitBranch,
     gitPath,
+    gitCommitHash,
+    gitTag,
     merge,
+    reconcileRate,
+    disableAutoReconcile,
     insecureSkipVerify
   } = gitCss;
 
   cy
     .get(`#git`)
+    .last()
     .scrollIntoView()
     .click()
     .trigger("mouseover");
@@ -105,11 +114,29 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     .type(path, { timeout: 30 * 1000 })
     .blur();
 
+  commitHash &&
+    cy
+      .get(gitCommitHash, { timeout: 20 * 1000 })
+      .type(commitHash, { timeout: 30 * 1000 })
+      .blur();
+
+  tag &&
+    cy
+      .get(gitTag, { timeout: 20 * 1000 })
+      .type(tag, { timeout: 30 * 1000 })
+      .blur();
+
   if (gitReconcileOption) {
     cy
       .get(merge)
       .type(gitReconcileOption)
       .blur();
+  }
+  if (repositoryReconcileRate) {
+    cy.get(reconcileRate).type(repositoryReconcileRate, { force: true });
+  }
+  if (disableAutoReconcileOption) {
+    cy.get(disableAutoReconcile).click({ force: true });
   }
   selectPrePostTasks(value, key);
   selectClusterDeployment(deployment, clusterName, key);
@@ -124,7 +151,9 @@ export const createHelm = (clusterName, configs, addOperation) => {
     helmChartName: "#helmChartName",
     helmPackageAlias: "#helmPackageAlias",
     helmPackageVersion: "#helmPackageVersion",
-    insecureSkipVerify: "#helmInsecureSkipVerify"
+    insecureSkipVerify: "#helmInsecureSkipVerify",
+    reconcileRate: "#helmReconcileRate",
+    disableAutoReconcile: "#helmSubReconcileRate"
   };
   if (addOperation) {
     //add new subscription to existing app
@@ -157,7 +186,9 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     packageVersion,
     timeWindow,
     deployment,
-    insecureSkipVerifyOption
+    insecureSkipVerifyOption,
+    repositoryReconcileRate,
+    disableAutoReconcileOption
   } = value;
   const {
     helmURL,
@@ -166,10 +197,13 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     helmChartName,
     helmPackageAlias,
     helmPackageVersion,
-    insecureSkipVerify
+    insecureSkipVerify,
+    reconcileRate,
+    disableAutoReconcile
   } = css;
   cy
     .get("#helm")
+    .last()
     .click()
     .trigger("mouseover");
   cy
@@ -197,6 +231,14 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
       .get(helmPackageVersion, { timeout: 20 * 1000 })
       .type(packageVersion)
       .blur();
+
+  if (repositoryReconcileRate) {
+    cy.get(reconcileRate).type(repositoryReconcileRate, { force: true });
+  }
+  if (disableAutoReconcileOption) {
+    cy.get(disableAutoReconcile).click({ force: true });
+  }
+
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
@@ -208,7 +250,11 @@ export const createGit = (clusterName, configs, addOperation) => {
     gitKey: "#githubAccessId",
     gitBranch: "#githubBranch",
     gitPath: "#githubPath",
+    gitCommitHash: "#gitDesiredCommit",
+    gitTag: "#gitTag",
     merge: "#gitReconcileOption",
+    reconcileRate: "#gitReconcileRate",
+    disableAutoReconcile: "#gitSubReconcileRate",
     insecureSkipVerify: "#gitInsecureSkipVerify"
   };
   if (addOperation) {
@@ -265,6 +311,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
   const { objUrl, objAccess, objSecret } = css;
   cy
     .get("#object-storage")
+    .last()
     .click()
     .trigger("mouseover");
   cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
@@ -401,7 +448,7 @@ export const validateTopology = (
     .invoke("attr", "href")
     .should(
       "include",
-      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${namespace}"}`
+      `search?filters={"textsearch":"kind%3Aapplication%20name%3A${name}%20namespace%3A${namespace}`
     );
 
   if (type === "argo") {

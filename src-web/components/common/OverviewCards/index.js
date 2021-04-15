@@ -107,7 +107,11 @@ class OverviewCards extends React.Component {
       locale
     } = this.props
     const { argoLinkLoading, showSubCards } = this.state
-
+    const items = _.get(HCMApplicationList, 'items', [])
+    const deployedCluster =
+      _.get(topology, 'activeFilters.application.cluster') ||
+      (items.length ? _.get(items[0], 'cluster') : null) ||
+      null
     if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
       const infoMessage = _.get(
         HCMApplicationList,
@@ -291,7 +295,7 @@ class OverviewCards extends React.Component {
           ]}
         />
         {appOverviewCardsData.isArgoApp && (
-          <Card>
+          <Card className="argo-links-container">
             <CardBody>
               <AcmActionGroup>
                 <AcmButton
@@ -305,7 +309,7 @@ class OverviewCards extends React.Component {
                   onClick={() =>
                     // launch a new tab to argocd route
                     openArgoCDEditor(
-                      appOverviewCardsData.clusterNames,
+                      deployedCluster,
                       selectedAppNS,
                       selectedAppName,
                       this.toggleArgoLinkLoading,
@@ -320,7 +324,14 @@ class OverviewCards extends React.Component {
                   )}
                 </AcmButton>
                 <AcmButton
-                  href={getUrl + appOverviewCardsData.targetLink}
+                  href={
+                    getUrl +
+                    this.getArgoSearchLink(
+                      selectedAppName,
+                      selectedAppNS,
+                      deployedCluster
+                    )
+                  }
                   variant={ButtonVariant.link}
                   id="app-search-link"
                   component="a"
@@ -390,6 +401,14 @@ class OverviewCards extends React.Component {
       </div>
     )
   }
+
+  getArgoSearchLink = (selectedAppName, selectedAppNS, deployedCluster) => {
+    return getSearchLinkForOneApplication({
+      name: encodeURIComponent(selectedAppName),
+      namespace: encodeURIComponent(selectedAppNS),
+      cluster: encodeURIComponent(deployedCluster)
+    })
+  };
 
   renderData = (checkData, showData, width) => {
     return checkData !== -1 ? (

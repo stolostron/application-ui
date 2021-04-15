@@ -12,10 +12,8 @@
 import React from 'react'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageList } from './common/ResourcePage'
-import {
-  AcmPageCard,
-  AcmTablePaginationContextProvider
-} from '@open-cluster-management/ui-components'
+import { AcmTablePaginationContextProvider } from '@open-cluster-management/ui-components'
+import { Card, CardBody, PageSection } from '@patternfly/react-core'
 
 const TypedResourcePageList = typedResourcePageList(
   RESOURCE_TYPES.QUERY_APPLICATIONS,
@@ -25,11 +23,15 @@ const TypedResourcePageList = typedResourcePageList(
 )
 
 const ApplicationsListPage = props => (
-  <AcmPageCard>
-    <AcmTablePaginationContextProvider localStorageKey="application-table-pagination">
-      <TypedResourcePageList {...props} />
-    </AcmTablePaginationContextProvider>
-  </AcmPageCard>
+  <PageSection>
+    <Card>
+      <CardBody>
+        <AcmTablePaginationContextProvider localStorageKey="application-table-pagination">
+          <TypedResourcePageList {...props} />
+        </AcmTablePaginationContextProvider>
+      </CardBody>
+    </Card>
+  </PageSection>
 )
 
 export default ApplicationsListPage

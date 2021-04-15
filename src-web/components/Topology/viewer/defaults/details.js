@@ -27,6 +27,7 @@ import {
   setClusterStatus
 } from '../../utils/diagram-helpers'
 import msgs from '../../../../../nls/platform.properties'
+import { kubeNaming } from './titles'
 
 const resName = 'resource.name'
 
@@ -146,7 +147,7 @@ function addK8Details(node, updatedNode, details, activeFilters) {
   const mainDetails = [
     {
       labelKey: 'resource.type',
-      value: ltype || type
+      value: kubeNaming(ltype) || kubeNaming(type)
     },
     {
       labelKey: 'resource.api.version',
@@ -259,6 +260,16 @@ function addK8Details(node, updatedNode, details, activeFilters) {
   addPropertyToList(
     mainDetails,
     getNodePropery(node, ['specs', 'raw', 'spec', 'source'], 'raw.spec.source')
+  )
+
+  //argo cd app status
+  addPropertyToList(
+    mainDetails,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'status', 'health', 'status'],
+      'raw.status.health.status'
+    )
   )
 
   addPropertyToList(

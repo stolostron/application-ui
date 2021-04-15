@@ -24,7 +24,18 @@ import queryString from 'query-string'
 import config from '../../lib/shared/config'
 import msgs from '../../nls/platform.properties'
 import ChannelLabels from '../components/common/ChannelLabels'
-import { Label, Split, SplitItem } from '@patternfly/react-core'
+import {
+  Button,
+  Label,
+  Split,
+  SplitItem,
+  Tooltip
+} from '@patternfly/react-core'
+import {
+  InfoCircleIcon,
+  OutlinedQuestionCircleIcon
+} from '@patternfly/react-icons'
+import _ from 'lodash'
 
 export default {
   defaultSortField: 'name',
@@ -34,6 +45,41 @@ export default {
   pluralKey: 'table.plural.application',
   emptyTitle: getEmptyTitle,
   emptyMessage: getEmptyMessage,
+  groupFn: item => {
+    if (isArgoApp(item)) {
+      const key = _.pick(item, ['repoURL', 'path', 'chart', 'targetRevision'])
+      if (!key.targetRevision) {
+        key.targetRevision = 'HEAD'
+      }
+      return JSON.stringify(key)
+    }
+    return null
+  },
+  groupSummaryFn: (items, locale) => {
+    if (items.length > 1) {
+      return {
+        cells: [
+          { title: createApplicationLink(items, locale) }, // pass full array for count
+          { title: '' }, // Empty Namespace
+          { title: createClustersLink(items, locale) }, // pass full array for all clusters
+          { title: createChannels(items[0], locale) },
+          { title: '' }, // Empty Time window
+          { title: '' } // Empty Created
+        ]
+      }
+    } else {
+      return {
+        cells: [
+          { title: createApplicationLink(items, locale) },
+          { title: createNamespaceText(items[0], locale) },
+          { title: createClustersLink(items[0], locale) },
+          { title: createChannels(items[0], locale) },
+          { title: getTimeWindow(items[0], locale) },
+          { title: getAge(items[0], locale) }
+        ]
+      }
+    }
+  },
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -60,7 +106,7 @@ export default {
       msgKey: 'table.header.resource',
       tooltipKey: 'table.header.application.resource.tooltip',
       resourceKey: 'hubChannels',
-      transformFunction: createChannels,
+      transformFunction: createChannelsRow,
       textFunction: createChannelsText
     },
     {
@@ -100,7 +146,7 @@ export default {
               name: item.name,
               namespace: item.namespace,
               cluster: item.cluster,
-              kind: item.kind,
+              kind: item.kind.toLowerCase(),
               apigroup,
               apiversion
             }
@@ -128,17 +174,49 @@ function getApplicationLink(item = {}, edit = false) {
 }
 
 export function createApplicationLink(item = {}, locale) {
-  const { name } = item
+  const group = Array.isArray(item)
+  const firstItem = group ? item[0] : item
+  const { name, cluster } = firstItem
+  const remoteClusterString =
+    cluster !== 'local-cluster' &&
+    ((group && item.length == 1) || (!group && isArgoApp(item)))
+      ? msgs.get('application.remote.cluster', [cluster], locale)
+      : undefined
   return (
     <Split hasGutter style={{ alignItems: 'baseline' }}>
       <SplitItem align="baseline">
-        <Link to={getApplicationLink(item)}>{name}</Link>
+        <Link to={getApplicationLink(firstItem)}>{name}</Link>
       </SplitItem>
-      {isArgoApp(item) && (
+      {group &&
+        isArgoApp(item[0]) && (
+          <SplitItem>
+            {item.length > 1 ? (
+              <Tooltip
+                position="top"
+                content={msgs.get('application.argo.group', locale)}
+              >
+                <Label icon={<InfoCircleIcon />} color="blue">
+                  {msgs.get('dashboard.card.overview.cards.argo.app', locale)} ({
+                    item.length
+                  })
+                </Label>
+              </Tooltip>
+            ) : (
+              <Label color="blue">
+                {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
+              </Label>
+            )}
+          </SplitItem>
+      )}
+      {remoteClusterString && (
         <SplitItem>
-          <Label color="blue">
-            {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
-          </Label>
+          <Tooltip position="top" content={remoteClusterString}>
+            <span className="pf-c-table__column-help-action">
+              <Button variant="plain" aria-label={remoteClusterString}>
+                <OutlinedQuestionCircleIcon />
+              </Button>
+            </span>
+          </Tooltip>
         </SplitItem>
       )}
     </Split>
@@ -157,24 +235,46 @@ function getClusterCounts(item) {
 }
 
 function createClustersLink(item = {}, locale = '') {
-  if (isArgoApp(item)) {
-    return item.destinationCluster ? (
-      <a
-        className="cluster-count-link"
-        href={getSearchLink({
-          properties: {
-            name: item.destinationCluster,
-            kind: 'cluster'
-          }
-        })}
-      >
-        {item.destinationCluster}
+  const multiArgo = Array.isArray(item)
+  if (!multiArgo && isArgoApp(item)) {
+    let link
+    if (item.destinationCluster) {
+      link = getSearchLink({
+        properties: {
+          name: item.destinationCluster,
+          kind: 'cluster'
+        }
+      })
+    }
+    const clusterText =
+      item.destinationCluster || msgs.get('cluster.name.unknown', locale)
+    return link ? (
+      <a className="cluster-count-link" href={link}>
+        {clusterText}
       </a>
     ) : (
-      msgs.get('cluster.name.unknown', locale)
+      clusterText
     )
   }
-  const { remoteCount, localPlacement } = getClusterCounts(item)
+
+  const [apigroup] = (multiArgo ? item[0] : item).apiVersion.split('/')
+  let remoteCount, localPlacement, clusterNames
+  if (multiArgo) {
+    const names = new Set()
+    item.forEach(i => {
+      if (i.destinationCluster) {
+        names.add(i.destinationCluster)
+      }
+    })
+    clusterNames = Array.from(names)
+    localPlacement = clusterNames.includes('local-cluster')
+    remoteCount = clusterNames.length - (localPlacement ? 1 : 0)
+  } else {
+    const clusterCounts = getClusterCounts(item)
+    localPlacement = clusterCounts.localPlacement
+    remoteCount = clusterCounts.remoteCount
+  }
+
   return getClusterCount({
     locale,
     remoteCount,
@@ -182,7 +282,8 @@ function createClustersLink(item = {}, locale = '') {
     name: item.name,
     namespace: item.namespace,
     kind: 'application',
-    apigroup: 'app.k8s.io'
+    apigroup,
+    clusterNames
   })
 }
 
@@ -210,7 +311,7 @@ function getChannels(item = {}) {
         pathname: item.repoURL,
         gitPath: item.path,
         chart: item.chart,
-        targetRevision: item.targetRevision
+        targetRevision: item.targetRevision || 'HEAD'
       }
     ]
   }
@@ -233,6 +334,10 @@ function createChannels(item = {}, locale = '') {
       isArgoApp={isArgoApp(item)}
     />
   )
+}
+
+function createChannelsRow(item = {}, locale = '') {
+  return !isArgoApp(item) ? createChannels(item, locale) : null
 }
 
 function createChannelsText(item = {}, locale = '') {

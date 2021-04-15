@@ -107,11 +107,7 @@ class OverviewCards extends React.Component {
       locale
     } = this.props
     const { argoLinkLoading, showSubCards } = this.state
-    const items = _.get(HCMApplicationList, 'items', [])
-    const deployedCluster =
-      _.get(topology, 'activeFilters.application.cluster') ||
-      (items.length ? _.get(items[0], 'cluster') : null) ||
-      null
+    const cluster = _.get(topology, 'activeFilters.application.cluster')
     if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
       const infoMessage = _.get(
         HCMApplicationList,
@@ -309,7 +305,7 @@ class OverviewCards extends React.Component {
                   onClick={() =>
                     // launch a new tab to argocd route
                     openArgoCDEditor(
-                      deployedCluster,
+                      cluster,
                       selectedAppNS,
                       selectedAppName,
                       this.toggleArgoLinkLoading,
@@ -329,7 +325,7 @@ class OverviewCards extends React.Component {
                     this.getArgoSearchLink(
                       selectedAppName,
                       selectedAppNS,
-                      deployedCluster
+                      cluster
                     )
                   }
                   variant={ButtonVariant.link}
@@ -402,11 +398,11 @@ class OverviewCards extends React.Component {
     )
   }
 
-  getArgoSearchLink = (selectedAppName, selectedAppNS, deployedCluster) => {
+  getArgoSearchLink = (selectedAppName, selectedAppNS, cluster) => {
     return getSearchLinkForOneApplication({
       name: encodeURIComponent(selectedAppName),
       namespace: encodeURIComponent(selectedAppNS),
-      cluster: encodeURIComponent(deployedCluster)
+      cluster: encodeURIComponent(cluster)
     })
   };
 

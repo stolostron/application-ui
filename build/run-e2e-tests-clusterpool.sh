@@ -47,10 +47,10 @@ fold_start cp-lock "ClusterPool Lock"
 
 LOCK_ID="travis-${TRAVIS_JOB_ID}"
 oc login --token $CLUSTERPOOL_TOKEN $CLUSTERPOOL_CLUSTER --insecure-skip-tls-verify
-ck lock -i $LOCK_ID $CLUSTERPOOL_HUB
-ck lock -i $LOCK_ID $CLUSTERPOOL_MANAGED
-ck run -f $CLUSTERPOOL_MANAGED
-ck use -f $CLUSTERPOOL_HUB
+ck lock -i $LOCK_ID $CLUSTERPOOL_HUB2
+ck lock -i $LOCK_ID $CLUSTERPOOL_MANAGED2
+ck run -f $CLUSTERPOOL_MANAGED2
+ck use -f $CLUSTERPOOL_HUB2
 
 fold_end cp-lock
 
@@ -59,7 +59,7 @@ fold_end cp-lock
 ###############################################################################
 fold_start test-setup "Test Setup"
 
-HUB_CREDS=$(ck creds -f $CLUSTERPOOL_HUB)
+HUB_CREDS=$(ck creds -f $CLUSTERPOOL_HUB2)
 export OC_CLUSTER_URL=$(echo $HUB_CREDS | jq -r '.api_url')
 export OC_CLUSTER_USER=$(echo $HUB_CREDS | jq -r '.username')
 export OC_CLUSTER_PASS=$(echo $HUB_CREDS | jq -r '.password')
@@ -70,7 +70,7 @@ OAUTH_POD=$(oc -n openshift-authentication get pods -o jsonpath='{.items[0].meta
 export OC_CLUSTER_INGRESS_CA=/certificates/ingress-ca.crt
 oc rsh -n openshift-authentication $OAUTH_POD cat /run/secrets/kubernetes.io/serviceaccount/ca.crt > ${HOME}${OC_CLUSTER_INGRESS_CA}
 
-MANAGED_CREDS=$(ck creds -f $CLUSTERPOOL_MANAGED)
+MANAGED_CREDS=$(ck creds -f $CLUSTERPOOL_MANAGED2)
 export CYPRESS_MANAGED_OCP_URL=$(echo $MANAGED_CREDS | jq -r '.api_url')
 export CYPRESS_MANAGED_OCP_USER=$(echo $MANAGED_CREDS | jq -r '.username')
 export CYPRESS_MANAGED_OCP_PASS=$(echo $MANAGED_CREDS | jq -r '.password')
@@ -123,8 +123,8 @@ fold_end cypress
 # ClusterPool Unlock
 ###############################################################################
 fold_start cp-unlock "ClusterPool Unlock"
-ck unlock -i $LOCK_ID $CLUSTERPOOL_HUB
-ck unlock -i $LOCK_ID $CLUSTERPOOL_MANAGED
+ck unlock -i $LOCK_ID $CLUSTERPOOL_HUB2
+ck unlock -i $LOCK_ID $CLUSTERPOOL_MANAGED2
 
 SLEEP_ON_DAY=6 # Saturday and Sunday
 SLEEP_BEFORE=7 # 7 am
@@ -140,8 +140,8 @@ then
   echo Attempting to hibernate clusters
   # Attempt to hibernate; do not force and ignore error in case still locked by others
   set +e
-  ck hibernate $CLUSTERPOOL_MANAGED
-  ck hibernate $CLUSTERPOOL_HUB
+  ck hibernate $CLUSTERPOOL_MANAGED2
+  ck hibernate $CLUSTERPOOL_HUB2
   set -e
 fi
 

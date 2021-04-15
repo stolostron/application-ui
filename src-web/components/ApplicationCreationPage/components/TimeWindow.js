@@ -404,7 +404,7 @@ export class TimeWindow extends React.Component {
     )
   };
 
-  getRegExp = () => new RegExp('\\b\\d\\d?:?[0-5]\\d\\s?([AaPp][Mm])?\\b');
+  getRegExp = () => new RegExp('^\\s*\\d\\d?:[0-5]\\d\\s*([AaPp][Mm])?\\s*$');
 
   validateTime = time => {
     // hours only valid if they are [0-12]
@@ -414,15 +414,30 @@ export class TimeWindow extends React.Component {
   };
 
   parseTime = time => {
+    const amSuffix = ' AM'
+    const pmSuffix = ' PM'
+    time = time.trim()
     if (time !== '' && this.validateTime(time)) {
-      if (
-        !time.toLowerCase().includes('am') &&
-        !time.toLowerCase().includes('pm')
-      ) {
-        return `${time}${new Date().getHours() > 11 ? 'pm' : 'am'}` // if currently morning append am, otherwise pm
+      // Format AM/PM according to design
+      let ampm = ''
+      if (time.toLowerCase().includes(amSuffix.toLowerCase().trim())) {
+        time = time
+          .toLowerCase()
+          .replace(amSuffix.toLowerCase().trim(), '')
+          .trim()
+        ampm = amSuffix
+      } else if (time.toLowerCase().includes(pmSuffix.toLowerCase().trim())) {
+        time = time
+          .toLowerCase()
+          .replace(pmSuffix.toLowerCase().trim(), '')
+          .trim()
+        ampm = pmSuffix
       } else {
-        return time.toLowerCase()
+        // if this 12 hour time is missing am/pm but otherwise valid,
+        // append am/pm depending on time of day
+        ampm = new Date().getHours() > 11 ? pmSuffix : amSuffix
       }
+      return `${time}${ampm}`
     } else {
       return ''
     }

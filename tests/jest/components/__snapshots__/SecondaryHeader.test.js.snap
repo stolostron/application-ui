@@ -1,6 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SecondaryHeader component 1 renders as expected 1`] = `
+exports[`SecondaryHeader component 1 renders as expected with window size < 1200 1`] = `
+<div
+  aria-label="hello world secondary"
+  className="secondary-header-wrapper-min"
+  role="region"
+>
+  <div
+    className="secondary-header simple-header"
+  >
+    <h1>
+      hello world
+    </h1>
+  </div>
+</div>
+`;
+
+exports[`SecondaryHeader component 1 renders as expected with window size > 1200 1`] = `
+<div
+  aria-label="hello world secondary"
+  className="secondary-header-wrapper-min"
+  role="region"
+>
+  <div
+    className="secondary-header simple-header"
+  >
+    <h1>
+      hello world
+    </h1>
+  </div>
+</div>
+`;
+
+exports[`SecondaryHeader component 1 renders as expected with window size > 1200, navBar is not expanded 1`] = `
 <div
   aria-label="hello world secondary"
   className="secondary-header-wrapper-min"

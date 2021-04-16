@@ -11,15 +11,7 @@
 @import 'variables';
 
 .secondary-header {
-  display: flex;
-  flex-direction: column;
   position: fixed;
-  // comment position: fixed will give you a ui where menu bar working fine
-  // although we should make it at a fixed position to stick the secondary header to the top
-
-  top: calc(1rem + var(--pf-c-page__header--Height));
-  right: 0;
-  left:  var(--pf-c-page__sidebar--Width);
   border-bottom: 1px solid var(--pf-global--BorderColor--100);
 
   .pf-c-divider {

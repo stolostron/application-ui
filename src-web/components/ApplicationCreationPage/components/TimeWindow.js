@@ -414,8 +414,8 @@ export class TimeWindow extends React.Component {
   };
 
   parseTime = time => {
-    const amSuffix = ' AM'
-    const pmSuffix = ' PM'
+    const amSuffix = 'AM'
+    const pmSuffix = 'PM'
     time = time.trim()
     if (time !== '' && this.validateTime(time)) {
       // Format AM/PM according to design

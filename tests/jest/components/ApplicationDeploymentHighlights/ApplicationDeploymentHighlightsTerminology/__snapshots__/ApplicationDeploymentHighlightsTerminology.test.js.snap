@@ -4,54 +4,69 @@ exports[`ApplicationDeploymentHighlightsTerminology ApplicationDeploymentHighlig
 <div
   id="ApplicationDeploymentHighlightsTerminology"
 >
-  <dl
-    aria-label=""
-    className="pf-c-accordion"
+  <article
+    className="pf-c-card pf-m-expanded"
+    data-ouia-component-id="OUIA-Generated-Card-1"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe={true}
+    id=""
   >
-    <dt>
-      <button
-        aria-expanded={true}
-        className="pf-c-accordion__toggle pf-m-expanded"
-        id="terminology-header"
-        onClick={[Function]}
-      >
-        <span
-          className="pf-c-accordion__toggle-text"
-        >
-          Learn more about the terminology
-        </span>
-        <span
-          className="pf-c-accordion__toggle-icon"
-        >
-          <svg
-            aria-hidden={true}
-            aria-labelledby={null}
-            fill="currentColor"
-            height="1em"
-            role="img"
-            style={
-              Object {
-                "verticalAlign": "-0.125em",
-              }
-            }
-            viewBox="0 0 256 512"
-            width="1em"
-          >
-            <path
-              d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
-            />
-          </svg>
-        </span>
-      </button>
-    </dt>
-    <dd
-      aria-label=""
-      className="pf-c-accordion__expanded-content pf-m-expanded"
-      hidden={false}
-      id=""
+    <div
+      className="pf-c-card__header makeStyles-header-1 makeStyles-headerExpanded-2"
+      onClick={[Function]}
     >
       <div
-        className="pf-c-accordion__expanded-content-body"
+        className="pf-c-card__header-toggle"
+      >
+        <button
+          aria-disabled={false}
+          aria-expanded={true}
+          aria-label="Toggle details"
+          className="pf-c-button pf-m-plain"
+          data-ouia-component-id="OUIA-Generated-Button-plain-1"
+          data-ouia-component-type="PF4/Button"
+          data-ouia-safe={true}
+          disabled={false}
+          id="toggle-button"
+          onClick={[Function]}
+          role={null}
+          type="button"
+        >
+          <span
+            className="pf-c-card__header-toggle-icon"
+          >
+            <svg
+              aria-hidden="true"
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+              />
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div
+        className="pf-c-card__title"
+      >
+        Learn more about the terminology
+      </div>
+    </div>
+    <div
+      className="pf-c-card__expandable-content makeStyles-body-3"
+    >
+      <div
+        className="pf-c-card__body"
       >
         <div
           className="terminology-item"
@@ -130,7 +145,7 @@ exports[`ApplicationDeploymentHighlightsTerminology ApplicationDeploymentHighlig
           </a>
         </div>
       </div>
-    </dd>
-  </dl>
+    </div>
+  </article>
 </div>
 `;

@@ -20,7 +20,6 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Application Creatio
     for (const type in config) {
       if (type == "git") {
         const apps = config[type].data;
-        // console.log(apps)
         apps.forEach(data => {
           if (data.enable && data.config.length > 1) {
             if (data.config)

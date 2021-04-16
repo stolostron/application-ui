@@ -598,13 +598,22 @@ export const validateAppTableMenu = (name, resourceTable) => {
   });
 };
 
-export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
+export const validateResourceTable = (
+  name,
+  data,
+  type,
+  numberOfRemoteClusters,
+  namespace
+) => {
+  if (!namespace) {
+    namespace = getNamespace(name);
+  }
   cy.visit(`/multicloud/applications`);
   cy.get(".search-query-card-loading").should("not.exist", {
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
-  const resourceKey = getResourceKey(name, getNamespace(name));
+  const resourceKey = getResourceKey(name, namespace);
   resourceTable.rowShouldExist(name, resourceKey, 60 * 1000);
 
   //validate content
@@ -612,15 +621,28 @@ export const validateResourceTable = (name, data, numberOfRemoteClusters) => {
     resourceTable
       .getCell("Name")
       .invoke("text")
-      .should("eq", name)
+      .should("include", name)
   );
 
-  resourceTable.getRow(name, resourceKey).within(() =>
-    resourceTable
-      .getCell("Namespace")
-      .invoke("text")
-      .should("eq", `${name}-ns`)
-  );
+  if (type === "argo") {
+    // validate that argo icon exists
+    resourceTable.getRow(type, resourceKey).within(() =>
+      resourceTable
+        .getCell("Name")
+        .invoke("text")
+        .should("include", type)
+    );
+  }
+
+  if (type !== "argo") {
+    // will remove the condition when #11363 is in
+    resourceTable.getRow(name, resourceKey).within(() =>
+      resourceTable
+        .getCell("Namespace")
+        .invoke("text")
+        .should("include", namespace)
+    );
+  }
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,

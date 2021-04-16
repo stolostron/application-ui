@@ -40,6 +40,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Te
           );
         });
         if (data.type == "git" && type !== "argo") {
+          // argocd applications does not have editor tab
           it("Verify defects 7696 and 8055", () => {
             validateDefect7696(data.name);
           });

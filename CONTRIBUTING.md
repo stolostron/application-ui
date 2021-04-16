@@ -40,6 +40,24 @@ order to be assigned an issue or pull request, you must be a member of the
 Repo maintainers can assign you an issue or pull request by leaving a
 `/assign <your Github ID>` comment on the issue or pull request.
 
+
+## Commtit sign-off 
+
+To commit your changes, you would need to sign off on your commit: 
+```
+git commit -s -m .... 
+```
+
+To amend a previous commit:
+```
+git commit --amend --signoff
+```
+
+You can also mass sign-off a whole pull request with 
+```
+git rebase --signoff ${YOUR_BRANCH_NAME}
+```
+
 ## Pre-check before submitting a PR
 
 After your PR is ready to commit, please run following commands to check your code.

@@ -67,13 +67,15 @@ Cypress.Commands.add("login", (idp, user, password) => {
 
 Cypress.Commands.add("logout", () => {
   cy.log("Attempt to logout existing user");
-  cy.get(".header-user-info-dropdown_icon").then($btn => {
-    //logout when test starts since we need to use the app idp user
-    cy.log("Logging out existing user");
-    cy.get($btn).click();
-    cy.contains("Log out").click();
-    // cy.clearCookies()
-  });
+  cy
+    .get("[data-ouia-component-id=OUIA-Generated-DropdownToggle-3]")
+    .then($btn => {
+      //logout when test starts since we need to use the app idp user
+      cy.log("Logging out existing user");
+      cy.get($btn).click();
+      cy.contains("Logout").click();
+      // cy.clearCookies()
+    });
 });
 
 Cypress.Commands.add("editYaml", file => {
@@ -304,24 +306,20 @@ Cypress.Commands.add("logInAsRole", role => {
 
   // login only if user is not looged In
   const logInIfRequired = () => {
-    cy.log(
-      ` SKIP THIS UNTIL WE FIX THE MAIN LOGIN -- Check if login is required for user ${user} with idp ${idp} `
-    );
-    /*
+    cy.log(` Check if login is required for user ${user} with idp ${idp} `);
     cy
-      .get(".header-user-info-dropdown")
+      .get("[data-ouia-component-id=OUIA-Generated-DropdownToggle-3]")
       .invoke("text")
       .then(text => {
         cy.log(`Logged in User ${text} expected ${users[role]}`);
         if (text == users[role]) {
-          cy.log(`Already Logged in as User $users[role]`);
+          cy.log(`Already Logged in as User ${users[role]}`);
         } else {
           cy.logout();
           cy.wait(5000);
           cy.login(idp, user, password);
         }
       });
-      */
   };
   cy.visit("/multicloud/applications");
   cy.get("body").then(body => {

@@ -273,8 +273,10 @@ class OverviewCards extends React.Component {
                             pathname: appOverviewCardsData.argoSource.repoURL,
                             gitPath: appOverviewCardsData.argoSource.path,
                             chart: appOverviewCardsData.argoSource.chart,
-                            targetRevision:
-                              appOverviewCardsData.argoSource.targetRevision
+                            targetRevision: appOverviewCardsData.argoSource
+                              .targetRevision
+                              ? appOverviewCardsData.argoSource.targetRevision
+                              : 'HEAD'
                           }
                         ]}
                         locale={locale}

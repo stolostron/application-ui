@@ -61,6 +61,15 @@ export class SecondaryHeader extends React.Component {
     }
   };
 
+  setHeaderWidth = (navBar, secHeader, navStatus) => {
+    secHeader.style.width =
+      window.innerWidth >= 1200
+        ? navBar.className.includes(navStatus)
+          ? 'calc(100% - var(--pf-c-page__sidebar--Width))'
+          : '100%'
+        : '100%'
+  };
+
   render() {
     const {
       tabs,
@@ -101,6 +110,25 @@ export class SecondaryHeader extends React.Component {
           <div id="edit-button-portal-id" />
         </div>
       )
+    }
+
+    const navToggle = document.querySelector('#nav-toggle')
+    const navBar = document.querySelector('.pf-c-page__sidebar')
+    const secHeader = document.querySelector('.secondary-header')
+
+    if (navToggle && navBar && secHeader) {
+      // set secondary header width on page load
+      this.setHeaderWidth(navBar, secHeader, 'pf-m-expanded')
+
+      // set secondary header on page resize
+      window.addEventListener('resize', () => {
+        this.setHeaderWidth(navBar, secHeader, 'pf-m-expanded')
+      })
+
+      // set secondary header width on nav bar toggle
+      navToggle.addEventListener('click', () => {
+        this.setHeaderWidth(navBar, secHeader, 'pf-m-collapsed')
+      })
     }
 
     if (

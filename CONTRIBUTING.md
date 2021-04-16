@@ -41,7 +41,7 @@ Repo maintainers can assign you an issue or pull request by leaving a
 `/assign <your Github ID>` comment on the issue or pull request.
 
 
-## Commtit sign-off 
+## Commit sign-off 
 
 To commit your changes, you would need to sign off on your commit: 
 ```

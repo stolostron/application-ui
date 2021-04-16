@@ -335,8 +335,11 @@ export const setArgoApplicationDeployStatus = (node, details) => {
     appStatusConditions
   ) {
     details.push({
-      labelKey: 'resource.rule.clusters.error.label',
-      value: msgs.get('resource.argo.application.error.msg'),
+      labelKey: 'resource.argo.application.health',
+      value: msgs.get('resource.argo.application.error.msg', [
+        _.get(node, 'name', ''),
+        appHealth
+      ]),
       status: failureStatus
     })
   }

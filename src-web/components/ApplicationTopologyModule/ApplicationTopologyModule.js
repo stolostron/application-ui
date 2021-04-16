@@ -464,8 +464,14 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { params: { namespace, name }, location: { search } } = ownProps
   const searchItems = search ? new URLSearchParams(search) : undefined
-  const apiVersion = searchItems ? searchItems.get('apiVersion') : undefined
-  const cluster = searchItems ? searchItems.get('cluster') : undefined
+  let cluster = 'local-cluster'
+  let apiVersion = 'app.k8s.io/v1beta1'
+  if (searchItems && searchItems.get('apiVersion')) {
+    apiVersion = searchItems.get('apiVersion')
+  }
+  if (searchItems && searchItems.get('cluster')) {
+    cluster = searchItems.get('cluster')
+  }
   return {
     resetFilters: () => {
       dispatch({

@@ -174,6 +174,23 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
           <span
             className="pf-c-accordion__toggle-text"
           >
+            <svg
+              fill="#F0AB00"
+              height="12px"
+              width="12px"
+            >
+              <use
+                className="label-icon"
+                href="#diagramIcons_warning"
+              />
+            </svg>
+            <span
+              style={
+                Object {
+                  "paddingRight": "10px",
+                }
+              }
+            />
             test1
           </span>
           <span
@@ -333,6 +350,20 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
             />
           </div>
           <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Status
+              :
+               
+            </span>
+            <span
+              className="value"
+            />
+          </div>
+          <div
             className="spacer"
           />
         </div>
@@ -388,6 +419,23 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
           <span
             className="pf-c-accordion__toggle-text"
           >
+            <svg
+              fill="#F0AB00"
+              height="12px"
+              width="12px"
+            >
+              <use
+                className="label-icon"
+                href="#diagramIcons_warning"
+              />
+            </svg>
+            <span
+              style={
+                Object {
+                  "paddingRight": "10px",
+                }
+              }
+            />
             test2
           </span>
           <span
@@ -539,6 +587,20 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
               className="label sectionLabel"
             >
               Destination namespace
+              :
+               
+            </span>
+            <span
+              className="value"
+            />
+          </div>
+          <div
+            className="sectionContent borderLeft"
+          >
+            <span
+              className="label sectionLabel"
+            >
+              Status
               :
                
             </span>

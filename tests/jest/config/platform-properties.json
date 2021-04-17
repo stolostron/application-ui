@@ -343,6 +343,7 @@
   "resource.argo.application.health": "Health status",
   "resource.application.error.msg": "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the {0} namespace.",
   "resource.argo.application.error.msg": "The health status for application {0} is {1}. Use the Launch Argo editor action below to view the application details.",
+  "resource.argo.application.error.msg.appitem": "The health status for application {0} is {1}. Use the Launch Argo editor action above to view the application details.",
   "resource.applications": "Applications",
   "resource.argo.app.cluster": "Created on",
   "resource.argo.app.route.err": "No Argo route found for namespace {0} on cluster {1}",

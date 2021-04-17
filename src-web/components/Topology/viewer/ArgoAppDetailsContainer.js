@@ -357,6 +357,68 @@ class ArgoAppDetailsContainer extends React.Component {
     )
   };
 
+  mapArgoStatusToStatusIcon = status => {
+    if (status === 'Healthy') {
+      return 'checkmark'
+    }
+    if (status === 'Missing' || status === 'Unknown') {
+      return 'pending'
+    }
+    if (status === 'Degraded') {
+      return 'failure'
+    }
+    return 'warning'
+  };
+
+  renderArgoAppStatusIcon = icon => {
+    const fillMap = new Map([
+      ['checkmark', '#3E8635'],
+      ['failure', '#C9190B'],
+      ['warning', '#F0AB00'],
+      ['pending', '#878D96']
+    ])
+    const iconFill = fillMap.get(icon)
+    return (
+      <svg width="12px" height="12px" fill={iconFill}>
+        <use href={`#diagramIcons_${icon}`} className="label-icon" />
+      </svg>
+    )
+  };
+
+  renderErrorMessage = (name, status, locale) => {
+    let showError = false
+    if (status === 'Unknown' || status === 'Degraded' || status === 'Missing') {
+      showError = true
+    }
+
+    return (
+      showError && (
+        <div className="sectionContent borderLeft">
+          <span className="label sectionLabel">
+            <svg
+              width="10px"
+              height="10px"
+              fill="#C9190B"
+              style={{ marginRight: '8px' }}
+            >
+              <use href="#diagramIcons_failure" className="label-icon" />
+            </svg>
+            <span>
+              {msgs.get('resource.argo.application.health', locale)}:{' '}
+            </span>
+          </span>
+          <span className="value">
+            {msgs.get(
+              'resource.argo.application.error.msg.appitem',
+              [name, status],
+              locale
+            )}:{' '}
+          </span>
+        </div>
+      )
+    )
+  };
+
   render() {
     const {
       selected,
@@ -390,8 +452,10 @@ class ArgoAppDetailsContainer extends React.Component {
         cluster,
         namespace,
         destinationCluster,
-        destinationNamespace
+        destinationNamespace,
+        status
       } = displayArgoAppList[i]
+      const statusIcon = this.mapArgoStatusToStatusIcon(status)
       const parentDivStyle =
         i === startIdx
           ? {
@@ -434,6 +498,8 @@ class ArgoAppDetailsContainer extends React.Component {
               isExpanded={expandSectionToggleMap.has(toggleItemNum)}
               id={name}
             >
+              {this.renderArgoAppStatusIcon(statusIcon)}
+              <span style={{ paddingRight: '10px' }} />
               {name}
             </AccordionToggle>
             <AccordionContent
@@ -474,7 +540,14 @@ class ArgoAppDetailsContainer extends React.Component {
                 </span>
                 <span className={valueClass}>{destinationNamespace}</span>
               </div>
+              <div className={divClass}>
+                <span className={labelClass}>
+                  {msgs.get('resource.status', locale)}:{' '}
+                </span>
+                <span className={valueClass}>{status}</span>
+              </div>
               <div className="spacer" />
+              {this.renderErrorMessage(name, status, locale)}
             </AccordionContent>
           </AccordionItem>
           <span style={outerArgoEditorLinkStyle}>

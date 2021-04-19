@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Contributing guidelines](#contributing-guidelines)
+  - [Commit sign-off](#commit-sign-off)
   - [Contributions](#contributions)
   - [Certificate of Origin](#certificate-of-origin)
   - [Contributing A Patch](#contributing-a-patch)
@@ -12,6 +13,24 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Contributing guidelines
+
+## Commit sign-off 
+
+To commit your changes, you would need to sign off on your commit: 
+```
+git commit -s -m .... 
+```
+
+To amend a previous commit:
+```
+git commit --amend --signoff
+```
+
+You can also mass sign-off a whole pull request with 
+```
+git rebase --signoff ${BASE_BRANCH_NAME}
+```
+
 
 ## Contributions
 
@@ -39,24 +58,6 @@ order to be assigned an issue or pull request, you must be a member of the
 
 Repo maintainers can assign you an issue or pull request by leaving a
 `/assign <your Github ID>` comment on the issue or pull request.
-
-
-## Commit sign-off 
-
-To commit your changes, you would need to sign off on your commit: 
-```
-git commit -s -m .... 
-```
-
-To amend a previous commit:
-```
-git commit --amend --signoff
-```
-
-You can also mass sign-off a whole pull request with 
-```
-git rebase --signoff ${YOUR_BRANCH_NAME}
-```
 
 ## Pre-check before submitting a PR
 

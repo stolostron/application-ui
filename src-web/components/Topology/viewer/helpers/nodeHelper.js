@@ -202,7 +202,7 @@ export default class NodeHelper {
     this.updateNodeIcons()
 
     // cluster count text
-    this.createClusterCountText(draw, newNodes)
+    this.createClusterCountText(draw, nodes)
 
     // argo app count text
     this.createArgoAppCountText(draw, nodes)
@@ -392,6 +392,9 @@ export default class NodeHelper {
       const { layout } = d
       return layout.type === 'cluster'
     })
+
+    const clusterCountTextNodes = clusterNode.selectAll(gClusterCountText)
+    clusterCountTextNodes.remove()
 
     clusterNode
       .append('g')

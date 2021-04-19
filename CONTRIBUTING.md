@@ -28,7 +28,7 @@ git commit --amend --signoff
 
 You can also mass sign-off a whole pull request with 
 ```
-git rebase --signoff ${YOUR_BRANCH_NAME}
+git rebase --signoff ${BASE_BRANCH_NAME}
 ```
 
 

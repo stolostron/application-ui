@@ -32,6 +32,14 @@ export const loadExistingChannels = type => {
   }
 }
 
+export const loadExistingAnsibleProviders = () => {
+  const ansibleProviderQueryVariables = {
+    kind: 'secret',
+    label: 'cluster.open-cluster-management.io/provider:ans'
+  }
+  return ansibleProviderQueryVariables
+}
+
 export const loadExistingSecrets = () => {
   const getQueryVariables = (control, globalControl) => {
     const nsControl = globalControl.find(

@@ -12,6 +12,7 @@
 'use strict'
 
 import {
+  loadExistingAnsibleProviders,
   loadExistingSecrets,
   updatePrePostControls,
   getSharedSubscriptionWarning
@@ -30,6 +31,19 @@ const prePostTasks = [
     info: getSharedSubscriptionWarning,
     editing: { collapsed: true, editMode: true }, // if editing existing app, collapse this field initially
     techPreview: true
+  },
+  {
+    name: 'creation.app.ansible.secrets.name',
+    tooltip: 'tooltip.creation.app.ansibleSecretName',
+    id: 'ansibleSecretName1',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.ansibleSecretName',
+    available: [],
+    fetchAvailable: loadExistingAnsibleProviders(),
+    onSelect: updatePrePostControls,
+    reverse: 'Subscription[0].spec.hooksecretref.name',
+    validation: {}
   },
   {
     name: 'creation.app.ansible.secret.name',

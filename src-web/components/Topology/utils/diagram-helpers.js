@@ -50,7 +50,6 @@ const specsPropsYaml = 'props.show.yaml'
 const showLocalYaml = 'props.show.local.yaml'
 const showResourceYaml = 'show_resource_yaml'
 const specLocation = 'raw.spec.host.location'
-const clusterObjsPath = 'clusters.specs.clusters'
 const checkmarkStatus = 'checkmark'
 const warningStatus = 'warning'
 const pendingStatus = 'pending'
@@ -323,8 +322,7 @@ const getPulseStatusForGenericNode = node => {
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   const clusterNames = R.split(',', getClusterName(node.id, node, true))
-  const clusterObjs = _.get(node, clusterObjsPath, [])
-  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
+  const onlineClusters = getOnlineClusters(node)
   if (!resourceMap || onlineClusters.length === 0) {
     pulse = 'orange' //resource not available
     return pulse
@@ -442,8 +440,7 @@ export const getPulseForNodeWithPodStatus = node => {
   const namespace =
     _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
   const clusterNames = R.split(',', getClusterName(node.id, node, true))
-  const clusterObjs = _.get(node, clusterObjsPath, [])
-  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
+  const onlineClusters = getOnlineClusters(node)
 
   if (!resourceMap || onlineClusters.length === 0) {
     pulse = 'orange' //resource not available
@@ -1021,7 +1018,7 @@ export const setupResourceModel = (
   topology.nodes &&
     topology.nodes.forEach(node => {
       const nodeId = _.get(node, 'id', '')
-      if (nodeId === 'member--clusters--') {
+      if (nodeId.startsWith('member--clusters--')) {
         //cluster node, set search found clusters objects here
         updateAppClustersMatchingSearch(node, clustersObjects)
         // set clusters status on the app node, this is an argo app
@@ -1039,10 +1036,15 @@ export const setupResourceModel = (
       _.set(
         node,
         'specs.clustersNames',
-        getClusterName(nodeId)
-          ? getClusterName(nodeId).split(',')
-          : clusterNamesList
+        nodeId.includes('clusters----') || nodeId === 'member--clusters--'
+          ? clusterNamesList
+          : _.sortBy(
+            _.uniq(
+              _.union(getClusterName(nodeId).split(','), clusterNamesList)
+            )
+          )
       )
+      _.set(node, 'specs.searchClusters', clustersObjects)
     })
   const podIndex = _.findIndex(list, ['kind', 'pod'])
   //move pods last in the list to be processed after all resources producing pods have been processed
@@ -1194,8 +1196,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
 
   const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
-  const clusterObjs = _.get(node, clusterObjsPath, [])
-  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
+  const onlineClusters = getOnlineClusters(node)
   // list of target namespaces per cluster
   const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
 
@@ -1377,9 +1378,7 @@ export const setPodDeployStatus = (
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 
   const clusterNames = R.split(',', getClusterName(node.id, node, true))
-  const clusterObjs = _.get(node, clusterObjsPath, [])
-  const onlineClusters = getOnlineClusters(clusterNames, clusterObjs)
-
+  const onlineClusters = getOnlineClusters(node)
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
     if (!_.includes(onlineClusters, clusterName)) {
@@ -1647,66 +1646,76 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
   if (resourceStatuses.size > 0) {
     resourceMap = filteredResourceMap
   }
+  const onlineClusters = getOnlineClusters(node)
   Object.values(resourceMap).forEach(subscriptions => {
     subscriptions.forEach(subscription => {
-      const isLocalFailedSubscription =
-        subscription._hubClusterResource &&
-        R.contains('Fail', R.pathOr('Fail', ['status'])(subscription))
-      if (isLocalFailedSubscription) {
-        localSubscriptionFailed = true
-      }
-      const isLinkedLocalPlacementSubs =
-        isLocalPlacementSubs ||
-        (_.get(subscription, 'localPlacement', '') === 'true' &&
-          _.get(subscription, 'cluster', '') === LOCAL_HUB_NAME)
-      if (
-        isLinkedLocalPlacementSubs ||
-        !subscription._hubClusterResource ||
-        isLocalFailedSubscription
-      ) {
-        const subscriptionPulse = R.contains(
-          'Fail',
-          R.pathOr('', ['status'])(subscription)
-        )
-          ? failureStatus
-          : R.pathOr(null, ['status'])(subscription) === null
-            ? warningStatus
-            : checkmarkStatus
-
-        //if subscription has not status show an error message
-        const emptyStatusErrorMsg = subscription._hubClusterResource
-          ? msgs.get('resource.subscription.nostatus.hub', ['Propagated'])
-          : msgs.get('resource.subscription.nostatus.remote', ['Subscribed'])
-
-        const subscriptionStatus = R.pathOr(emptyStatusErrorMsg, ['status'])(
-          subscription
-        )
+      const subsCluster = _.get(subscription, 'cluster', '')
+      if (!_.includes(onlineClusters, subsCluster)) {
         details.push({
-          labelValue: subscription.cluster,
-          value: subscriptionStatus,
-          status: subscriptionPulse
+          labelValue: subsCluster,
+          value: msgs.get('resource.cluster.offline'),
+          status: warningStatus
         })
-        !isLocalPlacementSubs &&
-          isLinkedLocalPlacementSubs &&
+      } else {
+        const isLocalFailedSubscription =
+          subscription._hubClusterResource &&
+          R.contains('Fail', R.pathOr('Fail', ['status'])(subscription))
+        if (isLocalFailedSubscription) {
+          localSubscriptionFailed = true
+        }
+        const isLinkedLocalPlacementSubs =
+          isLocalPlacementSubs ||
+          (_.get(subscription, 'localPlacement', '') === 'true' &&
+            subsCluster === LOCAL_HUB_NAME)
+        if (
+          isLinkedLocalPlacementSubs ||
+          !subscription._hubClusterResource ||
+          isLocalFailedSubscription
+        ) {
+          const subscriptionPulse = R.contains(
+            'Fail',
+            R.pathOr('', ['status'])(subscription)
+          )
+            ? failureStatus
+            : R.pathOr(null, ['status'])(subscription) === null
+              ? warningStatus
+              : checkmarkStatus
+
+          //if subscription has not status show an error message
+          const emptyStatusErrorMsg = subscription._hubClusterResource
+            ? msgs.get('resource.subscription.nostatus.hub', ['Propagated'])
+            : msgs.get('resource.subscription.nostatus.remote', ['Subscribed'])
+
+          const subscriptionStatus = R.pathOr(emptyStatusErrorMsg, ['status'])(
+            subscription
+          )
           details.push({
-            labelKey: 'resource.subscription.local',
-            value: 'true'
+            labelValue: subscription.cluster,
+            value: subscriptionStatus,
+            status: subscriptionPulse
           })
+          !isLocalPlacementSubs &&
+            isLinkedLocalPlacementSubs &&
+            details.push({
+              labelKey: 'resource.subscription.local',
+              value: 'true'
+            })
 
-        setClusterWindowStatus(windowStatusArray, subscription, details)
+          setClusterWindowStatus(windowStatusArray, subscription, details)
 
-        details.push({
-          type: 'link',
-          value: {
-            label: msgs.get(specsPropsYaml),
-            data: {
-              action: showResourceYaml,
-              cluster: subscription.cluster,
-              editLink: createEditLink(subscription)
-            }
-          },
-          indent: true
-        })
+          details.push({
+            type: 'link',
+            value: {
+              label: msgs.get(specsPropsYaml),
+              data: {
+                action: showResourceYaml,
+                cluster: subscription.cluster,
+                editLink: createEditLink(subscription)
+              }
+            },
+            indent: true
+          })
+        }
       }
 
       details.push({

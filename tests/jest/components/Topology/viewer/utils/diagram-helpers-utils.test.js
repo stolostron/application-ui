@@ -38,6 +38,7 @@ describe("updateAppClustersMatchingSearch", () => {
     }
   ];
   const clsNode1 = {
+    id: "member--clusters--",
     specs: {
       appClusters: [
         "local-cluster",
@@ -62,6 +63,7 @@ describe("updateAppClustersMatchingSearch", () => {
     }
   };
   const resultNode1 = {
+    id: "member--clusters--",
     specs: {
       clusters: searchClusters,
       appClusters: [
@@ -90,51 +92,162 @@ describe("updateAppClustersMatchingSearch", () => {
   });
 });
 
+describe("updateAppClustersMatchingSearch", () => {
+  const searchClusters = [
+    {
+      name: "local-cluster",
+      consoleURL: "https://console-openshift-console.apps.app-abcd.com"
+    },
+    {
+      name: "ui-managed",
+      consoleURL: "https://console-openshift-console.apps.app-abcd.managed.com"
+    },
+    {
+      HubAcceptedManagedCluster: "True",
+      ManagedClusterConditionAvailable: "True",
+      kind: "cluster",
+      label: "cloud=Amazon; environment=Dev; name=fxiang-eks; vendor=EKS",
+      name: "fxiang-eks"
+    }
+  ];
+  const clsNode1 = {
+    id: "member--clusters--feng",
+    specs: {
+      appClusters: ["local-cluster", "ui-managed"],
+      targetNamespaces: {
+        "ui-managed": ["namespace1", "namespace3"],
+        "local-cluster": ["namespace4"]
+      }
+    }
+  };
+  const resultNode1 = {
+    id: "member--clusters--feng",
+    specs: {
+      appClusters: ["local-cluster", "ui-managed"],
+      targetNamespaces: {
+        "ui-managed": ["namespace1", "namespace3"],
+        "local-cluster": ["namespace4"]
+      },
+      clusters: searchClusters
+    }
+  };
+  it("acm clusters should return as is", () => {
+    expect(updateAppClustersMatchingSearch(clsNode1, searchClusters)).toEqual(
+      resultNode1
+    );
+  });
+});
+
 describe("getOnlineClusters", () => {
-  const clusterNames = ["local-cluster", "ui-managed"];
-  const clusterObjectsFromSearchOffLine = [
-    {
-      name: "local-cluster",
-      status: "OK"
-    },
-    {
-      name: "ui-managed",
-      ManagedClusterConditionAvailable: "Unknown"
+  const inputNodeOffLineRemote = {
+    id: "member--clusters--",
+    specs: {
+      searchClusters: [
+        {
+          name: "local-cluster",
+          status: "OK"
+        },
+        {
+          name: "ui-managed",
+          ManagedClusterConditionAvailable: "Unknown"
+        }
+      ],
+      clustersNames: ["local-cluster", "ui-managed"]
     }
-  ];
-  const clusterObjectsFromSearchAllAvailable = [
-    {
-      name: "local-cluster",
-      status: "OK"
-    },
-    {
-      name: "ui-managed",
-      ManagedClusterConditionAvailable: "True"
+  };
+  const inputNodeAllAvailable = {
+    id: "member--clusters--",
+    specs: {
+      searchClusters: [
+        {
+          name: "local-cluster",
+          status: "OK"
+        },
+        {
+          name: "ui-managed",
+          ManagedClusterConditionAvailable: "True"
+        }
+      ],
+      clustersNames: ["local-cluster", "ui-managed"]
     }
-  ];
+  };
   it("returns only local cluster", () => {
-    expect(
-      getOnlineClusters(clusterNames, clusterObjectsFromSearchOffLine)
-    ).toEqual(["local-cluster"]);
+    expect(getOnlineClusters(inputNodeOffLineRemote)).toEqual([
+      "local-cluster"
+    ]);
   });
   it("returns all clusters", () => {
-    expect(
-      getOnlineClusters(clusterNames, clusterObjectsFromSearchAllAvailable)
-    ).toEqual(["local-cluster", "ui-managed"]);
+    expect(getOnlineClusters(inputNodeAllAvailable)).toEqual([
+      "local-cluster",
+      "ui-managed"
+    ]);
   });
 });
 
-describe("getClusterName node id undefined", () => {
+describe("getClusterName node returns clustersNames", () => {
   it("should return empty string", () => {
-    expect(getClusterName(undefined)).toEqual("");
+    const clsNode1 = {
+      id: "member--clusters--feng,feng2--",
+      specs: {
+        clustersNames: ["local-cluster", "ui-managed"]
+      }
+    };
+    expect(getClusterName(clsNode1.id, clsNode1)).toEqual(
+      "local-cluster,ui-managed"
+    );
   });
 });
 
-describe("getClusterName node id doesn't have cluster info", () => {
+describe("getClusterName node returns union of clustersNames and appClusters", () => {
   it("should return empty string", () => {
-    const nodeId =
-      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch";
-    expect(getClusterName(nodeId)).toEqual("local-cluster");
+    const clsNode1 = {
+      id: "member--clusters--feng,feng2--",
+      clusters: {
+        specs: {
+          appClusters: ["appCls1", "appCls2"]
+        }
+      },
+      specs: {
+        clustersNames: ["local-cluster", "ui-managed"]
+      }
+    };
+    expect(getClusterName(undefined, clsNode1, true)).toEqual(
+      "local-cluster,ui-managed,appCls1,appCls2"
+    );
+  });
+});
+
+describe("getClusterName node clusters from nodeId", () => {
+  it("should return empty string", () => {
+    const clsNode1 = {
+      id: "member--clusters--feng,feng2--",
+      clusters: {
+        specs: {
+          appClusters: ["appCls1", "appCls2"]
+        }
+      },
+      specs: {
+        clustersNames: ["local-cluster", "ui-managed"]
+      }
+    };
+    expect(getClusterName(clsNode1.id)).toEqual("feng,feng2");
+  });
+});
+
+describe("getClusterName node clusters from nodeId, local cluster", () => {
+  it("should return empty string", () => {
+    const clsNode1 = {
+      id: "member--",
+      clusters: {
+        specs: {
+          appClusters: ["appCls1", "appCls2"]
+        }
+      },
+      specs: {
+        clustersNames: ["local-cluster", "ui-managed"]
+      }
+    };
+    expect(getClusterName(clsNode1.id)).toEqual("local-cluster");
   });
 });
 
@@ -342,7 +455,7 @@ describe("getRouteNameWithoutIngressHash", () => {
 });
 
 describe("getOnlineCluster ok and pending", () => {
-  const clusterNames = ["cluster1", "cluster2", "cluster3"];
+  //const clusterNamesA = ["cluster1", "cluster2", "cluster3"];
   const clusterObjs = [
     {
       metadata: {
@@ -363,11 +476,14 @@ describe("getOnlineCluster ok and pending", () => {
       status: "offline"
     }
   ];
+  const node = {
+    specs: {
+      clustersNames: ["cluster1", "cluster2", "cluster3"],
+      searchClusters: clusterObjs
+    }
+  };
   it("should process cluster node status", () => {
-    expect(getOnlineClusters(clusterNames, clusterObjs)).toEqual([
-      "cluster1",
-      "cluster2"
-    ]);
+    expect(getOnlineClusters(node)).toEqual(["cluster1", "cluster2"]);
   });
 });
 

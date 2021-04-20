@@ -47,6 +47,15 @@ const helmReleaseChannelData = async () => [
     onSelect: updateChannelControls
   },
   {
+    name: 'creation.app.helmrepo.secret',
+    tooltip: 'tooltip.creation.app.helmrepo.secret',
+    id: 'helmSecret',
+    type: 'hidden',
+    active: '',
+    available: [],
+    disabled: true
+  },
+  {
     name: 'creation.app.helmrepo.user',
     tooltip: 'tooltip.creation.app.helmrepo.user',
     id: 'helmUser',

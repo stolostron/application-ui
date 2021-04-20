@@ -223,6 +223,20 @@ export const updateChannelControls = (
     reconcileRate.disabled = existingChannel ? true : false
   }
 
+  const secretName = groupControlData.find(
+    ({ id }) =>
+      id === 'githubSecret' || id === 'helmSecret' || id === 'objectstoreSecret'
+  )
+  if (secretName) {
+    if (existingChannel && pathData && pathData.secretRef) {
+      secretName.type = 'text'
+      secretName.active = pathData.secretRef
+    } else {
+      secretName.type = 'hidden'
+      secretName.active = ''
+    }
+  }
+
   let control
   // if existing channel, hide user/token controls; show it when using the same channel in the same app
   const type = !existingChannel || usingSameChannel ? 'text' : 'hidden'

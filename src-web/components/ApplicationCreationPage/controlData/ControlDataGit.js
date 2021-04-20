@@ -170,6 +170,15 @@ const githubChannelData = async () => [
     onSelect: updateChannelControls
   },
   {
+    name: 'creation.app.github.secret',
+    tooltip: 'tooltip.creation.app.github.secret',
+    id: 'githubSecret',
+    type: 'hidden',
+    active: '',
+    available: [],
+    disabled: true
+  },
+  {
     name: 'creation.app.github.user',
     tooltip: 'tooltip.creation.app.github.user',
     id: 'githubUser',

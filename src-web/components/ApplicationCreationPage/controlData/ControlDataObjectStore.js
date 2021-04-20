@@ -46,6 +46,15 @@ const objectstoreChannelData = async () => [
     onSelect: updateChannelControls
   },
   {
+    name: 'creation.app.objectstore.secret',
+    tooltip: 'tooltip.creation.app.objectstore.secret',
+    id: 'objectstoreSecret',
+    type: 'hidden',
+    active: '',
+    available: [],
+    disabled: true
+  },
+  {
     name: 'creation.app.objectstore.accesskey',
     tooltip: 'tooltip.creation.app.objectstore.accesskey',
     id: 'accessKey',

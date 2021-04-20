@@ -164,10 +164,11 @@ export const updateNodeIcons = nodes => {
 
     if (
       type === 'application' &&
-      (specs.raw && specs.raw.apiVersion.indexOf('argoproj.io') > -1)
+      (specs.raw && specs.raw.apiVersion.indexOf('argoproj.io') > -1) &&
+      specs.isDesign
     ) {
       layout.argoAppCountIcon = ArgoAppCountIcon
-      layout.argoAppCount = specs.relatedApps.length
+      layout.argoAppCount = specs.relatedApps ? specs.relatedApps.length : 0
     }
 
     if (type === 'cluster') {

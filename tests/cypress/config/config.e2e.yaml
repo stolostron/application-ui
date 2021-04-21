@@ -36,7 +36,7 @@ git:
           token: ""
           branch: master
           path: helloworld
-          commitHash: 1adb859f5e998c53435291444c2d963954969b4d #this has to be the private repo hash!
+          commitHash: 5614bad419abf01ac52bb723914731b091a77ebc #this has to be the private repo hash!
           gitReconcileOption: merge
           repositoryReconcileRate: medium
           deployment:

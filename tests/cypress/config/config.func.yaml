@@ -108,7 +108,7 @@ objectstore:
     - enable: true
       name: ui-obj
       type: objectstore
-      successNumber: 1 #should have at least this many resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
+      successNumber: 0 #should have at least this many resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
       new: # used when we add new subscriptions after app creation
         - url: http://ec2-dummy/dev1
           accessKey: dummy1

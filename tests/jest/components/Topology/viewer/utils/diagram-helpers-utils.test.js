@@ -16,8 +16,136 @@ import {
   syncControllerRevisionPodStatusMap,
   fixMissingStateOptions,
   namespaceMatchTargetServer,
-  updateAppClustersMatchingSearch
+  updateAppClustersMatchingSearch,
+  getTargetNsForNode
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
+
+describe("getTargetNsForNode", () => {
+  const nsModel = {
+    "helloworld-local-cluster": [
+      {
+        cluster: "local-cluster",
+        kind: "namespace",
+        name: "helloworld"
+      }
+    ]
+  };
+  const inputNodeNS = {
+    id:
+      "member--member--deployable--member--clusters--local-cluster--vb-crash-ns--vb-app-crash-subscription-1-seeds-managed-acm-hello-world-helloworld-namespace--namespace--helloworld",
+    name: "helloworld",
+    cluster: null,
+    clusterName: null,
+    type: "namespace",
+    specs: {
+      raw: {
+        apiVersion: "v1",
+        kind: "Namespace",
+        metadata: {
+          name: "helloworld"
+        }
+      },
+      deployStatuses: [],
+      isDesign: false,
+      parent: {
+        parentId: "member--clusters--local-cluster",
+        parentName: "local-cluster",
+        parentType: "cluster"
+      },
+      clustersNames: ["local-cluster"],
+      searchClusters: [
+        {
+          _clusterNamespace: "local-cluster",
+          name: "local-cluster",
+          kind: "cluster",
+          HubAcceptedManagedCluster: "True",
+          ManagedClusterConditionAvailable: "True",
+          status: "OK"
+        }
+      ],
+      namespaceModel: nsModel,
+      pulse: "green",
+      shapeType: "namespace"
+    },
+    namespace: "vb-crash-ns"
+  };
+
+  it("return local-cluster namespace for namespace node type ", () => {
+    expect(
+      getTargetNsForNode(
+        inputNodeNS,
+        nsModel,
+        "local-cluster",
+        "helloworld",
+        "*"
+      )
+    ).toEqual(["helloworld"]);
+  });
+
+  const polModel = {
+    "openshift-gitops-installed-local-cluster": [
+      {
+        name: "openshift-gitops-installed",
+        cluster: "local-cluster",
+        kind: "policy",
+        namespace: "vb-crash-ns"
+      }
+    ]
+  };
+
+  const inputNodePolicy = {
+    id:
+      "member--member--deployable--member--clusters--local-cluster--vb-crash-ns--vb-app-crash-subscription-1-seeds-managed-configuration-openshift-gitops-installed-policy--policy--openshift-gitops-installed",
+    uid:
+      "member--member--deployable--member--clusters--local-cluster--vb-crash-ns--vb-app-crash-subscription-1-seeds-managed-configuration-openshift-gitops-installed-policy--policy--openshift-gitops-installed",
+    name: "openshift-gitops-installed",
+    cluster: null,
+    clusterName: null,
+    type: "policy",
+    specs: {
+      raw: {
+        apiVersion: "policy.open-cluster-management.io/v1",
+        kind: "Policy",
+        metadata: {
+          name: "openshift-gitops-installed",
+          namespace: "policy"
+        }
+      },
+      deployStatuses: [],
+      isDesign: false,
+      parent: {
+        parentId: "member--clusters--local-cluster",
+        parentName: "local-cluster",
+        parentType: "cluster"
+      },
+      clustersNames: ["local-cluster"],
+      searchClusters: [
+        {
+          name: "local-cluster",
+          kind: "cluster",
+          ManagedClusterConditionAvailable: "True",
+          status: "OK"
+        }
+      ],
+      policyModel: polModel,
+      pulse: "green",
+      shapeType: "policy"
+    },
+    namespace: "vb-crash-ns"
+  };
+
+  it("return local-cluster namespace for policy node type ", () => {
+    expect(
+      getTargetNsForNode(
+        inputNodePolicy,
+        polModel,
+        "local-cluster",
+        "openshift-gitops-installed",
+        "*"
+      )
+    ).toEqual(["vb-crash-ns"]);
+  });
+});
 
 describe("updateAppClustersMatchingSearch", () => {
   const searchClusters = [

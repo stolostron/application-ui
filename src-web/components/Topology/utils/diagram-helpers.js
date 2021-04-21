@@ -33,7 +33,8 @@ import {
   setArgoApplicationDeployStatus,
   getPulseStatusForArgoApp,
   updateAppClustersMatchingSearch,
-  showMissingClusterDetails
+  showMissingClusterDetails,
+  getTargetNsForNode
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor } from '../../../actions/topology'
@@ -299,10 +300,8 @@ export const getPulseStatusForCluster = node => {
 
 const getPulseStatusForGenericNode = node => {
   //ansible job status
-  if (
-    _.get(node, 'type', '') === 'ansiblejob' &&
-    _.get(node, 'specs.raw.hookType')
-  ) {
+  const nodeType = _.get(node, 'type', '')
+  if (nodeType === 'ansiblejob' && _.get(node, 'specs.raw.hookType')) {
     // process here only ansible hooks
     return getPulseStatusForAnsibleNode(node)
   }
@@ -332,27 +331,25 @@ const getPulseStatusForGenericNode = node => {
     pulse = 'yellow'
     return pulse
   }
-  // list of target namespaces per cluster
-  const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
     const resourcesForCluster =
       resourceMap[`${resourceName}-${clusterName}`] || []
     //get target cluster namespaces
-    const targetNSList = targetNamespaces[clusterName]
-      ? _.union(
-        targetNamespaces[clusterName],
-        _.uniq(_.map(resourcesForCluster, 'namespace'))
-      )
-      : resourcesForCluster.length > 0
-        ? _.uniq(_.map(resourcesForCluster, 'namespace'))
-        : [namespace]
+    const resourceNSString = nodeType === 'namespace' ? 'name' : 'namespace'
+    const targetNSList = getTargetNsForNode(
+      node,
+      resourceMap,
+      clusterName,
+      resourceName,
+      namespace
+    )
     targetNSList.forEach(targetNS => {
       if (
         !_.find(
           resourcesForCluster,
-          obj => _.get(obj, 'namespace', '') === targetNS
+          obj => _.get(obj, resourceNSString, '') === targetNS
         )
       ) {
         // resource not created on this cluster for the required target namespace
@@ -1207,6 +1204,8 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     //ignore packages or any resources from the above list not defined as a deployable
     return details
   }
+  const nodeId = _.get(node, 'id', '')
+  const nodeType = _.get(node, 'type', '')
   const name = _.get(node, metadataName, '')
   const namespace =
     _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
@@ -1214,16 +1213,11 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   const resourceName =
     !isDeployable && channel.length > 0 ? `${channel}-${name}` : name
 
-  const clusterNames = R.split(',', getClusterName(node.id, node, true))
+  const clusterNames = R.split(',', getClusterName(nodeId, node, true))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
   const onlineClusters = getOnlineClusters(node)
-  // list of target namespaces per cluster
-  const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
 
-  if (
-    _.get(node, 'type', '') === 'ansiblejob' &&
-    _.get(node, 'specs.raw.hookType')
-  ) {
+  if (nodeType === 'ansiblejob' && _.get(node, 'specs.raw.hookType')) {
     // process here only ansible hooks
     showAnsibleJobDetails(node, details)
 
@@ -1274,21 +1268,23 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       labelValue: msgs.get('topology.filter.category.clustername'),
       value: clusterName
     })
+
     const resourcesForCluster =
       resourceMap[`${resourceName}-${clusterName}`] || []
+    const resourceNSString = nodeType === 'namespace' ? 'name' : 'namespace'
+
     //get cluster target namespaces
-    const targetNSList = targetNamespaces[clusterName]
-      ? _.union(
-        targetNamespaces[clusterName],
-        _.uniq(_.map(resourcesForCluster, 'namespace'))
-      )
-      : resourcesForCluster.length > 0
-        ? _.uniq(_.map(resourcesForCluster, 'namespace'))
-        : ['*']
+    const targetNSList = getTargetNsForNode(
+      node,
+      resourceMap,
+      clusterName,
+      resourceName,
+      '*'
+    )
     targetNSList.forEach(targetNS => {
       let res = _.find(
         resourcesForCluster,
-        obj => _.get(obj, 'namespace', '') === targetNS
+        obj => _.get(obj, resourceNSString, '') === targetNS
       )
       if (
         _.get(node, 'type', '') !== 'ansiblejob' ||

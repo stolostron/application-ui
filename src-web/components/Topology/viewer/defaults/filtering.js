@@ -13,6 +13,7 @@
 
 import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
+import R from 'ramda'
 import { getClusterName } from '../../utils/diagram-helpers-utils'
 
 const clusterLabels = 'cluster.metadata.labels'
@@ -420,7 +421,7 @@ export const addAvailableRelationshipFilters = (
           switch (filterType) {
           case 'hostIPs':
             if (podStatus && Object.keys(podStatus).length > 0) {
-              Object.values(podStatus).forEach(pod => {
+              _.flatten(Object.values(podStatus)).forEach(pod => {
                 filter.availableSet.add(pod.hostIP)
               })
             }
@@ -641,8 +642,9 @@ export const filterRelationshipNodes = (nodes, activeFilters) => {
       if (podStatus) {
         hasHostIps = Array.from(hostIPs).some(ip => {
           return (
-            Object.values(podStatus).find(pod => pod.hostIP === ip) !==
-            undefined
+            _.flatten(_.flatten(Object.values(podStatus))).find(
+              pod => pod.hostIP === ip
+            ) !== undefined
           )
         })
       }
@@ -655,8 +657,11 @@ export const filterRelationshipNodes = (nodes, activeFilters) => {
     // filter by cluster name
     let hasClustername = true
     if (notDesignNode(nodeType) && clusterNames.size !== 0) {
-      const clusterName = getClusterName(id)
-      hasClustername = clusterNames.has(clusterName)
+      hasClustername = false
+      const clusterNamesArray = R.split(',', getClusterName(id, node) || [])
+      clusterNamesArray.forEach(clsN => {
+        hasClustername = hasClustername || clusterNames.has(clsN)
+      })
     }
 
     const result =

@@ -544,6 +544,7 @@ describe("getNodeDetails deployment node", () => {
       }
     },
     specs: {
+      clustersNames: ["feng", "cluster1", "cluster2"],
       deploymentModel: {
         "mortgage-app-deploy-feng": [
           {
@@ -917,6 +918,7 @@ describe("getNodeDetails helm node", () => {
     clusterName: null,
     type: "helmrelease",
     specs: {
+      clustersNames: ["local-cluster"],
       raw: {
         apiVersion: "app.ibm.com/v1alpha1",
         kind: "HelmRelease",
@@ -1013,6 +1015,7 @@ describe("getNodeDetails helm node", () => {
     clusterName: null,
     type: "package",
     specs: {
+      clustersNames: ["local-cluster"],
       raw: {
         apiVersion: "app.ibm.com/v1alpha1",
         kind: "Package",

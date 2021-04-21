@@ -387,7 +387,8 @@ class ClusterDetailsContainer extends React.Component {
     } else if (!clusterJoined) {
       status = 'pendingimport'
     } else {
-      status = clusterAvailable ? 'ok' : 'offline'
+      status =
+        clusterAvailable && clusterAvailable === 'True' ? 'ok' : 'offline'
     }
 
     return status

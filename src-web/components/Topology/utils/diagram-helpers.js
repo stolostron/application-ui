@@ -1015,7 +1015,17 @@ export const setupResourceModel = (
     R.pluck('name')(clustersObjects)
   )
 
-  topology.nodes &&
+  if (topology.nodes) {
+    const appNode =
+      _.find(
+        topology.nodes,
+        node =>
+          _.get(node, 'id', '').startsWith('application--') &&
+          _.get(node, 'type', '') === 'application'
+      ) || {}
+    const hasMultipleSubs =
+      _.get(appNode, 'specs.allSubscriptions', []).length > 1
+
     topology.nodes.forEach(node => {
       const nodeId = _.get(node, 'id', '')
       if (nodeId.startsWith('member--clusters--')) {
@@ -1033,19 +1043,29 @@ export const setupResourceModel = (
             : clusterNamesList.length
         })
       }
+      const nodeClusters = nodeId.startsWith('member--subscription')
+        ? clusterNamesList
+        : getClusterName(nodeId).split(',')
       _.set(
         node,
         'specs.clustersNames',
-        nodeId.includes('clusters----') || nodeId === 'member--clusters--'
-          ? clusterNamesList
-          : _.sortBy(
-            _.uniq(
-              _.union(getClusterName(nodeId).split(','), clusterNamesList)
-            )
-          )
+        hasMultipleSubs
+          ? nodeClusters
+          : nodeId.includes('clusters----') || nodeId === 'member--clusters--'
+            ? clusterNamesList
+            : _.sortBy(_.uniq(_.union(nodeClusters, clusterNamesList)))
       )
-      _.set(node, 'specs.searchClusters', clustersObjects)
+      _.set(
+        node,
+        'specs.searchClusters',
+        hasMultipleSubs
+          ? _.filter(clustersObjects, cls =>
+            _.includes(nodeClusters, _.get(cls, 'name', ''))
+          )
+          : clustersObjects
+      )
     })
+  }
   const podIndex = _.findIndex(list, ['kind', 'pod'])
   //move pods last in the list to be processed after all resources producing pods have been processed
   //we want to add the pods to the map by using the pod hash

@@ -300,27 +300,23 @@ describe("getSearchLinkForOneApplication", () => {
 
 describe("getAppOverviewCardsData", () => {
   it("has topology and app data with local deployment and time window", () => {
-    const targetLink =
-      '/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
       reduxStoreAppPipelineWithCEM.HCMApplicationList,
       reduxStoreAppPipelineWithCEM.topology,
       "mortgage-app",
-      "default",
-      targetLink
+      "default"
     );
     const result = {
       apiGroup: "app.k8s.io",
-      appName: "mortgage-app",
-      appNamespace: "default",
       argoSource: {},
       clusterNames: [],
       creationTimestamp: "Aug 13 2018, 3:23 pm",
+      destinationNs: "",
+      destinationCluster: "",
       isArgoApp: false,
       remoteClusterCount: 1,
       localClusterDeploy: false,
       nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 3 },
-      targetLink: targetLink,
       subsList: [
         {
           name: "mortgage-app-subscription",
@@ -342,27 +338,23 @@ describe("getAppOverviewCardsData", () => {
   });
 
   it("has missing channel data", () => {
-    const targetLink =
-      '/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
       testHCMAppList,
       topologyNoChannel,
       "mortgage-app",
-      "default",
-      targetLink
+      "default"
     );
     const result = {
       apiGroup: "app.k8s.io",
-      appName: "mortgage-app",
-      appNamespace: "default",
       argoSource: {},
       clusterNames: [],
       creationTimestamp: "Aug 13 2018, 3:23 pm",
+      destinationNs: "",
+      destinationCluster: "",
       isArgoApp: false,
       remoteClusterCount: 1,
       localClusterDeploy: false,
       nodeStatuses: { green: 0, yellow: 0, red: 0, orange: 3 },
-      targetLink: targetLink,
       subsList: [
         {
           name: "mortgage-app-subscription",
@@ -384,25 +376,21 @@ describe("getAppOverviewCardsData", () => {
   });
 
   it("has no data", () => {
-    const targetLink =
-      '/search?filters={"textsearch":"kind%3Aapplication%20name%3Aguestbook-app%20namespace%3Adefault"}';
     const appOverviewCardsData = getAppOverviewCardsData(
       emptyData,
       emptyData,
       "mortgage-app",
-      "default",
-      targetLink
+      "default"
     );
     const result = {
-      appName: "mortgage-app",
-      appNamespace: "default",
       argoSource: -1,
       creationTimestamp: -1,
+      destinationNs: "",
+      destinationCluster: "",
       isArgoApp: false,
       remoteClusterCount: -1,
       localClusterDeploy: false,
       nodeStatuses: -1,
-      targetLink: targetLink,
       subsList: -1
     };
 
@@ -413,28 +401,6 @@ describe("getAppOverviewCardsData", () => {
 const emptyData = {};
 const emptyItemsData = {
   items: []
-};
-
-// total: 12, running: 4, failed: 5
-const podSampleData = {
-  items: [
-    {
-      name: "app1",
-      namespace: "default",
-      podStatusCount: {
-        Running: 2,
-        Pass: 1,
-        Deployed: 1,
-        Pending: 1,
-        InProgress: 1,
-        Failed: 2,
-        Error: 2,
-        ImagePullBackoff: 1,
-        ContainerCreating: 1,
-        Ready: 2
-      }
-    }
-  ]
 };
 
 const testHCMAppList = {

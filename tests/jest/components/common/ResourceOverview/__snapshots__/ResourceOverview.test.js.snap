@@ -250,7 +250,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                         <svg
                           aria-hidden={true}
                           aria-labelledby={null}
-                          className="resource-status-help-icon"
+                          className="help-icon"
                           fill="currentColor"
                           height="1em"
                           role="img"

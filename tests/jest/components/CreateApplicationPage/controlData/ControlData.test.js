@@ -430,21 +430,76 @@ describe("setAvailableChannelSpecs", () => {
           type: "git",
           metadata: {
             name: "aa-ns"
-          }
+          },
+          objectPath: "https://github.com/fxiang1/app-samples.git"
         }
       ]
     }
   };
   const result = {
     active: true,
-    available: ["undefined"],
-    availableData: { undefined: { metadata: { name: "aa-ns" }, type: "git" } },
+    available: ["https://github.com/fxiang1/app-samples.git"],
+    availableData: {
+      "https://github.com/fxiang1/app-samples.git": {
+        metadata: { name: "aa-ns" },
+        objectPath: "https://github.com/fxiang1/app-samples.git",
+        type: "git"
+      }
+    },
     availableMap: {},
     id: "channel",
     isLoading: false
   };
   it("setAvailableChannelSpecs no error", () => {
     expect(setAvailableChannelSpecs(type, urlControl, model)).toEqual(result);
+  });
+  const helmModel = {
+    data: {
+      items: [
+        {
+          type: "helm",
+          metadata: {
+            name: "aa-ns-1"
+          },
+          objectPath:
+            "http://multiclusterhub-repo.open-cluster-management.svc.cluster.local:3000/charts"
+        },
+        {
+          type: "helm",
+          metadata: {
+            name: "aa-ns-2"
+          },
+          objectPath: "https://charts.bitnami.com/bitnami"
+        },
+        {
+          type: "helm",
+          metadata: {
+            name: "aa-ns-3"
+          },
+          objectPath: ""
+        }
+      ]
+    }
+  };
+  const helmResult = {
+    active: true,
+    available: ["", "https://charts.bitnami.com/bitnami"],
+    availableData: {
+      "": { metadata: { name: "aa-ns-3" }, objectPath: "", type: "helm" },
+      "https://charts.bitnami.com/bitnami": {
+        metadata: { name: "aa-ns-2" },
+        objectPath: "https://charts.bitnami.com/bitnami",
+        type: "helm"
+      }
+    },
+    availableMap: {},
+    id: "channel",
+    isLoading: false
+  };
+  it("setAvailableChannelSpecs exclude MCH helm repo", () => {
+    expect(setAvailableChannelSpecs("helm", urlControl, helmModel)).toEqual(
+      helmResult
+    );
   });
 });
 

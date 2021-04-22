@@ -1,10 +1,10 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-'use strict'
+"use strict";
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import msgs from '../../../../nls/platform.properties'
+import React from "react";
+import PropTypes from "prop-types";
+import msgs from "../../../../nls/platform.properties";
 import {
   Select,
   SelectOption,
@@ -14,13 +14,13 @@ import {
   AccordionItem,
   AccordionContent,
   AccordionToggle
-} from '@patternfly/react-core'
+} from "@patternfly/react-core";
 import {
   processResourceActionLink,
   getPercentage,
   inflateKubeValue,
   getAge
-} from '../utils/diagram-helpers'
+} from "../utils/diagram-helpers";
 
 class ClusterDetailsContainer extends React.Component {
   static propTypes = {
@@ -33,10 +33,10 @@ class ClusterDetailsContainer extends React.Component {
     locale: PropTypes.string
   };
   constructor(props) {
-    super()
+    super();
     const currentClusterID =
       props.clusterDetailsContainerControl.clusterDetailsContainerData
-        .clusterID
+        .clusterID;
     if (currentClusterID === props.clusterID) {
       this.state = {
         clusterList: props.clusterList,
@@ -59,12 +59,12 @@ class ClusterDetailsContainer extends React.Component {
         selectedClusterList:
           props.clusterDetailsContainerControl.clusterDetailsContainerData
             .selectedClusterList
-      }
+      };
     } else {
       // reset saved setting when a different cluster node is selected
       const {
         clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
-      } = props
+      } = props;
 
       handleClusterDetailsContainerUpdate(
         1,
@@ -72,7 +72,7 @@ class ClusterDetailsContainer extends React.Component {
         false,
         new Set(),
         props.clusterID
-      )
+      );
       this.state = {
         clusterList: props.clusterList,
         locale: props.locale,
@@ -84,38 +84,38 @@ class ClusterDetailsContainer extends React.Component {
         expandSectionToggleMap: new Set(),
         clusterID: props.clusterID,
         selectedClusterList: []
-      }
+      };
     }
 
-    this.handleFirstClick = this.handleFirstClick.bind(this)
-    this.handleLastClick = this.handleLastClick.bind(this)
-    this.handleNextClick = this.handleNextClick.bind(this)
-    this.handlePreviousClick = this.handlePreviousClick.bind(this)
-    this.handlePageInput = this.handlePageInput.bind(this)
-    this.handleSelection = this.handleSelection.bind(this)
-    this.handleSelectToggle = this.handleSelectToggle.bind(this)
-    this.handleExpandSectionToggle = this.handleExpandSectionToggle.bind(this)
-    this.handleSelectionClear = this.handleSelectionClear.bind(this)
+    this.handleFirstClick = this.handleFirstClick.bind(this);
+    this.handleLastClick = this.handleLastClick.bind(this);
+    this.handleNextClick = this.handleNextClick.bind(this);
+    this.handlePreviousClick = this.handlePreviousClick.bind(this);
+    this.handlePageInput = this.handlePageInput.bind(this);
+    this.handleSelection = this.handleSelection.bind(this);
+    this.handleSelectToggle = this.handleSelectToggle.bind(this);
+    this.handleExpandSectionToggle = this.handleExpandSectionToggle.bind(this);
+    this.handleSelectionClear = this.handleSelectionClear.bind(this);
   }
 
   processActionLink = resource => {
-    processResourceActionLink(resource)
+    processResourceActionLink(resource);
   };
 
   handleSelection = (_event, selection) => {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate },
       clusterList
-    } = this.props
-    const { clusterID } = this.state
-    let selectedCluster, newClusterList
+    } = this.props;
+    const { clusterID } = this.state;
+    let selectedCluster, newClusterList;
     if (selection) {
       selectedCluster = clusterList.find(
         cls => cls.metadata.name === selection
-      )
-      newClusterList = [selectedCluster]
+      );
+      newClusterList = [selectedCluster];
     } else {
-      newClusterList = clusterList
+      newClusterList = clusterList;
     }
 
     handleClusterDetailsContainerUpdate(
@@ -126,7 +126,7 @@ class ClusterDetailsContainer extends React.Component {
       clusterID,
       selection,
       newClusterList
-    )
+    );
     this.setState({
       selected: selection,
       clusterList: newClusterList,
@@ -135,14 +135,14 @@ class ClusterDetailsContainer extends React.Component {
       expandSectionToggleMap: new Set(),
       clusterSearchToggle: false,
       selectedClusterList: newClusterList
-    })
+    });
   };
 
   handleSelectionClear = () => {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
-    } = this.props
-    const { clusterID } = this.state
+    } = this.props;
+    const { clusterID } = this.state;
 
     handleClusterDetailsContainerUpdate(
       1,
@@ -152,21 +152,21 @@ class ClusterDetailsContainer extends React.Component {
       clusterID,
       undefined,
       []
-    )
+    );
     this.setState({
       selected: undefined,
       startIdx: 0,
       page: 1,
       expandSectionToggleMap: new Set(),
       clusterList: this.props.clusterList
-    })
+    });
   };
 
   handleFirstClick = () => {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
-    } = this.props
-    const { clusterID } = this.state
+    } = this.props;
+    const { clusterID } = this.state;
 
     handleClusterDetailsContainerUpdate(
       1,
@@ -176,29 +176,29 @@ class ClusterDetailsContainer extends React.Component {
       clusterID,
       undefined,
       []
-    )
+    );
     this.setState({
       startIdx: 0,
       page: 1,
       expandSectionToggleMap: new Set()
-    })
+    });
   };
 
   handleLastClick = () => {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
-    } = this.props
-    const { clusterList, perPage, clusterID } = this.state
+    } = this.props;
+    const { clusterList, perPage, clusterID } = this.state;
 
-    let divResult = Math.floor(clusterList.length / perPage)
-    let lastPage = divResult
-    const modResult = clusterList.length % perPage
+    let divResult = Math.floor(clusterList.length / perPage);
+    let lastPage = divResult;
+    const modResult = clusterList.length % perPage;
     if (modResult === 0) {
-      divResult = divResult - 1
+      divResult = divResult - 1;
     } else {
-      lastPage = lastPage + 1
+      lastPage = lastPage + 1;
     }
-    const newStartIdx = perPage * divResult
+    const newStartIdx = perPage * divResult;
 
     handleClusterDetailsContainerUpdate(
       lastPage,
@@ -208,20 +208,20 @@ class ClusterDetailsContainer extends React.Component {
       clusterID,
       undefined,
       []
-    )
+    );
     this.setState({
       startIdx: newStartIdx,
       page: lastPage,
       expandSectionToggleMap: new Set()
-    })
+    });
   };
 
   handleNextClick = (_event, currentPage) => {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
-    } = this.props
-    const { perPage, startIdx, clusterID } = this.state
-    const newStartIdx = startIdx + perPage
+    } = this.props;
+    const { perPage, startIdx, clusterID } = this.state;
+    const newStartIdx = startIdx + perPage;
 
     handleClusterDetailsContainerUpdate(
       currentPage,
@@ -231,20 +231,20 @@ class ClusterDetailsContainer extends React.Component {
       clusterID,
       undefined,
       []
-    )
+    );
     this.setState({
       startIdx: newStartIdx,
       page: currentPage,
       expandSectionToggleMap: new Set()
-    })
+    });
   };
 
   handlePreviousClick = (_event, currentPage) => {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
-    } = this.props
-    const { perPage, startIdx, clusterID } = this.state
-    const newStartIdx = startIdx - perPage
+    } = this.props;
+    const { perPage, startIdx, clusterID } = this.state;
+    const newStartIdx = startIdx - perPage;
 
     handleClusterDetailsContainerUpdate(
       currentPage,
@@ -254,20 +254,20 @@ class ClusterDetailsContainer extends React.Component {
       clusterID,
       undefined,
       []
-    )
+    );
     this.setState({
       startIdx: newStartIdx,
       page: currentPage,
       expandSectionToggleMap: new Set()
-    })
+    });
   };
 
   handlePageInput = (_event, newPage) => {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
-    } = this.props
-    const { perPage, clusterID } = this.state
-    const newStartIdx = (newPage - 1) * perPage
+    } = this.props;
+    const { perPage, clusterID } = this.state;
+    const newStartIdx = (newPage - 1) * perPage;
 
     handleClusterDetailsContainerUpdate(
       newPage,
@@ -277,32 +277,32 @@ class ClusterDetailsContainer extends React.Component {
       clusterID,
       undefined,
       []
-    )
+    );
     this.setState({
       startIdx: newStartIdx,
       page: newPage,
       expandSectionToggleMap: new Set()
-    })
+    });
   };
 
   handleKeyPress = (resource, _event) => {
-    if (_event.key === 'Enter') {
-      this.processActionLink(resource)
+    if (_event.key === "Enter") {
+      this.processActionLink(resource);
     }
   };
 
   handleSelectToggle = () => {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
-    } = this.props
+    } = this.props;
     const {
       page,
       startIdx,
       clusterSearchToggle,
       expandSectionToggleMap,
       clusterID
-    } = this.state
-    const newClusterSearchToggle = !clusterSearchToggle
+    } = this.state;
+    const newClusterSearchToggle = !clusterSearchToggle;
 
     handleClusterDetailsContainerUpdate(
       page,
@@ -312,16 +312,16 @@ class ClusterDetailsContainer extends React.Component {
       clusterID,
       undefined,
       []
-    )
+    );
     this.setState({
       clusterSearchToggle: newClusterSearchToggle
-    })
+    });
   };
 
   handleExpandSectionToggle = itemNum => {
     const {
       clusterDetailsContainerControl: { handleClusterDetailsContainerUpdate }
-    } = this.props
+    } = this.props;
     const {
       page,
       startIdx,
@@ -330,12 +330,12 @@ class ClusterDetailsContainer extends React.Component {
       clusterID,
       selected,
       selectedClusterList
-    } = this.state
+    } = this.state;
 
     if (!expandSectionToggleMap.has(itemNum)) {
-      expandSectionToggleMap.add(itemNum)
+      expandSectionToggleMap.add(itemNum);
     } else {
-      expandSectionToggleMap.delete(itemNum)
+      expandSectionToggleMap.delete(itemNum);
     }
 
     handleClusterDetailsContainerUpdate(
@@ -346,10 +346,10 @@ class ClusterDetailsContainer extends React.Component {
       clusterID,
       selected,
       selectedClusterList
-    )
+    );
     this.setState({
       expandSectionToggleMap: expandSectionToggleMap
-    })
+    });
   };
 
   renderConsoleURLLink = (consoleURL, resource, locale) => {
@@ -364,65 +364,66 @@ class ClusterDetailsContainer extends React.Component {
             onClick={this.processActionLink.bind(this, resource)}
             onKeyDown={this.handleKeyPress.bind(this, resource)}
           >
-            {msgs.get('details.cluster.console', locale)}
-            <svg width="11px" height="8px" style={{ marginLeft: '9px' }}>
+            {msgs.get("details.cluster.console", locale)}
+            <svg width="11px" height="8px" style={{ marginLeft: "9px" }}>
               <use href="#diagramIcons_carbonLaunch" className="label-icon" />
             </svg>
           </span>
         </div>
       )
-    )
+    );
   };
 
   // This calculation is not accurate as search is not returning all the needed
   // data from the managedcluster resource YAML
   calculateClusterStatus = clusterData => {
-    let status
-    const clusterAccepted = clusterData.HubAcceptedManagedCluster
-    const clusterJoined = clusterData.ManagedClusterJoined
-    const clusterAvailable = clusterData.ManagedClusterConditionAvailable
+    let status;
+    const clusterAccepted = clusterData.HubAcceptedManagedCluster;
+    const clusterJoined = clusterData.ManagedClusterJoined;
+    const clusterAvailable = clusterData.ManagedClusterConditionAvailable;
 
     if (!clusterAccepted) {
-      status = 'notaccepted'
+      status = "notaccepted";
     } else if (!clusterJoined) {
-      status = 'pendingimport'
+      status = "pendingimport";
     } else {
-      status = clusterAvailable ? 'ok' : 'offline'
+      status =
+        clusterAvailable && clusterAvailable === "True" ? "ok" : "offline";
     }
 
-    return status
+    return status;
   };
 
   mapClusterStatusToIcon = status => {
-    let icon = 'checkmark'
+    let icon = "checkmark";
 
     if (
-      status.toLowerCase() === 'pendingimport' ||
-      status.toLowerCase() === 'detaching'
+      status.toLowerCase() === "pendingimport" ||
+      status.toLowerCase() === "detaching"
     ) {
-      icon = 'pending'
-    } else if (status.toLowerCase() === 'notaccepted') {
-      icon = 'warning'
-    } else if (status.toLowerCase() === 'offline') {
-      icon = 'failure'
+      icon = "pending";
+    } else if (status.toLowerCase() === "notaccepted") {
+      icon = "warning";
+    } else if (status.toLowerCase() === "offline") {
+      icon = "failure";
     }
 
-    return icon
+    return icon;
   };
 
   renderClusterStatusIcon = icon => {
     const fillMap = new Map([
-      ['checkmark', '#3E8635'],
-      ['failure', '#C9190B'],
-      ['warning', '#F0AB00'],
-      ['pending', '#878D96']
-    ])
-    const iconFill = fillMap.get(icon)
+      ["checkmark", "#3E8635"],
+      ["failure", "#C9190B"],
+      ["warning", "#F0AB00"],
+      ["pending", "#878D96"]
+    ]);
+    const iconFill = fillMap.get(icon);
     return (
       <svg width="12px" height="12px" fill={iconFill}>
         <use href={`#diagramIcons_${icon}`} className="label-icon" />
       </svg>
-    )
+    );
   };
 
   render() {
@@ -436,15 +437,15 @@ class ClusterDetailsContainer extends React.Component {
       clusterSearchToggle,
       expandSectionToggleMap,
       selectedClusterList
-    } = this.state
-    const titleId = 'cluster-select-id-1'
-    const findClusterMsg = 'Find cluster'
-    const clusterItems = []
-    const divClass = 'sectionContent borderLeft'
-    const labelClass = 'label sectionLabel'
-    const valueClass = 'value'
-    const solidLineStyle = '1px solid #D2D2D2'
-    const displayClusterList = selected ? selectedClusterList : clusterList
+    } = this.state;
+    const titleId = "cluster-select-id-1";
+    const findClusterMsg = "Find cluster";
+    const clusterItems = [];
+    const divClass = "sectionContent borderLeft";
+    const labelClass = "label sectionLabel";
+    const valueClass = "value";
+    const solidLineStyle = "1px solid #D2D2D2";
+    const displayClusterList = selected ? selectedClusterList : clusterList;
 
     for (
       let i = startIdx;
@@ -456,53 +457,53 @@ class ClusterDetailsContainer extends React.Component {
         capacity = {},
         allocatable = {},
         consoleURL
-      } = displayClusterList[i]
+      } = displayClusterList[i];
 
       const status =
         displayClusterList[i].status ||
         this.calculateClusterStatus(displayClusterList[i]) ||
-        'unknown'
-      const statusIcon = this.mapClusterStatusToIcon(status)
-      const clusterName = displayClusterList[i].name || metadata.name
+        "unknown";
+      const statusIcon = this.mapClusterStatusToIcon(status);
+      const clusterName = displayClusterList[i].name || metadata.name;
       const clusterNamespace =
-        displayClusterList[i]._clusterNamespace || metadata.namespace
+        displayClusterList[i]._clusterNamespace || metadata.namespace;
       const creationTimestamp =
-        displayClusterList[i].created || metadata.creationTimestamp
+        displayClusterList[i].created || metadata.creationTimestamp;
       const cc = displayClusterList[i].cpu
         ? displayClusterList[i].cpu.toString()
-        : capacity.cpu
+        : capacity.cpu;
       const cm = displayClusterList[i].memory
         ? displayClusterList[i].memory.toString()
-        : capacity.memory
-      const am = allocatable.memory || ''
-      const ac = allocatable.cpu || ''
+        : capacity.memory;
+      const am = allocatable.memory || "";
+      const ac = allocatable.cpu || "";
       const resource = {
-        action: 'open_link',
+        action: "open_link",
         targetLink: consoleURL
-      }
+      };
       const namespaceLabel = `${msgs.get(
-        'resource.namespace',
+        "resource.namespace",
         locale
-      )}: ${clusterNamespace}`
+      )}: ${clusterNamespace}`;
       const parentDivStyle =
         i === startIdx
           ? {
-            borderTop: solidLineStyle,
-            borderBottom: solidLineStyle
-          }
-          : { borderBottom: solidLineStyle }
-      const toggleItemNum = i % perPage
+              borderTop: solidLineStyle,
+              borderBottom: solidLineStyle
+            }
+          : { borderBottom: solidLineStyle };
+      const toggleItemNum = i % perPage;
       const namespaceStyle = {
-        color: '#5A6872',
-        fontFamily: 'RedHatText',
-        fontSize: '12px',
-        lineHeight: '21px',
-        textAlign: 'left',
-        display: 'block'
-      }
+        color: "#5A6872",
+        fontFamily: "RedHatText",
+        fontSize: "12px",
+        lineHeight: "21px",
+        textAlign: "left",
+        display: "block"
+      };
       const outerNamespaceStyle = expandSectionToggleMap.has(toggleItemNum)
-        ? { display: 'none' }
-        : namespaceStyle
+        ? { display: "none" }
+        : namespaceStyle;
 
       clusterItems.push(
         <div
@@ -517,7 +518,7 @@ class ClusterDetailsContainer extends React.Component {
               id={clusterName}
             >
               {this.renderClusterStatusIcon(statusIcon)}
-              <span style={{ paddingRight: '10px' }} />
+              <span style={{ paddingRight: "10px" }} />
               {clusterName}
             </AccordionToggle>
             <AccordionContent
@@ -527,35 +528,35 @@ class ClusterDetailsContainer extends React.Component {
               <span
                 className={labelClass}
                 style={{
-                  paddingLeft: '1rem',
-                  fontSize: '1rem'
+                  paddingLeft: "1rem",
+                  fontSize: "1rem"
                 }}
               >
-                {msgs.get('prop.details.section', locale)}
+                {msgs.get("prop.details.section", locale)}
               </span>
               <div className="spacer" />
               <div className={divClass}>
                 <span className={labelClass}>
-                  {msgs.get('resource.name', locale)}:{' '}
+                  {msgs.get("resource.name", locale)}:{" "}
                 </span>
                 <span className={valueClass}>{clusterName}</span>
               </div>
               <div className={divClass}>
                 <span className={labelClass}>
-                  {msgs.get('resource.namespace', locale)}:{' '}
+                  {msgs.get("resource.namespace", locale)}:{" "}
                 </span>
                 <span className={valueClass}>{clusterNamespace}</span>
               </div>
               {this.renderConsoleURLLink(consoleURL, resource, locale)}
               <div className={divClass}>
                 <span className={labelClass}>
-                  {msgs.get('resource.status', locale)}:{' '}
+                  {msgs.get("resource.status", locale)}:{" "}
                 </span>
                 <span className={valueClass}>{status}</span>
               </div>
               <div className={divClass}>
                 <span className={labelClass}>
-                  {msgs.get('resource.cpu', locale)}:{' '}
+                  {msgs.get("resource.cpu", locale)}:{" "}
                 </span>
                 <span className={valueClass}>
                   {getPercentage(inflateKubeValue(ac), inflateKubeValue(cc))}%
@@ -563,7 +564,7 @@ class ClusterDetailsContainer extends React.Component {
               </div>
               <div className={divClass}>
                 <span className={labelClass}>
-                  {msgs.get('resource.memory', locale)}:{' '}
+                  {msgs.get("resource.memory", locale)}:{" "}
                 </span>
                 <span className={valueClass}>
                   {getPercentage(inflateKubeValue(am), inflateKubeValue(cm))}%
@@ -571,7 +572,7 @@ class ClusterDetailsContainer extends React.Component {
               </div>
               <div className={divClass}>
                 <span className={labelClass}>
-                  {msgs.get('resource.created', locale)}:{' '}
+                  {msgs.get("resource.created", locale)}:{" "}
                 </span>
                 <span className={valueClass}>{getAge(creationTimestamp)}</span>
               </div>
@@ -580,7 +581,7 @@ class ClusterDetailsContainer extends React.Component {
           </AccordionItem>
           <span style={outerNamespaceStyle}>{namespaceLabel}</span>
         </div>
-      )
+      );
     }
 
     return (
@@ -633,8 +634,8 @@ class ClusterDetailsContainer extends React.Component {
           />
         )}
       </div>
-    )
+    );
   }
 }
 
-export default ClusterDetailsContainer
+export default ClusterDetailsContainer;

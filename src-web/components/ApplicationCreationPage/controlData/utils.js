@@ -613,9 +613,15 @@ export const setAvailableChannelSpecs = (type, control, result) => {
     control.isFailed = true
   } else if (items) {
     control.availableData = _.keyBy(
-      items.filter(({ type: p }) => {
-        return p.toLowerCase().startsWith(type)
-      }),
+      items
+        .filter(({ type: p }) => {
+          return p.toLowerCase().startsWith(type)
+        })
+        .filter(({ objectPath: path }) => {
+          return !path
+            .toLowerCase()
+            .includes('multiclusterhub-repo.open-cluster-management')
+        }),
       'objectPath'
     )
     control.available = Object.keys(control.availableData).sort()

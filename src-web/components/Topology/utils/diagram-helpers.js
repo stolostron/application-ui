@@ -1221,10 +1221,14 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     // process here only ansible hooks
     showAnsibleJobDetails(node, details)
 
-    if (!_.get(node, 'specs.raw.spec')) {
+    if (
+      !_.get(node, 'specs.raw.spec') ||
+      Object.keys(resourceMap).length === 0
+    ) {
       const res = {
         name: name,
         namespace: namespace,
+        cluster: LOCAL_HUB_NAME,
         kind: 'ansiblejob',
         apigroup: 'tower.ansible.com',
         apiversion: 'v1alpha1'

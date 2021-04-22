@@ -195,9 +195,15 @@ describe("hcm-application-diagram-tests", () => {
       },
       {
         id:
-          "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
+          "member--clusters--possiblereptile,braveman,sharingpenguin,relievedox",
         type: "cluster",
         specs: {
+          clustersNames: [
+            "possiblereptile",
+            "braveman",
+            "sharingpenguin",
+            "relievedox"
+          ],
           clusters: [
             {
               metadata: {
@@ -228,7 +234,7 @@ describe("hcm-application-diagram-tests", () => {
       },
       {
         id:
-          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--app",
+          "--clusters--possiblereptile,braveman,sharingpenguin,relievedox--app",
         type: "application",
         name: "aa",
         namespace: "ns",
@@ -236,11 +242,19 @@ describe("hcm-application-diagram-tests", () => {
           specs: {
             clusters: []
           }
+        },
+        specs: {
+          clustersNames: [
+            "possiblereptile",
+            "braveman",
+            "sharingpenguin",
+            "relievedox"
+          ]
         }
       },
       {
         type: "deployment",
-        id: "--clusters---depl",
+        id: "--clusters--depl",
         name: "depl",
         cluster: null,
         clusterName: null,
@@ -291,7 +305,7 @@ describe("hcm-application-diagram-tests", () => {
       {
         type: "deployment",
         id:
-          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
+          "--clusters--possiblereptile,braveman,sharingpenguin,relievedox--depl",
         name: "depl2",
         clusters: {
           specs: {
@@ -306,6 +320,12 @@ describe("hcm-application-diagram-tests", () => {
           }
         },
         specs: {
+          clustersNames: [
+            "possiblereptile",
+            "braveman",
+            "sharingpenguin",
+            "relievedox"
+          ],
           raw: {
             spec: {
               template: {
@@ -324,7 +344,7 @@ describe("hcm-application-diagram-tests", () => {
       {
         type: "subscription",
         id:
-          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--subs",
+          "--clusters--possiblereptile,braveman,sharingpenguin,relievedox--subs",
         name: "subsname",
         clusters: {
           specs: {
@@ -332,6 +352,12 @@ describe("hcm-application-diagram-tests", () => {
           }
         },
         specs: {
+          clustersNames: [
+            "possiblereptile",
+            "braveman",
+            "sharingpenguin",
+            "relievedox"
+          ],
           raw: {
             spec: {
               template: {
@@ -558,13 +584,24 @@ describe("hcm-application-diagram-tests", () => {
       {
         id: "member--clusters--",
         specs: {
+          appClusters: [],
           clusters: [
             {
               name: "sharingpenguin",
               status: "ok"
             }
           ],
+          allClusters: {
+            isLocal: false,
+            remoteCount: 1
+          },
           clustersNames: ["sharingpenguin"],
+          searchClusters: [
+            {
+              name: "sharingpenguin",
+              status: "ok"
+            }
+          ],
           pulse: "green",
           shapeType: "cluster"
         },
@@ -572,39 +609,25 @@ describe("hcm-application-diagram-tests", () => {
       },
       {
         id:
-          "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
+          "member--clusters--possiblereptile,braveman,sharingpenguin,relievedox",
         specs: {
           clusters: [
             {
-              metadata: {
-                name: "possiblereptile"
-              },
+              name: "sharingpenguin",
               status: "ok"
-            },
+            }
+          ],
+          searchClusters: [
             {
-              metadata: {
-                name: "braveman"
-              },
-              status: "ok"
-            },
-            {
-              metadata: {
-                name: "sharingpenguin"
-              },
-              status: "ok"
-            },
-            {
-              metadata: {
-                name: "relievedox"
-              },
+              name: "sharingpenguin",
               status: "ok"
             }
           ],
           clustersNames: [
+            "braveman",
             "possiblereptile",
-            " braveman",
-            " sharingpenguin",
-            " relievedox"
+            "relievedox",
+            "sharingpenguin"
           ],
           pulse: "green",
           shapeType: "cluster"
@@ -618,15 +641,15 @@ describe("hcm-application-diagram-tests", () => {
           }
         },
         id:
-          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--app",
+          "--clusters--possiblereptile,braveman,sharingpenguin,relievedox--app",
         name: "aa",
         namespace: "ns",
         specs: {
           clustersNames: [
+            "braveman",
             "possiblereptile",
-            " braveman",
-            " sharingpenguin",
-            " relievedox"
+            "relievedox",
+            "sharingpenguin"
           ],
           pulse: "red",
           shapeType: "application"
@@ -636,11 +659,36 @@ describe("hcm-application-diagram-tests", () => {
       {
         cluster: null,
         clusterName: null,
-        clusters: undefined,
-        id: "--clusters---depl",
+        clusters: {
+          id: "member--clusters--",
+          type: "cluster",
+          specs: {
+            appClusters: [],
+            clusters: [
+              {
+                name: "sharingpenguin",
+                status: "ok"
+              }
+            ],
+            allClusters: {
+              isLocal: false,
+              remoteCount: 1
+            },
+            clustersNames: ["sharingpenguin"],
+            searchClusters: [
+              {
+                name: "sharingpenguin",
+                status: "ok"
+              }
+            ],
+            pulse: "green",
+            shapeType: "cluster"
+          }
+        },
+        id: "--clusters--depl",
         name: "depl",
         specs: {
-          clustersNames: ["-depl"],
+          clustersNames: ["depl", "sharingpenguin"],
           pulse: "orange",
           raw: {
             spec: {
@@ -663,39 +711,25 @@ describe("hcm-application-diagram-tests", () => {
       {
         clusters: {
           id:
-            "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
+            "member--clusters--possiblereptile,braveman,sharingpenguin,relievedox",
           specs: {
             clusters: [
               {
-                metadata: {
-                  name: "possiblereptile"
-                },
+                name: "sharingpenguin",
                 status: "ok"
-              },
+              }
+            ],
+            searchClusters: [
               {
-                metadata: {
-                  name: "braveman"
-                },
-                status: "ok"
-              },
-              {
-                metadata: {
-                  name: "sharingpenguin"
-                },
-                status: "ok"
-              },
-              {
-                metadata: {
-                  name: "relievedox"
-                },
+                name: "sharingpenguin",
                 status: "ok"
               }
             ],
             clustersNames: [
+              "braveman",
               "possiblereptile",
-              " braveman",
-              " sharingpenguin",
-              " relievedox"
+              "relievedox",
+              "sharingpenguin"
             ],
             pulse: "green",
             shapeType: "cluster"
@@ -703,14 +737,14 @@ describe("hcm-application-diagram-tests", () => {
           type: "cluster"
         },
         id:
-          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
+          "--clusters--possiblereptile,braveman,sharingpenguin,relievedox--depl",
         name: "depl2",
         specs: {
           clustersNames: [
+            "braveman",
             "possiblereptile",
-            " braveman",
-            " sharingpenguin",
-            " relievedox"
+            "relievedox",
+            "sharingpenguin"
           ],
           pulse: "orange",
           raw: {
@@ -734,39 +768,19 @@ describe("hcm-application-diagram-tests", () => {
       {
         clusters: {
           id:
-            "member--clusters--possiblereptile, braveman, sharingpenguin, relievedox",
+            "member--clusters--possiblereptile,braveman,sharingpenguin,relievedox",
           specs: {
             clusters: [
               {
-                metadata: {
-                  name: "possiblereptile"
-                },
-                status: "ok"
-              },
-              {
-                metadata: {
-                  name: "braveman"
-                },
-                status: "ok"
-              },
-              {
-                metadata: {
-                  name: "sharingpenguin"
-                },
-                status: "ok"
-              },
-              {
-                metadata: {
-                  name: "relievedox"
-                },
+                name: "sharingpenguin",
                 status: "ok"
               }
             ],
             clustersNames: [
+              "braveman",
               "possiblereptile",
-              " braveman",
-              " sharingpenguin",
-              " relievedox"
+              "relievedox",
+              "sharingpenguin"
             ],
             pulse: "green",
             shapeType: "cluster"
@@ -774,14 +788,14 @@ describe("hcm-application-diagram-tests", () => {
           type: "cluster"
         },
         id:
-          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--subs",
+          "--clusters--possiblereptile,braveman,sharingpenguin,relievedox--subs",
         name: "subsname",
         specs: {
           clustersNames: [
+            "braveman",
             "possiblereptile",
-            " braveman",
-            " sharingpenguin",
-            " relievedox"
+            "relievedox",
+            "sharingpenguin"
           ],
           pulse: "orange",
           raw: {

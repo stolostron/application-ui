@@ -43,6 +43,8 @@ const ansibleSuccess = {
   id:
     "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
   specs: {
+    clustersNames: ["local-cluster"],
+    searchClusters: ["local-cluster"],
     raw: {
       metadata: {
         name: "bigjoblaunch",
@@ -79,6 +81,8 @@ const ansibleError = {
   id:
     "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
   specs: {
+    clustersNames: ["local-cluster"],
+    searchClusters: ["local-cluster"],
     raw: {
       hookType: "pre-hook",
       metadata: {
@@ -100,6 +104,8 @@ const ansibleError2 = {
   id:
     "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
   specs: {
+    clustersNames: ["local-cluster"],
+    searchClusters: ["local-cluster"],
     raw: {
       hookType: "pre-hook",
       metadata: {
@@ -321,6 +327,7 @@ describe("getPulseForNodeWithPodStatus ", () => {
     },
     type: "deployment",
     specs: {
+      clustersNames: ["feng", "cluster1"],
       podModel: {
         "mortgage-app-deploy-55c65b9c8f-6v9bn": [
           {
@@ -434,6 +441,7 @@ describe("getPulseForNodeWithPodStatus controllerrevision type", () => {
     },
     type: "controllerrevision",
     specs: {
+      clustersNames: ["feng", "cluster1"],
       podModel: {
         "mortgage-app-deploy-55c65b9c8f-6v9bn": [
           {
@@ -547,6 +555,13 @@ describe("getPulseForNodeWithPodStatus controllerrevision type no desired", () =
     },
     type: "controllerrevision",
     specs: {
+      searchClusters: [
+        {
+          name: "feng",
+          status: "OK"
+        }
+      ],
+      clustersNames: ["feng", "cluster1"],
       podModel: {
         "mortgage-app-deploy-55c65b9c8f-6v9bn": [
           {
@@ -659,6 +674,17 @@ describe("getPulseForNodeWithPodStatus no replica", () => {
     },
     type: "deployment",
     specs: {
+      searchClusters: [
+        {
+          name: "feng",
+          status: "OK"
+        },
+        {
+          name: "cluster1",
+          status: "OK"
+        }
+      ],
+      clustersNames: ["feng", "cluster1"],
       deploymentModel: {
         "mortgage-app-deploy-feng": [
           {
@@ -1413,6 +1439,13 @@ describe("setSubscriptionDeployStatus with time window ", () => {
     namespace: "ns",
     apiversion: "apps.open-cluster-management.io/v1",
     specs: {
+      searchClusters: [
+        {
+          name: "local",
+          status: "OK"
+        }
+      ],
+      clustersNames: ["local"],
       subscriptionModel: {
         sub1: [
           {
@@ -1484,6 +1517,13 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
     namespace: "ns",
     apiversion: "test",
     specs: {
+      searchClusters: [
+        {
+          name: "local",
+          status: "OK"
+        }
+      ],
+      clustersNames: ["local"],
       subscriptionModel: {
         sub1: [
           {
@@ -1535,6 +1575,13 @@ describe("setSubscriptionDeployStatus with hub error", () => {
     name: "name",
     namespace: "ns",
     specs: {
+      searchClusters: [
+        {
+          name: "local",
+          status: "OK"
+        }
+      ],
+      clustersNames: ["local"],
       subscriptionModel: {
         sub1: [
           {
@@ -1613,6 +1660,13 @@ describe("setSubscriptionDeployStatus with error", () => {
     name: "name",
     namespace: "ns",
     specs: {
+      searchClusters: [
+        {
+          name: "local",
+          status: "OK"
+        }
+      ],
+      clustersNames: ["local"],
       subscriptionModel: {
         sub1: [
           {
@@ -1661,6 +1715,13 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
     name: "name",
     namespace: "ns",
     specs: {
+      searchClusters: [
+        {
+          name: "local",
+          status: "OK"
+        }
+      ],
+      clustersNames: ["local"],
       subscriptionModel: {
         sub1: [
           {
@@ -1706,6 +1767,17 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
     name: "name",
     namespace: "ns",
     specs: {
+      searchClusters: [
+        {
+          name: "local",
+          status: "OK"
+        },
+        {
+          name: "remote1",
+          status: "OK"
+        }
+      ],
+      clustersNames: ["local", "remote1"],
       subscriptionModel: {
         sub1: [
           {
@@ -1758,6 +1830,13 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
     name: "name",
     namespace: "ns",
     specs: {
+      searchClusters: [
+        {
+          name: "local",
+          status: "OK"
+        }
+      ],
+      clustersNames: ["local"],
       subscriptionModel: []
     }
   };
@@ -1846,6 +1925,7 @@ describe("computeNodeStatus ", () => {
     id: "member--subscription--default--mortgagedc-subscription",
     name: "mortgagedc",
     specs: {
+      clustersNames: ["braveman", "braveman2"],
       raw: {
         spec: { template: { spec: { containers: [{ name: "c1" }] } } }
       },
@@ -1961,6 +2041,17 @@ describe("computeNodeStatus ", () => {
     id: "member--subscription--default--mortgagedc-subscription",
     name: "mortgagedc",
     specs: {
+      searchClusters: [
+        {
+          name: "braveman",
+          status: "OK"
+        },
+        {
+          name: "braveman2",
+          ManagedClusterConditionAvailable: "True"
+        }
+      ],
+      clustersNames: ["braveman", "braveman2"],
       raw: {
         spec: { template: { spec: { containers: [{ name: "c1" }] } } }
       },
@@ -2072,6 +2163,7 @@ describe("computeNodeStatus ", () => {
     },
     type: "deployment",
     specs: {
+      clustersNames: ["feng"],
       raw: {
         spec: {
           replicas: 3
@@ -2121,6 +2213,7 @@ describe("computeNodeStatus ", () => {
     },
     type: "deployment",
     specs: {
+      clustersNames: ["feng"],
       pulse: "red",
       deploymentModel: {
         "mortgage-app-deploy-feng": [
@@ -2169,6 +2262,7 @@ describe("computeNodeStatus ", () => {
     },
     type: "deployment",
     specs: {
+      clustersNames: ["feng"],
       pulse: "green",
       raw: {
         metadata: {
@@ -2222,6 +2316,7 @@ describe("computeNodeStatus ", () => {
     },
     type: "deployment",
     specs: {
+      clustersNames: ["feng"],
       raw: {
         spec: {
           metadata: {
@@ -2277,6 +2372,7 @@ describe("computeNodeStatus ", () => {
     },
     type: "deployment",
     specs: {
+      clustersNames: ["feng"],
       deploymentModel: {
         "mortgage-app-deploy-feng": [
           {
@@ -2442,6 +2538,7 @@ describe("computeNodeStatus ", () => {
     },
     type: "deployment",
     specs: {
+      clustersNames: ["feng4", "cluster1", "cluster2"],
       deploymentModel: {
         "mortgage-app-deploy-feng4": [
           {
@@ -2604,6 +2701,7 @@ describe("computeNodeStatus ", () => {
     },
     type: "deployment",
     specs: {
+      clustersNames: ["feng"],
       deploymentModel: {
         "mortgage-app-deploy-feng": [
           {
@@ -2808,6 +2906,7 @@ describe("computeNodeStatus ", () => {
     },
     type: "deployment",
     specs: {
+      clustersNames: ["feng"],
       deploymentModel: {
         "mortgage-app-deploy-feng": [
           {
@@ -2905,6 +3004,7 @@ describe("computeNodeStatus ", () => {
     },
     type: "service",
     specs: {
+      clustersNames: ["feng"],
       serviceModel: {
         "mortgage-app-service-feng": {},
         "mortgage-app-service-cluster1": {}
@@ -2963,7 +3063,9 @@ describe("computeNodeStatus ", () => {
       }
     },
     type: "package",
-    specs: {}
+    specs: {
+      clustersNames: ["feng"]
+    }
   };
 
   const ruleNodeRed = {
@@ -3044,6 +3146,12 @@ describe("computeNodeStatus ", () => {
       }
     },
     specs: {
+      clustersNames: [
+        "braveman",
+        "possiblereptile",
+        "sharingpenguin",
+        "relievedox"
+      ],
       podModel: {
         "frontend-6cb7f8bd65-g25j6-possiblereptile": {
           apiversion: "v1",
@@ -3165,7 +3273,14 @@ describe("setResourceDeployStatus 1 ", () => {
     namespace: "default",
     id:
       "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
-    specs: {},
+    specs: {
+      clustersNames: [
+        "braveman",
+        "possiblereptile",
+        "sharingpenguin",
+        "relievedox"
+      ]
+    },
     clusters: {
       specs: {
         clusters: [
@@ -3227,6 +3342,8 @@ describe("setResourceDeployStatus ansiblejob ", () => {
     id:
       "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
     specs: {
+      clustersNames: ["local-cluster"],
+      searchClusters: ["local-cluster"],
       raw: {
         hookType: "pre-hook",
         metadata: {
@@ -3277,7 +3394,7 @@ describe("setResourceDeployStatus ansiblejob ", () => {
     { labelValue: "Cluster name", value: "local-cluster" },
     { type: "spacer" }
   ];
-  it("setResourceDeployStatus ansiblejob", () => {
+  it("setResourceDeployStatus ansiblejob valid", () => {
     expect(setResourceDeployStatus(node, [], {})).toEqual(result);
   });
 });
@@ -3290,6 +3407,8 @@ describe("setResourceDeployStatus ansiblejob no specs.raw.spec", () => {
     id:
       "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
     specs: {
+      clustersNames: ["local-cluster"],
+      searchClusters: ["local-cluster"],
       raw: {
         hookType: "pre-hook",
         metadata: {
@@ -3350,6 +3469,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
     id:
       "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
     specs: {
+      clustersNames: ["local-cluster"],
       raw: {
         hookType: "pre-hook",
         metadata: {
@@ -3468,7 +3588,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
   it("setResourceDeployStatus ansiblejob no status 1", () => {
     expect(setResourceDeployStatus(ansibleError, [], {})).toEqual(result1);
   });
-  it("etResourceDeployStatus ansiblejob with error status", () => {
+  it("getResourceDeployStatus ansiblejob with error status", () => {
     expect(setResourceDeployStatus(ansibleError2, [], {})).toEqual(result2);
   });
 });
@@ -3493,6 +3613,7 @@ describe("setResourceDeployStatus 2 ", () => {
       }
     },
     specs: {
+      clustersNames: ["possiblereptile"],
       raw: {
         metadata: {
           name: "mortgage-app-svc",
@@ -3561,6 +3682,7 @@ describe("setResourceDeployStatus 2 with filter green", () => {
       }
     },
     specs: {
+      clustersNames: ["possiblereptile"],
       raw: {
         metadata: {
           name: "mortgage-app-svc",
@@ -3632,6 +3754,7 @@ describe("setResourceDeployStatus 2 with filter yellow", () => {
       }
     },
     specs: {
+      clustersNames: ["possiblereptile"],
       raw: {
         metadata: {
           namespace: "default",
@@ -3677,6 +3800,7 @@ describe("setResourceDeployStatus 2 with filter orange", () => {
       }
     },
     specs: {
+      clustersNames: ["possiblereptile"],
       raw: {
         metadata: {
           namespace: "default",
@@ -3740,6 +3864,12 @@ describe("setResourceDeployStatus 3 ", () => {
       }
     },
     specs: {
+      clustersNames: [
+        "braveman",
+        "possiblereptile",
+        "sharingpenguin",
+        "relievedox"
+      ],
       raw: {
         metadata: {
           namespace: "default"
@@ -3893,20 +4023,8 @@ describe("setApplicationDeployStatus for ARGO ", () => {
       }
     }
   };
-  const resultWithNoRelatedApps = [
-    { labelValue: "Related applications ({0})", type: "label" },
-    { type: "spacer" },
-    {
-      relatedargoappsdata: {
-        argoAppList: []
-      },
-      type: "relatedargoappdetails"
-    }
-  ];
   it("setApplicationDeployStatus for argo app with no related apps", () => {
-    expect(setApplicationDeployStatus(nodeWithNORelatedApps, [])).toEqual(
-      resultWithNoRelatedApps
-    );
+    expect(setApplicationDeployStatus(nodeWithNORelatedApps, [])).toEqual([]);
   });
 });
 
@@ -3918,6 +4036,7 @@ describe("setApplicationDeployStatus 1 ", () => {
     id:
       "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
     specs: {
+      clustersNames: ["possiblereptile", "braveman", "sharingpenguin"],
       serviceModel: {
         service1: {
           cluster: "braveman",
@@ -3939,6 +4058,7 @@ describe("setApplicationDeployStatus 2 ", () => {
     id:
       "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
     specs: {
+      clustersNames: ["possiblereptile", "braveman", "sharingpenguin"],
       raw: {
         metadata: {
           selfLink: "aaa"
@@ -3969,6 +4089,7 @@ describe("setApplicationDeployStatus application ", () => {
     namespace: "default",
     id: "member--application",
     specs: {
+      clustersNames: ["possiblereptile", "braveman", "sharingpenguin"],
       raw: {
         metadata: {
           selfLink: "aaa"
@@ -4017,7 +4138,9 @@ describe("setApplicationDeployStatus no selector ", () => {
     namespace: "default",
     id:
       "member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
-    specs: {}
+    specs: {
+      clustersNames: ["possiblereptile", "braveman", "sharingpenguin"]
+    }
   };
   const result = [
     {
@@ -4060,6 +4183,7 @@ describe("setApplicationDeployStatus channels ", () => {
     id:
       "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
     specs: {
+      clustersNames: ["possiblereptile", "braveman", "sharingpenguin"],
       channels: ["subsdata"]
     }
   };
@@ -4085,6 +4209,7 @@ describe("setPodDeployStatus  node does not have pods", () => {
     id:
       "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
     specs: {
+      clustersNames: ["possiblereptile", "braveman", "sharingpenguin"],
       channels: ["subsdata"]
     }
   };
@@ -4122,6 +4247,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
       }
     },
     specs: {
+      clustersNames: ["possiblereptile"],
       raw: {
         spec: {
           metadata: {
@@ -4233,6 +4359,8 @@ describe("setPodDeployStatus  with pod but no pod model and no podStatusMap", ()
       }
     },
     specs: {
+      searchClusters: [],
+      clustersNames: ["possiblereptile"],
       raw: {
         spec: {
           metadata: "default",
@@ -4286,6 +4414,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
       }
     },
     specs: {
+      clustersNames: ["possiblereptile"],
       raw: {
         spec: {
           template: {
@@ -4474,6 +4603,13 @@ describe("setPodDeployStatus - pod as desired with green filter", () => {
       }
     },
     specs: {
+      searchClusters: [
+        {
+          name: "possiblereptile",
+          ManagedClusterConditionAvailable: "True"
+        }
+      ],
+      clustersNames: ["possiblereptile"],
       raw: {
         kind: "Pod",
         apiVersion: "v1",
@@ -4618,6 +4754,17 @@ describe("setPodDeployStatus  with pod as desired", () => {
       }
     },
     specs: {
+      searchClusters: [
+        {
+          name: "local-cluster",
+          status: "OK"
+        },
+        {
+          name: "possiblereptile",
+          ManagedClusterConditionAvailable: "Unkown"
+        }
+      ],
+      clustersNames: ["possiblereptile"],
       raw: {
         spec: {
           metadata: {

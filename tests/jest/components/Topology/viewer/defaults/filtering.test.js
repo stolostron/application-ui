@@ -916,6 +916,7 @@ describe("filterRelationshipNodes", () => {
         type: "deployment",
         namespace: "default",
         specs: {
+          clustersNames: ["braveman"],
           isDesign: false,
           pulse: "green",
           parent: {
@@ -929,6 +930,7 @@ describe("filterRelationshipNodes", () => {
         type: "replicaset",
         namespace: "default",
         specs: {
+          clustersNames: ["braveman"],
           isDesign: false,
           pulse: "green",
           parent: {
@@ -969,6 +971,7 @@ describe("filterRelationshipNodes", () => {
         "member--deployable--member--deployable--member--clusters--braveman--open-cluster-management--guestbook-app-guestbook-frontend-deployment--frontend",
       namespace: "default",
       specs: {
+        clustersNames: ["braveman"],
         isDesign: false,
         parent: {
           parentId: "member-cluster"
@@ -982,6 +985,7 @@ describe("filterRelationshipNodes", () => {
         "member--replicaset--member--deployable--member--clusters--braveman--open-cluster-management--guestbook-app-guestbook-frontend-deployment--frontend",
       namespace: "default",
       specs: {
+        clustersNames: ["braveman"],
         isDesign: false,
         parent: {
           name: "deployment1",
@@ -994,7 +998,7 @@ describe("filterRelationshipNodes", () => {
       type: "replicaset"
     }
   ];
-  it("filter node", () => {
+  it("filter node by cluster name", () => {
     expect(
       filterRelationshipNodes(
         mockDataRelationshipNodes.nodes,

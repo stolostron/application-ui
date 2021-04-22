@@ -167,7 +167,7 @@ export const updateNodeIcons = nodes => {
       (specs.raw && specs.raw.apiVersion.indexOf('argoproj.io') > -1)
     ) {
       layout.argoAppCountIcon = ArgoAppCountIcon
-      layout.argoAppCount = specs.relatedApps.length
+      layout.argoAppCount = _.get(specs, 'relatedApps', [{}]).length
     }
 
     if (type === 'cluster') {

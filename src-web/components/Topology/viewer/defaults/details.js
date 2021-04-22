@@ -141,6 +141,11 @@ function addK8Details(node, updatedNode, details, activeFilters) {
   ]
     ? 'apps.open-cluster-management.io/git-path'
     : 'apps.open-cluster-management.io/github-path'
+  const gitTagAnnotation = 'apps.open-cluster-management.io/git-tag'
+  const gitCommitAnnotation =
+    'apps.open-cluster-management.io/git-desired-commit'
+  const reconcileRateAnnotation =
+    'apps.open-cluster-management.io/reconcile-rate'
 
   const apiVersion = _.get(node, 'specs.raw.apiVersion', '')
   // the main stuff
@@ -326,6 +331,39 @@ function addK8Details(node, updatedNode, details, activeFilters) {
       'spec.subscr.annotations.gitPath'
     )
   )
+
+  if (nodeAnnotations[gitTagAnnotation]) {
+    addPropertyToList(
+      mainDetails,
+      getNodePropery(
+        node,
+        ['specs', 'raw', 'metadata', 'annotations', gitTagAnnotation],
+        'spec.subscr.annotations.gitTag'
+      )
+    )
+  }
+
+  if (nodeAnnotations[gitCommitAnnotation]) {
+    addPropertyToList(
+      mainDetails,
+      getNodePropery(
+        node,
+        ['specs', 'raw', 'metadata', 'annotations', gitCommitAnnotation],
+        'spec.subscr.annotations.gitCommit'
+      )
+    )
+  }
+
+  if (nodeAnnotations[reconcileRateAnnotation]) {
+    addPropertyToList(
+      mainDetails,
+      getNodePropery(
+        node,
+        ['specs', 'raw', 'metadata', 'annotations', reconcileRateAnnotation],
+        'spec.subscr.annotations.reconcileRate'
+      )
+    )
+  }
 
   //PR specific
   addPropertyToList(

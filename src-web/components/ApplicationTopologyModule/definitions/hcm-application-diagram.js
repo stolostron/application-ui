@@ -251,7 +251,6 @@ export const getDiagramElements = (
         computeNodeStatus(node)
       })
     }
-
     return {
       clusters: clustersList,
       activeChannel: activeChannelInfo,

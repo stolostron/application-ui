@@ -71,7 +71,7 @@ This UI Platform is developed as an isomorphic react application.  The following
 git clone https://github.com/open-cluster-management/application-ui.git
 cd application-ui
 npm install
-npm run build:production
+npm run build
 </pre>
 
 
@@ -80,6 +80,7 @@ npm run build:production
 By default the server runs in development mode using **insecure** HTTP connections. To use HTTPS, you must either:
 - set the environment variables `serverKey` and `serverCert` with the full path of the key and certificate files
 - provide a key and certificate in the `./sslcert/server.key` and `./sslcert/server.crt` files
+- follow the README steps in ./sslcert to generate new certificate files
 
 To run in production mode, set `NODE_ENV` to `production` and provide a key and certificate in `./certs/applicationui.key` and `./certs/applicationui.crt`.
 
@@ -168,6 +169,7 @@ To run your local `application-ui` code against an existing OCM installation:
 <pre>
 git clone https://github.com/open-cluster-management/application-ui.git
 cd application-ui
+export export USE_VENDORIZED_BUILD_HARNESS=false
 export COMPONENT_DOCKER_REPO=&lt;docker_repo&gt;
 export COMPONENT_NAME=application-ui
 export IMAGE_TAG=&lt;image_tag&gt;

@@ -231,16 +231,114 @@ const fetchApplicationRelatedObjects = (
 }
 
 //try to find the name of the remote clusters using the server path
-const findMatchingCluster = argoApp => {
+export const findMatchingCluster = (argoApp, argoMappingInfo) => {
   const serverApi = lodash.get(argoApp, 'destinationServer')
   if (
     (serverApi && serverApi === 'https://kubernetes.default.svc') ||
     lodash.get(argoApp, 'destinationName', '') === 'in-cluster'
   ) {
-    // TODO: replace this with the cluster mapping once we have that
     return argoApp.cluster //target is the same as the argo app cluster
   }
+  if (argoMappingInfo && serverApi) {
+    // try to get server name from argo secret annotation
+    try {
+      const serverHostName = new URL(serverApi).hostname.substring(0, 63)
+      const nameLabel = 'cluster-name='
+      const serverLabel = `cluster-server=${serverHostName}`
+      const mapServerInfo = lodash.find(
+        lodash.map(argoMappingInfo, 'label', []),
+        obj => obj.indexOf(serverLabel) !== -1
+      )
+      if (mapServerInfo) {
+        // get the cluster name
+        const labelsList = mapServerInfo.split(';')
+        const clusterNameLabel = lodash.find(labelsList, obj =>
+          lodash.includes(obj, nameLabel)
+        )
+        if (clusterNameLabel) {
+          return clusterNameLabel.split('=')[1]
+        }
+        return serverApi
+      }
+    } catch (err) {
+      // do nothing
+      return serverApi
+    }
+  }
   return serverApi
+}
+
+const setArgoAppDetails = (
+  allApps,
+  dispatch,
+  appNS,
+  appName,
+  appData,
+  resourceType,
+  fetchFilters,
+  response
+) => {
+  const targetNS = []
+  const targetClusters = []
+  const argoAppsLabelNames = []
+  const targetNSForClusters = {} //keep track of what namespaces each cluster must deploy on
+  allApps.forEach(argoApp => {
+    //get destination and clusters information
+    argoAppsLabelNames.push(`app.kubernetes.io/instance=${argoApp.name}`)
+    const argoNS = argoApp.destinationNamespace
+    argoNS && targetNS.push(argoNS)
+    const argoServerDest = findMatchingCluster(
+      argoApp,
+      lodash.get(appData, 'argoSecrets')
+    )
+    const argoServerNameDest = argoServerDest || argoApp.destinationName
+    lodash.set(
+      argoApp,
+      'destinationCluster',
+      argoServerNameDest || argoApp.destinationServer
+    )
+    const targetClusterName = argoServerNameDest
+      ? argoServerNameDest
+      : argoServerDest ? argoServerDest : null
+    if (targetClusterName) {
+      targetClusters.push(targetClusterName)
+      //add namespace to target list
+      if (!targetNSForClusters[targetClusterName]) {
+        targetNSForClusters[targetClusterName] = []
+      }
+      if (
+        argoNS &&
+        !lodash.includes(targetNSForClusters[targetClusterName], argoNS)
+      ) {
+        targetNSForClusters[targetClusterName].push(argoNS)
+      }
+    }
+  })
+  appData.targetNamespaces = lodash.uniq(targetNS)
+  appData.clusterInfo = lodash.uniq(targetClusters)
+  appData.argoAppsLabelNames = lodash.uniq(argoAppsLabelNames)
+  //store all argo apps and destination clusters info on the first app
+  const topoResources = lodash.get(response, 'data.topology.resources', [])
+  const firstNode = topoResources[0]
+  const topoClusterNode = lodash.find(topoResources, {
+    id: 'member--clusters--'
+  })
+  lodash.set(firstNode, 'specs.relatedApps', allApps)
+  //desired deployment state
+  lodash.set(firstNode, 'specs.clusterNames', appData.clusterInfo)
+  lodash.set(topoClusterNode, 'specs.appClusters', appData.clusterInfo)
+  lodash.set(topoClusterNode, 'specs.clusters', appData.clusterInfo)
+  lodash.set(topoClusterNode, 'specs.targetNamespaces', targetNSForClusters)
+
+  fetchApplicationRelatedObjects(
+    dispatch,
+    appNS,
+    appName,
+    appData,
+    resourceType,
+    fetchFilters,
+    response
+  )
 }
 
 //get all argo applications using the same source repo as the selected app
@@ -266,72 +364,62 @@ const fetchArgoApplications = (
       const searchResult = lodash.get(app_response, 'data.searchResult', [])
       if (searchResult.length > 0) {
         allApps = lodash.get(searchResult[0], 'items', [])
-        const targetNS = []
-        const targetClusters = []
-        const argoAppsLabelNames = []
-        const targetNSForClusters = {} //keep track of what namespaces each cluster must deploy on
-        allApps.forEach(argoApp => {
-          //get destination and clusters information
-          argoAppsLabelNames.push(`app.kubernetes.io/instance=${argoApp.name}`)
-          const argoNS = argoApp.destinationNamespace
-          argoNS && targetNS.push(argoNS)
-          const argoServerDest = findMatchingCluster(argoApp)
-          const argoServerNameDest = argoServerDest || argoApp.destinationName
-          lodash.set(
-            argoApp,
-            'destinationCluster',
-            argoServerNameDest || argoApp.destinationServer
+        // find argo server mapping
+        const argoAppNS = lodash.uniqBy(lodash.map(allApps, 'namespace'))
+        if (argoAppNS.length > 0) {
+          const query = convertStringToQuery(
+            `kind:secret namespace:${argoAppNS.join()} label:apps.open-cluster-management.io/acm-cluster='true'`
           )
-          const targetClusterName = argoServerNameDest
-            ? argoServerNameDest
-            : argoServerDest ? argoServerDest : null
-          if (targetClusterName) {
-            targetClusters.push(targetClusterName)
-            //add namespace to target list
-            if (!targetNSForClusters[targetClusterName]) {
-              targetNSForClusters[targetClusterName] = []
-            }
-            if (
-              argoNS &&
-              !lodash.includes(targetNSForClusters[targetClusterName], argoNS)
-            ) {
-              targetNSForClusters[targetClusterName].push(argoNS)
-            }
-          }
-        })
-        appData.targetNamespaces = lodash.uniq(targetNS)
-        appData.clusterInfo = lodash.uniq(targetClusters)
-        appData.argoAppsLabelNames = lodash.uniq(argoAppsLabelNames)
-        //store all argo apps and destination clusters info on the first app
-        const topoResources = lodash.get(
-          response,
-          'data.topology.resources',
-          []
-        )
-        const firstNode = topoResources[0]
-        const topoClusterNode = lodash.find(topoResources, {
-          id: 'member--clusters--'
-        })
-        lodash.set(firstNode, 'specs.relatedApps', allApps)
-        //desired deployment state
-        lodash.set(firstNode, 'specs.clusterNames', appData.clusterInfo)
-        lodash.set(topoClusterNode, 'specs.appClusters', appData.clusterInfo)
-        lodash.set(topoClusterNode, 'specs.clusters', appData.clusterInfo)
-        lodash.set(
-          topoClusterNode,
-          'specs.targetNamespaces',
-          targetNSForClusters
-        )
+          apolloClient
+            .search(SEARCH_QUERY, { input: [query] })
+            .then(secretResult => {
+              const secretItems = lodash.get(
+                secretResult,
+                'data.searchResult',
+                [{ items: [] }]
+              )[0]
+              lodash.set(
+                appData,
+                'argoSecrets',
+                lodash.get(secretItems, 'items', [])
+              )
+              setArgoAppDetails(
+                allApps,
+                dispatch,
+                appNS,
+                appName,
+                appData,
+                resourceType,
+                fetchFilters,
+                response
+              )
+            })
+            .catch(err => {
+              lodash.set(appData, 'err', err)
+              setArgoAppDetails(
+                allApps,
+                dispatch,
+                appNS,
+                appName,
+                appData,
+                resourceType,
+                fetchFilters,
+                response
+              )
+            })
+        } else {
+          setArgoAppDetails(
+            allApps,
+            dispatch,
+            appNS,
+            appName,
+            appData,
+            resourceType,
+            fetchFilters,
+            response
+          )
+        }
       }
-      fetchApplicationRelatedObjects(
-        dispatch,
-        appNS,
-        appName,
-        appData,
-        resourceType,
-        fetchFilters,
-        response
-      )
     })
     .catch(err => {
       //return topology when failing to retrieve related apps

@@ -154,7 +154,19 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                       <div
                         className="pf-c-description-list__text"
                       >
-                        sample
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
                       </div>
                     </dd>
                   </div>

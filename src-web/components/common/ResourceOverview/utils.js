@@ -7,109 +7,109 @@
  *******************************************************************************/
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
-import _ from "lodash";
-import { getShortDateTime } from "../../../../lib/client/resource-helper";
+import _ from 'lodash'
+import { getShortDateTime } from '../../../../lib/client/resource-helper'
 
 export const getSearchLinkForOneApplication = params => {
   if (params && params.name) {
-    const name = `%20name%3A${params.name}`;
+    const name = `%20name%3A${params.name}`
     const namespace = params.namespace
       ? `%20namespace%3A${params.namespace}`
-      : "";
-    const cluster = params.cluster ? `%20cluster%3A${params.cluster}` : "";
+      : ''
+    const cluster = params.cluster ? `%20cluster%3A${params.cluster}` : ''
     const showRelated = params.showRelated
       ? `&showrelated=${params.showRelated}`
-      : "";
-    return `/search?filters={"textsearch":"kind%3Aapplication${name}${namespace}${cluster}"}${showRelated}`;
+      : ''
+    return `/search?filters={"textsearch":"kind%3Aapplication${name}${namespace}${cluster}"}${showRelated}`
   }
-  return "";
-};
+  return ''
+}
 
 export const getSearchLinkForArgoApplications = source => {
   if (source) {
-    let textsearch = "kind:application apigroup:argoproj.io";
+    let textsearch = 'kind:application apigroup:argoproj.io'
     for (const [key, value] of Object.entries(source)) {
-      textsearch = `${textsearch} ${key}:${value}`;
+      textsearch = `${textsearch} ${key}:${value}`
     }
-    return `/search?filters={"textsearch":"${encodeURIComponent(textsearch)}"}`;
+    return `/search?filters={"textsearch":"${encodeURIComponent(textsearch)}"}`
   }
-  return "";
-};
+  return ''
+}
 
 export const getRepoTypeForArgoApplication = source => {
   if (source && source.path) {
-    return "git";
+    return 'git'
   } else if (source && source.chart) {
-    return "helmrepo";
+    return 'helmrepo'
   }
-  return "";
-};
+  return ''
+}
 
 const getSubCardData = (subData, node) => {
-  let resourceType = "";
-  let resourcePath = "";
-  let gitBranch = "";
-  let gitPath = "";
-  let packageName = "";
-  let packageFilterVersion = "";
-  let timeWindowType = "";
-  let timeWindowDays = "";
-  let timeWindowTimezone = "";
-  let timeWindowRanges = "";
+  let resourceType = ''
+  let resourcePath = ''
+  let gitBranch = ''
+  let gitPath = ''
+  let packageName = ''
+  let packageFilterVersion = ''
+  let timeWindowType = ''
+  let timeWindowDays = ''
+  let timeWindowTimezone = ''
+  let timeWindowRanges = ''
 
-  const relatedChns = _.get(node, "specs.allChannels", []);
+  const relatedChns = _.get(node, 'specs.allChannels', [])
   gitBranch = _.get(
     subData,
-    ["metadata", "annotations", "apps.open-cluster-management.io/git-branch"],
+    ['metadata', 'annotations', 'apps.open-cluster-management.io/git-branch'],
     _.get(
       subData,
       [
-        "metadata",
-        "annotations",
-        "apps.open-cluster-management.io/github-branch"
+        'metadata',
+        'annotations',
+        'apps.open-cluster-management.io/github-branch'
       ],
-      ""
+      ''
     )
-  );
+  )
   gitPath = _.get(
     subData,
-    ["metadata", "annotations", "apps.open-cluster-management.io/git-path"],
+    ['metadata', 'annotations', 'apps.open-cluster-management.io/git-path'],
     _.get(
       subData,
       [
-        "metadata",
-        "annotations",
-        "apps.open-cluster-management.io/github-path"
+        'metadata',
+        'annotations',
+        'apps.open-cluster-management.io/github-path'
       ],
-      ""
+      ''
     )
-  );
-  packageName = _.get(subData, "spec.name", "");
-  packageFilterVersion = _.get(subData, "spec.packageFilter.version", "");
-  timeWindowType = _.get(subData, "spec.timewindow.windowtype", "none");
-  timeWindowDays = _.get(subData, "spec.timewindow.daysofweek", "");
-  timeWindowTimezone = _.get(subData, "spec.timewindow.location", "");
-  timeWindowRanges = _.get(subData, "spec.timewindow.hours", "");
+  )
+  packageName = _.get(subData, 'spec.name', '')
+  packageFilterVersion = _.get(subData, 'spec.packageFilter.version', '')
+  timeWindowType = _.get(subData, 'spec.timewindow.windowtype', 'none')
+  timeWindowDays = _.get(subData, 'spec.timewindow.daysofweek', '')
+  timeWindowTimezone = _.get(subData, 'spec.timewindow.location', '')
+  timeWindowRanges = _.get(subData, 'spec.timewindow.hours', '')
 
   // Get related channel data
-  let chnData;
+  let chnData
   relatedChns.forEach(chnl => {
     if (
-      `${_.get(chnl, "metadata.namespace", "")}/${_.get(
+      `${_.get(chnl, 'metadata.namespace', '')}/${_.get(
         chnl,
-        "metadata.name",
-        ""
-      )}` === _.get(subData, "spec.channel", "")
+        'metadata.name',
+        ''
+      )}` === _.get(subData, 'spec.channel', '')
     ) {
-      chnData = chnl;
+      chnData = chnl
     }
-  });
+  })
   if (chnData) {
-    resourceType = _.get(chnData, "spec.type", "");
-    resourcePath = _.get(chnData, "spec.pathname", "");
+    resourceType = _.get(chnData, 'spec.type', '')
+    resourcePath = _.get(chnData, 'spec.pathname', '')
   }
   return {
-    name: _.get(subData, "metadata.name", ""),
+    name: _.get(subData, 'metadata.name', ''),
     resourceType: resourceType,
     resourcePath: resourcePath,
     gitBranch: gitBranch,
@@ -120,8 +120,8 @@ const getSubCardData = (subData, node) => {
     timeWindowDays: timeWindowDays,
     timeWindowTimezone: timeWindowTimezone,
     timeWindowRanges: timeWindowRanges
-  };
-};
+  }
+}
 
 export const getAppOverviewCardsData = (
   selectedAppData,
@@ -131,11 +131,11 @@ export const getAppOverviewCardsData = (
   locale
 ) => {
   // Get app details only when topology data is properly loaded for the selected app
-  const appData = _.get(topologyData, "activeFilters.application");
+  const appData = _.get(topologyData, 'activeFilters.application')
   if (
     !selectedAppData ||
-    (selectedAppData.status !== "DONE" && selectedAppData.status !== "ERROR") || //allow search microservice to not be found
-    topologyData.status !== "DONE" ||
+    (selectedAppData.status !== 'DONE' && selectedAppData.status !== 'ERROR') || //allow search microservice to not be found
+    topologyData.status !== 'DONE' ||
     topologyData.detailsLoaded !== true
   ) {
     return {
@@ -146,87 +146,88 @@ export const getAppOverviewCardsData = (
       subsList: -1,
       isArgoApp: false,
       argoSource: -1,
-      destinationNs: "",
-      destinationCluster: ""
-    };
+      destinationNs: -1,
+      destinationCluster: ''
+    }
   }
 
   if (
-    typeof topologyData.loaded !== "undefined" &&
-    typeof topologyData.nodes !== "undefined" &&
+    typeof topologyData.loaded !== 'undefined' &&
+    typeof topologyData.nodes !== 'undefined' &&
     appData &&
     appData.name === appName &&
     appData.namespace === appNamespace
   ) {
-    let apiGroup = "app.k8s.io";
-    let creationTimestamp = "";
-    let destinationNs = "";
-    let destinationCluster = "";
-    const nodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 };
-    const subsList = [];
-    let clusterNames = [];
-    let argoSource = {};
-    let isArgoApp = false;
+    let apiGroup = 'app.k8s.io'
+    let creationTimestamp = ''
+    let destinationNs = ''
+    let destinationCluster = ''
+    const nodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
+    const subsList = []
+    let clusterNames = []
+    let argoSource = {}
+    let isArgoApp = false
     let clusterData = {
       remoteCount: 0,
       isLocal: false
-    };
+    }
 
     topologyData.nodes.map(node => {
       //get only the top app node
 
       if (
-        _.get(node, "type", "") === "application" &&
-        _.get(node, "id").indexOf("--deployable") === -1
+        _.get(node, 'type', '') === 'application' &&
+        _.get(node, 'id').indexOf('--deployable') === -1
       ) {
-        clusterData = _.get(node, "specs.allClusters", {
+        clusterData = _.get(node, 'specs.allClusters', {
           isLocal: false,
           remoteCount: 0
-        });
+        })
         // Get date and time of app creation
         creationTimestamp = getShortDateTime(
           node.specs.raw.metadata.creationTimestamp,
           locale
-        );
-        const allSubscriptions = _.get(node, "specs.allSubscriptions", []);
+        )
+        const allSubscriptions = _.get(node, 'specs.allSubscriptions', [])
         allSubscriptions.forEach(subs => {
-          subsList.push(getSubCardData(subs, node));
-        });
+          subsList.push(getSubCardData(subs, node))
+        })
 
         isArgoApp =
-          _.get(node, ["specs", "raw", "apiVersion"], "").indexOf("argo") !==
-          -1;
+          _.get(node, ['specs', 'raw', 'apiVersion'], '').indexOf('argo') !==
+          -1
         if (isArgoApp) {
           // set argocd api group
-          apiGroup = "argoproj.io";
+          apiGroup = 'argoproj.io'
           // set argo app cluster names
-          clusterNames = _.get(node, ["specs", "clusterNames"], []);
-          argoSource = _.get(node, ["specs", "raw", "spec", "source"], {});
+          clusterNames = _.get(node, ['specs', 'clusterNames'], [])
+          argoSource = _.get(node, ['specs', 'raw', 'spec', 'source'], {})
 
           // set destination namespace and cluster
-          const relatedApps = _.get(node, ["specs", "relatedApps"], []);
+          const relatedApps = _.get(node, ['specs', 'relatedApps'], [])
           relatedApps.filter(app => {
             if (
               app.name === appName &&
               app.namespace === appNamespace &&
               app.destinationNamespace
             ) {
-              destinationNs = app.destinationNamespace;
-              destinationCluster =
-                app.destinationName ?? app.destinationCluster ?? "";
+              destinationNs = app.destinationNamespace
+              destinationCluster = app.destinationName
+                ? app.destinationName
+                : app.destinationCluster ? app.destinationCluster : ''
             }
-          });
+          })
         }
       }
       //get pulse for all objects generated from a deployable
       if (
-        _.get(node, "id", "").indexOf("--deployable") !== -1 &&
-        _.get(node, "specs.pulse")
+        _.get(node, 'id', '').indexOf('--deployable') !== -1 &&
+        _.get(node, 'specs.pulse')
       ) {
         // Get cluster resource statuses
-        nodeStatuses[node.specs.pulse]++;
+        nodeStatuses[node.specs.pulse]++
       }
-    });
+    })
     return {
       creationTimestamp: creationTimestamp,
       remoteClusterCount: clusterData.remoteCount,
@@ -239,7 +240,7 @@ export const getAppOverviewCardsData = (
       argoSource: argoSource,
       destinationNs: destinationNs,
       destinationCluster: destinationCluster
-    };
+    }
   } else {
     return {
       creationTimestamp: -1,
@@ -247,12 +248,12 @@ export const getAppOverviewCardsData = (
       localClusterDeploy: false,
       nodeStatuses: -1,
       subsList: -1,
-      apiGroup: "app.k8s.io",
+      apiGroup: 'app.k8s.io',
       clusterNames: [],
       isArgoApp: false,
       argoSource: -1,
-      destinationNs: "",
-      destinationCluster: ""
-    };
+      destinationNs: -1,
+      destinationCluster: ''
+    }
   }
-};
+}

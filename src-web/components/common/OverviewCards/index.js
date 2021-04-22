@@ -8,15 +8,15 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-import React from "react";
-import { connect } from "react-redux";
-import { withLocale } from "../../../providers/LocaleProvider";
-import { withRouter } from "react-router-dom";
+import React from 'react'
+import { connect } from 'react-redux'
+import { withLocale } from '../../../providers/LocaleProvider'
+import { withRouter } from 'react-router-dom'
 import {
   ArrowRightIcon,
   ExternalLinkAltIcon,
   OutlinedQuestionCircleIcon
-} from "@patternfly/react-icons";
+} from '@patternfly/react-icons'
 import {
   Button,
   ButtonVariant,
@@ -26,75 +26,75 @@ import {
   Skeleton,
   Spinner,
   Tooltip
-} from "@patternfly/react-core";
+} from '@patternfly/react-core'
 import {
   AcmActionGroup,
   AcmAlert,
   AcmButton,
   AcmDescriptionList
-} from "@open-cluster-management/ui-components";
-import resources from "../../../../lib/shared/resources";
-import msgs from "../../../../nls/platform.properties";
-import config from "../../../../lib/shared/config";
+} from '@open-cluster-management/ui-components'
+import resources from '../../../../lib/shared/resources'
+import msgs from '../../../../nls/platform.properties'
+import config from '../../../../lib/shared/config'
 import {
   getSearchLinkForOneApplication,
   getAppOverviewCardsData,
   getRepoTypeForArgoApplication,
   getSearchLinkForArgoApplications
-} from "../ResourceOverview/utils";
-import ChannelLabels from "../ChannelLabels";
-import TimeWindowLabels from "../TimeWindowLabels";
-import { getClusterCount } from "../../../../lib/client/resource-helper";
-import { REQUEST_STATUS } from "../../../actions";
-import { openArgoCDEditor } from "../../../actions/topology";
-import _ from "lodash";
+} from '../ResourceOverview/utils'
+import ChannelLabels from '../ChannelLabels'
+import TimeWindowLabels from '../TimeWindowLabels'
+import { getClusterCount } from '../../../../lib/client/resource-helper'
+import { REQUEST_STATUS } from '../../../actions'
+import { openArgoCDEditor } from '../../../actions/topology'
+import _ from 'lodash'
 
 /* eslint-disable react/prop-types */
 
 resources(() => {
-  require("./style.scss");
-});
+  require('./style.scss')
+})
 
 const mapStateToProps = state => {
-  const { HCMApplicationList, topology } = state;
+  const { HCMApplicationList, topology } = state
   return {
     HCMApplicationList,
     topology
-  };
-};
+  }
+}
 
 class OverviewCards extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     // update cards every 1s to pick up side-effect in
     // redux state (calculation of node statuses) created by
     // topology code
-    const intervalId = setInterval(this.reload.bind(this), 1000);
-    this.toggleArgoLinkLoading = this.toggleArgoLinkLoading.bind(this);
+    const intervalId = setInterval(this.reload.bind(this), 1000)
+    this.toggleArgoLinkLoading = this.toggleArgoLinkLoading.bind(this)
 
     this.state = {
       argoLinkLoading: false,
       intervalId,
       showSubCards: false
-    };
+    }
   }
 
   reload() {
-    this.setState(prevState => ({ pollToggle: !prevState.pollToggle }));
+    this.setState(prevState => ({ pollToggle: !prevState.pollToggle }))
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.intervalId);
+    clearInterval(this.state.intervalId)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return !(
       (nextState.pollToggle === this.state.pollToggle &&
         nextState.showSubCards === this.state.showSubCards) ||
-      _.get(nextProps, "topology.status", "") === REQUEST_STATUS.IN_PROGRESS ||
-      _.get(nextProps, "HCMApplicationList.status", "") ===
+      _.get(nextProps, 'topology.status', '') === REQUEST_STATUS.IN_PROGRESS ||
+      _.get(nextProps, 'HCMApplicationList.status', '') ===
         REQUEST_STATUS.IN_PROGRESS
-    );
+    )
   }
 
   render() {
@@ -105,25 +105,25 @@ class OverviewCards extends React.Component {
       selectedAppName,
       selectedAppNS,
       locale
-    } = this.props;
-    const { argoLinkLoading, showSubCards } = this.state;
-    const cluster = _.get(topology, "activeFilters.application.cluster");
+    } = this.props
+    const { argoLinkLoading, showSubCards } = this.state
+    const cluster = _.get(topology, 'activeFilters.application.cluster')
     if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
       const infoMessage = _.get(
         HCMApplicationList,
-        "err.err",
-        msgs.get("load.app.info.notfound", [selectedAppName])
-      );
-      return <AcmAlert variant="info" title={infoMessage} noClose />;
+        'err.err',
+        msgs.get('load.app.info.notfound', [selectedAppName])
+      )
+      return <AcmAlert variant="info" title={infoMessage} noClose />
     }
 
-    let getUrl = window.location.href;
-    getUrl = getUrl.substring(0, getUrl.indexOf("/multicloud/applications/"));
+    let getUrl = window.location.href
+    getUrl = getUrl.substring(0, getUrl.indexOf('/multicloud/applications/'))
 
     const targetLink = getSearchLinkForOneApplication({
       name: encodeURIComponent(selectedAppName),
       namespace: encodeURIComponent(selectedAppNS)
-    });
+    })
 
     const appOverviewCardsData = getAppOverviewCardsData(
       HCMApplicationList,
@@ -131,7 +131,7 @@ class OverviewCards extends React.Component {
       selectedAppName,
       selectedAppNS,
       locale
-    );
+    )
 
     const clusterCount = getClusterCount({
       locale,
@@ -139,21 +139,21 @@ class OverviewCards extends React.Component {
       localPlacement: appOverviewCardsData.localClusterDeploy,
       name: selectedAppName,
       namespace: selectedAppNS,
-      kind: "application",
+      kind: 'application',
       apigroup: appOverviewCardsData.apiGroup,
       clusterNames: appOverviewCardsData.clusterNames
-    });
+    })
 
     const disableBtn =
       appOverviewCardsData.subsList &&
       appOverviewCardsData.subsList !== -1 &&
       appOverviewCardsData.subsList.length > 0
         ? false
-        : true;
+        : true
 
-    let leftCardItems = [
+    const leftCardItems = [
       {
-        key: msgs.get("dashboard.card.overview.cards.name", locale),
+        key: msgs.get('dashboard.card.overview.cards.name', locale),
         value: (
           <React.Fragment>
             <div className="app-name-container">
@@ -161,91 +161,88 @@ class OverviewCards extends React.Component {
               {this.renderData(
                 appOverviewCardsData.argoSource,
                 this.createArgoAppIcon(appOverviewCardsData.isArgoApp, locale),
-                "30%"
+                '30%'
               )}
             </div>
           </React.Fragment>
         )
       },
       {
-        key: msgs.get("dashboard.card.overview.cards.namespace", locale),
-        value: selectedAppNS
-      },
-      {
-        key: msgs.get("dashboard.card.overview.cards.created", locale),
-        value: (
-          <React.Fragment>
-            {this.renderData(
-              appOverviewCardsData.creationTimestamp,
-              appOverviewCardsData.creationTimestamp,
-              "30%"
-            )}
-          </React.Fragment>
-        )
-      }
-    ];
-
-    appOverviewCardsData.isArgoApp &&
-      leftCardItems.splice(2, 0, {
-        key: msgs.get(
-          "dashboard.card.overview.cards.destination.namespace",
-          locale
-        ),
-        keyAction: (
+        key: msgs.get('dashboard.card.overview.cards.namespace', locale),
+        keyAction: appOverviewCardsData.isArgoApp && (
           <Tooltip
             content={
               <div>
-                {appOverviewCardsData.destinationCluster
-                  ? msgs.get(
-                      "dashboard.card.overview.cards.destination.namespace.cluster.tooltip",
-                      [appOverviewCardsData.destinationCluster],
-                      locale
-                    )
-                  : msgs.get(
-                      "dashboard.card.overview.cards.destination.namespace.tooltip",
-                      locale
-                    )}
+                {msgs.get(
+                  'dashboard.card.overview.cards.namespace.argo.tooltip',
+                  locale
+                )}
               </div>
             }
           >
             <OutlinedQuestionCircleIcon className="help-icon" />
           </Tooltip>
         ),
-        value: appOverviewCardsData.destinationNs
-      });
+        value: (
+          <React.Fragment>
+            {this.renderData(
+              appOverviewCardsData.destinationNs,
+              appOverviewCardsData.isArgoApp
+                ? appOverviewCardsData.destinationNs
+                : selectedAppNS,
+              '30%'
+            )}
+          </React.Fragment>
+        )
+      },
+      {
+        key: msgs.get('dashboard.card.overview.cards.created', locale),
+        value: (
+          <React.Fragment>
+            {this.renderData(
+              appOverviewCardsData.creationTimestamp,
+              appOverviewCardsData.creationTimestamp,
+              '30%'
+            )}
+          </React.Fragment>
+        )
+      }
+    ]
+
+    appOverviewCardsData.isArgoApp &&
+      leftCardItems.splice(2, 0, {
+        key: msgs.get('dashboard.card.overview.cards.server', locale),
+        keyAction: (
+          <Tooltip
+            content={
+              <div>
+                {msgs.get(
+                  'dashboard.card.overview.cards.server.tooltip',
+                  locale
+                )}
+              </div>
+            }
+          >
+            <OutlinedQuestionCircleIcon className="help-icon" />
+          </Tooltip>
+        ),
+        value: appOverviewCardsData.destinationCluster
+      })
 
     return (
       <div className="overview-cards-container">
         <AcmDescriptionList
-          title={msgs.get("dashboard.card.overview.cards.title", locale)}
+          title={msgs.get('dashboard.card.overview.cards.title', locale)}
           leftItems={leftCardItems}
           rightItems={[
             {
-              key: msgs.get("dashboard.card.overview.cards.clusters", locale),
-              value: (
-                <React.Fragment>
-                  {this.renderData(
-                    appOverviewCardsData.remoteClusterCount !== -1 ||
-                    appOverviewCardsData.localClusterDeploy
-                      ? 0
-                      : -1,
-                    clusterCount,
-                    "30%"
-                  )}
-                </React.Fragment>
-              )
-            },
-            {
-              key: msgs.get(
-                "dashboard.card.overview.cards.cluster.resource.status",
-                locale
-              ),
-              keyAction: (
+              key: msgs.get('dashboard.card.overview.cards.clusters', locale),
+              keyAction: appOverviewCardsData.isArgoApp && (
                 <Tooltip
                   content={
                     <div>
                       {msgs.get(
-                        "dashboard.card.overview.cards.cluster.resource.status.tooltip",
+                        'dashboard.card.overview.cards.clusters.argo.tooltip',
                         locale
                       )}
                     </div>
@@ -257,9 +254,46 @@ class OverviewCards extends React.Component {
               value: (
                 <React.Fragment>
                   {this.renderData(
+                    appOverviewCardsData.remoteClusterCount !== -1 ||
+                    appOverviewCardsData.localClusterDeploy
+                      ? 0
+                      : -1,
+                    clusterCount,
+                    '30%'
+                  )}
+                </React.Fragment>
+              )
+            },
+            {
+              key: msgs.get(
+                'dashboard.card.overview.cards.cluster.resource.status',
+                locale
+              ),
+              keyAction: (
+                <Tooltip
+                  content={
+                    <div>
+                      {appOverviewCardsData.isArgoApp
+                        ? msgs.get(
+                          'dashboard.card.overview.cards.cluster.resource.status.argo.tooltip',
+                          locale
+                        )
+                        : msgs.get(
+                          'dashboard.card.overview.cards.cluster.resource.status.tooltip',
+                          locale
+                        )}
+                    </div>
+                  }
+                >
+                  <OutlinedQuestionCircleIcon className="help-icon" />
+                </Tooltip>
+              ),
+              value: (
+                <React.Fragment>
+                  {this.renderData(
                     appOverviewCardsData.nodeStatuses,
                     this.createStatusIcons(appOverviewCardsData.nodeStatuses),
-                    "30%"
+                    '30%'
                   )}
                 </React.Fragment>
               )
@@ -271,11 +305,11 @@ class OverviewCards extends React.Component {
                     appOverviewCardsData.argoSource,
                     appOverviewCardsData.isArgoApp
                       ? msgs.get(
-                          "dashboard.card.overview.cards.repoResource.label",
-                          locale
-                        )
+                        'dashboard.card.overview.cards.repoResource.label',
+                        locale
+                      )
                       : this.createTargetLink(getUrl + targetLink, locale),
-                    "30%"
+                    '30%'
                   )}
                 </React.Fragment>
               ),
@@ -297,29 +331,29 @@ class OverviewCards extends React.Component {
                             targetRevision: appOverviewCardsData.argoSource
                               .targetRevision
                               ? appOverviewCardsData.argoSource.targetRevision
-                              : "HEAD"
+                              : 'HEAD'
                           }
                         ]}
                         locale={locale}
                         isArgoApp={true}
                       />
-                    ) : (
-                      ""
-                    ),
-                    "30%"
+                      ) : (
+                        ''
+                      ),
+                    '30%'
                   )}
                 </React.Fragment>
               )
             }
           ]}
         />
-        {appOverviewCardsData.isArgoApp && (
+        {appOverviewCardsData.isArgoApp ? (
           <Card className="argo-links-container">
             <CardBody>
               <AcmActionGroup>
                 <AcmButton
                   variant={ButtonVariant.link}
-                  className={`${argoLinkLoading ? "argoLinkLoading" : ""}`}
+                  className={`${argoLinkLoading ? 'argoLinkLoading' : ''}`}
                   id="launch-argocd-editor"
                   component="a"
                   rel="noreferrer"
@@ -338,7 +372,7 @@ class OverviewCards extends React.Component {
                 >
                   {argoLinkLoading && <Spinner size="sm" />}
                   {msgs.get(
-                    "dashboard.card.overview.cards.search.argocd.launch",
+                    'dashboard.card.overview.cards.search.argocd.launch',
                     locale
                   )}
                 </AcmButton>
@@ -360,7 +394,7 @@ class OverviewCards extends React.Component {
                   iconPosition="right"
                 >
                   {msgs.get(
-                    "dashboard.card.overview.cards.search.resource",
+                    'dashboard.card.overview.cards.search.resource',
                     locale
                   )}
                 </AcmButton>
@@ -380,20 +414,18 @@ class OverviewCards extends React.Component {
                   iconPosition="right"
                 >
                   {msgs.get(
-                    "dashboard.card.overview.cards.search.argocd.apps",
+                    'dashboard.card.overview.cards.search.argocd.apps',
                     locale
                   )}
                 </AcmButton>
               </AcmActionGroup>
             </CardBody>
           </Card>
-        )}
-
-        {!appOverviewCardsData.isArgoApp && (
+        ) : (
           <div className="overview-cards-subs-section">
             {showSubCards && !disableBtn
               ? this.createSubsCards(appOverviewCardsData.subsList, locale)
-              : ""}
+              : ''}
             <Button
               className="toggle-subs-btn"
               variant="secondary"
@@ -405,20 +437,20 @@ class OverviewCards extends React.Component {
                 appOverviewCardsData.subsList,
                 (showSubCards
                   ? msgs.get(
-                      "dashboard.card.overview.cards.subs.btn.hide",
-                      locale
-                    )
+                    'dashboard.card.overview.cards.subs.btn.hide',
+                    locale
+                  )
                   : msgs.get(
-                      "dashboard.card.overview.cards.subs.btn.show",
-                      locale
-                    )) + ` (${appOverviewCardsData.subsList.length})`,
-                "70%"
+                    'dashboard.card.overview.cards.subs.btn.show',
+                    locale
+                  )) + ` (${appOverviewCardsData.subsList.length})`,
+                '70%'
               )}
             </Button>
           </div>
         )}
       </div>
-    );
+    )
   }
 
   getArgoSearchLink = (selectedAppName, selectedAppNS, cluster) => {
@@ -426,7 +458,7 @@ class OverviewCards extends React.Component {
       name: encodeURIComponent(selectedAppName),
       namespace: encodeURIComponent(selectedAppNS),
       cluster: encodeURIComponent(cluster)
-    });
+    })
   };
 
   renderData = (checkData, showData, width) => {
@@ -434,13 +466,13 @@ class OverviewCards extends React.Component {
       showData
     ) : (
       <Skeleton width={width} className="loading-skeleton-text" />
-    );
+    )
   };
 
   toggleArgoLinkLoading() {
     this.setState(prevState => ({
       argoLinkLoading: !prevState.argoLinkLoading
-    }));
+    }))
   }
 
   createTargetLink = (link, locale) => {
@@ -453,11 +485,11 @@ class OverviewCards extends React.Component {
         rel="noreferrer"
       >
         <div>
-          {msgs.get("dashboard.card.overview.cards.search.resource", locale)}
+          {msgs.get('dashboard.card.overview.cards.search.resource', locale)}
           <ArrowRightIcon className="details-item-link-icon" />
         </div>
       </a>
-    );
+    )
   };
 
   createArgoAppIcon = (isArgoApp, locale) => {
@@ -465,13 +497,13 @@ class OverviewCards extends React.Component {
       <React.Fragment>
         {isArgoApp ? (
           <Label color="blue">
-            {msgs.get("dashboard.card.overview.cards.argo.app", locale)}
+            {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
           </Label>
         ) : (
-          ""
+          ''
         )}
       </React.Fragment>
-    );
+    )
   };
 
   createStatusIcons = nodeStatuses => {
@@ -519,7 +551,7 @@ class OverviewCards extends React.Component {
           <div className="status-count">{nodeStatuses.red}</div>
         </div>
       </React.Fragment>
-    );
+    )
   };
 
   createSubsCards = (subsList, locale) => {
@@ -537,7 +569,7 @@ class OverviewCards extends React.Component {
                 <div className="sub-card-content">
                   <div className="sub-card-title">
                     {msgs.get(
-                      "dashboard.card.overview.cards.subs.label",
+                      'dashboard.card.overview.cards.subs.label',
                       locale
                     )}
                   </div>
@@ -554,7 +586,7 @@ class OverviewCards extends React.Component {
                 <div className="sub-card-content">
                   <div className="sub-card-title">
                     {msgs.get(
-                      "dashboard.card.overview.cards.repoResource.label",
+                      'dashboard.card.overview.cards.repoResource.label',
                       locale
                     )}
                   </div>
@@ -584,20 +616,20 @@ class OverviewCards extends React.Component {
                 <div className="sub-card-content">
                   <div className="sub-card-title">
                     {msgs.get(
-                      "dashboard.card.overview.cards.timeWindow.label",
+                      'dashboard.card.overview.cards.timeWindow.label',
                       locale
                     )}
                   </div>
-                  {sub.timeWindowType === "none" ? (
+                  {sub.timeWindowType === 'none' ? (
                     <div
                       className="set-time-window-link"
                       tabIndex="0"
-                      role={"button"}
+                      role={'button'}
                       onClick={this.toggleEditorTab.bind(this)}
                       onKeyPress={this.toggleEditorTab.bind(this)}
                     >
                       {msgs.get(
-                        "dashboard.card.overview.cards.timeWindow.set.label",
+                        'dashboard.card.overview.cards.timeWindow.set.label',
                         locale
                       )}
                     </div>
@@ -618,26 +650,26 @@ class OverviewCards extends React.Component {
               </div>
             </div>
           </React.Fragment>
-        );
+        )
       }
-      return "";
-    });
+      return ''
+    })
   };
 
   toggleEditorTab() {
-    const { location, history } = this.props;
+    const { location, history } = this.props
     const editPath =
       location.pathname +
-      (location.pathname.slice(-1) === "/" ? "edit" : "/edit");
+      (location.pathname.slice(-1) === '/' ? 'edit' : '/edit')
 
-    history.push(editPath);
+    history.push(editPath)
   }
 
   toggleSubsBtn = showSubCards => {
-    this.setState({ showSubCards: !showSubCards });
+    this.setState({ showSubCards: !showSubCards })
   };
 }
 
-OverviewCards.propTypes = {};
+OverviewCards.propTypes = {}
 
-export default withLocale(withRouter(connect(mapStateToProps)(OverviewCards)));
+export default withLocale(withRouter(connect(mapStateToProps)(OverviewCards)))

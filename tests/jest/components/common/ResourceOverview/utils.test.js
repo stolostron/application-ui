@@ -385,7 +385,7 @@ describe("getAppOverviewCardsData", () => {
     const result = {
       argoSource: -1,
       creationTimestamp: -1,
-      destinationNs: "",
+      destinationNs: -1,
       destinationCluster: "",
       isArgoApp: false,
       remoteClusterCount: -1,

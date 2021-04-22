@@ -156,7 +156,19 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                         <div
                           className="pf-c-description-list__text"
                         >
-                          -
+                          <div
+                            className="pf-c-skeleton loading-skeleton-text"
+                            style={
+                              Object {
+                                "--pf-c-skeleton--Height": undefined,
+                                "--pf-c-skeleton--Width": "30%",
+                              }
+                            }
+                          >
+                            <span
+                              className="pf-u-screen-reader"
+                            />
+                          </div>
                         </div>
                       </dd>
                     </div>

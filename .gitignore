@@ -27,5 +27,6 @@ build-harness/
 !vbh/build-harness-extensions
 tests/userCreatedByTestSuite
 userCreatedByTestSuite
-sslcert
+sslcert/server.crt
+sslcert/server.key
 Dockerfile.tmp

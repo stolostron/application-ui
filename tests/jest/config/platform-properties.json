@@ -217,7 +217,7 @@
   "error.create": "Create resource error",
   "error.create.reason": "Cannot find resource type \"undefined\"",
   "error.create.syntax": "Syntax error: {0}",
-  "error.default.description": "An unexpected error occurred. Try again. ",
+  "error.default.description": "The Search component is not available and cannot retrieve application resources. ",
   "error.load.resource": "Error:",
   "error.load.topology": "Load topology failure",
   "filter.remove.label": "Filter",

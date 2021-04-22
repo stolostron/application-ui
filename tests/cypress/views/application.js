@@ -404,10 +404,12 @@ export const verifyDetails = (name, namespace, apiVersion) => {
     .get(".pf-l-grid__item")
     .first()
     .contains(name);
-  cy
-    .get(".pf-l-grid__item")
-    .first()
-    .contains(namespace);
+  if (apiVersion.includes("app.k8s.io")) {
+    cy
+      .get(".pf-l-grid__item")
+      .first()
+      .contains(namespace);
+  }
 };
 
 /*

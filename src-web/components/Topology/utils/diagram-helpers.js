@@ -982,6 +982,11 @@ const addResourceToModel = (
   kindList.push(relatedKind)
   kindModel[`${nameWithoutChartRelease}-${relatedKind.cluster}`] = kindList
   _.set(resourceMapObject, `specs.${kind}Model`, kindModel)
+
+  //tentatively add the deployed object using resource name
+  kindModel[
+    `${_.get(resourceMapObject, 'name', '')}-${relatedKind.cluster}`
+  ] = kindList
 }
 
 // reduce complexity for code smell

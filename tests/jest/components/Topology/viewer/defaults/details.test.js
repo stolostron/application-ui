@@ -475,6 +475,194 @@ describe("getNodeDetails clusters node", () => {
   });
 });
 
+describe("getNodeDetails subscription", () => {
+  const subscription = {
+    id: "member--subscription--sahar-test-ns--sahar-test-1234-subscription-1",
+    uid: "member--subscription--sahar-test-ns--sahar-test-1234-subscription-1",
+    name: "sahar-test-1234-subscription-1",
+    cluster: null,
+    clusterName: null,
+    type: "subscription",
+    specs: {
+      raw: {
+        apiVersion: "apps.open-cluster-management.io/v1",
+        kind: "Subscription",
+        metadata: {
+          annotations: {
+            "apps.open-cluster-management.io/git-branch": "master",
+            "apps.open-cluster-management.io/git-desired-commit": "a123",
+            "apps.open-cluster-management.io/git-path": "path1234",
+            "apps.open-cluster-management.io/git-tag": "b456",
+            "apps.open-cluster-management.io/reconcile-option": "merge",
+            "apps.open-cluster-management.io/reconcile-rate": "off"
+          },
+          labels: {
+            app: "sahar-test-1234"
+          },
+          name: "sahar-test-1234-subscription-1",
+          namespace: "sahar-test-ns",
+          resourceVersion: "8213214",
+          selfLink:
+            "/apis/apps.open-cluster-management.io/v1/namespaces/sahar-test-ns/subscriptions/sahar-test-1234-subscription-1",
+          uid: "874128a2-c5fc-4cff-a3c2-5067fa113cf6"
+        },
+        spec: {
+          channel:
+            "ggithubcom-fxiang1-app-samples1234-ns/ggithubcom-fxiang1-app-samples1234",
+          placement: {
+            placementRef: {
+              kind: "PlacementRule",
+              name: "sahar-test-1234-placement-1"
+            }
+          }
+        },
+        status: {
+          lastUpdateTime: "2021-04-21T16:23:18Z",
+          phase: "PropagationFailed",
+          reason:
+            "failed to initialize Git connection, err: authentication required"
+        },
+        channels: []
+      },
+      row: 43,
+      clustersNames: ["local-cluster"],
+      pulse: "orange",
+      shapeType: "subscription"
+    },
+    namespace: "sahar-test-ns",
+    topology: null,
+    labels: null
+  };
+  const expectedValue = [
+    { type: "spacer" },
+    { type: "label", labelKey: "prop.details.section" },
+    { type: "spacer" },
+    {
+      type: "label",
+      labelKey: "resource.type",
+      labelValue: undefined,
+      value: "Subscription",
+      indent: undefined,
+      status: undefined
+    },
+    {
+      type: "label",
+      labelKey: "resource.api.version",
+      labelValue: undefined,
+      value: "apps.open-cluster-management.io/v1",
+      indent: undefined,
+      status: undefined
+    },
+    {
+      type: "label",
+      labelKey: "resource.namespace",
+      labelValue: undefined,
+      value: "sahar-test-ns",
+      indent: undefined,
+      status: undefined
+    },
+    {
+      type: "label",
+      labelKey: "raw.spec.metadata.label",
+      labelValue: undefined,
+      value: "app=sahar-test-1234",
+      indent: undefined,
+      status: undefined
+    },
+    {
+      type: "label",
+      labelKey: "raw.spec.channel",
+      labelValue: undefined,
+      value:
+        "ggithubcom-fxiang1-app-samples1234-ns/ggithubcom-fxiang1-app-samples1234",
+      indent: undefined,
+      status: undefined
+    },
+    {
+      type: "label",
+      labelKey: "raw.spec.placementRef",
+      labelValue: undefined,
+      value: "kind=PlacementRule,name=sahar-test-1234-placement-1",
+      indent: undefined,
+      status: undefined
+    },
+    {
+      type: "label",
+      labelKey: "spec.subscr.annotations.gitBranch",
+      labelValue: undefined,
+      value: "master",
+      indent: undefined,
+      status: undefined
+    },
+    {
+      type: "label",
+      labelKey: "spec.subscr.annotations.gitPath",
+      labelValue: undefined,
+      value: "path1234",
+      indent: undefined,
+      status: undefined
+    },
+    {
+      type: "label",
+      labelKey: "spec.subscr.annotations.gitTag",
+      labelValue: undefined,
+      value: "b456",
+      indent: undefined,
+      status: undefined
+    },
+    {
+      type: "label",
+      labelKey: "spec.subscr.annotations.gitCommit",
+      labelValue: undefined,
+      value: "a123",
+      indent: undefined,
+      status: undefined
+    },
+    {
+      type: "label",
+      labelKey: "spec.subscr.annotations.reconcileRate",
+      labelValue: undefined,
+      value: "off",
+      indent: undefined,
+      status: undefined
+    },
+    { type: "spacer" },
+    { type: "spacer" },
+    { type: "label", labelKey: "resource.deploy.statuses" },
+    {
+      labelValue: "Remote subscriptions",
+      value:
+        "This subscription was not added to a managed cluster. If this status does not change after waiting for initial creation, ensure the Placement Rule resource is valid and exists in the {0} namespace and that the klusterlet-addon-appmgr pod runs on the managed clusters.",
+      status: "failure"
+    },
+    {
+      type: "link",
+      value: {
+        label: "View all placement rules in {0} namespace",
+        id:
+          "member--subscription--sahar-test-ns--sahar-test-1234-subscription-1-subscrSearch",
+        data: {
+          action: "open_link",
+          targetLink:
+            '/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3Asahar-test-ns%20cluster%3Alocal-cluster"}'
+        }
+      }
+    },
+    { type: "spacer" }
+  ];
+
+  it("should process the node and show the details", () => {
+    expect(
+      getNodeDetails(subscription, undefined, [
+        "application",
+        "cluster",
+        "placements",
+        "subscription"
+      ])
+    ).toEqual(expectedValue);
+  });
+});
+
 describe("getNodeDetails placement node", () => {
   const placementNode = {
     id: "placement1",

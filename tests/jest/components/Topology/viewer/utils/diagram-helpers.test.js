@@ -270,6 +270,19 @@ const modelResult = {
               "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgagedc-subscription",
             status: "Subscribed"
           }
+        ],
+        "-braveman": [
+          {
+            cluster: "braveman",
+            kind: "subscription",
+            label:
+              "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+            name: "mortgagedc-subscription",
+            namespace: "default",
+            selfLink:
+              "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgagedc-subscription",
+            status: "Subscribed"
+          }
         ]
       }
     },
@@ -280,6 +293,14 @@ const modelResult = {
     specs: {
       routeModel: {
         "unsecured-braveman": [
+          {
+            cluster: "braveman",
+            kind: "route",
+            name: "unsecured",
+            namespace: "default"
+          }
+        ],
+        "-braveman": [
           {
             cluster: "braveman",
             kind: "route",

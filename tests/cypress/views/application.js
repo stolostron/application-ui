@@ -408,7 +408,7 @@ export const verifyDetails = (name, namespace, apiVersion) => {
     cy
       .get(".pf-l-grid__item")
       .first()
-      .contains(namespace);
+      .contains(namespace, { timeout: 5 * 1000 });
   }
 };
 

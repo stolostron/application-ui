@@ -20,34 +20,7 @@ Object {
   "pluralKey": "table.plural.application",
   "primaryKey": "name",
   "secondaryKey": "namespace",
-  "tableActions": Array [
-    Object {
-      "key": "table.actions.applications.view",
-      "link": Object {
-        "url": [Function],
-      },
-    },
-    Object {
-      "key": "table.actions.applications.edit",
-      "link": Object {
-        "state": Object {
-          "cancelBack": true,
-        },
-        "url": [Function],
-      },
-    },
-    Object {
-      "key": "table.actions.applications.search",
-      "link": Object {
-        "url": [Function],
-      },
-    },
-    Object {
-      "delete": true,
-      "key": "table.actions.applications.remove",
-      "modal": true,
-    },
-  ],
+  "tableActionsResolver": [Function],
   "tableKeys": Array [
     Object {
       "msgKey": "table.header.name",

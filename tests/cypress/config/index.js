@@ -150,3 +150,14 @@ exports.getUsers = () => {
   };
   return userList;
 };
+
+exports.getrbacConfig = () => {
+  let rbacConfig;
+  rbacConfig = fs.readFileSync(path.join(__dirname, "config.rbac.yaml"));
+  try {
+    rbacConfig = jsYaml.safeLoad(rbacConfig);
+  } catch (e) {
+    throw new Error(e);
+  }
+  return JSON.stringify(rbacConfig);
+};

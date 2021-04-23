@@ -404,12 +404,6 @@ export const verifyDetails = (name, namespace, apiVersion) => {
     .get(".pf-l-grid__item")
     .first()
     .contains(name);
-  if (apiVersion.includes("app.k8s.io")) {
-    cy
-      .get(".pf-l-grid__item")
-      .first()
-      .contains(namespace, { timeout: 5 * 1000 });
-  }
 };
 
 /*

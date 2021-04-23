@@ -1170,10 +1170,6 @@ export const validateDefect7696 = name => {
     .get(".pf-l-grid__item")
     .first()
     .contains(name);
-  cy
-    .get(".pf-l-grid__item")
-    .first()
-    .contains(`${name}-ns`);
 
   cy.log("Select Editor tab");
   cy

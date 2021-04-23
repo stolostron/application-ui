@@ -42,11 +42,11 @@ import _ from 'lodash'
 export default {
   defaultSortField: 'name',
   uriKey: 'name',
-  primaryKey: 'name',
-  secondaryKey: 'namespace',
+  primaryKey: '_uid',
   pluralKey: 'table.plural.application',
   emptyTitle: getEmptyTitle,
   emptyMessage: getEmptyMessage,
+  keyFn: item => `${item.cluster}/${item.namespace}/${item.name}`,
   groupFn: item => {
     if (isArgoApp(item)) {
       const key = _.pick(item, ['repoURL', 'path', 'chart', 'targetRevision'])

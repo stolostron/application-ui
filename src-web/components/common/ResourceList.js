@@ -117,6 +117,7 @@ class ResourceList extends React.Component {
           items={items}
           resourceType={resourceType}
           tableActions={staticResourceData.tableActions}
+          tableActionsResolver={staticResourceData.tableActionsResolver}
           page={page}
           setPage={changeTablePageFn}
           search={searchValue}

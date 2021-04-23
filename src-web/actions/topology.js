@@ -200,8 +200,8 @@ export const openArgoCDEditor = (
         }
       }
     })
-    .catch(err => {
-      handleErrorMsg(`Error: ${err.msg}`)
+    .catch(() => {
+      handleErrorMsg(`Error: ${msgs.get('error.launch.argo.editor')}`)
     })
 }
 

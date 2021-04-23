@@ -1851,9 +1851,8 @@ export const addNodeOCPRouteLocationForCluster = (
     return details
   }
 
-  const clustersList = R.pathOr([], ['clusters', 'specs', 'clusters'])(node)
+  const clustersList = _.get(node, 'specs.searchClusters', [])
   let hostName = R.pathOr(undefined, ['specs', 'raw', 'spec', 'host'])(node)
-
   if (typeObject && _.get(node, 'name', '') !== _.get(typeObject, 'name', '')) {
     //if route name on remote cluster doesn't match the main route name ( generated from Ingress ), show the name here
     //this is to cover the scenario when the Ingress object defines multiple routes,

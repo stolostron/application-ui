@@ -5214,6 +5214,14 @@ describe("addNodeOCPRouteLocationForCluster", () => {
       }
     },
     specs: {
+      searchClusters: [
+        {
+          consoleURL: "https://console-openshift-console.222",
+          metadata: {
+            name: "possiblereptile"
+          }
+        }
+      ],
       routeModel: {
         "mortgage-app-deploy-possiblereptile": [
           {
@@ -5326,6 +5334,14 @@ describe("addNodeOCPRouteLocationForCluster", () => {
       }
     },
     specs: {
+      searchClusters: [
+        {
+          consoleURL: "https://console-openshift-console.222",
+          metadata: {
+            name: "possiblereptile"
+          }
+        }
+      ],
       routeModel: {
         "mortgage-app-deploy-possiblereptile": [
           {

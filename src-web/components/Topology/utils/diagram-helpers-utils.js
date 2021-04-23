@@ -290,13 +290,19 @@ export const syncControllerRevisionPodStatusMap = resourceMap => {
       const parentId = _.get(controllerRevision, 'specs.parent.parentId', '')
       const clusterName = getClusterName(parentId).toString()
       const parentResource =
-        resourceMap[`${parentType}-${parentName}-${clusterName}`]
-      const parentModel = {
-        ..._.get(parentResource, `specs.${parentResource.type}Model`, '')
-      }
-
-      if (parentModel) {
-        _.set(controllerRevision, 'specs.controllerrevisionModel', parentModel)
+        resourceMap[`${parentType}-${parentName}-${clusterName}`] ||
+        resourceMap[`${parentType}-${parentName}-`]
+      if (parentResource) {
+        const parentModel = {
+          ..._.get(parentResource, `specs.${parentResource.type}Model`, '')
+        }
+        if (parentModel) {
+          _.set(
+            controllerRevision,
+            'specs.controllerrevisionModel',
+            parentModel
+          )
+        }
       }
     }
   })

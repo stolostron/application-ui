@@ -225,6 +225,7 @@
   "error.default.description": "The Search component is not available and cannot retrieve application resources. ",
   "error.load.resource": "Error:",
   "error.load.topology": "Load topology failure",
+  "error.launch.argo.editor": "Route information is not available and could not be retrieved.",
   "filter.remove.label": "Filter",
   "filter.view.all": "All",
   "filter.view.close": "Close filter view",

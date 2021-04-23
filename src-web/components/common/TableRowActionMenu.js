@@ -66,7 +66,11 @@ const TableRowActionMenu = ({
     }
   }
   const actionButtons = actions.map(action => {
-    return { id: action.key, text: msgs.get(action.key, locale) }
+    return {
+      id: action.key,
+      text: msgs.get(action.key, locale),
+      component: 'button'
+    }
   })
   return (
     <AcmDropdown

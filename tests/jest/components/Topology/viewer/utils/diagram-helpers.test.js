@@ -827,6 +827,19 @@ describe("getPulseForData ", () => {
   });
 });
 
+describe("getPulseForData ", () => {
+  const previousPulse = "yellow";
+  const available = 0;
+  const desired = undefined;
+  const podsUnavailable = 0;
+
+  it("getPulseForData pulse orange pod desired is undefined and no pods available", () => {
+    expect(
+      getPulseForData(previousPulse, available, desired, podsUnavailable)
+    ).toEqual("orange");
+  });
+});
+
 describe("getNodePropery ", () => {
   const result = { labelKey: "nskey", value: "test" };
   it("get property nodes, not found", () => {

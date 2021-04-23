@@ -310,15 +310,8 @@ const getPulseStatusForGenericNode = node => {
   if (pulse === 'red') {
     return pulse //no need to check anything else, return red
   }
-  const name = _.get(node, metadataName, '')
   const namespace =
     _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
-  const channel = _.get(node, 'specs.raw.spec.channel', '')
-  const resourceName =
-    !isDeployableResource(node) && channel.length > 0
-      ? `${channel}-${name}`
-      : name
-
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const onlineClusters = getOnlineClusters(node)
@@ -334,15 +327,17 @@ const getPulseStatusForGenericNode = node => {
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
-    const resourcesForCluster =
-      resourceMap[`${resourceName}-${clusterName}`] || []
     //get target cluster namespaces
     const resourceNSString = nodeType === 'namespace' ? 'name' : 'namespace'
+    const resourcesForCluster = _.filter(
+      _.flatten(Object.values(resourceMap)),
+      obj => _.get(obj, 'cluster', '') === clusterName
+    )
+
     const targetNSList = getTargetNsForNode(
       node,
-      resourceMap,
+      resourcesForCluster,
       clusterName,
-      resourceName,
       namespace
     )
     targetNSList.forEach(targetNS => {
@@ -982,11 +977,6 @@ const addResourceToModel = (
   kindList.push(relatedKind)
   kindModel[`${nameWithoutChartRelease}-${relatedKind.cluster}`] = kindList
   _.set(resourceMapObject, `specs.${kind}Model`, kindModel)
-
-  //tentatively add the deployed object using resource name
-  kindModel[
-    `${_.get(resourceMapObject, 'name', '')}-${relatedKind.cluster}`
-  ] = kindList
 }
 
 // reduce complexity for code smell
@@ -1214,9 +1204,6 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   const name = _.get(node, metadataName, '')
   const namespace =
     _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
-  const channel = _.get(node, 'specs.raw.spec.channel', '')
-  const resourceName =
-    !isDeployable && channel.length > 0 ? `${channel}-${name}` : name
 
   const clusterNames = R.split(',', getClusterName(nodeId, node, true))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
@@ -1278,16 +1265,16 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       value: clusterName
     })
 
-    const resourcesForCluster =
-      resourceMap[`${resourceName}-${clusterName}`] || []
+    const resourcesForCluster = _.filter(
+      _.flatten(Object.values(resourceMap)),
+      obj => _.get(obj, 'cluster', '') === clusterName
+    )
     const resourceNSString = nodeType === 'namespace' ? 'name' : 'namespace'
-
     //get cluster target namespaces
     const targetNSList = getTargetNsForNode(
       node,
-      resourceMap,
+      resourcesForCluster,
       clusterName,
-      resourceName,
       '*'
     )
     targetNSList.forEach(targetNS => {

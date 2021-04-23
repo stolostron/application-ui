@@ -68,7 +68,8 @@ const ansibleSuccess = {
       "bigjoblaunch-local-cluster": [
         {
           label: "tower_job_id=999999999",
-          namespace: "default"
+          namespace: "default",
+          cluster: "local-cluster"
         }
       ]
     }
@@ -247,31 +248,28 @@ const resourceList = [
 ];
 
 const resourceMap = {
-  "mortgagedc-deploy-braveman": { type: "deploymentconfig" },
+  "mortgagedc-deploy-braveman": {
+    type: "deploymentconfig",
+    cluster: "braveman"
+  },
   "mortgagedc-subscription": { type: "subscription" },
-  "mortgagedc-svc-braveman": {},
-  "route-unsecured-braveman": {}
+  "mortgagedc-svc-braveman": {
+    cluster: "braveman"
+  },
+  "route-unsecured-braveman": {
+    cluster: "braveman"
+  }
 };
 
 const modelResult = {
-  "mortgagedc-deploy-braveman": { type: "deploymentconfig" },
+  "mortgagedc-deploy-braveman": {
+    type: "deploymentconfig",
+    cluster: "braveman"
+  },
   "mortgagedc-subscription": {
     specs: {
       subscriptionModel: {
         "mortgagedc-subscription-braveman": [
-          {
-            cluster: "braveman",
-            kind: "subscription",
-            label:
-              "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
-            name: "mortgagedc-subscription",
-            namespace: "default",
-            selfLink:
-              "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgagedc-subscription",
-            status: "Subscribed"
-          }
-        ],
-        "-braveman": [
           {
             cluster: "braveman",
             kind: "subscription",
@@ -288,19 +286,14 @@ const modelResult = {
     },
     type: "subscription"
   },
-  "mortgagedc-svc-braveman": {},
+  "mortgagedc-svc-braveman": {
+    cluster: "braveman"
+  },
   "route-unsecured-braveman": {
+    cluster: "braveman",
     specs: {
       routeModel: {
         "unsecured-braveman": [
-          {
-            cluster: "braveman",
-            kind: "route",
-            name: "unsecured",
-            namespace: "default"
-          }
-        ],
-        "-braveman": [
           {
             cluster: "braveman",
             kind: "route",
@@ -4012,7 +4005,7 @@ describe("setResourceDeployStatus 3 ", () => {
         "service1-braveman": [
           {
             namespace: "default",
-            cluster: "braveman",
+            cluster: "braveman1",
             status: "Failed"
           }
         ]

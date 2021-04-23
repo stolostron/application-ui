@@ -557,15 +557,12 @@ export const showMissingClusterDetails = (clusterName, node, details) => {
 // returns all namespaces this resource can deploy to
 export const getTargetNsForNode = (
   node,
-  resourceMap,
+  resourcesForCluster,
   clusterName,
-  resourceName,
   defaultNS
 ) => {
   // list of target namespaces per cluster
   const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
-  const resourcesForCluster =
-    resourceMap[`${resourceName}-${clusterName}`] || []
   const nodeType = _.get(node, 'type', '')
   const deployedResourcesNS =
     nodeType === 'namespace'

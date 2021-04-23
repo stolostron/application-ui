@@ -39,6 +39,17 @@ Cypress.Cookies.defaults({
 });
 
 before(() => {
+  // This is needed for search to deploy RedisGraph upstream. Without this search won't be operational.
+  cy.exec('oc get pod -n open-cluster-management | grep search-redisgraph-0 | grep Running', {failOnNonZeroExit: false}).then(result => {
+      if (result.code == 0){
+        cy.task('log', 'Redisgraph pod is running.')
+      } else {
+        cy.task('log', 'RedisGraph not found, deploying and waiting 60 seconds for the search-redisgraph-0 pod.')
+        cy.exec('oc set env deploy search-operator DEPLOY_REDISGRAPH="true" -n open-cluster-management')
+        return cy.wait(10*1000)
+    }
+  })
+    
   // Use given user to install ansible and argocd operator
   cy.ocLogin(Cypress.env("OC_CLUSTER_USER"));
   cy.installAnsibleOperator();

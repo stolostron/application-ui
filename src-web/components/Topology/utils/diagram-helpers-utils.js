@@ -431,7 +431,10 @@ export const updateAppClustersMatchingSearch = (node, searchClusters) => {
   }
   //get only clusters in a url format looking like a cluster api url
   const appClusters = _.get(node, 'specs.appClusters', [])
-  const appClustersUsingURL = _.filter(appClusters, cls => isValidHttpUrl(cls))
+  const appClustersUsingURL = _.filter(
+    appClusters,
+    cls => getValidHttpUrl(cls) !== null
+  )
 
   appClustersUsingURL.forEach(appCls => {
     try {
@@ -483,14 +486,14 @@ export const updateAppClustersMatchingSearch = (node, searchClusters) => {
   return node
 }
 
-export const isValidHttpUrl = value => {
-  let validUrl = true
+export const getValidHttpUrl = value => {
+  let urlValue = true
   try {
-    new URL(value)
+    urlValue = new URL(value)
   } catch (err) {
-    validUrl = false
+    return null
   }
-  return validUrl
+  return urlValue
 }
 
 //show warning when no deployed resources are not found by search on this cluster name
@@ -520,7 +523,7 @@ export const showMissingClusterDetails = (clusterName, node, details) => {
       value: clusterName
     })
     const nsForCluster = targetNS[clusterName] || ['*']
-    if (isValidHttpUrl(clusterName)) {
+    if (getValidHttpUrl(clusterName) !== null) {
       // if name with https://api. this server name could not be mapped to a cluster name
       // search clusters mapping fails when there are no deployed resources or clusters not found..
       nsForCluster.forEach(nsName => {

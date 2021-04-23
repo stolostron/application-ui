@@ -21,9 +21,8 @@ import {
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
 import { withRouter } from 'react-router-dom'
-import apolloClient from '../../../lib/client/apollo-client'
-import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
-import config from '../../../lib/shared/config'
+import TableRowActionMenu, { handleActionClick } from './TableRowActionMenu'
+import { fitContent } from '@patternfly/react-table'
 
 resources(() => {
   require('../../../scss/table.scss')
@@ -77,7 +76,14 @@ class ResourceTable extends React.Component {
   }
 
   getColumns() {
-    const { staticResourceData, items, itemIds, locale } = this.props
+    const {
+      staticResourceData,
+      items,
+      itemIds,
+      locale,
+      tableActionsResolver,
+      resourceType
+    } = this.props
     const enabledColumns = staticResourceData.tableKeys.filter(tableKey => {
       const disabled =
         typeof tableKey.disabled === 'function'
@@ -85,7 +91,7 @@ class ResourceTable extends React.Component {
           : !tableKey.disabled
       return tableKey.disabled ? disabled : tableKey
     })
-    return enabledColumns.map(tableKey => ({
+    const columns = enabledColumns.map(tableKey => ({
       header: msgs.get(tableKey.msgKey, locale),
       cell:
         tableKey.transformFunction &&
@@ -95,76 +101,47 @@ class ResourceTable extends React.Component {
       sort:
         tableKey.textFunction && typeof tableKey.textFunction === 'function'
           ? `transformed.${tableKey.resourceKey}.text`
-          : // ? (a, b) => {
-        //   const aText = tableKey.textFunction(a, locale)
-        //   const bText = tableKey.textFunction(b, locale)
-        //   return aText.localeCompare(bText)
-        // }
-          tableKey.resourceKey,
+          : tableKey.resourceKey,
       search:
         tableKey.textFunction && typeof tableKey.textFunction === 'function'
           ? `transformed.${tableKey.resourceKey}.text`
-          : // ? item => {
-        //   return tableKey.textFunction(item, locale)
-        // }
-          tableKey.resourceKey,
+          : tableKey.resourceKey,
       transforms: tableKey.transforms,
       tooltip: tableKey.tooltipKey
         ? msgs.get(tableKey.tooltipKey, locale)
         : undefined
     }))
-  }
-
-  handleActionClick(action, resourceType, item, history) {
-    const client = apolloClient.getClient()
-    const name = _.get(item, 'name', '')
-    const namespace = _.get(item, 'namespace', '')
-    if (action.link) {
-      const url = action.link.url(item)
-      if (url && !url.startsWith(config.contextPath)) {
-        // external to this SPA
-        window.location = url
-      } else {
-        history.push(url, action.link.state)
-      }
-    } else if (action.modal) {
-      client.mutate({
-        mutation: UPDATE_ACTION_MODAL,
-        variables: {
-          __typename: 'actionModal',
-          open: true,
-          type: action.key,
-          resourceType: {
-            __typename: 'resourceType',
-            name: resourceType.name,
-            list: resourceType.list
-          },
-          data: {
-            __typename: 'ModalData',
-            name,
-            namespace,
-            clusterName: _.get(item, 'cluster', ''),
-            selfLink: _.get(item, 'selfLink', ''),
-            _uid: _.get(item, '_uid', ''),
-            kind: _.get(resourceType, 'kind', ''),
-            apiVersion:
-              _.get(item, 'apiVersion') || _.get(resourceType, 'apiVersion', '')
-          }
-        }
+    if (tableActionsResolver) {
+      columns.push({
+        header: '',
+        cell: item => {
+          const actions = tableActionsResolver(item)
+          return (
+            <TableRowActionMenu
+              actions={actions}
+              item={item}
+              resourceType={resourceType}
+            />
+          )
+        },
+        cellTransforms: [fitContent]
       })
     }
+    return columns
   }
 
   getRowActions() {
     const { tableActions, resourceType, locale, history } = this.props
 
-    return tableActions.map(action => ({
-      id: action.key,
-      title: msgs.get(action.key, locale),
-      click: item => {
-        this.handleActionClick(action, resourceType, item, history)
-      }
-    }))
+    return tableActions
+      ? tableActions.map(action => ({
+        id: action.key,
+        title: msgs.get(action.key, locale),
+        click: item => {
+          handleActionClick(action, resourceType, item, history)
+        }
+      }))
+      : undefined
   }
 
   getResources() {

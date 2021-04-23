@@ -21,19 +21,27 @@ import {
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
 
 describe("getTargetNsForNode", () => {
-  const nsModel = {
-    "helloworld-local-cluster": [
-      {
-        cluster: "local-cluster",
-        kind: "namespace",
-        name: "helloworld"
-      }
-    ]
+  const v1 = {
+    cluster: "local-cluster",
+    kind: "namespace",
+    name: "helloworld-123"
+  };
+  const v2 = {
+    cluster: "local-cluster",
+    kind: "namespace",
+    name: "helloworld-456"
   };
   const inputNodeNS = {
     id:
       "member--member--deployable--member--clusters--local-cluster--vb-crash-ns--vb-app-crash-subscription-1-seeds-managed-acm-hello-world-helloworld-namespace--namespace--helloworld",
     name: "helloworld",
+    clusters: {
+      specs: {
+        targetNamespaces: {
+          "local-cluster": ["helloworld", "helloworld1"]
+        }
+      }
+    },
     cluster: null,
     clusterName: null,
     type: "namespace",
@@ -63,7 +71,10 @@ describe("getTargetNsForNode", () => {
           status: "OK"
         }
       ],
-      namespaceModel: nsModel,
+      namespaceModel: {
+        "helloworld-123-local-cluster": [v1],
+        "helloworld-45-local-cluster": [v2]
+      },
       pulse: "green",
       shapeType: "namespace"
     },
@@ -72,14 +83,13 @@ describe("getTargetNsForNode", () => {
 
   it("return local-cluster namespace for namespace node type ", () => {
     expect(
-      getTargetNsForNode(
-        inputNodeNS,
-        nsModel,
-        "local-cluster",
-        "helloworld",
-        "*"
-      )
-    ).toEqual(["helloworld"]);
+      getTargetNsForNode(inputNodeNS, [v1, v2], "local-cluster", "*")
+    ).toEqual([
+      "helloworld",
+      "helloworld1",
+      "helloworld-123",
+      "helloworld-456"
+    ]);
   });
 
   const polModel = {
@@ -138,7 +148,7 @@ describe("getTargetNsForNode", () => {
     expect(
       getTargetNsForNode(
         inputNodePolicy,
-        polModel,
+        Object.values(polModel)[0],
         "local-cluster",
         "openshift-gitops-installed",
         "*"

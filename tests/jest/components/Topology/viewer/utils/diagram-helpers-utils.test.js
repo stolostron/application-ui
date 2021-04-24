@@ -17,8 +17,155 @@ import {
   fixMissingStateOptions,
   namespaceMatchTargetServer,
   updateAppClustersMatchingSearch,
-  getTargetNsForNode
+  getTargetNsForNode,
+  getResourcesClustersForApp
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
+
+describe("getResourcesClustersForApp", () => {
+  const searchClusters = {
+    items: [
+      {
+        name: "local-cluster",
+        consoleURL: "https://console-openshift-console.apps.app-abcd.com"
+      },
+      {
+        name: "ui-managed",
+        consoleURL:
+          "https://console-openshift-console.apps.app-abcd.managed.com"
+      },
+      {
+        HubAcceptedManagedCluster: "True",
+        ManagedClusterConditionAvailable: "True",
+        kind: "cluster",
+        label: "cloud=Amazon; environment=Dev; name=fxiang-eks; vendor=EKS",
+        name: "fxiang-eks"
+      }
+    ]
+  };
+  const nodesWithPlacementOnLocal = [
+    {
+      name: "rootApp",
+      type: "application",
+      id: "application"
+    },
+    {
+      name: "placementrule",
+      type: "placements",
+      id: "member--rule--placement",
+      specs: {
+        raw: {
+          status: {
+            decisions: [
+              {
+                clusterName: "local-cluster",
+                clusterNamespace: "local-cluster"
+              },
+              {
+                clusterName: "ui-hub",
+                clusterNamespace: "ui-hub"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ];
+  const nodesWithoutPlacementOnLocal = [
+    {
+      name: "rootApp",
+      type: "application",
+      id: "application"
+    },
+    {
+      name: "placementrule",
+      type: "placements",
+      id: "member--rule--placement",
+      specs: {
+        raw: {
+          status: {
+            decisions: [
+              {
+                clusterName: "ui-hub",
+                clusterNamespace: "ui-hub"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ];
+  const nodesWithoutPlacementOnLocalAsDeployable = [
+    {
+      name: "rootApp",
+      type: "application",
+      id: "application"
+    },
+    {
+      name: "placementrule",
+      type: "placements",
+      id: "member--deployable--placement",
+      specs: {
+        raw: {
+          status: {
+            decisions: [
+              {
+                clusterName: "ui-hub",
+                clusterNamespace: "ui-hub"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ];
+  const nodesWithNoPlacement = [
+    {
+      name: "rootApp",
+      type: "application",
+      id: "application"
+    }
+  ];
+  const resultWithoutLocalCluster = [
+    {
+      name: "ui-managed",
+      consoleURL: "https://console-openshift-console.apps.app-abcd.managed.com"
+    },
+    {
+      HubAcceptedManagedCluster: "True",
+      ManagedClusterConditionAvailable: "True",
+      kind: "cluster",
+      label: "cloud=Amazon; environment=Dev; name=fxiang-eks; vendor=EKS",
+      name: "fxiang-eks"
+    }
+  ];
+
+  it("returns search nodes WITHOUT local host, the placement rule is not deploying on local", () => {
+    expect(
+      getResourcesClustersForApp(searchClusters, nodesWithoutPlacementOnLocal)
+    ).toEqual(resultWithoutLocalCluster);
+  });
+
+  it("returns search nodes WITH local host, the placement rule IS deploying not deploying on local", () => {
+    expect(
+      getResourcesClustersForApp(searchClusters, nodesWithPlacementOnLocal)
+    ).toEqual(searchClusters.items);
+  });
+
+  it("returns search nodes WITH local host, the placement rule not found - ie argo", () => {
+    expect(
+      getResourcesClustersForApp(searchClusters, nodesWithNoPlacement)
+    ).toEqual(searchClusters.items);
+  });
+
+  it("returns search nodes WITH local host, the placement rule found but is a deployable", () => {
+    expect(
+      getResourcesClustersForApp(
+        searchClusters,
+        nodesWithoutPlacementOnLocalAsDeployable
+      )
+    ).toEqual(searchClusters.items);
+  });
+});
 
 describe("getTargetNsForNode", () => {
   const v1 = {
@@ -90,6 +237,71 @@ describe("getTargetNsForNode", () => {
       "helloworld-123",
       "helloworld-456"
     ]);
+  });
+
+  const clusterRole = {
+    cluster: "local-cluster",
+    kind: "clusterrole",
+    name: "clusterrole-helloworld-456"
+  };
+  const inputNodeClusterRole = {
+    id:
+      "member--member--deployable--member--clusters--local-cluster--vb-crash-ns--vb-app-crash-subscription-1-seeds-managed-acm-hello-world-helloworld-namespace--clusterrole--helloworld",
+    name: "helloworld",
+    clusters: {
+      specs: {
+        targetNamespaces: {
+          "local-cluster": ["helloworld", "helloworld1"]
+        }
+      }
+    },
+    cluster: null,
+    clusterName: null,
+    type: "clusterrole",
+    specs: {
+      raw: {
+        apiVersion: "v1",
+        kind: "ClusterRole",
+        metadata: {
+          name: "helloworld"
+        }
+      },
+      deployStatuses: [],
+      isDesign: false,
+      parent: {
+        parentId: "member--clusters--local-cluster",
+        parentName: "local-cluster",
+        parentType: "cluster"
+      },
+      clustersNames: ["local-cluster"],
+      searchClusters: [
+        {
+          _clusterNamespace: "local-cluster",
+          name: "local-cluster",
+          kind: "cluster",
+          HubAcceptedManagedCluster: "True",
+          ManagedClusterConditionAvailable: "True",
+          status: "OK"
+        }
+      ],
+      clusterroleModel: {
+        "helloworld-123-local-cluster": [clusterRole]
+      },
+      pulse: "green",
+      shapeType: "clusterrole"
+    },
+    namespace: "vb-crash-ns"
+  };
+
+  it("return local-cluster namespace for clusterrole node type ", () => {
+    expect(
+      getTargetNsForNode(
+        inputNodeClusterRole,
+        [clusterRole],
+        "local-cluster",
+        "*"
+      )
+    ).toEqual(["helloworld", "helloworld1", "clusterrole-helloworld-456"]);
   });
 
   const polModel = {
@@ -309,6 +521,18 @@ describe("getOnlineClusters", () => {
       clustersNames: ["local-cluster", "ui-managed"]
     }
   };
+  const inputNodeLocalNotSet = {
+    id: "member--clusters--",
+    specs: {
+      searchClusters: [
+        {
+          name: "ui-managed",
+          ManagedClusterConditionAvailable: "True"
+        }
+      ],
+      clustersNames: ["local-cluster", "ui-managed"]
+    }
+  };
   it("returns only local cluster", () => {
     expect(getOnlineClusters(inputNodeOffLineRemote)).toEqual([
       "local-cluster"
@@ -316,6 +540,12 @@ describe("getOnlineClusters", () => {
   });
   it("returns all clusters", () => {
     expect(getOnlineClusters(inputNodeAllAvailable)).toEqual([
+      "local-cluster",
+      "ui-managed"
+    ]);
+  });
+  it("returns all clusters, local not set", () => {
+    expect(getOnlineClusters(inputNodeLocalNotSet)).toEqual([
       "local-cluster",
       "ui-managed"
     ]);
@@ -621,7 +851,11 @@ describe("getOnlineCluster ok and pending", () => {
     }
   };
   it("should process cluster node status", () => {
-    expect(getOnlineClusters(node)).toEqual(["cluster1", "cluster2"]);
+    expect(getOnlineClusters(node)).toEqual([
+      "cluster1",
+      "cluster2",
+      "local-cluster"
+    ]);
   });
 });
 

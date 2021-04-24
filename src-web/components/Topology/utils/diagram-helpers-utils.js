@@ -23,6 +23,7 @@ const pendingStatus = 'pending'
 const failureStatus = 'failure'
 const pulseValueArr = ['red', 'orange', 'yellow', 'green']
 const metadataName = 'metadata.name'
+export const nodesWithNoNS = ['namespace', 'clusterrole', 'clusterrolebinding']
 
 export const isDeployableResource = node => {
   //check if this node has been created using a deployable object
@@ -197,7 +198,8 @@ export const getOnlineClusters = node => {
       }
     }
   })
-  return onlineClusters
+  //always add local cluster
+  return _.uniqBy(_.union(onlineClusters, [LOCAL_HUB_NAME]))
 }
 
 export const getClusterHost = consoleURL => {
@@ -570,14 +572,49 @@ export const getTargetNsForNode = (
   // list of target namespaces per cluster
   const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
   const nodeType = _.get(node, 'type', '')
-  const deployedResourcesNS =
-    nodeType === 'namespace'
-      ? _.map(resourcesForCluster, 'name')
-      : _.map(resourcesForCluster, 'namespace')
+  const deployedResourcesNS = _.includes(nodesWithNoNS, nodeType)
+    ? _.map(resourcesForCluster, 'name')
+    : _.map(resourcesForCluster, 'namespace')
   //get cluster target namespaces
   return targetNamespaces[clusterName]
     ? _.union(targetNamespaces[clusterName], _.uniq(deployedResourcesNS))
     : resourcesForCluster.length > 0
       ? _.uniq(deployedResourcesNS)
       : [defaultNS]
+}
+
+//returns the list of clusters the app resources must deploy on
+export const getResourcesClustersForApp = (searchClusters, nodes) => {
+  let clustersList = searchClusters
+    ? R.pathOr([], ['items'])(searchClusters)
+    : []
+  if (nodes && nodes.length > 0) {
+    const placementNodes =
+      _.filter(
+        nodes,
+        node =>
+          _.get(node, 'type', '') === 'placements' &&
+          _.get(node, 'id', '').indexOf('deployable') === -1
+      ) || []
+    if (placementNodes.length > 0) {
+      const localClusterRuleFn = decision =>
+        _.get(decision, 'clusterName', '') === LOCAL_HUB_NAME
+      const localPlacement = _.find(
+        placementNodes,
+        plc =>
+          _.filter(
+            _.get(plc, 'specs.raw.status.decisions', []),
+            localClusterRuleFn
+          ).length > 0
+      )
+      if (!localPlacement) {
+        // this placement doesn't include local host so don't include local cluster, used for showing not deployed status
+        clustersList = _.filter(
+          clustersList,
+          cls => _.get(cls, 'name', '') !== LOCAL_HUB_NAME
+        )
+      }
+    }
+  }
+  return clustersList
 }

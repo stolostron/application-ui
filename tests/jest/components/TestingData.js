@@ -40,6 +40,7 @@ export const appNormalizedItems = {
       _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",
       name: "mortgage-app",
       namespace: "default",
+      cluster: "local-cluster",
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: { remoteCount: 1 },
@@ -115,6 +116,7 @@ export const QueryApplicationList = {
       _uid: "local-cluster/96218695-3798-4dac-b3d3-179fb86b6715",
       name: "mortgage-app",
       namespace: "default",
+      cluster: "local-cluster",
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: { remoteCount: 1 },

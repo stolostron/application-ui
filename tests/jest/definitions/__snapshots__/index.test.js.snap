@@ -8,7 +8,7 @@ exports[`definitions/index tests should return the link of node as /domain/host 
 
 exports[`definitions/index tests should return the link of node as /namespace/name 1`] = `"/namespace/name"`;
 
-exports[`definitions/index tests should return the primary key of node 1`] = `"name"`;
+exports[`definitions/index tests should return the primary key of node 1`] = `"_uid"`;
 
 exports[`definitions/index tests should return the resource data for specified resource 1`] = `
 Object {
@@ -17,37 +17,10 @@ Object {
   "emptyTitle": [Function],
   "groupFn": [Function],
   "groupSummaryFn": [Function],
+  "keyFn": [Function],
   "pluralKey": "table.plural.application",
-  "primaryKey": "name",
-  "secondaryKey": "namespace",
-  "tableActions": Array [
-    Object {
-      "key": "table.actions.applications.view",
-      "link": Object {
-        "url": [Function],
-      },
-    },
-    Object {
-      "key": "table.actions.applications.edit",
-      "link": Object {
-        "state": Object {
-          "cancelBack": true,
-        },
-        "url": [Function],
-      },
-    },
-    Object {
-      "key": "table.actions.applications.search",
-      "link": Object {
-        "url": [Function],
-      },
-    },
-    Object {
-      "delete": true,
-      "key": "table.actions.applications.remove",
-      "modal": true,
-    },
-  ],
+  "primaryKey": "_uid",
+  "tableActionsResolver": [Function],
   "tableKeys": Array [
     Object {
       "msgKey": "table.header.name",
@@ -98,7 +71,7 @@ Object {
 }
 `;
 
-exports[`definitions/index tests should return the secondary key of node 1`] = `"namespace"`;
+exports[`definitions/index tests should return the secondary key of node 1`] = `"cluster"`;
 
 exports[`definitions/index tests should return the table keys for this node 1`] = `
 Array [

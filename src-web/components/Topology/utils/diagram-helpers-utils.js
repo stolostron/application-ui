@@ -23,6 +23,7 @@ const pendingStatus = 'pending'
 const failureStatus = 'failure'
 const pulseValueArr = ['red', 'orange', 'yellow', 'green']
 const metadataName = 'metadata.name'
+export const nodesWithNoNS = ['namespace', 'clusterrole', 'clusterrolebinding']
 
 export const isDeployableResource = node => {
   //check if this node has been created using a deployable object
@@ -197,7 +198,8 @@ export const getOnlineClusters = node => {
       }
     }
   })
-  return onlineClusters
+  //always add local cluster
+  return _.uniqBy(_.union(onlineClusters, [LOCAL_HUB_NAME]))
 }
 
 export const getClusterHost = consoleURL => {
@@ -290,13 +292,19 @@ export const syncControllerRevisionPodStatusMap = resourceMap => {
       const parentId = _.get(controllerRevision, 'specs.parent.parentId', '')
       const clusterName = getClusterName(parentId).toString()
       const parentResource =
-        resourceMap[`${parentType}-${parentName}-${clusterName}`]
-      const parentModel = {
-        ..._.get(parentResource, `specs.${parentResource.type}Model`, '')
-      }
-
-      if (parentModel) {
-        _.set(controllerRevision, 'specs.controllerrevisionModel', parentModel)
+        resourceMap[`${parentType}-${parentName}-${clusterName}`] ||
+        resourceMap[`${parentType}-${parentName}-`]
+      if (parentResource) {
+        const parentModel = {
+          ..._.get(parentResource, `specs.${parentResource.type}Model`, '')
+        }
+        if (parentModel) {
+          _.set(
+            controllerRevision,
+            'specs.controllerrevisionModel',
+            parentModel
+          )
+        }
       }
     }
   })
@@ -431,7 +439,10 @@ export const updateAppClustersMatchingSearch = (node, searchClusters) => {
   }
   //get only clusters in a url format looking like a cluster api url
   const appClusters = _.get(node, 'specs.appClusters', [])
-  const appClustersUsingURL = _.filter(appClusters, cls => isValidHttpUrl(cls))
+  const appClustersUsingURL = _.filter(
+    appClusters,
+    cls => getValidHttpUrl(cls) !== null
+  )
 
   appClustersUsingURL.forEach(appCls => {
     try {
@@ -483,14 +494,14 @@ export const updateAppClustersMatchingSearch = (node, searchClusters) => {
   return node
 }
 
-export const isValidHttpUrl = value => {
-  let validUrl = true
+export const getValidHttpUrl = value => {
+  let urlValue = true
   try {
-    new URL(value)
+    urlValue = new URL(value)
   } catch (err) {
-    validUrl = false
+    return null
   }
-  return validUrl
+  return urlValue
 }
 
 //show warning when no deployed resources are not found by search on this cluster name
@@ -520,7 +531,7 @@ export const showMissingClusterDetails = (clusterName, node, details) => {
       value: clusterName
     })
     const nsForCluster = targetNS[clusterName] || ['*']
-    if (isValidHttpUrl(clusterName)) {
+    if (getValidHttpUrl(clusterName) !== null) {
       // if name with https://api. this server name could not be mapped to a cluster name
       // search clusters mapping fails when there are no deployed resources or clusters not found..
       nsForCluster.forEach(nsName => {
@@ -554,24 +565,56 @@ export const showMissingClusterDetails = (clusterName, node, details) => {
 // returns all namespaces this resource can deploy to
 export const getTargetNsForNode = (
   node,
-  resourceMap,
+  resourcesForCluster,
   clusterName,
-  resourceName,
   defaultNS
 ) => {
   // list of target namespaces per cluster
   const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
-  const resourcesForCluster =
-    resourceMap[`${resourceName}-${clusterName}`] || []
   const nodeType = _.get(node, 'type', '')
-  const deployedResourcesNS =
-    nodeType === 'namespace'
-      ? _.map(resourcesForCluster, 'name')
-      : _.map(resourcesForCluster, 'namespace')
+  const deployedResourcesNS = _.includes(nodesWithNoNS, nodeType)
+    ? _.map(resourcesForCluster, 'name')
+    : _.map(resourcesForCluster, 'namespace')
   //get cluster target namespaces
   return targetNamespaces[clusterName]
     ? _.union(targetNamespaces[clusterName], _.uniq(deployedResourcesNS))
     : resourcesForCluster.length > 0
       ? _.uniq(deployedResourcesNS)
       : [defaultNS]
+}
+
+//returns the list of clusters the app resources must deploy on
+export const getResourcesClustersForApp = (searchClusters, nodes) => {
+  let clustersList = searchClusters
+    ? R.pathOr([], ['items'])(searchClusters)
+    : []
+  if (nodes && nodes.length > 0) {
+    const placementNodes =
+      _.filter(
+        nodes,
+        node =>
+          _.get(node, 'type', '') === 'placements' &&
+          _.get(node, 'id', '').indexOf('deployable') === -1
+      ) || []
+    if (placementNodes.length > 0) {
+      const localClusterRuleFn = decision =>
+        _.get(decision, 'clusterName', '') === LOCAL_HUB_NAME
+      const localPlacement = _.find(
+        placementNodes,
+        plc =>
+          _.filter(
+            _.get(plc, 'specs.raw.status.decisions', []),
+            localClusterRuleFn
+          ).length > 0
+      )
+      if (!localPlacement) {
+        // this placement doesn't include local host so don't include local cluster, used for showing not deployed status
+        clustersList = _.filter(
+          clustersList,
+          cls => _.get(cls, 'name', '') !== LOCAL_HUB_NAME
+        )
+      }
+    }
+  }
+  return clustersList
 }

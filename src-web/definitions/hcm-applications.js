@@ -22,8 +22,10 @@ import { cellWidth } from '@patternfly/react-table'
 import { Link } from 'react-router-dom'
 import queryString from 'query-string'
 import config from '../../lib/shared/config'
+import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import msgs from '../../nls/platform.properties'
 import ChannelLabels from '../components/common/ChannelLabels'
+import TableRowActionMenu from '../components/common/TableRowActionMenu'
 import {
   Button,
   Label,
@@ -40,11 +42,11 @@ import _ from 'lodash'
 export default {
   defaultSortField: 'name',
   uriKey: 'name',
-  primaryKey: 'name',
-  secondaryKey: 'namespace',
+  primaryKey: '_uid',
   pluralKey: 'table.plural.application',
   emptyTitle: getEmptyTitle,
   emptyMessage: getEmptyMessage,
+  keyFn: item => `${item.cluster}/${item.namespace}/${item.name}`,
   groupFn: item => {
     if (isArgoApp(item)) {
       const key = _.pick(item, ['repoURL', 'path', 'chart', 'targetRevision'])
@@ -64,7 +66,8 @@ export default {
           { title: createClustersLink(items, locale) }, // pass full array for all clusters
           { title: createChannels(items[0], locale) },
           { title: '' }, // Empty Time window
-          { title: '' } // Empty Created
+          { title: '' }, // Empty Created
+          { title: '' } // Empty Actions
         ]
       }
     } else {
@@ -75,7 +78,16 @@ export default {
           { title: createClustersLink(items[0], locale) },
           { title: createChannels(items[0], locale) },
           { title: getTimeWindow(items[0], locale) },
-          { title: getAge(items[0], locale) }
+          { title: getAge(items[0], locale) },
+          {
+            title: (
+              <TableRowActionMenu
+                actions={tableActionsResolver(items[0])}
+                item={items[0]}
+                resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
+              />
+            )
+          }
         ]
       }
     }
@@ -122,44 +134,51 @@ export default {
       transformFunction: getAge
     }
   ],
-  tableActions: [
+  tableActionsResolver: tableActionsResolver
+}
+
+function tableActionsResolver(item) {
+  const actions = [
     {
       key: 'table.actions.applications.view',
       link: {
         url: item => getApplicationLink(item)
       }
-    },
-    {
+    }
+  ]
+  if (!isArgoApp(item)) {
+    actions.push({
       key: 'table.actions.applications.edit',
       link: {
         url: item => getApplicationLink(item, true),
         state: { cancelBack: true }
       }
-    },
-    {
-      key: 'table.actions.applications.search',
-      link: {
-        url: item => {
-          const [apigroup, apiversion] = item.apiVersion.split('/')
-          return getSearchLink({
-            properties: {
-              name: item.name,
-              namespace: item.namespace,
-              cluster: item.cluster,
-              kind: item.kind.toLowerCase(),
-              apigroup,
-              apiversion
-            }
-          })
-        }
+    })
+  }
+  actions.push({
+    key: 'table.actions.applications.search',
+    link: {
+      url: item => {
+        const [apigroup, apiversion] = item.apiVersion.split('/')
+        return getSearchLink({
+          properties: {
+            name: item.name,
+            namespace: item.namespace,
+            cluster: item.cluster,
+            kind: item.kind.toLowerCase(),
+            apigroup,
+            apiversion
+          }
+        })
       }
-    },
-    {
-      key: 'table.actions.applications.remove',
-      modal: true,
-      delete: true
     }
-  ]
+  })
+  actions.push({
+    key: 'table.actions.applications.remove',
+    modal: true,
+    delete: true
+  })
+  return actions
 }
 
 function getApplicationLink(item = {}, edit = false) {

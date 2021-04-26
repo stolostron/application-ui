@@ -13,10 +13,10 @@
 
 import {
   loadExistingAnsibleProviders,
-  loadExistingSecrets,
-  updatePrePostControls,
   getSharedSubscriptionWarning
 } from './utils'
+import React from 'react'
+import { ExternalLinkAltIcon } from '@patternfly/react-icons'
 
 const prePostTasks = [
   ////////////////////////////////////////////////////////////////////////////////////
@@ -33,48 +33,24 @@ const prePostTasks = [
     techPreview: true
   },
   {
-    name: 'creation.app.ansible.secrets.name',
-    tooltip: 'tooltip.creation.app.ansibleSecretName',
-    id: 'ansibleSecretName1',
-    type: 'combobox',
-    active: '',
-    placeholder: 'app.enter.select.ansibleSecretName',
-    available: [],
-    fetchAvailable: loadExistingAnsibleProviders(),
-    onSelect: updatePrePostControls,
-    reverse: 'Subscription[0].spec.hooksecretref.name',
-    validation: {}
-  },
-  {
-    name: 'creation.app.ansible.secret.name',
+    name: 'creation.app.ansible.credential.name',
     tooltip: 'tooltip.creation.app.ansibleSecretName',
     id: 'ansibleSecretName',
     type: 'combobox',
     active: '',
     placeholder: 'app.enter.select.ansibleSecretName',
     available: [],
-    fetchAvailable: loadExistingSecrets(),
-    onSelect: updatePrePostControls,
+    fetchAvailable: loadExistingAnsibleProviders(),
     reverse: 'Subscription[0].spec.hooksecretref.name',
-    validation: {}
-  },
-  {
-    name: 'creation.app.ansible.secret.host',
-    id: 'ansibleTowerHost',
-    type: 'text',
-    editing: { hidden: true }, // if editing existing app, hide this field initially
-    active: '',
-    encode: true,
-    placeholder: 'app.enter.select.ansibleTowerHost'
-  },
-  {
-    name: 'creation.app.ansible.secret.token',
-    id: 'ansibleTowerToken',
-    type: 'password',
-    editing: { hidden: true }, // if editing existing app, hide this field initially
-    encode: true,
-    active: '',
-    placeholder: 'app.enter.select.ansibleTowerToken'
+    validation: {},
+    prompts: {
+      prompt: 'creation.ocp.cloud.add.connection',
+      icon: <ExternalLinkAltIcon />,
+      type: 'link',
+      url: '/add-credentials', // launch to add-credentials
+      positionBottomRight: true,
+      id: 'add-provider-connection'
+    }
   }
 ]
 

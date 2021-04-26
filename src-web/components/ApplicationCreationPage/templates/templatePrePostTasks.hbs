@@ -3,7 +3,7 @@
 {{! ================== Ansible Secret ======================== }}
 {{! ========================================================== }}
 {{! ========================================================== }}
-{{#if ansibleTowerHost}}
+{{#if ansibleSecretName}}
 ---
 apiVersion: v1
 kind: Secret
@@ -12,7 +12,9 @@ metadata:
     app: {{{@root.name}}}
   name: {{{ansibleSecretName}}}
   namespace: {{{@root.namespace}}}
-data:
-  host: {{{ansibleTowerHost}}}
-  token: {{{ansibleTowerToken}}}
- {{/if}} 
+{{#if @root.showSecrets}}
+data: {{{@root.metadata}}}
+{{else}}
+data: # injected on create
+{{/if}}
+{{/if}} 

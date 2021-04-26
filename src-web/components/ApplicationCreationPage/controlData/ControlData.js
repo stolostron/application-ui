@@ -70,6 +70,11 @@ export const controlData = async () => [
     reverse: 'Application[0].metadata.name'
   },
   {
+    id: 'showSecrets',
+    type: 'hidden',
+    active: false
+  },
+  {
     name: 'creation.app.namespace',
     tooltip: 'tooltip.creation.app.namespace',
     id: 'namespace',

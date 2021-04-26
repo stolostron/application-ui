@@ -13,7 +13,10 @@
 
 import React from 'react'
 import msgs from '../../../../nls/platform.properties'
-import { HCMChannelList, HCMSecretsList } from '../../../../lib/client/queries'
+import {
+  HCMAnsibleTower,
+  HCMChannelList
+} from '../../../../lib/client/queries'
 import apolloClient from '../../../../lib/client/apollo-client'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import SharedResourceWarning from '../components/SharedResourceWarning'
@@ -34,28 +37,12 @@ export const loadExistingChannels = type => {
 
 export const loadExistingAnsibleProviders = () => {
   const ansibleProviderQueryVariables = {
-    kind: 'secret',
-    label: 'cluster.open-cluster-management.io/provider:ans'
-  }
-  return ansibleProviderQueryVariables
-}
-
-export const loadExistingSecrets = () => {
-  const getQueryVariables = (control, globalControl) => {
-    const nsControl = globalControl.find(
-      ({ id: idCtrl }) => idCtrl === 'namespace'
-    )
-    if (nsControl.active) {
-      delete control.exception
-      return { namespace: nsControl.active }
-    } else {
-      control.exception = msgs.get('creation.app.loading.secrets.ns.err')
-      return {}
-    }
+    label: 'cluster.open-cluster-management.io/provider',
+    value: 'ans'
   }
   return {
-    query: HCMSecretsList,
-    variables: getQueryVariables,
+    query: HCMAnsibleTower,
+    variables: ansibleProviderQueryVariables,
     loadingDesc: 'creation.app.loading.secrets',
     setAvailable: setAvailableSecrets.bind(null)
   }
@@ -289,18 +276,6 @@ export const updateControlsForNS = (
       selectedRuleNameControl && _.set(selectedRuleNameControl, 'active', '')
 
       updateNewRuleControlsData('', control)
-    }
-
-    //update ansible secret controls
-    const ansibleSecretName = _.get(control, 'ansibleSecretName')
-    const ansibleTowerHost = _.get(control, 'ansibleTowerHost')
-    const ansibleTowerToken = _.get(control, 'ansibleTowerToken')
-    if (ansibleSecretName && ansibleTowerHost && ansibleTowerToken) {
-      _.set(ansibleSecretName, 'active', '')
-      _.set(ansibleTowerHost, 'active', '')
-      _.set(ansibleTowerToken, 'active', '')
-      _.set(ansibleTowerHost, 'type', 'text')
-      _.set(ansibleTowerToken, 'type', 'text')
     }
   })
 
@@ -625,50 +600,25 @@ export const setAvailableSecrets = (control, result) => {
   const { data = {} } = result
   const { secrets } = data
   control.available = []
-  control.availableMap = {}
+  control.hasReplacements = true
+
   control.isLoading = false
   const error = secrets ? null : result.error
   if (error) {
     control.isFailed = true
   } else if (secrets) {
-    control.availableData = _.keyBy(secrets, 'name')
+    control.availableData = _.keyBy(secrets, 'ansibleSecretName')
     control.available = Object.keys(control.availableData).sort()
+    control.availableMap = _.mapValues(control.availableData, replacements => {
+      return {
+        replacements
+      }
+    })
   } else {
     control.isLoading = loading
   }
 
-  updatePrePostControls(control)
-
   return control
-}
-
-export const updatePrePostControls = urlControl => {
-  const groupControlData = _.get(urlControl, 'groupControlData')
-
-  const { active, availableData } = urlControl
-
-  const selectedSecret = availableData && availableData[active]
-
-  const ansibleHost =
-    groupControlData &&
-    groupControlData.find(({ id }) => id === 'ansibleTowerHost')
-  const ansibleToken =
-    groupControlData &&
-    groupControlData.find(({ id }) => id === 'ansibleTowerToken')
-
-  if (!selectedSecret) {
-    //new secret, show host task info
-    _.set(ansibleHost, 'type', 'text')
-    _.set(ansibleToken, 'type', 'password')
-  } else {
-    //existing secret, hide and clean host and token
-    _.set(ansibleHost, 'type', 'hidden')
-    _.set(ansibleToken, 'type', 'hidden')
-    _.set(ansibleHost, 'active', '')
-    _.set(ansibleToken, 'active', '')
-  }
-
-  return urlControl
 }
 
 export const getSharedPlacementRuleWarning = control => (

@@ -306,40 +306,6 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
             <span
               className="label sectionLabel"
             >
-              CPU
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              100
-              %
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
-              Memory
-              :
-               
-            </span>
-            <span
-              className="value"
-            >
-              100
-              %
-            </span>
-          </div>
-          <div
-            className="sectionContent borderLeft"
-          >
-            <span
-              className="label sectionLabel"
-            >
               Created
               :
                

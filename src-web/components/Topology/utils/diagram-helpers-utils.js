@@ -23,6 +23,12 @@ const pendingStatus = 'pending'
 const failureStatus = 'failure'
 const pulseValueArr = ['red', 'orange', 'yellow', 'green']
 const metadataName = 'metadata.name'
+const argoAppHealthyStatus = 'Healthy'
+const argoAppDegradedStatus = 'Degraded'
+const argoAppMissingStatus = 'Missing'
+const argoAppProgressingStatus = 'Progressing'
+const argoAppSuspendedStatus = 'Suspended'
+const argoAppUnknownStatus = 'Unknown'
 export const nodesWithNoNS = ['namespace', 'clusterrole', 'clusterrolebinding']
 
 export const isDeployableResource = node => {
@@ -390,43 +396,74 @@ export const setArgoApplicationDeployStatus = (node, details) => {
 }
 
 export const getStatusForArgoApp = healthStatus => {
-  if (healthStatus === 'Healthy') {
+  if (healthStatus === argoAppHealthyStatus) {
     return checkmarkStatus
   }
-  if (healthStatus === 'Progressing') {
+  if (healthStatus === argoAppProgressingStatus) {
     return pendingStatus
   }
-  if (healthStatus === 'Unknown') {
+  if (healthStatus === argoAppUnknownStatus) {
     return failureStatus
   }
   return warningStatus
 }
 
 export const translateArgoHealthStatus = healthStatus => {
-  if (healthStatus === 'Healthy') {
+  if (healthStatus === argoAppHealthyStatus) {
     return 3
   }
-  if (healthStatus === 'Missing' || healthStatus === 'Unknown') {
+  if (
+    healthStatus === argoAppMissingStatus ||
+    healthStatus === argoAppUnknownStatus
+  ) {
     return 1
   }
-  if (healthStatus === 'Degraded') {
+  if (healthStatus === argoAppDegradedStatus) {
     return 0
   }
   return 2
 }
 
 export const getPulseStatusForArgoApp = node => {
-  const appHealth = _.get(node, 'specs.raw.status.health.status')
-  const healthArr = [translateArgoHealthStatus(appHealth)]
   const relatedApps = _.get(node, 'specs.relatedApps', [])
+  let healthyCount = 0,
+      missingUnknownProgressingSuspendedCount = 0,
+      degradedCount = 0
 
   relatedApps.forEach(app => {
-    const relatedAppHealth = _.get(app, 'status.health.status', 'Healthy')
-    healthArr.push(translateArgoHealthStatus(relatedAppHealth))
+    const relatedAppHealth = _.get(app, 'status', '')
+    if (relatedAppHealth === argoAppHealthyStatus) {
+      healthyCount++
+    } else if (
+      relatedAppHealth === argoAppMissingStatus ||
+      relatedAppHealth === argoAppUnknownStatus ||
+      relatedAppHealth === argoAppProgressingStatus ||
+      relatedAppHealth === argoAppSuspendedStatus
+    ) {
+      missingUnknownProgressingSuspendedCount++
+    } else if (relatedAppHealth === argoAppDegradedStatus) {
+      degradedCount++
+    }
   })
 
-  const minPulse = Math.min.apply(null, healthArr)
-  return pulseValueArr[minPulse]
+  if (degradedCount === relatedApps.length) {
+    return pulseValueArr[failureCode]
+  }
+  if (missingUnknownProgressingSuspendedCount === relatedApps.length) {
+    return pulseValueArr[pendingCode]
+  }
+  if (
+    healthyCount === 0 &&
+    missingUnknownProgressingSuspendedCount === 0 &&
+    degradedCount === 0
+  ) {
+    return pulseValueArr[pendingCode]
+  }
+  if (healthyCount < relatedApps.length) {
+    return pulseValueArr[warningCode]
+  }
+
+  return pulseValueArr[checkmarkCode]
 }
 
 // try to match app destination clusters with hub clusters using search data

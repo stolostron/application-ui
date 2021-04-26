@@ -49,8 +49,9 @@ LOCK_ID="travis-${TRAVIS_JOB_ID}"
 oc login --token $CLUSTERPOOL_TOKEN $CLUSTERPOOL_CLUSTER --insecure-skip-tls-verify
 ck lock -i $LOCK_ID $CLUSTERPOOL_HUB
 ck lock -i $LOCK_ID $CLUSTERPOOL_MANAGED
-ck run -f $CLUSTERPOOL_MANAGED
-ck use -f $CLUSTERPOOL_HUB
+ck run -f $CLUSTERPOOL_HUB     # Resume hub if needed
+ck use -f $CLUSTERPOOL_MANAGED # Resume and wait for managed to be ready
+ck use -f $CLUSTERPOOL_HUB     # Wait for hub to be ready
 
 fold_end cp-lock
 
@@ -59,7 +60,7 @@ fold_end cp-lock
 ###############################################################################
 fold_start test-setup "Test Setup"
 
-HUB_CREDS=$(ck creds -f $CLUSTERPOOL_HUB)
+HUB_CREDS=$(ck creds -c $CLUSTERPOOL_HUB)
 export OC_CLUSTER_URL=$(echo $HUB_CREDS | jq -r '.api_url')
 export OC_CLUSTER_USER=$(echo $HUB_CREDS | jq -r '.username')
 export OC_CLUSTER_PASS=$(echo $HUB_CREDS | jq -r '.password')

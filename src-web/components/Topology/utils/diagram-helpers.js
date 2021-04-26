@@ -34,7 +34,9 @@ import {
   getPulseStatusForArgoApp,
   updateAppClustersMatchingSearch,
   showMissingClusterDetails,
-  getTargetNsForNode
+  getTargetNsForNode,
+  nodesWithNoNS,
+  getResourcesClustersForApp
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor } from '../../../actions/topology'
@@ -328,7 +330,9 @@ const getPulseStatusForGenericNode = node => {
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
     //get target cluster namespaces
-    const resourceNSString = nodeType === 'namespace' ? 'name' : 'namespace'
+    const resourceNSString = _.includes(nodesWithNoNS, nodeType)
+      ? 'name'
+      : 'namespace'
     const resourcesForCluster = _.filter(
       _.flatten(Object.values(resourceMap)),
       obj => _.get(obj, 'cluster', '') === clusterName
@@ -1005,12 +1009,13 @@ export const setupResourceModel = (
     return resourceMap
   }
   // store cluster objects and cluster names as returned by search; these are clusters related to the app
-  const clustersList = R.find(R.propEq('kind', 'cluster'))(list) || {}
-  const clustersObjects = R.pathOr([], ['items'])(clustersList)
+  const clustersObjects = getResourcesClustersForApp(
+    R.find(R.propEq('kind', 'cluster'))(list) || {},
+    topology.nodes
+  )
   const clusterNamesList = R.sortBy(R.identity)(
     R.pluck('name')(clustersObjects)
   )
-
   if (topology.nodes) {
     const appNode =
       _.find(
@@ -1273,7 +1278,9 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       _.flatten(Object.values(resourceMap)),
       obj => _.get(obj, 'cluster', '') === clusterName
     )
-    const resourceNSString = nodeType === 'namespace' ? 'name' : 'namespace'
+    const resourceNSString = _.includes(nodesWithNoNS, nodeType)
+      ? 'name'
+      : 'namespace'
     //get cluster target namespaces
     const targetNSList = getTargetNsForNode(
       node,

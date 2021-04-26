@@ -599,7 +599,8 @@ export const validateResourceTable = (
   data,
   type,
   numberOfRemoteClusters,
-  namespace
+  namespace,
+  deployedNamespace
 ) => {
   if (!namespace) {
     namespace = getNamespace(name);
@@ -628,17 +629,14 @@ export const validateResourceTable = (
         .invoke("text")
         .should("include", type)
     );
+    cy.get("#expandable-toggle0").click();
   }
-
-  if (type !== "argo") {
-    // will remove the condition when #11363 is in
-    resourceTable.getRow(name, resourceKey).within(() =>
-      resourceTable
-        .getCell("Namespace")
-        .invoke("text")
-        .should("include", namespace)
-    );
-  }
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Namespace")
+      .invoke("text")
+      .should("include", type === "argo" ? deployedNamespace : namespace)
+  );
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,

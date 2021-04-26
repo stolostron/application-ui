@@ -613,13 +613,27 @@ describe("hcm-application-diagram-tests", () => {
         specs: {
           clusters: [
             {
-              name: "sharingpenguin",
+              metadata: {
+                name: "possiblereptile"
+              },
               status: "ok"
-            }
-          ],
-          searchClusters: [
+            },
             {
-              name: "sharingpenguin",
+              metadata: {
+                name: "braveman"
+              },
+              status: "ok"
+            },
+            {
+              metadata: {
+                name: "sharingpenguin"
+              },
+              status: "ok"
+            },
+            {
+              metadata: {
+                name: "relievedox"
+              },
               status: "ok"
             }
           ],
@@ -715,13 +729,27 @@ describe("hcm-application-diagram-tests", () => {
           specs: {
             clusters: [
               {
-                name: "sharingpenguin",
+                metadata: {
+                  name: "possiblereptile"
+                },
                 status: "ok"
-              }
-            ],
-            searchClusters: [
+              },
               {
-                name: "sharingpenguin",
+                metadata: {
+                  name: "braveman"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "sharingpenguin"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "relievedox"
+                },
                 status: "ok"
               }
             ],
@@ -772,7 +800,27 @@ describe("hcm-application-diagram-tests", () => {
           specs: {
             clusters: [
               {
-                name: "sharingpenguin",
+                metadata: {
+                  name: "possiblereptile"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "braveman"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "sharingpenguin"
+                },
+                status: "ok"
+              },
+              {
+                metadata: {
+                  name: "relievedox"
+                },
                 status: "ok"
               }
             ],

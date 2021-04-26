@@ -38,7 +38,7 @@ echo "Running pull-test-image..."
 make pull-test-image
 
 # Set up HTTPS
-mkdir sslcert
+mkdir -p sslcert
 echo "$SERVER_KEY" > sslcert/server.key
 echo "$SERVER_CRT" > sslcert/server.crt
 export CYPRESS_BASE_URL=https://localhost:3001

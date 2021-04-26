@@ -130,7 +130,6 @@ class OverviewCards extends React.Component {
       topology,
       selectedAppName,
       selectedAppNS,
-      targetLink,
       locale
     )
 
@@ -152,51 +151,106 @@ class OverviewCards extends React.Component {
         ? false
         : true
 
+    const leftCardItems = [
+      {
+        key: msgs.get('dashboard.card.overview.cards.name', locale),
+        value: (
+          <React.Fragment>
+            <div className="app-name-container">
+              <div className="app-name">{selectedAppName}</div>
+              {this.renderData(
+                appOverviewCardsData.argoSource,
+                this.createArgoAppIcon(appOverviewCardsData.isArgoApp, locale),
+                '30%'
+              )}
+            </div>
+          </React.Fragment>
+        )
+      },
+      {
+        key: msgs.get('dashboard.card.overview.cards.namespace', locale),
+        keyAction: appOverviewCardsData.isArgoApp && (
+          <Tooltip
+            content={
+              <div>
+                {msgs.get(
+                  'dashboard.card.overview.cards.namespace.argo.tooltip',
+                  locale
+                )}
+              </div>
+            }
+          >
+            <OutlinedQuestionCircleIcon className="help-icon" />
+          </Tooltip>
+        ),
+        value: (
+          <React.Fragment>
+            {this.renderData(
+              appOverviewCardsData.destinationNs,
+              appOverviewCardsData.isArgoApp
+                ? appOverviewCardsData.destinationNs
+                : selectedAppNS,
+              '30%'
+            )}
+          </React.Fragment>
+        )
+      },
+      {
+        key: msgs.get('dashboard.card.overview.cards.created', locale),
+        value: (
+          <React.Fragment>
+            {this.renderData(
+              appOverviewCardsData.creationTimestamp,
+              appOverviewCardsData.creationTimestamp,
+              '30%'
+            )}
+          </React.Fragment>
+        )
+      }
+    ]
+
+    appOverviewCardsData.isArgoApp &&
+      leftCardItems.splice(2, 0, {
+        key: msgs.get('dashboard.card.overview.cards.server', locale),
+        keyAction: (
+          <Tooltip
+            content={
+              <div>
+                {msgs.get(
+                  'dashboard.card.overview.cards.server.tooltip',
+                  locale
+                )}
+              </div>
+            }
+          >
+            <OutlinedQuestionCircleIcon className="help-icon" />
+          </Tooltip>
+        ),
+        value: appOverviewCardsData.destinationCluster
+      })
+
     return (
       <div className="overview-cards-container">
         <AcmDescriptionList
           title={msgs.get('dashboard.card.overview.cards.title', locale)}
-          leftItems={[
-            {
-              key: msgs.get('dashboard.card.overview.cards.name', locale),
-              value: (
-                <React.Fragment>
-                  <div className="app-name-container">
-                    <div className="app-name">
-                      {appOverviewCardsData.appName}
-                    </div>
-                    {this.renderData(
-                      appOverviewCardsData.argoSource,
-                      this.createArgoAppIcon(
-                        appOverviewCardsData.isArgoApp,
-                        locale
-                      ),
-                      '30%'
-                    )}
-                  </div>
-                </React.Fragment>
-              )
-            },
-            {
-              key: msgs.get('dashboard.card.overview.cards.namespace', locale),
-              value: appOverviewCardsData.appNamespace
-            },
-            {
-              key: msgs.get('dashboard.card.overview.cards.created', locale),
-              value: (
-                <React.Fragment>
-                  {this.renderData(
-                    appOverviewCardsData.creationTimestamp,
-                    appOverviewCardsData.creationTimestamp,
-                    '30%'
-                  )}
-                </React.Fragment>
-              )
-            }
-          ]}
+          leftItems={leftCardItems}
           rightItems={[
             {
               key: msgs.get('dashboard.card.overview.cards.clusters', locale),
+              keyAction: appOverviewCardsData.isArgoApp && (
+                <Tooltip
+                  content={
+                    <div>
+                      {msgs.get(
+                        'dashboard.card.overview.cards.clusters.argo.tooltip',
+                        locale
+                      )}
+                    </div>
+                  }
+                >
+                  <OutlinedQuestionCircleIcon className="help-icon" />
+                </Tooltip>
+              ),
               value: (
                 <React.Fragment>
                   {this.renderData(
@@ -217,17 +271,21 @@ class OverviewCards extends React.Component {
               ),
               keyAction: (
                 <Tooltip
-                  isContentLeftAligned
                   content={
                     <div>
-                      {msgs.get(
-                        'dashboard.card.overview.cards.cluster.resource.status.tooltip',
-                        locale
-                      )}
+                      {appOverviewCardsData.isArgoApp
+                        ? msgs.get(
+                          'dashboard.card.overview.cards.cluster.resource.status.argo.tooltip',
+                          locale
+                        )
+                        : msgs.get(
+                          'dashboard.card.overview.cards.cluster.resource.status.tooltip',
+                          locale
+                        )}
                     </div>
                   }
                 >
-                  <OutlinedQuestionCircleIcon className="resource-status-help-icon" />
+                  <OutlinedQuestionCircleIcon className="help-icon" />
                 </Tooltip>
               ),
               value: (
@@ -250,10 +308,7 @@ class OverviewCards extends React.Component {
                         'dashboard.card.overview.cards.repoResource.label',
                         locale
                       )
-                      : this.createTargetLink(
-                        getUrl + appOverviewCardsData.targetLink,
-                        locale
-                      ),
+                      : this.createTargetLink(getUrl + targetLink, locale),
                     '30%'
                   )}
                 </React.Fragment>
@@ -292,7 +347,7 @@ class OverviewCards extends React.Component {
             }
           ]}
         />
-        {appOverviewCardsData.isArgoApp && (
+        {appOverviewCardsData.isArgoApp ? (
           <Card className="argo-links-container">
             <CardBody>
               <AcmActionGroup>
@@ -366,9 +421,7 @@ class OverviewCards extends React.Component {
               </AcmActionGroup>
             </CardBody>
           </Card>
-        )}
-
-        {!appOverviewCardsData.isArgoApp && (
+        ) : (
           <div className="overview-cards-subs-section">
             {showSubCards && !disableBtn
               ? this.createSubsCards(appOverviewCardsData.subsList, locale)

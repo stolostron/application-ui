@@ -554,7 +554,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Shows the namespace of the application resource, which by default is where the application will deploy other resources. For Argo applications, this is the destination namespace."
+                                aria-label="Displays the namespace of the application resource, which by default is where the application deploys other resources. For Argo applications, this is the destination namespace."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-27"
                                 data-ouia-component-type="PF4/Button"
@@ -623,7 +623,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo application, the name of the destination cluster is shown. Click to search for the clusters."
+                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo application, the name of the destination cluster is displayed. Click to search for the clusters."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-28"
                                 data-ouia-component-type="PF4/Button"
@@ -823,9 +823,14 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             </div>
                           </button>
                         </th>
+                        <th
+                          class="pf-m-nowrap"
+                          data-key="7"
+                          data-label=""
+                        />
                         <td
                           class=""
-                          data-key="7"
+                          data-key="8"
                           data-label=""
                         />
                       </tr>
@@ -836,7 +841,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     >
                       <tr
                         class=""
-                        data-ouia-component-id="default/mortgage-app"
+                        data-ouia-component-id="local-cluster/default/mortgage-app"
                         data-ouia-component-type="PF4/TableRow"
                         data-ouia-safe="true"
                       >
@@ -906,11 +911,11 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                           3 years ago
                         </td>
                         <td
-                          class="pf-c-table__action"
+                          class="pf-m-fit-content"
                           data-key="7"
                         >
                           <div
-                            class="pf-c-dropdown pf-m-align-right"
+                            class="pf-c-dropdown pf-m-align-right makeStyles-button-4 makeStyles-button-7"
                             data-ouia-component-id="OUIA-Generated-Dropdown-3"
                             data-ouia-component-type="PF4/Dropdown"
                             data-ouia-safe="true"
@@ -939,6 +944,10 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             </button>
                           </div>
                         </td>
+                        <td
+                          class="pf-c-table__action"
+                          data-key="8"
+                        />
                       </tr>
                     </tbody>
                   </table>
@@ -1507,7 +1516,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Shows the namespace of the application resource, which by default is where the application will deploy other resources. For Argo applications, this is the destination namespace."
+                                aria-label="Displays the namespace of the application resource, which by default is where the application deploys other resources. For Argo applications, this is the destination namespace."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-7"
                                 data-ouia-component-type="PF4/Button"
@@ -1576,7 +1585,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo application, the name of the destination cluster is shown. Click to search for the clusters."
+                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo application, the name of the destination cluster is displayed. Click to search for the clusters."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-8"
                                 data-ouia-component-type="PF4/Button"
@@ -1776,9 +1785,14 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             </div>
                           </button>
                         </th>
+                        <th
+                          class="pf-m-nowrap"
+                          data-key="7"
+                          data-label=""
+                        />
                         <td
                           class=""
-                          data-key="7"
+                          data-key="8"
                           data-label=""
                         />
                       </tr>
@@ -1789,7 +1803,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     >
                       <tr
                         class=""
-                        data-ouia-component-id="default/mortgage-app"
+                        data-ouia-component-id="local-cluster/default/mortgage-app"
                         data-ouia-component-type="PF4/TableRow"
                         data-ouia-safe="true"
                       >
@@ -1859,11 +1873,11 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                           3 years ago
                         </td>
                         <td
-                          class="pf-c-table__action"
+                          class="pf-m-fit-content"
                           data-key="7"
                         >
                           <div
-                            class="pf-c-dropdown pf-m-align-right"
+                            class="pf-c-dropdown pf-m-align-right makeStyles-button-4 makeStyles-button-5"
                             data-ouia-component-id="OUIA-Generated-Dropdown-1"
                             data-ouia-component-type="PF4/Dropdown"
                             data-ouia-safe="true"
@@ -1892,6 +1906,10 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             </button>
                           </div>
                         </td>
+                        <td
+                          class="pf-c-table__action"
+                          data-key="8"
+                        />
                       </tr>
                     </tbody>
                   </table>
@@ -2460,7 +2478,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Shows the namespace of the application resource, which by default is where the application will deploy other resources. For Argo applications, this is the destination namespace."
+                                aria-label="Displays the namespace of the application resource, which by default is where the application deploys other resources. For Argo applications, this is the destination namespace."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-17"
                                 data-ouia-component-type="PF4/Button"
@@ -2529,7 +2547,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             >
                               <button
                                 aria-disabled="false"
-                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo application, the name of the destination cluster is shown. Click to search for the clusters."
+                                aria-label="Displays the number of remote and local clusters where resources for the application are deployed. For an individual Argo application, the name of the destination cluster is displayed. Click to search for the clusters."
                                 class="pf-c-button pf-m-plain"
                                 data-ouia-component-id="OUIA-Generated-Button-plain-18"
                                 data-ouia-component-type="PF4/Button"
@@ -2729,9 +2747,14 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             </div>
                           </button>
                         </th>
+                        <th
+                          class="pf-m-nowrap"
+                          data-key="7"
+                          data-label=""
+                        />
                         <td
                           class=""
-                          data-key="7"
+                          data-key="8"
                           data-label=""
                         />
                       </tr>
@@ -2742,7 +2765,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     >
                       <tr
                         class=""
-                        data-ouia-component-id="default/mortgage-app"
+                        data-ouia-component-id="local-cluster/default/mortgage-app"
                         data-ouia-component-type="PF4/TableRow"
                         data-ouia-safe="true"
                       >
@@ -2812,11 +2835,11 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                           3 years ago
                         </td>
                         <td
-                          class="pf-c-table__action"
+                          class="pf-m-fit-content"
                           data-key="7"
                         >
                           <div
-                            class="pf-c-dropdown pf-m-align-right"
+                            class="pf-c-dropdown pf-m-align-right makeStyles-button-4 makeStyles-button-6"
                             data-ouia-component-id="OUIA-Generated-Dropdown-2"
                             data-ouia-component-type="PF4/Dropdown"
                             data-ouia-safe="true"
@@ -2845,6 +2868,10 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                             </button>
                           </div>
                         </td>
+                        <td
+                          class="pf-c-table__action"
+                          data-key="8"
+                        />
                       </tr>
                     </tbody>
                   </table>

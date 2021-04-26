@@ -34,7 +34,9 @@ import {
   getPulseStatusForArgoApp,
   updateAppClustersMatchingSearch,
   showMissingClusterDetails,
-  getTargetNsForNode
+  getTargetNsForNode,
+  nodesWithNoNS,
+  getResourcesClustersForApp
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor } from '../../../actions/topology'
@@ -348,15 +350,8 @@ const getPulseStatusForGenericNode = node => {
   if (pulse === 'red') {
     return pulse //no need to check anything else, return red
   }
-  const name = _.get(node, metadataName, '')
   const namespace =
     _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
-  const channel = _.get(node, 'specs.raw.spec.channel', '')
-  const resourceName =
-    !isDeployableResource(node) && channel.length > 0
-      ? `${channel}-${name}`
-      : name
-
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   const clusterNames = R.split(',', getClusterName(node.id, node, true))
   const onlineClusters = getOnlineClusters(node)
@@ -372,15 +367,19 @@ const getPulseStatusForGenericNode = node => {
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
-    const resourcesForCluster =
-      resourceMap[`${resourceName}-${clusterName}`] || []
     //get target cluster namespaces
-    const resourceNSString = nodeType === 'namespace' ? 'name' : 'namespace'
+    const resourceNSString = _.includes(nodesWithNoNS, nodeType)
+      ? 'name'
+      : 'namespace'
+    const resourcesForCluster = _.filter(
+      _.flatten(Object.values(resourceMap)),
+      obj => _.get(obj, 'cluster', '') === clusterName
+    )
+
     const targetNSList = getTargetNsForNode(
       node,
-      resourceMap,
+      resourcesForCluster,
       clusterName,
-      resourceName,
       namespace
     )
     targetNSList.forEach(targetNS => {
@@ -438,6 +437,10 @@ export const getPulseForData = (
 
   if (desired <= 0) {
     return 'yellow'
+  }
+
+  if (!desired && available === 0) {
+    return 'orange'
   }
 
   if (desired === 'NA' && available === 0) {
@@ -1048,12 +1051,13 @@ export const setupResourceModel = (
     return resourceMap
   }
   // store cluster objects and cluster names as returned by search; these are clusters related to the app
-  const clustersList = R.find(R.propEq('kind', 'cluster'))(list) || {}
-  const clustersObjects = R.pathOr([], ['items'])(clustersList)
+  const clustersObjects = getResourcesClustersForApp(
+    R.find(R.propEq('kind', 'cluster'))(list) || {},
+    topology.nodes
+  )
   const clusterNamesList = R.sortBy(R.identity)(
     R.pluck('name')(clustersObjects)
   )
-
   if (topology.nodes) {
     const appNode =
       _.find(
@@ -1252,9 +1256,6 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   const name = _.get(node, metadataName, '')
   const namespace =
     _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
-  const channel = _.get(node, 'specs.raw.spec.channel', '')
-  const resourceName =
-    !isDeployable && channel.length > 0 ? `${channel}-${name}` : name
 
   const clusterNames = R.split(',', getClusterName(nodeId, node, true))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
@@ -1264,10 +1265,14 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
     // process here only ansible hooks
     showAnsibleJobDetails(node, details)
 
-    if (!_.get(node, 'specs.raw.spec')) {
+    if (
+      !_.get(node, 'specs.raw.spec') ||
+      Object.keys(resourceMap).length === 0
+    ) {
       const res = {
         name: name,
         namespace: namespace,
+        cluster: LOCAL_HUB_NAME,
         kind: 'ansiblejob',
         apigroup: 'tower.ansible.com',
         apiversion: 'v1alpha1'
@@ -1312,16 +1317,18 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       value: clusterName
     })
 
-    const resourcesForCluster =
-      resourceMap[`${resourceName}-${clusterName}`] || []
-    const resourceNSString = nodeType === 'namespace' ? 'name' : 'namespace'
-
+    const resourcesForCluster = _.filter(
+      _.flatten(Object.values(resourceMap)),
+      obj => _.get(obj, 'cluster', '') === clusterName
+    )
+    const resourceNSString = _.includes(nodesWithNoNS, nodeType)
+      ? 'name'
+      : 'namespace'
     //get cluster target namespaces
     const targetNSList = getTargetNsForNode(
       node,
-      resourceMap,
+      resourcesForCluster,
       clusterName,
-      resourceName,
       '*'
     )
     targetNSList.forEach(targetNS => {
@@ -1898,9 +1905,8 @@ export const addNodeOCPRouteLocationForCluster = (
     return details
   }
 
-  const clustersList = R.pathOr([], ['clusters', 'specs', 'clusters'])(node)
+  const clustersList = _.get(node, 'specs.searchClusters', [])
   let hostName = R.pathOr(undefined, ['specs', 'raw', 'spec', 'host'])(node)
-
   if (typeObject && _.get(node, 'name', '') !== _.get(typeObject, 'name', '')) {
     //if route name on remote cluster doesn't match the main route name ( generated from Ingress ), show the name here
     //this is to cover the scenario when the Ingress object defines multiple routes,

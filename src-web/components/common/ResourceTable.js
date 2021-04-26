@@ -47,7 +47,10 @@ class ResourceTable extends React.Component {
         plural={msgs.get(staticResourceData.pluralKey, locale)}
         items={this.getResources()}
         columns={this.getColumns()}
-        keyFn={item => `${item.namespace}/${item.name}`}
+        keyFn={
+          staticResourceData?.keyFn ||
+          (item => `${item.namespace}/${item.name}`)
+        }
         rowActions={this.getRowActions()}
         emptyState={
           <AcmEmptyState

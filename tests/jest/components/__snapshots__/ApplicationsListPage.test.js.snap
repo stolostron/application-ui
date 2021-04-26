@@ -841,7 +841,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     >
                       <tr
                         class=""
-                        data-ouia-component-id="default/mortgage-app"
+                        data-ouia-component-id="local-cluster/default/mortgage-app"
                         data-ouia-component-type="PF4/TableRow"
                         data-ouia-safe="true"
                       >
@@ -1803,7 +1803,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     >
                       <tr
                         class=""
-                        data-ouia-component-id="default/mortgage-app"
+                        data-ouia-component-id="local-cluster/default/mortgage-app"
                         data-ouia-component-type="PF4/TableRow"
                         data-ouia-safe="true"
                       >
@@ -2765,7 +2765,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     >
                       <tr
                         class=""
-                        data-ouia-component-id="default/mortgage-app"
+                        data-ouia-component-id="local-cluster/default/mortgage-app"
                         data-ouia-component-type="PF4/TableRow"
                         data-ouia-safe="true"
                       >

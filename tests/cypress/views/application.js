@@ -552,8 +552,8 @@ export const validateAppTableMenu = (name, resourceTable) => {
     // check popup actions on one app only, that's sufficient
     return;
   }
-  const resourceKey = getResourceKey(name, getNamespace(name));
-  resourceTable.openRowMenu(name, getResourceKey(name, getNamespace(name)));
+  const resourceKey = getResourceKey(name, getNamespace(name), "local-cluster");
+  resourceTable.openRowMenu(name, resourceKey);
   resourceTable.menuClick("search");
   cy
     .url()
@@ -609,7 +609,7 @@ export const validateResourceTable = (
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
-  const resourceKey = getResourceKey(name, namespace);
+  const resourceKey = getResourceKey(name, namespace, "local-cluster");
   resourceTable.rowShouldExist(name, resourceKey, 60 * 1000);
 
   //validate content
@@ -746,7 +746,7 @@ export const deleteApplicationUI = (name, namespace = "default") => {
   namespace == "default" ? (namespace = getNamespace(name)) : namespace;
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
-    const resourceKey = getResourceKey(name, namespace);
+    const resourceKey = getResourceKey(name, namespace, "local-cluster");
     resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
 
     resourceTable.openRowMenu(name, resourceKey);
@@ -837,7 +837,7 @@ export const edit = (name, namespace = "default") => {
     })
     .as("graphql");
   cy.visit("/multicloud/applications");
-  const resourceKey = getResourceKey(name, namespace);
+  const resourceKey = getResourceKey(name, namespace, "local-cluster");
   resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
   resourceTable.openRowMenu(name, resourceKey);
   resourceTable.menuClick("edit");
@@ -986,7 +986,7 @@ export const verifyInsecureSkipAfterNewSubscription = name => {
 
 export const verifyUnauthorizedApplicationDelete = (name, namespace) => {
   cy.visit("/multicloud/applications");
-  const resourceKey = getResourceKey(name, namespace);
+  const resourceKey = getResourceKey(name, namespace, "local-cluster");
   resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
   resourceTable.openRowMenu(name, resourceKey);
   resourceTable.menuClick("delete");

@@ -173,11 +173,13 @@ function tableActionsResolver(item) {
       }
     }
   })
-  actions.push({
-    key: 'table.actions.applications.remove',
-    modal: true,
-    delete: true
-  })
+  if (!isArgoApp(item)) {
+    actions.push({
+      key: 'table.actions.applications.remove',
+      modal: true,
+      delete: true
+    })
+  }
   return actions
 }
 

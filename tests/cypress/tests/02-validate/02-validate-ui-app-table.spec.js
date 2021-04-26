@@ -24,7 +24,8 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Te
             data,
             type,
             numberOfRemoteClusters,
-            data.namespace
+            data.namespace,
+            data.deployedNamespace
           );
         });
       } else {

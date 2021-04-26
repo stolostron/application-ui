@@ -4,6 +4,7 @@ argo:
     - enable: true
       name: helloworld-argo-app-1
       namespace: argocd
+      deployedNamespace: argo-ns-1
       type: git
       successNumber: 3
       config:

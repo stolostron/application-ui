@@ -1131,7 +1131,8 @@ export const getNamespace = name => {
   return `${name}-ns`;
 };
 
-export const getResourceKey = (name, namespace) => `${namespace}/${name}`;
+export const getResourceKey = (name, namespace, cluster) =>
+  (cluster ? `${cluster}/` : "") + `${namespace}/${name}`;
 
 //validate all deployed nodes show up in the app topo
 export const validateDeployables = data => {

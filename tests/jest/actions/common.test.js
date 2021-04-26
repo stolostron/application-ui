@@ -38,6 +38,7 @@ const item1 = {
   kind: "application",
   name: "mortgage-app",
   namespace: "default",
+  cluster: "local-cluster",
   dashboard:
     "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
   clusterCount: 1,

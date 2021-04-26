@@ -17,12 +17,12 @@ fi
 OPTIONS_FILE=/resources/options.yaml
 if [ -f $OPTIONS_FILE ]; then
   echo "Processing options file..."
-  BASE_DOMAIN=`yq r $OPTIONS_FILE 'options.hub.baseDomain'`
+  BASE_DOMAIN=`yq eval '(.options.hub.baseDomain)' $OPTIONS_FILE`
   export CYPRESS_BASE_URL="https://multicloud-console.apps.$BASE_DOMAIN"
   export CYPRESS_OCP_CLUSTER_URL="https://api.$BASE_DOMAIN:6443"
-  export CYPRESS_OC_CLUSTER_USER=`yq r $OPTIONS_FILE 'options.hub.user'`
-  export CYPRESS_OC_CLUSTER_PASS=`yq r $OPTIONS_FILE 'options.hub.password'`
-  export CYPRESS_OC_IDP=`yq r $OPTIONS_FILE 'options.hub.idp'`
+  export CYPRESS_OC_CLUSTER_USER=`yq eval '(.options.hub.user)' $OPTIONS_FILE`
+  export CYPRESS_OC_CLUSTER_PASS=`yq eval '(.options.hub.password)' $OPTIONS_FILE`
+  export CYPRESS_OC_IDP=`yq eval '(.options.hub.idp)' $OPTIONS_FILE`
 
   cp $OPTIONS_FILE ./cypress/config/config.e2e.yaml
 else

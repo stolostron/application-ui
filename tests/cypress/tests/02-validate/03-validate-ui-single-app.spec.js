@@ -36,8 +36,7 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Te
             clusterName,
             numberOfRemoteClusters,
             "create",
-            data.namespace,
-            data.deployedNamespace
+            data.namespace
           );
         });
         if (data.type == "git" && type !== "argo") {

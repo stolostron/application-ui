@@ -110,6 +110,7 @@ export const QueryApplicationList = {
   mutateStatus: "DONE",
   deleteStatus: "DONE",
   deleteMsg: "app123",
+  responseTime: 1530518207007 - 15000,
   items: [
     {
       _uid: "local-cluster/96218695-3798-4dac-b3d3-179fb86b6715",
@@ -326,6 +327,7 @@ export const QueryChannelList = {
   mutateStatus: "DONE",
   deleteStatus: "DONE",
   deleteMsg: "app123",
+  responseTime: 1530518207007 - 15000,
   items: [
     {
       _uid: "local-cluster/9891b8d3-8d2f-4533-bf07-26e1b918fb55",
@@ -766,6 +768,7 @@ export const HCMApplicationList = {
   resourceVersion: undefined,
   search: "",
   sortDirection: "asc",
+  responseTime: 1530518207007 - 15000,
   status: "DONE"
 };
 

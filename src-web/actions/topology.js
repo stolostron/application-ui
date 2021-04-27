@@ -131,6 +131,30 @@ export const getResourceData = nodes => {
   return result
 }
 
+const getArgoRoute = (args, appName, appNamespace, cluster, handleErrorMsg) => {
+  apolloClient
+    .getArgoAppRouteURL(args)
+    .then(routeURLResult => {
+      if (routeURLResult.errors) {
+        handleErrorMsg(`Error: ${routeURLResult.errors[0].message}`)
+      } else {
+        if (routeURLResult.data.argoAppRouteURL) {
+          window.open(
+            `${routeURLResult.data.argoAppRouteURL}/${appName}`,
+            '_blank'
+          )
+        } else {
+          handleErrorMsg(
+            msgs.get('resource.argo.app.route.err', [appNamespace, cluster])
+          )
+        }
+      }
+    })
+    .catch(err => {
+      handleErrorMsg(`Error: ${err.msg}`)
+    })
+}
+
 //open argo app editor url for this Argo app, in a separate window
 export const openArgoCDEditor = (
   cluster,
@@ -141,68 +165,64 @@ export const openArgoCDEditor = (
 ) => {
   // toggle loading to true
   toggleLoading()
-  const query = convertStringToQuery(
-    `kind:route namespace:${namespace} cluster:${cluster} label:app.kubernetes.io/part-of=argocd`
-  )
-  apolloClient
-    .search(SEARCH_QUERY, { input: [query] })
-    .then(result => {
-      // toggle loading to false
-      toggleLoading()
-      if (result.errors) {
-        handleErrorMsg(`Error: ${result.errors[0].message}`)
-        return
-      } else {
-        const searchResult = lodash.get(result, 'data.searchResult', [])
-        if (searchResult.length > 0) {
-          const routes = lodash.get(searchResult[0], 'items', [])
-          const route = routes.length > 0 ? routes[0] : null
-          if (!route) {
-            const errMsg = msgs.get('resource.argo.app.route.err', [
-              namespace,
-              cluster
-            ])
-            handleErrorMsg(errMsg)
-            return
-          } else {
-            //get route object info
-            const routeRequest = {
-              name: route.name,
-              namespace: route.namespace,
-              cluster: route.cluster,
-              apiVersion: `${route.apigroup}/${route.apiversion}`
+
+  if (cluster === 'local-cluster') {
+    const routeRequest = {
+      name: '',
+      namespace: namespace,
+      cluster: cluster,
+      apiVersion: 'route.openshift.io/v1'
+    }
+    getArgoRoute(routeRequest, name, namespace, cluster, handleErrorMsg)
+    // toggle loading to false
+    toggleLoading()
+  } else {
+    const query = convertStringToQuery(
+      `kind:route namespace:${namespace} cluster:${cluster} label:app.kubernetes.io/part-of=argocd`
+    )
+    apolloClient
+      .search(SEARCH_QUERY, { input: [query] })
+      .then(result => {
+        // toggle loading to false
+        toggleLoading()
+        if (result.errors) {
+          handleErrorMsg(`Error: ${result.errors[0].message}`)
+          return
+        } else {
+          const searchResult = lodash.get(result, 'data.searchResult', [])
+          if (searchResult.length > 0) {
+            const routes = lodash.get(searchResult[0], 'items', [])
+            const route = routes.length > 0 ? routes[0] : null
+            if (!route) {
+              const errMsg = msgs.get('resource.argo.app.route.err', [
+                namespace,
+                cluster
+              ])
+              handleErrorMsg(errMsg)
+              return
+            } else {
+              //get route object info
+              const routeRequest = {
+                name: route.name,
+                namespace: route.namespace,
+                cluster: route.cluster,
+                apiVersion: `${route.apigroup}/${route.apiversion}`
+              }
+              getArgoRoute(
+                routeRequest,
+                name,
+                namespace,
+                cluster,
+                handleErrorMsg
+              )
             }
-            apolloClient
-              .getArgoAppRouteURL(routeRequest)
-              .then(routeURLResult => {
-                if (routeURLResult.errors) {
-                  handleErrorMsg(`Error: ${routeURLResult.errors[0].message}`)
-                } else {
-                  if (routeURLResult.data.argoAppRouteURL) {
-                    window.open(
-                      `${routeURLResult.data.argoAppRouteURL}/${name}`,
-                      '_blank'
-                    )
-                  } else {
-                    handleErrorMsg(
-                      msgs.get('resource.argo.app.route.err', [
-                        namespace,
-                        cluster
-                      ])
-                    )
-                  }
-                }
-              })
-              .catch(err => {
-                handleErrorMsg(`Error: ${err.msg}`)
-              })
           }
         }
-      }
-    })
-    .catch(() => {
-      handleErrorMsg(`Error: ${msgs.get('error.launch.argo.editor')}`)
-    })
+      })
+      .catch(() => {
+        handleErrorMsg(`Error: ${msgs.get('error.launch.argo.editor')}`)
+      })
+  }
 }
 
 //fetch all deployed objects linked to this topology nodes

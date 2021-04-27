@@ -110,10 +110,10 @@ class ClusterDetailsContainer extends React.Component {
     const { clusterID } = this.state
     let selectedCluster, newClusterList
     if (selection) {
-      selectedCluster =
-        clusterID === 'member--clusters--'
-          ? clusterList.find(cls => cls.name === selection)
-          : clusterList.find(cls => cls.metadata.name === selection)
+      selectedCluster = clusterList.find(
+        cls =>
+          cls.name ? cls.name === selection : cls.metadata.name === selection
+      )
       newClusterList = [selectedCluster]
     } else {
       newClusterList = clusterList

@@ -68,7 +68,7 @@ class AutoRefreshSelect extends Component {
       // skip refresh, if the page is still refreshing from the previous call, if this is the initial load page
       // or if it's less then 5s from the previous fetch
       const deltaSinceLastUpdate = this.props.resourceRefreshTime
-        ? Date.now() - new Date(this.props.resourceRefreshTime)
+        ? Date.now() - this.props.resourceRefreshTime
         : 6000
       if (
         !_.includes(['IN_PROGRESS', 'INCEPTION'], this.props.status) &&

@@ -165,9 +165,6 @@ export const openArgoCDEditor = (
 ) => {
   // toggle loading to true
   toggleLoading()
-  const query = convertStringToQuery(
-    `kind:route namespace:${namespace} cluster:${cluster} label:app.kubernetes.io/part-of=argocd`
-  )
 
   if (cluster === 'local-cluster') {
     const routeRequest = {
@@ -180,6 +177,9 @@ export const openArgoCDEditor = (
     // toggle loading to false
     toggleLoading()
   } else {
+    const query = convertStringToQuery(
+      `kind:route namespace:${namespace} cluster:${cluster} label:app.kubernetes.io/part-of=argocd`
+    )
     apolloClient
       .search(SEARCH_QUERY, { input: [query] })
       .then(result => {

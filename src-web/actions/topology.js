@@ -131,6 +131,40 @@ export const getResourceData = nodes => {
   return result
 }
 
+//open URL for this Route resource
+export const openRouteURL = (routeObject, toggleLoading, handleErrorMsg) => {
+  const name = lodash.get(routeObject, 'name', '')
+  const namespace = lodash.get(routeObject, 'namespace', '')
+  const cluster = lodash.get(routeObject, 'cluster', '')
+  const apigroup = lodash.get(routeObject, 'apigroup', '')
+  const apiversion = lodash.get(routeObject, 'apiversion', '')
+  const routeRequest = {
+    name: name,
+    namespace: namespace,
+    cluster: cluster,
+    apiVersion: `${apigroup}/${apiversion}`
+  }
+  toggleLoading()
+  apolloClient
+    .getRouteResourceURL(routeRequest)
+    .then(routeURLResult => {
+      toggleLoading()
+      if (routeURLResult.errors) {
+        handleErrorMsg(`Error: ${routeURLResult.errors[0].message}`)
+      } else {
+        if (routeURLResult.data.routeResourceURL) {
+          window.open(`${routeURLResult.data.routeResourceURL}`, '_blank')
+        } else {
+          handleErrorMsg(msgs.get('resource.route.err', [namespace, cluster]))
+        }
+      }
+    })
+    .catch(err => {
+      toggleLoading()
+      handleErrorMsg(`Error: ${err.msg}`)
+    })
+}
+
 const getArgoRoute = (args, appName, appNamespace, cluster, handleErrorMsg) => {
   apolloClient
     .getArgoAppRouteURL(args)

@@ -24,7 +24,6 @@ import {
   getActiveFilterCodes,
   filterSubscriptionObject,
   getOnlineClusters,
-  getClusterHost,
   getPulseStatusForSubscription,
   getExistingResourceMapKey,
   syncControllerRevisionPodStatusMap,
@@ -39,7 +38,7 @@ import {
   getResourcesClustersForApp
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
-import { openArgoCDEditor } from '../../../actions/topology'
+import { openArgoCDEditor, openRouteURL } from '../../../actions/topology'
 
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
@@ -1956,17 +1955,19 @@ export const addNodeOCPRouteLocationForCluster = (
   }
 
   if (!hostName && typeObject) {
-    //build up the name using <route_name>-<ns>.router.default.svc.cluster.local
-    Object.values(clustersList).forEach(clusterObject => {
-      const clusterName =
-        _.get(clusterObject, 'metadata.name') ||
-        _.get(clusterObject, 'name') ||
-        ''
-      if (clusterName === _.get(typeObject, 'cluster', '')) {
-        const clusterHost = getClusterHost(clusterObject.consoleURL)
-        hostName = `${node.name}-${node.namespace}.${clusterHost}`
-      }
+    details.push({
+      type: 'link',
+      value: {
+        labelKey: 'props.show.route.url',
+        id: `${_.get(typeObject, '_uid', '0')}`,
+        data: {
+          action: 'open_route_url',
+          routeObject: typeObject
+        }
+      },
+      indent: true
     })
+    return details
   }
   const transport = R.pathOr(undefined, ['specs', 'raw', 'spec', 'tls'])(node)
     ? 'https'
@@ -2133,7 +2134,7 @@ export const processResourceActionLink = (
 ) => {
   let targetLink = ''
   const linkPath = R.pathOr('', ['action'])(resource)
-  const { name, namespace, cluster, editLink, kind } = resource
+  const { name, namespace, cluster, editLink, kind, routeObject } = resource
   const nsData = namespace ? ` namespace:${namespace}` : ''
   switch (linkPath) {
   case showResourceYaml:
@@ -2144,6 +2145,11 @@ export const processResourceActionLink = (
     break
   case 'open_argo_editor': {
     openArgoCDEditor(cluster, namespace, name, toggleLoading, handleErrorMsg) // the editor opens here
+    targetLink = ''
+    break
+  }
+  case 'open_route_url': {
+    openRouteURL(routeObject, toggleLoading, handleErrorMsg) // the route url opens here
     targetLink = ''
     break
   }

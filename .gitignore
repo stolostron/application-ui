@@ -19,6 +19,7 @@ tests/cypress/tests/test.js
 tests/cypress/test-artifacts/*
 tests/cypress/config/import-kubeconfig/*
 tests/cypress/config/certificates/*
+tests/cypress/templates/secret_yaml/ansible-secret-with-credentials.yaml
 build-harness-extensions/
 build-harness/
 .build-harness-bootstrap

@@ -1,6 +1,7 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 const atob = require("atob");
+const btoa = require("btoa");
 const fs = require("fs");
 const path = require("path");
 const jsYaml = require("js-yaml");
@@ -22,6 +23,14 @@ const updateObjectStoreInfo = (process, config) => {
   }
 };
 
+const SECRET_FILE_PATH = path.join(
+  __dirname,
+  "..",
+  "/templates",
+  "/secret_yaml/",
+  "ansible-secret.yaml"
+);
+
 exports.getConfig = () => {
   let config;
   if (process.env.CYPRESS_TEST_MODE === "e2e") {
@@ -30,9 +39,12 @@ exports.getConfig = () => {
     config = fs.readFileSync(path.join(__dirname, "config.smoke.yaml"));
   } else {
     config = fs.readFileSync(path.join(__dirname, "config.func.yaml"));
+    secretConfig = fs.readFileSync(SECRET_FILE_PATH);
   }
+
   try {
     config = jsYaml.safeLoad(config);
+    secretConfig = jsYaml.safeLoad(secretConfig);
     for (const [key, value] of Object.entries(config)) {
       if (key !== "argo") {
         value.data.forEach(data => {
@@ -87,14 +99,9 @@ exports.getConfig = () => {
             }
 
             if (key === "git" && config.length > 0) {
-              const givenConfig = config[0];
-              if (
-                givenConfig.ansibleSecretName &&
-                process.env.ANSIBLE_URL &&
-                process.env.ANSIBLE_TOKEN
-              ) {
-                givenConfig.ansibleHost = process.env.ANSIBLE_URL;
-                givenConfig.ansibleToken = process.env.ANSIBLE_TOKEN;
+              if (process.env.ANSIBLE_URL && process.env.ANSIBLE_TOKEN) {
+                secretConfig.data.host = btoa(process.env.ANSIBLE_URL);
+                secretConfig.data.token = btoa(process.env.ANSIBLE_TOKEN);
               }
             }
 
@@ -120,7 +127,10 @@ exports.getConfig = () => {
   } catch (e) {
     throw new Error(e);
   }
-  return JSON.stringify(config);
+  return {
+    config: JSON.stringify(config),
+    secretConfig: JSON.stringify(secretConfig)
+  };
 };
 
 exports.getKubeConfig = () => {

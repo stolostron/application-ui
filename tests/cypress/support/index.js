@@ -29,6 +29,8 @@ import "./commands";
 import "./useradd";
 import "./ansibleoperator";
 import "./argocdoperator";
+import "./createsecret";
+
 // import '@cypress/code-coverage/support'
 
 // Alternatively you can use CommonJS syntax:
@@ -42,6 +44,9 @@ before(() => {
   // Use given user to install ansible and argocd operator
   cy.ocLogin(Cypress.env("OC_CLUSTER_USER"));
   cy.installAnsibleOperator();
+
+  // create ansible tower secret
+  cy.createSecret();
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.installArgoCDOperator();
   }

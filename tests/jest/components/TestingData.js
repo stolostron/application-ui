@@ -110,6 +110,7 @@ export const QueryApplicationList = {
   sortColumn: 1,
   mutateStatus: "DONE",
   deleteStatus: "DONE",
+  responseTime: 1530518207007 - 15000,
   deleteMsg: "app123",
   items: [
     {
@@ -327,6 +328,7 @@ export const QueryChannelList = {
   sortColumn: 1,
   mutateStatus: "DONE",
   deleteStatus: "DONE",
+  responseTime: 1530518207007 - 15000,
   deleteMsg: "app123",
   items: [
     {
@@ -768,6 +770,7 @@ export const HCMApplicationList = {
   resourceVersion: undefined,
   search: "",
   sortDirection: "asc",
+  responseTime: 1530518207007 - 15000,
   status: "DONE"
 };
 

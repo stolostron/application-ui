@@ -2,32 +2,25 @@
 
 exports[`AutoRefreshSelect on single app renders correctly when visible on the single app page 1`] = `
 <div
-  className="auto-refresh"
+  class="auto-refresh"
 >
   <div
-    className="makeStyles-container-1"
+    class="makeStyles-container-1"
   >
     <div
       aria-label="refresh-icon"
-      className="makeStyles-reloadButton-2"
+      class="makeStyles-reloadButton-2"
       id="refresh-icon"
-      onClick={[Function]}
-      onKeyPress={[Function]}
       role="button"
-      tabIndex={0}
+      tabindex="0"
     >
       <svg
-        aria-hidden={true}
-        aria-labelledby={null}
-        className="makeStyles-icon-4"
+        aria-hidden="true"
+        class="makeStyles-icon-4"
         fill="currentColor"
         height="1em"
         role="img"
-        style={
-          Object {
-            "verticalAlign": "-0.125em",
-          }
-        }
+        style="vertical-align: -0.125em;"
         viewBox="0 0 512 512"
         width="1em"
       >
@@ -38,45 +31,37 @@ exports[`AutoRefreshSelect on single app renders correctly when visible on the s
     </div>
     <div
       aria-label="refetch-intervals"
-      className="pf-c-dropdown makeStyles-buttonTitle-3"
+      class="pf-c-dropdown makeStyles-buttonTitle-3"
       data-ouia-component-id="OUIA-Generated-Dropdown-1"
       data-ouia-component-type="PF4/Dropdown"
-      data-ouia-safe={true}
+      data-ouia-safe="true"
       id="refresh-dropdown"
     >
       <button
-        aria-expanded={false}
-        aria-haspopup={true}
+        aria-expanded="false"
+        aria-haspopup="true"
         aria-label="refresh-label"
-        className="pf-c-dropdown__toggle pf-m-plain"
+        class="pf-c-dropdown__toggle pf-m-plain"
         data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
         data-ouia-component-type="PF4/DropdownToggle"
-        data-ouia-safe={true}
-        disabled={false}
+        data-ouia-safe="true"
         id="refresh-toggle"
-        onClick={[Function]}
-        onKeyDown={[Function]}
         type="button"
       >
         <span
-          className="pf-c-dropdown__toggle-text"
+          class="pf-c-dropdown__toggle-text"
         >
-          Refresh every 15s
+          Disable refresh
         </span>
         <span
-          className="pf-c-dropdown__toggle-icon"
+          class="pf-c-dropdown__toggle-icon"
         >
           <svg
-            aria-hidden={true}
-            aria-labelledby={null}
+            aria-hidden="true"
             fill="currentColor"
             height="1em"
             role="img"
-            style={
-              Object {
-                "verticalAlign": "-0.125em",
-              }
-            }
+            style="vertical-align: -0.125em;"
             viewBox="0 0 320 512"
             width="1em"
           >
@@ -89,11 +74,10 @@ exports[`AutoRefreshSelect on single app renders correctly when visible on the s
     </div>
   </div>
   <div
-    className="makeStyles-timestamp-5"
+    class="makeStyles-timestamp-5"
   >
     <p>
-      Last update: 
-      3:56:47 AM
+      Last update: 3:56:32 AM
     </p>
   </div>
 </div>

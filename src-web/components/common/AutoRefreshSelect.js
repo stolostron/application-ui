@@ -60,15 +60,20 @@ class AutoRefreshSelect extends Component {
     const {
       fetchTableResources,
       fetchAppTopology,
-      timestamp,
       status,
       isEditTab
     } = this.props
 
     const refetch = () => {
-      //don't call refresh if the page is still refreshing from the previous call
-      //or this is the initial call
-      if (!_.includes(['IN_PROGRESS', 'INCEPTION'], this.props.status)) {
+      // skip refresh, if the page is still refreshing from the previous call, if this is the initial load page
+      // or if it's less then 10s from the previous fetch
+      const deltaSinceLastUpdate = this.props.resourceRefreshTime
+        ? Date.now() - new Date(this.props.resourceRefreshTime)
+        : 11000
+      if (
+        !_.includes(['IN_PROGRESS', 'INCEPTION'], this.props.status) &&
+        deltaSinceLastUpdate > 10000
+      ) {
         if (this.props.resourceType === RESOURCE_TYPES.HCM_APPLICATIONS) {
           fetchAppTopology(this.props.fetchFilters, true) //fetch single app
         } else {
@@ -87,7 +92,7 @@ class AutoRefreshSelect extends Component {
               initPollInterval={INITIAL_REFRESH_TIME}
             />
             <AcmRefreshTime
-              timestamp={timestamp}
+              timestamp={this.props.resourceRefreshTime || Date.now()}
               reloading={status !== 'DONE'}
             />
           </div>
@@ -128,7 +133,7 @@ const mapStateToProps = (state, ownProps) => {
   const typeListName = resourceType.list
   const status = state[typeListName].status
   return {
-    timestamp: Date.now(),
+    resourceRefreshTime: _.get(state[typeListName], 'responseTime'),
     resourceType,
     status,
     fetchFilters,
@@ -155,9 +160,9 @@ AutoRefreshSelect.propTypes = {
   fetchFilters: PropTypes.object,
   fetchTableResources: PropTypes.func,
   isEditTab: PropTypes.bool,
+  resourceRefreshTime: PropTypes.number,
   resourceType: PropTypes.object,
-  status: PropTypes.string,
-  timestamp: PropTypes.number
+  status: PropTypes.string
 }
 
 export default withRouter(

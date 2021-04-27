@@ -18,6 +18,9 @@ import {
 
 import { QueryApplicationList } from "../components/TestingData";
 
+const dateNowStub = jest.fn(() => 1530518207007);
+global.Date.now = dateNowStub;
+
 describe("secondaryHeader creation", () => {
   it("should return a default state", () => {
     const action = {};
@@ -82,6 +85,7 @@ describe("resourceReducerFunction", () => {
     const expectedValue = {
       test: "test",
       status: "DONE",
+      responseTime: 1530518207007,
       items: [],
       resourceVersion: 0
     };
@@ -98,6 +102,7 @@ describe("resourceReducerFunction", () => {
     const expectedValue = {
       test: "test",
       status: "ERROR",
+      responseTime: 1530518207007,
       err: "error"
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);

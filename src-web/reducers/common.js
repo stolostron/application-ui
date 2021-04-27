@@ -172,13 +172,15 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.DONE,
       items: action.items,
-      resourceVersion: action.resourceVersion
+      resourceVersion: action.resourceVersion,
+      responseTime: Date.now()
     })
   }
   case Actions.RESOURCE_RECEIVE_FAILURE:
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.ERROR,
-      err: action.err
+      err: action.err,
+      responseTime: Date.now()
     })
   case Actions.RESOURCE_RECEIVE_NOT_FOUND:
     return Object.assign({}, state, {

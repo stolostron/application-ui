@@ -75,17 +75,17 @@ fi
 
 if [[ -z $CYPRESS_OC_CLUSTER_URL ]]
 then
-  export CYPRESS_OC_CLUSTER_URL=$(ck creds -p api_url $HUB)
+  export CYPRESS_OC_CLUSTER_URL=$(ck creds -c -p api_url $HUB)
 fi
 
 if [[ -z $CYPRESS_OC_CLUSTER_USER ]]
 then
-  export CYPRESS_OC_CLUSTER_USER=$(ck creds -p username $HUB)
+  export CYPRESS_OC_CLUSTER_USER=$(ck creds -c -p username $HUB)
 fi
 
 if [[ -z $CYPRESS_OC_CLUSTER_PASS ]]
 then
-  export CYPRESS_OC_CLUSTER_PASS=$(ck creds -p password $HUB)
+  export CYPRESS_OC_CLUSTER_PASS=$(ck creds -c -p password $HUB)
 fi
 
 npx cypress open

@@ -34,6 +34,7 @@ const dir = "./cypress/test-artifacts/";
 const testConfig = require("../config").getConfig();
 const kubeConfig = require("../config").getKubeConfig();
 const getUsers = require("../config").getUsers();
+const rbacConfig = require("../config").getrbacConfig();
 
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
@@ -115,6 +116,7 @@ module.exports = (on, config) => {
   );
   config.env.KUBE_CONFIG = kubeConfig;
   config.env.USER_CONFIG = getUsers;
+  config.env.RBAC_CONFIG = JSON.parse(rbacConfig);
 
   return config;
 };

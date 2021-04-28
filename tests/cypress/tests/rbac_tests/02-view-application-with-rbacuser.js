@@ -1,10 +1,10 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-const config = Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
+const config = Cypress.env("RBAC_CONFIG");
 import { getManagedClusterName } from "../../views/resources";
 
-import { resourceTable } from "../../views/common";
+import { resourceTable, getResourceKey } from "../../views/common";
 
 const mngdTestRoles = [
   "admin-managed-cluster",
@@ -34,8 +34,12 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Validate view appli
                 // cy.logInAsRole(mngdTestRoles[loginrole])
                 cy.rbacSwitchUser(mngdTestRoles[loginrole]);
                 cy.visit("/multicloud/applications");
-                const selectorkey = `${Cypress.env("managedCluster")}/${name}`;
-                resourceTable.rowShouldExist(data.name, selectorkey);
+                const resourceKey = getResourceKey(
+                  data.name,
+                  Cypress.env("managedCluster"),
+                  "local-cluster"
+                );
+                resourceTable.rowShouldExist(data.name, resourceKey, 60 * 1000);
               });
             }
           }

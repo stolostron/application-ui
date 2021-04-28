@@ -1131,7 +1131,8 @@ export const getNamespace = name => {
   return `${name}-ns`;
 };
 
-export const getResourceKey = (name, namespace) => `${namespace}/${name}`;
+export const getResourceKey = (name, namespace, cluster) =>
+  (cluster ? `${cluster}/` : "") + `${namespace}/${name}`;
 
 //validate all deployed nodes show up in the app topo
 export const validateDeployables = data => {
@@ -1170,10 +1171,6 @@ export const validateDefect7696 = name => {
     .get(".pf-l-grid__item")
     .first()
     .contains(name);
-  cy
-    .get(".pf-l-grid__item")
-    .first()
-    .contains(`${name}-ns`);
 
   cy.log("Select Editor tab");
   cy

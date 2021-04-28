@@ -111,7 +111,8 @@ class ClusterDetailsContainer extends React.Component {
     let selectedCluster, newClusterList
     if (selection) {
       selectedCluster = clusterList.find(
-        cls => cls.metadata.name === selection
+        cls =>
+          cls.name ? cls.name === selection : cls.metadata.name === selection
       )
       newClusterList = [selectedCluster]
     } else {
@@ -374,6 +375,46 @@ class ClusterDetailsContainer extends React.Component {
     )
   };
 
+  renderCPUData = (cc, ac, divClass, labelClass, locale, valueClass) => {
+    let showData = false
+    if (ac && ac !== '') {
+      showData = true
+    }
+
+    return (
+      showData && (
+        <div className={divClass}>
+          <span className={labelClass}>
+            {msgs.get('resource.cpu', locale)}:{' '}
+          </span>
+          <span className={valueClass}>
+            {getPercentage(inflateKubeValue(ac), inflateKubeValue(cc))}%
+          </span>
+        </div>
+      )
+    )
+  };
+
+  renderMemoryData = (cm, am, divClass, labelClass, locale, valueClass) => {
+    let showData = false
+    if (am && am !== '') {
+      showData = true
+    }
+
+    return (
+      showData && (
+        <div className={divClass}>
+          <span className={labelClass}>
+            {msgs.get('resource.memory', locale)}:{' '}
+          </span>
+          <span className={valueClass}>
+            {getPercentage(inflateKubeValue(am), inflateKubeValue(cm))}%
+          </span>
+        </div>
+      )
+    )
+  };
+
   // This calculation is not accurate as search is not returning all the needed
   // data from the managedcluster resource YAML
   calculateClusterStatus = clusterData => {
@@ -382,9 +423,9 @@ class ClusterDetailsContainer extends React.Component {
     const clusterJoined = clusterData.ManagedClusterJoined
     const clusterAvailable = clusterData.ManagedClusterConditionAvailable
 
-    if (!clusterAccepted) {
+    if (clusterAccepted == false) {
       status = 'notaccepted'
-    } else if (!clusterJoined) {
+    } else if (clusterJoined == false) {
       status = 'pendingimport'
     } else {
       status =
@@ -552,24 +593,24 @@ class ClusterDetailsContainer extends React.Component {
                 <span className={labelClass}>
                   {msgs.get('resource.status', locale)}:{' '}
                 </span>
-                <span className={valueClass}>{status}</span>
+                <span className={valueClass}>{status.toLowerCase()}</span>
               </div>
-              <div className={divClass}>
-                <span className={labelClass}>
-                  {msgs.get('resource.cpu', locale)}:{' '}
-                </span>
-                <span className={valueClass}>
-                  {getPercentage(inflateKubeValue(ac), inflateKubeValue(cc))}%
-                </span>
-              </div>
-              <div className={divClass}>
-                <span className={labelClass}>
-                  {msgs.get('resource.memory', locale)}:{' '}
-                </span>
-                <span className={valueClass}>
-                  {getPercentage(inflateKubeValue(am), inflateKubeValue(cm))}%
-                </span>
-              </div>
+              {this.renderCPUData(
+                cc,
+                ac,
+                divClass,
+                labelClass,
+                locale,
+                valueClass
+              )}
+              {this.renderMemoryData(
+                cm,
+                am,
+                divClass,
+                labelClass,
+                locale,
+                valueClass
+              )}
               <div className={divClass}>
                 <span className={labelClass}>
                   {msgs.get('resource.created', locale)}:{' '}

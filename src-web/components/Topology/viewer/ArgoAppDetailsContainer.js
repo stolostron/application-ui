@@ -361,7 +361,13 @@ class ArgoAppDetailsContainer extends React.Component {
     if (status === 'Healthy') {
       return 'checkmark'
     }
-    if (status === 'Missing' || status === 'Unknown') {
+    if (
+      status === 'Missing' ||
+      status === 'Unknown' ||
+      status === 'Progressing' ||
+      status === '' ||
+      !status
+    ) {
       return 'pending'
     }
     if (status === 'Degraded') {
@@ -386,22 +392,22 @@ class ArgoAppDetailsContainer extends React.Component {
   };
 
   renderErrorMessage = (name, status, locale) => {
-    let showError = false
+    let showWarning = false
     if (status === 'Unknown' || status === 'Degraded' || status === 'Missing') {
-      showError = true
+      showWarning = true
     }
 
     return (
-      showError && (
+      showWarning && (
         <div className="sectionContent borderLeft">
           <span className="label sectionLabel">
             <svg
-              width="10px"
-              height="10px"
-              fill="#C9190B"
+              width="13px"
+              height="13px"
+              fill="#F0AB00"
               style={{ marginRight: '8px' }}
             >
-              <use href="#diagramIcons_failure" className="label-icon" />
+              <use href="#diagramIcons_warning" className="label-icon" />
             </svg>
             <span>
               {msgs.get('resource.argo.application.health', locale)}:{' '}
@@ -491,7 +497,11 @@ class ArgoAppDetailsContainer extends React.Component {
       }
       // render list of argo app
       appItems.push(
-        <div className="appDetailItem" style={parentDivStyle} key={name}>
+        <div
+          className="appDetailItem"
+          style={parentDivStyle}
+          key={`${name}${i}`}
+        >
           <AccordionItem>
             <AccordionToggle
               onClick={() => this.handleExpandSectionToggle(toggleItemNum)}

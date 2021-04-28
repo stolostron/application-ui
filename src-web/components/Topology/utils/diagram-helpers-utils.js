@@ -23,6 +23,13 @@ const pendingStatus = 'pending'
 const failureStatus = 'failure'
 const pulseValueArr = ['red', 'orange', 'yellow', 'green']
 const metadataName = 'metadata.name'
+const argoAppHealthyStatus = 'Healthy'
+const argoAppDegradedStatus = 'Degraded'
+const argoAppMissingStatus = 'Missing'
+const argoAppProgressingStatus = 'Progressing'
+const argoAppSuspendedStatus = 'Suspended'
+const argoAppUnknownStatus = 'Unknown'
+export const nodesWithNoNS = ['namespace', 'clusterrole', 'clusterrolebinding']
 
 export const isDeployableResource = node => {
   //check if this node has been created using a deployable object
@@ -197,7 +204,8 @@ export const getOnlineClusters = node => {
       }
     }
   })
-  return onlineClusters
+  //always add local cluster
+  return _.uniqBy(_.union(onlineClusters, [LOCAL_HUB_NAME]))
 }
 
 export const getClusterHost = consoleURL => {
@@ -290,13 +298,19 @@ export const syncControllerRevisionPodStatusMap = resourceMap => {
       const parentId = _.get(controllerRevision, 'specs.parent.parentId', '')
       const clusterName = getClusterName(parentId).toString()
       const parentResource =
-        resourceMap[`${parentType}-${parentName}-${clusterName}`]
-      const parentModel = {
-        ..._.get(parentResource, `specs.${parentResource.type}Model`, '')
-      }
-
-      if (parentModel) {
-        _.set(controllerRevision, 'specs.controllerrevisionModel', parentModel)
+        resourceMap[`${parentType}-${parentName}-${clusterName}`] ||
+        resourceMap[`${parentType}-${parentName}-`]
+      if (parentResource) {
+        const parentModel = {
+          ..._.get(parentResource, `specs.${parentResource.type}Model`, '')
+        }
+        if (parentModel) {
+          _.set(
+            controllerRevision,
+            'specs.controllerrevisionModel',
+            parentModel
+          )
+        }
       }
     }
   })
@@ -382,43 +396,74 @@ export const setArgoApplicationDeployStatus = (node, details) => {
 }
 
 export const getStatusForArgoApp = healthStatus => {
-  if (healthStatus === 'Healthy') {
+  if (healthStatus === argoAppHealthyStatus) {
     return checkmarkStatus
   }
-  if (healthStatus === 'Progressing') {
+  if (healthStatus === argoAppProgressingStatus) {
     return pendingStatus
   }
-  if (healthStatus === 'Unknown') {
+  if (healthStatus === argoAppUnknownStatus) {
     return failureStatus
   }
   return warningStatus
 }
 
 export const translateArgoHealthStatus = healthStatus => {
-  if (healthStatus === 'Healthy') {
+  if (healthStatus === argoAppHealthyStatus) {
     return 3
   }
-  if (healthStatus === 'Missing' || healthStatus === 'Unknown') {
+  if (
+    healthStatus === argoAppMissingStatus ||
+    healthStatus === argoAppUnknownStatus
+  ) {
     return 1
   }
-  if (healthStatus === 'Degraded') {
+  if (healthStatus === argoAppDegradedStatus) {
     return 0
   }
   return 2
 }
 
 export const getPulseStatusForArgoApp = node => {
-  const appHealth = _.get(node, 'specs.raw.status.health.status')
-  const healthArr = [translateArgoHealthStatus(appHealth)]
   const relatedApps = _.get(node, 'specs.relatedApps', [])
+  let healthyCount = 0,
+      missingUnknownProgressingSuspendedCount = 0,
+      degradedCount = 0
 
   relatedApps.forEach(app => {
-    const relatedAppHealth = _.get(app, 'status.health.status', 'Healthy')
-    healthArr.push(translateArgoHealthStatus(relatedAppHealth))
+    const relatedAppHealth = _.get(app, 'status', '')
+    if (relatedAppHealth === argoAppHealthyStatus) {
+      healthyCount++
+    } else if (
+      relatedAppHealth === argoAppMissingStatus ||
+      relatedAppHealth === argoAppUnknownStatus ||
+      relatedAppHealth === argoAppProgressingStatus ||
+      relatedAppHealth === argoAppSuspendedStatus
+    ) {
+      missingUnknownProgressingSuspendedCount++
+    } else if (relatedAppHealth === argoAppDegradedStatus) {
+      degradedCount++
+    }
   })
 
-  const minPulse = Math.min.apply(null, healthArr)
-  return pulseValueArr[minPulse]
+  if (degradedCount === relatedApps.length) {
+    return pulseValueArr[failureCode]
+  }
+  if (missingUnknownProgressingSuspendedCount === relatedApps.length) {
+    return pulseValueArr[pendingCode]
+  }
+  if (
+    healthyCount === 0 &&
+    missingUnknownProgressingSuspendedCount === 0 &&
+    degradedCount === 0
+  ) {
+    return pulseValueArr[pendingCode]
+  }
+  if (healthyCount < relatedApps.length) {
+    return pulseValueArr[warningCode]
+  }
+
+  return pulseValueArr[checkmarkCode]
 }
 
 // try to match app destination clusters with hub clusters using search data
@@ -557,24 +602,56 @@ export const showMissingClusterDetails = (clusterName, node, details) => {
 // returns all namespaces this resource can deploy to
 export const getTargetNsForNode = (
   node,
-  resourceMap,
+  resourcesForCluster,
   clusterName,
-  resourceName,
   defaultNS
 ) => {
   // list of target namespaces per cluster
   const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
-  const resourcesForCluster =
-    resourceMap[`${resourceName}-${clusterName}`] || []
   const nodeType = _.get(node, 'type', '')
-  const deployedResourcesNS =
-    nodeType === 'namespace'
-      ? _.map(resourcesForCluster, 'name')
-      : _.map(resourcesForCluster, 'namespace')
+  const deployedResourcesNS = _.includes(nodesWithNoNS, nodeType)
+    ? _.map(resourcesForCluster, 'name')
+    : _.map(resourcesForCluster, 'namespace')
   //get cluster target namespaces
   return targetNamespaces[clusterName]
     ? _.union(targetNamespaces[clusterName], _.uniq(deployedResourcesNS))
     : resourcesForCluster.length > 0
       ? _.uniq(deployedResourcesNS)
       : [defaultNS]
+}
+
+//returns the list of clusters the app resources must deploy on
+export const getResourcesClustersForApp = (searchClusters, nodes) => {
+  let clustersList = searchClusters
+    ? R.pathOr([], ['items'])(searchClusters)
+    : []
+  if (nodes && nodes.length > 0) {
+    const placementNodes =
+      _.filter(
+        nodes,
+        node =>
+          _.get(node, 'type', '') === 'placements' &&
+          _.get(node, 'id', '').indexOf('deployable') === -1
+      ) || []
+    if (placementNodes.length > 0) {
+      const localClusterRuleFn = decision =>
+        _.get(decision, 'clusterName', '') === LOCAL_HUB_NAME
+      const localPlacement = _.find(
+        placementNodes,
+        plc =>
+          _.filter(
+            _.get(plc, 'specs.raw.status.decisions', []),
+            localClusterRuleFn
+          ).length > 0
+      )
+      if (!localPlacement) {
+        // this placement doesn't include local host so don't include local cluster, used for showing not deployed status
+        clustersList = _.filter(
+          clustersList,
+          cls => _.get(cls, 'name', '') !== LOCAL_HUB_NAME
+        )
+      }
+    }
+  }
+  return clustersList
 }

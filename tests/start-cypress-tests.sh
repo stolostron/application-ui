@@ -31,7 +31,7 @@ echo "Logging into Kube API server..."
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
 
 echo "Checking RedisGraph deployment."
-rgstatus=`oc get srcho searchoperator -o jsonpath="{.status.deployredisgraph}"`
+rgstatus=`oc get srcho searchoperator -o jsonpath="{.status.deployredisgraph}" -n open-cluster-management`
 if [ "$rgstatus" == "true" ]; then
   echo "RedisGraph deployment is enabled."
 else

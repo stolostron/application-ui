@@ -36,7 +36,7 @@ const prePostTasks = [
     name: 'creation.app.ansible.credential.name',
     tooltip: 'tooltip.creation.app.ansibleSecretName',
     id: 'ansibleSecretName',
-    type: 'combobox',
+    type: 'singleselect',
     active: '',
     placeholder: 'app.enter.select.ansibleSecretName',
     available: [],

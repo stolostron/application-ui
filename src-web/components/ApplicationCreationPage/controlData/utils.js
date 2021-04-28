@@ -20,8 +20,6 @@ import {
 import apolloClient from '../../../../lib/client/apollo-client'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import SharedResourceWarning from '../components/SharedResourceWarning'
-const atob = require('atob')
-const btoa = require('btoa')
 
 import _ from 'lodash'
 
@@ -610,31 +608,6 @@ export const setAvailableSecrets = (control, result) => {
     control.isFailed = true
   } else if (secrets) {
     control.availableData = _.keyBy(secrets, 'ansibleSecretName')
-    _.each(control.availableData, key => {
-      if (key.metadata) {
-        const metadata = atob(key.metadata)
-        if (metadata) {
-          const metadataArray = metadata
-            .replaceAll(/ /g, '')
-            .split('\n')
-            .filter(value => {
-              return value != ''
-            })
-          var credentials = {}
-          metadataArray.forEach(property => {
-            var tup = property.split(':')
-            let val = ''
-            for (let i = 1; i < tup.length; i++) {
-              val += tup[i]
-            }
-            credentials[tup[0]] = val
-          })
-          const { ansibleHost, ansibleToken } = credentials
-          _.set(key, 'host', btoa(ansibleHost))
-          _.set(key, 'token', btoa(ansibleToken))
-        }
-      }
-    })
     control.available = Object.keys(control.availableData).sort()
     control.availableMap = _.mapValues(control.availableData, replacements => {
       return {

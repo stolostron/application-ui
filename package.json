@@ -75,7 +75,6 @@
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-istanbul": "^6.0.0",
     "body-parser": "^1.18.2",
-    "btoa": "^1.2.1",
     "classnames": "^2.2.5",
     "cookie-parser": "^1.4.5",
     "copy-webpack-plugin": "^6.4.1",

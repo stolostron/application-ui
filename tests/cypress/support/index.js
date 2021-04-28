@@ -45,8 +45,8 @@ before(() => {
   cy.ocLogin(Cypress.env("OC_CLUSTER_USER"));
   cy.installAnsibleOperator();
 
-  // create ansible tower secret
-  cy.createSecret();
+  // create ansible tower secret - disable for now
+  // cy.createSecret();
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.installArgoCDOperator();
   }

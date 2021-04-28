@@ -31,19 +31,13 @@ echo "Logging into Kube API server..."
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
 
 echo "Checking RedisGraph deployment."
-oc get pod -n open-cluster-management | grep search-redisgraph-0 | grep Running
-if [ "$?" == "1" ]; then
-  echo "RedisGraph not found, deploying and waiting 60 seconds for the search-redisgraph-0 pod."
-  oc set env deploy search-operator DEPLOY_REDISGRAPH="true" -n open-cluster-management
-
-  # I'd prefer to do this from the operator but here is easier.
-  echo "Restarting the search-collector"
-  COLLECTOR_NAME=$(oc get pod -n open-cluster-management |grep search-collector | awk '{print $1;}')
-  oc delete pod $COLLECTOR_NAME -n open-cluster-management
-
-  sleep 60
+rgstatus=`oc get srcho searchoperator -o jsonpath="{.status.deployredisgraph}"`
+if [ "$rgstatus" == "true" ]; then
+  echo "RedisGraph deployment is enabled."
 else
-  echo "RedisGraph is enabled and pod search-redisgraph-0 is running."
+  echo "RedisGraph deployment disabled, enabling and waiting 60 seconds for the search-redisgraph-0 pod."
+  oc set env deploy search-operator DEPLOY_REDISGRAPH="true" -n open-cluster-management
+  sleep 60
 fi
 
 echo "Running tests on $CYPRESS_BASE_URL in $CYPRESS_TEST_MODE mode..."

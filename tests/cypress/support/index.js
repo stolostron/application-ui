@@ -40,11 +40,11 @@ Cypress.Cookies.defaults({
 
 before(() => {
   // This is needed for search to deploy RedisGraph upstream. Without this search won't be operational.
-  cy.exec('oc get pod -n open-cluster-management | grep search-redisgraph-0 | grep Running', {failOnNonZeroExit: false}).then(result => {
-      if (result.code == 0){
-        cy.task('log', 'Redisgraph pod is running.')
+  cy.exec('oc get srcho searchoperator -o jsonpath="{.status.deployredisgraph}"', {failOnNonZeroExit: false}).then(result => {
+      if (result.code == "true"){
+        cy.task('log', 'Redisgraph deployment is enabled.')
       } else {
-        cy.task('log', 'RedisGraph not found, deploying and waiting 60 seconds for the search-redisgraph-0 pod.')
+        cy.task('log', 'Redisgraph deployment disabled, enabling and waiting 60 seconds for the search-redisgraph-0 pod.')
         cy.exec('oc set env deploy search-operator DEPLOY_REDISGRAPH="true" -n open-cluster-management')
         return cy.wait(10*1000)
     }

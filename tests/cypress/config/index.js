@@ -156,18 +156,6 @@ exports.getrbacConfig = () => {
   rbacConfig = fs.readFileSync(path.join(__dirname, "config.rbac.yaml"));
   try {
     rbacConfig = jsYaml.safeLoad(rbacConfig);
-    for (const [key, value] of Object.entries(rbacConfig)) {
-      value.data.forEach(data => {
-        let { enable, name, config } = data;
-        if (enable) {
-          // attach travis job id to each name
-          const job_id =
-            process.env.CYPRESS_JOB_ID &&
-            process.env.CYPRESS_JOB_ID.slice(-5);
-          process.env.CYPRESS_JOB_ID ? (name = name + "-" + job_id) : name;
-          data.name = name; }
-        })
-      }
   } catch (e) {
     throw new Error(e);
   }

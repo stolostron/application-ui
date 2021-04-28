@@ -4984,9 +4984,14 @@ describe("addNodeOCPRouteLocationForCluster no host spec", () => {
       indent: true,
       type: "link",
       value: {
-        data: { action: "open_link", targetLink: "http://undefined/" },
-        id: "objID-location",
-        label: "http://undefined/"
+        data: {
+          action: "open_route_url",
+          routeObject: {
+            id: "objID"
+          }
+        },
+        id: "0",
+        labelKey: "props.show.route.url"
       }
     }
   ];
@@ -5254,7 +5259,7 @@ describe("addNodeOCPRouteLocationForCluster", () => {
   };
 
   const obj = {
-    id: "objID",
+    _uid: "objID",
     cluster: "possiblereptile"
   };
   const result = [
@@ -5263,11 +5268,14 @@ describe("addNodeOCPRouteLocationForCluster", () => {
       type: "link",
       value: {
         data: {
-          action: "open_link",
-          targetLink: "https://mortgage-app-deploy-default.222/"
+          action: "open_route_url",
+          routeObject: {
+            cluster: "possiblereptile",
+            _uid: "objID"
+          }
         },
-        id: "objID-location",
-        label: "https://mortgage-app-deploy-default.222/"
+        id: "objID",
+        labelKey: "props.show.route.url"
       }
     }
   ];
@@ -5381,8 +5389,8 @@ describe("addNodeOCPRouteLocationForCluster", () => {
   };
 
   const obj = {
-    id: "objID",
-    cluster: "possiblereptile"
+    cluster: "possiblereptile",
+    _uid: "objID"
   };
   const result = [
     {
@@ -5390,11 +5398,14 @@ describe("addNodeOCPRouteLocationForCluster", () => {
       type: "link",
       value: {
         data: {
-          action: "open_link",
-          targetLink: "http://mortgage-app-deploy-default.222/"
+          action: "open_route_url",
+          routeObject: {
+            cluster: "possiblereptile",
+            _uid: "objID"
+          }
         },
-        id: "objID-location",
-        label: "http://mortgage-app-deploy-default.222/"
+        id: "objID",
+        labelKey: "props.show.route.url"
       }
     }
   ];

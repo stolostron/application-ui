@@ -145,7 +145,7 @@ class DetailsView extends React.Component {
     case 'spacer':
       return this.renderSpacer()
     case 'link':
-      return this.renderLink(detail, true)
+      return this.renderLink(detail, true, locale)
     case 'snippet':
       return this.renderSnippet(detail, locale)
     case 'clusterdetailcombobox':
@@ -226,7 +226,7 @@ class DetailsView extends React.Component {
     return null
   }
 
-  renderLink({ value, indent }) {
+  renderLink({ value, indent, locale }) {
     if (!value) {
       return <div />
     }
@@ -237,6 +237,10 @@ class DetailsView extends React.Component {
     const showLaunchOutIcon = !R.pathOr(false, ['data', 'specs', 'isDesign'])(
       value
     ) //if not show yaml
+
+    const label = value.labelKey
+      ? msgs.get(value.labelKey, locale)
+      : value.label
 
     let iconName = 'arrowRight'
     if (_.get(value, 'data.targetLink', '').startsWith('http')) {
@@ -265,7 +269,7 @@ class DetailsView extends React.Component {
           onKeyPress={handleKeyPress}
         >
           {loadingArgoLink && <Spinner size="sm" />}
-          {value.label}
+          {label}
           {showLaunchOutIcon && (
             <svg width="11px" height="8px" style={{ marginLeft: '9px' }}>
               <use href={`#diagramIcons_${iconName}`} className="label-icon" />

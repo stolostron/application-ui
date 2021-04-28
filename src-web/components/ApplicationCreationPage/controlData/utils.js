@@ -21,6 +21,7 @@ import apolloClient from '../../../../lib/client/apollo-client'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import SharedResourceWarning from '../components/SharedResourceWarning'
 const atob = require('atob')
+const btoa = require('btoa')
 
 import _ from 'lodash'
 
@@ -629,8 +630,8 @@ export const setAvailableSecrets = (control, result) => {
             credentials[tup[0]] = val
           })
           const { ansibleHost, ansibleToken } = credentials
-          _.set(key, 'host', ansibleHost)
-          _.set(key, 'token', ansibleToken)
+          _.set(key, 'host', btoa(ansibleHost))
+          _.set(key, 'token', btoa(ansibleToken))
         }
       }
     })

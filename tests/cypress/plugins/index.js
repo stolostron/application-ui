@@ -44,6 +44,14 @@ module.exports = (on, config) => {
   // config.env.TEST_CONFIG = testConfig
   require("cypress-log-to-output").install(on);
 
+  on('task', {
+    log(message) {
+      console.log(message)
+
+      return null
+    },
+  });
+
   on("task", {
     yaml2json(filename) {
       obj = yaml.safeLoadAll(fs.readFileSync(dir + filename, "utf-8"));

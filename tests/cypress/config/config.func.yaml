@@ -84,25 +84,26 @@ git:
             local: true
             online: false
             matchingLabel: false
-    - enable: true
-      name: ui-git-ansible
-      type: git
-      successNumber: 3 #success number includes the two ansible hooks and the ansible regular task
-      config:
-        - url: https://github.com/fxiang1/app-samples.git
-          resources: ["configmap", "ansiblejob"] #the type of resources this application must deploy
-          username: ""
-          token: ""
-          branch: master
-          path: ansible
-          gitReconcileOption: merge
-          ansibleSecretName: ui-git-ansible-secret
-          ansibleHost: ""
-          ansibleToken: ""
-          deployment:
-            local: true
-            online: false
-            matchingLabel: false
+# will work on refactoring the ansible test cases
+    # - enable: true
+    #   name: ui-git-ansible
+    #   type: git
+    #   successNumber: 3 #success number includes the two ansible hooks and the ansible regular task
+    #   config:
+    #     - url: https://github.com/fxiang1/app-samples.git
+    #       resources: ["configmap", "ansiblejob"] #the type of resources this application must deploy
+    #       username: ""
+    #       token: ""
+    #       branch: master
+    #       path: ansible
+    #       gitReconcileOption: merge
+    #       ansibleSecretName: ui-git-ansible-secret
+    #       ansibleHost: ""
+    #       ansibleToken: ""
+    #       deployment:
+    #         local: true
+    #         online: false
+    #         matchingLabel: false
 objectstore:
   data:
     - enable: true

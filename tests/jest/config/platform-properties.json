@@ -211,7 +211,6 @@
   "editor.bar.reset": "Reset",
   "editor.bar.undo": "Undo",
   "editor.bar.update": "Update",
-  "editor.show.secrets": "Show secrets",
   "error.create": "Create resource error",
   "error.create.reason": "Cannot find resource type \"undefined\"",
   "error.create.syntax": "Syntax error: {0}",

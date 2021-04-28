@@ -19,8 +19,7 @@
 
     .creation-view-split-container {
       &.showEditor {
-        height: calc(100vh - 175px);
-
+        height: calc(100vh - 200px);
         .creation-view-controls-container {
           padding-top: 0px;
           height: calc(100vh - 180px);

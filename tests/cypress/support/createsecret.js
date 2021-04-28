@@ -26,6 +26,7 @@ Cypress.Commands.add("createSecret", () => {
         if ((stdout || stderr).includes("not found")) {
           cy.log("Secret not found. Now creating the secret...");
           cy.writeFile(SECRET_FILE_PATH, secretConfig);
+          // create an ansible secret
           cy
             .exec(`oc apply -f ${SECRET_FILE_PATH}`)
             .its("stdout")

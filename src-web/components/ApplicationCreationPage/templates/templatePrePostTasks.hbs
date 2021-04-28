@@ -12,9 +12,12 @@ metadata:
     app: {{{@root.name}}}
   name: {{{ansibleSecretName}}}
   namespace: {{{@root.namespace}}}
+data: 
 {{#if @root.showSecrets}}
-data: {{{@root.metadata}}}
+  host: {{{@root.host}}}
+  token: {{{@root.token}}}
 {{else}}
-data: # injected on create
+  host: # injected on create
+  token: # injected on create
 {{/if}}
 {{/if}} 

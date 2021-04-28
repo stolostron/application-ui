@@ -497,7 +497,11 @@ class ArgoAppDetailsContainer extends React.Component {
       }
       // render list of argo app
       appItems.push(
-        <div className="appDetailItem" style={parentDivStyle} key={name}>
+        <div
+          className="appDetailItem"
+          style={parentDivStyle}
+          key={`${name}${i}`}
+        >
           <AccordionItem>
             <AccordionToggle
               onClick={() => this.handleExpandSectionToggle(toggleItemNum)}

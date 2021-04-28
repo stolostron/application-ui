@@ -347,7 +347,14 @@ const setArgoAppDetails = (
   //desired deployment state
   lodash.set(firstNode, 'specs.clusterNames', appData.clusterInfo)
   lodash.set(topoClusterNode, 'specs.appClusters', appData.clusterInfo)
-  lodash.set(topoClusterNode, 'specs.clusters', appData.clusterInfo)
+  const initialClusterData = []
+  //make sure clusters array always contain only objects
+  appData.clusterInfo.forEach(cls => {
+    initialClusterData.push({
+      name: cls
+    })
+  })
+  lodash.set(topoClusterNode, 'specs.clusters', initialClusterData)
   lodash.set(topoClusterNode, 'specs.targetNamespaces', targetNSForClusters)
 
   fetchApplicationRelatedObjects(

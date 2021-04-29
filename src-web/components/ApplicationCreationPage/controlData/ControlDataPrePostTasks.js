@@ -29,8 +29,7 @@ const prePostTasks = [
     collapsable: true,
     collapsed: true,
     info: getSharedSubscriptionWarning,
-    editing: { collapsed: true, editMode: true }, // if editing existing app, collapse this field initially
-    techPreview: true
+    editing: { collapsed: true, editMode: true } // if editing existing app, collapse this field initially
   },
   {
     name: 'creation.app.ansible.credential.name',
@@ -47,7 +46,7 @@ const prePostTasks = [
       prompt: 'creation.ocp.cloud.add.connection',
       icon: <ExternalLinkAltIcon />,
       type: 'link',
-      url: '/add-credentials', // launch to add-credentials
+      url: '/credentials/add', // launch to credential page
       positionBottomRight: true,
       id: 'add-provider-connection'
     }

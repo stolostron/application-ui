@@ -1090,11 +1090,11 @@ export const setupResourceModel = (
       _.set(
         node,
         'specs.searchClusters',
-        hasMultipleSubs
+        hasMultipleSubs && !nodeId.startsWith('application--')
           ? _.filter(clustersObjects, cls =>
             _.includes(nodeClusters, _.get(cls, 'name', ''))
           )
-          : clustersObjects
+          : clustersObjects // get all search clusters when one cluster node or this is the main app node
       )
     })
     // set clusters status on the app node

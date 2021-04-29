@@ -175,13 +175,13 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
             className="pf-c-accordion__toggle-text"
           >
             <svg
-              fill="#F0AB00"
+              fill="#878D96"
               height="12px"
               width="12px"
             >
               <use
                 className="label-icon"
-                href="#diagramIcons_warning"
+                href="#diagramIcons_pending"
               />
             </svg>
             <span
@@ -420,13 +420,13 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
             className="pf-c-accordion__toggle-text"
           >
             <svg
-              fill="#F0AB00"
+              fill="#878D96"
               height="12px"
               width="12px"
             >
               <use
                 className="label-icon"
-                href="#diagramIcons_warning"
+                href="#diagramIcons_pending"
               />
             </svg>
             <span

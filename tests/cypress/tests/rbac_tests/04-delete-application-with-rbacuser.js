@@ -1,7 +1,7 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-const config = Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
+const config = Cypress.env("RBAC_CONFIG");
 import {
   deleteApplicationUI,
   verifyUnauthorizedApplicationDelete

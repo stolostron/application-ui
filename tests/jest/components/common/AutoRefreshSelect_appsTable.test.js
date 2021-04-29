@@ -58,9 +58,10 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
 ("use strict");
 import React from "react";
 import AutoRefreshSelect from "../../../../src-web/components/common/AutoRefreshSelect";
-import renderer from "react-test-renderer";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+import { mount } from "enzyme";
+import toJson from "enzyme-to-json";
 
 import thunkMiddleware from "redux-thunk";
 import configureMockStore from "redux-mock-store";
@@ -75,19 +76,47 @@ const locationAllApps = {
   pathname: "/multicloud/applications/"
 };
 
+const locationAllChannels = {
+  pathname: "/multicloud/applications/advanced?resource=channels"
+};
+
 const dateNowStub = jest.fn(() => 1530518207007);
 global.Date.now = dateNowStub;
 
 describe("AutoRefreshSelect on all apps", () => {
   it("renders correctly when visible", () => {
-    const tree = renderer.create(
+    const wrapper = mount(
       <BrowserRouter>
         <Provider store={storeAllApps}>
           <AutoRefreshSelect route={locationAllApps} />
         </Provider>
       </BrowserRouter>
     );
+    wrapper
+      .find("#refresh-toggle")
+      .at(0)
+      .simulate("click");
+    wrapper.find(".pf-c-dropdown__toggle-text").simulate("click");
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(toJson(wrapper.render())).toMatchSnapshot();
+  });
+});
+
+describe("AutoRefreshSelect on all subscriptions", () => {
+  it("renders correctly when visible", () => {
+    const wrapper = mount(
+      <BrowserRouter>
+        <Provider store={storeAllApps}>
+          <AutoRefreshSelect route={locationAllChannels} />
+        </Provider>
+      </BrowserRouter>
+    );
+    wrapper
+      .find("#refresh-toggle")
+      .at(0)
+      .simulate("click");
+    wrapper.find(".pf-c-dropdown__toggle-text").simulate("click");
+
+    expect(toJson(wrapper.render())).toMatchSnapshot();
   });
 });

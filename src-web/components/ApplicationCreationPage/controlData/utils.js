@@ -218,6 +218,20 @@ export const updateChannelControls = (
     reconcileRate.disabled = existingChannel ? true : false
   }
 
+  const secretName = groupControlData.find(
+    ({ id }) =>
+      id === 'githubSecret' || id === 'helmSecret' || id === 'objectstoreSecret'
+  )
+  if (secretName) {
+    if (existingChannel && pathData && pathData.secretRef) {
+      secretName.type = 'text'
+      secretName.active = pathData.secretRef
+    } else {
+      secretName.type = 'hidden'
+      secretName.active = ''
+    }
+  }
+
   let control
   // if existing channel, hide user/token controls; show it when using the same channel in the same app
   const type = !existingChannel || usingSameChannel ? 'text' : 'hidden'
@@ -582,9 +596,15 @@ export const setAvailableChannelSpecs = (type, control, result) => {
     control.isFailed = true
   } else if (items) {
     control.availableData = _.keyBy(
-      items.filter(({ type: p }) => {
-        return p.toLowerCase().startsWith(type)
-      }),
+      items
+        .filter(({ type: p }) => {
+          return p.toLowerCase().startsWith(type)
+        })
+        .filter(({ objectPath: path }) => {
+          return !path
+            .toLowerCase()
+            .includes('multiclusterhub-repo.open-cluster-management')
+        }),
       'objectPath'
     )
     control.available = Object.keys(control.availableData).sort()

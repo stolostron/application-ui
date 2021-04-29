@@ -35,6 +35,7 @@ const testConfig = require("../config").getConfig().config;
 const secretConfig = require("../config").getConfig().secretConfig;
 const kubeConfig = require("../config").getKubeConfig();
 const getUsers = require("../config").getUsers();
+const rbacConfig = require("../config").getrbacConfig();
 
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
@@ -43,6 +44,14 @@ module.exports = (on, config) => {
   // require('@cypress/code-coverage/task')(on, config)
   // config.env.TEST_CONFIG = testConfig
   require("cypress-log-to-output").install(on);
+
+  on("task", {
+    log(message) {
+      console.log(message);
+
+      return null;
+    }
+  });
 
   on("task", {
     yaml2json(filename) {
@@ -109,6 +118,7 @@ module.exports = (on, config) => {
   config.env.SECRET_CONFIG = JSON.parse(secretConfig);
   config.env.KUBE_CONFIG = kubeConfig;
   config.env.USER_CONFIG = getUsers;
+  config.env.RBAC_CONFIG = JSON.parse(rbacConfig);
 
   return config;
 };

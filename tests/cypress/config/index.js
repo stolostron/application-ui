@@ -14,10 +14,12 @@ const updateObjectStoreInfo = (process, config) => {
   ) {
     //secret is base64 encoded to allow any character
     const decodedSecret = atob(process.env.OBJECTSTORE_SECRET_KEY);
+    const decodedKey = atob(process.env.OBJECTSTORE_ACCESS_KEY);
+
     //we want to set the private object store info for all
     config.forEach(item => {
       item.url = process.env.OBJECTSTORE_PRIVATE_URL;
-      item.accessKey = process.env.OBJECTSTORE_ACCESS_KEY;
+      item.accessKey = decodedKey;
       item.secretKey = decodedSecret;
     });
   }
@@ -160,4 +162,27 @@ exports.getUsers = () => {
     idp: userData.idp
   };
   return userList;
+};
+
+exports.getrbacConfig = () => {
+  let rbacConfig;
+  rbacConfig = fs.readFileSync(path.join(__dirname, "config.rbac.yaml"));
+  try {
+    rbacConfig = jsYaml.safeLoad(rbacConfig);
+    for (const [key, value] of Object.entries(rbacConfig)) {
+      value.data.forEach(data => {
+        let { enable, name, config } = data;
+        if (enable) {
+          // attach travis job id to each name
+          const job_id =
+            process.env.CYPRESS_JOB_ID && process.env.CYPRESS_JOB_ID.slice(-5);
+          process.env.CYPRESS_JOB_ID ? (name = name + "-" + job_id) : name;
+          data.name = name;
+        }
+      });
+    }
+  } catch (e) {
+    throw new Error(e);
+  }
+  return JSON.stringify(rbacConfig);
 };

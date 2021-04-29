@@ -128,7 +128,6 @@ export const getAppOverviewCardsData = (
   topologyData,
   appName,
   appNamespace,
-  targetLink,
   locale
 ) => {
   // Get app details only when topology data is properly loaded for the selected app
@@ -140,16 +139,15 @@ export const getAppOverviewCardsData = (
     topologyData.detailsLoaded !== true
   ) {
     return {
-      appName: appName,
-      appNamespace: appNamespace,
       creationTimestamp: -1,
       remoteClusterCount: -1,
       localClusterDeploy: false,
       nodeStatuses: -1,
-      targetLink: targetLink,
       subsList: -1,
       isArgoApp: false,
-      argoSource: -1
+      argoSource: -1,
+      destinationNs: -1,
+      destinationCluster: ''
     }
   }
 
@@ -162,6 +160,8 @@ export const getAppOverviewCardsData = (
   ) {
     let apiGroup = 'app.k8s.io'
     let creationTimestamp = ''
+    let destinationNs = ''
+    let destinationCluster = ''
     const nodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
     const subsList = []
     let clusterNames = []
@@ -202,6 +202,21 @@ export const getAppOverviewCardsData = (
           // set argo app cluster names
           clusterNames = _.get(node, ['specs', 'clusterNames'], [])
           argoSource = _.get(node, ['specs', 'raw', 'spec', 'source'], {})
+
+          // set destination namespace and cluster
+          const relatedApps = _.get(node, ['specs', 'relatedApps'], [])
+          relatedApps.filter(app => {
+            if (
+              app.name === appName &&
+              app.namespace === appNamespace &&
+              app.destinationNamespace
+            ) {
+              destinationNs = app.destinationNamespace
+              destinationCluster = app.destinationName
+                ? app.destinationName
+                : app.destinationCluster ? app.destinationCluster : ''
+            }
+          })
         }
       }
       //get pulse for all objects generated from a deployable
@@ -214,33 +229,31 @@ export const getAppOverviewCardsData = (
       }
     })
     return {
-      appName: appName,
-      appNamespace: appNamespace,
       creationTimestamp: creationTimestamp,
       remoteClusterCount: clusterData.remoteCount,
       localClusterDeploy: clusterData.isLocal,
       nodeStatuses: nodeStatuses,
-      targetLink: targetLink,
       subsList: subsList,
       apiGroup: apiGroup,
       clusterNames: clusterNames,
       isArgoApp: isArgoApp,
-      argoSource: argoSource
+      argoSource: argoSource,
+      destinationNs: destinationNs,
+      destinationCluster: destinationCluster
     }
   } else {
     return {
-      appName: appName,
-      appNamespace: appNamespace,
       creationTimestamp: -1,
       remoteClusterCount: -1,
       localClusterDeploy: false,
       nodeStatuses: -1,
-      targetLink: targetLink,
       subsList: -1,
       apiGroup: 'app.k8s.io',
       clusterNames: [],
       isArgoApp: false,
-      argoSource: -1
+      argoSource: -1,
+      destinationNs: -1,
+      destinationCluster: ''
     }
   }
 }

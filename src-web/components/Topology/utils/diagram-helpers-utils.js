@@ -23,6 +23,13 @@ const pendingStatus = 'pending'
 const failureStatus = 'failure'
 const pulseValueArr = ['red', 'orange', 'yellow', 'green']
 const metadataName = 'metadata.name'
+const argoAppHealthyStatus = 'Healthy'
+const argoAppDegradedStatus = 'Degraded'
+const argoAppMissingStatus = 'Missing'
+const argoAppProgressingStatus = 'Progressing'
+const argoAppSuspendedStatus = 'Suspended'
+const argoAppUnknownStatus = 'Unknown'
+export const nodesWithNoNS = ['namespace', 'clusterrole', 'clusterrolebinding']
 
 export const isDeployableResource = node => {
   //check if this node has been created using a deployable object
@@ -78,7 +85,7 @@ export const nodeMustHavePods = node => {
 }
 
 export const getClusterName = (nodeId, node, findAll) => {
-  if (node && _.get(node, 'clusters.id', '') === 'member--clusters--') {
+  if (node) {
     //cluster info is not set on the node id, get it from here
     if (findAll) {
       //get all cluster names as set by argo target, ignore deployable status
@@ -164,7 +171,14 @@ export const filterSubscriptionObject = (resourceMap, activeFilterCodes) => {
   return filteredObject
 }
 
-export const getOnlineClusters = (clusterNames, clusterObjs) => {
+export const getOnlineClusters = node => {
+  const clusterNames = R.split(
+    ',',
+    getClusterName(_.get(node, 'id', ''), node)
+  )
+  const clusterObjs =
+    _.get(node, 'clusters.specs.clusters') ||
+    _.get(node, 'specs.searchClusters', [])
   const onlineClusters = []
   clusterNames.forEach(clsName => {
     const cluster = clsName.trim()
@@ -190,7 +204,8 @@ export const getOnlineClusters = (clusterNames, clusterObjs) => {
       }
     }
   })
-  return onlineClusters
+  //always add local cluster
+  return _.uniqBy(_.union(onlineClusters, [LOCAL_HUB_NAME]))
 }
 
 export const getClusterHost = consoleURL => {
@@ -214,7 +229,9 @@ export const getPulseStatusForSubscription = node => {
     return pulse
   }
   let isPlaced = false
+  const onlineClusters = getOnlineClusters(node)
   _.flatten(Object.values(resourceMap)).forEach(subscriptionItem => {
+    const clsName = _.get(subscriptionItem, 'cluster', '')
     if (subscriptionItem.status) {
       if (R.contains('Failed', subscriptionItem.status)) {
         pulse = 'red'
@@ -223,8 +240,9 @@ export const getPulseStatusForSubscription = node => {
         isPlaced = true // at least one cluster placed
       }
       if (
-        subscriptionItem.status !== 'Subscribed' &&
-        subscriptionItem.status !== 'Propagated' &&
+        (!_.includes(onlineClusters, clsName) ||
+          (subscriptionItem.status !== 'Subscribed' &&
+            subscriptionItem.status !== 'Propagated')) &&
         pulse !== 'red'
       ) {
         pulse = 'yellow' // anything but failed or subscribed
@@ -278,15 +296,21 @@ export const syncControllerRevisionPodStatusMap = resourceMap => {
         ''
       )
       const parentId = _.get(controllerRevision, 'specs.parent.parentId', '')
-      const clusterName = getClusterName(parentId)
+      const clusterName = getClusterName(parentId).toString()
       const parentResource =
-        resourceMap[`${parentType}-${parentName}-${clusterName}`]
-      const parentModel = {
-        ..._.get(parentResource, `specs.${parentResource.type}Model`, '')
-      }
-
-      if (parentModel) {
-        _.set(controllerRevision, 'specs.controllerrevisionModel', parentModel)
+        resourceMap[`${parentType}-${parentName}-${clusterName}`] ||
+        resourceMap[`${parentType}-${parentName}-`]
+      if (parentResource) {
+        const parentModel = {
+          ..._.get(parentResource, `specs.${parentResource.type}Model`, '')
+        }
+        if (parentModel) {
+          _.set(
+            controllerRevision,
+            'specs.controllerrevisionModel',
+            parentModel
+          )
+        }
       }
     }
   })
@@ -324,6 +348,11 @@ export const namespaceMatchTargetServer = (
 }
 
 export const setArgoApplicationDeployStatus = (node, details) => {
+  const relatedArgoApps = _.get(node, 'specs.relatedApps', [])
+  if (relatedArgoApps.length === 0) {
+    return // search is not available
+  }
+
   // show error if app is not healthy
   const appHealth = _.get(node, 'specs.raw.status.health.status')
   const appStatusConditions = _.get(node, 'specs.raw.status.conditions')
@@ -343,7 +372,6 @@ export const setArgoApplicationDeployStatus = (node, details) => {
       status: failureStatus
     })
   }
-  const relatedArgoApps = _.get(node, 'specs.relatedApps', [])
 
   // related Argo apps
   details.push({
@@ -354,7 +382,6 @@ export const setArgoApplicationDeployStatus = (node, details) => {
   details.push({
     type: 'spacer'
   })
-
   // related Argo apps search and pagination
   const sortByNameCaseInsensitive = R.sortBy(
     R.compose(R.toLower, R.prop('name'))
@@ -369,50 +396,90 @@ export const setArgoApplicationDeployStatus = (node, details) => {
 }
 
 export const getStatusForArgoApp = healthStatus => {
-  if (healthStatus === 'Healthy') {
+  if (healthStatus === argoAppHealthyStatus) {
     return checkmarkStatus
   }
-  if (healthStatus === 'Progressing') {
+  if (healthStatus === argoAppProgressingStatus) {
     return pendingStatus
   }
-  if (healthStatus === 'Unknown') {
+  if (healthStatus === argoAppUnknownStatus) {
     return failureStatus
   }
   return warningStatus
 }
 
 export const translateArgoHealthStatus = healthStatus => {
-  if (healthStatus === 'Healthy') {
+  if (healthStatus === argoAppHealthyStatus) {
     return 3
   }
-  if (healthStatus === 'Missing' || healthStatus === 'Unknown') {
+  if (
+    healthStatus === argoAppMissingStatus ||
+    healthStatus === argoAppUnknownStatus
+  ) {
     return 1
   }
-  if (healthStatus === 'Degraded') {
+  if (healthStatus === argoAppDegradedStatus) {
     return 0
   }
   return 2
 }
 
 export const getPulseStatusForArgoApp = node => {
-  const appHealth = _.get(node, 'specs.raw.status.health.status')
-  const healthArr = [translateArgoHealthStatus(appHealth)]
   const relatedApps = _.get(node, 'specs.relatedApps', [])
+  let healthyCount = 0,
+      missingUnknownProgressingSuspendedCount = 0,
+      degradedCount = 0
 
   relatedApps.forEach(app => {
-    const relatedAppHealth = _.get(app, 'status.health.status', 'Healthy')
-    healthArr.push(translateArgoHealthStatus(relatedAppHealth))
+    const relatedAppHealth = _.get(app, 'status', '')
+    if (relatedAppHealth === argoAppHealthyStatus) {
+      healthyCount++
+    } else if (
+      relatedAppHealth === argoAppMissingStatus ||
+      relatedAppHealth === argoAppUnknownStatus ||
+      relatedAppHealth === argoAppProgressingStatus ||
+      relatedAppHealth === argoAppSuspendedStatus
+    ) {
+      missingUnknownProgressingSuspendedCount++
+    } else if (relatedAppHealth === argoAppDegradedStatus) {
+      degradedCount++
+    }
   })
 
-  const minPulse = Math.min.apply(null, healthArr)
-  return pulseValueArr[minPulse]
+  if (degradedCount === relatedApps.length) {
+    return pulseValueArr[failureCode]
+  }
+  if (missingUnknownProgressingSuspendedCount === relatedApps.length) {
+    return pulseValueArr[pendingCode]
+  }
+  if (
+    healthyCount === 0 &&
+    missingUnknownProgressingSuspendedCount === 0 &&
+    degradedCount === 0
+  ) {
+    return pulseValueArr[pendingCode]
+  }
+  if (healthyCount < relatedApps.length) {
+    return pulseValueArr[warningCode]
+  }
+
+  return pulseValueArr[checkmarkCode]
 }
 
 // try to match app destination clusters with hub clusters using search data
 export const updateAppClustersMatchingSearch = (node, searchClusters) => {
+  const nodeId = _.get(node, 'id', '')
+  if (nodeId !== 'member--clusters--') {
+    //acm cluster node
+    _.set(node, 'specs.clusters', searchClusters)
+    return node
+  }
   //get only clusters in a url format looking like a cluster api url
   const appClusters = _.get(node, 'specs.appClusters', [])
-  const appClustersUsingURL = _.filter(appClusters, cls => isValidHttpUrl(cls))
+  const appClustersUsingURL = _.filter(
+    appClusters,
+    cls => getValidHttpUrl(cls) !== null
+  )
 
   appClustersUsingURL.forEach(appCls => {
     try {
@@ -464,53 +531,127 @@ export const updateAppClustersMatchingSearch = (node, searchClusters) => {
   return node
 }
 
-export const isValidHttpUrl = value => {
-  let validUrl = true
+export const getValidHttpUrl = value => {
+  let urlValue = true
   try {
-    new URL(value)
+    urlValue = new URL(value)
   } catch (err) {
-    validUrl = false
+    return null
   }
-  return validUrl
+  return urlValue
 }
 
 //show warning when no deployed resources are not found by search on this cluster name
 export const showMissingClusterDetails = (clusterName, node, details) => {
+  const targetNS = _.get(node, 'clusters.specs.targetNamespaces', {
+    unknown: []
+  })
   if (clusterName.length === 0) {
     // there are no deployed clusters for this app group
-    const clsNames = Object.keys(
-      _.get(node, 'clusters.specs.targetNamespaces', { unknown: [] })
-    )
+    const clsNames = Object.keys(targetNS)
     clsNames.forEach(clsName => {
-      details.push({
-        labelValue: clsName,
-        value: msgs.get('spec.deploy.not.deployed'),
-        status: pendingStatus
-      })
+      details.push(
+        {
+          labelValue: msgs.get('topology.filter.category.clustername'),
+          value: clsName
+        },
+        {
+          labelValue: '*',
+          value: msgs.get('spec.deploy.not.deployed'),
+          status: pendingStatus
+        }
+      )
     })
-  } else if (isValidHttpUrl(clusterName)) {
-    // this cluster name could not be mapped to a cluster name
-    // search clusters mapping fails when there are no deployed resources or clusters not found..
-    if (_.startsWith(clusterName, 'https://api.')) {
-      // ocp cluster, mapping not found which means there is no deployment on this cluster
-      details.push({
-        labelValue: clusterName,
-        value: msgs.get('spec.deploy.not.deployed'),
-        status: pendingStatus
-      })
-    } else {
-      details.push({
-        labelValue: clusterName,
-        value: msgs.get('resource.cluster.notmapped'),
-        status: pendingStatus
-      })
-    }
   } else {
     details.push({
-      labelValue: clusterName,
-      value: msgs.get('resource.cluster.offline'),
-      status: warningStatus
+      labelValue: msgs.get('topology.filter.category.clustername'),
+      value: clusterName
     })
+    const nsForCluster = targetNS[clusterName] || ['*']
+    if (getValidHttpUrl(clusterName) !== null) {
+      // if name with https://api. this server name could not be mapped to a cluster name
+      // search clusters mapping fails when there are no deployed resources or clusters not found..
+      nsForCluster.forEach(nsName => {
+        details.push({
+          labelValue: nsName,
+          value: _.startsWith(clusterName, 'https://api.')
+            ? msgs.get('spec.deploy.not.deployed')
+            : msgs.get('resource.cluster.notmapped'),
+          status: pendingStatus
+        })
+      })
+    } else {
+      const searchCluster = _.find(
+        _.get(node, 'specs.searchClusters', []),
+        cls => _.get(cls, 'name') === clusterName
+      )
+      nsForCluster.forEach(nsName => {
+        details.push({
+          labelValue: nsName,
+          value: searchCluster
+            ? msgs.get('resource.cluster.offline')
+            : msgs.get('spec.deploy.not.deployed'),
+          status: searchCluster ? warningStatus : pendingStatus
+        })
+      })
+    }
   }
   return details
+}
+
+// returns all namespaces this resource can deploy to
+export const getTargetNsForNode = (
+  node,
+  resourcesForCluster,
+  clusterName,
+  defaultNS
+) => {
+  // list of target namespaces per cluster
+  const targetNamespaces = _.get(node, 'clusters.specs.targetNamespaces', {})
+  const nodeType = _.get(node, 'type', '')
+  const deployedResourcesNS = _.includes(nodesWithNoNS, nodeType)
+    ? _.map(resourcesForCluster, 'name')
+    : _.map(resourcesForCluster, 'namespace')
+  //get cluster target namespaces
+  return targetNamespaces[clusterName]
+    ? _.union(targetNamespaces[clusterName], _.uniq(deployedResourcesNS))
+    : resourcesForCluster.length > 0
+      ? _.uniq(deployedResourcesNS)
+      : [defaultNS]
+}
+
+//returns the list of clusters the app resources must deploy on
+export const getResourcesClustersForApp = (searchClusters, nodes) => {
+  let clustersList = searchClusters
+    ? R.pathOr([], ['items'])(searchClusters)
+    : []
+  if (nodes && nodes.length > 0) {
+    const placementNodes =
+      _.filter(
+        nodes,
+        node =>
+          _.get(node, 'type', '') === 'placements' &&
+          _.get(node, 'id', '').indexOf('deployable') === -1
+      ) || []
+    if (placementNodes.length > 0) {
+      const localClusterRuleFn = decision =>
+        _.get(decision, 'clusterName', '') === LOCAL_HUB_NAME
+      const localPlacement = _.find(
+        placementNodes,
+        plc =>
+          _.filter(
+            _.get(plc, 'specs.raw.status.decisions', []),
+            localClusterRuleFn
+          ).length > 0
+      )
+      if (!localPlacement) {
+        // this placement doesn't include local host so don't include local cluster, used for showing not deployed status
+        clustersList = _.filter(
+          clustersList,
+          cls => _.get(cls, 'name', '') !== LOCAL_HUB_NAME
+        )
+      }
+    }
+  }
+  return clustersList
 }

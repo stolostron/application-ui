@@ -404,10 +404,6 @@ export const verifyDetails = (name, namespace, apiVersion) => {
     .get(".pf-l-grid__item")
     .first()
     .contains(name);
-  cy
-    .get(".pf-l-grid__item")
-    .first()
-    .contains(namespace);
 };
 
 /*
@@ -556,8 +552,8 @@ export const validateAppTableMenu = (name, resourceTable) => {
     // check popup actions on one app only, that's sufficient
     return;
   }
-  const resourceKey = getResourceKey(name, getNamespace(name));
-  resourceTable.openRowMenu(name, getResourceKey(name, getNamespace(name)));
+  const resourceKey = getResourceKey(name, getNamespace(name), "local-cluster");
+  resourceTable.openRowMenu(name, resourceKey);
   resourceTable.menuClick("search");
   cy
     .url()
@@ -603,7 +599,8 @@ export const validateResourceTable = (
   data,
   type,
   numberOfRemoteClusters,
-  namespace
+  namespace,
+  deployedNamespace
 ) => {
   if (!namespace) {
     namespace = getNamespace(name);
@@ -613,7 +610,7 @@ export const validateResourceTable = (
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
-  const resourceKey = getResourceKey(name, namespace);
+  const resourceKey = getResourceKey(name, namespace, "local-cluster");
   resourceTable.rowShouldExist(name, resourceKey, 60 * 1000);
 
   //validate content
@@ -632,17 +629,14 @@ export const validateResourceTable = (
         .invoke("text")
         .should("include", type)
     );
+    cy.get("#expandable-toggle0").click();
   }
-
-  if (type !== "argo") {
-    // will remove the condition when #11363 is in
-    resourceTable.getRow(name, resourceKey).within(() =>
-      resourceTable
-        .getCell("Namespace")
-        .invoke("text")
-        .should("include", namespace)
-    );
-  }
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Namespace")
+      .invoke("text")
+      .should("include", type === "argo" ? deployedNamespace : namespace)
+  );
 
   const appDetails = getSingleAppClusterTimeDetails(
     data,
@@ -750,7 +744,7 @@ export const deleteApplicationUI = (name, namespace = "default") => {
   namespace == "default" ? (namespace = getNamespace(name)) : namespace;
   cy.visit("/multicloud/applications");
   if (noResource.shouldNotExist()) {
-    const resourceKey = getResourceKey(name, namespace);
+    const resourceKey = getResourceKey(name, namespace, "local-cluster");
     resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
 
     resourceTable.openRowMenu(name, resourceKey);
@@ -841,7 +835,7 @@ export const edit = (name, namespace = "default") => {
     })
     .as("graphql");
   cy.visit("/multicloud/applications");
-  const resourceKey = getResourceKey(name, namespace);
+  const resourceKey = getResourceKey(name, namespace, "local-cluster");
   resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
   resourceTable.openRowMenu(name, resourceKey);
   resourceTable.menuClick("edit");
@@ -990,7 +984,7 @@ export const verifyInsecureSkipAfterNewSubscription = name => {
 
 export const verifyUnauthorizedApplicationDelete = (name, namespace) => {
   cy.visit("/multicloud/applications");
-  const resourceKey = getResourceKey(name, namespace);
+  const resourceKey = getResourceKey(name, namespace, "local-cluster");
   resourceTable.rowShouldExist(name, resourceKey, 30 * 1000);
   resourceTable.openRowMenu(name, resourceKey);
   resourceTable.menuClick("delete");

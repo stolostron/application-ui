@@ -10,7 +10,8 @@ import {
   receiveTopologyDetailsSuccess,
   restoreSavedTopologyFilters,
   updateTopologyFilters,
-  getResourceData
+  getResourceData,
+  findMatchingCluster
 } from "../../../src-web/actions/topology";
 
 const resourceType = {
@@ -27,6 +28,93 @@ const fetchFilters = {
 };
 
 const err = { err: { msg: "err" } };
+
+describe("findMatchingCluster", () => {
+  const argoApp = {
+    targetRevision: "HEAD",
+    namespace: "openshift-gitops",
+    name: "vb-byurl-pod",
+    _hubClusterResource: "true",
+    repoURL: "https://github.com/fxiang1/app-samples.git",
+    kind: "application",
+    destinationServer: "https://abcd.com:6443",
+    status: "Healthy",
+    apiversion: "v1alpha1",
+    path: "mortgagepod",
+    destinationNamespace: "vb-pod-byurl",
+    apigroup: "argoproj.io",
+    cluster: "local-cluster"
+  };
+
+  const argoAppNoServerInfo = {
+    targetRevision: "HEAD",
+    namespace: "openshift-gitops",
+    name: "vb-byurl-pod",
+    _hubClusterResource: "true",
+    repoURL: "https://github.com/fxiang1/app-samples.git",
+    kind: "application",
+    clusterName: "ui-managed",
+    status: "Healthy",
+    apiversion: "v1alpha1",
+    path: "mortgagepod",
+    destinationNamespace: "vb-pod-byurl",
+    apigroup: "argoproj.io",
+    cluster: "local-cluster"
+  };
+
+  const argoAppNoClusterFound = {
+    targetRevision: "HEAD",
+    namespace: "openshift-gitops",
+    name: "vb-byurl-pod",
+    _hubClusterResource: "true",
+    repoURL: "https://github.com/fxiang1/app-samples.git",
+    kind: "application",
+    destinationServer: "https://abcd-unknown.com:6443",
+    status: "Healthy",
+    apiversion: "v1alpha1",
+    path: "mortgagepod",
+    destinationNamespace: "vb-pod-byurl",
+    apigroup: "argoproj.io",
+    cluster: "local-cluster"
+  };
+
+  const argoMappingInfo = [
+    {
+      _uid: "local-cluster/b3a94f33-3e43-4a0e-8a3e-7d9b855ab179",
+      cluster: "local-cluster",
+      _rbac: "openshift-gitops_null_secrets",
+      _hubClusterResource: "true",
+      label:
+        "apps.open-cluster-management.io/acm-cluster=true; argocd.argoproj.io/secret-type=cluster; open-cluster-management.io/cluster-name=ui-managed; open-cluster-management.io/cluster-server=abcd.com",
+      namespace: "openshift-gitops",
+      apiversion: "v1",
+      created: "2021-03-31T15:03:23Z",
+      name: "ui-managed-cluster-secret",
+      kind: "secret"
+    }
+  ];
+  it("should return ui-managed cluster name", () => {
+    expect(findMatchingCluster(argoApp, argoMappingInfo)).toEqual("ui-managed");
+  });
+
+  it("should return the cluster name directly, this is using the argo dest by name", () => {
+    expect(findMatchingCluster(argoAppNoServerInfo, argoMappingInfo)).toEqual(
+      undefined
+    );
+  });
+
+  it("should return the sever name,  mapping not found the cluster name", () => {
+    expect(findMatchingCluster(argoAppNoClusterFound, argoMappingInfo)).toEqual(
+      "https://abcd-unknown.com:6443"
+    );
+  });
+
+  it("should return the sever name,  there is no mapping info", () => {
+    expect(findMatchingCluster(argoAppNoClusterFound, [])).toEqual(
+      "https://abcd-unknown.com:6443"
+    );
+  });
+});
 
 describe("topology actions", () => {
   it("should return requestResource", () => {

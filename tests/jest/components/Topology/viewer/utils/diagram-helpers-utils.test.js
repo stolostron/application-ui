@@ -16,8 +16,358 @@ import {
   syncControllerRevisionPodStatusMap,
   fixMissingStateOptions,
   namespaceMatchTargetServer,
-  updateAppClustersMatchingSearch
+  updateAppClustersMatchingSearch,
+  getTargetNsForNode,
+  getResourcesClustersForApp
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
+
+describe("getResourcesClustersForApp", () => {
+  const searchClusters = {
+    items: [
+      {
+        name: "local-cluster",
+        consoleURL: "https://console-openshift-console.apps.app-abcd.com"
+      },
+      {
+        name: "ui-managed",
+        consoleURL:
+          "https://console-openshift-console.apps.app-abcd.managed.com"
+      },
+      {
+        HubAcceptedManagedCluster: "True",
+        ManagedClusterConditionAvailable: "True",
+        kind: "cluster",
+        label: "cloud=Amazon; environment=Dev; name=fxiang-eks; vendor=EKS",
+        name: "fxiang-eks"
+      }
+    ]
+  };
+  const nodesWithPlacementOnLocal = [
+    {
+      name: "rootApp",
+      type: "application",
+      id: "application"
+    },
+    {
+      name: "placementrule",
+      type: "placements",
+      id: "member--rule--placement",
+      specs: {
+        raw: {
+          status: {
+            decisions: [
+              {
+                clusterName: "local-cluster",
+                clusterNamespace: "local-cluster"
+              },
+              {
+                clusterName: "ui-hub",
+                clusterNamespace: "ui-hub"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ];
+  const nodesWithoutPlacementOnLocal = [
+    {
+      name: "rootApp",
+      type: "application",
+      id: "application"
+    },
+    {
+      name: "placementrule",
+      type: "placements",
+      id: "member--rule--placement",
+      specs: {
+        raw: {
+          status: {
+            decisions: [
+              {
+                clusterName: "ui-hub",
+                clusterNamespace: "ui-hub"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ];
+  const nodesWithoutPlacementOnLocalAsDeployable = [
+    {
+      name: "rootApp",
+      type: "application",
+      id: "application"
+    },
+    {
+      name: "placementrule",
+      type: "placements",
+      id: "member--deployable--placement",
+      specs: {
+        raw: {
+          status: {
+            decisions: [
+              {
+                clusterName: "ui-hub",
+                clusterNamespace: "ui-hub"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ];
+  const nodesWithNoPlacement = [
+    {
+      name: "rootApp",
+      type: "application",
+      id: "application"
+    }
+  ];
+  const resultWithoutLocalCluster = [
+    {
+      name: "ui-managed",
+      consoleURL: "https://console-openshift-console.apps.app-abcd.managed.com"
+    },
+    {
+      HubAcceptedManagedCluster: "True",
+      ManagedClusterConditionAvailable: "True",
+      kind: "cluster",
+      label: "cloud=Amazon; environment=Dev; name=fxiang-eks; vendor=EKS",
+      name: "fxiang-eks"
+    }
+  ];
+
+  it("returns search nodes WITHOUT local host, the placement rule is not deploying on local", () => {
+    expect(
+      getResourcesClustersForApp(searchClusters, nodesWithoutPlacementOnLocal)
+    ).toEqual(resultWithoutLocalCluster);
+  });
+
+  it("returns search nodes WITH local host, the placement rule IS deploying not deploying on local", () => {
+    expect(
+      getResourcesClustersForApp(searchClusters, nodesWithPlacementOnLocal)
+    ).toEqual(searchClusters.items);
+  });
+
+  it("returns search nodes WITH local host, the placement rule not found - ie argo", () => {
+    expect(
+      getResourcesClustersForApp(searchClusters, nodesWithNoPlacement)
+    ).toEqual(searchClusters.items);
+  });
+
+  it("returns search nodes WITH local host, the placement rule found but is a deployable", () => {
+    expect(
+      getResourcesClustersForApp(
+        searchClusters,
+        nodesWithoutPlacementOnLocalAsDeployable
+      )
+    ).toEqual(searchClusters.items);
+  });
+});
+
+describe("getTargetNsForNode", () => {
+  const v1 = {
+    cluster: "local-cluster",
+    kind: "namespace",
+    name: "helloworld-123"
+  };
+  const v2 = {
+    cluster: "local-cluster",
+    kind: "namespace",
+    name: "helloworld-456"
+  };
+  const inputNodeNS = {
+    id:
+      "member--member--deployable--member--clusters--local-cluster--vb-crash-ns--vb-app-crash-subscription-1-seeds-managed-acm-hello-world-helloworld-namespace--namespace--helloworld",
+    name: "helloworld",
+    clusters: {
+      specs: {
+        targetNamespaces: {
+          "local-cluster": ["helloworld", "helloworld1"]
+        }
+      }
+    },
+    cluster: null,
+    clusterName: null,
+    type: "namespace",
+    specs: {
+      raw: {
+        apiVersion: "v1",
+        kind: "Namespace",
+        metadata: {
+          name: "helloworld"
+        }
+      },
+      deployStatuses: [],
+      isDesign: false,
+      parent: {
+        parentId: "member--clusters--local-cluster",
+        parentName: "local-cluster",
+        parentType: "cluster"
+      },
+      clustersNames: ["local-cluster"],
+      searchClusters: [
+        {
+          _clusterNamespace: "local-cluster",
+          name: "local-cluster",
+          kind: "cluster",
+          HubAcceptedManagedCluster: "True",
+          ManagedClusterConditionAvailable: "True",
+          status: "OK"
+        }
+      ],
+      namespaceModel: {
+        "helloworld-123-local-cluster": [v1],
+        "helloworld-45-local-cluster": [v2]
+      },
+      pulse: "green",
+      shapeType: "namespace"
+    },
+    namespace: "vb-crash-ns"
+  };
+
+  it("return local-cluster namespace for namespace node type ", () => {
+    expect(
+      getTargetNsForNode(inputNodeNS, [v1, v2], "local-cluster", "*")
+    ).toEqual([
+      "helloworld",
+      "helloworld1",
+      "helloworld-123",
+      "helloworld-456"
+    ]);
+  });
+
+  const clusterRole = {
+    cluster: "local-cluster",
+    kind: "clusterrole",
+    name: "clusterrole-helloworld-456"
+  };
+  const inputNodeClusterRole = {
+    id:
+      "member--member--deployable--member--clusters--local-cluster--vb-crash-ns--vb-app-crash-subscription-1-seeds-managed-acm-hello-world-helloworld-namespace--clusterrole--helloworld",
+    name: "helloworld",
+    clusters: {
+      specs: {
+        targetNamespaces: {
+          "local-cluster": ["helloworld", "helloworld1"]
+        }
+      }
+    },
+    cluster: null,
+    clusterName: null,
+    type: "clusterrole",
+    specs: {
+      raw: {
+        apiVersion: "v1",
+        kind: "ClusterRole",
+        metadata: {
+          name: "helloworld"
+        }
+      },
+      deployStatuses: [],
+      isDesign: false,
+      parent: {
+        parentId: "member--clusters--local-cluster",
+        parentName: "local-cluster",
+        parentType: "cluster"
+      },
+      clustersNames: ["local-cluster"],
+      searchClusters: [
+        {
+          _clusterNamespace: "local-cluster",
+          name: "local-cluster",
+          kind: "cluster",
+          HubAcceptedManagedCluster: "True",
+          ManagedClusterConditionAvailable: "True",
+          status: "OK"
+        }
+      ],
+      clusterroleModel: {
+        "helloworld-123-local-cluster": [clusterRole]
+      },
+      pulse: "green",
+      shapeType: "clusterrole"
+    },
+    namespace: "vb-crash-ns"
+  };
+
+  it("return local-cluster namespace for clusterrole node type ", () => {
+    expect(
+      getTargetNsForNode(
+        inputNodeClusterRole,
+        [clusterRole],
+        "local-cluster",
+        "*"
+      )
+    ).toEqual(["helloworld", "helloworld1", "clusterrole-helloworld-456"]);
+  });
+
+  const polModel = {
+    "openshift-gitops-installed-local-cluster": [
+      {
+        name: "openshift-gitops-installed",
+        cluster: "local-cluster",
+        kind: "policy",
+        namespace: "vb-crash-ns"
+      }
+    ]
+  };
+
+  const inputNodePolicy = {
+    id:
+      "member--member--deployable--member--clusters--local-cluster--vb-crash-ns--vb-app-crash-subscription-1-seeds-managed-configuration-openshift-gitops-installed-policy--policy--openshift-gitops-installed",
+    uid:
+      "member--member--deployable--member--clusters--local-cluster--vb-crash-ns--vb-app-crash-subscription-1-seeds-managed-configuration-openshift-gitops-installed-policy--policy--openshift-gitops-installed",
+    name: "openshift-gitops-installed",
+    cluster: null,
+    clusterName: null,
+    type: "policy",
+    specs: {
+      raw: {
+        apiVersion: "policy.open-cluster-management.io/v1",
+        kind: "Policy",
+        metadata: {
+          name: "openshift-gitops-installed",
+          namespace: "policy"
+        }
+      },
+      deployStatuses: [],
+      isDesign: false,
+      parent: {
+        parentId: "member--clusters--local-cluster",
+        parentName: "local-cluster",
+        parentType: "cluster"
+      },
+      clustersNames: ["local-cluster"],
+      searchClusters: [
+        {
+          name: "local-cluster",
+          kind: "cluster",
+          ManagedClusterConditionAvailable: "True",
+          status: "OK"
+        }
+      ],
+      policyModel: polModel,
+      pulse: "green",
+      shapeType: "policy"
+    },
+    namespace: "vb-crash-ns"
+  };
+
+  it("return local-cluster namespace for policy node type ", () => {
+    expect(
+      getTargetNsForNode(
+        inputNodePolicy,
+        Object.values(polModel)[0],
+        "local-cluster",
+        "openshift-gitops-installed",
+        "*"
+      )
+    ).toEqual(["vb-crash-ns"]);
+  });
+});
 
 describe("updateAppClustersMatchingSearch", () => {
   const searchClusters = [
@@ -38,6 +388,7 @@ describe("updateAppClustersMatchingSearch", () => {
     }
   ];
   const clsNode1 = {
+    id: "member--clusters--",
     specs: {
       appClusters: [
         "local-cluster",
@@ -62,6 +413,7 @@ describe("updateAppClustersMatchingSearch", () => {
     }
   };
   const resultNode1 = {
+    id: "member--clusters--",
     specs: {
       clusters: searchClusters,
       appClusters: [
@@ -90,51 +442,180 @@ describe("updateAppClustersMatchingSearch", () => {
   });
 });
 
+describe("updateAppClustersMatchingSearch", () => {
+  const searchClusters = [
+    {
+      name: "local-cluster",
+      consoleURL: "https://console-openshift-console.apps.app-abcd.com"
+    },
+    {
+      name: "ui-managed",
+      consoleURL: "https://console-openshift-console.apps.app-abcd.managed.com"
+    },
+    {
+      HubAcceptedManagedCluster: "True",
+      ManagedClusterConditionAvailable: "True",
+      kind: "cluster",
+      label: "cloud=Amazon; environment=Dev; name=fxiang-eks; vendor=EKS",
+      name: "fxiang-eks"
+    }
+  ];
+  const clsNode1 = {
+    id: "member--clusters--feng",
+    specs: {
+      appClusters: ["local-cluster", "ui-managed"],
+      targetNamespaces: {
+        "ui-managed": ["namespace1", "namespace3"],
+        "local-cluster": ["namespace4"]
+      }
+    }
+  };
+  const resultNode1 = {
+    id: "member--clusters--feng",
+    specs: {
+      appClusters: ["local-cluster", "ui-managed"],
+      targetNamespaces: {
+        "ui-managed": ["namespace1", "namespace3"],
+        "local-cluster": ["namespace4"]
+      },
+      clusters: searchClusters
+    }
+  };
+  it("acm clusters should return as is", () => {
+    expect(updateAppClustersMatchingSearch(clsNode1, searchClusters)).toEqual(
+      resultNode1
+    );
+  });
+});
+
 describe("getOnlineClusters", () => {
-  const clusterNames = ["local-cluster", "ui-managed"];
-  const clusterObjectsFromSearchOffLine = [
-    {
-      name: "local-cluster",
-      status: "OK"
-    },
-    {
-      name: "ui-managed",
-      ManagedClusterConditionAvailable: "Unknown"
+  const inputNodeOffLineRemote = {
+    id: "member--clusters--",
+    specs: {
+      searchClusters: [
+        {
+          name: "local-cluster",
+          status: "OK"
+        },
+        {
+          name: "ui-managed",
+          ManagedClusterConditionAvailable: "Unknown"
+        }
+      ],
+      clustersNames: ["local-cluster", "ui-managed"]
     }
-  ];
-  const clusterObjectsFromSearchAllAvailable = [
-    {
-      name: "local-cluster",
-      status: "OK"
-    },
-    {
-      name: "ui-managed",
-      ManagedClusterConditionAvailable: "True"
+  };
+  const inputNodeAllAvailable = {
+    id: "member--clusters--",
+    specs: {
+      searchClusters: [
+        {
+          name: "local-cluster",
+          status: "OK"
+        },
+        {
+          name: "ui-managed",
+          ManagedClusterConditionAvailable: "True"
+        }
+      ],
+      clustersNames: ["local-cluster", "ui-managed"]
     }
-  ];
+  };
+  const inputNodeLocalNotSet = {
+    id: "member--clusters--",
+    specs: {
+      searchClusters: [
+        {
+          name: "ui-managed",
+          ManagedClusterConditionAvailable: "True"
+        }
+      ],
+      clustersNames: ["local-cluster", "ui-managed"]
+    }
+  };
   it("returns only local cluster", () => {
-    expect(
-      getOnlineClusters(clusterNames, clusterObjectsFromSearchOffLine)
-    ).toEqual(["local-cluster"]);
+    expect(getOnlineClusters(inputNodeOffLineRemote)).toEqual([
+      "local-cluster"
+    ]);
   });
   it("returns all clusters", () => {
-    expect(
-      getOnlineClusters(clusterNames, clusterObjectsFromSearchAllAvailable)
-    ).toEqual(["local-cluster", "ui-managed"]);
+    expect(getOnlineClusters(inputNodeAllAvailable)).toEqual([
+      "local-cluster",
+      "ui-managed"
+    ]);
+  });
+  it("returns all clusters, local not set", () => {
+    expect(getOnlineClusters(inputNodeLocalNotSet)).toEqual([
+      "local-cluster",
+      "ui-managed"
+    ]);
   });
 });
 
-describe("getClusterName node id undefined", () => {
+describe("getClusterName node returns clustersNames", () => {
   it("should return empty string", () => {
-    expect(getClusterName(undefined)).toEqual("");
+    const clsNode1 = {
+      id: "member--clusters--feng,feng2--",
+      specs: {
+        clustersNames: ["local-cluster", "ui-managed"]
+      }
+    };
+    expect(getClusterName(clsNode1.id, clsNode1)).toEqual(
+      "local-cluster,ui-managed"
+    );
   });
 });
 
-describe("getClusterName node id doesn't have cluster info", () => {
+describe("getClusterName node returns union of clustersNames and appClusters", () => {
   it("should return empty string", () => {
-    const nodeId =
-      "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch";
-    expect(getClusterName(nodeId)).toEqual("local-cluster");
+    const clsNode1 = {
+      id: "member--clusters--feng,feng2--",
+      clusters: {
+        specs: {
+          appClusters: ["appCls1", "appCls2"]
+        }
+      },
+      specs: {
+        clustersNames: ["local-cluster", "ui-managed"]
+      }
+    };
+    expect(getClusterName(undefined, clsNode1, true)).toEqual(
+      "local-cluster,ui-managed,appCls1,appCls2"
+    );
+  });
+});
+
+describe("getClusterName node clusters from nodeId", () => {
+  it("should return empty string", () => {
+    const clsNode1 = {
+      id: "member--clusters--feng,feng2--",
+      clusters: {
+        specs: {
+          appClusters: ["appCls1", "appCls2"]
+        }
+      },
+      specs: {
+        clustersNames: ["local-cluster", "ui-managed"]
+      }
+    };
+    expect(getClusterName(clsNode1.id)).toEqual("feng,feng2");
+  });
+});
+
+describe("getClusterName node clusters from nodeId, local cluster", () => {
+  it("should return empty string", () => {
+    const clsNode1 = {
+      id: "member--",
+      clusters: {
+        specs: {
+          appClusters: ["appCls1", "appCls2"]
+        }
+      },
+      specs: {
+        clustersNames: ["local-cluster", "ui-managed"]
+      }
+    };
+    expect(getClusterName(clsNode1.id)).toEqual("local-cluster");
   });
 });
 
@@ -342,7 +823,7 @@ describe("getRouteNameWithoutIngressHash", () => {
 });
 
 describe("getOnlineCluster ok and pending", () => {
-  const clusterNames = ["cluster1", "cluster2", "cluster3"];
+  //const clusterNamesA = ["cluster1", "cluster2", "cluster3"];
   const clusterObjs = [
     {
       metadata: {
@@ -363,10 +844,17 @@ describe("getOnlineCluster ok and pending", () => {
       status: "offline"
     }
   ];
+  const node = {
+    specs: {
+      clustersNames: ["cluster1", "cluster2", "cluster3"],
+      searchClusters: clusterObjs
+    }
+  };
   it("should process cluster node status", () => {
-    expect(getOnlineClusters(clusterNames, clusterObjs)).toEqual([
+    expect(getOnlineClusters(node)).toEqual([
       "cluster1",
-      "cluster2"
+      "cluster2",
+      "local-cluster"
     ]);
   });
 });
@@ -524,6 +1012,48 @@ describe("syncControllerRevisionPodStatusMap", () => {
     }
   };
 
+  const resourceMap2 = {
+    "daemonset-mortgageds-deploy-": {
+      specs: {
+        daemonsetModel: {
+          "mortgageds-deploy-fxiang-eks": {
+            apigroup: "apps",
+            apiversion: "v1",
+            available: 6,
+            cluster: "fxiang-eks",
+            created: "2021-01-25T21:53:12Z",
+            current: 6,
+            desired: 6,
+            kind: "daemonset",
+            label: "app=mortgageds-mortgage",
+            name: "mortgageds-deploy",
+            namespace: "feng",
+            ready: 6,
+            selfLink:
+              "/apis/apps/v1/namespaces/feng/daemonsets/mortgageds-deploy",
+            updated: 6,
+            _clusterNamespace: "fxiang-eks",
+            _hostingDeployable:
+              "mortgageds-ch/mortgageds-channel-DaemonSet-mortgageds-deploy",
+            _hostingSubscription: "feng/mortgageds-subscription",
+            _rbac: "fxiang-eks_apps_daemonsets",
+            _uid: "fxiang-eks/ff6fb8f2-d3ec-433a-93d4-3d4389a8c4b4"
+          }
+        }
+      }
+    },
+    "controllerrevision-mortgageds-deploy-fxiang-eks": {
+      specs: {
+        parent: {
+          parentId:
+            "member--member--deployable--member--clusters--fxiang-eks--feng--mortgageds-subscription-mortgageds-mortgageds-deploy-daemonset--daemonset--mortgageds-deploy",
+          parentName: "mortgageds-deploy",
+          parentType: "daemonset"
+        }
+      }
+    }
+  };
+
   const resourceMapNoParentPodModel = {
     "daemonset-mortgageds-deploy-fxiang-eks": {
       specs: {
@@ -568,6 +1098,10 @@ describe("syncControllerRevisionPodStatusMap", () => {
 
   it("should sync controllerRevision resource", () => {
     expect(syncControllerRevisionPodStatusMap(resourceMap)).toEqual(undefined);
+  });
+
+  it("should sync controllerRevision resource, no cluster on map key", () => {
+    expect(syncControllerRevisionPodStatusMap(resourceMap2)).toEqual(undefined);
   });
 
   it("should not sync controllerRevision resource", () => {

@@ -234,7 +234,7 @@ describe("hcm-application-diagram-tests", () => {
       },
       {
         id:
-          "--clusters--possiblereptile,braveman,sharingpenguin,relievedox--app",
+          "application--clusters--possiblereptile,braveman,sharingpenguin,relievedox--app",
         type: "application",
         name: "aa",
         namespace: "ns",
@@ -591,10 +591,6 @@ describe("hcm-application-diagram-tests", () => {
               status: "ok"
             }
           ],
-          allClusters: {
-            isLocal: false,
-            remoteCount: 1
-          },
           clustersNames: ["sharingpenguin"],
           searchClusters: [
             {
@@ -655,10 +651,11 @@ describe("hcm-application-diagram-tests", () => {
           }
         },
         id:
-          "--clusters--possiblereptile,braveman,sharingpenguin,relievedox--app",
+          "application--clusters--possiblereptile,braveman,sharingpenguin,relievedox--app",
         name: "aa",
         namespace: "ns",
         specs: {
+          allClusters: { isLocal: false, remoteCount: 1 },
           clustersNames: [
             "braveman",
             "possiblereptile",
@@ -684,10 +681,6 @@ describe("hcm-application-diagram-tests", () => {
                 status: "ok"
               }
             ],
-            allClusters: {
-              isLocal: false,
-              remoteCount: 1
-            },
             clustersNames: ["sharingpenguin"],
             searchClusters: [
               {

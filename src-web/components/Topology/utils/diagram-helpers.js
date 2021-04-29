@@ -35,7 +35,8 @@ import {
   showMissingClusterDetails,
   getTargetNsForNode,
   nodesWithNoNS,
-  getResourcesClustersForApp
+  getResourcesClustersForApp,
+  allClustersAreOnline
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor, openRouteURL } from '../../../actions/topology'
@@ -358,8 +359,7 @@ const getPulseStatusForGenericNode = node => {
     pulse = 'orange' //resource not available
     return pulse
   }
-
-  if (onlineClusters.length < clusterNames.length) {
+  if (!allClustersAreOnline(clusterNames, onlineClusters)) {
     pulse = 'yellow'
     return pulse
   }
@@ -582,7 +582,7 @@ export const getPulseForNodeWithPodStatus = node => {
   pulse = pulseValueArr[minPulse] || pulseValueArr[2] //show orange is no pods
   _.set(node, 'podStatusMap', podStatusMap)
 
-  if (onlineClusters.length < clusterNames.length) {
+  if (!allClustersAreOnline(clusterNames, onlineClusters)) {
     pulse = 'yellow'
   }
 
@@ -1074,17 +1074,6 @@ export const setupResourceModel = (
         // only do this for Argo clusters
         //cluster node, set search found clusters objects here
         updateAppClustersMatchingSearch(node, clustersObjects)
-        // set clusters status on the app node, this is an argo app
-        // we have all clusters information here
-        const argoAppNode = topology.nodes[0]
-        // search returns clusters information, use it here
-        const isLocal = clusterNamesList.indexOf(LOCAL_HUB_NAME) !== -1
-        _.set(argoAppNode, 'specs.allClusters', {
-          isLocal,
-          remoteCount: isLocal
-            ? clusterNamesList.length - 1
-            : clusterNamesList.length
-        })
       }
       const nodeClusters = nodeId.startsWith('member--subscription')
         ? clusterNamesList
@@ -1107,6 +1096,22 @@ export const setupResourceModel = (
           )
           : clustersObjects
       )
+    })
+    // set clusters status on the app node
+    // we have all clusters information here
+    const appNodeSearchClusters = _.get(appNode, 'specs.searchClusters', [])
+    // search returns clusters information, use it here
+    const isLocal = _.find(
+      appNodeSearchClusters,
+      cls => _.get(cls, 'name', '') === LOCAL_HUB_NAME
+    )
+      ? true
+      : false
+    _.set(appNode, 'specs.allClusters', {
+      isLocal,
+      remoteCount: isLocal
+        ? appNodeSearchClusters.length - 1
+        : appNodeSearchClusters.length
     })
   }
   const podIndex = _.findIndex(list, ['kind', 'pod'])

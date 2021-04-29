@@ -585,13 +585,16 @@ export const showMissingClusterDetails = (clusterName, node, details) => {
         _.get(node, 'specs.searchClusters', []),
         cls => _.get(cls, 'name') === clusterName
       )
+      const isOffline =
+        searchCluster &&
+        _.get(searchCluster, '_clusterNamespace', '').length > 1
       nsForCluster.forEach(nsName => {
         details.push({
           labelValue: nsName,
-          value: searchCluster
+          value: isOffline
             ? msgs.get('resource.cluster.offline')
             : msgs.get('spec.deploy.not.deployed'),
-          status: searchCluster ? warningStatus : pendingStatus
+          status: isOffline ? warningStatus : pendingStatus
         })
       })
     }
@@ -654,4 +657,14 @@ export const getResourcesClustersForApp = (searchClusters, nodes) => {
     }
   }
   return clustersList
+}
+
+export const allClustersAreOnline = (clusterNames, onlineClusters) => {
+  if (onlineClusters && clusterNames) {
+    return (
+      _.intersection(onlineClusters, clusterNames).length ===
+      clusterNames.length
+    )
+  }
+  return false
 }

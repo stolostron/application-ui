@@ -60,7 +60,8 @@ class RemoveResourceModal extends React.Component {
     if (this.props.data) {
       const { data } = this.props
       const kind = data.kind
-      const [group, version] = data.apiVersion.split('/')
+      const apiVersion = _.get(data, 'apiVersion', '')
+      const [group, version] = apiVersion.split('/')
       canCallAction(kind, 'delete', data.namespace, group, version).then(
         response => {
           const allowed = _.get(response, 'data.userAccess.allowed')

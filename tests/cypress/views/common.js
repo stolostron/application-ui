@@ -852,14 +852,20 @@ const saveErrorShouldNotExist = () => {
 export const testDefect7080 = () => {
   //click all clusters option
   cy.log("Test defect 7080 - check all online clusters option");
-  cy.get("#online-cluster-only-checkbox").click({ force: true });
+  cy
+    .get("#online-cluster-only-checkbox", { timeout: 50 * 1000 })
+    .click({ force: true });
 
   //click local cluster only
   cy.log("Test defect 7080 - verify local cluster option can be checked");
-  cy.get("#local-cluster-checkbox").click({ force: true });
+  cy
+    .get("#local-cluster-checkbox", { timeout: 50 * 1000 })
+    .click({ force: true });
 
   cy.log("Test defect 7080 - now go back to default option");
-  cy.get("#local-cluster-checkbox").click({ force: true });
+  cy
+    .get("#local-cluster-checkbox", { timeout: 50 * 1000 })
+    .click({ force: true });
 };
 
 //verify that as we select the git api, we get the branch and path information

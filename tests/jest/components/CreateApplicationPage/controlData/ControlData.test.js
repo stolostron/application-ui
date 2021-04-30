@@ -33,7 +33,6 @@ import {
   getGitBranches,
   updateNewRuleControlsData,
   updateChannelControls,
-  updatePrePostControls,
   setAvailableSecrets,
   getUniqueChannelName
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
@@ -207,68 +206,6 @@ describe("updateChannelControls", () => {
   ];
   it("updateChannelControls valid url", () => {
     expect(updateChannelControls(data, controlDataNS)).toEqual(result);
-  });
-});
-
-describe("updatePrePostControls", () => {
-  const data = {
-    active: "secretName",
-    availableData: [],
-    groupControlData: [
-      {
-        id: "ansibleTowerHost",
-        type: "hidden",
-        active: ""
-      },
-      {
-        id: "ansibleTowerToken",
-        type: "hidden",
-        active: ""
-      }
-    ]
-  };
-
-  const result = {
-    active: "secretName",
-    availableData: [],
-    groupControlData: [
-      { active: "", id: "ansibleTowerHost", type: "text" },
-      { active: "", id: "ansibleTowerToken", type: "password" }
-    ]
-  };
-  it("updatePrePostControls new secret", () => {
-    expect(updatePrePostControls(data, controlDataNS)).toEqual(result);
-  });
-});
-
-describe("updatePrePostControls", () => {
-  const data = {
-    active: "secretName",
-    availableData: { secretName: {} },
-    groupControlData: [
-      {
-        id: "ansibleTowerHost",
-        type: "hidden",
-        active: ""
-      },
-      {
-        id: "ansibleTowerToken",
-        type: "hidden",
-        active: ""
-      }
-    ]
-  };
-
-  const result = {
-    active: "secretName",
-    availableData: { secretName: {} },
-    groupControlData: [
-      { active: "", id: "ansibleTowerHost", type: "hidden" },
-      { active: "", id: "ansibleTowerToken", type: "hidden" }
-    ]
-  };
-  it("updatePrePostControls existing secret", () => {
-    expect(updatePrePostControls(data, controlDataNS)).toEqual(result);
   });
 });
 
@@ -604,7 +541,16 @@ describe("setAvailableSecrets", () => {
     active: true,
     available: ["undefined"],
     availableData: { undefined: { metadata: { name: "aa-ns" } } },
-    availableMap: {},
+    availableMap: {
+      undefined: {
+        replacements: {
+          metadata: {
+            name: "aa-ns"
+          }
+        }
+      }
+    },
+    hasReplacements: true,
     id: "namespace",
     isLoading: false
   };
@@ -628,7 +574,7 @@ describe("setAvailableSecrets", () => {
     active: true,
     available: [],
     availableData: {},
-    availableMap: {},
+    hasReplacements: true,
     id: "namespace",
     isFailed: true,
     isLoading: false
@@ -652,7 +598,7 @@ describe("setAvailableSecrets", () => {
     active: true,
     available: [],
     availableData: {},
-    availableMap: {},
+    hasReplacements: true,
     id: "namespace",
     isLoading: "loading message"
   };

@@ -321,6 +321,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
 };
 
 export const multipleTemplate = (clusterName, value, css, key, func) => {
+  cy.wait(1000);
   cy.get("#add-channels").click({ force: true });
   cy
     .get(".creation-view-group-container")
@@ -879,17 +880,23 @@ export const deleteFirstSubscription = (name, data, namespace = "default") => {
     );
 
     cy.get(".creation-view-controls-section").within($section => {
+      cy.wait(1000);
       cy
         .get(".creation-view-group-container")
         .first()
         .within($div => {
-          cy.get(".creation-view-controls-delete-button").click();
+          cy
+            .get(".creation-view-controls-delete-button")
+            .scrollIntoView()
+            .click();
         });
     });
     cy.log(
       `verify subscription can no longer be deleted for ${name} since there is only one subscription left`
     );
-    cy.get(".creation-view-controls-delete-button").should("not.exist");
+    cy
+      .get(".creation-view-controls-delete-button", { timeout: 20 * 1000 })
+      .should("not.exist");
     submitSave(true);
 
     //verify channel combo doesn't show up

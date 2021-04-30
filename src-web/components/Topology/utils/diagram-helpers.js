@@ -2150,12 +2150,10 @@ export const processResourceActionLink = (
     break
   case 'open_argo_editor': {
     openArgoCDEditor(cluster, namespace, name, toggleLoading, handleErrorMsg) // the editor opens here
-    targetLink = ''
     break
   }
   case 'open_route_url': {
     openRouteURL(routeObject, toggleLoading, handleErrorMsg) // the route url opens here
-    targetLink = ''
     break
   }
   default:

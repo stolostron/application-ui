@@ -74,7 +74,7 @@ export default {
       return {
         cells: [
           { title: createApplicationLink(items, locale) },
-          { title: createNamespaceText(items[0], locale) },
+          { title: createNamespaceText(items[0]) },
           { title: createClustersLink(items[0], locale) },
           { title: createChannels(items[0], locale) },
           { title: getTimeWindow(items[0], locale) },
@@ -317,6 +317,7 @@ function createClustersText(item = {}, locale = '') {
 }
 
 function createNamespaceText(item = {}) {
+
   return isArgoApp(item) ? item.destinationNamespace : item.namespace
 }
 

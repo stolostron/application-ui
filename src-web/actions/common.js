@@ -151,56 +151,31 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
 }
 
 const getResourceQuery = resourceType => {
-  let resourceQuery, dataKey
-  switch (resourceType.name) {
-  case 'QueryApplications':
-    resourceQuery = { list: 'ApplicationsList' }
-    dataKey = 'applications'
-    break
-  case 'QuerySubscriptions':
-    resourceQuery = { list: 'SubscriptionsList' }
-    dataKey = 'subscriptions'
-    break
-  case 'QueryPlacementRules':
-    resourceQuery = { list: 'PlacementRulesList' }
-    dataKey = 'placementRules'
-    break
-  case 'QueryChannels':
-    resourceQuery = { list: 'ChannelsList' }
-    dataKey = 'channels'
-    break
-  }
-  if (resourceQuery) {
-    //use Query api to get the data, instead of the generic searchResource
-    return dispatch => {
-      apolloClient
-        .get(resourceQuery)
-        .then(result => {
-          if (result.data && result.data[dataKey]) {
-            return dispatch(
-              receiveResourceSuccess(
-                { items: result.data[dataKey] },
-                resourceType
-              )
+  //use Query api to get the data, instead of the generic searchResource
+  return dispatch => {
+    apolloClient
+      .get(resourceType)
+      .then(result => {
+        if (result.data && result.data[resourceType.dataKey]) {
+          return dispatch(
+            receiveResourceSuccess(
+              { items: result.data[resourceType.dataKey] },
+              resourceType
             )
-          }
-          if (result.error) {
-            return dispatch(receiveResourceError(result.error, resourceType))
-          }
-          if (result.errors) {
-            return dispatch(
-              receiveResourceError(result.errors[0], resourceType)
-            )
-          }
-          return dispatch(receiveResourceError('invalid', resourceType))
-        })
-        .catch(error => {
-          // catch graph connection error
-          return dispatch(receiveResourceError(error, resourceType))
-        })
-    }
-  } else {
-    return null
+          )
+        }
+        if (result.error) {
+          return dispatch(receiveResourceError(result.error, resourceType))
+        }
+        if (result.errors) {
+          return dispatch(receiveResourceError(result.errors[0], resourceType))
+        }
+        return dispatch(receiveResourceError('invalid', resourceType))
+      })
+      .catch(error => {
+        // catch graph connection error
+        return dispatch(receiveResourceError(error, resourceType))
+      })
   }
 }
 

@@ -779,52 +779,26 @@ export const deleteApplicationUI = (name, namespace = "default") => {
 };
 
 export const selectPrePostTasks = (value, key) => {
-  const { ansibleSecretName, ansibleHost, ansibleToken } = value;
-  if (!ansibleSecretName) {
+  // get the name of the ansible secret
+  const { name } = Cypress.env("SECRET_CONFIG").metadata;
+  if (!name) {
     cy.log("PrePost SecretName not available, ignore this section");
     return;
   }
-  let prePostCss = {
-    gitAnsibleSecret: "#ansibleSecretName",
-    gitAnsibleHost: "#ansibleTowerHost",
-    gitAnsibleToken: "#ansibleTowerToken"
-  };
-  key == 0
-    ? prePostCss
-    : Object.keys(prePostCss).forEach(k => {
-        prePostCss[k] = prePostCss[k] + `grp${key}`;
-      });
-  const { gitAnsibleSecret, gitAnsibleHost, gitAnsibleToken } = prePostCss;
 
   key == 0
-    ? cy.get("#perpostsection-set-pre-and-post-deployment-tasks").click()
-    : cy
-        .get(`#perpostsectiongrp${key}-set-pre-and-post-deployment-tasks`)
-        .click();
-
-  cy.get(gitAnsibleSecret, { timeout: 20 * 1000 }).click();
-
-  cy.get(".tf--list-box__menu", { timeout: 20 * 1000 }).then($listbox => {
-    if ($listbox.find(".tf--list-box__menu-item").length) {
-      // Ansible secret alraedy exists in this namespace
-      cy.contains(".tf--list-box__menu-item", ansibleSecretName).click();
-    } else {
-      // Create new ansible secret in this namespace
+    ? (cy.get("#perpostsection-set-pre-and-post-deployment-tasks").click(),
       cy
-        .get(gitAnsibleSecret, { timeout: 20 * 1000 })
-        .type(ansibleSecretName, { timeout: 50 * 1000 })
-        .blur();
-
-      if (ansibleHost && ansibleToken) {
-        cy
-          .get(gitAnsibleHost, { timeout: 20 * 1000 })
-          .paste(ansibleHost, { log: false, timeout: 20 * 1000 });
-        cy
-          .get(gitAnsibleToken, { timeout: 20 * 1000 })
-          .paste(ansibleToken, { log: false, timeout: 20 * 1000 });
-      }
-    }
-  });
+        .get("#ansibleSecretName-label", { timeout: 20 * 1000 })
+        .click()
+        .type(name))
+    : (cy
+        .get(`#perpostsectiongrp${key}-set-pre-and-post-deployment-tasks`)
+        .click(),
+      cy
+        .get(`#ansibleSecretName${key}-label`, { timeout: 20 * 1000 })
+        .click()
+        .type(name));
 };
 
 export const edit = (name, namespace = "default") => {

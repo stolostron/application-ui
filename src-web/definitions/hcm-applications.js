@@ -49,6 +49,9 @@ export default {
   keyFn: item => `${item.cluster}/${item.namespace}/${item.name}`,
   groupFn: item => {
     if (isArgoApp(item)) {
+      if (!item.repoURL) {
+        return item._uid // When search is not available, Argo apps still must have a group identifier
+      }
       const key = _.pick(item, ['repoURL', 'path', 'chart', 'targetRevision'])
       if (!key.targetRevision) {
         key.targetRevision = 'HEAD'
@@ -326,7 +329,7 @@ function isArgoApp(item = {}) {
 }
 
 function getChannels(item = {}) {
-  if (isArgoApp(item)) {
+  if (isArgoApp(item) && item.repoURL) {
     return [
       {
         type: item.chart ? 'helmrepo' : 'git',

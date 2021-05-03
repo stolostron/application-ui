@@ -85,7 +85,7 @@ git:
             local: true
             online: false
             matchingLabel: false
-    # disable ansible test 
+    # disable ansible test
     - enable: false
       name: ui-git-ansible
       type: git
@@ -98,6 +98,7 @@ git:
           branch: master
           path: ansible
           gitReconcileOption: merge
+          ansibleSecretName: ansible-tower-secret
           deployment:
             local: true
             online: false

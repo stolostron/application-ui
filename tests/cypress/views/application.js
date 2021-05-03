@@ -779,26 +779,26 @@ export const deleteApplicationUI = (name, namespace = "default") => {
 };
 
 export const selectPrePostTasks = (value, key) => {
-  // get the name of the ansible secret
+  const { ansibleSecretName } = value;
+  // get the name of the ansible secret from secret config
   const { name } = Cypress.env("SECRET_CONFIG").metadata;
-  if (!name) {
+  if (ansibleSecretName && ansibleSecretName == name) {
+    key == 0
+      ? (cy.get("#perpostsection-set-pre-and-post-deployment-tasks").click(),
+        cy
+          .get("#ansibleSecretName-label", { timeout: 20 * 1000 })
+          .click()
+          .type(name))
+      : (cy
+          .get(`#perpostsectiongrp${key}-set-pre-and-post-deployment-tasks`)
+          .click(),
+        cy
+          .get(`#ansibleSecretName${key}-label`, { timeout: 20 * 1000 })
+          .click()
+          .type(name));
+  } else {
     cy.log("PrePost SecretName not available, ignore this section");
-    return;
   }
-
-  key == 0
-    ? (cy.get("#perpostsection-set-pre-and-post-deployment-tasks").click(),
-      cy
-        .get("#ansibleSecretName-label", { timeout: 20 * 1000 })
-        .click()
-        .type(name))
-    : (cy
-        .get(`#perpostsectiongrp${key}-set-pre-and-post-deployment-tasks`)
-        .click(),
-      cy
-        .get(`#ansibleSecretName${key}-label`, { timeout: 20 * 1000 })
-        .click()
-        .type(name));
 };
 
 export const edit = (name, namespace = "default") => {

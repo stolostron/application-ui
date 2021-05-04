@@ -784,7 +784,9 @@ export const selectPrePostTasks = (value, key) => {
   const { name } = Cypress.env("SECRET_CONFIG").metadata;
   if (ansibleSecretName && ansibleSecretName == name) {
     key == 0
-      ? (cy.get("#perpostsection-set-pre-and-post-deployment-tasks").click(),
+      ? (cy
+          .get("#perpostsection-configure-automation-for-prehook-and-posthook")
+          .click(),
         cy
           .get("#ansibleSecretName-label", { timeout: 20 * 1000 })
           .click()

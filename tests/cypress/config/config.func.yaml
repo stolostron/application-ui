@@ -85,8 +85,7 @@ git:
             local: true
             online: false
             matchingLabel: false
-    # disable ansible test 
-    - enable: false
+    - enable: true
       name: ui-git-ansible
       type: git
       successNumber: 3 #success number includes the two ansible hooks and the ansible regular task
@@ -98,9 +97,7 @@ git:
           branch: master
           path: ansible
           gitReconcileOption: merge
-          ansibleSecretName: ui-git-ansible-secret
-          ansibleHost: ""
-          ansibleToken: ""
+          ansibleSecretName: ansible-tower-secret
           deployment:
             local: true
             online: false

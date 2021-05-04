@@ -102,11 +102,8 @@ exports.getConfig = () => {
 
             if (key === "git" && config.length > 0) {
               if (process.env.ANSIBLE_URL && process.env.ANSIBLE_TOKEN) {
-                secretConfig.data.metadata = btoa(
-                  `host: '${process.env.ANSIBLE_URL}'\ntoken: '${
-                    process.env.ANSIBLE_TOKEN
-                  }'`
-                );
+                secretConfig.data.host = btoa(process.env.ANSIBLE_URL);
+                secretConfig.data.token = btoa(process.env.ANSIBLE_TOKEN);
               }
             }
 

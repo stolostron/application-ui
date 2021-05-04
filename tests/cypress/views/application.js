@@ -798,6 +798,12 @@ export const selectPrePostTasks = (value, key) => {
           .get(`#ansibleSecretName${key}-label`, { timeout: 20 * 1000 })
           .click()
           .type(name));
+    cy.wait(1000);
+    cy
+      .get(".pf-c-select__menu")
+      .first()
+      .scrollIntoView()
+      .click();
   } else {
     cy.log("PrePost SecretName not available, ignore this section");
   }

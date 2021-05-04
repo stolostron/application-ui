@@ -32,113 +32,15 @@ import {
   checkAndObjects
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
-import { topology } from "./../../../TestingData";
+import {
+  topology,
+  ansibleSuccess,
+  ansibleError,
+  ansibleError2,
+  ansibleErrorAllClusters
+} from "./../../../TestingData";
 
 window.open = () => {}; // provide an empty implementation for window.open
-
-const ansibleSuccess = {
-  type: "ansiblejob",
-  name: "bigjoblaunch",
-  namespace: "default",
-  id:
-    "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
-  specs: {
-    clustersNames: ["local-cluster"],
-    searchClusters: ["local-cluster"],
-    raw: {
-      metadata: {
-        name: "bigjoblaunch",
-        namespace: "default"
-      },
-      spec: {
-        ansibleJobResult: {
-          url: "http://ansible_url/job",
-          status: "successful"
-        },
-        conditions: [
-          {
-            ansibleResult: {},
-            message: "Success",
-            reason: "Successful"
-          }
-        ]
-      }
-    },
-    ansiblejobModel: {
-      "bigjoblaunch-local-cluster": [
-        {
-          label: "tower_job_id=999999999",
-          namespace: "default",
-          cluster: "local-cluster"
-        }
-      ]
-    }
-  }
-};
-const ansibleError = {
-  type: "ansiblejob",
-  name: "bigjoblaunch",
-  namespace: "default",
-  id:
-    "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
-  specs: {
-    clustersNames: ["local-cluster"],
-    searchClusters: ["local-cluster"],
-    raw: {
-      hookType: "pre-hook",
-      metadata: {
-        name: "bigjoblaunch",
-        namespace: "default"
-      }
-    },
-    ansiblejobModel: {
-      "bigjoblaunch-local-cluster": {
-        label: "tower_job_id=999999999"
-      }
-    }
-  }
-};
-const ansibleError2 = {
-  type: "ansiblejob",
-  name: "bigjoblaunch",
-  namespace: "default",
-  id:
-    "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
-  specs: {
-    clustersNames: ["local-cluster"],
-    searchClusters: ["local-cluster"],
-    raw: {
-      hookType: "pre-hook",
-      metadata: {
-        name: "bigjoblaunch",
-        namespace: "default"
-      },
-      spec: {
-        conditions: [
-          {
-            ansibleResult: {
-              failures: 0
-            },
-            message: "Awaiting next reconciliation",
-            reason: "Failed"
-          }
-        ],
-        k8sJob: {
-          message: "some message"
-        }
-      }
-    },
-    ansiblejobModel: {
-      "bigjoblaunch-local-cluster": [
-        {
-          label: "tower_job_id=999999999",
-          cluster: "local-cluster",
-          namespace: "default"
-        }
-      ]
-    }
-  }
-};
 
 const node = {
   specs: {
@@ -3727,8 +3629,14 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
   it("setResourceDeployStatus ansiblejob no status 1", () => {
     expect(setResourceDeployStatus(ansibleError, [], {})).toEqual(result1);
   });
-  it("getResourceDeployStatus ansiblejob with error status", () => {
+  it("setResourceDeployStatus ansiblejob with error status", () => {
     expect(setResourceDeployStatus(ansibleError2, [], {})).toEqual(result2);
+  });
+
+  it("getResourceDeployStatus ansiblejob with subscription deployed on all active clusters", () => {
+    expect(setResourceDeployStatus(ansibleErrorAllClusters, [], {})).toEqual(
+      result2
+    );
   });
 });
 

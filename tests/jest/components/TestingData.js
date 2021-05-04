@@ -8,6 +8,152 @@
  ****************************************************************************** */
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
+export const ansibleSuccess = {
+  type: "ansiblejob",
+  name: "bigjoblaunch",
+  namespace: "default",
+  id:
+    "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+  specs: {
+    clustersNames: ["local-cluster"],
+    searchClusters: ["local-cluster"],
+    raw: {
+      metadata: {
+        name: "bigjoblaunch",
+        namespace: "default"
+      },
+      spec: {
+        ansibleJobResult: {
+          url: "http://ansible_url/job",
+          status: "successful"
+        },
+        conditions: [
+          {
+            ansibleResult: {},
+            message: "Success",
+            reason: "Successful"
+          }
+        ]
+      }
+    },
+    ansiblejobModel: {
+      "bigjoblaunch-local-cluster": [
+        {
+          label: "tower_job_id=999999999",
+          namespace: "default",
+          cluster: "local-cluster"
+        }
+      ]
+    }
+  }
+};
+export const ansibleError = {
+  type: "ansiblejob",
+  name: "bigjoblaunch",
+  namespace: "default",
+  id:
+    "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+  specs: {
+    clustersNames: ["local-cluster"],
+    searchClusters: ["local-cluster"],
+    raw: {
+      hookType: "pre-hook",
+      metadata: {
+        name: "bigjoblaunch",
+        namespace: "default"
+      }
+    },
+    ansiblejobModel: {
+      "bigjoblaunch-local-cluster": {
+        label: "tower_job_id=999999999"
+      }
+    }
+  }
+};
+export const ansibleError2 = {
+  type: "ansiblejob",
+  name: "bigjoblaunch",
+  namespace: "default",
+  id:
+    "member--deployable--member--subscription--default--ansible-tower-job-app-subscription--ansiblejob--bigjoblaunch",
+  specs: {
+    clustersNames: ["local-cluster"],
+    searchClusters: ["local-cluster"],
+    raw: {
+      hookType: "pre-hook",
+      metadata: {
+        name: "bigjoblaunch",
+        namespace: "default"
+      },
+      spec: {
+        conditions: [
+          {
+            ansibleResult: {
+              failures: 0
+            },
+            message: "Awaiting next reconciliation",
+            reason: "Failed"
+          }
+        ],
+        k8sJob: {
+          message: "some message"
+        }
+      }
+    },
+    ansiblejobModel: {
+      "bigjoblaunch-local-cluster": [
+        {
+          label: "tower_job_id=999999999",
+          cluster: "local-cluster",
+          namespace: "default"
+        }
+      ]
+    }
+  }
+};
+
+export const ansibleErrorAllClusters = {
+  type: "ansiblejob",
+  name: "bigjoblaunch",
+  namespace: "default",
+  id:
+    "member--member--deployable--member--clusters--fxiang-eks,local-cluster,ui-remote--vb-ansible-2--prehook-test-1-c0b22a--ansiblejob--prehook-test-1-c0b22a",
+  specs: {
+    clustersNames: ["local-cluster", "ui-remote", "fxiang-eks"],
+    searchClusters: ["local-cluster"],
+    raw: {
+      hookType: "pre-hook",
+      metadata: {
+        name: "bigjoblaunch",
+        namespace: "default"
+      },
+      spec: {
+        conditions: [
+          {
+            ansibleResult: {
+              failures: 0
+            },
+            message: "Awaiting next reconciliation",
+            reason: "Failed"
+          }
+        ],
+        k8sJob: {
+          message: "some message"
+        }
+      }
+    },
+    ansiblejobModel: {
+      "bigjoblaunch-local-cluster": [
+        {
+          label: "tower_job_id=999999999",
+          cluster: "local-cluster",
+          namespace: "default"
+        }
+      ]
+    }
+  }
+};
+
 export const serverProps = {
   context: {
     locale: "en-US"

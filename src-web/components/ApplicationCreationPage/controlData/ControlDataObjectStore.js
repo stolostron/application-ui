@@ -74,6 +74,16 @@ const objectstoreChannelData = async () => [
     active: '',
     placeholder: 'app.enter.secretkey'
   },
+  {
+    name: 'creation.app.objectstore.region',
+    tooltip: 'tooltip.creation.app.objectstore.region',
+    id: 'region',
+    type: 'text',
+    editing: { hidden: true }, // if editing existing app, hide this field initially
+    encode: true,
+    active: '',
+    placeholder: 'app.enter.region'
+  },
 
   ...(await placementData())
 ]

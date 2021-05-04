@@ -258,6 +258,7 @@ export const updateChannelControls = (
   case 'objectstoreURL':
     setType('accessKey')
     setType('secretKey', true)
+    setType('region')
     break
   case 'helmURL':
     setType('helmUser')

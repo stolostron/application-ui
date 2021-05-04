@@ -39,6 +39,9 @@ metadata:
 data:
   AccessKeyID: {{{accessKey}}}
   SecretAccessKey: {{{secretKey}}}
+  {{#if region}}
+  Region: '{{{region}}}'
+  {{/if}}
 {{/if}} 
 {{/unless}}      
 ---

@@ -1261,11 +1261,14 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   const namespace =
     _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
 
-  const clusterNames = R.split(',', getClusterName(nodeId, node, true))
+  const isHookNode = _.get(node, 'specs.raw.hookType')
+  const clusterNames = isHookNode
+    ? [LOCAL_HUB_NAME]
+    : R.split(',', getClusterName(nodeId, node, true))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
   const onlineClusters = getOnlineClusters(node)
 
-  if (nodeType === 'ansiblejob' && _.get(node, 'specs.raw.hookType')) {
+  if (nodeType === 'ansiblejob' && isHookNode) {
     // process here only ansible hooks
     showAnsibleJobDetails(node, details)
 
@@ -1340,10 +1343,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
         resourcesForCluster,
         obj => _.get(obj, resourceNSString, '') === targetNS
       )
-      if (
-        _.get(node, 'type', '') !== 'ansiblejob' ||
-        !_.get(node, 'specs.raw.hookType')
-      ) {
+      if (_.get(node, 'type', '') !== 'ansiblejob' || !isHookNode) {
         // process here only regular ansible tasks
         const deployedKey = res
           ? node.type === 'namespace' ? deployedNSStr : deployedStr

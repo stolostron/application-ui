@@ -1034,9 +1034,14 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
                               </div>
                             </button>
                           </th>
+                          <th
+                            class="pf-m-nowrap"
+                            data-key="6"
+                            data-label=""
+                          />
                           <td
                             class=""
-                            data-key="6"
+                            data-key="7"
                             data-label=""
                           />
                         </tr>
@@ -2055,9 +2060,14 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
                               </div>
                             </button>
                           </th>
+                          <th
+                            class="pf-m-nowrap"
+                            data-key="5"
+                            data-label=""
+                          />
                           <td
                             class=""
-                            data-key="5"
+                            data-key="6"
                             data-label=""
                           />
                         </tr>
@@ -3214,9 +3224,14 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
                               </div>
                             </button>
                           </th>
+                          <th
+                            class="pf-m-nowrap"
+                            data-key="7"
+                            data-label=""
+                          />
                           <td
                             class=""
-                            data-key="7"
+                            data-key="8"
                             data-label=""
                           />
                         </tr>

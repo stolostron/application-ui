@@ -321,6 +321,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
 };
 
 export const multipleTemplate = (clusterName, value, css, key, func) => {
+  cy.wait(1000);
   cy.get("#add-channels").click({ force: true });
   cy
     .get(".creation-view-group-container")
@@ -778,52 +779,34 @@ export const deleteApplicationUI = (name, namespace = "default") => {
 };
 
 export const selectPrePostTasks = (value, key) => {
-  const { ansibleSecretName, ansibleHost, ansibleToken } = value;
-  if (!ansibleSecretName) {
+  const { ansibleSecretName } = value;
+  // get the name of the ansible secret from secret config
+  const { name } = Cypress.env("SECRET_CONFIG").metadata;
+  if (ansibleSecretName && ansibleSecretName == name) {
+    key == 0
+      ? (cy
+          .get("#perpostsection-configure-automation-for-prehook-and-posthook")
+          .click(),
+        cy
+          .get("#ansibleSecretName-label", { timeout: 20 * 1000 })
+          .click()
+          .type(name))
+      : (cy
+          .get(`#perpostsectiongrp${key}-set-pre-and-post-deployment-tasks`)
+          .click(),
+        cy
+          .get(`#ansibleSecretName${key}-label`, { timeout: 20 * 1000 })
+          .click()
+          .type(name));
+    cy.wait(1000);
+    cy
+      .get(".pf-c-select__menu")
+      .first()
+      .scrollIntoView()
+      .click();
+  } else {
     cy.log("PrePost SecretName not available, ignore this section");
-    return;
   }
-  let prePostCss = {
-    gitAnsibleSecret: "#ansibleSecretName",
-    gitAnsibleHost: "#ansibleTowerHost",
-    gitAnsibleToken: "#ansibleTowerToken"
-  };
-  key == 0
-    ? prePostCss
-    : Object.keys(prePostCss).forEach(k => {
-        prePostCss[k] = prePostCss[k] + `grp${key}`;
-      });
-  const { gitAnsibleSecret, gitAnsibleHost, gitAnsibleToken } = prePostCss;
-
-  key == 0
-    ? cy.get("#perpostsection-set-pre-and-post-deployment-tasks").click()
-    : cy
-        .get(`#perpostsectiongrp${key}-set-pre-and-post-deployment-tasks`)
-        .click();
-
-  cy.get(gitAnsibleSecret, { timeout: 20 * 1000 }).click();
-
-  cy.get(".tf--list-box__menu", { timeout: 20 * 1000 }).then($listbox => {
-    if ($listbox.find(".tf--list-box__menu-item").length) {
-      // Ansible secret alraedy exists in this namespace
-      cy.contains(".tf--list-box__menu-item", ansibleSecretName).click();
-    } else {
-      // Create new ansible secret in this namespace
-      cy
-        .get(gitAnsibleSecret, { timeout: 20 * 1000 })
-        .type(ansibleSecretName, { timeout: 50 * 1000 })
-        .blur();
-
-      if (ansibleHost && ansibleToken) {
-        cy
-          .get(gitAnsibleHost, { timeout: 20 * 1000 })
-          .paste(ansibleHost, { log: false, timeout: 20 * 1000 });
-        cy
-          .get(gitAnsibleToken, { timeout: 20 * 1000 })
-          .paste(ansibleToken, { log: false, timeout: 20 * 1000 });
-      }
-    }
-  });
 };
 
 export const edit = (name, namespace = "default") => {
@@ -879,17 +862,23 @@ export const deleteFirstSubscription = (name, data, namespace = "default") => {
     );
 
     cy.get(".creation-view-controls-section").within($section => {
+      cy.wait(1000);
       cy
         .get(".creation-view-group-container")
         .first()
         .within($div => {
-          cy.get(".creation-view-controls-delete-button").click();
+          cy
+            .get(".creation-view-controls-delete-button")
+            .scrollIntoView()
+            .click();
         });
     });
     cy.log(
       `verify subscription can no longer be deleted for ${name} since there is only one subscription left`
     );
-    cy.get(".creation-view-controls-delete-button").should("not.exist");
+    cy
+      .get(".creation-view-controls-delete-button", { timeout: 20 * 1000 })
+      .should("not.exist");
     submitSave(true);
 
     //verify channel combo doesn't show up

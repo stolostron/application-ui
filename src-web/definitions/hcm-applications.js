@@ -18,6 +18,7 @@ import {
   getChannelLabel,
   CHANNEL_TYPES
 } from '../../lib/client/resource-helper'
+import { isSearchAvailable } from '../../lib/client/search-helper'
 import { cellWidth } from '@patternfly/react-table'
 import { Link } from 'react-router-dom'
 import queryString from 'query-string'
@@ -49,6 +50,9 @@ export default {
   keyFn: item => `${item.cluster}/${item.namespace}/${item.name}`,
   groupFn: item => {
     if (isArgoApp(item)) {
+      if (!item.repoURL) {
+        return item._uid // When search is not available, Argo apps still must have a group identifier
+      }
       const key = _.pick(item, ['repoURL', 'path', 'chart', 'targetRevision'])
       if (!key.targetRevision) {
         key.targetRevision = 'HEAD'
@@ -58,39 +62,37 @@ export default {
     return null
   },
   groupSummaryFn: (items, locale) => {
+    const cells = [
+      { title: createApplicationLink(items, locale) } // pass full array for count
+    ]
     if (items.length > 1) {
-      return {
-        cells: [
-          { title: createApplicationLink(items, locale) }, // pass full array for count
-          { title: '' }, // Empty Namespace
-          { title: createClustersLink(items, locale) }, // pass full array for all clusters
-          { title: createChannels(items[0], locale) },
-          { title: '' }, // Empty Time window
-          { title: '' }, // Empty Created
-          { title: '' } // Empty Actions
-        ]
+      cells.push({ title: '' }) // Empty Namespace
+      if (isSearchAvailable()) {
+        cells.push({ title: createClustersLink(items, locale) }) // pass full array for all clusters
+        cells.push({ title: createChannels(items[0], locale) })
+        cells.push({ title: '' }) // Empty Time window
       }
+      cells.push({ title: '' }), // Empty Created
+      cells.push({ title: '' }) // Empty Actions
     } else {
-      return {
-        cells: [
-          { title: createApplicationLink(items, locale) },
-          { title: createNamespaceText(items[0], locale) },
-          { title: createClustersLink(items[0], locale) },
-          { title: createChannels(items[0], locale) },
-          { title: getTimeWindow(items[0], locale) },
-          { title: getAge(items[0], locale) },
-          {
-            title: (
-              <TableRowActionMenu
-                actions={tableActionsResolver(items[0])}
-                item={items[0]}
-                resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
-              />
-            )
-          }
-        ]
+      cells.push({ title: createNamespaceText(items[0]) })
+      if (isSearchAvailable()) {
+        cells.push({ title: createClustersLink(items[0], locale) })
+        cells.push({ title: createChannels(items[0], locale) })
+        cells.push({ title: getTimeWindow(items[0], locale) })
       }
+      cells.push({ title: getAge(items[0], locale) })
+      cells.push({
+        title: (
+          <TableRowActionMenu
+            actions={tableActionsResolver(items[0])}
+            item={items[0]}
+            resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
+          />
+        )
+      })
     }
+    return { cells }
   },
   tableKeys: [
     {
@@ -112,21 +114,24 @@ export default {
       tooltipKey: 'table.header.application.clusters.tooltip',
       resourceKey: 'clusterCount',
       transformFunction: createClustersLink,
-      textFunction: createClustersText
+      textFunction: createClustersText,
+      disabled: () => !isSearchAvailable()
     },
     {
       msgKey: 'table.header.resource',
       tooltipKey: 'table.header.application.resource.tooltip',
       resourceKey: 'hubChannels',
       transformFunction: createChannelsRow,
-      textFunction: createChannelsText
+      textFunction: createChannelsText,
+      disabled: () => !isSearchAvailable()
     },
     {
       msgKey: 'table.header.timeWindow',
       tooltipKey: 'table.header.application.timeWindow.tooltip',
       resourceKey: 'hubSubscriptions',
       transformFunction: getTimeWindow,
-      textFunction: getTimeWindow
+      textFunction: getTimeWindow,
+      disabled: () => !isSearchAvailable()
     },
     {
       msgKey: 'table.header.created',
@@ -155,24 +160,26 @@ function tableActionsResolver(item) {
       }
     })
   }
-  actions.push({
-    key: 'table.actions.applications.search',
-    link: {
-      url: item => {
-        const [apigroup, apiversion] = item.apiVersion.split('/')
-        return getSearchLink({
-          properties: {
-            name: item.name,
-            namespace: item.namespace,
-            cluster: item.cluster,
-            kind: item.kind.toLowerCase(),
-            apigroup,
-            apiversion
-          }
-        })
+  if (isSearchAvailable()) {
+    actions.push({
+      key: 'table.actions.applications.search',
+      link: {
+        url: item => {
+          const [apigroup, apiversion] = item.apiVersion.split('/')
+          return getSearchLink({
+            properties: {
+              name: item.name,
+              namespace: item.namespace,
+              cluster: item.cluster,
+              kind: item.kind.toLowerCase(),
+              apigroup,
+              apiversion
+            }
+          })
+        }
       }
-    }
-  })
+    })
+  }
   if (!isArgoApp(item)) {
     actions.push({
       key: 'table.actions.applications.remove',
@@ -325,7 +332,7 @@ function isArgoApp(item = {}) {
 }
 
 function getChannels(item = {}) {
-  if (isArgoApp(item)) {
+  if (isArgoApp(item) && item.repoURL) {
     return [
       {
         type: item.chart ? 'helmrepo' : 'git',

@@ -35,7 +35,8 @@ import {
   showMissingClusterDetails,
   getTargetNsForNode,
   nodesWithNoNS,
-  getResourcesClustersForApp
+  getResourcesClustersForApp,
+  allClustersAreOnline
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor, openRouteURL } from '../../../actions/topology'
@@ -358,8 +359,7 @@ const getPulseStatusForGenericNode = node => {
     pulse = 'orange' //resource not available
     return pulse
   }
-
-  if (onlineClusters.length < clusterNames.length) {
+  if (!allClustersAreOnline(clusterNames, onlineClusters)) {
     pulse = 'yellow'
     return pulse
   }
@@ -582,7 +582,7 @@ export const getPulseForNodeWithPodStatus = node => {
   pulse = pulseValueArr[minPulse] || pulseValueArr[2] //show orange is no pods
   _.set(node, 'podStatusMap', podStatusMap)
 
-  if (onlineClusters.length < clusterNames.length) {
+  if (!allClustersAreOnline(clusterNames, onlineClusters)) {
     pulse = 'yellow'
   }
 
@@ -1074,17 +1074,6 @@ export const setupResourceModel = (
         // only do this for Argo clusters
         //cluster node, set search found clusters objects here
         updateAppClustersMatchingSearch(node, clustersObjects)
-        // set clusters status on the app node, this is an argo app
-        // we have all clusters information here
-        const argoAppNode = topology.nodes[0]
-        // search returns clusters information, use it here
-        const isLocal = clusterNamesList.indexOf(LOCAL_HUB_NAME) !== -1
-        _.set(argoAppNode, 'specs.allClusters', {
-          isLocal,
-          remoteCount: isLocal
-            ? clusterNamesList.length - 1
-            : clusterNamesList.length
-        })
       }
       const nodeClusters = nodeId.startsWith('member--subscription')
         ? clusterNamesList
@@ -1101,12 +1090,28 @@ export const setupResourceModel = (
       _.set(
         node,
         'specs.searchClusters',
-        hasMultipleSubs
+        hasMultipleSubs && !nodeId.startsWith('application--')
           ? _.filter(clustersObjects, cls =>
             _.includes(nodeClusters, _.get(cls, 'name', ''))
           )
-          : clustersObjects
+          : clustersObjects // get all search clusters when one cluster node or this is the main app node
       )
+    })
+    // set clusters status on the app node
+    // we have all clusters information here
+    const appNodeSearchClusters = _.get(appNode, 'specs.searchClusters', [])
+    // search returns clusters information, use it here
+    const isLocal = _.find(
+      appNodeSearchClusters,
+      cls => _.get(cls, 'name', '') === LOCAL_HUB_NAME
+    )
+      ? true
+      : false
+    _.set(appNode, 'specs.allClusters', {
+      isLocal,
+      remoteCount: isLocal
+        ? appNodeSearchClusters.length - 1
+        : appNodeSearchClusters.length
     })
   }
   const podIndex = _.findIndex(list, ['kind', 'pod'])
@@ -1256,11 +1261,14 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
   const namespace =
     _.get(node, metadataNamespace) || _.get(node, 'namespace', '')
 
-  const clusterNames = R.split(',', getClusterName(nodeId, node, true))
+  const isHookNode = _.get(node, 'specs.raw.hookType')
+  const clusterNames = isHookNode
+    ? [LOCAL_HUB_NAME]
+    : R.split(',', getClusterName(nodeId, node, true))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
   const onlineClusters = getOnlineClusters(node)
 
-  if (nodeType === 'ansiblejob' && _.get(node, 'specs.raw.hookType')) {
+  if (nodeType === 'ansiblejob' && isHookNode) {
     // process here only ansible hooks
     showAnsibleJobDetails(node, details)
 
@@ -1335,10 +1343,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
         resourcesForCluster,
         obj => _.get(obj, resourceNSString, '') === targetNS
       )
-      if (
-        _.get(node, 'type', '') !== 'ansiblejob' ||
-        !_.get(node, 'specs.raw.hookType')
-      ) {
+      if (_.get(node, 'type', '') !== 'ansiblejob' || !isHookNode) {
         // process here only regular ansible tasks
         const deployedKey = res
           ? node.type === 'namespace' ? deployedNSStr : deployedStr
@@ -2145,12 +2150,10 @@ export const processResourceActionLink = (
     break
   case 'open_argo_editor': {
     openArgoCDEditor(cluster, namespace, name, toggleLoading, handleErrorMsg) // the editor opens here
-    targetLink = ''
     break
   }
   case 'open_route_url': {
     openRouteURL(routeObject, toggleLoading, handleErrorMsg) // the route url opens here
-    targetLink = ''
     break
   }
   default:

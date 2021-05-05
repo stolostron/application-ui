@@ -31,7 +31,8 @@ const _ = require("lodash");
 const fs = require("fs");
 const yaml = require("js-yaml");
 const dir = "./cypress/test-artifacts/";
-const testConfig = require("../config").getConfig();
+const testConfig = require("../config").getConfig().config;
+const secretConfig = require("../config").getConfig().secretConfig;
 const kubeConfig = require("../config").getKubeConfig();
 const getUsers = require("../config").getUsers();
 const rbacConfig = require("../config").getrbacConfig();
@@ -44,12 +45,12 @@ module.exports = (on, config) => {
   // config.env.TEST_CONFIG = testConfig
   require("cypress-log-to-output").install(on);
 
-  on('task', {
+  on("task", {
     log(message) {
-      console.log(message)
+      console.log(message);
 
-      return null
-    },
+      return null;
+    }
   });
 
   on("task", {
@@ -114,6 +115,7 @@ module.exports = (on, config) => {
       return !_.startsWith(key, "argo");
     }
   );
+  config.env.SECRET_CONFIG = JSON.parse(secretConfig);
   config.env.KUBE_CONFIG = kubeConfig;
   config.env.USER_CONFIG = getUsers;
   config.env.RBAC_CONFIG = JSON.parse(rbacConfig);

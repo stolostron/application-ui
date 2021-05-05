@@ -97,9 +97,7 @@ git:
           branch: master
           path: ansible
           gitReconcileOption: merge
-          ansibleSecretName: ui-git-ansible-secret
-          ansibleHost: ""
-          ansibleToken: ""
+          ansibleSecretName: ansible-tower-secret
           deployment:
             local: true
             online: false

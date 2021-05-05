@@ -16,22 +16,22 @@ const mockChannels = QueryChannelList.items;
 jest.mock("../../../../lib/client/apollo-client", () => ({
   get: jest.fn(resourceType => {
     switch (resourceType.list) {
-      case "SubscriptionsList":
+      case "QuerySubscriptionList":
         return Promise.resolve({
           data: {
             subscriptions: mockSubscriptions
           }
         });
-      case "PlacementRulesList":
+      case "QueryPlacementRuleList":
         return Promise.resolve({
           data: {
-            subscriptions: mockPlacementRules
+            placementRules: mockPlacementRules
           }
         });
-      case "ChannelsList":
+      case "QueryChannelList":
         return Promise.resolve({
           data: {
-            subscriptions: mockChannels
+            channels: mockChannels
           }
         });
       default:

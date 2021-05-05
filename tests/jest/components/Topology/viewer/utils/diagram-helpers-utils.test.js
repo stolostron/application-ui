@@ -18,8 +18,29 @@ import {
   namespaceMatchTargetServer,
   updateAppClustersMatchingSearch,
   getTargetNsForNode,
-  getResourcesClustersForApp
+  getResourcesClustersForApp,
+  allClustersAreOnline
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
+
+describe("allClustersAreOnline", () => {
+  const onlineClusters = ["cls1", "cls2"];
+  it("returns true ", () => {
+    expect(allClustersAreOnline(["cls1", "cls2"], onlineClusters)).toEqual(
+      true
+    );
+  });
+
+  it("returns false ", () => {
+    expect(
+      allClustersAreOnline(["cls1", "cls2", "cls3"], onlineClusters)
+    ).toEqual(false);
+  });
+  it("returns false ", () => {
+    expect(allClustersAreOnline(["cls1", "cls2", "cls3"], undefined)).toEqual(
+      false
+    );
+  });
+});
 
 describe("getResourcesClustersForApp", () => {
   const searchClusters = {

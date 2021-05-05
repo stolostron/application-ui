@@ -183,7 +183,7 @@ export const getNumberOfManagedClusters = () => {
   cy
     .exec(
       `oc get managedclusters -o custom-columns='name:.metadata.name,available:.status.conditions[?(@.type=="ManagedClusterConditionAvailable")].status,vendor:.metadata.labels.vendor' --no-headers`,
-      { failOnNonZeroExit: false }
+      { failOnNonZeroExit: true }
     )
     .then(({ stdout }) => {
       const clusters = stdout.split("\n").map(cluster => cluster.split(/ +/));
@@ -204,7 +204,9 @@ export const getManagedClusterName = () => {
   cy
     .exec(
       `oc get managedclusters -o custom-columns='name:.metadata.name,available:.status.conditions[?(@.type=="ManagedClusterConditionAvailable")].status,vendor:.metadata.labels.vendor' --no-headers`,
-      { failOnNonZeroExit: false }
+      {
+        failOnNonZeroExit: true
+      }
     )
     .then(({ stdout }) => {
       const clusters = stdout.split("\n").map(cluster => cluster.split(/ +/));

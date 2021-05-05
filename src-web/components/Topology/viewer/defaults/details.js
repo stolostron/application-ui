@@ -26,6 +26,7 @@ import {
   addIngressNodeInfo,
   setClusterStatus
 } from '../../utils/diagram-helpers'
+import { showArgoApplicationSetLink } from '../../utils/diagram-helpers-argo'
 import msgs from '../../../../../nls/platform.properties'
 import { kubeNaming } from './titles'
 
@@ -37,8 +38,12 @@ export const getNodeDetails = (node, updatedNode, activeFilters) => {
     const { type, specs } = node
     const { labels = [] } = node
 
+    // for argo apps with application sets
+    showArgoApplicationSetLink(node, details)
+
     //if resource has a row number add deployable yaml
     createDeployableYamlLink(node, details)
+
     details.push({
       type: 'spacer'
     })

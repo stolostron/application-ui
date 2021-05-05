@@ -108,7 +108,15 @@ class OverviewCards extends React.Component {
     } = this.props
     const { argoLinkLoading, showSubCards } = this.state
     const cluster = _.get(topology, 'activeFilters.application.cluster')
-    if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
+
+    if (topology.status === REQUEST_STATUS.CLUSTER_OFFLINE) {
+      const infoMessage = _.get(
+        topology,
+        'err.err',
+        msgs.get('load.app.cluster.offline', [])
+      )
+      return <AcmAlert variant="info" title={infoMessage} noClose />
+    } else if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
       const infoMessage = _.get(
         HCMApplicationList,
         'err.err',

@@ -75,7 +75,37 @@ class AutoRefreshSelect extends Component {
         deltaSinceLastUpdate > 5000
       ) {
         if (this.props.resourceType === RESOURCE_TYPES.HCM_APPLICATIONS) {
-          fetchAppTopology(this.props.fetchFilters, true) //fetch single app
+          const search = window.location.search
+          const searchItems = search ? new URLSearchParams(search) : undefined
+          let cluster
+          let apiVersion = 'app.k8s.io/v1beta1'
+          if (searchItems && searchItems.get('apiVersion')) {
+            apiVersion = searchItems.get('apiVersion')
+          }
+          if (searchItems && searchItems.get('cluster')) {
+            cluster = searchItems.get('cluster')
+          }
+          const name = _.get(this.props.fetchFilters, 'application.name', '')
+          const namespace = _.get(
+            this.props.fetchFilters,
+            'application.namespace',
+            ''
+          )
+          const channel = _.get(
+            this.props.fetchFilters,
+            'application.channel',
+            ''
+          )
+          const filterWithLocation = {
+            application: {
+              name,
+              namespace,
+              channel,
+              apiVersion,
+              cluster
+            }
+          }
+          fetchAppTopology(filterWithLocation, true) //fetch single app
         } else {
           fetchTableResources(this.props.resourceType, []) //fetch table resources
         }
@@ -143,13 +173,43 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = dispatch => {
+  const search = window.location.search
+  const searchItems = search ? new URLSearchParams(search) : undefined
+  let cluster
+  let apiVersion = 'app.k8s.io/v1beta1'
+  if (searchItems && searchItems.get('apiVersion')) {
+    apiVersion = searchItems.get('apiVersion')
+  }
+  if (searchItems && searchItems.get('cluster')) {
+    cluster = searchItems.get('cluster')
+  }
   return {
     fetchTableResources: (resourceType, selectedFilters) => {
       dispatch(fetchResources(resourceType, combineFilters(selectedFilters)))
     },
     fetchAppTopology: (fetchFilters, reloading) => {
+      const name = _.get(fetchFilters, 'application.name', '')
+      const namespace = _.get(fetchFilters, 'application.namespace', '')
+      const channel = _.get(fetchFilters, 'application.channel', '')
+      const filterApiVersion =
+        _.get(fetchFilters, 'application.apiVersion') || apiVersion
+      const filterCluster =
+        _.get(fetchFilters, 'application.cluster') || cluster
+      const filterWithLocation = {
+        application: {
+          name,
+          namespace,
+          channel,
+          apiVersion: filterApiVersion,
+          cluster: filterCluster
+        }
+      }
       dispatch(
-        fetchTopology({ filter: { ...fetchFilters } }, fetchFilters, reloading)
+        fetchTopology(
+          { filter: { ...filterWithLocation } },
+          filterWithLocation,
+          reloading
+        )
       )
     }
   }

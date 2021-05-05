@@ -429,6 +429,16 @@ const mapStateToProps = (state, ownProps) => {
       diagramFilters: []
     }
   }
+  if (topology && topology.status === 'CLUSTER_OFFLINE') {
+    topology = {
+      activeFilters: {},
+      fetchFilters: null,
+      fetchError: null,
+      diagramFilters: [],
+      detailsLoaded: true,
+      loaded: true
+    }
+  }
   const {
     activeFilters,
     fetchFilters,
@@ -464,7 +474,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { params: { namespace, name }, location: { search } } = ownProps
   const searchItems = search ? new URLSearchParams(search) : undefined
-  let cluster = 'local-cluster'
+  let cluster
   let apiVersion = 'app.k8s.io/v1beta1'
   if (searchItems && searchItems.get('apiVersion')) {
     apiVersion = searchItems.get('apiVersion')

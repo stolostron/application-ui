@@ -67,6 +67,13 @@ export const receiveResourceNotFound = (err, resourceType) => ({
   resourceType
 })
 
+export const receiveClusterOffline = (err, resourceType) => ({
+  type: Actions.RESOURCE_RECEIVE_CLUSTER_OFFLINE,
+  status: Actions.REQUEST_STATUS.CLUSTER_OFFLINE,
+  err,
+  resourceType
+})
+
 export const requestResource = resourceType => ({
   type: Actions.RESOURCE_REQUEST,
   status: Actions.REQUEST_STATUS.IN_PROGRESS,

@@ -260,17 +260,19 @@ export const getExistingResourceMapKey = (resourceMap, name, relatedKind) => {
   // bofore loop, find all items with the same type as relatedKind
   const isSameType = item => item.indexOf(`${relatedKind.kind}-`) === 0
   const keys = R.filter(isSameType, Object.keys(resourceMap))
+  const relatedKindCls = _.get(relatedKind, 'cluster', '')
   let i
   for (i = 0; i < keys.length; i++) {
     const keyObject = resourceMap[keys[i]]
+    const keyObjType = _.get(keyObject, 'type', '')
+    const keyObjName = _.get(keyObject, 'name', '')
     if (
-      (keys[i].indexOf(name) > -1 &&
-        keys[i].indexOf(relatedKind.cluster) > -1) || //node id doesn't contain cluster name, match cluster using the object type
+      (keys[i].indexOf(name) > -1 && keys[i].indexOf(relatedKindCls) > -1) || //node id doesn't contain cluster name, match cluster using the object type
       (_.includes(
         _.get(keyObject, 'specs.clustersNames', []),
-        relatedKind.cluster
+        relatedKindCls
       ) &&
-        name.indexOf(`${keyObject.type}-${keyObject.name}`) === 0)
+        name === `${keyObjType}-${keyObjName}-${relatedKindCls}`)
     ) {
       return keys[i]
     }

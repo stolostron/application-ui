@@ -205,8 +205,7 @@ export const getManagedClusterName = () => {
     .exec(
       `oc get managedclusters -o custom-columns='name:.metadata.name,available:.status.conditions[?(@.type=="ManagedClusterConditionAvailable")].status,vendor:.metadata.labels.vendor' --no-headers`,
       {
-        failOnNonZeroExit: true,
-        timeout: 65 * 1000
+        failOnNonZeroExit: true
       }
     )
     .then(({ stdout }) => {

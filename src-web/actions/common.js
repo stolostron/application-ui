@@ -16,7 +16,13 @@ import {
   SEARCH_QUERY,
   SEARCH_QUERY_RELATED
 } from '../apollo-client/queries/SearchQueries'
-import { convertStringToQuery } from '../../lib/client/search-helper'
+import {
+  convertStringToQuery,
+  searchError,
+  searchFailure,
+  searchSuccess,
+  shouldTrySearch
+} from '../../lib/client/search-helper'
 import { mapBulkChannels } from '../reducers/data-mappers/mapChannelsBulk'
 import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsBulk'
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
@@ -245,46 +251,48 @@ const getResourceQuery = resourceType => {
       // catch graph connection error
       return dispatch(receiveResourceError(error, resourceType))
     }
-    const fallback = (result, error) => {
-      if (resourceType.fallback) {
-        apolloClient
-          .fallback(resourceType)
-          .then(result => {
-            const transformedResult = transformFallbackResult(
-              resourceType,
-              result
-            )
-            if (transformedResult) {
-              return handleSuccess(transformedResult)
-            } else {
-              return handleFailure(result)
-            }
-          })
-          .catch(error => handleError(error))
-      } else if (error) {
-        return handleError(error)
-      } else {
-        return handleFailure(result)
-      }
+    const fallback = () => {
+      apolloClient
+        .fallback(resourceType)
+        .then(result => {
+          const transformedResult = transformFallbackResult(
+            resourceType,
+            result
+          )
+          if (transformedResult) {
+            return handleSuccess(transformedResult)
+          } else {
+            return handleFailure(result)
+          }
+        })
+        .catch(error => handleError(error))
     }
-    apolloClient
-      .get(resourceType)
-      .then(result => {
-        if (result && result.data && result.data[resourceType.dataKey]) {
-          return handleSuccess(result)
-        } else if (resourceType.fallback) {
-          return fallback(result, null)
-        } else {
-          return handleFailure(result)
-        }
-      })
-      .catch(error => {
-        if (resourceType.fallback) {
-          return fallback(null, error)
-        } else {
-          return handleError(error)
-        }
-      })
+
+    if (!shouldTrySearch() && resourceType.fallback) {
+      fallback()
+    } else {
+      apolloClient
+        .get(resourceType)
+        .then(result => {
+          if (result && result.data && result.data[resourceType.dataKey]) {
+            searchSuccess()
+            return handleSuccess(result)
+          } else if (resourceType.fallback) {
+            searchFailure()
+            return fallback(result, null)
+          } else {
+            return handleFailure(result)
+          }
+        })
+        .catch(error => {
+          if (resourceType.fallback) {
+            searchError()
+            return fallback(null, error)
+          } else {
+            return handleError(error)
+          }
+        })
+    }
   }
 }
 

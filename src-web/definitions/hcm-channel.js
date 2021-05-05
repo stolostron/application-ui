@@ -18,6 +18,10 @@ import {
   normalizeChannelType,
   CHANNEL_TYPES
 } from '../../lib/client/resource-helper'
+import {
+  isSearchAvailable,
+  isYAMLEditAvailable
+} from '../../lib/client/search-helper'
 import { cellWidth } from '@patternfly/react-table'
 import {
   getClusterCounts,
@@ -57,14 +61,16 @@ export default {
       msgKey: 'table.header.subscriptions',
       resourceKey: 'subscriptionCount',
       transformFunction: createSubscriptionsLink,
-      tooltipKey: 'table.header.channels.subscriptions.tooltip'
+      tooltipKey: 'table.header.channels.subscriptions.tooltip',
+      disabled: () => !isSearchAvailable()
     },
     {
       msgKey: 'table.header.clusters',
       resourceKey: 'clusterCount',
       transformFunction: createClustersLink,
       textFunction: createClustersText,
-      tooltipKey: 'table.header.channels.clusters.tooltip'
+      tooltipKey: 'table.header.channels.clusters.tooltip',
+      disabled: () => !isSearchAvailable()
     },
     {
       msgKey: 'table.header.created',
@@ -72,14 +78,21 @@ export default {
       transformFunction: getAge
     }
   ],
-  tableActions: [
-    {
+  tableActionsResolver: tableActionsResolver
+}
+
+function tableActionsResolver() {
+  const actions = []
+  if (isYAMLEditAvailable()) {
+    actions.push({
       key: 'table.actions.channels.edit',
       link: {
         url: getEditLink
       }
-    },
-    {
+    })
+  }
+  if (isSearchAvailable()) {
+    actions.push({
       key: 'table.actions.channels.search',
       link: {
         url: item =>
@@ -92,13 +105,14 @@ export default {
             }
           })
       }
-    },
-    {
-      key: 'table.actions.channels.remove',
-      modal: true,
-      delete: true
-    }
-  ]
+    })
+  }
+  actions.push({
+    key: 'table.actions.channels.remove',
+    modal: true,
+    delete: true
+  })
+  return actions
 }
 
 function createSubscriptionsLink(item) {
@@ -124,7 +138,7 @@ function createClustersLink(item, locale) {
     localPlacement,
     name: item.name,
     namespace: item.namespace,
-    kind: 'placementrule'
+    kind: 'channel'
   })
 }
 

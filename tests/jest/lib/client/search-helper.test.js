@@ -3,7 +3,13 @@
 
 import {
   convertStringToQuery,
-  formatNumber
+  formatNumber,
+  isSearchAvailable,
+  isYAMLEditAvailable,
+  searchError,
+  searchFailure,
+  searchSuccess,
+  shouldTrySearch
 } from "../../../../lib/client/search-helper";
 
 describe("convertStringToQuery", () => {
@@ -56,5 +62,45 @@ describe("formatNumber", () => {
   });
   it("123", () => {
     expect(formatNumber(123)).toEqual(123);
+  });
+});
+
+describe("search-helper function", () => {
+  it("shouldTrySearch is intially true", () => {
+    expect(shouldTrySearch()).toBe(true);
+  });
+  it("isSearchAvailable is intially true", () => {
+    expect(isSearchAvailable()).toBe(true);
+  });
+  it("isYAMLEditAvailable is intially true", () => {
+    expect(isYAMLEditAvailable()).toBe(true);
+  });
+  it("isSearchAvailable is false after failure", () => {
+    searchFailure();
+    expect(isSearchAvailable()).toBe(false);
+  });
+  it("isYAMLEditAvailable is true after failure", () => {
+    expect(isYAMLEditAvailable()).toBe(true);
+  });
+  it("isSearchAvailable is false after error", () => {
+    searchError();
+    expect(isSearchAvailable()).toBe(false);
+  });
+  it("isYAMLEditAvailable is false after error", () => {
+    expect(isYAMLEditAvailable()).toBe(false);
+  });
+  it("isSearchAvailable resets after success", () => {
+    searchSuccess();
+    expect(isSearchAvailable()).toBe(true);
+  });
+  it("isYAMLEditAvailable resets after success", () => {
+    expect(isYAMLEditAvailable()).toBe(true);
+  });
+  it("shouldTrySearch is false after many failures/errors", () => {
+    searchFailure();
+    searchFailure();
+    searchError();
+    searchError();
+    expect(shouldTrySearch()).toBe(false);
   });
 });

@@ -91,9 +91,11 @@ class ResourceTable extends React.Component {
       const disabled =
         typeof tableKey.disabled === 'function'
           ? tableKey.disabled(itemIds && itemIds.map(id => items[id]))
-          : !tableKey.disabled
-      return tableKey.disabled ? disabled : tableKey
+          : tableKey.disabled
+      return tableKey.disabled ? !disabled : true
     })
+    const allColumnsEnabled =
+      enabledColumns.length === staticResourceData.tableKeys.length
     const columns = enabledColumns.map(tableKey => ({
       header: msgs.get(tableKey.msgKey, locale),
       cell:
@@ -109,7 +111,7 @@ class ResourceTable extends React.Component {
         tableKey.textFunction && typeof tableKey.textFunction === 'function'
           ? `transformed.${tableKey.resourceKey}.text`
           : tableKey.resourceKey,
-      transforms: tableKey.transforms,
+      transforms: allColumnsEnabled ? tableKey.transforms : undefined, // column widths no longer correct
       tooltip: tableKey.tooltipKey
         ? msgs.get(tableKey.tooltipKey, locale)
         : undefined

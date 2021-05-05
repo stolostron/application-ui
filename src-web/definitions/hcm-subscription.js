@@ -17,6 +17,10 @@ import {
   getEditLink,
   getSearchLink
 } from '../../lib/client/resource-helper'
+import {
+  isSearchAvailable,
+  isYAMLEditAvailable
+} from '../../lib/client/search-helper'
 import { cellWidth } from '@patternfly/react-table'
 import msgs from '../../nls/platform.properties'
 
@@ -46,20 +50,23 @@ export default {
       resourceKey: 'channel',
       transformFunction: createChannelLink,
       tooltipKey: 'table.header.subscriptions.channel.tooltip',
-      transforms: [cellWidth(20)]
+      transforms: [cellWidth(20)],
+      disabled: () => !isSearchAvailable()
     },
     {
       msgKey: 'table.header.applications',
       resourceKey: 'appCount',
       transformFunction: createApplicationsLink,
-      tooltipKey: 'table.header.subscriptions.applications.tooltip'
+      tooltipKey: 'table.header.subscriptions.applications.tooltip',
+      disabled: () => !isSearchAvailable()
     },
     {
       msgKey: 'table.header.clusters',
       tooltipKey: 'table.header.subscriptions.clusters.tooltip',
       resourceKey: 'clusterCount',
       transformFunction: createClustersLink,
-      textFunction: createClustersText
+      textFunction: createClustersText,
+      disabled: () => !isSearchAvailable()
     },
     {
       msgKey: 'table.header.timeWindow',
@@ -73,14 +80,21 @@ export default {
       transformFunction: getAge
     }
   ],
-  tableActions: [
-    {
+  tableActionsResolver: tableActionsResolver
+}
+
+function tableActionsResolver() {
+  const actions = []
+  if (isYAMLEditAvailable()) {
+    actions.push({
       key: 'table.actions.subscriptions.edit',
       link: {
         url: getEditLink
       }
-    },
-    {
+    })
+  }
+  if (isSearchAvailable()) {
+    actions.push({
       key: 'table.actions.subscriptions.search',
       link: {
         url: item =>
@@ -93,13 +107,14 @@ export default {
             }
           })
       }
-    },
-    {
-      key: 'table.actions.subscriptions.remove',
-      modal: true,
-      delete: true
-    }
-  ]
+    })
+  }
+  actions.push({
+    key: 'table.actions.subscriptions.remove',
+    modal: true,
+    delete: true
+  })
+  return actions
 }
 
 function createChannelLink(item) {

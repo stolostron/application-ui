@@ -16,6 +16,10 @@ import {
   getClusterCount,
   getClusterCountString
 } from '../../lib/client/resource-helper'
+import {
+  isSearchAvailable,
+  isYAMLEditAvailable
+} from '../../lib/client/search-helper'
 import { cellWidth } from '@patternfly/react-table'
 import { getEmptyMessage } from './hcm-subscription'
 import msgs from '../../nls/platform.properties'
@@ -44,7 +48,8 @@ export default {
       resourceKey: 'clusterCount',
       transformFunction: createClustersLink,
       textFunction: createClustersText,
-      tooltipKey: 'table.header.placementrules.clusters.tooltip'
+      tooltipKey: 'table.header.placementrules.clusters.tooltip',
+      disabled: () => !isSearchAvailable()
     },
     {
       msgKey: 'table.header.replicas',
@@ -57,14 +62,21 @@ export default {
       transformFunction: getAge
     }
   ],
-  tableActions: [
-    {
+  tableActionsResolver: tableActionsResolver
+}
+
+function tableActionsResolver() {
+  const actions = []
+  if (isYAMLEditAvailable()) {
+    actions.push({
       key: 'table.actions.placementrules.edit',
       link: {
         url: getEditLink
       }
-    },
-    {
+    })
+  }
+  if (isSearchAvailable()) {
+    actions.push({
       key: 'table.actions.placementrules.search',
       link: {
         url: item =>
@@ -77,13 +89,14 @@ export default {
             }
           })
       }
-    },
-    {
-      key: 'table.actions.placementrules.remove',
-      modal: true,
-      delete: true
-    }
-  ]
+    })
+  }
+  actions.push({
+    key: 'table.actions.placementrules.remove',
+    modal: true,
+    delete: true
+  })
+  return actions
 }
 
 function createClustersLink(item, locale) {

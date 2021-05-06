@@ -13,7 +13,7 @@ import lodash from 'lodash'
 import * as Actions from './index'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import apolloClient from '../../lib/client/apollo-client'
-import { fetchResource } from './common'
+import { fetchResource, receiveClusterOffline } from './common'
 import { nodeMustHavePods } from '../components/Topology/utils/diagram-helpers-utils'
 import { SEARCH_QUERY } from '../apollo-client/queries/SearchQueries'
 import { convertStringToQuery } from '../../lib/client/search-helper'
@@ -519,6 +519,13 @@ export const fetchTopology = (vars, fetchFilters, reloading) => {
           const appData = getResourceData(
             lodash.get(response, 'data.topology.resources', [])
           )
+          const error = lodash.get(response, 'data.topology.error', [])
+          if (appData.relatedKinds.length === 0 && error) {
+            const err = {
+              err: msgs.get(error.msgcode, error.args, 'en-US')
+            }
+            return dispatch(receiveClusterOffline(err, resourceType))
+          }
           if (appData.isArgoApp) {
             fetchArgoApplications(
               dispatch,

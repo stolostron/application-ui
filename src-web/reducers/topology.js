@@ -106,6 +106,17 @@ export const topology = (state = initialState, action) => {
         links: action.links
       }
     }
+    case Actions.RESOURCE_RECEIVE_CLUSTER_OFFLINE: {
+      return {
+        ...state,
+        status: Actions.REQUEST_STATUS.CLUSTER_OFFLINE,
+        err: action.err,
+        detailsLoaded: true,
+        loaded: true,
+        nodes: [],
+        links: []
+      }
+    }
     }
   }
 

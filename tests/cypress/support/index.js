@@ -48,7 +48,7 @@ before(() => {
       { failOnNonZeroExit: false }
     )
     .then(result => {
-      if (result.code == "true") {
+      if (result.stdout == "true") {
         cy.task("log", "Redisgraph deployment is enabled.");
       } else {
         cy.task(

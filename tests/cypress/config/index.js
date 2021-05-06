@@ -15,10 +15,12 @@ const updateObjectStoreInfo = (process, config) => {
   ) {
     //secret is base64 encoded to allow any character
     const decodedSecret = atob(process.env.OBJECTSTORE_SECRET_KEY);
+    const decodedKey = atob(process.env.OBJECTSTORE_ACCESS_KEY);
+
     //we want to set the private object store info for all
     config.forEach(item => {
       item.url = process.env.OBJECTSTORE_PRIVATE_URL;
-      item.accessKey = process.env.OBJECTSTORE_ACCESS_KEY;
+      item.accessKey = decodedKey;
       item.secretKey = decodedSecret;
     });
   }

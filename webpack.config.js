@@ -26,7 +26,8 @@ process.env.BABEL_ENV = "client";
 const overpassTest = /overpass-.*\.(woff2?|ttf|eot|otf)(\?.*$|$)/;
 
 const prodExternals = {};
-
+console.log("AAAAA, __dirname", __dirname);
+console.log('config.get("contextPath")', config.get("contextPath"));
 module.exports = {
   mode: "production",
   context: __dirname,
@@ -191,7 +192,10 @@ module.exports = {
 
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify("production"),
+      "process.env": {
+        NODE_ENV: JSON.stringify(PRODUCTION ? "production" : "development")
+      },
+      //"process.env.NODE_ENV": JSON.stringify("production"),
       CONSOLE_CONTEXT_URL: JSON.stringify(config.get("contextPath"))
     }),
     new webpack.DllReferencePlugin({

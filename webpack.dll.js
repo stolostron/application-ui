@@ -24,7 +24,6 @@ process.env.BABEL_ENV = process.env.BABEL_ENV
 const overpassTest = /overpass-.*\.(woff2?|ttf|eot|otf)(\?.*$|$)/
 
 module.exports = {
-  mode: 'production',
   entry: {
     vendorhcm: [
       '@loadable/component',
@@ -91,7 +90,7 @@ module.exports = {
 
   output: {
     path: __dirname + '/public',
-    filename: PRODUCTION ? 'dll.[name].[chunkhash].min.js' : 'dll.[name].js',
+    filename: PRODUCTION ? 'dll.[name].[contenthash].min.js' : 'dll.[name].js',
     library: '[name]'
   },
 
@@ -107,9 +106,9 @@ module.exports = {
 
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(
-        PRODUCTION ? 'production' : 'development'
-      )
+      'process.env': {
+        NODE_ENV: JSON.stringify(PRODUCTION ? 'production' : 'development')
+      }
     }),
     new webpack.DllPlugin({
       path: path.join(__dirname, 'dll', '[name]-manifest.json'),
@@ -120,7 +119,7 @@ module.exports = {
       maxChunks: 5
     }),
     new CompressionPlugin({
-      filename: '[path].gz',
+      filename: '[path][base].gz',
       algorithm: 'gzip',
       test: /\.js$|\.css$|\.html$/
     }),

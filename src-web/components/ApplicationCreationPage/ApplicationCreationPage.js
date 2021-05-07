@@ -38,6 +38,7 @@ import 'monaco-editor/esm/vs/editor/editor.all.js'
 import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand.js'
 import 'monaco-editor/esm/vs/basic-languages/yaml/yaml.contribution.js'
 import { global_BackgroundColor_dark_100 as editorBackground } from '@patternfly/react-tokens'
+import classNames from 'classnames'
 if (window.monaco) {
   window.monaco.editor.defineTheme('console', {
     base: 'vs-dark',
@@ -224,6 +225,7 @@ class ApplicationCreationPage extends React.Component {
   }
 
   renderEditor(fetchControl) {
+    const editApplication = this.getEditApplication()
     const { locale } = this.context
     const { controlData, hasPermissions } = this.state
     const { mutateStatus, mutateErrorMsgs } = this.props
@@ -239,7 +241,7 @@ class ApplicationCreationPage extends React.Component {
     }
     return (
       controlData && (
-        <PageSection>
+        <PageSection className={classNames({ editApplication })}>
           <TemplateEditor
             type={'application'}
             title={msgs.get('creation.app.yaml', locale)}
@@ -261,7 +263,9 @@ class ApplicationCreationPage extends React.Component {
       const { handleCreateApplication, handleUpdateApplication } = this.props
       const editApplication = this.getEditApplication()
       if (editApplication) {
-        resourceJSON.createResources.push({ deleteLinks: [...resourceJSON.deleteResources] })
+        resourceJSON.createResources.push({
+          deleteLinks: [...resourceJSON.deleteResources]
+        })
         handleUpdateApplication(resourceJSON.createResources)
       } else {
         handleCreateApplication(resourceJSON.createResources)

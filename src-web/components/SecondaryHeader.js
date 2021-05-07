@@ -19,7 +19,6 @@ import {
   AcmSecondaryNav,
   AcmSecondaryNavItem
 } from '@open-cluster-management/ui-components'
-import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
 import classNames from 'classnames'
@@ -28,10 +27,6 @@ import loadable from '@loadable/component'
 const AutoRefreshSelect = loadable(() =>
   import(/* webpackChunkName: "autoRefreshSelect" */ './common/AutoRefreshSelect')
 )
-
-resources(() => {
-  require('../../scss/secondary-header.scss')
-})
 
 export class SecondaryHeader extends React.Component {
   constructor(props) {
@@ -42,14 +37,7 @@ export class SecondaryHeader extends React.Component {
   }
 
   render() {
-    const {
-      tabs,
-      title,
-      breadcrumbItems,
-      links,
-      mainButton,
-      actions
-    } = this.props
+    const { tabs, title, breadcrumbItems, mainButton } = this.props
     const { locale } = this.context
 
     const headerArgs = {
@@ -82,49 +70,7 @@ export class SecondaryHeader extends React.Component {
         </div>
       )
     }
-
-    if (
-      (tabs && tabs.length > 0) ||
-      (breadcrumbItems && breadcrumbItems.length > 0)
-    ) {
-      return (
-        <div
-          className={classNames({
-            'secondary-header-wrapper': true,
-            'with-tabs': tabs && tabs.length > 0,
-            'with-breadcrumbs': breadcrumbItems && breadcrumbItems.length > 0
-          })}
-          role="region"
-          aria-label={title}
-        >
-          <div
-            className={`secondary-header ${
-              actions && !tabs ? 'detailed-header-override' : ''
-            }`}
-          >
-            <AcmPageHeader {...headerArgs} />
-            {actions && this.renderActions()}
-          </div>
-          {links &&
-            links.length > 0 && (
-              <div className="secondary-header-links">{this.renderLinks()}</div>
-          )}
-        </div>
-      )
-    } else {
-      return (
-        <div
-          className="secondary-header-wrapper-min"
-          role="region"
-          aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
-        >
-          <div className="secondary-header simple-header">
-            <h1>{decodeURIComponent(title)}</h1>
-            {this.renderTooltip()}
-          </div>
-        </div>
-      )
-    }
+    return <AcmPageHeader {...headerArgs} />
   }
 
   getBreadcrumbs() {

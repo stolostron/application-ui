@@ -1596,13 +1596,13 @@ describe("setSubscriptionDeployStatus with Failed phase subscription statuses", 
     { labelKey: "resource.subscription.local", value: "true" },
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
+    { labelValue: "local-cluster", status: "checkmark", value: "Subscribed" },
     {
-      labelValue: "Details",
+      labelValue: "Warning",
       status: "warning",
       value:
         "Some resources failed to deploy. Use View Resource YAML link below to view the details."
     },
-    { labelValue: "local-cluster", status: "checkmark", value: "Subscribed" },
     {
       indent: true,
       type: "link",

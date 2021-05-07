@@ -310,6 +310,7 @@
   "prop.details.section.service": "Service Details",
   "prop.details.section": "Details",
   "prop.details.section.cluster": "Select a cluster to view details",
+  "prop.warning.section": "Warning",
   "props.show.argocd.editor": "Launch Argo editor",
   "props.show.local.yaml": "View Resource YAML",
   "props.show.log": "View Pod YAML and Logs",

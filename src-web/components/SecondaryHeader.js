@@ -10,7 +10,7 @@
 // Copyright Contributors to the Open Cluster Management project
 'use strict'
 
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from '@patternfly/react-core'
@@ -19,25 +19,28 @@ import {
   AcmSecondaryNav,
   AcmSecondaryNavItem
 } from '@open-cluster-management/ui-components'
+import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
-import classNames from 'classnames'
 import loadable from '@loadable/component'
 
 const AutoRefreshSelect = loadable(() =>
   import(/* webpackChunkName: "autoRefreshSelect" */ './common/AutoRefreshSelect')
 )
 
+resources(() => {
+  require('../../scss/secondary-header.scss')
+})
+
 export class SecondaryHeader extends React.Component {
   constructor(props) {
     super(props)
     this.renderTabs = this.renderTabs.bind(this)
-    this.renderTooltip = this.renderTooltip.bind(this)
     this.renderLinks = this.renderLinks.bind(this)
   }
 
   render() {
-    const { tabs, title, breadcrumbItems, mainButton } = this.props
+    const { tabs, title, breadcrumbItems, mainButton, links } = this.props
     const { locale } = this.context
 
     const headerArgs = {
@@ -52,17 +55,13 @@ export class SecondaryHeader extends React.Component {
           </AcmSecondaryNav>
       ),
       controls: <AutoRefreshSelect route={this.props.location} />,
-      actions: tabs &&
-        tabs.length > 0 &&
-        mainButton && (
-          <div
-            className={classNames({
-              'main-button-container': true,
-              'with-breadcrumbs': breadcrumbItems
-            })}
-          >
-            {mainButton}
-          </div>
+      actions: (
+        <Fragment>
+          {mainButton}
+          {links && (
+            <div className="secondary-header-links">{this.renderLinks()}</div>
+          )}
+        </Fragment>
       ),
       switches: (
         <div className="switch-controls">
@@ -106,29 +105,6 @@ export class SecondaryHeader extends React.Component {
     })
   }
 
-  renderActions() {
-    const { actions } = this.props
-    return (
-      <div className="secondary-header-actions">
-        <Button
-          kind="secondary"
-          onClick={() => actions.secondary && actions.secondary.action()}
-          className="secondary-header-actions-secondary"
-        >
-          {actions.secondary && actions.secondary.label}
-        </Button>
-        <Button
-          kind="primary"
-          onClick={() => actions.primary && actions.primary.action()}
-          disabled={actions.primary.disabled}
-          className="secondary-header-actions-primary"
-        >
-          {actions.primary && actions.primary.label}
-        </Button>
-      </div>
-    )
-  }
-
   renderTabs() {
     const { tabs, location } = this.props,
           { locale } = this.context
@@ -155,10 +131,6 @@ export class SecondaryHeader extends React.Component {
     })
   }
 
-  renderTooltip() {
-    // Not used
-  }
-
   getSelectedTab() {
     const { tabs, location } = this.props
     const selectedTab = tabs
@@ -177,7 +149,6 @@ export class SecondaryHeader extends React.Component {
 }
 
 SecondaryHeader.propTypes = {
-  actions: PropTypes.array,
   breadcrumbItems: PropTypes.array,
   history: PropTypes.object,
   links: PropTypes.array,
@@ -196,7 +167,6 @@ const mapStateToProps = state => {
   return {
     title: state.secondaryHeader.title,
     tabs: state.secondaryHeader.tabs,
-    actions: state.secondaryHeader.actions,
     mainButton: state.secondaryHeader.mainButton,
     breadcrumbItems: state.secondaryHeader.breadcrumbItems,
     links: state.secondaryHeader.links,

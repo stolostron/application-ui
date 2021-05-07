@@ -8,7 +8,9 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 import _ from 'lodash'
+import { LOCAL_HUB_NAME } from '../../../../lib/shared/constants'
 import { getShortDateTime } from '../../../../lib/client/resource-helper'
+import { createEditLink } from '../../Topology/utils/diagram-helpers'
 
 export const getSearchLinkForOneApplication = params => {
   if (params && params.name) {
@@ -147,7 +149,8 @@ export const getAppOverviewCardsData = (
       isArgoApp: false,
       argoSource: -1,
       destinationNs: -1,
-      destinationCluster: ''
+      destinationCluster: '',
+      editArgoSetLink: ''
     }
   }
 
@@ -167,6 +170,7 @@ export const getAppOverviewCardsData = (
     let clusterNames = []
     let argoSource = {}
     let isArgoApp = false
+    let editArgoSetLink = ''
     let clusterData = {
       remoteCount: 0,
       isLocal: false
@@ -217,6 +221,31 @@ export const getAppOverviewCardsData = (
                 : app.destinationCluster ? app.destinationCluster : ''
             }
           })
+
+          const ownerReferences = _.get(
+            node,
+            'specs.raw.metadata.ownerReferences',
+            []
+          )
+          if (ownerReferences.length > 0) {
+            const res = {
+              cluster: node.cluster || LOCAL_HUB_NAME,
+              namespace: appNamespace,
+              name: _.get(ownerReferences[0], 'name', 'unknown'),
+              apiversion: 'v1alpha1',
+              kind: _.get(ownerReferences[0], 'kind', 'unknown'),
+              specs: {
+                raw: {
+                  apiVersion: _.get(
+                    ownerReferences[0],
+                    'apiVersion',
+                    'argoproj.io/v1alpha1'
+                  )
+                }
+              }
+            }
+            editArgoSetLink = createEditLink(res)
+          }
         }
       }
       //get pulse for all objects generated from a deployable
@@ -239,7 +268,8 @@ export const getAppOverviewCardsData = (
       isArgoApp: isArgoApp,
       argoSource: argoSource,
       destinationNs: destinationNs,
-      destinationCluster: destinationCluster
+      destinationCluster: destinationCluster,
+      editArgoSetLink: editArgoSetLink
     }
   } else {
     return {
@@ -253,7 +283,8 @@ export const getAppOverviewCardsData = (
       isArgoApp: false,
       argoSource: -1,
       destinationNs: -1,
-      destinationCluster: ''
+      destinationCluster: '',
+      editArgoSetLink: ''
     }
   }
 }

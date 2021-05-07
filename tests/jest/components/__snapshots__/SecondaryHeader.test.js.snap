@@ -137,6 +137,7 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
                 className="pf-c-page__main-nav pf-m-light"
                 style={
                   Object {
+                    "paddingBottom": 0,
                     "paddingTop": 0,
                   }
                 }
@@ -348,6 +349,7 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
                 className="pf-c-page__main-nav pf-m-light"
                 style={
                   Object {
+                    "paddingBottom": 0,
                     "paddingTop": 0,
                   }
                 }

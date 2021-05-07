@@ -12,7 +12,7 @@ exports[`ApplicationDeploymentHighlightsTerminology ApplicationDeploymentHighlig
     id=""
   >
     <div
-      className="pf-c-card__header makeStyles-header-1 makeStyles-headerExpanded-2"
+      className="pf-c-card__header makeStyles-header-1"
       onClick={[Function]}
     >
       <div
@@ -63,7 +63,7 @@ exports[`ApplicationDeploymentHighlightsTerminology ApplicationDeploymentHighlig
       </div>
     </div>
     <div
-      className="pf-c-card__expandable-content makeStyles-body-3"
+      className="pf-c-card__expandable-content makeStyles-body-2"
     >
       <div
         className="pf-c-card__body"

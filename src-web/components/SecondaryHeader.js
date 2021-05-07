@@ -39,27 +39,7 @@ export class SecondaryHeader extends React.Component {
     this.renderTabs = this.renderTabs.bind(this)
     this.renderTooltip = this.renderTooltip.bind(this)
     this.renderLinks = this.renderLinks.bind(this)
-
-    this.state = {
-      shadowPresent: false
-    }
   }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.listenToScroll)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.listenToScroll)
-  }
-
-  listenToScroll = () => {
-    if (window.scrollY > 0.1 && this.state.shadowPresent === false) {
-      this.setState({ shadowPresent: true })
-    } else if (window.scrollY <= 0.1 && this.state.shadowPresent === true) {
-      this.setState({ shadowPresent: false })
-    }
-  };
 
   render() {
     const {
@@ -122,7 +102,6 @@ export class SecondaryHeader extends React.Component {
               actions && !tabs ? 'detailed-header-override' : ''
             }`}
           >
-            {this.state.shadowPresent && <div className="header-box-shadow" />}
             <AcmPageHeader {...headerArgs} />
             {actions && this.renderActions()}
           </div>

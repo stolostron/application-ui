@@ -10,38 +10,42 @@ exports[`ResourceList renders correctly 1`] = `
     <div
       className="pf-l-stack__item"
     >
-      <div
-        className="pf-c-empty-state"
+      <section
+        className="pf-c-page__main-section pf-m-no-padding pf-m-light"
       >
         <div
-          className="pf-c-empty-state__content"
+          className="pf-c-empty-state"
         >
           <div
-            className="pf-c-empty-state__icon"
+            className="pf-c-empty-state__content"
           >
-            <span
-              aria-valuetext="Loading..."
-              className="pf-c-spinner pf-m-xl"
-              role="progressbar"
+            <div
+              className="pf-c-empty-state__icon"
             >
               <span
-                className="pf-c-spinner__clipper"
-              />
-              <span
-                className="pf-c-spinner__lead-ball"
-              />
-              <span
-                className="pf-c-spinner__tail-ball"
-              />
-            </span>
+                aria-valuetext="Loading..."
+                className="pf-c-spinner pf-m-xl"
+                role="progressbar"
+              >
+                <span
+                  className="pf-c-spinner__clipper"
+                />
+                <span
+                  className="pf-c-spinner__lead-ball"
+                />
+                <span
+                  className="pf-c-spinner__tail-ball"
+                />
+              </span>
+            </div>
+            <h4
+              className="pf-c-title pf-m-lg"
+            >
+              Loading
+            </h4>
           </div>
-          <h4
-            className="pf-c-title pf-m-lg"
-          >
-            Loading
-          </h4>
         </div>
-      </div>
+      </section>
     </div>
   </div>
 </div>

@@ -437,6 +437,7 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                   >
                     <div
                       className="pf-c-date-picker__input"
+                      defaultTime=""
                       style={
                         Object {
                           "--pf-c-date-picker__input--c-form-control--Width": "140px",
@@ -489,6 +490,7 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                   >
                     <div
                       className="pf-c-date-picker__input"
+                      defaultTime=""
                       style={
                         Object {
                           "--pf-c-date-picker__input--c-form-control--Width": "140px",
@@ -1013,6 +1015,7 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                   >
                     <div
                       className="pf-c-date-picker__input"
+                      defaultTime=""
                       style={
                         Object {
                           "--pf-c-date-picker__input--c-form-control--Width": "140px",
@@ -1065,6 +1068,7 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                   >
                     <div
                       className="pf-c-date-picker__input"
+                      defaultTime=""
                       style={
                         Object {
                           "--pf-c-date-picker__input--c-form-control--Width": "140px",

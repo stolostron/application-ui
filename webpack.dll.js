@@ -17,11 +17,14 @@ var PRODUCTION = process.env.BUILD_ENV
   ? /production/.test(process.env.BUILD_ENV)
   : false
 
-process.env.BABEL_ENV = 'client'
+process.env.BABEL_ENV = process.env.BABEL_ENV
+  ? process.env.BABEL_ENV
+  : 'client'
 
 const overpassTest = /overpass-.*\.(woff2?|ttf|eot|otf)(\?.*$|$)/
 
 module.exports = {
+  mode: 'production',
   entry: {
     vendorhcm: [
       '@loadable/component',
@@ -88,22 +91,25 @@ module.exports = {
 
   output: {
     path: __dirname + '/public',
-    filename: PRODUCTION ? 'dll.[name].[chunkhash].js' : 'dll.[name].js',
+    filename: PRODUCTION ? 'dll.[name].[chunkhash].min.js' : 'dll.[name].js',
     library: '[name]'
   },
 
   optimization: {
     minimize: PRODUCTION,
-    minimizer: [new TerserPlugin({
-      parallel: true,
-    })],
+    minimizer: [
+      new TerserPlugin({
+        parallel: true
+      })
+    ],
+    moduleIds: PRODUCTION ? 'deterministic' : 'named'
   },
 
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(PRODUCTION ? 'production' : 'development')
-      }
+      'process.env.NODE_ENV': JSON.stringify(
+        PRODUCTION ? 'production' : 'development'
+      )
     }),
     new webpack.DllPlugin({
       path: path.join(__dirname, 'dll', '[name]-manifest.json'),
@@ -116,17 +122,14 @@ module.exports = {
     new CompressionPlugin({
       filename: '[path].gz',
       algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/,
+      test: /\.js$|\.css$|\.html$/
     }),
     new AssetsPlugin({
       path: path.join(__dirname, 'public'),
       fullPath: false,
       prettyPrint: true,
       update: true
-    }),
-    PRODUCTION
-      ? new webpack.HashedModuleIdsPlugin()
-      : new webpack.NamedModulesPlugin()
+    })
   ],
   resolve: {
     modules: [path.join(__dirname, 'node_modules')]

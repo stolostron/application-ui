@@ -9,17 +9,17 @@
 // Copyright Contributors to the Open Cluster Management project
 let path = require("path"),
   webpack = require("webpack"),
-  MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+  MiniCssExtractPlugin = require("mini-css-extract-plugin"),
   AssetsPlugin = require("assets-webpack-plugin"),
-  CopyPlugin = require('copy-webpack-plugin'),
+  CopyPlugin = require("copy-webpack-plugin"),
   config = require("./config"),
   CompressionPlugin = require("compression-webpack-plugin"),
   MonacoWebpackPlugin = require("monaco-editor-webpack-plugin"),
-  TerserPlugin = require('terser-webpack-plugin');
+  TerserPlugin = require("terser-webpack-plugin");
 
 let PRODUCTION = process.env.BUILD_ENV
-    ? /production/.test(process.env.BUILD_ENV)
-    : false;
+  ? /production/.test(process.env.BUILD_ENV)
+  : false;
 
 process.env.BABEL_ENV = "client";
 
@@ -28,9 +28,14 @@ const overpassTest = /overpass-.*\.(woff2?|ttf|eot|otf)(\?.*$|$)/;
 const prodExternals = {};
 
 module.exports = {
+  mode: "production",
   context: __dirname,
   devtool: PRODUCTION ? "source-map" : "cheap-module-source-map",
-  stats: { children: false },
+  ignoreWarnings: [/Failed to parse source map/],
+  stats: {
+    children: false,
+    errorDetails: true
+  },
   entry: {
     main: ["@babel/polyfill", "./src-web/index.js"]
   },
@@ -50,57 +55,60 @@ module.exports = {
       {
         // Transpile React JSX to ES5
         test: [/\.jsx$/, /\.js$/],
-        exclude: [
+        exclude: /node_modules|\.scss/,
+        use: [
           {
-            test: [/\.scss$/, path.resolve(__dirname, "./node_modules")],
-            exclude: [
-              path.resolve(__dirname, "./node_modules/fuse.js")
-              //path.resolve(__dirname, './node_modules/temptifly'),
-            ]
+            loader: "babel-loader",
+            options: {
+              cacheDirectory: true,
+              presets: ["@babel/preset-env", "@babel/preset-react"],
+              plugins: ["@babel/plugin-proposal-class-properties"]
+            }
           }
-        ],
-        loader: "babel-loader?cacheDirectory",
-        options: {
-          presets: ['@babel/preset-env', '@babel/preset-react'],
-          plugins: ['@babel/plugin-proposal-class-properties']
-        }
+        ]
       },
       {
         test: [/\.s?css$/],
         exclude: /node_modules/,
         use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: "css-loader",
-              options: {
-                sourceMap: true,
-              }
-            },
-            {
-              loader: "postcss-loader?sourceMap",
-              options: {
-                plugins: function() {
-                  return [require("autoprefixer")];
-                }
-              }
-            },
-            {
-              loader: "resolve-url-loader",
-              options: {
-                sourceMap: true
-              }
-            },
-            {
-              loader: "sass-loader?sourceMap",
-              options: {
-              prependData: '$font-path: "'+ config.get('contextPath') + '/fonts";'
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              sourceMap: true,
+              postcssOptions: {
+                plugins: [["autoprefixer"]]
               }
             }
-          ]
+          },
+          {
+            loader: "resolve-url-loader",
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true,
+              additionalData:
+                '$font-path: "' + path.resolve(__dirname, "/fonts") + '";'
+            }
+          }
+        ]
       },
       {
         test: /\.(woff2?|eot)(\?.*$|$)/,
-        loader: "file-loader?name=fonts/[name].[ext]"
+        loader: "file-loader",
+        options: {
+          name: config.get("contextPath") + "/[name].[ext]"
+        }
       },
       {
         test: /\.css$/,
@@ -131,7 +139,7 @@ module.exports = {
       {
         test: [/\.handlebars$/, /\.hbs$/],
         loader: "handlebars-loader",
-        query: {
+        options: {
           helperDirs: [path.resolve(__dirname, "./templates/helpers")],
           precompileOptions: {
             knownHelpersOnly: false
@@ -166,25 +174,24 @@ module.exports = {
 
   optimization: {
     minimize: PRODUCTION,
-    minimizer: [new TerserPlugin({
-      parallel: true,
-    })],
+    minimizer: [
+      new TerserPlugin({
+        parallel: true
+      })
+    ],
+    moduleIds: PRODUCTION ? "deterministic" : "named"
   },
 
-
   output: {
-    filename: PRODUCTION ? 'js/[name].[contenthash].min.js' : 'js/[name].js',
+    filename: PRODUCTION ? "js/[name].[contenthash].min.js" : "js/[name].js",
     // chunkFilename: PRODUCTION ? 'js/[name].[chunkhash].min.js' : 'js/[name].js',
-    path: __dirname + '/public',
-    publicPath: config.get('contextPath').replace(/\/?$/, '/'),
-    jsonpFunction: 'webpackJsonpFunctionApp',
+    path: __dirname + "/public",
+    publicPath: config.get("contextPath").replace(/\/?$/, "/")
   },
 
   plugins: [
     new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify(PRODUCTION ? "production" : "development")
-      },
+      "process.env.NODE_ENV": JSON.stringify("production"),
       CONSOLE_CONTEXT_URL: JSON.stringify(config.get("contextPath"))
     }),
     new webpack.DllReferencePlugin({
@@ -192,8 +199,7 @@ module.exports = {
       manifest: require("./dll/vendorhcm-manifest.json")
     }),
     new MiniCssExtractPlugin({
-      filename: PRODUCTION ? "css/[name].[contenthash].css" : "css/[name].css",
-      allChunks: true
+      filename: PRODUCTION ? "css/[name].[contenthash].css" : "css/[name].css"
     }),
     new webpack.LoaderOptionsPlugin({
       options: {
@@ -201,10 +207,10 @@ module.exports = {
       }
     }),
     new CompressionPlugin({
-      filename: '[path].gz',
-      algorithm: 'gzip',
+      filename: "[path][base].gz",
+      algorithm: "gzip",
       test: /\.js$|\.css$/,
-      minRatio: 1,
+      minRatio: 1
     }),
     new MonacoWebpackPlugin({
       languages: ["yaml"]
@@ -217,12 +223,12 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: 'graphics', to: 'graphics' },
-        { from: 'fonts', to: 'fonts'},
+        { from: "graphics", to: "graphics" },
+        { from: "fonts", to: "fonts" }
       ],
       options: {
-        concurrency: 100,
-      },
+        concurrency: 100
+      }
     })
   ],
   resolve: {

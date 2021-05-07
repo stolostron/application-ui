@@ -1759,6 +1759,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
           const subscriptionStatus = R.pathOr(emptyStatusErrorMsg, ['status'])(
             subscription
           )
+
           details.push({
             labelValue: subscription.cluster,
             value: subscriptionStatus,
@@ -1772,6 +1773,21 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
             })
 
           setClusterWindowStatus(windowStatusArray, subscription, details)
+
+          // If any packages under subscription statuses has Failed phase, refer user to view resource yaml for more details
+          const statuses = _.get(node, 'specs.raw.status.statuses', {})
+          const clusterStatus = _.get(statuses, subscription.cluster, {})
+          const packageItems = _.get(clusterStatus, 'packages', {})
+          const failedPackage = Object.values(packageItems).find(
+            item => _.get(item, 'phase', '') === 'Failed'
+          )
+          if (failedPackage) {
+            details.push({
+              labelValue: msgs.get('prop.warning.section'),
+              value: msgs.get('resource.subscription.status.failed.phase'),
+              status: warningStatus
+            })
+          }
 
           details.push({
             type: 'link',

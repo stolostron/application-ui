@@ -11,9 +11,6 @@
 @import 'variables';
 
 .secondary-header {
-  position: fixed;
-  border-bottom: 1px solid var(--pf-global--BorderColor--100);
-
   .pf-c-divider {
     z-index: 1;
   }

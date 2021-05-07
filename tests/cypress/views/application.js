@@ -575,9 +575,7 @@ export const validateAppTableMenu = (name, resourceTable) => {
   //validate Edit menu
   resourceTable.openRowMenu(name, resourceKey);
   resourceTable.menuClick("edit");
-  cy.get(".secondary-header").should("exist", {
-    timeout: 60 * 1000
-  });
+
   //get back to app page
   cy.visit(`/multicloud/applications`);
   cy.get(".search-query-card-loading").should("not.exist", {

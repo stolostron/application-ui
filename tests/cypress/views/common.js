@@ -145,11 +145,6 @@ export const resourceTable = {
   }
 };
 
-export const secondaryHeader = {
-  clickPrimary: () => cy.get(".secondary-header-actions-primary").click(),
-  clickSecondary: () => cy.get(".secondary-header-actions-secondary").click()
-};
-
 export const noResource = {
   shouldExist: () =>
     cy

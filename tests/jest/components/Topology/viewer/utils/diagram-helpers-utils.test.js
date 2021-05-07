@@ -949,6 +949,59 @@ describe("getPulseStatusForSubscription no subscriptionItem.status", () => {
   });
 });
 
+describe("getPulseStatusForSubscription returns green pulse", () => {
+  const node = {
+    id:
+      "member--subscription--sahar-multins--sahar-multi-sample-subscription-1",
+    name: "mortgagedcNOStatus",
+    specs: {
+      searchClusters: [{ name: "local-cluster", status: "OK" }],
+      raw: { spec: { clustersNames: ["local-cluster"] } },
+      subscriptionModel: {
+        "mortgagedc-subscription-braveman": [{ status: "Subscribed" }],
+        "mortgagedc-subscription-braveman2": [{ status: "Subscribed" }]
+      },
+      row: 12
+    },
+    type: "subscription"
+  };
+
+  it("getPulseStatusForSubscription returns green pulse", () => {
+    expect(getPulseStatusForSubscription(node)).toEqual("green");
+  });
+});
+
+describe("getPulseStatusForSubscription package with Failed phase in statuses", () => {
+  const node = {
+    id:
+      "member--subscription--sahar-multins--sahar-multi-sample-subscription-1",
+    name: "mortgagedcNOStatus",
+    specs: {
+      searchClusters: [{ name: "local-cluster", status: "OK" }],
+      raw: {
+        spec: { clustersNames: ["local-cluster"] },
+        status: {
+          statuses: {
+            "local-cluster": {
+              packages: { "ggithubcom-testrepo-ConfigMap": { phase: "Failed" } }
+            }
+          }
+        }
+      },
+      subscriptionModel: {
+        "mortgagedc-subscription-braveman": [{ status: "Subscribed" }],
+        "mortgagedc-subscription-braveman2": [{ status: "Subscribed" }]
+      },
+      row: 12
+    },
+    type: "subscription"
+  };
+
+  it("getPulseStatusForSubscription return yellow status", () => {
+    expect(getPulseStatusForSubscription(node)).toEqual("yellow");
+  });
+});
+
 describe("getExistingResourceMapKey", () => {
   const resourceMap = {
     "replicaset-nginx-placement-cluster1, cluster2": "test"

@@ -253,6 +253,17 @@ export const getPulseStatusForSubscription = node => {
     pulse = 'yellow' // set to yellow if not placed
   }
 
+  const statuses = _.get(node, 'specs.raw.status.statuses', {})
+  Object.values(statuses).forEach(cluster => {
+    const packageItems = _.get(cluster, 'packages', {})
+    const failedPackage = Object.values(packageItems).find(
+      item => _.get(item, 'phase', '') === 'Failed'
+    )
+    if (failedPackage && pulse === 'green') {
+      pulse = 'yellow'
+    }
+  })
+
   return pulse
 }
 

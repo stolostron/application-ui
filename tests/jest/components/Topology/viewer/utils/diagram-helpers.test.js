@@ -1546,6 +1546,83 @@ describe("setSubscriptionDeployStatus with hub error", () => {
   });
 });
 
+describe("setSubscriptionDeployStatus with Failed phase subscription statuses", () => {
+  const node = {
+    type: "subscription",
+    kind: "Subscription",
+    name: "name",
+    namespace: "ns",
+    apiversion: "test",
+    specs: {
+      searchClusters: [
+        {
+          name: "local-cluster",
+          status: "OK"
+        }
+      ],
+      clustersNames: ["local-cluster"],
+      subscriptionModel: {
+        sub1: [
+          {
+            cluster: "local-cluster",
+            status: "Subscribed",
+            _hubClusterResource: "true"
+          }
+        ]
+      },
+      raw: {
+        apiVersion: "test",
+        spec: {
+          placement: {
+            local: true
+          }
+        },
+        status: {
+          statuses: {
+            "local-cluster": {
+              packages: {
+                "ggithubcom-testrepo-ConfigMap": {
+                  phase: "Failed"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+  const response = [
+    { type: "spacer" },
+    { labelKey: "resource.subscription.local", value: "true" },
+    { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    {
+      labelValue: "Details",
+      status: "warning",
+      value:
+        "Some resources failed to deploy. Use View Resource YAML link below to view the details."
+    },
+    { labelValue: "local-cluster", status: "checkmark", value: "Subscribed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local-cluster",
+          editLink: "/resources?cluster=local-cluster"
+        },
+        label: "View Resource YAML"
+      }
+    },
+    { type: "spacer" },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus with Failed phase subscription statuses", () => {
+    expect(setSubscriptionDeployStatus(node, [], {})).toEqual(response);
+  });
+});
+
 describe("setSubscriptionDeployStatus with no sub error", () => {
   const node = {
     type: "subscription",

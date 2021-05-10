@@ -5,7 +5,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
-import { AcmSelect } from '@open-cluster-management/ui-components'
 import {
   Radio,
   Checkbox,
@@ -13,6 +12,7 @@ import {
   AccordionItem,
   AccordionToggle,
   AccordionContent,
+  Select,
   SelectOption,
   SelectVariant,
   TimePicker
@@ -50,7 +50,8 @@ export class TimeWindow extends React.Component {
     }
     this.state = {
       timezoneCache: { isSelected: false, tz: '' },
-      isExpanded: this.props.control.active.mode
+      isExpanded: this.props.control.active.mode,
+      isTimeZoneOpen: false
     }
     this.props.control.validation = this.validation.bind(this)
 
@@ -122,7 +123,7 @@ export class TimeWindow extends React.Component {
   }
 
   render() {
-    const { isExpanded } = this.state
+    const { isExpanded, isTimeZoneOpen } = this.state
     const onToggle = toggleStatus => {
       this.setState({ isExpanded: !toggleStatus })
     }
@@ -238,17 +239,16 @@ export class TimeWindow extends React.Component {
                         )}{' '}
                         <div className="config-title-required">*</div>
                       </div>
-                      <AcmSelect
+                      <Select
                         id="timeZoneSelect"
                         variant={SelectVariant.typeahead}
-                        inlineFilterPlaceholderText="Select a state"
                         aria-label="timezoneComboBox"
                         className="config-timezone-combo-box"
                         placeholder={msgs.get(
                           'timeWindow.label.timezone.placeholder',
                           locale
                         )}
-                        value={timezone || ''}
+                        selections={timezone || ''}
                         isDisabled={!modeSelected}
                         maxHeight={180}
                         onFilter={e => {
@@ -264,10 +264,17 @@ export class TimeWindow extends React.Component {
                             )
                             : this.timezoneList
                         }}
-                        onChange={this.handleTimeZone}
+                        isOpen={isTimeZoneOpen}
+                        onToggle={this.handleTimeZoneToggle}
+                        onSelect={(_event, value) => {
+                          this.handleTimeZone.bind(this)(value)
+                        }}
+                        onClear={() => {
+                          this.handleTimeZone.bind(this)(undefined)
+                        }}
                       >
                         {this.timezoneList}
-                      </AcmSelect>
+                      </Select>
                     </div>
 
                     <div className="config-time-section">
@@ -334,6 +341,8 @@ export class TimeWindow extends React.Component {
       control.active &&
       control.active.timeList.map(item => {
         const { id, existingStart, existingEnd, validTime } = item
+        const startTimeID = `start-time-${id}-${controlId}`
+        const endTimeID = `end-time-${id}-${controlId}`
         // Don't show deleted time invertals
         if (validTime) {
           return (
@@ -361,19 +370,23 @@ export class TimeWindow extends React.Component {
               <div className="config-time-container">
                 <div className="config-input-time">
                   <TimePicker
-                    id={`start-time-${id}-${controlId}`}
-                    defaultTime={existingStart ? existingStart : ''}
+                    id={startTimeID}
+                    time={existingStart ? existingStart : ''}
                     isDisabled={!modeSelected}
-                    onChange={this.handleTimeRange.bind(this)}
+                    onChange={time => {
+                      this.handleTimeRange.bind(this)(time, startTimeID)
+                    }}
                     width={'140px'}
                   />
                 </div>
                 <div className="config-input-time">
                   <TimePicker
-                    id={`end-time-${id}-${controlId}`}
-                    defaultTime={existingEnd ? existingEnd : ''}
+                    id={endTimeID}
+                    time={existingEnd ? existingEnd : ''}
                     isDisabled={!modeSelected}
-                    onChange={this.handleTimeRange.bind(this)}
+                    onChange={time => {
+                      this.handleTimeRange.bind(this)(time, endTimeID)
+                    }}
                     width={'140px'}
                   />
                 </div>
@@ -482,6 +495,11 @@ export class TimeWindow extends React.Component {
     }
   };
 
+  handleTimeZoneToggle = () => {
+    const { isTimeZoneOpen } = this.state
+    this.setState({ isTimeZoneOpen: !isTimeZoneOpen })
+  };
+
   handleTimeZone = value => {
     const { control, handleChange } = this.props
 
@@ -489,26 +507,23 @@ export class TimeWindow extends React.Component {
       // Set timezone on select and set cached tz for repopulating yaml
       control.active.timezone = value
       this.setState({
-        timezoneCache: { isSelected: true, tz: value }
+        timezoneCache: { isSelected: true, tz: value },
+        isTimeZoneOpen: false
       })
     } else {
       // Reset timezone and reset cached tz
       control.active.timezone = ''
-      this.setState({ timezoneCache: { isSelected: false, tz: '' } })
+      this.setState({
+        timezoneCache: { isSelected: false, tz: '' },
+        isTimeZoneOpen: false
+      })
     }
 
     handleChange(control)
   };
 
-  handleTimeRange(value, event) {
+  handleTimeRange(value, targetID) {
     const { control, handleChange } = this.props
-
-    let targetID = ''
-    try {
-      targetID = event.target.id
-    } catch (e) {
-      targetID = ''
-    }
 
     const timeID = parseInt(targetID.split('-')[2], 10)
     const parsedTime = this.parseTime(value)

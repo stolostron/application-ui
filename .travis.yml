@@ -44,6 +44,7 @@ env:
 
 stages:
   - build
+  - unit-test
   - name: test-e2e
     if: env(USE_CLUSTERPOOL) IS blank
   - name: test-e2e-clusterpool
@@ -67,6 +68,16 @@ jobs:
         - make security/scans
         - make build-test-image
         - make push-test-image
+    - stage: unit-test
+      name: "Build and run unit tests"
+      script:
+        - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
+        - make
+        - make sonar/js/jest-init
+        - make 
+        - make component/pull         
+        - make component/test/unit
+        - make sonar/js
     - stage: test-e2e
       name: "Deploy the image to a cluster and run e2e tests"
       if: type = pull_request

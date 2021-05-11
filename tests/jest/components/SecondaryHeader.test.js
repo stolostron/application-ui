@@ -21,101 +21,22 @@ describe("SecondaryHeader component 1", () => {
   });
   it("renders as expected with window size < 1200", () => {
     window.innerWidth = 1000;
-    const navToggle = {
-      addEventListener: jest.fn
-    };
-    const navBar = {
-      className: "pf-m-expanded"
-    };
-    const secHeader = {
-      style: {
-        width: 1200
-      }
-    };
-
-    jest.spyOn(document, "querySelector").mockImplementation(selector => {
-      switch (selector) {
-        case "#nav-toggle":
-          return navToggle;
-        case ".pf-c-page__sidebar":
-          return navBar;
-        case ".secondary-header":
-          return secHeader;
-      }
-    });
     const component = renderer.create(
       <BrowserRouter>
         <SecondaryHeader title="hello world" />
       </BrowserRouter>
     );
     expect(component.toJSON()).toMatchSnapshot();
-    expect(document.querySelector).toBeCalledTimes(3);
   });
 
   it("renders as expected with window size > 1200", () => {
     window.innerWidth = 1300;
-    const navToggle = {
-      addEventListener: jest.fn
-    };
-    const navBar = {
-      className: "pf-m-expanded"
-    };
-    const secHeader = {
-      style: {
-        width: 1200
-      }
-    };
-
-    jest.spyOn(document, "querySelector").mockImplementation(selector => {
-      switch (selector) {
-        case "#nav-toggle":
-          return navToggle;
-        case ".pf-c-page__sidebar":
-          return navBar;
-        case ".secondary-header":
-          return secHeader;
-      }
-    });
     const component = renderer.create(
       <BrowserRouter>
         <SecondaryHeader title="hello world" />
       </BrowserRouter>
     );
     expect(component.toJSON()).toMatchSnapshot();
-    expect(document.querySelector).toBeCalledTimes(3);
-  });
-
-  it("renders as expected with window size > 1200, navBar is not expanded", () => {
-    window.innerWidth = 1300;
-    const navToggle = {
-      addEventListener: jest.fn
-    };
-    const navBarNotExpanded = {
-      className: "pf-m-not-expanded"
-    };
-    const secHeader = {
-      style: {
-        width: 1200
-      }
-    };
-
-    jest.spyOn(document, "querySelector").mockImplementation(selector => {
-      switch (selector) {
-        case "#nav-toggle":
-          return navToggle;
-        case ".pf-c-page__sidebar":
-          return navBarNotExpanded;
-        case ".secondary-header":
-          return secHeader;
-      }
-    });
-    const component = renderer.create(
-      <BrowserRouter>
-        <SecondaryHeader title="hello world" />
-      </BrowserRouter>
-    );
-    expect(component.toJSON()).toMatchSnapshot();
-    expect(document.querySelector).toBeCalledTimes(3);
   });
 });
 

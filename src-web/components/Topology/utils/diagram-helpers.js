@@ -36,7 +36,8 @@ import {
   getTargetNsForNode,
   nodesWithNoNS,
   getResourcesClustersForApp,
-  allClustersAreOnline
+  allClustersAreOnline,
+  findParentForOwnerID
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor, openRouteURL } from '../../../actions/topology'
@@ -1200,33 +1201,14 @@ export const setupResourceModel = (
       }
 
       if (ownerUID) {
-        Object.keys(resourceMap).filter(key => {
-          if (
-            _.startsWith(key, 'replicationcontroller') ||
-            _.startsWith(key, 'replicaset')
-          ) {
-            const resourceObj = resourceMap[key]
-            const resourceModel = _.get(
-              resourceObj,
-              `specs.${resourceObj.type}Model`,
-              {}
-            )
-
-            if (
-              _.filter(
-                _.flatten(Object.values(resourceModel)),
-                obj => _.get(obj, '_uid', '') === ownerUID
-              ).length > 0
-            ) {
-              addResourceToModel(
-                resourceObj,
-                kind,
-                relatedKind,
-                nameWithoutChartRelease
-              )
-            }
-          }
-        })
+        findParentForOwnerID(
+          resourceMap,
+          ownerUID,
+          kind,
+          relatedKind,
+          nameWithoutChartRelease,
+          addResourceToModel
+        )
       } else if (resourceMapForObject) {
         addResourceToModel(
           resourceMapForObject,

@@ -681,3 +681,43 @@ export const allClustersAreOnline = (clusterNames, onlineClusters) => {
   }
   return false
 }
+
+// find a parent for pod using owner ID
+export const findParentForOwnerID = (
+  resourceMap,
+  ownerUID,
+  kind,
+  relatedKind,
+  nameWithoutChartRelease,
+  addResourceToModel
+) => {
+  Object.keys(resourceMap).forEach(key => {
+    if (
+      _.startsWith(key, 'replicationcontroller') ||
+      _.startsWith(key, 'replicaset')
+    ) {
+      // get potential parents
+      const resourceObj = resourceMap[key]
+      const resourceModel = _.get(
+        resourceObj,
+        `specs.${resourceObj.type}Model`,
+        {}
+      )
+
+      // find the parent
+      if (
+        _.filter(
+          _.flatten(Object.values(resourceModel)),
+          obj => _.get(obj, '_uid', '') === ownerUID
+        ).length > 0
+      ) {
+        addResourceToModel(
+          resourceObj,
+          kind,
+          relatedKind,
+          nameWithoutChartRelease
+        )
+      }
+    }
+  })
+}

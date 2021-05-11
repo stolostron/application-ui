@@ -58,7 +58,7 @@ Cypress.Commands.add("login", (idp, user, password) => {
           .get("#inputPassword", { timeout: 20000 })
           .click()
           .focused()
-          .type(password, { log: false });
+          .type(password, { log: false, failOnNonZeroExit: false });
         cy.get('button[type="submit"]', { timeout: 20000 }).click();
         cy.get(".pf-c-page__header", { timeout: 30000 }).should("exist");
       }
@@ -93,20 +93,23 @@ Cypress.Commands.add("editYaml", file => {
 
 Cypress.Commands.add("acquireToken", () => {
   cy
-    .request({
-      method: "HEAD",
-      url:
-        authUrl +
-        "/oauth/authorize?response_type=token&client_id=openshift-challenging-client",
-      followRedirect: false,
-      headers: {
-        "X-CSRF-Token": 1
+    .request(
+      {
+        method: "HEAD",
+        url:
+          authUrl +
+          "/oauth/authorize?response_type=token&client_id=openshift-challenging-client",
+        followRedirect: false,
+        headers: {
+          "X-CSRF-Token": 1
+        },
+        auth: {
+          username: Cypress.env("OC_CLUSTER_USER"),
+          password: Cypress.env("OC_CLUSTER_PASS")
+        }
       },
-      auth: {
-        username: Cypress.env("OC_CLUSTER_USER"),
-        password: Cypress.env("OC_CLUSTER_PASS")
-      }
-    })
+      { log: false, failOnNonZeroExit: false }
+    )
     .then(resp => {
       return cy.wrap(resp.headers.location.match(/access_token=([^&]+)/)[1]);
     });
@@ -291,7 +294,7 @@ Cypress.Commands.add("ocLogin", role => {
     `oc login --server=${loginUserDetails.api} -u ${loginUserDetails.user} -p ${
       loginUserDetails.password
     }${certificateAuthority}`,
-    { log: false }
+    { log: false, failOnNonZeroExit: false }
   );
 });
 

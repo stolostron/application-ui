@@ -41,6 +41,16 @@ Cypress.Cookies.defaults({
 });
 
 before(() => {
+  // Use given user to install ansible and argocd operator
+  cy.ocLogin(Cypress.env("OC_CLUSTER_USER"));
+  cy.installAnsibleOperator();
+
+  // create ansible tower secret
+  cy.createSecret();
+  if (Cypress.config().baseUrl.includes("localhost")) {
+    cy.installArgoCDOperator();
+  }
+
   // This is needed for search to deploy RedisGraph upstream. Without this search won't be operational.
   cy
     .exec("oc get mch -A -o jsonpath='{.items[0].metadata.namespace}'")
@@ -66,16 +76,6 @@ before(() => {
           }
         });
     });
-
-  // Use given user to install ansible and argocd operator
-  cy.ocLogin(Cypress.env("OC_CLUSTER_USER"));
-  cy.installAnsibleOperator();
-
-  // create ansible tower secret
-  cy.createSecret();
-  if (Cypress.config().baseUrl.includes("localhost")) {
-    cy.installArgoCDOperator();
-  }
 });
 
 beforeEach(() => {

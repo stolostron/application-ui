@@ -60,13 +60,13 @@ describe("showArgoApplicationSetLink", () => {
       type: "spacer"
     },
     {
-      labelValue: "Application Set",
+      labelValue: "Application set",
       value: "nginx-sample"
     },
     {
       type: "link",
       value: {
-        label: "View Application Set YAML",
+        label: "View application set YAML",
         data: {
           action: "show_resource_yaml",
           cluster: "local-cluster",

@@ -195,7 +195,8 @@ class OverviewCards extends React.Component {
           <React.Fragment>
             {this.renderData(
               appOverviewCardsData.destinationNs,
-              appOverviewCardsData.isArgoApp
+              appOverviewCardsData.isArgoApp &&
+              appOverviewCardsData.destinationNs
                 ? appOverviewCardsData.destinationNs
                 : selectedAppNS,
               '30%'
@@ -217,7 +218,10 @@ class OverviewCards extends React.Component {
       }
     ]
 
-    appOverviewCardsData.isArgoApp &&
+    if (
+      appOverviewCardsData.isArgoApp &&
+      appOverviewCardsData.destinationCluster
+    ) {
       leftCardItems.splice(2, 0, {
         key: msgs.get('dashboard.card.overview.cards.server', locale),
         keyAction: (
@@ -236,6 +240,7 @@ class OverviewCards extends React.Component {
         ),
         value: appOverviewCardsData.destinationCluster
       })
+    }
 
     return (
       <div className="overview-cards-container">
@@ -384,6 +389,20 @@ class OverviewCards extends React.Component {
                     locale
                   )}
                 </AcmButton>
+                {appOverviewCardsData.editArgoSetLink ? (
+                  <AcmButton
+                    href={getUrl + appOverviewCardsData.editArgoSetLink}
+                    variant={ButtonVariant.link}
+                    id="app-search-set-link"
+                    component="a"
+                    target="_blank"
+                    rel="noreferrer"
+                    icon={<ArrowRightIcon />}
+                    iconPosition="right"
+                  >
+                    {msgs.get('props.show.yaml.argoset.maincard', locale)}
+                  </AcmButton>
+                ) : null}
                 <AcmButton
                   href={
                     getUrl +

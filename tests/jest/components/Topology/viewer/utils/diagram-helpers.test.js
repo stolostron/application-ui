@@ -1070,7 +1070,7 @@ describe("createDeployableYamlLink for application no selflink", () => {
             editLink:
               "/resources?cluster=local-cluster&kind=application&name=test-1&namespace=test-1-ns"
           },
-          label: "View Resource YAML"
+          label: "View resource YAML"
         }
       }
     ]);
@@ -1105,7 +1105,7 @@ describe("createDeployableYamlLink for application with editLink", () => {
           editLink:
             "/resources?apiversion=app.k8s.io%2Fv1beta1&cluster=local-cluster&kind=application&name=test&namespace=test-ns"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     }
   ];
@@ -1427,7 +1427,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
           cluster: "local",
           editLink: "/resources?cluster=local"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" },
@@ -1487,7 +1487,7 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
           cluster: "local",
           editLink: "/resources?cluster=local"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" },
@@ -1535,7 +1535,7 @@ describe("setSubscriptionDeployStatus with hub error", () => {
           cluster: "local",
           editLink: "/resources?cluster=local"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" },
@@ -1601,7 +1601,7 @@ describe("setSubscriptionDeployStatus with Failed phase subscription statuses", 
       labelValue: "Warning",
       status: "warning",
       value:
-        "Some resources failed to deploy. Use View Resource YAML link below to view the details."
+        "Some resources failed to deploy. Use View resource YAML link below to view the details."
     },
     {
       indent: true,
@@ -1612,7 +1612,7 @@ describe("setSubscriptionDeployStatus with Failed phase subscription statuses", 
           cluster: "local-cluster",
           editLink: "/resources?cluster=local-cluster"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" },
@@ -1703,7 +1703,7 @@ describe("setSubscriptionDeployStatus with error", () => {
           cluster: "local",
           editLink: "/resources?cluster=local"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" },
@@ -1756,7 +1756,7 @@ describe("setSubscriptionDeployStatus with hub no status", () => {
           cluster: "local",
           editLink: "/resources?cluster=local"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" },
@@ -1819,7 +1819,7 @@ describe("setSubscriptionDeployStatus with remote no status", () => {
           cluster: "remote1",
           editLink: "/resources?cluster=remote1"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" },
@@ -3426,7 +3426,7 @@ describe("setResourceDeployStatus ansiblejob ", () => {
           editLink:
             "/resources?apiversion=tower.ansible.com%2Fv1alpha1&cluster=local-cluster&kind=ansiblejob&name=bigjoblaunch123&namespace=default"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" }
@@ -3508,7 +3508,7 @@ describe("setResourceDeployStatus ansiblejob ", () => {
           editLink:
             "/resources?apiversion=tower.ansible.com%2Fv1alpha1&cluster=local-cluster&kind=ansiblejob&name=bigjoblaunch&namespace=default"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     }
   ];
@@ -3570,7 +3570,7 @@ describe("setResourceDeployStatus ansiblejob no specs.raw.spec", () => {
           editLink:
             "/resources?apiversion=tower.ansible.com%2Fv1alpha1&cluster=local-cluster&kind=ansiblejob&name=bigjoblaunch&namespace=default"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     }
   ];
@@ -3631,7 +3631,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
           editLink:
             "/resources?apiversion=tower.ansible.com%2Fv1alpha1&cluster=local-cluster&kind=ansiblejob&name=bigjoblaunch&namespace=default"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     }
   ];
@@ -3661,7 +3661,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
           editLink:
             "/resources?apiversion=tower.ansible.com%2Fv1alpha1&cluster=local-cluster&kind=ansiblejob&name=bigjoblaunch&namespace=default"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     }
   ];
@@ -3681,7 +3681,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
     {
       labelValue: "Details",
       value:
-        "Use View Resource YAML link below to view the Ansible Job details. Look for the message section and follow the debug instructions available there."
+        "Use View resource YAML link below to view the Ansible Job details. Look for the message section and follow the debug instructions available there."
     },
     { type: "spacer" },
     { labelValue: "Cluster name", value: "local-cluster" },
@@ -3694,7 +3694,7 @@ describe("setResourceDeployStatus ansiblejob no status", () => {
           cluster: "local-cluster",
           editLink: "/resources?cluster=local-cluster&namespace=default"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" }
@@ -3776,7 +3776,7 @@ describe("setResourceDeployStatus 2 ", () => {
           editLink:
             "/resources?cluster=possiblereptile&kind=service&name=mortgage-app-svc&namespace=default"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" }
@@ -3848,7 +3848,7 @@ describe("setResourceDeployStatus 2 with filter green", () => {
           editLink:
             "/resources?cluster=possiblereptile&kind=service&name=mortgage-app-svc&namespace=default"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" }

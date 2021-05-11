@@ -128,7 +128,7 @@ describe("getNodeDetails application node", () => {
           editLink:
             "/resources?cluster=local-cluster&kind=placementrule&name=nginx-app-3&namespace=ns-sub-1"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" },
@@ -1290,7 +1290,7 @@ describe("getNodeDetails placement rules node with error", () => {
           editLink:
             "/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=placementrule&name=mortgage-rule"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" },
@@ -1399,7 +1399,7 @@ describe("getNodeDetails placement rules node with success", () => {
           editLink:
             "/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=placementrule&name=mortgage-rule"
         },
-        label: "View Resource YAML"
+        label: "View resource YAML"
       }
     },
     { type: "spacer" },

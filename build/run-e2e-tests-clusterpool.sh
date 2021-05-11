@@ -44,7 +44,7 @@ fold_end install-tools
 ###############################################################################
 fold_start cp-lock "ClusterPool Lock"
 
-LOCK_ID="travis-${TRAVIS_JOB_ID:(-5)}"
+LOCK_ID="travis-${TRAVIS_JOB_ID}"
 oc login --token $CLUSTERPOOL_TOKEN $CLUSTERPOOL_CLUSTER --insecure-skip-tls-verify
 ck lock -i $LOCK_ID $CLUSTERPOOL_HUB
 ck lock -i $LOCK_ID $CLUSTERPOOL_MANAGED

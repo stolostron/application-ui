@@ -13,7 +13,6 @@ import {
   getAge,
   getEditLink,
   getSearchLink,
-  getClusterCount,
   getClusterCountString
 } from '../../lib/client/resource-helper'
 import {
@@ -46,7 +45,7 @@ export default {
     {
       msgKey: 'table.header.clusters',
       resourceKey: 'clusterCount',
-      transformFunction: createClustersLink,
+      transformFunction: createClustersText,
       textFunction: createClustersText,
       tooltipKey: 'table.header.placementrules.clusters.tooltip',
       disabled: () => !isSearchAvailable()
@@ -97,18 +96,6 @@ function tableActionsResolver() {
     delete: true
   })
   return actions
-}
-
-function createClustersLink(item, locale) {
-  const clusterCount = R.path(['clusterCount'], item) || {}
-  return getClusterCount({
-    locale,
-    remoteCount: clusterCount.remoteCount,
-    localPlacement: clusterCount.localCount,
-    name: item.name,
-    namespace: item.namespace,
-    kind: 'placementrule'
-  })
 }
 
 function createClustersText(item, locale) {

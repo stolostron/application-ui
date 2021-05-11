@@ -43,23 +43,28 @@ Cypress.Cookies.defaults({
 before(() => {
   // This is needed for search to deploy RedisGraph upstream. Without this search won't be operational.
   cy
-    .exec(
-      'oc get srcho searchoperator -o jsonpath="{.status.deployredisgraph}" -n open-cluster-management',
-      { failOnNonZeroExit: false }
-    )
+    .exec("oc get mch -A -o jsonpath='{.items[0].metadata.namespace}'")
     .then(result => {
-      if (result.stdout == "true") {
-        cy.task("log", "Redisgraph deployment is enabled.");
-      } else {
-        cy.task(
-          "log",
-          "Redisgraph deployment disabled, enabling and waiting 60 seconds for the search-redisgraph-0 pod."
-        );
-        cy.exec(
-          'oc set env deploy search-operator DEPLOY_REDISGRAPH="true" -n open-cluster-management'
-        );
-        return cy.wait(10 * 1000);
-      }
+      const installNamespace = result.stdout;
+      cy
+        .exec(
+          `oc get srcho searchoperator -o jsonpath="{.status.deployredisgraph}" -n ${installNamespace}`,
+          { failOnNonZeroExit: false }
+        )
+        .then(result => {
+          if (result.stdout == "true") {
+            cy.task("log", "Redisgraph deployment is enabled.");
+          } else {
+            cy.task(
+              "log",
+              "Redisgraph deployment disabled, enabling and waiting 60 seconds for the search-redisgraph-0 pod."
+            );
+            cy.exec(
+              `oc set env deploy search-operator DEPLOY_REDISGRAPH="true" -n ${installNamespace}`
+            );
+            return cy.wait(10 * 1000);
+          }
+        });
     });
 
   // Use given user to install ansible and argocd operator

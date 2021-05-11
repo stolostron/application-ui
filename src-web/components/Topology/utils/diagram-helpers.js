@@ -1183,18 +1183,51 @@ export const setupResourceModel = (
           resourceMap[existingResourceMapKey]
       }
 
+      let ownerUID
       let resourceMapForObject =
         resourceMap[name] ||
         (existingResourceMapKey && resourceMap[existingResourceMapKey])
-      if (!resourceMapForObject && kind === 'pod' && podHash) {
-        //just found a pod object, try to map it to the parent resource using the podHash
-        resourceMapForObject = resourceMap[`pod-${podHash}`]
-      } else if (!resourceMapForObject && kind === 'pod' && deployableName) {
-        resourceMapForObject =
-          resourceMap[`pod-deploymentconfig-${deployableName}`]
+      if (!resourceMapForObject && kind === 'pod') {
+        if (podHash) {
+          //just found a pod object, try to map it to the parent resource using the podHash
+          resourceMapForObject = resourceMap[`pod-${podHash}`]
+        } else if (deployableName) {
+          resourceMapForObject =
+            resourceMap[`pod-deploymentconfig-${deployableName}`]
+        } else {
+          ownerUID = relatedKind._ownerUID
+        }
       }
 
-      if (resourceMapForObject) {
+      if (ownerUID) {
+        Object.keys(resourceMap).filter(key => {
+          if (
+            _.startsWith(key, 'replicationcontroller') ||
+            _.startsWith(key, 'replicaset')
+          ) {
+            const resourceObj = resourceMap[key]
+            const resourceModel = _.get(
+              resourceObj,
+              `specs.${resourceObj.type}Model`,
+              {}
+            )
+
+            if (
+              _.filter(
+                _.flatten(Object.values(resourceModel)),
+                obj => _.get(obj, '_uid', '') === ownerUID
+              ).length > 0
+            ) {
+              addResourceToModel(
+                resourceObj,
+                kind,
+                relatedKind,
+                nameWithoutChartRelease
+              )
+            }
+          }
+        })
+      } else if (resourceMapForObject) {
         addResourceToModel(
           resourceMapForObject,
           kind,

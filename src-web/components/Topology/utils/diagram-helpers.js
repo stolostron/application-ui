@@ -36,7 +36,8 @@ import {
   getTargetNsForNode,
   nodesWithNoNS,
   getResourcesClustersForApp,
-  allClustersAreOnline
+  allClustersAreOnline,
+  findParentForOwnerID
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor, openRouteURL } from '../../../actions/topology'
@@ -1183,18 +1184,32 @@ export const setupResourceModel = (
           resourceMap[existingResourceMapKey]
       }
 
+      let ownerUID
       let resourceMapForObject =
         resourceMap[name] ||
         (existingResourceMapKey && resourceMap[existingResourceMapKey])
-      if (!resourceMapForObject && kind === 'pod' && podHash) {
-        //just found a pod object, try to map it to the parent resource using the podHash
-        resourceMapForObject = resourceMap[`pod-${podHash}`]
-      } else if (!resourceMapForObject && kind === 'pod' && deployableName) {
-        resourceMapForObject =
-          resourceMap[`pod-deploymentconfig-${deployableName}`]
+      if (!resourceMapForObject && kind === 'pod') {
+        if (podHash) {
+          //just found a pod object, try to map it to the parent resource using the podHash
+          resourceMapForObject = resourceMap[`pod-${podHash}`]
+        } else if (deployableName) {
+          resourceMapForObject =
+            resourceMap[`pod-deploymentconfig-${deployableName}`]
+        } else {
+          ownerUID = relatedKind._ownerUID
+        }
       }
 
-      if (resourceMapForObject) {
+      if (ownerUID) {
+        findParentForOwnerID(
+          resourceMap,
+          ownerUID,
+          kind,
+          relatedKind,
+          nameWithoutChartRelease,
+          addResourceToModel
+        )
+      } else if (resourceMapForObject) {
         addResourceToModel(
           resourceMapForObject,
           kind,

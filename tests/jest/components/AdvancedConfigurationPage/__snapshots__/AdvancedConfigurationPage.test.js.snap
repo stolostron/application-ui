@@ -885,7 +885,7 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
                           >
                             <button
                               aria-disabled="false"
-                              aria-label="Displays the number of remote and local clusters where resources from the channel are deployed. Click to search for the remote clusters."
+                              aria-label="Displays the number of remote and local clusters where resources from the channel are deployed."
                               class="pf-c-button pf-m-plain"
                               data-ouia-component-id="OUIA-Generated-Button-plain-7"
                               data-ouia-component-type="PF4/Button"
@@ -1957,7 +1957,7 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
                           >
                             <button
                               aria-disabled="false"
-                              aria-label="Displays the number of remote and local clusters where resources are deployed because of the placement rule. Click to search for the remote clusters."
+                              aria-label="Displays the number of remote and local clusters where resources are deployed because of the placement rule."
                               class="pf-c-button pf-m-plain"
                               data-ouia-component-id="OUIA-Generated-Button-plain-5"
                               data-ouia-component-type="PF4/Button"
@@ -3167,7 +3167,7 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
                           >
                             <button
                               aria-disabled="false"
-                              aria-label="Displays the number of applications using the subscription. Click to search for the applications."
+                              aria-label="Displays the number of applications using the subscription. Click to search for all related applications."
                               class="pf-c-button pf-m-plain"
                               data-ouia-component-id="OUIA-Generated-Button-plain-7"
                               data-ouia-component-type="PF4/Button"
@@ -3236,7 +3236,7 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
                           >
                             <button
                               aria-disabled="false"
-                              aria-label="Displays the number of remote and local clusters where resources for the subscription are deployed. Click to search for the remote clusters."
+                              aria-label="Displays the number of remote and local clusters where resources for the subscription are deployed. Click to search for all related clusters."
                               class="pf-c-button pf-m-plain"
                               data-ouia-component-id="OUIA-Generated-Button-plain-8"
                               data-ouia-component-type="PF4/Button"

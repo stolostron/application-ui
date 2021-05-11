@@ -12,7 +12,6 @@ import {
   createEditLink,
   getAge,
   getChannelLabel,
-  getClusterCount,
   getEditLink,
   getSearchLink,
   normalizeChannelType,
@@ -23,11 +22,7 @@ import {
   isYAMLEditAvailable
 } from '../../lib/client/search-helper'
 import { cellWidth } from '@patternfly/react-table'
-import {
-  getClusterCounts,
-  createClustersText,
-  getEmptyMessage
-} from './hcm-subscription'
+import { createClustersText, getEmptyMessage } from './hcm-subscription'
 import ChannelLabels from '../components/common/ChannelLabels'
 import msgs from '../../nls/platform.properties'
 
@@ -67,7 +62,7 @@ export default {
     {
       msgKey: 'table.header.clusters',
       resourceKey: 'clusterCount',
-      transformFunction: createClustersLink,
+      transformFunction: createClustersText,
       textFunction: createClustersText,
       tooltipKey: 'table.header.channels.clusters.tooltip',
       disabled: () => !isSearchAvailable()
@@ -128,18 +123,6 @@ function createSubscriptionsLink(item) {
     return <a href={channelLink}>{item.subscriptionCount}</a>
   }
   return item.subscriptionCount === 0 ? item.subscriptionCount : '-'
-}
-
-function createClustersLink(item, locale) {
-  const { remoteCount, localPlacement } = getClusterCounts(item)
-  return getClusterCount({
-    locale,
-    remoteCount,
-    localPlacement,
-    name: item.name,
-    namespace: item.namespace,
-    kind: 'channel'
-  })
 }
 
 function getChannels(item = {}, locale = '') {

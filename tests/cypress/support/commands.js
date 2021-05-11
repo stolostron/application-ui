@@ -290,7 +290,8 @@ Cypress.Commands.add("ocLogin", role => {
   cy.exec(
     `oc login --server=${loginUserDetails.api} -u ${loginUserDetails.user} -p ${
       loginUserDetails.password
-    }${certificateAuthority}`
+    }${certificateAuthority}`,
+    { log: false }
   );
 });
 

@@ -134,8 +134,7 @@ class App extends React.Component {
     const applicationsTitle = 'routes.applications'
 
     return (
-      <AcmPage>
-        <SecondaryHeader />
+      <AcmPage header={<SecondaryHeader />}>
         <Switch>
           <Route
             exact

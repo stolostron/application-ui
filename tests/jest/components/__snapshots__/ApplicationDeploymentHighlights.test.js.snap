@@ -15,7 +15,7 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
       id=""
     >
       <div
-        className="pf-c-card__header makeStyles-header-1 makeStyles-headerExpanded-2"
+        className="pf-c-card__header makeStyles-header-1"
         onClick={[Function]}
       >
         <div
@@ -66,7 +66,7 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
         </div>
       </div>
       <div
-        className="pf-c-card__expandable-content makeStyles-body-3"
+        className="pf-c-card__expandable-content makeStyles-body-2"
       >
         <div
           className="pf-c-card__body"
@@ -169,7 +169,7 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
       id=""
     >
       <div
-        className="pf-c-card__header makeStyles-header-1 makeStyles-headerExpanded-2"
+        className="pf-c-card__header makeStyles-header-1"
         onClick={[Function]}
       >
         <div
@@ -220,7 +220,7 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
         </div>
       </div>
       <div
-        className="pf-c-card__expandable-content makeStyles-body-3"
+        className="pf-c-card__expandable-content makeStyles-body-2"
       >
         <div
           className="pf-c-card__body"
@@ -323,7 +323,7 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
       id=""
     >
       <div
-        className="pf-c-card__header makeStyles-header-1 makeStyles-headerExpanded-2"
+        className="pf-c-card__header makeStyles-header-1"
         onClick={[Function]}
       >
         <div
@@ -374,7 +374,7 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
         </div>
       </div>
       <div
-        className="pf-c-card__expandable-content makeStyles-body-3"
+        className="pf-c-card__expandable-content makeStyles-body-2"
       >
         <div
           className="pf-c-card__body"

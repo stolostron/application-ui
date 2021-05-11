@@ -10,7 +10,7 @@
 // Copyright Contributors to the Open Cluster Management project
 'use strict'
 
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from '@patternfly/react-core'
@@ -22,7 +22,6 @@ import {
 import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
-import classNames from 'classnames'
 import loadable from '@loadable/component'
 
 const AutoRefreshSelect = loadable(() =>
@@ -37,48 +36,11 @@ export class SecondaryHeader extends React.Component {
   constructor(props) {
     super(props)
     this.renderTabs = this.renderTabs.bind(this)
-    this.renderTooltip = this.renderTooltip.bind(this)
     this.renderLinks = this.renderLinks.bind(this)
-
-    this.state = {
-      shadowPresent: false
-    }
   }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.listenToScroll)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.listenToScroll)
-  }
-
-  listenToScroll = () => {
-    if (window.scrollY > 0.1 && this.state.shadowPresent === false) {
-      this.setState({ shadowPresent: true })
-    } else if (window.scrollY <= 0.1 && this.state.shadowPresent === true) {
-      this.setState({ shadowPresent: false })
-    }
-  };
-
-  setHeaderWidth = (navBar, secHeader, navStatus) => {
-    secHeader.style.width =
-      window.innerWidth >= 1200
-        ? navBar.className.includes(navStatus)
-          ? 'calc(100% - var(--pf-c-page__sidebar--Width))'
-          : '100%'
-        : '100%'
-  };
 
   render() {
-    const {
-      tabs,
-      title,
-      breadcrumbItems,
-      links,
-      mainButton,
-      actions
-    } = this.props
+    const { tabs, title, breadcrumbItems, mainButton, links } = this.props
     const { locale } = this.context
 
     const headerArgs = {
@@ -93,17 +55,13 @@ export class SecondaryHeader extends React.Component {
           </AcmSecondaryNav>
       ),
       controls: <AutoRefreshSelect route={this.props.location} />,
-      actions: tabs &&
-        tabs.length > 0 &&
-        mainButton && (
-          <div
-            className={classNames({
-              'main-button-container': true,
-              'with-breadcrumbs': breadcrumbItems
-            })}
-          >
-            {mainButton}
-          </div>
+      actions: (
+        <Fragment>
+          {mainButton}
+          {links && (
+            <div className="secondary-header-links">{this.renderLinks()}</div>
+          )}
+        </Fragment>
       ),
       switches: (
         <div className="switch-controls">
@@ -111,69 +69,7 @@ export class SecondaryHeader extends React.Component {
         </div>
       )
     }
-
-    const navToggle = document.querySelector('#nav-toggle')
-    const navBar = document.querySelector('.pf-c-page__sidebar')
-    const secHeader = document.querySelector('.secondary-header')
-
-    if (navToggle && navBar && secHeader) {
-      // set secondary header width on page load
-      this.setHeaderWidth(navBar, secHeader, 'pf-m-expanded')
-
-      // set secondary header on page resize
-      window.addEventListener('resize', () => {
-        this.setHeaderWidth(navBar, secHeader, 'pf-m-expanded')
-      })
-
-      // set secondary header width on nav bar toggle
-      navToggle.addEventListener('click', () => {
-        this.setHeaderWidth(navBar, secHeader, 'pf-m-collapsed')
-      })
-    }
-
-    if (
-      (tabs && tabs.length > 0) ||
-      (breadcrumbItems && breadcrumbItems.length > 0)
-    ) {
-      return (
-        <div
-          className={classNames({
-            'secondary-header-wrapper': true,
-            'with-tabs': tabs && tabs.length > 0,
-            'with-breadcrumbs': breadcrumbItems && breadcrumbItems.length > 0
-          })}
-          role="region"
-          aria-label={title}
-        >
-          <div
-            className={`secondary-header ${
-              actions && !tabs ? 'detailed-header-override' : ''
-            }`}
-          >
-            {this.state.shadowPresent && <div className="header-box-shadow" />}
-            <AcmPageHeader {...headerArgs} />
-            {actions && this.renderActions()}
-          </div>
-          {links &&
-            links.length > 0 && (
-              <div className="secondary-header-links">{this.renderLinks()}</div>
-          )}
-        </div>
-      )
-    } else {
-      return (
-        <div
-          className="secondary-header-wrapper-min"
-          role="region"
-          aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
-        >
-          <div className="secondary-header simple-header">
-            <h1>{decodeURIComponent(title)}</h1>
-            {this.renderTooltip()}
-          </div>
-        </div>
-      )
-    }
+    return <AcmPageHeader {...headerArgs} />
   }
 
   getBreadcrumbs() {
@@ -209,29 +105,6 @@ export class SecondaryHeader extends React.Component {
     })
   }
 
-  renderActions() {
-    const { actions } = this.props
-    return (
-      <div className="secondary-header-actions">
-        <Button
-          kind="secondary"
-          onClick={() => actions.secondary && actions.secondary.action()}
-          className="secondary-header-actions-secondary"
-        >
-          {actions.secondary && actions.secondary.label}
-        </Button>
-        <Button
-          kind="primary"
-          onClick={() => actions.primary && actions.primary.action()}
-          disabled={actions.primary.disabled}
-          className="secondary-header-actions-primary"
-        >
-          {actions.primary && actions.primary.label}
-        </Button>
-      </div>
-    )
-  }
-
   renderTabs() {
     const { tabs, location } = this.props,
           { locale } = this.context
@@ -258,10 +131,6 @@ export class SecondaryHeader extends React.Component {
     })
   }
 
-  renderTooltip() {
-    // Not used
-  }
-
   getSelectedTab() {
     const { tabs, location } = this.props
     const selectedTab = tabs
@@ -280,7 +149,6 @@ export class SecondaryHeader extends React.Component {
 }
 
 SecondaryHeader.propTypes = {
-  actions: PropTypes.array,
   breadcrumbItems: PropTypes.array,
   history: PropTypes.object,
   links: PropTypes.array,
@@ -299,7 +167,6 @@ const mapStateToProps = state => {
   return {
     title: state.secondaryHeader.title,
     tabs: state.secondaryHeader.tabs,
-    actions: state.secondaryHeader.actions,
     mainButton: state.secondaryHeader.mainButton,
     breadcrumbItems: state.secondaryHeader.breadcrumbItems,
     links: state.secondaryHeader.links,

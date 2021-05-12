@@ -1793,10 +1793,25 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
           const statuses = _.get(node, 'specs.raw.status.statuses', {})
           const clusterStatus = _.get(statuses, subscription.cluster, {})
           const packageItems = _.get(clusterStatus, 'packages', {})
+          const { reason } = _.get(node, 'specs.raw.status', {})
           const failedPackage = Object.values(packageItems).find(
             item => _.get(item, 'phase', '') === 'Failed'
           )
-          if (failedPackage) {
+          const failedSubscriptionStatus = _.get(
+            subscription,
+            'status',
+            ''
+          ).includes('Failed')
+
+          if (failedSubscriptionStatus) {
+            details.push({
+              labelValue: msgs.get('prop.warning.section'),
+              value:
+                reason || msgs.get('resource.subscription.status.failed.phase'),
+              status: failureStatus
+            })
+          }
+          if (failedPackage && !failedSubscriptionStatus) {
             details.push({
               labelValue: msgs.get('prop.warning.section'),
               value: msgs.get('resource.subscription.status.failed.phase'),

@@ -1388,6 +1388,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
         apiversion: "apps.open-cluster-management.io/v1",
         kind: "Subscription",
         status: {
+          reason: "channel v1/2 not found",
           message: " local:Blocked, other: Active"
         },
         spec: {
@@ -1418,6 +1419,11 @@ describe("setSubscriptionDeployStatus with time window ", () => {
     { labelKey: "resource.deploy.statuses", type: "label" },
     { labelValue: "local", status: "failure", value: "Failed" },
     { labelKey: "spec.subscr.timeWindow", value: "Blocked" },
+    {
+      labelValue: "Warning",
+      status: "failure",
+      value: "channel v1/2 not found"
+    },
     {
       indent: true,
       type: "link",
@@ -1479,6 +1485,12 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
     { labelKey: "resource.deploy.statuses", type: "label" },
     { labelValue: "local", status: "failure", value: "Failed" },
     {
+      labelValue: "Warning",
+      status: "failure",
+      value:
+        "Some resources failed to deploy. Use View resource YAML link below to view the details."
+    },
+    {
       indent: true,
       type: "link",
       value: {
@@ -1526,6 +1538,12 @@ describe("setSubscriptionDeployStatus with hub error", () => {
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
     { labelValue: "local", status: "failure", value: "Failed" },
+    {
+      labelValue: "Warning",
+      status: "failure",
+      value:
+        "Some resources failed to deploy. Use View resource YAML link below to view the details."
+    },
     {
       indent: true,
       type: "link",
@@ -1694,6 +1712,12 @@ describe("setSubscriptionDeployStatus with error", () => {
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
     { labelValue: "local", status: "failure", value: "Failed" },
+    {
+      labelValue: "Warning",
+      status: "failure",
+      value:
+        "Some resources failed to deploy. Use View resource YAML link below to view the details."
+    },
     {
       indent: true,
       type: "link",

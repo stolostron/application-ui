@@ -5,7 +5,7 @@ const config = Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
 import { validateAdvancedTables } from "../../views/application";
 import { getNumberOfManagedClusters } from "../../views/resources";
 
-describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Test for advanced configuration tables", () => {
+describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application Validation Test for advanced configuration tables", () => {
   if (Cypress.env("TEST_MODE") !== "smoke") {
     it(`get the name of the managed OCP cluster`, () => {
       getNumberOfManagedClusters();
@@ -13,7 +13,12 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Te
     for (const type in config) {
       const apps = config[type].data;
       apps.forEach(data => {
-        if (data.enable && !data.name.includes("ui-helm2")) {
+        // ansible app will not be validated on the advanced table, the app deployment will be verified on the app topo and apps table
+        if (
+          data.enable &&
+          (!data.name.includes("ui-helm2") &&
+            !data.name.includes("ui-git-ansible"))
+        ) {
           it(`Verify application ${
             data.name
           } channel, subscription, placement rule info from the advanced configuration tables - ${type}: ${

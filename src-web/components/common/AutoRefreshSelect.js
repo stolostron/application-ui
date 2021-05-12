@@ -16,7 +16,8 @@ import { getSelectedId } from './QuerySwitcher'
 import {
   INITIAL_REFRESH_TIME,
   RESOURCE_TYPES,
-  REFRESH_TIMES
+  REFRESH_TIMES,
+  LOCAL_HUB_NAME
 } from '../../../lib/shared/constants'
 import { fetchResources } from '../../actions/common'
 import { combineFilters } from '../../actions/filters'
@@ -77,7 +78,7 @@ class AutoRefreshSelect extends Component {
         if (this.props.resourceType === RESOURCE_TYPES.HCM_APPLICATIONS) {
           const search = window.location.search
           const searchItems = search ? new URLSearchParams(search) : undefined
-          let cluster
+          let cluster = LOCAL_HUB_NAME
           let apiVersion = 'app.k8s.io/v1beta1'
           if (searchItems && searchItems.get('apiVersion')) {
             apiVersion = searchItems.get('apiVersion')

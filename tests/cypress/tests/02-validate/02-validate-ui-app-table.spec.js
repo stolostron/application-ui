@@ -7,7 +7,7 @@ const config = Cypress.config().baseUrl.includes("localhost")
 import { validateResourceTable } from "../../views/application";
 import { getNumberOfManagedClusters } from "../../views/resources";
 
-describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application Validation Test for applications table", () => {
+describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application Validation Test for applications table", () => {
   it(`get the number of the managed OCP clusters`, () => {
     getNumberOfManagedClusters();
   });

@@ -21,7 +21,10 @@ import {
 } from './definitions/hcm-application-diagram'
 import { fetchTopology } from '../../actions/topology'
 import { processResourceActionLink } from '../Topology/utils/diagram-helpers'
-import { DIAGRAM_QUERY_COOKIE } from '../../../lib/shared/constants'
+import {
+  DIAGRAM_QUERY_COOKIE,
+  LOCAL_HUB_NAME
+} from '../../../lib/shared/constants'
 import { AcmAlert } from '@open-cluster-management/ui-components'
 import '../../../graphics/diagramIcons.svg'
 import {
@@ -474,7 +477,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { params: { namespace, name }, location: { search } } = ownProps
   const searchItems = search ? new URLSearchParams(search) : undefined
-  let cluster
+  let cluster = LOCAL_HUB_NAME
   let apiVersion = 'app.k8s.io/v1beta1'
   if (searchItems && searchItems.get('apiVersion')) {
     apiVersion = searchItems.get('apiVersion')

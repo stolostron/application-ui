@@ -254,6 +254,8 @@ export const openArgoCDEditor = (
         }
       })
       .catch(() => {
+        // toggle loading to false
+        toggleLoading()
         handleErrorMsg(`Error: ${msgs.get('error.launch.argo.editor')}`)
       })
   }

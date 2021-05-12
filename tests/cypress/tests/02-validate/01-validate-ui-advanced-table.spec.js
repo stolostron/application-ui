@@ -35,7 +35,7 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application Validation Te
             );
           });
         } else {
-          it(`disable validation on resource ${type}`, () => {
+          it(`disable validation on resource ${type} - ${data.name}`, () => {
             cy.log(`skipping ${type} - ${data.name}`);
           });
         }

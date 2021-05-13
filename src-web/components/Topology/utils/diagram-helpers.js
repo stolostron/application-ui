@@ -63,9 +63,18 @@ const warningCode = 2
 const pendingCode = 1
 const failureCode = 0
 //pod state contains any of these strings
-const podErrorStates = ['err', 'off', 'invalid', 'kill']
-const podWarningStates = [pendingStatus, 'creating']
-const podSuccessStates = ['run']
+const resNotDeployedStates = [
+  notDeployedStr.toLowerCase(),
+  notDeployedNSStr.toLowerCase()
+]
+const resErrorStates = ['err', 'off', 'invalid', 'kill']
+const resWarningStates = [pendingStatus, 'creating', 'terminating']
+const resSuccessStates = [
+  'run',
+  'bound',
+  deployedStr.toLowerCase(),
+  deployedNSStr.toLowerCase()
+]
 const apiVersionPath = 'specs.raw.apiVersion'
 
 import {
@@ -383,15 +392,21 @@ const getPulseStatusForGenericNode = node => {
       namespace
     )
     targetNSList.forEach(targetNS => {
+      const resObject = _.find(
+        resourcesForCluster,
+        obj => _.get(obj, resourceNSString, '') === targetNS
+      )
+      const resStatus = !resObject
+        ? notDeployedStr.toLowerCase()
+        : _.get(resObject, 'status', deployedStr).toLowerCase()
+      if (_.includes(resErrorStates, resStatus)) {
+        return 'red' // error on a resource
+      }
       if (
-        !_.find(
-          resourcesForCluster,
-          obj => _.get(obj, resourceNSString, '') === targetNS
-        )
+        _.includes(_.union(resWarningStates, resNotDeployedStates), resStatus)
       ) {
         // resource not created on this cluster for the required target namespace
         pulse = 'yellow'
-        return pulse
       }
     })
   })
@@ -465,7 +480,7 @@ export const getPulseForNodeWithPodStatus = node => {
   }
   //if desired info is missing use the desired value returned by search
   if (
-    (desired === 'NA' || desired === 0 || node.type === 'controllerrevision') &&
+    (desired === 'NA' || desired <= 0 || node.type === 'controllerrevision') &&
     resourceMap &&
     Object.keys(resourceMap).length > 0
   ) {
@@ -534,9 +549,9 @@ export const getPulseForNodeWithPodStatus = node => {
         //find pods status and pulse from pods model, if available
         podObjects.forEach(podItem => {
           podsUnavailable =
-            podsUnavailable + getPodState(podItem, clusterName, podErrorStates) //podsUnavailable + 1
+            podsUnavailable + getPodState(podItem, clusterName, resErrorStates) //podsUnavailable + 1
           podsReady =
-            podsReady + getPodState(podItem, clusterName, podSuccessStates)
+            podsReady + getPodState(podItem, clusterName, resSuccessStates)
         })
 
         podStatusMap[`${clusterName}-${targetNS}`] = {
@@ -1361,12 +1376,18 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       if (_.get(node, 'type', '') !== 'ansiblejob' || !isHookNode) {
         // process here only regular ansible tasks
         const deployedKey = res
-          ? node.type === 'namespace' ? deployedNSStr : deployedStr
+          ? node.type === 'namespace'
+            ? deployedNSStr
+            : _.get(res, 'status', deployedStr)
           : node.type === 'namespace' ? notDeployedNSStr : notDeployedStr
-        const statusStr =
-          deployedKey === deployedStr || deployedKey === deployedNSStr
-            ? checkmarkStatus
-            : pendingStatus
+        const deployedKeyLower = deployedKey.toLowerCase()
+        const statusStr = _.includes(resSuccessStates, deployedKeyLower)
+          ? checkmarkStatus
+          : _.includes(resNotDeployedStates, deployedKeyLower)
+            ? pendingStatus
+            : _.includes(resErrorStates, deployedKeyLower)
+              ? failureStatus
+              : warningStatus
 
         let addItemToDetails = false
         if (resourceStatuses.size > 0) {
@@ -1545,8 +1566,8 @@ export const setPodDeployStatus = (
   podObjects.forEach(pod => {
     const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
 
-    const podError = getPodState(pod, undefined, podErrorStates)
-    const podWarning = getPodState(pod, undefined, podWarningStates)
+    const podError = getPodState(pod, undefined, resErrorStates)
+    const podWarning = getPodState(pod, undefined, resWarningStates)
     const clusterDetails = podDataPerCluster[cluster]
     if (clusterDetails) {
       const statusStr = podError

@@ -41,6 +41,7 @@ import {
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor, openRouteURL } from '../../../actions/topology'
+import { getURLSearchData } from './diagram-helpers-argo'
 
 const metadataName = 'specs.raw.metadata.name'
 const metadataNamespace = 'specs.raw.metadata.namespace'
@@ -678,7 +679,10 @@ export const createEditLink = node => {
   const kind = _.get(node, 'specs.raw.kind') || _.get(node, 'kind')
   const apigroup = _.get(node, 'apigroup')
   const apiversion = _.get(node, 'apiversion')
-  const cluster = _.get(node, 'cluster')
+  let cluster = _.get(node, 'cluster')
+  if (!cluster) {
+    cluster = getURLSearchData().cluster
+  }
   let apiVersion = _.get(node, apiVersionPath)
   if (!apiVersion) {
     apiVersion =

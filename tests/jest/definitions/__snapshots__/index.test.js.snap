@@ -25,6 +25,7 @@ Object {
     Object {
       "msgKey": "table.header.name",
       "resourceKey": "name",
+      "textFunction": [Function],
       "transformFunction": [Function],
       "transforms": Array [
         [Function],
@@ -81,6 +82,7 @@ Array [
   Object {
     "msgKey": "table.header.name",
     "resourceKey": "name",
+    "textFunction": [Function],
     "transformFunction": [Function],
     "transforms": Array [
       [Function],

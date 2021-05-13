@@ -2,7 +2,14 @@
 // Copyright Contributors to the Open Cluster Management project
 "use strict";
 
-import { showArgoApplicationSetLink } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-argo";
+import {
+  c_skeleton_after_LinearGradientAngle,
+  c_slider__rail_track_before_fill_BackgroundColor
+} from "@patternfly/react-tokens";
+import {
+  showArgoApplicationSetLink,
+  getURLSearchData
+} from "../../../../../../src-web/components/Topology/utils/diagram-helpers-argo";
 
 describe("showArgoApplicationSetLink", () => {
   const argoAppsWithAppSet = {
@@ -90,5 +97,37 @@ describe("showArgoApplicationSetLink", () => {
 
   it("returns no application set, no owner ref set", () => {
     expect(showArgoApplicationSetLink(argoAppsNoAppSet2, [])).toEqual([]);
+  });
+});
+
+describe("getURLSearchData with data", () => {
+  const { location } = window;
+
+  beforeAll(() => {
+    delete window.location;
+
+    window.location = {
+      search: "?apiVersion=argoproj.io%2Fv1alpha1&cluster=ui-managed"
+    };
+  });
+
+  afterAll(() => {
+    window.location = location;
+  });
+
+  const expectedResult = {
+    apiVersion: "argoproj.io/v1alpha1",
+    cluster: "ui-managed"
+  };
+  it("should return the search data", () => {
+    expect(getURLSearchData()).toEqual(expectedResult);
+  });
+});
+
+describe("getURLSearchData with data", () => {
+  const expectedResult = {};
+
+  it("should return an empty object", () => {
+    expect(getURLSearchData()).toEqual(expectedResult);
   });
 });

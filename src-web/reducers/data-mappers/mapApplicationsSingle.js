@@ -40,9 +40,15 @@ export const mapSingleApplication = application => {
     //for argo we ask for namespace:targetNamespace label:appLabel kind:<comma separated string of resource kind>
     //this code moves all these items under the related section
     const kind = _.get(item, 'kind')
+    const cluster = _.get(item, 'cluster')
 
-    if (kind === 'application' || kind === 'subscription') {
+    if (kind === 'application') {
       //this is a legit app object , just leave it
+      return
+    }
+
+    if (kind === 'subscription' && cluster !== 'local-cluster') {
+      // this is a legit subscription object that needs no alternation
       return
     }
 

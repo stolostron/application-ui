@@ -12,7 +12,11 @@
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { AcmAlert } from '@open-cluster-management/ui-components'
-import { updateSecondaryHeader } from '../../../actions/common'
+import {
+  updateSecondaryHeader,
+  clearSuccessFinished
+} from '../../../actions/common'
+import { REQUEST_STATUS } from '../../../actions/index'
 import {
   Alert,
   AlertGroup,
@@ -100,7 +104,7 @@ class ResourceDetails extends React.Component {
     super(props)
     this.getBreadcrumb = this.getBreadcrumb.bind(this)
     this.handleErrorMsg = this.handleErrorMsg.bind(this)
-    this.handleSuccessMsg = this.handleSuccessMsg.bind(this)
+    this.handleMutateClose = this.handleMutateClose.bind(this)
 
     this.otherBinding = {}
     const { routes } = this.props
@@ -110,8 +114,7 @@ class ResourceDetails extends React.Component {
     })
 
     this.state = {
-      errorMsg: '',
-      successMsg: ''
+      errorMsg: ''
     }
   }
 
@@ -119,8 +122,8 @@ class ResourceDetails extends React.Component {
     this.setState({ errorMsg: err })
   }
 
-  handleSuccessMsg(msg) {
-    this.setState({ successMsg: msg })
+  handleMutateClose() {
+    this.mutateFinished()
   }
 
   UNSAFE_componentWillMount() {
@@ -155,6 +158,14 @@ class ResourceDetails extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.mutateFinished()
+  }
+
+  mutateFinished() {
+    this.props.clearSuccessFinished()
+  }
+
   render() {
     const { match, routes } = this.props
     return (
@@ -181,9 +192,20 @@ class ResourceDetails extends React.Component {
       selectedNodeId,
       showExpandedTopology,
       actions,
-      children
+      children,
+      mutateStatus,
+      mutateErrorMsg
     } = this.props
-    const { errorMsg, successMsg } = this.state
+    const { locale } = this.context
+    const { errorMsg } = this.state
+    const syncSuccessKey = msgs.get(
+      'dashboard.card.overview.cards.sync.success',
+      locale
+    )
+    const syncErrorKey = msgs.get(
+      'dashboard.card.overview.cards.sync.error',
+      locale
+    )
     return (
       <div id="ResourceDetails">
         {errorMsg && (
@@ -202,20 +224,47 @@ class ResourceDetails extends React.Component {
             />
           </AlertGroup>
         )}
-        {successMsg && (
+        {mutateStatus === REQUEST_STATUS.ERROR && (
+          <AlertGroup isToast className="toastErrorMsg">
+            <Alert
+              variant="danger"
+              title={syncErrorKey}
+              actionClose={
+                <AlertActionCloseButton
+                  title={syncErrorKey}
+                  variantLabel="danger alert"
+                  onClose={() => this.handleMutateClose()}
+                />
+              }
+              key={syncErrorKey}
+            >
+              {mutateErrorMsg ||
+                msgs.get(
+                  'dashboard.card.overview.cards.sync.error.body',
+                  locale
+                )}
+            </Alert>
+          </AlertGroup>
+        )}
+        {mutateStatus === REQUEST_STATUS.DONE && (
           <AlertGroup isToast className="toastSuccessMsg">
             <Alert
               variant="success"
-              title={successMsg}
+              title={syncSuccessKey}
               actionClose={
                 <AlertActionCloseButton
-                  title={successMsg}
+                  title={syncSuccessKey}
                   variantLabel="success alert"
-                  onClose={() => this.handleSuccessMsg('')}
+                  onClose={() => this.handleMutateClose()}
                 />
               }
-              key={successMsg}
-            />
+              key={syncSuccessKey}
+            >
+              {msgs.get(
+                'dashboard.card.overview.cards.sync.success.body',
+                locale
+              )}
+            </Alert>
           </AlertGroup>
         )}
         <OverviewTab
@@ -227,7 +276,6 @@ class ResourceDetails extends React.Component {
           selectedNodeId={selectedNodeId}
           showExpandedTopology={showExpandedTopology}
           handleErrorMsg={this.handleErrorMsg}
-          handleSuccessMsg={this.handleSuccessMsg}
         />
       </div>
     )
@@ -275,10 +323,13 @@ ResourceDetails.contextTypes = {
 ResourceDetails.propTypes = {
   actions: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  clearSuccessFinished: PropTypes.func,
   launch_links: PropTypes.object,
   location: PropTypes.object,
   mainButton: PropTypes.object,
   match: PropTypes.object,
+  mutateErrorMsg: PropTypes.string,
+  mutateStatus: PropTypes.string,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
   selectedNodeId: PropTypes.string,
@@ -308,7 +359,8 @@ const mapDispatchToProps = dispatch => {
           null,
           mainButton
         )
-      )
+      ),
+    clearSuccessFinished: () => clearSuccessFinished(dispatch)
   }
 }
 
@@ -342,7 +394,9 @@ const mapStateToProps = (state, ownProps) => {
     clusterName,
     selectedNodeId: AppOverview.selectedNodeId,
     showExpandedTopology: AppOverview.showExpandedTopology,
-    params: params
+    params: params,
+    mutateStatus: state[typeListName].mutateStatus,
+    mutateErrorMsg: state[typeListName].mutateErrorMsg
   }
 }
 

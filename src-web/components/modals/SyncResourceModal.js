@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import msgs from '../../../nls/platform.properties'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
-import { clearSuccessFinished } from '../../actions/common'
+import { syncApplication } from '../../actions/application'
 import resources from '../../../lib/shared/resources'
 import { withLocale } from '../../providers/LocaleProvider'
 import {
@@ -155,7 +155,6 @@ class SyncResourceModal extends React.Component {
     this.setState({
       loading: true
     })
-    this.props.clearSuccessFinished()
     if (!data.name || !applicationResources) {
       this.setState({
         errors: msgs.get('modal.errors.querying.resource', locale)
@@ -171,19 +170,8 @@ class SyncResourceModal extends React.Component {
           'apps.open-cluster-management.io/manual-refresh-time'
         ] = new Date()
       })
-      apolloClient.updateApplication(applicationResources).then(result => {
-        const errors =
-          _.get(result, 'data.updateApplication.errors') ||
-          _.get(result, 'errors')
-        if (errors && errors.length > 0) {
-          this.setState({
-            loading: false,
-            errors: errors[0].message
-          })
-        } else {
-          this.handleClose()
-        }
-      })
+      this.props.handleSyncApplication(applicationResources)
+      this.handleClose()
     }
   }
 
@@ -253,8 +241,8 @@ class SyncResourceModal extends React.Component {
 }
 
 SyncResourceModal.propTypes = {
-  clearSuccessFinished: PropTypes.func,
   data: PropTypes.object,
+  handleSyncApplication: PropTypes.func,
   label: PropTypes.shape({
     heading: PropTypes.string,
     label: PropTypes.string,
@@ -270,7 +258,7 @@ const mapStateToProps = () => ({})
 
 const mapDispatchToProps = dispatch => {
   return {
-    clearSuccessFinished: () => clearSuccessFinished(dispatch)
+    handleSyncApplication: json => dispatch(syncApplication(json))
   }
 }
 

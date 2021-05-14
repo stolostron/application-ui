@@ -286,7 +286,7 @@ class OverviewCards extends React.Component {
               ) : (
                 <Tooltip
                   content={msgs.get(
-                    'actions.create.application.access.denied',
+                    'actions.sync.application.access.denied',
                     locale
                   )}
                   isContentLeftAligned
@@ -576,7 +576,7 @@ class OverviewCards extends React.Component {
       variables: {
         __typename: 'actionModal',
         open: true,
-        type: 'actions.sync',
+        type: 'actions.sync.application',
         resourceType: {
           __typename: 'resourceType',
           name: RESOURCE_TYPES.HCM_APPLICATIONS.name,

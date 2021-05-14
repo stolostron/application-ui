@@ -109,8 +109,8 @@ export const getUniqueChannelName = (channelPath, groupControlData) => {
 }
 
 //check if this is a channel already defined by the current app
-export const isUsingSameChannel = (urlControl, globalControl, channelName) => {
-  let usingSameChannel = false
+export const isUsingSameChannel = (globalControl, channelName) => {
+  let usingSameChannel = 0
   const channelsControl = globalControl.find(
     ({ id: idCtrl }) => idCtrl === 'channels'
   )
@@ -123,15 +123,14 @@ export const isUsingSameChannel = (urlControl, globalControl, channelName) => {
       )
       if (
         channelNameInfo &&
-        _.get(channelNameInfo, 'active', '') === channelName &&
-        _.get(urlControl, 'groupControlData') !== channelInfo
+        _.get(channelNameInfo, 'active', '') === channelName
       ) {
-        usingSameChannel = true
+        usingSameChannel = usingSameChannel + 1
       }
     })
   }
 
-  return usingSameChannel
+  return usingSameChannel > 1
 }
 
 export const updateChannelControls = (
@@ -173,11 +172,7 @@ export const updateChannelControls = (
       const channelName = getUniqueChannelName(active, groupControlData)
       const channelNS = `${channelName}-ns`
 
-      usingSameChannel = isUsingSameChannel(
-        nsControl,
-        globalControl,
-        channelName
-      )
+      usingSameChannel = isUsingSameChannel(globalControl, channelName)
 
       if (usingSameChannel) {
         // if existing channel, reuse channel name and namespace

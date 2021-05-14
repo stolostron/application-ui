@@ -102,7 +102,7 @@ export default class LayoutHelper {
     nodes.forEach(node => {
       if (node.layout) {
         if (this.getNodeTitle) {
-          node.layout.title = this.getNodeTitle(node, this.locale)
+          node.layout.title = this.getNodeTitle(node)
         }
         if (this.getNodeDescription) {
           node.layout.description = this.getNodeDescription(node)

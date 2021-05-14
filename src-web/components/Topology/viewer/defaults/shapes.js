@@ -37,10 +37,6 @@ export const defaultShapes = Object.freeze({
     shape: 'container',
     className: 'container'
   },
-  cronjob: {
-    shape: 'clock',
-    className: 'default'
-  },
   customresource: {
     shape: 'customresource',
     className: 'container'

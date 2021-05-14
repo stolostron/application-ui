@@ -28,7 +28,13 @@ resources(() => {
 })
 
 const ResourceOverview = withLocale(
-  ({ params, actions, showExpandedTopology, handleErrorMsg }) => {
+  ({
+    params,
+    actions,
+    showExpandedTopology,
+    handleErrorMsg,
+    handleSuccessMsg
+  }) => {
     const serverProps = {}
     return (
       <div id="resource-overview" className="overview-content">
@@ -40,6 +46,7 @@ const ResourceOverview = withLocale(
               selectedAppNS={params.namespace}
               serverProps={serverProps}
               handleErrorMsg={handleErrorMsg}
+              handleSuccessMsg={handleSuccessMsg}
             />
           </div>
 

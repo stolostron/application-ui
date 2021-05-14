@@ -100,6 +100,7 @@ class ResourceDetails extends React.Component {
     super(props)
     this.getBreadcrumb = this.getBreadcrumb.bind(this)
     this.handleErrorMsg = this.handleErrorMsg.bind(this)
+    this.handleSuccessMsg = this.handleSuccessMsg.bind(this)
 
     this.otherBinding = {}
     const { routes } = this.props
@@ -109,12 +110,17 @@ class ResourceDetails extends React.Component {
     })
 
     this.state = {
-      errorMsg: ''
+      errorMsg: '',
+      successMsg: ''
     }
   }
 
   handleErrorMsg(err) {
     this.setState({ errorMsg: err })
+  }
+
+  handleSuccessMsg(msg) {
+    this.setState({ successMsg: msg })
   }
 
   UNSAFE_componentWillMount() {
@@ -177,7 +183,7 @@ class ResourceDetails extends React.Component {
       actions,
       children
     } = this.props
-    const { errorMsg } = this.state
+    const { errorMsg, successMsg } = this.state
     return (
       <div id="ResourceDetails">
         {errorMsg && (
@@ -196,6 +202,22 @@ class ResourceDetails extends React.Component {
             />
           </AlertGroup>
         )}
+        {successMsg && (
+          <AlertGroup isToast className="toastSuccessMsg">
+            <Alert
+              variant="success"
+              title={successMsg}
+              actionClose={
+                <AlertActionCloseButton
+                  title={successMsg}
+                  variantLabel="success alert"
+                  onClose={() => this.handleSuccessMsg('')}
+                />
+              }
+              key={successMsg}
+            />
+          </AlertGroup>
+        )}
         <OverviewTab
           resourceType={resourceType}
           params={match.params}
@@ -205,6 +227,7 @@ class ResourceDetails extends React.Component {
           selectedNodeId={selectedNodeId}
           showExpandedTopology={showExpandedTopology}
           handleErrorMsg={this.handleErrorMsg}
+          handleSuccessMsg={this.handleSuccessMsg}
         />
       </div>
     )

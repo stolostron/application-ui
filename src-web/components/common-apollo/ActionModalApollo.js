@@ -50,7 +50,7 @@ class ActionModalApollo extends React.PureComponent {
       )
     }
 
-    case 'table.actions.applications.sync': {
+    case 'actions.sync': {
       return (
         open &&
           this.getSyncResourceModal({

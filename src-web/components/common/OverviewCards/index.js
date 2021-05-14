@@ -15,7 +15,8 @@ import { withRouter } from 'react-router-dom'
 import {
   ArrowRightIcon,
   ExternalLinkAltIcon,
-  OutlinedQuestionCircleIcon
+  OutlinedQuestionCircleIcon,
+  SyncAltIcon
 } from '@patternfly/react-icons'
 import {
   Button,
@@ -36,6 +37,9 @@ import {
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
 import config from '../../../../lib/shared/config'
+import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
+import apolloClient from '../../../../lib/client/apollo-client'
+import { UPDATE_ACTION_MODAL } from '../../../apollo-client/queries/StateQueries'
 import {
   getSearchLinkForOneApplication,
   getAppOverviewCardsData,
@@ -45,6 +49,7 @@ import {
 import ChannelLabels from '../ChannelLabels'
 import TimeWindowLabels from '../TimeWindowLabels'
 import { getClusterCount } from '../../../../lib/client/resource-helper'
+import { canCreateActionAllNamespaces } from '../../../../lib/client/access-helper'
 import { REQUEST_STATUS } from '../../../actions'
 import { openArgoCDEditor } from '../../../actions/topology'
 import _ from 'lodash'
@@ -75,8 +80,21 @@ class OverviewCards extends React.Component {
     this.state = {
       argoLinkLoading: false,
       intervalId,
-      showSubCards: false
+      showSubCards: false,
+      hasSyncPermissions: false
     }
+  }
+
+  componentDidMount() {
+    canCreateActionAllNamespaces('applications', 'create', 'app.k8s.io').then(
+      response => {
+        const hasSyncPermissions = _.get(
+          response,
+          'data.userAccessAnyNamespaces'
+        )
+        this.setState({ hasSyncPermissions })
+      }
+    )
   }
 
   reload() {
@@ -106,7 +124,7 @@ class OverviewCards extends React.Component {
       selectedAppNS,
       locale
     } = this.props
-    const { argoLinkLoading, showSubCards } = this.state
+    const { argoLinkLoading, showSubCards, hasSyncPermissions } = this.state
     const cluster = _.get(topology, 'activeFilters.application.cluster')
 
     if (topology.status === REQUEST_STATUS.CLUSTER_OFFLINE) {
@@ -212,6 +230,76 @@ class OverviewCards extends React.Component {
               appOverviewCardsData.creationTimestamp,
               appOverviewCardsData.creationTimestamp,
               '30%'
+            )}
+          </React.Fragment>
+        )
+      },
+      {
+        key: (
+          <React.Fragment>
+            {this.renderData(
+              appOverviewCardsData.lastSyncedTimestamp,
+              appOverviewCardsData.isArgoApp
+                ? msgs.get('dashboard.card.overview.cards.argo.synced', locale)
+                : msgs.get('dashboard.card.overview.cards.synced', locale),
+              '30%'
+            )}
+          </React.Fragment>
+        ),
+        keyAction: this.renderData(
+          appOverviewCardsData.lastSyncedTimestamp,
+          <Tooltip
+            content={
+              <div>
+                {appOverviewCardsData.isArgoApp
+                  ? msgs.get(
+                    'dashboard.card.overview.cards.argo.lastSynced.tooltip',
+                    locale
+                  )
+                  : msgs.get(
+                    'dashboard.card.overview.cards.lastSynced.tooltip',
+                    locale
+                  )}
+              </div>
+            }
+          >
+            <OutlinedQuestionCircleIcon className="help-icon" />
+          </Tooltip>,
+          '10%'
+        ),
+        value: (
+          <React.Fragment>
+            {this.renderData(
+              appOverviewCardsData.lastSyncedTimestamp,
+              appOverviewCardsData.lastSyncedTimestamp,
+              '30%'
+            )}
+            {this.renderData(
+              appOverviewCardsData.lastSyncedTimestamp,
+              hasSyncPermissions ? (
+                this.createSyncButton(
+                  appOverviewCardsData.isArgoApp,
+                  selectedAppNS,
+                  selectedAppName,
+                  locale
+                )
+              ) : (
+                <Tooltip
+                  content={msgs.get(
+                    'actions.create.application.access.denied',
+                    locale
+                  )}
+                  isContentLeftAligned
+                  position="right"
+                >
+                  {this.createSyncButton(
+                    appOverviewCardsData.isArgoApp,
+                    selectedAppNS,
+                    selectedAppName,
+                    locale
+                  )}
+                </Tooltip>
+              )
             )}
           </React.Fragment>
         )
@@ -479,6 +567,58 @@ class OverviewCards extends React.Component {
       </div>
     )
   }
+
+  openSyncModal = (namespace, name) => {
+    const client = apolloClient.getClient()
+
+    client.mutate({
+      mutation: UPDATE_ACTION_MODAL,
+      variables: {
+        __typename: 'actionModal',
+        open: true,
+        type: 'actions.sync',
+        resourceType: {
+          __typename: 'resourceType',
+          name: RESOURCE_TYPES.HCM_APPLICATIONS.name,
+          list: RESOURCE_TYPES.HCM_APPLICATIONS.list
+        },
+        data: {
+          __typename: 'ModalData',
+          name,
+          namespace,
+          clusterName: '',
+          selfLink: '',
+          _uid: '',
+          kind: '',
+          apiVersion: ''
+        }
+      }
+    })
+  };
+
+  createSyncButton = (isArgoApp, selectedAppNS, selectedAppName, locale) => {
+    const { hasSyncPermissions } = this.state
+    return (
+      <React.Fragment>
+        {!isArgoApp ? (
+          <AcmButton
+            variant={ButtonVariant.link}
+            id="sync-app"
+            component="a"
+            rel="noreferrer"
+            icon={<SyncAltIcon />}
+            iconPosition="left"
+            isDisabled={!hasSyncPermissions}
+            onClick={() => this.openSyncModal(selectedAppNS, selectedAppName)}
+          >
+            {msgs.get('dashboard.card.overview.cards.sync', locale)}
+          </AcmButton>
+        ) : (
+          ''
+        )}
+      </React.Fragment>
+    )
+  };
 
   getArgoSearchLink = (selectedAppName, selectedAppNS, cluster) => {
     return getSearchLinkForOneApplication({

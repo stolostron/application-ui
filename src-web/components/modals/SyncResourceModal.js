@@ -9,7 +9,6 @@ import { connect } from 'react-redux'
 import msgs from '../../../nls/platform.properties'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
-import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 import { clearSuccessFinished } from '../../actions/common'
 import resources from '../../../lib/shared/resources'
 import { withLocale } from '../../providers/LocaleProvider'
@@ -41,40 +40,24 @@ class SyncResourceModal extends React.Component {
     super(props)
     this.client = apolloClient.getClient()
     this.state = {
-      canSync: false,
-      name: '',
       errors: undefined,
       loading: true,
       applicationResources: []
     }
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     if (this.props.data) {
       const { data } = this.props
-      canCreateActionAllNamespaces('applications', 'create', 'app.k8s.io').then(
-        response => {
-          const allowed = _.get(response, 'data.userAccessAnyNamespaces')
-          this.setState({
-            canSync: allowed,
-            errors: allowed
-              ? undefined
-              : msgs.get('table.actions.sync.unauthorized', this.props.locale)
-          })
-          this.getApplication(data.name, data.namespace)
-        }
-      )
-      this.setState({
-        name: data.name
-      })
+      const { name, namespace } = data
+      this.getApplication(name, namespace)
     }
   }
 
   getApplication = (name, namespace) => {
     try {
       const { resourceType, locale } = this.props
-      const { canSync } = this.state
-      if (resourceType.name === 'HCMApplication' && canSync) {
+      if (resourceType.name === 'HCMApplication') {
         // Get application resources
         apolloClient.getApplication({ name, namespace }).then(result => {
           const { data = {} } = result
@@ -186,7 +169,7 @@ class SyncResourceModal extends React.Component {
         const annotations = _.get(sub, 'metadata.annotations', {})
         annotations[
           'apps.open-cluster-management.io/manual-refresh-time'
-        ] = new Date().toString()
+        ] = new Date()
       })
       apolloClient.updateApplication(applicationResources).then(result => {
         const errors =
@@ -212,13 +195,14 @@ class SyncResourceModal extends React.Component {
     )
   };
 
-  modalBody = (name, label, locale) => {
+  modalBody = (name, locale) => {
     return msgs.get('modal.sync.confirm', [name], locale)
   };
 
   render() {
-    const { label, locale, open } = this.props
-    const { canSync, name, loading, errors } = this.state
+    const { label, locale, open, data } = this.props
+    const { loading, errors } = this.state
+    const { name } = data
     const heading = msgs.get(label.heading, locale)
     return (
       <div>
@@ -236,7 +220,7 @@ class SyncResourceModal extends React.Component {
             <Button
               key="confirm"
               variant="primary"
-              isDisabled={!canSync || loading}
+              isDisabled={loading}
               onClick={this.handleSubmit.bind(this)}
             >
               {msgs.get(label.primaryBtn, locale)}

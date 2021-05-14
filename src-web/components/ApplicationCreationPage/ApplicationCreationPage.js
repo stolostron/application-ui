@@ -241,7 +241,10 @@ class ApplicationCreationPage extends React.Component {
     }
     return (
       controlData && (
-        <PageSection className={classNames({ editApplication })}>
+        <PageSection
+          className={classNames({ editApplication })}
+          variant="light"
+        >
           <TemplateEditor
             type={'application'}
             title={msgs.get('creation.app.yaml', locale)}

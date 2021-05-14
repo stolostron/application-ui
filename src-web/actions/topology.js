@@ -97,6 +97,22 @@ export const getResourceData = nodes => {
     result.isArgoApp = isArgoApp
     //get argo app destination namespaces 'show_search':
     if (isArgoApp) {
+      const applicationSetRef = lodash
+        .get(appNode, ['specs', 'raw', 'metadata', 'ownerReferences'], [])
+        .find(
+          owner =>
+            owner.apiVersion.startsWith('argoproj.io/') &&
+            owner.kind === 'ApplicationSet'
+        )
+      if (applicationSetRef) {
+        result.applicationSet = applicationSetRef.name
+      }
+      let cluster = 'local-cluster'
+      const clusterNames = lodash.get(appNode, ['specs', 'cluster-names'], [])
+      if (clusterNames.length > 0) {
+        cluster = clusterNames[0]
+      }
+      result.cluster = cluster
       result.source = lodash.get(
         appNode,
         ['specs', 'raw', 'spec', 'source'],
@@ -416,17 +432,27 @@ const fetchArgoApplications = (
 ) => {
   //get all argo apps with the same source repo as this one
   const query = convertStringToQuery('kind:application apigroup:argoproj.io')
-  for (const [property, value] of Object.entries(appData.source)) {
-    // add argo app source filters
-    query.filters.push({ property, values: [value] })
+  if (appData.applicationSet) {
+    // ApplicationSet name is only unique within cluster and namespace
+    ['applicationSet', 'cluster'].forEach(property => {
+      query.filters.push({ property, values: [appData[property]] })
+    })
+    query.filters.push({ property: 'namespace', values: [appNS] })
+  } else {
+    for (const [property, value] of Object.entries(appData.source)) {
+      // add argo app source filters
+      query.filters.push({ property, values: [value] })
+    }
   }
   apolloClient
     .search(SEARCH_QUERY, { input: [query] })
     .then(app_response => {
-      let allApps = []
       const searchResult = lodash.get(app_response, 'data.searchResult', [])
       if (searchResult.length > 0) {
-        allApps = lodash.get(searchResult[0], 'items', [])
+        // For the no applicationSet case, make sure we don't include apps with applicationSet
+        const allApps = lodash
+          .get(searchResult[0], 'items', [])
+          .filter(app => app.applicationSet === appData.applicationSet)
         // find argo server mapping
         const argoAppNS = lodash.uniqBy(lodash.map(allApps, 'namespace'))
         if (argoAppNS.length > 0) {

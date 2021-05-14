@@ -1175,7 +1175,7 @@ export const validateDefect7696 = name => {
 
   cy.log("Select Editor tab");
   cy
-    .get("[data-ouia-component-id=OUIA-Generated-NavItem-9]", {
+    .get(".pf-c-page__main-nav .pf-c-nav__list .pf-c-nav__item:nth-child(2)", {
       timeout: 20 * 1000
     })
     .click();
@@ -1209,7 +1209,7 @@ export const validateDefect7696 = name => {
     "move back to topology view and check resources still show up - defect 7696"
   );
   cy
-    .get("[data-ouia-component-id=OUIA-Generated-NavItem-8]", {
+    .get(".pf-c-page__main-nav .pf-c-nav__list .pf-c-nav__item:nth-child(1)", {
       timeout: 20 * 1000
     })
     .click();

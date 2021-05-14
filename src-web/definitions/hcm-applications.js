@@ -50,14 +50,23 @@ export default {
   keyFn: item => `${item.cluster}/${item.namespace}/${item.name}`,
   groupFn: item => {
     if (isArgoApp(item)) {
-      if (!item.repoURL) {
+      if (item.applicationSet) {
+        const key = _.pick(item, ['applicationSet', 'namespace', 'cluster'])
+        return JSON.stringify(key)
+      } else if (item.repoURL) {
+        const key = _.pick(item, [
+          'repoURL',
+          'path',
+          'chart',
+          'targetRevision'
+        ])
+        if (!key.targetRevision) {
+          key.targetRevision = 'HEAD'
+        }
+        return JSON.stringify(key)
+      } else {
         return item._uid // When search is not available, Argo apps still must have a group identifier
       }
-      const key = _.pick(item, ['repoURL', 'path', 'chart', 'targetRevision'])
-      if (!key.targetRevision) {
-        key.targetRevision = 'HEAD'
-      }
-      return JSON.stringify(key)
     }
     return null
   },
@@ -99,6 +108,7 @@ export default {
       msgKey: 'table.header.name',
       resourceKey: 'name',
       transformFunction: createApplicationLink,
+      textFunction: createApplicationText,
       transforms: [cellWidth(20)]
     },
     {
@@ -201,19 +211,33 @@ function getApplicationLink(item = {}, edit = false) {
   )}/${encodeURIComponent(name)}${edit ? '/edit' : ''}?${params}`
 }
 
+export function createApplicationText(item = {}) {
+  const prefix = item.applicationSet ? `${item.applicationSet}/` : ''
+  return `${prefix}${item.name}`
+}
+
 export function createApplicationLink(item = {}, locale) {
   const group = Array.isArray(item)
   const firstItem = group ? item[0] : item
-  const { name, cluster } = firstItem
+  const { name, cluster, applicationSet } = firstItem
+  const displayAsApplicationSet = group && applicationSet && item.length > 1
   const remoteClusterString =
     cluster !== 'local-cluster' &&
     ((group && item.length == 1) || (!group && isArgoApp(item)))
       ? msgs.get('application.remote.cluster', [cluster], locale)
       : undefined
+  const tooltipKey = displayAsApplicationSet
+    ? 'application.argo.applicationset'
+    : 'application.argo.group'
+  const labelKey = displayAsApplicationSet
+    ? 'dashboard.card.overview.cards.argo.applicationset'
+    : 'dashboard.card.overview.cards.argo.app'
+  const substitutions = displayAsApplicationSet ? [applicationSet] : []
+  const displayName = displayAsApplicationSet ? applicationSet : name
   return (
     <Split hasGutter style={{ alignItems: 'baseline' }}>
       <SplitItem align="baseline">
-        <Link to={getApplicationLink(firstItem)}>{name}</Link>
+        <Link to={getApplicationLink(firstItem)}>{displayName}</Link>
       </SplitItem>
       {group &&
         isArgoApp(item[0]) && (
@@ -221,18 +245,14 @@ export function createApplicationLink(item = {}, locale) {
             {item.length > 1 ? (
               <Tooltip
                 position="top"
-                content={msgs.get('application.argo.group', locale)}
+                content={msgs.get(tooltipKey, substitutions, locale)}
               >
                 <Label icon={<InfoCircleIcon />} color="blue">
-                  {msgs.get('dashboard.card.overview.cards.argo.app', locale)} ({
-                    item.length
-                  })
+                  {msgs.get(labelKey, locale)} ({item.length})
                 </Label>
               </Tooltip>
             ) : (
-              <Label color="blue">
-                {msgs.get('dashboard.card.overview.cards.argo.app', locale)}
-              </Label>
+              <Label color="blue">{msgs.get(labelKey, locale)}</Label>
             )}
           </SplitItem>
       )}

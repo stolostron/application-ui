@@ -133,14 +133,14 @@ class OverviewCards extends React.Component {
         'err.err',
         msgs.get('load.app.cluster.offline', [])
       )
-      return <AcmAlert variant="info" title={infoMessage} noClose />
+      return <AcmAlert variant="info" title={infoMessage} noClose isInline />
     } else if (HCMApplicationList.status === REQUEST_STATUS.NOT_FOUND) {
       const infoMessage = _.get(
         HCMApplicationList,
         'err.err',
         msgs.get('load.app.info.notfound', [selectedAppName])
       )
-      return <AcmAlert variant="info" title={infoMessage} noClose />
+      return <AcmAlert variant="info" title={infoMessage} noClose isInline />
     }
 
     let getUrl = window.location.href

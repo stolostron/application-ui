@@ -367,6 +367,7 @@ class ApplicationTopologyModule extends React.Component {
               subtitle={msgs.get('error.load.topology', this.context.locale)}
               variant="danger"
               onClick={this.handleTopologyErrorClosed}
+              isInline
             />
           )}
         </React.Fragment>

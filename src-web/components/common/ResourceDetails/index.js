@@ -85,6 +85,7 @@ const withResource = Component => {
                 title={errors}
                 variant="danger"
                 noClose
+                isInline
               />
             )}
             <Component {...this.props} />

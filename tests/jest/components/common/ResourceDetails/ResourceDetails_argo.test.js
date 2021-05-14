@@ -125,6 +125,14 @@ jest.mock("../../../../../lib/client/access-helper.js", () => ({
       }
     };
     return Promise.resolve(data);
+  }),
+  canCreateActionAllNamespaces: jest.fn(() => {
+    const data = {
+      data: {
+        userAccessAnyNamespaces: true
+      }
+    };
+    return Promise.resolve(data);
   })
 }));
 

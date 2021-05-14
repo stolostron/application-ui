@@ -156,6 +156,7 @@ class Topology extends React.Component {
           className="persistent"
           title={msgs.get('error.default.description', locale)}
           variant="danger"
+          isInline
         />
       )
     }

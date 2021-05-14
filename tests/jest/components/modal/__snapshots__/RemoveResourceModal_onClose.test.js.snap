@@ -124,6 +124,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
         type="actionModal"
       >
         <RemoveResourceModal
+          clearSuccessFinished={[Function]}
           data={
             Object {
               "__typename": "Application",
@@ -144,7 +145,6 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
             }
           }
-          deleteSuccessFinished={[Function]}
           forceRefresh={[Function]}
           handleClose={[MockFunction]}
           handleSubmit={[MockFunction]}
@@ -155,7 +155,6 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               "primaryBtn": "modal.remove-hcmapplication.heading",
             }
           }
-          mutateSuccessFinished={[Function]}
           open={true}
           resourceType={
             Object {
@@ -863,6 +862,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
         type="actionModal"
       >
         <RemoveResourceModal
+          clearSuccessFinished={[Function]}
           data={
             Object {
               "__typename": "Application",
@@ -883,7 +883,6 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
             }
           }
-          deleteSuccessFinished={[Function]}
           forceRefresh={[Function]}
           handleClose={[MockFunction]}
           handleSubmit={[MockFunction]}
@@ -894,7 +893,6 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
               "primaryBtn": "modal.remove-hcmapplication.heading",
             }
           }
-          mutateSuccessFinished={[Function]}
           open={true}
           resourceType={
             Object {

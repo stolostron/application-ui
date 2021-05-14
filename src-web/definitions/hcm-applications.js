@@ -192,12 +192,6 @@ function tableActionsResolver(item) {
   }
   if (!isArgoApp(item)) {
     actions.push({
-      key: 'table.actions.applications.sync',
-      modal: true
-    })
-  }
-  if (!isArgoApp(item)) {
-    actions.push({
       key: 'table.actions.applications.remove',
       modal: true,
       delete: true

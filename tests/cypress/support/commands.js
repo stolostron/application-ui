@@ -99,6 +99,7 @@ Cypress.Commands.add("acquireToken", () => {
         url:
           authUrl +
           "/oauth/authorize?response_type=token&client_id=openshift-challenging-client",
+        failOnStatusCode: false,
         followRedirect: false,
         headers: {
           "X-CSRF-Token": 1

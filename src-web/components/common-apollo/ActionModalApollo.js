@@ -86,7 +86,7 @@ class ActionModalApollo extends React.PureComponent {
     SyncResourceModal =
       SyncResourceModal === undefined
         ? loadable(() =>
-            import(/* webpackChunkName: "remove-resource-modal" */ '../modals/SyncResourceModal')
+            import(/* webpackChunkName: "sync-resource-modal" */ '../modals/SyncResourceModal')
         )
         : SyncResourceModal
     return this.getModal(SyncResourceModal, props)

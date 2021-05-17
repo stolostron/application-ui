@@ -346,9 +346,6 @@ export const addDiagramDetails = (
     : null
   // get extra details from topology or from localstore
   let related = []
-  const lastUpdated = applicationDetails
-    ? _.get(applicationDetails, 'responseTime', null)
-    : null
   if (applicationDetails) {
     if (!R.isEmpty(R.pathOr([], ['items'])(applicationDetails))) {
       //get the app related objects

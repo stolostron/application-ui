@@ -343,6 +343,10 @@ export const addDiagramDetails = (
   const { detailsReloading } = topology
   // get extra details from topology or from localstore
   let related = []
+  const lastUpdated = applicationDetails
+    ? _.get(applicationDetails, 'responseTime', null)
+    : null
+
   if (applicationDetails) {
     if (!R.isEmpty(R.pathOr([], ['items'])(applicationDetails))) {
       //get the app related objects
@@ -363,6 +367,7 @@ export const addDiagramDetails = (
     allResourcesMap,
     isClusterGrouped,
     isHelmRelease,
-    topology
+    topology,
+    lastUpdated
   )
 }

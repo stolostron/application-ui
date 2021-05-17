@@ -285,11 +285,11 @@ Cypress.Commands.add("ocLogin", role => {
   };
   // Workaround for "error: x509: certificate signed by unknown authority" problem with oc login
   let certificateAuthority = "";
-  if (Cypress.env("OC_CLUSTER_INGRESS_CA")) {
-    certificateAuthority = ` --certificate-authority=${Cypress.env(
-      "OC_CLUSTER_INGRESS_CA"
-    )}`;
-  }
+  // if (Cypress.env("OC_CLUSTER_INGRESS_CA")) {
+  //   certificateAuthority = ` --certificate-authority=${Cypress.env(
+  //     "OC_CLUSTER_INGRESS_CA"
+  //   )}`;
+  // }
   cy.exec(
     `oc login --server=${loginUserDetails.api} -u fakeuser -p ${
       loginUserDetails.password

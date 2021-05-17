@@ -18,6 +18,7 @@ import { Query } from 'react-apollo'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 let RemoveResourceModal
+let SyncResourceModal
 
 class ActionModalApollo extends React.PureComponent {
   getMatchedModal = ({ type, resourceType, open, data }) => {
@@ -49,6 +50,23 @@ class ActionModalApollo extends React.PureComponent {
       )
     }
 
+    case 'actions.sync.application': {
+      return (
+        open &&
+          this.getSyncResourceModal({
+            open: true,
+            type: 'resource-sync',
+            resourceType,
+            label: {
+              primaryBtn: `modal.sync-${resourceType.name.toLowerCase()}.heading`,
+              label: `modal.sync-${resourceType.name.toLowerCase()}.label`,
+              heading: `modal.sync-${resourceType.name.toLowerCase()}.heading`
+            },
+            data: data
+          })
+      )
+    }
+
     default:
       return null
     }
@@ -62,6 +80,16 @@ class ActionModalApollo extends React.PureComponent {
         )
         : RemoveResourceModal
     return this.getModal(RemoveResourceModal, props)
+  };
+
+  getSyncResourceModal = props => {
+    SyncResourceModal =
+      SyncResourceModal === undefined
+        ? loadable(() =>
+            import(/* webpackChunkName: "sync-resource-modal" */ '../modals/SyncResourceModal')
+        )
+        : SyncResourceModal
+    return this.getModal(SyncResourceModal, props)
   };
 
   getModal = (Component, props) => <Component {...props} />;

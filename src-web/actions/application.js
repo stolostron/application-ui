@@ -10,6 +10,13 @@
 // Copyright Contributors to the Open Cluster Management project
 
 import apolloClient from '../../lib/client/apollo-client'
+import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import {
+  mutateResource,
+  mutateResourceSuccess,
+  mutateResourceFailure,
+  clearSuccessFinished
+} from './common'
 import {
   APPLICATION_CREATE_CLEAR_STATUS,
   APPLICATION_CREATE_IN_PROGRESS,
@@ -65,6 +72,25 @@ export const updateApplication = resourceJson => {
         dispatch(createApplicationFailure(errors))
       } else {
         dispatch(createApplicationSuccess())
+      }
+      return result
+    })
+  }
+}
+
+export const syncApplication = resourceJson => {
+  const resourceType = RESOURCE_TYPES.QUERY_APPLICATIONS
+  return dispatch => {
+    clearSuccessFinished(dispatch)
+    dispatch(mutateResource(resourceType))
+    return apolloClient.updateApplication(resourceJson).then(result => {
+      const errors =
+        _.get(result, 'data.updateApplication.errors') ||
+        _.get(result, 'errors')
+      if (errors && errors.length > 0) {
+        dispatch(mutateResourceFailure(resourceType, errors))
+      } else {
+        dispatch(mutateResourceSuccess(resourceType))
       }
       return result
     })

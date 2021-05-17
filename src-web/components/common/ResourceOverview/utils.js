@@ -142,6 +142,7 @@ export const getAppOverviewCardsData = (
   ) {
     return {
       creationTimestamp: -1,
+      lastSyncedTimestamp: -1,
       remoteClusterCount: -1,
       localClusterDeploy: false,
       nodeStatuses: -1,
@@ -163,6 +164,7 @@ export const getAppOverviewCardsData = (
   ) {
     let apiGroup = 'app.k8s.io'
     let creationTimestamp = ''
+    let lastSyncedTimestamp = ''
     let destinationNs = ''
     let destinationCluster = ''
     const nodeStatuses = { green: 0, yellow: 0, red: 0, orange: 0 }
@@ -193,9 +195,18 @@ export const getAppOverviewCardsData = (
           locale
         )
         const allSubscriptions = _.get(node, 'specs.allSubscriptions', [])
+        let lastSynced = ''
         allSubscriptions.forEach(subs => {
+          if (!lastSynced) {
+            lastSynced = _.get(
+              subs,
+              'metadata.annotations["apps.open-cluster-management.io/manual-refresh-time"]',
+              ''
+            )
+          }
           subsList.push(getSubCardData(subs, node))
         })
+        lastSyncedTimestamp = getShortDateTime(lastSynced, locale)
 
         isArgoApp =
           _.get(node, ['specs', 'raw', 'apiVersion'], '').indexOf('argo') !==
@@ -206,6 +217,10 @@ export const getAppOverviewCardsData = (
           // set argo app cluster names
           clusterNames = _.get(node, ['specs', 'clusterNames'], [])
           argoSource = _.get(node, ['specs', 'raw', 'spec', 'source'], {})
+          lastSyncedTimestamp = getShortDateTime(
+            _.get(node, ['specs', 'raw', 'status', 'reconciledAt'], ''),
+            locale
+          )
 
           // set destination namespace and cluster
           const relatedApps = _.get(node, ['specs', 'relatedApps'], [])
@@ -259,6 +274,7 @@ export const getAppOverviewCardsData = (
     })
     return {
       creationTimestamp: creationTimestamp,
+      lastSyncedTimestamp: lastSyncedTimestamp,
       remoteClusterCount: clusterData.remoteCount,
       localClusterDeploy: clusterData.isLocal,
       nodeStatuses: nodeStatuses,
@@ -274,6 +290,7 @@ export const getAppOverviewCardsData = (
   } else {
     return {
       creationTimestamp: -1,
+      lastSyncedTimestamp: -1,
       remoteClusterCount: -1,
       localClusterDeploy: false,
       nodeStatuses: -1,

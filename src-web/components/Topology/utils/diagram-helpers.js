@@ -1071,7 +1071,6 @@ export const setupResourceModel = (
   if (!mustRefreshTopologyMap(topology, lastUpdated)) {
     return resourceMap
   }
-
   if (checkNotOrObjects(list, resourceMap)) {
     return resourceMap
   }

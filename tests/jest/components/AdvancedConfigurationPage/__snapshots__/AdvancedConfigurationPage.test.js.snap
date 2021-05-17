@@ -172,7 +172,7 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
                 >
                   <div
                     aria-label="Success Alert"
-                    class="pf-c-alert pf-m-success"
+                    class="pf-c-alert pf-m-inline pf-m-success"
                     data-ouia-component-id="OUIA-Generated-Alert-success-1"
                     data-ouia-component-type="PF4/Alert"
                     data-ouia-safe="true"
@@ -1382,7 +1382,7 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
                 >
                   <div
                     aria-label="Success Alert"
-                    class="pf-c-alert pf-m-success"
+                    class="pf-c-alert pf-m-inline pf-m-success"
                     data-ouia-component-id="OUIA-Generated-Alert-success-1"
                     data-ouia-component-type="PF4/Alert"
                     data-ouia-safe="true"
@@ -2523,7 +2523,7 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
                 >
                   <div
                     aria-label="Success Alert"
-                    class="pf-c-alert pf-m-success"
+                    class="pf-c-alert pf-m-inline pf-m-success"
                     data-ouia-component-id="OUIA-Generated-Alert-success-1"
                     data-ouia-component-type="PF4/Alert"
                     data-ouia-safe="true"

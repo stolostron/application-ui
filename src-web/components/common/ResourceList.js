@@ -84,6 +84,7 @@ class ResourceList extends React.Component {
           title={msgs.get('error.default.description', locale)}
           variant="danger"
           noClose
+          isInline
         />
       )
     }
@@ -104,6 +105,7 @@ class ResourceList extends React.Component {
               locale
             )}
             variant="success"
+            isInline
           />
         </StackItem>
       )

@@ -12,6 +12,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withLocale } from '../../../providers/LocaleProvider'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import {
   ArrowRightIcon,
   ExternalLinkAltIcon,
@@ -62,9 +63,11 @@ resources(() => {
 
 const mapStateToProps = state => {
   const { HCMApplicationList, topology } = state
+  const { list: typeListName } = RESOURCE_TYPES.QUERY_APPLICATIONS
   return {
     HCMApplicationList,
-    topology
+    topology,
+    mutateStatus: state[typeListName].mutateStatus
   }
 }
 
@@ -598,11 +601,14 @@ class OverviewCards extends React.Component {
 
   createSyncButton = (isArgoApp, selectedAppNS, selectedAppName, locale) => {
     const { hasSyncPermissions } = this.state
+    const { mutateStatus } = this.props
+    const syncInProgress = mutateStatus === REQUEST_STATUS.IN_PROGRESS
     return (
       <React.Fragment>
         {!isArgoApp ? (
           <AcmButton
             variant={ButtonVariant.link}
+            className={`${syncInProgress ? 'syncInProgress' : ''}`}
             id="sync-app"
             component="a"
             rel="noreferrer"
@@ -612,6 +618,7 @@ class OverviewCards extends React.Component {
             onClick={() => this.openSyncModal(selectedAppNS, selectedAppName)}
           >
             {msgs.get('dashboard.card.overview.cards.sync', locale)}
+            {syncInProgress && <Spinner size="sm" />}
           </AcmButton>
         ) : (
           ''
@@ -837,6 +844,8 @@ class OverviewCards extends React.Component {
   };
 }
 
-OverviewCards.propTypes = {}
+OverviewCards.propTypes = {
+  mutateStatus: PropTypes.string
+}
 
 export default withLocale(withRouter(connect(mapStateToProps)(OverviewCards)))

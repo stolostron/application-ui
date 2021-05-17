@@ -12,6 +12,7 @@
 import apolloClient from '../../lib/client/apollo-client'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import {
+  mutateResource,
   mutateResourceSuccess,
   mutateResourceFailure,
   clearSuccessFinished
@@ -81,6 +82,7 @@ export const syncApplication = resourceJson => {
   const resourceType = RESOURCE_TYPES.QUERY_APPLICATIONS
   return dispatch => {
     clearSuccessFinished(dispatch)
+    dispatch(mutateResource(resourceType))
     return apolloClient.updateApplication(resourceJson).then(result => {
       const errors =
         _.get(result, 'data.updateApplication.errors') ||

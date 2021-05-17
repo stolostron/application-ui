@@ -37,7 +37,8 @@ import {
   nodesWithNoNS,
   getResourcesClustersForApp,
   allClustersAreOnline,
-  findParentForOwnerID
+  findParentForOwnerID,
+  mustRefreshTopologyMap
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
 import { openArgoCDEditor, openRouteURL } from '../../../actions/topology'
@@ -1064,8 +1065,13 @@ export const setupResourceModel = (
   resourceMap,
   isClusterGrouped,
   isHelmRelease,
-  topology
+  topology,
+  lastUpdated
 ) => {
+  if (!mustRefreshTopologyMap(topology, lastUpdated)) {
+    return resourceMap
+  }
+
   if (checkNotOrObjects(list, resourceMap)) {
     return resourceMap
   }

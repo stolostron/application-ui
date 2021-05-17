@@ -19,8 +19,54 @@ import {
   updateAppClustersMatchingSearch,
   getTargetNsForNode,
   getResourcesClustersForApp,
-  allClustersAreOnline
+  allClustersAreOnline,
+  mustRefreshTopologyMap
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers-utils";
+
+describe("mustRefreshTopologyMap", () => {
+  const updatedTime = 1621025105756;
+  const topo = {
+    nodes: [
+      {
+        type: "application"
+      }
+    ]
+  };
+
+  const topo1 = {
+    nodes: [
+      {
+        type: "application",
+        _lastUpdated: 11111
+      }
+    ]
+  };
+
+  const topo2 = {
+    nodes: [
+      {
+        type: "application",
+        _lastUpdated: updatedTime
+      }
+    ]
+  };
+
+  it("must call update, updated time is not set on the app node ", () => {
+    expect(mustRefreshTopologyMap(topo, updatedTime)).toEqual(true);
+  });
+
+  it("must call update, updated time is set on the app node but not the same with the latest refresh", () => {
+    expect(mustRefreshTopologyMap(topo1, updatedTime)).toEqual(true);
+  });
+
+  it("must NOT call update, updated time is set on the app node AND IS the same with the latest refresh", () => {
+    expect(mustRefreshTopologyMap(topo2, updatedTime)).toEqual(false);
+  });
+
+  it("must call update, updated time not defined", () => {
+    expect(mustRefreshTopologyMap(topo2)).toEqual(true);
+  });
+});
 
 describe("allClustersAreOnline", () => {
   const onlineClusters = ["cls1", "cls2"];

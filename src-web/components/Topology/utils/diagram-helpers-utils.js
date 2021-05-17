@@ -721,3 +721,16 @@ export const findParentForOwnerID = (
     }
   })
 }
+
+// check if the data has been refreshed, if not don't try to rebuild the map
+export const mustRefreshTopologyMap = (topology, currentUpdate) => {
+  if (currentUpdate && topology && _.get(topology, 'nodes', []).length > 0) {
+    const firstNode = topology.nodes[0]
+    if (_.get(firstNode, '_lastUpdated', '') === currentUpdate) {
+      return false // nothing changed, don't refresh the model
+    }
+    //set current update
+    _.set(firstNode, '_lastUpdated', currentUpdate)
+  }
+  return true
+}

@@ -291,7 +291,7 @@ Cypress.Commands.add("ocLogin", role => {
     )}`;
   }
   cy.exec(
-    `oc login --server=${loginUserDetails.api} -u ${loginUserDetails.user} -p ${
+    `oc login --server=${loginUserDetails.api} -u fakeuser -p ${
       loginUserDetails.password
     }${certificateAuthority}`,
     { log: false, failOnNonZeroExit: false }

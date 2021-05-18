@@ -42,7 +42,7 @@ before(() => {
   cy.installAnsibleOperator();
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.ocLogin("cluster-manager-admin");
-    cy.exec("oc whoami -t").then(res => {
+    cy.exec("oc whoami -t", { failOnNonZeroExit: false }).then(res => {
       cy.setCookie("acm-access-token-cookie", res.stdout);
       Cypress.env("token", res.stdout);
     });

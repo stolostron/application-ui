@@ -38,38 +38,6 @@ const authUrl = Cypress.config().baseUrl.replace(
 
 Cypress.Commands.add("login", (idp, user, password) => {
   cy.log(`Attempt to log in app tests user ${user} with idp ${idp}`);
-  const APIServer = Cypress.env("OC_CLUSTER_URL");
-  cy
-    .clearCookies() // clear cookies so we do login again
-
-    .then(() => {
-      if (Cypress.config().baseUrl.includes("localhost")) {
-        expect(APIServer).to.not.equal(undefined);
-        // check who is the current user
-        cy
-          .exec("oc whoami", { failOnNonZeroExit: false })
-          .then(res => {
-            const currentUser = res.stdout.replace("kube:admin", "kubeadmin");
-            cy.log(`Currently logged to 'oc' as ${currentUser}`);
-            if (currentUser != user || force) {
-              // do oc login as the required user
-              cy.log(`Doing 'oc login' as ${user}`);
-              cy.exec(
-                `oc login --server=${APIServer} -u ${user} -p ${password}`,
-                { log: false }
-              );
-            }
-          })
-          .then(() => {
-            cy.exec("oc whoami -t").then(res => {
-              // get token and set cookie and env var accordingly
-              Cypress.env("token", res.stdout);
-              cy.setCookie("acm-access-token-cookie", Cypress.env("token"));
-            });
-          });
-      }
-    });
-
   cy
     .get(".pf-c-login__main-body")
     .get(".pf-c-button")

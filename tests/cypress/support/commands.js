@@ -43,7 +43,7 @@ Cypress.Commands.add("login", (idp, user, password) => {
     .clearCookies() // clear cookies so we do login again
 
     .then(() => {
-      if (!Cypress.config().baseUrl.includes("localhost")) {
+      if (Cypress.config().baseUrl.includes("localhost")) {
         expect(APIServer).to.not.equal(undefined);
         // check who is the current user
         cy
@@ -54,11 +54,10 @@ Cypress.Commands.add("login", (idp, user, password) => {
             if (currentUser != user || force) {
               // do oc login as the required user
               cy.log(`Doing 'oc login' as ${user}`);
-              cy
-                .exec(
-                  `oc login --server=${APIServer} -u ${user} -p ${password}`
-                )
-                .then(res => cy.log(res.stdout));
+              cy.exec(
+                `oc login --server=${APIServer} -u ${user} -p ${password}`,
+                { log: false, failOnNonZeroExit: false }
+              );
             }
           })
           .then(() => {
@@ -423,10 +422,12 @@ Cypress.Commands.add("rbacSwitchUser", role => {
   const { users } = Cypress.env("USER_CONFIG");
   if (Cypress.config().baseUrl.includes("localhost")) {
     cy.ocLogin(role);
-    cy.exec("oc whoami -t", { failOnNonZeroExit: false }).then(res => {
-      cy.setCookie("acm-access-token-cookie", res.stdout);
-      Cypress.env("token", res.stdout);
-    });
+    cy
+      .exec("oc whoami -t", { log: false, failOnNonZeroExit: false })
+      .then(res => {
+        cy.setCookie("acm-access-token-cookie", res.stdout);
+        Cypress.env("token", res.stdout);
+      });
   } else {
     cy.addUserIfNotCreatedBySuite();
     cy.logInAsRole(role);

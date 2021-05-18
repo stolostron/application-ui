@@ -286,7 +286,7 @@ const getResourceQuery = resourceType => {
             return handleSuccess(result)
           } else if (resourceType.fallback) {
             searchFailure()
-            return fallback(result, null)
+            return fallback()
           } else {
             return handleFailure(result)
           }
@@ -294,7 +294,7 @@ const getResourceQuery = resourceType => {
         .catch(error => {
           if (resourceType.fallback) {
             searchError()
-            return fallback(null, error)
+            return fallback()
           } else {
             return handleError(error)
           }

@@ -81,7 +81,7 @@ export default {
         cells.push({ title: createChannels(items[0], locale) })
         cells.push({ title: '' }) // Empty Time window
       }
-      cells.push({ title: '' }), // Empty Created
+      cells.push({ title: '' }) // Empty Created
       cells.push({ title: '' }) // Empty Actions
     } else {
       cells.push({ title: createNamespaceText(items[0]) })

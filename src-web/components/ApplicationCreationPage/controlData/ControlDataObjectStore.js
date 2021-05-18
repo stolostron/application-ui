@@ -84,6 +84,17 @@ const objectstoreChannelData = async () => [
     active: '',
     placeholder: 'app.enter.region'
   },
+  {
+    name: 'creation.app.objectstore.subfolder',
+    tooltip: 'tooltip.creation.app.objectstore.subfolder',
+    id: 'subfolder',
+    type: 'text',
+    active: '',
+    placeholder: 'app.enter.subfolder',
+    reverse: [
+      'Subscription[0].metadata.annotations["apps.open-cluster-management.io/bucket-path"]'
+    ]
+  },
 
   ...(await placementData())
 ]

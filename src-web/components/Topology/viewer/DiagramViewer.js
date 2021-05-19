@@ -114,8 +114,10 @@ class DiagramViewer extends React.Component {
   }
 
   componentDidUpdate() {
+    const { secondaryLoad } = this.props
+
     if (!this.detailsViewUpdate && !this.props.showLegendView) {
-      this.generateDiagram()
+      this.generateDiagram(secondaryLoad)
     }
     this.detailsViewUpdate = false
   }
@@ -283,6 +285,7 @@ class DiagramViewer extends React.Component {
       handleClusterDetailsContainerUpdate: this
         .handleClusterDetailsContainerUpdate
     }
+    const pointerEventStyle = secondaryLoad ? { pointerEvents: 'none' } : {}
 
     return (
       <div className="diagramViewerDiagram" ref={this.setContainerRef}>
@@ -299,7 +302,11 @@ class DiagramViewer extends React.Component {
             role="region"
             aria-label="zoom"
           >
-            <svg id={c.DIAGRAM_SVG_ID} className="topologyDiagram" />
+            <svg
+              id={c.DIAGRAM_SVG_ID}
+              className="topologyDiagram"
+              style={pointerEventStyle}
+            />
           </div>
           {secondaryLoad && (
             <div className="secondaryLoad">
@@ -414,7 +421,7 @@ class DiagramViewer extends React.Component {
     return filteringOn
   };
 
-  generateDiagram() {
+  generateDiagram(secondaryLoad) {
     // if dragging or searching don't refresh diagram
     if (this.isDragging) {
       return
@@ -482,6 +489,10 @@ class DiagramViewer extends React.Component {
 
         // stop any current transitions
         this.zoomHelper.interruptElements()
+
+        if (secondaryLoad) {
+          this.zoomHelper.zoomFit(true, false)
+        }
 
         // zoom to fit all nodes
         if (this.zoomHelper.isAutoZoomToFit() || firstLayout || searchChanged) {

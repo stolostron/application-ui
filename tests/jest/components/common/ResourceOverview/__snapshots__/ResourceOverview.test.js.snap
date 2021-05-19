@@ -479,6 +479,11 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                 <svg
                   className="topologyDiagram"
                   id="topologySvgId"
+                  style={
+                    Object {
+                      "pointerEvents": "none",
+                    }
+                  }
                 />
               </div>
               <div

@@ -23,6 +23,7 @@ exports[`DiagramViewer 3 components renders as expected 1`] = `
       <svg
         className="topologyDiagram"
         id="topologySvgId"
+        style={Object {}}
       />
     </div>
     <div
@@ -129,6 +130,7 @@ exports[`DiagramViewer no components renders as expected 1`] = `
       <svg
         className="topologyDiagram"
         id="topologySvgId"
+        style={Object {}}
       />
     </div>
     <div

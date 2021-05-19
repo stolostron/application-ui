@@ -587,7 +587,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   ) {
     resourceType = RESOURCE_TYPES.QUERY_APPLICATIONS
   }
-
   return {
     forceRefresh: () => dispatch(forceResourceReload(resourceType)),
     clearSuccessFinished: () => clearSuccessFinished(dispatch),

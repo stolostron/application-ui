@@ -23,7 +23,7 @@
 
 import { createResourceReducer, resourceReducerFunction } from './common'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
-import lodash from 'lodash'
+import _ from 'lodash'
 
 export { user, loggedIn } from './user'
 export { secondaryHeader } from './common'
@@ -37,11 +37,18 @@ export { applicationPageResources } from './application'
 export { AppDeployments } from './reducerAppDeployments'
 export { AppOverview } from './reducerAppOverview'
 
+const keyFields = ['name', 'list']
+
 function predicate(resourceType, action) {
-  if (lodash.isEqual(resourceType, action.resourceType)) {
+  if (
+    _.isEqual(
+      _.pick(resourceType, keyFields),
+      _.pick(action.resourceType, keyFields)
+    )
+  ) {
     return true
   }
-  return lodash.find(lodash.values(resourceType), type => {
+  return _.find(_.values(resourceType), type => {
     if (typeof type === 'string') {
       return type.indexOf(action.resourceType) > -1
     }

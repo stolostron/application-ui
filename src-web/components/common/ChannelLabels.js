@@ -86,6 +86,8 @@ const ChannelLabels = ({
                         'packageFilterVersion'
                       ]
                     }
+                  } else if (chType === 'objectbucket') {
+                    channelTypeAttributes = ['bucketPath']
                   }
                 }
                 return (

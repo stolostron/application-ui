@@ -54,6 +54,7 @@ const getSubCardData = (subData, node) => {
   let gitPath = ''
   let packageName = ''
   let packageFilterVersion = ''
+  let bucketPath = ''
   let timeWindowType = ''
   let timeWindowDays = ''
   let timeWindowTimezone = ''
@@ -88,6 +89,11 @@ const getSubCardData = (subData, node) => {
   )
   packageName = _.get(subData, 'spec.name', '')
   packageFilterVersion = _.get(subData, 'spec.packageFilter.version', '')
+  bucketPath = _.get(subData, [
+    'metadata',
+    'annotations',
+    'apps.open-cluster-management.io/bucket-path'
+  ])
   timeWindowType = _.get(subData, 'spec.timewindow.windowtype', 'none')
   timeWindowDays = _.get(subData, 'spec.timewindow.daysofweek', '')
   timeWindowTimezone = _.get(subData, 'spec.timewindow.location', '')
@@ -118,6 +124,7 @@ const getSubCardData = (subData, node) => {
     gitPath: gitPath,
     package: packageName,
     packageFilterVersion: packageFilterVersion,
+    bucketPath: bucketPath,
     timeWindowType: timeWindowType,
     timeWindowDays: timeWindowDays,
     timeWindowTimezone: timeWindowTimezone,

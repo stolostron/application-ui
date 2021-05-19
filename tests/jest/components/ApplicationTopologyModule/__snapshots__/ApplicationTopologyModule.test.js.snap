@@ -87,6 +87,11 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
             <svg
               className="topologyDiagram"
               id="topologySvgId"
+              style={
+                Object {
+                  "pointerEvents": "none",
+                }
+              }
             />
           </div>
           <div
@@ -280,6 +285,11 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
             <svg
               className="topologyDiagram"
               id="topologySvgId"
+              style={
+                Object {
+                  "pointerEvents": "none",
+                }
+              }
             />
           </div>
           <div

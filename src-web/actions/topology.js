@@ -448,9 +448,10 @@ const fetchArgoApplications = (
     .search(SEARCH_QUERY, { input: [query] })
     .then(app_response => {
       const searchResult = _.get(app_response, 'data.searchResult', [])
-      if (searchResult.length > 0) {
+      let allApps = []
+      if (searchResult.length > 0 && searchResult[0].items) {
         // For the no applicationSet case, make sure we don't include apps with applicationSet
-        const allApps = _.get(searchResult[0], 'items', []).filter(
+        allApps = _.get(searchResult[0], 'items', []).filter(
           app => app.applicationSet === appData.applicationSet
         )
         // find argo server mapping
@@ -466,44 +467,23 @@ const fetchArgoApplications = (
                 { items: [] }
               ])[0]
               _.set(appData, 'argoSecrets', _.get(secretItems, 'items', []))
-              setArgoAppDetails(
-                allApps,
-                dispatch,
-                appNS,
-                appName,
-                appData,
-                resourceType,
-                fetchFilters,
-                response
-              )
             })
             .catch(err => {
               searchFailure()
               _.set(appData, 'err', err)
-              setArgoAppDetails(
-                allApps,
-                dispatch,
-                appNS,
-                appName,
-                appData,
-                resourceType,
-                fetchFilters,
-                response
-              )
             })
-        } else {
-          setArgoAppDetails(
-            allApps,
-            dispatch,
-            appNS,
-            appName,
-            appData,
-            resourceType,
-            fetchFilters,
-            response
-          )
         }
       }
+      setArgoAppDetails(
+        allApps,
+        dispatch,
+        appNS,
+        appName,
+        appData,
+        resourceType,
+        fetchFilters,
+        response
+      )
     })
     .catch(err => {
       //return topology when failing to retrieve related apps

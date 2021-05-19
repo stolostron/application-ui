@@ -40,6 +40,14 @@ jest.mock("../../../../../lib/client/access-helper.js", () => ({
       }
     };
     return Promise.resolve(data);
+  }),
+  canCreateActionAllNamespaces: jest.fn(() => {
+    const data = {
+      data: {
+        userAccessAnyNamespaces: true
+      }
+    };
+    return Promise.resolve(data);
   })
 }));
 
@@ -47,7 +55,8 @@ const React = require("../../../../../node_modules/react");
 
 import ResourceDetails from "../../../../../src-web/components/common/ResourceDetails";
 
-import renderer from "react-test-renderer";
+import { mount } from "enzyme";
+import toJson from "enzyme-to-json";
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
 import { BrowserRouter } from "react-router-dom";
@@ -92,27 +101,25 @@ const mockData = {
 
 describe("ResourceDetails", () => {
   it("ResourceDetails renders correctly with data on single app.", () => {
-    const tree = renderer
-      .create(
-        <BrowserRouter>
-          <Provider store={storeApp}>
-            <ResourceDetails
-              topology={topology}
-              item={HCMApplication}
-              match={mockData.match}
-              loading={false}
-              location={mockData.location}
-              tabs={[]}
-              routes={[]}
-              params={mockData.match.params}
-              getVisibleResources={mockData.getVisibleResources}
-              resourceType={resourceType}
-              staticResourceData={staticResourceDataApp}
-            />
-          </Provider>
-        </BrowserRouter>
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const tree = mount(
+      <BrowserRouter>
+        <Provider store={storeApp}>
+          <ResourceDetails
+            topology={topology}
+            item={HCMApplication}
+            match={mockData.match}
+            loading={false}
+            location={mockData.location}
+            tabs={[]}
+            routes={[]}
+            params={mockData.match.params}
+            getVisibleResources={mockData.getVisibleResources}
+            resourceType={resourceType}
+            staticResourceData={staticResourceDataApp}
+          />
+        </Provider>
+      </BrowserRouter>
+    ).render();
+    expect(toJson(tree)).toMatchSnapshot();
   });
 });

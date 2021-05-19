@@ -126,6 +126,7 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
         }
       >
         <RemoveResourceModal
+          clearSuccessFinished={[Function]}
           data={
             Object {
               "__typename": "Application",
@@ -149,7 +150,6 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
               "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
             }
           }
-          deleteSuccessFinished={[Function]}
           forceRefresh={[Function]}
           handleClose={[MockFunction]}
           handleSubmit={[MockFunction]}
@@ -160,7 +160,6 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
               "primaryBtn": "modal.remove-hcmapplication.heading",
             }
           }
-          mutateSuccessFinished={[Function]}
           open={true}
           resourceType={
             Object {
@@ -843,6 +842,7 @@ exports[`RemoveResourceModal test renders as expected child application with war
         }
       >
         <RemoveResourceModal
+          clearSuccessFinished={[Function]}
           data={
             Object {
               "apiVersion": "app.k8s.io/v1beta1",
@@ -852,7 +852,6 @@ exports[`RemoveResourceModal test renders as expected child application with war
               "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/childApp",
             }
           }
-          deleteSuccessFinished={[Function]}
           forceRefresh={[Function]}
           handleClose={[MockFunction]}
           handleSubmit={[MockFunction]}
@@ -863,7 +862,6 @@ exports[`RemoveResourceModal test renders as expected child application with war
               "primaryBtn": "modal.remove-hcmapplication.heading",
             }
           }
-          mutateSuccessFinished={[Function]}
           open={true}
           resourceType={
             Object {
@@ -1568,6 +1566,7 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
         }
       >
         <RemoveResourceModal
+          clearSuccessFinished={[Function]}
           data={
             Object {
               "__typename": "Application",
@@ -1588,7 +1587,6 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
               "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
             }
           }
-          deleteSuccessFinished={[Function]}
           forceRefresh={[Function]}
           handleClose={[MockFunction]}
           handleSubmit={[MockFunction]}
@@ -1599,7 +1597,6 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
               "primaryBtn": "modal.remove-hcmpolicy.heading",
             }
           }
-          mutateSuccessFinished={[Function]}
           open={true}
           resourceType={
             Object {
@@ -2227,6 +2224,7 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
         }
       >
         <RemoveResourceModal
+          clearSuccessFinished={[Function]}
           data={
             Object {
               "__typename": "ModalData",
@@ -2237,7 +2235,6 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
               "namespace": "helloworld-simple-ns",
             }
           }
-          deleteSuccessFinished={[Function]}
           forceRefresh={[Function]}
           handleClose={[MockFunction]}
           handleSubmit={[MockFunction]}
@@ -2248,7 +2245,6 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
               "primaryBtn": "modal.remove-hcmapplication.heading",
             }
           }
-          mutateSuccessFinished={[Function]}
           open={true}
           resourceType={
             Object {
@@ -2931,6 +2927,7 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
         }
       >
         <RemoveResourceModal
+          clearSuccessFinished={[Function]}
           data={
             Object {
               "apiVersion": "app.k8s.io/v1beta1",
@@ -2940,7 +2937,6 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
               "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/multiLevelApp",
             }
           }
-          deleteSuccessFinished={[Function]}
           forceRefresh={[Function]}
           handleClose={[MockFunction]}
           handleSubmit={[MockFunction]}
@@ -2951,7 +2947,6 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
               "primaryBtn": "modal.remove-hcmapplication.heading",
             }
           }
-          mutateSuccessFinished={[Function]}
           open={true}
           resourceType={
             Object {
@@ -3656,6 +3651,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
         }
       >
         <RemoveResourceModal
+          clearSuccessFinished={[Function]}
           data={
             Object {
               "__typename": "Application",
@@ -3676,7 +3672,6 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
               "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
             }
           }
-          deleteSuccessFinished={[Function]}
           forceRefresh={[Function]}
           handleClose={[MockFunction]}
           handleSubmit={[MockFunction]}
@@ -3687,7 +3682,6 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
               "primaryBtn": "modal.remove-hcmapplication.heading",
             }
           }
-          mutateSuccessFinished={[Function]}
           open={true}
           resourceType={
             Object {
@@ -4352,7 +4346,7 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
         }
       >
         <RemoveResourceModal
-          deleteSuccessFinished={[Function]}
+          clearSuccessFinished={[Function]}
           forceRefresh={[Function]}
           handleClose={[MockFunction]}
           handleSubmit={[MockFunction]}
@@ -4363,7 +4357,6 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
               "primaryBtn": "modal.remove-hcmapplication.heading",
             }
           }
-          mutateSuccessFinished={[Function]}
           open={true}
           resourceType={
             Object {

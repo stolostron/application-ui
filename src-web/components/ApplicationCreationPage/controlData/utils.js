@@ -37,7 +37,7 @@ export const loadExistingChannels = type => {
 
 export const loadExistingAnsibleProviders = () => {
   const ansibleProviderQueryVariables = {
-    label: 'cluster.open-cluster-management.io/provider',
+    label: 'cluster.open-cluster-management.io/type',
     value: 'ans'
   }
   return {

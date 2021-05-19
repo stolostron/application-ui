@@ -4,66 +4,56 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
 <div
   id="ResourceDetails"
 >
-  
   <div
-    className="overview-content"
+    class="overview-content"
     id="resource-overview"
   >
     <div
-      className="app-info-and-dashboard-links"
+      class="app-info-and-dashboard-links"
     >
       <span
-        className="app-info-and-dashboard-links-separator-f"
+        class="app-info-and-dashboard-links-separator-f"
       />
     </div>
     <div
-      className="overview-content-bottom overview-content-with-padding"
+      class="overview-content-bottom overview-content-with-padding"
     >
       <div
-        className="overview-cards-container"
+        class="overview-cards-container"
       >
         <article
-          className="pf-c-card pf-m-expanded"
+          class="pf-c-card pf-m-expanded"
           data-ouia-component-id="OUIA-Generated-Card-1"
           data-ouia-component-type="PF4/Card"
-          data-ouia-safe={true}
+          data-ouia-safe="true"
           id=""
         >
           <div
-            className="pf-c-card__header makeStyles-header-2"
-            onClick={[Function]}
+            class="pf-c-card__header makeStyles-header-2"
           >
             <div
-              className="pf-c-card__header-toggle"
+              class="pf-c-card__header-toggle"
             >
               <button
-                aria-disabled={false}
-                aria-expanded={true}
+                aria-disabled="false"
+                aria-expanded="true"
                 aria-label="Toggle details"
-                className="pf-c-button pf-m-plain"
+                class="pf-c-button pf-m-plain"
                 data-ouia-component-id="OUIA-Generated-Button-plain-1"
                 data-ouia-component-type="PF4/Button"
-                data-ouia-safe={true}
-                disabled={false}
+                data-ouia-safe="true"
                 id="toggle-button"
-                onClick={[Function]}
-                role={null}
                 type="button"
               >
                 <span
-                  className="pf-c-card__header-toggle-icon"
+                  class="pf-c-card__header-toggle-icon"
                 >
                   <svg
                     aria-hidden="true"
-                    aria-labelledby={null}
                     fill="currentColor"
                     height="1em"
                     role="img"
-                    style={
-                      Object {
-                        "verticalAlign": "-0.125em",
-                      }
-                    }
+                    style="vertical-align: -0.125em;"
                     viewBox="0 0 256 512"
                     width="1em"
                   >
@@ -75,62 +65,56 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
               </button>
             </div>
             <div
-              className="pf-c-card__title"
+              class="pf-c-card__title"
             >
               Details
             </div>
           </div>
           <div
-            className="pf-c-card__expandable-content makeStyles-body-3"
+            class="pf-c-card__expandable-content makeStyles-body-3"
           >
             <div
-              className="pf-c-card__body"
+              class="pf-c-card__body"
             >
               <div
-                className="pf-l-grid pf-m-all-12-col-on-sm pf-m-all-6-col-on-md"
+                class="pf-l-grid pf-m-all-12-col-on-sm pf-m-all-6-col-on-md"
               >
                 <div
-                  className="pf-l-grid__item makeStyles-leftCol-1"
+                  class="pf-l-grid__item makeStyles-leftCol-1"
                 >
                   <dl
-                    className="pf-c-description-list pf-m-horizontal"
+                    class="pf-c-description-list pf-m-horizontal"
                   >
                     <div
-                      className="pf-c-description-list__group"
+                      class="pf-c-description-list__group"
                     >
                       <dt
-                        className="pf-c-description-list__term"
+                        class="pf-c-description-list__term"
                       >
                         <span
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
-                          Name
-                           
+                          Name 
                         </span>
                       </dt>
                       <dd
-                        className="pf-c-description-list__description"
+                        class="pf-c-description-list__description"
                       >
                         <div
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
                           <div
-                            className="app-name-container"
+                            class="app-name-container"
                           >
                             <div
-                              className="app-name"
+                              class="app-name"
                             />
                             <div
-                              className="pf-c-skeleton loading-skeleton-text"
-                              style={
-                                Object {
-                                  "--pf-c-skeleton--Height": undefined,
-                                  "--pf-c-skeleton--Width": "30%",
-                                }
-                              }
+                              class="pf-c-skeleton loading-skeleton-text"
+                              style="--pf-c-skeleton--Width: 30%;"
                             >
                               <span
-                                className="pf-u-screen-reader"
+                                class="pf-u-screen-reader"
                               />
                             </div>
                           </div>
@@ -138,70 +122,110 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                       </dd>
                     </div>
                     <div
-                      className="pf-c-description-list__group"
+                      class="pf-c-description-list__group"
                     >
                       <dt
-                        className="pf-c-description-list__term"
+                        class="pf-c-description-list__term"
                       >
                         <span
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
-                          Namespace
-                           
+                          Namespace 
                         </span>
                       </dt>
                       <dd
-                        className="pf-c-description-list__description"
+                        class="pf-c-description-list__description"
                       >
                         <div
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
                           <div
-                            className="pf-c-skeleton loading-skeleton-text"
-                            style={
-                              Object {
-                                "--pf-c-skeleton--Height": undefined,
-                                "--pf-c-skeleton--Width": "30%",
-                              }
-                            }
+                            class="pf-c-skeleton loading-skeleton-text"
+                            style="--pf-c-skeleton--Width: 30%;"
                           >
                             <span
-                              className="pf-u-screen-reader"
+                              class="pf-u-screen-reader"
                             />
                           </div>
                         </div>
                       </dd>
                     </div>
                     <div
-                      className="pf-c-description-list__group"
+                      class="pf-c-description-list__group"
                     >
                       <dt
-                        className="pf-c-description-list__term"
+                        class="pf-c-description-list__term"
                       >
                         <span
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
-                          Created
-                           
+                          Created 
                         </span>
                       </dt>
                       <dd
-                        className="pf-c-description-list__description"
+                        class="pf-c-description-list__description"
                       >
                         <div
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
                           <div
-                            className="pf-c-skeleton loading-skeleton-text"
-                            style={
-                              Object {
-                                "--pf-c-skeleton--Height": undefined,
-                                "--pf-c-skeleton--Width": "30%",
-                              }
-                            }
+                            class="pf-c-skeleton loading-skeleton-text"
+                            style="--pf-c-skeleton--Width: 30%;"
                           >
                             <span
-                              className="pf-u-screen-reader"
+                              class="pf-u-screen-reader"
+                            />
+                          </div>
+                        </div>
+                      </dd>
+                    </div>
+                    <div
+                      class="pf-c-description-list__group"
+                    >
+                      <dt
+                        class="pf-c-description-list__term"
+                      >
+                        <span
+                          class="pf-c-description-list__text"
+                        >
+                          <div
+                            class="pf-c-skeleton loading-skeleton-text"
+                            style="--pf-c-skeleton--Width: 30%;"
+                          >
+                            <span
+                              class="pf-u-screen-reader"
+                            />
+                          </div>
+                           
+                          <div
+                            class="pf-c-skeleton loading-skeleton-text"
+                            style="--pf-c-skeleton--Width: 10%;"
+                          >
+                            <span
+                              class="pf-u-screen-reader"
+                            />
+                          </div>
+                        </span>
+                      </dt>
+                      <dd
+                        class="pf-c-description-list__description"
+                      >
+                        <div
+                          class="pf-c-description-list__text"
+                        >
+                          <div
+                            class="pf-c-skeleton loading-skeleton-text"
+                            style="--pf-c-skeleton--Width: 30%;"
+                          >
+                            <span
+                              class="pf-u-screen-reader"
+                            />
+                          </div>
+                          <div
+                            class="pf-c-skeleton loading-skeleton-text"
+                          >
+                            <span
+                              class="pf-u-screen-reader"
                             />
                           </div>
                         </div>
@@ -210,69 +234,57 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                   </dl>
                 </div>
                 <div
-                  className="pf-l-grid__item"
+                  class="pf-l-grid__item"
                 >
                   <dl
-                    className="pf-c-description-list pf-m-horizontal"
+                    class="pf-c-description-list pf-m-horizontal"
                   >
                     <div
-                      className="pf-c-description-list__group"
+                      class="pf-c-description-list__group"
                     >
                       <dt
-                        className="pf-c-description-list__term"
+                        class="pf-c-description-list__term"
                       >
                         <span
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
-                          Clusters
-                           
+                          Clusters 
                         </span>
                       </dt>
                       <dd
-                        className="pf-c-description-list__description"
+                        class="pf-c-description-list__description"
                       >
                         <div
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
                           <div
-                            className="pf-c-skeleton loading-skeleton-text"
-                            style={
-                              Object {
-                                "--pf-c-skeleton--Height": undefined,
-                                "--pf-c-skeleton--Width": "30%",
-                              }
-                            }
+                            class="pf-c-skeleton loading-skeleton-text"
+                            style="--pf-c-skeleton--Width: 30%;"
                           >
                             <span
-                              className="pf-u-screen-reader"
+                              class="pf-u-screen-reader"
                             />
                           </div>
                         </div>
                       </dd>
                     </div>
                     <div
-                      className="pf-c-description-list__group"
+                      class="pf-c-description-list__group"
                     >
                       <dt
-                        className="pf-c-description-list__term"
+                        class="pf-c-description-list__term"
                       >
                         <span
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
-                          Cluster resource status
-                           
+                          Cluster resource status 
                           <svg
-                            aria-hidden={true}
-                            aria-labelledby={null}
-                            className="help-icon"
+                            aria-hidden="true"
+                            class="help-icon"
                             fill="currentColor"
                             height="1em"
                             role="img"
-                            style={
-                              Object {
-                                "verticalAlign": "-0.125em",
-                              }
-                            }
+                            style="vertical-align: -0.125em;"
                             viewBox="0 0 512 512"
                             width="1em"
                           >
@@ -283,69 +295,54 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                         </span>
                       </dt>
                       <dd
-                        className="pf-c-description-list__description"
+                        class="pf-c-description-list__description"
                       >
                         <div
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
                           <div
-                            className="pf-c-skeleton loading-skeleton-text"
-                            style={
-                              Object {
-                                "--pf-c-skeleton--Height": undefined,
-                                "--pf-c-skeleton--Width": "30%",
-                              }
-                            }
+                            class="pf-c-skeleton loading-skeleton-text"
+                            style="--pf-c-skeleton--Width: 30%;"
                           >
                             <span
-                              className="pf-u-screen-reader"
+                              class="pf-u-screen-reader"
                             />
                           </div>
                         </div>
                       </dd>
                     </div>
                     <div
-                      className="pf-c-description-list__group"
+                      class="pf-c-description-list__group"
                     >
                       <dt
-                        className="pf-c-description-list__term"
+                        class="pf-c-description-list__term"
                       >
                         <span
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
                           <div
-                            className="pf-c-skeleton loading-skeleton-text"
-                            style={
-                              Object {
-                                "--pf-c-skeleton--Height": undefined,
-                                "--pf-c-skeleton--Width": "30%",
-                              }
-                            }
+                            class="pf-c-skeleton loading-skeleton-text"
+                            style="--pf-c-skeleton--Width: 30%;"
                           >
                             <span
-                              className="pf-u-screen-reader"
+                              class="pf-u-screen-reader"
                             />
                           </div>
                            
                         </span>
                       </dt>
                       <dd
-                        className="pf-c-description-list__description"
+                        class="pf-c-description-list__description"
                       >
                         <div
-                          className="pf-c-description-list__text"
+                          class="pf-c-description-list__text"
                         >
                           <div
-                            className="pf-c-skeleton loading-skeleton-text"
-                            style={
-                              Object {
-                                "--pf-c-skeleton--Height": undefined,
-                                "--pf-c-skeleton--Width": "30%",
-                              }
-                            }
+                            class="pf-c-skeleton loading-skeleton-text"
+                            style="--pf-c-skeleton--Width: 30%;"
                           >
                             <span
-                              className="pf-u-screen-reader"
+                              class="pf-u-screen-reader"
                             />
                           </div>
                         </div>
@@ -358,34 +355,24 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
           </div>
         </article>
         <div
-          className="overview-cards-subs-section"
+          class="overview-cards-subs-section"
         >
-          
           <button
-            aria-disabled={true}
-            aria-label={null}
-            className="pf-c-button pf-m-secondary pf-m-disabled toggle-subs-btn"
+            aria-disabled="true"
+            class="pf-c-button pf-m-secondary pf-m-disabled toggle-subs-btn"
             data-ouia-component-id="OUIA-Generated-Button-secondary-1"
             data-ouia-component-type="PF4/Button"
-            data-ouia-safe={true}
-            data-test-subscription-details={false}
-            disabled={true}
-            onClick={[Function]}
-            role={null}
-            tabIndex={null}
+            data-ouia-safe="true"
+            data-test-subscription-details="false"
+            disabled=""
             type="button"
           >
             <div
-              className="pf-c-skeleton loading-skeleton-text"
-              style={
-                Object {
-                  "--pf-c-skeleton--Height": undefined,
-                  "--pf-c-skeleton--Width": "70%",
-                }
-              }
+              class="pf-c-skeleton loading-skeleton-text"
+              style="--pf-c-skeleton--Width: 70%;"
             >
               <span
-                className="pf-u-screen-reader"
+                class="pf-u-screen-reader"
               />
             </div>
           </button>
@@ -393,16 +380,16 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
       </div>
     </div>
     <div
-      className="overview-content-bottom overview-content-with-padding"
+      class="overview-content-bottom overview-content-with-padding"
     >
       <div
-        className="resourceDiagramSourceContainer"
+        class="resourceDiagramSourceContainer"
       >
         <div
-          className="topology-controls"
+          class="topology-controls"
         >
           <div
-            className="topology-control-container"
+            class="topology-control-container"
           >
             <div
               id="search-textbox-portal-id"
@@ -410,14 +397,14 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
           </div>
         </div>
         <div
-          className="resource-toolbar"
+          class="resource-toolbar"
           id="resource-toolbar"
         >
           <div
-            className="resource-toolbar-container"
+            class="resource-toolbar-container"
           >
             <div
-              className="resource-toolbar-buttons"
+              class="resource-toolbar-buttons"
             >
               <div
                 id="assorted-filter-open-portal-id"
@@ -429,27 +416,25 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
           </div>
         </div>
         <div
-          className="resourceDiagramControlsContainer"
+          class="resourceDiagramControlsContainer"
         >
           <div
-            className="diagram-title"
+            class="diagram-title"
           >
             Resource topology
             <svg
-              className="diagram-title-divider"
+              class="diagram-title-divider"
             >
               <rect />
             </svg>
             <span
-              className="how-to-read-text"
-              onClick={[Function]}
-              onKeyPress={[Function]}
+              class="how-to-read-text"
               role="button"
-              tabIndex="0"
+              tabindex="0"
             >
               How to read topology
               <svg
-                className="how-to-read-icon"
+                class="how-to-read-icon"
               >
                 <use
                   href="#diagramIcons_sidecar"
@@ -458,28 +443,23 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
             </span>
           </div>
           <div
-            className="topologyDiagramContainer"
+            class="topologyDiagramContainer"
           >
             <div
-              className="diagramViewerDiagram"
+              class="diagramViewerDiagram"
             >
               <div
-                className="diagramViewerContainerContainer"
+                class="diagramViewerContainerContainer"
                 id="diagram-viewer-container-container"
               >
                 <div
                   aria-label="zoom"
-                  className="diagramViewerContainer"
+                  class="diagramViewerContainer"
                   role="region"
-                  style={
-                    Object {
-                      "height": "100%",
-                      "width": "100%",
-                    }
-                  }
+                  style="height: 100%; width: 100%;"
                 >
                   <svg
-                    className="topologyDiagram"
+                    class="topologyDiagram"
                     id="topologySvgId"
                     style={
                       Object {
@@ -489,61 +469,60 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                   />
                 </div>
                 <div
-                  className="secondaryLoad"
+                  class="secondaryLoad"
                 >
                   <span
                     aria-valuetext="Loading..."
-                    className="pf-c-spinner pf-m-xl"
+                    class="pf-c-spinner pf-m-xl"
                     role="progressbar"
                   >
                     <span
-                      className="pf-c-spinner__clipper"
+                      class="pf-c-spinner__clipper"
                     />
                     <span
-                      className="pf-c-spinner__lead-ball"
+                      class="pf-c-spinner__lead-ball"
                     />
                     <span
-                      className="pf-c-spinner__tail-ball"
+                      class="pf-c-spinner__tail-ball"
                     />
                   </span>
                 </div>
                 <div
-                  className="layoutLoadingContainer"
+                  class="layoutLoadingContainer"
+                  style="visibility: hidden;"
                 >
                   <span
                     aria-valuetext="Loading..."
-                    className="pf-c-spinner pf-m-xl"
+                    class="pf-c-spinner pf-m-xl"
                     role="progressbar"
                   >
                     <span
-                      className="pf-c-spinner__clipper"
+                      class="pf-c-spinner__clipper"
                     />
                     <span
-                      className="pf-c-spinner__lead-ball"
+                      class="pf-c-spinner__lead-ball"
                     />
                     <span
-                      className="pf-c-spinner__tail-ball"
+                      class="pf-c-spinner__tail-ball"
                     />
                   </span>
                 </div>
               </div>
               <span
-                className="diagramControls"
+                class="diagramControls"
               >
                 <div
-                  className="diagram-controls"
+                  class="diagram-controls"
                 >
                   <div
                     aria-label="Zoom in"
-                    className="zoom-in-button rectangle-zoom"
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
+                    class="zoom-in-button rectangle-zoom"
                     role="button"
-                    tabIndex="0"
+                    tabindex="0"
                     title="Zoom in"
                   >
                     <svg
-                      className="icon"
+                      class="icon"
                     >
                       <use
                         href="#diagramIcons_zoomIn"
@@ -552,15 +531,13 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                   </div>
                   <div
                     aria-label="Zoom out"
-                    className="zoom-out-button rectangle-zoom"
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
+                    class="zoom-out-button rectangle-zoom"
                     role="button"
-                    tabIndex="0"
+                    tabindex="0"
                     title="Zoom out"
                   >
                     <svg
-                      className="icon"
+                      class="icon"
                     >
                       <use
                         href="#diagramIcons_zoomOut"
@@ -569,15 +546,13 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                   </div>
                   <div
                     aria-label="Zoom to fit"
-                    className="zoom-target-button rectangle-zoom"
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
+                    class="zoom-target-button rectangle-zoom"
                     role="button"
-                    tabIndex="0"
+                    tabindex="0"
                     title="Zoom to fit"
                   >
                     <svg
-                      className="icon_target"
+                      class="icon_target"
                     >
                       <use
                         href="#diagramIcons_zoomTarget"

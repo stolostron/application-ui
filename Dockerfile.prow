@@ -5,7 +5,6 @@ USER root
 WORKDIR /opt/app-root/src/application-ui
 COPY . /opt/app-root/src/application-ui/
 RUN yum install git -y
-RUN yum -y update
 RUN cd /opt/app-root/src/application-ui/ && npm ci && npm run build:production
 RUN ls /opt/app-root/src/application-ui
 

@@ -19,7 +19,8 @@ import { SEARCH_QUERY } from '../apollo-client/queries/SearchQueries'
 import {
   convertStringToQuery,
   searchError,
-  searchFailure
+  searchFailure,
+  searchSuccess
 } from '../../lib/client/search-helper'
 import msgs from '../../nls/platform.properties'
 
@@ -467,6 +468,7 @@ const fetchArgoApplications = (
                 { items: [] }
               ])[0]
               _.set(appData, 'argoSecrets', _.get(secretItems, 'items', []))
+              searchSuccess()
             })
             .catch(err => {
               searchFailure()

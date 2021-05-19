@@ -155,8 +155,13 @@ class SyncResourceModal extends React.Component {
     this.setState({
       loading: true
     })
-    if (!data.name || !applicationResources) {
+    if (
+      !data.name ||
+      !applicationResources ||
+      applicationResources.length === 0
+    ) {
       this.setState({
+        loading: false,
         errors: msgs.get('modal.errors.querying.resource', locale)
       })
     } else {
@@ -208,14 +213,14 @@ class SyncResourceModal extends React.Component {
             <Button
               key="confirm"
               variant="primary"
-              isDisabled={loading}
+              isDisabled={loading || errors !== undefined}
               onClick={this.handleSubmit.bind(this)}
             >
               {msgs.get(label.primaryBtn, locale)}
             </Button>,
             <Button
               key="cancel"
-              variant="secondary"
+              variant="link"
               onClick={this.handleClose.bind(this)}
             >
               {msgs.get('modal.button.cancel', locale)}

@@ -427,6 +427,7 @@ class RemoveResourceModal extends React.Component {
           showClose={true}
           onClose={this.handleClose.bind(this)}
           variant={ModalVariant.large}
+          titleIconVariant="warning"
           position="top"
           positionOffset="225px"
           actions={[
@@ -440,7 +441,7 @@ class RemoveResourceModal extends React.Component {
             </Button>,
             <Button
               key="cancel"
-              variant="secondary"
+              variant="link"
               onClick={this.handleClose.bind(this)}
             >
               {msgs.get('modal.button.cancel', locale)}

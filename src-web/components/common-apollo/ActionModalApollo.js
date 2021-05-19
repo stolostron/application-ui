@@ -41,7 +41,7 @@ class ActionModalApollo extends React.PureComponent {
             type: 'resource-remove',
             resourceType,
             label: {
-              primaryBtn: `modal.remove-${resourceType.name.toLowerCase()}.heading`,
+              primaryBtn: 'modal.remove.submit',
               label: `modal.remove-${resourceType.name.toLowerCase()}.label`,
               heading: `modal.remove-${resourceType.name.toLowerCase()}.heading`
             },
@@ -58,7 +58,7 @@ class ActionModalApollo extends React.PureComponent {
             type: 'resource-sync',
             resourceType,
             label: {
-              primaryBtn: `modal.sync-${resourceType.name.toLowerCase()}.heading`,
+              primaryBtn: 'modal.sync.submit',
               label: `modal.sync-${resourceType.name.toLowerCase()}.label`,
               heading: `modal.sync-${resourceType.name.toLowerCase()}.heading`
             },

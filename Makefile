@@ -16,7 +16,7 @@ BROWSER ?= chrome
 USE_VENDORIZED_BUILD_HARNESS ?=
 
 ifndef USE_VENDORIZED_BUILD_HARNESS
--include $(shell curl -s -H 'Authorization: token ${GITHUB_TOKEN}' -H 'Accept: application/vnd.github.v4.raw' -L https://api.github.com/repos/open-cluster-management/build-harness-extensions/contents/templates/Makefile.build-harness-bootstrap -o .build-harness-bootstrap; echo .build-harness-bootstrap)
+-include $(shell curl -s -H 'Accept: application/vnd.github.v4.raw' -L https://api.github.com/repos/open-cluster-management/build-harness-extensions/contents/templates/Makefile.build-harness-bootstrap -o .build-harness-bootstrap; echo .build-harness-bootstrap)
 else
 -include vbh/.build-harness-bootstrap
 endif
@@ -74,7 +74,6 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-e BROWSER=$(BROWSER) \
 	-e USER=$(shell git log -1 --format='%ae') \
 	-e SLACK_TOKEN=$(SLACK_TOKEN) \
-	-e GITHUB_TOKEN=$(GITHUB_TOKEN) \
 	-e TRAVIS_BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
 	-e TRAVIS_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
 	-e TRAVIS_PULL_REQUEST=$(TRAVIS_PULL_REQUEST) \

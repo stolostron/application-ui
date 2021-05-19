@@ -86,6 +86,11 @@
     color: #5A6872;
   }
 
+  .syncInProgress {
+    pointer-events: none;
+    color: #5A6872;
+  }
+
   // Search resource link
   .details-item-link {
     color: #0066cc;

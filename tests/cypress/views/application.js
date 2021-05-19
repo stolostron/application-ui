@@ -472,6 +472,7 @@ export const validateTopology = (
       .get(`g[type="${name}-subscription-${subsIndex}"]`, {
         timeout: 25 * 1000
       })
+      .scrollIntoView()
       .should("be.visible");
   }
 

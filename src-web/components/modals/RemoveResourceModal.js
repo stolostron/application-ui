@@ -21,8 +21,7 @@ import { canCallAction } from '../../../lib/client/access-helper'
 import {
   forceResourceReload,
   receiveDelResource,
-  delResourceSuccessFinished,
-  mutateResourceSuccessFinished,
+  clearSuccessFinished,
   getQueryStringForResource
 } from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
@@ -258,14 +257,7 @@ class RemoveResourceModal extends React.Component {
       loading: true
     })
     // Remove previous success message if any
-    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
-    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
-    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
-    this.props.mutateSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
-    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
-    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
-    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
-    this.props.deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+    this.props.clearSuccessFinished()
     if (!data.name) {
       this.setState({
         errors: msgs.get('modal.errors.querying.resource', locale)
@@ -570,8 +562,8 @@ export const usedByOtherSubs = (
 }
 
 RemoveResourceModal.propTypes = {
+  clearSuccessFinished: PropTypes.func,
   data: PropTypes.object,
-  deleteSuccessFinished: PropTypes.func,
   forceRefresh: PropTypes.func,
   label: PropTypes.shape({
     heading: PropTypes.string,
@@ -579,7 +571,6 @@ RemoveResourceModal.propTypes = {
     primaryBtn: PropTypes.string
   }),
   locale: PropTypes.string,
-  mutateSuccessFinished: PropTypes.func,
   open: PropTypes.bool,
   resourceType: PropTypes.object,
   submitDeleteSuccess: PropTypes.func,
@@ -599,10 +590,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
     forceRefresh: () => dispatch(forceResourceReload(resourceType)),
-    deleteSuccessFinished: resType =>
-      dispatch(delResourceSuccessFinished(resType)),
-    mutateSuccessFinished: resType =>
-      dispatch(mutateResourceSuccessFinished(resType)),
+    clearSuccessFinished: () => clearSuccessFinished(dispatch),
     submitDeleteSuccess: () =>
       dispatch(receiveDelResource(ownProps.data, resourceType, {}))
   }

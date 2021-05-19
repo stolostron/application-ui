@@ -122,6 +122,7 @@ body {
 }
 
 .pf-c-page__main {
+  // Workaround for https://github.com/patternfly/patternfly/issues/4053
   .pf-c-page__main-group.pf-m-sticky-top {
     z-index: 1001;
   }

@@ -205,6 +205,73 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                       </div>
                     </dd>
                   </div>
+                  <div
+                    className="pf-c-description-list__group"
+                  >
+                    <dt
+                      className="pf-c-description-list__term"
+                    >
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                         
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "10%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
+                    >
+                      <div
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                      </div>
+                    </dd>
+                  </div>
                 </dl>
               </div>
               <div

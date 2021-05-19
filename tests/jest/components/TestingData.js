@@ -1718,7 +1718,9 @@ export const topology = {
               namespace: "default",
               annotations: {
                 "apps.open-cluster-management.io/git-branch": "master",
-                "apps.open-cluster-management.io/git-path": "mortgage"
+                "apps.open-cluster-management.io/git-path": "mortgage",
+                "apps.open-cluster-management.io/manual-refresh-time":
+                  "2020-09-13T18:25:01Z"
               }
             },
             spec: {

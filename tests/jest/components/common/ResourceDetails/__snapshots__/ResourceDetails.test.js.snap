@@ -461,11 +461,7 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                   <svg
                     class="topologyDiagram"
                     id="topologySvgId"
-                    style={
-                      Object {
-                        "pointerEvents": "none",
-                      }
-                    }
+                    style="pointer-events: none;"
                   />
                 </div>
                 <div

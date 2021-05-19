@@ -410,6 +410,7 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
       .search(SEARCH_QUERY_RELATED, { input: [query] })
       .then(response => {
         if (response.errors) {
+          searchFailure()
           return dispatch(
             receiveResourceError(response.errors[0], resourceType)
           )
@@ -431,6 +432,7 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
           }
           return dispatch(receiveResourceNotFound(err, resourceType))
         }
+        searchSuccess()
         return dispatch(
           receiveResourceSuccess(
             {
@@ -443,6 +445,7 @@ export const fetchResource = (resourceType, namespace, name, querySettings) => {
         )
       })
       .catch(err => {
+        searchError()
         dispatch(receiveResourceError(err, resourceType))
       })
   }

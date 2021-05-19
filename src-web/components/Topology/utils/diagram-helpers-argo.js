@@ -7,6 +7,7 @@ import msgs from '../../../../nls/platform.properties'
 import { LOCAL_HUB_NAME } from '../../../../lib/shared/constants'
 
 import { createEditLink } from './diagram-helpers'
+import { isYAMLEditAvailable } from '../../../../lib/client/search-helper'
 
 export const showArgoApplicationSetLink = (node, details) => {
   //get application set info
@@ -35,18 +36,20 @@ export const showArgoApplicationSetLink = (node, details) => {
         }
       }
     }
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get('props.show.yaml.argoset.yaml'),
-        data: {
-          action: 'show_resource_yaml',
-          cluster: res.cluster,
-          editLink: createEditLink(res)
-        }
-      },
-      indent: true
-    })
+    if (isYAMLEditAvailable()) {
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get('props.show.yaml.argoset.yaml'),
+          data: {
+            action: 'show_resource_yaml',
+            cluster: res.cluster,
+            editLink: createEditLink(res)
+          }
+        },
+        indent: true
+      })
+    }
     details.push({
       type: 'spacer'
     })

@@ -137,10 +137,10 @@ function getTestFailureData(report) {
 }
 
 async function getPullRequestData() {
-  const { GITHUB_TOKEN, TRAVIS_REPO_SLUG, TRAVIS_PULL_REQUEST } = process.env;
+  const { TRAVIS_REPO_SLUG, TRAVIS_PULL_REQUEST } = process.env;
   try {
     const { stdout } = await exec(
-      `curl -H "Authorization: token ${GITHUB_TOKEN}" https://api.github.com/repos/${TRAVIS_REPO_SLUG}/pulls/${TRAVIS_PULL_REQUEST}`
+      `curl https://api.github.com/repos/${TRAVIS_REPO_SLUG}/pulls/${TRAVIS_PULL_REQUEST}`
     );
     return JSON.parse(stdout);
   } catch (e) {

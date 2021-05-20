@@ -12,8 +12,9 @@ const mngdTestRoles = [
   "edit-managed-cluster"
 ];
 
-describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Validate view application Test", () => {
-  if (Cypress.env("RBAC_TEST")) {
+describe("Application UI: [P3][Sev3][app-lifecycle-ui][RBAC] Validate view application Test", () => {
+  const disableTest = true;
+  if (Cypress.env("RBAC_TEST") && !disableTest) {
     it(`get the name of the managed OCP cluster`, () => {
       getManagedClusterName();
     });

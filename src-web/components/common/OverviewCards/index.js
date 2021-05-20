@@ -500,50 +500,52 @@ class OverviewCards extends React.Component {
                   </AcmButton>
                   ) : null}
                 {isSearchAvailable() && (
-                  <AcmButton
-                    href={
-                      getUrl +
-                      this.getArgoSearchLink(
-                        selectedAppName,
-                        selectedAppNS,
-                        cluster
-                      )
-                    }
-                    variant={ButtonVariant.link}
-                    id="app-search-link"
-                    component="a"
-                    target="_blank"
-                    rel="noreferrer"
-                    icon={<ArrowRightIcon />}
-                    iconPosition="right"
-                  >
-                    {msgs.get(
-                      'dashboard.card.overview.cards.search.resource',
-                      locale
-                    )}
-                  </AcmButton>
-                )}
-                {isSearchAvailable() && (
-                  <AcmButton
-                    href={
-                      getUrl +
-                      getSearchLinkForArgoApplications(
-                        appOverviewCardsData.argoSource
-                      )
-                    }
-                    variant={ButtonVariant.link}
-                    id="app-search-argo-apps-link"
-                    component="a"
-                    target="_blank"
-                    rel="noreferrer"
-                    icon={<ArrowRightIcon />}
-                    iconPosition="right"
-                  >
-                    {msgs.get(
-                      'dashboard.card.overview.cards.search.argocd.apps',
-                      locale
-                    )}
-                  </AcmButton>
+                  <React.Fragment>
+                    <AcmActionGroup>
+                      <AcmButton
+                        href={
+                          getUrl +
+                          this.getArgoSearchLink(
+                            selectedAppName,
+                            selectedAppNS,
+                            cluster
+                          )
+                        }
+                        variant={ButtonVariant.link}
+                        id="app-search-link"
+                        component="a"
+                        target="_blank"
+                        rel="noreferrer"
+                        icon={<ArrowRightIcon />}
+                        iconPosition="right"
+                      >
+                        {msgs.get(
+                          'dashboard.card.overview.cards.search.resource',
+                          locale
+                        )}
+                      </AcmButton>
+                      <AcmButton
+                        href={
+                          getUrl +
+                          getSearchLinkForArgoApplications(
+                            appOverviewCardsData.argoSource
+                          )
+                        }
+                        variant={ButtonVariant.link}
+                        id="app-search-argo-apps-link"
+                        component="a"
+                        target="_blank"
+                        rel="noreferrer"
+                        icon={<ArrowRightIcon />}
+                        iconPosition="right"
+                      >
+                        {msgs.get(
+                          'dashboard.card.overview.cards.search.argocd.apps',
+                          locale
+                        )}
+                      </AcmButton>
+                    </AcmActionGroup>
+                  </React.Fragment>
                 )}
               </AcmActionGroup>
             </CardBody>

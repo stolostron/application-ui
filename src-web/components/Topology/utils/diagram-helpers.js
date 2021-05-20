@@ -41,6 +41,7 @@ import {
   mustRefreshTopologyMap
 } from './diagram-helpers-utils'
 import { getEditLink } from '../../../../lib/client/resource-helper'
+import { isSearchAvailable } from '../../../../lib/client/search-helper'
 import { openArgoCDEditor, openRouteURL } from '../../../actions/topology'
 import { getURLSearchData } from './diagram-helpers-argo'
 
@@ -713,6 +714,7 @@ export const createDeployableYamlLink = (node, details) => {
   ) {
     const editLink = createEditLink(node)
     editLink &&
+      isSearchAvailable() &&
       details.push({
         type: 'link',
         value: {
@@ -815,17 +817,19 @@ export const createResourceSearchLink = node => {
   const nodeType = _.get(node, 'type', '')
   //returns search link for resource
   if (nodeType === 'cluster') {
-    result = {
-      type: 'link',
-      value: {
-        label: msgs.get('props.show.search.view'),
-        id: node.id,
-        data: {
-          action: 'show_search',
-          name: (node.name && R.replace(/ /g, '')(node.name)) || 'undefined', // take out spaces
-          kind: 'cluster'
-        },
-        indent: true
+    if (isSearchAvailable()) {
+      result = {
+        type: 'link',
+        value: {
+          label: msgs.get('props.show.search.view'),
+          id: node.id,
+          data: {
+            action: 'show_search',
+            name: (node.name && R.replace(/ /g, '')(node.name)) || 'undefined', // take out spaces
+            kind: 'cluster'
+          },
+          indent: true
+        }
       }
     }
   } else if (node && R.pathOr('', ['specs', 'pulse'])(node) !== 'orange') {
@@ -848,25 +852,29 @@ export const createResourceSearchLink = node => {
 
     //get the list of all names from the related list; for helm charts, they are different than the deployable name
     //pulse orange means not deployed on any cluster so don't show link to search page
-    result = {
-      type: 'link',
-      value: {
-        label: msgs.get('props.show.search.view'),
-        id: node.id,
-        data: {
-          action: 'show_search',
-          name:
-            computedName && computedName.length > 0 ? computedName : node.name,
-          namespace:
-            computedNS && computedNS.length > 0
-              ? computedNS
-              : R.pathOr('', ['specs', 'raw', 'metadata', 'namespace'])(node),
-          kind:
-            nodeType === 'placements'
-              ? 'placementrule'
-              : _.get(node, 'type', '')
-        },
-        indent: true
+    if (isSearchAvailable()) {
+      result = {
+        type: 'link',
+        value: {
+          label: msgs.get('props.show.search.view'),
+          id: node.id,
+          data: {
+            action: 'show_search',
+            name:
+              computedName && computedName.length > 0
+                ? computedName
+                : node.name,
+            namespace:
+              computedNS && computedNS.length > 0
+                ? computedNS
+                : R.pathOr('', ['specs', 'raw', 'metadata', 'namespace'])(node),
+            kind:
+              nodeType === 'placements'
+                ? 'placementrule'
+                : _.get(node, 'type', '')
+          },
+          indent: true
+        }
       }
     }
   }
@@ -1883,20 +1891,22 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
       value: msgs.get('resource.subscription.placed.error', [node.namespace]),
       status: failureStatus
     })
-    const ruleSearchLink = `/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3A${
-      node.namespace
-    }%20cluster%3A${LOCAL_HUB_NAME}"}`
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get('props.show.yaml.rules.ns', [node.namespace]),
-        id: `${node.id}-subscrSearch`,
-        data: {
-          action: 'open_link',
-          targetLink: ruleSearchLink
+    if (isSearchAvailable()) {
+      const ruleSearchLink = `/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3A${
+        node.namespace
+      }%20cluster%3A${LOCAL_HUB_NAME}"}`
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get('props.show.yaml.rules.ns', [node.namespace]),
+          id: `${node.id}-subscrSearch`,
+          data: {
+            action: 'open_link',
+            targetLink: ruleSearchLink
+          }
         }
-      }
-    })
+      })
+    }
   }
 
   details.push({

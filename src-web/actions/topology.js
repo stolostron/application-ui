@@ -8,7 +8,7 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-import lodash from 'lodash'
+import _ from 'lodash'
 
 import * as Actions from './index'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
@@ -16,7 +16,12 @@ import apolloClient from '../../lib/client/apollo-client'
 import { fetchResource, receiveClusterOffline } from './common'
 import { nodeMustHavePods } from '../components/Topology/utils/diagram-helpers-utils'
 import { SEARCH_QUERY } from '../apollo-client/queries/SearchQueries'
-import { convertStringToQuery } from '../../lib/client/search-helper'
+import {
+  convertStringToQuery,
+  searchError,
+  searchFailure,
+  searchSuccess
+} from '../../lib/client/search-helper'
 import msgs from '../../nls/platform.properties'
 
 export const requestResource = (resourceType, fetchFilters, reloading) => ({
@@ -91,38 +96,34 @@ export const getResourceData = nodes => {
   const appNode = nodes.find(r => r.type === 'application')
   if (appNode) {
     isArgoApp =
-      lodash
-        .get(appNode, ['specs', 'raw', 'apiVersion'], '')
-        .indexOf('argo') !== -1
+      _.get(appNode, ['specs', 'raw', 'apiVersion'], '').indexOf('argo') !== -1
     result.isArgoApp = isArgoApp
     //get argo app destination namespaces 'show_search':
     if (isArgoApp) {
-      const applicationSetRef = lodash
-        .get(appNode, ['specs', 'raw', 'metadata', 'ownerReferences'], [])
-        .find(
-          owner =>
-            owner.apiVersion.startsWith('argoproj.io/') &&
-            owner.kind === 'ApplicationSet'
-        )
+      const applicationSetRef = _.get(
+        appNode,
+        ['specs', 'raw', 'metadata', 'ownerReferences'],
+        []
+      ).find(
+        owner =>
+          owner.apiVersion.startsWith('argoproj.io/') &&
+          owner.kind === 'ApplicationSet'
+      )
       if (applicationSetRef) {
         result.applicationSet = applicationSetRef.name
       }
       let cluster = 'local-cluster'
-      const clusterNames = lodash.get(appNode, ['specs', 'cluster-names'], [])
+      const clusterNames = _.get(appNode, ['specs', 'cluster-names'], [])
       if (clusterNames.length > 0) {
         cluster = clusterNames[0]
       }
       result.cluster = cluster
-      result.source = lodash.get(
-        appNode,
-        ['specs', 'raw', 'spec', 'source'],
-        {}
-      )
+      result.source = _.get(appNode, ['specs', 'raw', 'spec', 'source'], {})
     }
   }
   nodes.forEach(node => {
-    const nodeType = lodash.get(node, 'type', '')
-    if (!(isArgoApp && lodash.includes(['application', 'cluster'], nodeType))) {
+    const nodeType = _.get(node, 'type', '')
+    if (!(isArgoApp && _.includes(['application', 'cluster'], nodeType))) {
       nodeTypes.push(nodeType) //ask for this related object type
     }
     if (nodeMustHavePods(node)) {
@@ -130,7 +131,7 @@ export const getResourceData = nodes => {
       resurceMustHavePods = true
     }
     if (nodeType === 'subscription') {
-      subscriptionName = lodash.get(node, 'name', '')
+      subscriptionName = _.get(node, 'name', '')
       nbOfSubscriptions = nbOfSubscriptions + 1
     }
   })
@@ -142,18 +143,18 @@ export const getResourceData = nodes => {
   //if only one subscription, ask for resources only related to that subscription
   result.subscription = nbOfSubscriptions === 1 ? subscriptionName : null
   //ask only for these type of resources since only those are displayed
-  result.relatedKinds = lodash.uniq(nodeTypes)
+  result.relatedKinds = _.uniq(nodeTypes)
 
   return result
 }
 
 //open URL for this Route resource
 export const openRouteURL = (routeObject, toggleLoading, handleErrorMsg) => {
-  const name = lodash.get(routeObject, 'name', '')
-  const namespace = lodash.get(routeObject, 'namespace', '')
-  const cluster = lodash.get(routeObject, 'cluster', '')
-  const apigroup = lodash.get(routeObject, 'apigroup', '')
-  const apiversion = lodash.get(routeObject, 'apiversion', '')
+  const name = _.get(routeObject, 'name', '')
+  const namespace = _.get(routeObject, 'namespace', '')
+  const cluster = _.get(routeObject, 'cluster', '')
+  const apigroup = _.get(routeObject, 'apigroup', '')
+  const apiversion = _.get(routeObject, 'apiversion', '')
   const routeRequest = {
     name: name,
     namespace: namespace,
@@ -239,9 +240,9 @@ export const openArgoCDEditor = (
           handleErrorMsg(`Error: ${result.errors[0].message}`)
           return
         } else {
-          const searchResult = lodash.get(result, 'data.searchResult', [])
+          const searchResult = _.get(result, 'data.searchResult', [])
           if (searchResult.length > 0) {
-            const routes = lodash.get(searchResult[0], 'items', [])
+            const routes = _.get(searchResult[0], 'items', [])
             const route = routes.length > 0 ? routes[0] : null
             if (!route) {
               const errMsg = msgs.get('resource.argo.app.route.err', [
@@ -292,22 +293,22 @@ const fetchApplicationRelatedObjects = (
   )
   // return topology
   const topology = {
-    clusters: lodash.cloneDeep(response.data.clusters),
-    labels: lodash.cloneDeep(response.data.labels),
-    namespaces: lodash.cloneDeep(response.data.namespaces),
-    resourceTypes: lodash.cloneDeep(response.data.resourceTypes),
-    resources: lodash.cloneDeep(response.data.topology.resources),
-    relationships: lodash.cloneDeep(response.data.topology.relationships)
+    clusters: _.cloneDeep(response.data.clusters),
+    labels: _.cloneDeep(response.data.labels),
+    namespaces: _.cloneDeep(response.data.namespaces),
+    resourceTypes: _.cloneDeep(response.data.resourceTypes),
+    resources: _.cloneDeep(response.data.topology.resources),
+    relationships: _.cloneDeep(response.data.topology.relationships)
   }
   dispatch(receiveTopologySuccess(topology, resourceType, fetchFilters, false))
 }
 
 //try to find the name of the remote clusters using the server path
 export const findMatchingCluster = (argoApp, argoMappingInfo) => {
-  const serverApi = lodash.get(argoApp, 'destinationServer')
+  const serverApi = _.get(argoApp, 'destinationServer')
   if (
     (serverApi && serverApi === 'https://kubernetes.default.svc') ||
-    lodash.get(argoApp, 'destinationName', '') === 'in-cluster'
+    _.get(argoApp, 'destinationName', '') === 'in-cluster'
   ) {
     return argoApp.cluster //target is the same as the argo app cluster
   }
@@ -317,15 +318,15 @@ export const findMatchingCluster = (argoApp, argoMappingInfo) => {
       const serverHostName = new URL(serverApi).hostname.substring(0, 63)
       const nameLabel = 'cluster-name='
       const serverLabel = `cluster-server=${serverHostName}`
-      const mapServerInfo = lodash.find(
-        lodash.map(argoMappingInfo, 'label', []),
+      const mapServerInfo = _.find(
+        _.map(argoMappingInfo, 'label', []),
         obj => obj.indexOf(serverLabel) !== -1
       )
       if (mapServerInfo) {
         // get the cluster name
         const labelsList = mapServerInfo.split(';')
-        const clusterNameLabel = lodash.find(labelsList, obj =>
-          lodash.includes(obj, nameLabel)
+        const clusterNameLabel = _.find(labelsList, obj =>
+          _.includes(obj, nameLabel)
         )
         if (clusterNameLabel) {
           return clusterNameLabel.split('=')[1]
@@ -361,10 +362,10 @@ const setArgoAppDetails = (
     argoNS && targetNS.push(argoNS)
     const argoServerDest = findMatchingCluster(
       argoApp,
-      lodash.get(appData, 'argoSecrets')
+      _.get(appData, 'argoSecrets')
     )
     const argoServerNameDest = argoServerDest || argoApp.destinationName
-    lodash.set(
+    _.set(
       argoApp,
       'destinationCluster',
       argoServerNameDest || argoApp.destinationServer
@@ -380,25 +381,25 @@ const setArgoAppDetails = (
       }
       if (
         argoNS &&
-        !lodash.includes(targetNSForClusters[targetClusterName], argoNS)
+        !_.includes(targetNSForClusters[targetClusterName], argoNS)
       ) {
         targetNSForClusters[targetClusterName].push(argoNS)
       }
     }
   })
-  appData.targetNamespaces = lodash.uniq(targetNS)
-  appData.clusterInfo = lodash.uniq(targetClusters)
-  appData.argoAppsLabelNames = lodash.uniq(argoAppsLabelNames)
+  appData.targetNamespaces = _.uniq(targetNS)
+  appData.clusterInfo = _.uniq(targetClusters)
+  appData.argoAppsLabelNames = _.uniq(argoAppsLabelNames)
   //store all argo apps and destination clusters info on the first app
-  const topoResources = lodash.get(response, 'data.topology.resources', [])
+  const topoResources = _.get(response, 'data.topology.resources', [])
   const firstNode = topoResources[0]
-  const topoClusterNode = lodash.find(topoResources, {
+  const topoClusterNode = _.find(topoResources, {
     id: 'member--clusters--'
   })
-  lodash.set(firstNode, 'specs.relatedApps', allApps)
+  _.set(firstNode, 'specs.relatedApps', allApps)
   //desired deployment state
-  lodash.set(firstNode, 'specs.clusterNames', appData.clusterInfo)
-  lodash.set(topoClusterNode, 'specs.appClusters', appData.clusterInfo)
+  _.set(firstNode, 'specs.clusterNames', appData.clusterInfo)
+  _.set(topoClusterNode, 'specs.appClusters', appData.clusterInfo)
   const initialClusterData = []
   //make sure clusters array always contain only objects
   appData.clusterInfo.forEach(cls => {
@@ -406,8 +407,8 @@ const setArgoAppDetails = (
       name: cls
     })
   })
-  lodash.set(topoClusterNode, 'specs.clusters', initialClusterData)
-  lodash.set(topoClusterNode, 'specs.targetNamespaces', targetNSForClusters)
+  _.set(topoClusterNode, 'specs.clusters', initialClusterData)
+  _.set(topoClusterNode, 'specs.targetNamespaces', targetNSForClusters)
 
   fetchApplicationRelatedObjects(
     dispatch,
@@ -447,14 +448,15 @@ const fetchArgoApplications = (
   apolloClient
     .search(SEARCH_QUERY, { input: [query] })
     .then(app_response => {
-      const searchResult = lodash.get(app_response, 'data.searchResult', [])
-      if (searchResult.length > 0) {
+      const searchResult = _.get(app_response, 'data.searchResult', [])
+      let allApps = []
+      if (searchResult.length > 0 && searchResult[0].items) {
         // For the no applicationSet case, make sure we don't include apps with applicationSet
-        const allApps = lodash
-          .get(searchResult[0], 'items', [])
-          .filter(app => app.applicationSet === appData.applicationSet)
+        allApps = _.get(searchResult[0], 'items', []).filter(
+          app => app.applicationSet === appData.applicationSet
+        )
         // find argo server mapping
-        const argoAppNS = lodash.uniqBy(lodash.map(allApps, 'namespace'))
+        const argoAppNS = _.uniqBy(_.map(allApps, 'namespace'))
         if (argoAppNS.length > 0) {
           const query = convertStringToQuery(
             `kind:secret namespace:${argoAppNS.join()} label:apps.open-cluster-management.io/acm-cluster='true'`
@@ -462,74 +464,50 @@ const fetchArgoApplications = (
           apolloClient
             .search(SEARCH_QUERY, { input: [query] })
             .then(secretResult => {
-              const secretItems = lodash.get(
-                secretResult,
-                'data.searchResult',
-                [{ items: [] }]
-              )[0]
-              lodash.set(
-                appData,
-                'argoSecrets',
-                lodash.get(secretItems, 'items', [])
-              )
-              setArgoAppDetails(
-                allApps,
-                dispatch,
-                appNS,
-                appName,
-                appData,
-                resourceType,
-                fetchFilters,
-                response
-              )
+              const secretItems = _.get(secretResult, 'data.searchResult', [
+                { items: [] }
+              ])[0]
+              _.set(appData, 'argoSecrets', _.get(secretItems, 'items', []))
+              searchSuccess()
             })
             .catch(err => {
-              lodash.set(appData, 'err', err)
-              setArgoAppDetails(
-                allApps,
-                dispatch,
-                appNS,
-                appName,
-                appData,
-                resourceType,
-                fetchFilters,
-                response
-              )
+              searchFailure()
+              _.set(appData, 'err', err)
             })
-        } else {
-          setArgoAppDetails(
-            allApps,
-            dispatch,
-            appNS,
-            appName,
-            appData,
-            resourceType,
-            fetchFilters,
-            response
-          )
         }
       }
+      setArgoAppDetails(
+        allApps,
+        dispatch,
+        appNS,
+        appName,
+        appData,
+        resourceType,
+        fetchFilters,
+        response
+      )
     })
     .catch(err => {
       //return topology when failing to retrieve related apps
       const topology = {
-        clusters: lodash.cloneDeep(response.data.clusters),
-        labels: lodash.cloneDeep(response.data.labels),
-        namespaces: lodash.cloneDeep(response.data.namespaces),
-        resourceTypes: lodash.cloneDeep(response.data.resourceTypes),
-        resources: lodash.cloneDeep(response.data.topology.resources),
-        relationships: lodash.cloneDeep(response.data.topology.relationships)
+        clusters: _.cloneDeep(response.data.clusters),
+        labels: _.cloneDeep(response.data.labels),
+        namespaces: _.cloneDeep(response.data.namespaces),
+        resourceTypes: _.cloneDeep(response.data.resourceTypes),
+        resources: _.cloneDeep(response.data.topology.resources),
+        relationships: _.cloneDeep(response.data.topology.relationships)
       }
       dispatch(
         receiveTopologySuccess(topology, resourceType, fetchFilters, false)
       )
+      searchError()
       dispatch(receiveResourceError(err, RESOURCE_TYPES.HCM_APPLICATIONS))
     })
 }
 
 export const fetchTopology = (vars, fetchFilters, reloading) => {
-  const appName = lodash.get(fetchFilters, 'application.name', '')
-  const appNS = lodash.get(fetchFilters, 'application.namespace', '')
+  const appName = _.get(fetchFilters, 'application.name', '')
+  const appNS = _.get(fetchFilters, 'application.namespace', '')
 
   const resourceType = RESOURCE_TYPES.HCM_TOPOLOGY
   return dispatch => {
@@ -545,9 +523,9 @@ export const fetchTopology = (vars, fetchFilters, reloading) => {
           //if one subscription shows, get related kinds from the subscription object rather then the app, since the UI shows only that subscription
           //always ask only for related types that shows in the topology + pods
           const appData = getResourceData(
-            lodash.get(response, 'data.topology.resources', [])
+            _.get(response, 'data.topology.resources', [])
           )
-          const error = lodash.get(response, 'data.topology.error', [])
+          const error = _.get(response, 'data.topology.error', [])
           if (appData.relatedKinds.length === 0 && error) {
             const err = {
               err: msgs.get(error.msgcode, error.args, 'en-US')
@@ -620,10 +598,10 @@ export const fetchTopologyFilters = () => {
         }
         return dispatch({
           type: Actions.TOPOLOGY_FILTERS_RECEIVE_SUCCESS,
-          clusters: lodash.cloneDeep(response.data.clusters),
-          labels: lodash.cloneDeep(response.data.labels),
-          namespaces: lodash.cloneDeep(response.data.namespaces),
-          types: lodash.cloneDeep(response.data.resourceTypes)
+          clusters: _.cloneDeep(response.data.clusters),
+          labels: _.cloneDeep(response.data.labels),
+          namespaces: _.cloneDeep(response.data.namespaces),
+          types: _.cloneDeep(response.data.resourceTypes)
         })
       })
       .catch(err => dispatch(receiveFiltersError(err)))

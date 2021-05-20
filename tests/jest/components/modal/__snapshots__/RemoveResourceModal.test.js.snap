@@ -61,8 +61,8 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
       open={true}
       resourceType={
         Object {
-          "list": "HCMApplicationList",
-          "name": "HCMApplication",
+          "list": "QueryApplicationList",
+          "name": "QueryApplications",
         }
       }
       store={
@@ -111,8 +111,8 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
         open={true}
         resourceType={
           Object {
-            "list": "HCMApplicationList",
-            "name": "HCMApplication",
+            "list": "QueryApplicationList",
+            "name": "QueryApplications",
           }
         }
         store={
@@ -163,8 +163,8 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
           open={true}
           resourceType={
             Object {
-              "list": "HCMApplicationList",
-              "name": "HCMApplication",
+              "list": "QueryApplicationList",
+              "name": "QueryApplications",
             }
           }
           store={
@@ -847,8 +847,8 @@ exports[`RemoveResourceModal test renders as expected child application with war
       open={true}
       resourceType={
         Object {
-          "list": "HCMApplicationList",
-          "name": "HCMApplication",
+          "list": "QueryApplicationList",
+          "name": "QueryApplications",
         }
       }
       store={
@@ -883,8 +883,8 @@ exports[`RemoveResourceModal test renders as expected child application with war
         open={true}
         resourceType={
           Object {
-            "list": "HCMApplicationList",
-            "name": "HCMApplication",
+            "list": "QueryApplicationList",
+            "name": "QueryApplications",
           }
         }
         store={
@@ -921,8 +921,8 @@ exports[`RemoveResourceModal test renders as expected child application with war
           open={true}
           resourceType={
             Object {
-              "list": "HCMApplicationList",
-              "name": "HCMApplication",
+              "list": "QueryApplicationList",
+              "name": "QueryApplications",
             }
           }
           store={
@@ -1616,8 +1616,8 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
       open={true}
       resourceType={
         Object {
-          "list": "HCMApplicationList",
-          "name": "HCMApplication",
+          "list": "QueryApplicationList",
+          "name": "QueryApplications",
         }
       }
       store={
@@ -1663,8 +1663,8 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
         open={true}
         resourceType={
           Object {
-            "list": "HCMApplicationList",
-            "name": "HCMApplication",
+            "list": "QueryApplicationList",
+            "name": "QueryApplications",
           }
         }
         store={
@@ -1712,8 +1712,8 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
           open={true}
           resourceType={
             Object {
-              "list": "HCMApplicationList",
-              "name": "HCMApplication",
+              "list": "QueryApplicationList",
+              "name": "QueryApplications",
             }
           }
           store={
@@ -2286,8 +2286,8 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
       open={true}
       resourceType={
         Object {
-          "list": "HCMApplicationList",
-          "name": "HCMApplication",
+          "list": "QueryApplicationList",
+          "name": "QueryApplications",
         }
       }
       store={
@@ -2323,8 +2323,8 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
         open={true}
         resourceType={
           Object {
-            "list": "HCMApplicationList",
-            "name": "HCMApplication",
+            "list": "QueryApplicationList",
+            "name": "QueryApplications",
           }
         }
         store={
@@ -2362,8 +2362,8 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
           open={true}
           resourceType={
             Object {
-              "list": "HCMApplicationList",
-              "name": "HCMApplication",
+              "list": "QueryApplicationList",
+              "name": "QueryApplications",
             }
           }
           store={
@@ -3046,8 +3046,8 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
       open={true}
       resourceType={
         Object {
-          "list": "HCMApplicationList",
-          "name": "HCMApplication",
+          "list": "QueryApplicationList",
+          "name": "QueryApplications",
         }
       }
       store={
@@ -3082,8 +3082,8 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
         open={true}
         resourceType={
           Object {
-            "list": "HCMApplicationList",
-            "name": "HCMApplication",
+            "list": "QueryApplicationList",
+            "name": "QueryApplications",
           }
         }
         store={
@@ -3120,8 +3120,8 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
           open={true}
           resourceType={
             Object {
-              "list": "HCMApplicationList",
-              "name": "HCMApplication",
+              "list": "QueryApplicationList",
+              "name": "QueryApplications",
             }
           }
           store={
@@ -3815,8 +3815,8 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
       open={true}
       resourceType={
         Object {
-          "list": "HCMApplicationList",
-          "name": "HCMApplication",
+          "list": "QueryApplicationList",
+          "name": "QueryApplications",
         }
       }
       store={
@@ -3862,8 +3862,8 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
         open={true}
         resourceType={
           Object {
-            "list": "HCMApplicationList",
-            "name": "HCMApplication",
+            "list": "QueryApplicationList",
+            "name": "QueryApplications",
           }
         }
         store={
@@ -3911,8 +3911,8 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
           open={true}
           resourceType={
             Object {
-              "list": "HCMApplicationList",
-              "name": "HCMApplication",
+              "list": "QueryApplicationList",
+              "name": "QueryApplications",
             }
           }
           store={
@@ -4586,8 +4586,8 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
       open={true}
       resourceType={
         Object {
-          "list": "HCMApplicationList",
-          "name": "HCMApplication",
+          "list": "QueryApplicationList",
+          "name": "QueryApplications",
         }
       }
       store={
@@ -4613,8 +4613,8 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
         open={true}
         resourceType={
           Object {
-            "list": "HCMApplicationList",
-            "name": "HCMApplication",
+            "list": "QueryApplicationList",
+            "name": "QueryApplications",
           }
         }
         store={
@@ -4642,8 +4642,8 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
           open={true}
           resourceType={
             Object {
-              "list": "HCMApplicationList",
-              "name": "HCMApplication",
+              "list": "QueryApplicationList",
+              "name": "QueryApplications",
             }
           }
           store={

@@ -57,7 +57,7 @@ class SyncResourceModal extends React.Component {
   getApplication = (name, namespace) => {
     try {
       const { resourceType, locale } = this.props
-      if (resourceType.name === 'HCMApplication') {
+      if (resourceType.name === 'QueryApplications') {
         // Get application resources
         apolloClient.getApplication({ name, namespace }).then(result => {
           const { data = {} } = result

@@ -15,17 +15,12 @@ import PropTypes from 'prop-types'
 import loadable from '@loadable/component'
 import { GET_ACTION_MODAL_STATE } from '../../apollo-client/queries/StateQueries'
 import { Query } from 'react-apollo'
-import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 let RemoveResourceModal
 let SyncResourceModal
 
 class ActionModalApollo extends React.PureComponent {
   getMatchedModal = ({ type, resourceType, open, data }) => {
-    if (resourceType.name === RESOURCE_TYPES.QUERY_APPLICATIONS.name) {
-      resourceType = RESOURCE_TYPES.HCM_APPLICATIONS //use hcm app to edit, delete selection
-    }
-
     switch (type) {
     case 'table.actions.applications.remove':
     case 'table.actions.subscriptions.remove':

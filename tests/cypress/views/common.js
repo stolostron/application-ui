@@ -80,7 +80,7 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
   }
 };
 
-export const submitSave = successState => {
+export const submitSave = (successState, redirectString) => {
   modal.shouldNotBeDisabled();
   modal.clickSubmit();
   cy
@@ -89,9 +89,11 @@ export const submitSave = successState => {
 
   if (successState) {
     notification.shouldExist("success");
-    cy
-      .location("pathname", { timeout: 10 * 1000 })
-      .should("include", `${name}`);
+    if (redirectString) {
+      cy
+        .location("pathname", { timeout: 10 * 1000 })
+        .should("include", `${redirectString}`);
+    }
   } else {
     notification.shouldExist("danger");
     cy.log("Verify Save button is disabled");

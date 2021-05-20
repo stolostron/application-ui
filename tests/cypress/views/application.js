@@ -46,7 +46,7 @@ export const createApplication = (
   } else if (type === "helm") {
     createHelm(clusterName, config);
   }
-  submitSave(true);
+  submitSave(true, name);
 };
 
 export const gitTasks = (clusterName, value, gitCss, key = 0) => {

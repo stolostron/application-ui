@@ -2099,9 +2099,9 @@ export const resourceModalLabelsDummy = {
 };
 
 export const resourceModalLabels = {
-  primaryBtn: "modal.remove-hcmapplication.heading",
-  label: "modal.remove-hcmapplication.label",
-  heading: "modal.remove-hcmapplication.heading"
+  primaryBtn: "modal.remove-queryapplications.heading",
+  label: "modal.remove-queryapplications.label",
+  heading: "modal.remove-queryapplications.heading"
 };
 
 export const availableFilters = {

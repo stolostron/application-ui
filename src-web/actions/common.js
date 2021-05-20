@@ -634,9 +634,9 @@ export const mutateResourceSuccessFinished = resourceType => ({
 export const clearSuccessFinished = dispatch => {
   [
     RESOURCE_TYPES.QUERY_APPLICATIONS,
-    RESOURCE_TYPES.HCM_CHANNELS,
-    RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
-    RESOURCE_TYPES.HCM_PLACEMENT_RULES
+    RESOURCE_TYPES.QUERY_CHANNELS,
+    RESOURCE_TYPES.QUERY_SUBSCRIPTIONS,
+    RESOURCE_TYPES.QUERY_PLACEMENTRULES
   ].forEach(resourceType => {
     dispatch(mutateResourceSuccessFinished(resourceType))
     dispatch(delResourceSuccessFinished(resourceType))

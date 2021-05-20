@@ -22,11 +22,9 @@ let SyncResourceModal
 
 class ActionModalApollo extends React.PureComponent {
   getMatchedModal = ({ type, resourceType, open, data }) => {
-    // remove the typename field
     if (resourceType.name === RESOURCE_TYPES.QUERY_APPLICATIONS.name) {
       resourceType = RESOURCE_TYPES.HCM_APPLICATIONS //use hcm app to edit, delete selection
     }
-    resourceType = { name: resourceType.name, list: resourceType.list }
 
     switch (type) {
     case 'table.actions.applications.remove':

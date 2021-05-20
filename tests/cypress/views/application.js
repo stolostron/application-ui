@@ -727,10 +727,10 @@ export const deleteResourceUI = (name, type) => {
 
   resourceTable.openRowMenu(resourceTypes[type], resourceKey);
   resourceTable.menuClick("delete");
-  modal.shouldBeOpen();
+  modal.shouldBeOpen("#remove-resource-modal");
   cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.exist");
   modal.clickDanger();
-  modal.shouldBeClosed();
+  modal.shouldBeClosed("#remove-resource-modal");
 
   // verify success alert
   notification.shouldExist("success");
@@ -753,7 +753,7 @@ export const deleteApplicationUI = (name, namespace = "default") => {
 
     resourceTable.openRowMenu(name, resourceKey);
     resourceTable.menuClick("delete");
-    modal.shouldBeOpen();
+    modal.shouldBeOpen("#remove-resource-modal");
 
     cy.get(".pf-c-empty-state", { timeout: 50 * 1000 }).should("not.exist", {
       timeout: 20 * 1000
@@ -766,7 +766,7 @@ export const deleteApplicationUI = (name, namespace = "default") => {
     }
     modal.clickDanger();
     // after deleting the app, it should not exist in the app table
-    modal.shouldBeClosed();
+    modal.shouldBeClosed("#remove-resource-modal");
     resourceTable.rowShouldNotExist(name, resourceKey, 30 * 1000, true);
   } else {
     cy.log("No apps to delete...");

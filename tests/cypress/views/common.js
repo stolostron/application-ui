@@ -161,10 +161,8 @@ export const noResource = {
 };
 
 export const modal = {
-  shouldBeOpen: () =>
-    cy.get("#remove-resource-modal", { timeout: 20000 }).should("exist"),
-  shouldBeClosed: () =>
-    cy.get("#remove-resource-modal", { timeout: 20000 }).should("not.exist"),
+  shouldBeOpen: modalId => cy.get(modalId, { timeout: 20000 }).should("exist"),
+  shouldBeClosed: () => cy.get(modalId, { timeout: 20000 }).should("not.exist"),
   shouldBeVisible: () =>
     cy.get("#create-button-portal-id", { timeout: 20000 }).should("be.visible"),
   shouldNotBeVisible: () =>
@@ -686,6 +684,32 @@ const convertTimeFormat = time => {
     return hour12 + time.substring(2) + period;
   } else {
     return "";
+  }
+};
+
+export const validateSyncFunction = (name, data, type, opType) => {
+  if (opType == "delete") {
+    //ignore this
+    return;
+  }
+
+  if (type !== "argo") {
+    for (const [key, itemConfig] of Object.entries(data.config)) {
+      let value = itemConfig;
+      if (opType == "add") {
+        value = key == 0 ? data.config[1] : data.new[0]; // here we assume first subscription was removed by the delete test and then added a new one
+      }
+      // wait for sync button to be displayed
+      cy
+        .get("#sync-app", { timeout: 50 * 1000 })
+        .scrollIntoView()
+        .click();
+      modal.shouldBeOpen("#sync-resource-modal");
+
+      // some subscriptions might not have time window
+      const type = value.timeWindow ? value.timeWindow.type : "active"; //if not defined is always active
+      cy.log(`Validate subscriptions cards for ${name} key=${key}`);
+    }
   }
 };
 

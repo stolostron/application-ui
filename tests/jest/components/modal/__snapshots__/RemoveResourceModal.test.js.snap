@@ -52,9 +52,9 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
       handleSubmit={[MockFunction]}
       label={
         Object {
-          "heading": "modal.remove-hcmapplication.heading",
-          "label": "modal.remove-hcmapplication.label",
-          "primaryBtn": "modal.remove-hcmapplication.heading",
+          "heading": "modal.remove-queryapplications.heading",
+          "label": "modal.remove-queryapplications.label",
+          "primaryBtn": "modal.remove-queryapplications.heading",
         }
       }
       locale="en"
@@ -103,9 +103,9 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
         handleSubmit={[MockFunction]}
         label={
           Object {
-            "heading": "modal.remove-hcmapplication.heading",
-            "label": "modal.remove-hcmapplication.label",
-            "primaryBtn": "modal.remove-hcmapplication.heading",
+            "heading": "modal.remove-queryapplications.heading",
+            "label": "modal.remove-queryapplications.label",
+            "primaryBtn": "modal.remove-queryapplications.heading",
           }
         }
         open={true}
@@ -155,9 +155,9 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
           handleSubmit={[MockFunction]}
           label={
             Object {
-              "heading": "modal.remove-hcmapplication.heading",
-              "label": "modal.remove-hcmapplication.label",
-              "primaryBtn": "modal.remove-hcmapplication.heading",
+              "heading": "modal.remove-queryapplications.heading",
+              "label": "modal.remove-queryapplications.label",
+              "primaryBtn": "modal.remove-queryapplications.heading",
             }
           }
           open={true}
@@ -838,9 +838,9 @@ exports[`RemoveResourceModal test renders as expected child application with war
       handleSubmit={[MockFunction]}
       label={
         Object {
-          "heading": "modal.remove-hcmapplication.heading",
-          "label": "modal.remove-hcmapplication.label",
-          "primaryBtn": "modal.remove-hcmapplication.heading",
+          "heading": "modal.remove-queryapplications.heading",
+          "label": "modal.remove-queryapplications.label",
+          "primaryBtn": "modal.remove-queryapplications.heading",
         }
       }
       locale="en"
@@ -875,9 +875,9 @@ exports[`RemoveResourceModal test renders as expected child application with war
         handleSubmit={[MockFunction]}
         label={
           Object {
-            "heading": "modal.remove-hcmapplication.heading",
-            "label": "modal.remove-hcmapplication.label",
-            "primaryBtn": "modal.remove-hcmapplication.heading",
+            "heading": "modal.remove-queryapplications.heading",
+            "label": "modal.remove-queryapplications.label",
+            "primaryBtn": "modal.remove-queryapplications.heading",
           }
         }
         open={true}
@@ -913,9 +913,9 @@ exports[`RemoveResourceModal test renders as expected child application with war
           handleSubmit={[MockFunction]}
           label={
             Object {
-              "heading": "modal.remove-hcmapplication.heading",
-              "label": "modal.remove-hcmapplication.label",
-              "primaryBtn": "modal.remove-hcmapplication.heading",
+              "heading": "modal.remove-queryapplications.heading",
+              "label": "modal.remove-queryapplications.label",
+              "primaryBtn": "modal.remove-queryapplications.heading",
             }
           }
           open={true}
@@ -2277,9 +2277,9 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
       handleSubmit={[MockFunction]}
       label={
         Object {
-          "heading": "modal.remove-hcmapplication.heading",
-          "label": "modal.remove-hcmapplication.label",
-          "primaryBtn": "modal.remove-hcmapplication.heading",
+          "heading": "modal.remove-queryapplications.heading",
+          "label": "modal.remove-queryapplications.label",
+          "primaryBtn": "modal.remove-queryapplications.heading",
         }
       }
       locale="en"
@@ -2315,9 +2315,9 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
         handleSubmit={[MockFunction]}
         label={
           Object {
-            "heading": "modal.remove-hcmapplication.heading",
-            "label": "modal.remove-hcmapplication.label",
-            "primaryBtn": "modal.remove-hcmapplication.heading",
+            "heading": "modal.remove-queryapplications.heading",
+            "label": "modal.remove-queryapplications.label",
+            "primaryBtn": "modal.remove-queryapplications.heading",
           }
         }
         open={true}
@@ -2354,9 +2354,9 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
           handleSubmit={[MockFunction]}
           label={
             Object {
-              "heading": "modal.remove-hcmapplication.heading",
-              "label": "modal.remove-hcmapplication.label",
-              "primaryBtn": "modal.remove-hcmapplication.heading",
+              "heading": "modal.remove-queryapplications.heading",
+              "label": "modal.remove-queryapplications.label",
+              "primaryBtn": "modal.remove-queryapplications.heading",
             }
           }
           open={true}
@@ -3037,9 +3037,9 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
       handleSubmit={[MockFunction]}
       label={
         Object {
-          "heading": "modal.remove-hcmapplication.heading",
-          "label": "modal.remove-hcmapplication.label",
-          "primaryBtn": "modal.remove-hcmapplication.heading",
+          "heading": "modal.remove-queryapplications.heading",
+          "label": "modal.remove-queryapplications.label",
+          "primaryBtn": "modal.remove-queryapplications.heading",
         }
       }
       locale="en"
@@ -3074,9 +3074,9 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
         handleSubmit={[MockFunction]}
         label={
           Object {
-            "heading": "modal.remove-hcmapplication.heading",
-            "label": "modal.remove-hcmapplication.label",
-            "primaryBtn": "modal.remove-hcmapplication.heading",
+            "heading": "modal.remove-queryapplications.heading",
+            "label": "modal.remove-queryapplications.label",
+            "primaryBtn": "modal.remove-queryapplications.heading",
           }
         }
         open={true}
@@ -3112,9 +3112,9 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
           handleSubmit={[MockFunction]}
           label={
             Object {
-              "heading": "modal.remove-hcmapplication.heading",
-              "label": "modal.remove-hcmapplication.label",
-              "primaryBtn": "modal.remove-hcmapplication.heading",
+              "heading": "modal.remove-queryapplications.heading",
+              "label": "modal.remove-queryapplications.label",
+              "primaryBtn": "modal.remove-queryapplications.heading",
             }
           }
           open={true}
@@ -3806,9 +3806,9 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
       handleSubmit={[MockFunction]}
       label={
         Object {
-          "heading": "modal.remove-hcmapplication.heading",
-          "label": "modal.remove-hcmapplication.label",
-          "primaryBtn": "modal.remove-hcmapplication.heading",
+          "heading": "modal.remove-queryapplications.heading",
+          "label": "modal.remove-queryapplications.label",
+          "primaryBtn": "modal.remove-queryapplications.heading",
         }
       }
       locale="en"
@@ -3854,9 +3854,9 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
         handleSubmit={[MockFunction]}
         label={
           Object {
-            "heading": "modal.remove-hcmapplication.heading",
-            "label": "modal.remove-hcmapplication.label",
-            "primaryBtn": "modal.remove-hcmapplication.heading",
+            "heading": "modal.remove-queryapplications.heading",
+            "label": "modal.remove-queryapplications.label",
+            "primaryBtn": "modal.remove-queryapplications.heading",
           }
         }
         open={true}
@@ -3903,9 +3903,9 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
           handleSubmit={[MockFunction]}
           label={
             Object {
-              "heading": "modal.remove-hcmapplication.heading",
-              "label": "modal.remove-hcmapplication.label",
-              "primaryBtn": "modal.remove-hcmapplication.heading",
+              "heading": "modal.remove-queryapplications.heading",
+              "label": "modal.remove-queryapplications.label",
+              "primaryBtn": "modal.remove-queryapplications.heading",
             }
           }
           open={true}
@@ -4577,9 +4577,9 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
       handleSubmit={[MockFunction]}
       label={
         Object {
-          "heading": "modal.remove-hcmapplication.heading",
-          "label": "modal.remove-hcmapplication.label",
-          "primaryBtn": "modal.remove-hcmapplication.heading",
+          "heading": "modal.remove-queryapplications.heading",
+          "label": "modal.remove-queryapplications.label",
+          "primaryBtn": "modal.remove-queryapplications.heading",
         }
       }
       locale="en"
@@ -4605,9 +4605,9 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
         handleSubmit={[MockFunction]}
         label={
           Object {
-            "heading": "modal.remove-hcmapplication.heading",
-            "label": "modal.remove-hcmapplication.label",
-            "primaryBtn": "modal.remove-hcmapplication.heading",
+            "heading": "modal.remove-queryapplications.heading",
+            "label": "modal.remove-queryapplications.label",
+            "primaryBtn": "modal.remove-queryapplications.heading",
           }
         }
         open={true}
@@ -4634,9 +4634,9 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
           handleSubmit={[MockFunction]}
           label={
             Object {
-              "heading": "modal.remove-hcmapplication.heading",
-              "label": "modal.remove-hcmapplication.label",
-              "primaryBtn": "modal.remove-hcmapplication.heading",
+              "heading": "modal.remove-queryapplications.heading",
+              "label": "modal.remove-queryapplications.label",
+              "primaryBtn": "modal.remove-queryapplications.heading",
             }
           }
           open={true}

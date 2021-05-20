@@ -27,17 +27,8 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import msgs from '../../nls/platform.properties'
 import ChannelLabels from '../components/common/ChannelLabels'
 import TableRowActionMenu from '../components/common/TableRowActionMenu'
-import {
-  Button,
-  Label,
-  Split,
-  SplitItem,
-  Tooltip
-} from '@patternfly/react-core'
-import {
-  InfoCircleIcon,
-  OutlinedQuestionCircleIcon
-} from '@patternfly/react-icons'
+import { Label, Split, SplitItem, Tooltip } from '@patternfly/react-core'
+import { InfoCircleIcon } from '@patternfly/react-icons'
 import _ from 'lodash'
 
 export default {
@@ -230,8 +221,8 @@ export function createApplicationLink(item = {}, locale) {
     ? 'application.argo.applicationset'
     : 'application.argo.group'
   const labelKey = displayAsApplicationSet
-    ? 'dashboard.card.overview.cards.argo.applicationset'
-    : 'dashboard.card.overview.cards.argo.app'
+    ? 'application.argo.applicationset.label'
+    : 'application.argo.group.label'
   const substitutions = displayAsApplicationSet ? [applicationSet] : []
   const displayName = displayAsApplicationSet ? applicationSet : name
   return (
@@ -259,11 +250,9 @@ export function createApplicationLink(item = {}, locale) {
       {remoteClusterString && (
         <SplitItem>
           <Tooltip position="top" content={remoteClusterString}>
-            <span className="pf-c-table__column-help-action">
-              <Button variant="plain" aria-label={remoteClusterString}>
-                <OutlinedQuestionCircleIcon />
-              </Button>
-            </span>
+            <Label color="blue" variant="outline">
+              {msgs.get('application.remote.cluster.label', locale)}
+            </Label>
           </Tooltip>
         </SplitItem>
       )}

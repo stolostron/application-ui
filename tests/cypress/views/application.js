@@ -6,6 +6,7 @@ import {
   pageLoader,
   resourceTable,
   modal,
+  notification,
   noResource,
   indexedCSS,
   validateSubscriptionTable,
@@ -730,6 +731,9 @@ export const deleteResourceUI = (name, type) => {
   cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.exist");
   modal.clickDanger();
   modal.shouldBeClosed();
+
+  // verify success alert
+  notification.shouldExist("success");
 
   // after deleting the app, it should not exist in the app table
   resourceTable.rowShouldNotExist(

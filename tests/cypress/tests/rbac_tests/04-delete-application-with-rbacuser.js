@@ -16,8 +16,9 @@ import {
 const mngdTestAdminRoles = "admin-managed-cluster";
 const mngdTestViewRole = "view-managed-cluster";
 
-describe("Application UI: [P1][Sev1][app-lifecycle-ui][RBAC] Delete application Test", () => {
-  if (Cypress.env("RBAC_TEST")) {
+describe("Application UI: [P3][Sev3][app-lifecycle-ui][RBAC] Delete application Test", () => {
+  const disableTest = true;
+  if (Cypress.env("RBAC_TEST") && !disableTest) {
     for (const type in config) {
       if (type == "git") {
         const apps = config[type].data;

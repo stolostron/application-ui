@@ -780,7 +780,10 @@ import { BrowserRouter } from "react-router-dom";
 describe("RemoveResourceModal test", () => {
   const handleModalClose = jest.fn();
   const handleModalSubmit = jest.fn();
-  const resourceType = { name: "HCMApplication", list: "HCMApplicationList" };
+  const resourceType = {
+    name: "QueryApplications",
+    list: "QueryApplicationList"
+  };
   const preloadedState = window.__PRELOADED_STATE__;
   const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

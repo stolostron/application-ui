@@ -83,7 +83,7 @@ class RemoveResourceModal extends React.Component {
     try {
       const { resourceType, locale } = this.props
       const { canRemove } = this.state
-      if (resourceType.name === 'HCMApplication' && canRemove) {
+      if (resourceType.name === 'QueryApplications' && canRemove) {
         // Get application resources
         apolloClient.getApplication({ name, namespace }).then(response => {
           // Warning for application deployed by another application
@@ -341,7 +341,7 @@ class RemoveResourceModal extends React.Component {
 
   modalBody = (name, label, locale) => {
     const { selected } = this.state
-    if (label.label === 'modal.remove-hcmapplication.label') {
+    if (label.label === 'modal.remove-queryapplications.label') {
       return selected.length > 0 ? (
         <div className="remove-app-modal-content">
           <div className="remove-app-modal-content-text">
@@ -581,19 +581,11 @@ RemoveResourceModal.propTypes = {
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  let resourceType = ownProps.resourceType
-  if (
-    resourceType &&
-    resourceType.name === RESOURCE_TYPES.HCM_APPLICATIONS.name
-  ) {
-    resourceType = RESOURCE_TYPES.QUERY_APPLICATIONS
-  }
-
   return {
-    forceRefresh: () => dispatch(forceResourceReload(resourceType)),
+    forceRefresh: () => dispatch(forceResourceReload(ownProps.resourceType)),
     clearSuccessFinished: () => clearSuccessFinished(dispatch),
     submitDeleteSuccess: () =>
-      dispatch(receiveDelResource(ownProps.data, resourceType, {}))
+      dispatch(receiveDelResource(ownProps.data, ownProps.resourceType, {}))
   }
 }
 

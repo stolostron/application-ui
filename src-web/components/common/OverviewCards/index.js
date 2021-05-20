@@ -582,8 +582,8 @@ class OverviewCards extends React.Component {
         type: 'actions.sync.application',
         resourceType: {
           __typename: 'resourceType',
-          name: RESOURCE_TYPES.HCM_APPLICATIONS.name,
-          list: RESOURCE_TYPES.HCM_APPLICATIONS.list
+          name: RESOURCE_TYPES.QUERY_APPLICATIONS.name,
+          list: RESOURCE_TYPES.QUERY_APPLICATIONS.list
         },
         data: {
           __typename: 'ModalData',

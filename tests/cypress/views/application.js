@@ -981,6 +981,6 @@ export const verifyUnauthorizedApplicationDelete = (name, namespace) => {
     .get("[data-ouia-component-id=OUIA-Generated-Button-danger-1]", {
       timeout: 20 * 1000
     })
-    .contains("Delete application")
+    .contains("Delete")
     .should("be.disabled");
 };

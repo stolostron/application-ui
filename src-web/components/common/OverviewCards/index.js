@@ -785,7 +785,8 @@ class OverviewCards extends React.Component {
                         gitBranch: sub.gitBranch,
                         gitPath: sub.gitPath,
                         package: sub.package,
-                        packageFilterVersion: sub.packageFilterVersion
+                        packageFilterVersion: sub.packageFilterVersion,
+                        bucketPath: sub.bucketPath
                       }
                     ]}
                     locale={locale}

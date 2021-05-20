@@ -36,6 +36,7 @@ const keepKeys = [
   'apps.open-cluster-management.io/git-clone-depth',
   'apps.open-cluster-management.io/reconcile-rate',
   'apps.open-cluster-management.io/manual-refresh-time',
+  'apps.open-cluster-management.io/bucket-path',
   'apps.open-cluster-management.io/deployables' //needed by the topology to show deployable information
 ]
 

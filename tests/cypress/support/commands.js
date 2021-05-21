@@ -74,16 +74,16 @@ Cypress.Commands.add("logout", () => {
       cy.log("Logging out existing user");
       cy.get($btn).click();
       if (Cypress.config().baseUrl.includes("localhost")) {
-        cy
-          .contains("Logout")
-          .click()
-          .clearCookies();
+        cy.contains("Logout").click();
+        //.clearCookies();
       } else {
         cy.contains("Logout").click();
+        /*
         cy
           .location("pathname")
           .should("match", new RegExp("/oauth/authorize(\\?.*)?$"))
           .clearCookies();
+          */
       }
     });
 });

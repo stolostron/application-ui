@@ -10,7 +10,6 @@ node_modules/svg-sprite-loader/examples
 .git*
 .storybook
 stories
-tests
 .travis.yml
 .npmrc
 Configfile

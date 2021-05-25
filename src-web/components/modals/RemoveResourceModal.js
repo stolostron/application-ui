@@ -404,19 +404,19 @@ class RemoveResourceModal extends React.Component {
         </div>
       ) : (
         <div className="remove-app-modal-content">
-          {msgs.get('modal.remove.confirm', [name], locale)}
+          {msgs.get('modal.remove.confirm', locale)}
           {this.renderSharedResources()}
         </div>
       )
     } else {
-      return msgs.get('modal.remove.confirm', [name], locale)
+      return msgs.get('modal.remove.confirm', locale)
     }
   };
 
   render() {
     const { label, locale, open } = this.props
     const { canRemove, name, loading, errors, warnings } = this.state
-    const heading = msgs.get(label.heading, locale)
+    const heading = msgs.get(label.heading, [name], locale)
     return (
       <div>
         <AcmModal

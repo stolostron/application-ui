@@ -203,7 +203,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                     onClick={[Function]}
                     variant="danger"
                   >
-                    Delete application
+                    Permanently delete {0} application?
                   </Button>,
                   <Button
                     onClick={[Function]}
@@ -213,14 +213,14 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                   </Button>,
                 ]
               }
-              aria-label="Delete application"
+              aria-label="Permanently delete {0} application?"
               id="remove-resource-modal"
               isOpen={true}
               onClose={[Function]}
               position="top"
               positionOffset="225px"
               showClose={true}
-              title="Delete application"
+              title="Permanently delete {0} application?"
               titleIconVariant="warning"
               variant="large"
             >
@@ -233,7 +233,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                         onClick={[Function]}
                         variant="danger"
                       >
-                        Delete application
+                        Permanently delete {0} application?
                       </Button>,
                       <Button
                         onClick={[Function]}
@@ -243,14 +243,14 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                       </Button>,
                     ]
                   }
-                  aria-label="Delete application"
+                  aria-label="Permanently delete {0} application?"
                   id="remove-resource-modal"
                   isOpen={true}
                   onClose={[Function]}
                   position="top"
                   positionOffset="225px"
                   showClose={true}
-                  title="Delete application"
+                  title="Permanently delete {0} application?"
                   titleIconVariant="warning"
                   variant="large"
                 >
@@ -262,7 +262,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                           onClick={[Function]}
                           variant="danger"
                         >
-                          Delete application
+                          Permanently delete {0} application?
                         </Button>,
                         <Button
                           onClick={[Function]}
@@ -274,7 +274,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                     }
                     appendTo={[Function]}
                     aria-describedby=""
-                    aria-label="Delete application"
+                    aria-label="Permanently delete {0} application?"
                     aria-labelledby=""
                     className=""
                     hasNoBodyWrapper={false}
@@ -285,7 +285,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                     position="top"
                     positionOffset="225px"
                     showClose={true}
-                    title="Delete application"
+                    title="Permanently delete {0} application?"
                     titleIconVariant="warning"
                     titleLabel=""
                     variant="large"
@@ -301,7 +301,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                             >
                               <div
                                 aria-describedby="pf-modal-part-2"
-                                aria-label="Delete application"
+                                aria-label="Permanently delete {0} application?"
                                 aria-labelledby="remove-resource-modal pf-modal-part-1"
                                 aria-modal="true"
                                 class="pf-c-modal-box pf-m-warning pf-m-align-top pf-m-lg"
@@ -367,7 +367,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                     <span
                                       class="pf-c-modal-box__title-text"
                                     >
-                                      Delete application
+                                      Permanently delete {0} application?
                                     </span>
                                   </h1>
                                 </header>
@@ -435,7 +435,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                     disabled=""
                                     type="button"
                                   >
-                                    Delete application
+                                    Permanently delete {0} application?
                                   </button>
                                   <button
                                     aria-disabled="false"
@@ -462,7 +462,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                               onClick={[Function]}
                               variant="danger"
                             >
-                              Delete application
+                              Permanently delete {0} application?
                             </Button>,
                             <Button
                               onClick={[Function]}
@@ -473,7 +473,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                           ]
                         }
                         aria-describedby=""
-                        aria-label="Delete application"
+                        aria-label="Permanently delete {0} application?"
                         aria-labelledby=""
                         boxId="remove-resource-modal"
                         className=""
@@ -488,7 +488,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                         position="top"
                         positionOffset="225px"
                         showClose={true}
-                        title="Delete application"
+                        title="Permanently delete {0} application?"
                         titleIconVariant="warning"
                         titleLabel=""
                         variant="large"
@@ -513,7 +513,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                               >
                                 <ModalBox
                                   aria-describedby="pf-modal-part-2"
-                                  aria-label="Delete application"
+                                  aria-label="Permanently delete {0} application?"
                                   aria-labelledby="remove-resource-modal pf-modal-part-1"
                                   className="pf-m-warning"
                                   data-ouia-component-id="OUIA-Generated-Modal-large-1"
@@ -531,7 +531,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                 >
                                   <div
                                     aria-describedby="pf-modal-part-2"
-                                    aria-label="Delete application"
+                                    aria-label="Permanently delete {0} application?"
                                     aria-labelledby="remove-resource-modal pf-modal-part-1"
                                     aria-modal="true"
                                     className="pf-c-modal-box pf-m-warning pf-m-align-top pf-m-lg"
@@ -602,7 +602,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                       >
                                         <ModalBoxTitle
                                           id="pf-modal-part-1"
-                                          title="Delete application"
+                                          title="Permanently delete {0} application?"
                                           titleIconVariant="warning"
                                           titleLabel=""
                                         >
@@ -646,7 +646,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                             <span
                                               className="pf-c-modal-box__title-text"
                                             >
-                                              Delete application
+                                              Permanently delete {0} application?
                                             </span>
                                           </h1>
                                         </ModalBoxTitle>
@@ -751,7 +751,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                             tabIndex={null}
                                             type="button"
                                           >
-                                            Delete application
+                                            Permanently delete {0} application?
                                           </button>
                                         </Button>
                                         <Button
@@ -997,7 +997,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                     onClick={[Function]}
                     variant="danger"
                   >
-                    Delete application
+                    Permanently delete {0} application?
                   </Button>,
                   <Button
                     onClick={[Function]}
@@ -1007,14 +1007,14 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                   </Button>,
                 ]
               }
-              aria-label="Delete application"
+              aria-label="Permanently delete {0} application?"
               id="remove-resource-modal"
               isOpen={true}
               onClose={[Function]}
               position="top"
               positionOffset="225px"
               showClose={true}
-              title="Delete application"
+              title="Permanently delete {0} application?"
               titleIconVariant="warning"
               variant="large"
             >
@@ -1027,7 +1027,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                         onClick={[Function]}
                         variant="danger"
                       >
-                        Delete application
+                        Permanently delete {0} application?
                       </Button>,
                       <Button
                         onClick={[Function]}
@@ -1037,14 +1037,14 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                       </Button>,
                     ]
                   }
-                  aria-label="Delete application"
+                  aria-label="Permanently delete {0} application?"
                   id="remove-resource-modal"
                   isOpen={true}
                   onClose={[Function]}
                   position="top"
                   positionOffset="225px"
                   showClose={true}
-                  title="Delete application"
+                  title="Permanently delete {0} application?"
                   titleIconVariant="warning"
                   variant="large"
                 >
@@ -1056,7 +1056,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                           onClick={[Function]}
                           variant="danger"
                         >
-                          Delete application
+                          Permanently delete {0} application?
                         </Button>,
                         <Button
                           onClick={[Function]}
@@ -1068,7 +1068,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                     }
                     appendTo={[Function]}
                     aria-describedby=""
-                    aria-label="Delete application"
+                    aria-label="Permanently delete {0} application?"
                     aria-labelledby=""
                     className=""
                     hasNoBodyWrapper={false}
@@ -1079,7 +1079,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                     position="top"
                     positionOffset="225px"
                     showClose={true}
-                    title="Delete application"
+                    title="Permanently delete {0} application?"
                     titleIconVariant="warning"
                     titleLabel=""
                     variant="large"
@@ -1095,7 +1095,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                             >
                               <div
                                 aria-describedby="pf-modal-part-2"
-                                aria-label="Delete application"
+                                aria-label="Permanently delete {0} application?"
                                 aria-labelledby="remove-resource-modal pf-modal-part-1"
                                 aria-modal="true"
                                 class="pf-c-modal-box pf-m-warning pf-m-align-top pf-m-lg"
@@ -1161,7 +1161,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                     <span
                                       class="pf-c-modal-box__title-text"
                                     >
-                                      Delete application
+                                      Permanently delete {0} application?
                                     </span>
                                   </h1>
                                 </header>
@@ -1229,7 +1229,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                     disabled=""
                                     type="button"
                                   >
-                                    Delete application
+                                    Permanently delete {0} application?
                                   </button>
                                   <button
                                     aria-disabled="false"
@@ -1256,7 +1256,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                               onClick={[Function]}
                               variant="danger"
                             >
-                              Delete application
+                              Permanently delete {0} application?
                             </Button>,
                             <Button
                               onClick={[Function]}
@@ -1267,7 +1267,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                           ]
                         }
                         aria-describedby=""
-                        aria-label="Delete application"
+                        aria-label="Permanently delete {0} application?"
                         aria-labelledby=""
                         boxId="remove-resource-modal"
                         className=""
@@ -1282,7 +1282,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                         position="top"
                         positionOffset="225px"
                         showClose={true}
-                        title="Delete application"
+                        title="Permanently delete {0} application?"
                         titleIconVariant="warning"
                         titleLabel=""
                         variant="large"
@@ -1307,7 +1307,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                               >
                                 <ModalBox
                                   aria-describedby="pf-modal-part-2"
-                                  aria-label="Delete application"
+                                  aria-label="Permanently delete {0} application?"
                                   aria-labelledby="remove-resource-modal pf-modal-part-1"
                                   className="pf-m-warning"
                                   data-ouia-component-id="OUIA-Generated-Modal-large-1"
@@ -1325,7 +1325,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                 >
                                   <div
                                     aria-describedby="pf-modal-part-2"
-                                    aria-label="Delete application"
+                                    aria-label="Permanently delete {0} application?"
                                     aria-labelledby="remove-resource-modal pf-modal-part-1"
                                     aria-modal="true"
                                     className="pf-c-modal-box pf-m-warning pf-m-align-top pf-m-lg"
@@ -1396,7 +1396,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                       >
                                         <ModalBoxTitle
                                           id="pf-modal-part-1"
-                                          title="Delete application"
+                                          title="Permanently delete {0} application?"
                                           titleIconVariant="warning"
                                           titleLabel=""
                                         >
@@ -1440,7 +1440,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                             <span
                                               className="pf-c-modal-box__title-text"
                                             >
-                                              Delete application
+                                              Permanently delete {0} application?
                                             </span>
                                           </h1>
                                         </ModalBoxTitle>
@@ -1545,7 +1545,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                             tabIndex={null}
                                             type="button"
                                           >
-                                            Delete application
+                                            Permanently delete {0} application?
                                           </button>
                                         </Button>
                                         <Button

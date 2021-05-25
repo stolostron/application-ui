@@ -38,7 +38,7 @@
     }
 
     .how-to-read-text {
-      color: #3d70b2;
+      color: #0066CC;
       font-size: 14px;
       line-height: 20px;
       text-align: left;
@@ -50,34 +50,6 @@
       width: 14px;
       height: 11px;
       margin-left: 9px;
-    }
-
-    /* filter bar */
-    .diagram-controls-container {
-      background-color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px 10px 10px;
-      border-top: 1px solid #dfe3e6;
-
-      .diagram-type-filter-bar {
-        display: flex;
-      }
-
-      .diagram-expand-button {
-        display: flex;
-        font-size: 12px;
-        cursor: pointer;
-        color: #3d70b2;
-
-        .icon {
-          margin-right: 8px;
-          width: 13px;
-          height: 13px;
-          stroke: #3d70b2;
-        }
-      }
     }
   }
 
@@ -113,14 +85,6 @@
 
       .topology-container {
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.10);
-      }
-
-
-      /* filter bar */
-      .diagram-controls-container {
-        border: none;
-        background-color: unset;
-        padding: 0 0 6px;
       }
     }
   }

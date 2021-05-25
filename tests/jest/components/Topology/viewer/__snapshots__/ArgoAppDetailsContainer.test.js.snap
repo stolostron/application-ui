@@ -243,13 +243,14 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
             >
               Launch Argo editor
               <svg
-                height="8px"
+                height="12px"
                 style={
                   Object {
-                    "marginLeft": "9px",
+                    "marginLeft": "8px",
+                    "stroke": "#0066CC",
                   }
                 }
-                width="11px"
+                width="12px"
               >
                 <use
                   className="label-icon"
@@ -287,20 +288,11 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
               tabIndex="0"
             >
               View resource YAML
-              <svg
-                height="8px"
-                style={
-                  Object {
-                    "marginLeft": "9px",
-                  }
-                }
-                width="11px"
-              >
-                <use
-                  className="label-icon"
-                  href="#diagramIcons_carbonLaunch"
-                />
-              </svg>
+              <img
+                alt="open-new-tab"
+                className="new-tab-icon"
+                src="undefined/graphics/open-new-tab.svg"
+              />
             </span>
           </div>
           <div
@@ -385,13 +377,14 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
         >
           Launch Argo editor
           <svg
-            height="8px"
+            height="12px"
             style={
               Object {
-                "marginLeft": "9px",
+                "marginLeft": "8px",
+                "stroke": "#0066CC",
               }
             }
-            width="11px"
+            width="12px"
           >
             <use
               className="label-icon"
@@ -488,13 +481,14 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
             >
               Launch Argo editor
               <svg
-                height="8px"
+                height="12px"
                 style={
                   Object {
-                    "marginLeft": "9px",
+                    "marginLeft": "8px",
+                    "stroke": "#0066CC",
                   }
                 }
-                width="11px"
+                width="12px"
               >
                 <use
                   className="label-icon"
@@ -532,20 +526,11 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
               tabIndex="0"
             >
               View resource YAML
-              <svg
-                height="8px"
-                style={
-                  Object {
-                    "marginLeft": "9px",
-                  }
-                }
-                width="11px"
-              >
-                <use
-                  className="label-icon"
-                  href="#diagramIcons_carbonLaunch"
-                />
-              </svg>
+              <img
+                alt="open-new-tab"
+                className="new-tab-icon"
+                src="undefined/graphics/open-new-tab.svg"
+              />
             </span>
           </div>
           <div
@@ -630,13 +615,14 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
         >
           Launch Argo editor
           <svg
-            height="8px"
+            height="12px"
             style={
               Object {
-                "marginLeft": "9px",
+                "marginLeft": "8px",
+                "stroke": "#0066CC",
               }
             }
-            width="11px"
+            width="12px"
           >
             <use
               className="label-icon"

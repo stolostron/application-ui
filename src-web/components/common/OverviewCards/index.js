@@ -14,7 +14,6 @@ import { withLocale } from '../../../providers/LocaleProvider'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
-  ArrowRightIcon,
   ExternalLinkAltIcon,
   OutlinedQuestionCircleIcon,
   SyncAltIcon
@@ -493,7 +492,13 @@ class OverviewCards extends React.Component {
                     component="a"
                     target="_blank"
                     rel="noreferrer"
-                    icon={<ArrowRightIcon />}
+                    icon={
+                      <img
+                        className="new-tab-icon argo-app-link"
+                        alt="open-new-tab"
+                        src={`${config.contextPath}/graphics/open-new-tab.svg`}
+                      />
+                    }
                     iconPosition="right"
                   >
                     {msgs.get('props.show.yaml.argoset.maincard', locale)}
@@ -516,7 +521,15 @@ class OverviewCards extends React.Component {
                         component="a"
                         target="_blank"
                         rel="noreferrer"
-                        icon={<ArrowRightIcon />}
+                        icon={
+                          <img
+                            className="new-tab-icon argo-app-link"
+                            alt="open-new-tab"
+                            src={`${
+                              config.contextPath
+                            }/graphics/open-new-tab.svg`}
+                          />
+                        }
                         iconPosition="right"
                       >
                         {msgs.get(
@@ -536,7 +549,15 @@ class OverviewCards extends React.Component {
                         component="a"
                         target="_blank"
                         rel="noreferrer"
-                        icon={<ArrowRightIcon />}
+                        icon={
+                          <img
+                            className="new-tab-icon argo-app-link"
+                            alt="open-new-tab"
+                            src={`${
+                              config.contextPath
+                            }/graphics/open-new-tab.svg`}
+                          />
+                        }
                         iconPosition="right"
                       >
                         {msgs.get(
@@ -672,7 +693,11 @@ class OverviewCards extends React.Component {
         >
           <div>
             {msgs.get('dashboard.card.overview.cards.search.resource', locale)}
-            <ArrowRightIcon className="details-item-link-icon" />
+            <img
+              className="new-tab-icon"
+              alt="open-new-tab"
+              src={`${config.contextPath}/graphics/open-new-tab.svg`}
+            />
           </div>
         </a>
       )

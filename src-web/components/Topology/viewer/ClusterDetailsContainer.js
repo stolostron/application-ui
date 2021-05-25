@@ -366,7 +366,11 @@ class ClusterDetailsContainer extends React.Component {
             onKeyDown={this.handleKeyPress.bind(this, resource)}
           >
             {msgs.get('details.cluster.console', locale)}
-            <svg width="11px" height="8px" style={{ marginLeft: '9px' }}>
+            <svg
+              width="12px"
+              height="12px"
+              style={{ marginLeft: '8px', stroke: '#0066CC' }}
+            >
               <use href="#diagramIcons_carbonLaunch" className="label-icon" />
             </svg>
           </span>

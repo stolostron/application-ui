@@ -55,20 +55,11 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
             tabIndex="0"
           >
             Launch resource in Search
-            <svg
-              height="8px"
-              style={
-                Object {
-                  "marginLeft": "9px",
-                }
-              }
-              width="11px"
-            >
-              <use
-                className="label-icon"
-                href="#diagramIcons_arrowRight"
-              />
-            </svg>
+            <img
+              alt="open-new-tab"
+              className="new-tab-icon"
+              src="undefined/graphics/open-new-tab.svg"
+            />
           </span>
         </div>
       </div>
@@ -164,17 +155,18 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         >
           http://mortgage-app-mortgage
           <svg
-            height="8px"
+            height="12px"
             style={
               Object {
-                "marginLeft": "9px",
+                "marginLeft": "8px",
+                "stroke": "#0066CC",
               }
             }
-            width="11px"
+            width="12px"
           >
             <use
               className="label-icon"
-              href="#diagramIcons_arrowRight"
+              href="#diagramIcons_carbonLaunch"
             />
           </svg>
         </span>
@@ -192,17 +184,18 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         >
           mortgage-app-mortgage
           <svg
-            height="8px"
+            height="12px"
             style={
               Object {
-                "marginLeft": "9px",
+                "marginLeft": "8px",
+                "stroke": "#0066CC",
               }
             }
-            width="11px"
+            width="12px"
           >
             <use
               className="label-icon"
-              href="#diagramIcons_arrowRight"
+              href="#diagramIcons_carbonLaunch"
             />
           </svg>
         </span>
@@ -417,20 +410,11 @@ exports[`DetailsView no components renders as expected 1`] = `
             tabIndex="0"
           >
             Launch resource in Search
-            <svg
-              height="8px"
-              style={
-                Object {
-                  "marginLeft": "9px",
-                }
-              }
-              width="11px"
-            >
-              <use
-                className="label-icon"
-                href="#diagramIcons_arrowRight"
-              />
-            </svg>
+            <img
+              alt="open-new-tab"
+              className="new-tab-icon"
+              src="undefined/graphics/open-new-tab.svg"
+            />
           </span>
         </div>
       </div>

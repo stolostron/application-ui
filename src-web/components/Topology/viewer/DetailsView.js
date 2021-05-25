@@ -26,6 +26,7 @@ import { createResourceSearchLink } from '../utils/diagram-helpers'
 import { getLegendTitle } from './defaults/titles'
 import ClusterDetailsContainer from './ClusterDetailsContainer'
 import ArgoAppDetailsContainer from './ArgoAppDetailsContainer'
+import config from '../../../../lib/shared/config'
 
 const DetailsViewDecorator = ({ shape, className }) => {
   return (
@@ -237,15 +238,14 @@ class DetailsView extends React.Component {
     const showLaunchOutIcon = !R.pathOr(false, ['data', 'specs', 'isDesign'])(
       value
     ) //if not show yaml
+    const isExternal =
+      _.get(value, 'data.action', '') !== 'show_search' &&
+      _.get(value, 'data.action', '') !== 'show_resource_yaml'
 
     const label = value.labelKey
       ? msgs.get(value.labelKey, locale)
       : value.label
 
-    let iconName = 'arrowRight'
-    if (_.get(value, 'data.targetLink', '').startsWith('http')) {
-      iconName = 'carbonLaunch'
-    }
     const mainSectionClasses = classNames({
       sectionContent: true,
       borderLeft: indent ? true : false
@@ -270,11 +270,22 @@ class DetailsView extends React.Component {
         >
           {loadingArgoLink && <Spinner size="sm" />}
           {label}
-          {showLaunchOutIcon && (
-            <svg width="11px" height="8px" style={{ marginLeft: '9px' }}>
-              <use href={`#diagramIcons_${iconName}`} className="label-icon" />
-            </svg>
-          )}
+          {showLaunchOutIcon &&
+            (isExternal ? (
+              <svg
+                width="12px"
+                height="12px"
+                style={{ marginLeft: '8px', stroke: '#0066CC' }}
+              >
+                <use href="#diagramIcons_carbonLaunch" className="label-icon" />
+              </svg>
+            ) : (
+              <img
+                className="new-tab-icon"
+                alt="open-new-tab"
+                src={`${config.contextPath}/graphics/open-new-tab.svg`}
+              />
+            ))}
         </span>
       </div>
     )

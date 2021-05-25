@@ -19,6 +19,7 @@ import {
   processResourceActionLink,
   createEditLink
 } from '../utils/diagram-helpers'
+import config from '../../../../lib/shared/config'
 
 class ArgoAppDetailsContainer extends React.Component {
   static propTypes = {
@@ -337,7 +338,7 @@ class ArgoAppDetailsContainer extends React.Component {
     }
   };
 
-  renderURLLink = (resource, locale) => {
+  renderURLLink = (resource, isExternal, locale) => {
     return (
       <span
         className="link sectionLabel"
@@ -350,9 +351,21 @@ class ArgoAppDetailsContainer extends React.Component {
         {resource.action === 'open_argo_editor'
           ? msgs.get('props.show.argocd.editor', locale)
           : msgs.get('props.show.yaml', locale)}
-        <svg width="11px" height="8px" style={{ marginLeft: '9px' }}>
-          <use href="#diagramIcons_carbonLaunch" className="label-icon" />
-        </svg>
+        {isExternal ? (
+          <svg
+            width="12px"
+            height="12px"
+            style={{ marginLeft: '8px', stroke: '#0066CC' }}
+          >
+            <use href="#diagramIcons_carbonLaunch" className="label-icon" />
+          </svg>
+        ) : (
+          <img
+            className="new-tab-icon"
+            alt="open-new-tab"
+            src={`${config.contextPath}/graphics/open-new-tab.svg`}
+          />
+        )}
       </span>
     )
   };
@@ -516,7 +529,7 @@ class ArgoAppDetailsContainer extends React.Component {
               isHidden={!expandSectionToggleMap.has(toggleItemNum)}
             >
               <span style={argoEditorLinkStyle}>
-                {this.renderURLLink(argoEditorResource, locale)}
+                {this.renderURLLink(argoEditorResource, true, locale)}
               </span>
               <div className="spacer" />
               <span
@@ -530,7 +543,7 @@ class ArgoAppDetailsContainer extends React.Component {
               </span>
               <div className="spacer" />
               <div className={divClass}>
-                {this.renderURLLink(appResourceYaml, locale)}
+                {this.renderURLLink(appResourceYaml, false, locale)}
               </div>
               <div className={divClass}>
                 <span className={labelClass}>
@@ -561,7 +574,7 @@ class ArgoAppDetailsContainer extends React.Component {
             </AccordionContent>
           </AccordionItem>
           <span style={outerArgoEditorLinkStyle}>
-            {this.renderURLLink(argoEditorResource, locale)}
+            {this.renderURLLink(argoEditorResource, true, locale)}
           </span>
         </div>
       )

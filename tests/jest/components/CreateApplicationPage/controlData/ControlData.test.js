@@ -34,7 +34,8 @@ import {
   updateNewRuleControlsData,
   updateChannelControls,
   setAvailableSecrets,
-  getUniqueChannelName
+  getUniqueChannelName,
+  getAnsibleSecretSimplified
 } from "../../../../../src-web/components/ApplicationCreationPage/controlData/utils";
 
 const controlDataNS = [
@@ -88,6 +89,23 @@ const controlDataNS = [
     ]
   }
 ];
+
+describe("getAnsibleSecretSimplified", () => {
+  const ansibleVal1 = "secretName Namespace: ns";
+  const ansibleVal2 = "secretName";
+
+  it("returns secret name", () => {
+    expect(getAnsibleSecretSimplified(ansibleVal1)).toEqual("secretName");
+  });
+
+  it("returns secretName, no NS set", () => {
+    expect(getAnsibleSecretSimplified(ansibleVal2)).toEqual("secretName");
+  });
+
+  it("returns undefined", () => {
+    expect(getAnsibleSecretSimplified(undefined)).toEqual(undefined);
+  });
+});
 
 describe("getUniqueChannelName", () => {
   const channelUrl =
@@ -530,32 +548,79 @@ describe("setAvailableSecrets", () => {
     data: {
       secrets: [
         {
-          metadata: {
-            name: "aa-ns"
-          }
+          ansibleSecretName: "aa",
+          ansibleSecretNamespace: "aa-ns"
+        },
+        {
+          ansibleSecretName: "aa", // duplicate secret name, different ns
+          ansibleSecretNamespace: "aa-ns2"
+        },
+        {
+          ansibleSecretName: "bb",
+          ansibleSecretNamespace: "bb-ns"
+        },
+        {
+          name: "cc" // invalid name property
+        },
+        {
+          ansibleSecretName: "dd" // no NS
         }
       ]
     }
   };
   const result = {
-    active: true,
-    available: ["undefined"],
-    availableData: { undefined: { metadata: { name: "aa-ns" } } },
-    availableMap: {
-      undefined: {
-        replacements: {
-          metadata: {
-            name: "aa-ns"
-          }
-        }
-      }
-    },
-    hasReplacements: true,
     id: "namespace",
-    isLoading: false
+    active: true,
+    availableData: {
+      "aa Namespace: aa-ns": {
+        ansibleSecretName: "aa",
+        ansibleSecretNamespace: "aa-ns"
+      },
+      "aa Namespace: aa-ns2": {
+        ansibleSecretName: "aa",
+        ansibleSecretNamespace: "aa-ns2"
+      },
+      "bb Namespace: bb-ns": {
+        ansibleSecretName: "bb",
+        ansibleSecretNamespace: "bb-ns"
+      },
+      "unknown Namespace: unknown": { name: "cc" },
+      "dd Namespace: unknown": { ansibleSecretName: "dd" }
+    },
+    available: [
+      "aa Namespace: aa-ns",
+      "aa Namespace: aa-ns2",
+      "bb Namespace: bb-ns",
+      "dd Namespace: unknown",
+      "unknown Namespace: unknown"
+    ],
+    hasReplacements: true,
+    isLoading: false,
+    availableMap: {
+      "aa Namespace: aa-ns": {
+        replacements: {
+          ansibleSecretName: "aa",
+          ansibleSecretNamespace: "aa-ns"
+        }
+      },
+      "aa Namespace: aa-ns2": {
+        replacements: {
+          ansibleSecretName: "aa",
+          ansibleSecretNamespace: "aa-ns2"
+        }
+      },
+      "bb Namespace: bb-ns": {
+        replacements: {
+          ansibleSecretName: "bb",
+          ansibleSecretNamespace: "bb-ns"
+        }
+      },
+      "unknown Namespace: unknown": { replacements: { name: "cc" } },
+      "dd Namespace: unknown": { replacements: { ansibleSecretName: "dd" } }
+    }
   };
 
-  it("setAvailableSecrets no error", () => {
+  it("show secrets with the same name, and show namespaces", () => {
     expect(setAvailableSecrets(urlControl, model)).toEqual(result);
   });
 });

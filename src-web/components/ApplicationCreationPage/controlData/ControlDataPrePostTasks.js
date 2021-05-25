@@ -13,7 +13,8 @@
 
 import {
   loadExistingAnsibleProviders,
-  getSharedSubscriptionWarning
+  getSharedSubscriptionWarning,
+  getAnsibleSecretSimplified
 } from './utils'
 import React from 'react'
 import { ExternalLinkAltIcon } from '@patternfly/react-icons'
@@ -35,7 +36,7 @@ const prePostTasks = [
     name: 'creation.app.ansible.credential.name',
     tooltip: 'tooltip.creation.app.ansibleSecretName',
     id: 'ansibleSecretName',
-    type: 'singleselect',
+    type: 'combobox',
     active: '',
     placeholder: 'app.enter.select.ansibleSecretName',
     available: [],
@@ -49,7 +50,8 @@ const prePostTasks = [
       url: '/credentials/add', // launch to credential page
       positionBottomRight: true,
       id: 'add-provider-connection'
-    }
+    },
+    simplified: getAnsibleSecretSimplified
   }
 ]
 

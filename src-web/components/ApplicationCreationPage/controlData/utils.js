@@ -611,19 +611,32 @@ export const setAvailableChannelSpecs = (type, control, result) => {
   return control
 }
 
+export const getAnsibleSecretSimplified = value => {
+  // value format is ansibleSecretName, Namespace: ansibleSecretNS
+  // returns the ansibleSecretName
+  const values = (value && _.split(value, ' ')) || []
+  if (values.length > 0) return values[0]
+  return value
+}
+
 export const setAvailableSecrets = (control, result) => {
   const { loading } = result
   const { data = {} } = result
   const { secrets } = data
   control.available = []
   control.hasReplacements = true
-
   control.isLoading = false
   const error = secrets ? null : result.error
   if (error) {
     control.isFailed = true
   } else if (secrets) {
-    control.availableData = _.keyBy(secrets, 'ansibleSecretName')
+    control.availableData = _.keyBy(
+      secrets,
+      secret =>
+        `${_.get(secret, 'ansibleSecretName', 'unknown')} ${msgs.get(
+          'dashboard.card.overview.cards.namespace'
+        )}: ${_.get(secret, 'ansibleSecretNamespace', 'unknown')}`
+    )
     control.available = Object.keys(control.availableData).sort()
     control.availableMap = _.mapValues(control.availableData, replacements => {
       return {

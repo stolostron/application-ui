@@ -14,7 +14,6 @@ const express = require('express'),
       context = require('../../lib/shared/context'),
       msgs = require('../../nls/platform.properties'),
       config = require('../../config'),
-      // cookieUtil = require('../../lib/server/cookie-util'),
       appUtil = require('../../lib/server/app-util'),
       router = express.Router({ mergeParams: true })
 

@@ -43,13 +43,10 @@ env:
     - COMPONENT_E2E_TEST_COMMAND=${TRAVIS_BUILD_DIR}/build/run-e2e-tests.sh
 
 stages:
-  - build
   - name: test-e2e
     if: env(USE_CLUSTERPOOL) IS blank
   - name: test-e2e-clusterpool
     if: env(USE_CLUSTERPOOL) IS present
-  - release-ff
-  - publish
 
 before_script:
   - make init
@@ -57,16 +54,6 @@ before_script:
 
 jobs:
   include:
-    - stage: build
-      name: "Build the component and test images and push them"
-      script:
-        - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
-        - make
-        - make component/build || travis_terminate 1
-        - make component/push
-        - make security/scans
-        - make build-test-image
-        - make push-test-image
     - stage: test-e2e
       name: "Deploy the image to a cluster and run e2e tests"
       if: type = pull_request

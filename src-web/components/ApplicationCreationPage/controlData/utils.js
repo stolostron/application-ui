@@ -108,29 +108,27 @@ export const getUniqueChannelName = (channelPath, groupControlData) => {
   return channelName
 }
 
-//check if this is a channel already defined by the current app
-export const isUsingSameChannel = (globalControl, channelName) => {
-  let usingSameChannel = 0
+//check if this is a channel already defined by the current app, before this channel
+export const isUsingSameChannel = (globalControl, channelName, nameControl) => {
   const channelsControl = globalControl.find(
     ({ id: idCtrl }) => idCtrl === 'channels'
   )
   if (channelsControl) {
     //get all active channels and see if this channel name was created prior to this; reuse it if found
     const activeDataChannels = _.get(channelsControl, 'active', [])
-    activeDataChannels.forEach(channelInfo => {
+    for (const channelInfo of activeDataChannels) {
       const channelNameInfo = channelInfo.find(
         ({ id: idChannelInfo }) => idChannelInfo === 'channelName'
       )
-      if (
-        channelNameInfo &&
-        _.get(channelNameInfo, 'active', '') === channelName
-      ) {
-        usingSameChannel = usingSameChannel + 1
+      if (channelNameInfo) {
+        if (channelNameInfo === nameControl) {
+          return false
+        } else if (_.get(channelNameInfo, 'active', '') === channelName) {
+          return true
+        }
       }
-    })
+    }
   }
-
-  return usingSameChannel > 1
 }
 
 export const updateChannelControls = (
@@ -172,7 +170,11 @@ export const updateChannelControls = (
       const channelName = getUniqueChannelName(active, groupControlData)
       const channelNS = `${channelName}-ns`
 
-      usingSameChannel = isUsingSameChannel(globalControl, channelName)
+      usingSameChannel = isUsingSameChannel(
+        globalControl,
+        channelName,
+        nameControl
+      )
 
       if (usingSameChannel) {
         // if existing channel, reuse channel name and namespace
@@ -197,7 +199,11 @@ export const updateChannelControls = (
   // update reconcile rate based on selected channel url
   // if existing channel, make channel reconcile rate readonly
   // NOTE: existing channels with no reconcile rate set, will use the default medium rate
-  let rateValue = 'medium'
+  const reconcileRate = groupControlData.find(
+    ({ id }) => id === 'gitReconcileRate' || id === 'helmReconcileRate'
+  )
+
+  let rateValue = (reconcileRate && reconcileRate.active) || 'medium'
   if (pathData && pathData.raw) {
     rateValue = _.get(
       pathData.raw,
@@ -205,9 +211,6 @@ export const updateChannelControls = (
       'medium'
     )
   }
-  const reconcileRate = groupControlData.find(
-    ({ id }) => id === 'gitReconcileRate' || id === 'helmReconcileRate'
-  )
   if (reconcileRate) {
     reconcileRate.active = rateValue
     reconcileRate.disabled = existingChannel ? true : false
@@ -227,38 +230,33 @@ export const updateChannelControls = (
     }
   }
 
-  let control
-  // if existing channel, hide user/token controls; show it when using the same channel in the same app
-  const type = !existingChannel || usingSameChannel ? 'text' : 'hidden'
-  const checkboxType =
-    !existingChannel || usingSameChannel ? 'checkbox' : 'hidden'
-  const setType = (cid, isPasswordField, isCheckbox) => {
-    control = groupControlData.find(({ id }) => id === cid)
-    let setCtrlType = isCheckbox ? checkboxType : type
-    if (isPasswordField) {
-      setCtrlType = type === 'hidden' ? type : 'password'
-    }
-    _.set(control, 'type', setCtrlType)
-    if (type === 'hidden') {
+  // if existing channel or using same channel, hide user/token controls, region, reconcile rate
+  const hideControls = existingChannel || usingSameChannel
+  const showOrHideControl = (cid, defaultType) => {
+    const control = groupControlData.find(({ id }) => id === cid)
+    _.set(control, 'type', hideControls ? 'hidden' : defaultType)
+    if (hideControls) {
       _.set(control, 'active', '')
     }
   }
   const { id } = urlControl
   switch (id) {
   case 'githubURL':
-    setType('githubUser')
-    setType('githubAccessId', true)
-    setType('gitInsecureSkipVerify', false, true)
+    showOrHideControl('githubUser', 'text')
+    showOrHideControl('githubAccessId', 'password')
+    showOrHideControl('gitInsecureSkipVerify', 'checkbox')
+    showOrHideControl('gitReconcileRate', 'combobox')
     break
   case 'objectstoreURL':
-    setType('accessKey')
-    setType('secretKey', true)
-    setType('region')
+    showOrHideControl('accessKey', 'text')
+    showOrHideControl('secretKey', 'password')
+    showOrHideControl('region', 'text')
     break
   case 'helmURL':
-    setType('helmUser')
-    setType('helmPassword', true)
-    setType('helmInsecureSkipVerify', false, true)
+    showOrHideControl('helmUser', 'text')
+    showOrHideControl('helmPassword', 'password')
+    showOrHideControl('helmInsecureSkipVerify', 'checkbox')
+    showOrHideControl('helmReconcileRate', 'combobox')
     break
   }
 

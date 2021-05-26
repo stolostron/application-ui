@@ -46,42 +46,46 @@ export const apiResources = (type, data, returnType) => {
 };
 
 export const checkExistingUrls = (css1, value1, css2, value2, url) => {
-  getSavedPathname().then(({ urllist }) => {
+  getSavedPathname(url).then(pathnames => {
+    const { urllist } = pathnames;
     if (!urllist.includes(url)) {
       if (value1 && value2) {
-        cy
-          .get(css1, { timeout: 20 * 1000 })
-          .paste(value1, {
-            log: false,
-            timeout: 20 * 1000,
-            failOnNonZeroExit: false
-          });
-        cy
-          .get(css2, { timeout: 20 * 1000 })
-          .paste(value2, {
-            log: false,
-            timeout: 20 * 1000,
-            failOnNonZeroExit: false
-          });
+        cy.get(css1, { timeout: 20 * 1000 }).paste(value1, {
+          log: false,
+          timeout: 20 * 1000,
+          failOnNonZeroExit: false
+        });
+        cy.get(css2, { timeout: 20 * 1000 }).paste(value2, {
+          log: false,
+          timeout: 20 * 1000,
+          failOnNonZeroExit: false
+        });
       }
+      urllist.push(url);
     } else {
       cy.log(`credentials have been saved for url - ${url}`);
     }
   });
 };
 
+let savedPathnames = null;
 export const getSavedPathname = () => {
   // returns a list of existing pathnames
-  return cy
-    .exec(`oc get channels -o=jsonpath='{.items[*].spec.pathname}' -A`, {
-      timeout: 50 * 1000
-    })
-    .then(result => {
-      const urllist = result.stdout.split(" ").filter(i => i);
-      return {
-        urllist: urllist
-      };
-    });
+  if (!savedPathnames) {
+    return cy
+      .exec(`oc get channels -o=jsonpath='{.items[*].spec.pathname}' -A`, {
+        timeout: 50 * 1000
+      })
+      .then(result => {
+        const urllist = result.stdout.split(" ").filter(i => i);
+        savedPathnames = {
+          urllist: urllist
+        };
+        return savedPathnames;
+      });
+  }
+
+  return new Cypress.Promise(resolve => resolve(savedPathnames));
 };
 
 export const channelsInformation = (name, key, namespace = "default") => {

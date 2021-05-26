@@ -170,6 +170,7 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
           className="pf-c-accordion__toggle"
           id="test1"
           onClick={[Function]}
+          type="button"
         >
           <span
             className="pf-c-accordion__toggle-text"
@@ -408,6 +409,7 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
           className="pf-c-accordion__toggle"
           id="test2"
           onClick={[Function]}
+          type="button"
         >
           <span
             className="pf-c-accordion__toggle-text"

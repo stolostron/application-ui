@@ -92,6 +92,7 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
           className="pf-c-accordion__toggle"
           id="time-window-header"
           onClick={[Function]}
+          type="button"
         >
           <span
             className="pf-c-accordion__toggle-text"
@@ -658,6 +659,7 @@ exports[`TimeWindow component default, window selected snapshot validation with 
           className="pf-c-accordion__toggle"
           id="time-window-header"
           onClick={[Function]}
+          type="button"
         >
           <span
             className="pf-c-accordion__toggle-text"

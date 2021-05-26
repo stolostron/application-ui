@@ -46,7 +46,7 @@ const prePostTasks = [
       prompt: 'creation.ocp.cloud.add.connection',
       icon: <ExternalLinkAltIcon />,
       type: 'link',
-      url: '/credentials/add', // launch to credential page
+      url: '/multicloud/credentials/add', // launch to credential page
       positionBottomRight: true,
       id: 'add-provider-connection'
     }

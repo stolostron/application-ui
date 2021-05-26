@@ -37,6 +37,7 @@ exports[`ClusterSelector component renders empty control 1`] = `
           className="pf-c-accordion__toggle pf-m-expanded"
           id="labels-header"
           onClick={[Function]}
+          type="button"
         >
           <span
             className="pf-c-accordion__toggle-text"
@@ -275,6 +276,7 @@ exports[`ClusterSelector component renders empty control with data set 1`] = `
           className="pf-c-accordion__toggle pf-m-expanded"
           id="labels-header"
           onClick={[Function]}
+          type="button"
         >
           <span
             className="pf-c-accordion__toggle-text"
@@ -513,6 +515,7 @@ exports[`ClusterSelector component renders full control 1`] = `
           className="pf-c-accordion__toggle pf-m-expanded"
           id="labels-header"
           onClick={[Function]}
+          type="button"
         >
           <span
             className="pf-c-accordion__toggle-text"

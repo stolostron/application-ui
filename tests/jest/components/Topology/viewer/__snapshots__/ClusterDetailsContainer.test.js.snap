@@ -170,6 +170,7 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
           className="pf-c-accordion__toggle"
           id="argo-fxiang-eks"
           onClick={[Function]}
+          type="button"
         >
           <span
             className="pf-c-accordion__toggle-text"
@@ -350,6 +351,7 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
           className="pf-c-accordion__toggle"
           id="fxiang-eks"
           onClick={[Function]}
+          type="button"
         >
           <span
             className="pf-c-accordion__toggle-text"
@@ -566,6 +568,7 @@ exports[`ClusterDetailsContainer with some clusters renders as expected 1`] = `
           className="pf-c-accordion__toggle"
           id="vbirsan1-remote"
           onClick={[Function]}
+          type="button"
         >
           <span
             className="pf-c-accordion__toggle-text"

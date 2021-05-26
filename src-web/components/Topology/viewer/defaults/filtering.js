@@ -138,19 +138,6 @@ export const getAllFilters = (
       .sort()
   }
 
-  // if lots of unknown types, assign some unknown types to spare shapes
-  if (unknownTypes.length > 3 && availableTypes.length < 3) {
-    const set = new Set(unknownTypes)
-    sorted.filter(a => set.has(a)).some((a, idx) => {
-      const spareKey = `spare${idx + 1}`
-      typeToShapeMap[a] = typeToShapeMap[spareKey]
-      availableTypes.push(a)
-      otherTypeFilters = otherTypeFilters.filter(b => a !== b)
-      delete typeToShapeMap[spareKey]
-      return idx >= 5 // only 5 spares
-    })
-  }
-
   // if there are still other shapes, add to available
   if (otherTypeFilters.length > 0) {
     availableTypes = _.union(availableTypes, ['other'])

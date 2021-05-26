@@ -485,7 +485,7 @@ exports[`ResourceDetails ResourceDetails renders correctly with data on single a
                 </div>
                 <div
                   class="layoutLoadingContainer"
-                  style="visibility: hidden;"
+                  style="display: none;"
                 >
                   <span
                     aria-valuetext="Loading..."

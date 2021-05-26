@@ -161,10 +161,9 @@ export const noResource = {
 };
 
 export const modal = {
-  shouldBeOpen: () =>
-    cy.get("#remove-resource-modal", { timeout: 20000 }).should("exist"),
-  shouldBeClosed: () =>
-    cy.get("#remove-resource-modal", { timeout: 20000 }).should("not.exist"),
+  shouldBeOpen: modalId => cy.get(modalId, { timeout: 20000 }).should("exist"),
+  shouldBeClosed: modalId =>
+    cy.get(modalId, { timeout: 20000 }).should("not.exist"),
   shouldBeVisible: () =>
     cy.get("#create-button-portal-id", { timeout: 20000 }).should("be.visible"),
   shouldNotBeVisible: () =>
@@ -686,6 +685,29 @@ const convertTimeFormat = time => {
     return hour12 + time.substring(2) + period;
   } else {
     return "";
+  }
+};
+
+export const validateSyncFunction = (type, opType) => {
+  if (opType === "create") {
+    if (type !== "argo") {
+      // wait for sync button to display
+      cy
+        .get("#sync-app", { timeout: 50 * 1000 })
+        .scrollIntoView()
+        .click();
+      modal.shouldBeOpen("#sync-resource-modal");
+      cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.exist");
+      modal.clickSubmit();
+      modal.shouldBeClosed("#sync-resource-modal");
+      notification.shouldExist("success");
+    } else {
+      cy.log(`verify sync button doesn't exist for Argo apps`);
+      cy.get("#sync-app", { timeout: 10 * 1000 }).should("not.exist");
+    }
+  } else {
+    //ignore this
+    return;
   }
 };
 

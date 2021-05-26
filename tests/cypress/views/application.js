@@ -20,7 +20,8 @@ import {
   validateDeployables,
   validateRbacAlert,
   selectClusterDeployment,
-  verifyYamlTemplate
+  verifyYamlTemplate,
+  validateSyncFunction
 } from "./common";
 
 import { channelsInformation, checkExistingUrls } from "./resources.js";
@@ -452,6 +453,8 @@ export const validateTopology = (
   if (type === "argo") {
     validateArgoLinks(data.config);
   }
+
+  validateSyncFunction(type, opType);
 
   validateSubscriptionDetails(name, data, type, opType);
 

@@ -40,6 +40,7 @@ unit-tests:
 
 
 .PHONY: test-e2e:
+test-e2e:
 	@./build/run-prow-e2e.sh
 
 .PHONY: pull-test-image

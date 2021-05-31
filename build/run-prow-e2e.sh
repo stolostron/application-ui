@@ -58,7 +58,7 @@ echo "Running oc/login..."
 make oc/login
 
 echo "Running pull-test-image..."
-# make pull-test-image
+make pull-test-image
 
 # Use setup script to set variables
 . ./setup-env.sh > /dev/null

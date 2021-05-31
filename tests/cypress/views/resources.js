@@ -46,7 +46,7 @@ export const apiResources = (type, data, returnType) => {
 };
 
 export const checkExistingUrls = (css1, value1, css2, value2, url) => {
-  getSavedPathname(url).then(pathnames => {
+  getSavedPathname().then(pathnames => {
     const { urllist } = pathnames;
     if (!urllist.includes(url)) {
       if (value1 && value2) {
@@ -85,7 +85,7 @@ export const getSavedPathname = () => {
       });
   }
 
-  return new Cypress.Promise(resolve => resolve(savedPathnames));
+  return cy.wrap(savedPathnames);
 };
 
 export const channelsInformation = (name, key, namespace = "default") => {

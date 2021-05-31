@@ -20,8 +20,6 @@
     "test": "jest --silent",
     "test:watch": "jest --watch",
     "test:update-snapshot": "jest --updateSnapshot",
-    "storybook": "start-storybook -p 6006 -s ./public",
-    "build-storybook": "build-storybook",
     "test:slack": "node tests/cypress/scripts/slack-reporter.js"
   },
   "husky": {

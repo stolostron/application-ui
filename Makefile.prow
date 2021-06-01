@@ -38,8 +38,7 @@ unit-tests:
 	fi
 	npm run test
 
-
-.PHONY: test-e2e:
+.PHONY: test-e2e
 test-e2e:
 	@./build/run-prow-e2e.sh
 

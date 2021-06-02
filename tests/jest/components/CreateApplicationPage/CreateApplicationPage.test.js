@@ -2,12 +2,23 @@
 // Copyright Contributors to the Open Cluster Management project
 
 let mockUserAccessAnyNamespaces = true;
+let mockmanagedCluster = true;
 
 jest.mock("../../../../lib/client/apollo-client", () => ({
   getUserAccessAllNamespaces: jest.fn(variables => {
     return Promise.resolve({
       data: {
         userAccessAnyNamespaces: mockUserAccessAnyNamespaces
+      },
+      loading: false,
+      networkStatus: 7,
+      stale: false
+    });
+  }),
+  getManagedClusterStatus: jest.fn(variables => {
+    return Promise.resolve({
+      data: {
+        managedCluster: mockmanagedCluster
       },
       loading: false,
       networkStatus: 7,

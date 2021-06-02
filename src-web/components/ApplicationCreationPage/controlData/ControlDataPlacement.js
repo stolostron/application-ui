@@ -35,7 +35,6 @@ import { getSourcePath } from 'temptifly'
 import apolloClient from '../../../../lib/client/apollo-client'
 import _ from 'lodash'
 import msgs from '../../../../nls/platform.properties'
-import { SEARCH_QUERY } from '../../../apollo-client/queries/SearchQueries'
 
 const existingRuleCheckbox = 'existingrule-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
@@ -254,26 +253,16 @@ export const summarizeOnline = (control, globalControlData, summary) => {
   }
 }
 
-const getGeneralQuery = (kind, name) => {
-  return {
-    filters: [
-      { property: 'kind', values: [kind] },
-      { property: 'name', values: [name] }
-    ]
-  }
-}
-
-const queryReturnsItems = (kind, name) => {
-  const query = getGeneralQuery(kind, name)
+const getClusterStatus = name => {
   return apolloClient
-    .search(SEARCH_QUERY, { input: [query] })
+    .getManagedClusterStatus({ clusterName: name })
     .then(response => {
-      const itemRes =
+      return (
         response &&
         response.data &&
-        response.data.searchResult[0] &&
-        response.data.searchResult[0].items
-      return !!itemRes && !!itemRes.length
+        response.data.managedCluster &&
+        response.data.managedCluster.successImportStatus
+      )
     })
     .catch(() => {
       // default to have the local-cluster managed
@@ -281,7 +270,7 @@ const queryReturnsItems = (kind, name) => {
     })
 }
 
-const enableHubSelfManagement = queryReturnsItems('cluster', 'local-cluster')
+const enableHubSelfManagement = getClusterStatus('local-cluster')
 
 const placementData = async () => [
   ////////////////////////////////////////////////////////////////////////////////////

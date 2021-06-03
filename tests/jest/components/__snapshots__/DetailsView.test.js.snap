@@ -55,11 +55,21 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
             tabIndex="0"
           >
             Launch resource in Search
-            <img
-              alt="open-new-tab"
-              className="new-tab-icon"
-              src="undefined/graphics/open-new-tab.svg"
-            />
+            <svg
+              height="12px"
+              style={
+                Object {
+                  "marginLeft": "8px",
+                  "stroke": "#0066CC",
+                }
+              }
+              width="12px"
+            >
+              <use
+                className="label-icon"
+                href="#diagramIcons_open-new-tab"
+              />
+            </svg>
           </span>
         </div>
       </div>
@@ -410,11 +420,21 @@ exports[`DetailsView no components renders as expected 1`] = `
             tabIndex="0"
           >
             Launch resource in Search
-            <img
-              alt="open-new-tab"
-              className="new-tab-icon"
-              src="undefined/graphics/open-new-tab.svg"
-            />
+            <svg
+              height="12px"
+              style={
+                Object {
+                  "marginLeft": "8px",
+                  "stroke": "#0066CC",
+                }
+              }
+              width="12px"
+            >
+              <use
+                className="label-icon"
+                href="#diagramIcons_open-new-tab"
+              />
+            </svg>
           </span>
         </div>
       </div>

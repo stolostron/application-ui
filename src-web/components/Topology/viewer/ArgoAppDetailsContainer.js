@@ -19,7 +19,6 @@ import {
   processResourceActionLink,
   createEditLink
 } from '../utils/diagram-helpers'
-import config from '../../../../lib/shared/config'
 
 class ArgoAppDetailsContainer extends React.Component {
   static propTypes = {
@@ -360,11 +359,13 @@ class ArgoAppDetailsContainer extends React.Component {
             <use href="#diagramIcons_carbonLaunch" className="label-icon" />
           </svg>
         ) : (
-          <img
-            className="new-tab-icon"
-            alt="open-new-tab"
-            src={`${config.contextPath}/graphics/open-new-tab.svg`}
-          />
+          <svg
+            width="12px"
+            height="12px"
+            style={{ marginLeft: '8px', stroke: '#0066CC' }}
+          >
+            <use href="#diagramIcons_open-new-tab" className="label-icon" />
+          </svg>
         )}
       </span>
     )

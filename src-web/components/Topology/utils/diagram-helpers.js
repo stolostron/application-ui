@@ -76,7 +76,8 @@ const resSuccessStates = [
   'run',
   'bound',
   deployedStr.toLowerCase(),
-  deployedNSStr.toLowerCase()
+  deployedNSStr.toLowerCase(),
+  'propagated'
 ]
 const apiVersionPath = 'specs.raw.apiVersion'
 

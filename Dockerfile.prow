@@ -4,14 +4,38 @@ FROM registry.ci.openshift.org/open-cluster-management/builder:nodejs14-linux as
 USER root
 WORKDIR /opt/app-root/src/application-ui
 COPY . /opt/app-root/src/application-ui/
-RUN yum install git -y
 RUN yum --nobest -y update
-RUN cd /opt/app-root/src/application-ui/ && npm ci && npm run build:production
-RUN ls /opt/app-root/src/application-ui
+RUN cd /opt/app-root/src/application-ui/ && npm ci && npm run build:production && npm prune --production
+
+FROM registry.access.redhat.com/ubi8/nodejs-14:1
+# Root needed for yum update, gets reset to 1001 below.
+USER root
+RUN yum -y remove nodejs-nodemon
+RUN yum --nobest -y update
 
 ENV BABEL_DISABLE_CACHE=1 \
     NODE_ENV=production \
     USER_UID=1001
+
+RUN mkdir -p /opt/app-root/src/application-ui
+WORKDIR /opt/app-root/src/application-ui
+
+COPY --from=builder /opt/app-root/src/application-ui/.babelrc /opt/app-root/src/application-ui/.babelrc
+COPY --from=builder /opt/app-root/src/application-ui/LICENSE /opt/app-root/src/application-ui/LICENSE
+COPY --from=builder /opt/app-root/src/application-ui/app.js /opt/app-root/src/application-ui/app.js
+COPY --from=builder /opt/app-root/src/application-ui/config /opt/app-root/src/application-ui/config
+COPY --from=builder /opt/app-root/src/application-ui/controllers /opt/app-root/src/application-ui/controllers
+COPY --from=builder /opt/app-root/src/application-ui/dll /opt/app-root/src/application-ui/dll
+COPY --from=builder /opt/app-root/src/application-ui/fonts /opt/app-root/src/application-ui/fonts
+COPY --from=builder /opt/app-root/src/application-ui/graphics /opt/app-root/src/application-ui/graphics
+COPY --from=builder /opt/app-root/src/application-ui/lib /opt/app-root/src/application-ui/lib
+COPY --from=builder /opt/app-root/src/application-ui/middleware /opt/app-root/src/application-ui/middleware
+COPY --from=builder /opt/app-root/src/application-ui/nls /opt/app-root/src/application-ui/nls
+COPY --from=builder /opt/app-root/src/application-ui/node_modules /opt/app-root/src/application-ui/node_modules
+COPY --from=builder /opt/app-root/src/application-ui/public /opt/app-root/src/application-ui/public
+COPY --from=builder /opt/app-root/src/application-ui/src-web /opt/app-root/src/application-ui/src-web
+COPY --from=builder /opt/app-root/src/application-ui/templates /opt/app-root/src/application-ui/templates
+COPY --from=builder /opt/app-root/src/application-ui/views /opt/app-root/src/application-ui/views
 
 EXPOSE 3000
 

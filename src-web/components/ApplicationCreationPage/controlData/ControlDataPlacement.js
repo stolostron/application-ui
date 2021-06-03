@@ -260,8 +260,7 @@ const getClusterStatus = name => {
       return (
         response &&
         response.data &&
-        response.data.managedCluster &&
-        response.data.managedCluster.successImportStatus
+        response.data.isManagedClusterConditionAvailable
       )
     })
     .catch(() => {

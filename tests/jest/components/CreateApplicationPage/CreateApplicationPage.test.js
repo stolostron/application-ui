@@ -18,7 +18,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
   getManagedClusterStatus: jest.fn(variables => {
     return Promise.resolve({
       data: {
-        managedCluster: mockmanagedCluster
+        isManagedClusterConditionAvailable: mockmanagedCluster
       },
       loading: false,
       networkStatus: 7,

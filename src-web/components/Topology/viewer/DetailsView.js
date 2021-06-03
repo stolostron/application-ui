@@ -26,7 +26,6 @@ import { createResourceSearchLink } from '../utils/diagram-helpers'
 import { getLegendTitle } from './defaults/titles'
 import ClusterDetailsContainer from './ClusterDetailsContainer'
 import ArgoAppDetailsContainer from './ArgoAppDetailsContainer'
-import config from '../../../../lib/shared/config'
 
 const DetailsViewDecorator = ({ shape, className }) => {
   return (
@@ -280,11 +279,13 @@ class DetailsView extends React.Component {
                 <use href="#diagramIcons_carbonLaunch" className="label-icon" />
               </svg>
             ) : (
-              <img
-                className="new-tab-icon"
-                alt="open-new-tab"
-                src={`${config.contextPath}/graphics/open-new-tab.svg`}
-              />
+              <svg
+                width="12px"
+                height="12px"
+                style={{ marginLeft: '8px', stroke: '#0066CC' }}
+              >
+                <use href="#diagramIcons_open-new-tab" className="label-icon" />
+              </svg>
             ))}
         </span>
       </div>

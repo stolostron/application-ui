@@ -289,11 +289,21 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
               tabIndex="0"
             >
               View resource YAML
-              <img
-                alt="open-new-tab"
-                className="new-tab-icon"
-                src="undefined/graphics/open-new-tab.svg"
-              />
+              <svg
+                height="12px"
+                style={
+                  Object {
+                    "marginLeft": "8px",
+                    "stroke": "#0066CC",
+                  }
+                }
+                width="12px"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_open-new-tab"
+                />
+              </svg>
             </span>
           </div>
           <div
@@ -528,11 +538,21 @@ exports[`ArgoAppDetailsContainer with no apps renders as expected 2`] = `
               tabIndex="0"
             >
               View resource YAML
-              <img
-                alt="open-new-tab"
-                className="new-tab-icon"
-                src="undefined/graphics/open-new-tab.svg"
-              />
+              <svg
+                height="12px"
+                style={
+                  Object {
+                    "marginLeft": "8px",
+                    "stroke": "#0066CC",
+                  }
+                }
+                width="12px"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_open-new-tab"
+                />
+              </svg>
             </span>
           </div>
           <div

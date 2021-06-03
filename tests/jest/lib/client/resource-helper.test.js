@@ -1,7 +1,7 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-import lodash from "lodash";
+import _ from "lodash";
 import moment from "moment";
 import {
   RESOURCE_TYPES,
@@ -124,7 +124,7 @@ describe("transform", () => {
 
   it("return transformFunction value", () => {
     const transformFun = (resource, locale, key, isSearch) => {
-      let value = lodash.get(resource, key);
+      let value = _.get(resource, key);
       return "transfomred " + value;
     };
     const key = {

@@ -4,7 +4,6 @@ FROM registry.ci.openshift.org/open-cluster-management/builder:nodejs14-linux as
 USER root
 WORKDIR /opt/app-root/src/application-ui
 COPY . /opt/app-root/src/application-ui/
-RUN yum install git -y
 RUN yum --nobest -y update
 RUN cd /opt/app-root/src/application-ui/ && npm ci && npm run build:production && npm prune --production
 
@@ -21,22 +20,22 @@ ENV BABEL_DISABLE_CACHE=1 \
 RUN mkdir -p /opt/app-root/src/application-ui
 WORKDIR /opt/app-root/src/application-ui
 
-COPY --from=builder /opt/app-root/src/application-ui.babelrc /opt/app-root/src/application-ui/.babelrc
-COPY --from=builder /opt/app-root/src/application-uiLICENSE /opt/app-root/src/application-ui/LICENSE
-COPY --from=builder /opt/app-root/src/application-uiapp.js /opt/app-root/src/application-ui/app.js
-COPY --from=builder /opt/app-root/src/application-uiconfig /opt/app-root/src/application-ui/config
-COPY --from=builder /opt/app-root/src/application-uicontrollers /opt/app-root/src/application-ui/controllers
-COPY --from=builder /opt/app-root/src/application-uidll /opt/app-root/src/application-ui/dll
-COPY --from=builder /opt/app-root/src/application-uifonts /opt/app-root/src/application-ui/fonts
-COPY --from=builder /opt/app-root/src/application-uigraphics /opt/app-root/src/application-ui/graphics
-COPY --from=builder /opt/app-root/src/application-uilib /opt/app-root/src/application-ui/lib
-COPY --from=builder /opt/app-root/src/application-uimiddleware /opt/app-root/src/application-ui/middleware
-COPY --from=builder /opt/app-root/src/application-uinls /opt/app-root/src/application-ui/nls
-COPY --from=builder /opt/app-root/src/application-uinode_modules /opt/app-root/src/application-ui/node_modules
-COPY --from=builder /opt/app-root/src/application-uipublic /opt/app-root/src/application-ui/public
-COPY --from=builder /opt/app-root/src/application-uisrc-web /opt/app-root/src/application-ui/src-web
-COPY --from=builder /opt/app-root/src/application-uitemplates /opt/app-root/src/application-ui/templates
-COPY --from=builder /opt/app-root/src/application-uiviews /opt/app-root/src/application-ui/views
+COPY --from=builder /opt/app-root/src/application-ui/.babelrc /opt/app-root/src/application-ui/.babelrc
+COPY --from=builder /opt/app-root/src/application-ui/LICENSE /opt/app-root/src/application-ui/LICENSE
+COPY --from=builder /opt/app-root/src/application-ui/app.js /opt/app-root/src/application-ui/app.js
+COPY --from=builder /opt/app-root/src/application-ui/config /opt/app-root/src/application-ui/config
+COPY --from=builder /opt/app-root/src/application-ui/controllers /opt/app-root/src/application-ui/controllers
+COPY --from=builder /opt/app-root/src/application-ui/dll /opt/app-root/src/application-ui/dll
+COPY --from=builder /opt/app-root/src/application-ui/fonts /opt/app-root/src/application-ui/fonts
+COPY --from=builder /opt/app-root/src/application-ui/graphics /opt/app-root/src/application-ui/graphics
+COPY --from=builder /opt/app-root/src/application-ui/lib /opt/app-root/src/application-ui/lib
+COPY --from=builder /opt/app-root/src/application-ui/middleware /opt/app-root/src/application-ui/middleware
+COPY --from=builder /opt/app-root/src/application-ui/nls /opt/app-root/src/application-ui/nls
+COPY --from=builder /opt/app-root/src/application-ui/node_modules /opt/app-root/src/application-ui/node_modules
+COPY --from=builder /opt/app-root/src/application-ui/public /opt/app-root/src/application-ui/public
+COPY --from=builder /opt/app-root/src/application-ui/src-web /opt/app-root/src/application-ui/src-web
+COPY --from=builder /opt/app-root/src/application-ui/templates /opt/app-root/src/application-ui/templates
+COPY --from=builder /opt/app-root/src/application-ui/views /opt/app-root/src/application-ui/views
 
 EXPOSE 3000
 

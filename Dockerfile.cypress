@@ -17,5 +17,6 @@ RUN npm install
 RUN sh download-clis.sh
 
 RUN ["chmod", "+x", "./start-cypress-tests.sh"]
+RUN ["chmod", "+x", "./run-prow-e2e.sh"]
 
 ENTRYPOINT ["./start-cypress-tests.sh"]

@@ -18,7 +18,7 @@ Cypress.Commands.add("installArgoCDOperator", () => {
         } else {
           cy.log(`Installing ArgoCDOperator ...`);
           cy.exec(`/bin/bash ${ARGOCD_FILE_PATH}`, {
-            timeout: 200 * 1000
+            timeout: 400 * 1000
           });
         }
       });

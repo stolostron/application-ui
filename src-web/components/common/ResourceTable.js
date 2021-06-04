@@ -56,6 +56,7 @@ class ResourceTable extends React.Component {
           <AcmEmptyState
             title={staticResourceData.emptyTitle(locale)}
             message={staticResourceData.emptyMessage(locale)}
+            isEmptyTableState
           />
         }
         extraToolbarControls={

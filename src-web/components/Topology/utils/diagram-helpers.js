@@ -76,7 +76,8 @@ const resSuccessStates = [
   'run',
   'bound',
   deployedStr.toLowerCase(),
-  deployedNSStr.toLowerCase()
+  deployedNSStr.toLowerCase(),
+  'propagated'
 ]
 const apiVersionPath = 'specs.raw.apiVersion'
 
@@ -775,7 +776,8 @@ export const setClusterStatus = (node, details) => {
     cluster,
     targetNamespaces = {},
     clusters = [],
-    appClusters = []
+    appClusters = [],
+    clustersNames = []
   } = specs
 
   const clusterArr = cluster ? [cluster] : clusters
@@ -792,9 +794,25 @@ export const setClusterStatus = (node, details) => {
       })
     }
   })
+
+  //determine any zombie clusters found by search but not selected by placementrule
+  const zombieClusters = []
+  clustersNames.forEach(searchCls => {
+    if (
+      !clusters.find(prCls => {
+        if (prCls.metadata) {
+          return prCls.metadata.name === searchCls
+        }
+        return prCls.name === searchCls
+      })
+    ) {
+      zombieClusters.push(searchCls)
+    }
+  })
+
   details.push({
     type: 'label',
-    labelValue: `Clusters (${clusterArr.length})`
+    labelValue: `${msgs.get('resource.clusters')} (${clusterArr.length})`
   })
 
   details.push({
@@ -805,6 +823,23 @@ export const setClusterStatus = (node, details) => {
     }
   })
 
+  if (zombieClusters.length > 0) {
+    details.push({
+      type: 'spacer'
+    })
+    details.push({
+      type: 'label',
+      labelValue: `${msgs.get('prop.details.section.cluster.notselected')} (${
+        zombieClusters.length
+      })`
+    })
+    zombieClusters.forEach(cls => {
+      details.push({
+        labelValue: msgs.get('topology.filter.category.clustername'),
+        value: cls
+      })
+    })
+  }
   return details
 }
 

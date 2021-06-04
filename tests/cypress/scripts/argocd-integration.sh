@@ -65,22 +65,20 @@ fi
 # fi
 
 echo "==== Installing ArgoCd server ===="
-$KUBECTL_HUB create namespace argocd
-# $KUBECTL_HUB apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 $KUBECTL_HUB apply -f $ARGOCD_OPERATOR_PATH
-waitForRes "pods" "argocd-operator" "argocd" ""
+waitForRes "pods" "gitops-operator" "openshift-operators" ""
 
-$KUBECTL_HUB apply -f $ARGOCD_RESOURCE_PATH
-waitForRes "pods" "argocd-server" "argocd" ""
-waitForRes "pods" "argocd-repo-server" "argocd" ""
-waitForRes "pods" "argocd-redis" "argocd" ""
-waitForRes "pods" "argocd-dex-server" "argocd" ""
-waitForRes "pods" "argocd-application-controller" "argocd" ""
+# $KUBECTL_HUB apply -f $ARGOCD_RESOURCE_PATH
+waitForRes "pods" "openshift-gitops-server" "openshift-gitops" ""
+waitForRes "pods" "openshift-gitops-repo-server" "openshift-gitops" ""
+waitForRes "pods" "openshift-gitops-redis" "openshift-gitops" ""
+waitForRes "pods" "openshift-gitops-applicationset-controller" "openshift-gitops" ""
+waitForRes "pods" "openshift-gitops-application-controller" "openshift-gitops" ""
 
 # setup openshift route for argocd
-$KUBECTL_HUB -n argocd create route passthrough argocd-server --service=argocd-server --port=https --insecure-policy=Redirect
+# $KUBECTL_HUB -n argocd create route passthrough argocd-server --service=argocd-server --port=https --insecure-policy=Redirect
 
-sleep 5
+# sleep 5
 
 # install argocd cli
 ARGO_VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
@@ -100,8 +98,8 @@ fi
 chmod +x /usr/local/bin/argocd
 
 # login using the cli
-ARGOCD_PWD=$($KUBECTL_HUB -n argocd get secret argocd-cluster -o jsonpath='{.data.admin\.password}' | base64 --decode)
-ARGOCD_HOST=$($KUBECTL_HUB get route argocd-server -n argocd -o jsonpath='{.spec.host}')
+ARGOCD_PWD=$($KUBECTL_HUB -n openshift-gitops get secret openshift-gitops-cluster -o jsonpath='{.data.admin\.password}' | base64 --decode)
+ARGOCD_HOST=$($KUBECTL_HUB get route openshift-gitops-server -n openshift-gitops -o jsonpath='{.spec.host}')
 
 echo "argocd login $ARGOCD_HOST --insecure --username admin --password $ARGOCD_PWD"
 
@@ -135,7 +133,7 @@ while [ true ]; do
         echo "Timeout waiting for the spoke cluster token being imported to the argocd Namespace."
         exit 1
     fi
-    $KUBECTL_HUB get secrets -n argocd "$SPOKE_CLUSTER-cluster-secret"
+    $KUBECTL_HUB get secrets -n openshift-gitops "$SPOKE_CLUSTER-cluster-secret"
     if [ $? -eq 0 ]; then
         break
     fi
@@ -158,15 +156,15 @@ fi
 echo "==== submitting a argocd application to the ACM managed cluster  ===="
 SPOKE_CLUSTER_SERVER=$(argocd cluster list  |grep -w $SPOKE_CLUSTER |awk -F' ' '{print $1}')
 
-$KUBECTL_HUB create namespace argo-ns-1
-$KUBECTL_HUB create namespace argo-ns-2
+$KUBECTL_HUB create namespace argo-test-ns-1
+$KUBECTL_HUB create namespace argo-test-ns-2
 
-argocd app create helloworld-argo-app-1 --repo https://github.com/fxiang1/app-samples.git --path helloworld --dest-server $SPOKE_CLUSTER_SERVER --dest-namespace argo-ns-1
+argocd app create helloworld-argo-app-1 --repo https://github.com/fxiang1/app-samples.git --path helloworld --dest-server $SPOKE_CLUSTER_SERVER --dest-namespace argo-test-ns-1
 argocd app sync helloworld-argo-app-1
-argocd app create helloworld-argo-app-2 --repo https://github.com/fxiang1/app-samples.git --path helloworld --dest-server $SPOKE_CLUSTER_SERVER --dest-namespace argo-ns-2
+argocd app create helloworld-argo-app-2 --repo https://github.com/fxiang1/app-samples.git --path helloworld --dest-server $SPOKE_CLUSTER_SERVER --dest-namespace argo-test-ns-2
 argocd app sync helloworld-argo-app-2
 
-waitForRes "deployments" "helloworld-app-deploy" "argo-ns-1" ""
-waitForRes "deployments" "helloworld-app-deploy" "argo-ns-2" ""
+waitForRes "deployments" "helloworld-app-deploy" "argo-test-ns-1" ""
+waitForRes "deployments" "helloworld-app-deploy" "argo-test-ns-2" ""
 
 exit 0

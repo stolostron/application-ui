@@ -3,6 +3,7 @@ kind: ArgoCD
 metadata:
   name: argocd
   namespace: argocd
-  labels:
-    example: basic
-spec: {}
+spec:
+  server:
+    route:
+      enabled: true

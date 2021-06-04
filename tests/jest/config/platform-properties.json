@@ -306,6 +306,7 @@
   "prop.details.section.service": "Service Details",
   "prop.details.section": "Details",
   "prop.details.section.cluster": "Select a cluster to view details",
+  "prop.details.section.cluster.notselected": "Not selected by placement rule",
   "prop.warning.section": "Warning",
   "props.show.argocd.editor": "Launch Argo editor",
   "props.show.local.yaml": "View resource YAML",

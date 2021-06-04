@@ -41,7 +41,6 @@ ENV BABEL_DISABLE_CACHE=1 \
     USER_UID=1001
 
 RUN mkdir -p /opt/app-root/src/application-ui
-RUN mkdir -p /opt/app-root/licenses
 WORKDIR /opt/app-root/src/application-ui
 
 COPY .babelrc /opt/app-root/src/application-ui/.babelrc

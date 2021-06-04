@@ -163,9 +163,10 @@ export const updateNodeIcons = nodes => {
     let disabled = false
 
     if (
+      specs.raw &&
       type === 'application' &&
-      (specs.raw && specs.raw.apiVersion.indexOf('argoproj.io') > -1) &&
-      specs.isDesign
+      specs.isDesign &&
+      specs.raw.apiVersion.indexOf('argoproj.io') > -1
     ) {
       layout.argoAppCountIcon = ArgoAppCountIcon
       layout.argoAppCount = _.get(specs, 'relatedApps', [{}]).length

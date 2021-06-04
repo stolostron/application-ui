@@ -246,16 +246,22 @@ export const openArgoCDEditor = (
             // filter out grafana and prometheus routes
             const routes = _.get(searchResult[0], 'items', []).filter(
               routeObj =>
-                routeObj.name.toLowerCase().includes('grafana') ||
-                routeObj.name.toLowerCase().includes('prometheus')
+                !_.get(routeObj, 'name', '')
+                  .toLowerCase()
+                  .includes('grafana') &&
+                !_.get(routeObj, 'name', '')
+                  .toLowerCase()
+                  .includes('prometheus')
             )
             if (routes.length > 0) {
               // if still more than 1, choose one with “server” in the name if possible
-              const serverRoutes = routes.find(routeObj =>
-                routeObj.name.toLowerCase().includes('server')
+              const serverRoute = routes.find(routeObj =>
+                _.get(routeObj, 'name', '')
+                  .toLowerCase()
+                  .includes('server')
               )
-              if (serverRoutes.length > 0) {
-                route = serverRoutes[0]
+              if (serverRoute) {
+                route = serverRoute
               } else {
                 route = routes[0]
               }

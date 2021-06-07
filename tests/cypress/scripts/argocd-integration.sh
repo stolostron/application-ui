@@ -117,6 +117,27 @@ fi
 
 chmod +x /usr/local/bin/argocd
 
+# login using the cli
+ARGOCD_PWD=$($KUBECTL_HUB -n openshift-gitops get secret openshift-gitops-cluster -o jsonpath='{.data.admin\.password}' | base64 --decode)
+ARGOCD_HOST=$($KUBECTL_HUB get route openshift-gitops-server -n openshift-gitops -o jsonpath='{.spec.host}')
+
+echo "argocd login $ARGOCD_HOST --insecure --username admin --password $ARGOCD_PWD"
+
+MINUTE=0
+while [ true ]; do
+    # Wait up to 5min, should only take about 1-2 min
+    if [ $MINUTE -gt 300 ]; then
+        echo "Timeout waiting for argocd cli login."
+        exit 1
+    fi
+    argocd login $ARGOCD_HOST --insecure --username admin --password $ARGOCD_PWD
+    if [ $? -eq 0 ]; then
+        break
+    fi
+    echo "* STATUS: ArgoCD host NOT ready. Retry in 10 sec"
+    sleep 10
+    (( MINUTE = MINUTE + 10 ))
+
 # Create managedclusterset
 $KUBECTL_HUB apply -f $MANAGEDCLUSTERSET_PATH
 echo "$(date) managedclusterset created"

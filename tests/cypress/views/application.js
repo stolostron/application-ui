@@ -654,7 +654,7 @@ export const validateResourceTable = (
   resourceTable.getRow(name, resourceKey).within(() =>
     resourceTable
       .getCell("Clusters")
-      .invoke("text", { timeout: 100 * 1000 })
+      .invoke("text")
       .should("contains", appDetails.clusterData)
   );
 

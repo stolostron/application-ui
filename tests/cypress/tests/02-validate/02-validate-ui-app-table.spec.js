@@ -11,6 +11,8 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application Validation Te
   it(`get the number of the managed OCP clusters`, () => {
     getNumberOfManagedClusters();
   });
+  // hard wait for cluster status to propagate
+  cy.wait(180 * 1000);
   for (const type in config) {
     const apps = config[type].data;
     apps.forEach(data => {

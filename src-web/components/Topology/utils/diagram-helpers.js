@@ -71,7 +71,12 @@ const resNotDeployedStates = [
   notDeployedNSStr.toLowerCase()
 ]
 const resErrorStates = ['err', 'off', 'invalid', 'kill']
-const resWarningStates = [pendingStatus, 'creating', 'terminating']
+const resWarningStates = [
+  pendingStatus,
+  'creating',
+  'terminating',
+  'propagationfailed'
+]
 const resSuccessStates = [
   'run',
   'bound',

@@ -1,13 +1,14 @@
 #! /bin/bash
 echo "e2e TEST - ArgoCD integration"
 
-# KUBECONFIG_HUB="tests/cypress/config/hub-kubeconfig/kubeconfig"
-# KUBECONFIG_SPOKE="tests/cypress/config/import-kubeconfig/kubeconfig"
 ARGOCD_OPERATOR_PATH="cypress/templates/argocd_yaml/argocd-operator.yaml"
 ARGOCD_RESOURCE_PATH="cypress/templates/argocd_yaml/argocd-resource.yaml"
+MANAGEDCLUSTERSET_PATH="cypress/templates/argocd_yaml/managedclusterset.yaml"
+MANAGEDCLUSTERSETBINDING_PATH="cypress/templates/argocd_yaml/managedclustersetbinding.yaml"
+PLACEMENT_PATH="cypress/templates/argocd_yaml/placement.yaml"
+GITOPSCLUSTER="cypress/templates/argocd_yaml/gitopscluster.yaml"
 
 KUBECTL_HUB="oc"
-# KUBECTL_SPOKE="kubectl --kubeconfig $KUBECONFIG_SPOKE"
 
 waitForRes() {
     FOUND=1
@@ -51,6 +52,32 @@ waitForRes() {
     done
 }
 
+verifySecretAdded() {
+    managedCluster=$1
+    namespace=$2
+
+    # Wait for the managed cluster secret to be deleted
+    MINUTE=0
+    while [ true ]; do
+        # Wait up to 2min
+        if [ $MINUTE -gt 120 ]; then
+            echo "$(date) Timeout waiting for the managed cluster secret ${managedCluster}-cluster-secret to be added into ${namespace}"
+            echo "E2E CANARY TEST - EXIT WITH ERROR"
+            exit 1
+        fi
+        $KUBECTL_HUB get secret ${managedCluster}-cluster-secret -n ${namespace}
+        if [ $? -eq 0 ]; then
+            break
+        fi
+
+        echo "$(date) waiting for the managed cluster secret ${managedCluster}-cluster-secret to be added into ${namespace}"
+
+        sleep 10
+        (( MINUTE = MINUTE + 10 ))
+    done
+
+}
+
 echo "==== Validating hub and spoke cluster access ===="
 $KUBECTL_HUB cluster-info
 if [ $? -ne 0 ]; then
@@ -58,13 +85,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# $KUBECTL_SPOKE cluster-info
-# if [ $? -ne 0 ]; then
-#     echo "spoke cluster Not accessed."
-#     exit 1
-# fi
-
-echo "==== Installing ArgoCd server ===="
+echo "==== Installing Openshift GitOps operator and ArgoCd server ===="
 $KUBECTL_HUB apply -f $ARGOCD_OPERATOR_PATH
 waitForRes "pods" "gitops-operator" "openshift-operators" ""
 
@@ -77,7 +98,6 @@ waitForRes "pods" "openshift-gitops-application-controller" "openshift-gitops" "
 
 # setup openshift route for argocd
 # $KUBECTL_HUB -n argocd create route passthrough argocd-server --service=argocd-server --port=https --insecure-policy=Redirect
-
 # sleep 5
 
 # install argocd cli
@@ -97,63 +117,57 @@ fi
 
 chmod +x /usr/local/bin/argocd
 
-# login using the cli
-ARGOCD_PWD=$($KUBECTL_HUB -n openshift-gitops get secret openshift-gitops-cluster -o jsonpath='{.data.admin\.password}' | base64 --decode)
-ARGOCD_HOST=$($KUBECTL_HUB get route openshift-gitops-server -n openshift-gitops -o jsonpath='{.spec.host}')
+# Create managedclusterset
+$KUBECTL_HUB apply -f $MANAGEDCLUSTERSET_PATH
+echo "$(date) managedclusterset created"
 
-echo "argocd login $ARGOCD_HOST --insecure --username admin --password $ARGOCD_PWD"
+# Add all managed clusters to managedclusterset clusterset1
+MANAGED_CLUSTERS=( $($KUBECTL_HUB get managedclusters -l local-cluster=true -o name |awk -F/ '{print $2}') )
 
-MINUTE=0
-while [ true ]; do
-    # Wait up to 5min, should only take about 1-2 min
-    if [ $MINUTE -gt 300 ]; then
-        echo "Timeout waiting for argocd cli login."
-        exit 1
-    fi
-    argocd login $ARGOCD_HOST --insecure --username admin --password $ARGOCD_PWD
-    if [ $? -eq 0 ]; then
-        break
-    fi
-    echo "* STATUS: ArgoCD host NOT ready. Retry in 10 sec"
-    sleep 10
-    (( MINUTE = MINUTE + 10 ))
+for element in "${MANAGED_CLUSTERS[@]}"
+do
+   echo "$(date) Adding ${element} to managed cluster set clusterset1"
+   $KUBECTL_HUB label --overwrite managedclusters ${element} cluster.open-cluster-management.io/clusterset=clusterset1
 done
 
-echo "==== Enabling ArgoCd cluster collection for the managed local-cluster ===="
-SPOKE_CLUSTER=$($KUBECTL_HUB get managedclusters -l local-cluster=true -o name |head -n 1 |awk -F/ '{print $2}')
+# Create ManagedClusterSetBinding
+$KUBECTL_HUB apply -f $MANAGEDCLUSTERSETBINDING_PATH
+echo "$(date) managedclustersetbinding created"
 
-echo "SPOKE_CLUSTER: $SPOKE_CLUSTER"
+# Create placement to choose all managed clusters
+# sed -i -e "s/__NUM__/${#MANAGED_CLUSTERS[@]}/" $PLACEMENT_PATH
+# if [ $? -ne 0 ]; then
+#     echo "$(date) failed to substitue __NUM__ in placement.yaml"
+#     echo "E2E CANARY TEST - EXIT WITH ERROR"
+#     exit 1
+# fi
+$KUBECTL_HUB apply -f $PLACEMENT_PATH
+echo "$(date) placement created"
 
-$KUBECTL_HUB patch klusterletaddonconfig -n $SPOKE_CLUSTER $SPOKE_CLUSTER --type merge -p '{"spec":{"applicationManager":{"argocdCluster":true}}}'
+# Sleep for placement decision
+sleep 10
 
-MINUTE=0
-while [ true ]; do
-    # Wait up to 5min, should only take about 1-2 min
-    if [ $MINUTE -gt 300 ]; then
-        echo "Timeout waiting for the spoke cluster token being imported to the argocd Namespace."
-        exit 1
-    fi
-    $KUBECTL_HUB get secrets -n openshift-gitops "$SPOKE_CLUSTER-cluster-secret"
-    if [ $? -eq 0 ]; then
-        break
-    fi
-    echo "* STATUS: The spoke cluster token is NOT in the argocd Namespace. Re-check in 10 sec"
-    sleep 10
-    (( MINUTE = MINUTE + 10 ))
+# Create GitOpsCluster for argocdtest1
+$KUBECTL_HUB delete -f $GITOPSCLUSTER
+$KUBECTL_HUB apply -f $GITOPSCLUSTER
+echo "$(date) gitopscluster created"
+
+# Sleep for GitOpsCluster reconcile
+sleep 10
+
+# Verify that the managed cluster secrets are added into the first argocd instance
+echo "$(date)  ====  verify that the managed cluster secrets are added into the first argocd instance"
+for element in "${MANAGED_CLUSTERS[@]}"
+do
+   verifySecretAdded ${element} "openshift-gitops"
 done
-
-echo "$SPOKE_CLUSTER cluster secrets imported to the argocd namespace successfully."
 
 sleep 10
 
-echo "==== verifying the the managed cluster secret in argocd cluster list ===="
-argocd cluster list  |grep -w $SPOKE_CLUSTER 
-if [ $? -ne 0 ]; then
-    echo "Managed cluster $SPOKE_CLUSTER is NOT in the ArgoCD cluster list"
-    exit 1
-fi
-
 echo "==== submitting a argocd application to the ACM managed cluster  ===="
+SPOKE_CLUSTER=$($KUBECTL_HUB get managedclusters -l local-cluster=true -o name |head -n 1 |awk -F/ '{print $2}')
+
+echo "SPOKE_CLUSTER: $SPOKE_CLUSTER"
 SPOKE_CLUSTER_SERVER=$(argocd cluster list  |grep -w $SPOKE_CLUSTER |awk -F' ' '{print $1}')
 
 $KUBECTL_HUB create namespace argo-test-ns-1

@@ -135,7 +135,10 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
       .blur();
   }
   if (repositoryReconcileRate) {
-    cy.get(reconcileRate).type(repositoryReconcileRate, { force: true });
+    cy
+      .get(reconcileRate)
+      .clear({ force: true })
+      .type(repositoryReconcileRate, { force: true });
   }
   if (disableAutoReconcileOption) {
     cy.get(disableAutoReconcile).click({ force: true });

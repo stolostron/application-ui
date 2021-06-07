@@ -137,6 +137,7 @@ while [ true ]; do
     echo "* STATUS: ArgoCD host NOT ready. Retry in 10 sec"
     sleep 10
     (( MINUTE = MINUTE + 10 ))
+done
 
 # Create managedclusterset
 $KUBECTL_HUB apply -f $MANAGEDCLUSTERSET_PATH

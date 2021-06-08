@@ -25,6 +25,8 @@ export CYPRESS_BASE_URL=$OCM_ADDRESS
 export CYPRESS_OC_CLUSTER_URL=$(echo $HUB_CREDS | jq -r '.api_url') 
 export CYPRESS_OC_CLUSTER_USER=$(echo $HUB_CREDS | jq -r '.username') 
 export CYPRESS_OC_CLUSTER_PASS=$(echo $HUB_CREDS | jq -r '.password') 
+
+# Cypress env variables
 export ANSIBLE_URL=$(cat "/etc/e2e-secrets/ansible-url") 
 export ANSIBLE_TOKEN=$(cat "/etc/e2e-secrets/ansible-token") 
 export BROWSER=$BROWSER 
@@ -47,7 +49,7 @@ export OBJECTSTORE_SECRET_KEY=$(cat "/etc/e2e-secrets/objectstore-secret-key")
 export SLACK_TOKEN=$(cat "/etc/e2e-secrets/slack-token") 
 export USER=$(shell git log -1 --format='%ae') 
 
-# # Workaround for "error: x509: certificate signed by unknown authority" problem with oc login
+# Workaround for "error: x509: certificate signed by unknown authority" problem with oc login
 mkdir -p ${HOME}/certificates
 echo $HOME
 OAUTH_POD=$(oc -n openshift-authentication get pods -o jsonpath='{.items[0].metadata.name}')

@@ -74,9 +74,9 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-e BROWSER=$(BROWSER) \
 	-e USER=$(shell git log -1 --format='%ae') \
 	-e SLACK_TOKEN=$(SLACK_TOKEN) \
-	-e TRAVIS_BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
-	-e TRAVIS_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
-	-e PULL_NUMBER=$(TRAVIS_PULL_REQUEST) \
+	-e BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
+	-e GIT_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
+	-e GIT_PULL_NUMBER=$(TRAVIS_PULL_REQUEST) \
 	-e CYPRESS_RBAC_TEST=$(CYPRESS_RBAC_TEST) \
 	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_JOB_ID=$(TRAVIS_JOB_ID) \

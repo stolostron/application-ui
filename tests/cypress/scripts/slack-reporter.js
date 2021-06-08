@@ -9,7 +9,7 @@ const util = require("util");
 const rimraf = require("rimraf");
 const { WebClient } = require("@slack/web-api");
 const exec = util.promisify(require("child_process").exec);
-const { SLACK_TOKEN, USER, TRAVIS_BUILD_WEB_URL, PULL_NUMBER } = process.env;
+const { SLACK_TOKEN, USER, BUILD_WEB_URL, GIT_PULL_NUMBER } = process.env;
 
 const web = new WebClient(SLACK_TOKEN);
 
@@ -76,8 +76,7 @@ function buildComment(failedTests, prData, slackData) {
   const { id } = slackData;
   return `:failed: *FAILED: ${title}*\n
 ${failedTests.map(test => `- ${test} \n`).join("")}\n
-:travis-ci: <${TRAVIS_BUILD_WEB_URL ||
-    "https://travis-ci.com/github/open-cluster-management/application-ui/pull_requests"}|View build> | :github: <${html_url ||
+:cypress: <${BUILD_WEB_URL}|View build> | :github: <${html_url ||
     "https://github.com/open-cluster-management/application-ui/pulls"}|View pull request> \n\n
 ${id ? `<@${id}>` : ""}`;
 }
@@ -137,10 +136,10 @@ function getTestFailureData(report) {
 }
 
 async function getPullRequestData() {
-  const { TRAVIS_REPO_SLUG } = process.env;
+  const { GIT_REPO_SLUG } = process.env;
   try {
     const { stdout } = await exec(
-      `curl https://api.github.com/repos/${TRAVIS_REPO_SLUG}/pulls/${PULL_NUMBER}`
+      `curl https://api.github.com/repos/${GIT_REPO_SLUG}/pulls/${GIT_PULL_NUMBER}`
     );
     return JSON.parse(stdout);
   } catch (e) {

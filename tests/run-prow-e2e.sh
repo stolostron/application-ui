@@ -47,7 +47,7 @@ export OBJECTSTORE_PRIVATE_URL=$(cat "/etc/e2e-secrets/objectstore-private-url")
 export OBJECTSTORE_ACCESS_KEY=$(cat "/etc/e2e-secrets/objectstore-access-key") 
 export OBJECTSTORE_SECRET_KEY=$(cat "/etc/e2e-secrets/objectstore-secret-key") 
 export SLACK_TOKEN=$(cat "/etc/e2e-secrets/slack-token") 
-export USER=$(shell git log -1 --format='%ae') 
+export USER=`git log -1 --format='%ae'`
 
 # Workaround for "error: x509: certificate signed by unknown authority" problem with oc login
 mkdir -p ${HOME}/certificates

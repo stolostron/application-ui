@@ -15,6 +15,8 @@ OCM_NAMESPACE=open-cluster-management
 OCM_ROUTE=multicloud-console
 OCM_ADDRESS=https://`oc -n $OCM_NAMESPACE get route $OCM_ROUTE -o json | jq -r '.spec.host'`
 
+PULL_NUMBER=$(PULL_NUMBER)
+
 # Hub cluster
 export KUBECONFIG="${SHARED_DIR}/hub-1.kc"
 HUB_CREDS=$(cat "${SHARED_DIR}/hub-1.json")
@@ -43,6 +45,7 @@ export OBJECTSTORE_PRIVATE_URL=$(cat "/etc/e2e-secrets/objectstore-private-url")
 export OBJECTSTORE_ACCESS_KEY=$(cat "/etc/e2e-secrets/objectstore-access-key") \
 export OBJECTSTORE_SECRET_KEY=$(cat "/etc/e2e-secrets/objectstore-secret-key") \
 export SLACK_TOKEN=$(cat "/etc/e2e-secrets/slack-token") \
+export PULL_NUMBER=$(PULL_NUMBER) \
 export USER=$(shell git log -1 --format='%ae') \
 
 # Workaround for "error: x509: certificate signed by unknown authority" problem with oc login

@@ -9,7 +9,7 @@ const util = require("util");
 const rimraf = require("rimraf");
 const { WebClient } = require("@slack/web-api");
 const exec = util.promisify(require("child_process").exec);
-const { SLACK_TOKEN, USER, TRAVIS_BUILD_WEB_URL } = process.env;
+const { SLACK_TOKEN, USER, TRAVIS_BUILD_WEB_URL, PULL_NUMBER } = process.env;
 
 const web = new WebClient(SLACK_TOKEN);
 
@@ -137,10 +137,10 @@ function getTestFailureData(report) {
 }
 
 async function getPullRequestData() {
-  const { TRAVIS_REPO_SLUG, TRAVIS_PULL_REQUEST } = process.env;
+  const { TRAVIS_REPO_SLUG } = process.env;
   try {
     const { stdout } = await exec(
-      `curl https://api.github.com/repos/${TRAVIS_REPO_SLUG}/pulls/${TRAVIS_PULL_REQUEST}`
+      `curl https://api.github.com/repos/${TRAVIS_REPO_SLUG}/pulls/${PULL_NUMBER}`
     );
     return JSON.parse(stdout);
   } catch (e) {

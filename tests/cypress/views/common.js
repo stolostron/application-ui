@@ -111,7 +111,7 @@ export const resourceTable = {
     });
   },
   getCell: function(name) {
-    return cy.get(`td[data-label="${name}"]`);
+    return cy.get(`td[data-label="${name}"]`, { timeout: 30 * 1000 });
   },
   rowShouldExist: function(name, key, timeout) {
     this.searchTable(name);

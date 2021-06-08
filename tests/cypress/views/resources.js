@@ -262,7 +262,8 @@ export const deleteNamespaceTarget = (name, kubeconfig) => {
           if ((stdout || stderr).includes("not found") === false) {
             cy
               .exec(
-                `oc ${managedCluster} ${managedCluster} delete ns ${name}-ns`
+                `oc ${managedCluster} ${managedCluster} delete ns ${name}-ns`,
+                { failOnNonZeroExit: false }
               )
               .its("stdout")
               .should("contain", `${name}-ns`);

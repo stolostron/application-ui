@@ -516,6 +516,7 @@ export const validateTopology = (
     cy
       .get(".pf-l-grid__item", { timeout: 120 * 1000 })
       .last()
+      .scrollIntoView()
       .contains(appDetails.clusterData);
   }
 

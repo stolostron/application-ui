@@ -690,7 +690,7 @@ const convertTimeFormat = time => {
 
 export const validateSyncFunction = (type, opType) => {
   if (opType === "create") {
-    if (type !== "argo") {
+    if (type === "git") {
       // wait for sync button to display
       cy
         .get("#sync-app", { timeout: 50 * 1000 })

@@ -17,10 +17,11 @@ GIT_REPO_SLUG=${REPO_OWNER}/${REPO_NAME}
 HUB_CREDS=$(cat "${SHARED_DIR}/hub-1.json")
 OCM_NAMESPACE=open-cluster-management
 OCM_ROUTE=multicloud-console
-OCM_ADDRESS=https://`oc -n $OCM_NAMESPACE get route $OCM_ROUTE -o json | jq -r '.spec.host'`
 
 # Hub cluster
 export KUBECONFIG="${SHARED_DIR}/hub-1.kc" 
+
+OCM_ADDRESS=https://`oc -n $OCM_NAMESPACE get route $OCM_ROUTE -o json | jq -r '.spec.host'`
 export CYPRESS_BASE_URL=$OCM_ADDRESS 
 export CYPRESS_OC_CLUSTER_URL=$(echo $HUB_CREDS | jq -r '.api_url') 
 export CYPRESS_OC_CLUSTER_USER=$(echo $HUB_CREDS | jq -r '.username') 

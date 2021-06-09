@@ -16,7 +16,6 @@ storybook-static
 test-report.xml
 tests/jest/config/platform-properties.json 
 tests/cypress/tests/test.js
-tests/.kube
 tests/cypress/test-artifacts/*
 tests/cypress/config/import-kubeconfig/*
 tests/cypress/config/certificates/*

@@ -512,13 +512,12 @@ export const validateTopology = (
     }
   }
 
-  // TODO: uncomment when cluster count issue is resolved
-  // if (opType == "create") {
-  //   cy
-  //     .get(".pf-l-grid__item", { timeout: 120 * 1000 })
-  //     .last()
-  //     .contains(appDetails.clusterData);
-  // }
+  if (opType == "create") {
+    cy
+      .get(".pf-l-grid__item", { timeout: 120 * 1000 })
+      .last()
+      .contains(appDetails.clusterData);
+  }
 
   const successNumber = data.successNumber; // this needs to be set in the yaml as the number of resources that should show success for this app
   if (opType == "create" && successNumber) {
@@ -651,14 +650,14 @@ export const validateResourceTable = (
     numberOfRemoteClusters,
     "create"
   );
-  // TODO: uncomment when cluster count issue is resolved
-  // cy.log("Validate Cluster column");
-  // resourceTable.getRow(name, resourceKey).within(() =>
-  //   resourceTable
-  //     .getCell("Clusters")
-  //     .invoke("text")
-  //     .should("contains", appDetails.clusterData)
-  // );
+
+  cy.log("Validate Cluster column");
+  resourceTable.getRow(name, resourceKey).within(() =>
+    resourceTable
+      .getCell("Clusters")
+      .invoke("text")
+      .should("contains", appDetails.clusterData)
+  );
 
   const subscriptionLength = data.config.length;
   let repositoryText =

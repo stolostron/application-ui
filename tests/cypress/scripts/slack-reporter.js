@@ -101,7 +101,7 @@ async function mapSlackUserByGitEmail() {
     const { stdout } = await exec(
       `curl https://api.github.com/repos/${GIT_REPO_SLUG}/pulls/${GIT_PULL_NUMBER}/commits`
     );
-    const userEmail = _.get(JSON.parse(stdout)[0], "commit.author.email");
+    const userEmail = _.get(JSON.parse(stdout)[0], "commit.author.email", "");
     const { user: { id } } = await web.users.lookupByEmail({
       email: userEmail
     });

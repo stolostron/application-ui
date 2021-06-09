@@ -2,7 +2,7 @@
 // Copyright Contributors to the Open Cluster Management project
 
 /* eslint-disable no-console */
-
+import _ from "lodash";
 const fs = require("fs");
 const path = require("path");
 const util = require("util");
@@ -13,8 +13,7 @@ const {
   BUILD_WEB_URL,
   GIT_PULL_NUMBER,
   GIT_REPO_SLUG,
-  SLACK_TOKEN,
-  USER_EMAIL
+  SLACK_TOKEN
 } = process.env;
 
 const web = new WebClient(SLACK_TOKEN);
@@ -99,8 +98,12 @@ function moveVideos(path, videoDir) {
 
 async function mapSlackUserByGitEmail() {
   try {
+    const { stdout } = await exec(
+      `curl https://api.github.com/repos/${GIT_REPO_SLUG}/pulls/${GIT_PULL_NUMBER}/commits`
+    );
+    const userEmail = _.get(JSON.parse(stdout)[0], "commit.author.email");
     const { user: { id } } = await web.users.lookupByEmail({
-      email: USER_EMAIL
+      email: userEmail
     });
     return { id };
   } catch (e) {

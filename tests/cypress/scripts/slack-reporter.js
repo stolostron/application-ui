@@ -9,7 +9,12 @@ const util = require("util");
 const rimraf = require("rimraf");
 const { WebClient } = require("@slack/web-api");
 const exec = util.promisify(require("child_process").exec);
-const { SLACK_TOKEN, USER, BUILD_WEB_URL, GIT_PULL_NUMBER } = process.env;
+const {
+  BUILD_WEB_URL,
+  GIT_PULL_NUMBER,
+  GIT_REPO_SLUG,
+  SLACK_TOKEN
+} = process.env;
 
 const web = new WebClient(SLACK_TOKEN);
 
@@ -93,8 +98,11 @@ function moveVideos(path, videoDir) {
 
 async function mapSlackUserByGitEmail() {
   try {
+    const { stdout } = await exec(
+      `curl $(curl https://api.github.com/repos/${GIT_REPO_SLUG}/pulls/${GIT_PULL_NUMBER} | jq -r '.commits_url') | jq -r '.[0].commit.author.email'`
+    );
     const { user: { id } } = await web.users.lookupByEmail({
-      email: USER
+      email: stdout
     });
     return { id };
   } catch (e) {
@@ -136,7 +144,6 @@ function getTestFailureData(report) {
 }
 
 async function getPullRequestData() {
-  const { GIT_REPO_SLUG } = process.env;
   try {
     const { stdout } = await exec(
       `curl https://api.github.com/repos/${GIT_REPO_SLUG}/pulls/${GIT_PULL_NUMBER}`

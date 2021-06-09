@@ -1,7 +1,7 @@
 ---
 argo:
   data:
-    - enable: false
+    - enable: true
       name: helloworld-argo-app-1
       namespace: openshift-gitops
       deployedNamespace: argo-test-ns-1

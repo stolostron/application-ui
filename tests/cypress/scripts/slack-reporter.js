@@ -13,7 +13,8 @@ const {
   BUILD_WEB_URL,
   GIT_PULL_NUMBER,
   GIT_REPO_SLUG,
-  SLACK_TOKEN
+  SLACK_TOKEN,
+  USER_EMAIL
 } = process.env;
 
 const web = new WebClient(SLACK_TOKEN);
@@ -98,11 +99,8 @@ function moveVideos(path, videoDir) {
 
 async function mapSlackUserByGitEmail() {
   try {
-    const { stdout } = await exec(
-      `curl $(curl https://api.github.com/repos/${GIT_REPO_SLUG}/pulls/${GIT_PULL_NUMBER} | jq -r '.commits_url') | jq -r '.[0].commit.author.email'`
-    );
     const { user: { id } } = await web.users.lookupByEmail({
-      email: stdout
+      email: USER_EMAIL
     });
     return { id };
   } catch (e) {

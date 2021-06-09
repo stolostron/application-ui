@@ -72,11 +72,11 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-v $(HOME)/certificates/:/certificates/ \
 	--network host \
 	-e BROWSER=$(BROWSER) \
-	-e USER=$(shell git log -1 --format='%ae') \
 	-e SLACK_TOKEN=$(SLACK_TOKEN) \
 	-e BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
 	-e GIT_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
 	-e GIT_PULL_NUMBER=$(TRAVIS_PULL_REQUEST) \
+	-e USER_EMAIL=`curl $(curl https://api.github.com/repos/${GIT_REPO_SLUG}/pulls/${GIT_PULL_NUMBER} | jq -r '.commits_url') | jq -r '.[0].commit.author.email'` \
 	-e CYPRESS_RBAC_TEST=$(CYPRESS_RBAC_TEST) \
 	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_JOB_ID=$(TRAVIS_JOB_ID) \

@@ -17,7 +17,7 @@ GIT_REPO_SLUG=${REPO_OWNER}/${REPO_NAME}
 HUB_CREDS=$(cat "${SHARED_DIR}/hub-1.json")
 OCM_NAMESPACE=open-cluster-management
 OCM_ROUTE=multicloud-console
-
+USER_EMAIL=`curl $(curl https://api.github.com/repos/${GIT_REPO_SLUG}/pulls/${GIT_PULL_NUMBER} | jq -r '.commits_url') | jq -r '.[0].commit.author.email'`
 # Hub cluster
 export KUBECONFIG="${SHARED_DIR}/hub-1.kc" 
 
@@ -48,6 +48,7 @@ export OBJECTSTORE_PRIVATE_URL=$(cat "/etc/e2e-secrets/objectstore-private-url")
 export OBJECTSTORE_ACCESS_KEY=$(cat "/etc/e2e-secrets/objectstore-access-key") 
 export OBJECTSTORE_SECRET_KEY=$(cat "/etc/e2e-secrets/objectstore-secret-key") 
 export SLACK_TOKEN=$(cat "/etc/e2e-secrets/slack-token") 
+export USER_EMAIL=$USER_EMAIL
 
 # Workaround for "error: x509: certificate signed by unknown authority" problem with oc login
 mkdir -p ${HOME}/certificates

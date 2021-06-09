@@ -374,17 +374,17 @@ describe("setAvailableChannelSpecs", () => {
     }
   };
   const result = {
+    id: "channel",
     active: true,
-    available: ["https://github.com/fxiang1/app-samples.git"],
     availableData: {
-      "https://github.com/fxiang1/app-samples.git": {
+      "https://github.com/fxiang1/app-samples.git [ns/aa-ns]": {
+        type: "git",
         metadata: { name: "aa-ns" },
-        objectPath: "https://github.com/fxiang1/app-samples.git",
-        type: "git"
+        objectPath: "https://github.com/fxiang1/app-samples.git"
       }
     },
+    available: ["https://github.com/fxiang1/app-samples.git [ns/aa-ns]"],
     availableMap: {},
-    id: "channel",
     isLoading: false
   };
   it("setAvailableChannelSpecs no error", () => {
@@ -419,18 +419,25 @@ describe("setAvailableChannelSpecs", () => {
     }
   };
   const helmResult = {
+    id: "channel",
     active: true,
-    available: ["", "https://charts.bitnami.com/bitnami"],
     availableData: {
-      "": { metadata: { name: "aa-ns-3" }, objectPath: "", type: "helm" },
-      "https://charts.bitnami.com/bitnami": {
+      "https://charts.bitnami.com/bitnami [ns/aa-ns-2]": {
+        type: "helm",
         metadata: { name: "aa-ns-2" },
-        objectPath: "https://charts.bitnami.com/bitnami",
-        type: "helm"
+        objectPath: "https://charts.bitnami.com/bitnami"
+      },
+      " [ns/aa-ns-3]": {
+        type: "helm",
+        metadata: { name: "aa-ns-3" },
+        objectPath: ""
       }
     },
+    available: [
+      " [ns/aa-ns-3]",
+      "https://charts.bitnami.com/bitnami [ns/aa-ns-2]"
+    ],
     availableMap: {},
-    id: "channel",
     isLoading: false
   };
   it("setAvailableChannelSpecs exclude MCH helm repo", () => {

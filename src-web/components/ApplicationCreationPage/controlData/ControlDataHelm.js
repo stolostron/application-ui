@@ -12,7 +12,11 @@
 'use strict'
 
 import { VALIDATE_URL } from 'temptifly'
-import { loadExistingChannels, updateChannelControls } from './utils'
+import {
+  loadExistingChannels,
+  updateChannelControls,
+  channelSimplified
+} from './utils'
 
 import placementData from './ControlDataPlacement'
 
@@ -44,7 +48,8 @@ const helmReleaseChannelData = async () => [
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('helmrepo'),
     reverse: 'Channel[0].spec.pathname',
-    onSelect: updateChannelControls
+    onSelect: updateChannelControls,
+    simplified: channelSimplified
   },
   {
     name: 'creation.app.helmrepo.secret',

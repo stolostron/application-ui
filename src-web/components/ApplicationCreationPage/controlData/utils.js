@@ -325,7 +325,12 @@ const retrieveGitDetails = async (
       ({ id }) => id === 'githubAccessId'
     )
 
-    const gitUrl = _.get(gitControl, 'active', '')
+    const selectedChannelObj = _.get(gitControl, 'availableData', {})[
+      _.get(gitControl, 'active', '')
+    ]
+    const gitUrl = selectedChannelObj
+      ? _.get(selectedChannelObj, 'objectPath', '')
+      : ''
     if (!gitUrl) {
       branchCtrl.active = ''
       branchCtrl.available = []
@@ -596,6 +601,15 @@ export const updateNewRuleControlsData = (selectedPR, control) => {
   return control
 }
 
+//return channel path, to show in the combo as a user selection
+export const channelSimplified = (value, control) => {
+  if (!control || !value) {
+    return value
+  }
+  const mappedData = _.get(control, 'availableData', {})[value]
+  return (mappedData && `${_.get(mappedData, 'objectPath')}`) || value
+}
+
 export const setAvailableChannelSpecs = (type, control, result) => {
   const { loading } = result
   const { data = {} } = result
@@ -607,6 +621,13 @@ export const setAvailableChannelSpecs = (type, control, result) => {
   if (error) {
     control.isFailed = true
   } else if (items) {
+    const keyFn = item => {
+      return `${_.get(item, 'objectPath', '')} [${_.get(
+        item,
+        'metadata.namespace',
+        'ns'
+      )}/${_.get(item, 'metadata.name', 'name')}]`
+    }
     control.availableData = _.keyBy(
       items
         .filter(({ type: p }) => {
@@ -617,13 +638,15 @@ export const setAvailableChannelSpecs = (type, control, result) => {
             .toLowerCase()
             .includes('multiclusterhub-repo.open-cluster-management')
         }),
-      'objectPath'
+      keyFn
     )
-    control.available = Object.keys(control.availableData).sort()
+    control.available = _.map(
+      Object.values(control.availableData),
+      keyFn
+    ).sort()
   } else {
     control.isLoading = loading
   }
-
   return control
 }
 

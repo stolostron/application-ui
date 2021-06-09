@@ -14,6 +14,7 @@ include build/Configfile
 BROWSER ?= chrome
 
 USE_VENDORIZED_BUILD_HARNESS ?=
+USER_EMAIL=`curl $(curl https://api.github.com/repos/${GIT_REPO_SLUG}/pulls/${GIT_PULL_NUMBER} | jq -r '.commits_url') | jq -r '.[0].commit.author.email'`
 
 ifndef USE_VENDORIZED_BUILD_HARNESS
 -include $(shell curl -s -H 'Accept: application/vnd.github.v4.raw' -L https://api.github.com/repos/open-cluster-management/build-harness-extensions/contents/templates/Makefile.build-harness-bootstrap -o .build-harness-bootstrap; echo .build-harness-bootstrap)
@@ -76,7 +77,7 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-e BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
 	-e GIT_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
 	-e GIT_PULL_NUMBER=$(TRAVIS_PULL_REQUEST) \
-	-e USER_EMAIL=`curl $(curl https://api.github.com/repos/${GIT_REPO_SLUG}/pulls/${GIT_PULL_NUMBER} | jq -r '.commits_url') | jq -r '.[0].commit.author.email'` \
+	-e USER_EMAIL=$(USER_EMAIL) \
 	-e CYPRESS_RBAC_TEST=$(CYPRESS_RBAC_TEST) \
 	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_JOB_ID=$(TRAVIS_JOB_ID) \

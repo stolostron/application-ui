@@ -2,7 +2,7 @@
 // Copyright Contributors to the Open Cluster Management project
 
 /* eslint-disable no-console */
-import _ from "lodash";
+const _ = require("lodash");
 const fs = require("fs");
 const path = require("path");
 const util = require("util");

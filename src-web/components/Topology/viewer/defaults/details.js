@@ -35,8 +35,7 @@ const resName = 'resource.name'
 export const getNodeDetails = (node, updatedNode, activeFilters) => {
   const details = []
   if (node) {
-    const { type, specs } = node
-    const { labels = [] } = node
+    const { type, specs, labels = [] } = node
 
     // for argo apps with application sets
     showArgoApplicationSetLink(node, details)
@@ -117,7 +116,9 @@ export const getNodeDetails = (node, updatedNode, activeFilters) => {
 }
 
 function addK8Details(node, updatedNode, details, activeFilters) {
-  const { clusterName, type, layout = {} } = node
+  const { clusterName, type, layout = {}, specs } = node
+  const { isDesign } = specs
+  let labels
   const { type: ltype } = layout
 
   // not all resources have a namespace
@@ -201,17 +202,34 @@ function addK8Details(node, updatedNode, details, activeFilters) {
       'raw.spec.version'
     )
   )
-  //
 
-  addPropertyToList(
-    mainDetails,
-    getNodePropery(
-      node,
-      ['specs', 'raw', 'metadata', 'labels'],
-      'raw.spec.metadata.label',
-      'No labels'
+  //
+  if (!isDesign && isDesign !== undefined) {
+    const resourceModel = _.get(specs, `${type}Model`)
+    if (resourceModel) {
+      // get first item in the object as all should have the same labels
+      const resourceLabels =
+        resourceModel[Object.keys(resourceModel)[0]][0].label
+      labels = resourceLabels ? resourceLabels.replace('; ', ',') : 'No labels'
+    } else {
+      labels = 'No labels'
+    }
+
+    addPropertyToList(mainDetails, {
+      labelKey: 'raw.spec.metadata.label',
+      value: labels
+    })
+  } else {
+    addPropertyToList(
+      mainDetails,
+      getNodePropery(
+        node,
+        ['specs', 'raw', 'metadata', 'labels'],
+        'raw.spec.metadata.label',
+        'No labels'
+      )
     )
-  )
+  }
 
   addPropertyToList(
     mainDetails,

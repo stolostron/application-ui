@@ -340,7 +340,8 @@ export const validateSubscriptionTable = (
   numberOfRemoteClusters,
   data
 ) => {
-  let checkClusterColumn = true;
+  // TODO: enable checkClusterColumn when cluster count issue is resolved
+  let checkClusterColumn = false;
   let checkTimeWindowColumn = false;
   let checkResourceColumn = false;
   let singularDisplayName;
@@ -690,7 +691,7 @@ const convertTimeFormat = time => {
 
 export const validateSyncFunction = (type, opType) => {
   if (opType === "create") {
-    if (type !== "argo") {
+    if (type === "git") {
       // wait for sync button to display
       cy
         .get("#sync-app", { timeout: 50 * 1000 })
@@ -701,7 +702,7 @@ export const validateSyncFunction = (type, opType) => {
       modal.clickSubmit();
       modal.shouldBeClosed("#sync-resource-modal");
       notification.shouldExist("success");
-    } else {
+    } else if (type === "argo") {
       cy.log(`verify sync button doesn't exist for Argo apps`);
       cy.get("#sync-app", { timeout: 10 * 1000 }).should("not.exist");
     }

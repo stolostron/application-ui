@@ -701,7 +701,7 @@ export const validateSyncFunction = (type, opType) => {
       modal.clickSubmit();
       modal.shouldBeClosed("#sync-resource-modal");
       notification.shouldExist("success");
-    } else {
+    } else if (type === "argo") {
       cy.log(`verify sync button doesn't exist for Argo apps`);
       cy.get("#sync-app", { timeout: 10 * 1000 }).should("not.exist");
     }

@@ -328,9 +328,11 @@ const retrieveGitDetails = async (
     const selectedChannelObj = _.get(gitControl, 'availableData', {})[
       _.get(gitControl, 'active', '')
     ]
+    // get git repository path from channel object if this is an existing channel, use the combo value otherwise
     const gitUrl = selectedChannelObj
       ? _.get(selectedChannelObj, 'objectPath', '')
-      : ''
+      : _.get(gitControl, 'active', '')
+
     if (!gitUrl) {
       branchCtrl.active = ''
       branchCtrl.available = []
@@ -607,7 +609,7 @@ export const channelSimplified = (value, control) => {
     return value
   }
   const mappedData = _.get(control, 'availableData', {})[value]
-  return (mappedData && `${_.get(mappedData, 'objectPath')}`) || value
+  return (mappedData && _.get(mappedData, 'objectPath')) || value
 }
 
 export const setAvailableChannelSpecs = (type, control, result) => {

@@ -74,7 +74,6 @@ class ResourceTable extends React.Component {
         setSearch={setSearch}
         sort={sort}
         setSort={setSort}
-        gridBreakPoint=""
       />
     ]
   }

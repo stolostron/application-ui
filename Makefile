@@ -72,11 +72,10 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-v $(HOME)/certificates/:/certificates/ \
 	--network host \
 	-e BROWSER=$(BROWSER) \
-	-e USER=$(shell git log -1 --format='%ae') \
 	-e SLACK_TOKEN=$(SLACK_TOKEN) \
-	-e TRAVIS_BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
-	-e TRAVIS_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
-	-e TRAVIS_PULL_REQUEST=$(TRAVIS_PULL_REQUEST) \
+	-e BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
+	-e GIT_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
+	-e GIT_PULL_NUMBER=$(TRAVIS_PULL_REQUEST) \
 	-e CYPRESS_RBAC_TEST=$(CYPRESS_RBAC_TEST) \
 	-e CYPRESS_TEST_MODE=functional \
 	-e CYPRESS_JOB_ID=$(TRAVIS_JOB_ID) \
@@ -85,7 +84,6 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \
 	-e CYPRESS_OC_CLUSTER_PASS=$(OC_CLUSTER_PASS) \
 	-e CYPRESS_OC_CLUSTER_INGRESS_CA=$(OC_CLUSTER_INGRESS_CA) \
-	-e CYPRESS_OC_IDP=$(CYPRESS_OC_IDP) \
 	-e CYPRESS_MANAGED_OCP_URL=$(CYPRESS_MANAGED_OCP_URL) \
 	-e CYPRESS_MANAGED_OCP_USER=$(CYPRESS_MANAGED_OCP_USER) \
 	-e CYPRESS_MANAGED_OCP_PASS=$(CYPRESS_MANAGED_OCP_PASS) \

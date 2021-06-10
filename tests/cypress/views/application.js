@@ -650,6 +650,7 @@ export const validateResourceTable = (
     numberOfRemoteClusters,
     "create"
   );
+
   cy.log("Validate Cluster column");
   resourceTable.getRow(name, resourceKey).within(() =>
     resourceTable

@@ -1,3 +1,5 @@
+# Copyright Contributors to the Open Cluster Management project
+
 -include /opt/build-harness/Makefile.prow
 
 .PHONY: build
@@ -14,7 +16,3 @@ unit-tests:
 		mkdir test-output; \
 	fi
 	npm run test
-
-
-e2e-tests:
-	@./build/run-prow-e2e.sh

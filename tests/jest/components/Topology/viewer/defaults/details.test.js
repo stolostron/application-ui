@@ -527,13 +527,26 @@ describe("getNodeDetails subscription", () => {
       row: 43,
       clustersNames: ["local-cluster"],
       pulse: "orange",
-      shapeType: "subscription"
+      shapeType: "subscription",
+      isDesign: true
     },
     namespace: "sahar-test-ns",
     topology: null,
     labels: null
   };
   const expectedValue = [
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local-cluster",
+          editLink:
+            "/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=subscription&name=sahar-test-1234-subscription-1&namespace=sahar-test-ns"
+        },
+        label: "View resource YAML"
+      }
+    },
     { type: "spacer" },
     { type: "label", labelKey: "prop.details.section" },
     { type: "spacer" },

@@ -1450,7 +1450,7 @@ describe("setSubscriptionDeployStatus with time window ", () => {
     { labelValue: "local", status: "failure", value: "Failed" },
     { labelKey: "spec.subscr.timeWindow", value: "Blocked" },
     {
-      labelValue: "Warning",
+      labelValue: "Error",
       status: "failure",
       value: "channel v1/2 not found"
     },
@@ -1515,7 +1515,7 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
     { labelKey: "resource.deploy.statuses", type: "label" },
     { labelValue: "local", status: "failure", value: "Failed" },
     {
-      labelValue: "Warning",
+      labelValue: "Error",
       status: "failure",
       value:
         "Some resources failed to deploy. Use View resource YAML link below to view the details."
@@ -1569,7 +1569,7 @@ describe("setSubscriptionDeployStatus with hub error", () => {
     { labelKey: "resource.deploy.statuses", type: "label" },
     { labelValue: "local", status: "failure", value: "Failed" },
     {
-      labelValue: "Warning",
+      labelValue: "Error",
       status: "failure",
       value:
         "Some resources failed to deploy. Use View resource YAML link below to view the details."
@@ -1743,7 +1743,7 @@ describe("setSubscriptionDeployStatus with error", () => {
     { labelKey: "resource.deploy.statuses", type: "label" },
     { labelValue: "local", status: "failure", value: "Failed" },
     {
-      labelValue: "Warning",
+      labelValue: "Error",
       status: "failure",
       value:
         "Some resources failed to deploy. Use View resource YAML link below to view the details."

@@ -48,7 +48,14 @@ export const apiResources = (type, data, returnType) => {
 // check if this is an existing channel
 // for new channels enter the credentials, if set
 // for existing channel select the full info, which is 'path [channelNS/channelName]
-export const checkExistingUrls = (css1, value1, css2, value2, gitUrl, url) => {
+export const checkExistingUrls = (
+  css1,
+  value1,
+  css2,
+  value2,
+  repoFieldId,
+  url
+) => {
   getSavedPathname().then(pathnames => {
     const { urllist } = pathnames;
     let urlPathForChannel = url;
@@ -65,7 +72,7 @@ export const checkExistingUrls = (css1, value1, css2, value2, gitUrl, url) => {
     });
 
     cy
-      .get(gitUrl, { timeout: 20 * 1000 })
+      .get(repoFieldId, { timeout: 20 * 1000 })
       .type(urlPathForChannel, { timeout: 50 * 1000 })
       .blur();
 

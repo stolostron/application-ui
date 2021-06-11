@@ -106,6 +106,7 @@ To run your local `application-ui` code against an existing OCM installation:
    (Add "- http://localhost:3001/multicloud/applications/auth/callback" to "redirectURIs:" list)
    </pre>
 
+
 3. The following environment variables need to be set.
    <pre>
    export OAUTH2_CLIENT_ID=

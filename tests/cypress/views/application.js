@@ -89,11 +89,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     .click()
     .trigger("mouseover");
 
-  cy
-    .get(gitUrl, { timeout: 20 * 1000 })
-    .type(url, { timeout: 50 * 1000 })
-    .blur();
-  checkExistingUrls(gitUser, username, gitKey, token, url);
+  checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);
 
   if (insecureSkipVerifyOption) {
     cy.get(insecureSkipVerify).click({ force: true });
@@ -211,11 +207,15 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .last()
     .click()
     .trigger("mouseover");
-  cy
-    .get(helmURL, { timeout: 20 * 1000 })
-    .type(url, { timeout: 30 * 1000 })
-    .blur();
-  checkExistingUrls(helmUsername, username, helmPassword, password, url);
+
+  checkExistingUrls(
+    helmUsername,
+    username,
+    helmPassword,
+    password,
+    helmURL,
+    url
+  );
 
   if (insecureSkipVerifyOption) {
     cy.get(insecureSkipVerify).click({ force: true });
@@ -319,8 +319,8 @@ export const objTasks = (clusterName, value, css, key = 0) => {
     .last()
     .click()
     .trigger("mouseover");
-  cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
-  checkExistingUrls(objAccess, accessKey, objSecret, secretKey, url);
+
+  checkExistingUrls(objAccess, accessKey, objSecret, secretKey, objUrl, url);
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };

@@ -325,12 +325,12 @@ const retrieveGitDetails = async (
       ({ id }) => id === 'githubAccessId'
     )
 
-    const selectedChannelObj = _.get(gitControl, 'availableData', {})[
+    const selectedChannel = _.get(gitControl, 'availableData', {})[
       _.get(gitControl, 'active', '')
     ]
     // get git repository path from channel object if this is an existing channel, use the combo value otherwise
-    const gitUrl = selectedChannelObj
-      ? _.get(selectedChannelObj, 'objectPath', '')
+    const gitUrl = selectedChannel
+      ? _.get(selectedChannel, 'objectPath', '')
       : _.get(gitControl, 'active', '')
 
     if (!gitUrl) {
@@ -344,12 +344,6 @@ const retrieveGitDetails = async (
     if (url.host !== 'github.com') {
       return
     }
-
-    // Check for existing channel
-    const selectedChannel = _.get(
-      _.get(gitControl, 'availableData', {}),
-      gitUrl
-    )
     const queryVariables = {
       gitUrl,
       namespace: _.get(selectedChannel, 'metadata.namespace', ''),

@@ -7,6 +7,7 @@ argo:
       deployedNamespace: argo-test-ns-1
       type: git
       successNumber: 3
+      groupedByResource: true
       config:
         - url: https://github.com/fxiang1/app-samples.git
           resources: ["route", "service", "replicaset"] #the type of resources this application must deploy

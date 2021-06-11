@@ -12,6 +12,7 @@ import {
   validateSubscriptionTable,
   getSingleAppClusterTimeDetails,
   getNamespace,
+  getArgoGroupKey,
   getResourceKey,
   verifyApplicationData,
   validateSubscriptionDetails,
@@ -618,11 +619,15 @@ export const validateResourceTable = (
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
+  const groupKey =
+    type === "argo"
+      ? getArgoGroupKey(name, namespace, "local-cluster", data)
+      : null;
   const resourceKey = getResourceKey(name, namespace, "local-cluster");
   resourceTable.rowShouldExist(name, resourceKey, 60 * 1000);
 
   //validate content
-  resourceTable.getRow(name, resourceKey).within(() =>
+  resourceTable.getRow(name, groupKey || resourceKey).within(() =>
     resourceTable
       .getCell("Name")
       .invoke("text")
@@ -631,7 +636,7 @@ export const validateResourceTable = (
 
   if (type === "argo") {
     // validate that argo icon exists
-    resourceTable.getRow(type, resourceKey).within(() =>
+    resourceTable.getRow(type, groupKey || resourceKey).within(() =>
       resourceTable
         .getCell("Name")
         .invoke("text")
@@ -641,7 +646,7 @@ export const validateResourceTable = (
   }
   resourceTable.getRow(name, resourceKey).within(() =>
     resourceTable
-      .getCell("Namespace")
+      .getCell("Namespace", type === "argo" ? 2 : null)
       .invoke("text")
       .should("include", type === "argo" ? deployedNamespace : namespace)
   );
@@ -654,7 +659,7 @@ export const validateResourceTable = (
 
   // TODO: uncomment when cluster count issue is resolved
   // cy.log("Validate Cluster column");
-  // resourceTable.getRow(name, resourceKey).within(() =>
+  // resourceTable.getRow(name, groupKey || resourceKey).within(() =>
   //   resourceTable
   //     .getCell("Clusters")
   //     .invoke("text")
@@ -671,7 +676,7 @@ export const validateResourceTable = (
       ? `${repositoryText} (${subscriptionLength})`
       : repositoryText;
   cy.log("Validate Repository column");
-  resourceTable.getRow(name, resourceKey).within(() =>
+  resourceTable.getRow(name, groupKey || resourceKey).within(() =>
     resourceTable
       .getCell("Resource")
       .invoke("text")
@@ -679,7 +684,7 @@ export const validateResourceTable = (
   );
 
   cy.log("Validate Repository popup");
-  resourceTable.getRow(name, resourceKey).within(() =>
+  resourceTable.getRow(name, groupKey || resourceKey).within(() =>
     resourceTable
       .getCell("Resource")
       .find(".pf-c-label")
@@ -702,7 +707,7 @@ export const validateResourceTable = (
   });
 
   cy.log("Validate Window column");
-  resourceTable.getRow(name, resourceKey).within(() =>
+  resourceTable.getRow(name, groupKey || resourceKey).within(() =>
     resourceTable
       .getCell("Time window")
       .invoke("text")

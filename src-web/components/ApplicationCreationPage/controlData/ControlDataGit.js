@@ -18,7 +18,8 @@ import {
   getGitBranches,
   loadExistingChannels,
   updateChannelControls,
-  updateGitBranchFolders
+  updateGitBranchFolders,
+  channelSimplified
 } from './utils'
 import _ from 'lodash'
 
@@ -167,7 +168,8 @@ const githubChannelData = async () => [
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('git'),
     reverse: 'Channel[0].spec.pathname',
-    onSelect: updateChannelControls
+    onSelect: updateChannelControls,
+    simplified: channelSimplified
   },
   {
     name: 'creation.app.github.secret',

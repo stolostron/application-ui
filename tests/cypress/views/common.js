@@ -916,11 +916,7 @@ export const testGitApiInput = data => {
     .click({ force: true })
     .trigger("mouseover");
 
-  cy
-    .get(gitUrl, { timeout: 20 * 1000 })
-    .type(url, { timeout: 50 * 1000 })
-    .blur();
-  checkExistingUrls(gitUser, username, gitKey, token, url);
+  checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);
 
   // check branch and path info shows up
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");

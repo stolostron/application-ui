@@ -27,7 +27,9 @@ else
     echo "Copying managed cluster kubeconfig to ./cypress/config/import-kubeconfig ..."
     cp ./import-kubeconfig/* ./cypress/config/import-kubeconfig
   else
-    echo `Using given managed cluster kubeconfig...`
+    whoami
+    ls -ltra
+    echo "Using given managed cluster kubeconfig..."
     cp ${SHARED_DIR}/managed-1.kc ./cypress/config/import-kubeconfig
   fi
 fi
@@ -59,21 +61,9 @@ echo "Copying outputed screenshots and videos to /results..."
 cp -r ./cypress/screenshots /results/screenshots
 cp -r ./cypress/videos /results/videos
 
-# merge xml reports
-# echo "Merging xml reports..."
-# npm run test:merge-xml
-# mkdir /results
-# cp ./test-output/application-ui.xml /results
-# ls -al /results
-
 if [[ ! -z "$SLACK_TOKEN" ]]; then
    echo "Slack integration is configured; processing..."
    npm run test:slack
 fi
-
-#if [ $CYPRESS_TEST_MODE == "functional" ]; then
-#  echo "Cleaning up functional test resources..."
-#  sh ./tests/cypress/scripts/resource-cleanup.sh
-#fi
 
 exit $testCode

@@ -21,8 +21,7 @@ import {
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
 import { withRouter } from 'react-router-dom'
-import TableRowActionMenu, { handleActionClick } from './TableRowActionMenu'
-import { fitContent } from '@patternfly/react-table'
+import { handleActionClick } from './TableRowActionMenu'
 
 resources(() => {
   require('../../../scss/table.scss')
@@ -52,6 +51,7 @@ class ResourceTable extends React.Component {
           (item => `${item.namespace}/${item.name}`)
         }
         rowActions={this.getRowActions()}
+        rowActionResolver={this.getRowActionResolver()}
         emptyState={
           <AcmEmptyState
             title={staticResourceData.emptyTitle(locale)}
@@ -74,20 +74,12 @@ class ResourceTable extends React.Component {
         setSearch={setSearch}
         sort={sort}
         setSort={setSort}
-        gridBreakPoint=""
       />
     ]
   }
 
   getColumns() {
-    const {
-      staticResourceData,
-      items,
-      itemIds,
-      locale,
-      tableActionsResolver,
-      resourceType
-    } = this.props
+    const { staticResourceData, items, itemIds, locale } = this.props
     const enabledColumns = staticResourceData.tableKeys.filter(tableKey => {
       const disabled =
         typeof tableKey.disabled === 'function'
@@ -117,37 +109,35 @@ class ResourceTable extends React.Component {
         ? msgs.get(tableKey.tooltipKey, locale)
         : undefined
     }))
-    if (tableActionsResolver) {
-      columns.push({
-        header: '',
-        cell: item => {
-          const actions = tableActionsResolver(item)
-          return (
-            <TableRowActionMenu
-              actions={actions}
-              item={item}
-              resourceType={resourceType}
-            />
-          )
-        },
-        cellTransforms: [fitContent]
-      })
-    }
     return columns
   }
 
-  getRowActions() {
-    const { tableActions, resourceType, locale, history } = this.props
+  getActionMapper() {
+    const { resourceType, locale, history } = this.props
 
-    return tableActions
-      ? tableActions.map(action => ({
-        id: action.key,
-        title: msgs.get(action.key, locale),
-        click: item => {
-          handleActionClick(action, resourceType, item, history)
-        }
-      }))
+    return action => ({
+      id: action.key,
+      title: msgs.get(action.key, locale),
+      click: item => {
+        handleActionClick(action, resourceType, item, history)
+      }
+    })
+  }
+
+  getRowActionResolver() {
+    const { tableActionsResolver } = this.props
+
+    return tableActionsResolver
+      ? item => {
+        return tableActionsResolver(item).map(this.getActionMapper())
+      }
       : undefined
+  }
+
+  getRowActions() {
+    const { tableActions } = this.props
+
+    return tableActions ? tableActions.map(this.getActionMapper()) : undefined
   }
 
   getResources() {

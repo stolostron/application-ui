@@ -247,7 +247,6 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
             <div
               class="pf-c-toolbar"
               id="pf-random-id-8"
-              style="padding-bottom: 0px;"
             >
               <div
                 class="pf-c-toolbar__content"
@@ -939,14 +938,9 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
                           </div>
                         </button>
                       </th>
-                      <th
-                        class="pf-m-nowrap"
-                        data-key="6"
-                        data-label=""
-                      />
                       <td
                         class=""
-                        data-key="7"
+                        data-key="6"
                         data-label=""
                       />
                     </tr>
@@ -1449,7 +1443,6 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
             <div
               class="pf-c-toolbar"
               id="pf-random-id-4"
-              style="padding-bottom: 0px;"
             >
               <div
                 class="pf-c-toolbar__content"
@@ -2072,14 +2065,9 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
                           </div>
                         </button>
                       </th>
-                      <th
-                        class="pf-m-nowrap"
-                        data-key="5"
-                        data-label=""
-                      />
                       <td
                         class=""
-                        data-key="6"
+                        data-key="5"
                         data-label=""
                       />
                     </tr>
@@ -2582,7 +2570,6 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
             <div
               class="pf-c-toolbar"
               id="pf-random-id-0"
-              style="padding-bottom: 0px;"
             >
               <div
                 class="pf-c-toolbar__content"
@@ -3343,14 +3330,9 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
                           </div>
                         </button>
                       </th>
-                      <th
-                        class="pf-m-nowrap"
-                        data-key="7"
-                        data-label=""
-                      />
                       <td
                         class=""
-                        data-key="8"
+                        data-key="7"
                         data-label=""
                       />
                     </tr>

@@ -12,6 +12,7 @@ import {
   validateSubscriptionTable,
   getSingleAppClusterTimeDetails,
   getNamespace,
+  getArgoGroupKey,
   getResourceKey,
   verifyApplicationData,
   validateSubscriptionDetails,
@@ -89,11 +90,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     .click()
     .trigger("mouseover");
 
-  cy
-    .get(gitUrl, { timeout: 20 * 1000 })
-    .type(url, { timeout: 50 * 1000 })
-    .blur();
-  checkExistingUrls(gitUser, username, gitKey, token, url);
+  checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);
 
   if (insecureSkipVerifyOption) {
     cy.get(insecureSkipVerify).click({ force: true });
@@ -211,11 +208,15 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .last()
     .click()
     .trigger("mouseover");
-  cy
-    .get(helmURL, { timeout: 20 * 1000 })
-    .type(url, { timeout: 30 * 1000 })
-    .blur();
-  checkExistingUrls(helmUsername, username, helmPassword, password, url);
+
+  checkExistingUrls(
+    helmUsername,
+    username,
+    helmPassword,
+    password,
+    helmURL,
+    url
+  );
 
   if (insecureSkipVerifyOption) {
     cy.get(insecureSkipVerify).click({ force: true });
@@ -319,8 +320,8 @@ export const objTasks = (clusterName, value, css, key = 0) => {
     .last()
     .click()
     .trigger("mouseover");
-  cy.get(objUrl, { timeout: 20 * 1000 }).type(url, { timeout: 30 * 1000 });
-  checkExistingUrls(objAccess, accessKey, objSecret, secretKey, url);
+
+  checkExistingUrls(objAccess, accessKey, objSecret, secretKey, objUrl, url);
   selectClusterDeployment(deployment, clusterName, key);
   selectTimeWindow(timeWindow, key);
 };
@@ -617,11 +618,15 @@ export const validateResourceTable = (
     timeout: 60 * 1000
   });
   pageLoader.shouldNotExist();
+  const groupKey =
+    type === "argo"
+      ? getArgoGroupKey(name, namespace, "local-cluster", data)
+      : null;
   const resourceKey = getResourceKey(name, namespace, "local-cluster");
   resourceTable.rowShouldExist(name, resourceKey, 60 * 1000);
 
   //validate content
-  resourceTable.getRow(name, resourceKey).within(() =>
+  resourceTable.getRow(name, groupKey || resourceKey).within(() =>
     resourceTable
       .getCell("Name")
       .invoke("text")
@@ -630,7 +635,7 @@ export const validateResourceTable = (
 
   if (type === "argo") {
     // validate that argo icon exists
-    resourceTable.getRow(type, resourceKey).within(() =>
+    resourceTable.getRow(type, groupKey || resourceKey).within(() =>
       resourceTable
         .getCell("Name")
         .invoke("text")
@@ -640,7 +645,7 @@ export const validateResourceTable = (
   }
   resourceTable.getRow(name, resourceKey).within(() =>
     resourceTable
-      .getCell("Namespace")
+      .getCell("Namespace", type === "argo" ? 2 : null)
       .invoke("text")
       .should("include", type === "argo" ? deployedNamespace : namespace)
   );
@@ -652,7 +657,7 @@ export const validateResourceTable = (
   );
 
   cy.log("Validate Cluster column");
-  resourceTable.getRow(name, resourceKey).within(() =>
+  resourceTable.getRow(name, groupKey || resourceKey).within(() =>
     resourceTable
       .getCell("Clusters")
       .invoke("text")
@@ -669,7 +674,7 @@ export const validateResourceTable = (
       ? `${repositoryText} (${subscriptionLength})`
       : repositoryText;
   cy.log("Validate Repository column");
-  resourceTable.getRow(name, resourceKey).within(() =>
+  resourceTable.getRow(name, groupKey || resourceKey).within(() =>
     resourceTable
       .getCell("Resource")
       .invoke("text")
@@ -677,7 +682,7 @@ export const validateResourceTable = (
   );
 
   cy.log("Validate Repository popup");
-  resourceTable.getRow(name, resourceKey).within(() =>
+  resourceTable.getRow(name, groupKey || resourceKey).within(() =>
     resourceTable
       .getCell("Resource")
       .find(".pf-c-label")
@@ -700,7 +705,7 @@ export const validateResourceTable = (
   });
 
   cy.log("Validate Window column");
-  resourceTable.getRow(name, resourceKey).within(() =>
+  resourceTable.getRow(name, groupKey || resourceKey).within(() =>
     resourceTable
       .getCell("Time window")
       .invoke("text")

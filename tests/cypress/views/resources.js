@@ -45,10 +45,39 @@ export const apiResources = (type, data, returnType) => {
   }
 };
 
-export const checkExistingUrls = (css1, value1, css2, value2, url) => {
+// check if this is an existing channel
+// for new channels enter the credentials, if set
+// for existing channel select the full info, which is 'path [channelNS/channelName]
+export const checkExistingUrls = (
+  css1,
+  value1,
+  css2,
+  value2,
+  repoFieldId,
+  url
+) => {
   getSavedPathname().then(pathnames => {
     const { urllist } = pathnames;
-    if (!urllist.includes(url)) {
+    let urlPathForChannel = url;
+    let existingChannel = false;
+
+    urllist.forEach(channel => {
+      // should be in this form : 'path [channelNS/channelName]'
+      const channelDataList = channel.split(" ");
+      if (!existingChannel && channelDataList[0].includes(url)) {
+        cy.log(`credentials have been saved for url - ${url}`);
+        urlPathForChannel = channel;
+        existingChannel = true;
+      }
+    });
+
+    cy
+      .get(repoFieldId, { timeout: 20 * 1000 })
+      .type(urlPathForChannel, { timeout: 50 * 1000 })
+      .blur();
+
+    if (!existingChannel) {
+      cy.log(`New channel, set credentials if this is a private repo - ${url}`);
       if (value1 && value2) {
         cy.get(css1, { timeout: 20 * 1000 }).paste(value1, {
           log: false,
@@ -62,8 +91,6 @@ export const checkExistingUrls = (css1, value1, css2, value2, url) => {
         });
       }
       urllist.push(url);
-    } else {
-      cy.log(`credentials have been saved for url - ${url}`);
     }
   });
 };
@@ -72,14 +99,22 @@ let savedPathnames = null;
 export const getSavedPathname = () => {
   // returns a list of existing pathnames
   if (!savedPathnames) {
+    const pathForChannel = [];
     return cy
-      .exec(`oc get channels -o=jsonpath='{.items[*].spec.pathname}' -A`, {
-        timeout: 50 * 1000
-      })
-      .then(result => {
-        const urllist = result.stdout.split(" ").filter(i => i);
+      .exec(
+        `oc get channels -A -o custom-columns='pathname:.spec.pathname,namespace:.metadata.namespace,name:.metadata.name' --no-headers`,
+        {
+          timeout: 50 * 1000
+        }
+      )
+      .then(({ stdout }) => {
+        const urllist = stdout.split("\n").map(channel => channel.split(/ +/));
+        urllist.forEach(channel => {
+          // should be 'path channelNS channelName'
+          pathForChannel.push(`${channel[0]} [${channel[1]}/${channel[2]}]`);
+        });
         savedPathnames = {
-          urllist: urllist
+          urllist: pathForChannel
         };
         return savedPathnames;
       });

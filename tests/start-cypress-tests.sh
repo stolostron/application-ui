@@ -30,7 +30,7 @@ else
     whoami
     ls -ltra
     echo "Using given managed cluster kubeconfig..."
-    cp ${SHARED_DIR}/managed-1.kc ./cypress/config/import-kubeconfig
+    cp ${SHARED_DIR}/managed-1.kc ./cypress/config/import-kubeconfig/managed-1
   fi
 fi
 

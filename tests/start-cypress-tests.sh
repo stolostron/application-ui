@@ -18,13 +18,18 @@ if [[ -z $CYPRESS_MANAGED_OCP_URL || -z $CYPRESS_MANAGED_OCP_USER || -z $CYPRESS
    echo 'One or more variables are undefined. Copying kubeconfigs...'
    cp -r ~/resources/extra-import-kubeconfigs/* ./cypress/config/import-kubeconfig
 else	
-  echo "Logging into the managed cluster using credentials and generating the kubeconfig..."
-  mkdir -p ./import-kubeconfig && touch ./import-kubeconfig/kubeconfig
-  export KUBECONFIG=$(pwd)/import-kubeconfig/kubeconfig
-  oc login --server=$CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
-  unset KUBECONFIG
-  echo "Copying managed cluster kubeconfig to ./cypress/config/import-kubeconfig ..."
-  cp ./import-kubeconfig/* ./cypress/config/import-kubeconfig
+  if [[ -z "${SHARED_DIR}" ]]; then
+    echo "Logging into the managed cluster using credentials and generating the kubeconfig..."
+    mkdir -p ./import-kubeconfig && touch ./import-kubeconfig/kubeconfig
+    export KUBECONFIG=$(pwd)/import-kubeconfig/kubeconfig
+    oc login --server=$CYPRESS_MANAGED_OCP_URL -u $CYPRESS_MANAGED_OCP_USER -p $CYPRESS_MANAGED_OCP_PASS --insecure-skip-tls-verify
+    unset KUBECONFIG
+    echo "Copying managed cluster kubeconfig to ./cypress/config/import-kubeconfig ..."
+    cp ./import-kubeconfig/* ./cypress/config/import-kubeconfig
+  else
+    echo `Using given managed cluster kubeconfig...`
+    cp ${SHARED_DIR}/hub-1.kc ./cypress/config/import-kubeconfig
+  fi
 fi
 
 echo "Logging into Kube API server..."

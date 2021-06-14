@@ -247,6 +247,7 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
             <div
               class="pf-c-toolbar"
               id="pf-random-id-8"
+              style="padding-bottom: 0px;"
             >
               <div
                 class="pf-c-toolbar__content"
@@ -1443,6 +1444,7 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
             <div
               class="pf-c-toolbar"
               id="pf-random-id-4"
+              style="padding-bottom: 0px;"
             >
               <div
                 class="pf-c-toolbar__content"
@@ -2570,6 +2572,7 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
             <div
               class="pf-c-toolbar"
               id="pf-random-id-0"
+              style="padding-bottom: 0px;"
             >
               <div
                 class="pf-c-toolbar__content"

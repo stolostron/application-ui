@@ -377,15 +377,10 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     data-ouia-component-type="PF4/TableRow"
                     data-ouia-safe="true"
                   >
-                    <td
-                      class=""
-                      data-key="0"
-                      data-label=""
-                    />
                     <th
-                      aria-sort="ascending"
-                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
-                      data-key="1"
+                      aria-sort="none"
+                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
+                      data-key="0"
                       data-label="Name"
                       scope="col"
                     >
@@ -414,7 +409,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                               width="1em"
                             >
                               <path
-                                d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                                d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
                               />
                             </svg>
                           </span>
@@ -422,9 +417,9 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                       </button>
                     </th>
                     <th
-                      aria-sort="none"
-                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
-                      data-key="2"
+                      aria-sort="ascending"
+                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
+                      data-key="1"
                       data-label="Namespace"
                       scope="col"
                     >
@@ -456,7 +451,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                                 width="1em"
                               >
                                 <path
-                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                  d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
                                 />
                               </svg>
                             </span>
@@ -493,7 +488,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="3"
+                      data-key="2"
                       data-label="Clusters"
                       scope="col"
                     >
@@ -562,7 +557,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="4"
+                      data-key="3"
                       data-label="Resource"
                       scope="col"
                     >
@@ -631,7 +626,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="5"
+                      data-key="4"
                       data-label="Time window"
                       scope="col"
                     >
@@ -700,7 +695,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="6"
+                      data-key="5"
                       data-label="Created"
                       scope="col"
                     >
@@ -738,7 +733,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </th>
                     <td
                       class=""
-                      data-key="7"
+                      data-key="6"
                       data-label=""
                     />
                   </tr>
@@ -756,10 +751,6 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <td
                       class=""
                       data-key="0"
-                    />
-                    <td
-                      class=""
-                      data-key="1"
                       data-label="Name"
                     >
                       <div
@@ -780,14 +771,14 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="2"
+                      data-key="1"
                       data-label="Namespace"
                     >
                       default
                     </td>
                     <td
                       class=""
-                      data-key="3"
+                      data-key="2"
                       data-label="Clusters"
                     >
                       <a
@@ -799,7 +790,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="4"
+                      data-key="3"
                       data-label="Resource"
                     >
                       <div
@@ -808,19 +799,19 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="5"
+                      data-key="4"
                       data-label="Time window"
                     />
                     <td
                       class=""
-                      data-key="6"
+                      data-key="5"
                       data-label="Created"
                     >
                       3 years ago
                     </td>
                     <td
                       class="pf-c-table__action"
-                      data-key="7"
+                      data-key="6"
                       style="width: auto; padding-right: 0px;"
                     >
                       <div
@@ -1441,15 +1432,10 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     data-ouia-component-type="PF4/TableRow"
                     data-ouia-safe="true"
                   >
-                    <td
-                      class=""
-                      data-key="0"
-                      data-label=""
-                    />
                     <th
-                      aria-sort="ascending"
-                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
-                      data-key="1"
+                      aria-sort="none"
+                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
+                      data-key="0"
                       data-label="Name"
                       scope="col"
                     >
@@ -1478,7 +1464,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                               width="1em"
                             >
                               <path
-                                d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                                d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
                               />
                             </svg>
                           </span>
@@ -1486,9 +1472,9 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                       </button>
                     </th>
                     <th
-                      aria-sort="none"
-                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
-                      data-key="2"
+                      aria-sort="ascending"
+                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
+                      data-key="1"
                       data-label="Namespace"
                       scope="col"
                     >
@@ -1520,7 +1506,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                                 width="1em"
                               >
                                 <path
-                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                  d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
                                 />
                               </svg>
                             </span>
@@ -1557,7 +1543,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="3"
+                      data-key="2"
                       data-label="Clusters"
                       scope="col"
                     >
@@ -1626,7 +1612,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="4"
+                      data-key="3"
                       data-label="Resource"
                       scope="col"
                     >
@@ -1695,7 +1681,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="5"
+                      data-key="4"
                       data-label="Time window"
                       scope="col"
                     >
@@ -1764,7 +1750,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="6"
+                      data-key="5"
                       data-label="Created"
                       scope="col"
                     >
@@ -1802,7 +1788,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </th>
                     <td
                       class=""
-                      data-key="7"
+                      data-key="6"
                       data-label=""
                     />
                   </tr>
@@ -1820,10 +1806,6 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <td
                       class=""
                       data-key="0"
-                    />
-                    <td
-                      class=""
-                      data-key="1"
                       data-label="Name"
                     >
                       <div
@@ -1844,14 +1826,14 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="2"
+                      data-key="1"
                       data-label="Namespace"
                     >
                       default
                     </td>
                     <td
                       class=""
-                      data-key="3"
+                      data-key="2"
                       data-label="Clusters"
                     >
                       <a
@@ -1863,7 +1845,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="4"
+                      data-key="3"
                       data-label="Resource"
                     >
                       <div
@@ -1872,19 +1854,19 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="5"
+                      data-key="4"
                       data-label="Time window"
                     />
                     <td
                       class=""
-                      data-key="6"
+                      data-key="5"
                       data-label="Created"
                     >
                       3 years ago
                     </td>
                     <td
                       class="pf-c-table__action"
-                      data-key="7"
+                      data-key="6"
                       style="width: auto; padding-right: 0px;"
                     >
                       <div
@@ -2505,15 +2487,10 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     data-ouia-component-type="PF4/TableRow"
                     data-ouia-safe="true"
                   >
-                    <td
-                      class=""
-                      data-key="0"
-                      data-label=""
-                    />
                     <th
-                      aria-sort="ascending"
-                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
-                      data-key="1"
+                      aria-sort="none"
+                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
+                      data-key="0"
                       data-label="Name"
                       scope="col"
                     >
@@ -2542,7 +2519,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                               width="1em"
                             >
                               <path
-                                d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                                d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
                               />
                             </svg>
                           </span>
@@ -2550,9 +2527,9 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                       </button>
                     </th>
                     <th
-                      aria-sort="none"
-                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
-                      data-key="2"
+                      aria-sort="ascending"
+                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
+                      data-key="1"
                       data-label="Namespace"
                       scope="col"
                     >
@@ -2584,7 +2561,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                                 width="1em"
                               >
                                 <path
-                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                                  d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
                                 />
                               </svg>
                             </span>
@@ -2621,7 +2598,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="3"
+                      data-key="2"
                       data-label="Clusters"
                       scope="col"
                     >
@@ -2690,7 +2667,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="4"
+                      data-key="3"
                       data-label="Resource"
                       scope="col"
                     >
@@ -2759,7 +2736,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="5"
+                      data-key="4"
                       data-label="Time window"
                       scope="col"
                     >
@@ -2828,7 +2805,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="6"
+                      data-key="5"
                       data-label="Created"
                       scope="col"
                     >
@@ -2866,7 +2843,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </th>
                     <td
                       class=""
-                      data-key="7"
+                      data-key="6"
                       data-label=""
                     />
                   </tr>
@@ -2884,10 +2861,6 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <td
                       class=""
                       data-key="0"
-                    />
-                    <td
-                      class=""
-                      data-key="1"
                       data-label="Name"
                     >
                       <div
@@ -2908,14 +2881,14 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="2"
+                      data-key="1"
                       data-label="Namespace"
                     >
                       default
                     </td>
                     <td
                       class=""
-                      data-key="3"
+                      data-key="2"
                       data-label="Clusters"
                     >
                       <a
@@ -2927,7 +2900,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="4"
+                      data-key="3"
                       data-label="Resource"
                     >
                       <div
@@ -2936,19 +2909,19 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="5"
+                      data-key="4"
                       data-label="Time window"
                     />
                     <td
                       class=""
-                      data-key="6"
+                      data-key="5"
                       data-label="Created"
                     >
                       3 years ago
                     </td>
                     <td
                       class="pf-c-table__action"
-                      data-key="7"
+                      data-key="6"
                       style="width: auto; padding-right: 0px;"
                     >
                       <div

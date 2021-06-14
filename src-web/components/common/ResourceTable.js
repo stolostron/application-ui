@@ -40,6 +40,8 @@ class ResourceTable extends React.Component {
       staticResourceData,
       locale
     } = this.props
+    const toolbarControls = actions && actions.length > 0 ? actions : undefined
+
     return [
       <AcmTable
         key="data-table"
@@ -56,12 +58,10 @@ class ResourceTable extends React.Component {
           <AcmEmptyState
             title={staticResourceData.emptyTitle(locale)}
             message={staticResourceData.emptyMessage(locale)}
-            isEmptyTableState
+            isEmptyTableState={toolbarControls ? true : false}
           />
         }
-        extraToolbarControls={
-          actions && actions.length > 0 ? actions : undefined
-        }
+        extraToolbarControls={toolbarControls}
         groupFn={staticResourceData.groupFn}
         groupSummaryFn={
           staticResourceData.groupSummaryFn

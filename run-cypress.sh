@@ -55,7 +55,7 @@ ck with $HUB oc rsh -n openshift-authentication $OAUTH_POD cat /run/secrets/kube
 
 if [[ -z $CYPRESS_JOB_ID ]]
 then
-  export CYPRESS_JOB_ID="kevin"
+  export CYPRESS_JOB_ID=$(whoami)
 fi
 
 if [[ -z $CYPRESS_BASE_URL ]]

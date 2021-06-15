@@ -94,7 +94,12 @@ export const getClusterName = (nodeId, node, findAll) => {
         _.get(node, 'clusters.specs.appClusters', [])
       ).join(',')
     }
-    return _.get(node, 'specs.clustersNames', []).join(',')
+
+    const clusterNames = _.get(node, 'specs.clustersNames', [])
+    if (clusterNames.length > 0) {
+      //default to using nodeId if clusterNames array is empty
+      return clusterNames.join(',')
+    }
   }
 
   if (nodeId === undefined) {
@@ -176,9 +181,10 @@ export const getOnlineClusters = node => {
     ',',
     getClusterName(_.get(node, 'id', ''), node)
   )
+  const prClusters = _.get(node, 'clusters.specs.clusters', [])
+  const searchClusters = _.get(node, 'specs.searchClusters', [])
   const clusterObjs =
-    _.get(node, 'clusters.specs.clusters') ||
-    _.get(node, 'specs.searchClusters', [])
+    prClusters.length > searchClusters.length ? prClusters : searchClusters
   const onlineClusters = []
   clusterNames.forEach(clsName => {
     const cluster = clsName.trim()

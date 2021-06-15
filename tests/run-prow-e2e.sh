@@ -60,14 +60,5 @@ export CYPRESS_MANAGED_OCP_URL=$(echo $MANAGED_CREDS | jq -r '.api_url')
 export CYPRESS_MANAGED_OCP_USER=$(echo $MANAGED_CREDS | jq -r '.username')
 export CYPRESS_MANAGED_OCP_PASS=$(echo $MANAGED_CREDS | jq -r '.password')
 
-# copy everything to the home directory
-echo $HOME
-cp -R . $HOME 
-cd $HOME
-# debugging only
-ls -ltra
-# reinstall dependencies as a non-root user
-npm ci
-
 echo "Functional Tests"
 ./start-cypress-tests.sh

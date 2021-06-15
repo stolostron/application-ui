@@ -66,6 +66,8 @@ cp -R . $HOME
 cd $HOME
 # debugging only
 ls -ltra
+# reinstall dependencies as a non-root user
+npm ci
 
 echo "Functional Tests"
 ./start-cypress-tests.sh

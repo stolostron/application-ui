@@ -70,13 +70,14 @@ const resNotDeployedStates = [
   notDeployedStr.toLowerCase(),
   notDeployedNSStr.toLowerCase()
 ]
-const resErrorStates = ['err', 'off', 'invalid', 'kill']
+const resErrorStates = ['err', 'off', 'invalid', 'kill', 'propagationfailed']
 const resWarningStates = [pendingStatus, 'creating', 'terminating']
 const resSuccessStates = [
   'run',
   'bound',
   deployedStr.toLowerCase(),
-  deployedNSStr.toLowerCase()
+  deployedNSStr.toLowerCase(),
+  'propagated'
 ]
 const apiVersionPath = 'specs.raw.apiVersion'
 
@@ -403,7 +404,8 @@ const getPulseStatusForGenericNode = node => {
         ? notDeployedStr.toLowerCase()
         : _.get(resObject, 'status', deployedStr).toLowerCase()
       if (_.includes(resErrorStates, resStatus)) {
-        return 'red' // error on a resource
+        pulse = 'red'
+        return pulse // error on a resource
       }
       if (
         _.includes(_.union(resWarningStates, resNotDeployedStates), resStatus)
@@ -1877,7 +1879,7 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
 
           if (failedSubscriptionStatus) {
             details.push({
-              labelValue: msgs.get('prop.warning.section'),
+              labelValue: msgs.get('prop.error.section'),
               value:
                 reason || msgs.get('resource.subscription.status.failed.phase'),
               status: failureStatus

@@ -242,8 +242,30 @@ export const openArgoCDEditor = (
         } else {
           const searchResult = _.get(result, 'data.searchResult', [])
           if (searchResult.length > 0) {
-            const routes = _.get(searchResult[0], 'items', [])
-            const route = routes.length > 0 ? routes[0] : null
+            let route = null
+            // filter out grafana and prometheus routes
+            const routes = _.get(searchResult[0], 'items', []).filter(
+              routeObj =>
+                !_.get(routeObj, 'name', '')
+                  .toLowerCase()
+                  .includes('grafana') &&
+                !_.get(routeObj, 'name', '')
+                  .toLowerCase()
+                  .includes('prometheus')
+            )
+            if (routes.length > 0) {
+              // if still more than 1, choose one with “server” in the name if possible
+              const serverRoute = routes.find(routeObj =>
+                _.get(routeObj, 'name', '')
+                  .toLowerCase()
+                  .includes('server')
+              )
+              if (serverRoute) {
+                route = serverRoute
+              } else {
+                route = routes[0]
+              }
+            }
             if (!route) {
               const errMsg = msgs.get('resource.argo.app.route.err', [
                 namespace,

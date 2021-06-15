@@ -102,7 +102,7 @@ export const submitSave = (successState, redirectString) => {
 };
 
 const getPFTableRowSelector = key =>
-  `[data-ouia-component-type="PF4/TableRow"][data-ouia-component-id="${key}"]`;
+  `[data-ouia-component-type="PF4/TableRow"][data-ouia-component-id='${key}']`;
 
 export const resourceTable = {
   getRow: function(name, key, timeout) {
@@ -110,8 +110,9 @@ export const resourceTable = {
       timeout: timeout || 30 * 1000
     });
   },
-  getCell: function(name) {
-    return cy.get(`td[data-label="${name}"]`);
+  getCell: function(name, index) {
+    const attribute = index ? `data-key=${index}` : `data-label="${name}"`;
+    return cy.get(`td[${attribute}]`, { timeout: 30 * 1000 });
   },
   rowShouldExist: function(name, key, timeout) {
     this.searchTable(name);
@@ -340,7 +341,8 @@ export const validateSubscriptionTable = (
   numberOfRemoteClusters,
   data
 ) => {
-  let checkClusterColumn = true;
+  // TODO: enable checkClusterColumn when cluster count issue is resolved
+  let checkClusterColumn = false;
   let checkTimeWindowColumn = false;
   let checkResourceColumn = false;
   let singularDisplayName;
@@ -690,7 +692,7 @@ const convertTimeFormat = time => {
 
 export const validateSyncFunction = (type, opType) => {
   if (opType === "create") {
-    if (type !== "argo") {
+    if (type === "git") {
       // wait for sync button to display
       cy
         .get("#sync-app", { timeout: 50 * 1000 })
@@ -701,7 +703,7 @@ export const validateSyncFunction = (type, opType) => {
       modal.clickSubmit();
       modal.shouldBeClosed("#sync-resource-modal");
       notification.shouldExist("success");
-    } else {
+    } else if (type === "argo") {
       cy.log(`verify sync button doesn't exist for Argo apps`);
       cy.get("#sync-app", { timeout: 10 * 1000 }).should("not.exist");
     }
@@ -914,11 +916,7 @@ export const testGitApiInput = data => {
     .click({ force: true })
     .trigger("mouseover");
 
-  cy
-    .get(gitUrl, { timeout: 20 * 1000 })
-    .type(url, { timeout: 50 * 1000 })
-    .blur();
-  checkExistingUrls(gitUser, username, gitKey, token, url);
+  checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);
 
   // check branch and path info shows up
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
@@ -1154,6 +1152,25 @@ export const indexedCSS = (cssMap, index) =>
 
 export const getNamespace = name => {
   return `${name}-ns`;
+};
+
+export const getArgoGroupKey = (name, namespace, cluster, data) => {
+  if (data.applicationSet) {
+    return JSON.stringify({
+      applicationSet: data.applicationSet,
+      namespace,
+      cluster
+    });
+  } else if (data.groupedByResource) {
+    const config = data.config[0];
+    return JSON.stringify({
+      repoURL: config.url,
+      path: config.path,
+      chart: null,
+      targetRevision: config.branch || "HEAD"
+    });
+  }
+  return null;
 };
 
 export const getResourceKey = (name, namespace, cluster) =>

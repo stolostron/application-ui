@@ -5,6 +5,12 @@
 
 echo "Initiating tests..."
 
+if [[ -z "${SHARED_DIR}" ]]; then
+    configFile="./cypress.json"
+else
+    configFile="cypress.json"
+fi
+
 if [ -z "$CYPRESS_TEST_MODE" ]; then
   echo "CYPRESS_TEST_MODE not exported; setting to 'e2e' mode"
   export CYPRESS_TEST_MODE='e2e'
@@ -30,12 +36,19 @@ else
     whoami
     ls -ltra
     echo "Using given managed cluster kubeconfig..."
-    cp ${SHARED_DIR}/managed-1.kc ./cypress/config/import-kubeconfig/managed-1
+    cp ${SHARED_DIR}/managed-1.kc cypress/config/import-kubeconfig/managed-1
   fi
 fi
 
 echo "Logging into Kube API server..."
-oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
+if [[ -z "${SHARED_DIR}" ]]; then
+  if [[ -z "${KUBECONFIG}" ]]; then
+    export KUBECONFIG="${SHARED_DIR}/hub-1.kc" 
+  else
+    echo "KUBECONFIG is set. Already logged in."
+else
+  oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
+fi
 
 echo "Checking RedisGraph deployment."
 installNamespace=`oc get mch -A -o jsonpath='{.items[0].metadata.namespace}'`
@@ -50,8 +63,10 @@ fi
 
 echo "Running tests on $CYPRESS_BASE_URL in $CYPRESS_TEST_MODE mode..."
 testCode=0
-npx cypress run --config-file "./cypress.json" --browser $BROWSER
+npx cypress run --config-file $configFile --browser $BROWSER
 testCode=$?
+
+ls -ltra
 
 echo "Copying Mocha JSON and XML output to /results..."
 cp -r ./test-output/cypress/json/* /results

@@ -670,28 +670,6 @@ describe("hcm-application-diagram-tests", () => {
       {
         cluster: null,
         clusterName: null,
-        clusters: {
-          id: "member--clusters--",
-          type: "cluster",
-          specs: {
-            appClusters: [],
-            clusters: [
-              {
-                name: "sharingpenguin",
-                status: "ok"
-              }
-            ],
-            clustersNames: ["sharingpenguin"],
-            searchClusters: [
-              {
-                name: "sharingpenguin",
-                status: "ok"
-              }
-            ],
-            pulse: "green",
-            shapeType: "cluster"
-          }
-        },
         id: "--clusters--depl",
         name: "depl",
         specs: {

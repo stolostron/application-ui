@@ -1001,11 +1001,20 @@ describe("getPulseStatusForSubscription returns green pulse", () => {
       "member--subscription--sahar-multins--sahar-multi-sample-subscription-1",
     name: "mortgagedcNOStatus",
     specs: {
-      searchClusters: [{ name: "local-cluster", status: "OK" }],
+      clustersNames: ["local-cluster", "braveman", "braveman2"],
+      searchClusters: [
+        { name: "local-cluster", status: "OK" },
+        { name: "braveman", status: "OK" },
+        { name: "braveman2", status: "OK" }
+      ],
       raw: { spec: { clustersNames: ["local-cluster"] } },
       subscriptionModel: {
-        "mortgagedc-subscription-braveman": [{ status: "Subscribed" }],
-        "mortgagedc-subscription-braveman2": [{ status: "Subscribed" }]
+        "mortgagedc-subscription-braveman": [
+          { status: "Subscribed", cluster: "braveman" }
+        ],
+        "mortgagedc-subscription-braveman2": [
+          { status: "Subscribed", cluster: "braveman2" }
+        ]
       },
       row: 12
     },

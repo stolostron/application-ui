@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi8/go-toolset:latest as builder
 
-# FROM cypress/included:6.2.1 as production
+# FROM cypress/included:7.5.0 as production
 FROM quay.io/kcormier/cypress-included:latest as production
 # get jq
 # install jq to parse json within bash scripts
@@ -9,13 +9,15 @@ RUN curl -o /usr/local/bin/jq http://stedolan.github.io/jq/download/linux64/jq &
 
 USER root
 
-RUN mkdir -p /opt/app-root/src/application-ui
-WORKDIR /opt/app-root/src/application-ui
+RUN mkdir -p /application-ui-tests/cypress_cache
+ENV CYPRESS_CACHE_FOLDER=/application-ui-tests/cypress_cache
+WORKDIR /application-ui-tests
 COPY tests ./tests
-WORKDIR /opt/app-root/src/application-ui/tests
+WORKDIR /application-ui-tests/tests
 
 RUN npm ci
-
 RUN sh download-clis.sh
+# Make the directory writable by non-root users
+RUN chmod -R go+w /application-ui-tests
 
 ENTRYPOINT ["./start-cypress-tests.sh"]

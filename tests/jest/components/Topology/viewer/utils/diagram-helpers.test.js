@@ -507,7 +507,7 @@ describe("getPulseForNodeWithPodStatus controllerrevision type no desired", () =
           status: "OK"
         }
       ],
-      clustersNames: ["feng", "cluster1"],
+      clustersNames: ["feng", "cluster1", "cluster2"],
       podModel: {
         "mortgage-app-deploy-55c65b9c8f-6v9bn": [
           {
@@ -3744,7 +3744,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
     { type: "spacer" },
     { labelKey: "resource.deploy.pods.statuses", type: "label" },
     { labelValue: "Cluster name", value: "possiblereptile" },
-    { labelValue: "default", value: "Not Deployed", status: "pending" },
+    { labelValue: "*", value: "Not Deployed", status: "pending" },
     { type: "spacer" }
   ];
   it("setPodDeployStatus with pod as desired but no matched cluster", () => {

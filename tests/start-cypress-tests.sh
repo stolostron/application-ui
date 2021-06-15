@@ -46,29 +46,22 @@ testCode=0
 npx cypress run --config-file "./cypress.json" --browser $BROWSER
 testCode=$?
 
-echo "Copying Mocha JSON and XML output to /results..."
-cp -r ./test-output/cypress/json/* /results
-cp -r ./test-output/cypress/xml/* /results
+testDirectory="/results"
 
-echo "Copying outputed screenshots and videos to /results..."
-cp -r ./cypress/screenshots /results/screenshots
-cp -r ./cypress/videos /results/videos
+if [ -d "$testDirectory" ]; then
+  # move test results if $testDirectory exists.
+  echo "Copying Mocha JSON and XML output to /results..."
+  cp -r ./test-output/cypress/json/* /results
+  cp -r ./test-output/cypress/xml/* /results
 
-# merge xml reports
-# echo "Merging xml reports..."
-# npm run test:merge-xml
-# mkdir /results
-# cp ./test-output/application-ui.xml /results
-# ls -al /results
+  echo "Copying outputed screenshots and videos to /results..."
+  cp -r ./cypress/screenshots /results/screenshots
+  cp -r ./cypress/videos /results/videos
+fi
 
 if [[ ! -z "$SLACK_TOKEN" ]]; then
    echo "Slack integration is configured; processing..."
    npm run test:slack
 fi
-
-#if [ $CYPRESS_TEST_MODE == "functional" ]; then
-#  echo "Cleaning up functional test resources..."
-#  sh ./tests/cypress/scripts/resource-cleanup.sh
-#fi
 
 exit $testCode

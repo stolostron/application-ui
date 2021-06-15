@@ -33,6 +33,7 @@ import _ from 'lodash'
 // include monaco editor
 import TemplateEditor from 'temptifly'
 import 'temptifly/dist/styles.css'
+//import TemplateEditor from 'C:/Users/jswanke/git2/temptifly/src' //'temptifly'
 import MonacoEditor from 'react-monaco-editor'
 import 'monaco-editor/esm/vs/editor/editor.all.js'
 import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand.js'

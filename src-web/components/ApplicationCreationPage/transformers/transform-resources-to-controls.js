@@ -42,6 +42,7 @@ export const discoverGroupsFromSource = (
       const newGroup = initializeControls(
         groupData,
         editor,
+        null,
         i18n,
         active.length + 1,
         true
@@ -146,7 +147,7 @@ const discoverChannelFromSource = (
     groupControlData.forEach(cd => {
       cd.groupControlData = groupControlData
     })
-    initializeControls(groupControlData, editor, i18n)
+    initializeControls(groupControlData, editor, null, i18n)
 
     // initialize channel namespace
     const path = 'Subscription[0].spec.channel'

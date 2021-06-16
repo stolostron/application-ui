@@ -10,6 +10,7 @@ const rimraf = require("rimraf");
 const { WebClient } = require("@slack/web-api");
 const exec = util.promisify(require("child_process").exec);
 const {
+  ARTIFACT_DIR,
   BUILD_WEB_URL,
   GIT_PULL_NUMBER,
   GIT_REPO_SLUG,
@@ -121,7 +122,8 @@ async function postVideo(fileName, filePath, comment, userId) {
       initial_comment: comment
     });
   } catch (e) {
-    console.error("Slack Post Error", e);
+    fs.writeFile(`${ARTIFACT_DIR}/slack-failure.log`, e);
+    console.log("Slack Post Error", e);
   }
 }
 

@@ -960,7 +960,7 @@ export const testInvalidApplicationInput = () => {
     .click()
     .clear()
     .type("default")
-    .type("{enter}");
+    .blur();
 
   cy.log("Test invalid name");
   cy.get("#eman", { timeout: 50 * 1000 }).type(invalidValue);
@@ -979,7 +979,7 @@ export const testInvalidApplicationInput = () => {
   cy
     .get("#emanspace", { timeout: 50 * 1000 })
     .type(invalidValue)
-    .type("{enter}");
+    .blur();
   cy.get("#emanspace-helper").should("exist");
   submitSave(false); //test save error
 
@@ -988,7 +988,7 @@ export const testInvalidApplicationInput = () => {
     .click()
     .clear()
     .type("default")
-    .type("{enter}");
+    .blur();
   cy.get("#emanspace-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
@@ -1002,7 +1002,7 @@ export const testInvalidApplicationInput = () => {
     .get("#githubURL", { timeout: 20 * 1000 })
     .scrollIntoView()
     .type(invalidValue)
-    .type("{enter}");
+    .blur();
 
   testDefect7080();
 
@@ -1022,7 +1022,7 @@ export const testInvalidApplicationInput = () => {
     .click()
     .clear()
     .type(validURL)
-    .type("{enter}");
+    .blur();
   cy.get("#githubURL-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
@@ -1030,7 +1030,7 @@ export const testInvalidApplicationInput = () => {
     .get("#githubBranch", { timeout: 20 * 1000 })
     .trigger("mouseover")
     .type(invalidValue)
-    .type("{enter}");
+    .blur();
   cy.get("#githubBranch-helper").should("exist");
   cy.wait(2000);
 
@@ -1038,7 +1038,7 @@ export const testInvalidApplicationInput = () => {
     .get("#githubBranch", { timeout: 20 * 1000 })
     .trigger("mouseover")
     .type(validValue)
-    .type("{enter}");
+    .blur();
   cy.get("#githubBranch-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
   cy.wait(2000);
@@ -1077,7 +1077,7 @@ export const testInvalidApplicationInput = () => {
     .click()
     .clear()
     .type(validURL)
-    .type("{enter}");
+    .blur();
   cy.get("#helmURL-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 
@@ -1111,7 +1111,7 @@ export const testInvalidApplicationInput = () => {
     .click()
     .clear()
     .type(validURL)
-    .type("{enter}");
+    .blur();
   cy.get("#objectstoreURL-helper").should("not.exist");
   saveErrorShouldNotExist(); //save error goes away
 

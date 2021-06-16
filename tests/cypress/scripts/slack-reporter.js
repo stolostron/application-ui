@@ -122,6 +122,7 @@ async function postVideo(fileName, filePath, comment, userId) {
       initial_comment: comment
     });
   } catch (e) {
+    console.log(ARTIFACT_DIR);
     fs.writeFile(`${ARTIFACT_DIR}/slack-failure.log`, e);
     console.log("Slack Post Error", e);
   }

@@ -50,7 +50,6 @@ export SLACK_TOKEN=$(cat "/etc/e2e-secrets/slack-token")
 
 # Workaround for "error: x509: certificate signed by unknown authority" problem with oc login
 mkdir -p ${HOME}/certificates
-echo $HOME
 OAUTH_POD=$(oc -n openshift-authentication get pods -o jsonpath='{.items[0].metadata.name}')
 export CYPRESS_OC_CLUSTER_INGRESS_CA=/certificates/ingress-ca.crt
 oc rsh -n openshift-authentication $OAUTH_POD cat /run/secrets/kubernetes.io/serviceaccount/ca.crt > ${HOME}${CYPRESS_OC_CLUSTER_INGRESS_CA}

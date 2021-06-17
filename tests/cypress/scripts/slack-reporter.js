@@ -121,7 +121,7 @@ async function postVideo(fileName, filePath, comment, userId) {
       initial_comment: comment
     });
   } catch (e) {
-    console.error("Slack Post Error", e);
+    console.log("Slack Post Error", e);
   }
 }
 

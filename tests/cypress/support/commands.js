@@ -273,7 +273,8 @@ Cypress.Commands.add("ocLogin", role => {
   );
   const { users } = Cypress.env("USER_CONFIG");
   let user;
-  if (role !== "kubeadmin") {
+  // cluster-admin is used by ROSA so we can't use that anymore
+  if (role !== "kubeadmin" && role !== "cluster-admin") {
     cy.addUserIfNotCreatedBySuite();
     user = users[role];
     if (!user) {
@@ -287,6 +288,10 @@ Cypress.Commands.add("ocLogin", role => {
       `Role is not kubeadmin, adding user=${user} to Cypress.env("OC_CLUSTER_USER"), which is the users[${role}]`
     );
   }
+  // set user to cluster-admin when running on ROSA
+  if (role === "cluster-admin") {
+    user = role;
+  }
   cy.log("OC_CLUSTER_USER", Cypress.env("OC_CLUSTER_USER"));
 
   const loginUserDetails = {
@@ -294,6 +299,7 @@ Cypress.Commands.add("ocLogin", role => {
     user: user || "kubeadmin",
     password: Cypress.env("OC_CLUSTER_PASS")
   };
+
   // Workaround for "error: x509: certificate signed by unknown authority" problem with oc login
   let certificateAuthority = "";
   if (Cypress.env("OC_CLUSTER_INGRESS_CA")) {

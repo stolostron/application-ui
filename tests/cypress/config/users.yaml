@@ -3,7 +3,7 @@ users:
   # Users are based on the roles defined in RBAC Test specification
   # Mapping is userRole: username
 
-  cluster-admin: test-cluster-admin
+  cluster-admin-app: test-cluster-admin
   #cluster-admin / cluster-wide
 
   cluster-manager-admin: test-cluster-manager-admin

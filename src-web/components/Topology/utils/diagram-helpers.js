@@ -1202,7 +1202,7 @@ export const setupResourceModel = (
   orderedList.forEach(kindArray => {
     const relatedKindList = R.pathOr([], ['items'])(kindArray)
     relatedKindList.forEach(relatedKind => {
-      const kind = relatedKind.kind
+      const { kind, cluster } = relatedKind
 
       //look for pod template hash and remove it from the name if there
       const { nameNoHash, deployableName, podHash } = getNameWithoutPodHash(
@@ -1230,7 +1230,7 @@ export const setupResourceModel = (
 
       if (
         kind === 'subscription' &&
-        _.get(relatedKind, 'cluster', '') === LOCAL_HUB_NAME &&
+        cluster === LOCAL_HUB_NAME &&
         _.get(relatedKind, 'localPlacement', '') === 'true' &&
         _.endsWith(name, '-local')
       ) {
@@ -1246,7 +1246,8 @@ export const setupResourceModel = (
       if (checkAndObjects(podHash, existingResourceMapKey)) {
         //update resource map key with podHash if the resource has a pod hash ( deployment, replicaset, deploymentconig, etc )
         //this is going to be used to link pods with this parent resource
-        resourceMap[`pod-${podHash}`] = resourceMap[existingResourceMapKey]
+        resourceMap[`pod-${podHash}-${cluster}`] =
+          resourceMap[existingResourceMapKey]
       } else if (checkAndObjects(deployableName, existingResourceMapKey)) {
         resourceMap[`pod-deploymentconfig-${deployableName}`] =
           resourceMap[existingResourceMapKey]
@@ -1259,7 +1260,7 @@ export const setupResourceModel = (
       if (!resourceMapForObject && kind === 'pod') {
         if (podHash) {
           //just found a pod object, try to map it to the parent resource using the podHash
-          resourceMapForObject = resourceMap[`pod-${podHash}`]
+          resourceMapForObject = resourceMap[`pod-${podHash}-${cluster}`]
         } else if (deployableName) {
           resourceMapForObject =
             resourceMap[`pod-deploymentconfig-${deployableName}`]

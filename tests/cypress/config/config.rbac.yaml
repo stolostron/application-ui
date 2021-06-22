@@ -9,7 +9,7 @@ git:
         - url: https://dummy/insecureSkipVerifyOption
           username: ""
           token: ""
-          branch: master
+          branch: main
           path: mortgagedc
           insecureSkipVerifyOption: true
           disableAutoReconcileOption: true
@@ -34,7 +34,7 @@ git:
           resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
           username: ""
           token: ""
-          branch: master
+          branch: main
           path: helloworld
           commitHash: 5614bad419abf01ac52bb723914731b091a77ebc #this has to be the private repo hash!
           gitReconcileOption: merge
@@ -47,7 +47,7 @@ git:
           resources: ["pod", "service"] #the type of resources this application must deploy
           username: ""
           token: ""
-          branch: master
+          branch: main
           path: mortgagepod
           tag: v1.0
           timeWindow:

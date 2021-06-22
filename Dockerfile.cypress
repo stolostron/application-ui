@@ -2,10 +2,6 @@ FROM registry.access.redhat.com/ubi8/go-toolset:latest as builder
 
 # FROM cypress/included:7.5.0 as production
 FROM quay.io/kcormier/cypress-included:latest as production
-# get jq
-# install jq to parse json within bash scripts
-RUN curl -o /usr/local/bin/jq http://stedolan.github.io/jq/download/linux64/jq && \
-  chmod +x /usr/local/bin/jq
 
 USER root
 
@@ -16,7 +12,7 @@ COPY tests ./tests
 WORKDIR /application-ui-tests/tests
 
 RUN npm ci
-RUN sh download-clis.sh
+RUN ./download-clis.sh
 # Make the directory writable by non-root users
 RUN chmod -R go+w /application-ui-tests
 

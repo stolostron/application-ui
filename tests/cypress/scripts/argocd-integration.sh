@@ -100,23 +100,6 @@ waitForRes "pods" "openshift-gitops-application-controller" "openshift-gitops" "
 # $KUBECTL_HUB -n argocd create route passthrough argocd-server --service=argocd-server --port=https --insecure-policy=Redirect
 # sleep 5
 
-# install argocd cli
-ARGO_VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
-
-LOCAL_OS=$(uname)
-
-echo "$LOCAL_OS, $ARGO_VERSION"
-
-rm -fr /usr/local/bin/argocd
-
-if [[ "$LOCAL_OS" == "Linux" ]]; then
-    curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$ARGO_VERSION/argocd-linux-amd64
-elif [[ "$LOCAL_OS" == "Darwin" ]]; then
-    curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$ARGO_VERSION/argocd-darwin-amd64
-fi
-
-chmod +x /usr/local/bin/argocd
-
 # login using the cli
 ARGOCD_PWD=$($KUBECTL_HUB -n openshift-gitops get secret openshift-gitops-cluster -o jsonpath='{.data.admin\.password}' | base64 --decode)
 ARGOCD_HOST=$($KUBECTL_HUB get route openshift-gitops-server -n openshift-gitops -o jsonpath='{.spec.host}')

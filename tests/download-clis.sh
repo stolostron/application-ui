@@ -32,4 +32,21 @@ rm -rf ./oc-unpacked ./oc.tar.gz
 # Install htpasswd utility 
 apt-get update && apt-get install -y apache2-utils
 
+# Install jq to parse json within bash scripts
+curl -o /usr/local/bin/jq http://stedolan.github.io/jq/download/linux64/jq
+chmod +x /usr/local/bin/jq
+
+# Install ArgoCD CLI
+ARGO_VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+LOCAL_OS=$(uname)
+
+echo "$LOCAL_OS, $ARGO_VERSION"
+
+if [[ "$LOCAL_OS" == "Linux" ]]; then
+    curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$ARGO_VERSION/argocd-linux-amd64
+elif [[ "$LOCAL_OS" == "Darwin" ]]; then
+    curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$ARGO_VERSION/argocd-darwin-amd64
+fi
+chmod +x /usr/local/bin/argocd
+
 echo 'set up complete'

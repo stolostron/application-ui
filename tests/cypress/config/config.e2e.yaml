@@ -39,7 +39,7 @@ git:
     - url: ''
       username: ''
       token: ''
-      branch: master
+      branch: main
       path: helloworld
       timeWindow:
         setting: false

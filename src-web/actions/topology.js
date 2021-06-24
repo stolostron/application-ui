@@ -462,12 +462,20 @@ const fetchArgoApplications = (
     })
     query.filters.push({ property: 'namespace', values: [appNS] })
   } else {
+    let targetRevisionFound = false
     for (const [property, value] of Object.entries(appData.source)) {
       // add argo app source filters
+      if (property === 'targetRevision') {
+        targetRevisionFound = true
+      }
       if (property !== 'helm') {
         // skip helm as that contains non string values that graphql can't handle
         query.filters.push({ property, values: [value] })
       }
+    }
+
+    if (!targetRevisionFound) {
+      query.filters.push({ property: 'targetRevision', values: ['HEAD'] })
     }
   }
   apolloClient

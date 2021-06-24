@@ -465,12 +465,16 @@ const fetchArgoApplications = (
     let targetRevisionFound = false
     for (const [property, value] of Object.entries(appData.source)) {
       // add argo app source filters
+      let propValue = value
       if (property === 'targetRevision') {
         targetRevisionFound = true
+        if (propValue.length === 0) {
+          propValue = 'HEAD'
+        }
       }
       if (property !== 'helm') {
         // skip helm as that contains non string values that graphql can't handle
-        query.filters.push({ property, values: [value] })
+        query.filters.push({ property, values: [propValue] })
       }
     }
 

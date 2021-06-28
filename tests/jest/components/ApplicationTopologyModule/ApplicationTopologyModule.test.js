@@ -191,7 +191,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                           "apps.open-cluster-management.io/git-commit":
                             "3ef4d969fe46380e3dbe3b0e1f323f68219ccc4f",
                           "apps.open-cluster-management.io/github-branch":
-                            "master",
+                            "main",
                           "apps.open-cluster-management.io/github-path":
                             "mortgagers",
                           "apps.open-cluster-management.io/hosting-deployable":
@@ -316,8 +316,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                           "default/mortgagers-subscription-mortgagers-mortgagers-deploy-replicaset,default/mortgagers-subscription-mortgagers-mortgagers-svc-service",
                         "apps.open-cluster-management.io/git-commit":
                           "3ef4d969fe46380e3dbe3b0e1f323f68219ccc4f",
-                        "apps.open-cluster-management.io/github-branch":
-                          "master",
+                        "apps.open-cluster-management.io/github-branch": "main",
                         "apps.open-cluster-management.io/github-path":
                           "mortgagers",
                         "apps.open-cluster-management.io/hosting-deployable":

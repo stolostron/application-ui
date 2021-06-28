@@ -489,7 +489,7 @@ describe("getNodeDetails subscription", () => {
         kind: "Subscription",
         metadata: {
           annotations: {
-            "apps.open-cluster-management.io/git-branch": "master",
+            "apps.open-cluster-management.io/git-branch": "main",
             "apps.open-cluster-management.io/git-desired-commit": "a123",
             "apps.open-cluster-management.io/git-path": "path1234",
             "apps.open-cluster-management.io/git-tag": "b456",
@@ -603,7 +603,7 @@ describe("getNodeDetails subscription", () => {
       type: "label",
       labelKey: "spec.subscr.annotations.gitBranch",
       labelValue: undefined,
-      value: "master",
+      value: "main",
       indent: undefined,
       status: undefined
     },

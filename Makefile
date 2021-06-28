@@ -93,7 +93,7 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-e OBJECTSTORE_PRIVATE_URL=$(OBJECTSTORE_PRIVATE_URL) \
 	-e OBJECTSTORE_ACCESS_KEY=$(OBJECTSTORE_ACCESS_KEY) \
 	-e OBJECTSTORE_SECRET_KEY=$(OBJECTSTORE_SECRET_KEY) \
-	-e HELM_PRIVATE_URL=https://raw.githubusercontent.com/open-cluster-management/app-ui-e2e-private-helm/master \
+	-e HELM_PRIVATE_URL=https://raw.githubusercontent.com/open-cluster-management/app-ui-e2e-private-helm/main \
 	-e HELM_USERNAME=$(GITHUB_USER) \
 	-e HELM_PASSWORD=$(GITHUB_TOKEN) \
 	-e HELM_CHART_NAME=mychart \

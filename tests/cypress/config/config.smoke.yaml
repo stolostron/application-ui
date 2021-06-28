@@ -9,7 +9,7 @@ git:
         - url: https://dummy/insecureSkipVerifyOption
           username: ""
           token: ""
-          branch: master
+          branch: main
           path: mortgagedc
           insecureSkipVerifyOption: true
           timeWindow:
@@ -33,7 +33,7 @@ git:
           resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
           username: ""
           token: ""
-          branch: master
+          branch: main
           path: helloworld
           gitReconcileOption: merge
           deployment:
@@ -44,7 +44,7 @@ git:
           resources: ["pod", "service"] #the type of resources this application must deploy
           username: ""
           token: ""
-          branch: master
+          branch: main
           path: mortgagepod
           timeWindow:
             setting: true

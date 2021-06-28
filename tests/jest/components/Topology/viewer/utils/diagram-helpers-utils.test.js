@@ -792,7 +792,7 @@ describe("isDeployableResource for regular subscription", () => {
 describe("isDeployableResource for deployable subscription", () => {
   const node = {
     id:
-      "member--member--deployable--member--clusters--birsan2-remote--default--val-op-subscription-1-tmp-val-op-subscription-1-master-operators-config-cert-manager-operator-rhmp-test-subscription--subscription--cert-manager-operator-rhmp-test",
+      "member--member--deployable--member--clusters--birsan2-remote--default--val-op-subscription-1-tmp-val-op-subscription-1-main-operators-config-cert-manager-operator-rhmp-test-subscription--subscription--cert-manager-operator-rhmp-test",
     name: "cert-manager-operator-rhmp-test",
     namespace: "default",
     specs: {
@@ -827,7 +827,7 @@ describe("getRouteNameWithoutIngressHash", () => {
       "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/ingress-nginx-subscription-1-local",
     status: "Subscribed",
     timeWindow: "none",
-    _gitbranch: "master",
+    _gitbranch: "main",
     _gitpath: "nginx",
     _hostingDeployable:
       "local-cluster/ingress-nginx-subscription-1-deployable-66dlk",

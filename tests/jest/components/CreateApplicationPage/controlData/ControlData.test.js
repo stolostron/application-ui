@@ -211,29 +211,29 @@ describe("updateChannelControls", () => {
 
 describe("validateBranch", () => {
   const validGitBranches = [
-    "master",
+    "main",
     "release-2.1",
-    "master/resource/abc",
-    "master@abc"
+    "main/resource/abc",
+    "main@abc"
   ];
   const invalidGitBranches = [
     "foo/bar.lock/hello",
-    "master..123",
-    "master.",
-    "master/.abc",
-    "/master",
-    "master/",
-    "master/.lock",
-    "master:12",
+    "main..123",
+    "main.",
+    "main/.abc",
+    "/main",
+    "main/",
+    "main/.lock",
+    "main:12",
     "abc~",
-    "master:",
+    "main:",
     "abc?a",
     "abc*a",
     "abc[a",
-    "master@{",
-    "master.",
+    "main@{",
+    "main.",
     "abc//efg",
-    "master^",
+    "main^",
     "@"
   ];
 

@@ -67,25 +67,23 @@ Cypress.Commands.add("login", (idp, user, password) => {
 
 Cypress.Commands.add("logout", () => {
   cy.log("Attempt to logout existing user");
-  cy
-    .get("[data-ouia-component-id=OUIA-Generated-DropdownToggle-3]")
-    .then($btn => {
-      //logout when test starts since we need to use the app idp user
-      cy.log("Logging out existing user");
-      cy.get($btn).click();
-      if (Cypress.config().baseUrl.includes("localhost")) {
-        cy.contains("Logout").click();
-        //.clearCookies();
-      } else {
-        cy.contains("Logout").click();
-        /*
+  cy.get("button[aria-label=user-menu]").then($btn => {
+    //logout when test starts since we need to use the app idp user
+    cy.log("Logging out existing user");
+    cy.get($btn).click();
+    if (Cypress.config().baseUrl.includes("localhost")) {
+      cy.contains("Logout").click();
+      //.clearCookies();
+    } else {
+      cy.contains("Logout").click();
+      /*
         cy
           .location("pathname")
           .should("match", new RegExp("/oauth/authorize(\\?.*)?$"))
           .clearCookies();
           */
-      }
-    });
+    }
+  });
 });
 
 Cypress.Commands.add("editYaml", file => {
@@ -329,7 +327,7 @@ Cypress.Commands.add("logInAsRole", role => {
   const logInIfRequired = () => {
     cy.log(` Check if login is required for user ${user} with idp ${idp} `);
     cy
-      .get("[data-ouia-component-id=OUIA-Generated-DropdownToggle-3]")
+      .get("button[aria-label=user-menu]")
       .invoke("text")
       .then(text => {
         cy.log(`Logged in User ${text} expected ${users[role]}`);

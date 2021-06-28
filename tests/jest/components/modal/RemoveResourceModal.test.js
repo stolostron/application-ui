@@ -268,7 +268,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                     "helloworld-simple-ns_apps.open-cluster-management.io_subscriptions",
                   channel:
                     "ggithubcom-fxiang1-app-samples-ns/ggithubcom-fxiang1-app-samples",
-                  _gitbranch: "master",
+                  _gitbranch: "main",
                   localPlacement: "false",
                   _hubClusterResource: "true",
                   label: "app=helloworld-simple",
@@ -322,7 +322,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                       _hostingDeployable:
                         "local-cluster/helloworld-simple-subscription-1-deployable-kkgkh",
                       _hubClusterResource: "true",
-                      _gitbranch: "master",
+                      _gitbranch: "main",
                       _hostingSubscription:
                         "helloworld-simple-ns/helloworld-simple-subscription-1",
                       timeWindow: "none",
@@ -610,7 +610,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                         "helloworld-simple-ns_apps.open-cluster-management.io_subscriptions",
                       channel:
                         "ggithubcom-fxiang1-app-samples-ns/ggithubcom-fxiang1-app-samples",
-                      _gitbranch: "master",
+                      _gitbranch: "main",
                       localPlacement: "false",
                       _hubClusterResource: "true",
                       cluster: "local-cluster",

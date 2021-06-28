@@ -11,7 +11,7 @@ const channels = [
   {
     type: "GitHub",
     pathname: "https://github.com/org/repo.git",
-    gitBranch: "master",
+    gitBranch: "main",
     gitPath: "mortgage"
   },
   {

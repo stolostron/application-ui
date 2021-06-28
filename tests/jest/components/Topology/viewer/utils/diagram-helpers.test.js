@@ -819,21 +819,21 @@ describe("computeResourceName node with pods no _hostingDeployable", () => {
   const node = {
     apiversion: "v1",
     cluster: "sharingpenguin",
-    container: "slave",
+    container: "secondary",
     created: "2020-05-26T19:18:21Z",
     kind: "pod",
-    label: "app; pod-template-hash=5bdcfd74c7; role=slave; tier=backend",
-    name: "redis-slave-5bdcfd74c7-22ljj",
+    label: "app; pod-template-hash=5bdcfd74c7; role=secondary; tier=backend",
+    name: "redis-secondary-5bdcfd74c7-22ljj",
     namespace: "app-guestbook-git-ns",
     restarts: 0,
     selfLink:
-      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-secondary-5bdcfd74c7-22ljj",
     startedAt: "2020-05-26T19:18:21Z",
     status: "Running"
   };
   it("nodeMustHavePods POD no _hostingDeployable", () => {
     expect(
-      computeResourceName(node, null, "redis-slave", { value: "true" })
+      computeResourceName(node, null, "redis-secondary", { value: "true" })
     ).toEqual("pod-redis");
   });
 });
@@ -842,23 +842,24 @@ describe("computeResourceName node with pods with _hostingDeployable", () => {
   const node = {
     apiversion: "v1",
     cluster: "sharingpenguin",
-    container: "slave",
+    container: "secondary",
     created: "2020-05-26T19:18:21Z",
     kind: "pod",
-    label: "app=redis; pod-template-hash=5bdcfd74c7; role=slave; tier=backend",
-    name: "redis-slave-5bdcfd74c7-22ljj",
+    label:
+      "app=redis; pod-template-hash=5bdcfd74c7; role=secondary; tier=backend",
+    name: "redis-secondary-5bdcfd74c7-22ljj",
     namespace: "app-guestbook-git-ns",
     restarts: 0,
     _hostingDeployable: "aaa",
     selfLink:
-      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-secondary-5bdcfd74c7-22ljj",
     startedAt: "2020-05-26T19:18:21Z",
     status: "Running"
   };
   it("nodeMustHavePods POD with _hostingDeployable", () => {
     expect(
-      computeResourceName(node, null, "redis-slave", { value: "true" })
-    ).toEqual("pod-redis-slave");
+      computeResourceName(node, null, "redis-secondary", { value: "true" })
+    ).toEqual("pod-redis-secondary");
   });
 });
 
@@ -881,7 +882,7 @@ describe("getNameWithoutChartRelease", () => {
   const node = {
     apiversion: "v1",
     cluster: "sharingpenguin",
-    container: "slave",
+    container: "secondary",
     created: "2020-05-26T19:18:21Z",
     kind: "pod",
     label:
@@ -890,7 +891,7 @@ describe("getNameWithoutChartRelease", () => {
     namespace: "app-guestbook-git-ns",
     restarts: 0,
     selfLink:
-      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-secondary-5bdcfd74c7-22ljj",
     startedAt: "2020-05-26T19:18:21Z",
     status: "Running"
   };
@@ -920,11 +921,11 @@ describe("getNameWithoutChartRelease", () => {
     created: "2021-03-18T13:08:54Z",
     kind: "controllerrevision",
     label:
-      "app=redis; chart=redis-12.2.4; controller.kubernetes.io/hash=7f77dbc994; release=redis; role=master",
-    name: "redis-master-7f77dbc994",
+      "app=redis; chart=redis-12.2.4; controller.kubernetes.io/hash=7f77dbc994; release=redis; role=main",
+    name: "redis-main-7f77dbc994",
     namespace: "helm-app2-demo-ns",
     selfLink:
-      "/apis/apps/v1/namespaces/helm-app2-demo-ns/controllerrevisions/redis-master-7f77dbc994",
+      "/apis/apps/v1/namespaces/helm-app2-demo-ns/controllerrevisions/redis-main-7f77dbc994",
     _hubClusterResource: "true",
     _rbac: "helm-app2-demo-ns_apps_controllerrevisions",
     _uid: "local-cluster/abb053a5-4e32-4c18-bc09-42af449ffdb2"
@@ -956,16 +957,16 @@ describe("getNameWithoutChartRelease", () => {
 
   it("returns name with release for resource with release name- contained by the resource name", () => {
     expect(
-      getNameWithoutChartRelease(nodeWithReleaseNameInTheName, "redis-master", {
+      getNameWithoutChartRelease(nodeWithReleaseNameInTheName, "redis-main", {
         value: false
       })
-    ).toEqual("redis-master");
+    ).toEqual("redis-main");
   });
 
   const nodePodNoDeployable = {
     apiversion: "v1",
     cluster: "sharingpenguin",
-    container: "slave",
+    container: "secondary",
     created: "2020-05-26T19:18:21Z",
     kind: "pod",
     label:
@@ -974,7 +975,7 @@ describe("getNameWithoutChartRelease", () => {
     namespace: "app-guestbook-git-ns",
     restarts: 0,
     selfLink:
-      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-secondary-5bdcfd74c7-22ljj",
     startedAt: "2020-05-26T19:18:21Z",
     status: "Running"
   };
@@ -996,7 +997,7 @@ describe("getNameWithoutChartRelease node with release name plus pod name", () =
   const node = {
     apiversion: "v1",
     cluster: "sharingpenguin",
-    container: "slave",
+    container: "secondary",
     created: "2020-05-26T19:18:21Z",
     kind: "pod",
     label:
@@ -1005,7 +1006,7 @@ describe("getNameWithoutChartRelease node with release name plus pod name", () =
     namespace: "app-guestbook-git-ns",
     restarts: 0,
     selfLink:
-      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-secondary-5bdcfd74c7-22ljj",
     startedAt: "2020-05-26T19:18:21Z",
     status: "Running"
   };
@@ -1023,7 +1024,7 @@ describe("getNameWithoutChartRelease node for helmrelease no label", () => {
   const node = {
     apigroup: "apps.open-cluster-management.io",
     apiversion: "v1",
-    branch: "master",
+    branch: "main",
     chartPath: "test/github/helmcharts/chart1",
     cluster: "sharingpenguin",
     created: "2020-07-07T00:11:41Z",

@@ -784,7 +784,7 @@ export const HCMApplicationList = {
               status: "Failed",
               timeWindow: "none",
               _clusterNamespace: "kcormier-cluster",
-              _gitbranch: "master",
+              _gitbranch: "main",
               _gitpath: "mortgage",
               _hostingDeployable:
                 "kcormier-cluster/mortgage-app-subscription-deployable-w2qpd",
@@ -807,7 +807,7 @@ export const HCMApplicationList = {
                 "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgage-app-subscription",
               status: "Propagated",
               timeWindow: "active",
-              _gitbranch: "master",
+              _gitbranch: "main",
               _gitpath: "mortgage",
               _gitcommit: "0660bd66c02d09a4c8813d3ae2e711fc98b6426b",
               _hubClusterResource: "true",
@@ -1314,7 +1314,7 @@ export const topologyNoChannel = {
               name: "mortgage-app-subscription",
               namespace: "default",
               annotations: {
-                "apps.open-cluster-management.io/git-branch": "master",
+                "apps.open-cluster-management.io/git-branch": "main",
                 "apps.open-cluster-management.io/git-path": "mortgage"
               }
             },
@@ -1392,7 +1392,7 @@ export const topologyNoChannel = {
           kind: "Subscription",
           metadata: {
             annotations: {
-              "apps.open-cluster-management.io/github-branch": "master",
+              "apps.open-cluster-management.io/github-branch": "main",
               "apps.open-cluster-management.io/github-path": "mortgage"
             },
             creationTimestamp: "2018-08-13T19:23:01Z",
@@ -1717,7 +1717,7 @@ export const topology = {
               name: "mortgage-app-subscription",
               namespace: "default",
               annotations: {
-                "apps.open-cluster-management.io/git-branch": "master",
+                "apps.open-cluster-management.io/git-branch": "main",
                 "apps.open-cluster-management.io/git-path": "mortgage",
                 "apps.open-cluster-management.io/manual-refresh-time":
                   "2020-09-13T18:25:01Z"
@@ -1797,7 +1797,7 @@ export const topology = {
           kind: "Subscription",
           metadata: {
             annotations: {
-              "apps.open-cluster-management.io/github-branch": "master",
+              "apps.open-cluster-management.io/github-branch": "main",
               "apps.open-cluster-management.io/github-path": "mortgage"
             },
             creationTimestamp: "2018-08-13T19:23:01Z",

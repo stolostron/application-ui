@@ -559,51 +559,43 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                                         onClick={[Function]}
                                         variant="plain"
                                       >
-                                        <ButtonBase
+                                        <button
+                                          aria-disabled={false}
                                           aria-label="Close"
-                                          className=""
-                                          innerRef={null}
+                                          className="pf-c-button pf-m-plain"
+                                          data-ouia-component-id="OUIA-Generated-Button-plain-3"
+                                          data-ouia-component-type="PF4/Button"
+                                          data-ouia-safe={true}
+                                          disabled={false}
                                           onClick={[Function]}
-                                          variant="plain"
+                                          role={null}
+                                          type="button"
                                         >
-                                          <button
-                                            aria-disabled={false}
-                                            aria-label="Close"
-                                            className="pf-c-button pf-m-plain"
-                                            data-ouia-component-id="OUIA-Generated-Button-plain-3"
-                                            data-ouia-component-type="PF4/Button"
-                                            data-ouia-safe={true}
-                                            disabled={false}
-                                            onClick={[Function]}
-                                            role={null}
-                                            type="button"
+                                          <TimesIcon
+                                            color="currentColor"
+                                            noVerticalAlign={false}
+                                            size="sm"
                                           >
-                                            <TimesIcon
-                                              color="currentColor"
-                                              noVerticalAlign={false}
-                                              size="sm"
-                                            >
-                                              <svg
-                                                aria-hidden={true}
-                                                aria-labelledby={null}
-                                                fill="currentColor"
-                                                height="1em"
-                                                role="img"
-                                                style={
-                                                  Object {
-                                                    "verticalAlign": "-0.125em",
-                                                  }
+                                            <svg
+                                              aria-hidden={true}
+                                              aria-labelledby={null}
+                                              fill="currentColor"
+                                              height="1em"
+                                              role="img"
+                                              style={
+                                                Object {
+                                                  "verticalAlign": "-0.125em",
                                                 }
-                                                viewBox="0 0 352 512"
-                                                width="1em"
-                                              >
-                                                <path
-                                                  d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                                                />
-                                              </svg>
-                                            </TimesIcon>
-                                          </button>
-                                        </ButtonBase>
+                                              }
+                                              viewBox="0 0 352 512"
+                                              width="1em"
+                                            >
+                                              <path
+                                                d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                              />
+                                            </svg>
+                                          </TimesIcon>
+                                        </button>
                                       </Button>
                                     </ModalBoxCloseButton>
                                     <ModalBoxHeader
@@ -750,54 +742,41 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                                           onClick={[Function]}
                                           variant="danger"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
-                                            isDisabled={true}
+                                          <button
+                                            aria-disabled={true}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-danger pf-m-disabled"
+                                            data-ouia-component-id="OUIA-Generated-Button-danger-3"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={true}
                                             onClick={[Function]}
-                                            variant="danger"
+                                            role={null}
+                                            tabIndex={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={true}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-danger pf-m-disabled"
-                                              data-ouia-component-id="OUIA-Generated-Button-danger-3"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              role={null}
-                                              tabIndex={null}
-                                              type="button"
-                                            >
-                                              Permanently delete {0} application?
-                                            </button>
-                                          </ButtonBase>
+                                            Permanently delete {0} application?
+                                          </button>
                                         </Button>
                                         <Button
                                           key="cancel"
                                           onClick={[Function]}
                                           variant="link"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
+                                          <button
+                                            aria-disabled={false}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-link"
+                                            data-ouia-component-id="OUIA-Generated-Button-link-3"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={false}
                                             onClick={[Function]}
-                                            variant="link"
+                                            role={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={false}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-link"
-                                              data-ouia-component-id="OUIA-Generated-Button-link-3"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={false}
-                                              onClick={[Function]}
-                                              role={null}
-                                              type="button"
-                                            >
-                                              Cancel
-                                            </button>
-                                          </ButtonBase>
+                                            Cancel
+                                          </button>
                                         </Button>
                                       </footer>
                                     </ModalBoxFooter>
@@ -1338,51 +1317,43 @@ exports[`RemoveResourceModal test renders as expected child application with war
                                         onClick={[Function]}
                                         variant="plain"
                                       >
-                                        <ButtonBase
+                                        <button
+                                          aria-disabled={false}
                                           aria-label="Close"
-                                          className=""
-                                          innerRef={null}
+                                          className="pf-c-button pf-m-plain"
+                                          data-ouia-component-id="OUIA-Generated-Button-plain-5"
+                                          data-ouia-component-type="PF4/Button"
+                                          data-ouia-safe={true}
+                                          disabled={false}
                                           onClick={[Function]}
-                                          variant="plain"
+                                          role={null}
+                                          type="button"
                                         >
-                                          <button
-                                            aria-disabled={false}
-                                            aria-label="Close"
-                                            className="pf-c-button pf-m-plain"
-                                            data-ouia-component-id="OUIA-Generated-Button-plain-5"
-                                            data-ouia-component-type="PF4/Button"
-                                            data-ouia-safe={true}
-                                            disabled={false}
-                                            onClick={[Function]}
-                                            role={null}
-                                            type="button"
+                                          <TimesIcon
+                                            color="currentColor"
+                                            noVerticalAlign={false}
+                                            size="sm"
                                           >
-                                            <TimesIcon
-                                              color="currentColor"
-                                              noVerticalAlign={false}
-                                              size="sm"
-                                            >
-                                              <svg
-                                                aria-hidden={true}
-                                                aria-labelledby={null}
-                                                fill="currentColor"
-                                                height="1em"
-                                                role="img"
-                                                style={
-                                                  Object {
-                                                    "verticalAlign": "-0.125em",
-                                                  }
+                                            <svg
+                                              aria-hidden={true}
+                                              aria-labelledby={null}
+                                              fill="currentColor"
+                                              height="1em"
+                                              role="img"
+                                              style={
+                                                Object {
+                                                  "verticalAlign": "-0.125em",
                                                 }
-                                                viewBox="0 0 352 512"
-                                                width="1em"
-                                              >
-                                                <path
-                                                  d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                                                />
-                                              </svg>
-                                            </TimesIcon>
-                                          </button>
-                                        </ButtonBase>
+                                              }
+                                              viewBox="0 0 352 512"
+                                              width="1em"
+                                            >
+                                              <path
+                                                d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                              />
+                                            </svg>
+                                          </TimesIcon>
+                                        </button>
                                       </Button>
                                     </ModalBoxCloseButton>
                                     <ModalBoxHeader
@@ -1529,54 +1500,41 @@ exports[`RemoveResourceModal test renders as expected child application with war
                                           onClick={[Function]}
                                           variant="danger"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
-                                            isDisabled={true}
+                                          <button
+                                            aria-disabled={true}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-danger pf-m-disabled"
+                                            data-ouia-component-id="OUIA-Generated-Button-danger-5"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={true}
                                             onClick={[Function]}
-                                            variant="danger"
+                                            role={null}
+                                            tabIndex={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={true}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-danger pf-m-disabled"
-                                              data-ouia-component-id="OUIA-Generated-Button-danger-5"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              role={null}
-                                              tabIndex={null}
-                                              type="button"
-                                            >
-                                              Permanently delete {0} application?
-                                            </button>
-                                          </ButtonBase>
+                                            Permanently delete {0} application?
+                                          </button>
                                         </Button>
                                         <Button
                                           key="cancel"
                                           onClick={[Function]}
                                           variant="link"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
+                                          <button
+                                            aria-disabled={false}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-link"
+                                            data-ouia-component-id="OUIA-Generated-Button-link-5"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={false}
                                             onClick={[Function]}
-                                            variant="link"
+                                            role={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={false}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-link"
-                                              data-ouia-component-id="OUIA-Generated-Button-link-5"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={false}
-                                              onClick={[Function]}
-                                              role={null}
-                                              type="button"
-                                            >
-                                              Cancel
-                                            </button>
-                                          </ButtonBase>
+                                            Cancel
+                                          </button>
                                         </Button>
                                       </footer>
                                     </ModalBoxFooter>
@@ -2099,51 +2057,43 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                                         onClick={[Function]}
                                         variant="plain"
                                       >
-                                        <ButtonBase
+                                        <button
+                                          aria-disabled={false}
                                           aria-label="Close"
-                                          className=""
-                                          innerRef={null}
+                                          className="pf-c-button pf-m-plain"
+                                          data-ouia-component-id="OUIA-Generated-Button-plain-4"
+                                          data-ouia-component-type="PF4/Button"
+                                          data-ouia-safe={true}
+                                          disabled={false}
                                           onClick={[Function]}
-                                          variant="plain"
+                                          role={null}
+                                          type="button"
                                         >
-                                          <button
-                                            aria-disabled={false}
-                                            aria-label="Close"
-                                            className="pf-c-button pf-m-plain"
-                                            data-ouia-component-id="OUIA-Generated-Button-plain-4"
-                                            data-ouia-component-type="PF4/Button"
-                                            data-ouia-safe={true}
-                                            disabled={false}
-                                            onClick={[Function]}
-                                            role={null}
-                                            type="button"
+                                          <TimesIcon
+                                            color="currentColor"
+                                            noVerticalAlign={false}
+                                            size="sm"
                                           >
-                                            <TimesIcon
-                                              color="currentColor"
-                                              noVerticalAlign={false}
-                                              size="sm"
-                                            >
-                                              <svg
-                                                aria-hidden={true}
-                                                aria-labelledby={null}
-                                                fill="currentColor"
-                                                height="1em"
-                                                role="img"
-                                                style={
-                                                  Object {
-                                                    "verticalAlign": "-0.125em",
-                                                  }
+                                            <svg
+                                              aria-hidden={true}
+                                              aria-labelledby={null}
+                                              fill="currentColor"
+                                              height="1em"
+                                              role="img"
+                                              style={
+                                                Object {
+                                                  "verticalAlign": "-0.125em",
                                                 }
-                                                viewBox="0 0 352 512"
-                                                width="1em"
-                                              >
-                                                <path
-                                                  d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                                                />
-                                              </svg>
-                                            </TimesIcon>
-                                          </button>
-                                        </ButtonBase>
+                                              }
+                                              viewBox="0 0 352 512"
+                                              width="1em"
+                                            >
+                                              <path
+                                                d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                              />
+                                            </svg>
+                                          </TimesIcon>
+                                        </button>
                                       </Button>
                                     </ModalBoxCloseButton>
                                     <ModalBoxBody
@@ -2232,52 +2182,39 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                                           onClick={[Function]}
                                           variant="danger"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
-                                            isDisabled={true}
+                                          <button
+                                            aria-disabled={true}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-danger pf-m-disabled"
+                                            data-ouia-component-id="OUIA-Generated-Button-danger-4"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={true}
                                             onClick={[Function]}
-                                            variant="danger"
-                                          >
-                                            <button
-                                              aria-disabled={true}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-danger pf-m-disabled"
-                                              data-ouia-component-id="OUIA-Generated-Button-danger-4"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              role={null}
-                                              tabIndex={null}
-                                              type="button"
-                                            />
-                                          </ButtonBase>
+                                            role={null}
+                                            tabIndex={null}
+                                            type="button"
+                                          />
                                         </Button>
                                         <Button
                                           key="cancel"
                                           onClick={[Function]}
                                           variant="link"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
+                                          <button
+                                            aria-disabled={false}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-link"
+                                            data-ouia-component-id="OUIA-Generated-Button-link-4"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={false}
                                             onClick={[Function]}
-                                            variant="link"
+                                            role={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={false}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-link"
-                                              data-ouia-component-id="OUIA-Generated-Button-link-4"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={false}
-                                              onClick={[Function]}
-                                              role={null}
-                                              type="button"
-                                            >
-                                              Cancel
-                                            </button>
-                                          </ButtonBase>
+                                            Cancel
+                                          </button>
                                         </Button>
                                       </footer>
                                     </ModalBoxFooter>
@@ -2821,51 +2758,43 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                                         onClick={[Function]}
                                         variant="plain"
                                       >
-                                        <ButtonBase
+                                        <button
+                                          aria-disabled={false}
                                           aria-label="Close"
-                                          className=""
-                                          innerRef={null}
+                                          className="pf-c-button pf-m-plain"
+                                          data-ouia-component-id="OUIA-Generated-Button-plain-8"
+                                          data-ouia-component-type="PF4/Button"
+                                          data-ouia-safe={true}
+                                          disabled={false}
                                           onClick={[Function]}
-                                          variant="plain"
+                                          role={null}
+                                          type="button"
                                         >
-                                          <button
-                                            aria-disabled={false}
-                                            aria-label="Close"
-                                            className="pf-c-button pf-m-plain"
-                                            data-ouia-component-id="OUIA-Generated-Button-plain-8"
-                                            data-ouia-component-type="PF4/Button"
-                                            data-ouia-safe={true}
-                                            disabled={false}
-                                            onClick={[Function]}
-                                            role={null}
-                                            type="button"
+                                          <TimesIcon
+                                            color="currentColor"
+                                            noVerticalAlign={false}
+                                            size="sm"
                                           >
-                                            <TimesIcon
-                                              color="currentColor"
-                                              noVerticalAlign={false}
-                                              size="sm"
-                                            >
-                                              <svg
-                                                aria-hidden={true}
-                                                aria-labelledby={null}
-                                                fill="currentColor"
-                                                height="1em"
-                                                role="img"
-                                                style={
-                                                  Object {
-                                                    "verticalAlign": "-0.125em",
-                                                  }
+                                            <svg
+                                              aria-hidden={true}
+                                              aria-labelledby={null}
+                                              fill="currentColor"
+                                              height="1em"
+                                              role="img"
+                                              style={
+                                                Object {
+                                                  "verticalAlign": "-0.125em",
                                                 }
-                                                viewBox="0 0 352 512"
-                                                width="1em"
-                                              >
-                                                <path
-                                                  d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                                                />
-                                              </svg>
-                                            </TimesIcon>
-                                          </button>
-                                        </ButtonBase>
+                                              }
+                                              viewBox="0 0 352 512"
+                                              width="1em"
+                                            >
+                                              <path
+                                                d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                              />
+                                            </svg>
+                                          </TimesIcon>
+                                        </button>
                                       </Button>
                                     </ModalBoxCloseButton>
                                     <ModalBoxHeader
@@ -3012,54 +2941,41 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                                           onClick={[Function]}
                                           variant="danger"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
-                                            isDisabled={true}
+                                          <button
+                                            aria-disabled={true}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-danger pf-m-disabled"
+                                            data-ouia-component-id="OUIA-Generated-Button-danger-7"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={true}
                                             onClick={[Function]}
-                                            variant="danger"
+                                            role={null}
+                                            tabIndex={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={true}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-danger pf-m-disabled"
-                                              data-ouia-component-id="OUIA-Generated-Button-danger-7"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              role={null}
-                                              tabIndex={null}
-                                              type="button"
-                                            >
-                                              Permanently delete {0} application?
-                                            </button>
-                                          </ButtonBase>
+                                            Permanently delete {0} application?
+                                          </button>
                                         </Button>
                                         <Button
                                           key="cancel"
                                           onClick={[Function]}
                                           variant="link"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
+                                          <button
+                                            aria-disabled={false}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-link"
+                                            data-ouia-component-id="OUIA-Generated-Button-link-7"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={false}
                                             onClick={[Function]}
-                                            variant="link"
+                                            role={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={false}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-link"
-                                              data-ouia-component-id="OUIA-Generated-Button-link-7"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={false}
-                                              onClick={[Function]}
-                                              role={null}
-                                              type="button"
-                                            >
-                                              Cancel
-                                            </button>
-                                          </ButtonBase>
+                                            Cancel
+                                          </button>
                                         </Button>
                                       </footer>
                                     </ModalBoxFooter>
@@ -3600,51 +3516,43 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                                         onClick={[Function]}
                                         variant="plain"
                                       >
-                                        <ButtonBase
+                                        <button
+                                          aria-disabled={false}
                                           aria-label="Close"
-                                          className=""
-                                          innerRef={null}
+                                          className="pf-c-button pf-m-plain"
+                                          data-ouia-component-id="OUIA-Generated-Button-plain-7"
+                                          data-ouia-component-type="PF4/Button"
+                                          data-ouia-safe={true}
+                                          disabled={false}
                                           onClick={[Function]}
-                                          variant="plain"
+                                          role={null}
+                                          type="button"
                                         >
-                                          <button
-                                            aria-disabled={false}
-                                            aria-label="Close"
-                                            className="pf-c-button pf-m-plain"
-                                            data-ouia-component-id="OUIA-Generated-Button-plain-7"
-                                            data-ouia-component-type="PF4/Button"
-                                            data-ouia-safe={true}
-                                            disabled={false}
-                                            onClick={[Function]}
-                                            role={null}
-                                            type="button"
+                                          <TimesIcon
+                                            color="currentColor"
+                                            noVerticalAlign={false}
+                                            size="sm"
                                           >
-                                            <TimesIcon
-                                              color="currentColor"
-                                              noVerticalAlign={false}
-                                              size="sm"
-                                            >
-                                              <svg
-                                                aria-hidden={true}
-                                                aria-labelledby={null}
-                                                fill="currentColor"
-                                                height="1em"
-                                                role="img"
-                                                style={
-                                                  Object {
-                                                    "verticalAlign": "-0.125em",
-                                                  }
+                                            <svg
+                                              aria-hidden={true}
+                                              aria-labelledby={null}
+                                              fill="currentColor"
+                                              height="1em"
+                                              role="img"
+                                              style={
+                                                Object {
+                                                  "verticalAlign": "-0.125em",
                                                 }
-                                                viewBox="0 0 352 512"
-                                                width="1em"
-                                              >
-                                                <path
-                                                  d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                                                />
-                                              </svg>
-                                            </TimesIcon>
-                                          </button>
-                                        </ButtonBase>
+                                              }
+                                              viewBox="0 0 352 512"
+                                              width="1em"
+                                            >
+                                              <path
+                                                d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                              />
+                                            </svg>
+                                          </TimesIcon>
+                                        </button>
                                       </Button>
                                     </ModalBoxCloseButton>
                                     <ModalBoxHeader
@@ -3791,54 +3699,41 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                                           onClick={[Function]}
                                           variant="danger"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
-                                            isDisabled={true}
+                                          <button
+                                            aria-disabled={true}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-danger pf-m-disabled"
+                                            data-ouia-component-id="OUIA-Generated-Button-danger-6"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={true}
                                             onClick={[Function]}
-                                            variant="danger"
+                                            role={null}
+                                            tabIndex={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={true}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-danger pf-m-disabled"
-                                              data-ouia-component-id="OUIA-Generated-Button-danger-6"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              role={null}
-                                              tabIndex={null}
-                                              type="button"
-                                            >
-                                              Permanently delete {0} application?
-                                            </button>
-                                          </ButtonBase>
+                                            Permanently delete {0} application?
+                                          </button>
                                         </Button>
                                         <Button
                                           key="cancel"
                                           onClick={[Function]}
                                           variant="link"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
+                                          <button
+                                            aria-disabled={false}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-link"
+                                            data-ouia-component-id="OUIA-Generated-Button-link-6"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={false}
                                             onClick={[Function]}
-                                            variant="link"
+                                            role={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={false}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-link"
-                                              data-ouia-component-id="OUIA-Generated-Button-link-6"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={false}
-                                              onClick={[Function]}
-                                              role={null}
-                                              type="button"
-                                            >
-                                              Cancel
-                                            </button>
-                                          </ButtonBase>
+                                            Cancel
+                                          </button>
                                         </Button>
                                       </footer>
                                     </ModalBoxFooter>
@@ -4412,51 +4307,43 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                                         onClick={[Function]}
                                         variant="plain"
                                       >
-                                        <ButtonBase
+                                        <button
+                                          aria-disabled={false}
                                           aria-label="Close"
-                                          className=""
-                                          innerRef={null}
+                                          className="pf-c-button pf-m-plain"
+                                          data-ouia-component-id="OUIA-Generated-Button-plain-2"
+                                          data-ouia-component-type="PF4/Button"
+                                          data-ouia-safe={true}
+                                          disabled={false}
                                           onClick={[Function]}
-                                          variant="plain"
+                                          role={null}
+                                          type="button"
                                         >
-                                          <button
-                                            aria-disabled={false}
-                                            aria-label="Close"
-                                            className="pf-c-button pf-m-plain"
-                                            data-ouia-component-id="OUIA-Generated-Button-plain-2"
-                                            data-ouia-component-type="PF4/Button"
-                                            data-ouia-safe={true}
-                                            disabled={false}
-                                            onClick={[Function]}
-                                            role={null}
-                                            type="button"
+                                          <TimesIcon
+                                            color="currentColor"
+                                            noVerticalAlign={false}
+                                            size="sm"
                                           >
-                                            <TimesIcon
-                                              color="currentColor"
-                                              noVerticalAlign={false}
-                                              size="sm"
-                                            >
-                                              <svg
-                                                aria-hidden={true}
-                                                aria-labelledby={null}
-                                                fill="currentColor"
-                                                height="1em"
-                                                role="img"
-                                                style={
-                                                  Object {
-                                                    "verticalAlign": "-0.125em",
-                                                  }
+                                            <svg
+                                              aria-hidden={true}
+                                              aria-labelledby={null}
+                                              fill="currentColor"
+                                              height="1em"
+                                              role="img"
+                                              style={
+                                                Object {
+                                                  "verticalAlign": "-0.125em",
                                                 }
-                                                viewBox="0 0 352 512"
-                                                width="1em"
-                                              >
-                                                <path
-                                                  d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                                                />
-                                              </svg>
-                                            </TimesIcon>
-                                          </button>
-                                        </ButtonBase>
+                                              }
+                                              viewBox="0 0 352 512"
+                                              width="1em"
+                                            >
+                                              <path
+                                                d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                              />
+                                            </svg>
+                                          </TimesIcon>
+                                        </button>
                                       </Button>
                                     </ModalBoxCloseButton>
                                     <ModalBoxHeader
@@ -4603,54 +4490,41 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                                           onClick={[Function]}
                                           variant="danger"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
-                                            isDisabled={true}
+                                          <button
+                                            aria-disabled={true}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-danger pf-m-disabled"
+                                            data-ouia-component-id="OUIA-Generated-Button-danger-2"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={true}
                                             onClick={[Function]}
-                                            variant="danger"
+                                            role={null}
+                                            tabIndex={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={true}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-danger pf-m-disabled"
-                                              data-ouia-component-id="OUIA-Generated-Button-danger-2"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              role={null}
-                                              tabIndex={null}
-                                              type="button"
-                                            >
-                                              Permanently delete {0} application?
-                                            </button>
-                                          </ButtonBase>
+                                            Permanently delete {0} application?
+                                          </button>
                                         </Button>
                                         <Button
                                           key="cancel"
                                           onClick={[Function]}
                                           variant="link"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
+                                          <button
+                                            aria-disabled={false}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-link"
+                                            data-ouia-component-id="OUIA-Generated-Button-link-2"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={false}
                                             onClick={[Function]}
-                                            variant="link"
+                                            role={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={false}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-link"
-                                              data-ouia-component-id="OUIA-Generated-Button-link-2"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={false}
-                                              onClick={[Function]}
-                                              role={null}
-                                              type="button"
-                                            >
-                                              Cancel
-                                            </button>
-                                          </ButtonBase>
+                                            Cancel
+                                          </button>
                                         </Button>
                                       </footer>
                                     </ModalBoxFooter>
@@ -5164,51 +5038,43 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                                         onClick={[Function]}
                                         variant="plain"
                                       >
-                                        <ButtonBase
+                                        <button
+                                          aria-disabled={false}
                                           aria-label="Close"
-                                          className=""
-                                          innerRef={null}
+                                          className="pf-c-button pf-m-plain"
+                                          data-ouia-component-id="OUIA-Generated-Button-plain-1"
+                                          data-ouia-component-type="PF4/Button"
+                                          data-ouia-safe={true}
+                                          disabled={false}
                                           onClick={[Function]}
-                                          variant="plain"
+                                          role={null}
+                                          type="button"
                                         >
-                                          <button
-                                            aria-disabled={false}
-                                            aria-label="Close"
-                                            className="pf-c-button pf-m-plain"
-                                            data-ouia-component-id="OUIA-Generated-Button-plain-1"
-                                            data-ouia-component-type="PF4/Button"
-                                            data-ouia-safe={true}
-                                            disabled={false}
-                                            onClick={[Function]}
-                                            role={null}
-                                            type="button"
+                                          <TimesIcon
+                                            color="currentColor"
+                                            noVerticalAlign={false}
+                                            size="sm"
                                           >
-                                            <TimesIcon
-                                              color="currentColor"
-                                              noVerticalAlign={false}
-                                              size="sm"
-                                            >
-                                              <svg
-                                                aria-hidden={true}
-                                                aria-labelledby={null}
-                                                fill="currentColor"
-                                                height="1em"
-                                                role="img"
-                                                style={
-                                                  Object {
-                                                    "verticalAlign": "-0.125em",
-                                                  }
+                                            <svg
+                                              aria-hidden={true}
+                                              aria-labelledby={null}
+                                              fill="currentColor"
+                                              height="1em"
+                                              role="img"
+                                              style={
+                                                Object {
+                                                  "verticalAlign": "-0.125em",
                                                 }
-                                                viewBox="0 0 352 512"
-                                                width="1em"
-                                              >
-                                                <path
-                                                  d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                                                />
-                                              </svg>
-                                            </TimesIcon>
-                                          </button>
-                                        </ButtonBase>
+                                              }
+                                              viewBox="0 0 352 512"
+                                              width="1em"
+                                            >
+                                              <path
+                                                d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                              />
+                                            </svg>
+                                          </TimesIcon>
+                                        </button>
                                       </Button>
                                     </ModalBoxCloseButton>
                                     <ModalBoxHeader
@@ -5355,54 +5221,41 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                                           onClick={[Function]}
                                           variant="danger"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
-                                            isDisabled={true}
+                                          <button
+                                            aria-disabled={true}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-danger pf-m-disabled"
+                                            data-ouia-component-id="OUIA-Generated-Button-danger-1"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={true}
                                             onClick={[Function]}
-                                            variant="danger"
+                                            role={null}
+                                            tabIndex={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={true}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-danger pf-m-disabled"
-                                              data-ouia-component-id="OUIA-Generated-Button-danger-1"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              role={null}
-                                              tabIndex={null}
-                                              type="button"
-                                            >
-                                              Permanently delete {0} application?
-                                            </button>
-                                          </ButtonBase>
+                                            Permanently delete {0} application?
+                                          </button>
                                         </Button>
                                         <Button
                                           key="cancel"
                                           onClick={[Function]}
                                           variant="link"
                                         >
-                                          <ButtonBase
-                                            innerRef={null}
+                                          <button
+                                            aria-disabled={false}
+                                            aria-label={null}
+                                            className="pf-c-button pf-m-link"
+                                            data-ouia-component-id="OUIA-Generated-Button-link-1"
+                                            data-ouia-component-type="PF4/Button"
+                                            data-ouia-safe={true}
+                                            disabled={false}
                                             onClick={[Function]}
-                                            variant="link"
+                                            role={null}
+                                            type="button"
                                           >
-                                            <button
-                                              aria-disabled={false}
-                                              aria-label={null}
-                                              className="pf-c-button pf-m-link"
-                                              data-ouia-component-id="OUIA-Generated-Button-link-1"
-                                              data-ouia-component-type="PF4/Button"
-                                              data-ouia-safe={true}
-                                              disabled={false}
-                                              onClick={[Function]}
-                                              role={null}
-                                              type="button"
-                                            >
-                                              Cancel
-                                            </button>
-                                          </ButtonBase>
+                                            Cancel
+                                          </button>
                                         </Button>
                                       </footer>
                                     </ModalBoxFooter>

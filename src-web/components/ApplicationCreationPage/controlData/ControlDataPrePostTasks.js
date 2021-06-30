@@ -16,7 +16,10 @@ import {
   getSharedSubscriptionWarning
 } from './utils'
 import React from 'react'
-import { ExternalLinkAltIcon } from '@patternfly/react-icons'
+import {
+  AcmIcon,
+  AcmIconVariant
+} from '@open-cluster-management/ui-components'
 
 const prePostTasks = [
   ////////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +47,7 @@ const prePostTasks = [
     validation: {},
     prompts: {
       prompt: 'creation.ocp.cloud.add.connection',
-      icon: <ExternalLinkAltIcon />,
+      icon: <AcmIcon icon={AcmIconVariant.openNewTab} />,
       type: 'link',
       url: '/multicloud/credentials/add', // launch to credential page
       positionBottomRight: true,

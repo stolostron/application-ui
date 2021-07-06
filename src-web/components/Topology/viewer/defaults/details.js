@@ -209,7 +209,9 @@ function addK8Details(node, updatedNode, details, activeFilters) {
     if (resourceModel) {
       // get first item in the object as all should have the same labels
       const resourceLabels =
-        resourceModel[Object.keys(resourceModel)[0]][0].label
+        Object.keys(resourceModel).length > 0
+          ? resourceModel[Object.keys(resourceModel)[0]][0].label
+          : undefined
       labels = resourceLabels ? resourceLabels.replace('; ', ',') : 'No labels'
     } else {
       labels = 'No labels'

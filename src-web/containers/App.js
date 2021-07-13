@@ -44,6 +44,10 @@ export const ApplicationCreationPage = loadable(() =>
   import(/* webpackChunkName: "applicationCreatePage" */ '../components/ApplicationCreationPage/ApplicationCreationPage')
 )
 
+export const ArgoCreationPage = loadable(() =>
+  import(/* webpackChunkName: "ArgoCreationPage" */ '../components/ArgoCreationPage/ArgoCreationPage')
+)
+
 export const AdvancedConfigurationPage = loadable(() =>
   import(/* webpackChunkName: "advancedConfigurationPage" */ '../components/AdvancedConfigurationPage')
 )
@@ -182,10 +186,10 @@ class App extends React.Component {
             exact
             path={`${BASE_PAGE_PATH}/argo`}
             render={params => (
-              <ApplicationCreationPage
+              <ArgoCreationPage
                 params={params}
                 serverProps={this.getServerProps()}
-                secondaryHeaderProps={{ title: 'application.create.title' }}
+                secondaryHeaderProps={{ title: 'argo.create.title' }}
               />
             )}
           />

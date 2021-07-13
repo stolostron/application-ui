@@ -180,6 +180,17 @@ class App extends React.Component {
           />
           <Route
             exact
+            path={`${BASE_PAGE_PATH}/argo`}
+            render={params => (
+              <ApplicationCreationPage
+                params={params}
+                serverProps={this.getServerProps()}
+                secondaryHeaderProps={{ title: 'application.create.title' }}
+              />
+            )}
+          />
+          <Route
+            exact
             path={`${BASE_PAGE_PATH}/:namespace/:name`}
             render={params => (
               <ApplicationDetailsPage

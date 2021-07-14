@@ -12,31 +12,28 @@
 
 export const controlData = [
   {
-    title: 'argo.create.title',
-    cancelLabel: 'common.cancel',
-    nextLabel: 'common.next',
-    backLabel: 'common.back',
-    sections: [
-      {
-        type: 'Section',
-        title: 'argo.basic.info',
-        inputs: [
-          {
-            id: 'appSetName',
-            type: 'Text',
-            label: 'argo.create.name',
-            placeholder: 'argo.create.placeholder',
-            isRequired: true
-          },
-          {
-            id: 'clusterName',
-            type: 'Text',
-            label: 'argo.cluster.name',
-            placeholder: 'argo.cluster.placeholder',
-            isRequired: true
-          }
-        ]
-      }
-    ]
+    id: 'createStep',
+    type: 'step',
+    title: 'argo.basic.info'
+  },
+  {
+    id: 'showSecrets',
+    type: 'hidden',
+    active: false
+  },
+  ///////////////////////  General  /////////////////////////////////////
+  {
+    id: 'appSetName',
+    type: 'Text',
+    label: 'argo.create.name',
+    placeholder: 'argo.create.placeholder',
+    isRequired: true
+  },
+  {
+    id: 'clusterName',
+    type: 'Text',
+    label: 'argo.cluster.name',
+    placeholder: 'argo.cluster.placeholder',
+    isRequired: true
   }
 ]

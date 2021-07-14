@@ -24,14 +24,14 @@ export const controlData = [
   ///////////////////////  General  /////////////////////////////////////
   {
     id: 'appSetName',
-    type: 'Text',
+    type: 'text',
     label: 'argo.create.name',
     placeholder: 'argo.create.placeholder',
     isRequired: true
   },
   {
     id: 'clusterName',
-    type: 'Text',
+    type: 'text',
     label: 'argo.cluster.name',
     placeholder: 'argo.cluster.placeholder',
     isRequired: true

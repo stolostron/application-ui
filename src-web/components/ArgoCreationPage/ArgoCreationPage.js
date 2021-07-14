@@ -10,7 +10,6 @@
 // Copyright Contributors to the Open Cluster Management project
 import React from 'react'
 import { PageSection } from '@patternfly/react-core'
-import { AcmPageContent } from '@open-cluster-management/ui-components'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import { Query } from 'react-apollo'
@@ -24,6 +23,7 @@ import {
   clearCreateStatus
 } from '../../actions/application'
 import { controlData } from './controlData/ControlData'
+import createTemplate from './templates/template.hbs'
 import { updateSecondaryHeader } from '../../actions/common'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 import config from '../../../lib/shared/config'
@@ -235,23 +235,22 @@ class ArgoCreationPage extends React.Component {
     }
     return (
       controlData && (
-        <AcmPageContent id="createArgo">
-          <PageSection
-            className={classNames({ editApplication })}
-            variant="light"
-          >
-            <TemplateEditor
-              type={'application'}
-              title={msgs.get('creation.app.yaml', locale)}
-              controlData={controlData}
-              monacoEditor={<MonacoEditor />}
-              portals={Portals}
-              fetchControl={fetchControl}
-              createControl={createControl}
-              i18n={i18n}
-            />
-          </PageSection>
-        </AcmPageContent>
+        <PageSection
+          className={classNames({ editApplication })}
+          variant="light"
+        >
+          <TemplateEditor
+            type={'argo'}
+            title={msgs.get('creation.app.yaml', locale)}
+            template={createTemplate}
+            controlData={controlData}
+            monacoEditor={<MonacoEditor />}
+            portals={Portals}
+            fetchControl={fetchControl}
+            createControl={createControl}
+            i18n={i18n}
+          />
+        </PageSection>
       )
     )
   }

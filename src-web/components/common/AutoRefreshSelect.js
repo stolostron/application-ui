@@ -139,7 +139,7 @@ const mapStateToProps = (state, ownProps) => {
   const routePaths = location ? _.get(location, 'pathname', '').split('/') : []
   const isEditTab =
     routePaths.length === 6 || //edit app
-    (routePaths.length === 4 && routePaths[3] === 'create') //new app
+    (routePaths.length === 4 && ['argo', 'create'].indexOf(routePaths[3]) !== -1) //new app
   if (isEditTab) {
     //this is the editor tab, the refresh action is not showing here
     return { isEditTab: true }

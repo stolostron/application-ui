@@ -117,7 +117,7 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
             className="deployment-highlights-terminology-docs"
           >
             <a
-              href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/manage_applications/managing-applications"
+              href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/applications/managing-applications"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -271,7 +271,7 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
             className="deployment-highlights-terminology-docs"
           >
             <a
-              href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/manage_applications/managing-applications"
+              href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/applications/managing-applications"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -425,7 +425,7 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
             className="deployment-highlights-terminology-docs"
           >
             <a
-              href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/manage_applications/managing-applications"
+              href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/applications/managing-applications"
               rel="noopener noreferrer"
               target="_blank"
             >

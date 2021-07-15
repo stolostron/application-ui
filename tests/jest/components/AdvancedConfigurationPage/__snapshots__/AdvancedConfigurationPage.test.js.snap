@@ -117,7 +117,7 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
                   class="deployment-highlights-terminology-docs"
                 >
                   <a
-                    href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/manage_applications/managing-applications"
+                    href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/applications/managing-applications"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -1313,7 +1313,7 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
                   class="deployment-highlights-terminology-docs"
                 >
                   <a
-                    href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/manage_applications/managing-applications"
+                    href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/applications/managing-applications"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -2440,7 +2440,7 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
                   class="deployment-highlights-terminology-docs"
                 >
                   <a
-                    href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/manage_applications/managing-applications"
+                    href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/applications/managing-applications"
                     rel="noopener noreferrer"
                     target="_blank"
                   >

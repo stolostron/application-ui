@@ -11,6 +11,8 @@
 'use strict'
 
 import config from '../../../../lib/shared/config'
+import { VALID_DNS_LABEL } from 'temptifly'
+import githubChannelData from './ControlDataGit'
 
 export const controlData = [
   {
@@ -32,8 +34,11 @@ export const controlData = [
     label: 'argo.create.name',
     placeholder: 'argo.create.placeholder',
     validation: {
+      constraint: VALID_DNS_LABEL,
+      notification: 'import.form.invalid.dns.label',
       required: true
-    }
+    },
+    reverse: 'ApplicationSet[0].metadata.name'
   },
   {
     name: 'argo.cluster.name',
@@ -43,8 +48,11 @@ export const controlData = [
     label: 'argo.cluster.name',
     placeholder: 'argo.cluster.placeholder',
     validation: {
+      constraint: VALID_DNS_LABEL,
+      notification: 'import.form.invalid.dns.label',
       required: true
-    }
+    },
+    reverse: 'ApplicationSet[0].spec.template.metadata.name'
   },
   ///////////////////////  cluster decision resource  /////////////////////////////////////
   {
@@ -61,18 +69,22 @@ export const controlData = [
       ///////// name /////////
       {
         name: 'argo.cluster.decision.resource.name',
-        tooltip: 'tooltip.creation.ocp.aws.instance.type',
+        tooltip: 'argo.cluster.decision.resource.name.tooltip',
         id: 'decisionResourceName',
         type: 'combobox',
         placeholder: 'argo.cluster.decision.resource.placeholder',
         validation: {
+          constraint: VALID_DNS_LABEL,
+          notification: 'import.form.invalid.dns.label',
           required: true
-        }
+        },
+        reverse:
+          'ApplicationSet[0].spec.generators[0].clusterDecisionResource.name'
       },
       ///////// requeue time /////////
       {
         name: 'argo.cluster.decision.requeue.title',
-        tooltip: 'tooltip.creation.ocp.aws.instance.type',
+        tooltip: 'argo.cluster.decision.requeue.title.tooltip',
         id: 'requeueTime',
         type: 'combobox',
         placeholder: 'argo.cluster.decision.resource.placeholder',
@@ -80,7 +92,9 @@ export const controlData = [
         available: ['30', '60', '120', '180'],
         validation: {
           required: true
-        }
+        },
+        reverse:
+          'ApplicationSet[0].spec.generators[0].clusterDecisionResource.requeueAfterSeconds'
       }
     ]
   },
@@ -133,10 +147,10 @@ export const controlData = [
             id: 'github',
             logo: `${config.contextPath}/graphics/git-repo.svg`,
             title: 'channel.type.git',
-            tooltip: 'tooltip.creation.app.channel.git'
-            // change: {
-            //   insertControlData: await gitChannelData()
-            // }
+            tooltip: 'tooltip.creation.app.channel.git',
+            change: {
+              insertControlData: githubChannelData
+            }
           },
           {
             id: 'helmrepo',
@@ -198,8 +212,11 @@ export const controlData = [
     type: 'combobox',
     placeholder: 'argo.destination.namespace.placeholder',
     validation: {
+      constraint: VALID_DNS_LABEL,
+      notification: 'import.form.invalid.dns.label',
       required: true
-    }
+    },
+    reverse: 'ApplicationSet[0].spec.template.spec.destination.namespace'
   },
   ///////////////////////  sync policy  /////////////////////////////////////
   {

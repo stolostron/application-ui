@@ -27,7 +27,7 @@ import {
   shiftTemplateObject
 } from '../transformers/transform-resources-to-controls'
 
-const VALID_DNS_LABEL = '^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$'
+import { VALID_DNS_LABEL } from 'temptifly'
 
 export const loadExistingNamespaces = () => {
   return {

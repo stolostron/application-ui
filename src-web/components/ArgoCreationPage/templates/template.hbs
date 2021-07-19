@@ -10,51 +10,51 @@ kind: ApplicationSet
 metadata:
   name: {{{appSetName}}}
 spec:
- generators:
- - clusterDecisionResource:
-    configMapRef: acm-placement
-    name: {{{decisionResourceName}}}                  
-    requeueAfterSeconds: {{{requeueTime}}}
-template:
-  metadata:
-    name: {{{clusterName}}} 
-  spec:
-    project: "default"
-    source:
-      repoURL: TBD
-      targetRevision: TBD
-      path: TBD
-    destination:
-      server: TBD
-      namespace: {{{destinationNS}}}
-    syncPolicy:
-      automated:
-      {{#if prune}}
-        prune: true
-      {{/if}}
-      {{#if allowEmpty}}
-        allowEmpty: true
-      {{/if}}
-      {{#if selfHeal}}
-        selfHeal: true
-      {{/if}}
-      syncOptions:
-        {{#if validate}}
-          - Validate=true
+  generators:
+    - clusterDecisionResource:
+        configMapRef: acm-placement
+        name: {{{decisionResourceName}}}                  
+        requeueAfterSeconds: {{{requeueTime}}}
+  template:
+    metadata:
+      name: {{{clusterName}}} 
+    spec:
+      project: "default"
+      source:
+        repoURL: TBD
+        targetRevision: TBD
+        path: TBD
+      destination:
+        server: TBD
+        namespace: {{{destinationNS}}}
+      syncPolicy:
+        automated:
+        {{#if prune}}
+          prune: true
         {{/if}}
-        {{#if pruneLast}}
-          - PruneLast=true
+        {{#if allowEmpty}}
+          allowEmpty: true
         {{/if}}
-        {{#if replace}}
-          - Replace=true
+        {{#if selfHeal}}
+          selfHeal: true
         {{/if}}
-        {{#if createNamespace}}
-          - CreateNamespace=true
-        {{/if}}
-        {{#if applyOutOfSyncOnly}}
-          - ApplyOutOfSyncOnly=true
-        {{/if}}
-        {{#if prunePropagationPolicy}}
-          - PrunePropagationPolicy=true
-        {{/if}}
+        syncOptions:
+          {{#if validate}}
+            - Validate=true
+          {{/if}}
+          {{#if pruneLast}}
+            - PruneLast=true
+          {{/if}}
+          {{#if replace}}
+            - Replace=true
+          {{/if}}
+          {{#if createNamespace}}
+            - CreateNamespace=true
+          {{/if}}
+          {{#if applyOutOfSyncOnly}}
+            - ApplyOutOfSyncOnly=true
+          {{/if}}
+          {{#if prunePropagationPolicy}}
+            - PrunePropagationPolicy=true
+          {{/if}}
 

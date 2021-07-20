@@ -472,7 +472,7 @@ const fetchArgoApplications = (
           propValue = 'HEAD'
         }
       }
-      if (property !== 'helm') {
+      if (property !== 'helm' && property !== 'directory') {
         // skip helm as that contains non string values that graphql can't handle
         query.filters.push({ property, values: [propValue] })
       }

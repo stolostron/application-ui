@@ -158,7 +158,7 @@ export const controlData = [
             title: 'channel.type.helmrepo',
             tooltip: 'tooltip.channel.type.helmrepo'
             // change: {
-            //   insertControlData: await helmReleaseChannelData()
+            //   insertControlData: helmChannelData
             // }
           }
         ],

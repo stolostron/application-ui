@@ -10,12 +10,71 @@
 // Copyright Contributors to the Open Cluster Management project
 'use strict'
 
+import { VALID_REPOPATH, VALIDATE_URL } from 'temptifly'
+
+// import {
+//   getGitBranches,
+//   loadExistingChannels,
+//   updateChannelControls,
+//   updateGitBranchFolders,
+//   channelSimplified
+// } from '../../ApplicationCreationPage/controlData/utils'
+
 const githubChannelData = [
   {
-    name: 'creation.app.name',
-    tooltip: 'tooltip.creation.app.name',
-    id: 'name',
-    type: 'text'
+    id: 'channelNamespaceExists',
+    type: 'hidden',
+    active: true
+  },
+  {
+    id: 'channelName',
+    type: 'hidden',
+    active: ''
+  },
+  {
+    id: 'channelNamespace',
+    type: 'hidden',
+    active: ''
+  },
+  {
+    name: 'creation.app.github.url',
+    tooltip: 'tooltip.creation.app.github.url',
+    id: 'githubURL',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.github.url',
+    available: [],
+    validation: VALIDATE_URL,
+    // fetchAvailable: loadExistingChannels('git'),
+    reverse: 'ApplicationSet[0].spec.template.spec.source.repoURL'
+    // onSelect: updateChannelControls,
+    // simplified: channelSimplified
+  },
+  {
+    name: 'creation.app.github.path',
+    tooltip: 'tooltip.creation.app.github.path',
+    id: 'githubPath',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.path',
+    available: [],
+    validation: VALID_REPOPATH,
+    reverse: 'ApplicationSet[0].spec.template.spec.source.path',
+    cacheUserValueKey: 'create.app.github.path'
+  },
+  ///////// revision /////////
+  {
+    name: 'argo.git.target.revision',
+    tooltip: 'argo.git.target.revision.tooltip',
+    id: 'gitRevision',
+    type: 'combobox',
+    placeholder: 'argo.git.target.revision.placeholder',
+    active: 'HEAD',
+    available: ['HEAD'],
+    validation: {
+      required: true
+    },
+    reverse: 'ApplicationSet[0].spec.template.spec.source.targetRevision'
   }
 ]
 

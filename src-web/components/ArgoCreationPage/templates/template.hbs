@@ -21,9 +21,29 @@ spec:
     spec:
       project: "default"
       source:
-        repoURL: TBD
-        targetRevision: TBD
-        path: TBD
+
+      
+{{#each channels}}
+
+{{#switch channelType}}
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Github channel ========================= }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{#case 'github'}}
+
+{{>templateGit 
+  githubURL=../../githubURL
+  githubPath=../../githubPath
+  gitRevision=../../gitRevision
+}}
+{{/case}}
+
+{{/switch}}
+{{/each}}
+
       destination:
         server: TBD
         namespace: {{{destinationNS}}}

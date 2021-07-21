@@ -41,11 +41,32 @@ spec:
 }}
 {{/case}}
 
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Helm channel ========================= }}
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{#case 'helmrepo'}}
+
+{{>templateHelm 
+  helmURL=../../helmURL
+  helmChartName=../../helmChartName
+  helmPackageVersion=../../helmPackageVersion
+}}
+{{/case}}
+
+
 {{/switch}}
 {{/each}}
 
       destination:
-        server: TBD
+        {{#if destinationName}}
+        name: {{{destinationName}}}
+        {{/if}}
+        {{#if destinationServer}}
+        server: {{{destinationServer}}}
+        {{/if}}
         namespace: {{{destinationNS}}}
       syncPolicy:
         automated:

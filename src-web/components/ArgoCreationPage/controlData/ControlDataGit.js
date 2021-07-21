@@ -62,6 +62,19 @@ const githubChannelData = [
     reverse: 'ApplicationSet[0].spec.template.spec.source.path',
     cacheUserValueKey: 'create.app.github.path'
   },
+  ///////// revision type /////////
+  {
+    name: 'argo.git.revision.type.title',
+    tooltip: 'argo.git.revision.type.tooltip',
+    id: 'gitRevisionType',
+    type: 'combobox',
+    placeholder: 'argo.git.revision.type.placeholder',
+    active: 'Branches',
+    available: ['Branches', 'Tags'],
+    validation: {
+      required: true
+    }
+  },
   ///////// revision /////////
   {
     name: 'argo.git.target.revision',

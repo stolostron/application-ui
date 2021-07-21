@@ -13,6 +13,29 @@
 import config from '../../../../lib/shared/config'
 import { VALID_DNS_LABEL } from 'temptifly'
 import githubChannelData from './ControlDataGit'
+import helmChannelData from './ControlDataHelm'
+import _ from 'lodash'
+
+export const updateDestinationOptions = (urlControl, controlGlobal) => {
+  const { active } = urlControl
+  const destinationName = controlGlobal.find(
+    ({ id }) => id === 'destinationName'
+  )
+  const destinationServer = controlGlobal.find(
+    ({ id }) => id === 'destinationServer'
+  )
+  // render destination selection based on the type
+  if (active === 'Name') {
+    _.set(destinationServer, 'type', 'hidden')
+    _.set(destinationName, 'type', 'combobox')
+  }
+  if (active === 'Server') {
+    _.set(destinationName, 'type', 'hidden')
+    _.set(destinationServer, 'type', 'combobox')
+  }
+
+  return controlGlobal
+}
 
 export const controlData = [
   {
@@ -156,10 +179,10 @@ export const controlData = [
             id: 'helmrepo',
             logo: `${config.contextPath}/graphics/helm-repo.png`,
             title: 'channel.type.helmrepo',
-            tooltip: 'tooltip.channel.type.helmrepo'
-            // change: {
-            //   insertControlData: helmChannelData
-            // }
+            tooltip: 'tooltip.channel.type.helmrepo',
+            change: {
+              insertControlData: helmChannelData
+            }
           }
         ],
         active: '',
@@ -177,39 +200,40 @@ export const controlData = [
     id: 'destinationType',
     type: 'singleselect',
     name: 'argo.destination.type',
-    active: 'Name',
-    available: [
-      {
-        id: 'Name',
-        title: 'argo.destination.name',
-        change: {
-          insertControlData: [
-            {
-              id: 'destinationName',
-              tooltip: 'argo.destination.name.tooltip',
-              type: 'combobox',
-              placeholder: 'argo.destination.name.placeholder',
-              validation: {
-                required: true
-              }
-            }
-          ]
-        }
-      },
-      {
-        id: 'Server',
-        title: 'argo.destination.server'
-      }
-    ],
+    placeholder: 'argo.destination.type.placeholder',
+    available: ['Name', 'Server'],
+    onSelect: updateDestinationOptions,
     validation: {
       required: true
     }
   },
   {
+    id: 'destinationName',
+    name: 'argo.destination.name',
+    tooltip: 'argo.destination.name.tooltip',
+    type: 'hidden',
+    placeholder: 'argo.destination.name.placeholder',
+    validation: {
+      required: true
+    },
+    reverse: 'ApplicationSet[0].spec.template.spec.destination.name'
+  },
+  {
+    id: 'destinationServer',
+    name: 'argo.destination.server',
+    tooltip: 'argo.destination.server.tooltip',
+    type: 'hidden',
+    placeholder: 'argo.destination.server.placeholder',
+    validation: {
+      required: true
+    },
+    reverse: 'ApplicationSet[0].spec.template.spec.destination.server'
+  },
+  {
     id: 'destinationNS',
     name: 'argo.destination.namespace',
     tooltip: 'argo.destination.namespace.tooltip',
-    type: 'combobox',
+    type: 'text',
     placeholder: 'argo.destination.namespace.placeholder',
     validation: {
       constraint: VALID_DNS_LABEL,

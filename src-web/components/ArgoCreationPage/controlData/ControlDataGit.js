@@ -11,14 +11,12 @@
 'use strict'
 
 import { VALID_REPOPATH, VALIDATE_URL } from 'temptifly'
-
-// import {
-//   getGitBranches,
-//   loadExistingChannels,
-//   updateChannelControls,
-//   updateGitBranchFolders,
-//   channelSimplified
-// } from '../../ApplicationCreationPage/controlData/utils'
+import {
+  loadExistingChannels
+  // updateChannelControls,
+  // channelSimplified,
+  // updateGitBranchFolders
+} from './utils'
 
 const githubChannelData = [
   {
@@ -45,7 +43,7 @@ const githubChannelData = [
     placeholder: 'app.enter.select.github.url',
     available: [],
     validation: VALIDATE_URL,
-    // fetchAvailable: loadExistingChannels('git'),
+    fetchAvailable: loadExistingChannels('git'),
     reverse: 'ApplicationSet[0].spec.template.spec.source.repoURL'
     // onSelect: updateChannelControls,
     // simplified: channelSimplified
@@ -60,6 +58,7 @@ const githubChannelData = [
     available: [],
     validation: VALID_REPOPATH,
     reverse: 'ApplicationSet[0].spec.template.spec.source.path',
+    // onSelect: updateGitBranchFolders,
     cacheUserValueKey: 'create.app.github.path'
   },
   ///////// revision type /////////

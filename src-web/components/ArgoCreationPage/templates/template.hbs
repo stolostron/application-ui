@@ -59,14 +59,13 @@ spec:
 
 {{/switch}}
 {{/each}}
-
       destination:
-        {{#if destinationName}}
-        name: {{{destinationName}}}
-        {{/if}}
-        {{#if destinationServer}}
-        server: {{{destinationServer}}}
-        {{/if}}
+      {{#if_eq destinationType 'Name'}}
+        name: {{{../destinationName}}}
+      {{/if_eq}}
+      {{#if_eq destinationType 'Server'}}
+        server: {{{../destinationServer}}}
+      {{/if_eq}}
         namespace: {{{destinationNS}}}
       syncPolicy:
         automated:
@@ -96,6 +95,8 @@ spec:
             - ApplyOutOfSyncOnly=true
           {{/if}}
           {{#if prunePropagationPolicy}}
-            - PrunePropagationPolicy=true
+            {{#if propagationPolicy}}
+            - PrunePropagationPolicy={{{propagationPolicy}}}
+            {{/if}}
           {{/if}}
 

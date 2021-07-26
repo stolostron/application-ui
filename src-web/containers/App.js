@@ -184,7 +184,7 @@ class App extends React.Component {
           />
           <Route
             exact
-            path={`${BASE_PAGE_PATH}/argo`}
+            path={`${BASE_PAGE_PATH}/argo/appset`}
             render={params => (
               <ArgoCreationPage
                 params={params}

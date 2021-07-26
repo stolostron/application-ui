@@ -153,12 +153,14 @@ class ArgoCreationPage extends React.Component {
       tooltip
     )
 
-    canCreateActionAllNamespaces('applications', 'create', 'app.k8s.io').then(
-      response => {
-        const hasPermissions = _.get(response, 'data.userAccessAnyNamespaces')
-        this.setState({ hasPermissions })
-      }
-    )
+    canCreateActionAllNamespaces(
+      'applicationset',
+      'create',
+      'argoproj.io'
+    ).then(response => {
+      const hasPermissions = _.get(response, 'data.userAccessAnyNamespaces')
+      this.setState({ hasPermissions })
+    })
   }
 
   componentDidUpdate() {

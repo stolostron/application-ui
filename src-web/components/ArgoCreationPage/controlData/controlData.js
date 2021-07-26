@@ -37,6 +37,23 @@ export const updateDestinationOptions = (urlControl, controlGlobal) => {
   return controlGlobal
 }
 
+export const updatePropagationPolicy = (urlControl, controlGlobal) => {
+  const { active } = urlControl
+  const propagationPolicy = controlGlobal.find(
+    ({ id }) => id === 'propagationPolicy'
+  )
+  // render propagationPolicy
+  if (active) {
+    _.set(propagationPolicy, 'type', 'singleselect')
+  }
+  // reset
+  if (!active) {
+    _.set(propagationPolicy, 'type', 'hidden')
+  }
+
+  return controlGlobal
+}
+
 export const controlData = [
   {
     id: 'createStep',
@@ -330,8 +347,18 @@ export const controlData = [
     type: 'checkbox',
     name: 'argo.sync.policy.prune.propagation.policy',
     tooltip: 'tooltip.creation.app.settings.existingRule',
-    onSelect: {},
+    onSelect: updatePropagationPolicy,
     active: false,
     validation: {}
+  },
+  {
+    id: 'propagationPolicy',
+    type: 'hidden',
+    name: 'argo.sync.policy.prune.propagation.policy.title',
+    available: ['foreground', 'background', 'orphan'],
+    active: 'foreground',
+    validation: {
+      required: true
+    }
   }
 ]

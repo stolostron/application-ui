@@ -17,7 +17,7 @@ spec:
         requeueAfterSeconds: {{{requeueTime}}}
   template:
     metadata:
-      name: {{{clusterName}}} 
+      name: {{{appSetName}}}
     spec:
       project: "default"
       source:
@@ -60,13 +60,15 @@ spec:
 {{/switch}}
 {{/each}}
       destination:
-      {{#if_eq destinationType 'Name'}}
-        name: {{{../destinationName}}}
-      {{/if_eq}}
-      {{#if_eq destinationType 'Server'}}
-        server: {{{../destinationServer}}}
-      {{/if_eq}}
+        name: '{{clusterName}}'
         namespace: {{{destinationNS}}}
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================Sync policies ========================= }}
+{{! ========================================================== }}
+{{! ========================================================== }}      
+
       syncPolicy:
         automated:
         {{#if prune}}

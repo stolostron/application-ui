@@ -11,6 +11,7 @@
 'use strict'
 
 import { VALIDATE_URL } from 'temptifly'
+import { loadExistingChannels, channelSimplified } from './utils'
 
 const helmChannelData = [
   {
@@ -37,10 +38,10 @@ const helmChannelData = [
     placeholder: 'app.enter.select.helmrepo.url',
     available: [],
     validation: VALIDATE_URL,
-    // fetchAvailable: loadExistingChannels('helmrepo'),
-    reverse: 'ApplicationSet[0].spec.template.spec.source.repoURL'
+    fetchAvailable: loadExistingChannels('helmrepo'),
+    reverse: 'ApplicationSet[0].spec.template.spec.source.repoURL',
     // onSelect: updateChannelControls,
-    // simplified: channelSimplified
+    simplified: channelSimplified
   },
   {
     name: 'creation.app.helmrepo.chart.name',

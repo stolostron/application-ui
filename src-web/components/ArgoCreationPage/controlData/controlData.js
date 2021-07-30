@@ -14,28 +14,8 @@ import config from '../../../../lib/shared/config'
 import { VALID_DNS_LABEL } from 'temptifly'
 import githubChannelData from './ControlDataGit'
 import helmChannelData from './ControlDataHelm'
+import { loadExistingArgoServer } from './utils'
 import _ from 'lodash'
-
-export const updateDestinationOptions = (urlControl, controlGlobal) => {
-  const { active } = urlControl
-  const destinationName = controlGlobal.find(
-    ({ id }) => id === 'destinationName'
-  )
-  const destinationServer = controlGlobal.find(
-    ({ id }) => id === 'destinationServer'
-  )
-  // render destination selection based on the type
-  if (active === 'Name') {
-    _.set(destinationServer, 'type', 'hidden')
-    _.set(destinationName, 'type', 'combobox')
-  }
-  if (active === 'Server') {
-    _.set(destinationName, 'type', 'hidden')
-    _.set(destinationServer, 'type', 'combobox')
-  }
-
-  return controlGlobal
-}
 
 export const updatePropagationPolicy = (urlControl, controlGlobal) => {
   const { active } = urlControl
@@ -81,63 +61,36 @@ export const controlData = [
     reverse: 'ApplicationSet[0].metadata.name'
   },
   {
-    name: 'argo.cluster.name',
+    name: 'argo.server.name',
     tooltip: 'argo.cluster.tooltip',
-    id: 'clusterName',
+    id: 'argoServer',
     type: 'combobox',
     label: 'argo.cluster.name',
-    placeholder: 'argo.cluster.placeholder',
+    placeholder: 'argo.server.placeholder',
+    fetchAvailable: loadExistingArgoServer(),
     validation: {
-      constraint: VALID_DNS_LABEL,
+      // constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
       required: true
-    },
-    reverse: 'ApplicationSet[0].spec.template.metadata.name'
+    }
+    // reverse: 'ApplicationSet[0].spec.template.metadata.name'
   },
-  ///////////////////////  cluster decision resource  /////////////////////////////////////
+  ///////// requeue time /////////
   {
-    id: 'decisionResource',
-    type: 'group',
-    onlyOne: true,
-    controlData: [
-      {
-        id: 'decisionResource',
-        type: 'section',
-        collapsable: true,
-        subtitle: 'argo.cluster.decision.resource.title'
-      },
-      ///////// name /////////
-      {
-        name: 'argo.cluster.decision.resource.name',
-        tooltip: 'argo.cluster.decision.resource.name.tooltip',
-        id: 'decisionResourceName',
-        type: 'combobox',
-        placeholder: 'argo.cluster.decision.resource.placeholder',
-        validation: {
-          constraint: VALID_DNS_LABEL,
-          notification: 'import.form.invalid.dns.label',
-          required: true
-        },
-        reverse:
-          'ApplicationSet[0].spec.generators[0].clusterDecisionResource.name'
-      },
-      ///////// requeue time /////////
-      {
-        name: 'argo.cluster.decision.requeue.title',
-        tooltip: 'argo.cluster.decision.requeue.title.tooltip',
-        id: 'requeueTime',
-        type: 'combobox',
-        placeholder: 'argo.cluster.decision.resource.placeholder',
-        active: '30',
-        available: ['30', '60', '120', '180'],
-        validation: {
-          required: true
-        },
-        reverse:
-          'ApplicationSet[0].spec.generators[0].clusterDecisionResource.requeueAfterSeconds'
-      }
-    ]
+    name: 'argo.cluster.decision.requeue.title',
+    tooltip: 'argo.cluster.decision.requeue.title.tooltip',
+    id: 'requeueTime',
+    type: 'combobox',
+    placeholder: 'argo.cluster.decision.resource.placeholder',
+    active: '180',
+    available: ['30', '60', '120', '180', '300'],
+    validation: {
+      required: true
+    },
+    reverse:
+      'ApplicationSet[0].spec.generators[0].clusterDecisionResource.requeueAfterSeconds'
   },
+
   ///////////////////////  template  /////////////////////////////////////
   {
     id: 'template',
@@ -212,39 +165,6 @@ export const controlData = [
     id: 'destination',
     type: 'title',
     info: 'argo.template.destination.title'
-  },
-  {
-    id: 'destinationType',
-    type: 'singleselect',
-    name: 'argo.destination.type',
-    placeholder: 'argo.destination.type.placeholder',
-    available: ['Name', 'Server'],
-    onSelect: updateDestinationOptions,
-    validation: {
-      required: true
-    }
-  },
-  {
-    id: 'destinationName',
-    name: 'argo.destination.name',
-    tooltip: 'argo.destination.name.tooltip',
-    type: 'hidden',
-    placeholder: 'argo.destination.name.placeholder',
-    validation: {
-      required: true
-    },
-    reverse: 'ApplicationSet[0].spec.template.spec.destination.name'
-  },
-  {
-    id: 'destinationServer',
-    name: 'argo.destination.server',
-    tooltip: 'argo.destination.server.tooltip',
-    type: 'hidden',
-    placeholder: 'argo.destination.server.placeholder',
-    validation: {
-      required: true
-    },
-    reverse: 'ApplicationSet[0].spec.template.spec.destination.server'
   },
   {
     id: 'destinationNS',
@@ -360,5 +280,25 @@ export const controlData = [
     validation: {
       required: true
     }
+  },
+  ///////////////////////  placement  /////////////////////////////////////
+  {
+    id: 'placement',
+    type: 'step',
+    title: 'argo.placement.title'
+  },
+  ///////// name /////////
+  {
+    name: 'argo.cluster.decision.resource.name',
+    tooltip: 'argo.cluster.decision.resource.name.tooltip',
+    id: 'decisionResourceName',
+    type: 'combobox',
+    placeholder: 'argo.cluster.decision.resource.placeholder',
+    validation: {
+      constraint: VALID_DNS_LABEL,
+      notification: 'import.form.invalid.dns.label',
+      required: true
+    },
+    reverse: 'ApplicationSet[0].spec.generators[0].clusterDecisionResource.name'
   }
 ]

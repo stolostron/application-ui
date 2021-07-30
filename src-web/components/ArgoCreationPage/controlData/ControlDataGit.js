@@ -10,13 +10,8 @@
 // Copyright Contributors to the Open Cluster Management project
 'use strict'
 
-import { VALID_REPOPATH, VALIDATE_URL } from 'temptifly'
-import {
-  loadExistingChannels
-  // updateChannelControls,
-  // channelSimplified,
-  // updateGitBranchFolders
-} from './utils'
+import { VALIDATE_GITBRANCH, VALID_REPOPATH, VALIDATE_URL } from 'temptifly'
+import { loadExistingChannels, channelSimplified } from './utils'
 
 const githubChannelData = [
   {
@@ -44,22 +39,8 @@ const githubChannelData = [
     available: [],
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('git'),
-    reverse: 'ApplicationSet[0].spec.template.spec.source.repoURL'
-    // onSelect: updateChannelControls,
-    // simplified: channelSimplified
-  },
-  {
-    name: 'creation.app.github.path',
-    tooltip: 'tooltip.creation.app.github.path',
-    id: 'githubPath',
-    type: 'combobox',
-    active: '',
-    placeholder: 'app.enter.select.path',
-    available: [],
-    validation: VALID_REPOPATH,
-    reverse: 'ApplicationSet[0].spec.template.spec.source.path',
-    // onSelect: updateGitBranchFolders,
-    cacheUserValueKey: 'create.app.github.path'
+    reverse: 'ApplicationSet[0].spec.template.spec.source.repoURL',
+    simplified: channelSimplified
   },
   ///////// revision type /////////
   {
@@ -78,15 +59,26 @@ const githubChannelData = [
   {
     name: 'argo.git.target.revision',
     tooltip: 'argo.git.target.revision.tooltip',
-    id: 'gitRevision',
+    id: 'githubBranch',
     type: 'combobox',
     placeholder: 'argo.git.target.revision.placeholder',
-    active: 'HEAD',
-    available: ['HEAD'],
-    validation: {
-      required: true
-    },
+    // active: 'HEAD',
+    // available: ['HEAD'],
+    validation: VALIDATE_GITBRANCH,
     reverse: 'ApplicationSet[0].spec.template.spec.source.targetRevision'
+  },
+  {
+    name: 'creation.app.github.path',
+    tooltip: 'tooltip.creation.app.github.path',
+    id: 'githubPath',
+    type: 'combobox',
+    active: '',
+    placeholder: 'app.enter.select.path',
+    available: [],
+    validation: VALID_REPOPATH,
+    // onSelect: updateGitBranchFolders,
+    reverse: 'ApplicationSet[0].spec.template.spec.source.path',
+    cacheUserValueKey: 'create.app.github.path'
   }
 ]
 

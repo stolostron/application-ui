@@ -11,7 +11,12 @@
 'use strict'
 
 import { VALIDATE_GITBRANCH, VALID_REPOPATH, VALIDATE_URL } from 'temptifly'
-import { loadExistingChannels, channelSimplified } from './utils'
+import {
+  loadExistingChannels,
+  channelSimplified,
+  updateChannelControls,
+  updateGitBranchFolders
+} from './utils'
 
 const githubChannelData = [
   {
@@ -40,6 +45,7 @@ const githubChannelData = [
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('git'),
     reverse: 'ApplicationSet[0].spec.template.spec.source.repoURL',
+    onSelect: updateChannelControls,
     simplified: channelSimplified
   },
   ///////// revision type /////////
@@ -65,6 +71,7 @@ const githubChannelData = [
     // active: 'HEAD',
     // available: ['HEAD'],
     validation: VALIDATE_GITBRANCH,
+    onSelect: updateGitBranchFolders,
     reverse: 'ApplicationSet[0].spec.template.spec.source.targetRevision'
   },
   {

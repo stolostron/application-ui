@@ -174,7 +174,7 @@ class ArgoCreationPage extends React.Component {
         history.push(
           `${config.contextPath}/${this.applicationNamespace}/${
             this.applicationName
-          }`
+          }?apiVersion=${this.apiVersion}`
         )
       }, 3000)
     } else if (mutateStatus && mutateStatus === 'ERROR') {
@@ -271,8 +271,13 @@ class ArgoCreationPage extends React.Component {
         handleCreateApplication(resourceJSON.createResources)
       }
       const map = _.keyBy(resourceJSON.createResources, 'kind')
-      this.applicationNamespace = _.get(map, 'Application.metadata.namespace')
-      this.applicationName = _.get(map, 'Application.metadata.name')
+      this.applicationNamespace = _.get(
+        map,
+        'ApplicationSet.metadata.namespace'
+      )
+      this.applicationName =
+        _.get(map, 'ApplicationSet.metadata.name') + '-in-cluster'
+      this.apiVersion = _.get(map, 'ApplicationSet.apiVersion')
     }
   };
 

@@ -48,7 +48,6 @@ const AdvancedConfigurationLists = ({
         key={selectedId}
         tabs={secondaryHeaderProps.tabs}
         title={secondaryHeaderProps.title}
-        mainButton={secondaryHeaderProps.mainButton}
         resourceType={resourceType}
         staticResourceData={staticResourceData}
         getVisibleResources={getVisibleResources}

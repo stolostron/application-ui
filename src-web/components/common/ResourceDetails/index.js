@@ -128,20 +128,13 @@ class ResourceDetails extends React.Component {
   }
 
   UNSAFE_componentWillMount() {
-    const {
-            updateSecondaryHeaderFn,
-            tabs,
-            launch_links,
-            mainButton,
-            match
-          } = this.props,
+    const { updateSecondaryHeaderFn, tabs, launch_links, match } = this.props,
           params = match && match.params
     updateSecondaryHeaderFn(
       params.name,
       tabs,
       this.getBreadcrumb(),
-      launch_links,
-      mainButton
+      launch_links
     )
   }
 
@@ -327,7 +320,6 @@ ResourceDetails.propTypes = {
   clearSuccessFinished: PropTypes.func,
   launch_links: PropTypes.object,
   location: PropTypes.object,
-  mainButton: PropTypes.object,
   match: PropTypes.object,
   mutateErrorMsg: PropTypes.string,
   mutateStatus: PropTypes.string,
@@ -343,23 +335,9 @@ ResourceDetails.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
-    updateSecondaryHeaderFn: (
-      title,
-      tabs,
-      breadcrumbItems,
-      links,
-      mainButton
-    ) =>
+    updateSecondaryHeaderFn: (title, tabs, breadcrumbItems, links) =>
       dispatch(
-        updateSecondaryHeader(
-          title,
-          tabs,
-          breadcrumbItems,
-          links,
-          null,
-          null,
-          mainButton
-        )
+        updateSecondaryHeader(title, tabs, breadcrumbItems, links, null, null)
       ),
     clearSuccessFinished: () => clearSuccessFinished(dispatch)
   }

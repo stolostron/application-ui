@@ -21,7 +21,7 @@ The Cypress tests are stored inside the /tests/ directory, which has its own pac
 #### Running Cypress tests on a live hub cluster
 
 1. Export the following environment variables:
-   - - `export CYPRESS_OC_CLUSTER_URL=https://api.{clusterName}.dev06.red-chesterfield.com:6443` (API of the cluster)
+   - `export CYPRESS_OC_CLUSTER_URL=https://api.{clusterName}.dev06.red-chesterfield.com:6443` (API of the cluster)
    - `export CYPRESS_OC_CLUSTER_USER=kubeadmin`
    - `export CYPRESS_OC_CLUSTER_PASS=xxxxxxxxx`
    - `export CYPRESS_BASE_URL=https://multicloud-console.apps.{clusterName}.dev06.red-chesterfield.com` (URL of a working cluster)

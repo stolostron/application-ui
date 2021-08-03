@@ -39,14 +39,8 @@ class ResourceList extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      updateSecondaryHeaderFn,
-      tabs,
-      title,
-      mainButton,
-      locale
-    } = this.props
-    updateSecondaryHeaderFn(msgs.get(title, locale), tabs, mainButton)
+    const { updateSecondaryHeaderFn, tabs, title, locale } = this.props
+    updateSecondaryHeaderFn(msgs.get(title, locale), tabs)
 
     const { fetchTableResources } = this.props
     fetchTableResources([])
@@ -195,10 +189,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const { index, direction } = sort || {}
       dispatch(sortTable(direction, index, resourceType))
     },
-    updateSecondaryHeaderFn: (title, tabs, mainButton) =>
-      dispatch(
-        updateSecondaryHeader(title, tabs, null, null, null, null, mainButton)
-      ),
+    updateSecondaryHeaderFn: (title, tabs) =>
+      dispatch(updateSecondaryHeader(title, tabs, null, null, null, null)),
     onSelectedFilterChange: selectedFilters => {
       updateBrowserURL && updateBrowserURL(selectedFilters)
       dispatch(updateResourceFilters(resourceType, selectedFilters))
@@ -219,7 +211,6 @@ ResourceList.propTypes = {
   itemIds: PropTypes.array,
   items: PropTypes.object,
   locale: PropTypes.string,
-  mainButton: PropTypes.object,
   page: PropTypes.number,
   resourceType: PropTypes.object,
   searchTableFn: PropTypes.func,

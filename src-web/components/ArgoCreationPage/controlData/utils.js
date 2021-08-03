@@ -86,10 +86,11 @@ export const setAvailableArgoServer = (control, result) => {
   control.available = []
   control.availableMap = {}
   control.isLoading = false
-  const error = argoServers ? null : result.error
+  const error = argoServers ? null : result.error || data.errors
 
   if (error) {
     control.isFailed = true
+    control.isLoaded = true
   } else if (argoServers) {
     const argoServerNS = _.get(argoServers, 'argoServerNS')
     control.availableData = _.keyBy(argoServerNS, 'name')

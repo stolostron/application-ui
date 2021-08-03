@@ -9,15 +9,17 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: {{{appSetName}}}
+  namespace: {{{argoServer}}}
 spec:
   generators:
-    - clusterDecisionResource:
+    - clusters: {}
+    {{!-- - clusterDecisionResource:
         configMapRef: acm-placement
         name: {{{decisionResourceName}}}                  
-        requeueAfterSeconds: {{{requeueTime}}}
+        requeueAfterSeconds: {{{requeueTime}}} --}}
   template:
     metadata:
-      name: {{{appSetName}}}
+      name: '{{{appSetName}}}-{{curlyName}}'
     spec:
       project: "default"
       source:
@@ -37,7 +39,7 @@ spec:
 {{>templateGit 
   githubURL=../../githubURL
   githubPath=../../githubPath
-  gitRevision=../../gitRevision
+  githubBranch=../../githubBranch
 }}
 {{/case}}
 
@@ -60,7 +62,7 @@ spec:
 {{/switch}}
 {{/each}}
       destination:
-        name: '{{clusterName}}'
+        server: '{{{curlyServer}}}'
         namespace: {{{destinationNS}}}
 
 {{! ========================================================== }}
@@ -102,3 +104,21 @@ spec:
             {{/if}}
           {{/if}}
 
+
+{{! ========================================================== }}
+{{! ========================================================== }}
+{{! ==================placement ========================= }}
+{{! ========================================================== }}
+{{! ========================================================== }}  
+
+{{!-- ---
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: Placement
+metadata:
+  name: {{{appSetName}}}-placement
+  namespace: {{{argoServer}}}
+spec:
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+  clusterReplicas: 1 --}}

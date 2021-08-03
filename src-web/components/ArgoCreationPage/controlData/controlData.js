@@ -61,6 +61,11 @@ export const controlData = [
     reverse: 'ApplicationSet[0].metadata.name'
   },
   {
+    id: 'curlyName',
+    type: 'hidden',
+    active: '{{name}}'
+  },
+  {
     name: 'argo.server.name',
     tooltip: 'argo.cluster.tooltip',
     id: 'argoServer',
@@ -74,6 +79,11 @@ export const controlData = [
       required: true
     }
     // reverse: 'ApplicationSet[0].spec.template.metadata.name'
+  },
+  {
+    id: 'curlyServer',
+    type: 'hidden',
+    active: '{{server}}'
   },
   ///////// requeue time /////////
   {
@@ -296,8 +306,8 @@ export const controlData = [
     placeholder: 'argo.cluster.decision.resource.placeholder',
     validation: {
       constraint: VALID_DNS_LABEL,
-      notification: 'import.form.invalid.dns.label',
-      required: true
+      notification: 'import.form.invalid.dns.label'
+      // required: true
     },
     reverse: 'ApplicationSet[0].spec.generators[0].clusterDecisionResource.name'
   }

@@ -15,24 +15,6 @@ import { VALID_DNS_LABEL } from 'temptifly'
 import githubChannelData from './ControlDataGit'
 import helmChannelData from './ControlDataHelm'
 import { loadExistingArgoServer } from './utils'
-import _ from 'lodash'
-
-export const updatePropagationPolicy = (urlControl, controlGlobal) => {
-  const { active } = urlControl
-  const propagationPolicy = controlGlobal.find(
-    ({ id }) => id === 'propagationPolicy'
-  )
-  // render propagationPolicy
-  if (active) {
-    _.set(propagationPolicy, 'type', 'singleselect')
-  }
-  // reset
-  if (!active) {
-    _.set(propagationPolicy, 'type', 'hidden')
-  }
-
-  return controlGlobal
-}
 
 export const controlData = [
   {
@@ -188,108 +170,6 @@ export const controlData = [
       required: true
     },
     reverse: 'ApplicationSet[0].spec.template.spec.destination.namespace'
-  },
-  ///////////////////////  sync policy  /////////////////////////////////////
-  {
-    id: 'syncPolicy',
-    type: 'step',
-    title: 'argo.sync.policy.title'
-  },
-  {
-    id: 'policy',
-    type: 'title',
-    info: 'argo.sync.policy.subtitle'
-  },
-  {
-    id: 'prune',
-    type: 'checkbox',
-    name: 'argo.sync.policy.prune',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
-    onSelect: {},
-    active: false,
-    validation: {}
-  },
-  {
-    id: 'pruneLast',
-    type: 'checkbox',
-    name: 'argo.sync.policy.prune.last',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
-    onSelect: {},
-    active: false,
-    validation: {}
-  },
-  {
-    id: 'replace',
-    type: 'checkbox',
-    name: 'argo.sync.policy.replace',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
-    onSelect: {},
-    active: false,
-    validation: {}
-  },
-  {
-    id: 'allowEmpty',
-    type: 'checkbox',
-    name: 'argo.sync.policy.allow.empty',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
-    onSelect: {},
-    active: false,
-    validation: {}
-  },
-  {
-    id: 'applyOutOfSyncOnly',
-    type: 'checkbox',
-    name: 'argo.sync.policy.apply.out.of.sync.only',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
-    onSelect: {},
-    active: false,
-    validation: {}
-  },
-  {
-    id: 'selfHeal',
-    type: 'checkbox',
-    name: 'argo.sync.policy.self.heal',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
-    onSelect: {},
-    active: false,
-    validation: {}
-  },
-  {
-    id: 'createNamespace',
-    type: 'checkbox',
-    name: 'argo.sync.policy.create.namespace',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
-    onSelect: {},
-    active: false,
-    validation: {}
-  },
-  {
-    id: 'validate',
-    type: 'checkbox',
-    name: 'argo.sync.policy.validate',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
-    onSelect: {},
-    active: false,
-    validation: {}
-  },
-  {
-    id: 'prunePropagationPolicy',
-    type: 'checkbox',
-    name: 'argo.sync.policy.prune.propagation.policy',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
-    onSelect: updatePropagationPolicy,
-    active: false,
-    validation: {}
-  },
-  {
-    id: 'propagationPolicy',
-    type: 'hidden',
-    name: 'argo.sync.policy.prune.propagation.policy.title',
-    available: ['foreground', 'background', 'orphan'],
-    active: 'foreground',
-    validation: {
-      required: true
-    }
   },
   ///////////////////////  placement  /////////////////////////////////////
   {

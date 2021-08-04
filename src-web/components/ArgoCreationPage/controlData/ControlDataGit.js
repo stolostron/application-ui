@@ -18,7 +18,14 @@ import {
   updateGitBranchFolders
 } from './utils'
 
+import { gitSyncPolicies, commonSyncPolicies } from './ControlDataSyncPolicy'
+
 const githubChannelData = [
+  {
+    id: 'test',
+    type: 'step',
+    title: 'test'
+  },
   {
     id: 'channelNamespaceExists',
     type: 'hidden',
@@ -86,7 +93,20 @@ const githubChannelData = [
     // onSelect: updateGitBranchFolders,
     reverse: 'ApplicationSet[0].spec.template.spec.source.path',
     cacheUserValueKey: 'create.app.github.path'
-  }
+  },
+  ///////////////////////  sync policy  /////////////////////////////////////
+  {
+    id: 'syncPolicy',
+    type: 'step',
+    title: 'argo.sync.policy.title'
+  },
+  {
+    id: 'policy',
+    type: 'title',
+    info: 'argo.sync.policy.subtitle'
+  },
+  ...gitSyncPolicies,
+  ...commonSyncPolicies
 ]
 
 export default githubChannelData

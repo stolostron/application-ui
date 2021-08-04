@@ -40,7 +40,6 @@ const helmChannelData = [
     validation: VALIDATE_URL,
     fetchAvailable: loadExistingChannels('helmrepo'),
     reverse: 'ApplicationSet[0].spec.template.spec.source.repoURL',
-    // onSelect: updateChannelControls,
     simplified: channelSimplified
   },
   {

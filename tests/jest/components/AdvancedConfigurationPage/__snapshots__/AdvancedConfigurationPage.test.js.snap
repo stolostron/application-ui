@@ -161,7 +161,7 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
             class="pf-l-stack__item"
           >
             <div
-              class="MuiCollapse-container"
+              class="MuiCollapse-root"
               style="min-height: 0px; height: 0px; transition-duration: 150ms;"
             >
               <div
@@ -1357,7 +1357,7 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
             class="pf-l-stack__item"
           >
             <div
-              class="MuiCollapse-container"
+              class="MuiCollapse-root"
               style="min-height: 0px; height: 0px; transition-duration: 150ms;"
             >
               <div
@@ -2484,7 +2484,7 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
             class="pf-l-stack__item"
           >
             <div
-              class="MuiCollapse-container"
+              class="MuiCollapse-root"
               style="min-height: 0px; height: 0px; transition-duration: 150ms;"
             >
               <div

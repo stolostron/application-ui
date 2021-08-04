@@ -15,7 +15,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
           class="pf-l-stack__item"
         >
           <div
-            class="MuiCollapse-container"
+            class="MuiCollapse-root"
             style="min-height: 0px; height: 0px; transition-duration: 150ms;"
           >
             <div
@@ -1070,7 +1070,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
           class="pf-l-stack__item"
         >
           <div
-            class="MuiCollapse-container"
+            class="MuiCollapse-root"
             style="min-height: 0px; height: 0px; transition-duration: 150ms;"
           >
             <div
@@ -2125,7 +2125,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
           class="pf-l-stack__item"
         >
           <div
-            class="MuiCollapse-container"
+            class="MuiCollapse-root"
             style="min-height: 0px; height: 0px; transition-duration: 150ms;"
           >
             <div

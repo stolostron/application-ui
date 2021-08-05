@@ -28,13 +28,26 @@ import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
 import { AcmAlert } from '@open-cluster-management/ui-components'
-import { Stack, StackItem } from '@patternfly/react-core'
+import { Alert, AlertGroup, AlertActionCloseButton, Stack, StackItem } from '@patternfly/react-core'
 
 class ResourceList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      xhrPoll: false
+      xhrPoll: false,
+      prevDeletedApp: '',
+      alerts: []
+    }
+    this.addAlert = appName => {
+      this.setState({prevDeletedApp: appName})
+      if (this.state.alerts.filter(alert => alert.appName !== appName)) {
+        this.setState({
+          alerts: [ ...this.state.alerts, { appName: appName }]
+        })
+      }
+    }
+    this.removeAlert = appName => {
+      this.setState({ alerts: [...this.state.alerts.filter(alert => alert.appName !== appName)] })
     }
   }
 
@@ -93,20 +106,34 @@ class ResourceList extends React.Component {
       return React.cloneElement(action, { resourceType })
     })
 
+    if (deleteStatus === REQUEST_STATUS.DONE && deleteMsg !== this.state.prevDeletedApp) {
+      this.addAlert(deleteMsg)
+    }
+
     const stackItems = []
     if (deleteStatus === REQUEST_STATUS.DONE) {
       stackItems.push(
         <StackItem key="alert">
-          <AcmAlert
-            title={msgs.get('success.update.resource', locale)}
-            subtitle={msgs.get(
-              'success.delete.description',
-              [deleteMsg],
-              locale
-            )}
-            variant="success"
-            isInline
-          />
+          <AlertGroup isToast>
+            {this.state.alerts.map(({appName}) => (
+              <Alert
+                variant="success"
+                title={msgs.get(
+                  'success.delete.description',
+                  [appName],
+                  locale
+                )}
+                actionClose={
+                  <AlertActionCloseButton
+                    title={msgs.get('success.update.resource', locale)}
+                    variantLabel="success alert"
+                    onClose={() => this.removeAlert(appName)}
+                  />
+                }
+                key={msgs.get('success.update.resource', locale)}
+              />
+            ))}
+          </AlertGroup>
         </StackItem>
       )
     }

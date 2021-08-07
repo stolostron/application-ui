@@ -394,10 +394,6 @@ describe("common actions ", () => {
         {
           property: "namespace",
           values: ["default-ns"]
-        },
-        {
-          property: "cluster",
-          values: ["local-cluster"]
         }
       ],
       keywords: [],

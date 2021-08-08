@@ -12,7 +12,7 @@ import {
   StackItem
 } from '@patternfly/react-core'
 import { ExternalLinkAltIcon } from '@patternfly/react-icons'
-import R from 'ramda'
+import _ from 'lodash'
 import LabelWithPopover from './LabelWithPopover'
 import {
   getSearchLink,
@@ -34,11 +34,8 @@ const ChannelLabels = ({
 }) => {
   const channelMap = groupByChannelType(channels || [])
   // Create sorting function for channels
-  const channelSort = R.sortWith([
-    R.ascend(R.prop('pathname')),
-    R.ascend(R.prop('gitBranch')),
-    R.ascend(R.prop('gitPath'))
-  ])
+  const channelSort = channels =>
+    _.sortBy(channels, ['pathname', 'gitBranch', 'gitPath'])
   return (
     <div className="label-with-popover-container channel-labels">
       {CHANNEL_TYPES.filter(chType => channelMap[chType]).map(chType => {

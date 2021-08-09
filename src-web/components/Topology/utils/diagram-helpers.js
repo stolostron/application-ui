@@ -1470,6 +1470,22 @@ export const setSubscriptionDeployStatus = (node, details, activeFilters) => {
 
       setClusterWindowStatus(windowStatusArray, subscription, details)
 
+      const { reason } = _.get(node, 'specs.raw.status', {})
+      const failedSubscriptionStatus = _.get(
+        subscription,
+        'status',
+        ''
+      ).includes('Failed')
+
+      if (failedSubscriptionStatus) {
+        details.push({
+          labelValue: msgs.get('prop.error.section'),
+          value:
+            reason || msgs.get('resource.subscription.status.failed.phase'),
+          status: failureStatus
+        })
+      }
+
       details.push({
         type: 'link',
         value: {

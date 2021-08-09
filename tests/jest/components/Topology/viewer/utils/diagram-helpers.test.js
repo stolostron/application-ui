@@ -1327,6 +1327,12 @@ describe("setSubscriptionDeployStatus with time window ", () => {
     { labelValue: "local", status: "failure", value: "Failed" },
     { labelKey: "spec.subscr.timeWindow", value: "Blocked" },
     {
+      labelValue: "Error",
+      status: "failure",
+      value:
+        "Some resources failed to deploy. Use View resource YAML link below to view the details."
+    },
+    {
       indent: true,
       type: "link",
       value: {
@@ -1378,6 +1384,12 @@ describe("setSubscriptionDeployStatus with local hub subscription error ", () =>
     { labelKey: "resource.deploy.statuses", type: "label" },
     { labelValue: "local", status: "failure", value: "Failed" },
     {
+      labelValue: "Error",
+      status: "failure",
+      value:
+        "Some resources failed to deploy. Use View resource YAML link below to view the details."
+    },
+    {
       indent: true,
       type: "link",
       value: {
@@ -1416,6 +1428,12 @@ describe("setSubscriptionDeployStatus with hub error", () => {
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
     { labelValue: "local", status: "failure", value: "Failed" },
+    {
+      labelValue: "Error",
+      status: "failure",
+      value:
+        "Some resources failed to deploy. Use View resource YAML link below to view the details."
+    },
     {
       indent: true,
       type: "link",
@@ -1496,6 +1514,12 @@ describe("setSubscriptionDeployStatus with error", () => {
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
     { labelValue: "local", status: "failure", value: "Failed" },
+    {
+      labelValue: "Error",
+      status: "failure",
+      value:
+        "Some resources failed to deploy. Use View resource YAML link below to view the details."
+    },
     {
       indent: true,
       type: "link",

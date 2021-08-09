@@ -52,10 +52,6 @@ export const AdvancedConfigurationPage = loadable(() =>
   import(/* webpackChunkName: "advancedConfigurationPage" */ '../components/AdvancedConfigurationPage')
 )
 
-export const CreateApplicationButton = loadable(() =>
-  import(/* webpackChunkName: "createApplicationButton" */ '../components/common/CreateApplicationButton')
-)
-
 resources(() => {
   require('../../scss/common.scss')
 })
@@ -108,8 +104,6 @@ class App extends React.Component {
       }
     ]
 
-    const createApplicationButton = <CreateApplicationButton key="create" />
-
     const getSingleApplicationBasePath = params => {
       return `${BASE_PAGE_PATH}/${params.namespace}/${params.name}`
     }
@@ -149,8 +143,7 @@ class App extends React.Component {
                 serverProps={this.getServerProps()}
                 secondaryHeaderProps={{
                   title: applicationsTitle,
-                  tabs: allApplicationsTabs,
-                  mainButton: createApplicationButton
+                  tabs: allApplicationsTabs
                 }}
               />
             )}
@@ -164,8 +157,7 @@ class App extends React.Component {
                 serverProps={serverProps}
                 secondaryHeaderProps={{
                   title: applicationsTitle,
-                  tabs: allApplicationsTabs,
-                  mainButton: createApplicationButton
+                  tabs: allApplicationsTabs
                 }}
                 locale={locale}
               />

@@ -40,7 +40,7 @@ export class SecondaryHeader extends React.Component {
   }
 
   render() {
-    const { tabs, title, breadcrumbItems, mainButton, links } = this.props
+    const { tabs, title, breadcrumbItems, links } = this.props
     const { locale } = this.context
 
     const headerArgs = {
@@ -57,7 +57,6 @@ export class SecondaryHeader extends React.Component {
       controls: <AutoRefreshSelect route={this.props.location} />,
       actions: (
         <Fragment>
-          {mainButton}
           {links && (
             <div className="secondary-header-links">{this.renderLinks()}</div>
           )}
@@ -153,7 +152,6 @@ SecondaryHeader.propTypes = {
   history: PropTypes.object,
   links: PropTypes.array,
   location: PropTypes.object,
-  mainButton: PropTypes.object,
   tabs: PropTypes.array,
   title: PropTypes.string,
   tooltip: PropTypes.string
@@ -167,7 +165,6 @@ const mapStateToProps = state => {
   return {
     title: state.secondaryHeader.title,
     tabs: state.secondaryHeader.tabs,
-    mainButton: state.secondaryHeader.mainButton,
     breadcrumbItems: state.secondaryHeader.breadcrumbItems,
     links: state.secondaryHeader.links,
     tooltip: state.secondaryHeader.tooltip,

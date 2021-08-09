@@ -131,8 +131,7 @@ export const secondaryHeader = (
       breadcrumbItems: action.breadcrumbItems,
       links: action.links,
       actions: action.actions,
-      tooltip: action.tooltip,
-      mainButton: action.mainButton
+      tooltip: action.tooltip
     })
   default:
     return state

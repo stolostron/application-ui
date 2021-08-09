@@ -1,6 +1,6 @@
 {
   "name": "@open-cluster-management/application-ui",
-  "version": "2.1.0",
+  "version": "2.4.0",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -61,7 +61,7 @@
     "@babel/register": "^7.12.1",
     "@loadable/component": "^5.14.1",
     "@open-cluster-management/security-middleware": "^1.0.2",
-    "@open-cluster-management/ui-components": "^0.179.0",
+    "@open-cluster-management/ui-components": "^1.1.0",
     "@patternfly/patternfly": "^4.115.2",
     "@patternfly/react-core": "^4.135.0",
     "@patternfly/react-icons": "^4.11.0",

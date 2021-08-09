@@ -35,7 +35,14 @@ export const createApplication = (
 ) => {
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
-  cy.get("[data-test-create-application=true]", { timeout: 50 * 1000 }).click();
+  cy
+    .get('button[id="actions.create.application"]', { timeout: 50 * 1000 })
+    .click();
+  cy
+    .get('button[data-test-create-application="application.type.acm"]', {
+      timeout: 50 * 1000
+    })
+    .click();
   const { name, config } = data;
   namespace == "default" ? (namespace = `${name}-ns`) : namespace;
   cy.log(`Test create application ${name}`);

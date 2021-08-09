@@ -31,10 +31,8 @@ resources(() => {
 const mapDispatchToProps = dispatch => {
   return {
     clearSuccessFinished: () => clearSuccessFinished(dispatch),
-    updateSecondaryHeaderFn: (title, tabs, mainButton) =>
-      dispatch(
-        updateSecondaryHeader(title, tabs, null, null, null, null, mainButton)
-      )
+    updateSecondaryHeaderFn: (title, tabs) =>
+      dispatch(updateSecondaryHeader(title, tabs, null, null, null, null))
   }
 }
 
@@ -48,8 +46,7 @@ class AdvancedConfigurationPage extends React.Component {
 
     updateSecondaryHeaderFn(
       msgs.get(secondaryHeaderProps.title, locale),
-      secondaryHeaderProps.tabs,
-      secondaryHeaderProps.mainButton
+      secondaryHeaderProps.tabs
     )
   }
 

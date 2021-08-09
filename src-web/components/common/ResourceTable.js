@@ -16,18 +16,51 @@ import _ from 'lodash'
 import React from 'react'
 import {
   AcmEmptyState,
-  AcmTable
+  AcmTable,
+  AcmButton
 } from '@open-cluster-management/ui-components'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { handleActionClick } from './TableRowActionMenu'
+import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 
 resources(() => {
   require('../../../scss/table.scss')
 })
 
 class ResourceTable extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isACMAppCreateDisabled: true,
+      isArgoAppsetCreateDisabled: true
+    }
+  }
+
+  componentDidMount() {
+    const { staticResourceData } = this.props
+    const { tableDropdown } = staticResourceData
+
+    if (tableDropdown) {
+      // Don't call for AdvancedConfigurationPage
+      canCreateActionAllNamespaces('applications', 'create', 'app.k8s.io').then(
+        response => {
+          const disabled = _.get(response, 'data.userAccessAnyNamespaces')
+          this.setState({ isACMAppCreateDisabled: !disabled })
+        }
+      )
+      canCreateActionAllNamespaces(
+        'applicationsets',
+        'create',
+        'argoproj.io'
+      ).then(response => {
+        const disabled = _.get(response, 'data.userAccessAnyNamespaces')
+        this.setState({ isArgoAppsetCreateDisabled: !disabled })
+      })
+    }
+  }
+
   render() {
     const {
       actions,
@@ -74,6 +107,7 @@ class ResourceTable extends React.Component {
         setSearch={setSearch}
         sort={sort}
         setSort={setSort}
+        tableDropdown={this.getDropdownActions()}
       />
     ]
   }
@@ -155,6 +189,65 @@ class ResourceTable extends React.Component {
               ))
       )
       : undefined
+  }
+
+  disableClick(e) {
+    e.preventDefault()
+  }
+
+  getDropdownActions() {
+    const { staticResourceData, locale } = this.props
+    const { tableDropdown } = staticResourceData
+
+    if (!tableDropdown) {
+      return undefined
+    }
+
+    const { actions = [] } = tableDropdown
+    const { isACMAppCreateDisabled, isArgoAppsetCreateDisabled } = this.state
+
+    const dropdownActions = []
+    actions.forEach(action => {
+      const children = []
+      const isDisabled =
+        action.msgKey === 'application.type.acm'
+          ? isACMAppCreateDisabled
+          : isArgoAppsetCreateDisabled
+      children.push(
+        <Link
+          to={{
+            pathname: action.path,
+            state: { cancelBack: true }
+          }}
+          key={action.msgKey}
+          onClick={isDisabled ? this.disableClick : undefined}
+        >
+          <AcmButton
+            id={action.msgKey}
+            variant="plain"
+            isSmall
+            isDisabled={isDisabled}
+            data-test-create-application={action.msgKey}
+          >
+            {msgs.get(action.msgKey, locale)}
+          </AcmButton>
+        </Link>
+      )
+      dropdownActions.push({
+        id: action.msgKey,
+        isDisabled: isDisabled,
+        component: action.component,
+        children: children
+      })
+    })
+
+    return {
+      id: tableDropdown.msgKey,
+      isDisabled: isACMAppCreateDisabled && isArgoAppsetCreateDisabled,
+      disableText: msgs.get(tableDropdown.disableMsgKey, locale),
+      toggleText: msgs.get(tableDropdown.msgKey, locale),
+      actions: dropdownActions
+    }
   }
 }
 

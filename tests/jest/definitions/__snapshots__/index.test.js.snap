@@ -21,6 +21,22 @@ Object {
   "pluralKey": "table.plural.application",
   "primaryKey": "_uid",
   "tableActionsResolver": [Function],
+  "tableDropdown": Object {
+    "actions": Array [
+      Object {
+        "component": "div",
+        "msgKey": "application.type.acm",
+        "path": "undefined/create",
+      },
+      Object {
+        "component": "div",
+        "msgKey": "application.type.argo",
+        "path": "undefined/argo/appset",
+      },
+    ],
+    "disableMsgKey": "actions.create.application.access.denied",
+    "msgKey": "actions.create.application",
+  },
   "tableKeys": Array [
     Object {
       "msgKey": "table.header.name",

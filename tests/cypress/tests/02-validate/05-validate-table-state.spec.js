@@ -41,10 +41,6 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
       .scrollIntoView()
       .type("charts-v1");
 
-    // Go to app creation, then cancel
-    cy.get("button[data-test-create-application]").click();
-    cy.get("button#cancel-button-portal-id").click();
-
     // Verify still on Channels table
     cy.get("#channels.pf-m-selected");
 

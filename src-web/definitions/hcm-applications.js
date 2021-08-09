@@ -140,7 +140,23 @@ export default {
       transformFunction: getAge
     }
   ],
-  tableActionsResolver: tableActionsResolver
+  tableActionsResolver: tableActionsResolver,
+  tableDropdown: {
+    msgKey: 'actions.create.application',
+    disableMsgKey: 'actions.create.application.access.denied',
+    actions: [
+      {
+        msgKey: 'application.type.acm',
+        component: 'div',
+        path: `${config.contextPath}/create`
+      },
+      {
+        msgKey: 'application.type.argo',
+        component: 'div',
+        path: `${config.contextPath}/argo/appset`
+      }
+    ]
+  }
 }
 
 function tableActionsResolver(item) {

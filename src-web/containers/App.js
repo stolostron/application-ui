@@ -48,10 +48,6 @@ export const ArgoCreationPage = loadable(() =>
   import(/* webpackChunkName: "ArgoCreationPage" */ '../components/ArgoCreationPage/ArgoCreationPage')
 )
 
-export const AdvancedConfigurationPage = loadable(() =>
-  import(/* webpackChunkName: "advancedConfigurationPage" */ '../components/AdvancedConfigurationPage')
-)
-
 resources(() => {
   require('../../scss/common.scss')
 })

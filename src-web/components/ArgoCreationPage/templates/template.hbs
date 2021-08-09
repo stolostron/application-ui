@@ -12,11 +12,14 @@ metadata:
   namespace: {{{argoServer}}}
 spec:
   generators:
-    - clusters: {}
-    {{!-- - clusterDecisionResource:
+    - clusterDecisionResource:
         configMapRef: acm-placement
-        name: {{{decisionResourceName}}}                  
-        requeueAfterSeconds: {{{requeueTime}}} --}}
+        {{#if decisionResourceName}}
+        name: {{{decisionResourceName}}}  
+        {{else}}  
+        name: {{appSetName}}-placement
+        {{/if}}                
+        requeueAfterSeconds: {{{requeueTime}}}
   template:
     metadata:
       name: '{{{appSetName}}}-{{curlyName}}'
@@ -37,9 +40,24 @@ spec:
 {{#case 'github'}}
 
 {{>templateGit 
+  curlyServer=../../../curlyServer
+  destinationNS=../../../destinationNS
+  channelName=../../channelName
+  channelNamespace=../../channelNamespace
+  channelNamespaceExists=../../channelNamespaceExists
   githubURL=../../githubURL
   githubPath=../../githubPath
   githubBranch=../../githubBranch
+  prune=../../../prune
+  allowEmpty=../../../allowEmpty
+  selfHeal=../../../selfHeal
+  validate=../../../validate
+  pruneLast=../../../pruneLast
+  replace=../../../replace
+  createNamespace=../../../createNamespace
+  applyOutOfSyncOnly=../../../applyOutOfSyncOnly
+  prunePropagationPolicy=../../../prunePropagationPolicy
+  propagationPolicy=../../../propagationPolicy
 }}
 {{/case}}
 
@@ -52,57 +70,27 @@ spec:
 {{#case 'helmrepo'}}
 
 {{>templateHelm 
+  curlyServer=../../../curlyServer
+  destinationNS=../../../destinationNS
+  channelName=../../channelName
+  channelNamespace=../../channelNamespace
+  channelNamespaceExists=../../channelNamespaceExists
   helmURL=../../helmURL
   helmChartName=../../helmChartName
   helmPackageVersion=../../helmPackageVersion
+  allowEmpty=../../../allowEmpty
+  selfHeal=../../../selfHeal
+  validate=../../../validate
+  createNamespace=../../../createNamespace
+  applyOutOfSyncOnly=../../../applyOutOfSyncOnly
+  prunePropagationPolicy=../../../prunePropagationPolicy
+  propagationPolicy=../../../propagationPolicy
 }}
 {{/case}}
 
 
 {{/switch}}
 {{/each}}
-      destination:
-        server: '{{{curlyServer}}}'
-        namespace: {{{destinationNS}}}
-
-{{! ========================================================== }}
-{{! ========================================================== }}
-{{! ==================Sync policies ========================= }}
-{{! ========================================================== }}
-{{! ========================================================== }}      
-
-      syncPolicy:
-        automated:
-        {{#if prune}}
-          prune: true
-        {{/if}}
-        {{#if allowEmpty}}
-          allowEmpty: true
-        {{/if}}
-        {{#if selfHeal}}
-          selfHeal: true
-        {{/if}}
-        syncOptions:
-          {{#if validate}}
-            - Validate=true
-          {{/if}}
-          {{#if pruneLast}}
-            - PruneLast=true
-          {{/if}}
-          {{#if replace}}
-            - Replace=true
-          {{/if}}
-          {{#if createNamespace}}
-            - CreateNamespace=true
-          {{/if}}
-          {{#if applyOutOfSyncOnly}}
-            - ApplyOutOfSyncOnly=true
-          {{/if}}
-          {{#if prunePropagationPolicy}}
-            {{#if propagationPolicy}}
-            - PrunePropagationPolicy={{{propagationPolicy}}}
-            {{/if}}
-          {{/if}}
 
 
 {{! ========================================================== }}
@@ -111,14 +99,9 @@ spec:
 {{! ========================================================== }}
 {{! ========================================================== }}  
 
-{{!-- ---
-apiVersion: cluster.open-cluster-management.io/v1alpha1
-kind: Placement
-metadata:
-  name: {{{appSetName}}}-placement
-  namespace: {{{argoServer}}}
-spec:
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
-  clusterReplicas: 1 --}}
+{{>templatePlacement 
+  decisionResourceName=../../../decisionResourceName
+  existingrule-checkbox=../../../existingrule-checkbox
+  clusterSelector=../../../clusterSelector
+  selfLinks=../../../selfLinks
+}}

@@ -80,6 +80,36 @@ export const loadExistingArgoServer = () => {
   }
 }
 
+export const setAvailableRules = (control, result) => {
+  const { loading } = result
+  const { data = {} } = result
+  const { placements } = data
+  control.available = []
+  control.availableMap = {}
+  control.isLoading = false
+
+  const error = placements ? null : result.error
+  if (error) {
+    control.isFailed = true
+  } else if (placements) {
+    if (placements.length > 0) {
+      control.availableData = _.keyBy(placements, 'metadata.name')
+      control.available = Object.keys(control.availableData).sort()
+      //remove default placement rule name if this is not on the list of available placements
+      //in that case the name was set by the reverse function on control initialization
+      if (control.active && !control.available.includes(control.active)) {
+        control.active = null
+      }
+    } else {
+      control.availableData = []
+    }
+  } else {
+    control.isLoading = loading
+  }
+
+  return control
+}
+
 export const setAvailableArgoServer = (control, result) => {
   const { loading } = result
   const { data = {} } = result
@@ -267,11 +297,37 @@ export const getUniqueChannelName = (channelPath, groupControlData) => {
   return channelName
 }
 
+export const updateSyncPolicies = (urlControl, globalControl) => {
+  const selectedID = _.get(urlControl, 'id')
+  const pruneControl = globalControl.find(
+    ({ id: idCtrl }) => idCtrl === 'prune'
+  )
+  const pruneLastControl = globalControl.find(
+    ({ id: idCtrl }) => idCtrl === 'pruneLast'
+  )
+  const replaceControl = globalControl.find(
+    ({ id: idCtrl }) => idCtrl === 'replace'
+  )
+
+  if (selectedID.includes('git')) {
+    _.set(pruneControl, 'type', 'checkbox')
+    _.set(pruneLastControl, 'type', 'checkbox')
+    _.set(replaceControl, 'type', 'checkbox')
+  } else {
+    // reset values
+    _.set(pruneControl, 'type', 'hidden')
+    _.set(pruneLastControl, 'type', 'hidden')
+    _.set(replaceControl, 'type', 'hidden')
+  }
+}
+
 export const updateChannelControls = (
   urlControl,
   globalControl,
   setLoadingState
 ) => {
+  updateSyncPolicies(urlControl, globalControl)
+
   getGitBranches(_.get(urlControl, 'groupControlData'), setLoadingState)
 
   //update existing placement rule section when user changes the namespace

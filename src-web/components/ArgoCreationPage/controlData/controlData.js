@@ -11,6 +11,7 @@
 'use strict'
 
 import config from '../../../../lib/shared/config'
+import placementData from './ControlDataPlacement'
 import { VALID_DNS_LABEL } from 'temptifly'
 import githubChannelData from './ControlDataGit'
 import helmChannelData from './ControlDataHelm'
@@ -77,8 +78,8 @@ export const controlData = [
       // constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
       required: true
-    }
-    // reverse: 'ApplicationSet[0].spec.template.metadata.name'
+    },
+    reverse: 'ApplicationSet[0].spec.template.metadata.namespace'
   },
   {
     id: 'curlyServer',
@@ -202,7 +203,7 @@ export const controlData = [
   },
   {
     id: 'prune',
-    type: 'checkbox',
+    type: 'hidden',
     name: 'argo.sync.policy.prune',
     tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: {},
@@ -211,7 +212,7 @@ export const controlData = [
   },
   {
     id: 'pruneLast',
-    type: 'checkbox',
+    type: 'hidden',
     name: 'argo.sync.policy.prune.last',
     tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: {},
@@ -220,7 +221,7 @@ export const controlData = [
   },
   {
     id: 'replace',
-    type: 'checkbox',
+    type: 'hidden',
     name: 'argo.sync.policy.replace',
     tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: {},
@@ -291,24 +292,5 @@ export const controlData = [
       required: true
     }
   },
-  ///////////////////////  placement  /////////////////////////////////////
-  {
-    id: 'placement',
-    type: 'step',
-    title: 'argo.placement.title'
-  },
-  ///////// name /////////
-  {
-    name: 'argo.cluster.decision.resource.name',
-    tooltip: 'argo.cluster.decision.resource.name.tooltip',
-    id: 'decisionResourceName',
-    type: 'combobox',
-    placeholder: 'argo.cluster.decision.resource.placeholder',
-    validation: {
-      constraint: VALID_DNS_LABEL,
-      notification: 'import.form.invalid.dns.label'
-      // required: true
-    },
-    reverse: 'ApplicationSet[0].spec.generators[0].clusterDecisionResource.name'
-  }
+  ...placementData()
 ]

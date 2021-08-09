@@ -1,0 +1,24 @@
+{{#unless existingrule-checkbox}} 
+---
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: Placement
+metadata:
+  name: {{{@root.appSetName}}}-placement
+  namespace: {{{@root.argoServer}}}
+  {{#if selfLinks}}
+  selfLink: {{{selfLinks.Placement}}}
+  {{/if}}
+{{#if clusterSelector.mode}}  
+spec:
+  clusterSelector:
+    matchLabels:
+      {{#each clusterSelector.clusterLabelsList}}
+      {{#if validValue}}
+      '{{{labelName}}}': '{{{labelValue}}}'
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+      {{/if}}
+      {{/each}} 
+{{/if}}
+{{/unless}}

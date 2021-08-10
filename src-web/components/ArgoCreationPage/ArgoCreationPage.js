@@ -22,7 +22,7 @@ import {
   updateApplication,
   clearCreateStatus
 } from '../../actions/application'
-import { controlData } from './controlData/ControlData'
+import { controlData } from './controlData/controlData'
 import createTemplate from './templates/template.hbs'
 import { updateSecondaryHeader } from '../../actions/common'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'

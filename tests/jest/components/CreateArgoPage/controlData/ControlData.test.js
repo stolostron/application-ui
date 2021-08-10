@@ -3,7 +3,7 @@
 
 "use strict";
 
-import { updatePropagationPolicy } from "../../../../../src-web/components/ArgoCreationPage/controlData/ControlData";
+import { updatePropagationPolicy } from "../../../../../src-web/components/ArgoCreationPage/controlData/controlData";
 import {
   getGitBranches,
   getUniqueChannelName,
@@ -12,7 +12,7 @@ import {
   setAvailableChannelSpecs,
   updateChannelControls
 } from "../../../../../src-web/components/ArgoCreationPage/controlData/utils";
-import { updateDisplayForPlacementControls } from "../../../../../src-web/components/ArgoCreationPage/controlData/ControlDataPlacement";
+import { updateDisplayForPlacementControls } from "../../../../../src-web/components/ArgoCreationPage/controlData/controlDataPlacement";
 
 const controlDataNS = [
   {

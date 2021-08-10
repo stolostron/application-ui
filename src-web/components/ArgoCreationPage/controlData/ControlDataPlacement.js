@@ -107,7 +107,6 @@ const placementData = () => [
     fetchAvailable: loadExistingPlacement(),
     validation: {
       notification: 'import.form.invalid.dns.label'
-      // required: true
     },
     reverse: 'ApplicationSet[0].spec.generators[0].clusterDecisionResource.name'
   },

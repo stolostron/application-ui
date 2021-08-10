@@ -75,7 +75,6 @@ export const controlData = [
     placeholder: 'argo.server.placeholder',
     fetchAvailable: loadExistingArgoServer(),
     validation: {
-      // constraint: VALID_DNS_LABEL,
       notification: 'import.form.invalid.dns.label',
       required: true
     },

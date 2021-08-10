@@ -68,8 +68,6 @@ const githubChannelData = [
     id: 'githubBranch',
     type: 'combobox',
     placeholder: 'argo.git.target.revision.placeholder',
-    // active: 'HEAD',
-    // available: ['HEAD'],
     validation: VALIDATE_GITBRANCH,
     onSelect: updateGitBranchFolders,
     reverse: 'ApplicationSet[0].spec.template.spec.source.targetRevision'
@@ -83,7 +81,6 @@ const githubChannelData = [
     placeholder: 'app.enter.select.path',
     available: [],
     validation: VALID_REPOPATH,
-    // onSelect: updateGitBranchFolders,
     reverse: 'ApplicationSet[0].spec.template.spec.source.path',
     cacheUserValueKey: 'create.app.github.path'
   }

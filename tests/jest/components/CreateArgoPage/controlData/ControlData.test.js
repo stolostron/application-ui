@@ -12,7 +12,7 @@ import {
   setAvailableChannelSpecs,
   updateChannelControls
 } from "../../../../../src-web/components/ArgoCreationPage/controlData/utils";
-import { updateDisplayForPlacementControls } from "../../../../../src-web/components/ArgoCreationPage/controlData/controlDataPlacement";
+import { updateDisplayForPlacementControls } from "../../../../../src-web/components/ArgoCreationPage/controlData/ControlDataPlacement";
 
 const controlDataNS = [
   {

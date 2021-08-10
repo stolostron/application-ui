@@ -14,10 +14,12 @@ spec:
   generators:
     - clusterDecisionResource:
         configMapRef: acm-placement
+        labelSelector:
+          matchLabels:
         {{#if decisionResourceName}}
-        name: {{{decisionResourceName}}}  
+            cluster.open-cluster-management.io/placement: {{{decisionResourceName}}}  
         {{else}}  
-        name: {{appSetName}}-placement
+            cluster.open-cluster-management.io/placement: {{appSetName}}-placement
         {{/if}}                
         requeueAfterSeconds: {{{requeueTime}}}
   template:
@@ -99,9 +101,27 @@ spec:
 {{! ========================================================== }}
 {{! ========================================================== }}  
 
-{{>templatePlacement 
-  decisionResourceName=../../../decisionResourceName
-  existingrule-checkbox=../../../existingrule-checkbox
-  clusterSelector=../../../clusterSelector
-  selfLinks=../../../selfLinks
-}}
+{{#unless existingrule-checkbox}} 
+---
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: Placement
+metadata:
+  name: {{{@root.appSetName}}}-placement
+  namespace: {{{@root.argoServer}}}
+  {{#if selfLinks}}
+  selfLink: {{{selfLinks.Placement}}}
+  {{/if}}
+{{#if clusterSelector.mode}}  
+spec:
+  clusterSelector:
+    matchLabels:
+      {{#each clusterSelector.clusterLabelsList}}
+      {{#if validValue}}
+      '{{{labelName}}}': '{{{labelValue}}}'
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
+      {{/if}}
+      {{/each}} 
+{{/if}}
+{{/unless}}

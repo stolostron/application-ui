@@ -95,7 +95,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     .last()
     .scrollIntoView()
     .click()
-    .trigger("mouseover");
+    .invoke("trigger", "mouseover");
 
   checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);
 
@@ -214,7 +214,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
     .get("#helm")
     .last()
     .click()
-    .trigger("mouseover");
+    .invoke("trigger", "mouseover");
 
   checkExistingUrls(
     helmUsername,
@@ -326,7 +326,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
     .get("#object-storage")
     .last()
     .click()
-    .trigger("mouseover");
+    .invoke("trigger", "mouseover");
 
   checkExistingUrls(objAccess, accessKey, objSecret, secretKey, objUrl, url);
   selectClusterDeployment(deployment, clusterName, key);

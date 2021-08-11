@@ -251,8 +251,9 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       cy.log(`Select to deploy using existing placement ${existing}`);
       cy
         .get(existingClusterID, { timeout: 50 * 1000 })
+        .should("be.visible")
         .click({ force: true })
-        .trigger("mouseover", { force: true });
+        .invoke("trigger", "mouseover");
 
       cy.get(existingRuleComboID).within($rules => {
         cy.get(".pf-c-select__toggle-button").click();
@@ -282,14 +283,16 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       cy.log("Select to deploy to all online clusters including local cluster");
       cy
         .get(onlineClusterID, { timeout: 50 * 1000 })
+        .should("be.visible")
         .click({ force: true })
-        .trigger("mouseover", { force: true });
+        .invoke("trigger", "mouseover");
     } else if (local) {
       cy.log("Select to deploy to local cluster only");
       cy
         .get(localClusterID, { timeout: 50 * 1000 })
+        .should("be.visible")
         .click({ force: true })
-        .trigger("mouseover", { force: true });
+        .invoke("trigger", "mouseover");
     } else {
       cy.log(
         "Select Deploy application resources only on clusters matching specified labels, which is the default"
@@ -908,19 +911,19 @@ export const testGitApiInput = data => {
   // wait for create button to be enabled
   cy
     .get('button[id="actions.create.application"]', { timeout: 50 * 1000 })
-    .click();
+    .click({ force: true });
   cy
     .get('button[data-test-create-application="application.type.acm"]', {
       timeout: 50 * 1000
     })
-    .click();
+    .click({ force: true });
   cy.get(".pf-c-title").should("exist");
 
   cy.log("Select git url");
   cy
     .get("#git", { timeout: 20 * 1000 })
-    .click({ force: true })
-    .trigger("mouseover");
+    .click()
+    .invoke("trigger", "mouseover");
 
   checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);
 
@@ -1009,7 +1012,7 @@ export const testInvalidApplicationInput = () => {
   cy
     .get("#git", { timeout: 20 * 1000 })
     .click({ force: true })
-    .trigger("mouseover");
+    .invoke("trigger", "mouseover");
 
   cy
     .get("#githubURL", { timeout: 20 * 1000 })
@@ -1041,7 +1044,7 @@ export const testInvalidApplicationInput = () => {
 
   cy
     .get("#githubBranch", { timeout: 20 * 1000 })
-    .trigger("mouseover")
+    .invoke("trigger", "mouseover")
     .type(invalidValue)
     .blur();
   cy.get("#githubBranch-helper").should("exist");
@@ -1049,7 +1052,7 @@ export const testInvalidApplicationInput = () => {
 
   cy
     .get("#githubBranch", { timeout: 20 * 1000 })
-    .trigger("mouseover")
+    .invoke("trigger", "mouseover")
     .type(validValue)
     .blur();
   cy.get("#githubBranch-helper").should("not.exist");
@@ -1061,13 +1064,13 @@ export const testInvalidApplicationInput = () => {
     .get("#git")
     .last()
     .click()
-    .trigger("mouseover");
+    .invoke("trigger", "mouseover");
 
   cy
     .get("#helm")
     .last()
     .click()
-    .trigger("mouseover");
+    .invoke("trigger", "mouseover");
 
   cy
     .get("#helmURL", { timeout: 20 * 1000 })
@@ -1098,11 +1101,11 @@ export const testInvalidApplicationInput = () => {
   cy
     .get("#helm")
     .click()
-    .trigger("mouseover");
+    .invoke("trigger", "mouseover");
   cy
     .get("#object-storage")
     .click()
-    .trigger("mouseover");
+    .invoke("trigger", "mouseover");
 
   cy
     .get("#objectstoreURL", { timeout: 20 * 1000 })

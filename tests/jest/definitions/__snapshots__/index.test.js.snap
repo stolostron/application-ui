@@ -31,7 +31,7 @@ Object {
       Object {
         "component": "div",
         "msgKey": "application.type.argo",
-        "path": "undefined/argo/appset",
+        "path": "undefined/argoappset",
       },
     ],
     "disableMsgKey": "actions.create.application.access.denied",

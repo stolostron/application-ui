@@ -204,7 +204,6 @@ export const controlData = [
     id: 'prune',
     type: 'hidden',
     name: 'argo.sync.policy.prune',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: {},
     active: false,
     validation: {}
@@ -213,7 +212,6 @@ export const controlData = [
     id: 'pruneLast',
     type: 'hidden',
     name: 'argo.sync.policy.prune.last',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: {},
     active: false,
     validation: {}
@@ -222,7 +220,6 @@ export const controlData = [
     id: 'replace',
     type: 'hidden',
     name: 'argo.sync.policy.replace',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: {},
     active: false,
     validation: {}
@@ -231,7 +228,6 @@ export const controlData = [
     id: 'allowEmpty',
     type: 'checkbox',
     name: 'argo.sync.policy.allow.empty',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: {},
     active: false,
     validation: {}
@@ -240,7 +236,6 @@ export const controlData = [
     id: 'applyOutOfSyncOnly',
     type: 'checkbox',
     name: 'argo.sync.policy.apply.out.of.sync.only',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: {},
     active: false,
     validation: {}
@@ -249,7 +244,6 @@ export const controlData = [
     id: 'selfHeal',
     type: 'checkbox',
     name: 'argo.sync.policy.self.heal',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: {},
     active: false,
     validation: {}
@@ -258,7 +252,6 @@ export const controlData = [
     id: 'createNamespace',
     type: 'checkbox',
     name: 'argo.sync.policy.create.namespace',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: {},
     active: false,
     validation: {}
@@ -267,7 +260,6 @@ export const controlData = [
     id: 'validate',
     type: 'checkbox',
     name: 'argo.sync.policy.validate',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: {},
     active: false,
     validation: {}
@@ -276,7 +268,6 @@ export const controlData = [
     id: 'prunePropagationPolicy',
     type: 'checkbox',
     name: 'argo.sync.policy.prune.propagation.policy',
-    tooltip: 'tooltip.creation.app.settings.existingRule',
     onSelect: updatePropagationPolicy,
     active: false,
     validation: {}

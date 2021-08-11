@@ -49,7 +49,7 @@
   "argo.cluster.decision.requeue.title.tooltip": "Cluster decision resource requeue time in seconds",
   "argo.server.name": "Argo server",
   "argo.server.placeholder": "Select the correct Argo server",
-  "argo.cluster.tooltip": "The unique name of your cluster. ",
+  "argo.cluster.tooltip": "Argo server to deploy Argo App set",
   "argo.create.name": "App set name",
   "argo.create.placeholder": "Enter App set name",
   "argo.destination.name": "Name",

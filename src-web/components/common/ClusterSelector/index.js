@@ -20,7 +20,7 @@ import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
 resources(() => {
-  require('../../ApplicationCreationPage/components/style.scss')
+  require('./style.scss')
 })
 
 export class ClusterSelector extends React.Component {

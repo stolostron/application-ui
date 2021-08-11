@@ -20,7 +20,7 @@ import { setAvailableRules } from './utils'
 import ClusterSelector, {
   reverse as reverseClusterSelector,
   summarize as summarizeClusterSelector
-} from '../components/ClusterSelector'
+} from '../../common/ClusterSelector'
 import _ from 'lodash'
 
 const existingRuleCheckbox = 'existingrule-checkbox'

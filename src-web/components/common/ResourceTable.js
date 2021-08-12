@@ -24,6 +24,13 @@ import resources from '../../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
 import { handleActionClick } from './TableRowActionMenu'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
+import { CaretDownIcon } from '@patternfly/react-icons'
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownItem,
+  Tooltip
+} from '@patternfly/react-core'
 
 resources(() => {
   require('../../../scss/table.scss')
@@ -34,7 +41,14 @@ class ResourceTable extends React.Component {
     super(props)
     this.state = {
       isACMAppCreateDisabled: true,
-      isArgoAppsetCreateDisabled: true
+      isArgoAppsetCreateDisabled: true,
+      isEmptyTableDropdownOpen: false
+    }
+
+    this.onToggleEmptyTableDropdown = isEmptyTableDropdownOpen => {
+      this.setState({
+        isEmptyTableDropdownOpen: !isEmptyTableDropdownOpen
+      })
     }
   }
 
@@ -59,6 +73,118 @@ class ResourceTable extends React.Component {
         this.setState({ isArgoAppsetCreateDisabled: !disabled })
       })
     }
+  }
+
+  renderDropdownItem(action, disableMap, locale) {
+    const isDisabled = disableMap[action.msgKey]
+
+    return (
+      <DropdownItem
+        key={action.msgKey}
+        isDisabled={isDisabled}
+        component={action.component}
+        styleChildren={false}
+      >
+        <Link
+          to={{
+            pathname: action.path,
+            state: { cancelBack: true }
+          }}
+          key={action.msgKey}
+          onClick={isDisabled ? () => this.disableClick() : undefined}
+        >
+          <AcmButton
+            id={action.msgKey}
+            variant="plain"
+            isSmall
+            isDisabled={isDisabled}
+            data-test-create-application={action.msgKey}
+          >
+            {msgs.get(action.msgKey, locale)}
+          </AcmButton>
+        </Link>
+      </DropdownItem>
+    )
+  }
+
+  renderEmptyStateCreateButton() {
+    const { staticResourceData, locale } = this.props
+    const { tableDropdown } = staticResourceData
+
+    if (!tableDropdown) {
+      return undefined
+    }
+
+    const { actions = [] } = tableDropdown
+    const {
+      isACMAppCreateDisabled,
+      isArgoAppsetCreateDisabled,
+      isEmptyTableDropdownOpen
+    } = this.state
+    const isButtonDisabled =
+      isACMAppCreateDisabled && isArgoAppsetCreateDisabled
+    const disableMap = {
+      'application.type.acm': isACMAppCreateDisabled,
+      'application.type.argo': isArgoAppsetCreateDisabled
+    }
+
+    const dropdownItems = []
+
+    if (!isButtonDisabled) {
+      actions.forEach(action => {
+        if (disableMap[action.msgKey]) {
+          dropdownItems.push(
+            <Tooltip
+              key="action.msgKey"
+              content={tableDropdown.disableText}
+              position="right"
+            >
+              {this.renderDropdownItem(action, disableMap, locale)}
+            </Tooltip>
+          )
+        } else {
+          dropdownItems.push(
+            this.renderDropdownItem(action, disableMap, locale)
+          )
+        }
+      })
+    }
+
+    const dropdownElement = (
+      <Dropdown
+        toggle={
+          <DropdownToggle
+            isPrimary={!isButtonDisabled}
+            id={tableDropdown.msgKey}
+            onToggle={
+              !isButtonDisabled
+                ? () =>
+                  this.onToggleEmptyTableDropdown(isEmptyTableDropdownOpen)
+                : undefined
+            }
+            toggleIndicator={CaretDownIcon}
+            isDisabled={isButtonDisabled}
+          >
+            {msgs.get(tableDropdown.msgKey, locale)}
+          </DropdownToggle>
+        }
+        isOpen={isEmptyTableDropdownOpen}
+        dropdownItems={dropdownItems}
+      />
+    )
+
+    if (isButtonDisabled) {
+      return (
+        <Tooltip
+          content={msgs.get(tableDropdown.disableMsgKey, locale)}
+          position="right"
+        >
+          {dropdownElement}
+        </Tooltip>
+      )
+    }
+
+    return dropdownElement
   }
 
   render() {
@@ -92,6 +218,7 @@ class ResourceTable extends React.Component {
             title={staticResourceData.emptyTitle(locale)}
             message={staticResourceData.emptyMessage(locale)}
             isEmptyTableState={toolbarControls ? true : false}
+            action={this.renderEmptyStateCreateButton()}
           />
         }
         extraToolbarControls={toolbarControls}

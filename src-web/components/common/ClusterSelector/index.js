@@ -339,7 +339,6 @@ export class ClusterSelector extends React.Component {
         clusterLabelsList[targetID].validValue = true
       }
     }
-
     handleChange(control)
   }
 }
@@ -364,24 +363,31 @@ export const summarize = (control, controlData, summary) => {
 export const reverse = (control, templateObject) => {
   if (!control.active) {
     let matchLabels
-    const local = _.get(
-      templateObject,
-      getSourcePath(
-        'PlacementRule[0].spec.clusterSelector.matchLabels.local-cluster'
-      )
-    )
-    if (!local) {
-      matchLabels = _.get(
+    const placement = _.get(templateObject, 'Placement')
+    if (placement) {
+      const sourcePath = 'Placement[0].spec.clusterSelector.matchLabels'
+      matchLabels = _.get(templateObject, getSourcePath(sourcePath), {})
+    } else {
+      const local = _.get(
         templateObject,
-        getSourcePath('PlacementRule[0].spec.clusterSelector.matchLabels')
+        getSourcePath(
+          'PlacementRule[0].spec.clusterSelector.matchLabels.local-cluster'
+        )
       )
-      if (!matchLabels) {
+      if (!local) {
         matchLabels = _.get(
           templateObject,
-          getSourcePath('PlacementRule[0].spec.clusterLabels.matchLabels')
+          getSourcePath('PlacementRule[0].spec.clusterSelector.matchLabels')
         )
+        if (!matchLabels) {
+          matchLabels = _.get(
+            templateObject,
+            getSourcePath('PlacementRule[0].spec.clusterLabels.matchLabels')
+          )
+        }
       }
     }
+
     if (matchLabels) {
       matchLabels = removeVs(matchLabels)
       if (matchLabels) {

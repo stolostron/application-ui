@@ -23,7 +23,7 @@ import TimeWindow, {
 import ClusterSelector, {
   reverse as reverseClusterSelector,
   summarize as summarizeClusterSelector
-} from '../components/ClusterSelector'
+} from '../../common/ClusterSelector'
 import {
   setAvailableRules,
   getExistingPRControlsSection,

@@ -12,7 +12,7 @@
 "use strict";
 
 import React from "react";
-import { ClusterSelector } from "../../../../../src-web/components/ApplicationCreationPage/components/ClusterSelector";
+import ClusterSelector from "../../../../../src-web/components/common/ClusterSelector";
 import renderer from "react-test-renderer";
 import _ from "lodash";
 import { shallow } from "enzyme";

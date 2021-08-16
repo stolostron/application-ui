@@ -121,7 +121,8 @@ class ResourceTable extends React.Component {
       isArgoAppsetCreateDisabled,
       isEmptyTableDropdownOpen
     } = this.state
-    const isButtonDisabled = isACMAppCreateDisabled && isArgoAppsetCreateDisabled
+    const isButtonDisabled =
+      isACMAppCreateDisabled && isArgoAppsetCreateDisabled
     const disableMap = {
       'application.type.acm': isACMAppCreateDisabled,
       'application.type.argo': isArgoAppsetCreateDisabled
@@ -133,12 +134,18 @@ class ResourceTable extends React.Component {
       actions.forEach(action => {
         if (disableMap[action.msgKey]) {
           dropdownItems.push(
-            <Tooltip key="action.msgKey" content={tableDropdown.disableText} position="right">
+            <Tooltip
+              key="action.msgKey"
+              content={tableDropdown.disableText}
+              position="right"
+            >
               {this.renderDropdownItem(action, disableMap, locale)}
             </Tooltip>
           )
         } else {
-          dropdownItems.push(this.renderDropdownItem(action, disableMap, locale))
+          dropdownItems.push(
+            this.renderDropdownItem(action, disableMap, locale)
+          )
         }
       })
     }
@@ -150,16 +157,17 @@ class ResourceTable extends React.Component {
             isPrimary={!isButtonDisabled}
             id={tableDropdown.msgKey}
             onToggle={
-                   !isButtonDisabled
-                     ? () => this.onToggleEmptyTableDropdown(isEmptyTableDropdownOpen)
-                     : undefined
+              !isButtonDisabled
+                ? () =>
+                  this.onToggleEmptyTableDropdown(isEmptyTableDropdownOpen)
+                : undefined
             }
             toggleIndicator={CaretDownIcon}
             isDisabled={isButtonDisabled}
           >
             {msgs.get(tableDropdown.msgKey, locale)}
           </DropdownToggle>
-          }
+        }
         isOpen={isEmptyTableDropdownOpen}
         dropdownItems={dropdownItems}
       />
@@ -167,7 +175,10 @@ class ResourceTable extends React.Component {
 
     if (isButtonDisabled) {
       return (
-        <Tooltip content={msgs.get(tableDropdown.disableMsgKey, locale)} position="right">
+        <Tooltip
+          content={msgs.get(tableDropdown.disableMsgKey, locale)}
+          position="right"
+        >
           {dropdownElement}
         </Tooltip>
       )

@@ -153,7 +153,7 @@ export default {
       {
         msgKey: 'application.type.argo',
         component: 'div',
-        path: `${config.contextPath}/argo/appset`
+        path: `${config.contextPath}/argoappset`
       }
     ]
   }

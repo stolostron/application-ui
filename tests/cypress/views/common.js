@@ -251,9 +251,8 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       cy.log(`Select to deploy using existing placement ${existing}`);
       cy
         .get(existingClusterID, { timeout: 50 * 1000 })
-        .should("be.visible")
         .click({ force: true })
-        .invoke("trigger", "mouseover");
+        .trigger("mouseover", { force: true });
 
       cy.get(existingRuleComboID).within($rules => {
         cy.get(".pf-c-select__toggle-button").click();
@@ -283,16 +282,14 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       cy.log("Select to deploy to all online clusters including local cluster");
       cy
         .get(onlineClusterID, { timeout: 50 * 1000 })
-        .should("be.visible")
         .click({ force: true })
-        .invoke("trigger", "mouseover");
+        .trigger("mouseover");
     } else if (local) {
       cy.log("Select to deploy to local cluster only");
       cy
         .get(localClusterID, { timeout: 50 * 1000 })
-        .should("be.visible")
         .click({ force: true })
-        .invoke("trigger", "mouseover");
+        .trigger("mouseover");
     } else {
       cy.log(
         "Select Deploy application resources only on clusters matching specified labels, which is the default"
@@ -923,7 +920,7 @@ export const testGitApiInput = data => {
   cy
     .get("#git", { timeout: 20 * 1000 })
     .click()
-    .invoke("trigger", "mouseover");
+    .trigger("mouseover");
 
   checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);
 
@@ -1012,7 +1009,7 @@ export const testInvalidApplicationInput = () => {
   cy
     .get("#git", { timeout: 20 * 1000 })
     .click({ force: true })
-    .invoke("trigger", "mouseover");
+    .trigger("mouseover");
 
   cy
     .get("#githubURL", { timeout: 20 * 1000 })
@@ -1064,13 +1061,13 @@ export const testInvalidApplicationInput = () => {
     .get("#git")
     .last()
     .click()
-    .invoke("trigger", "mouseover");
+    .trigger("mouseover");
 
   cy
     .get("#helm")
     .last()
     .click()
-    .invoke("trigger", "mouseover");
+    .trigger("mouseover");
 
   cy
     .get("#helmURL", { timeout: 20 * 1000 })
@@ -1101,11 +1098,11 @@ export const testInvalidApplicationInput = () => {
   cy
     .get("#helm")
     .click()
-    .invoke("trigger", "mouseover");
+    .trigger("mouseover");
   cy
     .get("#object-storage")
     .click()
-    .invoke("trigger", "mouseover");
+    .trigger("mouseover");
 
   cy
     .get("#objectstoreURL", { timeout: 20 * 1000 })

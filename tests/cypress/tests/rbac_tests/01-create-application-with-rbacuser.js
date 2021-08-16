@@ -92,7 +92,7 @@ describe("Application UI: [P3][Sev3][app-lifecycle-ui][RBAC] Application Creatio
 
       cy
         .get("#CreateAppButton")
-        .invoke("trigger", "mouseover")
+        .trigger("mouseover", { bubbles: true })
         .should("have.attr", "aria-disabled", "true")
         .and("have.attr", "data-test-create-application", "false");
     });

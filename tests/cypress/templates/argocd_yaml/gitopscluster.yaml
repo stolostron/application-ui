@@ -5,6 +5,7 @@ metadata:
   namespace: default
 spec:
   argoServer:
+    cluster: local-cluster
     argoNamespace: openshift-gitops
   placementRef:
     kind: Placement

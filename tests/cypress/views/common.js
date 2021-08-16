@@ -283,13 +283,13 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
       cy
         .get(onlineClusterID, { timeout: 50 * 1000 })
         .click({ force: true })
-        .trigger("mouseover");
+        .trigger("mouseover", { force: true });
     } else if (local) {
       cy.log("Select to deploy to local cluster only");
       cy
         .get(localClusterID, { timeout: 50 * 1000 })
         .click({ force: true })
-        .trigger("mouseover");
+        .trigger("mouseover", { force: true });
     } else {
       cy.log(
         "Select Deploy application resources only on clusters matching specified labels, which is the default"
@@ -921,7 +921,7 @@ export const testGitApiInput = data => {
   cy.log("Select git url");
   cy
     .get("#git", { timeout: 20 * 1000 })
-    .click()
+    .click({ force: true })
     .trigger("mouseover");
 
   checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);

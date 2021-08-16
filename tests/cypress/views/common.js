@@ -906,9 +906,11 @@ export const testGitApiInput = data => {
 
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
+  cy.wait(1000);
   cy
-    .get('button[id="actions.create.application"]', { timeout: 50 * 1000 })
+    .get('button[id="actions.create.application"]', { timeout: 100 * 1000 })
     .click({ force: true });
+  cy.wait(1000);
   cy
     .get('button[data-test-create-application="application.type.acm"]', {
       timeout: 50 * 1000
@@ -957,9 +959,11 @@ export const testInvalidApplicationInput = () => {
 
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
+  cy.wait(1000);
   cy
-    .get('button[id="actions.create.application"]', { timeout: 50 * 1000 })
+    .get('button[id="actions.create.application"]', { timeout: 100 * 1000 })
     .click();
+  cy.wait(1000);
   cy
     .get('button[data-test-create-application="application.type.acm"]', {
       timeout: 50 * 1000
@@ -1041,7 +1045,7 @@ export const testInvalidApplicationInput = () => {
 
   cy
     .get("#githubBranch", { timeout: 20 * 1000 })
-    .invoke("trigger", "mouseover")
+    .trigger("mouseover")
     .type(invalidValue)
     .blur();
   cy.get("#githubBranch-helper").should("exist");
@@ -1049,7 +1053,7 @@ export const testInvalidApplicationInput = () => {
 
   cy
     .get("#githubBranch", { timeout: 20 * 1000 })
-    .invoke("trigger", "mouseover")
+    .trigger("mouseover")
     .type(validValue)
     .blur();
   cy.get("#githubBranch-helper").should("not.exist");

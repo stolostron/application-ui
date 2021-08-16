@@ -35,9 +35,11 @@ export const createApplication = (
 ) => {
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
+  cy.wait(1000);
   cy
-    .get('button[id="actions.create.application"]', { timeout: 50 * 1000 })
+    .get('button[id="actions.create.application"]', { timeout: 100 * 1000 })
     .click();
+  cy.wait(1000);
   cy
     .get('button[data-test-create-application="application.type.acm"]', {
       timeout: 50 * 1000

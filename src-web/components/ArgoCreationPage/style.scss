@@ -1,0 +1,51 @@
+/** *****************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ *
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
+ *******************************************************************************/
+// Copyright (c) 2020 Red Hat, Inc.
+// Copyright Contributors to the Open Cluster Management project
+@import 'scss/variables';
+
+// On app create page
+.pf-c-page__main-section {
+  .temptifly {
+
+    &.showEditor {
+      margin: -20px 0 -4.125rem 0;
+    }
+
+    .creation-view-split-container {
+      &.showEditor {
+        height: calc(100vh - 200px);
+        .creation-view-controls-container {
+          padding-top: 0px;
+          height: calc(100vh - 180px);
+        }
+      }
+    }
+  }
+}
+
+// On app edit page
+.pf-c-page__main-section.editApplication {
+  .temptifly {
+
+    &.showEditor {
+      margin: -20px 0 -4.125rem 0;
+    }
+
+    .creation-view-split-container {
+      &.showEditor {
+        height: calc(100vh - 216px);
+
+        .creation-view-controls-container {
+          padding-top: 0px;
+          height: calc(100vh - 213px);
+        }
+      }
+    }
+  }
+}

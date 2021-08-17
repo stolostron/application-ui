@@ -906,14 +906,16 @@ export const testGitApiInput = data => {
 
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
+  cy.wait(1000);
   cy
-    .get('button[id="actions.create.application"]', { timeout: 50 * 1000 })
-    .click();
+    .get('button[id="actions.create.application"]', { timeout: 100 * 1000 })
+    .click({ force: true });
+  cy.wait(1000);
   cy
     .get('button[data-test-create-application="application.type.acm"]', {
       timeout: 50 * 1000
     })
-    .click();
+    .click({ force: true });
   cy.get(".pf-c-title").should("exist");
 
   cy.log("Select git url");
@@ -957,9 +959,11 @@ export const testInvalidApplicationInput = () => {
 
   cy.visit("/multicloud/applications");
   // wait for create button to be enabled
+  cy.wait(1000);
   cy
-    .get('button[id="actions.create.application"]', { timeout: 50 * 1000 })
+    .get('button[id="actions.create.application"]', { timeout: 100 * 1000 })
     .click();
+  cy.wait(1000);
   cy
     .get('button[data-test-create-application="application.type.acm"]', {
       timeout: 50 * 1000

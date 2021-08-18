@@ -915,6 +915,7 @@ export const testGitApiInput = data => {
     .get('li[id="application.type.acm"]', {
       timeout: 50 * 1000
     })
+    .children(".pf-c-dropdown__menu-item")
     .click({ force: true });
   cy.get(".pf-c-title").should("exist");
 
@@ -968,6 +969,7 @@ export const testInvalidApplicationInput = () => {
     .get('li[id="application.type.acm"]', {
       timeout: 50 * 1000
     })
+    .children(".pf-c-dropdown__menu-item")
     .click();
   cy.get(".pf-c-title").should("exist");
 

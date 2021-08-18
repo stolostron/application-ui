@@ -44,6 +44,7 @@ export const createApplication = (
     .get('li[id="application.type.acm"]', {
       timeout: 50 * 1000
     })
+    .children(".pf-c-dropdown__menu-item")
     .click();
   const { name, config } = data;
   namespace == "default" ? (namespace = `${name}-ns`) : namespace;

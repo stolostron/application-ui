@@ -18,6 +18,11 @@ import helmChannelData from './ControlDataHelm'
 import { loadExistingArgoServer } from './utils'
 import _ from 'lodash'
 
+import {
+  discoverGroupsFromSource,
+  shiftTemplateObject
+} from '../transformers/transform-resources-to-controls'
+
 export const updatePropagationPolicy = (urlControl, controlGlobal) => {
   const { active } = urlControl
   const propagationPolicy = controlGlobal.find(
@@ -81,6 +86,11 @@ export const controlData = [
     reverse: 'ApplicationSet[0].spec.template.metadata.namespace'
   },
   {
+    id: 'selfLink',
+    type: 'hidden',
+    active: ''
+  },
+  {
     id: 'curlyServer',
     type: 'hidden',
     active: '{{server}}'
@@ -116,6 +126,8 @@ export const controlData = [
   {
     id: 'channels',
     type: 'group',
+    discover: discoverGroupsFromSource,
+    shift: shiftTemplateObject,
     controlData: [
       {
         id: 'channel',

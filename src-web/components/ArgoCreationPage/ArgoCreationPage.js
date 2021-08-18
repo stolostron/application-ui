@@ -37,6 +37,7 @@ import 'monaco-editor/esm/vs/editor/editor.all.js'
 import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand.js'
 import 'monaco-editor/esm/vs/basic-languages/yaml/yaml.contribution.js'
 import { global_BackgroundColor_dark_100 as editorBackground } from '@patternfly/react-tokens'
+import { getApplicationResources } from './transformers/transform-data-to-resources'
 import classNames from 'classnames'
 
 if (window.monaco) {
@@ -207,12 +208,14 @@ class ArgoCreationPage extends React.Component {
                 : error.name
               error.name = errorName
             }
+
             const fetchControl = {
-              // resources: getApplicationResources(application),
+              resources: getApplicationResources(application),
               isLoaded: !loading,
               isFailed: errored,
               error: error
             }
+
             return this.renderEditor(fetchControl)
           }}
         </Query>
@@ -244,7 +247,7 @@ class ArgoCreationPage extends React.Component {
         >
           <TemplateEditor
             type={'argo'}
-            title={msgs.get('creation.app.yaml', locale)}
+            title={msgs.get('creation.argo.yaml', locale)}
             template={createTemplate}
             controlData={controlData}
             monacoEditor={<MonacoEditor />}

@@ -19,6 +19,7 @@ import {
   AcmPage,
   AcmRoute
 } from '@open-cluster-management/ui-components'
+import queryString from 'query-string'
 import SecondaryHeader from '../components/SecondaryHeader'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { withLocale } from '../providers/LocaleProvider'
@@ -118,15 +119,11 @@ class App extends React.Component {
           url: SINGLE_APP_BASE_PAGE_PATH
         }
       ]
-      if (isArgoApp) {
-        return overviewTab
-      } else {
-        return _.concat(overviewTab, {
-          id: 'editor',
-          label: 'description.title.editor',
-          url: `${SINGLE_APP_BASE_PAGE_PATH}/edit`
-        })
-      }
+      return _.concat(overviewTab, {
+        id: 'editor',
+        label: 'description.title.editor',
+        url: `${SINGLE_APP_BASE_PAGE_PATH}/edit`
+      })
     }
 
     const applicationsTitle = 'routes.applications'
@@ -202,16 +199,22 @@ class App extends React.Component {
           <Route
             exact
             path={`${BASE_PAGE_PATH}/:namespace/:name/edit`}
-            render={params => (
-              <ApplicationCreationPage
-                params={params}
-                serverProps={this.getServerProps()}
-                secondaryHeaderProps={{
-                  title: 'application.create.title',
-                  tabs: getSingleApplicationTabs(params.match.params)
-                }}
-              />
-            )}
+            render={routeProps => {
+              const params = queryString.parse(routeProps.location.search)
+              return params.apiVersion === 'argoproj.io/v1alpha1' ? (
+                <ArgoCreationPage
+                  params={params}
+                  serverProps={this.getServerProps()}
+                  secondaryHeaderProps={{ title: 'argo.create.title' }}
+                />
+              ) : (
+                <ApplicationCreationPage
+                  params={routeProps}
+                  serverProps={this.getServerProps()}
+                  secondaryHeaderProps={{ title: 'application.create.title' }}
+                />
+              )
+            }}
           />
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>

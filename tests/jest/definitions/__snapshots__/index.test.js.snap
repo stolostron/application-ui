@@ -24,12 +24,10 @@ Object {
   "tableDropdown": Object {
     "actions": Array [
       Object {
-        "component": "div",
         "msgKey": "application.type.acm",
         "path": "undefined/create",
       },
       Object {
-        "component": "div",
         "msgKey": "application.type.argo",
         "path": "undefined/argoappset",
       },

@@ -912,9 +912,10 @@ export const testGitApiInput = data => {
     .click({ force: true });
   cy.wait(1000);
   cy
-    .get('button[data-test-create-application="application.type.acm"]', {
+    .get('li[id="application.type.acm"]', {
       timeout: 50 * 1000
     })
+    .children(".pf-c-dropdown__menu-item")
     .click({ force: true });
   cy.get(".pf-c-title").should("exist");
 
@@ -965,9 +966,10 @@ export const testInvalidApplicationInput = () => {
     .click();
   cy.wait(1000);
   cy
-    .get('button[data-test-create-application="application.type.acm"]', {
+    .get('li[id="application.type.acm"]', {
       timeout: 50 * 1000
     })
+    .children(".pf-c-dropdown__menu-item")
     .click();
   cy.get(".pf-c-title").should("exist");
 

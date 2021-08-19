@@ -20,7 +20,7 @@ import _ from 'lodash'
 
 import {
   discoverGroupsFromSource,
-  shiftTemplateObject
+  // shiftTemplateObject
 } from '../transformers/transform-resources-to-controls'
 
 export const updatePropagationPolicy = (urlControl, controlGlobal) => {
@@ -127,7 +127,7 @@ export const controlData = [
     id: 'channels',
     type: 'group',
     discover: discoverGroupsFromSource,
-    shift: shiftTemplateObject,
+    // shift: shiftTemplateObject,
     controlData: [
       {
         id: 'channel',

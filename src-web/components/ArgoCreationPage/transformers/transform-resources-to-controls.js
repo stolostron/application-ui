@@ -42,11 +42,13 @@ export const discoverGroupsFromSource = (
   _.set(requeueTime, 'active', _.get(applicationResource, 'spec.generators[0].clusterDecisionResource.requeueAfterSeconds'))
 
   // find groups
+  // Template
   const { controlData: groupData } = control
   // add a channel for every group
   const cardsControl = groupData.find(({ id }) => id === 'channelType')
   templateObject = _.cloneDeep(templateObject)
-  const chart = _.get(templateObject, 'ApplicationSet[0].$raw.spec.template.spec.source.chart')
+  const source = _.get(applicationResource, 'spec.template.spec.source')
+  const chart = _.get(source,'chart')
   const id = chart ? 'helmrepo' : 'github'
 
   cardsControl.active = id
@@ -57,174 +59,18 @@ export const discoverGroupsFromSource = (
   )
 
   if (insertControlData) {
-    debugger;
-  }
-}
-
-const discoverChannelFromSource = (
-  cardsControl,
-  groupControlData,
-  globalControl,
-  templateObject,
-  editor,
-  multiple,
-  i18n
-) => {
-  // determine channel type
-  let id
-
-  // try channel type first
-  switch (_.get(templateObject, 'Channel[0].$raw.spec.type')) {
-  case 'git':
-  case 'github':
-  case 'Git':
-  case 'GitHub':
-    id = 'github'
-    break
-  case 'HelmRepo':
-    id = 'helmrepo'
-    break
-  case 'ObjectBucket':
-    id = 'objectstore'
-    break
-  case 'Namespace':
-    id = 'other'
-    break
+    const { repoURL, path, targetRevision } = source
+    const githubURL = insertControlData.find(({id}) => id === 'githubURL')
+    const githubPath = insertControlData.find(({id}) => id === 'githubPath')
+    const githubBranch = insertControlData.find(({id}) => id === 'githubBranch')
+    _.set(githubURL, 'active', repoURL)
+    _.set(githubPath, 'active', path)
+    _.set(githubBranch, 'active', targetRevision)
   }
 
-  // if that didn't work, try the subscription
-  if (!id) {
-    const subscription = _.get(templateObject, 'Subscription[0].$raw')
-    switch (true) {
-    // if it has a package filter assume helm
-    case !!_.get(subscription, 'spec.packageFilter.version'):
-      id = 'helmrepo'
-      break
+  // Placement
+  const placementResource = _.get(templateObject, 'Placement[0]')
+  const placementName = _.get(placementResource, '$raw.metadata.name')
+  const existingRuleControl = cd.find(({ id }) => id === 'existingrule-checkbox')
 
-    default:
-      id = 'other'
-      break
-    }
-  }
-  cardsControl.active = id
-
-  // if editing an existing app that doesn't have a standard channel type
-  // show the other channel type
-  if (id === 'other') {
-    delete cardsControl.availableMap[id].hidden
-  }
-
-  // insert channel type control data in this group
-  const insertControlData = _.get(
-    cardsControl.availableMap[id],
-    'change.insertControlData'
-  )
-  if (insertControlData) {
-    const insertInx = groupControlData.findIndex(
-      ({ id: _id }) => _id === cardsControl.id
-    )
-    // splice control data with data from this card
-    groupControlData.splice(
-      insertInx + 1,
-      0,
-      ..._.cloneDeep(insertControlData)
-    )
-    groupControlData.forEach(cd => {
-      cd.groupControlData = groupControlData
-    })
-    initializeControls(groupControlData, editor, null, i18n)
-
-    // initialize channel namespace
-    const path = 'Subscription[0].spec.channel'
-    const channel = _.get(templateObject, getSourcePath(path))
-    if (channel) {
-      const [ns] = channel.$v.split('/')
-      if (ns) {
-        const channelNamespace = groupControlData.find(
-          ({ id: _id }) => _id === 'channelNamespace'
-        )
-        channelNamespace.active = ns
-      }
-    }
-
-    // if more then one group, collapse all groups
-    if (multiple) {
-      groupControlData
-        .filter(({ type }) => type === 'section')
-        .forEach(section => {
-          section.collapsed = true
-        })
-    }
-  }
-
-  // get trailing digit so we can create a unique name
-  let subscriptionDigit
-  const subscriptionName = _.get(
-    templateObject,
-    getSourcePath('Subscription[0].metadata.name') + '.$v'
-  )
-  if (subscriptionName) {
-    const match = subscriptionName.match(/-(\d+)$/)
-    if (match && match[1]) {
-      subscriptionDigit = parseInt(match[1], 10)
-    }
-  }
-  return subscriptionDigit
-}
-
-//called for each group when editor refreshes control active values from the template
-//reverse source path always points to first template resource (ex: Subscription[0])
-//so after one group has been processed, pop the top Subscription so that next pass
-//the Subscription[0] points to the next group
-export const shiftTemplateObject = (templateObject, selfLinksControl) => {
-  // pop the subscription off of all subscriptions
-  let subscription = _.get(templateObject, 'Subscription')
-  if (subscription) {
-    subscription = subscription.shift()
-    if (selfLinksControl) {
-      const subscriptionSelfLink = getResourceID(subscription.$raw)
-      _.set(selfLinksControl, 'active.Subscription', subscriptionSelfLink)
-    }
-
-    // if this subscription pointed to a channel in this template
-    // remove that channel too
-    let name = _.get(subscription, '$synced.spec.$v.channel.$v')
-    if (name) {
-      const [ns, n] = name.split('/')
-      const channels = templateObject.Channel || []
-      const inx = channels.findIndex(rule => {
-        return (
-          n === _.get(rule, '$synced.metadata.$v.name.$v') &&
-          ns === _.get(rule, '$synced.metadata.$v.namespace.$v')
-        )
-      })
-      if (inx !== -1) {
-        const channel = templateObject.Channel.splice(inx, 1)[0]
-        if (selfLinksControl) {
-          const channelSelfLink = getResourceID(channel.$raw)
-          _.set(selfLinksControl, 'active.Channel', channelSelfLink)
-        }
-      }
-    }
-
-    // if this subscription pointed to a placement rule in this template
-    // remove that placement rule too
-    name = _.get(
-      subscription,
-      '$synced.spec.$v.placement.$v.placementRef.$v.name.$v'
-    )
-    if (name) {
-      const rules = templateObject.PlacementRule || []
-      const inx = rules.findIndex(rule => {
-        return name === _.get(rule, '$synced.metadata.$v.name.$v')
-      })
-      if (inx !== -1) {
-        const rule = templateObject.PlacementRule.splice(inx, 1)[0]
-        if (selfLinksControl) {
-          const ruleSelfLink = getResourceID(rule.$raw)
-          _.set(selfLinksControl, 'active.PlacementRule', ruleSelfLink)
-        }
-      }
-    }
-  }
 }

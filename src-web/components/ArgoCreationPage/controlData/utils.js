@@ -388,51 +388,6 @@ export const updateChannelControls = (
     namespaceControlExists.active = false
   }
 
-  // update reconcile rate based on selected channel url
-  // if existing channel or channel already defined in app, make channel reconcile rate readonly
-  // NOTE: existing channels with no reconcile rate set, will use the default medium rate
-  const findReconcileRateControl = control => {
-    return control
-      ? control.find(
-        ({ id }) => id === 'gitReconcileRate' || id === 'helmReconcileRate'
-      )
-      : null
-  }
-
-  const reconcileRate = findReconcileRateControl(groupControlData)
-  const originalReconcileRate = findReconcileRateControl(
-    originalChannelControl
-  )
-
-  let rateValue =
-    _.get(originalReconcileRate || reconcileRate, 'active') || 'medium'
-  if (pathData && pathData.raw) {
-    rateValue = _.get(
-      pathData.raw,
-      'metadata.annotations["apps.open-cluster-management.io/reconcile-rate"]',
-      'medium'
-    )
-  }
-
-  if (reconcileRate) {
-    reconcileRate.active = rateValue
-    reconcileRate.disabled = existingChannel || !!originalChannelControl
-  }
-
-  const secretName = groupControlData.find(
-    ({ id }) =>
-      id === 'githubSecret' || id === 'helmSecret' || id === 'objectstoreSecret'
-  )
-  if (secretName) {
-    if (existingChannel && pathData && pathData.secretRef) {
-      secretName.type = 'text'
-      secretName.active = pathData.secretRef
-    } else {
-      secretName.type = 'hidden'
-      secretName.active = ''
-    }
-  }
-
   return globalControl
 }
 

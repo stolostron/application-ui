@@ -7,31 +7,23 @@
 .label-with-popover {
   display: inline-block;
   margin-right: 8px;
-
-  .close-button-spacer {
-    height: 2rem;
-  }
 }
 
 .label-with-popover.pf-c-popover {
-  --pf-c-popover__content--Padding: 0px;
-  --pf-c-popover__button--Padding: 0px;
-  --pf-c-popover__button--Position: 0.4rem;
-  --pf-c-popover__arrow--Size: 0.6rem;
-  --pf-c-popover__arrow--Width: var(--pf-c-popover__arrow--Size);
-  --pf-c-popover__arrow--Height: var(--pf-c-popover__arrow--Size);
+  --pf-c-popover__content--Padding: 0;
   --pf-c-popover__content--PaddingTop: var(--pf-c-popover__content--Padding);
   --pf-c-popover__content--PaddingLeft: var(--pf-c-popover__content--Padding);
   --pf-c-popover__content--PaddingBottom: var(--pf-c-popover__content--Padding);
   --pf-c-popover__content--PaddingRight: var(--pf-c-popover__content--Padding);
   --pf-c-popover--c-button--sibling--PaddingRight: var(--pf-c-popover__content--Padding);
+  .pf-c-popover__content {
 
-  .pf-c-popover__content > .pf-c-button {
-    --pf-c-popover--c-button--Top: var(--pf-c-popover__button--Position);
-    --pf-c-popover--c-button--Right: var(--pf-c-popover__button--Position);
-    --pf-c-button--PaddingTop: var(--pf-c-popover__button--Padding);
-    --pf-c-button--PaddingLeft: var(--pf-c-popover__button--Padding);
-    --pf-c-button--PaddingBottom: var(--pf-c-popover__button--Padding);
-    --pf-c-button--PaddingRight: var(--pf-c-popover__button--Padding);
+    .pf-c-button {
+      --pf-c-button--PaddingTop: 1rem;
+    }
+
+    h6 {
+      padding: 1rem 1rem 0 1rem;
+    }
   }
 }

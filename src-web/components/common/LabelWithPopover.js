@@ -4,13 +4,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  Divider,
-  Label,
-  Popover,
-  Stack,
-  StackItem
-} from '@patternfly/react-core'
+import { Label, Popover } from '@patternfly/react-core'
 import resources from '../../../lib/shared/resources'
 
 resources(() => {
@@ -21,24 +15,20 @@ const LabelWithPopover = ({
   children,
   labelContent,
   labelIcon,
-  labelColor
+  labelColor,
+  popoverHeader
 }) => (
   <div className="label-with-popover">
     <Popover
-      bodyContent={
-        <Stack>
-          <StackItem className="close-button-spacer" />
-          <StackItem>
-            <Divider />
-          </StackItem>
-          <StackItem>{children}</StackItem>
-        </Stack>
-      }
+      headerContent={popoverHeader}
+      bodyContent={children}
       className="label-with-popover"
       enableFlip
+      hasAutoWidth
+      minWidth="18.75rem"
+      maxWidth="30rem"
       position="bottom"
       flipBehavior={['bottom', 'top', 'right', 'left']}
-      distance={10}
       zIndex={999}
     >
       <Label
@@ -47,7 +37,7 @@ const LabelWithPopover = ({
           event.nativeEvent.preventDefault()
           event.stopPropagation()
         }}
-        color={labelColor ? labelColor : 'grey'}
+        color={labelColor || 'grey'}
         href="#"
         icon={labelIcon}
       >
@@ -61,7 +51,8 @@ LabelWithPopover.propTypes = {
   children: PropTypes.object,
   labelColor: PropTypes.string,
   labelContent: PropTypes.object,
-  labelIcon: PropTypes.object
+  labelIcon: PropTypes.object,
+  popoverHeader: PropTypes.object
 }
 
 export default LabelWithPopover

@@ -39,19 +39,17 @@ const ChannelLabels = ({
   return (
     <div className="label-with-popover-container channel-labels">
       {CHANNEL_TYPES.filter(chType => channelMap[chType]).map(chType => {
+        const labelContent = getChannelLabel(
+          chType,
+          channelMap[chType].length,
+          locale
+        )
         return (
           <LabelWithPopover
             key={`${chType}`}
-            labelContent={
-              <Split hasGutter className="channel-label">
-                <SplitItem>
-                  {getChannelLabel(chType, channelMap[chType].length, locale)}
-                </SplitItem>
-                <SplitItem>
-                  <ExternalLinkAltIcon />
-                </SplitItem>
-              </Split>
-            }
+            labelContent={labelContent}
+            labelColor="blue"
+            popoverHeader={channelMap[chType].length > 1 && labelContent}
           >
             <Stack className="channel-labels channel-labels-popover-content">
               {channelSort(channelMap[chType]).map((channel, index) => {
@@ -99,15 +97,11 @@ const ChannelLabels = ({
                       </StackItem>
                     )}
                     <StackItem className="channel-entry">
-                      <Stack hasGutter>
+                      <Stack>
                         <StackItem className="channel-entry-link">
                           <a href={link} target="_blank" rel="noreferrer">
-                            <Split hasGutter>
-                              <SplitItem>
-                                <ExternalLinkAltIcon />
-                              </SplitItem>
-                              <SplitItem>{pathname}</SplitItem>
-                            </Split>
+                            {pathname}
+                            <ExternalLinkAltIcon />
                           </a>
                         </StackItem>
                         {channelTypeAttributes.length > 0 && (

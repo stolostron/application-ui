@@ -340,7 +340,8 @@ Cypress.Commands.add("logInAsRole", role => {
         }
       });
   };
-  cy.visit("/oauth/start?rd=/");
+  cy.visit("/multicloud/applications", { failOnStatusCode: false });
+
   cy.get("body").then(body => {
     if (body.find(".pf-c-page__header").length !== 0) {
       cy.log(

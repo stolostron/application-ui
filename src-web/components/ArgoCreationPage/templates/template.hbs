@@ -10,6 +10,9 @@ kind: ApplicationSet
 metadata:
   name: {{{appSetName}}}
   namespace: {{{argoServer}}}
+  {{#if selfLink}}
+  selfLink: {{{selfLink}}}
+  {{/if}}
 spec:
   generators:
     - clusterDecisionResource:

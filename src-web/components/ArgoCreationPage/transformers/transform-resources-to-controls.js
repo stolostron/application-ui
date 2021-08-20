@@ -11,18 +11,12 @@
 // Copyright Contributors to the Open Cluster Management project
 'use strict'
 
-import { initializeControls, getSourcePath, getResourceID } from 'temptifly'
+import { getResourceID } from 'temptifly'
 import _ from 'lodash'
 
 //only called when editing an existing application
 //examines resources to create the correct resource types that are being deployed
-export const discoverGroupsFromSource = (
-  control,
-  cd,
-  templateObject,
-  editor,
-  i18n
-) => {
+export const discoverGroupsFromSource = (control, cd, templateObject) => {
   const applicationResource = _.get(templateObject, 'ApplicationSet[0].$raw')
 
   // get application selflink
@@ -39,30 +33,34 @@ export const discoverGroupsFromSource = (
 
   // requeue time
   const requeueTime = cd.find(({ id }) => id === 'requeueTime')
-  _.set(requeueTime, 'active', _.get(applicationResource, 'spec.generators[0].clusterDecisionResource.requeueAfterSeconds'))
-
-  // find groups
+  _.set(
+    requeueTime,
+    'active',
+    _.get(
+      applicationResource,
+      'spec.generators[0].clusterDecisionResource.requeueAfterSeconds'
+    )
+  )
   // Template
-  const { controlData: groupData } = control
   // add a channel for every group
-  const cardsControl = groupData.find(({ id }) => id === 'channelType')
   templateObject = _.cloneDeep(templateObject)
   const source = _.get(applicationResource, 'spec.template.spec.source')
-  const chart = _.get(source,'chart')
+  const chart = _.get(source, 'chart')
   const id = chart ? 'helmrepo' : 'github'
 
-  cardsControl.active = id
+  control.active[0][3].active = id
   // insert channel type control data in this group
-  const insertControlData = _.get(
-    cardsControl.available.find(({ id }) => id === id),
-    'change.insertControlData'
-  )
+
+  const availableMap = _.get(control.active[0][3].availableMap, id)
+  const insertControlData = _.get(availableMap, 'change.insertControlData')
 
   if (insertControlData) {
     const { repoURL, path, targetRevision } = source
-    const githubURL = insertControlData.find(({id}) => id === 'githubURL')
-    const githubPath = insertControlData.find(({id}) => id === 'githubPath')
-    const githubBranch = insertControlData.find(({id}) => id === 'githubBranch')
+    const githubURL = insertControlData.find(({ id }) => id === 'githubURL')
+    const githubPath = insertControlData.find(({ id }) => id === 'githubPath')
+    const githubBranch = insertControlData.find(
+      ({ id }) => id === 'githubBranch'
+    )
     _.set(githubURL, 'active', repoURL)
     _.set(githubPath, 'active', path)
     _.set(githubBranch, 'active', targetRevision)
@@ -70,7 +68,9 @@ export const discoverGroupsFromSource = (
 
   // Placement
   const placementResource = _.get(templateObject, 'Placement[0]')
-  const placementName = _.get(placementResource, '$raw.metadata.name')
-  const existingRuleControl = cd.find(({ id }) => id === 'existingrule-checkbox')
-
+  const selfLinksControl = cd.find(({ id }) => id === 'selfLinks')
+  if (selfLinksControl) {
+    const placementSelfLink = getResourceID(placementResource.$raw)
+    _.set(selfLinksControl, 'active.Placement', placementSelfLink)
+  }
 }

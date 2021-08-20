@@ -335,7 +335,8 @@ export const updateChannelControls = (
     ({ id: idCtrl }) => idCtrl === 'namespace'
   )
   const { active, availableData, groupControlData } = urlControl
-  const pathData = availableData[active]
+
+  const pathData = availableData ? availableData[active] : ''
 
   const nameControl = groupControlData.find(
     ({ id: idCtrlCHName }) => idCtrlCHName === 'channelName'
@@ -348,7 +349,6 @@ export const updateChannelControls = (
   const namespaceControlExists = groupControlData.find(
     ({ id: idCtrlNSExists }) => idCtrlNSExists === 'channelNamespaceExists'
   )
-  let existingChannel = false
   let originalChannelControl = null
   // change channel name and namespace to reflect repository path
   if (active) {
@@ -356,7 +356,6 @@ export const updateChannelControls = (
     if (pathData && pathData.metadata) {
       nameControl.active = pathData.metadata.name
       namespaceControl.active = pathData.metadata.namespace
-      existingChannel = true
     } else {
       //generate a unique name for this channel
       const channelName = getUniqueChannelName(active, groupControlData)

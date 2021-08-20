@@ -18,10 +18,7 @@ import helmChannelData from './ControlDataHelm'
 import { loadExistingArgoServer } from './utils'
 import _ from 'lodash'
 
-import {
-  discoverGroupsFromSource,
-  // shiftTemplateObject
-} from '../transformers/transform-resources-to-controls'
+import { discoverGroupsFromSource } from '../transformers/transform-resources-to-controls'
 
 export const updatePropagationPolicy = (urlControl, controlGlobal) => {
   const { active } = urlControl
@@ -91,6 +88,11 @@ export const controlData = [
     active: ''
   },
   {
+    id: 'selfLinks',
+    type: 'hidden',
+    active: ''
+  },
+  {
     id: 'curlyServer',
     type: 'hidden',
     active: '{{server}}'
@@ -140,11 +142,6 @@ export const controlData = [
       ///////////////////////  channel name  /////////////////////////////////////
       {
         id: 'channelPrompt',
-        type: 'hidden',
-        active: ''
-      },
-      {
-        id: 'selfLinks',
         type: 'hidden',
         active: ''
       },

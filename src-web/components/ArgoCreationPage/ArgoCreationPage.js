@@ -193,7 +193,8 @@ class ArgoCreationPage extends React.Component {
           query={getApplication}
           variables={{
             name: selectedAppName,
-            namespace: selectedAppNamespace
+            namespace: selectedAppNamespace,
+            apiversion: 'argoproj.io/v1alpha1'
           }}
         >
           {result => {

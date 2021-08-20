@@ -129,7 +129,6 @@ export const controlData = [
     id: 'channels',
     type: 'group',
     discover: discoverGroupsFromSource,
-    // shift: shiftTemplateObject,
     controlData: [
       {
         id: 'channel',

@@ -147,12 +147,10 @@ export default {
     actions: [
       {
         msgKey: 'application.type.acm',
-        component: 'div',
         path: `${config.contextPath}/create`
       },
       {
         msgKey: 'application.type.argo',
-        component: 'div',
         path: `${config.contextPath}/argoappset`
       }
     ]

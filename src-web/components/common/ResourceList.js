@@ -28,7 +28,13 @@ import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
 import { AcmAlert } from '@open-cluster-management/ui-components'
-import { Alert, AlertGroup, AlertActionCloseButton, Stack, StackItem } from '@patternfly/react-core'
+import {
+  Alert,
+  AlertGroup,
+  AlertActionCloseButton,
+  Stack,
+  StackItem
+} from '@patternfly/react-core'
 
 class ResourceList extends React.Component {
   constructor(props) {
@@ -38,16 +44,18 @@ class ResourceList extends React.Component {
       prevDeletedApp: '',
       alerts: []
     }
-    this.addAlert = appName => {
-      this.setState({prevDeletedApp: appName})
+    this.addAlert = (alerts, appName) => {
+      this.setState({ prevDeletedApp: appName })
       if (this.state.alerts.filter(alert => alert.appName !== appName)) {
         this.setState({
-          alerts: [ ...this.state.alerts, { appName: appName }]
+          alerts: [...alerts, { appName: appName }]
         })
       }
     }
-    this.removeAlert = appName => {
-      this.setState({ alerts: [...this.state.alerts.filter(alert => alert.appName !== appName)] })
+    this.removeAlert = (alerts, appName) => {
+      this.setState({
+        alerts: [...alerts.filter(alert => alert.appName !== appName)]
+      })
     }
   }
 
@@ -83,6 +91,8 @@ class ResourceList extends React.Component {
       sortTableFn
     } = this.props
 
+    const { alerts } = this.state
+
     if (status === REQUEST_STATUS.ERROR && !this.state.xhrPoll) {
       //eslint-disable-next-line no-console
       console.error(err)
@@ -100,8 +110,11 @@ class ResourceList extends React.Component {
       return React.cloneElement(action, { resourceType })
     })
 
-    if (deleteStatus === REQUEST_STATUS.DONE && deleteMsg !== this.state.prevDeletedApp) {
-      this.addAlert(deleteMsg)
+    if (
+      deleteStatus === REQUEST_STATUS.DONE &&
+      deleteMsg !== this.state.prevDeletedApp
+    ) {
+      this.addAlert(alerts, deleteMsg)
     }
 
     const stackItems = []
@@ -109,7 +122,7 @@ class ResourceList extends React.Component {
       stackItems.push(
         <StackItem key="alert">
           <AlertGroup isToast>
-            {this.state.alerts.map(({appName}) => (
+            {this.state.alerts.map(({ appName }) => (
               <Alert
                 variant="success"
                 title={msgs.get(
@@ -121,7 +134,7 @@ class ResourceList extends React.Component {
                   <AlertActionCloseButton
                     title={msgs.get('success.update.resource', locale)}
                     variantLabel="success alert"
-                    onClose={() => this.removeAlert(appName)}
+                    onClose={() => this.removeAlert(alerts, appName)}
                   />
                 }
                 key={msgs.get('success.update.resource', locale)}

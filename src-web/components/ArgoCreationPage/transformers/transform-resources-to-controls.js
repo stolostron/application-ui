@@ -17,7 +17,11 @@ import _ from 'lodash'
 //only called when editing an existing application
 //examines resources to create the correct resource types that are being deployed
 export const discoverGroupsFromSource = (control, cd, templateObject) => {
-  const applicationResource = _.get(templateObject, 'ApplicationSet[0].$raw')
+  const applicationResource = _.get(
+    templateObject,
+    'ApplicationSet[0].$raw',
+    {}
+  )
 
   // get application selflink
   const selfLinkControl = cd.find(({ id }) => id === 'selfLink')
@@ -69,8 +73,23 @@ export const discoverGroupsFromSource = (control, cd, templateObject) => {
   // Placement
   const placementResource = _.get(templateObject, 'Placement[0]')
   const selfLinksControl = cd.find(({ id }) => id === 'selfLinks')
-  if (selfLinksControl) {
+  const clusterSelectorControl = cd.find(({ id }) => id === 'clusterSelector')
+
+  if (selfLinksControl && placementResource) {
     const placementSelfLink = getResourceID(placementResource.$raw)
     _.set(selfLinksControl, 'active.Placement', placementSelfLink)
+  } else {
+    // const matchLabels = _.get(applicationResource, 'spec.generators[0].clusterDecisionResource.labelSelector.matchLabels')
+    // const placementName = _.values(matchLabels)[0]
+    const existingRuleControl = cd.find(
+      ({ id }) => id === 'existingrule-checkbox'
+    )
+    _.set(existingRuleControl, 'active', true)
+
+    const decisionResourceControl = cd.find(
+      ({ id }) => id === 'decisionResourceName'
+    )
+    _.set(decisionResourceControl, 'type', 'combobox')
+    _.set(clusterSelectorControl, 'type', 'hidden')
   }
 }

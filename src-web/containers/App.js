@@ -111,7 +111,10 @@ class App extends React.Component {
 
     const getSingleApplicationTabs = params => {
       const isArgoApp = _.get(location, 'search').indexOf('argoproj.io') !== -1
-      const isRemoteCluster = _.get(location, 'search').indexOf('&cluster=') !== -1
+      const isArgoAppset =
+        _.get(location, 'search').indexOf('&applicationset') !== -1
+      const isRemoteCluster =
+        _.get(location, 'search').indexOf('&cluster=') !== -1
       const SINGLE_APP_BASE_PAGE_PATH = getSingleApplicationBasePath(params)
       const overviewTab = [
         {
@@ -120,7 +123,7 @@ class App extends React.Component {
           url: SINGLE_APP_BASE_PAGE_PATH
         }
       ]
-      if (isArgoApp && isRemoteCluster) {
+      if ((isArgoApp && isRemoteCluster) || (isArgoApp && !isArgoAppset)) {
         return overviewTab
       }
       return _.concat(overviewTab, {

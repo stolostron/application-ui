@@ -153,9 +153,4 @@ export const discoverGroupsFromSource = (control, cd, templateObject) => {
     }
     }
   })
-
-  // // automated
-  // _.forEach(automated, (option) => {
-  //   debugger;
-  // })
 }

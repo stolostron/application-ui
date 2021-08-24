@@ -130,7 +130,7 @@ describe("setAvailableRules", () => {
   const urlControl = {
     id: "placementrulecombo",
     ns: "aa-ns",
-    active: true,
+    active: "placement-1",
     availableData: {}
   };
   const model = {
@@ -146,12 +146,14 @@ describe("setAvailableRules", () => {
     }
   };
   const result = {
-    active: null,
+    active: "placement-1",
     available: ["dev-clusters"],
     availableData: {
       "dev-clusters": { metadata: { name: "dev-clusters", namespace: "aa-ns" } }
     },
     availableMap: {},
+    exception:
+      "Placement {0} does not exist in this environment. Choose another rule or create a new one.",
     id: "placementrulecombo",
     isLoading: false,
     ns: "aa-ns"

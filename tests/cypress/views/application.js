@@ -6,6 +6,7 @@ import {
   pageLoader,
   resourceTable,
   modal,
+  navigateApplication,
   notification,
   noResource,
   indexedCSS,
@@ -33,13 +34,7 @@ export const createApplication = (
   type,
   namespace = "default"
 ) => {
-  cy.visit("/multicloud/applications");
-  // wait for create button to be enabled
-  cy.wait(1000);
-  cy
-    .get('button[id="actions.create.application"]', { timeout: 100 * 1000 })
-    .click();
-  cy.wait(1000);
+  navigateApplication();
   cy
     .get('li[id="application.type.acm"]', {
       timeout: 50 * 1000

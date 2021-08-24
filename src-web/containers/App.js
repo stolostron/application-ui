@@ -19,6 +19,7 @@ import {
   AcmPage,
   AcmRoute
 } from '@open-cluster-management/ui-components'
+import queryString from 'query-string'
 import SecondaryHeader from '../components/SecondaryHeader'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { withLocale } from '../providers/LocaleProvider'
@@ -109,7 +110,8 @@ class App extends React.Component {
     }
 
     const getSingleApplicationTabs = params => {
-      const isArgoApp = _.get(location, 'search').indexOf('argoproj.io') !== -1
+      const searchParams = queryString.parse(_.get(location, 'search'))
+      const { apiVersion, applicationset, cluster } = searchParams
       const SINGLE_APP_BASE_PAGE_PATH = getSingleApplicationBasePath(params)
       const overviewTab = [
         {
@@ -118,15 +120,16 @@ class App extends React.Component {
           url: SINGLE_APP_BASE_PAGE_PATH
         }
       ]
-      if (isArgoApp) {
-        return overviewTab
-      } else {
-        return _.concat(overviewTab, {
-          id: 'editor',
-          label: 'description.title.editor',
-          url: `${SINGLE_APP_BASE_PAGE_PATH}/edit`
-        })
+      if (apiVersion === 'argoproj.io/v1alpha1') {
+        if (!applicationset || cluster) {
+          return overviewTab
+        }
       }
+      return _.concat(overviewTab, {
+        id: 'editor',
+        label: 'description.title.editor',
+        url: `${SINGLE_APP_BASE_PAGE_PATH}/edit`
+      })
     }
 
     const applicationsTitle = 'routes.applications'
@@ -202,16 +205,28 @@ class App extends React.Component {
           <Route
             exact
             path={`${BASE_PAGE_PATH}/:namespace/:name/edit`}
-            render={params => (
-              <ApplicationCreationPage
-                params={params}
-                serverProps={this.getServerProps()}
-                secondaryHeaderProps={{
-                  title: 'application.create.title',
-                  tabs: getSingleApplicationTabs(params.match.params)
-                }}
-              />
-            )}
+            render={routeProps => {
+              const params = queryString.parse(routeProps.location.search)
+              return params.apiVersion === 'argoproj.io/v1alpha1' ? (
+                <ArgoCreationPage
+                  params={params}
+                  serverProps={this.getServerProps()}
+                  secondaryHeaderProps={{
+                    title: 'argo.create.title',
+                    tabs: getSingleApplicationTabs(routeProps.match.params)
+                  }}
+                />
+              ) : (
+                <ApplicationCreationPage
+                  params={routeProps}
+                  serverProps={this.getServerProps()}
+                  secondaryHeaderProps={{
+                    title: 'application.create.title',
+                    tabs: getSingleApplicationTabs(routeProps.match.params)
+                  }}
+                />
+              )
+            }}
           />
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>

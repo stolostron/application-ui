@@ -98,7 +98,9 @@ export const setAvailableRules = (control, result) => {
       //remove default placement rule name if this is not on the list of available placements
       //in that case the name was set by the reverse function on control initialization
       if (control.active && !control.available.includes(control.active)) {
-        control.active = null
+        control.exception = msgs.get('argo.placement.exception', [
+          control.active
+        ])
       }
     } else {
       control.availableData = []
@@ -335,7 +337,8 @@ export const updateChannelControls = (
     ({ id: idCtrl }) => idCtrl === 'namespace'
   )
   const { active, availableData, groupControlData } = urlControl
-  const pathData = availableData[active]
+
+  const pathData = availableData ? availableData[active] : ''
 
   const nameControl = groupControlData.find(
     ({ id: idCtrlCHName }) => idCtrlCHName === 'channelName'
@@ -348,7 +351,6 @@ export const updateChannelControls = (
   const namespaceControlExists = groupControlData.find(
     ({ id: idCtrlNSExists }) => idCtrlNSExists === 'channelNamespaceExists'
   )
-  let existingChannel = false
   let originalChannelControl = null
   // change channel name and namespace to reflect repository path
   if (active) {
@@ -356,7 +358,6 @@ export const updateChannelControls = (
     if (pathData && pathData.metadata) {
       nameControl.active = pathData.metadata.name
       namespaceControl.active = pathData.metadata.namespace
-      existingChannel = true
     } else {
       //generate a unique name for this channel
       const channelName = getUniqueChannelName(active, groupControlData)
@@ -386,51 +387,6 @@ export const updateChannelControls = (
     nameControl.active = ''
     namespaceControl.active = ''
     namespaceControlExists.active = false
-  }
-
-  // update reconcile rate based on selected channel url
-  // if existing channel or channel already defined in app, make channel reconcile rate readonly
-  // NOTE: existing channels with no reconcile rate set, will use the default medium rate
-  const findReconcileRateControl = control => {
-    return control
-      ? control.find(
-        ({ id }) => id === 'gitReconcileRate' || id === 'helmReconcileRate'
-      )
-      : null
-  }
-
-  const reconcileRate = findReconcileRateControl(groupControlData)
-  const originalReconcileRate = findReconcileRateControl(
-    originalChannelControl
-  )
-
-  let rateValue =
-    _.get(originalReconcileRate || reconcileRate, 'active') || 'medium'
-  if (pathData && pathData.raw) {
-    rateValue = _.get(
-      pathData.raw,
-      'metadata.annotations["apps.open-cluster-management.io/reconcile-rate"]',
-      'medium'
-    )
-  }
-
-  if (reconcileRate) {
-    reconcileRate.active = rateValue
-    reconcileRate.disabled = existingChannel || !!originalChannelControl
-  }
-
-  const secretName = groupControlData.find(
-    ({ id }) =>
-      id === 'githubSecret' || id === 'helmSecret' || id === 'objectstoreSecret'
-  )
-  if (secretName) {
-    if (existingChannel && pathData && pathData.secretRef) {
-      secretName.type = 'text'
-      secretName.active = pathData.secretRef
-    } else {
-      secretName.type = 'hidden'
-      secretName.active = ''
-    }
   }
 
   return globalControl

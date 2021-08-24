@@ -212,13 +212,19 @@ class App extends React.Component {
                 <ArgoCreationPage
                   params={params}
                   serverProps={this.getServerProps()}
-                  secondaryHeaderProps={{ title: 'argo.create.title' }}
+                  secondaryHeaderProps={{
+                    title: 'argo.create.title',
+                    tabs: getSingleApplicationTabs(routeProps.match.params)
+                  }}
                 />
               ) : (
                 <ApplicationCreationPage
                   params={routeProps}
                   serverProps={this.getServerProps()}
-                  secondaryHeaderProps={{ title: 'application.create.title' }}
+                  secondaryHeaderProps={{
+                    title: 'application.create.title',
+                    tabs: getSingleApplicationTabs(routeProps.match.params)
+                  }}
                 />
               )
             }}

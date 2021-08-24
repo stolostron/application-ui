@@ -98,7 +98,9 @@ export const setAvailableRules = (control, result) => {
       //remove default placement rule name if this is not on the list of available placements
       //in that case the name was set by the reverse function on control initialization
       if (control.active && !control.available.includes(control.active)) {
-        control.active = null
+        control.exception = `'${control.active}' ${msgs.get(
+          'argo.placement.exception'
+        )}`
       }
     } else {
       control.availableData = []

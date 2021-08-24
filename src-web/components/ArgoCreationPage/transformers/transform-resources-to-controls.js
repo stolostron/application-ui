@@ -80,8 +80,6 @@ export const discoverGroupsFromSource = (control, cd, templateObject) => {
     const placementSelfLink = getResourceID(placementResource.$raw)
     _.set(selfLinksControl, 'active.Placement', placementSelfLink)
   } else {
-    // const matchLabels = _.get(applicationResource, 'spec.generators[0].clusterDecisionResource.labelSelector.matchLabels')
-    // const placementName = _.values(matchLabels)[0]
     const existingRuleControl = cd.find(
       ({ id }) => id === 'existingrule-checkbox'
     )
@@ -93,4 +91,71 @@ export const discoverGroupsFromSource = (control, cd, templateObject) => {
     _.set(decisionResourceControl, 'type', 'combobox')
     _.set(clusterSelectorControl, 'type', 'hidden')
   }
+
+  // sync policy
+  const syncOptions = _.get(
+    applicationResource,
+    'spec.template.spec.syncPolicy.syncOptions',
+    []
+  )
+  const automated = _.get(
+    applicationResource,
+    'spec.template.spec.syncPolicy.automated',
+    []
+  )
+  _.forEach(automated, (key, value) => {
+    switch (value) {
+    case 'allowEmpty':
+      control = cd.find(({ id }) => id === 'allowEmpty')
+      control.active = true
+      break
+    case 'prune':
+      control = cd.find(({ id }) => id === 'prune')
+      control.active = true
+      break
+    case 'selfHeal':
+      control = cd.find(({ id }) => id === 'selfHeal')
+      control.active = true
+      break
+    }
+  })
+
+  _.forEach(syncOptions, option => {
+    switch (option) {
+    case 'ApplyOutOfSyncOnly=true':
+      control = cd.find(({ id }) => id === 'applyOutOfSyncOnly')
+      control.active = true
+      break
+    case 'CreateNamespace=true':
+      control = cd.find(({ id }) => id === 'createNamespace')
+      control.active = true
+      break
+    case 'Replace=true':
+      control = cd.find(({ id }) => id === 'replace')
+      control.active = true
+      break
+    case 'Validate=true':
+      control = cd.find(({ id }) => id === 'validate')
+      control.active = true
+      break
+    case (option.match(/^PrunePropagationPolicy/) || {}).input: {
+      control = cd.find(({ id }) => id === 'prunePropagationPolicy')
+      control.active = true
+      const propagationPolicy = cd.find(
+        ({ id }) => id === 'propagationPolicy'
+      )
+      const propagationPolicySelection = option.slice(
+        option.lastIndexOf('=') + 1
+      )
+      _.set(propagationPolicy, 'type', 'singleselect')
+      _.set(propagationPolicy, 'active', propagationPolicySelection)
+      break
+    }
+    }
+  })
+
+  // // automated
+  // _.forEach(automated, (option) => {
+  //   debugger;
+  // })
 }

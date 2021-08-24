@@ -57,6 +57,7 @@ export const discoverGroupsFromSource = (control, cd, templateObject) => {
 
   const availableMap = _.get(control.active[0][3].availableMap, id)
   const insertControlData = _.get(availableMap, 'change.insertControlData')
+  control.active[0] = [...control.active[0], ...insertControlData]
 
   if (insertControlData) {
     const { repoURL, path, targetRevision } = source

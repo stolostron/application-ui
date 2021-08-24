@@ -13,7 +13,7 @@ import { PageSection } from '@patternfly/react-core'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import { Query } from 'react-apollo'
-import { getApplication } from '../../../lib/client/queries'
+import { getArgoApplication } from '../../../lib/client/queries'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -190,7 +190,7 @@ class ArgoCreationPage extends React.Component {
       const { selectedAppName, selectedAppNamespace } = editApplication
       return (
         <Query
-          query={getApplication}
+          query={getArgoApplication}
           variables={{
             name: selectedAppName,
             namespace: selectedAppNamespace,

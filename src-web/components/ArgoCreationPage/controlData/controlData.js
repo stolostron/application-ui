@@ -15,7 +15,7 @@ import placementData from './ControlDataPlacement'
 import { VALID_DNS_LABEL } from 'temptifly'
 import githubChannelData from './ControlDataGit'
 import helmChannelData from './ControlDataHelm'
-import { loadExistingArgoServer } from './utils'
+import { loadExistingArgoServer, updateArgoSelection } from './utils'
 import _ from 'lodash'
 
 import { discoverGroupsFromSource } from '../transformers/transform-resources-to-controls'
@@ -77,9 +77,9 @@ export const controlData = [
     placeholder: 'argo.server.placeholder',
     fetchAvailable: loadExistingArgoServer(),
     validation: {
-      notification: 'import.form.invalid.dns.label',
       required: true
     },
+    onSelect: updateArgoSelection,
     reverse: 'ApplicationSet[0].spec.template.metadata.namespace'
   },
   {

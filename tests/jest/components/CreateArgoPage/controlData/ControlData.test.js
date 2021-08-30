@@ -410,6 +410,8 @@ describe("setAvailableArgoServer", () => {
     available: [],
     availableData: {},
     availableMap: {},
+    exception:
+      "Failed to load the Argo server. Make sure the Argo server is installed and the GitOpsCluster resouce is created successfully.",
     isLoaded: true,
     isLoading: false,
     isFailed: true

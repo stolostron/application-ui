@@ -14,6 +14,13 @@
 import { HCMChannelList } from '../../../../lib/client/queries'
 import apolloClient from '../../../../lib/client/apollo-client'
 import msgs from '../../../../nls/platform.properties'
+import { convertStringToQuery } from '../../../../lib/client/search-helper'
+import { SEARCH_QUERY } from '../../../apollo-client/queries/SearchQueries'
+import React from 'react'
+import {
+  AcmIcon,
+  AcmIconVariant
+} from '@open-cluster-management/ui-components'
 import _ from 'lodash'
 
 export const loadExistingChannels = type => {
@@ -124,6 +131,7 @@ export const setAvailableArgoServer = (control, result) => {
   if (error) {
     control.isFailed = true
     control.isLoaded = true
+    control.exception = msgs.get('argo.server.exception')
   } else if (argoServers) {
     const argoServerNS = _.get(argoServers, 'argoServerNS')
     control.availableData = _.keyBy(argoServerNS, 'name')
@@ -223,6 +231,29 @@ const retrieveGitDetails = async (
   } catch (err) {
     //return err
   }
+}
+
+export const updateArgoSelection = async control => {
+  const selectedNS = _.get(control, 'active', '')
+  if (selectedNS) {
+    const query = convertStringToQuery(
+      `kind:managedclustersetbinding namespace:${selectedNS}`
+    )
+    const result = await apolloClient.search(SEARCH_QUERY, { input: [query] })
+    const items = _.get(result, 'data.searchResult[0].items', [])
+    if (items.length === 0) {
+      control.exception = msgs.get('argo.server.selection.exception')
+      control.prompts = {
+        prompt: 'creation.ocp.cloud.add.clustersets',
+        icon: <AcmIcon icon={AcmIconVariant.openNewTab} />,
+        id: 'clusterSetLink',
+        type: 'link',
+        url: '/multicloud/cluster-sets',
+        positionBottomRight: true
+      }
+    }
+  }
+  return control
 }
 
 export const updateGitBranchFolders = async (

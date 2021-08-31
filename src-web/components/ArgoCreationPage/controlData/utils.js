@@ -252,6 +252,9 @@ export const updateArgoSelection = async control => {
         positionBottomRight: true
       }
     }
+  } else {
+    delete control.exception
+    delete control.prompts
   }
   return control
 }

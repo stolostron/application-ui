@@ -16,6 +16,11 @@ import { VALID_DNS_LABEL } from 'temptifly'
 import githubChannelData from './ControlDataGit'
 import helmChannelData from './ControlDataHelm'
 import { loadExistingArgoServer, updateArgoSelection } from './utils'
+import React from 'react'
+import {
+  AcmIcon,
+  AcmIconVariant
+} from '@open-cluster-management/ui-components'
 import _ from 'lodash'
 
 import { discoverGroupsFromSource } from '../transformers/transform-resources-to-controls'
@@ -78,6 +83,14 @@ export const controlData = [
     fetchAvailable: loadExistingArgoServer(),
     validation: {
       required: true
+    },
+    prompts: {
+      prompt: 'creation.ocp.cloud.add.clustersets',
+      icon: <AcmIcon icon={AcmIconVariant.openNewTab} />,
+      id: 'clusterSetLink',
+      type: 'link',
+      url: '/multicloud/cluster-sets',
+      positionBottomRight: true
     },
     onSelect: updateArgoSelection,
     reverse: 'ApplicationSet[0].spec.template.metadata.namespace'

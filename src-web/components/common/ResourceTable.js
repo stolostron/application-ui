@@ -54,7 +54,6 @@ class ResourceTable extends React.Component {
         }
       )
 
-      // argo
       apolloClient.getArgoServerNS().then(result => {
         const argoServerNS = _.get(result, 'data.argoServers.argoServerNS', [])
         const containName = _.chain(argoServerNS)

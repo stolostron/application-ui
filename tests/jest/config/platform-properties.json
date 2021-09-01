@@ -51,7 +51,7 @@
   "argo.server.placeholder": "Select the correct Argo server",
   "argo.server.exception": "Failed to load the Argo server. Make sure the Argo server is installed and the GitOpsCluster resouce is created successfully.",
   "argo.server.selection.exception": "There is no clusterSet bound to the selected Argo namespace. Click the Add cluster sets tab to bind one or more clustersets.",
-  "argo.cluster.tooltip": "Argo server to deploy Argo app set",
+  "argo.cluster.tooltip": "Argo server to deploy Argo app set. Click the Add cluster sets tab to create new cluster set.",
   "argo.create.name": "App set name",
   "argo.create.placeholder": "Enter app set name",
   "argo.destination.name": "Name",

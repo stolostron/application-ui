@@ -49,6 +49,19 @@ jest.mock("../../../lib/client/apollo-client", () => ({
       networkStatus: 7,
       stale: false
     });
+  }),
+  getArgoServerNS: jest.fn(variables => {
+    return Promise.resolve({
+      data: {
+        argoServers: {
+          argoServerNS: [
+            {
+              name: "argo-ns"
+            }
+          ]
+        }
+      }
+    });
   })
 }));
 

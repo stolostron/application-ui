@@ -16,11 +16,6 @@ import apolloClient from '../../../../lib/client/apollo-client'
 import msgs from '../../../../nls/platform.properties'
 import { convertStringToQuery } from '../../../../lib/client/search-helper'
 import { SEARCH_QUERY } from '../../../apollo-client/queries/SearchQueries'
-import React from 'react'
-import {
-  AcmIcon,
-  AcmIconVariant
-} from '@open-cluster-management/ui-components'
 import _ from 'lodash'
 
 export const loadExistingChannels = type => {
@@ -243,18 +238,9 @@ export const updateArgoSelection = async control => {
     const items = _.get(result, 'data.searchResult[0].items', [])
     if (items.length === 0) {
       control.exception = msgs.get('argo.server.selection.exception')
-      control.prompts = {
-        prompt: 'creation.ocp.cloud.add.clustersets',
-        icon: <AcmIcon icon={AcmIconVariant.openNewTab} />,
-        id: 'clusterSetLink',
-        type: 'link',
-        url: '/multicloud/cluster-sets',
-        positionBottomRight: true
-      }
     }
   } else {
     delete control.exception
-    delete control.prompts
   }
   return control
 }

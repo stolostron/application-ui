@@ -68,6 +68,11 @@ export const QueryApplicationList = createResourceReducer(
   predicate.bind(null, RESOURCE_TYPES.QUERY_APPLICATIONS)
 )
 
+export const QueryApplicationsetList = createResourceReducer(
+  resourceReducerFunction,
+  predicate.bind(null, RESOURCE_TYPES.QUERY_APPLICATIONSET)
+)
+
 export const QuerySubscriptionList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.QUERY_SUBSCRIPTIONS)

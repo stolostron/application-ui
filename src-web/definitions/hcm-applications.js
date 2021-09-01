@@ -73,7 +73,20 @@ export default {
         cells.push({ title: '' }) // Empty Time window
       }
       cells.push({ title: '' }) // Empty Created
-      cells.push({ title: '' }) // Empty Actions
+      if (items[0].applicationSet) {
+        // We know from above this array has at least one item
+        cells.push({
+          title: (
+            <TableRowActionMenu
+              actions={tableActionsResolver(items[0], true)}
+              itemGroup={items}
+              resourceType={RESOURCE_TYPES.QUERY_APPLICATIONSET}
+            />
+          )
+        })
+      } else {
+        cells.push({ title: '' }) // Empty Actions
+      }
     } else {
       cells.push({ title: createNamespaceText(items[0]) })
       if (isSearchAvailable()) {
@@ -147,19 +160,17 @@ export default {
     actions: [
       {
         msgKey: 'application.type.acm',
-        component: 'div',
         path: `${config.contextPath}/create`
       },
       {
         msgKey: 'application.type.argo',
-        component: 'div',
-        path: `${config.contextPath}/argo/appset`
+        path: `${config.contextPath}/argoappset`
       }
     ]
   }
 }
 
-function tableActionsResolver(item) {
+function tableActionsResolver(item, isAppSet = false) {
   const actions = [
     {
       key: 'table.actions.applications.view',
@@ -168,7 +179,7 @@ function tableActionsResolver(item) {
       }
     }
   ]
-  if (!isArgoApp(item)) {
+  if (!isArgoApp(item) || isAppSet) {
     actions.push({
       key: 'table.actions.applications.edit',
       link: {
@@ -197,7 +208,7 @@ function tableActionsResolver(item) {
       }
     })
   }
-  if (!isArgoApp(item)) {
+  if (!isArgoApp(item) || isAppSet) {
     actions.push({
       key: 'table.actions.applications.remove',
       modal: true,

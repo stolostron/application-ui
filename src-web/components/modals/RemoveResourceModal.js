@@ -51,17 +51,21 @@ class RemoveResourceModal extends React.Component {
       loading: true,
       selected: [],
       shared: [],
-      removeAppResources: false
+      removeAppResources: false,
+      removeAppSetResources: false,
+      appSetPlacement: '',
+      appSetsSharingPlacement: []
     }
   }
 
   UNSAFE_componentWillMount() {
     if (this.props.data) {
-      const { data } = this.props
+      const { data, label } = this.props
+      const { name, namespace } = data
       const kind = data.kind
       const apiVersion = _.get(data, 'apiVersion', '')
       const [group, version] = apiVersion.split('/')
-      canCallAction(kind, 'delete', data.namespace, group, version).then(
+      canCallAction(kind, 'delete', namespace, group, version).then(
         response => {
           const allowed = _.get(response, 'data.userAccess.allowed')
           this.setState({
@@ -70,14 +74,57 @@ class RemoveResourceModal extends React.Component {
               ? undefined
               : msgs.get('table.actions.remove.unauthorized', this.props.locale)
           })
-          this.getChildResources(data.name, data.namespace)
+
+          if (
+            label.label === 'modal.remove-queryapplications.label' &&
+            allowed
+          ) {
+            this.getChildResources(name, namespace)
+          }
+
+          if (
+            label.label === 'modal.remove-queryapplicationset.label' &&
+            allowed
+          ) {
+            // get appset data from console-api
+            this.getApplicationSetData(name, namespace)
+          }
         }
       )
+
       this.setState({
         name: data.name
       })
     }
   }
+
+  getApplicationSetData = (name, namespace) => {
+    apolloClient
+      .getApplicationSetRelatedResources({ name, namespace })
+      .then(response => {
+        const placement = _.get(
+          response,
+          'data.applicationSetRelatedResources.appSetPlacement'
+        )
+        const placementSharingResources = _.get(
+          response,
+          'data.applicationSetRelatedResources.appSetsSharingPlacement'
+        )
+        this.setState({
+          appSetPlacement: placement,
+          appSetsSharingPlacement: placementSharingResources,
+          loading: false,
+          selected: [
+            {
+              name: placement,
+              kind: 'Placement',
+              namespace,
+              apiVersion: 'cluster.open-cluster-management.io/v1alpha1'
+            }
+          ]
+        })
+      })
+  };
 
   getChildResources = (name, namespace) => {
     try {
@@ -221,6 +268,11 @@ class RemoveResourceModal extends React.Component {
     this.setState({ removeAppResources: !checked })
   };
 
+  toggleRemoveAppSetResources = () => {
+    const checked = this.state.removeAppSetResources
+    this.setState({ removeAppSetResources: !checked })
+  };
+
   handleClose() {
     const { type } = this.props
     if (this.client) {
@@ -243,7 +295,8 @@ class RemoveResourceModal extends React.Component {
             selfLink: '',
             _uid: '',
             kind: '',
-            apiVersion: ''
+            apiVersion: '',
+            itemGroup: []
           }
         }
       })
@@ -252,7 +305,12 @@ class RemoveResourceModal extends React.Component {
 
   handleSubmit() {
     const { locale, data } = this.props
-    const { selected, removeAppResources } = this.state
+    const { selected, removeAppResources, removeAppSetResources } = this.state
+    const removeResource =
+      data.kind.toLowerCase() === 'application'
+        ? removeAppResources
+        : removeAppSetResources
+
     this.setState({
       loading: true
     })
@@ -269,7 +327,7 @@ class RemoveResourceModal extends React.Component {
           kind: data.kind,
           name: data.name,
           namespace: data.namespace,
-          childResources: removeAppResources ? selected : []
+          childResources: removeResource ? selected : []
         })
         .then(res => {
           if (res.errors) {
@@ -339,37 +397,52 @@ class RemoveResourceModal extends React.Component {
     ) : null
   };
 
+  renderConfirmCheckbox(
+    name,
+    appTypeMsg,
+    checkEventHandler,
+    isChecked,
+    locale
+  ) {
+    return (
+      <React.Fragment>
+        <div className="remove-app-modal-content-text">
+          <p
+            dangerouslySetInnerHTML={{
+              __html: `
+            ${msgs.get(
+                'modal.remove.application.confirm',
+                [name, this.getItalicSpan(msgs.get(appTypeMsg, locale))],
+                locale
+              )}
+            `
+            }}
+          />
+        </div>
+        <div className="remove-app-modal-content-data">
+          <Checkbox
+            id={'remove-app-resources'}
+            isChecked={isChecked}
+            onChange={checkEventHandler}
+            label={msgs.get(appTypeMsg, locale)}
+          />
+        </div>
+      </React.Fragment>
+    )
+  }
+
   modalBody = (name, label, locale) => {
     const { selected } = this.state
     if (label.label === 'modal.remove-queryapplications.label') {
       return selected.length > 0 ? (
         <div className="remove-app-modal-content">
-          <div className="remove-app-modal-content-text">
-            <p
-              dangerouslySetInnerHTML={{
-                __html: `
-              ${msgs.get(
-                  'modal.remove.application.confirm',
-                  [
-                    name,
-                    this.getItalicSpan(
-                      msgs.get('modal.remove.application.resources', locale)
-                    )
-                  ],
-                  locale
-                )}
-              `
-              }}
-            />
-          </div>
-          <div className="remove-app-modal-content-data">
-            <Checkbox
-              id={'remove-app-resources'}
-              isChecked={this.state.removeAppResources}
-              onChange={this.toggleRemoveAppResources}
-              label={msgs.get('modal.remove.application.resources', locale)}
-            />
-          </div>
+          {this.renderConfirmCheckbox(
+            name,
+            'modal.remove.application.resources',
+            this.toggleRemoveAppResources,
+            this.state.removeAppResources,
+            locale
+          )}
           <div>
             <ul>
               {selected.map(child => {
@@ -408,10 +481,102 @@ class RemoveResourceModal extends React.Component {
           {this.renderSharedResources()}
         </div>
       )
+    } else if (label.label === 'modal.remove-queryapplicationset.label') {
+      const { data = {} } = this.props
+      const { itemGroup = [] } = data
+      const { appSetPlacement, appSetsSharingPlacement } = this.state
+
+      return (
+        itemGroup.length > 0 && (
+          <div className="remove-app-modal-content">
+            <div className="remove-app-modal-content-text">
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: `${msgs.get(
+                    'modal.remove.applicationset.confirm',
+                    locale
+                  )}`
+                }}
+              />
+            </div>
+            <div>
+              <ul>
+                {itemGroup.map(app => {
+                  return (
+                    <div
+                      className="remove-app-modal-content-data"
+                      key={app._uid}
+                    >
+                      <li>{app.name}</li>
+                    </div>
+                  )
+                })}
+              </ul>
+            </div>
+            <br />
+            {this.renderAppSetSharedResources(
+              name,
+              appSetPlacement,
+              appSetsSharingPlacement,
+              locale
+            )}
+          </div>
+        )
+      )
     } else {
       return msgs.get('modal.remove.confirm', locale)
     }
   };
+
+  renderAppSetSharedResources(
+    name,
+    appSetPlacement,
+    appSetsSharingPlacement,
+    locale
+  ) {
+    return appSetsSharingPlacement.length > 0 ? (
+      <div className="shared-resource-content">
+        <div>
+          <ExclamationTriangleIcon />
+        </div>
+        <div>
+          <p>
+            {msgs.get(
+              'modal.remove.applicationset.shared.resources',
+              [appSetPlacement],
+              locale
+            )}
+          </p>
+          <div>
+            <ul>
+              {appSetsSharingPlacement.map(appSet => {
+                return (
+                  <div className="sibling-resource-content" key={appSet}>
+                    <li>{appSet}</li>
+                  </div>
+                )
+              })}
+            </ul>
+          </div>
+        </div>
+      </div>
+    ) : (
+      appSetPlacement && (
+        <React.Fragment>
+          {this.renderConfirmCheckbox(
+            name,
+            'modal.remove.applicationset.resources',
+            this.toggleRemoveAppSetResources,
+            this.state.removeAppSetResources,
+            locale
+          )}
+          <div className="remove-app-modal-content-data">
+            {appSetPlacement} [Placement]
+          </div>
+        </React.Fragment>
+      )
+    )
+  }
 
   render() {
     const { label, locale, open } = this.props
@@ -584,8 +749,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     forceRefresh: () => dispatch(forceResourceReload(ownProps.resourceType)),
     clearSuccessFinished: () => clearSuccessFinished(dispatch),
-    submitDeleteSuccess: () =>
-      dispatch(receiveDelResource(ownProps.data, ownProps.resourceType, {}))
+    submitDeleteSuccess: () => {
+      // need to handle appsets as apps since there's no actual appset entries on the apps table
+      const resourceType =
+        ownProps.resourceType.name === 'QueryApplicationset'
+          ? RESOURCE_TYPES.QUERY_APPLICATIONS
+          : ownProps.resourceType
+      dispatch(receiveDelResource(ownProps.data, resourceType, {}))
+    }
   }
 }
 

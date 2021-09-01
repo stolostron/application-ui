@@ -24,6 +24,7 @@ import resources from '../../../lib/shared/resources'
 import { withRouter } from 'react-router-dom'
 import { handleActionClick } from './TableRowActionMenu'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
+import apolloClient from '../../../lib/client/apollo-client'
 import { TooltipPosition } from '@patternfly/react-core'
 
 resources(() => {
@@ -35,7 +36,8 @@ class ResourceTable extends React.Component {
     super(props)
     this.state = {
       isACMAppCreateDisabled: true,
-      isArgoAppsetCreateDisabled: true
+      isArgoAppsetCreateDisabled: true,
+      isArgoInstallDisabled: true
     }
   }
 
@@ -51,6 +53,21 @@ class ResourceTable extends React.Component {
           this.setState({ isACMAppCreateDisabled: !disabled })
         }
       )
+
+      // argo
+      apolloClient.getArgoServerNS().then(result => {
+        const argoServerNS = _.get(result, 'data.argoServers.argoServerNS', [])
+        const containName = _.chain(argoServerNS)
+          .findKey('name')
+          .isString()
+          .value()
+        if (!argoServerNS.length && !containName) {
+          this.setState({ isArgoInstallDisabled: true })
+        } else {
+          this.setState({ isArgoInstallDisabled: false })
+        }
+      })
+
       canCreateActionAllNamespaces(
         'applicationsets',
         'create',
@@ -233,23 +250,33 @@ class ResourceTable extends React.Component {
     }
 
     const { actions = [] } = tableDropdown
-    const { isACMAppCreateDisabled, isArgoAppsetCreateDisabled } = this.state
+    const {
+      isACMAppCreateDisabled,
+      isArgoAppsetCreateDisabled,
+      isArgoInstallDisabled
+    } = this.state
 
     const dropdownActions = []
     actions.forEach(action => {
       const isDisabled =
         action.msgKey === 'application.type.acm'
           ? isACMAppCreateDisabled
-          : isArgoAppsetCreateDisabled
+          : isArgoInstallDisabled
+            ? isArgoInstallDisabled
+            : isArgoAppsetCreateDisabled
+
+      const tooltip = isDisabled
+        ? isArgoInstallDisabled
+          ? msgs.get('argo.server.exception', locale)
+          : msgs.get(tableDropdown.disableMsgKey, locale)
+        : undefined
 
       dropdownActions.push({
         id: action.msgKey,
         isDisabled: isDisabled,
         text: msgs.get(action.msgKey, locale),
         href: action.path,
-        tooltip: isDisabled
-          ? msgs.get(tableDropdown.disableMsgKey, locale)
-          : undefined,
+        tooltip: tooltip,
         tooltipPosition: TooltipPosition.right
       })
     })

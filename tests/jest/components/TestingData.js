@@ -2139,7 +2139,6 @@ export const portals = Object.freeze({
   editBtn: "edit-button-portal-id"
 });
 
-const VALID_DNS_LABEL = "^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$";
 export const controlData = [
   {
     id: "main",

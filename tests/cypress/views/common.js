@@ -904,16 +904,13 @@ export const testGitApiInput = data => {
 
   const { gitUrl, gitUser, gitKey, gitBranch, gitPath } = gitCss;
 
-  cy.visit("/multicloud/applications");
-  // wait for create button to be enabled
+  navigateApplication();
   cy
-    .get('button[id="actions.create.application"]', { timeout: 50 * 1000 })
-    .click();
-  cy
-    .get('button[data-test-create-application="application.type.acm"]', {
+    .get('li[id="application.type.acm"]', {
       timeout: 50 * 1000
     })
-    .click();
+    .children(".pf-c-dropdown__menu-item")
+    .click({ force: true });
   cy.get(".pf-c-title").should("exist");
 
   cy.log("Select git url");
@@ -955,15 +952,12 @@ export const testInvalidApplicationInput = () => {
   const invalidValue = "INVALID VALUE";
   const validValue = "default";
 
-  cy.visit("/multicloud/applications");
-  // wait for create button to be enabled
+  navigateApplication();
   cy
-    .get('button[id="actions.create.application"]', { timeout: 50 * 1000 })
-    .click();
-  cy
-    .get('button[data-test-create-application="application.type.acm"]', {
+    .get('li[id="application.type.acm"]', {
       timeout: 50 * 1000
     })
+    .children(".pf-c-dropdown__menu-item")
     .click();
   cy.get(".pf-c-title").should("exist");
 
@@ -1270,4 +1264,15 @@ export const validateDefect7696 = name => {
 
   cy.log("Verify deployables show up");
   cy.get("#diagramShapes_pod", { timeout: 30 * 1000 }).should("exist");
+};
+
+export const navigateApplication = () => {
+  cy.visit("/multicloud/applications");
+  cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.exist");
+  // wait for create button to be enabled
+  cy.wait(10000);
+  cy
+    .get('button[id="actions.create.application"]', { timeout: 100 * 1000 })
+    .click({ force: true });
+  cy.wait(1000);
 };

@@ -17,13 +17,14 @@ import React from 'react'
 import {
   AcmEmptyState,
   AcmTable,
-  AcmButton
+  AcmDropdown
 } from '@open-cluster-management/ui-components'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { handleActionClick } from './TableRowActionMenu'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
+import { TooltipPosition } from '@patternfly/react-core'
 
 resources(() => {
   require('../../../scss/table.scss')
@@ -61,6 +62,29 @@ class ResourceTable extends React.Component {
     }
   }
 
+  renderCreateButton() {
+    const tableDropdown = this.getDropdownActions()
+
+    if (!tableDropdown) {
+      return undefined
+    }
+
+    return (
+      <AcmDropdown
+        isDisabled={tableDropdown.isDisabled}
+        tooltip={tableDropdown.disableText}
+        id={tableDropdown.id}
+        onSelect={tableDropdown.handleSelect}
+        text={tableDropdown.toggleText}
+        dropdownItems={tableDropdown.actions}
+        isKebab={false}
+        isPlain={true}
+        isPrimary={true}
+        tooltipPosition={tableDropdown.tooltipPosition}
+      />
+    )
+  }
+
   render() {
     const {
       actions,
@@ -92,6 +116,7 @@ class ResourceTable extends React.Component {
             title={staticResourceData.emptyTitle(locale)}
             message={staticResourceData.emptyMessage(locale)}
             isEmptyTableState={toolbarControls ? true : false}
+            action={this.renderCreateButton()}
           />
         }
         extraToolbarControls={toolbarControls}
@@ -107,7 +132,7 @@ class ResourceTable extends React.Component {
         setSearch={setSearch}
         sort={sort}
         setSort={setSort}
-        tableDropdown={this.getDropdownActions()}
+        customTableAction={this.renderCreateButton()}
       />
     ]
   }
@@ -195,6 +220,10 @@ class ResourceTable extends React.Component {
     e.preventDefault()
   }
 
+  handleDropdownSelection(path) {
+    this.props.history.push(path, { cancelBack: true })
+  }
+
   getDropdownActions() {
     const { staticResourceData, locale } = this.props
     const { tableDropdown } = staticResourceData
@@ -208,36 +237,20 @@ class ResourceTable extends React.Component {
 
     const dropdownActions = []
     actions.forEach(action => {
-      const children = []
       const isDisabled =
         action.msgKey === 'application.type.acm'
           ? isACMAppCreateDisabled
           : isArgoAppsetCreateDisabled
-      children.push(
-        <Link
-          to={{
-            pathname: action.path,
-            state: { cancelBack: true }
-          }}
-          key={action.msgKey}
-          onClick={isDisabled ? this.disableClick : undefined}
-        >
-          <AcmButton
-            id={action.msgKey}
-            variant="plain"
-            isSmall
-            isDisabled={isDisabled}
-            data-test-create-application={action.msgKey}
-          >
-            {msgs.get(action.msgKey, locale)}
-          </AcmButton>
-        </Link>
-      )
+
       dropdownActions.push({
         id: action.msgKey,
         isDisabled: isDisabled,
-        component: action.component,
-        children: children
+        text: msgs.get(action.msgKey, locale),
+        href: action.path,
+        tooltip: isDisabled
+          ? msgs.get(tableDropdown.disableMsgKey, locale)
+          : undefined,
+        tooltipPosition: TooltipPosition.right
       })
     })
 
@@ -246,7 +259,9 @@ class ResourceTable extends React.Component {
       isDisabled: isACMAppCreateDisabled && isArgoAppsetCreateDisabled,
       disableText: msgs.get(tableDropdown.disableMsgKey, locale),
       toggleText: msgs.get(tableDropdown.msgKey, locale),
-      actions: dropdownActions
+      actions: dropdownActions,
+      handleSelect: () => this.handleDropdownSelection(),
+      tooltipPosition: TooltipPosition.right
     }
   }
 }

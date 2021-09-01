@@ -3,7 +3,6 @@
 @import 'scss/variables';
 
 .channel-labels {
-  --icon-size: 11px;
   --gutter: 0.5rem;
   --margin: 1rem;
 
@@ -21,6 +20,7 @@
 
   .channel-entry {
     margin: var(--margin);
+    padding-right: calc(3rem);
   }
 
   .channel-entry-link {
@@ -28,15 +28,15 @@
     color: $color__blue-51;
     fill: $color__blue-51;
     word-break: break-all;
+
+    svg {
+      margin-left: 8px;
+    }
   }
 
   .channel-entry-link + .channel-entry-attribute {
     // extra padding for first attribute after link
-    padding-top: var(--gutter);
-  }
-
-  .channel-entry-attribute {
-    padding-left: calc(var(--icon-size) + var(--gutter));
+    padding-top: calc(2 * var(--gutter));
   }
 
   .channel-entry-attribute-name {

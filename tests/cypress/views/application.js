@@ -6,6 +6,7 @@ import {
   pageLoader,
   resourceTable,
   modal,
+  navigateApplication,
   notification,
   noResource,
   indexedCSS,
@@ -33,15 +34,12 @@ export const createApplication = (
   type,
   namespace = "default"
 ) => {
-  cy.visit("/multicloud/applications");
-  // wait for create button to be enabled
+  navigateApplication();
   cy
-    .get('button[id="actions.create.application"]', { timeout: 50 * 1000 })
-    .click();
-  cy
-    .get('button[data-test-create-application="application.type.acm"]', {
+    .get('li[id="application.type.acm"]', {
       timeout: 50 * 1000
     })
+    .children(".pf-c-dropdown__menu-item")
     .click();
   const { name, config } = data;
   namespace == "default" ? (namespace = `${name}-ns`) : namespace;

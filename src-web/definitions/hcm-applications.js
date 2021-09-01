@@ -196,10 +196,10 @@ function tableActionsResolver(item, isAppSet = false) {
           const [apigroup, apiversion] = item.apiVersion.split('/')
           return getSearchLink({
             properties: {
-              name: item.name,
+              name: isAppSet ? item.applicationSet : item.name,
               namespace: item.namespace,
               cluster: item.cluster,
-              kind: item.kind.toLowerCase(),
+              kind: isAppSet ? 'applicationset' : item.kind.toLowerCase(),
               apigroup,
               apiversion
             }
@@ -219,10 +219,11 @@ function tableActionsResolver(item, isAppSet = false) {
 }
 
 function getApplicationLink(item = {}, edit = false) {
-  const { name, namespace = 'default' } = item
+  const { applicationSet, name, namespace = 'default' } = item
   const params = queryString.stringify({
     apiVersion: item.apiVersion,
-    cluster: item.cluster === 'local-cluster' ? undefined : item.cluster
+    cluster: item.cluster === 'local-cluster' ? undefined : item.cluster,
+    applicationset: applicationSet == null ? undefined : applicationSet
   })
   return `${config.contextPath}/${encodeURIComponent(
     namespace

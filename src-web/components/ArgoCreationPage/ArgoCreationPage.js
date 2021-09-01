@@ -243,7 +243,8 @@ class ArgoCreationPage extends React.Component {
     return (
       controlData && (
         <PageSection
-          className={classNames({ editApplication })}
+          className={classNames({ editApplication, 'pf-c-content': true })}
+          style={{ padding: 0 }}
           variant="light"
         >
           <TemplateEditor

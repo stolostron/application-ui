@@ -9,6 +9,8 @@
 // Copyright Contributors to the Open Cluster Management project
 @import 'scss/variables';
 
+
+//////////////////////////////////////////// NOT A WIZARD ////////////////////////////////////////////
 // On app create page
 .pf-c-page__main-section {
   .temptifly {
@@ -34,12 +36,12 @@
   .temptifly {
 
     &.showEditor {
-      margin: -20px 0 -4.125rem 0;
+      margin: 0 0 -4.125rem 0;
     }
 
     .creation-view-split-container {
       &.showEditor {
-        height: calc(100vh - 216px);
+        height: calc(100vh - 226px);
 
         .creation-view-controls-container {
           padding-top: 0px;
@@ -48,4 +50,44 @@
       }
     }
   }
+}
+
+//////////////////////////////////////////// CREATE ARGO WIZARD ////////////////////////////////////////////
+
+  .pf-c-content .temptifly.showEditor,
+  .temptifly.showWizard {
+      margin: unset;
+      padding: unset;
+      height: calc(100vh - 228px);
+      margin-top: -1px;
+      background-color: black;
+  }
+
+  .pf-c-content .temptifly .creation-view-split-container.showEditor {
+      margin: unset;
+      padding: unset;
+  }
+  .pf-c-content .temptifly .creation-view-split-container.showEditor .creation-view-controls-container,
+  .pf-c-content .temptifly.showWizard .creation-view-controls-container {
+      margin: unset;
+      padding: unset;
+      margin-right: -5px;
+      height: calc(100vh - 226px);
+  }
+//////////////////////////////////////////// EDIT ARGO WIZARD ////////////////////////////////////////////
+
+
+// @media (max-width: 1200px) {
+//   .pf-c-content .temptifly .creation-view-split-container.showEditor .creation-view-controls-container,
+//   .pf-c-content .temptifly.showWizard .creation-view-controls-container {
+//       height: calc(100vh - 179px);
+//   }
+//   .pf-c-content .temptifly.showEditor,
+//   .temptifly.showWizard {
+//       height: calc(100vh - 179px);
+//   }
+// }
+
+.pf-c-content .pf-c-wizard__main-body {
+  height: 100%;
 }

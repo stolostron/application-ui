@@ -150,7 +150,7 @@
     "svg-loader": "0.0.2",
     "svg-react-loader": "^0.4.6",
     "svg.js": "^2.6.5",
-    "temptifly": "^0.4.9",
+    "temptifly": "^0.4.10",
     "watchr": "^4.0.1",
     "webpack-sources": "^1.1.0",
     "yaml": "^1.7.2",

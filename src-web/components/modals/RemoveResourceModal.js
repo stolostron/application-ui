@@ -76,7 +76,10 @@ class RemoveResourceModal extends React.Component {
           })
 
           if (
-            label.label === 'modal.remove-queryapplications.label' &&
+            (label.label === 'modal.remove-queryapplications.label' ||
+              label.label === 'modal.remove-querysubscriptions.label' ||
+              label.label === 'modal.remove-queryplacementrules.label' ||
+              label.label === 'modal.remove-querychannels.label') &&
             allowed
           ) {
             this.getChildResources(name, namespace)

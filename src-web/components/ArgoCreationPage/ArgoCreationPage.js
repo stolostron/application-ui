@@ -171,12 +171,9 @@ class ArgoCreationPage extends React.Component {
         if (cleanReqStatus) {
           this.props.cleanReqStatus()
         }
-        // redirect to cluster details pages
-        history.push(
-          `${config.contextPath}/${this.applicationNamespace}/${
-            this.applicationName
-          }?apiVersion=${this.apiVersion}`
-        )
+        // redirect to table page
+        // known limitation that the appset wouldn't be able to find the clusterName in create
+        history.push(`${config.contextPath}`)
       }, 3000)
     } else if (mutateStatus && mutateStatus === 'ERROR') {
       this.props.cleanReqStatus()

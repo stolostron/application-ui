@@ -22,7 +22,7 @@ spec:
         {{#if decisionResourceName}}
             cluster.open-cluster-management.io/placement: {{{decisionResourceName}}}  
         {{else}}  
-            cluster.open-cluster-management.io/placement: {{appSetName}}-placement
+            cluster.open-cluster-management.io/placement: {{{appSetName}}}-placement
         {{/if}}                
         requeueAfterSeconds: {{{requeueTime}}}
   template:

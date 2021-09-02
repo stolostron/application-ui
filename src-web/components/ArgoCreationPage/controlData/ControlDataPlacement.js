@@ -109,7 +109,7 @@ const placementData = () => [
       notification: 'import.form.invalid.dns.label'
     },
     reverse:
-      'ApplicationSet[0].spec.generators[0].clusterDecisionResource.labelSelector.matchLabels["cluster.open-cluster-management.io/placement"]'
+      'ApplicationSet[0].spec.generators.clusterDecisionResource.labelSelector.matchLabels["cluster.open-cluster-management.io/placement"]'
   },
   {
     id: 'selectedRuleName',

@@ -42,6 +42,11 @@ export const GET_ACTION_MODAL_STATE = gql`
         selfLink
         _uid
         kind
+        itemGroup {
+          destinationNamespace
+          name
+          _uid
+        }
       }
     }
   }

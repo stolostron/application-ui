@@ -135,7 +135,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <span
                       class="pf-c-dropdown__toggle-text"
                     >
-                      Create
+                      Create application with
                     </span>
                     <span
                       class="pf-c-dropdown__toggle-icon"
@@ -1150,7 +1150,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <span
                       class="pf-c-dropdown__toggle-text"
                     >
-                      Create
+                      Create application with
                     </span>
                     <span
                       class="pf-c-dropdown__toggle-icon"
@@ -2165,7 +2165,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <span
                       class="pf-c-dropdown__toggle-text"
                     >
-                      Create
+                      Create application with
                     </span>
                     <span
                       class="pf-c-dropdown__toggle-icon"

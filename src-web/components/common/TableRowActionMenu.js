@@ -12,12 +12,21 @@ import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 
-export function handleActionClick(action, resourceType, item, history) {
+export function handleActionClick(
+  action,
+  resourceType,
+  item,
+  history,
+  itemGroup = []
+) {
   const client = apolloClient.getClient()
-  const name = _.get(item, 'name', '')
-  const namespace = _.get(item, 'namespace', '')
+  const thisItem = item ? item : itemGroup[0]
+  const name = item
+    ? _.get(item, 'name', '')
+    : _.get(thisItem, 'applicationSet', '')
+  const namespace = _.get(thisItem, 'namespace', '')
   if (action.link) {
-    const url = action.link.url(item)
+    const url = action.link.url(thisItem)
     if (url && !url.startsWith(config.contextPath)) {
       // external to this SPA
       window.location = url
@@ -40,12 +49,14 @@ export function handleActionClick(action, resourceType, item, history) {
           __typename: 'ModalData',
           name,
           namespace,
-          clusterName: _.get(item, 'cluster', ''),
-          selfLink: _.get(item, 'selfLink', ''),
-          _uid: _.get(item, '_uid', ''),
+          clusterName: _.get(thisItem, 'cluster', ''),
+          selfLink: _.get(thisItem, 'selfLink', ''),
+          _uid: _.get(thisItem, '_uid', ''),
           kind: _.get(resourceType, 'kind', ''),
           apiVersion:
-            _.get(item, 'apiVersion') || _.get(resourceType, 'apiVersion', '')
+            _.get(thisItem, 'apiVersion') ||
+            _.get(resourceType, 'apiVersion', ''),
+          itemGroup: itemGroup
         }
       }
     })
@@ -55,6 +66,7 @@ export function handleActionClick(action, resourceType, item, history) {
 const TableRowActionMenu = ({
   actions,
   item,
+  itemGroup,
   history,
   resourceType,
   locale
@@ -62,7 +74,7 @@ const TableRowActionMenu = ({
   const onSelect = id => {
     const selected = actions.find(action => action.key === id)
     if (selected) {
-      handleActionClick(selected, resourceType, item, history)
+      handleActionClick(selected, resourceType, item, history, itemGroup)
     }
   }
   const actionButtons = actions.map(action => {
@@ -86,6 +98,7 @@ TableRowActionMenu.propTypes = {
   actions: PropTypes.arrayOf(PropTypes.object),
   history: PropTypes.object,
   item: PropTypes.object,
+  itemGroup: PropTypes.array,
   locale: PropTypes.string,
   resourceType: PropTypes.object
 }

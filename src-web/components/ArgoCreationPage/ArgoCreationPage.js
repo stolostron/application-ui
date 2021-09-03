@@ -29,7 +29,7 @@ import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 import config from '../../../lib/shared/config'
 import _ from 'lodash'
 
-// include monaco edito
+// include monaco editor
 import TemplateEditor from 'temptifly'
 import 'temptifly/dist/styles.css'
 import MonacoEditor from 'react-monaco-editor'

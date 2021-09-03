@@ -92,13 +92,14 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     .get(`#git`)
     .last()
     .scrollIntoView()
+    .trigger("mouseover")
     .click();
-  //.trigger("mouseover");
-
   checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);
 
   if (insecureSkipVerifyOption) {
-    cy.get(insecureSkipVerify).click({ force: true });
+    cy
+      .get(insecureSkipVerify, { timeout: 20 * 1000, withinSubject: null })
+      .click({ force: true });
   }
   // type in branch and path
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
@@ -106,7 +107,7 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   // the git api is unreliable and we don't want to fail all git app tests
   //if the branch doesn't show up
   cy
-    .get(gitBranch, { timeout: 50 * 1000 })
+    .get(gitBranch, { timeout: 50 * 1000, withinSubject: null })
     .type(branch, { timeout: 50 * 1000 })
     .blur();
 
@@ -114,19 +115,19 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
   cy.get(".bx—inline.loading", { timeout: 30 * 1000 }).should("not.exist");
   //type in folder name here instead of trying to select one, same reason as above, for branch
   cy
-    .get(gitPath, { timeout: 20 * 1000 })
+    .get(gitPath, { timeout: 20 * 1000, withinSubject: null })
     .type(path, { timeout: 30 * 1000 })
     .blur();
 
   commitHash &&
     cy
-      .get(gitCommitHash, { timeout: 20 * 1000 })
+      .get(gitCommitHash, { timeout: 20 * 1000, withinSubject: null })
       .type(commitHash, { timeout: 30 * 1000 })
       .blur();
 
   tag &&
     cy
-      .get(gitTag, { timeout: 20 * 1000 })
+      .get(gitTag, { timeout: 20 * 1000, withinSubject: null })
       .type(tag, { timeout: 30 * 1000 })
       .blur();
 
@@ -143,7 +144,9 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
       .type(repositoryReconcileRate, { force: true });
   }
   if (disableAutoReconcileOption) {
-    cy.get(disableAutoReconcile).click({ force: true });
+    cy
+      .get(disableAutoReconcile, { withinSubject: null })
+      .click({ force: true });
   }
   selectPrePostTasks(value, key);
   selectClusterDeployment(deployment, clusterName, key);
@@ -211,8 +214,7 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
   cy
     .get("#helm")
     .last()
-    .click()
-    .trigger("mouseover");
+    .click();
 
   checkExistingUrls(
     helmUsername,
@@ -224,13 +226,18 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
   );
 
   if (insecureSkipVerifyOption) {
-    cy.get(insecureSkipVerify).click({ force: true });
+    cy
+      .get(insecureSkipVerify, { timeout: 20 * 1000, withinSubject: null })
+      .click({ force: true });
   }
   cy
-    .get(helmChartName, { timeout: 20 * 1000 })
+    .get(helmChartName, { timeout: 20 * 1000, withinSubject: null })
     .type(chartName)
     .blur();
-  packageAlias && cy.get(helmPackageAlias, { timeout: 20 * 1000 }).clear();
+  packageAlias &&
+    cy
+      .get(helmPackageAlias, { timeout: 20 * 1000, withinSubject: null })
+      .clear();
   packageAlias &&
     cy
       .get(helmPackageAlias, { timeout: 20 * 1000 })
@@ -239,15 +246,19 @@ export const helmTasks = (clusterName, value, css, key = 0) => {
 
   packageVersion &&
     cy
-      .get(helmPackageVersion, { timeout: 20 * 1000 })
+      .get(helmPackageVersion, { timeout: 20 * 1000, withinSubject: null })
       .type(packageVersion)
       .blur();
 
   if (repositoryReconcileRate) {
-    cy.get(reconcileRate).type(repositoryReconcileRate, { force: true });
+    cy
+      .get(reconcileRate, { withinSubject: null })
+      .type(repositoryReconcileRate, { force: true });
   }
   if (disableAutoReconcileOption) {
-    cy.get(disableAutoReconcile).click({ force: true });
+    cy
+      .get(disableAutoReconcile, { withinSubject: null })
+      .click({ force: true });
   }
 
   selectClusterDeployment(deployment, clusterName, key);
@@ -323,8 +334,7 @@ export const objTasks = (clusterName, value, css, key = 0) => {
   cy
     .get("#object-storage")
     .last()
-    .click()
-    .trigger("mouseover");
+    .click();
 
   checkExistingUrls(objAccess, accessKey, objSecret, secretKey, objUrl, url);
   selectClusterDeployment(deployment, clusterName, key);

@@ -73,7 +73,20 @@ export default {
         cells.push({ title: '' }) // Empty Time window
       }
       cells.push({ title: '' }) // Empty Created
-      cells.push({ title: '' }) // Empty Actions
+      if (items[0].applicationSet) {
+        // We know from above this array has at least one item
+        cells.push({
+          title: (
+            <TableRowActionMenu
+              actions={tableActionsResolver(items[0], true)}
+              itemGroup={items}
+              resourceType={RESOURCE_TYPES.QUERY_APPLICATIONSET}
+            />
+          )
+        })
+      } else {
+        cells.push({ title: '' }) // Empty Actions
+      }
     } else {
       cells.push({ title: createNamespaceText(items[0]) })
       if (isSearchAvailable()) {
@@ -157,7 +170,7 @@ export default {
   }
 }
 
-function tableActionsResolver(item) {
+function tableActionsResolver(item, isAppSet = false) {
   const actions = [
     {
       key: 'table.actions.applications.view',
@@ -166,7 +179,7 @@ function tableActionsResolver(item) {
       }
     }
   ]
-  if (!isArgoApp(item)) {
+  if (!isArgoApp(item) || isAppSet) {
     actions.push({
       key: 'table.actions.applications.edit',
       link: {
@@ -183,10 +196,10 @@ function tableActionsResolver(item) {
           const [apigroup, apiversion] = item.apiVersion.split('/')
           return getSearchLink({
             properties: {
-              name: item.name,
+              name: isAppSet ? item.applicationSet : item.name,
               namespace: item.namespace,
               cluster: item.cluster,
-              kind: item.kind.toLowerCase(),
+              kind: isAppSet ? 'applicationset' : item.kind.toLowerCase(),
               apigroup,
               apiversion
             }
@@ -195,7 +208,7 @@ function tableActionsResolver(item) {
       }
     })
   }
-  if (!isArgoApp(item)) {
+  if (!isArgoApp(item) || isAppSet) {
     actions.push({
       key: 'table.actions.applications.remove',
       modal: true,

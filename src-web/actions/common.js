@@ -635,6 +635,7 @@ export const mutateResourceSuccessFinished = resourceType => ({
 export const clearSuccessFinished = dispatch => {
   [
     RESOURCE_TYPES.QUERY_APPLICATIONS,
+    RESOURCE_TYPES.QUERY_APPLICATIONSET,
     RESOURCE_TYPES.QUERY_CHANNELS,
     RESOURCE_TYPES.QUERY_SUBSCRIPTIONS,
     RESOURCE_TYPES.QUERY_PLACEMENTRULES

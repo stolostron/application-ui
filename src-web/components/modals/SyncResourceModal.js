@@ -142,7 +142,8 @@ class SyncResourceModal extends React.Component {
             selfLink: '',
             _uid: '',
             kind: '',
-            apiVersion: ''
+            apiVersion: '',
+            itemGroup: []
           }
         }
       })

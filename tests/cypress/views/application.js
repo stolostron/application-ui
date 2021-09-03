@@ -92,8 +92,8 @@ export const gitTasks = (clusterName, value, gitCss, key = 0) => {
     .get(`#git`)
     .last()
     .scrollIntoView()
-    .click()
-    .trigger("mouseover");
+    .click();
+  //.trigger("mouseover");
 
   checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);
 

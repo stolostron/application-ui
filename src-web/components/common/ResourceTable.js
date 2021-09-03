@@ -65,15 +65,17 @@ class ResourceTable extends React.Component {
         } else {
           this.setState({ isArgoInstallDisabled: false })
         }
-      })
-
-      canCreateActionAllNamespaces(
-        'applicationsets',
-        'create',
-        'argoproj.io'
-      ).then(response => {
-        const disabled = _.get(response, 'data.userAccessAnyNamespaces')
-        this.setState({ isArgoAppsetCreateDisabled: !disabled })
+        const { isArgoInstallDisabled } = this.state
+        if (!isArgoInstallDisabled) {
+          canCreateActionAllNamespaces(
+            'applicationsets',
+            'create',
+            'argoproj.io'
+          ).then(response => {
+            const disabled = _.get(response, 'data.userAccessAnyNamespaces')
+            this.setState({ isArgoAppsetCreateDisabled: !disabled })
+          })
+        }
       })
     }
   }

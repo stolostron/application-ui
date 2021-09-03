@@ -123,7 +123,7 @@ export const controlData = [
       required: true
     },
     reverse:
-      'ApplicationSet[0].spec.generators[0].clusterDecisionResource.requeueAfterSeconds'
+      'ApplicationSet[0].spec.generators.clusterDecisionResource.requeueAfterSeconds'
   },
 
   ///////////////////////  template  /////////////////////////////////////

@@ -854,6 +854,8 @@ export const createResourceSearchLink = node => {
   //returns search link for resource
   if (nodeType === 'cluster') {
     if (isSearchAvailable()) {
+      const clusterNames = _.get(node, 'specs.clustersNames')
+      const clusterNameStr = clusterNames ? clusterNames.join() : undefined
       result = {
         type: 'link',
         value: {
@@ -861,7 +863,10 @@ export const createResourceSearchLink = node => {
           id: node.id,
           data: {
             action: 'show_search',
-            name: (node.name && R.replace(/ /g, '')(node.name)) || 'undefined', // take out spaces
+            name:
+              (node.name && R.replace(/ /g, '')(node.name)) ||
+              clusterNameStr ||
+              'undefined', // take out spaces
             kind: 'cluster'
           },
           indent: true

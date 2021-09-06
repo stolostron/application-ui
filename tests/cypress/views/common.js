@@ -923,10 +923,7 @@ export const testGitApiInput = data => {
   cy.get(".pf-c-title").should("exist");
 
   cy.log("Select git url");
-  cy
-    .get("#git", { timeout: 20 * 1000 })
-    .click({ force: true })
-    .trigger("mouseover");
+  cy.get("#git", { timeout: 20 * 1000 }).click({ force: true });
 
   checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);
 

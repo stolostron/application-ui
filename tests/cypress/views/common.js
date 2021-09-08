@@ -17,7 +17,9 @@ export const selectDate = (date, key) => {
       { dateId: d.toLowerCase().substring(0, 3) + "-timeWindow" },
       key
     );
-    cy.get(`#${dateId}`, { timeout: 20 * 1000 }).click({ force: true });
+    cy
+      .get(`#${dateId}`, { timeout: 20 * 1000, withinSubject: null })
+      .click({ force: true });
   });
 };
 
@@ -38,31 +40,35 @@ export const selectTimeWindow = (timeWindow, key = 0) => {
     );
     const typeID = type === "blockinterval" ? blocked : active;
     cy
-      .get(typeID)
+      .get(typeID, { withinSubject: null })
       .scrollIntoView()
       .click({ force: true });
     selectDate(date, key);
 
-    cy.get(".pf-c-select.config-timezone-combo-box").within($timezone => {
-      cy.get("[type='button']").click();
-      cy
-        .get(".pf-c-select__menu-item:first", {
-          timeout: 30 * 1000
-        })
-        .click();
-    });
+    cy
+      .get(".pf-c-select.config-timezone-combo-box", { withinSubject: null })
+      .last()
+      .within($timezone => {
+        cy.get("[type='button']").click();
+        cy
+          .get(".pf-c-select__menu-item:first", {
+            timeout: 30 * 1000
+          })
+          .click();
+      });
 
     if (hours) {
       const group = key != 0 ? `grp${key}` : "";
       hours.forEach((interval, idx) => {
         const startTime = `#start-time-${idx}-timeWindow${group}-input`;
         const endTime = `#end-time-${idx}-timeWindow${group}-input`;
-        cy.get(startTime).type(interval.start);
-        cy.get(endTime).type(interval.end);
+        cy.get(startTime, { withinSubject: null }).type(interval.start);
+        cy.get(endTime, { withinSubject: null }).type(interval.end);
 
         if (idx < hours.length - 1) {
           cy
-            .get(".add-time-btn", { timeout: 10 * 1000 })
+            .get(".add-time-btn", { timeout: 10 * 1000, withinSubject: null })
+            .last()
             .scrollIntoView()
             .click({ force: true });
         }
@@ -250,11 +256,11 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
     if (existing) {
       cy.log(`Select to deploy using existing placement ${existing}`);
       cy
-        .get(existingClusterID, { timeout: 50 * 1000 })
+        .get(existingClusterID, { timeout: 50 * 1000, withinSubject: null })
         .click({ force: true })
         .trigger("mouseover", { force: true });
 
-      cy.get(existingRuleComboID).within($rules => {
+      cy.get(existingRuleComboID, { withinSubject: null }).within($rules => {
         cy.get(".pf-c-select__toggle-button").click();
         cy
           .get(".pf-c-select__menu-item:first", {
@@ -265,29 +271,32 @@ export const selectClusterDeployment = (deployment, clusterName, key) => {
 
       cy
         .get(uniqueClusterID, {
-          timeout: 30 * 1000
+          timeout: 30 * 1000,
+          withinSubject: null
         })
         .should("be.disabled");
       cy
         .get(labelNameID, {
-          timeout: 30 * 1000
+          timeout: 30 * 1000,
+          withinSubject: null
         })
         .should("be.disabled");
       cy
         .get(labelValueID, {
-          timeout: 30 * 1000
+          timeout: 30 * 1000,
+          withinSubject: null
         })
         .should("be.disabled");
     } else if (online) {
       cy.log("Select to deploy to all online clusters including local cluster");
       cy
-        .get(onlineClusterID, { timeout: 50 * 1000 })
+        .get(onlineClusterID, { timeout: 50 * 1000, withinSubject: null })
         .click({ force: true })
         .trigger("mouseover", { force: true });
     } else if (local) {
       cy.log("Select to deploy to local cluster only");
       cy
-        .get(localClusterID, { timeout: 50 * 1000 })
+        .get(localClusterID, { timeout: 50 * 1000, withinSubject: null })
         .click({ force: true })
         .trigger("mouseover", { force: true });
     } else {
@@ -914,10 +923,7 @@ export const testGitApiInput = data => {
   cy.get(".pf-c-title").should("exist");
 
   cy.log("Select git url");
-  cy
-    .get("#git", { timeout: 20 * 1000 })
-    .click({ force: true })
-    .trigger("mouseover");
+  cy.get("#git", { timeout: 20 * 1000 }).click({ force: true });
 
   checkExistingUrls(gitUser, username, gitKey, token, gitUrl, url);
 
@@ -973,8 +979,6 @@ export const testInvalidApplicationInput = () => {
   cy.get("#eman", { timeout: 50 * 1000 }).type(invalidValue);
   cy.get("#eman-helper").should("exist");
 
-  submitSave(false); //test save error
-
   cy
     .get("#eman", { timeout: 50 * 1000 })
     .clear()
@@ -988,7 +992,6 @@ export const testInvalidApplicationInput = () => {
     .type(invalidValue)
     .blur();
   cy.get("#emanspace-helper").should("exist");
-  submitSave(false); //test save error
 
   cy
     .get("#emanspace", { timeout: 50 * 1000 })
@@ -1000,10 +1003,7 @@ export const testInvalidApplicationInput = () => {
   saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid git url");
-  cy
-    .get("#git", { timeout: 20 * 1000 })
-    .click({ force: true })
-    .trigger("mouseover");
+  cy.get("#git", { timeout: 20 * 1000 }).click({ force: true });
 
   cy
     .get("#githubURL", { timeout: 20 * 1000 })
@@ -1021,8 +1021,6 @@ export const testInvalidApplicationInput = () => {
   cy.get("#labelValue-0-clusterSelector").type("value");
 
   cy.get("#githubURL-helper").should("exist");
-  cy.wait(1000);
-  submitSave(false); //test save error
 
   cy
     .get("#githubURL", { timeout: 20 * 1000 })
@@ -1054,14 +1052,12 @@ export const testInvalidApplicationInput = () => {
   cy
     .get("#git")
     .last()
-    .click()
-    .trigger("mouseover");
+    .click();
 
   cy
     .get("#helm")
     .last()
-    .click()
-    .trigger("mouseover");
+    .click();
 
   cy
     .get("#helmURL", { timeout: 20 * 1000 })
@@ -1076,8 +1072,6 @@ export const testInvalidApplicationInput = () => {
   cy.get("#helmChartName").type("chartName");
 
   cy.get("#helmURL-helper").should("exist");
-  cy.wait(1000);
-  submitSave(false); //test save error
 
   cy
     .get("#helmURL", { timeout: 20 * 1000 })
@@ -1089,14 +1083,8 @@ export const testInvalidApplicationInput = () => {
   saveErrorShouldNotExist(); //save error goes away
 
   cy.log("Test invalid object store url");
-  cy
-    .get("#helm")
-    .click()
-    .trigger("mouseover");
-  cy
-    .get("#object-storage")
-    .click()
-    .trigger("mouseover");
+  cy.get("#helm").click();
+  cy.get("#object-storage").click();
 
   cy
     .get("#objectstoreURL", { timeout: 20 * 1000 })
@@ -1110,8 +1098,6 @@ export const testInvalidApplicationInput = () => {
   cy.get("#labelValue-0-clusterSelector").type("value");
 
   cy.get("#objectstoreURL-helper").should("exist");
-  cy.wait(1000);
-  submitSave(false); //test save error
 
   cy
     .get("#objectstoreURL", { timeout: 20 * 1000 })
@@ -1129,7 +1115,6 @@ export const testInvalidApplicationInput = () => {
     date: []
   };
   selectTimeWindow(timeWindow, 0);
-  submitSave(false); //test error
 };
 
 // Calculates unique CSS selectors based on index
@@ -1269,10 +1254,9 @@ export const validateDefect7696 = name => {
 export const navigateApplication = () => {
   cy.visit("/multicloud/applications");
   cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.exist");
-  // wait for create button to be enabled
-  cy.wait(10000);
   cy
     .get('button[id="actions.create.application"]', { timeout: 100 * 1000 })
+    .should("not.be.disabled")
     .click({ force: true });
   cy.wait(1000);
 };

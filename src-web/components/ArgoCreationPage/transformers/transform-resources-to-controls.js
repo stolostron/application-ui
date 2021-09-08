@@ -16,7 +16,12 @@ import _ from 'lodash'
 
 //only called when editing an existing application
 //examines resources to create the correct resource types that are being deployed
-export const discoverGroupsFromSource = (control, cd, templateObject) => {
+export const discoverGroupsFromSource = (
+  control,
+  cd,
+  templateObject,
+  editor
+) => {
   const applicationResource = _.get(
     templateObject,
     'ApplicationSet[0].$raw',
@@ -52,13 +57,40 @@ export const discoverGroupsFromSource = (control, cd, templateObject) => {
   const chart = _.get(source, 'chart')
   const id = chart ? 'helmrepo' : 'github'
 
-  control.active[0][3].active = id
   // insert channel type control data in this group
-
-  const availableMap = _.get(control.active[0][3].availableMap, id)
+  const channelTypeControl = control.active[0][3]
+  channelTypeControl.active = id
+  const availableMap = _.get(channelTypeControl.availableMap, id)
   const insertControlData = _.get(availableMap, 'change.insertControlData')
   control.active[0] = [...control.active[0], ...insertControlData]
 
+  const handler = {
+    get: (obj, prop) => {
+      const target = editor.currentData()
+      let ret = Reflect.get(target, prop)
+      if (typeof ret === 'function') {
+        ret = ret.bind(target)
+      }
+      return ret
+    }
+  }
+  const lastestData = new Proxy({}, handler)
+  control.active[0].forEach(c => {
+    c.groupControlData = control.active[0]
+    if (typeof c.onSelect === 'function') {
+      c.onSelect = c.onSelect.bind(null, c, lastestData, (ctrl, isLoading) => {
+        if (isLoading) {
+          ctrl.isLoading = isLoading
+          editor.forceUpdate()
+        } else {
+          setTimeout(() => {
+            ctrl.isLoading = isLoading
+            editor.forceUpdate()
+          })
+        }
+      })
+    }
+  })
   if (insertControlData) {
     const { repoURL, path, targetRevision } = source
     const githubURL = insertControlData.find(({ id }) => id === 'githubURL')

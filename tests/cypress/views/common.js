@@ -1253,7 +1253,6 @@ export const validateDefect7696 = name => {
 
 export const navigateApplication = () => {
   cy.visit("/multicloud/applications");
-  cy.get(".pf-c-empty-state", { timeout: 100 * 1000 }).should("not.exist");
   cy
     .get('button[id="actions.create.application"]', { timeout: 100 * 1000 })
     .should("not.be.disabled")

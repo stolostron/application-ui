@@ -37,3 +37,24 @@
             - PrunePropagationPolicy={{{propagationPolicy}}}
             {{/if}}
           {{/if}}
+
+{{#unless channelNamespace}}
+{{#unless channelNamespaceExists}}
+---
+apiVersion: v1                      
+kind: Namespace
+metadata:
+  name: {{{channelName}}}-ns
+{{/unless}}
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: {{{channelName}}}
+  namespace: {{{channelName}}}-ns
+  {{#if selfLinks}}
+  selfLink: {{{selfLinks.Channel}}}
+  {{/if}}
+spec:
+  type: HelmRepo
+{{/unless}}

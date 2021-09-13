@@ -9,7 +9,8 @@ import {
   getUniqueChannelName,
   setAvailableArgoServer,
   setAvailableRules,
-  setAvailableChannelSpecs
+  setAvailableChannelSpecs,
+  updateChannelControls
 } from "../../../../../src-web/components/ArgoCreationPage/controlData/utils";
 import { updateDisplayForPlacementControls } from "../../../../../src-web/components/ArgoCreationPage/controlData/ControlDataPlacement";
 
@@ -417,6 +418,107 @@ describe("setAvailableArgoServer", () => {
   };
   it("setAvailableArgoServer error", () => {
     expect(setAvailableArgoServer(urlControl, model)).toEqual(result);
+  });
+});
+
+describe("updateChannelControls", () => {
+  const data = {
+    id: "githubUrl",
+    active: "",
+    availableData: [],
+    groupControlData: [
+      {
+        id: "channelName",
+        type: "hidden",
+        active: ""
+      },
+      {
+        id: "channelNamespace",
+        type: "hidden",
+        active: ""
+      },
+      {
+        id: "channelNamespaceExists",
+        type: "hidden",
+        active: true
+      },
+      {
+        id: "githubURL",
+        active: "",
+        available: ["urlPath"]
+      },
+      {
+        id: "githubBranch",
+        active: "aaa",
+        available: ["aa"]
+      },
+      {
+        id: "githubUser",
+        active: "user"
+      },
+      {
+        id: "githubAccessId",
+        active: "token"
+      },
+      {
+        id: "prune",
+        type: ""
+      },
+      {
+        id: "pruneLast",
+        type: ""
+      },
+      {
+        id: "replace",
+        type: ""
+      }
+    ]
+  };
+
+  const result = [
+    { active: true, availableData: {}, id: "namespace" },
+    { id: "userDefinedNamespace" },
+    {
+      controlMapArr: [
+        {
+          available: [],
+          clusterSelector: {
+            active: {
+              clusterLabelsList: [
+                { id: 0, labelName: "", labelValue: "", validValue: true }
+              ],
+              clusterLabelsListID: 1,
+              mode: ""
+            },
+            id: "clusterSelector"
+          }
+        },
+        {
+          "local-cluster-checkbox": {
+            active: false,
+            id: "local-cluster-checkbox"
+          }
+        },
+        {
+          "online-cluster-only-checkbox": {
+            active: false,
+            id: "online-cluster-only-checkbox"
+          }
+        },
+        {
+          placementrulecombo: {
+            active: false,
+            id: "placementrulecombo",
+            ns: "aa-ns"
+          }
+        },
+        { selectedRuleName: { actve: "result-pr", id: "selectedRuleName" } }
+      ],
+      id: "channels"
+    }
+  ];
+  it("updateChannelControls valid url", () => {
+    expect(updateChannelControls(data, controlDataNS)).toEqual(result);
   });
 });
 

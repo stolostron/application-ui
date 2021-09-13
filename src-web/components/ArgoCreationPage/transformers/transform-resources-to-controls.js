@@ -116,8 +116,8 @@ export const discoverGroupsFromSource = (
   _.set(decisionResourceControl, 'type', 'combobox')
   const sourcePath =
     'ApplicationSet[0].spec.generators[0].clusterDecisionResource.labelSelector.matchLabels["cluster.open-cluster-management.io/placement"]'
-  const ff = _.get(templateObject, getSourcePath(sourcePath), {})
-  _.set(decisionResourceControl, 'active', ff.$v)
+  const decision = _.get(templateObject, getSourcePath(sourcePath), {})
+  _.set(decisionResourceControl, 'active', decision.$v)
   _.set(clusterSelectorControl, 'type', 'hidden')
 
   // sync policy

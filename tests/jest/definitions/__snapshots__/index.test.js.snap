@@ -35,10 +35,33 @@ Object {
     "disableMsgKey": "actions.create.application.access.denied",
     "msgKey": "actions.create.application",
   },
+  "tableFilter": Object {
+    "labelKey": "table.filter.type.acm.application.label",
+    "options": Array [
+      Object {
+        "labelKey": "table.filter.type.acm.application",
+        "valueKey": "table.filter.type.acm.application.value",
+      },
+      Object {
+        "labelKey": "table.filter.type.argo.application",
+        "valueKey": "table.filter.type.argo.application.value",
+      },
+    ],
+    "tableFilterFn": [Function],
+  },
   "tableKeys": Array [
     Object {
       "msgKey": "table.header.name",
       "resourceKey": "name",
+      "textFunction": [Function],
+      "transformFunction": [Function],
+      "transforms": Array [
+        [Function],
+      ],
+    },
+    Object {
+      "msgKey": "table.header.type",
+      "resourceKey": "type",
       "textFunction": [Function],
       "transformFunction": [Function],
       "transforms": Array [
@@ -96,6 +119,15 @@ Array [
   Object {
     "msgKey": "table.header.name",
     "resourceKey": "name",
+    "textFunction": [Function],
+    "transformFunction": [Function],
+    "transforms": Array [
+      [Function],
+    ],
+  },
+  Object {
+    "msgKey": "table.header.type",
+    "resourceKey": "type",
     "textFunction": [Function],
     "transformFunction": [Function],
     "transforms": Array [

@@ -151,6 +151,7 @@ class ResourceTable extends React.Component {
         sort={sort}
         setSort={setSort}
         customTableAction={this.renderCreateButton()}
+        filters={this.getTableFilters()}
       />
     ]
   }
@@ -291,6 +292,34 @@ class ResourceTable extends React.Component {
       handleSelect: () => this.handleDropdownSelection(),
       tooltipPosition: TooltipPosition.right
     }
+  }
+
+  getTableFilters() {
+    const { staticResourceData, locale } = this.props
+    const { tableFilter } = staticResourceData
+
+    if (!tableFilter) {
+      return undefined
+    }
+
+    const { options = [] } = tableFilter
+    const filterOptions = []
+
+    options.forEach(option => {
+      filterOptions.push({
+        label: msgs.get(option.labelKey, locale),
+        value: msgs.get(option.valueKey, locale)
+      })
+    })
+
+    return [
+      {
+        label: msgs.get(tableFilter.labelKey, locale),
+        id: tableFilter.labelKey,
+        options: filterOptions,
+        tableFilterFn: tableFilter.tableFilterFn
+      }
+    ]
   }
 }
 

@@ -11,7 +11,7 @@
 // Copyright Contributors to the Open Cluster Management project
 'use strict'
 
-import { getResourceID } from 'temptifly'
+import { getResourceID, getSourcePath } from 'temptifly'
 import _ from 'lodash'
 
 //only called when editing an existing application
@@ -104,25 +104,21 @@ export const discoverGroupsFromSource = (
   }
 
   // Placement
-  const placementResource = _.get(templateObject, 'Placement[0]')
-  const selfLinksControl = cd.find(({ id }) => id === 'selfLinks')
   const clusterSelectorControl = cd.find(({ id }) => id === 'clusterSelector')
+  const existingRuleControl = cd.find(
+    ({ id }) => id === 'existingrule-checkbox'
+  )
+  _.set(existingRuleControl, 'active', true)
 
-  if (selfLinksControl && placementResource) {
-    const placementSelfLink = getResourceID(placementResource.$raw)
-    _.set(selfLinksControl, 'active.Placement', placementSelfLink)
-  } else {
-    const existingRuleControl = cd.find(
-      ({ id }) => id === 'existingrule-checkbox'
-    )
-    _.set(existingRuleControl, 'active', true)
-
-    const decisionResourceControl = cd.find(
-      ({ id }) => id === 'decisionResourceName'
-    )
-    _.set(decisionResourceControl, 'type', 'combobox')
-    _.set(clusterSelectorControl, 'type', 'hidden')
-  }
+  const decisionResourceControl = cd.find(
+    ({ id }) => id === 'decisionResourceName'
+  )
+  _.set(decisionResourceControl, 'type', 'combobox')
+  const sourcePath =
+    'ApplicationSet[0].spec.generators[0].clusterDecisionResource.labelSelector.matchLabels["cluster.open-cluster-management.io/placement"]'
+  const decision = _.get(templateObject, getSourcePath(sourcePath), {})
+  _.set(decisionResourceControl, 'active', decision.$v)
+  _.set(clusterSelectorControl, 'type', 'hidden')
 
   // sync policy
   const syncOptions = _.get(

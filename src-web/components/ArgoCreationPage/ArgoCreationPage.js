@@ -175,8 +175,6 @@ class ArgoCreationPage extends React.Component {
         // known limitation that the appset wouldn't be able to find the clusterName in create
         history.push(`${config.contextPath}`)
       }, 3000)
-    } else if (mutateStatus && mutateStatus === 'ERROR') {
-      this.props.cleanReqStatus()
     }
   }
 

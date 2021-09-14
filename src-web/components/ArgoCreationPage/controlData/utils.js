@@ -238,6 +238,7 @@ export const updateArgoSelection = async control => {
     const items = _.get(result, 'data.searchResult[0].items', [])
     if (items.length === 0) {
       control.exception = msgs.get('argo.server.selection.exception')
+      control.forceUpdate()
     }
   } else {
     delete control.exception

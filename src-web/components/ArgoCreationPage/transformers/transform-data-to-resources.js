@@ -84,7 +84,9 @@ export const getApplicationResources = application => {
     // application
     resources.push(filterDeep(app))
     // placement
-    resources.push(filterDeep(placement))
+    if (placement) {
+      resources.push(filterDeep(placement))
+    }
     return resources
   }
   return null

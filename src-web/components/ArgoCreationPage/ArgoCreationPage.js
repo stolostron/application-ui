@@ -175,8 +175,6 @@ class ArgoCreationPage extends React.Component {
         // known limitation that the appset wouldn't be able to find the clusterName in create
         history.push(`${config.contextPath}`)
       }, 3000)
-    } else if (mutateStatus && mutateStatus === 'ERROR') {
-      this.props.cleanReqStatus()
     }
   }
 
@@ -240,7 +238,8 @@ class ArgoCreationPage extends React.Component {
     return (
       controlData && (
         <PageSection
-          className={classNames({ editApplication })}
+          className={classNames({ editApplication, 'pf-c-content': true })}
+          style={{ padding: 0 }}
           variant="light"
         >
           <TemplateEditor

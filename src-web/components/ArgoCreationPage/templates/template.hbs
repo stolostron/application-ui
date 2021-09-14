@@ -121,10 +121,10 @@ spec:
       {{#each clusterSelector.clusterLabelsList}}
       {{#if validValue}}
       '{{{labelName}}}': '{{{labelValue}}}'
+      {{/if}}
+      {{/each}} 
   clusterConditions:
     - type: ManagedClusterConditionAvailable
       status: "True"
-      {{/if}}
-      {{/each}} 
 {{/if}}
 {{/unless}}

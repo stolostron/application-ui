@@ -72,7 +72,7 @@ export const checkExistingUrls = (
     });
 
     cy
-      .get(repoFieldId, { timeout: 20 * 1000 })
+      .get(repoFieldId, { timeout: 20 * 1000, withinSubject: null })
       .type(urlPathForChannel, { timeout: 50 * 1000 })
       .blur();
 

@@ -360,6 +360,28 @@ export const summarize = (control, controlData, summary) => {
   }
 }
 
+export const summary = control => {
+  const { clusterLabelsList } = control.active || {}
+  if (
+    clusterLabelsList &&
+    _.get(control, 'type', '') !== 'hidden' &&
+    _.get(control, 'active.mode')
+  ) {
+    const labels = []
+    clusterLabelsList.forEach(({ labelName, labelValue }) => {
+      if (labelName && labelValue) {
+        labels.push(`${labelName}=${labelValue}`)
+      }
+    })
+    return [
+      {
+        term: 'Selector labels',
+        desc: labels.join(', ')
+      }
+    ]
+  }
+}
+
 export const reverse = (control, templateObject) => {
   if (!control.active) {
     let matchLabels

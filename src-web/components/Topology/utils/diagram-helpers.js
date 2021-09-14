@@ -371,6 +371,9 @@ const getPulseStatusForGenericNode = node => {
   const onlineClusters = getOnlineClusters(node)
   if (!resourceMap || onlineClusters.length === 0) {
     pulse = 'orange' //resource not available
+    if (nodeType === 'placement') {
+      pulse = 'green'
+    }
     return pulse
   }
   if (!allClustersAreOnline(clusterNames, onlineClusters)) {
@@ -1336,6 +1339,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       R.contains(node.type, [
         'application',
         'placements',
+        'placement',
         'cluster',
         'subscription'
       ]))

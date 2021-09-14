@@ -676,40 +676,6 @@ describe("getNodeDetails subscription", () => {
   });
 });
 
-describe("getNodeDetails placement node", () => {
-  const placementNode = {
-    id: "placement1",
-    uid: "placement1",
-    name: "mortgage-placement",
-    cluster: null,
-    clusterName: null,
-    type: "placement",
-    specs: {
-      placements: [
-        {
-          name: "placement1"
-        },
-        {
-          name: "placement2"
-        }
-      ]
-    }
-  };
-
-  const expectedValue = [
-    { type: "spacer" },
-    { labelKey: "prop.details.section", type: "label" },
-    { type: "spacer" },
-    { labelKey: "resource.placement", type: "label" },
-    { type: "snippet", value: { name: "placement1" } },
-    { type: "snippet", value: { name: "placement2" } }
-  ];
-
-  it("should process the node, more cluster nodes", () => {
-    expect(getNodeDetails(placementNode, locale)).toEqual(expectedValue);
-  });
-});
-
 describe("getNodeDetails deployment node", () => {
   const deploymentNode = {
     id:

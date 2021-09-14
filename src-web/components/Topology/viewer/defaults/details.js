@@ -24,9 +24,13 @@ import {
   addDetails,
   addNodeOCPRouteLocationForCluster,
   addIngressNodeInfo,
-  setClusterStatus
+  setClusterStatus,
+  createEditLink
 } from '../../utils/diagram-helpers'
+import { LOCAL_HUB_NAME } from '../../../../../lib/shared/constants'
 import { showArgoApplicationSetLink } from '../../utils/diagram-helpers-argo'
+
+import { isSearchAvailable } from '../../../../../lib/client/search-helper'
 import msgs from '../../../../../nls/platform.properties'
 import { kubeNaming } from './titles'
 
@@ -35,7 +39,7 @@ const resName = 'resource.name'
 export const getNodeDetails = (node, updatedNode, activeFilters) => {
   const details = []
   if (node) {
-    const { type, specs, labels = [] } = node
+    const { type, labels = [] } = node
 
     // for argo apps with application sets
     showArgoApplicationSetLink(node, details)
@@ -47,6 +51,27 @@ export const getNodeDetails = (node, updatedNode, activeFilters) => {
       type: 'spacer'
     })
     if (type !== 'cluster') {
+      if (type === 'placement') {
+        const showLocalYaml = 'props.show.local.yaml'
+        const showResourceYaml = 'show_resource_yaml'
+        const editLink = createEditLink(node)
+        editLink &&
+          isSearchAvailable() &&
+          details.push({
+            type: 'link',
+            value: {
+              label: msgs.get(showLocalYaml),
+              data: {
+                action: showResourceYaml,
+                cluster: LOCAL_HUB_NAME,
+                editLink: editLink
+              }
+            }
+          })
+        details.push({
+          type: 'spacer'
+        })
+      }
       details.push({
         type: 'label',
         labelKey: 'prop.details.section'
@@ -64,22 +89,6 @@ export const getNodeDetails = (node, updatedNode, activeFilters) => {
     switch (type) {
     case 'cluster':
       setClusterStatus(node, details)
-      break
-
-    case 'placement':
-      {
-        const { placements = [] } = specs
-        details.push({
-          type: 'label',
-          labelKey: 'resource.placement'
-        })
-        placements.forEach(placement => {
-          details.push({
-            type: 'snippet',
-            value: placement
-          })
-        })
-      }
       break
 
     case 'package':

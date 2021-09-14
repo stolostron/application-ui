@@ -8,7 +8,13 @@
 // Copyright (c) 2020 Red Hat, Inc.
 // Copyright Contributors to the Open Cluster Management project
 
-import { createApplicationLink } from "../../../src-web/definitions/hcm-applications";
+import {
+  createApplicationLink,
+  createTypeCell,
+  createTypeText
+} from "../../../src-web/definitions/hcm-applications";
+
+const locale = "en-US";
 
 const query_data1 = {
   name: "val",
@@ -235,8 +241,7 @@ describe("createApplicationLink", () => {
             },
             ref: null
           },
-          false,
-          null
+          false
         ],
         hasGutter: true,
         style: {
@@ -248,5 +253,109 @@ describe("createApplicationLink", () => {
     expect(
       JSON.parse(JSON.stringify(createApplicationLink(query_data1)))
     ).toEqual(result);
+  });
+});
+
+describe("createTypeCell", () => {
+  it("should return the type cell contents ", () => {
+    const data = {
+      apiVersion: "argoproj.io/v1alpha1",
+      applicationSet: "appset-syncpolicies",
+      chart: null,
+      cluster: "local-cluster",
+      clusterCount: { localCount: 0, remoteCount: 0 },
+      created: "2021-08-24T15:03:02Z",
+      dashboard: null,
+      destinationCluster: "console-managed",
+      destinationNamespace: "appset-syncpolicies",
+      hubChannels: [],
+      hubSubscriptions: [],
+      kind: "Application",
+      name: "appset-syncpolicies-console-managed",
+      namespace: "openshift-gitops",
+      path: "helloworld",
+      repoURL: "https://github.com/fxiang1/app-samples.git",
+      targetRevision: "main",
+      __typename: "Application",
+      _uid: "local-cluster/533f9acb-b361-4b57-b338-a1389aac0844"
+    };
+
+    let result = {
+      _owner: null,
+      _store: {},
+      key: null,
+      props: {
+        children: [
+          {
+            _owner: null,
+            _store: {},
+            key: null,
+            props: {
+              children: "appset-syncpolicies",
+              replace: false,
+              target: "_blank",
+              to:
+                "/resources?apiversion=argoproj.io%2Fv1alpha1&cluster=local-cluster&kind=ApplicationSet&name=appset-syncpolicies&namespace=openshift-gitops"
+            },
+            ref: null
+          },
+          {
+            _owner: null,
+            _store: {},
+            key: null,
+            props: {},
+            ref: null,
+            type: "br"
+          },
+          {
+            _owner: null,
+            _store: {},
+            key: null,
+            props: {
+              children: "Application set",
+              style: {
+                color: "#6A6E73"
+              }
+            },
+            ref: null,
+            type: "span"
+          }
+        ]
+      },
+      ref: null
+    };
+
+    expect(
+      JSON.parse(JSON.stringify(createTypeCell(data, locale, true)))
+    ).toEqual(result);
+  });
+});
+
+describe("createTypeText", () => {
+  it("should return the type cell text for search ", () => {
+    const data = {
+      apiVersion: "argoproj.io/v1alpha1",
+      applicationSet: "appset-syncpolicies",
+      chart: null,
+      cluster: "local-cluster",
+      clusterCount: { localCount: 0, remoteCount: 0 },
+      created: "2021-08-24T15:03:02Z",
+      dashboard: null,
+      destinationCluster: "console-managed",
+      destinationNamespace: "appset-syncpolicies",
+      hubChannels: [],
+      hubSubscriptions: [],
+      kind: "Application",
+      name: "appset-syncpolicies-console-managed",
+      namespace: "openshift-gitops",
+      path: "helloworld",
+      repoURL: "https://github.com/fxiang1/app-samples.git",
+      targetRevision: "main",
+      __typename: "Application",
+      _uid: "local-cluster/533f9acb-b361-4b57-b338-a1389aac0844"
+    };
+
+    const result = "Application set";
+    expect(createTypeText(data, locale)).toEqual(result);
   });
 });

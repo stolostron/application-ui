@@ -660,7 +660,7 @@ export const validateResourceTable = (
   }
   resourceTable.getRow(name, resourceKey).within(() =>
     resourceTable
-      .getCell("Namespace", type === "argo" ? 2 : null)
+      .getCell("Namespace", type === "argo" ? 3 : null)
       .invoke("text")
       .should("include", type === "argo" ? deployedNamespace : namespace)
   );

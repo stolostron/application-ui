@@ -19,7 +19,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
         >
           <div
             class="pf-c-toolbar"
-            id="pf-random-id-2"
+            id="pf-random-id-6"
           >
             <div
               class="pf-c-toolbar__content"
@@ -27,6 +27,75 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               <div
                 class="pf-c-toolbar__content-section"
               >
+                <div
+                  class="pf-c-toolbar__group pf-m-filter-group"
+                >
+                  <div
+                    class="pf-c-toolbar__item"
+                  >
+                    <div
+                      class="pf-c-toolbar__item"
+                    >
+                      <div
+                        class="pf-c-select"
+                        data-ouia-component-id="OUIA-Generated-Select-checkbox-6"
+                        data-ouia-component-type="PF4/Select"
+                        data-ouia-safe="true"
+                      >
+                        <button
+                          aria-expanded="false"
+                          aria-labelledby=" pf-select-toggle-id-20"
+                          class="pf-c-select__toggle"
+                          id="pf-select-toggle-id-20"
+                          type="button"
+                        >
+                          <div
+                            class="pf-c-select__toggle-wrapper"
+                          >
+                            <span
+                              class="pf-c-select__toggle-text"
+                            >
+                              <div>
+                                <svg
+                                  aria-hidden="true"
+                                  class="makeStyles-filterLabelMargin-4"
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  style="vertical-align: -0.125em;"
+                                  viewBox="0 0 512 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M487.976 0H24.028C2.71 0-8.047 25.866 7.058 40.971L192 225.941V432c0 7.831 3.821 15.17 10.237 19.662l80 55.98C298.02 518.69 320 507.493 320 487.98V225.941l184.947-184.97C520.021 25.896 509.338 0 487.976 0z"
+                                  />
+                                </svg>
+                                Filter
+                              </div>
+                            </span>
+                          </div>
+                          <span
+                            class="pf-c-select__toggle-arrow"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 320 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                              />
+                            </svg>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div
                   class="pf-c-toolbar__group pf-m-filter-group"
                 >
@@ -116,7 +185,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </div>
                 </div>
                 <div
-                  class="pf-c-dropdown pf-m-align-right makeStyles-button-4 makeStyles-button-7"
+                  class="pf-c-dropdown pf-m-align-right makeStyles-button-7 makeStyles-button-10"
                   data-ouia-component-id="OUIA-Generated-Dropdown-5"
                   data-ouia-component-type="PF4/Dropdown"
                   data-ouia-safe="true"
@@ -298,7 +367,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               </div>
               <div
                 class="pf-c-toolbar__expandable-content"
-                id="pf-random-id-2-expandable-content-20"
+                id="pf-random-id-6-expandable-content-20"
               >
                 <div
                   class="pf-c-toolbar__group"
@@ -380,6 +449,45 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                       aria-sort="ascending"
                       class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
                       data-key="1"
+                      data-label="Type"
+                      scope="col"
+                    >
+                      <button
+                        class="pf-c-table__button"
+                        type="button"
+                      >
+                        <div
+                          class="pf-c-table__button-content"
+                        >
+                          <span
+                            class="pf-c-table__text"
+                          >
+                            Type
+                          </span>
+                          <span
+                            class="pf-c-table__sort-indicator"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 256 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                      </button>
+                    </th>
+                    <th
+                      aria-sort="none"
+                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
+                      data-key="2"
                       data-label="Namespace"
                       scope="col"
                     >
@@ -411,7 +519,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                                 width="1em"
                               >
                                 <path
-                                  d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
                                 />
                               </svg>
                             </span>
@@ -448,7 +556,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="2"
+                      data-key="3"
                       data-label="Clusters"
                       scope="col"
                     >
@@ -517,7 +625,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="3"
+                      data-key="4"
                       data-label="Resource"
                       scope="col"
                     >
@@ -586,7 +694,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="4"
+                      data-key="5"
                       data-label="Time window"
                       scope="col"
                     >
@@ -655,7 +763,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="5"
+                      data-key="6"
                       data-label="Created"
                       scope="col"
                     >
@@ -693,7 +801,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </th>
                     <td
                       class=""
-                      data-key="6"
+                      data-key="7"
                       data-label=""
                     />
                   </tr>
@@ -732,13 +840,29 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <td
                       class=""
                       data-key="1"
+                      data-label="Type"
+                    >
+                      <a
+                        href="/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=Subscription&namespace=default"
+                        target="_blank"
+                      />
+                      <br />
+                      <span
+                        style="color: rgb(106, 110, 115);"
+                      >
+                        Subscription
+                      </span>
+                    </td>
+                    <td
+                      class=""
+                      data-key="2"
                       data-label="Namespace"
                     >
                       default
                     </td>
                     <td
                       class=""
-                      data-key="2"
+                      data-key="3"
                       data-label="Clusters"
                     >
                       <a
@@ -750,7 +874,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="3"
+                      data-key="4"
                       data-label="Resource"
                     >
                       <div
@@ -759,19 +883,19 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="4"
+                      data-key="5"
                       data-label="Time window"
                     />
                     <td
                       class=""
-                      data-key="5"
+                      data-key="6"
                       data-label="Created"
                     >
                       4 years ago
                     </td>
                     <td
                       class="pf-c-table__action"
-                      data-key="6"
+                      data-key="7"
                       style="width: auto; padding-right: 0px;"
                     >
                       <div
@@ -1046,6 +1170,75 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   class="pf-c-toolbar__group pf-m-filter-group"
                 >
                   <div
+                    class="pf-c-toolbar__item"
+                  >
+                    <div
+                      class="pf-c-toolbar__item"
+                    >
+                      <div
+                        class="pf-c-select"
+                        data-ouia-component-id="OUIA-Generated-Select-checkbox-2"
+                        data-ouia-component-type="PF4/Select"
+                        data-ouia-safe="true"
+                      >
+                        <button
+                          aria-expanded="false"
+                          aria-labelledby=" pf-select-toggle-id-2"
+                          class="pf-c-select__toggle"
+                          id="pf-select-toggle-id-2"
+                          type="button"
+                        >
+                          <div
+                            class="pf-c-select__toggle-wrapper"
+                          >
+                            <span
+                              class="pf-c-select__toggle-text"
+                            >
+                              <div>
+                                <svg
+                                  aria-hidden="true"
+                                  class="makeStyles-filterLabelMargin-4"
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  style="vertical-align: -0.125em;"
+                                  viewBox="0 0 512 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M487.976 0H24.028C2.71 0-8.047 25.866 7.058 40.971L192 225.941V432c0 7.831 3.821 15.17 10.237 19.662l80 55.98C298.02 518.69 320 507.493 320 487.98V225.941l184.947-184.97C520.021 25.896 509.338 0 487.976 0z"
+                                  />
+                                </svg>
+                                Filter
+                              </div>
+                            </span>
+                          </div>
+                          <span
+                            class="pf-c-select__toggle-arrow"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 320 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                              />
+                            </svg>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="pf-c-toolbar__group pf-m-filter-group"
+                >
+                  <div
                     class="pf-c-toolbar__item pf-m-search-filter"
                   >
                     <div
@@ -1131,7 +1324,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </div>
                 </div>
                 <div
-                  class="pf-c-dropdown pf-m-align-right makeStyles-button-4 makeStyles-button-5"
+                  class="pf-c-dropdown pf-m-align-right makeStyles-button-7 makeStyles-button-8"
                   data-ouia-component-id="OUIA-Generated-Dropdown-1"
                   data-ouia-component-type="PF4/Dropdown"
                   data-ouia-safe="true"
@@ -1395,6 +1588,45 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                       aria-sort="ascending"
                       class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
                       data-key="1"
+                      data-label="Type"
+                      scope="col"
+                    >
+                      <button
+                        class="pf-c-table__button"
+                        type="button"
+                      >
+                        <div
+                          class="pf-c-table__button-content"
+                        >
+                          <span
+                            class="pf-c-table__text"
+                          >
+                            Type
+                          </span>
+                          <span
+                            class="pf-c-table__sort-indicator"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 256 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                      </button>
+                    </th>
+                    <th
+                      aria-sort="none"
+                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
+                      data-key="2"
                       data-label="Namespace"
                       scope="col"
                     >
@@ -1426,7 +1658,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                                 width="1em"
                               >
                                 <path
-                                  d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
                                 />
                               </svg>
                             </span>
@@ -1463,7 +1695,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="2"
+                      data-key="3"
                       data-label="Clusters"
                       scope="col"
                     >
@@ -1532,7 +1764,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="3"
+                      data-key="4"
                       data-label="Resource"
                       scope="col"
                     >
@@ -1601,7 +1833,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="4"
+                      data-key="5"
                       data-label="Time window"
                       scope="col"
                     >
@@ -1670,7 +1902,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="5"
+                      data-key="6"
                       data-label="Created"
                       scope="col"
                     >
@@ -1708,7 +1940,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </th>
                     <td
                       class=""
-                      data-key="6"
+                      data-key="7"
                       data-label=""
                     />
                   </tr>
@@ -1747,13 +1979,29 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <td
                       class=""
                       data-key="1"
+                      data-label="Type"
+                    >
+                      <a
+                        href="/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=Subscription&namespace=default"
+                        target="_blank"
+                      />
+                      <br />
+                      <span
+                        style="color: rgb(106, 110, 115);"
+                      >
+                        Subscription
+                      </span>
+                    </td>
+                    <td
+                      class=""
+                      data-key="2"
                       data-label="Namespace"
                     >
                       default
                     </td>
                     <td
                       class=""
-                      data-key="2"
+                      data-key="3"
                       data-label="Clusters"
                     >
                       <a
@@ -1765,7 +2013,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="3"
+                      data-key="4"
                       data-label="Resource"
                     >
                       <div
@@ -1774,19 +2022,19 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="4"
+                      data-key="5"
                       data-label="Time window"
                     />
                     <td
                       class=""
-                      data-key="5"
+                      data-key="6"
                       data-label="Created"
                     >
                       4 years ago
                     </td>
                     <td
                       class="pf-c-table__action"
-                      data-key="6"
+                      data-key="7"
                       style="width: auto; padding-right: 0px;"
                     >
                       <div
@@ -2049,7 +2297,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
         >
           <div
             class="pf-c-toolbar"
-            id="pf-random-id-1"
+            id="pf-random-id-3"
           >
             <div
               class="pf-c-toolbar__content"
@@ -2057,6 +2305,75 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               <div
                 class="pf-c-toolbar__content-section"
               >
+                <div
+                  class="pf-c-toolbar__group pf-m-filter-group"
+                >
+                  <div
+                    class="pf-c-toolbar__item"
+                  >
+                    <div
+                      class="pf-c-toolbar__item"
+                    >
+                      <div
+                        class="pf-c-select"
+                        data-ouia-component-id="OUIA-Generated-Select-checkbox-4"
+                        data-ouia-component-type="PF4/Select"
+                        data-ouia-safe="true"
+                      >
+                        <button
+                          aria-expanded="false"
+                          aria-labelledby=" pf-select-toggle-id-11"
+                          class="pf-c-select__toggle"
+                          id="pf-select-toggle-id-11"
+                          type="button"
+                        >
+                          <div
+                            class="pf-c-select__toggle-wrapper"
+                          >
+                            <span
+                              class="pf-c-select__toggle-text"
+                            >
+                              <div>
+                                <svg
+                                  aria-hidden="true"
+                                  class="makeStyles-filterLabelMargin-4"
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  style="vertical-align: -0.125em;"
+                                  viewBox="0 0 512 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M487.976 0H24.028C2.71 0-8.047 25.866 7.058 40.971L192 225.941V432c0 7.831 3.821 15.17 10.237 19.662l80 55.98C298.02 518.69 320 507.493 320 487.98V225.941l184.947-184.97C520.021 25.896 509.338 0 487.976 0z"
+                                  />
+                                </svg>
+                                Filter
+                              </div>
+                            </span>
+                          </div>
+                          <span
+                            class="pf-c-select__toggle-arrow"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 320 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                              />
+                            </svg>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div
                   class="pf-c-toolbar__group pf-m-filter-group"
                 >
@@ -2146,7 +2463,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </div>
                 </div>
                 <div
-                  class="pf-c-dropdown pf-m-align-right makeStyles-button-4 makeStyles-button-6"
+                  class="pf-c-dropdown pf-m-align-right makeStyles-button-7 makeStyles-button-9"
                   data-ouia-component-id="OUIA-Generated-Dropdown-3"
                   data-ouia-component-type="PF4/Dropdown"
                   data-ouia-safe="true"
@@ -2328,7 +2645,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
               </div>
               <div
                 class="pf-c-toolbar__expandable-content"
-                id="pf-random-id-1-expandable-content-11"
+                id="pf-random-id-3-expandable-content-11"
               >
                 <div
                   class="pf-c-toolbar__group"
@@ -2410,6 +2727,45 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                       aria-sort="ascending"
                       class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
                       data-key="1"
+                      data-label="Type"
+                      scope="col"
+                    >
+                      <button
+                        class="pf-c-table__button"
+                        type="button"
+                      >
+                        <div
+                          class="pf-c-table__button-content"
+                        >
+                          <span
+                            class="pf-c-table__text"
+                          >
+                            Type
+                          </span>
+                          <span
+                            class="pf-c-table__sort-indicator"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="currentColor"
+                              height="1em"
+                              role="img"
+                              style="vertical-align: -0.125em;"
+                              viewBox="0 0 256 512"
+                              width="1em"
+                            >
+                              <path
+                                d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                      </button>
+                    </th>
+                    <th
+                      aria-sort="none"
+                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort"
+                      data-key="2"
                       data-label="Namespace"
                       scope="col"
                     >
@@ -2441,7 +2797,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                                 width="1em"
                               >
                                 <path
-                                  d="M88 166.059V468c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12V166.059h46.059c21.382 0 32.09-25.851 16.971-40.971l-86.059-86.059c-9.373-9.373-24.569-9.373-33.941 0l-86.059 86.059c-15.119 15.119-4.411 40.971 16.971 40.971H88z"
+                                  d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
                                 />
                               </svg>
                             </span>
@@ -2478,7 +2834,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="2"
+                      data-key="3"
                       data-label="Clusters"
                       scope="col"
                     >
@@ -2547,7 +2903,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="3"
+                      data-key="4"
                       data-label="Resource"
                       scope="col"
                     >
@@ -2616,7 +2972,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="4"
+                      data-key="5"
                       data-label="Time window"
                       scope="col"
                     >
@@ -2685,7 +3041,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <th
                       aria-sort="none"
                       class="pf-m-nowrap pf-c-table__sort"
-                      data-key="5"
+                      data-key="6"
                       data-label="Created"
                       scope="col"
                     >
@@ -2723,7 +3079,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </th>
                     <td
                       class=""
-                      data-key="6"
+                      data-key="7"
                       data-label=""
                     />
                   </tr>
@@ -2762,13 +3118,29 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <td
                       class=""
                       data-key="1"
+                      data-label="Type"
+                    >
+                      <a
+                        href="/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=Subscription&namespace=default"
+                        target="_blank"
+                      />
+                      <br />
+                      <span
+                        style="color: rgb(106, 110, 115);"
+                      >
+                        Subscription
+                      </span>
+                    </td>
+                    <td
+                      class=""
+                      data-key="2"
                       data-label="Namespace"
                     >
                       default
                     </td>
                     <td
                       class=""
-                      data-key="2"
+                      data-key="3"
                       data-label="Clusters"
                     >
                       <a
@@ -2780,7 +3152,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="3"
+                      data-key="4"
                       data-label="Resource"
                     >
                       <div
@@ -2789,19 +3161,19 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </td>
                     <td
                       class=""
-                      data-key="4"
+                      data-key="5"
                       data-label="Time window"
                     />
                     <td
                       class=""
-                      data-key="5"
+                      data-key="6"
                       data-label="Created"
                     >
                       4 years ago
                     </td>
                     <td
                       class="pf-c-table__action"
-                      data-key="6"
+                      data-key="7"
                       style="width: auto; padding-right: 0px;"
                     >
                       <div

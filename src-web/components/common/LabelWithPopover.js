@@ -16,7 +16,8 @@ const LabelWithPopover = ({
   labelContent,
   labelIcon,
   labelColor,
-  popoverHeader
+  popoverHeader,
+  popoverPosition
 }) => (
   <div className="label-with-popover">
     <Popover
@@ -27,7 +28,7 @@ const LabelWithPopover = ({
       hasAutoWidth
       minWidth="18.75rem"
       maxWidth="30rem"
-      position="bottom"
+      position={popoverPosition || 'bottom'}
       flipBehavior={['bottom', 'top', 'right', 'left']}
       zIndex={999}
     >
@@ -52,7 +53,8 @@ LabelWithPopover.propTypes = {
   labelColor: PropTypes.string,
   labelContent: PropTypes.object,
   labelIcon: PropTypes.object,
-  popoverHeader: PropTypes.object
+  popoverHeader: PropTypes.object,
+  popoverPosition: PropTypes.string
 }
 
 export default LabelWithPopover

@@ -284,7 +284,7 @@ export function createApplicationLink(item = {}, locale) {
                 position="top"
                 content={msgs.get(tooltipKey, substitutions, locale)}
               >
-                <Label color="grey">{item.length}</Label>
+                <Label color="blue">{item.length}</Label>
               </Tooltip>
             )}
           </SplitItem>
@@ -457,6 +457,7 @@ export function createTypeCell(item = {}, locale = '', isGroupSummary = false) {
           {subscriptionLinks}
           &nbsp;
           <LabelWithPopover
+            labelColor="blue"
             key={item.name}
             labelContent={labelContent}
             popoverHeader={msgs.get(

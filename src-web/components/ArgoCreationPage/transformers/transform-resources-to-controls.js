@@ -12,6 +12,8 @@
 'use strict'
 
 import { getResourceID, getSourcePath } from 'temptifly'
+import { getUniqueChannelName } from '../controlData/utils'
+import { getRepoTypeForArgoApplication } from '../../common/ResourceOverview/utils'
 import _ from 'lodash'
 
 //only called when editing an existing application
@@ -27,6 +29,8 @@ export const discoverGroupsFromSource = (
     'ApplicationSet[0].$raw',
     {}
   )
+
+  discoverChannelFromSource(control, cd, templateObject)
 
   // get application selflink
   const selfLinkControl = cd.find(({ id }) => id === 'selfLink')
@@ -181,4 +185,41 @@ export const discoverGroupsFromSource = (
     }
     }
   })
+}
+
+const discoverChannelFromSource = (control, cd, templateObject) => {
+  // determine channel name
+  const source = _.get(
+    templateObject,
+    'ApplicationSet[0].$raw.spec.template.spec.source'
+  )
+  const id = getRepoTypeForArgoApplication(source)
+
+  const { repoURL } = source
+  const channelName = getUniqueChannelName(repoURL, cd)
+  const channelNamespace = `${channelName}-ns`
+
+  const channelType = _.get(control, 'controlData', {}).filter(
+    obj => obj.id === 'channelType'
+  )
+  const resource = _.get(channelType[0], 'available', []).filter(
+    obj => obj.id === id
+  )
+
+  if (resource.length) {
+    const insertControlData = _.get(
+      resource[0],
+      'change.insertControlData',
+      []
+    )
+    const channelNamespaceControl = insertControlData.find(
+      ({ id: _id }) => _id === 'channelNamespace'
+    )
+    const channelNameControl = insertControlData.find(
+      ({ id: _id }) => _id === 'channelName'
+    )
+
+    _.set(channelNameControl, 'active', channelName)
+    _.set(channelNamespaceControl, 'active', channelNamespace)
+  }
 }

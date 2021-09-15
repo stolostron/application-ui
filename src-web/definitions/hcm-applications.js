@@ -123,7 +123,8 @@ export default {
       resourceKey: 'type',
       transforms: [cellWidth(20)],
       transformFunction: createTypeCell, // renders the cell on the table
-      textFunction: createTypeText // renders the text used by search bar
+      textFunction: createTypeText, // renders the text used by search bar
+      disabled: () => !isSearchAvailable()
     },
     {
       msgKey: 'table.header.namespace',

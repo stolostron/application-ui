@@ -60,6 +60,7 @@ Object {
       ],
     },
     Object {
+      "disabled": [Function],
       "msgKey": "table.header.type",
       "resourceKey": "type",
       "textFunction": [Function],
@@ -126,6 +127,7 @@ Array [
     ],
   },
   Object {
+    "disabled": [Function],
     "msgKey": "table.header.type",
     "resourceKey": "type",
     "textFunction": [Function],

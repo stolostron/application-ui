@@ -1,4 +1,25 @@
 ---
+argo:
+  data:
+    - enable: true
+      name: helloworld-argo-app-1
+      namespace: openshift-gitops
+      deployedNamespace: argo-test-ns-1
+      type: git
+      successNumber: 3
+      groupedByResource: true
+      config:
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: ""
+          path: helloworld
+          gitReconcileOption: merge
+          deployment:
+            local: true
+            online: false
+            matchingLabel: false
 git:
   data:
     - enable: true
@@ -77,6 +98,7 @@ git:
           branch: main
           path: ansible
           gitReconcileOption: merge
+          ansibleSecretName: ansible-tower-secret
           deployment:
             local: true
             online: false

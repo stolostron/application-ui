@@ -198,20 +198,15 @@ const discoverChannelFromSource = (control, cd, templateObject) => {
   const { repoURL } = source
   const channelName = getUniqueChannelName(repoURL, cd)
   const channelNamespace = `${channelName}-ns`
-
-  const channelType = _.get(control, 'controlData', {}).filter(
-    obj => obj.id === 'channelType'
+  const channelType = _.get(control, 'controlData', {}).find(
+    ({ id: _id }) => _id === 'channelType'
   )
-  const resource = _.get(channelType[0], 'available', []).filter(
-    obj => obj.id === id
+  const resource = _.get(channelType, 'available', []).find(
+    ({ id: _id }) => _id === id
   )
 
-  if (resource.length) {
-    const insertControlData = _.get(
-      resource[0],
-      'change.insertControlData',
-      []
-    )
+  if (resource) {
+    const insertControlData = _.get(resource, 'change.insertControlData', [])
     const channelNamespaceControl = insertControlData.find(
       ({ id: _id }) => _id === 'channelNamespace'
     )

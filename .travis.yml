@@ -51,7 +51,6 @@ before_script:
 
 jobs:
   include:
-
     - stage: test-e2e-clusterpool
       name: "Deploy the image to a ClusterPool cluster and run e2e tests"
       if: type = pull_request

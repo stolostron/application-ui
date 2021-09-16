@@ -40,7 +40,7 @@ export const getSearchLinkForArgoApplications = source => {
 
 export const getRepoTypeForArgoApplication = source => {
   if (source && source.path) {
-    return 'git'
+    return 'github'
   } else if (source && source.chart) {
     return 'helmrepo'
   }

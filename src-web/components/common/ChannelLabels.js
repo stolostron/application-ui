@@ -48,7 +48,7 @@ const ChannelLabels = ({
           <LabelWithPopover
             key={`${chType}`}
             labelContent={labelContent}
-            labelColor="blue"
+            labelColor="grey"
             popoverHeader={channelMap[chType].length > 1 && labelContent}
           >
             <Stack className="channel-labels channel-labels-popover-content">

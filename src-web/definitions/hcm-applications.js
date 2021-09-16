@@ -28,7 +28,7 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import msgs from '../../nls/platform.properties'
 import ChannelLabels from '../components/common/ChannelLabels'
 import TableRowActionMenu from '../components/common/TableRowActionMenu'
-import { Label, Split, SplitItem, Tooltip } from '@patternfly/react-core'
+import { Split, SplitItem, Tooltip, Badge } from '@patternfly/react-core'
 import _ from 'lodash'
 import LabelWithPopover from '../components/common/LabelWithPopover'
 
@@ -285,7 +285,7 @@ export function createApplicationLink(item = {}, locale) {
                 position="top"
                 content={msgs.get(tooltipKey, substitutions, locale)}
               >
-                <Label color="blue">{item.length}</Label>
+                <Badge isRead>{item.length}</Badge>
               </Tooltip>
             )}
           </SplitItem>
@@ -458,7 +458,7 @@ export function createTypeCell(item = {}, locale = '', isGroupSummary = false) {
           {subscriptionLinks}
           &nbsp;
           <LabelWithPopover
-            labelColor="blue"
+            labelColor="grey"
             key={item.name}
             labelContent={labelContent}
             popoverHeader={msgs.get(

@@ -77,7 +77,7 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-e GIT_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
 	-e GIT_PULL_NUMBER=$(TRAVIS_PULL_REQUEST) \
 	-e CYPRESS_RBAC_TEST=$(CYPRESS_RBAC_TEST) \
-	-e CYPRESS_TEST_MODE=functional \
+	-e CYPRESS_TEST_MODE=smoke \
 	-e CYPRESS_JOB_ID=$(TRAVIS_JOB_ID) \
 	-e CYPRESS_BASE_URL=$(CYPRESS_BASE_URL) \
 	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \

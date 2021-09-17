@@ -116,15 +116,14 @@ metadata:
   {{/if}}
 {{#if clusterSelector.mode}}  
 spec:
-  clusterSelector:
-    matchLabels:
-      {{#each clusterSelector.clusterLabelsList}}
-      {{#if validValue}}
-      '{{{labelName}}}': '{{{labelValue}}}'
-      {{/if}}
-      {{/each}} 
-  clusterConditions:
-    - type: ManagedClusterConditionAvailable
-      status: "True"
+  predicates:
+  - requiredClusterSelector:
+      labelSelector:
+        matchLabels:
+          {{#each clusterSelector.clusterLabelsList}}
+          {{#if validValue}}
+          {{{labelName}}}: {{{labelValue}}}
+          {{/if}}
+          {{/each}} 
 {{/if}}
 {{/unless}}

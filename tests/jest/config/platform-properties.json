@@ -71,7 +71,7 @@
   "argo.git.revision.type.tooltip": "The revision type on the Git repository.",
   "argo.destination.type": "Type",
   "argo.destination.type.placeholder": "Select destination type",
-  "argo.set.name.tooltip": "Argo app set name",
+  "argo.set.name.tooltip": "Argo CD ApplicationSet name",
   "argo.sync.policy.subtitle": "Settings used to configure application syncing when there are differences between the desired state and the live cluster state.",
   "argo.sync.policy.title": "Sync policy",
   "argo.sync.policy.allow.empty": "Allow applications to have empty resources",

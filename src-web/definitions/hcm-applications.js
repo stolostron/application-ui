@@ -175,7 +175,9 @@ export default {
       },
       {
         msgKey: 'application.type.argo',
-        path: `${config.contextPath}/argoappset`
+        path: `${config.contextPath}/argoappset`,
+        label: 'creation.app.section.techPreview',
+        labelColor: 'creation.app.section.techPreview.color'
       }
     ]
   },

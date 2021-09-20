@@ -28,6 +28,8 @@ Object {
         "path": "undefined/create",
       },
       Object {
+        "label": "creation.app.section.techPreview",
+        "labelColor": "creation.app.section.techPreview.color",
         "msgKey": "application.type.argo",
         "path": "undefined/argoappset",
       },

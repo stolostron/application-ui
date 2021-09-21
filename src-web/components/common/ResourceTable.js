@@ -273,13 +273,20 @@ class ResourceTable extends React.Component {
           : msgs.get(tableDropdown.disableMsgKey, locale)
         : undefined
 
+      const label = action.label ? msgs.get(action.label) : undefined
+      const labelColor = action.labelColor
+        ? msgs.get(action.labelColor)
+        : undefined
+
       dropdownActions.push({
         id: action.msgKey,
         isDisabled: isDisabled,
         text: msgs.get(action.msgKey, locale),
         href: action.path,
         tooltip: tooltip,
-        tooltipPosition: TooltipPosition.right
+        tooltipPosition: TooltipPosition.right,
+        label: label,
+        labelColor: labelColor
       })
     })
 

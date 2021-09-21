@@ -145,13 +145,21 @@ class ArgoCreationPage extends React.Component {
     const tooltip = '' //{ text: msgs.get('tooltip.text.createCluster', locale), link: TOOLTIP_LINKS.CREATE_CLUSTER }
     const title =
       selectedAppName || msgs.get(secondaryHeaderProps.title, locale)
+    const label = secondaryHeaderProps.label
+      ? msgs.get(secondaryHeaderProps.label, locale)
+      : undefined
+    const labelColor = secondaryHeaderProps.labelColor
+      ? msgs.get(secondaryHeaderProps.labelColor, locale)
+      : undefined
     this.props.updateSecondaryHeader(
       title,
       secondaryHeaderProps.tabs,
       this.getBreadcrumbs(),
       portals,
       null,
-      tooltip
+      tooltip,
+      label,
+      labelColor
     )
 
     canCreateActionAllNamespaces(
@@ -312,7 +320,9 @@ const mapDispatchToProps = dispatch => {
       breadcrumbItems,
       ports,
       actions,
-      tooltip
+      tooltip,
+      label,
+      labelColor
     ) =>
       dispatch(
         updateSecondaryHeader(
@@ -321,7 +331,9 @@ const mapDispatchToProps = dispatch => {
           breadcrumbItems,
           ports,
           actions,
-          tooltip
+          tooltip,
+          label,
+          labelColor
         )
       )
   }

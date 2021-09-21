@@ -30,7 +30,6 @@ import "./useradd";
 import "./ansibleoperator";
 import "./argocdoperator";
 import "./createsecret";
-import "cypress-fail-fast";
 
 // import '@cypress/code-coverage/support'
 

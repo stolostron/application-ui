@@ -126,7 +126,5 @@ module.exports = (on, config) => {
     ? "true"
     : "";
 
-  require("cypress-fail-fast/plugin")(on, config);
-
   return config;
 };

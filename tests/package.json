@@ -14,10 +14,7 @@
     "mochawesome": "^6.2.2"
   },
   "devDependencies": {
-    "@cypress/webpack-batteries-included-preprocessor": "^2.2.3",
-    "@cypress/webpack-preprocessor": "^5.9.1",
     "@slack/web-api": "^5.8.0",
-    "cypress": "^7.5.0",
-    "cypress-fail-fast": "^3.1.1"
+    "cypress": "^7.5.0"
   }
 }

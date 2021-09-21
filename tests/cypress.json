@@ -16,7 +16,9 @@
   "ignoreTestFiles": "**/ignoredTestFiles/*.js",
   "env": {
     "OC_IDP": "kube:admin",
-    "OC_CLUSTER_USER": "kubeadmin"
+    "OC_CLUSTER_USER": "kubeadmin",
+    "FAIL_FAST_STRATEGY": "run",
+    "FAIL_FAST_ENABLED": true
   },
   "reporter": "cypress-multi-reporters",
   "reporterOptions": {

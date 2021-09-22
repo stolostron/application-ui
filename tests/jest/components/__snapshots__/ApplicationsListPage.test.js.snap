@@ -185,7 +185,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </div>
                 </div>
                 <div
-                  class="pf-c-dropdown pf-m-align-right makeStyles-button-7 makeStyles-button-11"
+                  class="pf-c-dropdown makeStyles-button-7 makeStyles-button-11"
                   data-ouia-component-id="OUIA-Generated-Dropdown-5"
                   data-ouia-component-type="PF4/Dropdown"
                   data-ouia-safe="true"
@@ -204,7 +204,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <span
                       class="pf-c-dropdown__toggle-text"
                     >
-                      Create application with
+                      Create application
                     </span>
                     <span
                       class="pf-c-dropdown__toggle-icon"
@@ -447,7 +447,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </th>
                     <th
                       aria-sort="ascending"
-                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
+                      class="pf-m-nowrap pf-m-width-15 pf-c-table__sort pf-m-selected"
                       data-key="1"
                       data-label="Type"
                       scope="col"
@@ -842,16 +842,30 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                       data-key="1"
                       data-label="Type"
                     >
-                      <a
-                        href="/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=Subscription&namespace=default"
-                        target="_blank"
-                      />
-                      <br />
-                      <span
-                        style="color: rgb(106, 110, 115);"
+                      <dl
+                        class="pf-c-description-list"
                       >
-                        Subscription
-                      </span>
+                        <div
+                          class="pf-c-description-list__group"
+                        >
+                          <dt
+                            class="pf-c-description-list__term"
+                          >
+                            <span
+                              class="pf-c-description-list__text pf-m-help-text"
+                              role="button"
+                              tabindex="0"
+                              type="button"
+                            >
+                              <span
+                                style="color: rgb(106, 110, 115); font-weight: normal;"
+                              >
+                                Subscription
+                              </span>
+                            </span>
+                          </dt>
+                        </div>
+                      </dl>
                     </td>
                     <td
                       class=""
@@ -1324,7 +1338,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </div>
                 </div>
                 <div
-                  class="pf-c-dropdown pf-m-align-right makeStyles-button-7 makeStyles-button-9"
+                  class="pf-c-dropdown makeStyles-button-7 makeStyles-button-9"
                   data-ouia-component-id="OUIA-Generated-Dropdown-1"
                   data-ouia-component-type="PF4/Dropdown"
                   data-ouia-safe="true"
@@ -1343,7 +1357,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <span
                       class="pf-c-dropdown__toggle-text"
                     >
-                      Create application with
+                      Create application
                     </span>
                     <span
                       class="pf-c-dropdown__toggle-icon"
@@ -1586,7 +1600,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </th>
                     <th
                       aria-sort="ascending"
-                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
+                      class="pf-m-nowrap pf-m-width-15 pf-c-table__sort pf-m-selected"
                       data-key="1"
                       data-label="Type"
                       scope="col"
@@ -1981,16 +1995,30 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                       data-key="1"
                       data-label="Type"
                     >
-                      <a
-                        href="/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=Subscription&namespace=default"
-                        target="_blank"
-                      />
-                      <br />
-                      <span
-                        style="color: rgb(106, 110, 115);"
+                      <dl
+                        class="pf-c-description-list"
                       >
-                        Subscription
-                      </span>
+                        <div
+                          class="pf-c-description-list__group"
+                        >
+                          <dt
+                            class="pf-c-description-list__term"
+                          >
+                            <span
+                              class="pf-c-description-list__text pf-m-help-text"
+                              role="button"
+                              tabindex="0"
+                              type="button"
+                            >
+                              <span
+                                style="color: rgb(106, 110, 115); font-weight: normal;"
+                              >
+                                Subscription
+                              </span>
+                            </span>
+                          </dt>
+                        </div>
+                      </dl>
                     </td>
                     <td
                       class=""
@@ -2463,7 +2491,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                   </div>
                 </div>
                 <div
-                  class="pf-c-dropdown pf-m-align-right makeStyles-button-7 makeStyles-button-10"
+                  class="pf-c-dropdown makeStyles-button-7 makeStyles-button-10"
                   data-ouia-component-id="OUIA-Generated-Dropdown-3"
                   data-ouia-component-type="PF4/Dropdown"
                   data-ouia-safe="true"
@@ -2482,7 +2510,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     <span
                       class="pf-c-dropdown__toggle-text"
                     >
-                      Create application with
+                      Create application
                     </span>
                     <span
                       class="pf-c-dropdown__toggle-icon"
@@ -2725,7 +2753,7 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                     </th>
                     <th
                       aria-sort="ascending"
-                      class="pf-m-nowrap pf-m-width-20 pf-c-table__sort pf-m-selected"
+                      class="pf-m-nowrap pf-m-width-15 pf-c-table__sort pf-m-selected"
                       data-key="1"
                       data-label="Type"
                       scope="col"
@@ -3120,16 +3148,30 @@ exports[`ApplicationsListPage ApplicationsListPage renders correctly with data o
                       data-key="1"
                       data-label="Type"
                     >
-                      <a
-                        href="/resources?apiversion=apps.open-cluster-management.io%2Fv1&cluster=local-cluster&kind=Subscription&namespace=default"
-                        target="_blank"
-                      />
-                      <br />
-                      <span
-                        style="color: rgb(106, 110, 115);"
+                      <dl
+                        class="pf-c-description-list"
                       >
-                        Subscription
-                      </span>
+                        <div
+                          class="pf-c-description-list__group"
+                        >
+                          <dt
+                            class="pf-c-description-list__term"
+                          >
+                            <span
+                              class="pf-c-description-list__text pf-m-help-text"
+                              role="button"
+                              tabindex="0"
+                              type="button"
+                            >
+                              <span
+                                style="color: rgb(106, 110, 115); font-weight: normal;"
+                              >
+                                Subscription
+                              </span>
+                            </span>
+                          </dt>
+                        </div>
+                      </dl>
                     </td>
                     <td
                       class=""

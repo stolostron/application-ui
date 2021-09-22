@@ -25,7 +25,7 @@ import { withRouter } from 'react-router-dom'
 import { handleActionClick } from './TableRowActionMenu'
 import { canCreateActionAllNamespaces } from '../../../lib/client/access-helper'
 import apolloClient from '../../../lib/client/apollo-client'
-import { TooltipPosition } from '@patternfly/react-core'
+import { TooltipPosition, DropdownPosition } from '@patternfly/react-core'
 
 resources(() => {
   require('../../../scss/table.scss')
@@ -99,6 +99,7 @@ class ResourceTable extends React.Component {
         isPlain={true}
         isPrimary={true}
         tooltipPosition={tableDropdown.tooltipPosition}
+        dropdownPosition={DropdownPosition.left}
       />
     )
   }
@@ -259,6 +260,13 @@ class ResourceTable extends React.Component {
     } = this.state
 
     const dropdownActions = []
+
+    // psuedo dropdown item to simulate a dropdown group
+    dropdownActions.push({
+      id: 'psuedo.group.label',
+      isDisabled: true,
+      text: <span style={{ 'font-size': '14px' }}>Choose a type</span>
+    })
     actions.forEach(action => {
       const isDisabled =
         action.msgKey === 'application.type.acm'

@@ -40,7 +40,14 @@ export class SecondaryHeader extends React.Component {
   }
 
   render() {
-    const { tabs, title, breadcrumbItems, links } = this.props
+    const {
+      tabs,
+      title,
+      breadcrumbItems,
+      links,
+      label,
+      labelColor
+    } = this.props
     const { locale } = this.context
 
     const headerArgs = {
@@ -66,7 +73,9 @@ export class SecondaryHeader extends React.Component {
         <div className="switch-controls">
           <div id="edit-button-portal-id" />
         </div>
-      )
+      ),
+      label,
+      labelColor
     }
     return <AcmPageHeader {...headerArgs} />
   }
@@ -150,6 +159,8 @@ export class SecondaryHeader extends React.Component {
 SecondaryHeader.propTypes = {
   breadcrumbItems: PropTypes.array,
   history: PropTypes.object,
+  label: PropTypes.string,
+  labelColor: PropTypes.string,
   links: PropTypes.array,
   location: PropTypes.object,
   tabs: PropTypes.array,
@@ -168,7 +179,9 @@ const mapStateToProps = state => {
     breadcrumbItems: state.secondaryHeader.breadcrumbItems,
     links: state.secondaryHeader.links,
     tooltip: state.secondaryHeader.tooltip,
-    role: state.role && state.role.role
+    role: state.role && state.role.role,
+    label: state.secondaryHeader.label,
+    labelColor: state.secondaryHeader.labelColor
   }
 }
 

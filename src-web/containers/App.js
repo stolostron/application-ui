@@ -184,7 +184,11 @@ class App extends React.Component {
               <ArgoCreationPage
                 params={params}
                 serverProps={this.getServerProps()}
-                secondaryHeaderProps={{ title: 'argo.create.title' }}
+                secondaryHeaderProps={{
+                  title: 'argo.create.title',
+                  label: 'creation.app.section.techPreview',
+                  labelColor: 'creation.app.section.techPreview.color'
+                }}
               />
             )}
           />

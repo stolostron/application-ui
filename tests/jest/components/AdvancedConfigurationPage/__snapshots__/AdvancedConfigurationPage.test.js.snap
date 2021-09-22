@@ -34,7 +34,7 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
                   aria-expanded="true"
                   aria-label="Toggle details"
                   class="pf-c-button pf-m-plain"
-                  data-ouia-component-id="OUIA-Generated-Button-plain-9"
+                  data-ouia-component-id="OUIA-Generated-Button-plain-8"
                   data-ouia-component-type="PF4/Button"
                   data-ouia-safe="true"
                   id="toggle-button"
@@ -164,7 +164,10 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
             class="pf-l-stack__item"
           >
             <div
-              class="pf-c-toolbar"
+              class="pf-c-toolbar pf-m-inset-md pf-m-inset-lg-on-xl"
+              data-ouia-component-id="OUIA-Generated-Toolbar-1"
+              data-ouia-component-type="PF4/Toolbar"
+              data-ouia-safe="true"
               id="pf-random-id-8"
             >
               <div
@@ -254,7 +257,10 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
               </div>
             </div>
             <div
-              class="pf-c-toolbar"
+              class="pf-c-toolbar pf-m-inset-md pf-m-inset-lg-on-xl"
+              data-ouia-component-id="OUIA-Generated-Toolbar-2"
+              data-ouia-component-type="PF4/Toolbar"
+              data-ouia-safe="true"
               id="pf-random-id-9"
             >
               <div
@@ -882,6 +888,9 @@ exports[`AdvancedConfigurationPage renders the Channels table correctly 1`] = `
                 >
                   <h4
                     class="pf-c-title pf-m-lg"
+                    data-ouia-component-id="OUIA-Generated-Title-1"
+                    data-ouia-component-type="PF4/Title"
+                    data-ouia-safe="true"
                   >
                     No results found
                   </h4>
@@ -1149,7 +1158,7 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
                   aria-expanded="true"
                   aria-label="Toggle details"
                   class="pf-c-button pf-m-plain"
-                  data-ouia-component-id="OUIA-Generated-Button-plain-10"
+                  data-ouia-component-id="OUIA-Generated-Button-plain-9"
                   data-ouia-component-type="PF4/Button"
                   data-ouia-safe="true"
                   id="toggle-button"
@@ -1279,7 +1288,10 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
             class="pf-l-stack__item"
           >
             <div
-              class="pf-c-toolbar"
+              class="pf-c-toolbar pf-m-inset-md pf-m-inset-lg-on-xl"
+              data-ouia-component-id="OUIA-Generated-Toolbar-1"
+              data-ouia-component-type="PF4/Toolbar"
+              data-ouia-safe="true"
               id="pf-random-id-4"
             >
               <div
@@ -1369,7 +1381,10 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
               </div>
             </div>
             <div
-              class="pf-c-toolbar"
+              class="pf-c-toolbar pf-m-inset-md pf-m-inset-lg-on-xl"
+              data-ouia-component-id="OUIA-Generated-Toolbar-2"
+              data-ouia-component-type="PF4/Toolbar"
+              data-ouia-safe="true"
               id="pf-random-id-5"
             >
               <div
@@ -1928,6 +1943,9 @@ exports[`AdvancedConfigurationPage renders the Placement rules table correctly 1
                 >
                   <h4
                     class="pf-c-title pf-m-lg"
+                    data-ouia-component-id="OUIA-Generated-Title-1"
+                    data-ouia-component-type="PF4/Title"
+                    data-ouia-safe="true"
                   >
                     No results found
                   </h4>
@@ -2325,7 +2343,10 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
             class="pf-l-stack__item"
           >
             <div
-              class="pf-c-toolbar"
+              class="pf-c-toolbar pf-m-inset-md pf-m-inset-lg-on-xl"
+              data-ouia-component-id="OUIA-Generated-Toolbar-1"
+              data-ouia-component-type="PF4/Toolbar"
+              data-ouia-safe="true"
               id="pf-random-id-0"
             >
               <div
@@ -2415,7 +2436,10 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
               </div>
             </div>
             <div
-              class="pf-c-toolbar"
+              class="pf-c-toolbar pf-m-inset-md pf-m-inset-lg-on-xl"
+              data-ouia-component-id="OUIA-Generated-Toolbar-2"
+              data-ouia-component-type="PF4/Toolbar"
+              data-ouia-safe="true"
               id="pf-random-id-1"
             >
               <div
@@ -3112,6 +3136,9 @@ exports[`AdvancedConfigurationPage renders the Subscriptions table correctly 1`]
                 >
                   <h4
                     class="pf-c-title pf-m-lg"
+                    data-ouia-component-id="OUIA-Generated-Title-1"
+                    data-ouia-component-type="PF4/Title"
+                    data-ouia-safe="true"
                   >
                     No results found
                   </h4>

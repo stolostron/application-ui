@@ -63,6 +63,10 @@ To switch to the functional mode, export the following variable:
 
 Smoke test mode defines a minimum set of app ui tests to function as a "sniff test" or edge criteria that would guarantee that the build was usable for further testing.
 
+To switch to the smoke mode, export the following variable:
+
+- export CYPRESS_TEST_MODE='smoke'
+
 Afterwards, update the `tests/cypress/config/config.e2e.json` file with your configurations (please do not commit your configs to this file).
 
 ---

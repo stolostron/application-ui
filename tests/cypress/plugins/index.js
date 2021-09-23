@@ -44,7 +44,6 @@ module.exports = (on, config) => {
   // require('@cypress/code-coverage/task')(on, config)
   // config.env.TEST_CONFIG = testConfig
   require("cypress-log-to-output").install(on);
-  require("cypress-fail-fast/plugin")(on, config);
 
   on("task", {
     log(message) {

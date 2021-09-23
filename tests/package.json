@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@slack/web-api": "^5.8.0",
+    "chromedriver": "^93.0.1",
     "cypress": "^8.4.0"
   }
 }

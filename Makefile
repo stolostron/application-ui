@@ -58,40 +58,11 @@ build-test-image:
 	-f Dockerfile.cypress \
 	-t $(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG) \
 
-.PHONY: run-test-image-pr
-run-test-image-pr: # Suppress output as this contains sensitive information
-	@docker run \
-	-v $(shell pwd)/results/:/results/ \
-	-v $(HOME)/certificates/:/certificates/ \
-	--network host \
+.PHONY: run-test-image
+run-test-image:
+	docker run \
 	-e BROWSER=$(BROWSER) \
-	-e SLACK_TOKEN=$(SLACK_TOKEN) \
-	-e BUILD_WEB_URL=$(TRAVIS_BUILD_WEB_URL) \
-	-e GIT_REPO_SLUG=$(TRAVIS_REPO_SLUG) \
-	-e GIT_PULL_NUMBER=$(TRAVIS_PULL_REQUEST) \
-	-e CYPRESS_RBAC_TEST=$(CYPRESS_RBAC_TEST) \
-	-e CYPRESS_TEST_MODE=smoke \
-	-e CYPRESS_JOB_ID=$(TRAVIS_JOB_ID) \
-	-e CYPRESS_BASE_URL=$(CYPRESS_BASE_URL) \
-	-e CYPRESS_OC_CLUSTER_URL=$(OC_CLUSTER_URL) \
-	-e CYPRESS_OC_CLUSTER_USER=$(OC_CLUSTER_USER) \
-	-e CYPRESS_OC_CLUSTER_PASS=$(OC_CLUSTER_PASS) \
-	-e CYPRESS_OC_CLUSTER_INGRESS_CA=$(OC_CLUSTER_INGRESS_CA) \
-	-e CYPRESS_MANAGED_OCP_URL=$(CYPRESS_MANAGED_OCP_URL) \
-	-e CYPRESS_MANAGED_OCP_USER=$(CYPRESS_MANAGED_OCP_USER) \
-	-e CYPRESS_MANAGED_OCP_PASS=$(CYPRESS_MANAGED_OCP_PASS) \
-	-e GITHUB_USER=$(GITHUB_USER) \
-	-e GITHUB_TOKEN=$(GITHUB_TOKEN) \
-	-e GITHUB_PRIVATE_URL=https://github.com/open-cluster-management/app-ui-e2e-private-git \
-	-e OBJECTSTORE_PRIVATE_URL=$(OBJECTSTORE_PRIVATE_URL) \
-	-e OBJECTSTORE_ACCESS_KEY=$(OBJECTSTORE_ACCESS_KEY) \
-	-e OBJECTSTORE_SECRET_KEY=$(OBJECTSTORE_SECRET_KEY) \
-	-e HELM_PRIVATE_URL=https://raw.githubusercontent.com/open-cluster-management/app-ui-e2e-private-helm/main \
-	-e HELM_USERNAME=$(GITHUB_USER) \
-	-e HELM_PASSWORD=$(GITHUB_TOKEN) \
-	-e HELM_CHART_NAME=mychart \
-	-e ANSIBLE_URL="${ANSIBLE_URL}" \
-  	-e ANSIBLE_TOKEN="${ANSIBLE_TOKEN}" \
+	-v $(shell pwd)/results/:/results/ \
 	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
 
 .PHONY: push-test-image

@@ -58,13 +58,6 @@ build-test-image:
 	-f Dockerfile.cypress \
 	-t $(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG) \
 
-.PHONY: run-test-image
-run-test-image:
-	docker run \
-	-e BROWSER=$(BROWSER) \
-	-v $(shell pwd)/results/:/results/ \
-	$(COMPONENT_DOCKER_REPO)/$(COMPONENT_NAME)-tests:$(TEST_IMAGE_TAG)
-
 .PHONY: run-test-image-pr
 run-test-image-pr: # Suppress output as this contains sensitive information
 	@docker run \

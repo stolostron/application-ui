@@ -60,7 +60,5 @@ export CYPRESS_MANAGED_OCP_URL=$(echo $MANAGED_CREDS | jq -r '.api_url')
 export CYPRESS_MANAGED_OCP_USER=$(echo $MANAGED_CREDS | jq -r '.username')
 export CYPRESS_MANAGED_OCP_PASS=$(echo $MANAGED_CREDS | jq -r '.password')
 
-export CYPRESS_PROW="true"
-
-echo "Smoke Tests"
+echo `Running ${CYPRESS_TEST_MODE} tests`
 ./start-cypress-tests.sh

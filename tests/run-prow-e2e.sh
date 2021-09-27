@@ -33,7 +33,7 @@ export BROWSER=$BROWSER
 export BUILD_WEB_URL=$BUILD_WEB_URL 
 export CYPRESS_JOB_ID=$PROW_JOB_ID 
 export CYPRESS_RBAC_TEST=$(cat "/etc/e2e-secrets/cypress-rbac-test") 
-export CYPRESS_TEST_MODE=functional 
+export CYPRESS_TEST_MODE=smoke 
 export GITHUB_PRIVATE_URL=$(cat "/etc/e2e-secrets/github-private-url") 
 export GITHUB_USER=$(cat "/etc/e2e-secrets/github-user") 
 export GITHUB_TOKEN=$(cat "/etc/e2e-secrets/github-token") 
@@ -59,8 +59,7 @@ MANAGED_CREDS=$(cat "${SHARED_DIR}/managed-1.json")
 export CYPRESS_MANAGED_OCP_URL=$(echo $MANAGED_CREDS | jq -r '.api_url')
 export CYPRESS_MANAGED_OCP_USER=$(echo $MANAGED_CREDS | jq -r '.username')
 export CYPRESS_MANAGED_OCP_PASS=$(echo $MANAGED_CREDS | jq -r '.password')
-
 export CYPRESS_PROW="true"
 
-echo "Functional Tests"
+echo `Running ${CYPRESS_TEST_MODE} tests`
 ./start-cypress-tests.sh

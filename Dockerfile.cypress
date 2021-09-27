@@ -1,6 +1,6 @@
-FROM registry.access.redhat.com/ubi8/go-toolset:latest as builder
+FROM registry.ci.openshift.org/open-cluster-management/builder:go1.16-linux AS builder
 
-# FROM cypress/included:7.5.0 as production
+# FROM cypress/included:8.4.1 as production
 FROM quay.io/kcormier/cypress-included:latest as production
 
 USER root

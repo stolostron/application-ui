@@ -579,12 +579,12 @@ export const validateAppTableMenu = (name, resourceTable) => {
   }
   const resourceKey = getResourceKey(name, getNamespace(name), "local-cluster");
   resourceTable.openRowMenu(name, resourceKey);
-  resourceTable.menuClick("search");
+  resourceTable.menuClick("search application");
   cy
     .url()
     .should(
       "include",
-      `multicloud/search?filters={%22textsearch%22:%22name%3A${name}%20namespace%3A${name}-ns%20cluster%3Alocal-cluster%20kind%3Aapplication%20apigroup%3Aapp.k8s.io%20apiversion%3Av1beta1%22}`
+      `search?filters={%22textsearch%22:%22name%3A${name}%20namespace%3A${name}-ns%20cluster%3Alocal-cluster%20kind%3Aapplication%20apigroup%3Aapp.k8s.io%20apiversion%3Av1beta1%22}`
     );
 
   //get back to app page

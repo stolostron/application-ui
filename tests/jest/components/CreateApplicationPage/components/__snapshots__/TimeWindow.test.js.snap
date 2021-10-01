@@ -168,6 +168,9 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-1"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="mon-undefined"
                       name="days-selector-mon"
@@ -189,6 +192,9 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-2"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="tue-undefined"
                       name="days-selector-tue"
@@ -210,6 +216,9 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-3"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="wed-undefined"
                       name="days-selector-wed"
@@ -231,6 +240,9 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-4"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="thu-undefined"
                       name="days-selector-thu"
@@ -252,6 +264,9 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-5"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="fri-undefined"
                       name="days-selector-fri"
@@ -273,6 +288,9 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-6"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="sat-undefined"
                       name="days-selector-sat"
@@ -294,6 +312,9 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-7"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="sun-undefined"
                       name="days-selector-sun"
@@ -454,6 +475,9 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                               aria-label="Time picker"
                               autoComplete="off"
                               className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              data-ouia-component-id="OUIA-Generated-TextInputBase-1"
+                              data-ouia-component-type="PF4/TextInput"
+                              data-ouia-safe={true}
                               disabled={true}
                               id="start-time-0-undefined-input"
                               onBlur={[Function]}
@@ -506,6 +530,9 @@ exports[`TimeWindow component default, no-window selected basic UI snapshot vali
                               aria-label="Time picker"
                               autoComplete="off"
                               className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              data-ouia-component-id="OUIA-Generated-TextInputBase-2"
+                              data-ouia-component-type="PF4/TextInput"
+                              data-ouia-safe={true}
                               disabled={true}
                               id="end-time-0-undefined-input"
                               onBlur={[Function]}
@@ -735,6 +762,9 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-8"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="mon-undefined"
                       name="days-selector-mon"
@@ -756,6 +786,9 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-9"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="tue-undefined"
                       name="days-selector-tue"
@@ -777,6 +810,9 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-10"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="wed-undefined"
                       name="days-selector-wed"
@@ -798,6 +834,9 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-11"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="thu-undefined"
                       name="days-selector-thu"
@@ -819,6 +858,9 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-12"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="fri-undefined"
                       name="days-selector-fri"
@@ -840,6 +882,9 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-13"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="sat-undefined"
                       name="days-selector-sat"
@@ -861,6 +906,9 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                       aria-invalid={false}
                       checked={false}
                       className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-14"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
                       disabled={true}
                       id="sun-undefined"
                       name="days-selector-sun"
@@ -1021,6 +1069,9 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                               aria-label="Time picker"
                               autoComplete="off"
                               className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              data-ouia-component-id="OUIA-Generated-TextInputBase-3"
+                              data-ouia-component-type="PF4/TextInput"
+                              data-ouia-safe={true}
                               disabled={true}
                               id="start-time-0-undefined-input"
                               onBlur={[Function]}
@@ -1073,6 +1124,9 @@ exports[`TimeWindow component default, window selected snapshot validation with 
                               aria-label="Time picker"
                               autoComplete="off"
                               className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              data-ouia-component-id="OUIA-Generated-TextInputBase-4"
+                              data-ouia-component-type="PF4/TextInput"
+                              data-ouia-safe={true}
                               disabled={true}
                               id="end-time-0-undefined-input"
                               onBlur={[Function]}

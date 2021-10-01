@@ -40,6 +40,8 @@ import {
 } from '@patternfly/react-core'
 import _ from 'lodash'
 
+const localCluster = 'local-cluster'
+
 export default {
   defaultSortField: 'name',
   uriKey: 'name',
@@ -259,7 +261,7 @@ function getApplicationLink(item = {}, edit = false) {
   const { applicationSet, name, namespace = 'default' } = item
   const params = queryString.stringify({
     apiVersion: item.apiVersion,
-    cluster: item.cluster === 'local-cluster' ? undefined : item.cluster,
+    cluster: item.cluster === localCluster ? undefined : item.cluster,
     applicationset: applicationSet == null ? undefined : applicationSet
   })
   return `${config.contextPath}/${encodeURIComponent(
@@ -348,7 +350,7 @@ function createClustersLink(item = {}, locale = '') {
       }
     })
     clusterNames = Array.from(names)
-    localPlacement = clusterNames.includes('local-cluster')
+    localPlacement = clusterNames.includes(localCluster)
     remoteCount = clusterNames.length - (localPlacement ? 1 : 0)
   } else {
     const clusterCounts = getClusterCounts(item)
@@ -423,7 +425,7 @@ export function createTypeCell(item = {}, locale = '', isGroupSummary = false) {
   }
   if (isArgoApp(item)) {
     if (!isGroupSummary) {
-      if (item.cluster !== 'local-cluster') {
+      if (item.cluster !== localCluster) {
         return 'Remote discovery'
       }
       return 'Local discovery'

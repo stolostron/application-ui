@@ -499,11 +499,11 @@ const fetchArgoApplications = (
         // find argo server mapping
         const argoAppNS = _.uniqBy(_.map(allApps, 'namespace'))
         if (argoAppNS.length > 0) {
-          const query = convertStringToQuery(
+          const queryString = convertStringToQuery(
             `kind:secret namespace:${argoAppNS.join()} label:apps.open-cluster-management.io/acm-cluster='true'`
           )
           apolloClient
-            .search(SEARCH_QUERY, { input: [query] })
+            .search(SEARCH_QUERY, { input: [queryString] })
             .then(secretResult => {
               const secretItems = _.get(secretResult, 'data.searchResult', [
                 { items: [] }

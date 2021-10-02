@@ -857,7 +857,16 @@ export const createResourceSearchLink = node => {
   //returns search link for resource
   if (nodeType === 'cluster') {
     if (isSearchAvailable()) {
-      const clusterNames = _.get(node, 'specs.clustersNames')
+      let clusterNames = _.get(node, 'specs.clustersNames') || []
+      if (clusterNames.length === 0) {
+        clusterNames = _.get(node, 'specs.appClusters') || []
+      }
+      if (clusterNames.length === 0) {
+        const nodeClusters = _.get(node, 'specs.clusters')
+        nodeClusters.forEach(cls => {
+          clusterNames.push(cls.name)
+        })
+      }
       const clusterNameStr = clusterNames ? clusterNames.join() : undefined
       result = {
         type: 'link',

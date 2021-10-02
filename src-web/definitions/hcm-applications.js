@@ -74,7 +74,7 @@ export default {
     const cells = [
       { title: createApplicationLink(items, locale) } // pass full array for count
     ]
-    if (items.length > 1) {
+    if (items.length > 0 && items[0].applicationSet) {
       cells.push({ title: createTypeCell(items[0], locale, true) })
       cells.push({ title: '' }) // Empty Namespace
       if (isSearchAvailable()) {

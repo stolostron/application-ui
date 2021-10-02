@@ -487,7 +487,7 @@ class RemoveResourceModal extends React.Component {
     } else if (label.label === 'modal.remove-queryapplicationset.label') {
       const { data = {} } = this.props
       const { itemGroup = [] } = data
-      const { appSetPlacement, appSetsSharingPlacement } = this.state
+      const { appSetPlacement, appSetsSharingPlacement = [] } = this.state
 
       return (
         itemGroup.length > 0 && (

@@ -257,6 +257,9 @@ exports[`ArgoCreationPage creating application set ArgoCreationPage renders corr
                                 aria-invalid={false}
                                 aria-label={null}
                                 className="pf-c-form-control"
+                                data-ouia-component-id="OUIA-Generated-TextInputBase-1"
+                                data-ouia-component-type="PF4/TextInput"
+                                data-ouia-safe={true}
                                 data-testid="text-appSetName"
                                 disabled={false}
                                 id="appSetName"

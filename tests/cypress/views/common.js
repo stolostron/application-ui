@@ -438,7 +438,7 @@ export const validateSubscriptionTable = (
       resourceTable
         .getCell("Type")
         .find(".pf-c-label")
-        .click()
+        .click({ force: true })
     );
     cy
       .get(".channel-labels-popover-content .channel-entry")

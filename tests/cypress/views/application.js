@@ -701,7 +701,7 @@ export const validateResourceTable = (
     resourceTable
       .getCell("Resource")
       .find(".pf-c-label")
-      .click()
+      .click({ force: true })
   );
 
   data.config.forEach(item => {

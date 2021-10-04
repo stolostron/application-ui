@@ -1198,7 +1198,10 @@ describe("createResourceSearchLink for undefined details", () => {
 describe("createResourceSearchLink for cluster node no name", () => {
   const node = {
     id: "id",
-    type: "cluster"
+    type: "cluster",
+    specs: {
+      clusters: []
+    }
   };
   const result = {
     type: "link",
@@ -1218,7 +1221,10 @@ describe("createResourceSearchLink for cluster node w name", () => {
   const node = {
     id: "id",
     type: "cluster",
-    name: "a, b, c"
+    name: "a, b, c",
+    specs: {
+      clusters: []
+    }
   };
   const result = {
     type: "link",
@@ -1238,7 +1244,10 @@ describe("createResourceSearchLink for cluster", () => {
   const node = {
     type: "cluster",
     name: "cls1, cls2, cls3",
-    namespace: "ns"
+    namespace: "ns",
+    specs: {
+      clusters: []
+    }
   };
   const result = {
     type: "link",

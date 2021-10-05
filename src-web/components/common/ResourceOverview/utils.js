@@ -22,7 +22,11 @@ export const getSearchLinkForOneApplication = params => {
     const showRelated = params.showRelated
       ? `&showrelated=${params.showRelated}`
       : ''
-    return `/search?filters={"textsearch":"kind%3Aapplication${name}${namespace}${cluster}"}${showRelated}`
+    const apiGroup = params.apiGroup ? `%20apigroup%3A${params.apiGroup}` : ''
+    const apiversion = params.apiVersion
+      ? `%20apiversion%3A${params.apiVersion}`
+      : ''
+    return `/search?filters={"textsearch":"kind%3Aapplication${name}${namespace}${cluster}${apiGroup}${apiversion}"}${showRelated}`
   }
   return ''
 }

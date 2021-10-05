@@ -132,6 +132,10 @@ class OverviewCards extends React.Component {
     } = this.props
     const { argoLinkLoading, showSubCards, hasSyncPermissions } = this.state
     const cluster = _.get(topology, 'activeFilters.application.cluster')
+    const apiVersion = _.split(
+      _.get(topology, 'activeFilters.application.apiVersion', ''),
+      '/'
+    )
 
     if (topology.status === REQUEST_STATUS.CLUSTER_OFFLINE) {
       const infoMessage = _.get(
@@ -154,7 +158,9 @@ class OverviewCards extends React.Component {
 
     const targetLink = getSearchLinkForOneApplication({
       name: encodeURIComponent(selectedAppName),
-      namespace: encodeURIComponent(selectedAppNS)
+      namespace: encodeURIComponent(selectedAppNS),
+      apiGroup: encodeURIComponent(apiVersion[0]),
+      apiVersion: encodeURIComponent(apiVersion[1])
     })
 
     const appOverviewCardsData = getAppOverviewCardsData(
@@ -513,7 +519,9 @@ class OverviewCards extends React.Component {
                           this.getArgoSearchLink(
                             selectedAppName,
                             selectedAppNS,
-                            cluster
+                            cluster,
+                            apiVersion[0],
+                            apiVersion[1]
                           )
                         }
                         variant={ButtonVariant.link}
@@ -660,11 +668,19 @@ class OverviewCards extends React.Component {
     )
   };
 
-  getArgoSearchLink = (selectedAppName, selectedAppNS, cluster) => {
+  getArgoSearchLink = (
+    selectedAppName,
+    selectedAppNS,
+    cluster,
+    apiGroup,
+    apiVersion
+  ) => {
     return getSearchLinkForOneApplication({
       name: encodeURIComponent(selectedAppName),
       namespace: encodeURIComponent(selectedAppNS),
-      cluster: encodeURIComponent(cluster)
+      cluster: encodeURIComponent(cluster),
+      apiGroup: encodeURIComponent(apiGroup),
+      apiVersion: encodeURIComponent(apiVersion)
     })
   };
 

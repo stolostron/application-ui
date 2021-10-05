@@ -54,7 +54,9 @@ exports[`ArgoCreationPage creating application set ArgoCreationPage renders corr
                   <div
                     className="tf--finish-step-button"
                   >
-                    General
+                    <div>
+                      General
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -108,7 +110,9 @@ exports[`ArgoCreationPage creating application set ArgoCreationPage renders corr
                         <div
                           className="tf--finish-step-button"
                         >
-                          General
+                          <div>
+                            General
+                          </div>
                         </div>
                       </button>
                     </li>
@@ -125,7 +129,9 @@ exports[`ArgoCreationPage creating application set ArgoCreationPage renders corr
                         <div
                           className="tf--finish-step-button"
                         >
-                          Template
+                          <div>
+                            Template
+                          </div>
                         </div>
                       </button>
                     </li>
@@ -142,7 +148,9 @@ exports[`ArgoCreationPage creating application set ArgoCreationPage renders corr
                         <div
                           className="tf--finish-step-button"
                         >
-                          Sync policy
+                          <div>
+                            Sync policy
+                          </div>
                         </div>
                       </button>
                     </li>
@@ -159,7 +167,9 @@ exports[`ArgoCreationPage creating application set ArgoCreationPage renders corr
                         <div
                           className="tf--finish-step-button"
                         >
-                          Placement
+                          <div>
+                            Placement
+                          </div>
                         </div>
                       </button>
                     </li>
@@ -612,4 +622,3 @@ exports[`ArgoCreationPage creating application set ArgoCreationPage renders corr
   </div>
 </section>
 `;
-

@@ -31,7 +31,9 @@ export const getSearchLinkForArgoApplications = source => {
   if (source) {
     let textsearch = 'kind:application apigroup:argoproj.io'
     for (const [key, value] of Object.entries(source)) {
-      textsearch = `${textsearch} ${key}:${value}`
+      if (key !== 'directory') {
+        textsearch = `${textsearch} ${key}:${value}`
+      }
     }
     return `/search?filters={"textsearch":"${encodeURIComponent(textsearch)}"}`
   }

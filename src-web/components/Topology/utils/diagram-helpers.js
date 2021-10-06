@@ -942,10 +942,10 @@ export const removeReleaseGeneratedSuffix = name => {
 export const getNameWithoutChartRelease = (
   relatedKind,
   name,
-  isHelmRelease
+  hasHelmReleases
 ) => {
   const kind = _.get(relatedKind, 'kind', '')
-  if (kind === 'subscription' || !isHelmRelease.value) {
+  if (kind === 'subscription' || !hasHelmReleases.value) {
     return name //ignore subscription objects or objects where the name is not created from the _hostingDeployable
   }
 
@@ -1125,7 +1125,7 @@ export const setupResourceModel = (
   list,
   resourceMap,
   isClusterGrouped,
-  isHelmRelease,
+  hasHelmReleases,
   topology,
   lastUpdated
 ) => {
@@ -1235,7 +1235,7 @@ export const setupResourceModel = (
       const nameWithoutChartRelease = getNameWithoutChartRelease(
         relatedKind,
         nameNoHashIngressPod,
-        isHelmRelease
+        hasHelmReleases
       )
 
       let name = computeResourceName(

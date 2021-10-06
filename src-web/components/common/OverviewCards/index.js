@@ -159,6 +159,7 @@ class OverviewCards extends React.Component {
     const targetLink = getSearchLinkForOneApplication({
       name: encodeURIComponent(selectedAppName),
       namespace: encodeURIComponent(selectedAppNS),
+      cluster: encodeURIComponent(cluster),
       apiGroup: encodeURIComponent(apiVersion[0]),
       apiVersion: encodeURIComponent(apiVersion[1])
     })

@@ -6,7 +6,7 @@ import { validateAdvancedTables } from "../../views/application";
 import { getNumberOfManagedClusters } from "../../views/resources";
 
 describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application Validation Test for advanced configuration tables", () => {
-  if (Cypress.env("TEST_MODE") !== "smoke") {
+  if (Cypress.env("TEST_MODE") !== "BVT") {
     it(`get the name of the managed OCP cluster`, () => {
       getNumberOfManagedClusters();
     });
@@ -46,6 +46,6 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application Validation Te
       });
     }
   } else {
-    it("Skipping this test in smoke test mode", () => {});
+    it("Skipping this test in BVT test mode", () => {});
   }
 });

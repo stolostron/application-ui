@@ -35,6 +35,7 @@ import msgs from '../../../../../nls/platform.properties'
 import { kubeNaming } from './titles'
 
 const resName = 'resource.name'
+const unknonwnApiVersion = 'unknown'
 
 export const getNodeDetails = (node, updatedNode, activeFilters) => {
   const details = []
@@ -162,7 +163,17 @@ function addK8Details(node, updatedNode, details, activeFilters) {
   const reconcileRateAnnotation =
     'apps.open-cluster-management.io/reconcile-rate'
 
-  const apiVersion = _.get(node, 'specs.raw.apiVersion', '')
+  const searchData = _.get(node, `specs.${type}Model`, {})
+  let apiVersion = _.get(node, 'specs.raw.apiVersion', '')
+  if (apiVersion === unknonwnApiVersion) {
+    if (Object.keys(searchData).length > 0) {
+      const firstSearchData = searchData[Object.keys(searchData)[0]][0]
+      apiVersion = firstSearchData.apigroup
+        ? `${firstSearchData.apigroup}/${firstSearchData.apiversion}`
+        : firstSearchData.apiversion
+    }
+  }
+
   // the main stuff
   const mainDetails = [
     {

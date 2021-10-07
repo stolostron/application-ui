@@ -434,6 +434,7 @@ export const validateSubscriptionTable = (
 
   if (checkResourceColumn) {
     cy.log("Validate Repository popup");
+    cy.wait(3000);
     resourceTable.getRow(name, resourceKey).within(() =>
       resourceTable
         .getCell("Type")
@@ -448,6 +449,7 @@ export const validateSubscriptionTable = (
 
   if (data.type == "git") {
     cy.log(`Validate Menu actions for ${tableType} with name ${name}`);
+    cy.wait(5000);
     resourceTable.openRowMenu(name, resourceKey);
 
     resourceTable.getMenuButton(`search ${singularDisplayName}`);

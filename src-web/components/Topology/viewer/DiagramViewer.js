@@ -353,6 +353,10 @@ class DiagramViewer extends React.Component {
 
   handleNodeClick = node => {
     currentEvent.stopPropagation()
+    if (node === undefined) {
+      // This fixes clicking in the white space and then switching views messing up
+      return
+    }
 
     // clear any currently selected nodes
     const svg = d3.select(`#${c.DIAGRAM_SVG_ID}`)

@@ -51,9 +51,9 @@ const LabelWithPopover = ({
 LabelWithPopover.propTypes = {
   children: PropTypes.object,
   labelColor: PropTypes.string,
-  labelContent: PropTypes.object,
+  labelContent: PropTypes.node,
   labelIcon: PropTypes.object,
-  popoverHeader: PropTypes.object,
+  popoverHeader: PropTypes.node,
   popoverPosition: PropTypes.string
 }
 

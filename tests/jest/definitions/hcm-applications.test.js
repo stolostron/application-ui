@@ -315,7 +315,7 @@ describe("createTypeCell", () => {
                             children: "Argo CD ApplicationSet",
                             style: {
                               color: "#6A6E73",
-                              "font-weight": "normal"
+                              fontWeight: "normal"
                             }
                           },
                           ref: null,

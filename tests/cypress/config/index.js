@@ -38,8 +38,8 @@ exports.getConfig = () => {
   let secretConfig = fs.readFileSync(SECRET_FILE_PATH);
   if (process.env.CYPRESS_TEST_MODE === "e2e") {
     config = fs.readFileSync(path.join(__dirname, "config.e2e.yaml"));
-  } else if (process.env.CYPRESS_TEST_MODE === "smoke") {
-    config = fs.readFileSync(path.join(__dirname, "config.smoke.yaml"));
+  } else if (process.env.CYPRESS_TEST_MODE === "BVT") {
+    config = fs.readFileSync(path.join(__dirname, "config.BVT.yaml"));
   } else {
     config = fs.readFileSync(path.join(__dirname, "config.func.yaml"));
   }

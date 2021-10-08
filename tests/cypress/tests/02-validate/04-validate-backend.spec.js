@@ -10,7 +10,7 @@ import {
 const config = Cypress.env("TEST_CONFIG_EXCLUDE_ARGO");
 
 describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application application backend resources exist", () => {
-  if (Cypress.env("TEST_MODE") !== "smoke") {
+  if (Cypress.env("TEST_MODE") !== "BVT") {
     it(`get the name of the managed OCP cluster`, () => {
       getManagedClusterName();
     });
@@ -43,6 +43,6 @@ describe("Application UI: [P1][Sev1][app-lifecycle-ui] Application application b
       });
     }
   } else {
-    it("Skipping this test in smoke test mode", () => {});
+    it("Skipping this test in BVT test mode", () => {});
   }
 });

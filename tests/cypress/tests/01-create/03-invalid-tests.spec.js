@@ -4,11 +4,11 @@
 import { testInvalidApplicationInput } from "../../views/common";
 
 describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application Creation Validate invalid input Test", () => {
-  if (Cypress.env("TEST_MODE") !== "smoke") {
+  if (Cypress.env("TEST_MODE") !== "BVT") {
     it(`Verify invalid input is rejected`, () => {
       testInvalidApplicationInput();
     });
   } else {
-    it("Skipping this test in smoke test mode", () => {});
+    it("Skipping this test in BVT test mode", () => {});
   }
 });

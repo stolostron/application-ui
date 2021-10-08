@@ -255,7 +255,10 @@ export const getAppOverviewCardsData = (
             'specs.raw.metadata.ownerReferences',
             []
           )
-          if (ownerReferences.length > 0) {
+          if (
+            ownerReferences.length > 0 &&
+            ownerReferences[0].kind.toLowerCase() === 'applicationset'
+          ) {
             const res = {
               cluster: node.cluster || LOCAL_HUB_NAME,
               namespace: appNamespace,

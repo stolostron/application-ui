@@ -383,7 +383,7 @@ function renderTypeText(msgKey, typeKey, locale) {
   const msgText = msgs.get(msgKey, locale)
   const appTypeStyle = {
     color: '#6A6E73',
-    'font-weight': 'normal'
+    fontWeight: 'normal'
   }
   return (
     <DescriptionList>

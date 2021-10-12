@@ -409,9 +409,6 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                         >
                                           <h4
                                             class="pf-c-title pf-m-lg"
-                                            data-ouia-component-id="OUIA-Generated-Title-1"
-                                            data-ouia-component-type="PF4/Title"
-                                            data-ouia-safe="true"
                                           >
                                             Loading
                                           </h4>
@@ -717,9 +714,6 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                                     >
                                                       <h4
                                                         className="pf-c-title pf-m-lg"
-                                                        data-ouia-component-id="OUIA-Generated-Title-1"
-                                                        data-ouia-component-type="PF4/Title"
-                                                        data-ouia-safe={true}
                                                       >
                                                         Loading
                                                       </h4>
@@ -1230,9 +1224,6 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                         >
                                           <h4
                                             class="pf-c-title pf-m-lg"
-                                            data-ouia-component-id="OUIA-Generated-Title-1"
-                                            data-ouia-component-type="PF4/Title"
-                                            data-ouia-safe="true"
                                           >
                                             Loading
                                           </h4>
@@ -1538,9 +1529,6 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                                                     >
                                                       <h4
                                                         className="pf-c-title pf-m-lg"
-                                                        data-ouia-component-id="OUIA-Generated-Title-1"
-                                                        data-ouia-component-type="PF4/Title"
-                                                        data-ouia-safe={true}
                                                       >
                                                         Loading
                                                       </h4>

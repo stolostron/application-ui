@@ -47,7 +47,6 @@ exports[`SearchName search render as expected 1`] = `
             className="pf-c-search-input__text-input"
             disabled={false}
             onChange={[Function]}
-            onKeyDown={[Function]}
             placeholder="Find [+Find]"
             value="test"
           />

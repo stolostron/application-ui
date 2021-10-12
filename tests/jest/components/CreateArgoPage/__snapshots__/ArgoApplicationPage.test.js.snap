@@ -251,7 +251,7 @@ exports[`ArgoCreationPage creating application set ArgoCreationPage renders corr
                                   <span
                                     className="pf-c-form__label-text"
                                   >
-                                    App set name
+                                    Argo CD ApplicationSet name
                                   </span>
                                   <span
                                     aria-hidden="true"
@@ -297,7 +297,7 @@ exports[`ArgoCreationPage creating application set ArgoCreationPage renders corr
                                   onBlur={[Function]}
                                   onChange={[Function]}
                                   onFocus={[Function]}
-                                  placeholder="Enter app set name"
+                                  placeholder="Enter the application set name"
                                   readOnly={false}
                                   required={false}
                                   spellCheck="false"

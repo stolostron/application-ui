@@ -30,6 +30,23 @@ fi
 echo "Logging into Kube API server..."
 oc login --server=$CYPRESS_OC_CLUSTER_URL -u $CYPRESS_OC_CLUSTER_USER -p $CYPRESS_OC_CLUSTER_PASS --insecure-skip-tls-verify
 
+if [[ "$CLEAN_UP" == "true" ]]; then
+  echo "Cleaning up test resources. Tests will not run."
+
+  oc delete applications.app.k8s.io --all --all-namespaces
+  oc delete channels.apps.open-cluster-management.io --all --all-namespaces
+  oc delete deployables.apps.open-cluster-management.io --all --all-namespaces
+  oc delete gitopsclusters.apps.open-cluster-management.io --all --all-namespaces
+  oc delete placementrules.apps.open-cluster-management.io --all --all-namespaces
+  oc delete subscriptions.apps.open-cluster-management.io --all --all-namespaces
+  oc delete ansiblejobs.tower.ansible.com --all --all-namespaces
+  oc delete managedclustersets.cluster.open-cluster-management.io --all --all-namespaces
+  oc delete applicationsets.argoproj.io --all --all-namespaces
+
+  echo "Clean up done. Exiting."
+  exit 0
+fi
+
 echo "Checking RedisGraph deployment."
 installNamespace=`oc get mch -A -o jsonpath='{.items[0].metadata.namespace}'`
 rgstatus=`oc get srcho searchoperator -o jsonpath="{.status.deployredisgraph}" -n ${installNamespace}`

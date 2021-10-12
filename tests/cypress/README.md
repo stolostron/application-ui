@@ -49,7 +49,7 @@ The environment variables are similar to running on the live cluster, however in
    - `export CYPRESS_OC_CLUSTER_URL=https://api.{clusterName}.dev06.red-chesterfield.com:6443` (API of the cluster that the local env points to needs to be specified)
 4. From the application-ui/tests directory, run `npx cypress open`
 
-#### Functional vs E2E
+#### Functional vs E2E vs BVT
 
 Functional tests are primarily used to test behaviors of the UI. E2E tests are used to test the UIs integrations with other components in RHACM, such as different application branches and paths.
 
@@ -60,6 +60,12 @@ The default mode in which tests are run is functional, where we are using mock d
 To switch to the functional mode, export the following variable:
 
 - export CYPRESS_TEST_MODE='functional'
+
+BVT test mode defines a minimum set of app ui tests to function as a "sniff test" or edge criteria that would guarantee that the build was usable for further testing.
+
+To switch to the BVT mode, export the following variable:
+
+- export CYPRESS_TEST_MODE='BVT'
 
 Afterwards, update the `tests/cypress/config/config.e2e.json` file with your configurations (please do not commit your configs to this file).
 

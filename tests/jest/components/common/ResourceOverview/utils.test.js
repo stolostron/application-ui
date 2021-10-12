@@ -217,7 +217,7 @@ const data2 = {
 describe("getRepoTypeForArgoApplication", () => {
   it("should return git repo type for Argo application", () => {
     expect(getRepoTypeForArgoApplication({ path: "helloworld" })).toEqual(
-      "git"
+      "github"
     );
   });
   it("should return helm repo type for Argo application", () => {

@@ -27,6 +27,8 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+import _ from "lodash";
+
 const apiUrl = !Cypress.config().baseUrl.includes("localhost")
   ? Cypress.config().baseUrl.replace("multicloud-console.apps", "api") + ":6443"
   : Cypress.env("OC_CLUSTER_URL");
@@ -120,7 +122,16 @@ Cypress.Commands.add("acquireToken", () => {
       { log: false, failOnNonZeroExit: false }
     )
     .then(resp => {
-      return cy.wrap(resp.headers.location.match(/access_token=([^&]+)/)[1]);
+      // return cy.wrap(resp.headers.location.match(/access_token=([^&]+)/)[1]);
+      const responseStatus = _.get(
+        resp,
+        "allRequestResponses[0].Response Status"
+      );
+      if (_.startsWith(responseStatus, "4")) {
+        cy.log("Invalid authentication...User not created.");
+      } else {
+        return cy.wrap(resp.headers.location.match(/access_token=([^&]+)/)[1]);
+      }
     });
 });
 

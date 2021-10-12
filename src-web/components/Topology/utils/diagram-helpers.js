@@ -290,9 +290,9 @@ export const calculateArgoClusterStatus = clusterData => {
   const clusterJoined = clusterData.ManagedClusterJoined
   const clusterAvailable = clusterData.ManagedClusterConditionAvailable
 
-  if (clusterAccepted == false) {
+  if (clusterAccepted === false) {
     status = 'notaccepted'
-  } else if (clusterJoined == false) {
+  } else if (clusterJoined === false) {
     status = 'pendingimport'
   } else {
     status = clusterAvailable && clusterAvailable === 'True' ? 'ok' : 'offline'
@@ -857,7 +857,16 @@ export const createResourceSearchLink = node => {
   //returns search link for resource
   if (nodeType === 'cluster') {
     if (isSearchAvailable()) {
-      const clusterNames = _.get(node, 'specs.clustersNames')
+      let clusterNames = _.get(node, 'specs.clustersNames') || []
+      if (clusterNames.length === 0) {
+        clusterNames = _.get(node, 'specs.appClusters') || []
+      }
+      if (clusterNames.length === 0) {
+        const nodeClusters = _.get(node, 'specs.clusters')
+        nodeClusters.forEach(cls => {
+          clusterNames.push(cls.name)
+        })
+      }
       const clusterNameStr = clusterNames ? clusterNames.join() : undefined
       result = {
         type: 'link',
@@ -933,10 +942,10 @@ export const removeReleaseGeneratedSuffix = name => {
 export const getNameWithoutChartRelease = (
   relatedKind,
   name,
-  isHelmRelease
+  hasHelmReleases
 ) => {
   const kind = _.get(relatedKind, 'kind', '')
-  if (kind === 'subscription' || !isHelmRelease.value) {
+  if (kind === 'subscription' || !hasHelmReleases.value) {
     return name //ignore subscription objects or objects where the name is not created from the _hostingDeployable
   }
 
@@ -1116,7 +1125,7 @@ export const setupResourceModel = (
   list,
   resourceMap,
   isClusterGrouped,
-  isHelmRelease,
+  hasHelmReleases,
   topology,
   lastUpdated
 ) => {
@@ -1226,7 +1235,7 @@ export const setupResourceModel = (
       const nameWithoutChartRelease = getNameWithoutChartRelease(
         relatedKind,
         nameNoHashIngressPod,
-        isHelmRelease
+        hasHelmReleases
       )
 
       let name = computeResourceName(

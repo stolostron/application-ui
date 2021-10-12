@@ -28,6 +28,8 @@ Object {
         "path": "undefined/create",
       },
       Object {
+        "label": "creation.app.section.techPreview",
+        "labelColor": "creation.app.section.techPreview.color",
         "msgKey": "application.type.argo",
         "path": "undefined/argoappset",
       },
@@ -60,6 +62,7 @@ Object {
       ],
     },
     Object {
+      "disabled": [Function],
       "msgKey": "table.header.type",
       "resourceKey": "type",
       "textFunction": [Function],
@@ -126,6 +129,7 @@ Array [
     ],
   },
   Object {
+    "disabled": [Function],
     "msgKey": "table.header.type",
     "resourceKey": "type",
     "textFunction": [Function],

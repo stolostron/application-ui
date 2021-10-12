@@ -285,42 +285,55 @@ describe("createTypeCell", () => {
       _store: {},
       key: null,
       props: {
-        children: [
-          {
-            _owner: null,
-            _store: {},
-            key: null,
-            props: {
-              children: "appset-syncpolicies",
-              replace: false,
-              target: "_blank",
-              to:
-                "/resources?apiversion=argoproj.io%2Fv1alpha1&cluster=local-cluster&kind=ApplicationSet&name=appset-syncpolicies&namespace=openshift-gitops"
-            },
-            ref: null
+        children: {
+          _owner: null,
+          _store: {},
+          key: null,
+          props: {
+            children: {
+              _owner: null,
+              _store: {},
+              key: null,
+              props: {
+                children: {
+                  _owner: null,
+                  _store: {},
+                  key: null,
+                  props: {
+                    bodyContent:
+                      "A sub-project of Argo CD that adds multi-cluster support for Argo CD applications.",
+                    children: {
+                      _owner: null,
+                      _store: {},
+                      key: null,
+                      props: {
+                        children: {
+                          _owner: null,
+                          _store: {},
+                          key: null,
+                          props: {
+                            children: "Argo CD ApplicationSet",
+                            style: {
+                              color: "#6A6E73",
+                              fontWeight: "normal"
+                            }
+                          },
+                          ref: null,
+                          type: "span"
+                        }
+                      },
+                      ref: null
+                    },
+                    headerContent: "Argo CD ApplicationSet"
+                  },
+                  ref: null
+                }
+              },
+              ref: null
+            }
           },
-          {
-            _owner: null,
-            _store: {},
-            key: null,
-            props: {},
-            ref: null,
-            type: "br"
-          },
-          {
-            _owner: null,
-            _store: {},
-            key: null,
-            props: {
-              children: "Application set",
-              style: {
-                color: "#6A6E73"
-              }
-            },
-            ref: null,
-            type: "span"
-          }
-        ]
+          ref: null
+        }
       },
       ref: null
     };
@@ -355,7 +368,7 @@ describe("createTypeText", () => {
       _uid: "local-cluster/533f9acb-b361-4b57-b338-a1389aac0844"
     };
 
-    const result = "Application set";
+    const result = "Argo CD ApplicationSet";
     expect(createTypeText(data, locale)).toEqual(result);
   });
 });

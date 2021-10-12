@@ -78,6 +78,7 @@ export class TimeWindow extends React.Component {
 
   validation(exceptions) {
     const { control, locale } = this.props
+    const timeWindowId = 'timeWindow-config'
     // Mode is active/blocked
     if (control.active.mode) {
       // Add exception if no days selected
@@ -86,7 +87,7 @@ export class TimeWindow extends React.Component {
           row: 1,
           text: msgs.get('creation.missing.timeWindow.days', locale),
           type: 'error',
-          controlId: 'timeWindow-config'
+          controlId: timeWindowId
         })
       }
       // Add exception if no timezone selected
@@ -95,7 +96,7 @@ export class TimeWindow extends React.Component {
           row: 1,
           text: msgs.get('creation.missing.timeWindow.timezone', locale),
           type: 'error',
-          controlId: 'timeWindow-config'
+          controlId: timeWindowId
         })
       }
       // Add exception if no timelist selected
@@ -108,7 +109,7 @@ export class TimeWindow extends React.Component {
             row: 1,
             text: msgs.get('creation.missing.timeWindow.timelist', locale),
             type: 'error',
-            controlId: 'timeWindow-config'
+            controlId: timeWindowId
           })
         }
       } else {
@@ -116,7 +117,7 @@ export class TimeWindow extends React.Component {
           row: 1,
           text: msgs.get('creation.missing.timeWindow.timelist', locale),
           type: 'error',
-          controlId: 'timeWindow-config'
+          controlId: timeWindowId
         })
       }
     }

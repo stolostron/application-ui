@@ -3,3 +3,14 @@
 .emptyStateButtonReference {
   font-weight: 600;
 }
+
+.pf-c-dropdown {
+  .pf-c-dropdown__toggle {
+    .pf-c-dropdown__toggle-text {
+      padding: 0px
+    }
+    .pf-c-dropdown__toggle-icon {
+      margin: 0px
+    }
+  }
+}

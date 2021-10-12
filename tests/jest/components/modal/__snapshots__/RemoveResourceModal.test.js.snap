@@ -413,6 +413,9 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                                         >
                                           <h4
                                             class="pf-c-title pf-m-lg"
+                                            data-ouia-component-id="OUIA-Generated-Title-3"
+                                            data-ouia-component-type="PF4/Title"
+                                            data-ouia-safe="true"
                                           >
                                             Loading
                                           </h4>
@@ -718,6 +721,9 @@ exports[`RemoveResourceModal test renders as expected 2 1`] = `
                                                     >
                                                       <h4
                                                         className="pf-c-title pf-m-lg"
+                                                        data-ouia-component-id="OUIA-Generated-Title-3"
+                                                        data-ouia-component-type="PF4/Title"
+                                                        data-ouia-safe={true}
                                                       >
                                                         Loading
                                                       </h4>
@@ -1192,6 +1198,9 @@ exports[`RemoveResourceModal test renders as expected child application with war
                                         >
                                           <h4
                                             class="pf-c-title pf-m-lg"
+                                            data-ouia-component-id="OUIA-Generated-Title-5"
+                                            data-ouia-component-type="PF4/Title"
+                                            data-ouia-safe="true"
                                           >
                                             Loading
                                           </h4>
@@ -1497,6 +1506,9 @@ exports[`RemoveResourceModal test renders as expected child application with war
                                                     >
                                                       <h4
                                                         className="pf-c-title pf-m-lg"
+                                                        data-ouia-component-id="OUIA-Generated-Title-5"
+                                                        data-ouia-component-type="PF4/Title"
+                                                        data-ouia-safe={true}
                                                       >
                                                         Loading
                                                       </h4>
@@ -1957,6 +1969,9 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                                         >
                                           <h4
                                             class="pf-c-title pf-m-lg"
+                                            data-ouia-component-id="OUIA-Generated-Title-4"
+                                            data-ouia-component-type="PF4/Title"
+                                            data-ouia-safe="true"
                                           >
                                             Loading
                                           </h4>
@@ -2200,6 +2215,9 @@ exports[`RemoveResourceModal test renders as expected dummy 1`] = `
                                                     >
                                                       <h4
                                                         className="pf-c-title pf-m-lg"
+                                                        data-ouia-component-id="OUIA-Generated-Title-4"
+                                                        data-ouia-component-type="PF4/Title"
+                                                        data-ouia-safe={true}
                                                       >
                                                         Loading
                                                       </h4>
@@ -2675,6 +2693,9 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                                         >
                                           <h4
                                             class="pf-c-title pf-m-lg"
+                                            data-ouia-component-id="OUIA-Generated-Title-7"
+                                            data-ouia-component-type="PF4/Title"
+                                            data-ouia-safe="true"
                                           >
                                             Loading
                                           </h4>
@@ -2980,6 +3001,9 @@ exports[`RemoveResourceModal test renders as expected for simple application wit
                                                     >
                                                       <h4
                                                         className="pf-c-title pf-m-lg"
+                                                        data-ouia-component-id="OUIA-Generated-Title-7"
+                                                        data-ouia-component-type="PF4/Title"
+                                                        data-ouia-safe={true}
                                                       >
                                                         Loading
                                                       </h4>
@@ -3454,6 +3478,9 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                                         >
                                           <h4
                                             class="pf-c-title pf-m-lg"
+                                            data-ouia-component-id="OUIA-Generated-Title-6"
+                                            data-ouia-component-type="PF4/Title"
+                                            data-ouia-safe="true"
                                           >
                                             Loading
                                           </h4>
@@ -3759,6 +3786,9 @@ exports[`RemoveResourceModal test renders as expected multi level application 1`
                                                     >
                                                       <h4
                                                         className="pf-c-title pf-m-lg"
+                                                        data-ouia-component-id="OUIA-Generated-Title-6"
+                                                        data-ouia-component-type="PF4/Title"
+                                                        data-ouia-safe={true}
                                                       >
                                                         Loading
                                                       </h4>
@@ -4266,6 +4296,9 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                                         >
                                           <h4
                                             class="pf-c-title pf-m-lg"
+                                            data-ouia-component-id="OUIA-Generated-Title-2"
+                                            data-ouia-component-type="PF4/Title"
+                                            data-ouia-safe="true"
                                           >
                                             Loading
                                           </h4>
@@ -4571,6 +4604,9 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
                                                     >
                                                       <h4
                                                         className="pf-c-title pf-m-lg"
+                                                        data-ouia-component-id="OUIA-Generated-Title-2"
+                                                        data-ouia-component-type="PF4/Title"
+                                                        data-ouia-safe={true}
                                                       >
                                                         Loading
                                                       </h4>
@@ -5018,6 +5054,9 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                                         >
                                           <h4
                                             class="pf-c-title pf-m-lg"
+                                            data-ouia-component-id="OUIA-Generated-Title-1"
+                                            data-ouia-component-type="PF4/Title"
+                                            data-ouia-safe="true"
                                           >
                                             Loading
                                           </h4>
@@ -5323,6 +5362,9 @@ exports[`RemoveResourceModal test renders as expected without data 1`] = `
                                                     >
                                                       <h4
                                                         className="pf-c-title pf-m-lg"
+                                                        data-ouia-component-id="OUIA-Generated-Title-1"
+                                                        data-ouia-component-type="PF4/Title"
+                                                        data-ouia-safe={true}
                                                       >
                                                         Loading
                                                       </h4>

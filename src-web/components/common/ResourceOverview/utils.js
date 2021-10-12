@@ -22,7 +22,11 @@ export const getSearchLinkForOneApplication = params => {
     const showRelated = params.showRelated
       ? `&showrelated=${params.showRelated}`
       : ''
-    return `/search?filters={"textsearch":"kind%3Aapplication${name}${namespace}${cluster}"}${showRelated}`
+    const apiGroup = params.apiGroup ? `%20apigroup%3A${params.apiGroup}` : ''
+    const apiversion = params.apiVersion
+      ? `%20apiversion%3A${params.apiVersion}`
+      : ''
+    return `/search?filters={"textsearch":"kind%3Aapplication${name}${namespace}${cluster}${apiGroup}${apiversion}"}${showRelated}`
   }
   return ''
 }
@@ -31,7 +35,9 @@ export const getSearchLinkForArgoApplications = source => {
   if (source) {
     let textsearch = 'kind:application apigroup:argoproj.io'
     for (const [key, value] of Object.entries(source)) {
-      textsearch = `${textsearch} ${key}:${value}`
+      if (key !== 'directory') {
+        textsearch = `${textsearch} ${key}:${value}`
+      }
     }
     return `/search?filters={"textsearch":"${encodeURIComponent(textsearch)}"}`
   }
@@ -40,7 +46,7 @@ export const getSearchLinkForArgoApplications = source => {
 
 export const getRepoTypeForArgoApplication = source => {
   if (source && source.path) {
-    return 'git'
+    return 'github'
   } else if (source && source.chart) {
     return 'helmrepo'
   }
@@ -249,7 +255,10 @@ export const getAppOverviewCardsData = (
             'specs.raw.metadata.ownerReferences',
             []
           )
-          if (ownerReferences.length > 0) {
+          if (
+            ownerReferences.length > 0 &&
+            ownerReferences[0].kind.toLowerCase() === 'applicationset'
+          ) {
             const res = {
               cluster: node.cluster || LOCAL_HUB_NAME,
               namespace: appNamespace,

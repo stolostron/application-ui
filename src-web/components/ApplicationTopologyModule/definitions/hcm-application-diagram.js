@@ -73,7 +73,7 @@ export const processNodeData = (
   node,
   topoResourceMap,
   isClusterGrouped,
-  isHelmRelease,
+  hasHelmReleases,
   topology
 ) => {
   const { name, type } = node
@@ -102,8 +102,12 @@ export const processNodeData = (
           'apps.open-cluster-management.io/topo'
         ]
         : undefined
-    isHelmRelease.value =
-      topoAnnotation !== undefined && topoAnnotation.indexOf('helmchart/') > -1
+    if (
+      topoAnnotation !== undefined &&
+      topoAnnotation.indexOf('helmchart/') > -1
+    ) {
+      hasHelmReleases.value = true
+    }
   } else {
     topoResourceMap[`${type}-${keyName}-${clusterName}`] = node
     //podsKeyForThisNode must use the resource type and name since we can have
@@ -166,7 +170,7 @@ export const getDiagramElements = (
     const isClusterGrouped = {
       value: false
     }
-    const isHelmRelease = {
+    const hasHelmReleases = {
       value: false
     }
     topo_nodes.forEach(node => {
@@ -205,7 +209,7 @@ export const getDiagramElements = (
         node,
         allResourcesMap,
         isClusterGrouped,
-        isHelmRelease,
+        hasHelmReleases,
         topology
       )
 
@@ -243,7 +247,7 @@ export const getDiagramElements = (
         activeChannelInfo,
         localStoreKey,
         isClusterGrouped,
-        isHelmRelease,
+        hasHelmReleases,
         applicationDetails
       )
 
@@ -337,7 +341,7 @@ export const addDiagramDetails = (
   activeChannel,
   localStoreKey,
   isClusterGrouped,
-  isHelmRelease,
+  hasHelmReleases,
   applicationDetails
 ) => {
   const { detailsReloading } = topology
@@ -365,7 +369,7 @@ export const addDiagramDetails = (
     related,
     allResourcesMap,
     isClusterGrouped,
-    isHelmRelease,
+    hasHelmReleases,
     topology,
     lastUpdated
   )

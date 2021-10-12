@@ -16,8 +16,7 @@ import {
   getSearchLink,
   groupByChannelType,
   getChannelLabel,
-  CHANNEL_TYPES,
-  getEditLink
+  CHANNEL_TYPES
 } from '../../lib/client/resource-helper'
 import { isSearchAvailable } from '../../lib/client/search-helper'
 import { cellWidth } from '@patternfly/react-table'
@@ -28,9 +27,20 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import msgs from '../../nls/platform.properties'
 import ChannelLabels from '../components/common/ChannelLabels'
 import TableRowActionMenu from '../components/common/TableRowActionMenu'
-import { Label, Split, SplitItem, Tooltip } from '@patternfly/react-core'
+import {
+  Split,
+  SplitItem,
+  Tooltip,
+  Badge,
+  DescriptionList,
+  DescriptionListGroup,
+  DescriptionListTermHelpText,
+  Popover,
+  DescriptionListTermHelpTextButton
+} from '@patternfly/react-core'
 import _ from 'lodash'
-import LabelWithPopover from '../components/common/LabelWithPopover'
+
+const localCluster = 'local-cluster'
 
 export default {
   defaultSortField: 'name',
@@ -66,7 +76,7 @@ export default {
     const cells = [
       { title: createApplicationLink(items, locale) } // pass full array for count
     ]
-    if (items.length > 1) {
+    if (items.length > 0 && items[0].applicationSet) {
       cells.push({ title: createTypeCell(items[0], locale, true) })
       cells.push({ title: '' }) // Empty Namespace
       if (isSearchAvailable()) {
@@ -121,9 +131,10 @@ export default {
     {
       msgKey: 'table.header.type',
       resourceKey: 'type',
-      transforms: [cellWidth(20)],
+      transforms: [cellWidth(15)],
       transformFunction: createTypeCell, // renders the cell on the table
-      textFunction: createTypeText // renders the text used by search bar
+      textFunction: createTypeText, // renders the text used by search bar
+      disabled: () => !isSearchAvailable()
     },
     {
       msgKey: 'table.header.namespace',
@@ -174,7 +185,9 @@ export default {
       },
       {
         msgKey: 'application.type.argo',
-        path: `${config.contextPath}/argoappset`
+        path: `${config.contextPath}/argoappset`,
+        label: 'creation.app.section.techPreview',
+        labelColor: 'creation.app.section.techPreview.color'
       }
     ]
   },
@@ -248,7 +261,7 @@ function getApplicationLink(item = {}, edit = false) {
   const { applicationSet, name, namespace = 'default' } = item
   const params = queryString.stringify({
     apiVersion: item.apiVersion,
-    cluster: item.cluster === 'local-cluster' ? undefined : item.cluster,
+    cluster: item.cluster === localCluster ? undefined : item.cluster,
     applicationset: applicationSet == null ? undefined : applicationSet
   })
   return `${config.contextPath}/${encodeURIComponent(
@@ -284,7 +297,7 @@ export function createApplicationLink(item = {}, locale) {
                 position="top"
                 content={msgs.get(tooltipKey, substitutions, locale)}
               >
-                <Label color="blue">{item.length}</Label>
+                <Badge isRead>{item.length}</Badge>
               </Tooltip>
             )}
           </SplitItem>
@@ -337,7 +350,7 @@ function createClustersLink(item = {}, locale = '') {
       }
     })
     clusterNames = Array.from(names)
-    localPlacement = clusterNames.includes('local-cluster')
+    localPlacement = clusterNames.includes(localCluster)
     remoteCount = clusterNames.length - (localPlacement ? 1 : 0)
   } else {
     const clusterCounts = getClusterCounts(item)
@@ -365,9 +378,26 @@ function createClustersText(item = {}, locale = '') {
   return getClusterCountString(locale, remoteCount, localPlacement)
 }
 
-function renderTypeText(msgKey, locale) {
-  const appTypeStyle = { color: '#6A6E73' }
-  return <span style={appTypeStyle}>{msgs.get(msgKey, locale)}</span>
+function renderTypeText(msgKey, typeKey, locale) {
+  const typeText = msgs.get(typeKey, locale)
+  const msgText = msgs.get(msgKey, locale)
+  const appTypeStyle = {
+    color: '#6A6E73',
+    fontWeight: 'normal'
+  }
+  return (
+    <DescriptionList>
+      <DescriptionListGroup>
+        <DescriptionListTermHelpText>
+          <Popover headerContent={typeText} bodyContent={msgText}>
+            <DescriptionListTermHelpTextButton>
+              <span style={appTypeStyle}>{typeText}</span>
+            </DescriptionListTermHelpTextButton>
+          </Popover>
+        </DescriptionListTermHelpText>
+      </DescriptionListGroup>
+    </DescriptionList>
+  )
 }
 
 export function createTypeText(item = {}, locale = '') {
@@ -387,99 +417,30 @@ export function createTypeCell(item = {}, locale = '', isGroupSummary = false) {
     if (!isGroupSummary) {
       return ''
     }
-    const linkData = {
-      name: item.applicationSet,
-      namespace: item.namespace,
-      kind: 'ApplicationSet',
-      apiVersion: 'argoproj.io/v1alpha1',
-      cluster: 'local-cluster'
-    }
-    return (
-      <React.Fragment>
-        <Link target="_blank" to={getEditLink(linkData)}>
-          {linkData.name}
-        </Link>
-        <br />
-        {renderTypeText('table.header.type.appset', locale)}
-      </React.Fragment>
+    return renderTypeText(
+      'table.header.type.appset.desc',
+      'table.header.type.appset',
+      locale
     )
   }
   if (isArgoApp(item)) {
     if (!isGroupSummary) {
-      if (item.cluster !== 'local-cluster') {
+      if (item.cluster !== localCluster) {
         return 'Remote discovery'
       }
       return 'Local discovery'
     }
-    return renderTypeText('table.header.type.argo', locale)
-  }
-
-  let subscriptionLinks
-  const labelLinks = []
-  const subscriptionCount = item.hubSubscriptions.length - 1
-  const labelContent = `${subscriptionCount} more`
-  if (item.hubSubscriptions.length > 0) {
-    const firstItem = {
-      name: item.hubSubscriptions[0].name,
-      namespace: item.namespace,
-      kind: 'Subscription',
-      apiVersion: 'apps.open-cluster-management.io/v1',
-      cluster: 'local-cluster'
-    }
-    subscriptionLinks = (
-      <Link target="_blank" to={getEditLink(firstItem)}>
-        {firstItem.name}
-      </Link>
+    return renderTypeText(
+      'table.header.type.argo.desc',
+      'table.header.type.argo',
+      locale
     )
-
-    if (item.hubSubscriptions.length > 1) {
-      for (let i = 1; i < item.hubSubscriptions.length; i++) {
-        const subscriptionItem = {
-          name: item.hubSubscriptions[i].name,
-          namespace: item.namespace,
-          kind: 'Subscription',
-          apiVersion: 'apps.open-cluster-management.io/v1',
-          cluster: 'local-cluster'
-        }
-        labelLinks.push(
-          <Link
-            key={subscriptionItem.name}
-            target="_blank"
-            to={getEditLink(subscriptionItem)}
-          >
-            {subscriptionItem.name}
-          </Link>
-        )
-      }
-
-      subscriptionLinks = (
-        <React.Fragment>
-          {subscriptionLinks}
-          &nbsp;
-          <LabelWithPopover
-            labelColor="blue"
-            key={item.name}
-            labelContent={labelContent}
-            popoverHeader={msgs.get(
-              'table.header.type.subscription.popup.label',
-              locale
-            )}
-            popoverPosition="top"
-          >
-            <div align="center" style={{ 'padding-bottom': '10px' }}>
-              {labelLinks}
-            </div>
-          </LabelWithPopover>
-        </React.Fragment>
-      )
-    }
   }
-  return (
-    <React.Fragment>
-      {subscriptionLinks}
-      <br />
-      {renderTypeText('table.header.type.subscription', locale)}
-    </React.Fragment>
+
+  return renderTypeText(
+    'table.header.type.subscription.desc',
+    'table.header.type.subscription',
+    locale
   )
 }
 

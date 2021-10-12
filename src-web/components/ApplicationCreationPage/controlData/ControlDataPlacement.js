@@ -38,6 +38,7 @@ import msgs from '../../../../nls/platform.properties'
 
 const existingRuleCheckbox = 'existingrule-checkbox'
 const localClusterCheckbox = 'local-cluster-checkbox'
+const onlineClusterCheckbox = 'online-cluster-only-checkbox'
 
 export const loadExistingPlacementRules = () => {
   const getQueryVariables = (control, globalControl) => {
@@ -83,7 +84,7 @@ export const updateDisplayForPlacementControls = (
   controlList.forEach(control => {
     const existingRuleControl = _.get(control, 'placementrulecombo')
 
-    const onlineControl = _.get(control, 'online-cluster-only-checkbox')
+    const onlineControl = _.get(control, onlineClusterCheckbox)
     const clusterSelectorControl = _.get(control, 'clusterSelector')
 
     const localClusterControl = _.get(control, localClusterCheckbox)
@@ -127,7 +128,7 @@ export const updatePlacementControlsForLocal = placementControl => {
   const { active, groupControlData } = placementControl
 
   const onlineControl = groupControlData.find(
-    ({ id }) => id === 'online-cluster-only-checkbox'
+    ({ id }) => id === onlineClusterCheckbox
   )
   const clusterSelectorControl = groupControlData.find(
     ({ id }) => id === 'clusterSelector'
@@ -163,7 +164,7 @@ export const updatePlacementControlsForCustom = placementControl => {
   const { active, groupControlData } = placementControl
 
   const onlineControl = groupControlData.find(
-    ({ id }) => id === 'online-cluster-only-checkbox'
+    ({ id }) => id === onlineClusterCheckbox
   )
   const localControl = groupControlData.find(
     ({ id }) => id === localClusterCheckbox
@@ -238,7 +239,7 @@ export const summarizeOnline = (control, globalControlData, summary) => {
     ({ id }) => id === localClusterCheckbox
   )
   const onlineClusterCheckboxControl = control.groupControlData.find(
-    ({ id }) => id === 'online-cluster-only-checkbox'
+    ({ id }) => id === onlineClusterCheckbox
   )
   const clusterSelectorControl = control.groupControlData.find(
     ({ id }) => id === 'clusterSelector'
@@ -320,7 +321,7 @@ const placementData = async () => [
     summarize: summarizeClusterSelector
   },
   {
-    id: 'online-cluster-only-checkbox',
+    id: onlineClusterCheckbox,
     type: 'checkbox',
     name: (await enableHubSelfManagement)
       ? 'creation.app.settings.onlineClusters'

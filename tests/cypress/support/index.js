@@ -30,7 +30,6 @@ import "./useradd";
 import "./ansibleoperator";
 import "./argocdoperator";
 import "./createsecret";
-import "cypress-fail-fast";
 
 // import '@cypress/code-coverage/support'
 
@@ -43,6 +42,11 @@ Cypress.Cookies.defaults({
 
 before(() => {
   // Use given user to install ansible and argocd operator
+  cy.clearCookie("acm-access-token-cookie");
+  cy.clearCookie("_oauth_proxy");
+  cy.clearCookie("XSRF-TOKEN");
+  cy.clearCookie("_csrf");
+
   cy.ocLogin(Cypress.env("OC_CLUSTER_USER"));
   cy.installAnsibleOperator();
 
@@ -52,6 +56,7 @@ before(() => {
     cy.installArgoCDOperator();
   }
   // This is needed for search to deploy RedisGraph upstream. Without this search won't be operational.
+  cy.ocLogin(Cypress.env("kubeadmin"));
   cy
     .exec("oc get mch -A -o jsonpath='{.items[0].metadata.namespace}'")
     .then(result => {
@@ -76,6 +81,7 @@ before(() => {
           }
         });
     });
+  cy.ocLogin(Cypress.env("OC_CLUSTER_USER"));
 });
 
 beforeEach(() => {

@@ -373,7 +373,7 @@ class DiagramViewer extends React.Component {
     }
 
     // else just show details view
-    this.detailsViewUpdate = true
+    this.detailsViewUpdate = node ? true : false
     this.setState({
       selectedNodeId: node ? node.uid : '',
       showDetailsView

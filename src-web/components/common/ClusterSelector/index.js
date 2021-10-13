@@ -166,6 +166,7 @@ export class ClusterSelector extends React.Component {
         })
       }
 
+      const labelNameSet = new Set()
       control.active.clusterLabelsList.map(item => {
         const { id, labelName, labelValue, validValue } = item
         const invalidLabel =
@@ -190,7 +191,18 @@ export class ClusterSelector extends React.Component {
             controlId: `labelName-${id}`
           })
         }
+        if (labelNameSet.has(labelName)) {
+          exceptions.push({
+            row: 1,
+            text: msgs.get('creation.duplicate.clusterSelector.label', [labelName], locale),
+            type: 'error',
+            controlId: `labelName-${id}`
+          })
+        }
+        labelNameSet.add(labelName)
       })
+
+
     }
   }
 

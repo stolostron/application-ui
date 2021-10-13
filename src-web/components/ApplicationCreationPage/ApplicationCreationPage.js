@@ -242,6 +242,7 @@ class ApplicationCreationPage extends React.Component {
     return (
       controlData && (
         <PageSection
+          style={{padding: '5px 20px'}}
           className={classNames({ editApplication })}
           variant="light"
         >

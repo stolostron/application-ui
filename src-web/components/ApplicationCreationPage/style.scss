@@ -13,8 +13,9 @@
 .pf-c-page__main-section {
   .temptifly {
 
+    margin-top: 0;
     &.showEditor {
-      margin: -20px 0 -4.125rem 0;
+      margin-top: 0;
     }
 
     .creation-view-split-container {
@@ -22,7 +23,7 @@
         height: calc(100vh - 200px);
         .creation-view-controls-container {
           padding-top: 0px;
-          height: calc(100vh - 180px);
+          height: calc(100vh - 190px);
         }
       }
     }
@@ -33,17 +34,18 @@
 .pf-c-page__main-section.editApplication {
   .temptifly {
 
+    margin-top: 0;
     &.showEditor {
-      margin: -20px 0 -4.125rem 0;
+      margin-top: 0;
     }
 
     .creation-view-split-container {
       &.showEditor {
-        height: calc(100vh - 216px);
+        height: calc(100vh - 233px);
 
         .creation-view-controls-container {
           padding-top: 0px;
-          height: calc(100vh - 213px);
+          height: calc(100vh - 230px);
         }
       }
     }

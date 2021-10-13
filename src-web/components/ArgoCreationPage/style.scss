@@ -21,10 +21,10 @@
 
     .creation-view-split-container {
       &.showEditor {
-        height: calc(100vh - 200px);
+        height: calc(100vh - 210px);
         .creation-view-controls-container {
           padding-top: 0px;
-          height: calc(100vh - 180px);
+          height: calc(100vh - 210px);
         }
       }
     }
@@ -41,7 +41,7 @@
 
     .creation-view-split-container {
       &.showEditor {
-        height: calc(100vh - 226px);
+        height: calc(100vh - 210px);
 
         .creation-view-controls-container {
           padding-top: 0px;
@@ -58,7 +58,7 @@
   .temptifly.showWizard {
       margin: unset;
       padding: unset;
-      height: calc(100vh - 228px);
+      height: calc(100vh - 210px);
       margin-top: -1px;
       background-color: black;
   }
@@ -72,7 +72,7 @@
       margin: unset;
       padding: unset;
       margin-right: -5px;
-      height: calc(100vh - 226px);
+      height: calc(100vh - 210px);
   }
 //////////////////////////////////////////// EDIT ARGO WIZARD ////////////////////////////////////////////
 

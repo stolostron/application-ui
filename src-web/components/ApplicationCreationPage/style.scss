@@ -13,17 +13,17 @@
 .pf-c-page__main-section {
   .temptifly {
 
-    margin-top: 0;
+    margin: 0;
     &.showEditor {
-      margin-top: 0;
+      margin: 0;
     }
 
     .creation-view-split-container {
       &.showEditor {
-        height: calc(100vh - 200px);
+        height: calc(100vh - 220px);
         .creation-view-controls-container {
           padding-top: 0px;
-          height: calc(100vh - 190px);
+          height: calc(100vh - 210px);
         }
       }
     }

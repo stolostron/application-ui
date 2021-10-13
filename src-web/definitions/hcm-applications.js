@@ -78,7 +78,11 @@ export default {
     ]
     if (items.length > 0 && items[0].applicationSet) {
       cells.push({ title: createTypeCell(items[0], locale, true) })
-      cells.push({ title: '' }) // Empty Namespace
+      if (items.length === 1) {
+        cells.push({ title: createNamespaceText(items[0]) })
+      } else {
+        cells.push({ title: '' }) // Empty Namespace
+      }
       if (isSearchAvailable()) {
         cells.push({ title: createClustersLink(items, locale) }) // pass full array for all clusters
         cells.push({ title: createChannels(items[0], locale) })

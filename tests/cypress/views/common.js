@@ -134,6 +134,7 @@ export const resourceTable = {
         timeout: 30 * 10000
       })
       .type(name);
+    cy.wait(5000);
   },
   openRowMenu: function(name, key) {
     cy
@@ -434,7 +435,6 @@ export const validateSubscriptionTable = (
 
   if (checkResourceColumn) {
     cy.log("Validate Repository popup");
-    cy.wait(3000);
     resourceTable.getRow(name, resourceKey).within(() =>
       resourceTable
         .getCell("Type")

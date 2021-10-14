@@ -134,7 +134,7 @@ export const resourceTable = {
         timeout: 30 * 10000
       })
       .type(name);
-    cy.wait(5000);
+    cy.wait(500);
   },
   openRowMenu: function(name, key) {
     cy

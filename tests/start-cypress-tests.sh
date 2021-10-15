@@ -42,6 +42,20 @@ if [[ "$CLEAN_UP" == "true" ]]; then
   oc delete ansiblejobs.tower.ansible.com --all --all-namespaces
   oc delete managedclustersets.cluster.open-cluster-management.io --all --all-namespaces
   oc delete applicationsets.argoproj.io --all --all-namespaces
+  oc delete operatorgroup --all=true -n app-ui-ansibleoperator
+  oc delete deployment tower-resource-operator -n app-ui-ansibleoperator
+  oc delete namespace app-ui-ansibleoperator
+  oc delete namespace ggithubcom-open-cluster-management-app-ui-e2e-private-git-ns
+  oc delete namespace ggithubcom-fxiang1-app-samples-ns
+  oc delete identity app-e2e-htpasswd:app-test-cluster-manager-admin
+  oc delete secret app-e2e-users -n openshift-config
+  oc delete clusterrolebinding app-test-cluster-admin-clusterrolebinding
+  oc delete clusterrolebinding app-test-cluster-manager-admin-clusterrolebinding
+  oc delete clusterrolebinding app-test-subscription-admin-clusterrolebinding
+  oc delete rolebinding app-test-admin-clusterrolebinding -n default
+  oc delete rolebinding app-test-edit-clusterrolebinding -n default
+  oc delete rolebinding app-test-view-clusterrolebinding -n default
+  oc delete user app-test-cluster-manager-admin
 
   echo "Clean up done. Exiting."
   exit 0

@@ -15,7 +15,11 @@ describe("Application UI: [P2][Sev2][app-lifecycle-ui] Application UI Tables", (
     cy.visit("/multicloud/applications");
 
     // Sort by Created column
-    cy.get('[data-label="Created"] > .pf-c-table__button').click();
+    cy
+      .get('[data-label="Created"] > .pf-c-table__button', {
+        timeout: 30 * 1000
+      })
+      .click();
 
     // Switch to advanced tables
     cy

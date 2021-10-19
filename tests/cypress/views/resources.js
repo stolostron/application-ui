@@ -79,16 +79,20 @@ export const checkExistingUrls = (
     if (!existingChannel) {
       cy.log(`New channel, set credentials if this is a private repo - ${url}`);
       if (value1 && value2) {
-        cy.get(css1, { timeout: 20 * 1000 }).paste(value1, {
-          log: false,
-          timeout: 20 * 1000,
-          failOnNonZeroExit: false
-        });
-        cy.get(css2, { timeout: 20 * 1000 }).paste(value2, {
-          log: false,
-          timeout: 20 * 1000,
-          failOnNonZeroExit: false
-        });
+        cy
+          .get(css1, { timeout: 20 * 1000, withinSubject: null })
+          .paste(value1, {
+            log: false,
+            timeout: 20 * 1000,
+            failOnNonZeroExit: false
+          });
+        cy
+          .get(css2, { timeout: 20 * 1000, withinSubject: null })
+          .paste(value2, {
+            log: false,
+            timeout: 20 * 1000,
+            failOnNonZeroExit: false
+          });
       }
       urllist.push(url);
     }

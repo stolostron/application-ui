@@ -676,7 +676,7 @@ export const validateResourceTable = (
     resourceTable
       .getCell("Clusters")
       .invoke("text")
-      .should("contains", appDetails.clusterData.toLowerCase())
+      .should("contains", appDetails.clusterData)
   );
 
   const subscriptionLength = data.config.length;

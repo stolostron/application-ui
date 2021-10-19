@@ -498,7 +498,7 @@ export const getSingleAppClusterTimeDetails = (
   } else if (remoteDeploy && localDeploy) {
     clusterText = "1 Remote, 1 Local";
   } else if (localDeploy) {
-    clusterText = "Local";
+    clusterText = "local";
   } else if (remoteDeploy) {
     clusterText = "1 Remote";
   }

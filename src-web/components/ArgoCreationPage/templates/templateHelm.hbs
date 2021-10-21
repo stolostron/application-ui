@@ -57,4 +57,7 @@ metadata:
   {{/if}}
 spec:
   type: HelmRepo
+{{#if helmURL}}
+  pathname: '{{{helmURL}}}'
+{{/if}}
 {{/unless}}

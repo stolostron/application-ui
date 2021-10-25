@@ -37,7 +37,12 @@ Cypress.Cookies.defaults({
 });
 
 before(() => {
-  // Use kubeadmin user to install ansible operator
+  // Use given user to install ansible and argocd operator
+  cy.clearCookie("acm-access-token-cookie");
+  cy.clearCookie("_oauth_proxy");
+  cy.clearCookie("XSRF-TOKEN");
+  cy.clearCookie("_csrf");
+
   cy.ocLogin(Cypress.env("OC_CLUSTER_USER"));
   cy.installAnsibleOperator();
   if (Cypress.config().baseUrl.includes("localhost")) {

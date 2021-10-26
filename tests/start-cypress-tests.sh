@@ -56,6 +56,15 @@ if [[ "$CLEAN_UP" == "true" ]]; then
   oc delete rolebinding app-test-edit-clusterrolebinding -n default
   oc delete rolebinding app-test-view-clusterrolebinding -n default
   oc delete user app-test-cluster-manager-admin
+  oc delete namespace hchartsbitnamicom-bitnami-ns
+  oc delete namespace hcom-open-cluster-management-app-ui-e2e-private-helm-main-ns
+  oc delete namespace hdummy-helminsecureskipverifyoption-undefined-ns
+  oc delete namespace ominio-minioappshivemind-bawsred-chesterfieldcom-ui-test-ns
+  oc delete namespace ui-git-ansible-ns
+  oc delete namespace ui-git-ns
+  oc delete namespace ui-helm-ns
+  oc delete namespace ui-helm2-ns
+  oc delete namespace ui-obj-ns
 
   echo "Clean up done. Exiting."
   exit 0

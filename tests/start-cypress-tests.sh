@@ -65,6 +65,7 @@ if [[ "$CLEAN_UP" == "true" ]]; then
   oc delete namespace ui-helm-ns
   oc delete namespace ui-helm2-ns
   oc delete namespace ui-obj-ns
+  oc delete operator awx-resource-operator.app-ui-ansibleoperator
 
   echo "Clean up done. Exiting."
   exit 0
